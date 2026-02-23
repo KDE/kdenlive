@@ -78,6 +78,9 @@ private:
     void importTrack(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &, int trackId);
     int importClip(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, int trackId);
     void importMarker(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> &, const GenTime &, const std::shared_ptr<MarkerListModel> &);
+    /** @brief Reorder OTIO tracks into Timeline insertion order: Vn, Vn-1, ..., V1, A1, ..., An-1, An. */
+    std::vector<OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track>>
+    getOrderedOtioTracksForTimelineInsertion(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &otioTimeline);
 
     static QString resolveFile(const QString &, const QFileInfo &timelineFileInfo);
 

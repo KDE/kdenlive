@@ -15,6 +15,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
+#include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
@@ -31,19 +32,23 @@
 #include <KIO/JobUiDelegateFactory>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
+#include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
+#include <KWindowConfig>
 #include <kmemoryinfo.h>
 
 #include "kdenlive_debug.h"
 #ifndef NODBUS
 #include <QDBusConnectionInterface>
 #endif
+#include <QDesktopServices>
 #include <QDir>
 #include <QDomDocument>
 #include <QFileIconProvider>
 #include <QHeaderView>
+#include <QHelpEvent>
 #include <QInputDialog>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -57,6 +62,7 @@
 #include <QString>
 #include <QTemporaryFile>
 #include <QThread>
+#include <QToolTip>
 #include <QTreeWidgetItem>
 #include <QtGlobal>
 
@@ -68,20 +74,162 @@
 #include <xlocale.h>
 #endif
 
-// Render job roles
-enum {
-    ParametersRole = Qt::UserRole + 1,
-    StartTimeRole,
-    ProgressRole,
-    ExtraInfoRole = ProgressRole + 2, // vpinon: don't understand why, else spurious message displayed
-    LastTimeRole,
-    LastFrameRole,
-    OpenBrowserRole,
-    PlayAfterRole
-};
-
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
+
+RenderViewDelegate::RenderViewDelegate(QWidget *parent)
+    : QStyledItemDelegate(parent)
+{
+}
+
+bool RenderViewDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    if (index.column() != 1 || !index.isValid()) {
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+    // ... for non-tooltip events
+    if (event->type() != QEvent::ToolTip) {
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+    // Show custom tooltips when over audio/video drag areas
+    const QPoint pos = event->pos() - QPoint(0, option.rect.top());
+    if (m_playlistRect.contains(pos)) {
+        const QString playlistFile = index.data(RenderWidget::PlaylistDisplayRole).toString();
+        QToolTip::showText(event->globalPos(), i18n("Show xml playlist used for rendering:\n%1", playlistFile), view);
+        return true;
+    }
+    if (m_logRect.contains(pos)) {
+        const QString logFile = index.data(RenderWidget::LogFileRole).toString();
+        QToolTip::showText(event->globalPos(), i18n("Show render log file:\n %1", logFile), view);
+        return true;
+    }
+
+    // Otherwise, show default tooltip
+    return QStyledItemDelegate::helpEvent(event, view, option, index);
+}
+
+bool RenderViewDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    if (index.isValid()) {
+        const QString playlistFile = index.data(RenderWidget::PlaylistDisplayRole).toString();
+        const QString logFile = index.data(RenderWidget::LogFileRole).toString();
+        if (logFile.isEmpty() && playlistFile.isEmpty()) {
+            return QStyledItemDelegate::editorEvent(event, model, option, index);
+        }
+        if (event->type() == QEvent::MouseButtonPress) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (index.column() == 1) {
+                const QPoint pos = me->pos() - QPoint(0, option.rect.top());
+                if (m_logRect.contains(pos)) {
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(logFile));
+                    event->accept();
+                    return true;
+                }
+                if (m_playlistRect.contains(pos)) {
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(playlistFile));
+                    event->accept();
+                    return true;
+                }
+            }
+        } else if (event->type() == QEvent::MouseMove) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (index.column() == 1) {
+                const QPoint pos = me->pos() - QPoint(0, option.rect.top());
+                if (m_logRect.contains(pos) || m_playlistRect.contains(pos)) {
+                    Q_EMIT hoverLink(true);
+                } else {
+                    Q_EMIT hoverLink(false);
+                }
+            }
+        }
+    }
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
+}
+
+void RenderViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    if (index.column() == 1) {
+        painter->save();
+        QStyleOptionViewItem opt(option);
+        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+        QFont font = painter->font();
+        font.setBold(true);
+        painter->setFont(font);
+        QRect r1 = option.rect;
+        r1.adjust(0, textMargin, 0, -textMargin);
+        int mid = int((r1.height() / 2));
+        r1.setBottom(r1.y() + mid);
+        QRect bounding;
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
+        r1.moveTop(r1.bottom() - textMargin);
+        font.setBold(false);
+        painter->setFont(font);
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
+        int progress = index.data(RenderWidget::ProgressRole).toInt();
+        if (progress > 0 && progress < 100) {
+            // draw progress bar
+            QColor color = option.palette.alternateBase().color();
+            QColor fgColor = option.palette.text().color();
+            color.setAlpha(150);
+            fgColor.setAlpha(150);
+            painter->setBrush(QBrush(color));
+            painter->setPen(QPen(fgColor));
+            int width = qMin(200, r1.width() - 4);
+            QRect bgrect(r1.left() + 2, option.rect.bottom() - 6 - textMargin, width, 6);
+            painter->drawRoundedRect(bgrect, 3, 3);
+            painter->setBrush(QBrush(fgColor));
+            bgrect.adjust(2, 2, 0, -1);
+            painter->setPen(Qt::NoPen);
+            bgrect.setWidth((width - 2) * progress / 100);
+            painter->drawRect(bgrect);
+        }
+        r1.setBottom(opt.rect.bottom());
+        r1.setTop(r1.bottom() - mid);
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data(RenderWidget::ExtraInfoRole).toString());
+        if (!index.data(RenderWidget::LogFileRole).toString().isEmpty()) {
+            QFont ft = painter->font();
+            ft.setUnderline(true);
+            painter->setFont(ft);
+            QPalette pal = QApplication::palette();
+            if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
+                painter->setPen(option.palette.highlightedText().color());
+            } else {
+                painter->setPen(pal.link().color());
+            }
+            r1.adjust(0, 0, -textMargin, -textMargin);
+            if (m_logRect.isNull()) {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"), &m_logRect);
+                // On first show, invalidate xml rect as it will change
+                m_playlistRect = QRect();
+            } else {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"));
+            }
+        }
+        if (!index.data(RenderWidget::PlaylistDisplayRole).toString().isEmpty()) {
+            QFont ft = painter->font();
+            ft.setUnderline(true);
+            painter->setFont(ft);
+            QPalette pal = QApplication::palette();
+            if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
+                painter->setPen(option.palette.highlightedText().color());
+            } else {
+                painter->setPen(pal.link().color());
+            }
+            r1.adjust(0, 0, -m_logRect.width() - textMargin, 0);
+            if (m_playlistRect.isNull()) {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Xml"), &m_playlistRect);
+            } else {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Xml"));
+            }
+        }
+        painter->restore();
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+}
 
 RenderJobItem::RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type)
     : QTreeWidgetItem(parent, strings, type)
@@ -109,17 +257,17 @@ void RenderJobItem::setStatus(int status)
     case FINISHEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering finished"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
-        setData(1, ProgressRole, 100);
+        setData(1, RenderWidget::ProgressRole, 100);
         break;
     case FAILEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering crashed"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
-        setData(1, ProgressRole, 100);
+        setData(1, RenderWidget::ProgressRole, 100);
         break;
     case ABORTEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering aborted"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
-        setData(1, ProgressRole, 100);
+        setData(1, RenderWidget::ProgressRole, 100);
         break;
     default:
         break;
@@ -171,7 +319,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonGenerateScript->setEnabled(false);
 
     connect(m_view.profileTree, &QTreeView::doubleClicked, this, [&](const QModelIndex &index) {
-        if (m_treeModel->parent(index) == QModelIndex()) {
+        if (!index.isValid() || index.parent() == QModelIndex()) {
             // This is a top level item - group - don't edit
             return;
         }
@@ -199,6 +347,12 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
     connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void (RenderWidget::*)(const QUrl &)>(&RenderWidget::slotUpdateButtons));
+    connect(m_view.out_file->lineEdit(), &KLineEdit::editingFinished, this, [this]() {
+        const QUrl url = m_view.out_file->url();
+        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+        qDebug() << "HHHHHHHHHHHHHHH\nEDITING FINISHED; URL: " << url;
+        m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
+    });
 
     connect(m_view.guide_multi_box, &QGroupBox::toggled, this, &RenderWidget::slotRenderModeChanged);
     connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
@@ -207,6 +361,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     connect(m_view.guide_end, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckStartGuidePosition);
     connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckEndGuidePosition);
+    connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::updateGuideEndOptionsForStartSelection);
 
     m_view.guide_zone_box->setVisible(false);
 
@@ -251,6 +406,9 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.tc_type->addItem(i18n("Timecode Non Drop Frame"), QStringLiteral("#smtpe_ndf#"));
     m_view.tc_type->addItem(i18n("Frame Number"), QStringLiteral("#frame#"));
     m_view.checkTwoPass->setEnabled(false);
+    m_view.checkTwoPass->setToolTip(i18nc("Explanation for the 2 pass rendering feature",
+                                          "Two pass rendering allows a better control over the final rendered file size.\nNot compatible "
+                                          "with variable bitrate, and only relevant for some video codecs."));
     m_view.proxy_render->setHidden(!enableProxy);
     connect(m_view.proxy_render, &QCheckBox::toggled, this,
             [&](bool enabled) { errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString()); });
@@ -348,11 +506,19 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_jobsDelegate = new RenderViewDelegate(this);
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_view.running_jobs->setItemDelegate(m_jobsDelegate);
+    m_view.running_jobs->setMouseTracking(true);
+    connect(m_jobsDelegate, &RenderViewDelegate::hoverLink, this, [this](bool hover) {
+        if (hover) {
+            setCursor(Qt::PointingHandCursor);
+        } else {
+            setCursor(Qt::ArrowCursor);
+        }
+    });
 
     QHeaderView *header = m_view.running_jobs->header();
     header->setSectionResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, size + 4);
-    header->setSectionResizeMode(1, QHeaderView::Interactive);
+    header->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 
     // ===== "Scripts" tab =====
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Stored Playlists"));
@@ -366,10 +532,17 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (KdenliveSettings::kdenliverendererpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::kdenliverendererpath())) {
         KdenliveSettings::setKdenliverendererpath(QString());
         Wizard::fixKdenliveRenderPath();
-        if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
-            KMessageBox::error(this,
-                               i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
+    } else {
+        // Ensure the Kdenlive renderer is in the same folder as the running app
+        qDebug() << ":::::::::: COMPARING RENDERER PATH: " << QCoreApplication::applicationDirPath()
+                 << " != " << QFileInfo(KdenliveSettings::kdenliverendererpath()).absolutePath();
+        if (QCoreApplication::applicationDirPath() != QFileInfo(KdenliveSettings::kdenliverendererpath()).absolutePath()) {
+            KdenliveSettings::setKdenliverendererpath(QString());
+            Wizard::fixKdenliveRenderPath();
         }
+    }
+    if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
+        KMessageBox::error(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
     }
 
 #ifndef NODBUS
@@ -387,17 +560,44 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.shareButton->setIcon(QIcon::fromTheme(QStringLiteral("document-share")));
     connect(m_shareMenu, &Purpose::Menu::finished, this, &RenderWidget::slotShareActionFinished);
 
+    // Search
+    m_view.searchLine->setClearButtonEnabled(true);
+    m_view.searchLine->setPlaceholderText(i18n("Search…"));
+    connect(m_view.searchLine, &QLineEdit::textChanged, this, [this](const QString &str) {
+        m_proxyModel->slotSetSearchString(str);
+        if (str.isEmpty()) {
+            // focus last selected item when clearing search line
+            focusItem(m_currentProfile);
+        } else {
+            m_view.profileTree->expandAll();
+        }
+    });
+
     // Memory check timer
     connect(&m_memCheckTimer, &QTimer::timeout, this, &RenderWidget::slotCheckFreeMemory);
-    // Devault interval check is 10 seconds
+    // Default interval check is 10 seconds
     m_memCheckTimer.setInterval(10000);
     m_memCheckTimer.setSingleShot(false);
 
     loadConfig();
     refreshView();
     focusItem();
-    adjustSize();
+    KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+    winId(); // Make sure window gets created before getting the handle
+    QWindow *handle = windowHandle();
+    if ((handle != nullptr) && conf->hasGroup("RenderDialogSize")) {
+        KWindowConfig::restoreWindowSize(handle, conf->group("RenderDialogSize"));
+        resize(handle->size());
+    }
     m_view.embed_subtitles->setToolTip(i18n("Only works for the matroska (mkv) format"));
+    connect(this, &RenderWidget::renderStatusChanged, this, &RenderWidget::updatePowerManagement);
+    m_view.keep_log_files->setChecked(KdenliveSettings::keepRenderLogFiles());
+    connect(m_view.keep_log_files, &QCheckBox::toggled, this, [](bool enabled) { KdenliveSettings::setKeepRenderLogFiles(enabled); });
+
+    m_lowSpaceTimer.setSingleShot(true);
+    m_lowSpaceTimer.setInterval(3000);
+    connect(&m_lowSpaceTimer, &QTimer::timeout, this, &RenderWidget::checkDriveSpace, Qt::QueuedConnection);
+    checkDriveSpace();
 }
 
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
@@ -440,6 +640,11 @@ void RenderWidget::saveConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "RenderWidget");
     resourceConfig.writeEntry(QStringLiteral("showoptions"), m_view.options->isChecked());
+    QWindow *handle = windowHandle();
+    KConfigGroup group = config->group("RenderDialogSize");
+    if (handle) {
+        KWindowConfig::saveWindowSize(handle, group);
+    }
     config->sync();
 }
 
@@ -452,6 +657,7 @@ void RenderWidget::loadConfig()
 
 void RenderWidget::updateDocumentPath()
 {
+    m_view.out_file->setStartDir(QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder()));
     if (m_view.out_file->url().isEmpty()) {
         return;
     }
@@ -505,6 +711,33 @@ void RenderWidget::slotCheckEndGuidePosition()
     showRenderDuration();
 }
 
+void RenderWidget::updateGuideEndOptionsForStartSelection()
+{
+    int currentIndex = m_view.guide_start->currentIndex();
+
+    if (currentIndex <= 0 || m_currentMarkers.isEmpty()) {
+        m_view.guide_end->setEnabled(true);
+        return;
+    }
+
+    int markerIndex = currentIndex - 1;
+    if (markerIndex < m_currentMarkers.size()) {
+        const CommentedTime &marker = m_currentMarkers.at(markerIndex);
+        if (marker.hasRange()) {
+            m_view.guide_end->setEnabled(false);
+            double endTime = marker.endTime().seconds();
+            int endIndex = m_view.guide_end->findData(endTime);
+            if (endIndex >= 0) {
+                m_view.guide_end->setCurrentIndex(endIndex);
+            }
+        } else {
+            m_view.guide_end->setEnabled(true);
+        }
+    }
+
+    showRenderDuration();
+}
+
 void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 {
     m_guidesModel = std::move(guidesModel);
@@ -516,15 +749,15 @@ void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 
 void RenderWidget::reloadGuides()
 {
-    double projectDuration = GenTime(pCore->projectDuration() - 1, pCore->getCurrentFps()).ms() / 1000;
     QVariant startData = m_view.guide_start->currentData();
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
     m_view.guide_end->clear();
-
     if (auto ptr = m_guidesModel.lock()) {
+        int sequenceOffset = pCore->currentTimelineOffset();
         m_view.guideCategoryChooser->setMarkerModel(ptr.get());
         QList<CommentedTime> markers = ptr->getAllMarkers();
+        m_currentMarkers = markers;
         double fps = pCore->getCurrentFps();
         m_view.render_guide->setDisabled(markers.isEmpty());
         m_view.guide_multi_box->setDisabled(markers.isEmpty());
@@ -532,20 +765,35 @@ void RenderWidget::reloadGuides()
             m_view.guide_multi_box->setChecked(false);
         }
         if (!markers.isEmpty()) {
-            m_view.guide_start->addItem(i18n("Beginning"), 0);
+            QIcon zoneIn = QIcon::fromTheme(QStringLiteral("zone-in"));
+            QIcon zoneOut = QIcon::fromTheme(QStringLiteral("zone-out"));
+            QIcon zoneRange = QIcon::fromTheme(QStringLiteral("timeline-use-zone-on"));
+
+            m_view.guide_start->addItem(zoneIn, i18n("Beginning"), 0);
             for (const auto &marker : std::as_const(markers)) {
                 GenTime pos = marker.time();
-                const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
-                m_view.guide_start->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
-                m_view.guide_end->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
+                const QString guidePos = Timecode::getStringTimecode(pos.frames(fps) + sequenceOffset, fps);
+                QString displayText = marker.comment() + QLatin1Char('/') + guidePos;
+
+                if (marker.hasRange()) {
+                    GenTime duration = marker.duration();
+                    const QString durationString = Timecode::formatMarkerDuration(duration.frames(fps), fps);
+                    displayText.append(QStringLiteral(" (%1)").arg(durationString));
+
+                    m_view.guide_start->addItem(zoneRange, displayText, pos.seconds());
+                    m_view.guide_end->addItem(zoneRange, displayText, pos.seconds());
+                } else {
+                    m_view.guide_start->addItem(zoneIn, displayText, pos.seconds());
+                    m_view.guide_end->addItem(zoneOut, displayText, pos.seconds());
+                }
             }
-            m_view.guide_end->addItem(i18n("End"), projectDuration);
+            m_view.guide_end->addItem(zoneOut, i18n("End"), -1);
             if (!startData.isNull()) {
                 int ix = qMax(0, m_view.guide_start->findData(startData));
                 m_view.guide_start->setCurrentIndex(ix);
             }
             if (!endData.isNull()) {
-                int ix = qMax(m_view.guide_start->currentIndex() + 1, m_view.guide_end->findData(endData));
+                int ix = qMax(m_view.guide_start->currentIndex(), m_view.guide_end->findData(endData));
                 m_view.guide_end->setCurrentIndex(ix);
             }
         } else {
@@ -582,10 +830,10 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         m_view.buttonEdit->setEnabled(profile->editable());
     }
     if (url.isValid()) {
-        if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
-            m_view.buttonRender->setEnabled(false);
-            m_view.buttonGenerateScript->setEnabled(false);
-            return;
+        QStorageInfo info(QFileInfo(url.toLocalFile()).absolutePath());
+        if (m_lastCheckedDevice != info.device()) {
+            // User selected a new device, check now if it has enough space
+            checkDriveSpace();
         }
         std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
         m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
@@ -647,11 +895,12 @@ void RenderWidget::focusItem(const QString &profile)
         index = m_treeModel->findPreset(KdenliveSettings::renderProfile());
     }
     if (index.isValid()) {
-        selection->select(index, QItemSelectionModel::ClearAndSelect);
+        auto mapped = m_proxyModel->mapFromSource(index);
+        selection->select(mapped, QItemSelectionModel::ClearAndSelect);
         // expand corresponding category
         auto parent = m_treeModel->parent(index);
-        m_view.profileTree->expand(parent);
-        m_view.profileTree->scrollTo(index, QAbstractItemView::PositionAtCenter);
+        m_view.profileTree->expand(m_proxyModel->mapFromSource(parent));
+        m_view.profileTree->scrollTo(mapped, QAbstractItemView::PositionAtCenter);
     }
 }
 
@@ -724,44 +973,75 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
                                       m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
         return;
     }
+
     saveRenderProfile();
 
-    RenderRequest *request = new RenderRequest();
+    RenderRequest request;
 
-    request->setOutputFile(m_view.out_file->url().toLocalFile());
+    request.setOutputFile(m_view.out_file->url().toLocalFile());
 
-    request->setPresetParams(m_params);
-    request->setDelayedRendering(delayedRendering);
-    request->setProxyRendering(m_view.proxy_render->isChecked());
-    request->setEmbedSubtitles(m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked());
-    request->setTwoPass(m_view.checkTwoPass->isChecked());
-    request->setAudioFilePerTrack(m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled());
+    request.setPresetParams(m_params);
+    request.setDelayedRendering(delayedRendering);
+    request.setProxyRendering(m_view.proxy_render->isChecked());
+    request.setEmbedSubtitles(m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked());
+    request.setTwoPass(m_view.checkTwoPass->isChecked());
+    request.setAudioFilePerTrack(m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled());
 
     bool guideMultiExport = m_view.guide_multi_box->isChecked();
     int guideCategory = m_view.guideCategoryChooser->currentCategory();
-    request->setGuideParams(m_guidesModel, guideMultiExport, guideCategory);
+    request.setGuideParams(m_guidesModel, guideMultiExport, guideCategory);
 
-    request->setOverlayData(m_view.tc_type->currentData().toString());
-    request->setAspectRatio(m_view.aspect_ratio_type->currentData().toString());
+    request.setOverlayData(m_view.tc_type->currentData().toString());
+    request.setAspectRatio(m_view.aspect_ratio_type->currentData().toString());
 
     if (m_view.render_zone->isChecked()) {
         Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
-        request->setBounds(pMon->getZoneStart(), pMon->getZoneEnd() - 1);
+        request.setBounds(pMon->getZoneStart(), pMon->getZoneEnd() - 1);
     } else if (m_view.render_guide->isChecked()) {
-        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
         double fps = pCore->getCurrentProfile()->fps();
+        int startIndex = m_view.guide_start->currentIndex();
 
-        int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
-        // End rendering at frame before last guide
-        int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
-        request->setBounds(in, out);
-    } // else: full project is the default
+        if (startIndex > 0 && !m_currentMarkers.isEmpty()) {
+            int markerIndex = startIndex - 1;
+            if (markerIndex < m_currentMarkers.size()) {
+                const CommentedTime &marker = m_currentMarkers.at(markerIndex);
+                if (marker.hasRange()) {
+                    double guideStart = marker.time().seconds();
+                    double guideEnd = marker.endTime().seconds();
 
-    std::vector<RenderRequest::RenderJob> jobs = request->process();
+                    int in = int(GenTime(guideStart).frames(fps));
+                    int out = int(GenTime(guideEnd).frames(fps)) - 1;
+                    request.setBounds(in, out);
+                } else {
+                    double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                    double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
 
-    if (!request->errorMessages().isEmpty()) {
-        KMessageBox::errorList(this, i18n("The following errors occurred while trying to render"), request->errorMessages());
+                    int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
+                    int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+                    request.setBounds(in, out);
+                }
+            } else {
+                double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+
+                int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
+                int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+                request.setBounds(in, out);
+            }
+        } else {
+            double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+            double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+
+            int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
+            int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+            request.setBounds(in, out);
+        }
+    }
+
+    std::vector<RenderRequest::RenderJob> jobs = request.process();
+
+    if (!request.errorMessages().isEmpty()) {
+        KMessageBox::errorList(this, i18n("The following errors occurred while trying to render"), request.errorMessages());
     }
 
     // Create jobs
@@ -788,7 +1068,7 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
     }
     m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
     // check render status
-    checkRenderStatus();
+    checkRenderStatus(-1);
 }
 
 RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job)
@@ -797,25 +1077,32 @@ RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job
     RenderJobItem *renderItem = nullptr;
     if (!existing.isEmpty()) {
         renderItem = static_cast<RenderJobItem *>(existing.at(0));
-        if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
-            // There is an existing job that is still pending
-            KMessageBox::information(
-                this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", job.outputPath),
-                i18n("Already running"));
-            // focus the running job
-            m_view.running_jobs->setCurrentItem(renderItem);
-            return nullptr;
+        if (renderItem->data(1, TwoPassRole).isNull()) {
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
+                // There is an existing job that is still pending
+                KMessageBox::information(
+                    this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", job.outputPath),
+                    i18n("Already running"));
+                // focus the running job
+                m_view.running_jobs->setCurrentItem(renderItem);
+                return nullptr;
+            }
+            // There is an existing job that already finished
+            delete renderItem;
+            renderItem = nullptr;
         }
-        // There is an existing job that already finished
-        delete renderItem;
-        renderItem = nullptr;
     }
-    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << job.outputPath);
+    const QStringList itemData = {QString(), job.outputFile};
+    renderItem = new RenderJobItem(m_view.running_jobs, itemData);
 
     QDateTime t = QDateTime::currentDateTime();
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, 0);
+    renderItem->setData(1, PlaylistFileRole, job.playlistPath);
+    if (job.outputFile != job.outputPath) {
+        renderItem->setData(1, TwoPassRole, 1);
+    }
     QStringList argsJob = RenderRequest::argsByJob(job);
 
     renderItem->setData(1, ParametersRole, argsJob);
@@ -832,7 +1119,7 @@ RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job
     return renderItem;
 }
 
-void RenderWidget::checkRenderStatus()
+void RenderWidget::checkRenderStatus(int lastStatus)
 {
     // check if we have a job waiting to render
     if (m_blockProcessing) {
@@ -857,15 +1144,15 @@ void RenderWidget::checkRenderStatus()
             waitingJob = true;
             startRendering(item);
             // Check for 2 pass encoding
-            QStringList jobData = item->data(1, ParametersRole).toStringList();
-            if (jobData.size() > 2 && jobData.at(1).endsWith(QStringLiteral("-pass2.mlt"))) {
+            const QStringList jobData = item->data(1, ParametersRole).toStringList();
+            if (jobData.size() > 2 && jobData.at(2).endsWith(QStringLiteral("-pass2.mlt"))) {
                 // Find and remove 1st pass job
+                QString firstPassName = jobData.at(2);
+                firstPassName.replace(QStringLiteral("-pass2.mlt"), QStringLiteral("-pass1.mlt"));
                 QTreeWidgetItem *above = m_view.running_jobs->itemAbove(item);
-                QString firstPassName = jobData.at(1).section(QLatin1Char('-'), 0, -2) + QStringLiteral(".mlt");
                 while (above) {
                     QStringList aboveData = above->data(1, ParametersRole).toStringList();
-                    qDebug() << "// GOT  JOB: " << aboveData.at(1);
-                    if (aboveData.size() > 2 && aboveData.at(1) == firstPassName) {
+                    if (aboveData.size() > 2 && aboveData.at(2) == firstPassName) {
                         delete above;
                         break;
                     }
@@ -877,8 +1164,14 @@ void RenderWidget::checkRenderStatus()
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
-    if (!waitingJob && m_view.shutdown->isChecked()) {
-        Q_EMIT shutdown();
+    if (!waitingJob) {
+        if (m_renderStatus == Rendering) {
+            m_renderStatus = NotRendering;
+            Q_EMIT renderStatusChanged();
+        }
+        if (m_view.shutdown->isChecked() && lastStatus != -3) {
+            Q_EMIT shutdown();
+        }
     }
 }
 
@@ -886,9 +1179,21 @@ void RenderWidget::startRendering(RenderJobItem *item)
 {
     auto rendererArgs = item->data(1, ParametersRole).toStringList();
     qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
-    if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), rendererArgs)) {
+    QProcess proc;
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (!KdenliveSettings::hwDecoding().isEmpty()) {
+        env.insert(QLatin1String("MLT_AVFORMAT_HWACCEL"), KdenliveSettings::hwDecoding());
+    }
+    proc.setProgram(KdenliveSettings::kdenliverendererpath());
+    proc.setProcessEnvironment(env);
+    if (KdenliveSettings::keepRenderLogFiles()) {
+        rendererArgs << QStringLiteral("--debug");
+    }
+    proc.setArguments(rendererArgs);
+    if (!proc.startDetached()) {
         item->setStatus(FAILEDJOB);
     } else {
+
         KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering %1 started", item->text(1)), QPixmap());
     }
 }
@@ -937,7 +1242,10 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
     if (!url.isValid()) {
         url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
     }
-    QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
+    QDir directory(url.adjusted(QUrl::RemoveFilename).toLocalFile());
+    if (!url.isValid() || directory.isRelative()) {
+        directory = QDir(pCore->currentDoc()->projectRenderFolder());
+    }
 
     QString ext;
     if (extension.startsWith(QLatin1Char('.'))) {
@@ -963,22 +1271,23 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
         }
     }
 
-    return QUrl::fromLocalFile(directory + filename);
+    return QUrl::fromLocalFile(directory.absoluteFilePath(filename));
 }
 
 void RenderWidget::slotChangeSelection(const QModelIndex &current, const QModelIndex &previous)
 {
-    if (m_treeModel->parent(current) == QModelIndex()) {
+    auto mapped = m_proxyModel->mapToSource(current);
+    if (m_treeModel->parent(mapped) == QModelIndex()) {
         // in that case, we have selected a category, which we don't want
         QItemSelectionModel *selection = m_view.profileTree->selectionModel();
         selection->select(previous, QItemSelectionModel::ClearAndSelect);
         // expand corresponding category
-        auto parent = m_treeModel->parent(previous);
+        auto parent = m_treeModel->parent(m_proxyModel->mapToSource(previous));
         m_view.profileTree->expand(parent);
         m_view.profileTree->scrollTo(previous, QAbstractItemView::PositionAtCenter);
         return;
     }
-    m_currentProfile = m_treeModel->getPreset(current);
+    m_currentProfile = m_treeModel->getPreset(mapped);
     KdenliveSettings::setRenderProfile(m_currentProfile);
     loadProfile();
 }
@@ -1026,14 +1335,32 @@ void RenderWidget::loadProfile()
     }
     adjustSpeed(m_view.speed->value());
     bool passes = profile->hasParam(QStringLiteral("passes"));
-    m_view.checkTwoPass->setEnabled(passes);
+    bool hasCrf = profile->hasParam(QStringLiteral("crf"));
+    QString vcodec = profile->getParam(QStringLiteral("vcodec"));
+    if (vcodec.isEmpty()) {
+        vcodec = profile->getParam(QStringLiteral("c:v"));
+    }
+    m_view.checkTwoPass->setEnabled(!hasCrf && (passes || vcodec.contains(QLatin1String("x26")) || vcodec.contains(QLatin1String("vpx"))));
     m_view.checkTwoPass->setChecked(passes && profile->getParam(QStringLiteral("passes")) == QStringLiteral("2"));
 
     m_view.encoder_threads->setEnabled(!profile->hasParam(QStringLiteral("threads")));
     m_view.embed_subtitles->setEnabled(profile->extension() == QLatin1String("mkv") || profile->extension() == QLatin1String("matroska"));
 
     m_view.video_box->setChecked(profile->getParam(QStringLiteral("vn")) != QStringLiteral("1"));
-    m_view.audio_box->setChecked(profile->getParam(QStringLiteral("an")) != QStringLiteral("1"));
+    bool audioAllowed = profile->getParam(QStringLiteral("an")) != QStringLiteral("1");
+    if (audioAllowed) {
+        const QString mltProperties = profile->getParam(QStringLiteral("properties"));
+        if (!mltProperties.isEmpty()) {
+            Mlt::Properties props;
+            props.set("mlt_type", "consumer");
+            props.set("mlt_service", "avformat");
+            props.preset(mltProperties.toUtf8().constData());
+            if (props.get_int("an") == 1) {
+                audioAllowed = false;
+            }
+        }
+    }
+    m_view.audio_box->setChecked(audioAllowed);
 
     m_view.buttonRender->setEnabled(error.isEmpty());
     m_view.buttonGenerateScript->setEnabled(error.isEmpty());
@@ -1164,6 +1491,12 @@ void RenderWidget::refreshParams()
         m_params.insert(pCore->currentDoc()->metadata());
     }
 
+    // Timeline sequence metadata
+    int timecodeOffset = pCore->currentTimelineOffset();
+    if (timecodeOffset > 0) {
+        m_params.insert(QStringLiteral("meta.attr.TIMECODE.markup"), pCore->timecode().getDisplayTimecodeFromFrames(timecodeOffset, false));
+    }
+
     QString paramString = m_params.toString();
     if (paramString.contains(QStringLiteral("%quality")) || paramString.contains(QStringLiteral("%audioquality"))) {
         m_view.qualityGroup->setEnabled(true);
@@ -1233,8 +1566,13 @@ void RenderWidget::refreshParams()
 
     m_params.replacePlaceholder(QLatin1String("%dar"), QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num()),
                                                                                     QString::number(projectProfile->display_aspect_den())));
-    m_params.replacePlaceholder(QLatin1String("%passes"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1));
-
+    if (m_view.checkTwoPass->isEnabled()) {
+        if (m_view.checkTwoPass->isChecked()) {
+            m_params.insert(QStringLiteral("pass"), QStringLiteral("2"));
+        } else {
+            m_params.remove(QStringLiteral("pass"));
+        }
+    }
     m_view.advanced_params->setPlainText(m_params.toString());
 }
 
@@ -1242,7 +1580,10 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
 {
     m_treeModel.reset();
     m_treeModel = RenderPresetTreeModel::construct(this);
-    m_view.profileTree->setModel(m_treeModel.get());
+    m_proxyModel = std::make_unique<TreeProxyModel>(this);
+    m_view.profileTree->setModel(m_proxyModel.get());
+    // Connect models
+    m_proxyModel->setSourceModel(m_treeModel.get());
     QItemSelectionModel *selectionModel = m_view.profileTree->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &RenderWidget::slotChangeSelection);
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection &selected, const QItemSelection &deselected) {
@@ -1267,7 +1608,20 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
     } else {
-        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        if (dest == QLatin1String("/dev/null") || dest == QLatin1String("NUL")) {
+            // 2 pass rendering, look for first matching job
+            for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
+                item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(i));
+                if (item && item->data(1, TwoPassRole).toInt() == 1) {
+                    break;
+                }
+                item = nullptr;
+            }
+        }
+        if (!item) {
+            const QStringList itemData = {QString(), dest};
+            item = new RenderJobItem(m_view.running_jobs, itemData);
+        }
     }
     item->setData(1, ProgressRole, progress);
     if (progress == 0) {
@@ -1284,6 +1638,10 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
             item->setData(1, LastTimeRole, 0);
             item->setData(1, LastFrameRole, frame);
             return;
+        }
+        if (m_renderStatus == NotRendering) {
+            m_renderStatus = Rendering;
+            Q_EMIT renderStatusChanged();
         }
         qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
         qint64 lastTimeRole = item->data(1, LastTimeRole).toInt();
@@ -1348,7 +1706,7 @@ void RenderWidget::slotCheckFreeMemory()
             KNotification *notify = new KNotification(QStringLiteral("ErrorMessage"));
             notify->setText(errorMessage);
             notify->sendEvent();
-            // Increase the memory check frequence
+            // Increase the memory check frequency
             m_memCheckTimer.setInterval(5000);
         } else if (m_lowMemStatus != NoWarning) {
             m_lowMemStatus = NoWarning;
@@ -1367,10 +1725,31 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
 {
     RenderJobItem *item = nullptr;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
+    bool firstPassRendering = false;
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
     } else {
-        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        if (dest == QLatin1String("/dev/null") || dest == QLatin1String("NUL")) {
+            // 2 pass rendering, look for first matching job
+            for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
+                item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(i));
+                if (item && item->data(1, TwoPassRole).toInt() == 1) {
+                    firstPassRendering = true;
+                    break;
+                }
+                item = nullptr;
+            }
+        }
+        if (!item) {
+            if (dest.isEmpty() && status == -2) {
+                // start failure returns an empty url
+                item = startingJob();
+            }
+            if (item == nullptr) {
+                const QStringList itemData = {QString(), dest};
+                item = new RenderJobItem(m_view.running_jobs, itemData);
+            }
+        }
     }
     if (!item) {
         return;
@@ -1394,14 +1773,19 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
         m_shareMenu->reload();
 
-        QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
         KNotification *notify = new KNotification(QStringLiteral("RenderFinished"));
+        QString notif;
+        if (!firstPassRendering) {
+            notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
+            notify->setUrls({QUrl::fromLocalFile(dest)});
+        } else {
+            notif = i18n("First pass rendering of %1 finished", item->text(1));
+        }
         notify->setText(notif);
-        notify->setUrls({QUrl::fromLocalFile(dest)});
         notify->sendEvent();
         const QUrl url = QUrl::fromLocalFile(item->text(1));
         bool exists = QFile(url.toLocalFile()).exists();
-        if (exists) {
+        if (exists && !firstPassRendering) {
             if (item->data(1, OpenBrowserRole).toBool()) {
                 pCore->highlightFileInExplorer({url});
             }
@@ -1414,7 +1798,11 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     } else if (status == -2) {
         // Rendering crashed
         item->setStatus(FAILEDJOB);
-        m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
+        if (dest.isEmpty()) {
+            m_view.error_log->append(i18n("<strong>Rendering crashed</strong><br />"));
+        } else {
+            m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
+        }
         m_view.error_log->append(error);
         m_view.error_log->append(QStringLiteral("<hr />"));
         m_view.error_box->setVisible(true);
@@ -1423,10 +1811,32 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setStatus(ABORTEDJOB);
     } else {
         delete item;
+        item = nullptr;
+    }
+    if (item) {
+        if (QFile::exists(dest + ".log")) {
+            const QString logFile = dest + QStringLiteral(".log");
+            item->setData(1, RenderWidget::LogFileRole, logFile);
+        }
+        if (QFile::exists(item->data(1, RenderWidget::PlaylistFileRole).toString())) {
+            item->setData(1, RenderWidget::PlaylistDisplayRole, item->data(1, RenderWidget::PlaylistFileRole));
+        }
     }
     m_view.clean_up->setEnabled(true);
     slotCheckJob();
-    checkRenderStatus();
+    checkRenderStatus(status);
+}
+
+RenderJobItem *RenderWidget::startingJob()
+{
+    auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
+    while (item != nullptr) {
+        if (item->status() == STARTINGJOB) {
+            return item;
+        }
+        item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
+    }
+    return nullptr;
 }
 
 void RenderWidget::slotAbortCurrentJob()
@@ -1438,7 +1848,7 @@ void RenderWidget::slotAbortCurrentJob()
         } else {
             delete current;
             slotCheckJob();
-            checkRenderStatus();
+            checkRenderStatus(-3);
         }
     }
 }
@@ -1538,7 +1948,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
         item->setIcon(0, icon.isNull() ? QIcon::fromTheme(QStringLiteral("application-x-executable-script")) : icon);
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
-        item->setData(1, Qt::UserRole + 1, scriptpath.toLocalFile());
+        item->setData(1, ParametersRole, scriptpath.toLocalFile());
         if (scriptFiles.at(i) == lastScript) {
             lastCreatedScript = item;
         }
@@ -1581,7 +1991,7 @@ void RenderWidget::slotStartScript()
                 return;
             }
         }
-        QString path = item->data(1, Qt::UserRole + 1).toString();
+        const QString path = item->data(1, ParametersRole).toString();
         // Insert new job in queue
         RenderJobItem *renderItem = nullptr;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
@@ -1597,7 +2007,8 @@ void RenderWidget::slotStartScript()
             renderItem = nullptr;
         }
         if (!renderItem) {
-            renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination);
+            const QStringList itemData = {QString(), destination};
+            renderItem = new RenderJobItem(m_view.running_jobs, itemData);
         }
         renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
@@ -1609,7 +2020,8 @@ void RenderWidget::slotStartScript()
         QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), path, QStringLiteral("--pid"),
                                QString::number(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
-        checkRenderStatus();
+        renderItem->setData(1, PlaylistFileRole, path);
+        checkRenderStatus(-1);
         m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
     }
 }
@@ -1618,7 +2030,7 @@ void RenderWidget::slotDeleteScript()
 {
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
-        QString path = item->data(1, Qt::UserRole + 1).toString();
+        QString path = item->data(1, ParametersRole).toString();
         bool success = true;
         success &= static_cast<int>(QFile::remove(path));
         if (!success) {
@@ -1715,6 +2127,11 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     if (props.contains(QStringLiteral("renderspeed"))) {
         m_view.speed->setValue(props.value(QStringLiteral("renderspeed")).toInt());
     }
+
+    // If stemaudio is not defined, will return 0
+    m_view.stemAudioExport->setChecked(props.value(QStringLiteral("renderstemaudio")).toInt());
+    // New document opened, check space on drive
+    m_lowSpaceTimer.start();
 }
 
 void RenderWidget::saveRenderProfile()
@@ -1722,7 +2139,7 @@ void RenderWidget::saveRenderProfile()
     // Save rendering profile to document
     QMap<QString, QString> renderProps;
     std::unique_ptr<RenderPresetModel> &preset = RenderPresetRepository::get()->getPreset(m_currentProfile);
-    renderProps.insert(QStringLiteral("rendercategory"), preset->groupName());
+    renderProps.insert(QStringLiteral("rendercategory"), preset->groupId());
     renderProps.insert(QStringLiteral("renderprofile"), preset->name());
     renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->url().toLocalFile());
     int mode = 0; // 0 = full project
@@ -1732,6 +2149,7 @@ void RenderWidget::saveRenderProfile()
         mode = 2;
     }
     renderProps.insert(QStringLiteral("rendermode"), QString::number(mode));
+    renderProps.insert(QStringLiteral("renderstemaudio"), m_view.stemAudioExport->isChecked() ? QString::number(1) : QString::number(0));
     renderProps.insert(QStringLiteral("renderstartguide"), QString::number(m_view.guide_start->currentIndex()));
     renderProps.insert(QStringLiteral("renderendguide"), QString::number(m_view.guide_end->currentIndex()));
     int export_audio = 0;
@@ -1857,16 +2275,88 @@ void RenderWidget::zoneDurationChanged()
     showRenderDuration();
 }
 
+void RenderWidget::updateRenderOffset()
+{
+    updateRenderInfoMessage();
+    // Update guides if duration or timecode offset changed
+    reloadGuides();
+    // Update params to keep timecode offset in sync
+    refreshParams();
+}
+
+void RenderWidget::checkDriveSpace()
+{
+    QStorageInfo info(QFileInfo(m_view.out_file->url().toLocalFile()).absolutePath());
+    m_lastCheckedDevice = info.device();
+    DriveSpaceStatus previousState = m_freeSpaceStatus;
+#ifdef Q_OS_MAC
+    // Device always returns readonly on Mac
+    if (!info.isReady() || !info.isValid()) {
+#else
+    if (!info.isReady() || !info.isValid() || info.isReadOnly()) {
+#endif
+        m_freeSpaceStatus = SpaceNotWritable;
+        if (!info.isReady()) {
+            // Drive may be mounting, check again in a few seconds
+            m_lowSpaceTimer.start();
+        }
+        if (previousState != m_freeSpaceStatus) {
+            updateRenderInfoMessage();
+        }
+        return;
+    }
+    m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
+
+    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+    if (m_lastFreeSpace < 5 * minimumSize) {
+        m_freeSpaceStatus = SpaceLow;
+    } else if (m_lastFreeSpace < minimumSize) {
+        m_freeSpaceStatus = SpaceNone;
+    } else {
+        m_freeSpaceStatus = SpaceOk;
+    }
+    if (previousState != m_freeSpaceStatus) {
+        updateRenderInfoMessage();
+    }
+}
+
 void RenderWidget::updateRenderInfoMessage()
 {
-    m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    if (m_freeSpaceStatus != SpaceOk) {
+        m_view.infoMessage->setMessageType(m_freeSpaceStatus == SpaceNone || m_freeSpaceStatus == SpaceNotWritable ? KMessageWidget::Error
+                                                                                                                   : KMessageWidget::Warning);
+    } else {
+        m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    }
     if (m_renderDuration <= 0) {
         m_view.infoMessage->setText(i18n("Add clips in timeline before rendering"));
         m_view.infoMessage->show();
         return;
     }
+    if (m_freeSpaceStatus != SpaceOk) {
+        switch (m_freeSpaceStatus) {
+        case SpaceNotWritable:
+            m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
+            break;
+        case SpaceNone:
+            m_view.infoMessage->setText(i18n("Your disk is almost full, rendering might fail"));
+            break;
+        case SpaceLow:
+            m_view.infoMessage->setText(i18n("Your disk space is limited (%1)", KIO::convertSize(m_lastFreeSpace)));
+            break;
+        default:
+            break;
+        }
+        m_view.infoMessage->show();
+        return;
+    }
+
     QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
     QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
+    int sequenceOffset = pCore->currentTimelineOffset();
+    if (sequenceOffset > 0) {
+        infoMessage.append(QStringLiteral("\n%1 %2").arg(i18n("Timecode Offset:"), pCore->timecode().getDisplayTimecodeFromFrames(sequenceOffset, false)));
+    }
     if (m_missingClips > 0) {
         infoMessage.append(QStringLiteral(". "));
         if (m_missingUsedClips == m_missingClips) {
@@ -1892,12 +2382,60 @@ void RenderWidget::showRenderDuration(int projectLength)
         m_renderDuration = out - pMon->getZoneStart();
     } else if (m_view.render_guide->isChecked()) {
         double fps = pCore->getCurrentProfile()->fps();
-        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
-        m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+        int startIndex = m_view.guide_start->currentIndex();
+
+        if (startIndex > 0 && !m_currentMarkers.isEmpty()) {
+            int markerIndex = startIndex - 1;
+            if (markerIndex < m_currentMarkers.size()) {
+                const CommentedTime &marker = m_currentMarkers.at(markerIndex);
+                if (marker.hasRange()) {
+                    double guideStart = marker.time().seconds();
+                    double guideEnd = marker.endTime().seconds();
+                    int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+                } else {
+                    double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                    double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+                    int out;
+                    if (guideEnd == -1) {
+                        out = pCore->projectDuration() - 1;
+                    } else {
+                        out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    }
+                    m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+                }
+            } else {
+                double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+                int out;
+                if (guideEnd == -1) {
+                    out = pCore->projectDuration() - 1;
+                } else {
+                    out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                }
+                m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+            }
+        } else {
+            double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+            double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+            int out;
+            if (guideEnd == -1) {
+                out = pCore->projectDuration() - 1;
+            } else {
+                out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            }
+            m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+        }
     } else {
         m_renderDuration = maxFrame;
+    }
+
+    if (m_freeSpaceStatus != SpaceNotWritable) {
+        KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(0), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+        if (5 * minimumSize > m_lastFreeSpace || m_freeSpaceStatus != SpaceOk) {
+            // Space is limited, inform user
+            m_lowSpaceTimer.start();
+        }
     }
     updateRenderInfoMessage();
 }
@@ -1964,10 +2502,10 @@ void RenderWidget::adjustSpeed(int speedIndex)
 
 void RenderWidget::prepareJobContextMenu(const QPoint &pos)
 {
-    QTreeWidgetItem *nd = m_view.running_jobs->itemAt(pos);
+    QTreeWidgetItem *node = m_view.running_jobs->itemAt(pos);
     RenderJobItem *renderItem = nullptr;
-    if (nd) {
-        renderItem = static_cast<RenderJobItem *>(nd);
+    if (node) {
+        renderItem = static_cast<RenderJobItem *>(node);
     }
     if (!renderItem) {
         return;
@@ -1985,7 +2523,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
         pCore->activeBin()->slotAddClipToProject(QUrl::fromLocalFile(fileName));
     });
     menu.addAction(newAct);
-    QAction *openContainingFolder = new QAction(i18n("Open Containing Folder"), this);
+    QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
     connect(openContainingFolder, &QAction::triggered, [&, renderItem]() {
         QString fileName = renderItem->text(1);
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
@@ -2007,7 +2545,7 @@ void RenderWidget::resetRenderPath(const QString &path)
         extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
     }
     QFileInfo updatedPath(path);
-    QString fileName = QDir(pCore->currentDoc()->projectRenderFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
+    const QString fileName = QDir(pCore->currentDoc()->projectRenderFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
     QString url = filenameWithExtension(QUrl::fromLocalFile(fileName), extension).toLocalFile();
     if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
@@ -2036,4 +2574,21 @@ void RenderWidget::updateMissingClipsCount(int total, int used)
     m_missingClips = total;
     m_missingUsedClips = used;
     updateRenderInfoMessage();
+}
+
+void RenderWidget::updatePowerManagement()
+{
+    switch (m_renderStatus) {
+    case Rendering:
+        pCore->window()->mPowerInterface.setPreventSleep(true);
+        break;
+    default:
+        pCore->window()->mPowerInterface.setPreventSleep(false);
+        break;
+    }
+}
+
+bool RenderWidget::isRendering() const
+{
+    return m_renderStatus == Rendering;
 }

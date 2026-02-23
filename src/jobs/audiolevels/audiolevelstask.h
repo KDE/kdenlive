@@ -11,6 +11,7 @@
 
 #include "jobs/abstracttask.h"
 
+#include <QElapsedTimer>
 #include <QObject>
 #include <QRunnable>
 #include <bin/projectclip.h>

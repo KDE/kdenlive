@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.crossfeed" id="avfilter.crossfeed" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.crossfeed" id="avfilter.crossfeed" type="audio">
     <name>Crossfeed</name>
     <description>Apply headphone crossfeed filter.
 Crossfeed is the process of blending the left and right channels of stereo audio recording. It is mainly used to reduce extreme stereo separation of low frequencies.

@@ -49,7 +49,7 @@ void RenderServer::jobSent()
             const QJsonObject json = QJsonDocument::fromJson(block.toUtf8(), &error).object();
             if (error.error != QJsonParseError::NoError) {
                 pCore->displayMessage(i18n("Communication error with render job"), ErrorMessage);
-                qWarning() << "RenderServer recieve error: " << error.errorString() << block;
+                qWarning() << "RenderServer received error: " << error.errorString() << block;
             }
             handleJson(json, socket);
             block.clear();
@@ -91,8 +91,6 @@ void RenderServer::abortJob(const QString &job)
 
 void RenderServer::abortAllJobs()
 {
-    disconnect(this, &RenderServer::setRenderingProgress, pCore->window(), &MainWindow::setRenderingProgress);
-    disconnect(this, &RenderServer::setRenderingFinished, pCore->window(), &MainWindow::setRenderingFinished);
     for (auto i = m_jobSocket.cbegin(), end = m_jobSocket.cend(); i != end; ++i) {
         i.value()->write("abort");
         i.value()->flush();

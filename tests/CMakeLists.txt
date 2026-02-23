@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>, Julius Künzel <julius.kuenzel@kde.org>, Eric Jiang <erjiang@alumni.iu.edu>, Vincent Pinon <vincent.pinon@asygn.com>
 
-include_directories(${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR} ..)
+include_directories(..)
 set(TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR})
 configure_file(tests_definitions.h.in tests_definitions.h)
 kde_enable_exceptions()
@@ -14,7 +14,7 @@ set(KdenliveTest_SOURCES
     documenttest.cpp
     effectstest.cpp
     effectsgrouptest.cpp
-    filetest.cpp
+    filetest.cpp # codespell:ignore filetest
     groupstest.cpp
     hidetest.cpp
     keyframetest.cpp

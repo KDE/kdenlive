@@ -31,6 +31,12 @@ SPDX-FileCopyrightText = "Massimo Stella"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
+path = "data/layouts/**.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
 path = "data/luts/**.cube"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "None"
@@ -103,7 +109,7 @@ SPDX-FileCopyrightText = "Nara Oliveira and Farid Abdelnour"
 SPDX-License-Identifier = "LGPL-3.0-or-later"
 
 [[annotations]]
-path = "data/pics/splash-background.png"
+path = "data/pics/splash-background.webp"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Farid Abdelnour"
 SPDX-License-Identifier = "LGPL-3.0-or-later"
@@ -127,7 +133,7 @@ SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["data/excluded_effects.txt", "data/excluded_transitions.txt", "data/included_effects.txt", "data/included_transitions.txt"]
+path = ["data/excluded_effects.txt", "data/excluded_transitions.txt", "data/hidden_effects.txt", "data/hidden_transitions.txt", "data/included_effects.txt", "data/included_transitions.txt", "data/tenbit_transitions.txt", "data/tenbit_effects.txt"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Jean-Baptiste Mardelle, Massimo Stella"
 SPDX-License-Identifier = "CC0-1.0"
@@ -262,4 +268,10 @@ SPDX-License-Identifier = "BSD-2-Clause"
 path = "snapcraft.yaml"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Scarlett Moore"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = ".well-known/funding-manifest-urls"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Farid Abdelnour"
 SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"

@@ -3,13 +3,6 @@
 
 
 ### Find packages files
-find_package(LibV4L2)
-set_package_properties(LibV4L2 PROPERTIES
-    DESCRIPTION "video4linux support libraries"
-    URL "https://linuxtv.org/downloads/v4l-utils/"
-    TYPE RUNTIME
-    PURPOSE "Required for better webcam support")
-
 if(WIN32)
     set(MLT_MELTBIN "melt.exe")
     set(MLT_DATADIR "../share/mlt")
@@ -73,19 +66,20 @@ add_subdirectory(transitions)
 add_subdirectory(utils)
 add_subdirectory(widgets)
 add_subdirectory(xml)
+add_subdirectory(layouts)
 
 ## toplevel source code files
 list(APPEND kdenlive_SRCS
     core.cpp
     definitions.cpp
-    docktitlebarmanager.cpp
-    layoutmanagement.cpp
     mainwindow.cpp
+    kddocksetup.cpp
     mltconnection.cpp
     statusbarmessagelabel.cpp
     undohelper.cpp
     glaxnimatelauncher.cpp
     filefilter.cpp
+    powermanagementinterface.cpp
 )
 
 if(CRASH_AUTO_TEST)
@@ -116,13 +110,10 @@ kconfig_target_kcfg_file(kdenliveLib
     CLASS_NAME KdenliveSettings
     MUTATORS
     SINGLETON
-
     GENERATE_PROPERTIES
     GENERATE_MOC
-
     QML_REGISTRATION
-
-    # DEFAULT_VALUE_GETTERS
+    DEFAULT_VALUE_GETTERS
 )
 install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 
@@ -136,6 +127,8 @@ ecm_add_qml_module(kdenliveLib
 ecm_target_qml_sources(kdenliveLib
     SOURCES
     qml/ZoomBar.qml
+    monitor/view/AudioView.qml
+    monitor/view/AudioZoomBar.qml
     monitor/view/ProjectMonitor.qml
     monitor/view/Countdown.qml
     monitor/view/ClipMonitor.qml
@@ -144,9 +137,11 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/MonitorGeometryScene.qml
     monitor/view/MonitorOverlay.qml
     monitor/view/MonitorRotoScene.qml
+    monitor/view/MonitorSafeZone.qml
     monitor/view/MonitorSplit.qml
     monitor/view/MonitorSplitTracks.qml
     monitor/view/MonitorToolButton.qml
+    monitor/view/MonitorZoomButton.qml
     monitor/view/MonitorTrimming.qml
     monitor/view/SceneToolBar.qml
     monitor/view/MultiScreenToolBar.qml
@@ -158,10 +153,20 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/OverlayCenter.qml
     monitor/view/OverlayCenterDiagonal.qml
     monitor/view/OverlayThirds.qml
+    monitor/view/OverlayLabel.qml
+    monitor/view/Safe169.qml
+    monitor/view/Safe916.qml
+    monitor/view/ResizeHandle.qml
+    monitor/view/ResizeLogic.js
+    monitor/view/SnappingLogic.js
+    monitor/view/RotationHandle.qml
+    monitor/view/Utils.js
     timeline2/view/qml/Timeline.qml
     timeline2/view/qml/TimelineLogic.js
     timeline2/view/qml/TrackHead.qml
     timeline2/view/qml/SubtitleTrackHead.qml
+    timeline2/view/qml/AudioRecordingControls.qml
+    timeline2/view/qml/AudioRecordButton.qml
     timeline2/view/qml/AudioLevels.qml
     timeline2/view/qml/Track.qml
     timeline2/view/qml/Ruler.qml
@@ -178,21 +183,35 @@ ecm_target_qml_sources(kdenliveLib
     assets/view/qml/AssetView.qml
     timeline2/view/qml/AssetMenu.qml
     timeline2/view/qml/GuidesMenu.qml
+    dialogs/Splash.qml
+    dialogs/Simplesplash.qml
 )
 
 qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
 
-## Icon for Windows and OSX
-file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
-ecm_add_app_icon(kdenlive ICONS ${ICONS_SRCS}) # icon name = variable name
+## Icon for Windows and MacOS.
+## The svg (or svgz) icon must be provided first to be used on MacOS
+set(ICONS_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/../data/icons)
+set(ICON_FILES
+  ${ICONS_FOLDER}/sc-apps-kdenlive.svg
+  ${ICONS_FOLDER}/16-apps-kdenlive.png
+  ${ICONS_FOLDER}/22-apps-kdenlive.png
+  ${ICONS_FOLDER}/32-apps-kdenlive.png
+  ${ICONS_FOLDER}/48-apps-kdenlive.png
+  ${ICONS_FOLDER}/64-apps-kdenlive.png
+  ${ICONS_FOLDER}/128-apps-kdenlive.png
+  ${ICONS_FOLDER}/256-apps-kdenlive.png
+  ${ICONS_FOLDER}/512-apps-kdenlive.png
+  ${ICONS_FOLDER}/1024-apps-kdenlive.png
+)
+ecm_add_app_icon(kdenlive ICONS ${ICON_FILES})
 
 ## Kdenlive Executable
 add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
     )
-target_include_directories(kdenlive
-	SYSTEM PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
+
 target_link_libraries(kdenlive kdenliveLib kdenliveLibplugin)
 install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
@@ -205,8 +224,7 @@ target_include_directories(kdenliveLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/utils
     ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view/qml
     )
-target_include_directories(kdenliveLib
-	SYSTEM  PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
+
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
 # KDE definitions and include directories *must* always come first, Qt follows
@@ -234,8 +252,7 @@ target_link_libraries(kdenliveLib PUBLIC
     KF${KF_MAJOR}::PurposeWidgets
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
-    ${MLT_LIBRARIES}
-    ${MLTPP_LIBRARIES}
+    Mlt7::mlt++
     OTIO::opentimelineio
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
@@ -253,12 +270,15 @@ target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::QuickWidgets
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::Multimedia
+    Qt${QT_MAJOR_VERSION}::MultimediaWidgets
     Qt${QT_MAJOR_VERSION}::NetworkAuth
     Qt${QT_MAJOR_VERSION}::SvgWidgets
-#    Qt${QT_MAJOR_VERSION}::Test
+    # Qt${QT_MAJOR_VERSION}::Test
 )
 
-target_link_libraries(kdenliveLib PUBLIC PkgConfig::LIBAV)
+target_link_libraries(kdenliveLib PUBLIC KDAB::kddockwidgets)
+
+target_link_libraries(kdenliveLib PUBLIC FFmpeg::FFmpeg)
 
 if(WIN32)
     target_link_libraries(kdenliveLib PUBLIC d3d11 d3dcompiler)
@@ -301,12 +321,6 @@ if(SDL2_FOUND)
     target_link_libraries(kdenliveLib PUBLIC ${SDL2_LIBRARY})
 elseif(SDL_FOUND)
     target_link_libraries(kdenliveLib PUBLIC ${SDL_LIBRARY})
-endif()
-
-if(LIBV4L2_FOUND)
-    target_include_directories(kdenliveLib SYSTEM PRIVATE ${LIBV4L2_INCLUDE_DIR})
-    target_link_libraries(kdenliveLib PUBLIC ${LIBV4L2_LIBRARY})
-    target_compile_definitions(kdenliveLib PRIVATE -DUSE_V4L)
 endif()
 
 if(HAVE_LINUX_INPUT_H)

@@ -9,7 +9,7 @@
 #include "assets/view/assetparameterview.hpp"
 #include "assets/view/widgets/colorwheel.h"
 
-#include "assets/view/widgets/keyframewidget.hpp"
+#include "assets/view/widgets/keyframecontainer.hpp"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
@@ -31,6 +31,7 @@
 #include <QMimeData>
 #include <QPointer>
 #include <QProgressBar>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QStandardPaths>
 #include <QTextEdit>
@@ -42,6 +43,7 @@
 #include <KDualAction>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KMessageWidget>
 #include <KRecentDirs>
 #include <KSqueezedTextLabel>
 
@@ -51,6 +53,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     , m_model(effectModel)
     , m_blockWheel(false)
 {
+    setFocusPolicy(Qt::ClickFocus);
     const QString effectId = effectModel->getAssetId();
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("selection-raise")));
     buttonUp->setToolTip(i18n("Move effect up"));
@@ -174,7 +177,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->setContentsMargins(0, 0, 0, 0);
     layZone->setSpacing(0);
     QLabel *in = new QLabel(i18n("In:"), this);
-    in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(in);
     auto *setIn = new QToolButton(this);
     setIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
@@ -186,7 +189,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->addWidget(m_inPos);
     layZone->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
     QLabel *out = new QLabel(i18n("Out:"), this);
-    out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(out);
     auto *setOut = new QToolButton(this);
     setOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
@@ -397,6 +400,9 @@ void CollapsibleEffectView::slotCreateRegion()
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
+    if (!QFileInfo::exists(clipFolder)) {
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
     QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), clipFolder, dialogFilter);
     d->setFileMode(QFileDialog::ExistingFile);
     if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
@@ -413,22 +419,10 @@ void CollapsibleEffectView::slotUnGroup()
 
 bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
 {
-    if (o == collapseButton) {
-        if (e->type() == QEvent::MouseButtonPress) {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(e);
-            if (mouseEvent->modifiers() == Qt::ShiftModifier) {
-                // do what you need
-                bool doCollapse = m_collapse->isActive();
-                Q_EMIT collapseAllEffects(doCollapse);
-                return true;
-            }
-        }
+    switch (e->type()) {
+    case QEvent::Enter:
         return QWidget::eventFilter(o, e);
-    }
-    if (e->type() == QEvent::Enter) {
-        return QWidget::eventFilter(o, e);
-    }
-    if (e->type() == QEvent::Wheel) {
+    case QEvent::Wheel: {
         auto *we = static_cast<QWheelEvent *>(e);
         if (!m_blockWheel || we->modifiers() != Qt::NoModifier) {
             return false;
@@ -468,6 +462,32 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             }
             return false;
         }
+        break;
+    }
+    case QEvent::FocusIn:
+        if (!isActive()) {
+            Q_EMIT activateEffect(m_model->row());
+            auto qw = qobject_cast<QWidget *>(o);
+            if (qw) {
+                qw->setFocus();
+                e->accept();
+                return true;
+            }
+        }
+        return QWidget::eventFilter(o, e);
+    case QEvent::MouseButtonPress:
+        if (o == collapseButton) {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(e);
+            if (mouseEvent->modifiers() == Qt::ShiftModifier) {
+                // do what you need
+                bool doCollapse = m_collapse->isActive();
+                Q_EMIT collapseAllEffects(doCollapse);
+                return true;
+            }
+        }
+        return QWidget::eventFilter(o, e);
+    default:
+        break;
     }
     return QWidget::eventFilter(o, e);
 }
@@ -515,15 +535,15 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
 {
     m_isActive = active;
     QPalette pal = palette();
+    bool outside = !active;
     if (active) {
         pal.setColor(QPalette::Active, QPalette::Base, m_activeColor);
         decoframe->setPalette(pal);
         pal.setColor(QPalette::Active, QPalette::Base, m_activeColorTitle);
         frame->setPalette(pal);
-        qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene() << ", ACTIVE: " << active;
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-        if (m_view->keyframesAllowed() && m_view->hasMultipleKeyframes()) {
-            active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
+        if (m_view->keyframesAllowed()) {
+            outside = !pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
         }
     } else {
         pal.setColor(QPalette::Active, QPalette::Base, m_bgColor);
@@ -531,7 +551,8 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
         pal.setColor(QPalette::Active, QPalette::Base, m_bgColorTitle);
         frame->setPalette(pal);
     }
-    Q_EMIT m_view->initKeyframeView(active, active);
+    qDebug() << ":::: ACTIOVATING VIEW: " << active << ", OUTSIDE: " << outside;
+    Q_EMIT m_view->initKeyframeView(active, outside);
     if (m_inOutButton->isChecked()) {
         Q_EMIT showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
     } else {
@@ -594,7 +615,7 @@ void CollapsibleEffectView::slotDisable(bool disable)
     QString effectName = EffectsRepository::get()->getName(effectId);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(!disable, undo, redo);
+    std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(!disable, undo, redo, false);
     if (KdenliveSettings::applyEffectParamsToGroup()) {
         pCore->applyEffectDisableToGroup(m_model->getOwnerId(), effectId, disable, undo, redo);
     }
@@ -644,6 +665,11 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
 
     effectName->setText(title);
     descriptionBox->setText(description);
+    KMessageWidget mw;
+    mw.setMessageType(KMessageWidget::Warning);
+    mw.setText(i18n("A profile with that name already exists"));
+    mw.setVisible(false);
+    form.addRow(&mw);
 
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
@@ -651,6 +677,18 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
 
     QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
     QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    connect(effectName, &QLineEdit::textChanged, this, [&buttonBox, &mw](QString name) {
+        if (name.isEmpty()) {
+            buttonBox.button(QDialogButtonBox::Ok)->setEnabled(false);
+            mw.setVisible(false);
+        } else if (EffectsRepository::get()->exists(name)) {
+            buttonBox.button(QDialogButtonBox::Ok)->setEnabled(false);
+            mw.setVisible(true);
+        } else {
+            buttonBox.button(QDialogButtonBox::Ok)->setEnabled(true);
+            mw.setVisible(false);
+        }
+    });
 
     if (dialog.exec() == QDialog::Accepted) {
         QString name = effectName->text().simplified();
@@ -689,7 +727,7 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
                 continue;
             }
             if (paramType == QLatin1String("multiswitch")) {
-                // Multiswitch param value is not updated on change, fo fetch real value now
+                // Multiswitch param value is not updated on change, go fetch real value now
                 QString val = m_model->getParamFromName(paramName).toString();
                 params.item(i).toElement().setAttribute(QStringLiteral("value"), val);
                 continue;
@@ -715,6 +753,9 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
             namedId.prepend(QStringLiteral("fadeout_"));
         }
         effect.setAttribute(QStringLiteral("id"), namedId);
+        if (m_model->isBuiltIn()) {
+            effect.setAttribute(QStringLiteral("buildtin"), QStringLiteral("1"));
+        }
         effect.setAttribute(QStringLiteral("type"), m_model->isAudio() ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
 
         QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
@@ -750,29 +791,6 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
     }
 }
 
-QDomDocument CollapsibleEffectView::toXml() const
-{
-    QDomDocument doc;
-    // Get base effect xml
-    QString effectId = m_model->getAssetId();
-    // Adjust param values
-    QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
-
-    QDomElement effect = doc.createElement(QStringLiteral("effect"));
-    doc.appendChild(effect);
-    effect.setAttribute(QStringLiteral("id"), effectId);
-    for (const auto &param : std::as_const(currentValues)) {
-        QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
-        effect.appendChild(xmlParam);
-        xmlParam.setAttribute(QStringLiteral("name"), param.first);
-        QString value;
-        value = param.second.toString();
-        QDomText val = doc.createTextNode(value);
-        xmlParam.appendChild(val);
-    }
-    return doc;
-}
-
 void CollapsibleEffectView::slotResetEffect()
 {
     m_view->resetValues();
@@ -780,12 +798,11 @@ void CollapsibleEffectView::slotResetEffect()
 
 void CollapsibleEffectView::updateHeight()
 {
-    if (m_view->height() == widgetFrame->height()) {
+    if (m_view->minimumHeight() == widgetFrame->height()) {
         return;
     }
-    widgetFrame->setFixedHeight(m_collapse->isActive() ? 0 : m_view->height());
-    setFixedHeight(widgetFrame->height() + border_frame->minimumHeight() + frame->minimumHeight() + zoneFrame->minimumHeight() +
-                   2 * (contentsMargins().top() + decoframe->lineWidth()));
+    widgetFrame->setFixedHeight(m_collapse->isActive() ? 0 : m_view->minimumHeight());
+    setFixedHeight(widgetFrame->height() + border_frame->minimumHeight() + frame->minimumHeight() + zoneFrame->minimumHeight());
     Q_EMIT switchHeight(m_model, height());
 }
 
@@ -798,10 +815,9 @@ void CollapsibleEffectView::switchCollapsed(int row)
 
 void CollapsibleEffectView::slotSwitch(bool collapse)
 {
-    widgetFrame->setFixedHeight(collapse ? 0 : m_view->sizeHint().height());
+    widgetFrame->setFixedHeight(collapse ? 0 : m_view->minimumHeight());
     zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 : frame->height());
-    setFixedHeight(widgetFrame->height() + border_frame->minimumHeight() + frame->minimumHeight() + zoneFrame->height() +
-                   2 * (contentsMargins().top() + decoframe->lineWidth()));
+    setFixedHeight(widgetFrame->height() + border_frame->minimumHeight() + frame->minimumHeight() + zoneFrame->height());
     m_model->setCollapsed(collapse);
     keyframesButton->setVisible(!collapse);
     inOutButton->setVisible(!collapse);
@@ -921,64 +937,11 @@ void CollapsibleEffectView::dragEnterEvent(QDragEnterEvent *event)
     */
 }
 
-void CollapsibleEffectView::resizeEvent(QResizeEvent *event)
-{
-    QWidget::resizeEvent(event);
-    m_view->adjustSize();
-    m_view->updateGeometry();
-}
-
 void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)
 {
     QPalette pal = border_frame->palette();
     pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
     border_frame->setPalette(pal);
-}
-
-void CollapsibleEffectView::dropEvent(QDropEvent *event)
-{
-    QPalette pal = border_frame->palette();
-    pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
-    border_frame->setPalette(pal);
-    const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
-    // event->acceptProposedAction();
-    QDomDocument doc;
-    doc.setContent(effects);
-    QDomElement e = doc.documentElement();
-    int ix = e.attribute(QStringLiteral("kdenlive_ix")).toInt();
-    int currentEffectIx = effectIndex();
-    if (ix == currentEffectIx || e.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
-        // effect dropped on itself, or unmovable speed dropped, reject
-        event->ignore();
-        return;
-    }
-    if (ix == 0 || e.tagName() == QLatin1String("effectgroup")) {
-        if (e.tagName() == QLatin1String("effectgroup")) {
-            // moving a group
-            QDomNodeList subeffects = e.elementsByTagName(QStringLiteral("effect"));
-            if (subeffects.isEmpty()) {
-                event->ignore();
-                return;
-            }
-            event->setDropAction(Qt::MoveAction);
-            event->accept();
-            Q_EMIT addEffect(e);
-            return;
-        }
-        // effect dropped from effects list, add it
-        e.setAttribute(QStringLiteral("kdenlive_ix"), ix);
-        /*if (m_info.groupIndex > -1) {
-            // Dropped on a group
-            e.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
-        }*/
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
-        Q_EMIT addEffect(e);
-        return;
-    }
-    // Q_EMIT moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
-    event->setDropAction(Qt::MoveAction);
-    event->accept();
 }
 
 void CollapsibleEffectView::adjustButtons(int ix, int max)
@@ -1230,4 +1193,14 @@ void CollapsibleEffectView::enableAndExpand()
 void CollapsibleEffectView::collapseEffect(bool collapse)
 {
     m_collapse->setActive(!collapse);
+}
+
+bool CollapsibleEffectView::isCollapsed() const
+{
+    return !m_collapse->isActive();
+}
+
+bool CollapsibleEffectView::isBuiltIn() const
+{
+    return m_model->isBuiltIn();
 }

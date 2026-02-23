@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/slideshowclip.h"
+#include "project/transcodeseek.h"
 #include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
@@ -284,7 +285,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     }
                 }
             } else {
-                qDebug() << "YYYYYYYYYYYYY\n\nGOT INVALID THUMB PRODUCER FOT CLIP\n\nYYYYYYYYYYYY";
+                qDebug() << "YYYYYYYYYYYYY\n\nGOT INVALID THUMB PRODUCER FOR CLIP\n\nYYYYYYYYYYYY";
             }
         }
     }
@@ -298,6 +299,7 @@ void ClipLoadTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     // QThread::currentThread()->setPriority(QThread::HighestPriority);
     m_running = true;
     if (m_thumbOnly) {
@@ -314,7 +316,6 @@ void ClipLoadTask::run()
     }
     Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.itemId));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
-    qDebug() << "============STARTING LOAD TASK FOR: " << m_owner.itemId << " = " << resource << "\n\n:::::::::::::::::::";
     int duration = 0;
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
@@ -401,6 +402,10 @@ void ClipLoadTask::run()
         break;
     }
     case ClipType::Playlist: {
+        if (!QFile::exists(resource)) {
+            auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
+            resource = binClip->url();
+        }
         producer = loadPlaylist(resource);
         if (producer) {
             QFile f(resource);
@@ -488,8 +493,16 @@ void ClipLoadTask::run()
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
             Q_EMIT taskDone();
         } else {
-            Q_EMIT taskDone();
+            // If this is a proxy, warn user
+            if (binClip && binClip->hasProxy()) {
+                QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                          Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
+                                          Q_ARG(int, int(KMessageWidget::Warning)));
+            }
+            // Delete clip
             abort();
+            // Done, we are ready for post processing
+            Q_EMIT taskDone();
         }
         return;
     }
@@ -497,23 +510,26 @@ void ClipLoadTask::run()
     if (producer->get_length() == INT_MAX && producer->get("eof") == QLatin1String("loop")) {
         // This is a live source or broken clip
         // Check for AV
-        ClipType::ProducerType cType = type;
+        TranscodeSeek::TranscodeInfo info;
+        info.url = resource;
+        info.fps_info = ProjectClip::fpsInfo(producer);
         if (producer) {
-            if (mltService.startsWith(QLatin1String("avformat")) && cType == ClipType::Unknown) {
+            if (mltService.startsWith(QLatin1String("avformat")) && type == ClipType::Unknown) {
                 // Check if it is an audio or video only clip
                 if (producer->get_int("video_index") == -1) {
-                    cType = ClipType::Audio;
+                    type = ClipType::Audio;
                 } else if (producer->get_int("audio_index") == -1) {
-                    cType = ClipType::Video;
+                    type = ClipType::Video;
                 } else {
-                    cType = ClipType::AV;
+                    type = ClipType::AV;
                 }
             }
             producer.reset();
         }
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                  Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, pCore->bin()->shouldCheckProfile),
-                                  Q_ARG(QString, QString()),
+        info.type = type;
+
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                  Q_ARG(TranscodeSeek::TranscodeInfo, info), Q_ARG(bool, pCore->bin()->shouldCheckProfile), Q_ARG(QString, QString()),
                                   Q_ARG(QString, i18n("Duration of file <b>%1</b> cannot be determined.", QFileInfo(resource).fileName())));
         if (pCore->bin()->shouldCheckProfile) {
             pCore->bin()->shouldCheckProfile = false;
@@ -693,19 +709,22 @@ void ClipLoadTask::run()
             if (checkProfile) {
                 pCore->bin()->shouldCheckProfile = false;
             }
-            ClipType::ProducerType cType = type;
-            if (cType == ClipType::Unknown) {
+            TranscodeSeek::TranscodeInfo info;
+            info.url = resource;
+            info.fps_info = ProjectClip::fpsInfo(producer);
+            if (type == ClipType::Unknown) {
                 // Check if it is an audio or video only clip
                 if (!hasVideo) {
-                    cType = ClipType::Audio;
+                    type = ClipType::Audio;
                 } else if (!hasAudio) {
-                    cType = ClipType::Video;
+                    type = ClipType::Video;
                 } else {
-                    cType = ClipType::AV;
+                    type = ClipType::AV;
                 }
             }
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()),
+            info.type = type;
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                      Q_ARG(TranscodeSeek::TranscodeInfo, info), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()),
                                       Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
         }
 
@@ -720,21 +739,23 @@ void ClipLoadTask::run()
                 int integerFps = qRound(fps);
                 adjustedFpsString = QStringLiteral("-%1fps").arg(integerFps);
             }
-            ClipType::ProducerType cType = type;
-            if (cType == ClipType::Unknown) {
+            TranscodeSeek::TranscodeInfo info;
+            info.url = resource;
+            info.fps_info = ProjectClip::fpsInfo(producer);
+            if (type == ClipType::Unknown) {
                 // Check if it is an audio or video only clip
                 if (!hasVideo) {
-                    cType = ClipType::Audio;
+                    type = ClipType::Audio;
                 } else if (!hasAudio) {
-                    cType = ClipType::Video;
+                    type = ClipType::Video;
                 } else {
-                    cType = ClipType::AV;
+                    type = ClipType::AV;
                 }
             }
+            info.type = type;
             producer->set("_wait_for_transcode", 1);
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, checkProfile),
-                                      Q_ARG(QString, adjustedFpsString),
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                      Q_ARG(TranscodeSeek::TranscodeInfo, info), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString),
                                       Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
         }
 
@@ -772,7 +793,7 @@ void ClipLoadTask::run()
             if (transcode) {
                 producer->set("_wait_for_transcode", 1);
             }
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::BlockingQueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {
                 pCore->bin()->shouldCheckProfile = false;
@@ -797,15 +818,15 @@ void ClipLoadTask::abort()
     if (!m_softDelete && !m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
+            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::BlockingQueuedConnection);
             if (!m_isCanceled.loadAcquire() && !binClip->isReloading) {
                 // User tried to add an invalid clip, remove it.
-                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "requestBinClipDeletionById", Qt::QueuedConnection,
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "requestBinClipDeletionById", Qt::BlockingQueuedConnection,
                                           Q_ARG(QString, QString::number(m_owner.itemId)));
             } else {
                 // An existing clip just became invalid, mark it as missing.
-                QMetaObject::invokeMethod(binClip.get(), "setClipStatus", Qt::QueuedConnection, Q_ARG(FileStatus::ClipStatus, FileStatus::StatusMissing));
-                binClip->setClipStatus(FileStatus::StatusMissing);
+                QMetaObject::invokeMethod(binClip.get(), "setClipStatus", Qt::BlockingQueuedConnection,
+                                          Q_ARG(FileStatus::ClipStatus, FileStatus::StatusMissing));
             }
         }
     }

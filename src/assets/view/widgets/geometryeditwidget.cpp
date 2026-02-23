@@ -18,7 +18,6 @@
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
@@ -42,7 +41,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
         rect = QRect(50, 50, 200, 200);
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    m_geom.reset(new GeometryWidget(monitor, QPair<int, int>(start, end), rect, 100, frameSize, false,
+    m_geom.reset(new GeometryWidget(monitor, QPair<int, int>(start, end), rect, false, 100, frameSize, false,
                                     m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, layout));
     connect(m_geom.get(), &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
         if (m_model->isActive()) {
@@ -52,7 +51,6 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
 
     // Q_EMIT the signal of the base class when appropriate
     connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
-    setToolTip(comment);
 }
 
 GeometryEditWidget::~GeometryEditWidget() = default;
@@ -83,22 +81,35 @@ void GeometryEditWidget::monitorSeek(int pos)
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     if (pos >= start && pos < end) {
         m_geom->connectMonitor(true);
+        qDebug() << ":::: MONITOR SEEK INSIDE EFFECT!!!!!\n__________________";
         pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true, false);
     } else {
-        m_geom->connectMonitor(false);
+        if (m_geom->connectMonitor(false)) {
+            pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(false, true);
+        }
     }
 }
 
-void GeometryEditWidget::slotInitMonitor(bool active, bool)
+void GeometryEditWidget::slotInitMonitor(bool active, bool outside)
 {
     m_geom->connectMonitor(active);
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (active) {
-        pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(m_geom->getRect());
         // We have no keyframes, allow editing even if
-        monitor->setEffectKeyframe(true, false);
+        qDebug() << ":::: MONITOR SEEK OUTSIDE EFFECT:" << outside;
+        monitor->setEffectKeyframe(true, outside);
         connect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
     } else {
         disconnect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek);
+    }
+    if (monitor->effectSceneDisplayed(MonitorSceneType::MonitorSceneGeometry)) {
+        monitor->setUpEffectGeometry(m_geom->getRect());
+    } else {
+        // Scene is not ready yet
+        connect(monitor, &Monitor::sceneChanged, this, [this](MonitorSceneType sceneType) {
+            if (sceneType == MonitorSceneType::MonitorSceneGeometry) {
+                pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(m_geom->getRect());
+            }
+        });
     }
 }

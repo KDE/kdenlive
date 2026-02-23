@@ -1,0 +1,676 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Turkish "INCLUDE">
+]>
+<book id="kdenlive" lang="&language;">
+<bookinfo>
+<title
+>Kdenlive Tez Başlangıç ​​Kılavuzu (Kullanımdan Kalktı)</title>
+<authorgroup>
+<author>
+<personname
+><firstname
+>Bu belge artık kullanımdan kalkmıştır; lütfen yeni <ulink url="https://docs.kdenlive.org/?mtm_campaign=kdenlive_docbook"
+>Kdenlive Kılavuzu</ulink
+>’na bakın.</firstname
+> <surname
+>Bu belgelendirme, KDE UserBase <ulink url="http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Kılavuz/Tez Başlangıç</ulink
+> sayfasından dönüştürülmüştür.</surname
+> </personname>
+    </author>
+<othercredit role="translator"
+><firstname
+>Emir</firstname
+><surname
+>SARI</surname
+><affiliation
+><address
+><email
+>emir_sari@icloud.com</email
+></address
+></affiliation
+><contrib
+>Çeviri</contrib
+></othercredit
+> 
+    </authorgroup>
+<legalnotice
+>&FDLNotice;</legalnotice>
+<date
+>2019‒05‒07</date>
+    <releaseinfo
+>Uygulamalar 19.04</releaseinfo>
+<abstract>
+<para
+></para>
+    </abstract>
+    <keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>çoklu ortam</keyword>
+<keyword
+>video</keyword>
+</keywordset>
+</bookinfo>
+<!--userbase <timestamp
+>2019-04-16T07:41:55Z</timestamp
+>-->
+
+<!--userbase-content-->
+<chapter id="quick-start"
+><title
+>Tez Başlangıç</title
+> 
+<sect1 id="creating-a-new-project"
+><title
+>Yeni bir proje oluşturmak</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-folder-structure.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Kdenlive dizin yapısı</phrase>
+    </textobject>
+    <caption>
+      <para
+>Kdenlive dizin yapısı</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Yeni projemiz için yapılacak ilk adım yeni bir (boş) klasör oluşturmaktır. Klasörü bu öğreticide <filename
+>quickstart-tutorial/</filename
+> olarak adlandıracağım. Ardından birkaç örnek video alın veya buradan indirin: <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2"
+>kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink
+> (7 MB)<footnote
+><para
+>Eğer Theora’yı tercih ederseniz (genellikle Ogg Video problem yarattığı için büyük olasılıkla istemeyeceğiniz türdür) alternatif olarak <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2"
+>kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink
+> indirebilirsiniz.</para
+></footnote
+>; sonrasında proje klasörü içindeki alt klasöre çıkarın: &eg; <filename
+>quickstart-tutorial/Videos/</filename
+>. </para>
+<para
+>Soldaki görsel, önerilen dizin yapısını gösterir: Her proje<filename
+>Videos</filename
+> dizinindeki video dosyalarını ve <filename
+>Audio</filename
+> dizini içindeki ses dosyaları gibi kendi dizinlerine sahiptir (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure"
+>Daha Fazla Oku</ulink
+>). </para>
+<para
+>(Bu öğretici, sağlanan örnek videoları kullandığınızı varsayacaktır; ancak herhangi başka bir videoyla da olur.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-new-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Yeni Proje iletişim kutusu</phrase>
+    </textobject>
+    <caption>
+      <para
+>Yeni Proje iletişim kutusu</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>&kdenlive;’ı açın ve yeni bir proje oluşturun (<menuchoice
+><guimenu
+>Dosya</guimenu
+> <guimenuitem
+>Yeni</guimenuitem
+></menuchoice
+>). </para>
+<para
+>Önceden oluşturulmuş proje klasörünü seçin (<filename
+>quickstart-tutorial/</filename
+>) ve uygun bir proje profili bulun. Yukarıda sağlanan video dosyaları 720p, 23,98 FPS’dir.<footnote
+><para
+><ulink url="http://en.wikipedia.org/wiki/720p"
+>720</ulink
+> video yüksekliğidir; p, <ulink url="http://en.wikipedia.org/wiki/Progressive_scan"
+>progresif tarama</ulink
+> anlamına gelir; bir de <ulink url="http://en.wikipedia.org/wiki/Interlaced_video"
+>interlaced (taramalı) video</ulink
+> vardır. FPS ise saniye başına kare hızını belirtir.</para
+></footnote
+> Kendi dosyalarınızı kullanıyorsanız ayarlarda <footnote
+><para
+><ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc"
+>Çeşitli</ulink
+> bölümünde <emphasis
+>İlk eklenen klibin proje profili ile eşleşip eşleşmediğini denetle</emphasis
+></para
+></footnote
+> ayarlıysa &kdenlive; size kendiliğinden uygun bir video önerecektir. </para>
+</sect1>
+<sect1 id="adding-clips"
+><title
+>Klipler eklemek</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Proje Kovası: Video klipler eklemek</phrase>
+    </textobject>
+    <caption>
+      <para
+>Proje Kovası: Video klipler eklemek</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Projemiz artık hazır ve artık birkaç klip ekleyebiliriz (&ie; indirdiklerinizi). Bu, <emphasis
+>proje kovası araç takımı</emphasis
+> ile yapılabilir; <guilabel
+>Klip Ekle</guilabel
+> simgesine tıklayın. <inlinemediaobject
+> <imageobject
+> <imagedata fileref="Icon-add-clip.png" format="PNG"/> </imageobject
+> </inlinemediaobject
+> doğrudan dosya iletişim kutusunu açar; küçük oka tıklamak ise eklenebilen başka klip türlerini de gösteren bir liste açar. Video klipleri, ses klipleri, görseller ve başka &kdenlive; projeleri eklemek için <guilabel
+>Klip Ekle</guilabel
+> iletişim kutusunu kullanabilirsiniz. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-mainwindow.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Öğretici dosyalarını gösteren Kdenlive penceresi</phrase>
+    </textobject>
+    <caption>
+      <para
+>Öğretici dosyalarını gösteren Kdenlive penceresi</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Klipleri yükledikten sonra, &kdenlive; buna benzer görünecektir. Sol üstte zaten bilinen proje ağacı vardır. Sağında videoyu gösteren monitörler vardır; klip monitörü özgün kliplerden video görüntüler, proje monitörü tüm efektler, geçişler vb. uygulanmış olarak çıktı videosunun nasıl görüneceğini gösterir. Üçüncü ve aynı zamanda çok önemli öge ise zaman akışıdır (monitörlerin altında): Burası video kliplerin düzenleneceği yerdir. Video ve ses olmak üzere iki farklı parça türü vardır. Video parçaları her türlü klibi ve ses parçalarını da içerebilir; ancak bir video dosyasını ses parçasına bırakırken yalnızca ses kullanılacaktır. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-save-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Bir Kdenlive projesi kaydetmek</phrase>
+    </textobject>
+    <caption>
+      <para
+>Bir Kdenlive projesi kaydetmek</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+><menuchoice
+><guimenu
+>Dosya</guimenu
+> <guimenuitem
+>Kaydet</guimenuitem
+></menuchoice
+> ile işimizi kaydedelim. Bu, işimizi kaydeder; yani zaman akışında klipleri nereye koyduğumuzu, hangi efektleri uyguladığımızı gibi şeyleri. Ancak bu <emphasis
+>oynatılamaz</emphasis
+>.<footnote
+><para
+>Daha doğrusu, <varname
+>melt projeniz.kdenlive</varname
+> kullanılarak <emphasis
+>oynatılabilir</emphasis
+>; ancak videonuzu bu şekilde sunmak istemezsiniz; çok yavaş olacaktır. Ayrıca bu yalnızca melt kuruluysa çalışır.</para
+></footnote
+> Nihai videoyu oluşturma işlemine <emphasis
+>Sunum</emphasis
+> denir. </para>
+</sect1>
+<sect1 id="timeline"
+><title
+>Zaman Akışı</title
+> 
+<para
+>Ayrıca <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Timeline"
+>kılavuzun zaman akışı bölümüne</ulink
+> de bakın. </para>
+<para
+>Şimdi asıl düzenleme geliyor. Proje klipleri zaman çizelgesinde nihai sonuç için birleştirilir. Sürükle ve bırak yöntemiyle oraya ulaşırlar: Proje ağacından bir Napoli’yi sürükleyin (bu tez başlangıç öğreticisinin geri kalanında olduğu gibi yukarıda verilen dosyaları kullandığınızı varsayarak; değilse lütfen ekranınızın su geçirmez ve belki de domates geçirmez olduğundan emin olun) ve zaman akışındaki ilk parçanın üzerine bırakın. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timeline-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Zaman tünelindeki ilk klipler</phrase>
+    </textobject>
+    <caption>
+      <para
+>Zaman tünelindeki ilk klipler</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Biraz çatal bıçak takımı da gerektiğinden, Kaşık klibini alın ve onu da ilk parçaya bırakın. Ardından Napoli’yi zaman akışının başına sürükleyin (aksi takdirde işlenen video birkaç saniye düz siyahla başlar) ve Kaşık’ı Napoli’den hemen sonra, soldaki görselde göründüğü gibi sürükleyin. (<keycombo
+>&Ctrl;<keycap
+>Tekerlek</keycap
+></keycombo
+> ile yakınlaştırdığım yere.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timelinecursor.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Zaman akışı imleci</phrase>
+    </textobject>
+    <caption>
+      <para
+>Zaman akışı imleci</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Sonuç <keycap
+>Boşluk</keycap
+> düğmesine (veya proje monitöründeki <guilabel
+>Oynat</guilabel
+> düğmesine) basılarak önizlenebilir. Önce Napoli’yi, ardından Kaşık’ı göreceksiniz. Zaman akışı imleci en başta değilse proje monitörü ortadan bir yerden oynatmaya başlar; imleci ya proje monitöründe ya da zaman akışında sürükleyebilirsiniz. Klavye kısayollarını yeğliyorsanız <keycombo
+>&Ctrl;<keycap
+>Baş</keycap
+></keycombo
+>, etkin olan monitör için aynı şeyi yapar (kısayolu kullanmaya başlamadan önce tıklayarak <guilabel
+>Proje Monitörü</guilabel
+>’nü etkinleştirin). </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-resize-marker.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Yeniden boyutlandırma imleyicisi</phrase>
+    </textobject>
+    <caption>
+      <para
+>Yeniden boyutlandırma imleyicisi</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Yemekten sonra oyun geldiğinden Bilardo klibini alalım. Bunu da zaman akışına ekleyin. İlk 1,5 saniye boyunca klipte hiçbir şey olmuyor, belki de bu bölümü <guilabel
+>kesmeliyiz</guilabel
+>. Bunu yapmanın kolay bir yolu<footnote
+><para
+>Böyle yazınca bir klibi kesmenin birden çok yolu varmış gibi duruyor; evet, var.</para
+></footnote
+> zaman akışı imlecini istenen konuma (&ie; klibi kesmek istediğiniz konum) taşımak ve klibin sol kenarını yeniden boyutlandırma imleyici ortaya çıkana kadar sürüklemektir. Yeterince yakına geldiğinizde zaman akışı imlecine tutturulur. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-overlap-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Klipleri üst üste bindirmek</phrase>
+    </textobject>
+    <caption>
+      <para
+>Klipleri üst üste bindirmek</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Yeme (Kaşık) ve bilardo oynamak arasında bir <emphasis
+>geçiş </emphasis
+> eklemek için iki klibin üst üste binmesi gerekir. Kesin olmak gerekirse: İkinci klip, birincisinin üstünde veya altında olmalı ve ikincisi başladıktan sonra bazı karleri bitirmelidir. Tek kareler için çentikler ortaya çıkana kadar yakınlaştırma burada yardımcı olur; ayrıca her zaman aynı geçiş süresine sahip olmayı kolaylaştırır, bu durumda beş karedir. </para>
+<para
+>&kdenlive; penceresinin alt kısmındaki <guilabel
+>yakınlaştırma sürgüsü</guilabel
+> veya <keycombo
+>&Ctrl;<keycap
+>Fare Tekerleği</keycap
+></keycombo
+> ile yakınlaştırabilirsiniz. &kdenlive; zaman akışı imlecine yakınlaştırır; önce büyük görmek istediğiniz konuma ayarlayın ve sonrasında yakınlaştırın. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-transition.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Geçiş imleyicisi</phrase>
+    </textobject>
+    <caption>
+      <para
+>Geçiş imleyicisi</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Artık klipler üst üste geldiğine göre geçiş eklenebilir. Bu, ya üstteki klibe sağ tıklayıp <guilabel
+>Geçiş Ekle</guilabel
+>’yi seçerek ya da daha kolayı, işaret parmağı imleci gösterilip <quote
+>Geçiş eklemek için tıklayın</quote
+> iletisi görünene kadar fareyi Kaşık klibinin sağ alt köşesinin üzerine getirerek yapılır. İkincisi öntanımlı olarak, bir çözülme geçişi ekler, bu durumda Kaşık oynatımı gerekmediğinden halihazırdaki en iyi fikirdir. </para>
+<para
+>Çözme geçişleri ilk klibi ikinci klibe dönüştürür. Ayrıca <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Transitions"
+>kılavuzun geçiş bölümüne</ulink
+> de bakın. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-last-clip.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Şimdi son klibi, Piyano’yu ekleyelim ve yine bir çözülme geçişi uygulayalım. Zaman akışının ilk izine eklerken, geçişi önceki klibe eklemek için yeni klibin sol alt kenarına tıklamanız gerekir. </para>
+<sect2 id="effects"
+><title
+>Efektler</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-effect.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Efekt listesi</phrase>
+    </textobject>
+    <caption>
+      <para
+>Efekt listesi</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Piyano, ona bir <emphasis
+>efekt</emphasis
+> eklenerek renklendirilebilir. Piyano klibini seçip <guilabel
+>Efekt Listesi</guilabel
+> içinden <guilabel
+>RGB Düzeltmesi</guilabel
+> efektine tıklayın. Görünür değilse onu <menuchoice
+><guimenu
+>Görünüm</guimenu
+> <guimenuitem
+>Efekt Listesi</guimenuitem
+></menuchoice
+> üzerinden bulabilirsiniz. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-effect-flag.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Efekt eklendikten sonra, adı zaman akışı klibine eklenecektir. Ayrıca <guilabel
+>Özellikler</guilabel
+> araç takımında da gösterilecektir. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-effectstack.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>RGB Düzeltmesi ile Efekt Yığını</phrase>
+    </textobject>
+    <caption>
+      <para
+>RGB Düzeltmesi ile Efekt Yığını</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Görselde rahat bir akşama uygun sıcak bir sarı–turuncu ton elde etmek için mavinin azaltılması, kırmızı ve yeşilin iyileştirilmesi gerekir. </para>
+<para
+>Özellikler araç takımındaki değerler sürgü kullanılarak (orta fare düğmesi öntanımlı değere sıfırlar) veya sürgünün sağındaki sayıya çift tıklanıp doğrudan bir değer girilerek değiştirilebilir. </para>
+<para
+>Özellikler araç takımı her zaman o anda seçili olan zaman akışı klibini ifade eder. Her efekt, göz simgesine tıklanarak geçici olarak veya Özellikler araç takımının üst kısmındaki onay kutusu kullanılarak o klip için tüm efektler devre dışı bırakılabilir (ayarlar kaydedilir); bu örneğin çok fazla bilgi işlem gücü gerektiren efektler için kullanışlıdır, böylece düzenleme sırasında devre dışı bırakılabilir ve sunum için yeniden etkinleştirilebilir. </para>
+<para
+>Burada kullanılan gibi bazı efektler için anahtar kareler eklemek olanaklıdır. Çerçeveli saat simgesi bunu gösterir. Anahtar kareler, efekt parametrelerini zaman içinde değiştirmek için kullanılır. Klibimizde bu, piyanonun rengini sıcak bir akşam renginden soğuk bir gece rengine dönüştürmemizi sağlar. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-keyframes.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Efektler için anahtar kareler</phrase>
+    </textobject>
+    <caption>
+      <para
+>Efektler için anahtar kareler</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+><guilabel
+>Anahtar kare</guilabel
+> simgesine (önceki görselde çerçevelenmiş olan saat simgesi) tıkladıktan sonra Özellikler araç takımı yeniden düzenlenir. Öntanımlı olarak, biri zaman akışı klibinin başında ve diğeri sonunda olmak üzere iki anahtar kare olacaktır. Zaman akışı imlecini zaman akışı klibinin sonuna taşıyın, böylece proje monitörü sondaki anahtar karenin parametrelerini değiştirirken yeni renkleri gerçekten gösterir. </para>
+<para
+>Özellikler listesinde son anahtar karenin seçili olduğundan emin olun. Ardından piyanoyu koyu bir maviyle doldurmaya hazırsınız. </para>
+<para
+>Zaman çizelgesi imlecini projenin başına getirip oynattığınızda (<guilabel
+>Proje Monitörü</guilabel
+> üzerinde <keycap
+>Boşluk</keycap
+> veya <guilabel
+>Oynat</guilabel
+> düğmesi ile), piyanonun rengi artık istediğiniz gibi değişmelidir . </para>
+<para
+>Anahtar kare kullanımı, bu öğreticinin en zor kısmıydı. Bunu yapmayı başardıysanız &kdenlive;’da kolayca ustalaşacaksınız! </para>
+<para
+>Ayrıca <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Effects"
+>kılavuzun efektler bölümüne</ulink
+> de bakın. </para>
+</sect2>
+<sect2 id="music"
+><title
+>Müzik</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-fadeout.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Ses kaybolması</phrase>
+    </textobject>
+    <caption>
+      <para
+>Ses kaybolması</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Kliplerde herhangi bir ses olmadığından, yerel koleksiyonunuzdan veya <ulink url="http://www.jamendo.com"
+>Jamendo</ulink
+> gibi web sayfalarından güzel bir müzik parçası arayalım. Ses klibi eklendikten sonra zaman akışındaki bir ses parçasına sürüklenmelidir. </para>
+<para
+>Ses klibi, zaman akışında video kliplerle aynı şekilde yeniden boyutlandırılabilir. İmleç projenin sonuna kendiliğinden yerleşecektir. Ses klibinin sonuna soldurma efekti eklemek için (tam olarak doğru uzunlukta bir dosya bulmadıysanız) zaman akışı klibinin sağ (veya sol) üst kenarının üzerine gelip kırmızı gölgeli üçgeni soldurmanın başlaması gereken konuma sürükleyebilirsiniz.<footnote
+><para
+>Bu gölgeli üçgen, <menuchoice
+><guimenu
+>Solma</guimenu
+> <guimenuitem
+>Soldur</guimenuitem
+></menuchoice
+> için bir kısayoldur. Her iki şekil de aynı şeyi yapar.</para
+></footnote>
+</para>
+</sect2>
+</sect1>
+<sect1 id="rendering"
+><title
+>Sunum</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-renderer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Sunum iletişim kutusu</phrase>
+    </textobject>
+    <caption>
+      <para
+>Sunum iletişim kutusu</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Birkaç dakika daha ve projemiz bitti. Solda gösterilen iletişim kutusunu almak için Sun düğmesine tıklayın (veya <menuchoice
+><guimenu
+>Proje</guimenu
+> <guimenuitem
+>Sun</guimenuitem
+></menuchoice
+> yolunu izleyin veya <keycombo
+>&Ctrl;&Enter;</keycombo
+> yapın). Tüm efektleri ve geçişleri içeren yeni videomuz için istediğiniz çıktı dosyasını seçin, MP4’ü seçin (neredeyse her yerde çalışır), çıktı dosyası konumunu seçin ve <guilabel
+>Dosyaya Sun</guilabel
+> düğmesine tıklayın. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Sunum ilerlemesi</phrase>
+    </textobject>
+    <caption>
+      <para
+>Sunum ilerlemesi</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Birkaç saniye sonra sunum işlemi bitecek ve ilk &kdenlive; projeniz tamamlanmış olacak. Tebrikler! </para>
+</sect1>
+<sect1 id="complete-manual"
+><title
+>Tam kılavuz</title
+> 
+<para
+>Geçerli &kdenlive; sürümünün tam bir belgelendirmesi <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual"
+>tam kılavuzda</ulink
+> bulunabilir. </para>
+</sect1>
+</chapter>
+
+<!--userbase-content-->
+<chapter id="credits">
+<title
+>Emeği Geçenler ve Lisans</title>
+    <para
+>Belgelendirme telif hakkı, UserBase <ulink url="http://userbase.kde.org/index.php?title=Kdenlive/Manual/QuickStart&amp;action=history"
+>Kdenlive/Manual/QuickStart sayfa geçmişi</ulink
+> bölümüne bakın.</para>
+    <para
+>Çeviri: Emir SARI <email
+>emir_sari@icloud.com</email
+></para
+> &underFDL; </chapter>
+&documentation.index;
+</book>

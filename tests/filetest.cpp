@@ -24,6 +24,7 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Simple insert and save")
     {
         // Create document
+        pCore->setCurrentProfile(QStringLiteral("dv_pal"));
         KdenliveDoc document(undoStack);
         pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();

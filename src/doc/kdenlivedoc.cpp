@@ -39,6 +39,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <kddockwidgets/LayoutSaver.h>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
@@ -980,6 +981,9 @@ QUrl KdenliveDoc::url() const
 void KdenliveDoc::setUrl(const QUrl &url)
 {
     m_url = url;
+    if (url.isEmpty()) {
+        setModified(true);
+    }
 }
 
 QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
@@ -1437,7 +1441,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         if (!QFile::copy(path, backupFile)) {
             KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
-        // backup subitle file in case we have on
+        // backup subtitle file in case we have one
         QStringList subFiles = getAllSubtitlesPath(true);
         if (!subFiles.isEmpty()) {
             // Create folder for subtitles backup
@@ -1825,12 +1829,24 @@ void KdenliveDoc::loadDocumentProperties()
     QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
     QString name;
     QDomElement e;
+    const QString bins = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:extraBins"));
+    if (pCore->window() && !bins.isEmpty()) {
+        pCore->window()->loadBins(bins.split(QLatin1Char(';')));
+    }
     for (int i = 0; i < props.count(); i++) {
         e = props.at(i).toElement();
         name = e.attribute(QStringLiteral("name"));
         if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
             name = name.section(QLatin1Char('.'), 1);
-            if (name == QStringLiteral("storagefolder")) {
+            // Restore Layout
+            if (name == QLatin1String("layout")) {
+                const QString layoutData = e.firstChild().nodeValue();
+                Q_EMIT pCore->loadLayoutFromData(layoutData);
+                // clear layout
+                e.firstChild().clear();
+                continue;
+            }
+            if (name == QLatin1String("storagefolder")) {
                 // Make sure we have an absolute path
                 QString value = e.firstChild().nodeValue();
                 if (QFileInfo(value).isRelative()) {
@@ -1904,15 +1920,38 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
 {
-    pCore->taskManager.slotCancelJobs(false, {AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
     double fps = pCore->getCurrentFps();
-    double fpsChanged = m_timecode.fps() / fps;
+    double previousFps = m_timecode.fps();
+    double fpsChanged = previousFps / fps;
+    if (fpsChanged) {
+        pCore->taskManager.slotCancelJobs(false);
+    } else {
+        pCore->taskManager.slotCancelJobs(false, {AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
+    }
     m_timecode.setFormat(fps);
     if (!reloadProducers) {
         return;
     }
-    Q_EMIT updateFps(fpsChanged);
     pCore->bin()->reloadAllProducers(reloadThumbs);
+    if (fpsChanged != 1.) {
+        // Update timeline guides
+        QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+        while (j.hasNext()) {
+            j.next();
+            auto guides = j.value()->getGuideModel();
+            int count = guides->rowCount();
+            if (count > 0) {
+                // Remove previous snap points, and re-add to correct place
+                for (int i = 0; i < count; i++) {
+                    double seconds = guides->data(guides->index(i), MarkerListModel::PosRole).toDouble();
+                    GenTime pos(seconds);
+                    guides->removeSnapPoint(GenTime(pos.frames(previousFps), fps));
+                    guides->addSnapPoint(pos);
+                }
+                guides->dataChanged(guides->index(0), guides->index(count - 1), {});
+            }
+        }
+    }
 }
 
 void KdenliveDoc::resetProfile(bool reloadThumbs)

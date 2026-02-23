@@ -15,7 +15,7 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
     QList<QString> localesToTest;
     localesToTest << lcName << lcName + ".utf-8" << lcName + ".UTF-8" << lcName + ".utf8" << lcName + ".UTF8";
     for (const auto &locale : std::as_const(localesToTest)) {
-#ifdef Q_OS_FREEBSD
+#if defined(Q_OS_FREEBSD) || defined(Q_OS_OPENBSD)
         auto *result = setlocale(MLT_LC_CATEGORY, locale.toStdString().c_str());
 #else
         auto *result = std::setlocale(MLT_LC_CATEGORY, locale.toStdString().c_str());
@@ -35,10 +35,9 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 void LocaleHandling::resetLocale()
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    // const QString decimalPoint = QLocale().decimalPoint();
     std::setlocale(MLT_LC_CATEGORY, "en_US.UTF-8");
     ::qputenv(MLT_LC_NAME, "en_US.UTF-8");
-#elif defined(Q_OS_FREEBSD)
+#elif defined(Q_OS_FREEBSD) || defined(Q_OS_OPENBSD)
     setlocale(MLT_LC_CATEGORY, "C");
     ::qputenv(MLT_LC_NAME, "C");
 #else
@@ -49,12 +48,16 @@ void LocaleHandling::resetLocale()
 
 void LocaleHandling::resetAllLocale()
 {
-#ifdef Q_OS_FREEBSD
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    std::setlocale(LC_ALL, "en_US.UTF-8");
+    ::qputenv("LC_ALL", "en_US.UTF-8");
+#elif defined(Q_OS_FREEBSD) || defined(Q_OS_OPENBSD)
     setlocale(LC_ALL, "C.UTF-8");
+    ::qputenv("LC_ALL", "C.UTF-8");
 #else
     std::setlocale(LC_ALL, "C.UTF-8");
-#endif
     ::qputenv("LC_ALL", "C.UTF-8");
+#endif
 }
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)

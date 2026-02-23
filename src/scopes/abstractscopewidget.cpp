@@ -63,15 +63,12 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent)
     setPalette(m_scopePalette);
     setAutoFillBackground(true);
 
-    m_aAutoRefresh = new QAction(i18n("Auto Refresh"), this);
-    m_aAutoRefresh->setCheckable(true);
     m_aRealtime = new QAction(i18n("Realtime (with precision loss)"), this);
     m_aRealtime->setCheckable(true);
 
     m_menu = new QMenu();
     // Disabled dark palette on menus since it breaks up with some themes: kdenlive issue #2950
     // m_menu->setPalette(m_scopePalette);
-    m_menu->addAction(m_aAutoRefresh);
     m_menu->addAction(m_aRealtime);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -82,7 +79,6 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent)
     connect(this, &AbstractScopeWidget::signalScopeRenderingFinished, this, &AbstractScopeWidget::slotScopeRenderingFinished);
     connect(this, &AbstractScopeWidget::signalBackgroundRenderingFinished, this, &AbstractScopeWidget::slotBackgroundRenderingFinished);
     connect(m_aRealtime, &QAction::toggled, this, &AbstractScopeWidget::slotResetRealtimeFactor);
-    connect(m_aAutoRefresh, &QAction::toggled, this, &AbstractScopeWidget::slotAutoRefreshToggled);
 
     // Enable mouse tracking if desired.
     // Causes the mouseMoved signal to be emitted when the mouse moves inside the
@@ -95,7 +91,6 @@ AbstractScopeWidget::~AbstractScopeWidget()
     writeConfig();
 
     delete m_menu;
-    delete m_aAutoRefresh;
     delete m_aRealtime;
 }
 
@@ -109,7 +104,6 @@ void AbstractScopeWidget::readConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    m_aAutoRefresh->setChecked(scopeConfig.readEntry("autoRefresh", true));
     m_aRealtime->setChecked(scopeConfig.readEntry("realtime", false));
     scopeConfig.sync();
 }
@@ -118,7 +112,6 @@ void AbstractScopeWidget::writeConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    scopeConfig.writeEntry("autoRefresh", m_aAutoRefresh->isChecked());
     scopeConfig.writeEntry("realtime", m_aRealtime->isChecked());
     scopeConfig.sync();
 }
@@ -158,7 +151,7 @@ void AbstractScopeWidget::prodScopeThread()
 {
     // Only start a new thread if the scope is actually visible
     // and not hidden by another widget on the stack and if user want the scope to update.
-    if (this->visibleRegion().isEmpty() || (!m_aAutoRefresh->isChecked() && !m_requestForcedUpdate)) {
+    if (this->visibleRegion().isEmpty()) {
 #ifdef DEBUG_ASW
         qCDebug(KDENLIVE_LOG) << "Scope " << m_widgetName << " is not visible. Not calculating scope.";
 #endif
@@ -299,9 +292,6 @@ void AbstractScopeWidget::mouseReleaseEvent(QMouseEvent *event)
     m_rescaleActive = false;
     m_rescalePropertiesLocked = false;
 
-    if (!m_aAutoRefresh->isChecked()) {
-        m_requestForcedUpdate = true;
-    }
     prodHUDThread();
     prodScopeThread();
     prodBackgroundThread();
@@ -408,7 +398,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
         m_accelFactorHUD = accel;
     }
 
-    if ((m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
+    if ((m_newHUDFrames > 0) || m_newHUDUpdates > 0) {
 #ifdef DEBUG_ASW
         qCDebug(KDENLIVE_LOG) << "Trying to start a new HUD thread for " << m_widgetName << ". New frames/updates: " << m_newHUDFrames << '/'
                               << m_newHUDUpdates;
@@ -446,7 +436,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
         m_accelFactorScope = accel;
     }
 
-    if ((m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
+    if ((m_newScopeFrames > 0) || m_newScopeUpdates > 0) {
 #ifdef DEBUG_ASW
         qCDebug(KDENLIVE_LOG) << "Trying to start a new scope thread for " << m_widgetName << ". New frames/updates: " << m_newScopeFrames << '/'
                               << m_newScopeUpdates;
@@ -475,7 +465,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
         m_accelFactorBackground = accel;
     }
 
-    if ((m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
+    if ((m_newBackgroundFrames > 0) || m_newBackgroundUpdates > 0) {
 #ifdef DEBUG_ASW
         qCDebug(KDENLIVE_LOG) << "Trying to start a new background thread for " << m_widgetName << ". New frames/updates: " << m_newBackgroundFrames << '/'
                               << m_newBackgroundUpdates;
@@ -500,11 +490,9 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
         qCDebug(KDENLIVE_LOG) << "Scope of widget " << m_widgetName << " is not at the top, not rendering.";
 #endif
     } else {
-        if (m_aAutoRefresh->isChecked()) {
-            prodHUDThread();
-            prodScopeThread();
-            prodBackgroundThread();
-        }
+        prodHUDThread();
+        prodScopeThread();
+        prodBackgroundThread();
     }
 }
 
@@ -517,27 +505,9 @@ void AbstractScopeWidget::slotResetRealtimeFactor(bool realtimeChecked)
     }
 }
 
-bool AbstractScopeWidget::autoRefreshEnabled() const
-{
-    return m_aAutoRefresh->isChecked();
-}
+// Auto-refresh is always enabled now; helper removed
 
-void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
-{
-#ifdef DEBUG_ASW
-    qCDebug(KDENLIVE_LOG) << "Auto-refresh switched to " << autoRefresh << " in " << widgetName() << " (Visible: " << isVisible() << '/'
-                          << this->visibleRegion().isEmpty() << ')';
-#endif
-    if (isVisible()) {
-        // Notify listeners whether we accept new frames now
-        Q_EMIT requestAutoRefresh(autoRefresh);
-    }
-    // TODO only if depends on input
-    if (autoRefresh) {
-        // forceUpdate();
-        m_requestForcedUpdate = true;
-    }
-}
+// Removed slotAutoRefreshToggled; auto refresh is always on
 
 void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection, const Qt::KeyboardModifiers) {}
 

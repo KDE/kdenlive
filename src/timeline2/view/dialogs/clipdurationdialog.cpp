@@ -153,7 +153,7 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
     }
 
     if (itemIn < 0) {
-        // Disable crop adjustement
+        // Disable crop adjustment
         m_cropStart->setHidden(true);
         crop_label->hide();
         m_cropEnd->setHidden(true), end_label->hide();
@@ -166,6 +166,7 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
         m_maxPos = maximumOffset + m_firstItemInfo.position + m_firstItemInfo.playTime;
     }
     m_pos->setValue(GenTime(pos, m_fps));
+    m_pos->setFrameOffset(pCore->currentTimelineOffset());
     m_dur->setValue(GenTime(duration, m_fps));
     m_cropStart->setValue(itemIn);
     m_cropEnd->setValue(GenTime(maxLength - (itemIn + duration), m_fps));
@@ -221,7 +222,8 @@ void ClipDurationDialog::accept()
             } else {
                 ItemInfo currentInfo = m_model->getItemInfo(i);
                 if (m_model->isClip(i)) {
-                    result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo);
+                    result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo) ==
+                             TimelineModel::MoveSuccess;
                 } else if (m_model->isComposition(i)) {
                     result = m_model->requestCompositionMove(i, currentInfo.trackId, m_model->m_allCompositions[i]->getForcedTrack(),
                                                              currentInfo.position + offset, true, true, undo, redo);
@@ -301,7 +303,8 @@ void ClipDurationDialog::accept()
                 } else {
                     ItemInfo currentInfo = m_model->getItemInfo(i);
                     if (m_model->isClip(i)) {
-                        result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo);
+                        result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo) ==
+                                 TimelineModel::MoveSuccess;
                     } else if (m_model->isComposition(i)) {
                         result = m_model->requestCompositionMove(i, currentInfo.trackId, m_model->m_allCompositions[i]->getForcedTrack(),
                                                                  currentInfo.position + offset, true, true, undo, redo);

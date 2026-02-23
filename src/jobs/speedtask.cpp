@@ -41,7 +41,7 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &destination, int in, 
 void SpeedTask::start(QObject *object, bool force)
 {
     Q_UNUSED(object)
-    std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
+    std::vector<QString> binIds = pCore->activeBin()->selectedClipsIds(true);
     // Show config dialog
     QDialog d(qApp->activeWindow());
     d.setWindowTitle(i18nc("@title:window", "Clip Speed"));
@@ -169,6 +169,7 @@ void SpeedTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
     qDebug() << " + + + + + + + + STARTING SPEED TASK";
 
@@ -225,15 +226,16 @@ void SpeedTask::run()
     // Start the MLT Process
     QProcess filterProcess;
     producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("terminate_on_pause=1");
-    m_jobProcess.reset(new QProcess);
+    m_jobProcess = new QProcess();
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
-    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &SpeedTask::processLogInfo);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &SpeedTask::processLogInfo);
     qDebug() << "=== STARTING PROCESS: " << producerArgs;
     m_jobProcess->start(KdenliveSettings::meltpath(), producerArgs);
     m_jobProcess->waitForFinished(-1);
     qDebug() << " + + + + + + + + SOURCE FILE PROCESSED: " << m_jobProcess->exitStatus();
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (m_isCanceled || !result) {

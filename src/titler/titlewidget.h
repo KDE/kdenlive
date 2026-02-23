@@ -29,6 +29,9 @@ class PatternsModel;
 class Monitor;
 class KMessageWidget;
 class TimecodeDisplay;
+class TimecodeDisplay;
+class Monitor;
+
 class TitleTemplate
 {
 public:
@@ -88,6 +91,7 @@ public:
 
     /** @brief Returns clip duration. */
     int duration() const;
+    void setDuration(int duration);
 
     /** @brief Retrieves a list of all available title templates. */
     static void refreshTitleTemplates(const QString &projectPath);
@@ -117,6 +121,8 @@ private:
     QGraphicsRectItem *m_frameBackground;
     QGraphicsPixmapItem *m_frameImage;
     QButtonGroup *m_textAlignGroup;
+    Monitor *m_monitor;
+    TimecodeDisplay *m_timePos;
     int m_frameWidth;
     int m_frameHeight;
     int m_count;
@@ -181,9 +187,9 @@ private:
     void updateRotZoom(QGraphicsItem *i);
 
     /** @brief Updates the item position (position read directly from the GUI). Does not change GUI elements. */
-    void updatePosition(QGraphicsItem *i);
+    void setItemPosition(QGraphicsItem *i);
     /** @brief Updates the item position. Does not change GUI elements. */
-    void updatePosition(QGraphicsItem *i, int x, int y);
+    void setItemPosition(QGraphicsItem *i, int x, int y);
 
     void textChanged(MyTextItem *i);
     void updateAxisButtons(QGraphicsItem *i);
@@ -240,7 +246,7 @@ private:
     void readPatterns();
     /** @brief Write patterns to config file
      */
-    void writePatterns();
+    void writeBaseConfig();
 
 public Q_SLOTS:
     void slotNewText(MyTextItem *tt);
@@ -397,6 +403,11 @@ private Q_SLOTS:
     void slotPatternBtnAddClicked();
     /** @brief Pattern remove button clicked. */
     void slotPatternBtnRemoveClicked();
+    /** @brief Triggered then aspect ratio is enabled/disabled for an item. */
+    void updateItemRatio(Qt::CheckState state);
+    void scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center = false);
+    /** @brief Seek project monitor. */
+    void seekTimeline();
 
 Q_SIGNALS:
     void requestBackgroundFrame(bool request);

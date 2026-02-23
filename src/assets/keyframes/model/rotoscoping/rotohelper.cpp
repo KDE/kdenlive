@@ -13,8 +13,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QSize>
 #include <utility>
-RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
-    : KeyframeMonitorHelper(monitor, std::move(model), index, MonitorSceneRoto, parent)
+RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QObject *parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), MonitorSceneRoto, parent)
 {
 }
 
@@ -57,8 +57,8 @@ void RotoHelper::refreshParams(int pos)
             controlPoints << QVariant(i.h2);
         }
     }
-    if (m_monitor) {
-        m_monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);
+    if (m_monitor && !centerPoints.isEmpty()) {
+        m_monitor->setUpEffectGeometry(centerPoints, controlPoints);
     }
 }
 

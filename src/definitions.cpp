@@ -11,14 +11,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <utility>
 
 #ifdef CRASH_AUTO_TEST
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
+
 #include <rttr/registration>
+
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
 
 RTTR_REGISTRATION
 {
@@ -56,10 +62,11 @@ CommentedTime::CommentedTime()
 {
 }
 
-CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerType)
+CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerType, const GenTime &duration)
     : m_time(time)
     , m_comment(std::move(comment))
     , m_type(markerType)
+    , m_duration(duration)
 {
 }
 
@@ -435,4 +442,24 @@ QString SubtitleStyle::toString(QString name) const
         .arg(m_marginR)
         .arg(m_marginV)
         .arg(m_encoding);
+}
+
+GenTime CommentedTime::duration() const
+{
+    return m_duration;
+}
+
+void CommentedTime::setDuration(const GenTime &duration)
+{
+    m_duration = duration;
+}
+
+bool CommentedTime::hasRange() const
+{
+    return m_duration.seconds() > 0;
+}
+
+GenTime CommentedTime::endTime() const
+{
+    return m_time + m_duration;
 }

@@ -88,6 +88,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     , Ui::TitleWidget_UI()
     , m_startViewport(nullptr)
     , m_endViewport(nullptr)
+    , m_monitor(monitor)
     , m_count(0)
     , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
     , m_missingMessage(nullptr)
@@ -167,6 +168,14 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     rectLineWidth->setValue(0);
     rectLineWidth->setToolTip(i18n("Border width"));
 
+    // Timecode
+    QHBoxLayout *tclay = new QHBoxLayout(timecode_frame);
+    m_timePos = new TimecodeDisplay(this);
+    tclay->addWidget(m_timePos);
+    m_timePos->setRange(0, pCore->projectDuration());
+    m_timePos->setValue(m_monitor->position());
+    connect(m_timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &TitleWidget::seekTimeline);
+
     itemzoom->setSuffix(i18n("%"));
     QSize profileSize = pCore->getCurrentFrameSize();
     m_frameWidth = qRound(profileSize.height() * pCore->getCurrentDar());
@@ -231,8 +240,8 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(origin_x_left, &QAbstractButton::clicked, this, &TitleWidget::slotOriginXClicked);
     connect(origin_y_top, &QAbstractButton::clicked, this, &TitleWidget::slotOriginYClicked);
 
-    connect(monitor, &Monitor::frameUpdated, this, &TitleWidget::slotGotBackground);
-    connect(this, &TitleWidget::requestBackgroundFrame, monitor, &Monitor::slotGetCurrentImage);
+    connect(m_monitor, &Monitor::frameUpdated, this, &TitleWidget::slotGotBackground);
+    connect(this, &TitleWidget::requestBackgroundFrame, m_monitor, &Monitor::slotGetCurrentImage);
 
     // Position and size
     connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int) { slotValueChanged(ValueWidth); });
@@ -251,17 +260,27 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-    connect(preserveAspectRatio, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState) { slotValueChanged(ValueWidth); });
+    connect(preserveAspectRatio, &QCheckBox::checkStateChanged, this, &TitleWidget::updateItemRatio);
 #else
     connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&]() { slotValueChanged(ValueWidth); });
 #endif
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
+    m_timePos->setEnabled(KdenliveSettings::titlerShowbg());
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(displayBg, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState state) {
 #else
     connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state) {
 #endif
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
+        bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
+        m_timePos->setEnabled(KdenliveSettings::titlerShowbg());
+        displayBackgroundFrame();
+    });
+
+    bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
+    bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
+    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int ix) {
+        KdenliveSettings::setTitlerbg(ix);
         displayBackgroundFrame();
     });
 
@@ -386,51 +405,44 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
-    m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString(QKeySequence::NativeText));
-    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "When selected, a click on an asset in the timeline selects the asset (e.g. clip, composition)."));
+    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move vertically, "
+                                                           "Alt+Shift+Drag to move horizontally, Shift+Drag edge to center resize, Ctrl+Drag to pan."));
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT | Qt::Key_T);
-    m_buttonText->setToolTip(i18n("Add Text") + QLatin1Char(' ') + m_buttonText->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonText, &QAction::triggered, this, &TitleWidget::slotTextTool);
 
     m_buttonRect = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-rect")), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT | Qt::Key_R);
-    m_buttonRect->setToolTip(i18n("Add Rectangle") + QLatin1Char(' ') + m_buttonRect->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonRect, &QAction::triggered, this, &TitleWidget::slotRectTool);
 
     m_buttonEllipse = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("draw-ellipse")), i18n("Add Ellipse"));
     m_buttonEllipse->setCheckable(true);
     m_buttonEllipse->setShortcut(Qt::ALT | Qt::Key_E);
-    m_buttonEllipse->setToolTip(i18n("Add Ellipse") + QLatin1Char(' ') + m_buttonEllipse->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonEllipse, &QAction::triggered, this, &TitleWidget::slotEllipseTool);
 
-    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
+    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image…"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT | Qt::Key_I);
-    m_buttonImage->setToolTip(i18n("Add Image") + QLatin1Char(' ') + m_buttonImage->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
     m_toolbar->addSeparator();
 
-    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Document"));
+    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Title…"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
-    m_buttonLoad->setToolTip(i18n("Open Document") + QLatin1Char(' ') + m_buttonLoad->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
-    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save As"));
+    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Title As…"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL | Qt::Key_S);
-    m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonSave, &QAction::triggered, this, [this]() { saveTitle(); });
 
-    m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates..."), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
+    m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates…"), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
     m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
-    m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString(QKeySequence::NativeText));
     m_toolbar->addAction(m_buttonDownload);
     connect(m_buttonDownload, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
         if (changedEntries.count() > 0) {
@@ -499,12 +511,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
 
-    bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
-    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int ix) {
-        KdenliveSettings::setTitlerbg(ix);
-        displayBackgroundFrame();
-    });
-
     connect(m_scene, &QGraphicsScene::selectionChanged, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::itemMoved, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::sceneZoom, this, &TitleWidget::slotZoom);
@@ -512,6 +518,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_scene, &GraphicsSceneRectMove::newRect, this, &TitleWidget::slotNewRect);
     connect(m_scene, &GraphicsSceneRectMove::newEllipse, this, &TitleWidget::slotNewEllipse);
     connect(m_scene, &GraphicsSceneRectMove::newText, this, &TitleWidget::slotNewText);
+    connect(m_scene, &GraphicsSceneRectMove::scalePixmap, this, &TitleWidget::scalePixmap);
     connect(zoom_slider, &QAbstractSlider::valueChanged, this, &TitleWidget::slotUpdateZoom);
     connect(zoom_spin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateZoom);
 
@@ -566,6 +573,9 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(cancelButton, &QPushButton::clicked, this, [this]() { done(QDialog::Rejected); });
     refreshTitleTemplates(m_projectTitlePath);
 
+    cancelButton->setAutoDefault(false);
+    cancelButton->setDefault(false);
+
     // patterns
 
     m_patternsModel = new PatternsModel(this);
@@ -597,7 +607,11 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
 TitleWidget::~TitleWidget()
 {
-    writePatterns();
+    if (displayBg->isChecked()) {
+        // Ensure frames are not requested anymore
+        m_monitor->sendFrameForAnalysis(false);
+    }
+    writeBaseConfig();
     delete m_patternsModel;
 
     m_scene->blockSignals(true);
@@ -625,6 +639,42 @@ TitleWidget::~TitleWidget()
     delete m_startViewport;
     delete m_endViewport;
     delete m_scene;
+}
+
+void TitleWidget::seekTimeline()
+{
+    m_monitor->sendFrameForAnalysis(true);
+    m_monitor->slotSeek(m_timePos->getValue());
+    // Q_EMIT requestBackgroundFrame(true);
+}
+
+void TitleWidget::updateItemRatio(Qt::CheckState state)
+{
+    QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
+    for (auto &l : list) {
+        switch (l->type()) {
+        case IMAGEITEM:
+            if (state == Qt::Checked) {
+                auto *gi = static_cast<MyPixmapItem *>(l);
+                gi->setData(0, gi->pixmap().width());
+                gi->setData(1, gi->pixmap().height());
+            } else {
+                l->setData(0, QVariant());
+                l->setData(1, QVariant());
+            }
+            break;
+        default:
+            if (state == Qt::Checked) {
+                l->setData(0, l->boundingRect().width());
+                l->setData(1, l->boundingRect().height());
+            } else {
+                l->setData(0, QVariant());
+                l->setData(1, QVariant());
+            }
+            break;
+        }
+    }
+    slotValueChanged(ValueWidth);
 }
 
 // static
@@ -754,8 +804,8 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     currentTitleTemplates.removeDuplicates();
     for (const QString &folderpath : std::as_const(currentTitleTemplates)) {
         QDir folder(folderpath);
-        QStringList filesnames = folder.entryList(filters, QDir::Files);
-        for (const QString &fname : std::as_const(filesnames)) {
+        QStringList filenames = folder.entryList(filters, QDir::Files);
+        for (const QString &fname : std::as_const(filenames)) {
             TitleTemplate t;
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
@@ -852,6 +902,7 @@ void TitleWidget::slotSelectTool()
             t = GraphicsSceneRectMove::TITLE_ELLIPSE;
             break;
         case IMAGEITEM:
+        case QGraphicsSvgItem::Type:
             t = GraphicsSceneRectMove::TITLE_IMAGE;
             break;
         }
@@ -989,8 +1040,9 @@ void TitleWidget::checkButton(GraphicsSceneRectMove::TITLETOOL toolType)
 
 void TitleWidget::displayBackgroundFrame()
 {
-    QRectF r = m_frameBorder->sceneBoundingRect();
     if (!displayBg->isChecked()) {
+        m_monitor->sendFrameForAnalysis(false);
+        const QRectF r = m_frameBorder->sceneBoundingRect();
         switch (KdenliveSettings::titlerbg()) {
         case 0: {
             QPixmap pattern(40, 40);
@@ -1025,9 +1077,10 @@ void TitleWidget::displayBackgroundFrame()
 
 void TitleWidget::slotGotBackground(const QImage &img)
 {
+    qDebug() << "::::::\nGOT BACKGROUND!!!";
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(m_frameWidth, m_frameHeight)));
-    Q_EMIT requestBackgroundFrame(false);
     Q_EMIT updatePatternsBackgroundFrame();
+    Q_EMIT requestBackgroundFrame(false);
 }
 
 void TitleWidget::initAnimation()
@@ -1356,10 +1409,10 @@ void TitleWidget::slotValueChanged(int type)
             // Just update the position. We don't allow setting width/height for text items yet.
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             }
 
@@ -1367,10 +1420,10 @@ void TitleWidget::slotValueChanged(int type)
             auto *rec = static_cast<QGraphicsRectItem *>(l.at(k));
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             case ValueWidth:
                 rec->setRect(QRect(0, 0, val, int(rec->rect().height())));
@@ -1384,10 +1437,10 @@ void TitleWidget::slotValueChanged(int type)
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(l.at(k));
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             case ValueWidth:
                 ellipse->setRect(QRect(0, 0, val, int(ellipse->rect().height())));
@@ -1397,13 +1450,13 @@ void TitleWidget::slotValueChanged(int type)
                 break;
             }
 
-        } else if (l.at(k)->type() == IMAGEITEM) {
+        } else if (l.at(k)->type() == IMAGEITEM || l.at(k)->type() == QGraphicsSvgItem::Type) {
 
             if (type == ValueX) {
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
 
             } else if (type == ValueY) {
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
 
             } else {
                 // Width/height has changed. This is more complex.
@@ -1428,7 +1481,7 @@ void TitleWidget::slotValueChanged(int type)
                 switch (type) {
                 case ValueWidth:
                     // Add 0.5 because otherwise incrementing by 1 might have no effect
-                    length = val / (cos(alpha) + 1 / phi * sin(alpha)) + 0.5;
+                    length = val / (cos(alpha) + 1 / phi * sin(alpha));
                     scalex = length / i->boundingRect().width();
                     if (preserveAspectRatio->isChecked()) {
                         scaley = scalex;
@@ -1466,6 +1519,38 @@ void TitleWidget::slotValueChanged(int type)
     }
 }
 
+void TitleWidget::scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center)
+{
+    Transform t = m_transformations.value(item);
+    t.scalex = scalex;
+    t.scaley = scaley;
+    QTransform qtrans;
+    qtrans.scale(scalex, scaley);
+    qtrans.rotate(t.rotatex, Qt::XAxis);
+    qtrans.rotate(t.rotatey, Qt::YAxis);
+    qtrans.rotate(t.rotatez, Qt::ZAxis);
+    const QRectF original = item->sceneBoundingRect();
+    item->setTransform(qtrans);
+    QPointF pos = item->pos();
+    const QRectF updated = item->sceneBoundingRect();
+    if (center) {
+        QPointF delta((updated.width() - original.width()) / 2., (updated.height() - original.height()) / 2.);
+        pos -= delta;
+    } else {
+        if (resize == GraphicsSceneRectMove::Up || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::TopRight) {
+            pos.ry() += (original.height() - updated.height());
+        }
+        if (resize == GraphicsSceneRectMove::Left || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::BottomLeft) {
+            pos.rx() += (original.width() - updated.width());
+        }
+    }
+    item->setPos(pos);
+    m_transformations[item] = t;
+    updateCoordinates(item);
+    updateDimension(item);
+    updateRotZoom(item);
+}
+
 void TitleWidget::updateDimension(QGraphicsItem *i)
 {
     bool wBlocked = value_w->signalsBlocked();
@@ -1476,7 +1561,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
     zValue->blockSignals(true);
 
     zValue->setValue(int(i->zValue()));
-    if (i->type() == IMAGEITEM) {
+    if (i->type() == IMAGEITEM || i->type() == QGraphicsSvgItem::Type) {
         // Get multipliers for rotation/scaling
 
         /*Transform t = m_transformations.value(i);
@@ -1565,7 +1650,7 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
             value_y->setValue(int(rec->pos().y()));
         }
 
-    } else if (i->type() == IMAGEITEM) {
+    } else if (i->type() == IMAGEITEM || i->type() == QGraphicsSvgItem::Type) {
 
         if (origin_x_left->isChecked()) {
             value_x->setValue(int(m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
@@ -1601,12 +1686,12 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
     itemrotatez->setValue(int(t.rotatez));
 }
 
-void TitleWidget::updatePosition(QGraphicsItem *i)
+void TitleWidget::setItemPosition(QGraphicsItem *i)
 {
-    updatePosition(i, value_x->value(), value_y->value());
+    setItemPosition(i, value_x->value(), value_y->value());
 }
 
-void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
+void TitleWidget::setItemPosition(QGraphicsItem *i, int x, int y)
 {
     if (i->type() == TEXTITEM) {
         auto *rec = static_cast<MyTextItem *>(i);
@@ -1673,7 +1758,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 
         rec->setPos(posX, posY);
 
-    } else if (i->type() == IMAGEITEM) {
+    } else if (i->type() == IMAGEITEM || i->type() == QGraphicsSvgItem::Type) {
         int posX;
         if (origin_x_left->isChecked()) {
             // Use the sceneBoundingRect because this also regards transformations like zoom
@@ -1794,7 +1879,7 @@ void TitleWidget::textChanged(MyTextItem *i)
 
     if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
         if (!i->document()->isEmpty()) {
-            updatePosition(i);
+            setItemPosition(i);
         } else {
             /*
              * Don't do anything if the string is empty. If the position were
@@ -2261,6 +2346,9 @@ QUrl TitleWidget::saveTitle(QUrl url)
         if (!m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_duration->getValue(), embed_image)) {
             KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         } else {
+            // Reload templates in case we saved it in the templates folder
+            refreshTitleTemplates(m_projectTitlePath);
+            refreshTemplateBoxContents();
             return url;
         }
     }
@@ -2279,6 +2367,11 @@ QDomDocument TitleWidget::xml()
 int TitleWidget::duration() const
 {
     return m_duration->getValue();
+}
+
+void TitleWidget::setDuration(int duration)
+{
+    m_duration->setValue(GenTime(duration, m_fps));
 }
 
 void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
@@ -2426,7 +2519,6 @@ void TitleWidget::writeChoices()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
-    titleConfig.writeEntry("dialog_geometry", saveGeometry().toBase64());
     titleConfig.writeEntry("font_family", font_family->currentFont());
     // titleConfig.writeEntry("font_size", font_size->value());
     titleConfig.writeEntry("font_pixel_size", font_size->value());
@@ -2462,6 +2554,10 @@ void TitleWidget::readChoices()
     // read the entries
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
     restoreGeometry(QByteArray::fromBase64(geometry));
+    const QList<int> sizes = titleConfig.readEntry("splitter", QList<int>());
+    if (!sizes.isEmpty()) {
+        splitter->setSizes(sizes);
+    }
     QFont font = titleConfig.readEntry("font_family", font_family->currentFont());
     if (!QFontDatabase::families().contains(font.family())) {
         font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
@@ -3040,7 +3136,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 if (!i->data(TitleDocument::Gradient).toString().isNull()) {
                     gradients_combo->blockSignals(true);
                     gradient_color->setChecked(true);
-                    QString gradientData = i->data(TitleDocument::Gradient).toString();
+                    const QString gradientData = i->data(TitleDocument::Gradient).toString();
                     int ix = gradients_combo->findData(gradientData);
                     if (ix == -1) {
                         // This gradient does not exist in our settings, store it
@@ -3218,14 +3314,20 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
         } else if (referenceItem->type() == IMAGEITEM) {
             showToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
-
             updateCoordinates(referenceItem);
             updateDimension(referenceItem);
             enableToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
             QSignalBlocker bk(preserveAspectRatio);
             Transform t = m_transformations.value(referenceItem);
             preserveAspectRatio->setChecked(qFuzzyCompare(t.scalex, t.scaley));
-
+        } else if (referenceItem->type() == QGraphicsSvgItem::Type) {
+            showToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
+            updateCoordinates(referenceItem);
+            updateDimension(referenceItem);
+            enableToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
+            QSignalBlocker bk(preserveAspectRatio);
+            Transform t = m_transformations.value(referenceItem);
+            preserveAspectRatio->setChecked(qFuzzyCompare(t.scalex, t.scaley));
         } else {
             showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
             enableToolbars(GraphicsSceneRectMove::TITLE_SELECT);
@@ -3279,12 +3381,13 @@ void TitleWidget::slotEditGradient()
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
-        combo->clear();
+        gradients_combo->clear();
         gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradMap.constEnd()) {
             if (i.value().isEmpty()) {
                 // Don't allow empty gradients
+                ++i;
                 continue;
             }
             group.writeEntry(i.key(), i.value());
@@ -3294,7 +3397,7 @@ void TitleWidget::slotEditGradient()
             ix++;
         }
         group.sync();
-        combo->setCurrentIndex(d.selectedGradient());
+        combo->setCurrentIndex(qMax(0, d.selectedGradient()));
     }
 }
 
@@ -3565,21 +3668,26 @@ void TitleWidget::readPatterns()
     btn_removeAll->setEnabled(m_patternsModel->rowCount(QModelIndex()) != 0);
 }
 
-void TitleWidget::writePatterns()
+void TitleWidget::writeBaseConfig()
 {
-
     KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup titleConfig(config, "TitlePatterns");
+    // save window geometry and tool panel width
+    KConfigGroup titleWidget(config, "TitleWidget");
+    titleWidget.writeEntry("dialog_geometry", saveGeometry().toBase64());
+    titleWidget.writeEntry("splitter", splitter->sizes());
 
+    KConfigGroup titleConfig(config, "TitlePatterns");
     int sf = titleConfig.readEntry("scale_factor", scaleSlider->minimum());
 
     // check whether the model was updated or scale slider differs
-    if ((!m_patternsModel->getModifiedCounter()) && (sf == scaleSlider->value())) return;
+    if ((!m_patternsModel->getModifiedCounter()) && (sf == scaleSlider->value())) {
+        config->sync();
+        return;
+    }
 
     // Write the entries
     titleConfig.writeEntry("scale_factor", scaleSlider->value());
     QByteArray ba = m_patternsModel->serialize();
     titleConfig.writeEntry("patterns", ba);
-
     config->sync();
 }

@@ -7,8 +7,8 @@ cmake_minimum_required(VERSION 3.16)
 # stable release. An additional number can be used for bugfix-only releases.
 
 # KDE Application Version, managed by release script
-set (RELEASE_SERVICE_VERSION_MAJOR "25")
-set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MAJOR "26")
+set (RELEASE_SERVICE_VERSION_MINOR "03")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
@@ -25,7 +25,6 @@ option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR lib
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
-option(FETCH_OTIO "Use CMake FetchContent to download and build the OpenTimelineIO dependency" ON)
 
 # shall we use DBus?
 # enabled per default on Linux & BSD systems
@@ -39,8 +38,8 @@ option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" OFF)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
-set(MLT_MIN_MINOR_VERSION 28)
-set(MLT_MIN_PATCH_VERSION 0)
+set(MLT_MIN_MINOR_VERSION 34)
+set(MLT_MIN_PATCH_VERSION 1)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 # Qt version
@@ -53,13 +52,6 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 6)
 endif()
-
-# The dependencies (currently only OpenTimelineIO) are located in a
-# subdirectory so their CMake variables are not exposed to the main project.
-#
-# Note that this needs to come before the KDECompilerSettings. OTIO is not
-# compatible with the KDE compiler flag "-fno-operator-names".
-add_subdirectory(deps)
 
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -75,8 +67,11 @@ include(ECMAddQch)
 include(ECMDeprecationSettings)
 include(ECMQmlModule)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
-# MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
-if(NOT MSVC)
+if(MSVC)
+    # kdenliveLib.dir\Unity\unity_qmlcache_cxx.cxx : fatal error C1128: number of sections exceeded object file format limit: compile with /bigobj
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+else()
+    # MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
 endif()
 
@@ -128,11 +123,14 @@ find_package(Qt${QT_MAJOR_VERSION}
     Concurrent
     QuickWidgets
     Multimedia
+    MultimediaWidgets
     NetworkAuth
     SvgWidgets
     Xml
-#    Test
+    # Test
 )
+
+find_package(KDDockWidgets-qt6 2.4.0 REQUIRED)
 
 if(USE_DBUS)
     find_package(KF${KF_MAJOR} ${KF_DEP_VERSION} REQUIRED COMPONENTS DBusAddons)
@@ -142,39 +140,35 @@ add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt${QT_MAJOR_VERSION}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # MLT
-find_package(MLT ${MLT_MIN_VERSION} REQUIRED)
-set_package_properties(MLT PROPERTIES DESCRIPTION "Multimedia framework"
+find_package(Mlt7 ${MLT_MIN_VERSION} REQUIRED COMPONENTS xml)
+set_package_properties(Mlt7 PROPERTIES DESCRIPTION "Multimedia framework"
                 URL "https://mltframework.org"
                 PURPOSE "Required to do video processing")
-message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 
 # LibAV
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
-    libavformat
-    libavcodec
-    libswresample
-    libavutil
+find_package(FFmpeg REQUIRED COMPONENTS
+    AVFORMAT
+    AVCODEC
+    SWRESAMPLE
+    AVUTIL
 )
 
 # OpenTimelineIO
-if(FETCH_OTIO)
-    include_directories(${otio_SOURCE_DIR}/src)
-    # Enable exceptions for OTIO and dependencies.
-    kde_target_enable_exceptions(opentime PUBLIC)
-    kde_target_enable_exceptions(opentimelineio PUBLIC)
-    kde_target_enable_exceptions(Imath PUBLIC)
-else()
-    find_package(OpenTimelineIO REQUIRED)
-    # Work around for header oddity with OTIO and Imath
-    find_package(Imath REQUIRED)
-    get_target_property(IMATH_INCLUDE_DIRS Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
-    include_directories("${IMATH_INCLUDE_DIRS}/Imath")
-    set_package_properties(OpenTimelineIO PROPERTIES
-        DESCRIPTION "API and interchange format for editorial timeline information"
-        URL "http://opentimeline.io/"
-        PURPOSE "Required for OpenTimelineIO import and export")
-endif()
+
+# It is highly recommended to use OTIO 0.18.0 or newer!
+# Unfortunately we can not enforce this at the moment because OTIO does not install
+# a VersionConfig.cmake file. This should be adjusted once fixed upstream.
+# See https://github.com/AcademySoftwareFoundation/OpenTimelineIO/pull/1981
+find_package(OpenTimelineIO REQUIRED)
+# Work around for header oddity with OTIO and Imath, this is fixed in OTIO 0.18.0
+find_package(Imath REQUIRED)
+get_target_property(IMATH_INCLUDE_DIRS Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
+include_directories("${IMATH_INCLUDE_DIRS}/Imath")
+# < workaround end
+set_package_properties(OpenTimelineIO PROPERTIES
+    DESCRIPTION "API and interchange format for editorial timeline information"
+    URL "http://opentimeline.io/"
+    PURPOSE "Required for OpenTimelineIO import and export, at least version 0.18.0 is highly recommended")
 
 # Windows
 include(CheckIncludeFiles)
@@ -201,7 +195,7 @@ endif()
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")
-if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
+if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
   # Probably a Git workspace; determine the revision.
   find_package(Git QUIET)
   if(GIT_FOUND)
@@ -209,7 +203,7 @@ if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
 	  ARGS "log -n 1 --pretty=format:\"%h\""
       OUTPUT_VARIABLE KDENLIVE_GIT_REVISION)
     message(STATUS "Kdenlive Git revision: ${KDENLIVE_GIT_REVISION}")
-    set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION} (rev. ${KDENLIVE_GIT_REVISION})")
+    set(KDENLIVE_FULL_VERSION_STRING "${KDENLIVE_VERSION} - rev. ${KDENLIVE_GIT_REVISION}")
   else()
     message(STATUS "Kdenlive Git revision could not be determined")
   endif()
@@ -264,6 +258,7 @@ ecm_qt_install_logging_categories(
 # Tests
 if(BUILD_TESTING)
     add_subdirectory(tests)
+    add_subdirectory(appiumtests)
 endif()
 if(BUILD_FUZZING AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     add_subdirectory(fuzzer)

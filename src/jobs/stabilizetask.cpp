@@ -38,7 +38,7 @@ StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const 
 
 void StabilizeTask::start(QObject *, bool force)
 {
-    std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
+    std::vector<QString> binIds = pCore->activeBin()->selectedClipsIds(true);
     QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, QStringLiteral("vidstab"), QApplication::activeWindow()));
     if (d->exec() == QDialog::Accepted) {
         std::unordered_map<QString, QVariant> filterParams = d->filterParams();
@@ -91,6 +91,7 @@ void StabilizeTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
     qDebug() << " + + + + + + + + STARTING STAB TASK";
 
@@ -160,15 +161,16 @@ void StabilizeTask::run()
     QProcess filterProcess;
     producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("all=1")
                  << QStringLiteral("terminate_on_pause=1");
-    m_jobProcess.reset(new QProcess);
+    m_jobProcess = new QProcess;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
-    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &StabilizeTask::processLogInfo);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &StabilizeTask::processLogInfo);
     qDebug() << "=== STARTING PROCESS: " << producerArgs;
     m_jobProcess->start(KdenliveSettings::meltpath(), producerArgs);
     m_jobProcess->waitForFinished(-1);
     qDebug() << " + + + + + + + + SOURCE FILE PROCESSED: " << m_jobProcess->exitStatus();
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (m_isCanceled || !result) {

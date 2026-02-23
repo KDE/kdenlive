@@ -24,6 +24,8 @@ public:
      * @param text the text
     */
     void addTextNote(const QString &text);
+    bool selectionHasAnchors() const;
+    QPair<QStringList, QList<QPoint>> getAllAnchors();
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
@@ -35,14 +37,16 @@ protected:
 public Q_SLOTS:
     void createMarkers();
     void assignProjectNote();
+    void assignProjectNoteToTimelineClip();
 
 private:
-    void createMarker(const QStringList &anchors);
+    void createMarker(const QStringList &anchors, const QList<QPoint> &points = {});
     QPair <QStringList, QList <QPoint> > getSelectedAnchors();
+    QPair<QStringList, QList<QPoint>> getAnchors(int startPos, int endPos);
 
 Q_SIGNALS:
     void insertNotesTimecode();
     void insertTextNote(const QString &text);
     void seekProject(const QString);
-    void reAssign(QStringList anchors, QList <QPoint> points);
+    void reAssign(const QStringList anchors, const QList<QPoint> points, QString bid = QString(), int offset = 0);
 };

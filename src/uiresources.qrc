@@ -5,8 +5,10 @@
     <qresource prefix="/data">
         <file alias="included_effects.txt">../data/included_effects.txt</file>
         <file alias="excluded_effects.txt">../data/excluded_effects.txt</file>
+        <file alias="hidden_effects.txt">../data/hidden_effects.txt</file>
         <file alias="included_transitions.txt">../data/included_transitions.txt</file>
         <file alias="excluded_transitions.txt">../data/excluded_transitions.txt</file>
+        <file alias="hidden_transitions.txt">../data/hidden_transitions.txt</file>
         <file alias="preferred_effects.txt">../data/preferred_effects.txt</file>
         <file alias="kdenlive_renderprofiles.knsrc">../data/knewstuff/kdenlive_renderprofiles.knsrc</file>
         <file alias="kdenlive_titles.knsrc">../data/knewstuff/kdenlive_titles.knsrc</file>

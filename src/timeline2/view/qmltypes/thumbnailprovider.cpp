@@ -35,7 +35,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
         if (binClip) {
             int duration = binClip->frameDuration();
-            if (frameNumber > duration) {
+            if (frameNumber > duration && duration > 0) {
                 // for endless loopable clips, we rewrite the position
                 frameNumber = frameNumber - ((frameNumber / duration) * duration);
             }

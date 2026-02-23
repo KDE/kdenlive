@@ -13,9 +13,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KMessageWidget>
 
-#include <QString>
-#include <QTreeWidget>
+#include <QFutureWatcher>
 #include <QLabel>
+#include <QString>
+#include <QStyledItemDelegate>
+#include <QTreeWidget>
 
 #include <mlt++/Mlt.h>
 
@@ -31,6 +33,17 @@ class QSpinBox;
 class QSortFilterProxyModel;
 class QHBoxLayout;
 class QVBoxLayout;
+
+class PropertiesDelegate : public QStyledItemDelegate
+{
+
+public:
+    PropertiesDelegate(QObject *parent);
+
+protected:
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+};
 
 class AnalysisTree : public QTreeWidget
 {
@@ -66,6 +79,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void slotColorModified(const QColor &newcolor);
+    void slotTimecodeChanged(int value);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotDeleteAnalysis();
@@ -74,12 +88,17 @@ private Q_SLOTS:
     void slotAspectValueChanged(int);
     void slotTextChanged();
     void updateTab(int ix);
+    void extractInfo(const QString &url);
+    void addMetadata(const QMap<QString, QString> meta);
 
 private:
     ClipController *m_controller;
     QTabWidget *m_tabWidget;
     ElidedFileLinkLabel *m_clipLabel;
     QString m_id;
+    QFutureWatcher<void> m_watcher;
+    QFuture<void> m_extractJob;
+    bool m_closing{false};
     ClipType::ProducerType m_type;
     /** @brief: the properties of the active producer (can be a proxy) */
     std::shared_ptr<Mlt::Properties> m_properties;
@@ -122,6 +141,7 @@ private:
     QHBoxLayout *doubleSpinboxProperty(const QString &label, const QString &propertyName, double maxValue, double defaultValue = 0);
     QHBoxLayout *proxyProperty(const QString &label, const QString &propertyName);
     QHBoxLayout *durationProperty(const QString &label, const QString &propertyName);
+    QHBoxLayout *timecodeProperty(const QString &label, const QString &propertyName);
     QHBoxLayout *aspectRatioProperty(const QString &label);
     QVBoxLayout *textProperty(const QString &label, const QString &propertyName);
 
@@ -131,7 +151,10 @@ private:
 Q_SIGNALS:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
     void colorModified(const QColor &);
-    void modified(int);
+    /** @brief Duration value needs to be reloaded. */
+    void durationModified(int);
+    /** @brief Timecode value needs to be reloaded. */
+    void timecodeModified(int);
     void updateTimeCodeFormat();
     /** @brief Seek clip monitor to a frame. */
     void seekToFrame(int);

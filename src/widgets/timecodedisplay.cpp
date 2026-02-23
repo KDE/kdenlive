@@ -8,12 +8,81 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
+#include <QApplication>
 #include <QFontDatabase>
 #include <QLineEdit>
 #include <QMouseEvent>
 #include <QStyle>
 
 #include <KColorScheme>
+
+PopupInput::PopupInput(QWidget *parent)
+    : QWidget(parent)
+{
+    setWindowFlags(Qt::Popup);
+    m_lineedit = new PopupLineEdit(this);
+    m_lineedit->setValidator(new QIntValidator(this));
+
+    connect(m_lineedit, &PopupLineEdit::focusOuted, this, &PopupInput::hide);
+    connect(m_lineedit, &QLineEdit::returnPressed, this, &PopupInput::handleEditingFinished);
+}
+
+void PopupInput::Popup(const QString text, QPoint pos, QPoint size)
+{
+    m_lineedit->clear();
+    move(pos);
+    m_lineedit->resize(size.x(), size.y());
+    m_lineedit->setText(text);
+    show();
+    m_lineedit->setFocus(Qt::MouseFocusReason);
+}
+
+QString PopupInput::getText()
+{
+    return m_lineedit->text();
+}
+
+void PopupInput::handleEditingFinished()
+{
+    Q_EMIT PopupInput::editingFinished();
+}
+
+void PopupLineEdit::focusOutEvent(QFocusEvent *event)
+{
+    Q_EMIT PopupLineEdit::focusOuted();
+    QLineEdit::focusOutEvent(event);
+}
+
+void PopupLineEdit::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+        event->setAccepted(true);
+        clearFocus();
+        Q_EMIT QLineEdit::returnPressed();
+        return;
+    }
+
+    QLineEdit::keyPressEvent(event);
+}
+
+void PopupLineEdit::mousePressEvent(QMouseEvent *event)
+{
+    if (!rect().contains(event->pos())) {
+        clearFocus();
+        return;
+    }
+
+    QLineEdit::mousePressEvent(event);
+}
+
+PopupLineEdit::PopupLineEdit(QWidget *parent)
+    : QLineEdit(parent)
+{
+    /*
+    setWindowFlags(Qt::Popup);
+    setMinimumWidth(parent->minimumWidth() * 0.5);
+    setValidator(new QIntValidator(this));*/
+}
 
 TimecodeValidator::TimecodeValidator(QObject *parent)
     : QValidator(parent)
@@ -39,6 +108,8 @@ TimecodeDisplay::TimecodeDisplay(QWidget *parent, bool autoAdjust)
     if (pCore && autoAdjust) {
         connect(pCore.get(), &Core::updateProjectTimecode, this, &TimecodeDisplay::refreshTimeCode);
     }
+    installEventFilter(this);
+    lineEdit()->installEventFilter(this);
 }
 
 TimecodeDisplay::TimecodeDisplay(QWidget *parent, const Timecode &t)
@@ -50,6 +121,8 @@ TimecodeDisplay::TimecodeDisplay(QWidget *parent, const Timecode &t)
     , m_value(0)
     , m_offset(0)
 {
+    installEventFilter(this);
+    lineEdit()->installEventFilter(this);
     const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);
     setFont(ft);
@@ -66,7 +139,11 @@ TimecodeDisplay::TimecodeDisplay(QWidget *parent, const Timecode &t)
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
     setAccelerated(true);
+    setMinimumHeight(lineEdit()->sizeHint().height());
     connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
+
+    m_popupInput = new PopupInput(this);
+    connect(m_popupInput, &PopupInput::editingFinished, this, &TimecodeDisplay::onPopupInputFinished);
 }
 
 // virtual protected
@@ -125,6 +202,9 @@ void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
         e->setAccepted(true);
         clearFocus();
+    } else if (e->key() == Qt::Key_Plus || e->key() == Qt::Key_Minus) {
+        e->setAccepted(true);
+        m_popupInput->Popup(e->text(), mapToGlobal(QPoint(width() * 0.5, height())), QPoint(width() * 0.5, height()));
     } else {
         QAbstractSpinBox::keyPressEvent(e);
     }
@@ -230,6 +310,12 @@ void TimecodeDisplay::setValue(const GenTime &value)
     setValue((int)value.frames(m_timecode.fps()));
 }
 
+void TimecodeDisplay::onPopupInputFinished()
+{
+    setValue(getValue() + m_popupInput->getText().toInt());
+    Q_EMIT timeCodeEditingFinished(m_value);
+}
+
 void TimecodeDisplay::slotEditingFinished()
 {
     lineEdit()->deselect();
@@ -251,9 +337,19 @@ void TimecodeDisplay::selectAll()
     lineEdit()->selectAll();
 }
 
-void TimecodeDisplay::setOffset(int offset)
+void TimecodeDisplay::setMsOffset(int offset)
 {
     m_offset = GenTime(offset / 1000.).frames(m_timecode.fps());
+    // Update timecode display
+    if (!m_frametimecode) {
+        lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));
+        Q_EMIT timeCodeUpdated();
+    }
+}
+
+void TimecodeDisplay::setFrameOffset(int offset)
+{
+    m_offset = offset;
     // Update timecode display
     if (!m_frametimecode) {
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));
@@ -266,4 +362,121 @@ void TimecodeDisplay::setBold(bool enable)
     QFont font = lineEdit()->font();
     font.setBold(enable);
     lineEdit()->setFont(font);
+}
+
+bool TimecodeDisplay::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == lineEdit()) {
+        QEvent::Type type = event->type();
+        QList<QEvent::Type> handledTypes = {
+            QEvent::ContextMenu, QEvent::MouseButtonPress, QEvent::MouseButtonRelease, QEvent::MouseMove, QEvent::Wheel, QEvent::Enter, QEvent::Leave,
+            QEvent::FocusIn,     QEvent::FocusOut};
+        if (!isEnabled() && handledTypes.contains(type)) {
+            // Widget is disabled
+            event->accept();
+            return true;
+        }
+        if (type == QEvent::ContextMenu) {
+            // auto *me = static_cast<QContextMenuEvent *>(event);
+            // Q_EMIT showMenu(me->globalPos());
+            event->accept();
+            return true;
+        }
+        if (type == QEvent::MouseButtonPress) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            m_dragging = false;
+            if (!lineEdit()->hasFocus()) {
+                m_editing = false;
+            }
+            if (me->buttons() & Qt::LeftButton) {
+                m_clickPos = me->position();
+                m_cursorClickPos = lineEdit()->cursorPositionAt(m_clickPos.toPoint());
+                m_clickMouse = QCursor::pos();
+                if (!lineEdit()->hasFocus()) {
+                    event->accept();
+                    return true;
+                }
+            }
+        }
+        if (type == QEvent::Wheel) {
+            auto *we = static_cast<QWheelEvent *>(event);
+            int mini = 1;
+            int factor = qMax(mini, (maximum() - minimum()) / 200);
+            factor = qMin(4, factor);
+            if (we->modifiers() & Qt::ControlModifier) {
+                factor *= 5;
+            } else if (we->modifiers() & Qt::ShiftModifier) {
+                factor = mini;
+            }
+            if (we->angleDelta().y() > 0) {
+                setValue(m_value + factor);
+                slotEditingFinished();
+            } else if (we->angleDelta().y() < 0) {
+                setValue(m_value - factor);
+                slotEditingFinished();
+            }
+            event->accept();
+            return true;
+        }
+        if (type == QEvent::MouseMove) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (me->buttons() & Qt::LeftButton) {
+                QPointF movePos = me->position();
+                if (!m_editing) {
+                    if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
+                        QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
+                        m_dragging = true;
+                        m_clickPos = movePos;
+                        lineEdit()->clearFocus();
+                    }
+                    if (m_dragging) {
+                        int delta = movePos.x() - m_clickPos.x();
+                        if (delta != 0) {
+                            m_clickPos = movePos;
+                            int mini = 1;
+                            int factor = qMax(mini, (maximum() - minimum()) / 200);
+                            factor = qMin(4, factor);
+                            if (me->modifiers() & Qt::ControlModifier) {
+                                factor *= 5;
+                            } else if (me->modifiers() & Qt::ShiftModifier) {
+                                factor = mini;
+                            }
+                            setValue(m_value + factor * delta);
+                            slotEditingFinished();
+                        }
+                    }
+                    event->accept();
+                    return true;
+                }
+            }
+        }
+        if (type == QEvent::MouseButtonRelease) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (me->button() == Qt::MiddleButton) {
+                event->accept();
+                return true;
+            }
+            if (m_dragging) {
+                QCursor::setPos(m_clickMouse);
+                QGuiApplication::restoreOverrideCursor();
+                m_dragging = false;
+                event->accept();
+                return true;
+            } else {
+                m_editing = true;
+                lineEdit()->setFocus(Qt::MouseFocusReason);
+            }
+        }
+        if (type == QEvent::Enter) {
+            if (!m_editing) {
+                event->accept();
+                return true;
+            }
+        }
+    } else {
+        if (event->type() == QEvent::FocusOut) {
+            m_editing = false;
+        }
+    }
+    return QObject::eventFilter(watched, event);
 }

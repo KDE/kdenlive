@@ -11,8 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "colorscopes/abstractgfxscopewidget.h"
 
 #include <QList>
+#include <kddockwidgets/DockWidget.h>
 
-class QDockWidget;
 class AbstractMonitor;
 class QSignalMapper;
 
@@ -58,11 +58,11 @@ public:
       receives data when required.
       \see addScope(AbstractGfxScopeWidget, QDockWidget)
       */
-    bool addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *audioScopeWidget = nullptr);
+    bool addScope(AbstractAudioScopeWidget *audioScope, KDDockWidgets::QtWidgets::DockWidget *audioScopeWidget = nullptr);
     /**
       \see addScope(AbstractAudioScopeWidget, QDockWidget)
       */
-    bool addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget = nullptr);
+    bool addScope(AbstractGfxScopeWidget *colorScope, KDDockWidgets::QtWidgets::DockWidget *colorScopeWidget = nullptr);
 
     const QStringList getScopesNames() const;
 

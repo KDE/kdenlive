@@ -31,6 +31,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int seekFinished MEMBER m_seekFinished NOTIFY seekFinishedChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
+    Q_PROPERTY(bool audioSynced MEMBER m_audioSynced WRITE setAudioSynced NOTIFY audioSyncedChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight WRITE setRulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment MEMBER m_markerComment NOTIFY markerChanged)
     Q_PROPERTY(QColor markerColor MEMBER m_markerColor NOTIFY markerChanged)
@@ -41,13 +42,13 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(bool showSafezone READ showSafezone WRITE setShowSafezone NOTIFY showSafezoneChanged)
     Q_PROPERTY(int maskOpacity READ maskOpacity WRITE setMaskOpacity NOTIFY maskOpacityChanged)
     Q_PROPERTY(bool maskInverted READ maskInverted WRITE setMaskInverted)
     Q_PROPERTY(MaskModeType::MaskCreationMode maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
-    Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
-    Q_PROPERTY(bool builtinEffectsEnabled MEMBER m_builtinEffectsEnabled NOTIFY builtinEffectsEnabledChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QStringList lastClips MEMBER m_lastClips NOTIFY lastClipsChanged)
+    Q_PROPERTY(QString dragType MEMBER m_dragType NOTIFY dragTypeChanged)
     /** @brief Returns true if current clip in monitor has Audio and Video
      * */
     Q_PROPERTY(bool clipHasAV MEMBER m_hasAV NOTIFY clipHasAVChanged)
@@ -64,6 +65,8 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList<int> jobsProgress MEMBER m_jobsProgress NOTIFY jobsProgressChanged)
     Q_PROPERTY(QStringList jobsUuids MEMBER m_jobsUuids NOTIFY jobsProgressChanged)
     Q_PROPERTY(bool monitorIsActive READ monitorIsActive NOTIFY activeMonitorChanged)
+    Q_PROPERTY(bool isKeyframe READ isKeyframe WRITE setIsKeyframe NOTIFY isKeyframeChanged)
+    Q_PROPERTY(bool cursorOutsideEffect READ cursorOutsideEffect WRITE setCursorOutsideEffect NOTIFY cursorOutsideEffectChanged)
 
 public:
     MonitorProxy(VideoWidget *parent);
@@ -71,7 +74,9 @@ public:
      * */
     int rulerHeight() const;
     int overlayType() const;
+    bool showSafezone() const;
     void setOverlayType(int ix);
+    void setShowSafezone(bool display);
     int maskOpacity() const;
     void setMaskOpacity(int opacity);
     bool maskInverted() const;
@@ -112,17 +117,32 @@ public:
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     Q_INVOKABLE void terminateJob(const QString &uuid);
+    Q_INVOKABLE void refreshAudio();
+    /** @brief Resize a range marker in monitor view
+     * @param position The marker position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeMarker(int position, int duration, bool isStart = false, int newPosition = -1);
+    /** @brief Create a range marker from the current monitor zone
+     * @param comment Optional comment for the marker
+     * @param type Marker type
+     * @return true if successful
+     */
+    Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
     QPoint profile();
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
-    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
+    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced);
     void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
     void setAudioStream(const QString &name);
     void setRulerHeight(int height);
+    void setAudioSynced(bool synced);
     /** @brief Store a reference to the timecode display */
     void setTimeCode(TimecodeDisplay *td);
     /** @brief Set position in frames to be displayed in the monitor overlay for preview tile one
      *  @param frames Position in frames
-     *  @param isRelative Whether @p frames is the absoulute position (overwrite current) or an offset position (subtract from current)
+     *  @param isRelative Whether @p frames is the absolute position (overwrite current) or an offset position (subtract from current)
      */
     void setTrimmingTC1(int frames, bool isRelativ = false);
     /** @brief Set position in frames to be displayed in the monitor overlay for preview tile two
@@ -137,8 +157,13 @@ public:
     void setCursorPosition(int pos);
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
     void clearJobsProgress();
-    void buildInEffectsChanged();
     bool monitorIsActive() const;
+    void setIsKeyframe(bool isKeyframe);
+    bool isKeyframe() const;
+    void setCursorOutsideEffect(bool isOutside);
+    bool cursorOutsideEffect() const;
+    const QString dragType();
+    void setDragType(QString dragType);
 
 Q_SIGNALS:
     void positionChanged(int);
@@ -148,14 +173,15 @@ Q_SIGNALS:
     void saveZone(const QPoint zone);
     void saveZoneWithUndo(const QPoint, const QPoint&);
     void markerChanged();
+    void audioSyncedChanged();
     void rulerHeightChanged();
     void addSnap(int);
     void removeSnap(int);
     void triggerAction(const QString &name);
     void overlayTypeChanged();
+    void showSafezoneChanged();
     void maskOpacityChanged();
     void maskModeChanged();
-    void showGridChanged();
     void builtinEffectsEnabledChanged();
     void addRemoveKeyframe(bool addOnly = false);
     /** @brief Seek to an effect keyframe
@@ -183,11 +209,16 @@ Q_SIGNALS:
     void lastClipsChanged();
     /** @brief Switch to another clip at the same time position that uses the same effect scene*/
     void switchFocusClip();
-    /** @brief Enable build-in transform effect*/
+    /** @brief Enable built-in transform effect*/
     void enableTransform();
     void previewOverlayChanged();
     void refreshMask();
     void activeMonitorChanged();
+    void isKeyframeChanged();
+    void cursorOutsideEffectChanged();
+    void dragTypeChanged();
+    /** @brief Trigger a rebuild of the audio waveform */
+    void rebuildAudio(int cid);
 
 private:
     VideoWidget *q;
@@ -196,17 +227,16 @@ private:
     int m_zoneOut;
     bool m_hasAV;
     double m_speed;
-    bool m_showGrid{false};
     QList <int> m_audioStreams;
     QList <int> m_audioChannels;
     QString m_markerComment;
     QColor m_markerColor;
-    bool m_builtinEffectsEnabled{false};
     QString m_clipName;
     QString m_clipStream;
     int m_clipType;
     int m_clipId;
     bool m_seekFinished;
+    bool m_audioSynced{false};
     QPoint m_undoZone;
     TimecodeDisplay *m_td;
     int m_trimmingFrames1;
@@ -217,8 +247,11 @@ private:
     QList<int> m_jobsProgress;
     QStringList m_jobsUuids;
     QVector<std::pair<int, QString>> m_lastClipsIds;
+    QString m_dragType;
     QStringList m_lastClips;
     bool m_switchFlag{false};
+    bool m_isKeyframe{false};
+    bool m_cursorOutsideEffect{true};
 
 protected:
     QUrl m_previewOverlay;

@@ -178,12 +178,19 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_mixWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
     m_maskManager->setVisible(false);
+    connect(this, &AssetPanel::slotSwitchCollapseAll, m_effectStackWidget, &EffectStackView::slotSwitchCollapseAll);
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
     connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);
     connect(m_effectStackWidget, &EffectStackView::checkDragScrolling, this, &AssetPanel::checkDragScroll);
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_effectStackWidget, &EffectStackView::abortSam, m_maskManager, &MaskManager::abortPreviewByMonitor);
+    connect(m_effectStackWidget, &EffectStackView::effectsCountChanged, this, [&]() {
+        if (m_effectStackWidget->isEmpty()) {
+            m_splitButton->setActive(false);
+        }
+        m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
+    });
     connect(m_maskManager, &MaskManager::progressUpdate, m_effectStackWidget, &EffectStackView::updateSamProgress);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_mixWidget, &MixStackView::seekToTransPos, this, &AssetPanel::seekToPos);
@@ -292,17 +299,13 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_applyEffectGroups->menuAction()->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setVisible(true);
-    m_showMaskPanel->setVisible(true);
+    auto avStack = pCore->assetHasAV(id);
+    // Only show on item with video
+    m_showMaskPanel->setVisible(avStack.second);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
         m_splitButton->setEnabled(effectsModel->rowCount() > 0);
-        QObject::connect(effectsModel.get(), &EffectStackModel::customDataChanged, this, [&]() {
-            if (m_effectStackWidget->isEmpty()) {
-                m_splitButton->setActive(false);
-            }
-            m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
-        });
     }
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setActive(showKeyframes);
@@ -437,10 +440,10 @@ void AssetPanel::scrollTo(QRect rect)
 {
     // Ensure the scrollview widget adapted its height to the effectstackview height change
     m_sc->widget()->adjustSize();
-    if (rect.height() < m_sc->height()) {
-        m_sc->ensureVisible(0, rect.y() + rect.height(), 0, 0);
+    if (rect.y() < m_sc->verticalScrollBar()->value()) {
+        m_sc->ensureVisible(0, rect.y(), 0, 0);
     } else {
-        m_sc->ensureVisible(0, rect.y() + m_sc->height(), 0, 0);
+        m_sc->ensureVisible(0, rect.y() + qMin(m_sc->height(), rect.height()), 0, 0);
     }
 }
 
@@ -477,7 +480,7 @@ void AssetPanel::slotCheckWheelEventFilter()
     Q_EMIT m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
-void AssetPanel::assetPanelWarning(const QString &service, const QString & /*id*/, const QString &message)
+void AssetPanel::assetPanelWarning(const QString &service, const QString &message, const QString &log)
 {
     QString finalMessage;
     if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {
@@ -485,6 +488,12 @@ void AssetPanel::assetPanelWarning(const QString &service, const QString & /*id*
         if (!effectName.isEmpty()) {
             finalMessage = QStringLiteral("<b>") + effectName + QStringLiteral("</b><br />");
         }
+    }
+    m_infoMessage->clearActions();
+    if (!log.isEmpty()) {
+        QAction *showLog = new QAction(i18n("Show log"), m_infoMessage);
+        m_infoMessage->addAction(showLog);
+        connect(showLog, &QAction::triggered, showLog, [log]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Detailed log"), log); });
     }
     finalMessage.append(message);
     m_infoMessage->setText(finalMessage);

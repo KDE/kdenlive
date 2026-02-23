@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTemporaryFile>
 
 class QAction;
+class QButtonGroup;
 
 /**
  * @class SpeechDialog
@@ -34,6 +35,7 @@ public:
 private:
     std::unique_ptr<QProcess> m_speechJob;
     const std::shared_ptr<TimelineItemModel> m_timeline;
+    QButtonGroup *m_buttonGroup;
     QPoint m_zone;
     int m_tid;
     int m_duration;

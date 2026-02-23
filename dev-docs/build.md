@@ -4,44 +4,47 @@
 
 Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build Kdenlive on Microsoft Windows and macOS using Craft](#build-craft). For Windows also [other possibilities exist](https://community.kde.org/Kdenlive/Development/WindowsBuild).
 
-Currently supported distributions are:
+Currently supported GNU/Linux distributions are:
 
-* Ubuntu 24.10 Oracular Oriolea and derivatives
+* Ubuntu 25.10 (Questing Quokka) and derivatives, or later.
 * Arch Linux
-* All platforms fulfilling the requirements described below
 
-The minimum required dependencies are: Qt >= 6.6.0, KF6 >= 6.0, MLT >= 7.22.0.
+But it should work on any platforms fulfilling the requirements described below
 
-Kdenlive droped Qt5 support with version 24.12
+The minimum required dependencies are:
+- [Qt](https://doc.qt.io/) >= 6.6.0 (Kdenlive dropped Qt5 support with version 24.12)
+- [KDE frameworks 6 (KF6)](https://develop.kde.org/products/frameworks/) >= 6.3,
+- [MLT](https://www.mltframework.org/) >= 7.28.0.
 
-## Build on Linux
-
-### Base procedure
+## Building on Linux
 
 Kdenlive usually requires the latest version of MLT, in which go several API updates, bugfixes and optimizations.
-On Ubuntu, the easiest way is to add [Kdenlive's ppa](https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master)
-
-```bash
-sudo add-apt-repository ppa:kdenlive/kdenlive-master
-sudo apt update
-```
+So, except if your distribution ships a very recent version of MLT, you'll have to build MLT alongside kdenlive.
 
 It is recommended to uninstall the official kdenlive packages to avoid potential conflicts.
 
 ```bash
+# Debian/Ubuntu
 sudo apt remove kdenlive kdenlive-data
+
+# Arch Linux
+sudo pacman -R kdenlive
 ```
 
-
-#### Get the build dependencies
-
+### Get the build dependencies
 
 First, make sure you have the required tooling installed:
 
 ```bash
+# Debian/Ubuntu
 sudo apt install build-essential git cmake extra-cmake-modules libsm-dev clang-format
-# Optional for faster builds install Ninja
+# For faster builds install Ninja
 sudo apt install ninja-build
+
+# Arch Linux
+sudo pacman -S base-devel git cmake extra-cmake-modules libx11
+# Optional for faster builds install Ninja
+sudo pacman -S ninja
 ```
 
 You can use your distribution packages information (if not too old) to easily get a complete build environment:
@@ -49,6 +52,8 @@ You can use your distribution packages information (if not too old) to easily ge
 ```bash
 # Debian/Ubuntu -- Enable deb-src entries /etc/apt/sources beforehand
 sudo apt build-dep mlt kdenlive
+# Arch Linux -- Install expac beforehand
+sudo pacman -S $(expac -S "%D" mlt) $(expac -S "%D" kdenlive)
 # Fedora/CentOS -- Install builddep beforehand
 dnf builddep mlt kdenlive
 # OpenSUSE
@@ -59,7 +64,8 @@ Or install the dependencies explicitly:
 ```bash
 # Qt6 modules
 sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev \
-qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop
+qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop \
+qt6-declarative-private-dev
 
 # KDE Frameworks 6, based on Qt6
 sudo apt install kf6-breeze-icon-theme libkf6archive-dev libkf6bookmarks-dev \
@@ -69,92 +75,133 @@ libkf6guiaddons-dev libkf6iconthemes-dev libkf6kio-dev libkf6newstuff-dev \
 libkf6notifications-dev libkf6notifyconfig-dev libkf6purpose-dev \
 libkf6solid-dev libkf6textwidgets-dev libkf6widgetsaddons-dev libkf6xmlgui-dev
 
+# KDE Style Breeze
+sudo apt install kde-style-breeze
+
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg mediainfo
 
-# MLT, except if you want to build it manually
-sudo apt install libmlt++-dev libmlt-dev melt
+sudo apt install  ladspa-sdk libfftw3-dev libsdl1.2-dev libxine2-dev debhelper \
+libarchive-dev libgdk-pixbuf-2.0-dev libsdl2-dev libxml2-dev libavdevice-dev \
+librtaudio-dev libsox-dev frei0r-plugins-dev libdv4-dev libmovit-dev \
+librubberband-dev libswscale-dev libebur128-dev libopencv-dev libsamplerate0-dev \
+libvidstab-dev libexif-dev libpango1.0-dev libsdl1.2-compat-dev libvorbis-dev \
+libavformat-dev libavcodec-dev libswresample-dev libavutil-dev libopentimelineio-dev
+
+# Additional libraries
+
+sudo apt install chrpath debhelper dh-python libxml2-dev python3-dev swig
+
+
 
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext
-
 ```
 
-#### Clone the repositories
+### Define your environment variables
+
+- If you have specific needs and know what you're doing, you can define where you want to install your builds, like `=$HOME/.local`, as `INSTALL_PREFIX` variable:
+
+```bash
+INSTALL_PREFIX=$HOME/.local # or any other choice, the easiest would be to leave it empty ("")
+```
+Please note that even if you have specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
+going to be installed in non-user-writable system paths to make them work. If you really do not want to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
+
+- You can also set the `JOBS` variable to the number of threads your CPU can offer for builds.
+
+```bash
+JOBS=16
+```
+
+### KDDockWidgets
+
+If your distribution ships a recent enough version of KDDockWidgets (which is not the case for Ubuntu 25.10), you could install the following package:
+
+```bash
+sudo apt install kddockwidgets-qt6
+```
+
+Otherwise, you should build KDDockWidgets:
+
+```bash
+git clone https://github.com/KDAB/KDDockWidgets.git
+cd KDDockWidgets
+mkdir build && cd build
+# To build with Qt6
+cmake .. -GNinja -DKDDockWidgets_QT6=ON -DKDDockWidgets_FRONTENDS=qtwidgets
+
+# install (use make instead of ninja if ninja is not used)
+ninja -j$JOBS
+sudo ninja install
+```
+
+### Building MLT
+
+If your distribution ships a recent enough version of MLT, you could install the following packages:
+
+```bash
+sudo apt install libmlt++-dev libmlt-dev melt
+```
+
+And start building Kdenlive itself.
+
+Otherwise, you should make sure these packages are not installed:
+
+```bash
+sudo apt remove libmlt++-dev libmlt-dev melt
+```
+
+And build MLT:
+
+```bash
+# Install MLT dependencies
+sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev \
+libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev \
+libsamplerate0-dev librubberband-dev libebur128-dev libarchive-dev frei0r-plugins-dev
+
+# Get MLT's source code
+# You will need --recurse-submodules to get the Glaxnimate code
+#
+git clone --recurse-submodules https://github.com/mltframework/mlt.git
+cd mlt
+mkdir build && cd build
+# To build with Qt6, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
+cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON
+
+# install (use make instead of ninja if ninja is not used)
+ninja -j$JOBS
+sudo ninja install
+```
+If you want to uninstall it later, you can try
+
+```bash
+sudo xargs -d '\n' rm < install_manifest.txt
+```
+
+### Build Kdenlive itself
 
 In your development directory, run:
 
 ```bash
 git clone https://invent.kde.org/multimedia/kdenlive.git
-```
-
-#### Building MLT (necessary only to get latest git or if your distro's MLT is compiled with a different Qt major version than Kdenlive)
-It is recommended to use your distro packages unless you have a reason to use MLT's git.
-To build manually:
-
-```bash
-# Install MLT dependencies
-sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev libsamplerate0-dev librubberband-dev libebur128-dev libarchive-dev
-
-# Get MLT's source code
-git clone https://github.com/mltframework/mlt.git
-cd mlt
-mkdir build
-cd build
-# To build with Qt6, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
-cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON
-
-#install (use make instead of ninja if ninja is not used)
-sudo ninja install
-
-```
-
-#### Build and install the projects
-
-You should decide where you want to install your builds:
-
-- by default it goes to `/usr/local` (good option if you are admin of the machine, normally programs there are automatically detected);
-- you may use `$HOME/.local` user-writable directory (good option if you don't want to play with admin rights, programs there are also usually found)
-- you may want to override the distribution files in `/usr` (then you have to remove MLT & Kdenlive binary & data packages first)
-- you can pick any destination you like (eg in `/opt` or anywhere in `$HOME`, then you will have to set several environment variables for programs, libs and data to be found)
-
-Let's define that destination as `INSTALL_PREFIX` variable; also you can set `JOBS` variable to the number of threads your CPU can offer for builds.
-
-And build the dependencies (MLT) before the project (Kdenlive):
-
-```bash
-INSTALL_PREFIX=$HOME/.local # or any other choice, the easiest would be to leave it empty ("")
-JOBS=4
-
-# Only if you want to compile MLT manually
-cd mlt
+cd kdenlive
 mkdir build && cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
-make -j$JOBS
-make install
-# 'sudo make install' if INSTALL_PREFIX is not user-writable
-
-# Kdenlive
-cd ../../kdenlive
-mkdir build && cd build
-
-# Even if you specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
-# going be installed in non-user-writable system paths to make them work. If you really do not want
-# to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
-# -GNinja is optional
-
-cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF -DQT_MAJOR_VERSION=6
-```
-
-```bash
+cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+-DRELEASE_BUILD=OFF -DCMAKE_FIND_ROOT_PATH=/usr/local/KDAB/KDDockWidgets-2.5.0
 ninja -j$JOBS
 sudo ninja install
-# 'sudo make install' if INSTALL_PREFIX is not user-writable or if KDE_INSTALL_USE_QT_SYS_PATHS=ON
 ```
 
-Note that `make install` is required for Kdenlive, otherwise the effects will not be installed and cannot be used.
+Please note that `ninja install` is required for Kdenlive, otherwise the effects will not be installed and cannot be used.
 
-#### Run Kdenlive
+To uninstall Kdenlive:
+
+```bash
+sudo ninja uninstall
+```
+
+### Running Kdenlive
 
 If you didn't build in a system path in which all libs and data are automatically found, you will need to set environment variables to point to them.
 This is done by the auto-generated script in `kdenlive/build` that must be sourced (to keep variables set in current shell, unlike just executing the script):
@@ -259,7 +306,6 @@ cd build
 cmake .. -GNinja -DWITHOUT_OPENCV=true -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
 ```
 
-Note: as of 20.04, frei0r doesn't support recent OpenCV (and effects using it seemed not very stable)
 
 ### Building in Docker
 
@@ -281,6 +327,30 @@ exit
 
 ## Translating Kdenlive
 
-TODO
+Kdenlive uses KDE's internationalization (i18n) system for translations. For submitting or updating translations, please use the official KDE translation platform at [l10n.kde.org](https://l10n.kde.org/).
+
+The local translation workflow described below is for debugging purposes only. It can be useful when debugging translation issues or verifying translations work correctly in your local build in case you added or updated strings in the codebase.
+
+**Note**: All text that should be translatable must use one of KDE's i18n functions like `i18nc()`, `i18np()`, etc. For more information about these functions, see the [KI18n documentation](https://api.kde.org/frameworks/ki18n/html/prg_guide.html).
+
+#### Prerequisites
+
+Make sure you have the required tools installed (extractrc, gettext):
+
+```bash
+# Arch Linux
+sudo pacman -S gettext kde-dev-scripts
+
+# Debian/Ubuntu
+sudo apt install gettext kde-dev-utils
+```
+
+#### Translation Workflow
+
+1. **Extract strings (creates `.pot` file with all translatable strings from the source code)**: `bash extract_i18n_strings.sh`
+2. **Update existing translation (updates `.po` file)**: `msgmerge --update po/fi/kdenlive.po po/kdenlive.pot`
+3. **Edit translations**: Modify the `msgstr` entries in the `.po` file
+4. **Compile translations (creates .mo file)**: `msgfmt -o po/fi/kdenlive.mo po/fi/kdenlive.po`
+5. **Test**: Run Kdenlive (Switch to the target language via Settings | Configure Language)
 
 [fuzzer-blog]: https://kdenlive.org/en/2019/03/inside-kdenlive-how-to-fuzz-a-complex-gui-application/

@@ -41,18 +41,20 @@ void MeltTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
 
     // TODO: check that playlist exists
-    m_jobProcess.reset(new QProcess);
-    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &MeltTask::processLogInfo);
+    m_jobProcess = new QProcess();
+    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &MeltTask::processLogInfo);
     m_jobArgs.prepend(QStringLiteral("error"));
     m_jobArgs.prepend(QStringLiteral("-loglevel"));
     qDebug() << "::: // STARTING MELT JOB: " << m_jobArgs << "\nFOR FILE: " << m_playlistName;
     m_jobProcess->start(KdenliveSettings::meltpath(), m_jobArgs);
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress", Q_ARG(ObjectId, m_owner), Q_ARG(int, m_progress));
     if (m_isCanceled || !result) {

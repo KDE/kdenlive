@@ -13,6 +13,7 @@
 class AssetParameterModel;
 class QFormLayout;
 class QLabel;
+class KeyframeContainer;
 
 /** @class AbstractParamWidget
     @brief Base class of all the widgets representing a parameter of an asset (effect or transition)
@@ -30,8 +31,8 @@ public:
         @param index Index of the parameter in the given model
         @param parent parent widget
     */
-    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize, QWidget *parent,
-                                          QFormLayout *layout);
+    static std::pair<AbstractParamWidget *, KeyframeContainer *> construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index,
+                                                                           QSize frameSize, QWidget *parent, QFormLayout *layout);
     /** @brief Create the widget's label
      */
     virtual QLabel *createLabel();

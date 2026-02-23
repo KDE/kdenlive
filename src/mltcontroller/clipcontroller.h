@@ -43,7 +43,7 @@ public:
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(const QString &id, const std::shared_ptr<Mlt::Producer> &producer = nullptr);
+    explicit ClipController(const QString &id, const std::shared_ptr<Mlt::Producer> &producer = nullptr, const QDomElement &description = QDomElement());
 
 public:
     virtual ~ClipController();
@@ -181,9 +181,6 @@ public:
     /** @brief Returns all urls of external files used by effects on this bin clip (e.g. LUTs)*/
     QStringList filesUsedByEffects();
 
-    /** @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
-    static std::shared_ptr<Mlt::Producer> mediaUnavailable;
-
     /** @brief Returns a ptr to the effetstack associated with this element */
     std::shared_ptr<EffectStackModel> getEffectStack() const;
 
@@ -254,6 +251,7 @@ private:
     /** @brief Temporarily store clip properties until producer is available */
     QMap <QString, QVariant> m_tempProps;
     QString m_controllerBinId;
+    QDomElement m_effectsToLoad;
     /** @brief Build the audio info object */
     void buildAudioInfo(int audioIndex);
 };

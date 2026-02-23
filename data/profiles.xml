@@ -1,5 +1,7 @@
+<?xml version="1.0"?>
 <profiles version="0.1">
- <group name="Generic (HD for web, mobile devices...)" renderer="avformat" type="av">
+ <group renderer="avformat" type="av" id="generic">
+  <name>Generic (HD for web, mobile devices...)</name>
   <profile name="WebM-VP8/Vorbis (libre)" extension="webm"
    qualities="5,45" defaultquality="15"
    audioqualities="7,3" defaultaudioquality="5"
@@ -21,22 +23,24 @@
    speeds="subq=5 cmp=2 subcmp=2 trellis=1 bf=2;subq=3 cmp=1 subcmp=1 trellis=1 bf=2;subq=1"/>
   <profile name="GIF High Quality" extension="GIF" args=""/>
  </group>
- <group name="Ultra-High Definition (4K)" renderer="avformat" type="av">
+ <group renderer="avformat" type="av" id="4k">
+  <name>Ultra-High Definition (4K)</name>
   <profile name="WebM-VP9/Opus (libre)" extension="webm"
    qualities="15,45" defaultquality="25"
    audioqualities="10,0" defaultaudioquality="5"
    args="f=webm vcodec=libvpx-vp9 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tile-columns=4 frame-parallel=1 acodec=libopus compression_level=%audioquality"/>
-  <profile name="WebM-AV1/Opus (libre)" extension="webm"
-   qualities="15,45" defaultquality="25"
-   audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=webm vcodec=libaom-av1 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tiles=2x2 frame-parallel=1 strict=experimental acodec=libopus ab=%audiobitrate+'k'"/>
+  <profile name="WebM-AV1/Opus (libre-dav1d)" extension="webm"
+           qualities="5,45" defaultquality="32"
+           audiobitrates="256,64" defaultaudiobitrate="160"
+           args="f=webm acodec=libopus ab=%audiobitrate+'k' crf=%quality vcodec=libsvtav1 vbr=off svtav1-params=scd=1:enable-dg=1:pred-struct=2:lp=0:tile-columns=1:fast-decode=0:tune=0:film-grain=0:film-grain-denoise=0:enable-overlays=1:enable-variance-boost=1:variance-boost-strength=1:variance-octile=7:enable-qm=1:qm-min=0 g=150" speeds="preset=4;preset=5;preset=6;preset=7;preset=10" />
   <profile name="MP4-H265 (HEVC)" extension="mp4"
    qualities="15,45" defaultquality="28"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="properties=x265-medium f=mp4 vcodec=libx265 crf=%quality acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
  </group>
- <group name="Video with Alpha" renderer="avformat" type="av">
+ <group renderer="avformat" type="av" id="alpha">
+   <name>Video with Alpha</name>
   <profile name="Alpha VP8" extension="webm"
    qualities="5,45" defaultquality="15"
    audioqualities="3,7" defaultaudioquality="4"
@@ -50,7 +54,8 @@
   <profile name="FFmpeg FFV1" extension="mkv"
    args="f=mov vcodec=ffv1 mlt_image_format=rgba pix_fmt=bgra"/>
  </group>
- <group name="Old-TV definition (DVD...)" renderer="avformat" type="av">
+ <group renderer="avformat" type="av" id="sd">
+  <name>Old-TV definition (DVD...)</name>
   <profile name="VOB (DVD)" extension="vob"
    qualities="5,15" defaultquality="5"
    audiobitrates="192,128" defaultaudiobitrate="160"
@@ -66,7 +71,8 @@
    audioqualities="3,5,7" defaultaudioquality="5"
    args="f=asf vcodec=wmv2 acodec=wmav2 qscale=%quality aq=%audioquality"/>
  </group>
- <group name="Hardware Accelerated (experimental)" renderer="avformat" type="av">
+ <group renderer="avformat" type="av" id="hw">
+  <name>Hardware Accelerated (experimental)</name>
   <profile name="NVENC AV1 VBR" extension="mp4"
    qualities="24,192" defaultquality="72"
    audiobitrates="256,64" defaultaudiobitrate="160"
@@ -83,6 +89,10 @@
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
+  <profile name="NVENC H265 ABR 10 bit" extension="mp4"
+           bitrates="30000,1000" defaultbitrate="6000"
+           audiobitrates="256,64" defaultaudiobitrate="160"
+           args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k' pix_fmt=p010le"/>
   <profile name="VideoToolBox H264 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"
@@ -97,12 +107,13 @@
   <profile name="Quick Sync Intel H265" extension="mp4" bitrates="30000,1000" defaultbitrate="20000"
            audiobitrates="256,64" defaultaudiobitrate="192"
            args="f=mp4 load_plugin=hevc_hw vcodec=hevc_qsv vbr=off vtag=hvc1 qscale=29 acodec=aac ab=%audiobitrate+'k'"/>
-  <profile name="VAAPI Intel H264" extension="mp4"
-   args="f=mp4 vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
-  <profile name="VAAPI AMD H264" extension="mp4"
-   args="f=mp4 hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
+  <profile name="VAAPI H264" extension="mp4" qualities="15,45" defaultquality="23"
+   args="f=mp4 vcodec=h264_vaapi vq=%quality video_global_quality=%quality acodec=aac ab=192k"/>
+  <profile name="AMF H264" extension="mp4" qualities="15,45" defaultquality="23"
+           args="f=mp4 vcodec=h264_amf vq=%quality video_global_quality=%quality acodec=aac ab=192k"/>
  </group>
- <group name="Audio only" renderer="avformat" type="audio">
+ <group renderer="avformat" type="audio" id="audio">
+  <name>Audio only</name>
   <profile name="AC3" extension="ac3" audiobitrates="192,64" defaultaudiobitrate="160" args="ab=%audiobitrate+'k' vn=1 video_off=1"/>
   <profile name="ALAC" extension="mov" args="f=mov acodec=alac vn=1 video_off=1"/>
   <profile name="FLAC" extension="mka" args="f=matroska acodec=flac vn=1 video_off=1"/> 
@@ -110,7 +121,8 @@
   <profile name="OGG" extension="ogg" audioqualities="3,7" defaultaudioquality="4" args="aq=%audioquality vn=1 video_off=1"/>
   <profile name="WAV" extension="wav" args="properties=WAV video_off=1"/>
  </group>
- <group name="Images sequence" renderer="avformat" type="video">
+ <group renderer="avformat" type="video"  id="image">
+  <name>Images sequence</name>
   <profile name="PNG with alpha" extension="png" args="progressive=1 f=image2 vcodec=png an=1 audio_off=1 g=1 bg=0 pix_fmt=rgba"/>
  </group>
 </profiles>

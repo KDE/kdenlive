@@ -20,6 +20,7 @@
         "Name[eu]": "MLT jotze-zerrenda",
         "Name[fi]": "MLT-soittolista",
         "Name[fr]": "Liste de lecture « MLT »",
+        "Name[ga]": "Seinmliosta MLT",
         "Name[gl]": "Lista de reprodución de MLT",
         "Name[he]": "רשימת נגינה מסוג MLT",
         "Name[hi]": "एमएलटी प्लेलिस्ट",
@@ -34,6 +35,7 @@
         "Name[pl]": "Lista odtwarzania MLT",
         "Name[pt]": "Lista de Reprodução MLT",
         "Name[pt_BR]": "Lista de reprodução MLT",
+        "Name[ro]": "Listă de redare MLT",
         "Name[ru]": "Список воспроизведения MLT",
         "Name[sa]": "MLT Playlist",
         "Name[sk]": "Zoznam skladieb MLT",
@@ -41,7 +43,6 @@
         "Name[sv]": "MLT-spellista",
         "Name[tr]": "MLT Oynatma Listesi",
         "Name[uk]": "Список відтворення MLT",
-        "Name[x-test]": "xxMLT Playlistxx",
         "Name[zh_CN]": "MLT 播放列表",
         "Name[zh_TW]": "MLT 播放清單"
     },

@@ -1,18 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.xbr" id="avfilter.xbr">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.xbr" id="avfilter.xbr">
     <name>xBR Interpolator</name>
-    <description>Apply the xBR high-quality magnification filter which is designed for pixel art. It follows a set of edge-detection rules, see https://forums.libretro.com/t/xbr-algorithm-tutorial/123</description>
+    <description>Apply the xBR high-quality magnification filter which is designed for pixel art. It follows a set of edge-detection rules.</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.n" default="3" paramlist="2;3;4">
-        <paramlistdisplay>2xBR,3xBR,4xBR</paramlistdisplay>
-        <name>Interpolation factor</name>
-    </parameter>
-    <parameter type="constant" name="av.threads" min="0" default="0" max="8">
-        <name>Maximum number of threads</name>
-    </parameter>
-    <parameter type="list" name="position" default="frame" paramlist="frame;filter;source;producer">
-        <paramlistdisplay>frame,filter,source,producer</paramlistdisplay>
-        <name>Position to set the filter</name>
+        <name>Scaling dimension</name>
+        <paramlistdisplay>2x BR,3x BR,4x BR</paramlistdisplay>
     </parameter>
 </effect>

@@ -107,7 +107,8 @@ elif device.type == "mps":
         "See e.g. https://github.com/pytorch/pytorch/issues/84936 for a discussion."
     )
 
-from sam2.build_sam import build_sam2, build_sam2_video_predictor
+from sam2.build_sam import build_sam2
+from kdenlive_build_sam import build_sam2_video_predictor
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 scriptFolder = os.path.dirname(os.path.abspath(__file__))
@@ -232,7 +233,7 @@ while 1:
         if videoPredictor_initialized == False:
             if args.offload:
                 print("Offloading video to CPU\n", file=sys.stdout, flush=True)
-            inference_state = videoPredictor.init_state(video_path=inputFolder, async_loading_frames=True, offload_video_to_cpu=args.offload)
+            inference_state = videoPredictor.init_state(video_path=inputFolder, offload_video_to_cpu=args.offload)
             videoPredictor_initialized = True
         continue
 

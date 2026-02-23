@@ -6,6 +6,7 @@
 import QtQuick 2.15
 
 import org.kde.kdenlive as K
+import "SnappingLogic.js" as SnappingLogic
 
 Item {
     id: root
@@ -37,8 +38,7 @@ Item {
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
     onSourcedarChanged: refreshdar()
-    property bool iskeyframe
-    property bool cursorOutsideEffect: false
+    property bool cursorOutsideEffect: controller.cursorOutsideEffect
     property int requestedKeyFrame
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
@@ -58,6 +58,13 @@ Item {
         }
         root.centerPoints = points
         canvas.requestPaint()
+    }
+
+    function getSnappedPos(position) {
+        if (!K.KdenliveSettings.showMonitorGrid) {
+            return position
+        }
+        return SnappingLogic.getSnappedPoint(position, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
     }
 
     function updateClickCapture() {
@@ -112,7 +119,7 @@ Item {
             //console.log('paint' + p1);
 
           // Handles
-          if (root.iskeyframe && !root.cursorOutsideEffect) {
+          if (controller.isKeyframe && !root.cursorOutsideEffect) {
             if (root.requestedKeyFrame == 0) {
                 ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
@@ -198,10 +205,39 @@ Item {
         color: "transparent"
         border.color: "#ffffff00"
 
+        Repeater {
+            model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0
+            Rectangle {
+                required property int index
+                opacity: 0.3
+                color: K.KdenliveSettings.overlayColor
+                height: frame.height - 1
+                width: 1
+                x: ((index + 1) * K.KdenliveSettings.monitorGridH * root.scalex)
+            }
+        }
+        Repeater {
+            model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.y / K.KdenliveSettings.monitorGridV) : 0
+            Rectangle {
+                required property int index
+                opacity: 0.3
+                color: K.KdenliveSettings.overlayColor
+                height: 1
+                width: frame.width - 1
+                y: ((index + 1) * K.KdenliveSettings.monitorGridV * root.scaley)
+            }
+        }
+
         K.MonitorOverlay {
             anchors.fill: frame
             color: K.KdenliveSettings.overlayColor
             overlayType: root.overlayType
+        }
+        K.MonitorSafeZone {
+            id: safeZone
+            anchors.fill: frame
+            color: K.KdenliveSettings.safeColor
+            showSafeZone: controller.showSafezone
         }
     }
     MouseArea {
@@ -219,10 +255,13 @@ Item {
         }
 
         onPositionChanged: {
-            if (root.iskeyframe == false) return;
+            if (controller.isKeyframe == false) return;
             if (pressed && root.requestedKeyFrame >= 0) {
-                root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
-                root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
+                var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
+                var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
+                var adjustedMouse = getSnappedPos(logicalMousePos)
+                root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
+                root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                 canvas.requestPaint()
                 root.effectPolygonChanged()
             } else {

@@ -27,7 +27,7 @@ Item {
     property int clipDuration: 0
     property bool isAudio: false
     property bool showKeyframes: false
-    property var itemType: 0
+    property int itemType: 0
     property bool isGrabbed: false
     property var keyframeModel
     property bool grouped: false
@@ -50,8 +50,9 @@ Item {
     property color color: displayRect.color
     property color borderColor: 'black'
     property bool hideCompoViews: !visible || width < root.minClipWidthForViews
-    property int scrollStart: scrollView.contentX - (compositionRoot.modelStart * root.timeScale)
-    visible: scrollView.width + compositionRoot.scrollStart >= 0 && compositionRoot.scrollStart < compositionRoot.width
+    property bool hideDecorations: !root.showClipOverlays || trimInMouseArea.drag.active || trimOutMouseArea.drag.active
+    visible: scrollView.lastVisibleFrame > compositionRoot.modelStart && scrollView.firstVisibleFrame <= (compositionRoot.modelStart + compositionRoot.clipDuration)
+    property int scrollStart: visible ? scrollView.contentX - (compositionRoot.modelStart * root.timeScale) : 0
 
     property int mouseXPos: mouseArea.mouseX
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
@@ -187,12 +188,6 @@ Item {
         border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
         border.width: isGrabbed ? 8 : 2
         opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
-        onWidthChanged: {
-            console.log('TRIM AREA ENABLED: ',trimOutMouseArea.enabled)
-        }
-
-        /*Drag.active: mouseArea.drag.active
-        Drag.proposedAction: Qt.MoveAction*/
 
         states: [
             State {
@@ -229,8 +224,8 @@ Item {
             id: mouseArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            enabled: root.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
-            hoverEnabled: root.activeTool === K.ToolType.SelectTool
+            enabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
+            hoverEnabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
@@ -304,7 +299,11 @@ Item {
                 drag.target: trimInMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
-                onPressed: {
+                onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     compositionRoot.originalX = compositionRoot.x
@@ -375,7 +374,11 @@ Item {
                 visible: enabled && root.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
 
-                onPressed: {
+                onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     compositionRoot.originalDuration = clipDuration
@@ -474,6 +477,18 @@ Item {
                     }
                     color: 'black'
                 }
+                states: [
+                    State { when: !compositionRoot.hideDecorations
+                        PropertyChanges { target: labelRect; opacity: 1.0 }
+                    },
+                    State { when: compositionRoot.hideDecorations
+                        PropertyChanges { target: labelRect; opacity: 0.0 }
+                    }
+                ]
+                transitions: Transition {
+                    NumberAnimation { property: "opacity"; duration: 250}
+                }
+
             }
         }
         Loader {
@@ -481,7 +496,8 @@ Item {
             id: effectRow
             clip: true
             anchors.fill: parent
-            //asynchronous: true
+            active: compositionRoot.visible
+            asynchronous: true
             visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
             source: compositionRoot.hideClipViews || compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {

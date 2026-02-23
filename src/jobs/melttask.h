@@ -35,7 +35,7 @@ private:
     QString m_errorMessage;
     QString m_logDetails;
     int m_jobDuration{0};
-    std::unique_ptr<QProcess> m_jobProcess;
+    QProcess *m_jobProcess;
 
 Q_SIGNALS:
     void taskDone();

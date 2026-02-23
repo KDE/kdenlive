@@ -105,6 +105,8 @@ public:
     QPoint getZoneInfo() const;
     /** @brief Initialize the qml monitor overlay with points and rect related to the current frame
      */
+    void setUpEffectGeometry(const QVariantList &list, const QVariantList &types = QVariantList(), const QVariantList &keyframes = QVariantList(),
+                             const QRect &box = QRect());
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList(),
                              const QVariantList &keyframes = QVariantList(), const QRect &box = QRect());
     /** @brief Set a property on the effect scene */
@@ -139,6 +141,8 @@ public:
     void slotZoomIn();
     /** @brief Zoom out active monitor */
     void slotZoomOut();
+    /** @brief Reset monitor zoom to normal */
+    void slotZoomReset();
     /** @brief Set a property on the MLT consumer */
     void setConsumerProperty(const QString &name, const QString &value);
     /** @brief Play or Loop zone sets a fake "out" on the producer. It is necessary to reset this before reloading the producer */
@@ -158,6 +162,8 @@ public:
     void updateDocumentUuid();
     /** @brief Focus the timecode to allow editing*/
     void focusTimecode();
+    /** @brief Set a timecode offset for current timeline*/
+    void setTimecodeOffset(int offset);
     /** @brief Ensure the video widget has focus to make keyboard shortcuts work */
     void fixFocus();
     /** @brief Show a rec countdown over the monitor **/
@@ -185,8 +191,10 @@ public:
     MaskModeType::MaskCreationMode maskMode();
     /** @brief Update the preview mask properties */
     void updatePreviewMask();
-    /** @brief Monitor active property changed, update timecode color */
-    void activeChanged();
+    /** @brief Apply timecode display styling based on current active state */
+    void applyTimecodeDisplayStyling();
+    /** @brief Audio thumbnail is outdated, inform view */
+    void markAudioDirty(bool dirty);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -278,6 +286,7 @@ private:
     bool m_dirty{false};
     QMutex m_openMutex;
     QString m_activeControllerId;
+    QTimer m_preventSleepTimer;
 
 protected:
     void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant(), bool resetProperties = false);
@@ -315,13 +324,17 @@ private Q_SLOTS:
     void processSeek(int pos, bool noAudioScrub = false);
     /** @brief Check and display dropped frames */
     void checkDrops();
-    /** @brief En/Disable the show record timecode feature in clip monitor */
-    void slotSwitchRecTimecode(bool enable);
     void addControlPoint(double x, double y, bool extend, bool exclude);
     void moveControlPoint(int ix, double x, double y);
     void addControlRect(double x, double y, double width, double height, bool extend);
+    /** @brief Check if powermanagement sleep should be inhibited*/
+    void updatePowerManagement();
+    /** @brief Trigger a rebuild of the audio thumbnail */
+    void rebuildAudio(int cid);
 
 public Q_SLOTS:
+    void slotCreateRangeMarkerFromZone();
+    void slotCreateRangeMarkerFromZoneQuick();
     void updateTimelineProducer();
     void setProducer(const QUuid, std::shared_ptr<Mlt::Producer> producer, int pos = -1);
     void slotSetScreen(int screenIndex);
@@ -350,11 +363,11 @@ public Q_SLOTS:
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotStart();
     /** @brief Set position and information for the trimming preview
-    * @param pos Absolute position in frames
-    * @param offset Difference in frames beetween @p pos and the current position (to be displayed in the monitor toolbar)
-    * @param frames1 Position in frames to be displayed in the monitor overlay for preview tile one
-    * @param frames2 Position in frames to be displayed in the monitor overlay for preview tile two
-    */
+     * @param pos Absolute position in frames
+     * @param offset Difference in frames between @p pos and the current position (to be displayed in the monitor toolbar)
+     * @param frames1 Position in frames to be displayed in the monitor overlay for preview tile one
+     * @param frames2 Position in frames to be displayed in the monitor overlay for preview tile two
+     */
     void slotTrimmingPos(int pos, int offset, int frames1, int frames2);
     /** @brief Move the position for the trimming preview by the given offset
     * @param offset How many frames the position should be moved
@@ -366,6 +379,7 @@ public Q_SLOTS:
     void slotSetZoneEnd();
     void slotZoneStart();
     void slotZoneEnd();
+    void slotSetZone(const QPoint zone);
     void slotLoadClipZone(const QPoint &zone);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
@@ -386,6 +400,8 @@ public Q_SLOTS:
     void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */
     void slotSwitchAudioMonitor();
+    /** @brief En/Disable the show record timecode feature in clip monitor */
+    void slotSwitchRecTimecode(bool enable);
     /** @brief Request seeking */
     void requestSeek(int pos);
     /** @brief Request seeking only if monitor is visible*/
@@ -440,4 +456,5 @@ Q_SIGNALS:
     void generateMask();
     void disablePreviewMask();
     void sceneChanged(MonitorSceneType sceneType);
+    void effectRotationChanged(double rotation);
 };

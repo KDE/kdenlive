@@ -73,10 +73,6 @@ public:
       Has to be called in the implementing object. */
     virtual void init();
 
-    /** Tell whether this scope has auto-refresh enabled. Required for determining whether
-        new data (e.g. an image frame) has to be delivered to this widget. */
-    bool autoRefreshEnabled() const;
-
     bool needsSingleFrame();
 
     ///// Unimplemented /////
@@ -104,11 +100,6 @@ protected:
 
     /** The context menu. Feel free to add new entries in your implementation. */
     QMenu *m_menu;
-
-    /** Enables auto refreshing of the scope.
-        This is when fresh data is incoming.
-        Resize events always force a recalculation. */
-    QAction *m_aAutoRefresh;
 
     /** Realtime rendering. Should be disabled if it is not supported.
         Use the accelerationFactor variable passed to the render functions as a hint of
@@ -213,7 +204,6 @@ public Q_SLOTS:
     void forceUpdateBackground();
 
 protected Q_SLOTS:
-    void slotAutoRefreshToggled(bool);
 
 Q_SIGNALS:
     /**
@@ -229,9 +219,7 @@ Q_SIGNALS:
         This signal is typically connected to forceUpdateHUD(). */
     void signalMousePositionChanged();
 
-    /** Do we need the renderer to send its frames to us?
-        Emitted when auto-refresh is toggled. */
-    void requestAutoRefresh(bool);
+    // Auto-refresh is always enabled; signal removed.
 
 private:
     /** Counts the number of data frames that have been rendered in the active monitor.

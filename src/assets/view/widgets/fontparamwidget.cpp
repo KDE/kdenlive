@@ -11,10 +11,6 @@ FontParamWidget::FontParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
 {
     setupUi(this);
 
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
-
     // set check state
     slotRefresh();
     setMinimumHeight(fontfamilywidget->sizeHint().height());

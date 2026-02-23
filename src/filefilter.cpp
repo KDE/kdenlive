@@ -15,6 +15,7 @@ static FileFilterDb supported_file_exts;
 
 static void initFilterDb() {
     // init mime types
+    // clang-format off
     FileFilterDb supported_mime_types = {
         {Other, {
             qsl("application/x-kdenlivetitle"), 
@@ -71,7 +72,8 @@ static void initFilterDb() {
             qsl("image/jp2"),
             qsl("image/avif"),
             qsl("image/heif"),
-            qsl("image/jxl")
+            qsl("image/jxl"),
+            qsl("image/svg+xml")
         }}
     };
 
@@ -89,6 +91,7 @@ static void initFilterDb() {
         {qsl("image/jp2"), qsl("*.jp2")},
         {qsl("image/jxl"), qsl("*.jxl")}
     };
+    // clang-format on
 
     // init file_exts
     QMimeDatabase mimedb;

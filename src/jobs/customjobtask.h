@@ -32,7 +32,7 @@ private:
     int m_inPoint;
     int m_outPoint;
     QString m_jobId;
-    std::unique_ptr<QProcess> m_jobProcess;
+    QProcess *m_jobProcess;
     QString m_errorMessage;
     QString m_logDetails;
     QTemporaryFile m_tmpFrameFile;

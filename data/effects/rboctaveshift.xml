@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="rbpitch" id="rboctaveshift" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="rbpitch" id="rboctaveshift" type="audio">
     <name>Rubberband Octave Shift</name>
     <description>Adjust the audio pitch using the Rubberband library.</description>
     <author>Meltytech, LLC</author>

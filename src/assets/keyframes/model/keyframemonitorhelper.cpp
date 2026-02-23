@@ -12,15 +12,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <core.h>
 #include <utility>
-KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index,
-                                             MonitorSceneType sceneType, QObject *parent)
+KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, MonitorSceneType sceneType, QObject *parent)
     : QObject(parent)
     , m_monitor(monitor)
     , m_model(std::move(model))
     , m_active(false)
     , m_requestedSceneType(sceneType)
 {
-    m_indexes << index;
 }
 
 bool KeyframeMonitorHelper::connectMonitor(bool activate)
@@ -45,6 +43,7 @@ bool KeyframeMonitorHelper::isPlaying() const
 
 void KeyframeMonitorHelper::addIndex(const QPersistentModelIndex &index)
 {
+    QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
     m_indexes << index;
 }
 
@@ -78,9 +77,10 @@ void KeyframeMonitorHelper::refreshParams(int pos)
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
     for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type != ParamType::AnimatedRect) {
+        if (type != ParamType::AnimatedRect && type != ParamType::AnimatedFakeRect) {
             continue;
         }
+
         KeyframeModel *kfr = keyframes->getKeyModel(ix);
         bool ok;
         rectAtPosData = kfr->getInterpolatedValue(pos).toString();
@@ -99,7 +99,6 @@ void KeyframeMonitorHelper::refreshParams(int pos)
             }
             kf = kfr->getNextKeyframe(kf.first, &ok);
         }
-        break;
     }
     if (m_monitor) {
         if (!rectAtPosData.isEmpty()) {
@@ -110,7 +109,7 @@ void KeyframeMonitorHelper::refreshParams(int pos)
                 return;
             }
         }
-        m_monitor->setUpEffectGeometry(QRect(), points, types);
+        m_monitor->setUpEffectGeometry(points, types);
     }
 }
 
@@ -122,7 +121,7 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
     }
     for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type != ParamType::AnimatedRect) {
+        if (type != ParamType::AnimatedRect && type != ParamType::AnimatedFakeRect) {
             continue;
         }
 

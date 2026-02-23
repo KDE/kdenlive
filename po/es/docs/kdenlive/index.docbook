@@ -15,12 +15,26 @@
 >manual de Kdenlive</ulink
 > en su lugar.</firstname
 > <surname
->Esta documentación se convirtió desde la página de KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Esta documentación se convirtió desde la página de KDE UserBase <ulink url="http://userbase.kde.org/Kdenlive/Manual/QuickStart"
 >Kdenlive/Manual/QuickStart</ulink
 >.</surname
 > </personname>
     </author>
 <othercredit role="translator"
+><firstname
+>Javier</firstname
+><surname
+>Viñal</surname
+> <affiliation
+><address
+><email
+>fjvinal@gmail.com</email
+></address
+></affiliation
+><contrib
+>Traductor</contrib
+></othercredit
+><othercredit role="translator"
 ><firstname
 >Víctor</firstname
 ><surname
@@ -33,6 +47,20 @@
 ></affiliation
 ><contrib
 >Traductor</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Gabriel</firstname
+><surname
+>Gazzán</surname
+> <affiliation
+><address
+><email
+>gabcorreo@gmail.com</email
+></address
+></affiliation
+><contrib
+>Revisión</contrib
 ></othercredit
 > 
     </authorgroup>
@@ -153,7 +181,7 @@
 ></footnote
 > Si se usan otros archivos y no está claro cuál usar, &kdenlive; sugerirá uno adecuado al agregar el primer clip<footnote
 ><para
->Si la preferencia de Kdenlive <ulink url="http://userbase.kde.org/ Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc "
+>Si la preferencia de Kdenlive <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc"
 >Miscelánea</ulink
 > está puesta a <emphasis
 >Comprobar que el corte cumple las propiedades del projecto al añadir por primera vez</emphasis
@@ -670,6 +698,8 @@
     <para
 >Traducido por Javier Viñal <email
 >fjvinal@gmail.com</email
+> y VíctorRodrigo Córdoba <email
+>vrcordoba@gmail.com</email
 >, revisado por Gabriel Gazzán <email
 >gabcorreo@gmail.com</email
 ></para

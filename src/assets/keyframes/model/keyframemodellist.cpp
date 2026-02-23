@@ -194,7 +194,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
         std::shared_ptr<KeyframeModel> timelineModel = modelInTimeline();
         if (timelineModel) {
             if (timelineModel == param) {
-                if (pType == ParamType::AnimatedRect) {
+                if (pType == ParamType::AnimatedRect || pType == ParamType::AnimatedPoint) {
                     value = param->getInterpolatedValue(pos);
                     value = param->updateInterpolated(value, val);
                 } else if (pType == ParamType::Roto_spline) {
@@ -228,7 +228,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
                 std::shared_ptr<KeyframeModel> timelineModel = km->modelInTimeline();
                 if (timelineModel) {
                     if (timelineModel == param) {
-                        if (pType == ParamType::AnimatedRect) {
+                        if (pType == ParamType::AnimatedRect || pType == ParamType::AnimatedPoint) {
                             value = param->getInterpolatedValue(posWithOffset);
                             value = param->updateInterpolated(value, val);
                         } else if (pType == ParamType::Roto_spline) {
@@ -543,6 +543,7 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, int i
     }
     if (auto ptr = m_model.lock()) {
         const QVariant previousValue = getKeyModel(index)->getInterpolatedValue(pos);
+        qDebug() << "::::: UPDATE KLMMODELLIST KEYFRAME AT: " << pos.frames(25);
         auto *command = new AssetKeyframeCommand(ptr, index, value, pos, parentCommand);
         pCore->groupAssetKeyframeCommand(ptr->getOwnerId(), ptr->getAssetId(), index, pos, previousValue, value, ix, command);
         if (parentCommand == nullptr) {
@@ -570,12 +571,10 @@ bool KeyframeModelList::updateMultiKeyframe(GenTime pos, const QStringList &sour
     return true; // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
 }
 
-bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index)
+bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.count(index) > 0);
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     if (singleKeyframe()) {
         bool ok = false;
         Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
@@ -585,9 +584,6 @@ bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersist
     bool res = true;
     for (const auto &param : m_parameters) {
         res = res && param.second->updateKeyframeType(pos, type, undo, redo);
-    }
-    if (res) {
-        PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
     return res;
 }
@@ -658,6 +654,13 @@ bool KeyframeModelList::hasKeyframe(int frame) const
     READ_LOCK();
     Q_ASSERT(m_parameters.size() > 0);
     return m_parameters.begin()->second->hasKeyframe(frame);
+}
+
+bool KeyframeModelList::hasKeyframes(const QPersistentModelIndex index) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_parameters.count(index) > 0);
+    return m_parameters.at(index)->keyframesCount() > 0;
 }
 
 void KeyframeModelList::refresh()

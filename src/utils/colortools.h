@@ -84,6 +84,14 @@ public:
     static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear = false,
                                 const float offsetY = 0);
 
+    /**
+     * @brief Creates a circle with a fixed color.
+     * @param size The size of the image to create
+     * @param color The color to use for the circle
+     * @return An image with a circle of the specified color
+     */
+    QImage FixedColorCircle(const QSize &size, QRgb color);
+
 Q_SIGNALS:
     void signalYuvWheelCalculationFinished();
 };

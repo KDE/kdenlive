@@ -34,7 +34,7 @@ OtioConvertions::OtioConvertions()
         m_importAdapters = runScript(QStringLiteral("otiointerface.py"), {"--import-suffixes"});
         qInfo() << "OTIO import adapters:" << m_importAdapters;
         if (!m_importAdapters.isEmpty()) {
-            // no error occured so we can check export adapters as well
+            // no error occurred so we can check export adapters as well
             m_exportAdapters = runScript(QStringLiteral("otiointerface.py"), {"--export-suffixes"});
             qInfo() << "OTIO export adapters:" << m_exportAdapters;
         }
@@ -42,7 +42,7 @@ OtioConvertions::OtioConvertions()
             // something is wrong. Maybe it is related to an old version?
             proposeMaybeUpdate("opentimelineio", "0.16.0");
             // version 0.16.0 is the first version without the Kdenlive adapter in the core
-            // and a seperate package for the Kdenlive adapter
+            // and a separate package for the Kdenlive adapter
             return;
         }
         if (!(m_exportAdapters.contains("kdenlive") && m_importAdapters.contains("kdenlive"))) {

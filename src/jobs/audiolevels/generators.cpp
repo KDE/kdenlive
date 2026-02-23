@@ -68,38 +68,43 @@ void computePeaks(const int16_t *in, int16_t *out, const size_t nChannels, const
 }
 
 QVector<int16_t> generateMLT(const size_t streamIdx, const QString &service, const QString &resource, int channels,
-                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled)
+                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled,
+                             int duration)
 {
     qDebug() << "Generating audio levels for stream" << streamIdx << "of" << resource << "using MLT";
     QElapsedTimer timer;
     timer.start();
 
     // Create a new, separate producer for this clip. It will have the same fps as the current project profile
-    const auto aProd = std::make_unique<Mlt::Producer>(pCore->getProjectProfile(), service.toUtf8().constData(), resource.toUtf8().constData());
-    if (!aProd->is_valid()) {
+    Mlt::Producer aProd(pCore->getProjectProfile(), service.toUtf8().constData(), resource.toUtf8().constData());
+    if (!aProd.is_valid()) {
         qWarning() << "Could not create producer for" << service << ":" << resource;
         return {};
     }
-    aProd->set("video_index", -1); // disable video
-    aProd->set("audio_index", static_cast<int>(streamIdx));
-    aProd->set("cache", 0); // disable caching, should help with performance
+    aProd.set("video_index", -1); // disable video
+    aProd.set("audio_index", static_cast<int>(streamIdx));
+    aProd.set("cache", 0); // disable caching, should help with performance
+    if (duration > 0) {
+        aProd.set("length", duration);
+    }
 
     int sampleRate = 44100;                                                // Request this sample rate (MLT will resample under the hood)
     Mlt::Filter convertFilter(pCore->getProjectProfile(), "audioconvert"); // add a filter to convert the sample format
-    aProd->attach(convertFilter);
+    aProd.attach(convertFilter);
 
-    const double framesPerSecond = aProd->get_fps();
-    const int lengthInFrames = aProd->get_length();
+    const double framesPerSecond = aProd.get_fps();
+    const int lengthInFrames = aProd.get_length();
     mlt_audio_format audioFormat = mlt_audio_s16; // target sample format == interleaved uint16_t
 
     QVector<int16_t> levels(lengthInFrames * AUDIOLEVELS_POINTS_PER_FRAME * channels);
+    int interval = qMax(1, lengthInFrames / 100);
     for (int f = 0; f < lengthInFrames; ++f) {
         if (isCanceled) {
             levels.clear();
             break;
         }
 
-        auto mltFrame = std::unique_ptr<Mlt::Frame>(aProd->get_frame());
+        auto mltFrame = std::unique_ptr<Mlt::Frame>(aProd.get_frame());
         if (mltFrame && mltFrame->is_valid()) {
             int samples = mlt_audio_calculate_frame_samples(static_cast<float>(framesPerSecond), sampleRate, f);
             const auto buf = static_cast<int16_t *>(mltFrame->get_audio(audioFormat, sampleRate, channels, samples));
@@ -113,8 +118,10 @@ QVector<int16_t> generateMLT(const size_t streamIdx, const QString &service, con
             levels.clear();
             break;
         }
-
-        progressCallback(100.0 * f / lengthInFrames, levels);
+        if (f % interval == 0) {
+            // Callback 100 times during progress
+            progressCallback(100.0 * f / lengthInFrames, levels);
+        }
     }
 
     qDebug() << "Audio levels generation took" << timer.elapsed() / 1000.0 << "s (" << lengthInFrames / (timer.elapsed() / 1000.0) << "frames/s)";
@@ -170,6 +177,21 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
 
     // Find and open codec for requested stream
     stream = fmt_ctx->streams[streamIdx];
+
+    // check for delay
+    if (stream->start_time > 0) {
+        // TODO: Handle delay in our libav code
+        // Stream with a delay, not currently handled in our avformat code, switch to MLT
+        qWarning() << "Stream with delay, switching to MLT" << streamIdx;
+        goto cleanup;
+    }
+
+    // Set discard flag for all streams except our target audio stream to reduce unnecessary I/O operations
+    for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
+        if (i != streamIdx) {
+            fmt_ctx->streams[i]->discard = AVDISCARD_ALL;
+        }
+    }
 
     codec = avcodec_find_decoder(stream->codecpar->codec_id);
     if (!codec) {
@@ -245,6 +267,7 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
             levels.clear();
             break;
         }
+        int interval = qMax(1, static_cast<int>(MLTlengthInFrames / 100));
 
         // .... which can output more than 1 audio frame per packet
         while (ret >= 0) {
@@ -301,7 +324,9 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
                 computePeaks(reinterpret_cast<const int16_t *>(buf[0]), levels.data() + MLTFrameCount * AUDIOLEVELS_POINTS_PER_FRAME * dst_nb_channels,
                              dst_nb_channels, samplesPerMLTFrame, AUDIOLEVELS_POINTS_PER_FRAME);
 
-                progressCallback(100.0 * MLTFrameCount / MLTlengthInFrames, levels);
+                if (MLTFrameCount % interval == 0) {
+                    progressCallback(100.0 * MLTFrameCount / MLTlengthInFrames, levels);
+                }
 
                 MLTFrameCount++;
                 if (MLTFrameCount > MLTlengthInFrames) {
@@ -309,7 +334,7 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
                     levels.clear();
                     goto cleanup;
                 }
-                samplesPerMLTFrame = mlt_audio_calculate_frame_samples(MLTfps, dst_rate, samplesPerMLTFrame);
+                samplesPerMLTFrame = mlt_audio_calculate_frame_samples(MLTfps, dst_rate, MLTFrameCount);
             }
         }
 

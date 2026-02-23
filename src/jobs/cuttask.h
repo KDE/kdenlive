@@ -32,7 +32,7 @@ private:
     QStringList m_encodingParams;
     QString m_errorMessage;
     QString m_logDetails;
-    std::unique_ptr<QProcess> m_jobProcess;
+    QProcess *m_jobProcess;
     int m_jobDuration;
     bool m_addToProject;
 };

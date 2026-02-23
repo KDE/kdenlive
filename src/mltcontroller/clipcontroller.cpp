@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
+#include "xml/xml.hpp"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -25,9 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileInfo>
 #include <QPixmap>
 
-std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
-
-ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer)
+ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer, const QDomElement &description)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_producerLock(QReadWriteLock::Recursive)
@@ -64,7 +63,15 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
         checkAudioVideo();
     } else {
         m_producerLock.lockForWrite();
-        m_controlUuid = QUuid::createUuid();
+        if (Xml::hasXmlProperty(description, QStringLiteral("kdenlive:control_uuid"))) {
+            const QString uuid = Xml::getXmlProperty(description, QStringLiteral("kdenlive:control_uuid"));
+            m_controlUuid = QUuid(uuid);
+        } else {
+            m_controlUuid = QUuid::createUuid();
+        }
+        if (description.elementsByTagName(QStringLiteral("filter")).count() > 0) {
+            m_effectsToLoad = description;
+        }
     }
 }
 
@@ -117,58 +124,63 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     int id = m_controllerBinId.toInt();
     m_effectStack = EffectStackModel::construct(m_masterProducer, ObjectId(KdenliveObjectType::BinClip, id, QUuid()), pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
-        m_masterProducer = ClipController::mediaUnavailable;
+        m_masterProducer = std::shared_ptr<Mlt::Producer>(pCore->mediaUnavailable->cut());
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
-    } else {
-        setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
-        if (!m_properties->property_exists("kdenlive:control_uuid")) {
-            m_properties->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
-        }
-        getInfoForProducer();
-        checkAudioVideo();
-        if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
-            // Check if clip has multiple video streams
-            QList<int> videoStreams;
-            QList<int> audioStreams;
-            int aStreams = m_properties->get_int("meta.media.nb_streams");
-            for (int ix = 0; ix < aStreams; ++ix) {
-                char property[200];
-                snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
-                QString type = m_properties->get(property);
-                if (type == QLatin1String("video")) {
-                    QString key = QStringLiteral("meta.media.%1.codec.name").arg(ix);
-                    QString codec_name = m_properties->get(key.toLatin1().constData());
-                    if (codec_name == QLatin1String("png")) {
+        connectEffectStack();
+        return;
+    }
+    setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
+    if (!m_properties->property_exists("kdenlive:control_uuid")) {
+        m_properties->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
+    }
+    getInfoForProducer();
+    checkAudioVideo();
+    if (!m_effectsToLoad.isNull()) {
+        m_effectStack->fromMltXml(m_effectsToLoad);
+        m_effectsToLoad.clear();
+    }
+    if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
+        // Check if clip has multiple video streams
+        QList<int> videoStreams;
+        QList<int> audioStreams;
+        int aStreams = m_properties->get_int("meta.media.nb_streams");
+        for (int ix = 0; ix < aStreams; ++ix) {
+            char property[200];
+            snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+            QString type = m_properties->get(property);
+            if (type == QLatin1String("video")) {
+                QString key = QStringLiteral("meta.media.%1.codec.name").arg(ix);
+                QString codec_name = m_properties->get(key.toLatin1().constData());
+                if (codec_name == QLatin1String("png")) {
+                    // This is a cover image, skip
+                    qDebug() << "=== FOUND PNG COVER ART STREAM: " << ix;
+                    setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
+                    continue;
+                }
+                if (codec_name == QLatin1String("mjpeg")) {
+                    key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(ix);
+                    QString fps = m_properties->get(key.toLatin1().constData());
+                    if (fps.isEmpty()) {
+                        key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(ix);
+                        fps = m_properties->get(key.toLatin1().constData());
+                    }
+                    if (fps == QLatin1String("90000")) {
                         // This is a cover image, skip
-                        qDebug() << "=== FOUND PNG COVER ART STREAM: " << ix;
+                        qDebug() << "=== FOUND MJPEG COVER ART STREAM: " << ix;
                         setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
                         continue;
                     }
-                    if (codec_name == QLatin1String("mjpeg")) {
-                        key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(ix);
-                        QString fps = m_properties->get(key.toLatin1().constData());
-                        if (fps.isEmpty()) {
-                            key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(ix);
-                            fps = m_properties->get(key.toLatin1().constData());
-                        }
-                        if (fps == QLatin1String("90000")) {
-                            // This is a cover image, skip
-                            qDebug() << "=== FOUND MJPEG COVER ART STREAM: " << ix;
-                            setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
-                            continue;
-                        }
-                    }
-                    videoStreams << ix;
-                } else if (type == QLatin1String("audio")) {
-                    audioStreams << ix;
                 }
+                videoStreams << ix;
+            } else if (type == QLatin1String("audio")) {
+                audioStreams << ix;
             }
-            if (videoStreams.count() > 1) {
-                setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
-                m_hasMultipleVideoStreams = true;
-                QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(QString, m_controllerBinId),
-                                          Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams));
-            }
+        }
+        if (videoStreams.count() > 1) {
+            setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
+            m_hasMultipleVideoStreams = true;
+            QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(QString, m_controllerBinId),
+                                      Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams));
         }
     }
     connectEffectStack();
@@ -287,7 +299,15 @@ void ClipController::getInfoForProducer()
                 m_properties = new Mlt::Properties(m_masterProducer->parent().get_properties());
                 return getInfoForProducer();*/
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
-        if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."))) {
+        bool isSlideShow = m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."));
+        if (!isSlideShow && m_path.contains(QLatin1Char('%'))) {
+            // Check if we have something like image-%04d
+            const QRegularExpression regexp("%\\d+d$");
+            if (regexp.match(QFileInfo(m_path).baseName()).hasMatch()) {
+                isSlideShow = true;
+            }
+        }
+        if (isSlideShow) {
             m_clipType = ClipType::SlideShow;
         } else {
             m_clipType = ClipType::Image;
@@ -580,10 +600,10 @@ bool ClipController::hasProducerProperty(const QString &name) const
 
 QString ClipController::getProducerProperty(const QString &name) const
 {
-    QReadLocker lock(&m_producerLock);
     if (m_properties == nullptr) {
         return m_tempProps.value(name).toString();
     }
+    QReadLocker lock(&m_producerLock);
     if (m_usesProxy && name.startsWith(QLatin1String("meta."))) {
         QString correctedName = QStringLiteral("kdenlive:") + name;
         return m_properties->get(correctedName.toUtf8().constData());
@@ -649,8 +669,16 @@ double ClipController::originalFps() const
     if (!m_properties) {
         return 0;
     }
-    QString propertyName = QStringLiteral("meta.media.%1.stream.frame_rate").arg(m_videoIndex);
-    return m_properties->get_double(propertyName.toUtf8().constData());
+    double fps = 0.;
+    int fps_den = m_properties->get_int("meta.media.frame_rate_den");
+    if (fps_den > 0) {
+        fps = m_properties->get_double("meta.media.frame_rate_num") / fps_den;
+    }
+    if (fps == 0. && m_videoIndex > -1) {
+        QString propertyName = QStringLiteral("meta.media.%1.stream.frame_rate").arg(m_videoIndex);
+        return m_properties->get_double(propertyName.toUtf8().constData());
+    }
+    return fps;
 }
 
 QString ClipController::videoCodecProperty(const QString &property) const
@@ -1169,7 +1197,7 @@ bool ClipController::supportsProxy() const
 
 bool ClipController::hasProxy() const
 {
-    QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
+    const QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
     return proxy.size() > 2 && proxy == getProducerProperty(QStringLiteral("resource"));
 }
 

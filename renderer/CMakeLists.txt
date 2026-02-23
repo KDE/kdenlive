@@ -5,10 +5,6 @@ set(QT_DONT_USE_QTGUI 1)
 if(USE_DBUS)
     set(QT_USE_QTDBUS 1)
 endif()
-include_directories(
-    ${MLT_INCLUDE_DIR}
-    ${MLTPP_INCLUDE_DIR}
-)
 
 set(kdenlive_render_SRCS
   kdenlive_render.cpp
@@ -31,8 +27,7 @@ target_link_libraries(kdenlive_render
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::Widgets
     Qt${QT_MAJOR_VERSION}::Xml
-    ${MLT_LIBRARIES}
-    ${MLTPP_LIBRARIES})
+    Mlt7::mlt++)
 if(NOT USE_DBUS)
     target_compile_definitions(kdenlive_render PRIVATE NODBUS)
     target_link_libraries(kdenlive_render Qt${QT_MAJOR_VERSION}::Network)

@@ -32,7 +32,7 @@ TEST_CASE("Basic tests of the document checker parts", "[DocumentChecker]")
         qDebug() << transitions;
     }
 
-    SECTION("Check build-in luma detection")
+    SECTION("Check built-in luma detection")
     {
         CHECK(KdenliveTests::isMltBuildInLuma(QStringLiteral("luma05.pgm")));
         CHECK_FALSE(KdenliveTests::isMltBuildInLuma(QStringLiteral("luma05.png")));

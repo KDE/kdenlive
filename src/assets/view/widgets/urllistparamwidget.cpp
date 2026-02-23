@@ -27,9 +27,6 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
 
-    // setup the comment
-    setToolTip(comment);
-    m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));
@@ -164,18 +161,7 @@ void UrlListParamWidget::slotRefresh()
         m_listType = LUMALIST;
         values.clear();
         names.clear();
-        if (pCore->getCurrentFrameSize().width() > 1000) {
-            // HD project
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
-        } else if (pCore->getCurrentFrameSize().height() > 1000) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
-        } else if (pCore->getCurrentFrameSize().height() == pCore->getCurrentFrameSize().width()) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("square"));
-        } else if (pCore->getCurrentFrameSize().height() == 480) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
-        } else {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
-        }
+        values = pCore->getLumasForProfile();
         // Fetch names
         for (auto &v : values) {
             QString lumaName = pCore->nameForLumaFile(QFileInfo(v).fileName());
@@ -218,8 +204,10 @@ void UrlListParamWidget::slotRefresh()
                 if (MainWindow::m_lumacache.contains(entry)) {
                     m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                 } else {
-                    // render thumbnails in another thread
-                    thumbnailsToBuild << entry;
+                    // render thumbnails in another thread, except for build-ins
+                    if (!lumaRegexp.match(entry).hasMatch()) {
+                        thumbnailsToBuild << entry;
+                    }
                 }
             }
         }
@@ -230,9 +218,9 @@ void UrlListParamWidget::slotRefresh()
         m_listType = LUTLIST;
         // check for Kdenlive installed luts files
         QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-        const QString path = KRecentDirs::dir(QStringLiteral(":KdenliveUrlLutParamFolder"));
-        if (!path.isEmpty()) {
-            customLuts << path;
+        const QString lastUsedPath = KRecentDirs::dir(QStringLiteral(":KdenliveUrlLutParamFolder"));
+        if (!lastUsedPath.isEmpty()) {
+            customLuts << lastUsedPath;
         }
         customLuts.removeDuplicates();
         for (const QString &folderpath : std::as_const(customLuts)) {
@@ -240,7 +228,8 @@ void UrlListParamWidget::slotRefresh()
             if (!dir.exists()) {
                 continue;
             }
-            QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
+            QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files,
+                            folderpath == lastUsedPath ? QDirIterator::NoIteratorFlags : QDirIterator::Subdirectories);
             while (it.hasNext()) {
                 const QString path = it.next();
                 listValues.insert(QFileInfo(path).baseName(), path);
@@ -381,8 +370,8 @@ void UrlListParamWidget::addItemsInSameFolder(const QString currentValue, QMap<Q
 {
     QDir dir = QFileInfo(currentValue).absoluteDir();
     if (dir.exists()) {
-        QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
-        for (const auto &filename : std::as_const(entrys)) {
+        QStringList entries = dir.entryList(m_fileExt, QDir::Files);
+        for (const auto &filename : std::as_const(entries)) {
             const QString path = dir.absoluteFilePath(filename);
             if (std::find((*listValues).cbegin(), (*listValues).cend(), path) == (*listValues).cend()) {
                 (*listValues).insert(QFileInfo(filename).baseName(), path);

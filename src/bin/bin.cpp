@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "bin.h"
+#include "bin/sequenceclip.h"
 #include "bincommands.h"
 #include "clipcreator.hpp"
 #include "core.h"
@@ -26,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "glaxnimatelauncher.h"
 #include "jobs/abstracttask.h"
 #include "jobs/audiolevels/audiolevelstask.h"
+#include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
 #include "jobs/taskmanager.h"
 #include "jobs/transcodetask.h"
@@ -37,6 +39,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mlt++/Mlt.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
+#include "model/markerlistmodel.hpp"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "playlistclip.h"
@@ -46,7 +49,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
 #include "project/projectmanager.h"
-#include "project/transcodeseek.h"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
@@ -78,15 +80,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QCryptographicHash>
 #include <QDrag>
 #include <QFile>
+#include <QHelpEvent>
 #include <QMenu>
 #include <QMimeData>
 #include <QSlider>
 #include <QStyledItemDelegate>
 #include <QTimeLine>
 #include <QToolBar>
+#include <QToolTip>
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <memory>
 #include <utility>
@@ -95,9 +100,146 @@ static QImage m_videoIcon;
 static QImage m_audioIcon;
 static QImage m_audioUsedIcon;
 static QImage m_videoUsedIcon;
+static QImage m_effectIcon;
 static QSize m_iconSize;
 static QIcon m_folderIcon;
 static QIcon m_sequenceFolderIcon;
+
+/**
+ * @brief Draws the "Double click, drop files or click <icon> to import media" placeholder text when user has not yet imported any media
+ */
+static void drawDropFilesPlaceholder(QPainter &painter, const QRect &rect, const QPalette &palette)
+{
+    // Increment default font size by this amount to make it slightly stand out
+    static constexpr int FONT_SIZE_INCREASE = 3;
+    // Margin as percentage of font height. Less than this and we will not draw the text
+    static constexpr qreal MIN_MARGIN_RATIO_MULTILINE = 0.15;
+    // Margin as percentage of font height. Less than this and we'll switch to multiline layout
+    static constexpr qreal MIN_MARGIN_RATIO_SINGLELINE = 1.0;
+    // Space between lines
+    static constexpr qreal LINE_SPACING_RATIO = 0.3;
+    // Icon vertical alignment compensation for breeze-icons having top/bottom paddings so we can align it to the text baseline
+    static constexpr qreal ICON_ALIGNMENT_RATIO = 0.8;
+
+    // Icon placeholder text. Used in the text template but will be replaced by drawing an actual icon.
+    static const QString iconPlaceholder = QStringLiteral("{icon}");
+
+    QFont font = painter.font();
+    font.setPointSize(font.pointSize() + FONT_SIZE_INCREASE);
+    painter.setFont(font);
+
+    // Use a muted color for the placeholder text
+    QColor textColor = palette.color(QPalette::PlaceholderText);
+    if (!textColor.isValid()) {
+        textColor = palette.color(QPalette::Disabled, QPalette::Text);
+    }
+    painter.setPen(textColor);
+
+    // Setup text content templates with icon placeholder
+    const QString singlelineTemplate =
+        i18nc("Text shown when no media is imported yet. %1 is replaced by an icon", "Double click, drop files or click %1 to import media", iconPlaceholder);
+    const QString multilineTemplate = i18nc("Multiline version: Text shown when no media is imported yet. %1 is replaced by an icon",
+                                            "Double click, drop files\nor click %1 to import media", iconPlaceholder);
+
+    QIcon addIcon = QIcon::fromTheme(QStringLiteral("kdenlive-add-clip"));
+
+    // Calculate layout metrics
+    QFontMetrics fontMetrics(font);
+    const qreal devicePixelRatio = painter.device()->devicePixelRatioF();
+    const int fontHeight = fontMetrics.height();
+    const int iconSize = fontHeight;
+    const int minMarginMultiline = qRound(fontHeight * MIN_MARGIN_RATIO_MULTILINE);
+    const int minMarginSingleline = qRound(fontHeight * MIN_MARGIN_RATIO_SINGLELINE);
+
+    QPixmap iconPixmap = addIcon.pixmap(iconSize * devicePixelRatio, iconSize * devicePixelRatio);
+    iconPixmap.setDevicePixelRatio(devicePixelRatio);
+
+    // Determine if we need a multiline layout
+    // Width of the text + icon + margin on both sides of the text
+    const int singleLineTotalWidth =
+        fontMetrics.horizontalAdvance(QString(singlelineTemplate).replace(iconPlaceholder, "")) + iconSize + 2 * minMarginSingleline;
+
+    const bool needsMultilineLayout = singleLineTotalWidth > rect.width();
+
+    if (needsMultilineLayout) {
+        // Split multiline text into lines for layout calculation
+        const QStringList lines = multilineTemplate.split('\n', Qt::SkipEmptyParts);
+        // Ensure we have exactly 2 non-empty lines from translation. If not, bail out.
+        if (lines.size() != 2) {
+            return;
+        }
+
+        const QString firstLine = lines.at(0);
+        const QString secondLine = lines.at(1);
+
+        // Calculate width needed for drawing the text and icon
+        const int firstLineWidth = fontMetrics.horizontalAdvance(firstLine);
+        QString cleanedSecondLine = secondLine;
+        cleanedSecondLine.remove(iconPlaceholder);
+        const int secondLineWidth = fontMetrics.horizontalAdvance(cleanedSecondLine) + iconSize;
+        const int maxLineWidth = qMax(firstLineWidth, secondLineWidth);
+
+        // Early return if content won't fit even in multiline. So no text will be drawn in this case to avoid clipping.
+        if (maxLineWidth + 2 * minMarginMultiline > rect.width()) {
+            return;
+        }
+
+        const int lineSpacing = qRound(fontHeight * LINE_SPACING_RATIO);
+        const int totalContentHeight = fontHeight * 2 + lineSpacing;
+
+        const int layoutCenterX = rect.center().x();
+        const int layoutCenterY = rect.center().y();
+        const int contentStartY = layoutCenterY - totalContentHeight / 2 + fontMetrics.ascent();
+
+        // Draw first line centered
+        const int firstLineStartX = layoutCenterX - firstLineWidth / 2;
+        painter.drawText(firstLineStartX, contentStartY, firstLine);
+
+        // Draw second line with icon
+        const int secondLineY = contentStartY + fontHeight + lineSpacing;
+        const int iconPlaceholderIndex = secondLine.indexOf(iconPlaceholder);
+        const QString secondLineBeforeIcon = secondLine.left(iconPlaceholderIndex);
+        const QString secondLineAfterIcon = secondLine.mid(iconPlaceholderIndex + iconPlaceholder.length());
+
+        const int beforeIconWidth = fontMetrics.horizontalAdvance(secondLineBeforeIcon);
+        const int afterIconWidth = fontMetrics.horizontalAdvance(secondLineAfterIcon);
+        const int secondLineStartX = layoutCenterX - (beforeIconWidth + iconSize + afterIconWidth) / 2;
+
+        // Draw text before icon
+        painter.drawText(secondLineStartX, secondLineY, secondLineBeforeIcon);
+
+        // Draw icon
+        const int iconX = secondLineStartX + beforeIconWidth;
+        const int iconY = secondLineY - ICON_ALIGNMENT_RATIO * iconSize;
+        painter.drawPixmap(iconX, iconY, iconSize, iconSize, iconPixmap);
+
+        // Draw text after icon
+        const int afterIconX = iconX + iconSize;
+        painter.drawText(afterIconX, secondLineY, secondLineAfterIcon);
+
+    } else {
+        // single-line layout
+        const int textBaselineY = rect.center().y() + fontMetrics.ascent() / 2;
+        const QString textBeforeIcon = singlelineTemplate.left(singlelineTemplate.indexOf(iconPlaceholder));
+        const QString textAfterIcon = singlelineTemplate.mid(singlelineTemplate.indexOf(iconPlaceholder) + iconPlaceholder.length());
+
+        const int beforeIconWidth = fontMetrics.horizontalAdvance(textBeforeIcon);
+        const int totalWidth = beforeIconWidth + iconSize + fontMetrics.horizontalAdvance(textAfterIcon);
+        const int layoutStartX = rect.center().x() - totalWidth / 2;
+
+        // Draw text before icon
+        painter.drawText(layoutStartX, textBaselineY, textBeforeIcon);
+
+        // Draw icon aligned with text baseline
+        const int iconX = layoutStartX + beforeIconWidth;
+        const int iconY = textBaselineY - ICON_ALIGNMENT_RATIO * iconSize;
+        painter.drawPixmap(iconX, iconY, iconSize, iconSize, iconPixmap);
+
+        // Draw text after icon
+        const int afterIconX = iconX + iconSize;
+        painter.drawText(afterIconX, textBaselineY, textAfterIcon);
+    }
+}
 
 /**
  * @class BinItemDelegate
@@ -155,6 +297,41 @@ public:
         event->ignore();
         return false;
     }
+
+    bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override
+    {
+        // We override this function to show custom tooltips for audio/video drag areas inside of the name column.
+
+        // Preserve default behavior...
+        // ... for non-name column
+        if (index.column() != 0 || !index.isValid()) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+        // ... for non-tooltip events
+        if (event->type() != QEvent::ToolTip) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+        // ... for non-clip/subclip/subsequence items
+        int itemType = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if (itemType != AbstractProjectItem::ClipItem && itemType != AbstractProjectItem::SubClipItem && itemType != AbstractProjectItem::SubSequenceItem) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+
+        // Show custom tooltips when over audio/video drag areas
+        const QPoint pos = event->pos();
+        if (m_audioDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only audio to timeline"), view);
+            return true;
+        }
+        if (m_videoDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only video to timeline"), view);
+            return true;
+        }
+
+        // Otherwise, show default tooltip
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() != 0) {
@@ -221,6 +398,7 @@ public:
         if (index.column() == 0 && !index.data().isNull()) {
             QRect r1 = option.rect;
             painter->save();
+            painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
             painter->setClipRect(r1);
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
@@ -311,19 +489,23 @@ public:
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Add audio/video icons for selective drag
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+                    int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
-                        QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
+                        QRect audioRect(0, 0, logicalIconSize, logicalIconSize);
                         audioRect.moveTop(bounding.top() + 1);
                         QRect videoIconRect = audioRect;
                         videoIconRect.moveRight(
-                            qMax(int(bounding.right() + (2 * textMargin) + 2 * (1 + m_audioIcon.width())), option.rect.right() - (2 * textMargin)));
+                            qMax(int(bounding.right() + (2 * textMargin) + 2 * (1 + logicalIconSize)), option.rect.right() - (2 * textMargin)));
                         audioRect.moveRight(videoIconRect.left() - (2 * textMargin) - 1);
                         if (opt.state & QStyle::State_MouseOver) {
                             m_audioDragRect = audioRect.adjusted(-1, -1, 1, 1);
                             m_videoDragRect = videoIconRect.adjusted(-1, -1, 1, 1);
                             painter->drawImage(audioRect.topLeft(), m_audioIcon);
                             painter->drawImage(videoIconRect.topLeft(), m_videoIcon);
-                            painter->setPen(opt.palette.highlight().color());
+                            // Use text color when selected (for better contrast) as selected background color is pretty close to highlight color
+                            // Use main window palette as highlight color of "option" was too dark
+                            QColor rectColor = selected ? qApp->palette().text().color() : qApp->palette().highlight().color();
+                            painter->setPen(rectColor);
                             painter->drawRect(m_audioDragRect);
                             painter->drawRect(m_videoDragRect);
                         } else if (!usage.isEmpty()) {
@@ -335,9 +517,9 @@ public:
                             }
                         }
                     } else if (!usage.isEmpty()) {
-                        QRect iconRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
+                        QRect iconRect(0, 0, logicalIconSize, logicalIconSize);
                         iconRect.moveTop(bounding.top() + 1);
-                        int minPos = bounding.right() + (2 * textMargin) + m_audioIcon.width();
+                        int minPos = bounding.right() + (2 * textMargin) + logicalIconSize;
                         iconRect.moveRight(qMax(minPos, option.rect.right() - (2 * textMargin)));
                         if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
                             painter->drawImage(iconRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
@@ -350,9 +532,14 @@ public:
                     // Overlay icon if necessary
                     QVariant v = index.data(AbstractProjectItem::IconOverlay);
                     if (!v.isNull()) {
-                        QIcon reload = QIcon::fromTheme(v.toString());
                         int size = style->pixelMetric(QStyle::PM_SmallIconSize);
-                        reload.paint(painter, QRect(r.left() + 2, r.bottom() - size - 2, size, size));
+                        if (v.toString() == QLatin1String("tools-wizard")) {
+                            painter->drawImage(QRect(r.left() + 2, r.bottom() - size - 2, size, size), m_effectIcon);
+                        } else {
+                            QIcon reload = QIcon::fromTheme(v.toString());
+                            QPixmap pix = reload.pixmap(size);
+                            reload.paint(painter, QRect(r.left() + 2, r.bottom() - size - 2, size, size));
+                        }
                     }
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                     auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();
@@ -473,9 +660,40 @@ public:
         return false;
     }
 
+    bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override
+    {
+        // We override this function to show custom tooltips for audio/video drag areas and usage icons.
+
+        // Preserve default behavior...
+        // ... for non-tooltip events
+        if (event->type() != QEvent::ToolTip) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+        // ... for non-clip/subclip/subsequence items
+        int itemType = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if (itemType != AbstractProjectItem::ClipItem && itemType != AbstractProjectItem::SubClipItem && itemType != AbstractProjectItem::SubSequenceItem) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+
+        // Show custom tooltips when over audio/video drag areas
+        const QPoint pos = event->pos();
+        if (m_audioDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only audio to timeline"), view);
+            return true;
+        }
+        if (m_videoDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only video to timeline"), view);
+            return true;
+        }
+
+        // Otherwise, show default tooltip
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (!index.data().isNull()) {
+            painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
             // QStyledItemDelegate::paint(painter, opt, index);
@@ -539,16 +757,17 @@ public:
             // Add audio/video icons for selective drag
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+            int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
             if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline) &&
-                m_thumbRect.height() > 2.5 * m_audioIcon.height()) {
+                m_thumbRect.height() > 2.5 * logicalIconSize) {
                 QRect thumbRect = m_thumbRect;
-                thumbRect.setLeft(opt.rect.right() - m_audioIcon.width() - 6);
+                thumbRect.setLeft(opt.rect.right() - logicalIconSize - 6);
                 if (opt.state & QStyle::State_MouseOver || !usage.isEmpty()) {
                     QColor bgColor = option.palette.window().color();
                     bgColor.setAlphaF(.7);
                     painter->fillRect(thumbRect, bgColor);
                 }
-                thumbRect.setSize(m_audioIcon.size());
+                thumbRect.setSize(QSize(logicalIconSize, logicalIconSize));
                 thumbRect.translate(3, 2);
                 QRect videoThumbRect = thumbRect;
                 videoThumbRect.moveTop(thumbRect.bottom() + 2);
@@ -670,7 +889,7 @@ MyListView::MyListView(QWidget *parent)
 void MyListView::focusInEvent(QFocusEvent *event)
 {
     QListView::focusInEvent(event);
-    if (event->reason() == Qt::MouseFocusReason) {
+    if (event->reason() == Qt::MouseFocusReason || event->reason() == Qt::ActiveWindowFocusReason) {
         Q_EMIT focusView();
     }
 }
@@ -711,10 +930,24 @@ void MyListView::leaveEvent(QEvent *event)
 
 void MyListView::mousePressEvent(QMouseEvent *event)
 {
+    QListView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
-        QModelIndex ix = indexAt(event->pos());
-        if (ix.isValid()) {
-            QAbstractItemDelegate *del = itemDelegateForIndex(ix);
+        QModelIndex clickedIndex = indexAt(event->pos());
+        auto selected = selectedIndexes();
+        if (clickedIndex.isValid()) {
+            QModelIndexList selection;
+            if (selected.contains(clickedIndex)) {
+                selection = selected;
+            } else {
+                selection = {clickedIndex};
+            }
+            m_clickedIndexes.clear();
+            for (auto &s : selection) {
+                if (s.column() == 0) {
+                    m_clickedIndexes << s;
+                }
+            }
+            QAbstractItemDelegate *del = itemDelegateForIndex(m_clickedIndexes.first());
             m_dragType = static_cast<BinListItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
         } else {
@@ -723,7 +956,6 @@ void MyListView::mousePressEvent(QMouseEvent *event)
         }
         Q_EMIT updateDragMode(m_dragType);
     }
-    QListView::mousePressEvent(event);
 }
 
 void MyListView::mouseReleaseEvent(QMouseEvent *event)
@@ -736,46 +968,16 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (!m_startPos.isNull() && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
-            QModelIndexList indexes = selectedIndexes();
-            if (indexes.isEmpty()) {
-                // Dragging from empty zone, abort
-                QListView::mouseMoveEvent(event);
-                return;
-            }
-            auto *drag = new QDrag(this);
-            auto *mData = model()->mimeData(indexes);
-            mData->setData(QStringLiteral("text/binId"), parentWidget()->parentWidget()->objectName().toLatin1());
-            drag->setMimeData(mData);
-            QModelIndex ix = indexes.constFirst();
-            if (ix.isValid()) {
-                QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
-                QPixmap pix = icon.pixmap(iconSize());
-                QSize size = pix.size() / 2;
-                QImage image(size, QImage::Format_ARGB32_Premultiplied);
-                image.fill(Qt::transparent);
-                QPainter p(&image);
-                p.setOpacity(0.7);
-                p.drawPixmap(0, 0, image.width(), image.height(), pix);
-                p.setOpacity(1);
-                if (indexes.count() > 1) {
-                    QPalette palette;
-                    int radius = size.height() / 3;
-                    p.setBrush(palette.highlight());
-                    p.setPen(palette.highlightedText().color());
-                    p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
-                    p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter,
-                               QString::number(indexes.count()));
-                }
-                p.end();
-                drag->setPixmap(QPixmap::fromImage(image));
-            }
-            drag->exec();
-            Q_EMIT processDragEnd();
-            return;
+            Q_EMIT updateDragMode(m_dragType);
+            Q_EMIT performDrag(m_clickedIndexes);
+            event->accept();
+        } else {
+            event->ignore();
         }
         QListView::mouseMoveEvent(event);
         return;
     }
+
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         if (KdenliveSettings::hoverPreview()) {
@@ -818,6 +1020,22 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
+void MyListView::paintEvent(QPaintEvent *event)
+{
+    QListView::paintEvent(event);
+
+    // Check if there are no user media clips (excluding sequences) and show placeholder text
+    if (model() && !pCore->bin()->hasUserClip()) {
+        QPainter painter(viewport());
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        // Get the viewport rect
+        QRect rect = viewport()->rect();
+
+        drawDropFilesPlaceholder(painter, rect, palette());
+    }
+}
+
 MyTreeView::MyTreeView(QWidget *parent)
     : QTreeView(parent)
 {
@@ -829,12 +1047,28 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
 {
     QTreeView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
-        QModelIndex ix = indexAt(event->pos());
-        if (ix.isValid()) {
-            QAbstractItemDelegate *del = itemDelegateForIndex(ix);
+        QModelIndex clickedIndex = indexAt(event->pos());
+        auto selected = selectedIndexes();
+        if (clickedIndex.isValid()) {
+            QModelIndexList selection;
+            if (selected.contains(clickedIndex)) {
+                selection = selected;
+            } else {
+                selection = {clickedIndex};
+            }
+            m_clickedIndexes.clear();
+            for (auto &s : selection) {
+                if (s.column() == 0) {
+                    m_clickedIndexes << s;
+                }
+            }
+            /*qDebug() << "****************************************\n***   MOUSE CLICKED   ***\n\n******************************";
+            qDebug() << ":::::: CLICKED ON ROW: " << clickedIndex.row() << " / " << clickedIndex;
+            qDebug() << ":::::: FINAL SELECTION: " << m_clickedIndexes << "// INTERNAL ID: " << m_clickedIndexes.first().internalId()
+                     << "\n\n***************************************";*/
+            QAbstractItemDelegate *del = itemDelegateForIndex(clickedIndex);
             m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
-
         } else {
             m_dragType = PlaylistState::Disabled;
             m_startPos = QPoint();
@@ -852,7 +1086,7 @@ void MyTreeView::mouseReleaseEvent(QMouseEvent *event)
 void MyTreeView::focusInEvent(QFocusEvent *event)
 {
     QTreeView::focusInEvent(event);
-    if (event->reason() == Qt::MouseFocusReason) {
+    if (event->reason() == Qt::MouseFocusReason || event->reason() == Qt::ActiveWindowFocusReason) {
         Q_EMIT focusView();
     }
 }
@@ -885,12 +1119,12 @@ void MyTreeView::dropEvent(QDropEvent *event)
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     if ((event->buttons() & Qt::LeftButton) != 0u) {
-        if (!m_startPos.isNull()) {
-            int distance = (event->pos() - m_startPos).manhattanLength();
-            if (distance >= QApplication::startDragDistance()) {
-                performDrag();
-                return;
-            }
+        if (!m_startPos.isNull() && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
+            Q_EMIT updateDragMode(m_dragType);
+            Q_EMIT performDrag(m_clickedIndexes);
+            event->accept();
+        } else {
+            event->ignore();
         }
         QTreeView::mouseMoveEvent(event);
         return;
@@ -955,50 +1189,20 @@ void MyTreeView::setEditing(bool edit)
     }
 }
 
-bool MyTreeView::performDrag()
+void MyTreeView::paintEvent(QPaintEvent *event)
 {
-    QModelIndexList bases = selectedIndexes();
-    QModelIndexList indexes;
-    for (int i = 0; i < bases.count(); i++) {
-        if (bases.at(i).column() == 0) {
-            indexes << bases.at(i);
-        }
+    QTreeView::paintEvent(event);
+
+    // Check if there are no user media clips (excluding sequences) and show placeholder text
+    if (model() && !pCore->bin()->hasUserClip()) {
+        QPainter painter(viewport());
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        // Get the viewport rect
+        QRect rect = viewport()->rect();
+
+        drawDropFilesPlaceholder(painter, rect, palette());
     }
-    if (indexes.isEmpty()) {
-        return false;
-    }
-    // Check if we want audio or video only
-    Q_EMIT updateDragMode(m_dragType);
-    auto *drag = new QDrag(this);
-    auto *mData = model()->mimeData(indexes);
-    mData->setData(QStringLiteral("text/binId"), parentWidget()->parentWidget()->objectName().toLatin1());
-    drag->setMimeData(mData);
-    QModelIndex ix = indexes.constFirst();
-    if (ix.isValid()) {
-        QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
-        QPixmap pix = icon.pixmap(iconSize());
-        QSize size = pix.size() / 2;
-        QImage image(size, QImage::Format_ARGB32_Premultiplied);
-        image.fill(Qt::transparent);
-        QPainter p(&image);
-        p.setOpacity(0.7);
-        p.drawPixmap(0, 0, image.width(), image.height(), pix);
-        p.setOpacity(1);
-        if (indexes.count() > 1) {
-            QPalette palette;
-            int radius = size.height() / 3;
-            p.setBrush(palette.highlight());
-            p.setPen(palette.highlightedText().color());
-            p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
-            p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(indexes.count()));
-        }
-        p.end();
-        drag->setPixmap(QPixmap::fromImage(image));
-    }
-    drag->exec();
-    drag->deleteLater();
-    Q_EMIT processDragEnd();
-    return true;
 }
 
 SmallJobLabel::SmallJobLabel(QWidget *parent)
@@ -1007,9 +1211,11 @@ SmallJobLabel::SmallJobLabel(QWidget *parent)
 {
     setFixedWidth(0);
     setFlat(true);
-    m_timeLine = new QTimeLine(500, this);
-    QObject::connect(m_timeLine, &QTimeLine::valueChanged, this, &SmallJobLabel::slotTimeLineChanged);
-    QObject::connect(m_timeLine, &QTimeLine::finished, this, &SmallJobLabel::slotTimeLineFinished);
+    if (style()->styleHint(QStyle::QStyle::SH_Widget_Animation_Duration, nullptr, this) > 0) {
+        m_timeLine = new QTimeLine(500, this);
+        QObject::connect(m_timeLine, &QTimeLine::valueChanged, this, &SmallJobLabel::slotTimeLineChanged);
+        QObject::connect(m_timeLine, &QTimeLine::finished, this, &SmallJobLabel::slotTimeLineFinished);
+    }
     hide();
 }
 
@@ -1072,7 +1278,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
         setText(i18np("%1 job", "%1 jobs", jobCount));
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
 
-        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this) != 0) {
+        if (m_timeLine == nullptr) {
             setFixedWidth(sizeHint().width());
             m_action->setVisible(true);
             return;
@@ -1093,7 +1299,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
             m_timeLine->start();
         }
     } else {
-        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this) != 0) {
+        if (m_timeLine == nullptr) {
             setFixedWidth(0);
             m_action->setVisible(false);
             return;
@@ -1169,10 +1375,18 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     if (m_isMainBin) {
         // Init icons
-        m_audioIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
-        m_videoIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
+        qreal dpr = this->devicePixelRatioF();
+        QSize iconPxSize = QSize(iconSize, iconSize) * dpr;
+        m_audioIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_audioIcon.setDevicePixelRatio(dpr);
+        m_videoIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_videoIcon.setDevicePixelRatio(dpr);
+        m_effectIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_effectIcon.setDevicePixelRatio(dpr);
         m_folderIcon = QIcon::fromTheme(QStringLiteral("folder"));
         m_sequenceFolderIcon = QIcon::fromTheme(QStringLiteral("folder-yellow"));
+        // Ensure icons are correctly created
+        slotUpdatePalette();
     }
 
     // Tags panel
@@ -1204,6 +1418,13 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
             if (current.isValid()) {
                 m_itemView->scrollTo(current, QAbstractItemView::EnsureVisible);
+            }
+        } else {
+            if (m_listType == BinTreeView) {
+                auto *tView = static_cast<QTreeView *>(m_itemView);
+                if (tView) {
+                    tView->expandAll();
+                }
             }
         }
     });
@@ -1328,7 +1549,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     });
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
-    disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
+    disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("tools-wizard")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
@@ -1393,7 +1614,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterUsageGroup.setExclusive(true);
     m_filterTypeGroup.setExclusive(false);
     m_filterMenu = new QMenu(i18n("Filter"), this);
-    m_filterButton = new QToolButton;
+    m_filterButton = new QToolButton(this);
     m_filterButton->setCheckable(true);
     m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
@@ -1408,7 +1629,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             m_proxyModel->slotClearSearchFilters();
             return;
         }
-        slotApplyFilters();
+        slotApplyFilters(true);
     });
 
     connect(m_filterMenu, &QMenu::triggered, this, [this](QAction *action) {
@@ -1424,7 +1645,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             m_filterButton->setChecked(false);
             return;
         }
-        slotApplyFilters();
+        slotApplyFilters(false);
     });
 
     m_tagAction->setCheckable(true);
@@ -1491,6 +1712,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         m_propertiesPanel = new QScrollArea(this);
         m_propertiesPanel->setFrameShape(QFrame::NoFrame);
         m_propertiesPanel->setAccessibleName(i18n("Bin Clip Properties"));
+        m_propertiesPanel->setMinimumWidth(m_toolbar->sizeHint().width());
     }
     // Insert listview
     m_itemView = new MyTreeView(this);
@@ -1540,24 +1762,46 @@ void Bin::slotUpdatePalette()
 {
     if (m_isMainBin) {
         // Refresh icons
-        QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+        qreal dpr = this->devicePixelRatioF();
+        int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+        QSize iconPxSize = QSize(iconSize, iconSize) * dpr;
+        QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-high"));
         QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+        QIcon effectIcon = QIcon::fromTheme(QStringLiteral("tools-wizard"));
+        m_audioIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_audioIcon.setDevicePixelRatio(dpr);
+        m_videoIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_videoIcon.setDevicePixelRatio(dpr);
+        QImage effectIconFg = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        effectIconFg.setDevicePixelRatio(dpr);
+        effectIconFg.fill(Qt::transparent);
+        m_effectIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_effectIcon.setDevicePixelRatio(dpr);
+        m_effectIcon.fill(QColor(QStringLiteral("#fdbc4b")));
         m_audioIcon.fill(Qt::transparent);
         m_videoIcon.fill(Qt::transparent);
         QPainter p(&m_audioIcon);
-        audioIcon.paint(&p, 0, 0, m_audioIcon.width(), m_audioIcon.height());
+        audioIcon.paint(&p, 0, 0, iconSize, iconSize);
         p.end();
         QPainter p2(&m_videoIcon);
-        videoIcon.paint(&p2, 0, 0, m_videoIcon.width(), m_videoIcon.height());
+        videoIcon.paint(&p2, 0, 0, iconSize, iconSize);
         p2.end();
+        QPainter p3(&effectIconFg);
+        effectIcon.paint(&p3, 0, 0, iconSize, iconSize);
+        p3.end();
         m_audioUsedIcon = m_audioIcon;
-        KIconEffect::toMonochrome(m_audioUsedIcon, palette().link().color(), palette().link().color(), 1);
+        QColor highlightColor = qApp->palette().highlight().color();
+        KIconEffect::toMonochrome(m_audioUsedIcon, highlightColor, highlightColor, 1);
         m_videoUsedIcon = m_videoIcon;
-        KIconEffect::toMonochrome(m_videoUsedIcon, palette().link().color(), palette().link().color(), 1);
+        KIconEffect::toMonochrome(m_videoUsedIcon, highlightColor, highlightColor, 1);
+        KIconEffect::toMonochrome(effectIconFg, Qt::black, Qt::black, 1);
+        QPainter p4(&m_effectIcon);
+        p4.drawImage(0, 0, effectIconFg);
+        p4.end();
     }
 }
 
-QDockWidget *Bin::clipPropertiesDock()
+KDDockWidgets::QtWidgets::DockWidget *Bin::clipPropertiesDock()
 {
     return m_propertiesDock;
 }
@@ -1610,7 +1854,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             monitor->slotActivateMonitor();
         } else {
             // Force raise
-            monitor->parentWidget()->raise();
+            pCore->window()->raiseMonitor(true);
         }
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {
@@ -1736,7 +1980,9 @@ void Bin::slotAddClip()
 {
     // Check if we are in a folder
     const QString parentFolder = getCurrentFolder();
-    ClipCreationDialog::createClipsCommand(m_doc, parentFolder, m_itemModel);
+    ClipCreationDialog::createClipsCommand(m_doc, parentFolder, m_itemModel, m_readyCallBack, m_suggestedDuration);
+    m_readyCallBack = nullptr;
+    m_suggestedDuration = -1;
     pCore->window()->raiseBin();
 }
 
@@ -1816,14 +2062,20 @@ void Bin::slotDeleteClip()
     if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
         return;
     }
-    // Clear undostack as it contains references to deleted timeline models
-    pCore->undoStack()->clear();
+    if (!sequences.isEmpty()) {
+        // Clear undostack as it contains references to deleted timeline models
+        pCore->undoStack()->clear();
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Ensure we don't delete a parent before a child
     // std::sort(items.begin(), items.end(), [](std::shared_ptr<AbstractProjectItem> a, std::shared_ptr<AbstractProjectItem>b) { return a->depth() > b->depth();
     // });
     QStringList notDeleted;
+    if (items.size() > 1) {
+        // If we delete more than 1 item, ensure we won't select an item to be deleted'
+        m_proxyModel->selectionModel()->clearSelection();
+    }
     for (const auto &item : items) {
         if (!m_itemModel->requestBinClipDeletion(item, undo, redo)) {
             notDeleted << item->name();
@@ -1851,7 +2103,7 @@ void Bin::slotReloadClip()
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
-            Q_EMIT openClip(std::shared_ptr<ProjectClip>());
+            openClipInMonitor(std::shared_ptr<ProjectClip>());
             if (currentItem->clipStatus() == FileStatus::StatusMissing || currentItem->clipStatus() == FileStatus::StatusProxyOnly) {
                 // Don't attempt to reload missing clip
                 // Check if source file is available
@@ -1932,6 +2184,8 @@ void Bin::replaceSingleClip(const QString clipId, const QString &newUrl)
                         return;
                         ;
                     }
+                    // Ensure all instances use a correct duration
+                    currentItem->limitMaxDuration(replacementDuration - 1);
                 }
             } else {
                 KMessageBox::error(this, i18n("The selected file %1 is invalid.", newUrl));
@@ -2056,13 +2310,13 @@ void Bin::slotReplaceClip()
             if (ix == activeSelection) {
                 qDebug() << "==== FOUND ACTIVE CLIP: " << currentItem->clipUrl();
             } else {
-                qDebug() << "==== FOUND SELECED CLIP: " << currentItem->clipUrl();
+                qDebug() << "==== FOUND SELECTED CLIP: " << currentItem->clipUrl();
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
-            Q_EMIT openClip(std::shared_ptr<ProjectClip>());
+            openClipInMonitor(std::shared_ptr<ProjectClip>());
             auto filter = FileFilter::Builder().setCategories({FileFilter::AllSupported}).toQFilter();
             QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement for %1", currentItem->clipName()),
                                                             QFileInfo(currentItem->url()).absolutePath(), filter);
@@ -2152,6 +2406,8 @@ void Bin::slotReplaceClip()
                                          (currentDuration - replacementDuration))) != KMessageBox::Continue) {
                                 continue;
                             }
+                            // Ensure all instances use a correct duration
+                            currentItem->limitMaxDuration(replacementDuration - 1);
                         }
                     } else {
                         KMessageBox::error(this, i18n("The selected file %1 is invalid.", fileName));
@@ -2321,7 +2577,9 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
 
     // Cleanup previous project
-    m_itemModel->clean();
+    if (m_isMainBin) {
+        m_itemModel->clean();
+    }
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
         QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
@@ -2333,7 +2591,9 @@ void Bin::cleanDocument()
     isLoading = false;
     shouldCheckProfile = false;
     m_doc = nullptr;
-    pCore->textEditWidget()->openClip(nullptr);
+    if (m_isMainBin) {
+        pCore->textEditWidget()->openClip(nullptr);
+    }
 }
 
 const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
@@ -2344,7 +2604,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     }
     m_doc = project;
     QString folderName;
-    if (m_isMainBin) {
+    if (m_isMainBin && m_infoLabel) {
         m_infoLabel->slotSetJobCount(0);
     }
     int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
@@ -2390,11 +2650,13 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     if (!id.isEmpty() && id != QLatin1String("-1")) {
         // Open view in a specific folder
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
-        auto parentIx = m_itemModel->getIndexFromItem(item);
-        m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
-        folderName = item->name();
-        m_upAction->setEnabled(true);
-        m_upAction->setVisible(true);
+        if (item) {
+            auto parentIx = m_itemModel->getIndexFromItem(item);
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+            folderName = item->name();
+            m_upAction->setEnabled(true);
+            m_upAction->setVisible(true);
+        }
     }
 
     // setBinEffectsEnabled(!binEffectsDisabled, false);
@@ -2505,7 +2767,7 @@ void Bin::rebuildFilters(int tagsCount)
     typeMenu->addAction(typeFilter);
 }
 
-void Bin::slotApplyFilters()
+void Bin::slotApplyFilters(bool fromFilterButton)
 {
     QList<QAction *> list = m_filterMenu->actions();
     QList<int> rateFilters;
@@ -2535,6 +2797,9 @@ void Bin::slotApplyFilters()
     if (!rateFilters.isEmpty() || !tagFilters.isEmpty() || !typeFilters.isEmpty() || usageFilter != ProjectSortProxyModel::All) {
         m_filterButton->setChecked(true);
     } else {
+        if (fromFilterButton) {
+            doDisplayMessage(i18n("Select an option in the menu to enable filtering"), KMessageWidget::Information, {}, false, BinMessage::TimedMessage);
+        }
         m_filterButton->setChecked(false);
     }
     m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters, usageFilter);
@@ -2667,26 +2932,30 @@ void Bin::selectAll()
 
 void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, bool activateMonitor)
 {
-    qDebug() << "CHECKING FOR BIN CLIP: " << clipId;
-    if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == clipId) {
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(clipId);
-        if (clip) {
-            QModelIndex ix = m_itemModel->getIndexFromItem(clip);
-            int row = ix.row();
-            const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
-            const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
-            if (id.isValid() && id2.isValid()) {
-                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
-                                                       QItemSelectionModel::SelectCurrent);
-            }
-            m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
-        }
-    } else {
+    if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() != clipId) {
         std::shared_ptr<ProjectClip> clip = getBinClip(clipId);
         if (clip == nullptr) {
             return;
         }
+        // We can only set zone after the clip is loaded
+        m_activateClipZoneInfo.clipId = clip->clipId();
+        m_activateClipZoneInfo.zone = zone;
+        m_activateClipZoneInfo.seekFrame = frame;
         selectClip(clip);
+        return;
+    }
+    // Clip is already displayed, select and adjust zone
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(clipId);
+    if (clip) {
+        QModelIndex ix = m_itemModel->getIndexFromItem(clip);
+        int row = ix.row();
+        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
+        if (id.isValid() && id2.isValid()) {
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
+                                                   QItemSelectionModel::SelectCurrent);
+        }
+        m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
     }
     Monitor *monitor = pCore->getMonitor(Kdenlive::ClipMonitor);
     if (!zone.isNull()) {
@@ -2765,15 +3034,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 // Disable find in timeline option
                 m_openAction->setEnabled(false);
             }
-            if (m_clipsActionsMenu) {
-                m_clipsActionsMenu->setEnabled(!isFolder);
-            }
             m_editAction->setVisible(!isFolder);
             m_editAction->setEnabled(true);
-            m_extractAudioAction->menuAction()->setVisible(hasAudio);
-            m_extractAudioAction->setEnabled(hasAudio);
+            if (m_extractAudioAction) {
+                m_extractAudioAction->menuAction()->setVisible(hasAudio);
+                m_extractAudioAction->setEnabled(hasAudio);
+            }
             m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text ||
-                                     type == ClipType::Animation);
+                                     type == ClipType::Animation || type == ClipType::Video || type == ClipType::AV);
             m_openAction->setVisible(!isFolder);
             m_duplicateAction->setEnabled(isClip);
             m_duplicateAction->setVisible(!isFolder);
@@ -2790,26 +3058,28 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_replaceAction->setVisible(!isFolder);
             m_replaceInTimelineAction->setEnabled(isClip);
             m_replaceInTimelineAction->setVisible(!isFolder);
-            // Enable actions depending on clip type
-            for (auto &a : m_clipsActionsMenu->actions()) {
-                qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
-                QString actionType = a->data().toString().section(QLatin1Char(';'), 1);
-                qDebug() << ":::: COMPARING ACTIONTYPE: " << actionType << " = " << type;
-                if (actionType.isEmpty()) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('v')) && (type == ClipType::AV || type == ClipType::Video)) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('a')) && (type == ClipType::AV || type == ClipType::Audio)) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('i')) && type == ClipType::Image) {
-                    a->setEnabled(true);
-                } else {
-                    a->setEnabled(false);
+            if (m_clipsActionsMenu) {
+                m_clipsActionsMenu->setEnabled(!isFolder);
+                // Enable actions depending on clip type
+                for (auto &a : m_clipsActionsMenu->actions()) {
+                    qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
+                    QString actionType = a->data().toString().section(QLatin1Char(';'), 1);
+                    qDebug() << ":::: COMPARING ACTIONTYPE: " << actionType << " = " << type;
+                    if (actionType.isEmpty()) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('v')) && (type == ClipType::AV || type == ClipType::Video)) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('a')) && (type == ClipType::AV || type == ClipType::Audio)) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('i')) && type == ClipType::Image) {
+                        a->setEnabled(true);
+                    } else {
+                        a->setEnabled(false);
+                    }
                 }
+                m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (type == ClipType::AV || type == ClipType::Timeline || type == ClipType::Playlist ||
+                                                                           type == ClipType::Image || type == ClipType::Video || type == ClipType::Audio));
             }
-            m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (type == ClipType::AV || type == ClipType::Timeline || type == ClipType::Playlist ||
-                                                                       type == ClipType::Image || type == ClipType::Video || type == ClipType::Audio));
-
             m_transcodeAction->setEnabled(!isFolder);
             m_transcodeAction->setVisible(!isFolder && (type == ClipType::Playlist || type == ClipType::Timeline || type == ClipType::Text ||
                                                         clipService.contains(QStringLiteral("avformat"))));
@@ -2825,11 +3095,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
     } else {
         // No item selected in bin
         clearMonitor();
-        Q_EMIT openClip(std::shared_ptr<ProjectClip>());
     }
     m_editAction->setEnabled(false);
-    m_clipsActionsMenu->setEnabled(false);
-    m_extractAudioAction->setEnabled(false);
+    if (m_clipsActionsMenu) {
+        m_clipsActionsMenu->setEnabled(false);
+    }
+    if (m_extractAudioAction) {
+        m_extractAudioAction->setEnabled(false);
+    }
     m_transcodeAction->setEnabled(false);
     m_proxyAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
@@ -2847,11 +3120,13 @@ void Bin::clearMonitor()
 {
     Q_EMIT requestShowClipProperties(nullptr);
     Q_EMIT requestClipShow(nullptr);
-    // clear effect stack
+    // clear effect stack first
     Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
+    // clear monitor
+    Q_EMIT openClip(nullptr);
 }
 
-std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
+std::vector<QString> Bin::selectedClipsIds(bool allowSubClips, bool allowFolders)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     std::vector<QString> ids;
@@ -2868,6 +3143,8 @@ std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
                 ids.push_back(item->clipId());
             }
         } else if (item->itemType() == AbstractProjectItem::ClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
+            ids.push_back(item->clipId());
+        } else if (allowFolders && item->itemType() == AbstractProjectItem::FolderItem) {
             ids.push_back(item->clipId());
         }
     }
@@ -2945,22 +3222,28 @@ void Bin::slotInitView(QAction *action)
     m_binListViewDelegate = nullptr;
 
     switch (m_listType) {
-    case BinIconView:
-        m_itemView = new MyListView(this);
+    case BinIconView: {
+        auto *lv = new MyListView(this);
+        m_itemView = lv;
         m_binListViewDelegate = new BinListItemDelegate(this);
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         m_showRating->setEnabled(false);
         m_upAction->setVisible(true);
+        connect(lv, &MyListView::performDrag, this, &Bin::performDrag);
         break;
-    default:
-        m_itemView = new MyTreeView(this);
+    }
+    default: {
+        auto *tv = new MyTreeView(this);
+        m_itemView = tv;
         m_binTreeViewDelegate = new BinItemDelegate(this);
         m_showDate->setEnabled(true);
         m_showDesc->setEnabled(true);
         m_showRating->setEnabled(true);
         m_upAction->setVisible(false);
+        connect(tv, &MyTreeView::performDrag, this, &Bin::performDrag);
         break;
+    }
     }
     m_itemView->setMouseTracking(true);
     m_itemView->viewport()->installEventFilter(this);
@@ -3012,7 +3295,6 @@ void Bin::slotInitView(QAction *action)
         view->setSortingEnabled(true);
         view->setWordWrap(true);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
-        connect(view, &MyTreeView::processDragEnd, pCore.get(), &Core::processDragEnd);
         connect(view, &MyTreeView::selectCurrent, this, &Bin::ensureCurrent);
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
@@ -3070,7 +3352,6 @@ void Bin::slotInitView(QAction *action)
         view->setGridSize(QSize(m_iconSize.width() + 2, m_iconSize.height() + textHeight));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
-        connect(view, &MyListView::processDragEnd, pCore.get(), &Core::processDragEnd);
         if (!rootFolder.isEmpty()) {
             // Open view in a specific folder
             std::shared_ptr<AbstractProjectItem> folder = m_itemModel->getItemByBinId(rootFolder);
@@ -3157,6 +3438,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     }
 
     // Show menu
+    m_readyCallBack = nullptr;
     event->setAccepted(true);
     if (enableClipActions) {
         m_menu->exec(event->globalPos());
@@ -3308,11 +3590,9 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
     } else {
         m_propertiesPanel->setEnabled(true);
         Q_EMIT requestShowClipProperties(clip);
-        m_propertiesDock->show();
-        m_propertiesDock->raise();
+        m_propertiesDock->open();
+        m_propertiesDock->setAsCurrentTab();
     }
-    // Check if properties panel is not tabbed under Bin
-    // if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
 }
 
 void Bin::doRefreshPanel(const QString &id)
@@ -3513,6 +3793,13 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
     QModelIndex ix = m_itemModel->getIndexFromItem(clip);
     int row = ix.row();
     const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+    if (!m_proxyModel->filterAcceptsRow(row, ix.parent())) {
+        // Wanted clip is currently hidden by a filter, disable all
+        if (m_filterButton->isChecked()) {
+            m_filterButton->setChecked(false);
+        }
+        m_searchLine->clear();
+    }
     // Ensure parent folder is expanded
     if (m_listType == BinTreeView) {
         if (m_itemView->rootIndex() != QModelIndex()) {
@@ -3547,7 +3834,24 @@ void Bin::slotOpenCurrent()
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, const QUuid &sequenceUuid)
 {
-    Q_EMIT openClip(std::move(controller), -1, -1, sequenceUuid);
+    if (!m_activateClipZoneInfo.clipId.isEmpty()) {
+        int in = -1;
+        int out = -1;
+        int seekFrame = -1;
+        if (controller->clipId() == m_activateClipZoneInfo.clipId) {
+            in = m_activateClipZoneInfo.zone.x();
+            out = m_activateClipZoneInfo.zone.y();
+            if (in == out) {
+                in = -1;
+                out = -1;
+            }
+            seekFrame = m_activateClipZoneInfo.seekFrame;
+        }
+        m_activateClipZoneInfo.clipId.clear();
+        Q_EMIT openClip(std::move(controller), in, out, sequenceUuid, seekFrame);
+    } else {
+        Q_EMIT openClip(std::move(controller), -1, -1, sequenceUuid);
+    }
 }
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, int in, int out)
@@ -3640,15 +3944,40 @@ void Bin::setupGeneratorMenu()
     if (m_isMainBin) {
         connect(m_itemModel.get(), &ProjectItemModel::resetPlayOrLoopZone, monitor, &Monitor::resetPlayOrLoopZone, Qt::DirectConnection);
     }
-    connect(this, &Bin::openClip, monitor, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid) {
-        if (monitor->slotOpenClip(clip, in, out, uuid) && clip) {
-            Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
-            if (clip->hasLimitedDuration()) {
-                clip->refreshBounds();
-            }
+    connect(this, &Bin::openClip, this, &Bin::openClipInMonitor, Qt::QueuedConnection);
+}
+
+void Bin::openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid, int seekFrame)
+{
+    if (pCore->getMonitor(Kdenlive::ClipMonitor)->slotOpenClip(clip, in, out, uuid) && clip) {
+        Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
+        if (clip->hasLimitedDuration()) {
+            clip->refreshBounds();
         }
-        pCore->textEditWidget()->openClip(clip);
-    });
+        if (seekFrame > -1) {
+            Monitor *monitor = pCore->getMonitor(Kdenlive::ClipMonitor);
+            monitor->slotSeek(seekFrame);
+        }
+    }
+    pCore->textEditWidget()->openClip(clip);
+}
+
+QMenu *Bin::addClipMenu() const
+{
+    auto *menu = new QMenu(const_cast<Bin *>(this));
+    menu->setTitle(i18n("Add Clip"));
+    menu->addActions(m_addButton->menu()->actions());
+    return menu;
+}
+
+void Bin::setReadyCallBack(const std::function<void(const QString &)> &cb)
+{
+    m_readyCallBack = cb;
+}
+
+void Bin::setSuggestedDuration(int duration)
+{
+    m_suggestedDuration = duration;
 }
 
 void Bin::setupMenu()
@@ -3719,7 +4048,7 @@ void Bin::setupMenu()
     m_proxyAction->setChecked(false);
     m_proxyAction->setEnabled(false);
 
-    m_editAction = addBinAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_editAction = addBinAction(QStringLiteral("show_clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
     m_editAction->setData("clip_properties");
     m_editAction->setEnabled(false);
     connect(m_editAction, &QAction::triggered, this, static_cast<void (Bin::*)()>(&Bin::slotSwitchClipProperties));
@@ -3766,6 +4095,7 @@ void Bin::setupMenu()
     m_toolbar->insertAction(m_createFolderAction, m_upAction);
 
     auto *m = new QMenu(this);
+    m->setTitle(i18n("Add Clip"));
     m->addActions(addClipMenu->actions());
     m_addButton = new QToolButton(this);
     m_addButton->setMenu(m);
@@ -3773,11 +4103,14 @@ void Bin::setupMenu()
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
-    if (m_isMainBin) {
-        m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
-        m_propertiesDock->close();
-    }
     connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
+}
+
+void Bin::buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock)
+{
+    m_propertiesDock =
+        pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnLeft, parentDock);
+    m_propertiesDock->close();
 }
 
 const QString Bin::getDocumentProperty(const QString &key)
@@ -3861,22 +4194,22 @@ void Bin::slotCreateProjectClip()
     QString parentFolder = getCurrentFolder();
     switch (type) {
     case ClipType::Color:
-        ClipCreationDialog::createColorClip(m_doc, parentFolder, m_itemModel);
+        ClipCreationDialog::createColorClip(m_doc, parentFolder, m_itemModel, m_readyCallBack, m_suggestedDuration);
         break;
     case ClipType::SlideShow:
-        ClipCreationDialog::createSlideshowClip(m_doc, parentFolder, m_itemModel);
+        ClipCreationDialog::createSlideshowClip(m_doc, parentFolder, m_itemModel, m_readyCallBack, m_suggestedDuration);
         break;
     case ClipType::Text:
-        ClipCreationDialog::createTitleClip(m_doc, parentFolder, QString(), m_itemModel);
+        ClipCreationDialog::createTitleClip(m_doc, parentFolder, QString(), m_itemModel, m_readyCallBack, m_suggestedDuration);
         break;
     case ClipType::TextTemplate:
-        ClipCreationDialog::createTitleTemplateClip(m_doc, parentFolder, m_itemModel);
+        ClipCreationDialog::createTitleTemplateClip(m_doc, parentFolder, m_itemModel, m_readyCallBack, m_suggestedDuration);
         break;
     case ClipType::QText:
-        ClipCreationDialog::createQTextClip(parentFolder, this);
+        ClipCreationDialog::createQTextClip(parentFolder, this, nullptr, m_readyCallBack, m_suggestedDuration);
         break;
     case ClipType::Animation:
-        ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
+        ClipCreationDialog::createAnimationClip(m_doc, parentFolder, m_readyCallBack, m_suggestedDuration);
         break;
     case ClipType::Timeline:
         buildSequenceClip();
@@ -3884,6 +4217,8 @@ void Bin::slotCreateProjectClip()
     default:
         break;
     }
+    m_readyCallBack = nullptr;
+    m_suggestedDuration = -1;
     pCore->window()->raiseBin();
 }
 
@@ -4011,7 +4346,7 @@ void Bin::slotAddEffect(std::vector<QString> ids, const QStringList &effectData)
 {
     if (ids.size() == 0) {
         // Apply effect to all selected clips
-        ids = selectedClipsIds();
+        ids = selectedClipsIds(false, true);
     }
     if (ids.size() == 0) {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
@@ -4023,16 +4358,11 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
 {
     if (parent.isValid()) {
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
-        if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
-            // effect not supported on folder items
-            Q_EMIT displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
-            return;
-        }
         if (parentItem->itemType() == AbstractProjectItem::SubClipItem || parentItem->itemType() == AbstractProjectItem::SubSequenceItem) {
             // effect only supported on clip items
             parentItem = std::static_pointer_cast<ProjectSubClip>(parentItem)->getMasterClip();
         }
-        std::vector<QString> ids = selectedClipsIds();
+        std::vector<QString> ids = selectedClipsIds(false, true);
         const QString droppedId = parentItem->clipId();
         if (ids.size() > 1 && std::find(ids.begin(), ids.end(), droppedId) != ids.end()) {
             if (effectData.count() == 6) {
@@ -4079,15 +4409,51 @@ bool Bin::doPasteEffect(std::vector<QString> ids, const QStringList &effectData)
     bool res = true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    QList<std::shared_ptr<ProjectClip>> clipList;
+    for (auto &id : ids) {
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
+        if (!item) {
+            continue;
+        }
+        std::shared_ptr<ProjectClip> clip = nullptr;
+        switch (item->itemType()) {
+        case AbstractProjectItem::ClipItem: {
+            clip = std::static_pointer_cast<ProjectClip>(item);
+            break;
+        }
+        case AbstractProjectItem::SubClipItem: {
+            std::shared_ptr<ProjectSubClip> subClip = std::static_pointer_cast<ProjectSubClip>(item);
+            if (subClip) {
+                clip = subClip->getMasterClip();
+            }
+        } break;
+        case AbstractProjectItem::FolderItem: {
+            std::shared_ptr<ProjectFolder> folder = std::static_pointer_cast<ProjectFolder>(item);
+            if (folder) {
+                QList<std::shared_ptr<ProjectClip>> children = folder->childClips();
+                for (auto &c : children) {
+                    if (!clipList.contains(c)) {
+                        clipList << c;
+                    }
+                }
+            }
+        } break;
+        default:
+            break;
+        }
+        if (clip && !clipList.contains(clip)) {
+            clipList << clip;
+        }
+    }
     if (effectData.count() == 6) {
         // Paste effect from another stack
         std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
-        for (auto &id : ids) {
-            res = res && m_itemModel->getClipByBinID(id)->copyEffectWithUndo(sourceStack, effectData.at(3).toInt(), undo, redo);
+        for (auto &c : clipList) {
+            res = res && c->copyEffectWithUndo(sourceStack, effectData.at(3).toInt(), undo, redo);
         }
     } else {
-        for (auto &id : ids) {
-            res = res && m_itemModel->getClipByBinID(id)->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo).first;
+        for (auto &c : clipList) {
+            res = res && c->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo).first;
         }
     }
     if (res) {
@@ -4289,6 +4655,16 @@ const QList<QString> Bin::getAllClipsWithTag(const QString &tag)
     return list;
 }
 
+const QList<std::shared_ptr<MarkerListModel>> Bin::getAllClipsMarkers()
+{
+    QList<std::shared_ptr<MarkerListModel>> list;
+    QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
+    for (const auto &clip : std::as_const(allClipIds)) {
+        list << clip->getMarkerModel();
+    }
+    return list;
+}
+
 void Bin::editTags(const QList<QString> &allClips, const QString &tag, bool add)
 {
     for (const QString &id : allClips) {
@@ -4431,9 +4807,13 @@ const QString Bin::slotUrlsDropped(const QList<QUrl> urls, const QModelIndex par
         while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
             parentItem = parentItem->parent();
         }
-        parentFolder = parentItem->clipId();
+        // Never drop in the sequences folder
+        if (parentItem->clipId() != QString::number(m_itemModel->defaultSequencesFolder())) {
+            parentFolder = parentItem->clipId();
+        }
     }
-    const QString id = ClipCreator::createClipsFromList(urls, true, parentFolder, m_itemModel);
+    const QString id = ClipCreator::createClipsFromList(urls, true, parentFolder, m_itemModel, m_readyCallBack);
+    m_readyCallBack = nullptr;
     if (!id.isEmpty()) {
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
         if (item) {
@@ -4691,6 +5071,25 @@ void Bin::slotOpenClipExtern()
             errorString = pCore->openExternalApp(KdenliveSettings::defaultaudioapp(), {clip->url()});
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
+        }
+    } break;
+    case ClipType::AV:
+        [[fallthrough]];
+    case ClipType::Video: {
+        if (KdenliveSettings::defaultvideoapp().isEmpty()) {
+            QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path for your video editing application"));
+            if (!url.isEmpty()) {
+                KdenliveSettings::setDefaultvideoapp(url.toLocalFile());
+                KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
+                if (d) {
+                    d->updateExternalApps();
+                }
+            }
+        }
+        if (!KdenliveSettings::defaultvideoapp().isEmpty()) {
+            errorString = pCore->openExternalApp(KdenliveSettings::defaultvideoapp(), {clip->url()});
+        } else {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open video files"));
         }
     } break;
     case ClipType::Animation: {
@@ -5025,7 +5424,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         return;
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    Q_EMIT openClip(std::shared_ptr<ProjectClip>());
+    openClipInMonitor(std::shared_ptr<ProjectClip>());
     if (clipList.count() == 1) {
         // We only have one clip in the project, so this was called on a reset profile event.
         // Check if the clip is included in timeline to update it afterwards
@@ -5066,7 +5465,13 @@ void Bin::reloadAllProducers(bool reloadThumbs)
 
 void Bin::checkAudioThumbs()
 {
-    if (!KdenliveSettings::audiothumbnails() || m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
+    if (m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
+        return;
+    }
+    if (!KdenliveSettings::audiothumbnails()) {
+        // Abort all thumbs jobs if any
+        // pCore->taskManager.discardJobsByType(AbstractTask::AUDIOTHUMBJOB);
+        QtConcurrent::run(&TaskManager::discardJobsByType, &pCore->taskManager, AbstractTask::AUDIOTHUMBJOB);
         return;
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
@@ -5320,6 +5725,47 @@ void Bin::invalidateClip(const QString &binId)
     }
 }
 
+void Bin::invalidateClipAudio(const QString &binId)
+{
+    std::shared_ptr<ProjectClip> clip = getBinClip(binId);
+    if (!clip) {
+        // Clip was deleted, abort
+        qDebug() << "::::: CLIP NOT FOUND: " << binId;
+        return;
+    }
+    if (clip->clipType() == ClipType::Timeline) {
+        clip->markAudioDirty();
+    }
+    if (clip->hasAudio()) {
+        QMap<QUuid, QList<int>> allIds = clip->getAllTimelineInstances();
+        QMapIterator<QUuid, QList<int>> i(allIds);
+        while (i.hasNext()) {
+            i.next();
+            QList<int> values = i.value();
+            for (int j : std::as_const(values)) {
+                pCore->invalidateAudio(ObjectId(KdenliveObjectType::TimelineClip, j, i.key()));
+            }
+        }
+    }
+}
+
+void Bin::rebuildAudioThumb(const QString &binId)
+{
+    if (!KdenliveSettings::audiothumbnails()) {
+        // Nothing to do
+        return;
+    }
+    std::shared_ptr<ProjectClip> clip = getBinClip(binId);
+    if (!clip) {
+        // Clip was deleted, abort
+        return;
+    }
+    if (!clip->audioSynced()) {
+        // Start audio thumbs task
+        AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), clip.get(), false);
+    }
+}
+
 QSize Bin::sizeHint() const
 {
     return QSize(350, pCore->window()->height() / 2);
@@ -5377,8 +5823,11 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
                 for (ClipPropertiesController *w : children) {
                     if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                         // Raise panel
-                        w->parentWidget()->parentWidget()->show();
-                        w->parentWidget()->parentWidget()->raise();
+                        auto dock = static_cast<KDDockWidgets::QtWidgets::DockWidget *>(w->parentWidget()->parentWidget());
+                        if (dock) {
+                            dock->open();
+                            dock->setAsCurrentTab();
+                        }
                     }
                     // Show audio tab
                     w->activatePage(2);
@@ -5397,7 +5846,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
     }
 }
 
-void Bin::addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments)
+void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersData)
 {
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
     if (!clip) {
@@ -5405,17 +5854,25 @@ void Bin::addClipMarker(const QString &binId, const QList<int> &positions, const
         return;
     }
     QMap<GenTime, QString> markers;
-    int ix = 0;
-    for (int pos : positions) {
-        GenTime p(pos, pCore->getCurrentFps());
-        if (comments.size() == positions.size()) {
-            markers.insert(p, comments.at(ix));
-        } else {
-            markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+    GenTime clipDuration = clip->getPlaytime();
+    std::set<int> missingFrames;
+    for (auto m = markersData.cbegin(), end = markersData.cend(); m != end; ++m) {
+        missingFrames.insert(m.key());
+        GenTime p(m.key(), pCore->getCurrentFps());
+        if (p >= clipDuration) {
+            // Don't import markers that are after clip duration
+            continue;
         }
-        ix++;
+        if (m.value().isEmpty()) {
+            markers.insert(p, i18n("Marker"));
+        } else {
+            markers.insert(p, m.value());
+        }
     }
     clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
+    if (KdenliveSettings::guidesShowThumbs()) {
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, pCore->guidesList());
+    }
 }
 
 void Bin::checkMissingProxies()
@@ -5426,6 +5883,9 @@ void Bin::checkMissingProxies()
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     QList<std::shared_ptr<ProjectClip>> toProxy;
     for (const auto &clip : std::as_const(clipList)) {
+        if (!clip->statusReady()) {
+            continue;
+        }
         if (clip->getProducerIntProperty(QStringLiteral("_replaceproxy")) > 0) {
             clip->resetProducerProperty(QStringLiteral("_replaceproxy"));
             toProxy << clip;
@@ -5555,18 +6015,16 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
                 ObjectId oid(KdenliveObjectType::BinClip, i.key().toInt(), QUuid());
                 if (clip->clipType() == ClipType::Timeline) {
                     // Ensure we use the correct out point
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), 0, clip->frameDuration(), replace, clip.get(),
-                                         false, false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.key()),
+                                         m_transcodingDialog->info(i.key()), 0, clip->frameDuration(), replace, clip.get(), false, false);
                 } else {
                     if (replace) {
                         // Abort audio and proxy tasks as they will run after transcoding
                         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB, true);
                         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), AbstractTask::PROXYJOB, true);
                     }
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(clip, i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, replace, clip.get(), false,
-                                         false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.key()),
+                                         m_transcodingDialog->info(i.key()), -1, -1, replace, clip.get(), false, false);
                 }
             }
             m_transcodingDialog->deleteLater();
@@ -5581,23 +6039,26 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
     for (const auto &id : ids) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
-            const QString clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
-            if (clipService.startsWith(QLatin1String("avformat"))) {
-                QString resource = clip->clipUrl();
-                ClipType::ProducerType type = clip->clipType();
-                std::pair<int, int> fpsInfo = clip->fpsInfo();
-                int integerFps = qRound(double(fpsInfo.first) / fpsInfo.second);
-                QString suffix = QStringLiteral("-%1fps").arg(integerFps);
-                m_transcodingDialog->addUrl(resource, id, suffix, type, QString());
-            } else {
-                m_transcodingDialog->addUrl(clip->clipName(), id, QString(), clip->clipType(), QString());
+            TranscodeSeek::TranscodeInfo info;
+            info.type = clip->clipType();
+            info.url = info.type == ClipType::Timeline || info.type == ClipType::Text ? clip->clipName() : clip->clipUrl();
+            info.fps_info = clip->fpsInfo();
+            if (clip->statusReady()) {
+                info.vCodec = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
             }
+            const QString clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+            QString suffix;
+            if (clipService.startsWith(QLatin1String("avformat"))) {
+                int integerFps = qRound(double(info.fps_info.first) / info.fps_info.second);
+                suffix = QStringLiteral("-%1fps").arg(integerFps);
+            }
+            m_transcodingDialog->addUrl(id, info, suffix, QString());
         }
     }
     m_transcodingDialog->show();
 }
 
-void Bin::requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix, const QString &message)
+void Bin::requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo info, bool checkProfile, const QString &suffix, const QString &message)
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(false, false, this);
@@ -5611,10 +6072,13 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                     i.next();
                     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
                     if (clip == nullptr) {
+                        TranscodeTask::start(ObjectId(KdenliveObjectType::NoItem, i.key().toInt(), QUuid()), i.value().first(),
+                                             m_transcodingDialog->preParams(), m_transcodingDialog->params(i.key()), m_transcodingDialog->info(i.key()), -1, -1,
+                                             true, clip.get(), false, i.key() == firstId ? checkProfile : false);
                         continue;
                     }
                     TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(clip, i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, true, clip.get(), false,
+                                         m_transcodingDialog->params(i.key()), m_transcodingDialog->info(i.key()), -1, -1, true, clip.get(), false,
                                          i.key() == firstId ? checkProfile : false);
                 }
             }
@@ -5650,16 +6114,16 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
     }
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (clip) {
-        ClipType::ProducerType cType = (ClipType::ProducerType)type;
-        if (cType == ClipType::Unknown) {
-            cType = clip->clipType();
+        if (info.type == ClipType::Unknown) {
+            info.type = clip->clipType();
         }
-        if (url.isEmpty()) {
-            QString resource = clip->clipUrl();
-            m_transcodingDialog->addUrl(resource, id, suffix, cType, message);
-        } else {
-            m_transcodingDialog->addUrl(url, id, suffix, cType, message);
+        if (clip->statusReady()) {
+            info.vCodec = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
         }
+        if (info.url.isEmpty()) {
+            info.url = clip->clipUrl();
+        }
+        m_transcodingDialog->addUrl(id, info, suffix, message);
     }
     m_transcodingDialog->show();
 }
@@ -5766,8 +6230,10 @@ void Bin::updateClipsCount()
 
 void Bin::updateKeyBinding(const QString &bindingMessage)
 {
-    m_keyBindingMessage = bindingMessage;
-    showBinInfo();
+    if (bindingMessage != m_keyBindingMessage) {
+        m_keyBindingMessage = bindingMessage;
+        showBinInfo();
+    }
 }
 
 void Bin::showBinInfo()
@@ -5823,7 +6289,7 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
             if (i <= audioStreams.count() - 1) {
                 aindex = audioStreams.at(i);
             }
-            addStream(vindex, i - 1, aindex, qMin(i - 1, audioStreams.count() - 1), undo, redo);
+            addStream(vindex, i, aindex, qMin(i, audioStreams.count() - 1), undo, redo);
         }
         pCore->pushUndo(undo, redo, i18np("Add additional stream for clip", "Add additional streams for clip", videoStreams.count() - 1));
         return;
@@ -5856,6 +6322,7 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
     for (int j = 1; j < videoStreams.count(); ++j) {
         auto clone = ProjectClip::cloneProducer(producer);
         clone->set("video_index", videoStreams.at(j));
+        clone->set("vstream", j);
         if (clone == nullptr || !clone->is_valid()) {
             continue;
         }
@@ -5892,13 +6359,13 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
         for (int i = 0; i < groupList.count(); ++i) {
             if (groupList.at(i)->isChecked()) {
                 int vindex = groupList.at(i)->property("vindex").toInt();
-                int ax = qMin(i, comboList.size() - 1);
+                int ax = qMin(i + 1, comboList.size() - 1);
                 int aindex = -1;
                 if (ax >= 0) {
                     // only check audio index if we have several audio streams
                     aindex = comboList.at(ax)->itemData(comboList.at(ax)->currentIndex()).toInt();
                 }
-                addStream(vindex, i, aindex, ax, undo, redo);
+                addStream(vindex, i + 1, aindex, ax, undo, redo);
                 importedStreams++;
             }
         }
@@ -5958,7 +6425,6 @@ void Bin::updateSequenceClip(const QUuid &uuid, std::pair<int, int> durations, i
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
         clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
-        qDebug() << "::::::::::::ENFORCING MAX DURATION: " << durations.first << "\n\n_________________________________\n\n";
         if (m_doc->sequenceThumbRequiresRefresh(uuid) || forceUpdate) {
             // Store general sequence properties
             QMap<QString, QString> properties;
@@ -6033,6 +6499,40 @@ void Bin::updateSequenceAVType(const QUuid &uuid, int tracksCount)
     }
 }
 
+void Bin::saveSequenceAudioThumb()
+{
+    QMap<QUuid, QString> sequences = m_itemModel->getAllSequenceClips();
+    for (const auto &s : sequences.values()) {
+        auto binClip = getBinClip(s);
+        if (!binClip) {
+            continue;
+        }
+        auto seqClip = std::static_pointer_cast<SequenceClip>(binClip);
+        if (seqClip) {
+            seqClip->saveAudioWave();
+        }
+    }
+}
+
+void Bin::loadSequenceAudioThumb()
+{
+    QMap<QUuid, QString> sequences = m_itemModel->getAllSequenceClips();
+    if (sequences.size() < 2) {
+        // Don't auto generate sequence thumbnails if we only have 1 sequence
+        return;
+    }
+    for (const auto &s : sequences.values()) {
+        auto binClip = getBinClip(s);
+        if (!binClip) {
+            continue;
+        }
+        if (binClip->frameDuration() > 1) {
+            ObjectId oid(KdenliveObjectType::BinClip, binClip->clipId().toInt(), QUuid());
+            AudioLevelsTask::start(oid, binClip.get(), false);
+        }
+    }
+}
+
 void Bin::setDefaultSequenceFolder(bool enable)
 {
     QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
@@ -6076,6 +6576,10 @@ bool Bin::usesVariableFpsClip()
 {
     QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
     for (auto &c : allClips) {
+        if (c->refCount() == 0) {
+            // Ignore unused clips
+            continue;
+        }
         ClipType::ProducerType type = c->clipType();
         if ((type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio) && c->hasVariableFps()) {
             return true;
@@ -6285,7 +6789,7 @@ const QString Bin::rootFolderId() const
 
 const QString Bin::binInfoToString() const
 {
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     QString binInfo;
     if (dock) {
         binInfo = QStringLiteral("%1:%2:%3").arg(dock->objectName(), rootFolderId(), m_listType == BinIconView ? QLatin1String("1") : QLatin1String("0"));
@@ -6326,7 +6830,7 @@ const QString Bin::loadInfo(const QStringList binInfo, const QStringList existin
             folderName = binName;
         }
     }
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     if (dock) {
         dock->setWindowTitle(folderName);
     }
@@ -6342,4 +6846,81 @@ void Bin::slotOpenNewBin()
 QLineEdit *Bin::searchLine()
 {
     return m_searchLine;
+}
+
+void Bin::expandCurrent()
+{
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        if ((m_itemView != nullptr) && m_listType == BinTreeView) {
+            auto *view = static_cast<QTreeView *>(m_itemView);
+            view->setExpanded(currentSelection, !view->isExpanded(currentSelection));
+        }
+    }
+}
+
+void Bin::expandAll()
+{
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        if ((m_itemView != nullptr) && m_listType == BinTreeView) {
+            auto *view = static_cast<QTreeView *>(m_itemView);
+            if (!view->isExpanded(currentSelection)) {
+                view->expandAll();
+            } else {
+                view->collapseAll();
+            }
+        }
+    }
+}
+
+bool Bin::performDrag(const QModelIndexList indexes)
+{
+    if (indexes.isEmpty() || !indexes.constFirst().isValid()) {
+        return false;
+    }
+    // Check if we want audio or video only
+    QModelIndexList mapped;
+    for (auto &i : indexes) {
+        mapped << m_proxyModel->mapToSource(i);
+    }
+    auto *mData = m_itemModel->mimeData(mapped);
+    if (!mData->hasText()) {
+        // Invalid or not ready to drag, abort
+        delete mData;
+        return false;
+    }
+    auto *drag = new QDrag(this);
+    mData->setData(QStringLiteral("text/binId"), parentWidget()->objectName().toLatin1());
+    drag->setMimeData(mData);
+    QModelIndex ix = mapped.constFirst();
+    QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
+    QPixmap pix = icon.pixmap(m_itemView->iconSize());
+    QSize size = pix.size() / 2;
+    QImage image(size, QImage::Format_ARGB32_Premultiplied);
+    image.fill(Qt::transparent);
+    QPainter p(&image);
+    p.setOpacity(0.7);
+    p.drawPixmap(0, 0, image.width(), image.height(), pix);
+    p.setOpacity(1);
+    if (indexes.count() > 1) {
+        QPalette palette;
+        int radius = size.height() / 3;
+        p.setBrush(palette.highlight());
+        p.setPen(palette.highlightedText().color());
+        p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
+        p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(mapped.count()));
+    }
+    p.end();
+    drag->setPixmap(QPixmap::fromImage(image));
+
+    drag->exec();
+    drag->deleteLater();
+    Q_EMIT pCore->processDragEnd();
+    return true;
+}
+
+bool Bin::isMainBin() const
+{
+    return m_isMainBin;
 }

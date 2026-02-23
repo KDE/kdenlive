@@ -13,10 +13,6 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
 {
     setupUi(this);
 
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    labelComment->setText(comment);
-    setToolTip(comment);
     labelComment->setHidden(true);
     QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
     if (!filter.isEmpty()) {

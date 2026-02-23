@@ -5,7 +5,7 @@
 */
 
 import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick.Controls
 
 import org.kde.kdenlive as K
 
@@ -25,6 +25,7 @@ Item {
     property double scalex : 1
     property double scaley : 1
     property bool captureRightClick: true
+    property bool seeking: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -43,8 +44,7 @@ Item {
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
     onSourcedarChanged: refreshdar()
-    property bool iskeyframe : true
-    property bool cursorOutsideEffect: false
+    property bool isKeyframe : controller.isKeyframe
     property bool autoKeyframe: K.KdenliveSettings.autoKeyframe
     property bool isDefined: false
     property int requestedKeyFrame : -1
@@ -74,7 +74,7 @@ Item {
     signal effectPolygonChanged(var points, var centers)
     focus: true
     Keys.onPressed: (event)=> {
-        if (event.key == Qt.Key_Return) {
+        if (event.key === Qt.Key_Return) {
             if (!root.isDefined && root.centerPoints.length > 2) {
                 root.closeShape()
                 event.accepted = true;
@@ -103,7 +103,7 @@ Item {
         clipMonitorRuler.updateRuler()
     }
 
-    onIskeyframeChanged: {
+    onIsKeyframeChanged: {
         if (root.displayResize && !K.KdenliveSettings.autoKeyframe) {
             root.displayResize = false
         }
@@ -231,12 +231,12 @@ Item {
             } else {
                 var c1; var c2
                 var alphaColor = Qt.hsla(activePalette.highlight.hslHue, activePalette.highlight.hslSaturation, activePalette.highlight.hslLightness, 0.5)
-                if (root.cursorOutsideEffect) {
+                if (controller.cursorOutsideEffect) {
                     ctx.setLineDash([4]);
                 } else {
                     ctx.setLineDash([]);
                 }
-                for (var i = 0; i < root.centerPoints.length; i++) {
+                for (i = 0; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     // Control points
                     var subkf = false
@@ -262,7 +262,7 @@ Item {
                     }
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
-                    if ((root.iskeyframe || root.autoKeyframe) && !root.displayResize && !root.cursorOutsideEffect) {
+                    if ((controller.isKeyframe || root.autoKeyframe) && !root.displayResize && !controller.cursorOutsideEffect) {
                         // Draw control points and segments
                         if (subkf) {
                             ctx.fillStyle = activePalette.highlight
@@ -416,6 +416,12 @@ Item {
             color: K.KdenliveSettings.overlayColor
             overlayType: root.overlayType
         }
+        K.MonitorSafeZone {
+            id: safeZone
+            anchors.fill: frame
+            color: K.KdenliveSettings.safeColor
+            showSafeZone: controller.showSafezone
+        }
     }
 
     Rectangle {
@@ -462,6 +468,7 @@ Item {
         onPressed: mouse=> {
             lastMouseX = mouse.x
             lastMouseY = mouse.y
+            root.captureRightClick = true
         }
         onExited: {
             controller.setWidgetKeyBinding()
@@ -471,7 +478,7 @@ Item {
         }
         onDoubleClicked: {
             if (root.isDefined) {
-                if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
+                if (controller.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                 }
                 if (root.displayResize) {
@@ -525,7 +532,7 @@ Item {
 
         onClicked: mouse => {
             if (!root.isDefined) {
-                if (mouse.button == Qt.RightButton && root.centerPoints.length > 2) {
+                if (mouse.button === Qt.RightButton && root.centerPoints.length > 2) {
                     root.closeShape()
                 } else if (root.requestedKeyFrame < 0) {
                     var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
@@ -607,7 +614,7 @@ Item {
                     lastMouseX = mouse.x
                     lastMouseY = mouse.y
                     lastMousePos = controller.position
-                    for (var j = 0; j < root.centerPoints.length; j++) {
+                    for (j = 0; j < root.centerPoints.length; j++) {
                         root.centerPoints[j].x += xDiff
                         root.centerPoints[j].y += yDiff
                         root.centerPointsTypes[j * 2].x += xDiff
@@ -640,7 +647,7 @@ Item {
                     canvas.requestPaint()
                     root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                 }
-            } else if ((root.iskeyframe || K.KdenliveSettings.autoKeyframe) && root.centerPoints.length > 0) {
+            } else if ((controller.isKeyframe || K.KdenliveSettings.autoKeyframe) && root.centerPoints.length > 0) {
               // Check if we are over a keyframe
               if (!root.displayResize) {
                   addPointPossible = Qt.point(0, 0)

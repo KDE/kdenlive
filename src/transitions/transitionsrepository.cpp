@@ -73,25 +73,25 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         if (!ok) {
             continue;
         }
-        if (customAssets.count(result.id) > 0) {
-            // qDebug() << "duplicate transition" << result.id;
-        }
-        result.xml = currentNode.toElement();
-        QString type = result.xml.attribute(QStringLiteral("type"), QString());
+        QString type = currentNode.toElement().attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("hidden")) {
             result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
         }
-        if (m_includedList.contains(result.id)) {
-            result.included = true;
-        }
+
         if (getSingleTrackTransitions().contains(result.id)) {
             if (type == QLatin1String("audio")) {
                 result.type = AssetListType::AssetType::AudioTransition;
             } else {
                 result.type = AssetListType::AssetType::VideoTransition;
             }
+        }
+        if (customAssets.count(result.id) > 0) {
+            // qDebug() << "duplicate transition" << result.id;
+        }
+        if (m_hiddenList.contains(result.mltId)) {
+            result.type = AssetListType::AssetType::Hidden;
         }
         customAssets[result.id] = result;
     }
@@ -105,7 +105,11 @@ std::unique_ptr<TransitionsRepository> &TransitionsRepository::get()
 
 QStringList TransitionsRepository::assetDirs() const
 {
-    return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+
+    dirs << qtDataDir(QStringLiteral("transitions"));
+
+    return dirs;
 }
 
 void TransitionsRepository::parseType(Mlt::Properties *metadata, Info &res)
@@ -147,6 +151,11 @@ QStringList TransitionsRepository::assetIncludedPath() const
 QStringList TransitionsRepository::assetExcludedPath() const
 {
     return {QStringLiteral(":data/excluded_transitions.txt")};
+}
+
+QStringList TransitionsRepository::assetHiddenPath() const
+{
+    return {QStringLiteral(":data/hidden_transitions.txt")};
 }
 
 QString TransitionsRepository::assetPreferredListPath() const

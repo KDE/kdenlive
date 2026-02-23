@@ -15,10 +15,8 @@
 ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    // setup the comment
     bool alphaEnabled = m_model->data(m_index, AssetParameterModel::AlphaRole).toBool();
-    QString color = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
+    const QString color = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
 
     m_choosecolor = new ChooseColorWidget(this, QColorUtils::stringToColor(color), alphaEnabled);
 
@@ -30,8 +28,6 @@ ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QMo
     // Q_EMIT the signal of the base class when appropriate
     connect(m_choosecolor, &ChooseColorWidget::modified, this, [this](const QColor &) { Q_EMIT valueChanged(m_index, getColor(), true); });
     connect(m_choosecolor, &ChooseColorWidget::disableCurrentFilter, this, &AbstractParamWidget::disableCurrentFilter);
-    // setup comment
-    setToolTip(comment);
 }
 
 void ColorEditWidget::slotShowComment(bool) {}

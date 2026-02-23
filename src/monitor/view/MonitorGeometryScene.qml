@@ -7,6 +7,8 @@ import QtQuick 2.15
 import QtQuick.Shapes 1.15
 
 import org.kde.kdenlive as K
+import "ResizeLogic.js" as ResizeLogic
+import "SnappingLogic.js" as SnappingLogic
 
 Item {
     id: root
@@ -17,14 +19,18 @@ Item {
     height: 300; width: 400
     property string comment
     property string framenum
-    property rect framesize
-    property rect adjustedFrame
+    property rect framesize: _framesize
+    // private property used to prevent circular updates when frame is transformed via Monitor, the change is signaled to cpp, 
+    // it updates its model and calls us back to update the Monitor
+    property rect _framesize
+    property rect pendingFramesize // : Qt.rect(0, 0, 0, 0)
     property point profile: controller.profile
     property int overlayType: controller.overlayType
     property point center
     property double scalex
     property double scaley
     property bool captureRightClick: false
+    property bool seeking: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -38,30 +44,37 @@ Item {
     property int duration: 300
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int mouseRulerPos: 0
+    property bool rotatable: false
+    property double rect_rotation: _rotation
+    // private property used to prevent circular updates when frame is transformed via Monitor, the change is signaled to cpp, 
+    // it updates its model and calls us back to update the Monitor
+    property double _rotation: 0
+    property double pendingRotation: 0
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
-    property bool iskeyframe
-    property bool cursorOutsideEffect: true
-    property bool disableHandles: root.cursorOutsideEffect && root.centerPoints.length > 1
-    property bool showHandles: (root.iskeyframe || K.KdenliveSettings.autoKeyframe) && !disableHandles
+    onRect_rotationChanged: {
+        if (!transformedFrame.isRotating) {
+            _rotation = rect_rotation
+            canvas.requestPaint()
+        }
+    }
+    onFramesizeChanged: {
+        if (!(transformedFrame.isResizing || transformedFrame.isMoving)) _framesize = framesize
+    }
+    property bool disableHandles: controller.cursorOutsideEffect
+    property bool showHandles: (controller.isKeyframe || K.KdenliveSettings.autoKeyframe) && !disableHandles
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
     signal effectChanged(rect frame)
     signal centersChanged()
+    signal effectRotationChanged(double rotation)
+
     Component.onCompleted: {
       // adjust monitor image size if audio thumb is displayed
         controller.rulerHeight = root.zoomOffset
-    }
-
-    function updateEffectRect(rect) {
-      if (moveArea.pressed) {
-          // We are moving a rect, don't update
-          return
-      }
-      root.framesize = rect
     }
 
     function updatePoints(types, points) {
@@ -73,19 +86,47 @@ Item {
       canvas.requestPaint()
     }
 
-    function getSnappedPos(position) {
-      if (!controller.showGrid) {
+    function getSnappedPoint(position) {
+      if (!K.KdenliveSettings.showMonitorGrid) {
         return position
       }
-      var deltax = Math.round(position.x / root.scalex)
-      var deltay = Math.round(position.y / root.scaley)
-      deltax = Math.round(deltax / K.KdenliveSettings.monitorGridH) * K.KdenliveSettings.monitorGridH
-      deltay = Math.round(deltay / K.KdenliveSettings.monitorGridV) * K.KdenliveSettings.monitorGridV
-      return Qt.point(deltax * root.scalex, deltay * root.scaley)
+      return SnappingLogic.getSnappedPoint(position, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
+    }
+
+    function getSnappedRect(frameRect, rotationAngle) {
+      if (!K.KdenliveSettings.showMonitorGrid) {
+        return frameRect
+      }
+      return SnappingLogic.getSnappedRect(frameRect, rotationAngle, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
     }
 
     function updateClickCapture() {
         root.captureRightClick = false
+    }
+    
+    function shouldFlipText(rotationAngle) {
+        // Flip text when rotation is between 90-270 degrees to prevent upside-down text
+        // Direction/sign of the rotation does not matter for this purpose
+        var normalizedRotation = Math.abs(rotationAngle)
+        return normalizedRotation >= 90 && normalizedRotation <= 270
+    }
+
+    // Returns the index of the handle under the mouse for a given source item (whose mouseX/mouseY are passed) or -1 if none.
+    // Mouse and handle coordinates are compared in root coordinates.
+    function getHandleIndexAtMouse(mouseX, mouseY, sourceItem) {
+        if (root.centerPoints.length === 0) {
+            return -1
+        }
+        var mouseInRoot = sourceItem.mapToItem(root, mouseX, mouseY)
+        for (var i = 0; i < root.centerPoints.length; i++) {
+            var localPoint = Qt.point(root.centerPoints[i].x * root.scalex, root.centerPoints[i].y * root.scaley)
+            var mappedPoint = frame.mapToItem(transformedFrame, localPoint.x, localPoint.y)
+            var handleInRoot = transformedFrame.mapToItem(root, mappedPoint.x, mappedPoint.y)
+            if (Math.abs(handleInRoot.x - mouseInRoot.x) <= canvas.handleSize && Math.abs(handleInRoot.y - mouseInRoot.y) <= canvas.handleSize) {
+                return i
+            }
+        }
+        return -1
     }
 
     onDurationChanged: {
@@ -190,6 +231,7 @@ Item {
         return Qt.point(x,y);
     }
   }
+    
     Rectangle {
         id: frame
         objectName: "referenceframe"
@@ -205,24 +247,30 @@ Item {
             color: K.KdenliveSettings.overlayColor
             overlayType: root.overlayType
         }
+        K.MonitorSafeZone {
+            id: safeZone
+            anchors.fill: frame
+            color: K.KdenliveSettings.safeColor
+            showSafeZone: controller.showSafezone
+        }
 
         Repeater {
-          model: controller.showGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0
+          model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0
           Rectangle {
             required property int index
             opacity: 0.3
-            color: root.overlayColor
+            color: K.KdenliveSettings.overlayColor
             height: frame.height - 1
             width: 1
             x: ((index + 1) * K.KdenliveSettings.monitorGridH * root.scalex)
           }
         }
         Repeater {
-          model: controller.showGrid ? Math.floor(root.profile.y / K.KdenliveSettings.monitorGridV) : 0
+          model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.y / K.KdenliveSettings.monitorGridV) : 0
           Rectangle {
             required property int index
             opacity: 0.3
-            color: root.overlayColor
+            color: K.KdenliveSettings.overlayColor
             height: 1
             width: frame.width - 1
             y: ((index + 1) * K.KdenliveSettings.monitorGridV * root.scaley)
@@ -236,25 +284,18 @@ Item {
         anchors.bottomMargin: clipMonitorRuler.height
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !root.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
+        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !controller.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
         readonly property bool handleContainsMouse: {
               if (isMoving) {
-                  return true;
+                  return true
               }
               if (root.disableHandles) {
-                root.requestedKeyFrame = -1
-                return false
+                  root.requestedKeyFrame = -1
+                  return false
               }
-              for(var i = 0; i < root.centerPoints.length; i++)
-              {
-                var p1 = canvas.convertPoint(root.centerPoints[i])
-                if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
-                    root.requestedKeyFrame = i
-                    return true
-                }
-              }
-              root.requestedKeyFrame = -1
-              return false
+              var idx = getHandleIndexAtMouse(mouseX, mouseY, global)
+              root.requestedKeyFrame = idx
+              return idx !== -1
         }
 
         onPositionChanged: mouse => {
@@ -264,14 +305,15 @@ Item {
             }
             if (root.requestedKeyFrame != -1) {
                   isMoving = true
-                  if (!controller.showGrid) {
+                  if (!K.KdenliveSettings.showMonitorGrid) {
                     root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
                     root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
                   } else {
                     var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                    var adjustedMouse = getSnappedPos(positionInFrame)
-                    root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x / root.scalex;
-                    root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y / root.scaley;
+                    var logicalPosition = Qt.point(positionInFrame.x / root.scalex, positionInFrame.y / root.scaley)
+                    var adjustedMouse = getSnappedPoint(logicalPosition)
+                    root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
+                    root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                   }
                   canvas.requestPaint()
                   root.centersChanged()
@@ -308,20 +350,93 @@ Item {
         }
     }
 
+    // Red Rectangle shown while a resizing, moving or rotation operation is in progress to show the current position while transformedFrame is hidden.
+    // The Resize/Move/Rotate handles (and their MouseAreas) are bound to the original transformedFrame so we can savefly update this pending Rectangle instead
+    // while the user is dragging it to the desired position.
     Rectangle {
-        id: framerect
-        property bool dragging: false
-        property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesTopMargin: framerect.y < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesLeftMargin: framerect.x < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        x: frame.x + root.framesize.x * root.scalex
-        y: frame.y + root.framesize.y * root.scaley
-        width: root.framesize.width * root.scalex
-        height: root.framesize.height * root.scaley
-        enabled: root.iskeyframe || K.KdenliveSettings.autoKeyframe
+        id: pendingFrame
+        visible: transformedFrame.isResizing || transformedFrame.isRotating || transformedFrame.isMoving
+        width: root.pendingFramesize.width * root.scalex
+        height: root.pendingFramesize.height * root.scaley
         color: "transparent"
         border.color: root.disableHandles ? 'transparent' : "#ff0000"
+        x: frame.x + root.pendingFramesize.x * root.scalex
+        y: frame.y + root.pendingFramesize.y * root.scaley
+        transform: Rotation {
+            origin.x: pendingFrame.width/2
+            origin.y: pendingFrame.height/2
+            angle: root.pendingRotation
+        }
+        antialiasing: true
+
+        // Rotation label
+        K.OverlayLabel {
+            id: rotationLabel
+            visible: transformedFrame.isRotating
+            anchors {
+                bottom: pendingFrame.bottom
+                bottomMargin: 3./4. * pendingFrame.height + 10.
+                horizontalCenter: pendingFrame.horizontalCenter
+            }
+            text: Math.round(root.pendingRotation) + "°"
+            flipText: shouldFlipText(root.pendingRotation)
+        }
+        
+        // Position label
+        K.OverlayLabel {
+            id: effectposLabel
+            visible: transformedFrame.isMoving
+            anchors {
+                top: pendingFrame.top
+                left: pendingFrame.left
+                topMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * pendingFramesize.height / pendingFramesize.width)
+                leftMargin: 2 * root.baseUnit
+            }
+            text: pendingFramesize.x.toFixed(0) + " x " + pendingFramesize.y.toFixed(0)
+            flipText: shouldFlipText(root.pendingRotation)
+        }
+
+        // Size label
+        K.OverlayLabel {
+            id: effectsizeLabel
+            visible: transformedFrame.isResizing
+            anchors {
+                bottom: pendingFrame.bottom
+                right: pendingFrame.right
+                bottomMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * pendingFramesize.height / pendingFramesize.width)
+                rightMargin: 2 * root.baseUnit
+            }
+            text: pendingFramesize.width.toFixed(0) + " x " + pendingFramesize.height.toFixed(0)
+            flipText: shouldFlipText(root.pendingRotation)
+        }
+    }
+
+    // Red Rectangle representing the transformed frame after applying rotation, moving and resizing parameters.
+    Rectangle {
+        id: transformedFrame
+        property bool isMoving: false
+        property bool isResizing: false
+        property bool isRotating: false
+        property int smallRectMargin: transformedFrame.width < 2 * root.baseUnit || transformedFrame.height < 2 * root.baseUnit ? root.baseUnit : 0
+        property double handlesBottomMargin: root.height - clipMonitorRuler.height - transformedFrame.y - transformedFrame.height < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesRightMargin: root.width - transformedFrame.x - transformedFrame.width < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesTopMargin: transformedFrame.y < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesLeftMargin: transformedFrame.x < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+
+        x: frame.x + root._framesize.x * root.scalex
+        y: frame.y + root._framesize.y * root.scaley
+        width: root._framesize.width * root.scalex
+        height: root._framesize.height * root.scaley
+        enabled: controller.isKeyframe || K.KdenliveSettings.autoKeyframe
+        color: "transparent"
+        border.color: root.disableHandles ? 'transparent' : "#ff0000"
+        opacity: (isMoving || isResizing || isRotating) ? 0 : 1
+        transform: Rotation {
+            origin.x: transformedFrame.width/2
+            origin.y: transformedFrame.height/2
+            angle: root._rotation
+        }
+        antialiasing: true
         Shape {
             id: shape
             anchors.fill: parent
@@ -359,28 +474,21 @@ Item {
           anchors.fill: parent
           cursorShape: handleContainsMouse ? Qt.PointingHandCursor : enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
           propagateComposedEvents: true
-          property var mouseClickPos
-          property var frameClicksize: Qt.point(0, 0)
+          property point mouseClickPos
+          property point frameClicksize: Qt.point(0, 0)
           enabled: root.showHandles
           hoverEnabled: true
           readonly property bool handleContainsMouse: {
               if (pressed) {
-                  return false;
+                  return false
               }
               if (root.centerPoints.length <= 1) {
-                root.requestedKeyFrame = -1
-                return false
+                  root.requestedKeyFrame = -1
+                  return false
               }
-              for(var i = 0; i < root.centerPoints.length; i++)
-              {
-                var p1 = canvas.convertPoint(root.centerPoints[i])
-                if (Math.abs(p1.x - (mouseX + framerect.x)) <= canvas.handleSize && Math.abs(p1.y - (mouseY + framerect.y)) <= canvas.handleSize) {
-                    root.requestedKeyFrame = i
-                    return true
-                }
-              }
-              root.requestedKeyFrame = -1
-              return false
+              var idx = getHandleIndexAtMouse(mouseX, mouseY, moveArea)
+              root.requestedKeyFrame = idx
+              return idx !== -1
           }
           onPressed: mouse => {
             if (mouse.button & Qt.LeftButton) {
@@ -395,628 +503,141 @@ Item {
                     return
                 } else {
                     // Ok, get ready for the move
+                    root.pendingFramesize = _framesize
+                    root.pendingRotation = root._rotation
                     mouseClickPos = mapToItem(frame, mouse.x, mouse.y)
-                    frameClicksize.x = framesize.x * root.scalex
-                    frameClicksize.y = framesize.y * root.scaley
+                    frameClicksize.x = _framesize.x * root.scalex
+                    frameClicksize.y = _framesize.y * root.scaley
                 }
                 mouse.accepted = true
                 root.captureRightClick = true
+                transformedFrame.isMoving = true
             }
           }
           onReleased: mouse => {
             root.captureRightClick = false
             root.requestedKeyFrame = -1
             mouse.accepted = true
+
+            root._framesize = root.pendingFramesize
+            root.framesize = root._framesize
+            transformedFrame.isMoving = false
           }
           onPositionChanged: mouse => {
             if (pressed) {
                 var delta = mapToItem(frame, mouse.x, mouse.y)
                 delta.x += - mouseClickPos.x + frameClicksize.x
                 delta.y += - mouseClickPos.y + frameClicksize.y
-                var adjustedMouse = getSnappedPos(delta)
-                framesize.x = adjustedMouse.x / root.scalex;
-                framesize.y = adjustedMouse.y / root.scaley;
-                if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
+
+                var logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, _framesize.width, _framesize.height)
+                var snappedRect = getSnappedRect(logicalFrameRect, root._rotation)
+                root.pendingFramesize.x = snappedRect.x;
+                root.pendingFramesize.y = snappedRect.y;
+                
+                if (controller.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
                   controller.addRemoveKeyframe();
                 }
-                root.effectChanged(root.framesize)
+                root.effectChanged(root.pendingFramesize)
                 mouse.accepted = true
             }
           }
         }
-        Rectangle {
-            id: tlhandle
-            anchors {
-              top: parent.top
-              left: parent.left
-              topMargin: framerect.handlesTopMargin
-              leftMargin: framerect.handlesLeftMargin
-            }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              acceptedButtons: Qt.LeftButton
-              anchors.fill: parent
-              cursorShape: Qt.SizeFDiagCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                  adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                  var adjustedMouse = getSnappedPos(positionInFrame)
-                  adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
-                  adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
-                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = Math.max(adjustedMouse.x - framesize.x * root.scalex, adjustedMouse.y - framesize.y * root.scaley)
-                      if (delta == 0) {
-                        return
-                      }
-                      var newwidth = framerect.width - delta
-                      adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ? root.lockratio : handleRatio))
-                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
-                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width
-                  } else {
-                    adjustedFrame.x = adjustedMouse.x / root.scalex
-                    adjustedFrame.y = adjustedMouse.y / root.scaley;
-                    if (adjustedFrame.x != framesize.x) {
-                      adjustedFrame.width = framesize.x + framesize.width - (adjustedMouse.x / root.scalex);
-                    }
-                    if (adjustedFrame.y != framesize.y) {
-                      adjustedFrame.height = framesize.y + framesize.height - (adjustedMouse.y / root.scaley);
-                    }
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
-                      adjustedFrame.height -= (framesize.height - adjustedFrame.height)
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
-                }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
-            }
-            Text {
-                id: effectpos
-                objectName: "effectpos"
-                color: "red"
-                visible: moveArea.pressed
-                anchors {
-                    top: parent.bottom
-                    left: parent.right
-                }
-                text: framesize.x.toFixed(0) + "x" + framesize.y.toFixed(0)
-            }
-        }
-        Rectangle {
-            id: tophandle
-            anchors {
-              top: parent.top
-              topMargin: framerect.handlesTopMargin
-              horizontalCenter: parent.horizontalCenter
-            }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              acceptedButtons: Qt.LeftButton
-              anchors.fill: parent
-              cursorShape: Qt.SizeVerCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                  adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                  var adjustedMouse = getSnappedPos(positionInFrame)
-                  adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
-                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = adjustedMouse.y - framesize.y * root.scaley
-                      if (delta == 0) {
-                        return
-                      }
-                      var newheight = framerect.height - delta
-                      adjustedFrame.height = Math.round(newheight / root.scalex);
-                      adjustedFrame.width = Math.round(adjustedFrame.height * (root.lockratio > 0 ? root.lockratio : handleRatio))
-                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
-                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width
-                  } else {
-                    adjustedFrame.y = adjustedMouse.y / root.scaley;
-                    if (adjustedFrame.y != framesize.y) {
-                      adjustedFrame.height = framesize.y + framesize.height - (adjustedMouse.y / root.scaley);
-                    }
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
-                      adjustedFrame.height -= (framesize.height - adjustedFrame.height)
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
-                }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
-            }
-        }
-        Rectangle {
-            id: bottomhandle
-            anchors {
-              bottom: parent.bottom
-              bottomMargin: framerect.handlesBottomMargin
-              horizontalCenter: parent.horizontalCenter
-            }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              acceptedButtons: Qt.LeftButton
-              anchors.fill: parent
-              cursorShape: Qt.SizeVerCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                  adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                  var adjustedMouse = getSnappedPos(positionInFrame)
-                  adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
-                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = adjustedMouse.y - (framesize.y + framesize.height) * root.scaley
-                      if (delta == 0) {
-                        return
-                      }
-                      var newheight = framerect.height + delta
-                      adjustedFrame.height = Math.round(newheight / root.scalex);
-                      adjustedFrame.width = Math.round(adjustedFrame.height * (root.lockratio > 0 ? root.lockratio : handleRatio))
-                  } else {
-                      adjustedFrame.height = adjustedMouse.y / root.scaley - adjustedFrame.y;
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      var xOffset = framesize.width - adjustedFrame.width
-                      adjustedFrame.x += xOffset
-                      adjustedFrame.width -= xOffset
-                      var yOffset = framesize.height - adjustedFrame.height
-                      adjustedFrame.y += yOffset
-                      adjustedFrame.height -= yOffset
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
-                }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
-            }
-        }
-        Rectangle {
-            id: lefthandle
-            anchors {
-              verticalCenter: parent.verticalCenter
-              left: parent.left
-              leftMargin: framerect.handlesLeftMargin
-            }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              acceptedButtons: Qt.LeftButton
-              anchors.fill: parent
-              cursorShape: Qt.SizeHorCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                  adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                  var adjustedMouse = getSnappedPos(positionInFrame)
-                  adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
-                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = adjustedMouse.x - framesize.x * root.scaley
-                      if (delta == 0) {
-                        return
-                      }
-                      var newwidth = framerect.width - delta
-                      adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ? root.lockratio : handleRatio))
-                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width
-                  } else {
-                      adjustedFrame.x = adjustedMouse.x / root.scalex
-                      if (adjustedFrame.x != framesize.x) {
-                        adjustedFrame.width = framesize.x + framesize.width - (adjustedMouse.x / root.scalex);
-                      }
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
-                      var yOffset = framesize.height - adjustedFrame.height
-                      adjustedFrame.y += yOffset
-                      adjustedFrame.height -= yOffset
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
-                }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
-            }
-        }
-        Rectangle {
-            id: righthandle
-            anchors {
-              verticalCenter: parent.verticalCenter
-              right: parent.right
-              rightMargin: framerect.handlesRightMargin
 
+        RotationHandle {
+            id: rotationHandle
+            baseUnit: root.baseUnit
+            rotatable: root.rotatable
+            showHandle: root.showHandles
+            smallRectMargin: transformedFrame.smallRectMargin
+            isKeyframe: controller.isKeyframe
+            rotationAngle: root._rotation
+            
+            onRotationStart: {
+                root.pendingFramesize = root._framesize
+                root.pendingRotation = root._rotation
+                transformedFrame.isRotating = true
             }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              acceptedButtons: Qt.LeftButton
-              anchors.fill: parent
-              cursorShape: Qt.SizeHorCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                  adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                  var adjustedMouse = getSnappedPos(positionInFrame)
-                  adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
-                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = adjustedMouse.x - (framesize.x + framesize.width) * root.scaley
-                      if (delta == 0) {
-                        return
-                      }
-
-                      var newwidth = framerect.width + delta
-                      adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ? root.lockratio : handleRatio))
-                  } else {
-                      adjustedFrame.width = (adjustedMouse.x / root.scalex) - framesize.x;
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      var xOffset = framesize.width - adjustedFrame.width
-                      adjustedFrame.x += xOffset
-                      adjustedFrame.width -= xOffset
-                      var yOffset = framesize.height - adjustedFrame.height
-                      adjustedFrame.y += yOffset
-                      adjustedFrame.height -= yOffset
-
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
-                }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
+            
+            onRotationEnd: {
+                root._rotation = root.pendingRotation
+                root.rect_rotation = root._rotation
+                transformedFrame.isRotating = false
+            }
+            
+            onHandleRotationChanged: (angle) => {
+                root.pendingRotation = angle
+                root.effectRotationChanged(angle)
+            }
+            
+            onCaptureRightClick: (capture) => {
+                root.captureRightClick = capture
+            }
+            
+            onAddRemoveKeyframe: {
+                controller.addRemoveKeyframe()
             }
         }
-        Rectangle {
-            id: trhandle
-            anchors {
-              top: parent.top
-              right: parent.right
-              topMargin: framerect.handlesTopMargin
-              rightMargin: framerect.handlesRightMargin
-            }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              anchors.fill: parent
-              cursorShape: Qt.SizeBDiagCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                  adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                  var adjustedMouse = getSnappedPos(positionInFrame)
-                  adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
-                  adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
-                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var newwidth = adjustedMouse.x - framesize.x * root.scalex
-                      adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
-                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height
-                  } else {
-                      adjustedFrame.y = adjustedMouse.y / root.scaley;
-                      adjustedFrame.width = (adjustedMouse.x / root.scalex) - framesize.x;
-                      if (adjustedFrame.y != framesize.y) {
-                        adjustedFrame.height = framesize.y + framesize.height - (adjustedMouse.y / root.scaley);
-                      }
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      var xOffset = framesize.width - adjustedFrame.width
-                      adjustedFrame.x += xOffset
-                      adjustedFrame.width -= xOffset
-                      adjustedFrame.height -= (framesize.height - adjustedFrame.height)
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
+        
+        // Generate all 8 resize handles (4 corners, 4 edges)
+        Repeater {
+            model: [
+                ResizeLogic.HandleTypes.TOP_LEFT,
+                ResizeLogic.HandleTypes.TOP,
+                ResizeLogic.HandleTypes.TOP_RIGHT,
+                ResizeLogic.HandleTypes.LEFT,
+                ResizeLogic.HandleTypes.RIGHT,
+                ResizeLogic.HandleTypes.BOTTOM_LEFT,
+                ResizeLogic.HandleTypes.BOTTOM,
+                ResizeLogic.HandleTypes.BOTTOM_RIGHT
+            ]
+            
+            ResizeHandle {
+                // Configuration
+                handleType: modelData
+                baseUnit: root.baseUnit
+                showHandle: root.showHandles
+                otherResizeHandleInUse: transformedFrame.isResizing
+                
+                // Frame state
+                parentFramesize: root._framesize
+                scalex: root.scalex  
+                scaley: root.scaley
+                lockRatio: root.lockratio
+                isKeyframe: controller.isKeyframe
+                
+                // Margin properties
+                handlesTopMargin: transformedFrame.handlesTopMargin
+                handlesBottomMargin: transformedFrame.handlesBottomMargin
+                handlesLeftMargin: transformedFrame.handlesLeftMargin
+                handlesRightMargin: transformedFrame.handlesRightMargin
+                
+                // Rotation angle for handle mapping
+                rotationAngle: root._rotation
+                
+                onResize: (adjustedFrame) => {
+                    root.pendingFramesize = adjustedFrame
+                    root.effectChanged(root.pendingFramesize)
                 }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
-            }
-        }
-        Rectangle {
-            id: blhandle
-            anchors {
-              bottom: parent.bottom
-              left: parent.left
-              bottomMargin: framerect.handlesBottomMargin
-              leftMargin: framerect.handlesLeftMargin
-            }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              anchors.fill: parent
-              cursorShape: Qt.SizeBDiagCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                  adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                  var adjustedMouse = getSnappedPos(positionInFrame)
-                  adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
-                  adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
-                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var newwidth = (framesize.x + framesize.width) * root.scalex - adjustedMouse.x
-                      adjustedFrame.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
-                      adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
-                  } else {
-                    adjustedFrame.x = adjustedMouse.x / root.scalex
-                    if (adjustedFrame.x != framesize.x) {
-                      adjustedFrame.width = framesize.x + framesize.width - (adjustedMouse.x / root.scalex);
-                    }
-                    adjustedFrame.height = (adjustedMouse.y / root.scaley) - framesize.y;
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
-                      var yOffset = framesize.height - adjustedFrame.height
-                      adjustedFrame.y += yOffset
-                      adjustedFrame.height -= yOffset
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
+                
+                onResizeStart: () => {
+                    transformedFrame.isResizing = true
+                    root.pendingFramesize = root._framesize
+                    root.pendingRotation = root._rotation
                 }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
-            }
-        }
-        Text {
-            id: effectsize
-            objectName: "effectsize"
-            color: "red"
-            visible: framerect.dragging
-            anchors {
-                bottom: framerect.bottom
-                right: framerect.right
-                bottomMargin: 2 * root.baseUnit * framesize.height / framesize.width
-                rightMargin: 2 * root.baseUnit
-            }
-            text: framesize.width.toFixed(0) + "x" + framesize.height.toFixed(0)
-        }
-        Rectangle {
-            id: brhandle
-            anchors {
-              bottom: parent.bottom
-              right: parent.right
-              bottomMargin: framerect.handlesBottomMargin
-              rightMargin: framerect.handlesRightMargin
-            }
-            width: root.baseUnit
-            height: width
-            color: "#99ffffff"
-            border.color: "#ff0000"
-            visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
-            MouseArea {
-              property int oldMouseX
-              property int oldMouseY
-              property double handleRatio: 1
-              anchors.fill: parent
-              cursorShape: Qt.SizeFDiagCursor
-              onPressed: mouse => {
-                  root.captureRightClick = true
-                  framerect.dragging = false
-                  oldMouseX = mouseX
-                  oldMouseY = mouseY
-                  handleRatio = framesize.width / framesize.height
-              }
-              onPositionChanged: mouse => {
-                if (pressed) {
-                  if (!framerect.dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
-                    return
-                  }
-                  framerect.dragging = true
-                   adjustedFrame = framesize
-                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                   var adjustedMouse = getSnappedPos(positionInFrame)
-                   adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
-                  adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
-                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var newwidth = adjustedMouse.x - framesize.x * root.scalex
-                      adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
-                  } else {
-                    adjustedFrame.width = (adjustedMouse.x / root.scalex) - framesize.x;
-                    adjustedFrame.height = (adjustedMouse.y / root.scaley) - framesize.y;
-                  }
-                  if (mouse.modifiers & Qt.ControlModifier) {
-                      var xOffset = framesize.width - adjustedFrame.width
-                      adjustedFrame.x += xOffset
-                      adjustedFrame.width -= xOffset
-                      var yOffset = framesize.height - adjustedFrame.height
-                      adjustedFrame.y += yOffset
-                      adjustedFrame.height -= yOffset
-                  }
-                  framesize = adjustedFrame
-                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
-                  root.effectChanged(root.framesize)
+                
+                onResizeEnd: () => {
+                    root._framesize = root.pendingFramesize
+                    root.framesize = root._framesize
+                    transformedFrame.isResizing = false
                 }
-              }
-              onReleased: {
-                  root.captureRightClick = false
-                  framerect.dragging = false
-                  handleRatio = 1
-              }
+                
+                onCaptureRightClick: (capture) => {
+                    root.captureRightClick = capture
+                }
+                
+                onAddRemoveKeyframe: () => {
+                    controller.addRemoveKeyframe()
+                }
             }
         }
     }

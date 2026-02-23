@@ -32,11 +32,13 @@ void computePeaks(const int16_t *in, int16_t *out, size_t nChannels, size_t nSam
  * @param resource MLT resource
  * @param channels number of channels in this stream
  * @param progressCallback process callback function
- * @param isCanceled task cancelled semaphor, 0 = not cancelled, 1 = cancelled
+ * @param isCanceled task cancelled semaphore, 0 = not cancelled, 1 = cancelled
+ * @param duration override playlist duration in case we have a lengthy black track (like sequence clips)
  * @return the computed audio levels
  */
 QVector<int16_t> generateMLT(size_t streamIdx, const QString &service, const QString &resource, int channels,
-                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled);
+                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled,
+                             int duration = -1);
 
 /** @brief Computes the audio levels using libav.
  *
@@ -47,7 +49,7 @@ QVector<int16_t> generateMLT(size_t streamIdx, const QString &service, const QSt
  * @param MLTlengthInFrames duration of the file in MLT frames
  * @param MLTfps frames per second
  * @param progressCallback process callback function
- * @param isCanceled task cancelled semaphor, 0 = not cancelled, 1 = cancelled
+ * @param isCanceled task cancelled semaphore, 0 = not cancelled, 1 = cancelled
  * @return the computed audio levels
  */
 QVector<int16_t> generateLibav(size_t streamIdx, const QString &uri, size_t MLTlengthInFrames, double MLTfps,

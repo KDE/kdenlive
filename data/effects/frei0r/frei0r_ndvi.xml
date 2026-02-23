@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.ndvi" id="frei0r.ndvi">
+    <name>NDVI</name>
+    <description>This filter creates a false image from a visible + infrared source</description>
+    <author>Brian Matherly</author>
+    <parameter type="list" name="0" default="grayscale" paramlist="earth;grayscale;heat;rainbow">
+        <name>Color Map</name>
+        <paramlistdisplay>Earth,Grayscale,Heat,Rainbow</paramlistdisplay>
+    </parameter>
+    <parameter type="animated" name="1" min="0.01" max="1" decimals="3" default="0.256">
+        <name>Levels</name>
+        <comment><![CDATA[The number of color levels to use in the false image]]></comment>
+    </parameter>
+    <parameter type="animated" name="2" min="0" max="1" decimals="3" default="0.1">
+        <name>VIS Scale</name>
+        <comment><![CDATA[]]></comment>
+    </parameter>
+    <parameter type="animated" name="3" min="0" max="1" decimals="3" default="0.5">
+        <name>VIS Offset</name>
+        <comment><![CDATA[An offset to be applied to<br>
+        the visible component (mapped to [-100%, 100%])]]></comment>
+    </parameter>
+    <parameter type="animated" name="4" min="0" max="1" decimals="3" default="0.1">
+        <name>NIR Scale</name>
+        <comment><![CDATA[A scaling factor to be applied to the near-infrared component]]></comment>
+    </parameter>
+    <parameter type="animated" name="5" min="0" max="1" decimals="3" default="0.5">
+        <name>NIR Offset</name>
+        <comment><![CDATA[An offset to be applied to<br>
+        the near-infrared component (mapped to [-100%, 100%])]]></comment>
+    </parameter>
+    <parameter type="list" name="6" default="r" paramlist="r;g;b">
+        <name>Visible Channel</name>
+        <comment><![CDATA[The channel to use for the visible component]]></comment>
+        <paramlistdisplay>Red,Green,Blue</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="7" default="r" paramlist="r;g;b">
+        <name>NIR Channel</name>
+        <comment><![CDATA[The channel to use for the near-infrared component]]></comment>
+        <paramlistdisplay>Red,Green,Blue</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="8" default="ndvi" paramlist="ndvi;vi">
+        <name>Index Calculation</name>
+        <comment><![CDATA[The index calculation to use]]></comment>
+        <paramlistdisplay>NDVI,VI</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="9" default="off" paramlist="off;bottom">
+        <name>Legend</name>
+        <comment><![CDATA[Control legend display]]></comment>
+        <paramlistdisplay>Off,Bottom</paramlistdisplay>
+    </parameter>
+</effect>

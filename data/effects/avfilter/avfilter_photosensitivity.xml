@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.photosensitivity" id="avfilter.photosensitivity">
-    <name>Photosensitivity</name>
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.photosensitivity" id="avfilter.photosensitivity">
+    <name>Photosensitivity Filter</name>
     <description>Filter out photosensitive epilepsy seizure-inducing flashes.</description>
     <author>libavfilter</author>
     <parameter type="animated" name="av.f" min="2" max="240" default="30" decimals="0">

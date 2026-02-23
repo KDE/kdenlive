@@ -14,11 +14,7 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
 {
     setupUi(this);
 
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
     const QMap<KeyframeType::KeyframeEnum, QString> keyframeTypes = KeyframeModel::getKeyframeTypes();
-    m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
     // Linear
     methodCombo->addItem(keyframeTypes.value(KeyframeType::Linear), QVariant(QChar()));

@@ -25,6 +25,7 @@
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
+#include "project/dialogs/guideslist.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
 
@@ -36,6 +37,7 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QSortFilterProxyModel>
+#include <QTimer>
 #include <QUuid>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
@@ -111,7 +113,7 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
 }
 
 void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu,
-                                     QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
+                                     QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu)
 {
     m_timelineClipMenu = new QMenu(this);
     QList<QAction *> cActions = clipMenu->actions();
@@ -143,6 +145,7 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_headerMenu->addMenu(m_thumbsMenu);
     m_timelineSubtitleClipMenu = subtitleClipMenu;
     m_editGuideAcion = editGuideAction;
+    m_addClipMenu = addClipMenu;
     updateEffectFavorites();
     updateTransitionFavorites();
     connect(m_favEffects, &QMenu::triggered, this, [&](QAction *ac) { timelineController.addEffectToClip(ac->data().toString()); });
@@ -158,11 +161,14 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     connect(m_timelineRulerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineMenu, &QMenu::triggered, this, &TimelineWidget::slotResetContextPos);
+    connect(m_timelineMenu, &QMenu::aboutToShow, this, &TimelineWidget::updateAddClipMenuStatus);
+    connect(m_timelineMenu, &QMenu::triggered, this, &TimelineWidget::updateAddClipMenuStatus);
     connect(m_timelineSubtitleClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
 
     m_timelineClipMenu->addMenu(m_favEffects);
     m_timelineClipMenu->addMenu(m_favCompositions);
     m_timelineMenu->addMenu(m_favCompositions);
+    m_timelineMenu->addMenu(m_addClipMenu);
 }
 
 const QUuid &TimelineWidget::getUuid() const
@@ -174,10 +180,12 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 {
     loading = true;
     Q_ASSERT(model != nullptr);
+    connect(&timelineController, &TimelineController::timelineMouseOffsetChanged, this, &TimelineWidget::emitMousePos, Qt::QueuedConnection);
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
     timelineController.setModel(model);
+    connect(pCore->bin(), &Bin::requestAddClipReset, this, [&]() { m_shouldAddClip = false; });
     m_audioRec = pCore->getAudioDevice();
     QList<QQmlContext::PropertyPair> propertyList = {{"controller", QVariant::fromValue(model.get())},
                                                      {"multitrack", QVariant::fromValue(m_sortModel.get())},
@@ -193,11 +201,9 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
         propertyList.append({"subtitleModel", QVariant()});
     }
     rootContext()->setContextProperties(propertyList);
-
     setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Timeline.qml")));
 
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
-    connect(rootObject(), SIGNAL(mousePosChanged(int)), this, SLOT(emitMousePos(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
@@ -211,6 +217,8 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
     connect(rootObject(), SIGNAL(showTargetMenu(int)), this, SLOT(showTargetMenu(int)));
     connect(rootObject(), SIGNAL(showSubtitleClipMenu()), this, SLOT(showSubtitleClipMenu()));
+    connect(rootObject(), SIGNAL(markerActivated(int)), pCore->guidesList(), SLOT(markerActivated(int)));
+    connect(rootObject(), SIGNAL(updateTimelineMousePos(int, int)), pCore->window(), SLOT(slotUpdateMousePosition(int, int)));
     timelineController.setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -219,7 +227,8 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 
 void TimelineWidget::emitMousePos(int offset)
 {
-    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / timelineController.scaleFactor()));
+    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / timelineController.scaleFactor()),
+                                             timelineController.duration());
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
@@ -232,9 +241,7 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 void TimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (isEnabled()) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(rootObject(), "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-        emitMousePos(returnedValue.toInt());
+        emitMousePos(timelineController.timelineMouseOffset());
     }
     QQuickWidget::mouseMoveEvent(event);
 }
@@ -279,6 +286,9 @@ void TimelineWidget::showHeaderMenu()
     QStringList allowedActions = {QLatin1String("show_track_record"), QLatin1String("separate_channels"), QLatin1String("normalize_channels")};
     for (QAction *ac : std::as_const(menuActions)) {
         if (allowedActions.contains(ac->data().toString())) {
+            if (ac->data().toString() == QLatin1String("separate_channels")) {
+                ac->setChecked(KdenliveSettings::displayallchannels());
+            }
             audioActions << ac;
         }
     }
@@ -389,12 +399,45 @@ void TimelineWidget::showTimelineMenu()
         }
         m_guideMenu->addAction(ac);
     }
+    m_addClipPos = m_clickPos;
+    m_shouldAddClip = true;
+
+    QPoint posInWidget = mapFromGlobal(m_clickPos);
+    m_addClipFrame = timelineController.getMousePos(posInWidget);
+    m_addClipTrack = timelineController.getMouseTrack(posInWidget);
+
+    // Calculate maximum available space on this track
+    int maxSpace = timelineController.getFreeSpace(m_addClipTrack, m_addClipFrame);
+    pCore->bin()->setSuggestedDuration(maxSpace);
+
+    qDebug() << "ADDING CLIP AT TRACK:" << m_addClipTrack << "FRAME:" << m_addClipFrame << "MAX SPACE:" << maxSpace;
+
+    pCore->bin()->setReadyCallBack([this](const QString &clipId) {
+        qDebug() << "CALLBACK TRIGGERED FOR CLIP:" << clipId;
+        // Process with insertion
+        timelineController.insertClips(m_addClipTrack, m_addClipFrame, QStringList(clipId), true, true);
+    });
     m_timelineMenu->popup(m_clickPos);
 }
 
 void TimelineWidget::showSubtitleClipMenu()
 {
     m_timelineSubtitleClipMenu->popup(m_clickPos);
+}
+
+void TimelineWidget::updateShouldAddClip(bool shouldAddClip)
+{
+    m_shouldAddClip = shouldAddClip;
+}
+
+void TimelineWidget::updateAddClipMenuStatus()
+{
+    int tid = timelineController.getMouseTrack();
+    if (tid == -2 || tid == -1 || !model()->isTrack(tid) || model()->isAudioTrack(tid)) {
+        m_addClipMenu->setEnabled(false);
+    } else {
+        m_addClipMenu->setEnabled(true);
+    }
 }
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
@@ -532,31 +575,6 @@ void TimelineWidget::stopAudioRecord()
     if (rootObject()) {
         QMetaObject::invokeMethod(rootObject(), "stopAudioRecord", Qt::DirectConnection);
     }
-}
-
-bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
-{
-    switch (event->type()) {
-    case QEvent::Enter:
-        if (!hasFocus()) {
-            Q_EMIT pCore->window()->showTimelineFocus(true, true);
-        }
-        break;
-    case QEvent::Leave:
-        if (!hasFocus()) {
-            Q_EMIT pCore->window()->showTimelineFocus(false, true);
-        }
-        break;
-    case QEvent::FocusOut:
-        Q_EMIT pCore->window()->showTimelineFocus(false, false);
-        break;
-    case QEvent::FocusIn:
-        Q_EMIT pCore->window()->showTimelineFocus(true, false);
-        break;
-    default:
-        break;
-    }
-    return QQuickWidget::eventFilter(object, event);
 }
 
 void TimelineWidget::regainFocus()

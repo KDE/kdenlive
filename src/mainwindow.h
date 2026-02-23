@@ -24,9 +24,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KActionCategory>
 #include <KAutoSaveFile>
 #include <KColorSchemeManager>
+#include <KIO/Global>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <kconfigwidgets_version.h>
+#include <kddockwidgets/DockWidget.h>
+#include <kddockwidgets/MainWindow.h>
+#include <kddockwidgets/core/Layout.h>
 #include <kiconthemes_version.h>
 
 #include <mlt++/Mlt.h>
@@ -39,6 +43,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivecore_export.h"
 #include "otio/otioexport.h"
 #include "otio/otioimport.h"
+#include "powermanagementinterface.h"
 #include "statusbarmessagelabel.h"
 #include "utils/gentime.h"
 
@@ -81,6 +86,10 @@ class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
     Q_OBJECT
 
 public:
+    friend class RenderWidget;
+    friend class Monitor;
+    friend class KdenliveSettingsDialog;
+
     explicit MainWindow(QWidget *parent = nullptr);
     /** @brief Initialises the main window.
      * @param MltPath (optional) path to MLT environment
@@ -90,7 +99,7 @@ public:
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    void init(const QString &mltPath);
+    void init();
     ~MainWindow() override;
 
     /** @brief Cache for luma files thumbnails. */
@@ -116,10 +125,12 @@ public:
      * @param objectName objectName of the dock widget (required for storing layouts)
      * @param widget widget to use in the dock
      * @param area area to which the dock should be added to
-     * @param shortcut default shortcut to raise the dock
+     * @param otherDockWidget if any, the widget that will be used to get the relative area
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+    KDDockWidgets::QtWidgets::DockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget,
+                                                  KDDockWidgets::Location area = KDDockWidgets::Location_OnRight,
+                                                  KDDockWidgets::QtWidgets::DockWidget *otherDockWidget = nullptr, const QSize preferredSize = QSize());
 
     QUndoGroup *m_commandStack{nullptr};
     QUndoView *m_undoView;
@@ -128,9 +139,6 @@ public:
     int m_exitCode{EXIT_SUCCESS};
     QMap<QString, KActionCategory *> kdenliveCategoryMap;
     QList<QAction *> getExtraActions(const QString &name);
-    /** @brief Returns true if docked widget is tabbed with another widget from its object name */
-    bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
-    bool isDockTabbedWith(QDockWidget *widget, QDockWidget *otherWidget);
 
     /** @brief Returns true if mixer widget is tabbed */
     bool isMixedTabbed() const;
@@ -151,15 +159,15 @@ public:
     bool timelineVisible() const;
 
     /** @brief Raise (show) the clip or project monitor */
-    void raiseMonitor(bool clipMonitor);
+    void raiseMonitor(bool clipMonitor, bool raise = false);
 
     /** @brief Raise (show) the project bin
-     * @param unconditionnaly if false, we won't raise the bin if docked with the project monitor */
-    void raiseBin(bool unconditionnaly = true);
+     * @param unconditionally if false, we won't raise the bin if docked with the project monitor */
+    void raiseBin(bool unconditionally = true);
     /** @brief Give focus to the active timeline widget */
     void focusTimeline();
     /** @brief Add a bin widget*/
-    void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true);
+    void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true, const QString &objectName = QString());
     /** @brief Clean current document references from all bins*/
     void cleanBins();
     /** @brief Get the main (first) bin*/
@@ -168,15 +176,11 @@ public:
     void blockBins(bool block);
     /** @brief Get the active (focused) bin or first one if none is active*/
     Bin *activeBin();
-    /** @brief Ensure all bin widgets are tabbed together*/
-    void tabifyBins();
     int binCount() const;
+    void loadBins(QStringList binInfo);
 
     /** @brief Hide subtitle track and delete its temporary file*/
     void resetSubtitles(const QUuid &uuid);
-
-    /** @brief Restart the application and delete config files if clean is true */
-    void cleanRestart(bool clean);
 
     /** @brief Show current tool key combination in status bar */
     void showToolMessage();
@@ -208,6 +212,8 @@ public:
     void reloadAssetPanel();
     /** @brief If any task is running, ask user before closing */
     bool hasRunningTask() const;
+    /** @brief If a render task is running */
+    bool hasRunningRenderTask() const;
 
 protected:
     /** @brief Closes the window.
@@ -217,6 +223,7 @@ protected:
     bool queryClose() override;
     bool m_windowClosing{false};
     void closeEvent(QCloseEvent *) override;
+    QSize sizeHint() const override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
@@ -229,54 +236,63 @@ protected:
     void saveProperties(KConfigGroup &config) override;
 
     void saveNewToolbarConfig() override;
+    /** @brief Power management to inhibit sleep while rendering */
+    PowerManagementInterface mPowerInterface;
+    Kdenlive::ConfigPage m_lastConfigPage = Kdenlive::NoPage;
 
 private:
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
     /** @brief Rebuild the dock menu according to existing dock widgets. */
     void updateDockMenu();
+    /** @brief Update the audio thumbnails action icon based on current zoom and toggle state */
+    void updateAudioWaveformActionIcon();
 
     OtioExport *m_otioExport{nullptr};
     OtioImport *m_otioImport{nullptr};
     KColorSchemeManager *m_colorschemes;
     ScopeManager *m_scopesManager{nullptr};
-
-    QDockWidget *m_projectBinDock;
-    QDockWidget *m_effectListDock;
-    QDockWidget *m_compositionListDock;
-    TransitionListWidget *m_compositionList;
-    EffectListWidget *m_effectList2;
+    KDDockWidgets::QtWidgets::MainWindow *mainDockWindow;
+    KDDockWidgets::QtWidgets::DockWidget *m_timelineDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_projectBinDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_effectListDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_compositionListDock{nullptr};
+    TransitionListWidget *m_compositionList{nullptr};
+    EffectListWidget *m_effectList2{nullptr};
 
     AssetPanel *m_assetPanel{nullptr};
-    QDockWidget *m_effectStackDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_effectStackDock{nullptr};
 
-    QDockWidget *m_clipMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_clipMonitorDock{nullptr};
     Monitor *m_clipMonitor{nullptr};
 
-    QDockWidget *m_projectMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_projectMonitorDock{nullptr};
     Monitor *m_projectMonitor{nullptr};
 
-    AudioGraphSpectrum *m_audioSpectrum;
+    AudioGraphSpectrum *m_audioSpectrum{nullptr};
 
-    QDockWidget *m_undoViewDock;
-    QDockWidget *m_mixerDock;
-    QDockWidget *m_onlineResourcesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_undoViewDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_mixerDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_onlineResourcesDock{nullptr};
 
     KSelectAction *m_timeFormatButton;
     QAction *m_compositeAction;
+
+    // Tool message styling state tracking
+    TimelineMode::EditMode m_currentEditMode{TimelineMode::NormalEdit};
 
     TimelineTabs *m_timelineTabs{nullptr};
     QVector<Bin *> m_binWidgets;
 
     KActionCategory *m_effectActions;
     KActionCategory *m_transitionActions;
-    QMenu *m_effectsMenu;
-    QMenu *m_transitionsMenu;
-    QMenu *m_timelineContextMenu;
+    QMenu *m_effectsMenu{nullptr};
+    QMenu *m_transitionsMenu{nullptr};
+    QMenu *m_timelineContextMenu{nullptr};
     QMenu *m_binsListMenu{nullptr};
     QMenu *m_scopesListMenu{nullptr};
     QList<QAction *> m_timelineClipActions;
-    KDualAction *m_useTimelineZone;
+    KDualAction *m_useTimelineZone{nullptr};
 
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_actionNames;
@@ -285,13 +301,15 @@ private:
      *
      * It allows one to get out of e.g. text input fields and to press another
      * shortcut. */
-    QShortcut *m_shortcutRemoveFocus;
+    QShortcut *m_shortcutRemoveFocus{nullptr};
 
     RenderWidget *m_renderWidget{nullptr};
     StatusBarMessageLabel *m_messageLabel{nullptr};
     QList<QAction *> m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
+    QPushButton *m_statusZoomLevelButton;
+    QMenu *m_audioThumbsMenu;
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
     QAction *m_buttonTimelineTags;
@@ -307,10 +325,15 @@ private:
     QAction *m_buttonSlideTool;
     QAction *m_buttonMulticamTool;
     QAction *m_buttonSnap;
+    QAction *m_buttonHideClipOverlays;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;
     QAction *m_zoomIn;
     QAction *m_zoomOut;
+    QAction *m_audioZoomIn;
+    QAction *m_audioZoomOut;
+    QAction *m_audioZoomReset;
+    QAction *m_audioZoomCycle;
     QAction *m_loopZone;
     QAction *m_playZone;
     QAction *m_playZoneFromCursor;
@@ -334,7 +357,6 @@ private:
     void saveOptions();
 
     QStringList m_pluginFileNames;
-    QByteArray m_timelineState;
     void buildDynamicActions();
     void loadClipActions();
     void loadContainerActions();
@@ -343,8 +365,8 @@ private:
     KXMLGUIClient *m_extraFactory;
     bool m_themeInitialized{false};
     bool m_isDarkTheme{false};
-    EffectBasket *m_effectBasket;
-    QProgressDialog *m_loadingDialog;
+    EffectBasket *m_effectBasket{nullptr};
+    QProgressDialog *m_loadingDialog{nullptr};
 
 public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);
@@ -361,6 +383,8 @@ public Q_SLOTS:
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
     void appHelpActivated();
+    /** @brief Restart the application and delete config files if clean is true */
+    void cleanRestart(bool clean, bool forceQuit = false);
 
     void slotPreferences();
     void slotShowPreferencePage(Kdenlive::ConfigPage page, int option = -1);
@@ -418,20 +442,28 @@ public Q_SLOTS:
     void slotClipInProjectTree(ObjectId ownerId = ObjectId(), bool seekToStart = false);
     /** @brief Normalize audio channels before displaying them */
     void slotNormalizeAudioChannel(bool normalize);
+    /** @brief Recursively calculate folder size */
+    KIO::filesize_t fetchFolderSize(const QString path);
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
+    void slotEditToolbars();
     void loadDockActions();
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
+    void slotSwitchClipOverlays();
     void slotShowTimelineTags();
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
+    /** @brief Process a few last things as soon as ui is built */
+    void finishUiSetup();
+    /** @brief Close Kdenlive and try to restart it */
+    void slotRestart(bool clean = false);
 
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
@@ -448,6 +480,7 @@ private Q_SLOTS:
     void slotAddClipMarker();
     void slotDeleteClipMarker(bool allowGuideDeletion = false);
     void slotDeleteAllClipMarkers();
+    void slotDeleteAllSequenceMarkers();
     void slotEditClipMarker();
 
     /** @brief Adds marker or guide at the current position without showing the marker dialog.
@@ -463,6 +496,8 @@ private Q_SLOTS:
     void slotInsertClipInsert();
     void slotExtractZone();
     void slotLiftZone();
+    void slotCreateRangeMarkerFromZone();
+    void slotCreateRangeMarkerFromZoneQuick();
     void slotPreviewRender();
     void slotStopPreviewRender();
     void slotDefinePreviewRender();
@@ -505,6 +540,7 @@ private Q_SLOTS:
     void slotDeleteAllGuides();
 
     void slotCopy();
+    void slotCut();
     void slotPaste();
     void slotPasteEffects();
     void slotResizeItemStart();
@@ -523,7 +559,6 @@ private Q_SLOTS:
     /** @brief Select all clips in timeline. */
     void slotSelectAllTracks();
     void slotUnselectAllTracks();
-    void slotAutoTransition();
     void slotRunWizard();
     void slotGroupClips();
     void slotUnGroupClips();
@@ -533,8 +568,9 @@ private Q_SLOTS:
     void slotSwitchClip();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
+    void slotSetTimecodeReference();
+    void slotAlignTimecode();
     void slotUpdateTimelineView(QAction *action);
-    void slotShowTimeline(bool show);
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
@@ -543,6 +579,10 @@ private Q_SLOTS:
     /** @brief Switches between displaying frames or timecode.
      * @param ix 0 = display timecode, 1 = display frames. */
     void slotUpdateTimecodeFormat(int ix);
+    /** @brief Apply tool message styling based on current edit mode */
+    void applyToolMessageStyling();
+    /** @brief Apply zoom level button styling based on current zoom level */
+    void applyZoomLevelButtonStyling();
 
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
@@ -551,7 +591,6 @@ private Q_SLOTS:
     void slotSwitchMonitors();
     void slotSwitchMonitorOverlay(QAction *);
     void slotSwitchDropFrames(bool drop);
-    void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
     /** @brief Focus the timecode widget of current monitor. */
@@ -568,8 +607,6 @@ private Q_SLOTS:
     void slotAlignPlayheadToMousePos();
 
     void slotThemeChanged(const QString &name);
-    /** @brief Close Kdenlive and try to restart it */
-    void slotRestart(bool clean = false);
     void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);
@@ -597,8 +634,11 @@ private Q_SLOTS:
     void slotGrabItem();
     /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
     void slotCollapse();
-    /** @brief Cycle zoom audio waveforms*/
-    void slotZoomWaveForm();
+    void slotCollapseAll();
+    void slotAudioZoomIn();
+    void slotAudioZoomOut();
+    void slotAudioZoomReset();
+    void slotAudioZoomCycle();
     /** @brief Save currently selected timeline clip as bin subclip*/
     void slotExtractClip();
     /** @brief Save currently selected timeline clip as bin subclip*/
@@ -635,7 +675,6 @@ Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void abortAllRenderJobs();
     void configurationChanged();
-    void GUISetupDone();
     void setPreviewProgress(int);
     void setRenderProgress(int);
     void displayMessage(const QString &, MessageType, int);
@@ -645,11 +684,10 @@ Q_SIGNALS:
     void updateRenderWidgetProfile();
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId = -1);
-    void assetPanelWarning(const QString service, const QString id, const QString message);
+    void assetPanelWarning(const QString service, const QString message, const QString log = QString());
     void adjustAssetPanelRange(int itemId, int in, int out);
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
-    bool showTimelineFocus(bool focus, bool highlight);
     void removeBinDock(const QString &name);
     /** @brief Connect a newly created dock to signals updating/hiding its title bar. */
     void connectDockAfterInit(QDockWidget *);

@@ -6,8 +6,10 @@
 #include "catch.hpp"
 #include "test_utils.hpp"
 // test specific headers
+#ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic push
+#endif
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"

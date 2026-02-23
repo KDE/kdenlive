@@ -29,17 +29,21 @@ public:
      * @param frameSize The frame size of the original source video
      * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
      */
-    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
-                            bool useOpacity, QWidget *parent, QFormLayout *layout);
+    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, bool allowNullRect, double opacity, const QSize frameSize,
+                            bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout);
     void setValue(const QRect r, double opacity = 1, int frame = -1);
-    void connectMonitor(bool activate, bool singleKeyframe = false);
+    bool connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);
     const QRect getRect() const;
+    const QList<double> getValueList() const;
+    void setRotatable(bool rotatable);
 
 private:
     int m_min;
     int m_max;
     bool m_active;
+    bool m_rotatable{false};
+    double m_rotation{0};
     Monitor *m_monitor;
     DragValue *m_spinX;
     DragValue *m_spinY;
@@ -57,10 +61,12 @@ private:
     QList<QWidget *> m_allWidgets;
     const QString getValue() const;
     void adjustSizeValue();
+    QRectF rotatedBoundingRect(double x, double y, double w, double h, double angleDeg) const;
 
 public Q_SLOTS:
     void slotUpdateGeometryRect(const QRectF &r);
     void slotSetRange(QPair<int, int>);
+    void slotUpdateRotation(double rotation);
 
 private Q_SLOTS:
     void slotAdjustRectKeyframeValue(int ix = -1);

@@ -654,7 +654,7 @@ std::unordered_set<int> SubtitleModel::getItemsInRange(int layer, int startFrame
             if (sid > -1) {
                 matching.emplace(sid);
             } else {
-                qDebug() << "==== FOUND INVALID SUBTILE AT: " << subtitles.first.second.frames(pCore->getCurrentFps());
+                qDebug() << "==== FOUND INVALID SUBTITLE AT: " << subtitles.first.second.frames(pCore->getCurrentFps());
             }
         }
     }

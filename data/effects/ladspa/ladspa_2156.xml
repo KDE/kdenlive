@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2156" tag="ladspa.2156" ladspaid="2156" type="audio">
+   <name>TAP Fractal Doubler</name>
+   <description><![CDATA[TAP Fractal Doubler (LADSPA 2156)<br>
+    Suitable for doubling tracks with vocals, acoustic/electric guitars, bass and just about any other instrument on them.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" decimals="1" default="0.5" max="1.0" min="0.0">
+      <name>Time Tracking</name>
+      <comment><![CDATA[Determines how "rough" and how big<br>
+      these changes are. When set to 0, changes are bigger and more chaotic ("bad backup singer"). When set to 1, changes are smaller and smoother ("better tracking of the original").]]></comment>
+   </parameter>
+   <parameter name="1" type="animated" decimals="1" default="0.5" max="1.0" min="0.0">
+      <name>Pitch Tracking</name>
+      <comment><![CDATA[Determines how "rough" and how big<br>
+      these changes are. When set to 0, changes are bigger and more chaotic ("bad backup singer"). When set to 1, changes are smaller and smoother ("better tracking of the original").]]></comment>
+   </parameter>
+   <parameter name="2" type="animated" decimals="1" default="0.0" max="20.0" min="-90.0" suffix="dB">
+      <name>Dry Level</name>
+      <comment><![CDATA[]]></comment>
+   </parameter>
+   <parameter name="3" type="animated" decimals="1" default="0.0" max="1.0" min="0.0">
+      <name>Dry Left Position</name>
+      <comment><![CDATA[These controls range between 0 and 1,<br>
+      0 meaning hard left and 1 meaning hard right position.]]></comment>
+   </parameter>
+   <parameter name="4" type="animated" decimals="1" default="1.0" max="1.0" min="0.0">
+      <name>Dry Right Position</name>
+      <comment><![CDATA[These controls range between 0 and 1,<br>
+      0 meaning hard left and 1 meaning hard right position.]]></comment>
+   </parameter>
+   <parameter name="5" type="animated" decimals="1" default="0.0" max="20.0" min="-90.0" suffix="dB">
+      <name>Wet Level</name>
+      <comment><![CDATA[]]></comment>
+   </parameter>
+   <parameter name="6" type="animated" decimals="1" default="0.0" max="1.0" min="0.0">
+      <name>Wet Left Position</name>
+      <comment><![CDATA[These controls range between 0 and 1,<br>
+      0 meaning hard left and 1 meaning hard right position.]]></comment>
+   </parameter>
+   <parameter name="7" type="animated" decimals="1" default="1.0" max="1.0" min="0.0">
+      <name>Wet Right Position</name>
+      <comment><![CDATA[These controls range between 0 and 1,<br>
+      0 meaning hard left and 1 meaning hard right position.]]></comment>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

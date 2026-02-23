@@ -7,14 +7,27 @@ include:
       # Linting
       - /gitlab-templates/reuse-lint.yml
       - /gitlab-templates/xml-lint.yml
+      - /gitlab-templates/pre-commit.yml
+      # Quality checks
+      - /gitlab-templates/cppcheck.yml
       # CI Qt6
       - /gitlab-templates/linux-qt6.yml
-      - /gitlab-templates/linux-qt6-next.yml
+      # - /gitlab-templates/linux-qt6-next.yml # disabled until all dependencies are included
       - /gitlab-templates/freebsd-qt6.yml
+      - /gitlab-templates/windows-qt6.yml
       # CD Qt6
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-appimage-qt6.yml
       - /gitlab-templates/craft-windows-mingw64-qt6.yml
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
       - /gitlab-templates/craft-macos-arm64-qt6.yml
+      - /gitlab-templates/snap-snapcraft-lxd.yml
   
+# Customize the job from /gitlab-templates/xml-lint.yml
+# to use our own validate-xml-files.py which has some advanced
+# features to validate Kdenlive specific xml files
+xml:
+  before_script: ''
+  script:
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - python3 -u ./validate-xml-files.py --verbose --check-all

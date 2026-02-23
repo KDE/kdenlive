@@ -6,6 +6,6 @@
         <file alias="kdenlive.png">../data/icons/48-apps-kdenlive.png</file>
         <file alias="kdenlive-logo.png">../data/pics/kdenlive-logo.png</file>
         <file alias="kde-logo.png">../data/pics/kde-logo.png</file>
-        <file alias="splash-background.png">../data/pics/splash-background.png</file>
+        <file alias="splash-background.webp">../data/pics/splash-background.webp</file>
     </qresource>
 </RCC>

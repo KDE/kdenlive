@@ -64,7 +64,7 @@ public:
 public Q_SLOTS:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
-    void assetPanelWarning(const QString &service, const QString &id, const QString &message);
+    void assetPanelWarning(const QString &service, const QString &message, const QString &log = QString());
     void deleteCurrentEffect();
     /** @brief Collapse/expand current effect */
     void collapseCurrentEffect();
@@ -119,4 +119,5 @@ Q_SIGNALS:
     void reloadEffect(const QString &path);
     void switchCurrentComposition(int tid, const QString &compoId);
     void slotSaveStack();
+    void slotSwitchCollapseAll();
 };

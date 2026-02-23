@@ -52,4 +52,12 @@ protected:
 
     /** @brief The MLT repository, useful for filter/producer requests */
     std::unique_ptr<Mlt::Repository> m_repository;
+
+private:
+    QString locateMltProfilePath(const QString &libName, const QString &profilePath = QString());
+
+    /** @brief Locate the melt executable.
+     *  @returns the path of the melt executable (including the executable name)
+     */
+    QString locateMeltExe(const QString &profilePath);
 };

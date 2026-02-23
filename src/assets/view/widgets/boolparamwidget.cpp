@@ -18,6 +18,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     lay->setContentsMargins(0, 0, 0, 0);
     m_checkBox = new QCheckBox(this);
     lay->addWidget(m_checkBox);
+
     // set check state
     slotRefresh();
 

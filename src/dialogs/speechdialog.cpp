@@ -68,13 +68,13 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     adjustSize();
 
-    QButtonGroup *buttonGroup = new QButtonGroup(this);
-    buttonGroup->addButton(timeline_full, 1);
-    buttonGroup->addButton(timeline_zone, 2);
-    buttonGroup->addButton(timeline_track, 3);
-    buttonGroup->addButton(timeline_clips, 4);
-    connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this,
-            [=, selectedTrack = tid, sourceZone = zone, bg = buttonGroup](QAbstractButton *button) {
+    m_buttonGroup = new QButtonGroup(this);
+    m_buttonGroup->addButton(timeline_full, 1);
+    m_buttonGroup->addButton(timeline_zone, 2);
+    m_buttonGroup->addButton(timeline_track, 3);
+    m_buttonGroup->addButton(timeline_clips, 4);
+    connect(m_buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this,
+            [=, selectedTrack = tid, sourceZone = zone, bg = m_buttonGroup](QAbstractButton *button) {
                 if (speech_info->messageType() == KMessageWidget::Information) {
                     speech_info->animatedHide();
                 }
@@ -141,16 +141,17 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
                     m_zone = sourceZone;
                 }
             });
-    QAbstractButton *button = buttonGroup->button(KdenliveSettings::subtitleMode());
+    QAbstractButton *button = m_buttonGroup->button(KdenliveSettings::subtitleMode());
     if (button) {
         button->setChecked(true);
-        Q_EMIT buttonGroup->buttonClicked(button);
+        Q_EMIT m_buttonGroup->buttonClicked(button);
     }
     connect(speech_model, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
             const QString modelName = speech_model->currentData().toString();
             KdenliveSettings::setWhisperModel(modelName);
             speech_language->setEnabled(!modelName.endsWith(QLatin1String(".en")));
+            translate_box->setEnabled(modelName != QLatin1String("turbo"));
         } else {
             KdenliveSettings::setVosk_srt_model(speech_model->currentText());
         }
@@ -162,16 +163,38 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             m_speechJob->kill();
         }
     });
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    QTimer::singleShot(200, this, &SpeechDialog::checkDeps);
+    if (!KdenliveSettings::speech_system_python()) {
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        connect(m_stt, &SpeechToText::installStatusChanged, this, &SpeechDialog::checkDeps);
+        qDebug() << "SAM INTERFASCE STATUS: " << m_stt->status();
+        if (m_stt->status() == AbstractPythonInterface::Installed) {
+            checkDeps();
+        } else {
+            QTimer::singleShot(200, this, [&]() { m_stt->checkSetup(); });
+        }
+    }
 }
 
 SpeechDialog::~SpeechDialog() {}
 
 void SpeechDialog::checkDeps()
 {
-    if (m_stt->checkDependencies(false, true)) {
+    if (m_stt->status() == AbstractPythonInterface::Installed) {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+        QList<QAbstractButton *> buttons = m_buttonGroup->buttons();
+        for (auto &b : buttons) {
+            b->setEnabled(true);
+        }
+    } else {
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        speech_info->setText(i18n("Please configure speech to text."));
+        speech_info->addAction(m_speechConfig);
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->animatedShow();
+        QList<QAbstractButton *> buttons = m_buttonGroup->buttons();
+        for (auto &b : buttons) {
+            b->setEnabled(false);
+        }
     }
     // Only enable subtitle max size if srt_equalizer is found
     bool equalizerAvailable = m_stt->optionalDependencyAvailable(QLatin1String("srt_equalizer"));
@@ -205,6 +228,7 @@ void SpeechDialog::buildSpeechModelsList(SpeechToTextEngine::EngineType engine, 
         if (ix > -1) {
             speech_model->setCurrentIndex(ix);
         }
+        translate_box->setEnabled(KdenliveSettings::whisperModel() != QLatin1String("turbo"));
         translate_seamless->setEnabled(KdenliveSettings::enableSeamless());
         translate_seamless->setChecked(KdenliveSettings::srtSeamlessTranslate());
         connect(translate_seamless, &QCheckBox::toggled, this, [this](bool toggled) {
@@ -260,23 +284,8 @@ void SpeechDialog::slotProcessSpeech()
     } else {
         KdenliveSettings::setSrtSeamlessTranslate(false);
     }
-    speech_info->setMessageType(KMessageWidget::Information);
-    speech_info->setText(i18nc("@label:textbox", "Checking setup…"));
-    speech_info->show();
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    QStringList missingDeps = m_stt->missingDependencies();
-    if (!KdenliveSettings::speech_system_python() && (!m_stt->checkSetup() || !missingDeps.isEmpty())) {
-        speech_info->setMessageType(KMessageWidget::Warning);
-        if (!missingDeps.isEmpty()) {
-            speech_info->setText(i18n("Please configure speech to text, missing dependencies: %1", missingDeps.join(QLatin1String(", "))));
-        } else {
-            speech_info->setText(i18n("Please configure speech to text."));
-        }
-        speech_info->animatedShow();
-        speech_info->addAction(m_speechConfig);
-        return;
-    }
-    speech_info->removeAction(m_speechConfig);
+    speech_info->clearActions();
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting audio export"));
     speech_info->show();
@@ -390,7 +399,7 @@ void SpeechDialog::slotProcessSpeech()
         if (translate_seamless->isChecked()) {
             arguments << QStringLiteral("seamless_source=%1").arg(seamless_in->currentData().toString());
             arguments << QStringLiteral("seamless_target=%1").arg(seamless_out->currentData().toString());
-        } else if (translate_box->isChecked()) {
+        } else if (translate_box->isChecked() && translate_box->isEnabled()) {
             arguments << QStringLiteral("task=translate");
         }
         if (!language.isEmpty()) {
@@ -563,7 +572,7 @@ void SpeechDialog::fillSeamlessLanguages()
     langs.insert(i18n("Sindhi"), QStringLiteral("snd"));
     langs.insert(i18n("Slovak"), QStringLiteral("slk"));
     langs.insert(i18n("Slovenian"), QStringLiteral("slv"));
-    langs.insert(i18n("Somali"), QStringLiteral("som"));
+    langs.insert(i18n("Somali"), QStringLiteral("som")); // codespell:ignore som
     langs.insert(i18n("Southern Pashto"), QStringLiteral("pbt"));
     langs.insert(i18n("Spanish"), QStringLiteral("spa"));
     langs.insert(i18n("Standard Latvian"), QStringLiteral("lvs"));
@@ -574,11 +583,11 @@ void SpeechDialog::fillSeamlessLanguages()
     langs.insert(i18n("Tajik"), QStringLiteral("tgk"));
     langs.insert(i18n("Tamil"), QStringLiteral("tam"));
     langs.insert(i18n("Telugu"), QStringLiteral("tel"));
-    langs.insert(i18n("Thai"), QStringLiteral("tha"));
+    langs.insert(i18n("Thai"), QStringLiteral("tha")); // codespell:ignore tha
     langs.insert(i18n("Turkish"), QStringLiteral("tur"));
     langs.insert(i18n("Ukrainian"), QStringLiteral("ukr"));
     langs.insert(i18n("Urdu"), QStringLiteral("urd"));
-    langs.insert(i18n("Vietnamese"), QStringLiteral("vie"));
+    langs.insert(i18n("Vietnamese"), QStringLiteral("vie")); // codespell:ignore vie
     langs.insert(i18n("Welsh"), QStringLiteral("cym"));
     langs.insert(i18n("West Central Oromo"), QStringLiteral("gaz"));
     langs.insert(i18n("Western Persian"), QStringLiteral("pes"));

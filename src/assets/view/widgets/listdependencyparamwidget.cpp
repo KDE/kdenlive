@@ -20,12 +20,6 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     : AbstractParamWidget(std::move(model), index, parent)
 {
     setupUi(this);
-
-    // Get data from model
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-
-    // setup the comment
-    setToolTip(comment);
     m_infoMessage->hide();
     connect(m_infoMessage, &KMessageWidget::linkActivated, this, [this](const QString &contents) {
         const QUrl linkUrl(contents);
@@ -49,7 +43,7 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
 
     QString dependencies = m_model->data(m_index, AssetParameterModel::ListDependenciesRole).toString();
     if (!dependencies.isEmpty()) {
-        // We have conditionnal dependencies, some values in the list might not be available.
+        // We have conditional dependencies, some values in the list might not be available.
         QDomDocument doc;
         doc.setContent(dependencies);
         QDomNodeList deps = doc.elementsByTagName(QLatin1String("paramdependencies"));
@@ -153,18 +147,7 @@ void ListDependencyParamWidget::slotRefresh()
     if (values.first() == QLatin1String("%lumaPaths")) {
         // Special case: Luma files
         // Create thumbnails
-        if (pCore->getCurrentFrameSize().width() > 1000) {
-            // HD project
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
-        } else if (pCore->getCurrentFrameSize().height() > 1000) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
-        } else if (pCore->getCurrentFrameSize().height() == pCore->getCurrentFrameSize().width()) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("square"));
-        } else if (pCore->getCurrentFrameSize().height() == 480) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
-        } else {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
-        }
+        values = pCore->getLumasForProfile();
         m_list->addItem(i18n("None (Dissolve)"));
         for (int j = 0; j < values.count(); ++j) {
             const QString &entry = values.at(j);

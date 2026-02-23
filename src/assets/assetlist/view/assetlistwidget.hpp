@@ -13,6 +13,7 @@
 class AssetIconProvider;
 class AssetFilter;
 class AssetTreeModel;
+class QTextBrowser;
 class QToolBar;
 class QVBoxLayout;
 class QMenu;
@@ -20,6 +21,7 @@ class QTextDocument;
 class QLineEdit;
 class QListView;
 class QStackedWidget;
+class QToolButton;
 
 /** @class AssetListWidget
     @brief This class is the widget that display the list of available assets (effects or compositions)
@@ -33,7 +35,7 @@ class AssetListWidget : public QWidget
     Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 
 public:
-    AssetListWidget(bool isEffect, QWidget *parent = nullptr);
+    AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QWidget *parent = Q_NULLPTR);
     ~AssetListWidget() override;
 
     /** @brief Returns true if the asset is a favorite */
@@ -83,31 +85,40 @@ public:
     /** @brief Returns true if we are in icon view mode */
     bool isIconView() const;
 
-protected:
-    bool eventFilter(QObject *watched, QEvent *event) override;
+    void activate(const QModelIndex &ix);
+    virtual void switchTenBitFilter() = 0;
 
+    bool infoPanelIsFocused();
+    void processCopy();
+
+private:
+    QTextBrowser *m_textEdit;
     QVBoxLayout *m_lay;
-    QToolBar *m_toolbar;
+    QTextDocument *m_infoDocument;
+
+protected:
     QTreeView *m_effectsTree;
     QListView *m_effectsIcon;
+    QToolBar *m_toolbar;
     QStackedWidget *m_effectsView;
     QMenu *m_contextMenu;
     QLineEdit *m_searchLine;
-    QTextDocument *m_infoDocument;
     std::shared_ptr<AssetTreeModel> m_model;
     std::unique_ptr<AssetFilter> m_proxyModel;
     bool m_isEffect;
     AssetIconProvider *m_assetIconProvider;
+    QToolButton *m_filterButton;
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
+private Q_SLOTS:
+    /** @brief Display the context menu */
+    void onCustomContextMenu(const QPoint &pos);
 
 public Q_SLOTS:
     /** @brief Set the filter name */
     void setFilterName(const QString &pattern);
-    /** @brief Activate an asset */
-    void activate(const QModelIndex &ix);
     /** @brief Update the info panel */
     void updateAssetInfo(const QModelIndex &current, const QModelIndex &previous);
-    /** @brief Display the context menu */
-    void onCustomContextMenu(const QPoint &pos);
 
 Q_SIGNALS:
     void activateAsset(const QVariantMap &);

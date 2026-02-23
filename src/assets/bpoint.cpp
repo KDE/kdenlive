@@ -74,6 +74,10 @@ void BPoint::autoSetLinked()
 {
     // sometimes the angle is returned as 360°
     // due to rounding problems the angle is sometimes not quite 0
+    if (h1 == p || h2 == p) {
+        handlesLinked = true;
+        return;
+    }
     qreal angle = QLineF(h1, p).angleTo(QLineF(p, h2));
     handlesLinked = angle < 1e-3 || qRound(angle) == 360;
 }

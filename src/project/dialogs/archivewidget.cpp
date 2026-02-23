@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
 #include "utils/qstringutils.h"
@@ -24,7 +25,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageWidget>
 #include <KTar>
 #include <KZip>
-#include <kio/directorysizejob.h>
 
 #include <QMimeDatabase>
 #include <QStorageInfo>
@@ -111,7 +111,8 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     for (auto &path : subtitlePath) {
         QFileInfo info(path);
         m_subtitlesSize += static_cast<KIO::filesize_t>(info.size());
-        new QTreeWidgetItem(subtitles, QStringList() << path);
+        auto sub = new QTreeWidgetItem(subtitles, QStringList() << path);
+        sub->setData(0, IsInTimelineRole, 1);
     }
 
     // process all files
@@ -454,7 +455,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 QString ext = filter.section(QLatin1Char('.'), -1);
                 filter = filter.section(QLatin1Char('%'), 0, -2);
                 QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-                static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
+                const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
                 QStringList slideImages;
                 QString directory = dir.absolutePath();
                 if (!directory.endsWith(QLatin1Char('/'))) {
@@ -544,7 +545,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 QString ext = filter.section(QLatin1Char('.'), -1).section(QLatin1Char('?'), 0, 0);
                 filter = filter.section(QLatin1Char('%'), 0, -2);
                 QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-                static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
+                const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
                 QStringList slideImages;
                 qint64 totalSize = 0;
                 for (const QString &path : std::as_const(result)) {
@@ -581,7 +582,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
 
 void ArchiveWidget::slotCheckSpace()
 {
-    QStorageInfo info(archive_url->url().toLocalFile());
+    QStorageInfo info(QFileInfo(archive_url->url().toLocalFile()).absolutePath());
     auto freeSize = static_cast<KIO::filesize_t>(info.bytesAvailable());
     if (freeSize > m_requestedSize) {
         // everything is ok
@@ -1221,17 +1222,14 @@ void ArchiveWidget::slotStartExtracting()
 
 void ArchiveWidget::slotExtractProgress()
 {
-    KIO::DirectorySizeJob *job = KIO::directorySize(archive_url->url());
-    connect(job, &KJob::result, this, &ArchiveWidget::slotGotProgress);
-}
-
-void ArchiveWidget::slotGotProgress(KJob *job)
-{
-    if (!job->error()) {
-        auto *j = static_cast<KIO::DirectorySizeJob *>(job);
-        progressBar->setValue(static_cast<int>(100 * j->totalSize() / m_requestedSize));
-    }
-    job->deleteLater();
+    QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), archive_url->url().toLocalFile());
+    QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+    watcher->setFuture(future);
+    connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+        KIO::filesize_t size = watcher->result();
+        progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
+        watcher->deleteLater();
+    });
 }
 
 void ArchiveWidget::doExtracting()

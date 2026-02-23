@@ -55,7 +55,7 @@ Rectangle {
             when: trackHeadRoot.current
             PropertyChanges {
                 target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(selectedTrackColor, Qt.rgba(1, 0, 0, 0.5)) : selectedTrackColor
+                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
             }
         },
         State {
@@ -212,7 +212,7 @@ Rectangle {
         ToolButton {
             id: expandButton
             focusPolicy: Qt.NoFocus
-            property var modifier: 0
+            property int modifier: 0
             icon.name: trackHeadRoot.collapsed ? "go-next" : "go-down"
             onClicked: {
                 if (modifier & Qt.ShiftModifier) {
@@ -378,7 +378,7 @@ Rectangle {
             }
             ToolButton {
                 id: muteButton
-                property var modifier: 0
+                property int modifier: 0
                 focusPolicy: Qt.NoFocus
                 icon.name: isAudio ? (isDisabled ? "audio-off" : "audio-volume-high") : (isDisabled ? "kdenlive-hide-video" : "kdenlive-show-video")
                 width: root.collapsedHeight
@@ -443,7 +443,7 @@ Rectangle {
                 asynchronous: true 
                 anchors.fill: parent
                 visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
-                source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
+                source: isAudio && showAudioRecord ? "AudioRecordingControls.qml" : ""
                 onLoaded: item.trackId = trackId
             }
         }
@@ -453,7 +453,7 @@ Rectangle {
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2
-            anchors.rightMargin: audioZoomLabel.visible ? audioZoomLabel.width + 4 : 2
+            anchors.rightMargin: 2
             height: nameEdit.height
             Rectangle {
                 id: trackLabel
@@ -523,37 +523,6 @@ Rectangle {
                         visible = false
                     }
                 }
-            }
-        }
-        Label {
-            id: audioZoomLabel
-            anchors.bottom: trackHeadColumn.bottom
-            anchors.right: trackHeadColumn.right
-            anchors.margins: 2
-
-            background: Rectangle {
-                color: audioZoomLabel.text == "X1" ? 'transparent' : 'darkred'
-            }
-            height: nameEdit.height
-            width: height
-            text: trackHeadRoot.isAudio && trackHeadRoot.trackTag == "A1" ? timeline.audioZoomText : ""
-            font: miniFont
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            visible: trackLabel.visible && text.length > 0
-            MouseArea {
-                id: zoomMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    timeline.zoomWaveform()
-                }
-            }
-            ToolTip {
-                visible: zoomMouseArea.containsMouse
-                font: miniFont
-                text: i18n("Click to cycle audio waveforms zoom")
             }
         }
     }

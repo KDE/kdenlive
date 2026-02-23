@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="threshold" id="threshold">
+<effect xmlns="https://www.kdenlive.org" tag="threshold" id="threshold">
     <name>Binarize</name>
     <description>Make monochrome clip</description>
     <author>Charles Yates</author>

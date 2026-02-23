@@ -136,21 +136,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 
     // Fill luma list
     m_view.luma_file->setIconSize(QSize(50, 30));
-    QStringList values;
-    if (pCore->getCurrentFrameSize().width() > 1000) {
-        // HD project
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
-    } else if (pCore->getCurrentFrameSize().height() > 1000) {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
-    } else if (pCore->getCurrentFrameSize().height() == pCore->getCurrentFrameSize().width()) {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("square"));
-    } else if (pCore->getCurrentFrameSize().height() == 480) {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
-    } else {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
-    }
-    values.removeDuplicates();
-
+    const QStringList values = pCore->getLumasForProfile();
     QStringList names;
     for (const QString &value : std::as_const(values)) {
         names.append(QUrl(value).fileName());
@@ -281,7 +267,8 @@ void SlideshowClip::parseFolder()
     } else {
         int offset = 0;
         QString path_pattern = m_view.pattern_url->text();
-        QDir abs_dir = QFileInfo(m_view.pattern_url->text()).absoluteDir();
+        QFileInfo filterInfo(path_pattern);
+        QDir abs_dir = filterInfo.absoluteDir();
         result = abs_dir.entryList(QDir::Files);
         // find pattern
         if (path_pattern.contains(QLatin1Char('?'))) {
@@ -294,19 +281,18 @@ void SlideshowClip::parseFolder()
             }
             path_pattern = path_pattern.section(QLatin1Char('?'), 0, 0);
         }
-        filter = QFileInfo(path_pattern).fileName();
-        QString ext = filter.section(QLatin1Char('.'), -1);
+
+        filter = filterInfo.completeBaseName();
+        const QString ext = filterInfo.suffix();
         if (filter.contains(QLatin1Char('%'))) {
             filter = filter.section(QLatin1Char('%'), 0, -2);
         } else {
-            filter = filter.section(QLatin1Char('.'), 0, -2);
             while (!filter.isEmpty() && filter.at(filter.size() - 1).isDigit()) {
                 filter.remove(filter.size() - 1, 1);
             }
         }
-        qDebug() << " / /" << path_pattern << " / " << ext << " / " << filter;
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-        static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
+        const QRegularExpression rx(regexp);
         QStringList entries;
         for (const QString &p : std::as_const(result)) {
             if (rx.match(p).hasMatch()) {

@@ -50,5 +50,17 @@ static inline double fromDB(double level)
     return value;
 }
 
+static inline double toDB(double value)
+{
+    double dbValue = 0;
+    if (value > 60) {
+        // increase volume
+        dbValue = 24 * (1 - log10((100 - value) * 0.225 + 1));
+    } else if (value < 60) {
+        dbValue = -50 * (1 - log10(10 - (value - 59) * (-0.11395)));
+    }
+    return dbValue;
+}
+
 #endif // IECSCALE_H
 

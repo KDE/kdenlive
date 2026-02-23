@@ -45,8 +45,6 @@ public:
 
     ~KisCurveWidget() override;
 
-    QSize sizeHint() const override;
-
 protected:
     void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *e) override;

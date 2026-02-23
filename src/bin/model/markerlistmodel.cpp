@@ -31,6 +31,11 @@ MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> und
     setup();
 }
 
+const QString &MarkerListModel::ownerId() const
+{
+    return m_clipId;
+}
+
 void MarkerListModel::setup()
 {
     // We connect the signals of the abstractitemmodel to a more generic one.
@@ -74,7 +79,7 @@ void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, cons
     };
     PUSH_FRONT_LAMBDA(local_redo, redo);
     PUSH_LAMBDA(local_undo, undo);
-    pCore->pushUndo(undo, redo, i18n("Update guides categories"));
+    pCore->pushUndo(undo, redo, i18n("Update timeline markers categories"));
 }
 
 QList<int> MarkerListModel::loadCategories(const QStringList &categories, bool notify)
@@ -225,8 +230,8 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     if (hasMarker(pos)) {
         // In this case we simply change the comment and type
         CommentedTime current = marker(pos);
-        local_undo = changeComment_lambda(pos, current.comment(), current.markerType());
-        local_redo = changeComment_lambda(pos, comment, type);
+        local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType());
+        local_redo = addOrUpdateRangeMarker_lambda(pos, GenTime(0), comment, type);
     } else {
         // In this case we create one
         local_redo = addMarker_lambda(pos, comment, type);
@@ -290,7 +295,7 @@ bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
         return false;
     }
     CommentedTime current = marker(pos);
-    Fun local_undo = addMarker_lambda(pos, current.comment(), current.markerType());
+    Fun local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType());
     Fun local_redo = deleteMarker_lambda(pos);
     if (local_redo()) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -323,18 +328,90 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     if (type == -1) {
         type = current.markerType();
     }
-    if (oldPos == pos && current.comment() == comment && current.markerType() == type) return true;
+    return editMarker(oldPos, pos, comment, type, current.duration());
+}
+
+bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, int type, GenTime duration)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(hasMarker(oldPos));
+    CommentedTime current = marker(oldPos);
+    if (comment.isEmpty()) {
+        comment = current.comment();
+    }
+    if (type == -1) {
+        type = current.markerType();
+    }
+    if (oldPos == pos && current.comment() == comment && current.markerType() == type && current.duration() == duration) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = true;
-    if (oldPos != pos) {
-        res = removeMarker(oldPos, undo, redo);
-    }
+    CommentedTime oldState = current;
+    int mid = getIdFromPos(oldPos);
+    Q_ASSERT(mid != -1);
+    Fun local_redo = [this, oldPos, pos, comment, type, duration]() {
+        CommentedTime newMarker(pos, comment, type, duration);
+        int mid = getIdFromPos(oldPos);
+        if (oldPos != pos) {
+            Q_ASSERT(m_markerPositions.contains(oldPos.frames(pCore->getCurrentFps())));
+            int row = getRowfromId(mid);
+            beginRemoveRows(QModelIndex(), row, row);
+            m_markerList.erase(mid);
+            m_markerPositions.remove(oldPos.frames(pCore->getCurrentFps()));
+            endRemoveRows();
+            removeSnapPoint(oldPos);
+            mid = TimelineModel::getNextId();
+            int insertionRow = static_cast<int>(m_markerList.size());
+            beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+            m_markerList.insert({mid, newMarker});
+            m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
+            endInsertRows();
+            addSnapPoint(pos);
+        } else {
+            m_markerList[mid] = newMarker;
+        }
+        int row = getRowfromId(mid);
+        Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
+        return true;
+    };
+
+    res = local_redo();
     if (res) {
-        res = addMarker(pos, comment, type, undo, redo);
-    }
-    if (res) {
-        PUSH_UNDO(undo, redo, i18n("Edit marker"));
+        Fun local_undo = [this, oldPos, pos, oldState]() {
+            int mid = getIdFromPos(pos);
+            if (oldPos != pos) {
+                Q_ASSERT(m_markerPositions.contains(pos.frames(pCore->getCurrentFps())));
+                int row = getRowfromId(mid);
+                beginRemoveRows(QModelIndex(), row, row);
+                m_markerList.erase(mid);
+                m_markerPositions.remove(pos.frames(pCore->getCurrentFps()));
+                endRemoveRows();
+                removeSnapPoint(pos);
+                mid = TimelineModel::getNextId();
+                int insertionRow = static_cast<int>(m_markerList.size());
+                beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+                m_markerList.insert({mid, oldState});
+                m_markerPositions.insert(oldPos.frames(pCore->getCurrentFps()), mid);
+                endInsertRows();
+                addSnapPoint(oldPos);
+
+            } else {
+                m_markerList[mid] = oldState;
+            }
+            int row = getRowfromId(mid);
+            Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
+            return true;
+        };
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        QString undoText;
+        if (oldPos != pos) {
+            undoText = i18n("Move marker");
+        } else if (current.duration() != duration) {
+            undoText = i18n("Resize marker");
+        } else {
+            undoText = i18n("Edit marker");
+        }
+        PUSH_UNDO(undo, redo, undoText);
     } else {
         bool undone = undo();
         Q_ASSERT(undone);
@@ -429,11 +506,17 @@ bool MarkerListModel::moveMarkers(const QList<CommentedTime> &markers, GenTime f
         GenTime oldPos = marker.time();
         QString oldComment = marker.comment();
         int oldType = marker.markerType();
+        bool oldRanged = marker.hasRange();
+        GenTime oldDuration = marker.duration();
         GenTime newPos = oldPos.operator+(toPos.operator-(fromPos));
 
         res = removeMarker(oldPos, undo, redo);
         if (res) {
-            res = addMarker(newPos, oldComment, oldType, undo, redo);
+            if (oldRanged) {
+                res = addRangeMarker(newPos, oldDuration, oldComment, oldType, undo, redo);
+            } else {
+                res = addMarker(newPos, oldComment, oldType, undo, redo);
+            }
         } else {
             break;
         }
@@ -472,6 +555,32 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
     };
 }
 
+Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration, const QString &comment, int type)
+{
+    QWriteLocker locker(&m_lock);
+    return [pos, duration, comment, type, this]() {
+        int mid;
+        if (hasMarker(pos)) {
+            mid = getIdFromPos(pos);
+            Q_ASSERT(mid != -1);
+            int row = getRowfromId(mid);
+            m_markerList[mid].setComment(comment);
+            m_markerList[mid].setMarkerType(type);
+            m_markerList[mid].setDuration(duration);
+            Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole});
+        } else {
+            mid = TimelineModel::getNextId();
+            int insertionRow = static_cast<int>(m_markerList.size());
+            beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+            m_markerList[mid] = CommentedTime(pos, comment, type, duration);
+            m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
+            endInsertRows();
+            addSnapPoint(pos);
+        }
+        return true;
+    };
+}
+
 Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
@@ -502,6 +611,11 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
     roles[ColorRole] = "color";
     roles[TypeRole] = "type";
     roles[IdRole] = "id";
+    roles[TCRole] = "timecode";
+    roles[ClipIdRole] = "clipId";
+    roles[DurationRole] = "duration";
+    roles[EndPosRole] = "endPos";
+    roles[HasRangeRole] = "hasRange";
     return roles;
 }
 
@@ -544,8 +658,9 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case Qt::DisplayRole:
     case Qt::EditRole:
-    case CommentRole:
+    case CommentRole: {
         return it->second.comment();
+    }
     case PosRole:
         return it->second.time().seconds();
     case FrameRole:
@@ -560,6 +675,14 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
         return it->first;
     case TCRole:
         return pCore->timecode().getDisplayTimecode(it->second.time(), false);
+    case ClipIdRole:
+        return m_clipId;
+    case DurationRole:
+        return it->second.duration().frames(pCore->getCurrentFps());
+    case EndPosRole:
+        return it->second.endTime().frames(pCore->getCurrentFps());
+    case HasRangeRole:
+        return it->second.hasRange();
     }
     return QVariant();
 }
@@ -730,6 +853,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         int pos = entryObj[QLatin1String("pos")].toInt();
         QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
         int type = entryObj[QLatin1String("type")].toInt(0);
+        int duration = entryObj[QLatin1String("duration")].toInt(0); // Default to 0 for backward compatibility
         if (!pCore->markerTypes.contains(type)) {
             qDebug() << "Warning : invalid type found:" << type << " Recovering category";
             type = type % 9;
@@ -745,10 +869,14 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         if (!ignoreConflicts && hasMarker(GenTime(pos, pCore->getCurrentFps()))) {
             // potential conflict found, checking
             CommentedTime oldMarker = marker(GenTime(pos, pCore->getCurrentFps()));
-            res = (oldMarker.comment() == comment) && (type == oldMarker.markerType());
+            res = (oldMarker.comment() == comment) && (type == oldMarker.markerType()) && (oldMarker.duration().frames(pCore->getCurrentFps()) == duration);
         }
         qDebug() << "// ADDING MARKER AT POS: " << pos << ", FPS: " << pCore->getCurrentFps();
-        res = res && addMarker(GenTime(pos, pCore->getCurrentFps()), comment, type, undo, redo);
+        if (duration > 0) {
+            res = res && addRangeMarker(GenTime(pos, pCore->getCurrentFps()), GenTime(duration, pCore->getCurrentFps()), comment, type, undo, redo);
+        } else {
+            res = res && addMarker(GenTime(pos, pCore->getCurrentFps()), comment, type, undo, redo);
+        }
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -806,8 +934,30 @@ bool MarkerListModel::importFromTxt(const QString &fileData, Fun &undo, Fun &red
             qDebug() << "::: Could not read timecode from line: " << line;
             continue;
         }
+
         QString comment = line.section(QLatin1Char(' '), 1);
-        res = addMarker(position, comment, type, undo, redo);
+        GenTime duration(0);
+
+        if (comment.endsWith(']')) {
+            int bracketStart = comment.lastIndexOf('[');
+            if (bracketStart != -1 && bracketStart > 0) {
+                QString durationStr = comment.mid(bracketStart + 1, comment.length() - bracketStart - 2);
+
+                bool ok;
+                double durationSeconds = durationStr.toDouble(&ok);
+                if (ok && durationSeconds > 0) {
+                    duration = GenTime(durationSeconds);
+                    comment = comment.left(bracketStart).trimmed();
+                }
+            }
+        }
+
+        if (duration > GenTime(0)) {
+            res = addRangeMarker(position, duration, comment, type, undo, redo);
+        } else {
+            res = addMarker(position, comment, type, undo, redo);
+        }
+
         if (!res) {
             break;
         } else if (!lineRead) {
@@ -834,6 +984,7 @@ QString MarkerListModel::toJson(QList<int> categories) const
         currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.time().frames(pCore->getCurrentFps())));
         currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.comment()));
         currentMarker.insert(QLatin1String("type"), QJsonValue(marker.markerType()));
+        currentMarker.insert(QLatin1String("duration"), QJsonValue(marker.duration().frames(pCore->getCurrentFps())));
         list.push_back(currentMarker);
     }
     QJsonDocument json(list);
@@ -867,7 +1018,7 @@ bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWi
     bool exists;
     auto marker = getMarker(positions.first(), &exists);
     if (!exists) {
-        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+        pCore->displayMessage(i18n("No marker found at current position"), InformationMessage);
     }
     QDialog d(parent);
     d.setWindowTitle(i18n("Edit Markers Category"));
@@ -891,7 +1042,11 @@ bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWi
         for (auto &pos : positions) {
             marker = getMarker(pos, &exists);
             if (exists) {
-                addMarker(pos, marker.comment(), category, undo, redo);
+                if (marker.duration() > GenTime(0)) {
+                    addRangeMarker(pos, marker.duration(), marker.comment(), category, undo, redo);
+                } else {
+                    addMarker(pos, marker.comment(), category, undo, redo);
+                }
             }
         }
         PUSH_UNDO(undo, redo, i18n("Edit markers"));
@@ -905,7 +1060,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     bool exists;
     auto marker = getMarker(pos, &exists);
     if (!exists && !createIfNotFound) {
-        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+        pCore->displayMessage(i18n("No marker found at current position"), InformationMessage);
     }
 
     if (!exists && createIfNotFound) {
@@ -917,10 +1072,15 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();
         Q_EMIT pCore->updateDefaultMarkerCategory();
+        dialog->cacheThumbnail();
         if (exists && !createOnly) {
-            return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
+            return editMarker(pos, marker.time(), marker.comment(), marker.markerType(), marker.duration());
         }
-        return addMarker(marker.time(), marker.comment(), marker.markerType());
+        if (marker.duration() > GenTime(0)) {
+            return addRangeMarker(marker.time(), marker.duration(), marker.comment(), marker.markerType());
+        } else {
+            return addMarker(marker.time(), marker.comment(), marker.markerType());
+        }
     }
     return false;
 }
@@ -930,7 +1090,7 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
     bool exists;
     auto marker = getMarker(pos, &exists);
     if (!exists && !createIfNotFound) {
-        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+        pCore->displayMessage(i18n("No marker found at current position"), InformationMessage);
     }
 
     if (!exists && createIfNotFound) {
@@ -949,9 +1109,14 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         for (int i = 0; i < max; i++) {
-            addMarker(startTime, marker.comment(), marker.markerType(), undo, redo);
+            if (marker.duration() > GenTime(0)) {
+                addRangeMarker(startTime, marker.duration(), marker.comment(), marker.markerType(), undo, redo);
+            } else {
+                addMarker(startTime, marker.comment(), marker.markerType(), undo, redo);
+            }
             startTime += interval;
         }
+        dialog->cacheThumbnail();
         PUSH_UNDO(undo, redo, i18n("Add markers"));
     }
     return false;
@@ -961,4 +1126,46 @@ void MarkerListModel::exportGuidesGui(QWidget *parent, GenTime projectDuration) 
 {
     QScopedPointer<ExportGuidesDialog> dialog(new ExportGuidesDialog(this, projectDuration, parent));
     dialog->exec();
+}
+
+bool MarkerListModel::addRangeMarker(GenTime pos, GenTime duration, const QString &comment, int type)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = addRangeMarker(pos, duration, comment, type, undo, redo);
+    if (res) {
+        if (hasMarker(pos) && marker(pos).duration().seconds() > 0) {
+            PUSH_UNDO(undo, redo, i18n("Update range marker"));
+        } else if (hasMarker(pos)) {
+            PUSH_UNDO(undo, redo, i18n("Convert to range marker"));
+        } else {
+            PUSH_UNDO(undo, redo, i18n("Add range marker"));
+        }
+    }
+    return res;
+}
+
+bool MarkerListModel::addRangeMarker(GenTime pos, GenTime duration, const QString &comment, int type, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    if (type == -1) type = KdenliveSettings::default_marker_type();
+    Q_ASSERT(pCore->markerTypes.contains(type));
+
+    if (hasMarker(pos)) {
+        CommentedTime current = marker(pos);
+        local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType());
+        local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type);
+    } else {
+        local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type);
+        local_undo = deleteMarker_lambda(pos);
+    }
+
+    if (local_redo()) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
+    }
+    return false;
 }

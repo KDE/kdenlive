@@ -1,6 +1,5 @@
-#python3.9,python3.10,python3.11,python3.12
-numba==0.60
-numpy==2.0.*
-torch==2.5.1
-openai-whisper==20240930
+#python3.9,python3.10,python3.11,python3.12,python3.13
+openai-whisper>=20240930,<=20250625
 srt
+# Downgrade torch/triton on Linux to support older Python versions: https://github.com/triton-lang/triton/issues/5919
+triton==3.1.0 ; python_version<'3.13' and ((platform_machine=='x86_64' and sys_platform=='linux') or sys_platform=='linux2')

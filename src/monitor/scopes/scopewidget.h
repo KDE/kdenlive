@@ -58,6 +58,11 @@ public:
     ~ScopeWidget() override;
 
     /*!
+      Clears the audio queue and delete frames.
+    */
+    void clear();
+
+    /*!
       Returns the title of the scope to be displayed by the application.
       This virtual function must be implemented by subclasses.
     */

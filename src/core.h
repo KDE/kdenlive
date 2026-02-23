@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "definitions.h"
 #include "jobs/taskmanager.h"
 #include "kdenlivecore_export.h"
+#include "layouts/layoutinfo.h"
 #include "undohelper.hpp"
 #include "utils/timecode.h"
 
@@ -41,6 +42,7 @@ class MonitorManager;
 class ProfileModel;
 class ProjectItemModel;
 class ProjectManager;
+class Splash;
 class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
@@ -78,6 +80,7 @@ public:
     QReadWriteLock xmlMutex;
     bool closing{false};
     QString lastActiveBin;
+    bool debugMode{false};
 
     ~Core() override;
 
@@ -86,7 +89,7 @@ public:
      * with Mlt
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(LinuxPackageType packageType, bool testMode = false);
+    static bool build(LinuxPackageType packageType, bool testMode = false, bool debugMode = false, bool showWelcome = true);
 
     void initHeadless(const QUrl &url);
 
@@ -101,7 +104,7 @@ public:
      * a default new file will be created.
      * @param clipsToLoad
      */
-    void initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
+    void initGUI(const QString &MltPath, const QUrl &Url, const QStringList &clipsToLoad = {});
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
@@ -186,6 +189,7 @@ public:
     Monitor *getMonitor(int id);
     /** @brief Seek a monitor to position */
     void seekMonitor(int id, int position);
+    void setMonitorZone(int id, QPoint zone);
     /** @brief Returns timeline's active track info (position and tag) */
     QPair<int, QString> currentTrackInfo() const;
     /** @brief This function must be called whenever the profile used changes */
@@ -222,6 +226,10 @@ public:
     /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
     void invalidateRange(QPair<int, int> range);
+    /** @brief Mark an item audio as invalid for timeline preview */
+    void invalidateAudio(ObjectId itemId);
+    /** @brief Mark an audio range as invalid for timeline preview */
+    void invalidateAudioRange(const QUuid &uuid, int in, int out);
     void prepareShutdown();
     void finishShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
@@ -258,7 +266,7 @@ public:
     /** @brief Returns a frame duration from a timecode */
     int getDurationFromString(const QString &time);
     /** @brief An error occurred within a filter, inform user */
-    void processInvalidFilter(const QString &service, const QString &id, const QString &message);
+    void processInvalidFilter(const QString &service, const QString &message, const QString &log = QString());
     /** @brief Update current project's tags */
     void updateProjectTags(int previousCount, const QMap<int, QStringList> &tags);
     /** @brief Returns the project profile */
@@ -279,7 +287,7 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(const QMap<QUuid, QList<int>> &guides);
+    void addGuides(const QMap<QUuid, QMap<int, QString>> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Transcode a video file. */
@@ -303,6 +311,8 @@ public:
     void clearTimeRemap();
     /** @brief Create the dock widgets */
     void buildDocks();
+    /** @brief Restore the default app layout */
+    void restoreLayout();
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
@@ -348,9 +358,26 @@ public:
     std::pair<bool, bool> assetHasAV(ObjectId id);
     /** @brief Show an item's effect stack */
     void showEffectStackFromId(ObjectId owner);
+    /** @brief Get the Bin id and position offset for the selected timeline clip */
+    std::pair<QString, int> getSelectedClipAndOffset();
+    /** @brief Get the current offset for active timeline */
+    int currentTimelineOffset();
+    /** HW decoder changed */
+    void updateHwDecoding();
+    /** Close the application */
+    void closeApp();
+
+    void startHideBarsTimer();
+    void updateHideBarsTimer(bool inhibit);
+    /** @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
+    std::unique_ptr<Mlt::Producer> mediaUnavailable;
+    /** @brief Returns true if the project uses a vertical profile */
+    bool isVertical() const;
+    /** @brief Returns a list of luma files compatible with current project profile */
+    const QStringList getLumasForProfile();
 
 private:
-    explicit Core(LinuxPackageType packageType);
+    explicit Core(LinuxPackageType packageType, bool debugMode = false);
     static std::unique_ptr<Core> m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
@@ -379,12 +406,22 @@ private:
     Mlt::Profile m_monitorProfile;
     /** @brief Mlt profile used to build the project's clips */
     Mlt::Profile m_projectProfile;
-    bool m_guiConstructed = false;
+    bool m_guiConstructed{false};
+    bool m_abortInitAndRestart{false};
+    Splash *m_splash{nullptr};
+    QEventLoop m_loop;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();
     std::shared_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
+    QTimer m_hideTimer;
     void resetThumbProfile();
+    /** @brief Build the Splash Screen.
+     *  @param firstRun if true, we display the First start Quick Config dialog
+     *  @param showWelcome if true, display the welcome screen. If false, a simple splash screen
+     *  @param showCrashRecovery if true, always display the crash recovery option
+     *  @param wasUpgraded if true, show a short upgrade message */
+    void buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, bool wasUpgraded);
 
 protected:
     /** @brief A unique session id for this app instance */
@@ -430,12 +467,15 @@ public Q_SLOTS:
     void monitorAudio(int tid, bool monitor);
     /** @brief Open a documentation link, showing a warning box first */
     void openDocumentationLink(const QUrl &link);
+    void openLink(const QUrl &link);
 
 private Q_SLOTS:
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessagePrivate(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
                                   BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessagePrivate(const QString &text, int type, const QString logInfo);
+    void cleanRestart(bool cleanAndRestart);
+    void startFromGuessedProfile(QString descriptiveString, QString fps, bool interlaced, int vTracks, int aTracks);
 
 Q_SIGNALS:
     void coreIsReady();
@@ -445,6 +485,7 @@ Q_SIGNALS:
     void showConfigDialog(Kdenlive::ConfigPage, int);
     void finalizeRecording(const QUuid uuid, const QString &captureFile);
     void autoScrollChanged();
+    void centeredPlayheadChanged();
     /** @brief Update the message about the current loading progress */
     void loadingMessageNewStage(const QString &message, int max = -1);
     /** @brief Increase the progress of the loading message by 1 */
@@ -471,6 +512,8 @@ Q_SIGNALS:
     void clipInstanceResized(const QString &binId);
     /** @brief Contains the project audio levels */
     void audioLevelsAvailable(const QVector<double> &levels);
+    /** @brief Audio levels config changed, update audio level widgets */
+    void audioLevelsConfigChanged();
     /** @brief A frame was displayed in monitor, update audio mixer */
     void updateMixerLevels(int pos);
     /** @brief Audio recording was started or stopped*/
@@ -508,8 +551,22 @@ Q_SIGNALS:
     /** Show / hide the automask panel */
     void switchMaskPanel(bool show);
     void transcodeProgress(ObjectId id, int progress);
+    /** Inform of an autosave starting operation */
+    void startAutoSave();
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
                            BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);
+    /** Some properties related to rendering changed, update */
+    void updateRenderOffset();
+    void hideBars(bool);
+    void switchTitleBars();
+    void loadLayoutById(QString layoutId, bool onlyIfNoPrevious = false);
+    void switchDarkPalette(bool dark);
+    void mainWindowReady();
+    void loadLayoutFromData(const QString layout, bool onlyIfNoPrevious = false);
+    /** The project profile changed, check if we have a more appropriate layout (horizontal/vertical) */
+    void adjustLayoutToDar();
+    /** Should be called when the mainwindow has been constructed and before any dialog is shown to hide the splash screen */
+    void GUISetupDone();
 };

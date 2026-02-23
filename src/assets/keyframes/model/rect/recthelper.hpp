@@ -28,7 +28,7 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit RectHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
+    explicit RectHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QObject *parent = nullptr);
     /** @brief Send data update to the monitor
      */
     /** @brief Send signals to the monitor to update the qml overlay.

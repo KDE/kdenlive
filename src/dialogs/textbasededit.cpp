@@ -664,6 +664,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     menu->addMenu(m_modelsMenu);
     m_translateAction = new QAction(i18n("Translate to English"), this);
     m_translateAction->setCheckable(true);
+    m_translateAction->setEnabled(KdenliveSettings::whisperModel() != QLatin1String("turbo"));
     menu->addAction(m_translateAction);
     QAction *configAction = new QAction(i18n("Configure Speech Recognition"), this);
     menu->addAction(configAction);
@@ -673,7 +674,9 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(configAction, &QAction::triggered, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
     connect(menu, &QMenu::aboutToShow, this, [this]() {
         m_translateAction->setChecked(KdenliveSettings::whisperTranslate());
-        m_translateAction->setEnabled(KdenliveSettings::speechEngine() == QLatin1String("whisper"));
+        // Whisper turbo model does not handle translation
+        m_translateAction->setEnabled(KdenliveSettings::speechEngine() == QLatin1String("whisper") &&
+                                      KdenliveSettings::whisperModel() != QLatin1String("turbo"));
     });
 
     m_speechConfig = new QAction(i18n("Configure"), this);
@@ -750,6 +753,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             const QString modelName = a->data().toString();
             language_box->setEnabled(!modelName.endsWith(QLatin1String(".en")));
             KdenliveSettings::setWhisperModel(modelName);
+            m_translateAction->setEnabled(modelName != QLatin1String("turbo"));
         } else {
             KdenliveSettings::setVosk_text_model(a->data().toString());
         }
@@ -1024,7 +1028,7 @@ TextBasedEdit::~TextBasedEdit()
 bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
-        qDebug() << "==== FOT TXTEDIT EVENT FILTER: " << static_cast<QKeyEvent *>(event)->key();
+        qDebug() << "==== FOR TXTEDIT EVENT FILTER: " << static_cast<QKeyEvent *>(event)->key();
     }
     /*if(obj == m_visualEditor && event->type() == QEvent::KeyPress)
     {
@@ -1064,9 +1068,6 @@ void TextBasedEdit::startRecognition()
             modelName = m_modelsGroup->checkedAction()->data().toString();
         }
         language = language_box->isEnabled() ? language_box->currentData().toString().simplified() : QString();
-        if (!language.isEmpty()) {
-            language.prepend(QStringLiteral("language="));
-        }
         if (KdenliveSettings::whisperDisableFP16()) {
             language.append(QStringLiteral(" fp16=False"));
         }
@@ -1177,13 +1178,14 @@ void TextBasedEdit::startRecognition()
                     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
                         // Whisper
                         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
-                        args = {
-                            m_stt->speechScript(),
-                            QStringLiteral("--src=\"%1\"").arg(m_playlistWav.fileName()),
-                            QStringLiteral("--model=%1").arg(modelName),
-                            QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
-                            QStringLiteral("--ffmpeg=%1").arg(KdenliveSettings::ffmpegpath()),
-                            QStringLiteral("--language=%1").arg(language)};
+                        args = {m_stt->speechScript(),
+                                QStringLiteral("--src=\"%1\"").arg(m_playlistWav.fileName()),
+                                QStringLiteral("--model=%1").arg(modelName),
+                                QStringLiteral("--task=%1")
+                                    .arg(KdenliveSettings::whisperTranslate() && m_translateAction->isEnabled() ? QStringLiteral("translate")
+                                                                                                                : QStringLiteral("transcribe")),
+                                QStringLiteral("--ffmpeg=%1").arg(KdenliveSettings::ffmpegpath()),
+                                QStringLiteral("--language=%1").arg(language)};
 
                         if (!KdenliveSettings::whisperDevice().isEmpty()) {
                             args << QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice());
@@ -1237,12 +1239,14 @@ void TextBasedEdit::startRecognition()
         QStringList args;
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
             // Whisper
-            args = {m_stt->speechScript(),
-                    QStringLiteral("--src=\"%1\"").arg(m_sourceUrl),
-                    QStringLiteral("--model=%1").arg(modelName),
-                    QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
-                    QStringLiteral("--language=%1").arg(language),
-                    QStringLiteral("--ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath())};
+            args = {
+                m_stt->speechScript(),
+                QStringLiteral("--src=\"%1\"").arg(m_sourceUrl),
+                QStringLiteral("--model=%1").arg(modelName),
+                QStringLiteral("--task=%1")
+                    .arg(KdenliveSettings::whisperTranslate() && m_translateAction->isEnabled() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
+                QStringLiteral("--language=%1").arg(language),
+                QStringLiteral("--ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath())};
             if (!KdenliveSettings::whisperDevice().isEmpty()) {
                 args << QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice());
             }
@@ -1747,22 +1751,22 @@ void TextBasedEdit::addBookmark()
         return;
     }
     QMap<int, std::pair<QString, int>> zones = m_visualEditor->getMarkerZones();
+    QMap<int, QString> markers;
     if (zones.count() == 1) {
         int monitorPos = pCore->getMonitor(Kdenlive::ClipMonitor)->position();
         const auto value = zones.value(zones.firstKey());
         if (monitorPos > zones.firstKey() && monitorPos < value.second) {
             // Monitor seek is on the selection, use the current frame
-            pCore->bin()->addClipMarker(m_binId, {monitorPos}, {});
+            markers.insert(monitorPos, QString());
         } else {
-            pCore->bin()->addClipMarker(m_binId, {zones.firstKey()}, {value.first});
+            markers.insert(zones.firstKey(), value.first);
         }
     } else {
-        QStringList zonesTexts;
         for (auto i = zones.cbegin(), end = zones.cend(); i != end; ++i) {
-            zonesTexts << i.value().first;
+            markers.insert(i.key(), i.value().first);
         }
-        pCore->bin()->addClipMarker(m_binId, zones.keys(), zonesTexts);
     }
+    pCore->bin()->addClipMarker(m_binId, markers);
 }
 
 void TextBasedEdit::enableEditActions(bool enable, bool enableStart)

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="hslprimaries" id="hslprimaries">
+    <name>HSL Primaries</name>
+    <description>Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary colors.</description>
+    <author>Meltytech, LLC</author>
+    <parameter type="animated" name="overlap" min="0" max="100" default="100" decimals="1" suffix="%">
+        <name><![CDATA[Overlap]]></name>
+        <comment>The amount of overlap or blending between primaries</comment>
+    </parameter>
+    <parameter type="animated" name="h_shift_red" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name><![CDATA[<b><u>Hue Shift</u></b> Red]]></name>
+    </parameter>
+    <parameter type="animated" name="h_shift_yellow" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Yellow</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_green" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Green</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_cyan" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Cyan</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_blue" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Blue</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_magenta" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Magenta</name>
+    </parameter>
+    <parameter type="animated" name="s_scale_red" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name><![CDATA[<b><u>Saturation</u></b> Red]]></name>
+    </parameter>
+    <parameter type="animated" name="s_scale_yellow" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Yellow</name>
+    </parameter>
+    <parameter type="animated" name="s_scale_green" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Green</name>
+    </parameter>
+    <parameter type="animated" name="s_scale_cyan" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Cyan</name>
+    </parameter>
+    <parameter type="animated" name="s_scale_blue" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Blue</name>
+    </parameter>
+    <parameter type="animated" name="s_scale_magenta" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Magenta</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_red" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name><![CDATA[<b><u>Lightness</u></b> Red]]></name>
+    </parameter>
+    <parameter type="animated" name="l_scale_yellow" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Yellow</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_green" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Green</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_cyan" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Cyan</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_blue" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Blue</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_magenta" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Magenta</name>
+    </parameter>
+</effect>

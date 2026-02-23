@@ -80,7 +80,7 @@ Generators::Generators(const QString &path, QWidget *parent)
         lay->addWidget(buttonBox);
         m_timePos->setValue(KdenliveSettings::color_duration());
         if (base.attribute(QStringLiteral("type")).contains(QLatin1String("audio"))) {
-            // Alwasy produces audio
+            // Always produces audio
             m_audioCondition.insert(QStringLiteral("audio"), {});
         } else {
             // Check if this generator can provide audio
@@ -130,8 +130,8 @@ void Generators::getGenerators(const QStringList &producers, QMenu *menu)
     QStringList parsedGenerators;
     for (const QString &folder : generatorFolders) {
         QDir directory(folder);
-        const QStringList filesnames = directory.entryList(filters, QDir::Files);
-        for (const QString &fname : filesnames) {
+        const QStringList filenames = directory.entryList(filters, QDir::Files);
+        for (const QString &fname : filenames) {
             if (parsedGenerators.contains(fname)) {
                 continue;
             }

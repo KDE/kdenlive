@@ -122,6 +122,7 @@ public:
     bool hasEffects() const;
     /** @brief Returns true there is an active built in effect with this MLT id */
     bool hasBuiltInEffect(const QString effectId) const;
+    std::shared_ptr<EffectItemModel> getBuiltInEffect(const QString effectId);
 
     /** @brief Returns a list of external file urls used by the effects (e.g. LUTs) */
     QStringList externalFiles() const;
@@ -136,6 +137,8 @@ public:
     QDomElement rowToXml(int row, QDomDocument &document);
     /** @brief Load an effect stack from an XML representation */
     bool fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
+    /** @brief Load an effect stack from an MLT XML representation */
+    bool fromMltXml(const QDomElement &effectsXml);
     /** @brief Delete active effect from stack */
     void removeCurrentEffect();
 
@@ -164,6 +167,8 @@ public:
     void appendAudioBuildInEffects();
     /** @brief Add default built-in video effects */
     void appendVideoBuildInEffects();
+    /** @brief Return true if this clip has a disabled built-in transform */
+    bool hasDisabledBuiltInTransform();
 
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */
@@ -203,6 +208,7 @@ private:
      *          true will prevent planting in the producer */
     bool m_loadingExisting;
     std::pair<bool, bool> doAppendEffect(const QString &effectId, bool makeCurrent, stringMap params, Fun &undo, Fun &redo);
+    Fun checkLambdaOrder(const std::shared_ptr<EffectItemModel> &effect);
 
 private Q_SLOTS:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change

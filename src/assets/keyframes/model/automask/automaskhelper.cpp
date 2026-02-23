@@ -84,7 +84,7 @@ void AutomaskHelper::addMonitorControlPoint(int position, const QSize frameSize,
     for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
         keyframes << i.key();
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(points, pointsTypes, keyframes, box);
     generateImage();
 }
 
@@ -120,7 +120,7 @@ void AutomaskHelper::moveMonitorControlPoint(int ix, int position, const QSize f
     for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
         keyframes << i.key();
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(points, pointsTypes, keyframes, box);
     generateImage();
 }
 
@@ -150,8 +150,15 @@ void AutomaskHelper::addMonitorControlRect(int position, const QSize frameSize, 
     for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
         keyframes << i.key();
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, rect);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(points, pointsTypes, keyframes, rect);
     generateImage();
+}
+
+bool AutomaskHelper::pythonReady()
+{
+    SamInterface sam;
+    const QString pythonExe = sam.venvPythonExecs().python;
+    return !pythonExe.isEmpty();
 }
 
 void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter, bool autoAdd, int previewPos)
@@ -236,7 +243,7 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
             if (m_killedOnRequest) {
                 Q_EMIT showMessage(QString(), KMessageWidget::Information);
             } else if (m_samProcess.exitStatus() == QProcess::CrashExit || m_samProcess.exitCode() != 0) {
-                Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
+                Q_EMIT processCrashed(m_errorLog);
             }
             m_maskCreationMode = false;
             Q_EMIT samJobFinished();
@@ -545,7 +552,7 @@ void AutomaskHelper::monitorSeek(int pos)
     if (m_boxes.contains(pos)) {
         box = m_boxes.value(pos);
     }
-    mon->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
+    mon->setUpEffectGeometry(points, pointsTypes, keyframes, box);
 }
 
 void AutomaskHelper::terminate()

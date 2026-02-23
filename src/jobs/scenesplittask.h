@@ -13,7 +13,7 @@ class QProcess;
 class SceneSplitTask : public AbstractTask
 {
 public:
-    SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object);
+    SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool rangeMarkers, bool addSubclips, int minDuration, QObject *object);
     static void start(QObject* object, bool force = false);
 
 protected:
@@ -27,9 +27,10 @@ private:
     double m_threshold;
     int m_jobDuration;
     int m_markersType;
+    bool m_rangeMarkers;
     bool m_subClips;
     int m_minInterval;
-    std::unique_ptr<QProcess> m_jobProcess;
+    QProcess *m_jobProcess;
     QString m_errorMessage;
     QString m_logDetails;
     QList<double> m_results;

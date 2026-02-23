@@ -37,6 +37,13 @@ protected:
 
 public:
     friend class KdenliveTests;
+    struct TimelineClipInfo
+    {
+        int trackId{-1};
+        int audioStream{-1};
+        double speed{1.};
+        bool pitchShift{false};
+    };
     ~ClipModel() override;
     /** @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -118,17 +125,26 @@ public:
     void switchBinReference(const QString newId, const QUuid &uuid);
     /** @brief Get the asset id of the active effect, empty if none */
     const QString activeEffectId() const;
+    /** @brief Return true if this clip has a disabled built-in transform */
+    bool hasDisabledBuiltInTransform();
+    /** @brief The AV info for a bin clip changed, refresh */
+    void refreshAVInfo();
 
 protected:
     /** @brief helper functions that creates the lambda */
     Fun setClipState_lambda(PlaylistState::ClipState state);
     /** @brief Returns a clip hash, useful for regression testing */
     QString clipHash() const;
+    /** @brief Get basic info to identify producer */
+    TimelineClipInfo getClipInfo();
 
 public:
     /** @brief returns the length of the item on the timeline
      */
     int getPlaytime() const override;
+    /** @brief returns the start timecode added to in point for this clip
+     +     */
+    int64_t getStartTimecodeOffset() const;
 
     /** @brief Returns the bin clip's id */
     const QString &binId() const;

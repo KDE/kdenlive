@@ -10,12 +10,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class NotesWidget;
 class KdenliveDoc;
 class ProjectManager;
-class QDockWidget;
 class QToolBar;
 class QFrame;
 class QLineEdit;
 class QToolButton;
 class QAction;
+namespace KDDockWidgets::QtWidgets {
+class DockWidget;
+}
 
 /** @class NotesPlugin
     @brief Handles connection of NotesWidget
@@ -27,29 +29,31 @@ class NotesPlugin : public QObject
     Q_OBJECT
 
 public:
-    explicit NotesPlugin(QObject *parent);
+    explicit NotesPlugin(KDDockWidgets::QtWidgets::DockWidget *tabbedDock, QObject *parent);
     NotesWidget *widget();
     void clear();
     void showDock();
+    void setProject(KdenliveDoc *document);
 
 private Q_SLOTS:
-    void setProject(KdenliveDoc *document);
     /** @brief Insert current timecode/cursor position into the widget. */
     void slotInsertTimecode();
     /** @brief Re-assign timestamps to current Bin Clip. */
-    void slotReAssign(const QStringList &anchors, const QList <QPoint> &points);
+    void slotReAssign(const QStringList &anchors, const QList<QPoint> &points, QString binId = QString(), int offset = 0);
     /** @brief Insert the given text into the widget. */
     void slotInsertText(const QString &text);
     /** @brief Show / hide the find toolbar. */
     void find();
-    /** @brief Find next occurence of a search. */
+    /** @brief Find next occurrence of a search. */
     void findNext();
-    /** @brief Find previous occurence of a search. */
+    /** @brief Find previous occurrence of a search. */
     void findPrevious();
+    /** @brief Check if editor has a selection and timecodes in it. */
+    void checkSelection();
 
 private:
     NotesWidget *m_widget;
-    QDockWidget *m_notesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_notesDock;
     QToolBar *m_tb;
     QFrame *m_searchFrame;
     QLineEdit *m_searchLine;
@@ -57,4 +61,8 @@ private:
     QToolButton *m_button_prev;
     QToolButton *m_showSearch;
     QAction *m_findAction;
+    QAction *m_createFromSelection;
+    QAction *m_reassingToBin;
+    QAction *m_reassingToTimeline;
+    void clipRenamed(const QString &uuid, const QString &newName, QPair<QStringList, QList<QPoint>> anchors);
 };

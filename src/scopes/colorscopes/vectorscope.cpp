@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/colortools.h"
 #include "vectorscopegenerator.h"
 
+#include "core.h"
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -17,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QAction>
 #include <QActionGroup>
 #include <QElapsedTimer>
+#include <QInputDialog>
 #include <QPainter>
 #include <cmath>
 const double P75 = .75;
@@ -39,73 +41,146 @@ Vectorscope::Vectorscope(QWidget *parent)
     : AbstractGfxScopeWidget(true, parent)
 
 {
+    // overwrite custom scopes palette from AbstractScopeWidget with global app palette to respect users theme preference
+    setPalette(QPalette());
+
     m_ui = new Ui::Vectorscope_UI();
     m_ui->setupUi(this);
+
+    // Disable legacy right-click context menu; use hamburger menu instead
+    setContextMenuPolicy(Qt::NoContextMenu);
 
     m_colorTools = new ColorTools();
     m_vectorscopeGenerator = new VectorscopeGenerator();
 
-    m_ui->paintMode->addItem(i18n("Green 2"), QVariant(VectorscopeGenerator::PaintMode_Green2));
-    m_ui->paintMode->addItem(i18n("Green"), QVariant(VectorscopeGenerator::PaintMode_Green));
-    m_ui->paintMode->addItem(i18n("Black"), QVariant(VectorscopeGenerator::PaintMode_Black));
-    m_ui->paintMode->addItem(i18n("Modified YUV (Chroma)"), QVariant(VectorscopeGenerator::PaintMode_Chroma));
-    m_ui->paintMode->addItem(i18n("YUV"), QVariant(VectorscopeGenerator::PaintMode_YUV));
-    m_ui->paintMode->addItem(i18n("Original Color"), QVariant(VectorscopeGenerator::PaintMode_Original));
+    // Create settings menu
+    m_settingsMenu = new QMenu(this);
+    m_ui->hamburgerButton->setMenu(m_settingsMenu);
 
-    m_ui->backgroundMode->addItem(i18n("None"), QVariant(BG_NONE));
-    m_ui->backgroundMode->addItem(i18n("YUV"), QVariant(BG_YUV));
-    m_ui->backgroundMode->addItem(i18n("Modified YUV (Chroma)"), QVariant(BG_CHROMA));
-    m_ui->backgroundMode->addItem(i18n("YPbPr"), QVariant(BG_YPbPr));
+    // Paint mode submenu
+    m_paintModeMenu = new QMenu(i18n("Paint Mode"), m_settingsMenu);
+    m_settingsMenu->addMenu(m_paintModeMenu);
 
-    m_ui->sliderGain->setMinimum(0);
-    m_ui->sliderGain->setMaximum(40);
+    m_aPaintModeGreen2 = new QAction(i18n("Green 2"), this);
+    m_aPaintModeGreen2->setCheckable(true);
+    connect(m_aPaintModeGreen2, &QAction::toggled, this, &Vectorscope::slotPaintModeChanged);
 
-    connect(m_ui->backgroundMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Vectorscope::slotBackgroundChanged);
-    connect(m_ui->sliderGain, &QAbstractSlider::valueChanged, this, &Vectorscope::slotGainChanged);
-    connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Vectorscope::forceUpdateScope);
+    m_aPaintModeGreen = new QAction(i18n("Green"), this);
+    m_aPaintModeGreen->setCheckable(true);
+    connect(m_aPaintModeGreen, &QAction::toggled, this, &Vectorscope::slotPaintModeChanged);
+
+    m_aPaintModeBlack = new QAction(i18n("Black"), this);
+    m_aPaintModeBlack->setCheckable(true);
+    connect(m_aPaintModeBlack, &QAction::toggled, this, &Vectorscope::slotPaintModeChanged);
+
+    m_aPaintModeChroma = new QAction(i18n("Modified YUV (Chroma)"), this);
+    m_aPaintModeChroma->setCheckable(true);
+    connect(m_aPaintModeChroma, &QAction::toggled, this, &Vectorscope::slotPaintModeChanged);
+
+    m_aPaintModeYUV = new QAction(i18n("YUV"), this);
+    m_aPaintModeYUV->setCheckable(true);
+    connect(m_aPaintModeYUV, &QAction::toggled, this, &Vectorscope::slotPaintModeChanged);
+
+    m_aPaintModeOriginal = new QAction(i18n("Original Color"), this);
+    m_aPaintModeOriginal->setCheckable(true);
+    connect(m_aPaintModeOriginal, &QAction::toggled, this, &Vectorscope::slotPaintModeChanged);
+
+    m_agPaintMode = new QActionGroup(this);
+    m_agPaintMode->addAction(m_aPaintModeGreen2);
+    m_agPaintMode->addAction(m_aPaintModeGreen);
+    m_agPaintMode->addAction(m_aPaintModeBlack);
+    m_agPaintMode->addAction(m_aPaintModeChroma);
+    m_agPaintMode->addAction(m_aPaintModeYUV);
+    m_agPaintMode->addAction(m_aPaintModeOriginal);
+
+    m_paintModeMenu->addAction(m_aPaintModeGreen2);
+    m_paintModeMenu->addAction(m_aPaintModeGreen);
+    m_paintModeMenu->addAction(m_aPaintModeBlack);
+    m_paintModeMenu->addAction(m_aPaintModeChroma);
+    m_paintModeMenu->addAction(m_aPaintModeYUV);
+    m_paintModeMenu->addAction(m_aPaintModeOriginal);
+
+    // Background mode submenu
+    m_backgroundModeMenu = new QMenu(i18n("Background"), m_settingsMenu);
+    m_settingsMenu->addMenu(m_backgroundModeMenu);
+
+    m_aBackgroundDark = new QAction(i18n("Black"), this);
+    m_aBackgroundDark->setCheckable(true);
+    connect(m_aBackgroundDark, &QAction::toggled, this, &Vectorscope::slotBackgroundModeChanged);
+
+    m_aBackgroundYUV = new QAction(i18n("YUV"), this);
+    m_aBackgroundYUV->setCheckable(true);
+    connect(m_aBackgroundYUV, &QAction::toggled, this, &Vectorscope::slotBackgroundModeChanged);
+
+    m_aBackgroundChroma = new QAction(i18n("Modified YUV (Chroma)"), this);
+    m_aBackgroundChroma->setCheckable(true);
+    connect(m_aBackgroundChroma, &QAction::toggled, this, &Vectorscope::slotBackgroundModeChanged);
+
+    m_aBackgroundYPbPr = new QAction(i18n("YPbPr"), this);
+    m_aBackgroundYPbPr->setCheckable(true);
+    connect(m_aBackgroundYPbPr, &QAction::toggled, this, &Vectorscope::slotBackgroundModeChanged);
+
+    m_agBackgroundMode = new QActionGroup(this);
+    m_agBackgroundMode->addAction(m_aBackgroundDark);
+    m_agBackgroundMode->addAction(m_aBackgroundYUV);
+    m_agBackgroundMode->addAction(m_aBackgroundChroma);
+    m_agBackgroundMode->addAction(m_aBackgroundYPbPr);
+
+    m_backgroundModeMenu->addAction(m_aBackgroundDark);
+    m_backgroundModeMenu->addAction(m_aBackgroundYUV);
+    m_backgroundModeMenu->addAction(m_aBackgroundChroma);
+    m_backgroundModeMenu->addAction(m_aBackgroundYPbPr);
+
+    // Connect gain control widgets
+    connect(m_ui->gainSlider, &QSlider::valueChanged, this, &Vectorscope::slotGainSliderChanged);
+    connect(m_ui->gainButton, &QToolButton::clicked, this, &Vectorscope::slotGainButtonClicked);
+
     connect(this, &Vectorscope::signalMousePositionChanged, this, &Vectorscope::forceUpdateHUD);
-    m_ui->sliderGain->setValue(0);
+    connect(pCore.get(), &Core::updatePalette, this, [this]() { forceUpdate(true); });
 
-    ///// Build context menu /////
+    ///// Build hamburger settings menu /////
 
-    m_menu->addSeparator()->setText(i18n("Tools"));
+    // Tools
+    m_settingsMenu->addSeparator()->setText(i18n("Tools"));
 
     m_aExportBackground = new QAction(i18n("Export background"), this);
-    m_menu->addAction(m_aExportBackground);
     connect(m_aExportBackground, &QAction::triggered, this, &Vectorscope::slotExportBackground);
+    m_settingsMenu->addAction(m_aExportBackground);
 
-    m_menu->addSeparator()->setText(i18n("Drawing options"));
+    // Drawing options
+    m_settingsMenu->addSeparator()->setText(i18n("Drawing options"));
 
     m_a75PBox = new QAction(i18n("75% box"), this);
     m_a75PBox->setCheckable(true);
-    m_menu->addAction(m_a75PBox);
     connect(m_a75PBox, &QAction::changed, this, &Vectorscope::forceUpdateBackground);
+    m_settingsMenu->addAction(m_a75PBox);
 
     m_aAxisEnabled = new QAction(i18n("Draw axis"), this);
     m_aAxisEnabled->setCheckable(true);
-    m_menu->addAction(m_aAxisEnabled);
     connect(m_aAxisEnabled, &QAction::changed, this, &Vectorscope::forceUpdateBackground);
+    m_settingsMenu->addAction(m_aAxisEnabled);
 
     m_aIQLines = new QAction(i18n("Draw I/Q lines"), this);
     m_aIQLines->setCheckable(true);
-    m_menu->addAction(m_aIQLines);
     connect(m_aIQLines, &QAction::changed, this, &Vectorscope::forceUpdateBackground);
+    m_settingsMenu->addAction(m_aIQLines);
 
-    m_menu->addSeparator()->setText(i18n("Color Space"));
+    // Color Space
+    m_settingsMenu->addSeparator()->setText(i18n("Color Space"));
     m_aColorSpace_YPbPr = new QAction(i18n("YPbPr"), this);
     m_aColorSpace_YPbPr->setCheckable(true);
+    connect(m_aColorSpace_YPbPr, &QAction::toggled, this, &Vectorscope::slotColorSpaceChanged);
     m_aColorSpace_YUV = new QAction(i18n("YUV"), this);
     m_aColorSpace_YUV->setCheckable(true);
+    connect(m_aColorSpace_YUV, &QAction::toggled, this, &Vectorscope::slotColorSpaceChanged);
     m_agColorSpace = new QActionGroup(this);
     m_agColorSpace->addAction(m_aColorSpace_YPbPr);
     m_agColorSpace->addAction(m_aColorSpace_YUV);
-    m_menu->addAction(m_aColorSpace_YPbPr);
-    m_menu->addAction(m_aColorSpace_YUV);
-    connect(m_aColorSpace_YPbPr, &QAction::toggled, this, &Vectorscope::slotColorSpaceChanged);
-    connect(m_aColorSpace_YUV, &QAction::toggled, this, &Vectorscope::slotColorSpaceChanged);
+    m_settingsMenu->addAction(m_aColorSpace_YPbPr);
+    m_settingsMenu->addAction(m_aColorSpace_YUV);
 
-    // To make the 1.0x text show
-    slotGainChanged(m_ui->sliderGain->value());
+    m_settingsMenu->addSeparator();
+    m_settingsMenu->addAction(m_aRealtime);
 
     init();
 }
@@ -123,6 +198,22 @@ Vectorscope::~Vectorscope()
     delete m_aAxisEnabled;
     delete m_a75PBox;
     delete m_agColorSpace;
+
+    // Delete settings menu actions
+    delete m_aPaintModeGreen2;
+    delete m_aPaintModeGreen;
+    delete m_aPaintModeBlack;
+    delete m_aPaintModeChroma;
+    delete m_aPaintModeYUV;
+    delete m_aPaintModeOriginal;
+    delete m_agPaintMode;
+
+    delete m_aBackgroundDark;
+    delete m_aBackgroundYUV;
+    delete m_aBackgroundChroma;
+    delete m_aBackgroundYPbPr;
+    delete m_agBackgroundMode;
+
     delete m_ui;
 }
 
@@ -140,9 +231,63 @@ void Vectorscope::readConfig()
     m_a75PBox->setChecked(scopeConfig.readEntry("75PBox", false));
     m_aAxisEnabled->setChecked(scopeConfig.readEntry("axis", false));
     m_aIQLines->setChecked(scopeConfig.readEntry("iqlines", false));
-    m_ui->backgroundMode->setCurrentIndex(scopeConfig.readEntry("backgroundmode").toInt());
-    m_ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode").toInt());
-    m_ui->sliderGain->setValue(scopeConfig.readEntry("gain", 1));
+
+    // Read paint mode
+    int paintMode = scopeConfig.readEntry("paintmode", 0);
+    switch (paintMode) {
+    case 0:
+        m_aPaintModeGreen2->setChecked(true);
+        break;
+    case 1:
+        m_aPaintModeGreen->setChecked(true);
+        break;
+    case 2:
+        m_aPaintModeBlack->setChecked(true);
+        break;
+    case 3:
+        m_aPaintModeChroma->setChecked(true);
+        break;
+    case 4:
+        m_aPaintModeYUV->setChecked(true);
+        break;
+    case 5:
+        m_aPaintModeOriginal->setChecked(true);
+        break;
+    default:
+        m_aPaintModeGreen2->setChecked(true);
+        break;
+    }
+    slotPaintModeChanged();
+
+    // Read background mode
+    int backgroundMode = scopeConfig.readEntry("backgroundmode", 0);
+    switch (backgroundMode) {
+    case 0:
+        m_aBackgroundDark->setChecked(true);
+        break;
+    case 1:
+        m_aBackgroundYUV->setChecked(true);
+        break;
+    case 2:
+        m_aBackgroundChroma->setChecked(true);
+        break;
+    case 3:
+        m_aBackgroundYPbPr->setChecked(true);
+        break;
+    default:
+        m_aBackgroundDark->setChecked(true);
+        break;
+    }
+    slotBackgroundModeChanged();
+
+    m_gain = scopeConfig.readEntry("gain", 1.0);
+
+    // Update slider and label to match the gain value
+    int sliderValue = int(m_gain * 10.0); // Convert gain (0.1-5.0) to slider range (1-50)
+    sliderValue = qBound(1, sliderValue, 50);
+    m_ui->gainSlider->setValue(sliderValue);
+    m_ui->gainLabel->setText(QStringLiteral("%1x").arg(m_gain, 0, 'f', 1));
+
     m_aColorSpace_YPbPr->setChecked(scopeConfig.readEntry("colorspace_ypbpr", false));
     m_aColorSpace_YUV->setChecked(!m_aColorSpace_YPbPr->isChecked());
 }
@@ -154,9 +299,36 @@ void Vectorscope::writeConfig()
     scopeConfig.writeEntry("75PBox", m_a75PBox->isChecked());
     scopeConfig.writeEntry("axis", m_aAxisEnabled->isChecked());
     scopeConfig.writeEntry("iqlines", m_aIQLines->isChecked());
-    scopeConfig.writeEntry("backgroundmode", m_ui->backgroundMode->currentIndex());
-    scopeConfig.writeEntry("paintmode", m_ui->paintMode->currentIndex());
-    scopeConfig.writeEntry("gain", m_ui->sliderGain->value());
+
+    // Write paint mode
+    int paintMode = 0;
+    if (m_aPaintModeGreen2->isChecked())
+        paintMode = 0;
+    else if (m_aPaintModeGreen->isChecked())
+        paintMode = 1;
+    else if (m_aPaintModeBlack->isChecked())
+        paintMode = 2;
+    else if (m_aPaintModeChroma->isChecked())
+        paintMode = 3;
+    else if (m_aPaintModeYUV->isChecked())
+        paintMode = 4;
+    else if (m_aPaintModeOriginal->isChecked())
+        paintMode = 5;
+    scopeConfig.writeEntry("paintmode", paintMode);
+
+    // Write background mode
+    int backgroundMode = 0;
+    if (m_aBackgroundDark->isChecked())
+        backgroundMode = 0;
+    else if (m_aBackgroundYUV->isChecked())
+        backgroundMode = 1;
+    else if (m_aBackgroundChroma->isChecked())
+        backgroundMode = 2;
+    else if (m_aBackgroundYPbPr->isChecked())
+        backgroundMode = 3;
+    scopeConfig.writeEntry("backgroundmode", backgroundMode);
+
+    scopeConfig.writeEntry("gain", m_gain);
     scopeConfig.writeEntry("colorspace_ypbpr", m_aColorSpace_YPbPr->isChecked());
     scopeConfig.sync();
 }
@@ -166,9 +338,9 @@ QRect Vectorscope::scopeRect()
     // Distance from top/left/right
     int border = 6;
 
-    // We want to paint below the controls area. The line is the lowest element.
-    QPoint topleft(border, m_ui->verticalSpacer->geometry().y() + border);
-    QPoint bottomright(m_ui->horizontalSpacer->geometry().right() - border, this->size().height() - border);
+    // We want to paint below the hamburger button area
+    QPoint topleft(border, m_ui->hamburgerButton->geometry().bottom() + border);
+    QPoint bottomright(this->size().width() - border, this->size().height() - border);
 
     m_visibleRect = QRect(topleft, bottomright);
 
@@ -239,26 +411,29 @@ QImage Vectorscope::renderHUD(uint)
         float r = sqrtf(dx * dx + dy * dy);
         float percent = 100.f * r / float(VectorscopeGenerator::scaling) / m_gain / (reference.x() - widgetCenterPoint.x());
 
-        switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-        case BG_NONE:
-            davinci.setPen(penLight);
+        QPen penHighlight(QBrush(palette().highlight().color()), penLight.width(), Qt::SolidLine);
+
+        switch (m_backgroundMode) {
+        case BG_DARK:
+            davinci.setPen(penHighlight);
             break;
         default:
             if (r > m_cw / 2.0f) {
-                davinci.setPen(penLight);
+                davinci.setPen(penHighlight);
             } else {
                 davinci.setPen(penDark);
             }
             break;
         }
+        davinci.setRenderHint(QPainter::Antialiasing, true);
         davinci.drawEllipse(m_centerPoint, int(r), int(r));
-        davinci.setPen(penThin);
+        davinci.setRenderHint(QPainter::Antialiasing, false);
+        davinci.setPen(penHighlight);
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1%", locale.toString(percent, 'f', 0)));
 
         float angle = float(copysignf(std::acos(dx / r) * 180.f / float(M_PI), dy));
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
-        //        m_circleEnabled = false;
     } else {
         hud = QImage(0, 0, QImage::Format_ARGB32);
     }
@@ -278,7 +453,7 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
 
         VectorscopeGenerator::ColorSpace colorSpace =
             m_aColorSpace_YPbPr->isChecked() ? VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
-        VectorscopeGenerator::PaintMode paintMode = VectorscopeGenerator::PaintMode(m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt());
+        VectorscopeGenerator::PaintMode paintMode = VectorscopeGenerator::PaintMode(m_iPaintMode);
         qreal dpr = devicePixelRatioF();
         scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size() * dpr, dpr, qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
                                                              accelerationFactor);
@@ -309,29 +484,41 @@ QImage Vectorscope::renderBackground(uint)
     QPoint vinciPoint;
     QPoint vinciPoint2;
 
+    // Alignment correction
+    // ColorTools colorWheel functions and VectorscopeGenerator::mapToCircle are not anti-aliased.
+    // As we're drawing the circle border anti-aliased we need to compensate for that as we might spill outside the anti-aliased circle otherwise.
+    // When drawing the I/Q lines they could also spill outside the circle in case of fractional HiDPI scaling and potential rounding differences between
+    // drawing the circle and the lines. In the following we'll be insetting these drawing calls by 1px and then drawing the circle border with at least 2px
+    // width.
+    QSize alignmentCorrection(2, 2);
+    int alignmentCorrectionOffset = 1;
+    QPoint alignmentCorrectionPoint(alignmentCorrectionOffset, alignmentCorrectionOffset);
+
     // Draw the color plane (if selected)
     QImage colorPlane;
-    switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
+    switch (m_backgroundMode) {
     case BG_YUV:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), 128, 1 / float(VectorscopeGenerator::scaling), false, true);
-        davinci.drawImage(0, 0, colorPlane);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size() - alignmentCorrection, 128, 1 / float(VectorscopeGenerator::scaling), false, true);
         break;
     case BG_CHROMA:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), 255, 1 / float(VectorscopeGenerator::scaling), true, true);
-        davinci.drawImage(0, 0, colorPlane);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size() - alignmentCorrection, 255, 1 / float(VectorscopeGenerator::scaling), true, true);
         break;
     case BG_YPbPr:
-        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), 128, 1 / float(VectorscopeGenerator::scaling), true);
-        davinci.drawImage(0, 0, colorPlane);
+        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size() - alignmentCorrection, 128, 1 / float(VectorscopeGenerator::scaling), true);
+        break;
+    case BG_DARK:
+        colorPlane = m_colorTools->FixedColorCircle(m_scopeRect.size() - alignmentCorrection, qRgba(25, 25, 23, 255));
         break;
     }
+    davinci.drawImage(alignmentCorrectionOffset, alignmentCorrectionOffset, colorPlane);
 
     // Draw I/Q lines (from the YIQ color space; Skin tones lie on the I line)
     // Positions are calculated by transforming YIQ:[0 1 0] or YIQ:[0 0 1] to YUV/YPbPr.
     if (m_aIQLines->isChecked()) {
+        QPen iqTextLabelPen(QBrush(palette().text().color()), 2, Qt::SolidLine);
 
-        switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-        case BG_NONE:
+        switch (m_backgroundMode) {
+        case BG_DARK:
             davinci.setPen(penLightDots);
             break;
         default:
@@ -340,19 +527,19 @@ QImage Vectorscope::renderBackground(uint)
         }
 
         if (m_aColorSpace_YUV->isChecked()) {
-            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.544, .838));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.544, -.838));
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(-.544, .838));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(.544, -.838));
         } else {
-            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.675, .737));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.675, -.737));
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(-.675, .737));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(.675, -.737));
         }
 
-        davinci.drawLine(vinciPoint, vinciPoint2);
-        davinci.setPen(penThick);
+        davinci.drawLine(vinciPoint + alignmentCorrectionPoint, vinciPoint2 + alignmentCorrectionPoint);
+        davinci.setPen(iqTextLabelPen);
         davinci.drawText(vinciPoint - QPoint(11, 5), QStringLiteral("I"));
 
-        switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-        case BG_NONE:
+        switch (m_backgroundMode) {
+        case BG_DARK:
             davinci.setPen(penLightDots);
             break;
         default:
@@ -361,23 +548,30 @@ QImage Vectorscope::renderBackground(uint)
         }
 
         if (m_aColorSpace_YUV->isChecked()) {
-            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.838, .544));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.838, -.544));
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(.838, .544));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(-.838, -.544));
         } else {
-            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.908, .443));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.908, -.443));
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(.908, .443));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size() - alignmentCorrection, QPointF(-.908, -.443));
         }
 
-        davinci.drawLine(vinciPoint, vinciPoint2);
-        davinci.setPen(penThick);
+        davinci.drawLine(vinciPoint + alignmentCorrectionPoint, vinciPoint2 + alignmentCorrectionPoint);
+        davinci.setPen(iqTextLabelPen);
         davinci.drawText(vinciPoint - QPoint(-7, 2), QStringLiteral("Q"));
     }
 
     // Draw the vectorscope circle
-    davinci.setPen(penThick);
-    davinci.drawEllipse(0, 0, m_cw, m_cw);
+    bool isDarkTheme = palette().color(QPalette::Window).lightness() < palette().color(QPalette::WindowText).lightness();
+    if (isDarkTheme) {
+        davinci.setPen(penThick);
+    } else {
+        davinci.setPen(QPen(palette().color(QPalette::Dark), penThick.width(), Qt::SolidLine));
+    }
+    qreal penWidthHalf = davinci.pen().widthF() / 2;
+    davinci.drawEllipse(QRectF(penWidthHalf, penWidthHalf, m_cw - davinci.pen().widthF(), m_cw - davinci.pen().widthF()));
 
     // Draw RGB/CMY points with 100% chroma
+    davinci.setPen(penThick);
     if (m_aColorSpace_YUV->isChecked()) {
         vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YUV_R);
         davinci.drawEllipse(vinciPoint, 4, 4);
@@ -428,17 +622,16 @@ QImage Vectorscope::renderBackground(uint)
         davinci.drawText(vinciPoint - QPoint(25, 0), QStringLiteral("Yl"));
     }
 
-    switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-    case BG_NONE:
-        davinci.setPen(penLight);
-        break;
-    default:
-        davinci.setPen(penDark);
-        break;
-    }
-
     // Draw axis
     if (m_aAxisEnabled->isChecked()) {
+        switch (m_backgroundMode) {
+        case BG_DARK:
+            davinci.setPen(penLight);
+            break;
+        default:
+            davinci.setPen(penDark);
+            break;
+        }
         davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, -.9)),
                          m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, .9)));
         davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.9, 0)),
@@ -446,7 +639,7 @@ QImage Vectorscope::renderBackground(uint)
     }
 
     // Draw center point
-    switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
+    switch (m_backgroundMode) {
     case BG_CHROMA:
         davinci.setPen(penDark);
         break;
@@ -496,7 +689,7 @@ QImage Vectorscope::renderBackground(uint)
     // Draw realtime factor (number of skipped pixels)
     if (m_aRealtime->isChecked()) {
         davinci.setPen(penThin);
-        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append(QStringLiteral("x")));
+        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append(QStringLiteral("×")));
     }
 
     Q_EMIT signalBackgroundRenderingFinished(uint(timer.elapsed()), 1);
@@ -507,11 +700,21 @@ QImage Vectorscope::renderBackground(uint)
 
 void Vectorscope::slotGainChanged(int newval)
 {
-    QLocale locale; // Used for UI → OK
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_gain = 1 + newval / 10.f;
-    m_ui->lblGain->setText(locale.toString(m_gain, 'f', 1) + QLatin1Char('x'));
     forceUpdateScope();
+}
+
+void Vectorscope::slotGainSliderChanged(int value)
+{
+    m_gain = value / 10.0; // Convert slider value (1-50) to gain (0.1-5.0)
+    m_ui->gainLabel->setText(QStringLiteral("%1x").arg(m_gain, 0, 'f', 1));
+    forceUpdateScope();
+}
+
+void Vectorscope::slotGainButtonClicked()
+{
+    // Reset gain to 1.0 when button is clicked
+    m_ui->gainSlider->setValue(10); // 10 corresponds to 1.0x gain
 }
 
 void Vectorscope::slotExportBackground()
@@ -524,19 +727,18 @@ void Vectorscope::slotExportBackground()
 void Vectorscope::slotBackgroundChanged()
 {
     // Background changed, switch to a suitable color mode now
-    int index;
-    switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
+    switch (m_backgroundMode) {
     case BG_YUV:
-        index = m_ui->paintMode->findData(QVariant(VectorscopeGenerator::PaintMode_Black));
-        if (index >= 0) {
-            m_ui->paintMode->setCurrentIndex(index);
+        if (m_iPaintMode != VectorscopeGenerator::PaintMode_Black) {
+            m_aPaintModeBlack->setChecked(true);
+            slotPaintModeChanged();
         }
         break;
 
-    case BG_NONE:
-        if (m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt() == VectorscopeGenerator::PaintMode_Black) {
-            index = m_ui->paintMode->findData(QVariant(VectorscopeGenerator::PaintMode_Green2));
-            m_ui->paintMode->setCurrentIndex(index);
+    case BG_DARK:
+        if (m_iPaintMode == VectorscopeGenerator::PaintMode_Black) {
+            m_aPaintModeGreen2->setChecked(true);
+            slotPaintModeChanged();
         }
         break;
     }
@@ -545,21 +747,63 @@ void Vectorscope::slotBackgroundChanged()
 
 void Vectorscope::slotColorSpaceChanged()
 {
-    int index;
     if (m_aColorSpace_YPbPr->isChecked()) {
-        if (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt() == BG_YUV) {
-            index = m_ui->backgroundMode->findData(QVariant(BG_YPbPr));
-            if (index >= 0) {
-                m_ui->backgroundMode->setCurrentIndex(index);
-            }
+        if (m_backgroundMode == BG_YUV) {
+            m_aBackgroundYPbPr->setChecked(true);
+            slotBackgroundModeChanged();
         }
     } else {
-        if (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt() == BG_YPbPr) {
-            index = m_ui->backgroundMode->findData(QVariant(BG_YUV));
-            if (index >= 0) {
-                m_ui->backgroundMode->setCurrentIndex(index);
-            }
+        if (m_backgroundMode == BG_YPbPr) {
+            m_aBackgroundYUV->setChecked(true);
+            slotBackgroundModeChanged();
         }
     }
     forceUpdate();
+}
+
+void Vectorscope::showSettingsMenu()
+{
+    m_settingsMenu->exec(m_ui->hamburgerButton->mapToGlobal(m_ui->hamburgerButton->rect().bottomLeft()));
+}
+
+void Vectorscope::showGainDialog()
+{
+    bool ok;
+    double gain = QInputDialog::getDouble(this, i18n("Gain"), i18n("Gain value:"), m_gain, 0.1, 5.0, 1, &ok);
+    if (ok) {
+        m_gain = gain;
+        forceUpdateScope();
+    }
+}
+
+void Vectorscope::slotPaintModeChanged()
+{
+    if (m_aPaintModeGreen2->isChecked()) {
+        m_iPaintMode = VectorscopeGenerator::PaintMode_Green2;
+    } else if (m_aPaintModeGreen->isChecked()) {
+        m_iPaintMode = VectorscopeGenerator::PaintMode_Green;
+    } else if (m_aPaintModeBlack->isChecked()) {
+        m_iPaintMode = VectorscopeGenerator::PaintMode_Black;
+    } else if (m_aPaintModeChroma->isChecked()) {
+        m_iPaintMode = VectorscopeGenerator::PaintMode_Chroma;
+    } else if (m_aPaintModeYUV->isChecked()) {
+        m_iPaintMode = VectorscopeGenerator::PaintMode_YUV;
+    } else if (m_aPaintModeOriginal->isChecked()) {
+        m_iPaintMode = VectorscopeGenerator::PaintMode_Original;
+    }
+    forceUpdateScope();
+}
+
+void Vectorscope::slotBackgroundModeChanged()
+{
+    if (m_aBackgroundDark->isChecked()) {
+        m_backgroundMode = BG_DARK;
+    } else if (m_aBackgroundYUV->isChecked()) {
+        m_backgroundMode = BG_YUV;
+    } else if (m_aBackgroundChroma->isChecked()) {
+        m_backgroundMode = BG_CHROMA;
+    } else if (m_aBackgroundYPbPr->isChecked()) {
+        m_backgroundMode = BG_YPbPr;
+    }
+    forceUpdateBackground();
 }

@@ -20,8 +20,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QVBoxLayout>
 
 #include <KColorScheme>
+#include <kddockwidgets/DockWidget.h>
+#include <kddockwidgets/core/DockWidget.h>
 
-NotesPlugin::NotesPlugin(QObject *parent)
+NotesPlugin::NotesPlugin(KDDockWidgets::QtWidgets::DockWidget *tabbedDock, QObject *parent)
     : QObject(parent)
 {
     QWidget *container = new QWidget();
@@ -62,9 +64,8 @@ NotesPlugin::NotesPlugin(QObject *parent)
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
     m_widget->setTabChangesFocus(true);
     m_widget->setPlaceholderText(i18n("Enter your project notes here …"));
-    m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container);
+    m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container, KDDockWidgets::Location_None, tabbedDock);
     m_notesDock->close();
-    connect(pCore->projectManager(), &ProjectManager::docOpened, this, &NotesPlugin::setProject);
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &searchText) {
         QPalette palette = m_searchLine->palette();
         QColor bgColor = palette.color(QPalette::Base);
@@ -92,6 +93,10 @@ NotesPlugin::NotesPlugin(QObject *parent)
     m_button_prev->setDefaultAction(previous);
     container->addAction(next);
     container->addAction(previous);
+    connect(pCore->projectItemModel().get(), &ProjectItemModel::clipRenamed, this, [this](const QString &uuid, const QString &clipName) {
+        QPair<QStringList, QList<QPoint>> anchors = m_widget->getAllAnchors();
+        clipRenamed(uuid, clipName, anchors);
+    });
 }
 
 void NotesPlugin::findNext()
@@ -150,18 +155,27 @@ void NotesPlugin::setProject(KdenliveDoc *document)
     if (m_tb->actions().isEmpty()) {
         // initialize toolbar
         m_tb->addAction(pCore->window()->action("add_project_note"));
-        QAction *a = new QAction(QIcon::fromTheme(QStringLiteral("edit-find-replace")), i18n("Reassign selected timecodes to current Bin clip"));
-        connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
-        m_tb->addAction(a);
-        a = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("Create markers from selected timecodes"));
-        a->setWhatsThis(
+        m_reassingToBin = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Reassign selected timecodes to current Bin clip"));
+        connect(m_reassingToBin, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
+        m_tb->addAction(m_reassingToBin);
+        m_reassingToBin->setEnabled(false);
+        m_reassingToTimeline = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Reassign selected timecodes to current timeline clip"));
+        connect(m_reassingToTimeline, &QAction::triggered, m_widget, &NotesWidget::assignProjectNoteToTimelineClip);
+        m_tb->addAction(m_reassingToTimeline);
+        m_reassingToTimeline->setEnabled(false);
+        m_createFromSelection = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create markers from selected timecodes"));
+        m_createFromSelection->setWhatsThis(
             xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
-        connect(a, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
-        m_tb->addAction(a);
+        connect(m_createFromSelection, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
+        m_tb->addAction(m_createFromSelection);
+        m_createFromSelection->setEnabled(false);
+        connect(m_widget, &QTextEdit::selectionChanged, this, &NotesPlugin::checkSelection);
+
         m_showSearch = new QToolButton(m_widget);
         m_showSearch->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
         m_showSearch->setCheckable(true);
         m_showSearch->setAutoRaise(true);
+        m_showSearch->setToolTip(i18n("Search…"));
         m_tb->addWidget(m_showSearch);
         connect(m_showSearch, &QToolButton::toggled, this, [this](bool checked) {
             m_searchFrame->setVisible(checked);
@@ -174,8 +188,18 @@ void NotesPlugin::setProject(KdenliveDoc *document)
 
 void NotesPlugin::showDock()
 {
-    m_notesDock->show();
-    m_notesDock->raise();
+    m_notesDock->open();
+    if (m_notesDock->asDockWidgetController()->isTabbed()) {
+        m_notesDock->setAsCurrentTab();
+    }
+}
+
+void NotesPlugin::checkSelection()
+{
+    bool hasTimeCode = m_widget->selectionHasAnchors();
+    m_reassingToBin->setEnabled(hasTimeCode);
+    m_reassingToTimeline->setEnabled(hasTimeCode);
+    m_createFromSelection->setEnabled(hasTimeCode);
 }
 
 void NotesPlugin::slotInsertTimecode()
@@ -191,7 +215,7 @@ void NotesPlugin::slotInsertTimecode()
         }
         const QString clipName = pCore->bin()->getBinClipName(binId);
         const QString uuid = pCore->projectItemModel()->getBinClipUuid(binId);
-        m_widget->insertHtml(QStringLiteral("<a href=\"%1#%2\">%3:%4</a> ").arg(uuid, QString::number(frames), clipName, position));
+        m_widget->insertHtml(QStringLiteral("<a href=\"%1#%2\">%3 %4</a> ").arg(uuid, QString::number(frames), clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
@@ -208,9 +232,11 @@ void NotesPlugin::slotInsertTimecode()
     }
 }
 
-void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &points)
+void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &points, QString binId, int offset)
 {
-    const QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
+    if (binId.isEmpty()) {
+        binId = pCore->monitorManager()->clipMonitor()->activeClipId();
+    }
     int ix = 0;
     if (points.count() != anchors.count()) {
         // Something is wrong, abort
@@ -228,7 +254,8 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
         if (a.contains(QLatin1Char('#'))) {
             // Link was previously attached to another clip
             updatedLink = a.section(QLatin1Char('#'), 1);
-            position = updatedLink.toInt();
+            position = updatedLink.toInt() - offset;
+            updatedLink = QString::number(position);
             if (!uuid.isEmpty()) {
                 updatedLink.prepend(QStringLiteral("%1#").arg(uuid));
             }
@@ -239,21 +266,49 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
             if (a.contains(QLatin1Char('?'))) {
                 updatedLink = updatedLink.section(QLatin1Char('?'), 0, 0);
             }
-            position = updatedLink.toInt();
+            position = updatedLink.toInt() - offset;
+            updatedLink = QString::number(position);
             if (!uuid.isEmpty()) {
                 updatedLink.prepend(QStringLiteral("%1#").arg(uuid));
             }
         }
+        if (updatedLink == a) {
+            // No change requested
+            continue;
+        }
         QTextCursor cur(m_widget->textCursor());
         cur.setPosition(pt.x());
         cur.setPosition(pt.y(), QTextCursor::KeepAnchor);
-        QString pos = pCore->timecode().getTimecodeFromFrames(position);
+        const QString pos = pCore->timecode().getTimecodeFromFrames(position);
         if (!binId.isEmpty()) {
             QString clipName = pCore->bin()->getBinClipName(binId);
-            cur.insertHtml(QStringLiteral("<a href=\"%1\">%2:%3</a> ").arg(updatedLink, clipName, pos));
+            cur.insertHtml(QStringLiteral("<a href=\"%1\">%2 %3</a> ").arg(updatedLink, clipName, pos));
         } else {
             // Timestamp relative to project timeline
             cur.insertHtml(QStringLiteral("<a href=\"%1\">%2</a> ").arg(updatedLink, pos));
+        }
+        ix++;
+    }
+}
+
+void NotesPlugin::clipRenamed(const QString &uuid, const QString &newName, QPair<QStringList, QList<QPoint>> anchors)
+{
+    int ix = 0;
+    for (const QString &a : anchors.first) {
+        QPoint pt = anchors.second.at(ix);
+        const QString updatedLink = a;
+        if (a.contains(QLatin1Char('#'))) {
+            // Link was previously attached to another clip
+            const QString linkUuid = a.section(QLatin1Char('#'), 0, 0);
+            if (linkUuid == uuid) {
+                // Match
+                int position = a.section(QLatin1Char('#'), 1).toInt();
+                QTextCursor cur(m_widget->textCursor());
+                cur.setPosition(pt.x());
+                cur.setPosition(pt.y(), QTextCursor::KeepAnchor);
+                const QString pos = pCore->timecode().getTimecodeFromFrames(position);
+                cur.insertHtml(QStringLiteral("<a href=\"%1\">%2 %3</a> ").arg(updatedLink, newName, pos));
+            }
         }
         ix++;
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="timewarp" id="speed" type="av" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="timewarp" id="speed" type="av" unique="1">
     <name>Speed</name>
     <description>Make clip play faster or slower</description>
     <author>Brian Matherly</author>

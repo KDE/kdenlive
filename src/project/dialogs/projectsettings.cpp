@@ -89,8 +89,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(generate_proxy, &QAbstractButton::toggled, proxy_minsize, &QWidget::setEnabled);
     connect(checkProxy, &QToolButton::clicked, pCore.get(), &Core::testProxies);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
-    connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
-    connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
     connect(video_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (video_tracks->value() + audio_tracks->value() <= 0) {
             video_tracks->setValue(1);
@@ -795,7 +793,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
         QString ext = filter.section(QLatin1Char('.'), -1);
         filter = filter.section(QLatin1Char('%'), 0, -2);
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-        static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
+        const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         int count = 0;
         const QStringList result = dir.entryList(QDir::Files);
         for (const QString &p : result) {

@@ -66,6 +66,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_container = new FlashLabel(this);
     auto *lay = new QHBoxLayout(this);
     auto *lay2 = new QHBoxLayout(m_container);
+    lay2->setContentsMargins(0, 0, 0, 0);
     m_pixmap = new QLabel(this);
     m_pixmap->setAlignment(Qt::AlignCenter);
     m_selectionLabel = new QLabel(this);
@@ -337,11 +338,11 @@ void StatusBarMessageLabel::slotShowJobLog(const QString &text)
     if (text.startsWith(QLatin1Char('#'))) {
         if (text == QLatin1String("#projectmonitor")) {
             // Raise project monitor
-            pCore->window()->raiseMonitor(false);
+            pCore->window()->raiseMonitor(false, true);
             return;
         } else if (text == QLatin1String("#clipmonitor")) {
             // Raise project monitor
-            pCore->window()->raiseMonitor(true);
+            pCore->window()->raiseMonitor(true, true);
             return;
         }
     }
@@ -361,4 +362,17 @@ void StatusBarMessageLabel::slotShowJobLog(const QString &text)
     d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::accept);
     d.exec();
     confirmErrorMessage();
+}
+
+void StatusBarMessageLabel::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::PaletteChange) {
+        if (m_currentMessage.type == MltError) {
+            QColor errorBgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(palette()).color();
+            m_container->setColor(errorBgColor);
+        } else {
+            m_container->setColor(palette().window().color());
+        }
+    }
+    QWidget::changeEvent(event);
 }

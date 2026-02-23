@@ -14,15 +14,11 @@
 ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    // Get data from model
-    const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-
     QHBoxLayout *lay = new QHBoxLayout(this);
     lay->setContentsMargins(0, 0, 0, 0);
     m_list = new QComboBox(this);
     lay->addWidget(m_list);
 
-    // setup the comment
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));
     setMinimumHeight(m_list->sizeHint().height());
@@ -82,18 +78,7 @@ void ListParamWidget::slotRefresh()
     if (values.first() == QLatin1String("%lumaPaths")) {
         // Special case: Luma files
         // Create thumbnails
-        if (pCore->getCurrentFrameSize().width() > 1000) {
-            // HD project
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
-        } else if (pCore->getCurrentFrameSize().height() > 1000) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
-        } else if (pCore->getCurrentFrameSize().height() == pCore->getCurrentFrameSize().width()) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("square"));
-        } else if (pCore->getCurrentFrameSize().height() == 480) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
-        } else {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
-        }
+        values = pCore->getLumasForProfile();
         m_list->addItem(i18n("None (Dissolve)"));
         for (int j = 0; j < values.count(); ++j) {
             const QString &entry = values.at(j);

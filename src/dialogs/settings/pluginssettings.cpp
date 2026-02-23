@@ -6,6 +6,7 @@
 
 #include "pluginssettings.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "pythoninterfaces/dialogs/modeldownloadwidget.h"
 #include "pythoninterfaces/saminterface.h"
 #include "pythoninterfaces/speechtotextvosk.h"
@@ -19,12 +20,12 @@
 #include <KTar>
 #include <KUrlRequesterDialog>
 #include <KZip>
-#include <kio/directorysizejob.h>
 
 #include <QButtonGroup>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QTimer>
+#include <QtConcurrent/QtConcurrentRun>
 
 SpeechList::SpeechList(QWidget *parent)
     : QListWidget(parent)
@@ -97,21 +98,14 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     if (!voskModelFolder.isEmpty()) {
         modelV_folder_label->setLink(voskModelFolder);
         modelV_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
-            totalSize += dirEntry.size();
-        }
-        modelV_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
-        connect(job, &KJob::result, this, [job, label = modelV_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), voskModelFolder);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            modelV_size->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     } else {
         modelV_folder_label->setVisible(false);
     }
@@ -152,11 +146,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     combo_sam_device->setPlaceholderText(i18n("Probing..."));
     combo_sam_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 
-    PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
-    message_layout_wr->addWidget(msgWhisper);
-    // Also show VOSK setup messages in the python env page
-    connect(m_sttWhisper, &AbstractPythonInterface::setupMessage, this,
-            [msgWhisper](const QString message, int type) { msgWhisper->doShowMessage(message, KMessageWidget::MessageType(type)); });
+    m_msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
+    message_layout_wr->addWidget(m_msgWhisper);
     QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
     QMapIterator<QString, QString> j(whisperLanguages);
     while (j.hasNext()) {
@@ -171,13 +162,13 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     script_log->setCenterOnScroll(true);
     connect(m_sttWhisper, &SpeechToText::scriptStarted, this, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
     connect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
-    connect(m_sttWhisper, &SpeechToText::scriptFinished, this, [this, modelDownload, msgWhisper](const QStringList &args) {
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, this, [this, modelDownload](const QStringList &args) {
         if (args.join(QLatin1Char(' ')).contains("requirements-seamless.txt")) {
             install_seamless->setText(i18n("Downloading multilingual model…"));
             modelDownload->setVisible(true);
             modelDownload->startDownload();
         }
-        QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(m_msgWhisper, "checkAfterInstall", Qt::QueuedConnection);
     });
     connect(downloadButton, &QPushButton::clicked, this, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog);
@@ -187,47 +178,16 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         connect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
     });
 
-    connect(m_sttWhisper, &SpeechToText::scriptFeedback, this, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
-        Q_UNUSED(args);
-        if (scriptName.contains("checkgpu")) {
-            combo_wr_device->clear();
-            for (auto &s : jobData) {
-                if (s.contains(QLatin1Char('#'))) {
-                    combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-                } else {
-                    combo_wr_device->addItem(s.simplified(), s.simplified());
-                }
-            }
-        }
-    });
-
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, this, &PluginsSettings::gotWhisperFeedback);
     connect(deleteWrVenv, &QPushButton::clicked, this, &PluginsSettings::doDeleteWrVenv);
-
-    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, this, [this](const QString &scriptName, const QStringList &args) {
-        qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
-        if (scriptName.contains("checkgpu")) {
-            if (!KdenliveSettings::whisperDevice().isEmpty()) {
-                int ix = combo_wr_device->findData(KdenliveSettings::whisperDevice());
-                if (ix > -1) {
-                    combo_wr_device->setCurrentIndex(ix);
-                }
-            } else if (combo_wr_device->count() > 0) {
-                combo_wr_device->setCurrentIndex(0);
-                KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());
-            }
-        }
-    });
-    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
-        // Check if a GPU is available
-        whispersettings->setEnabled(true);
-        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
-    });
-    connect(m_sttWhisper, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { whispersettings->setEnabled(false); });
+    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, this, &PluginsSettings::whisperFinished);
+    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, &PluginsSettings::whisperAvailable);
+    connect(m_sttWhisper, &SpeechToText::dependenciesMissing, this, &PluginsSettings::whisperMissing);
 
     // VOSK
     vosk_folder->setPlaceholderText(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
-    PythonDependencyMessage *msgVosk = new PythonDependencyMessage(this, m_sttVosk);
-    message_layout->addWidget(msgVosk);
+    m_msgVosk = new PythonDependencyMessage(this, m_sttVosk);
+    message_layout->addWidget(m_msgVosk);
 
     connect(m_sttVosk, &SpeechToText::dependenciesAvailable, this, [&]() {
         if (m_speechListWidget->count() == 0) {
@@ -237,7 +197,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(m_sttVosk, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { speech_info->animatedHide(); });
     connect(m_sttVosk, &SpeechToText::scriptStarted, this, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
     connect(m_sttVosk, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
-    connect(m_sttVosk, &SpeechToText::scriptFinished, msgVosk, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_sttVosk, &SpeechToText::scriptFinished, this, [this]() { QMetaObject::invokeMethod(m_msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &PluginsSettings::getDictionary);
@@ -297,12 +257,14 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         whisper_venv_params->setEnabled(false);
         reloadWhisperModels();
         script_log->setVisible(false);
+        m_msgWhisper->setVisible(false);
     } else {
         speech_system_params->setVisible(false);
         checkSpeechDependencies();
+        m_msgWhisper->setVisible(true);
     }
-    connect(kcfg_speech_system_python, &QCheckBox::toggled, this, [this, msgWhisper](bool systemPackages) {
-        msgWhisper->setVisible(false);
+    connect(kcfg_speech_system_python, &QCheckBox::toggled, this, [this](bool systemPackages) {
+        m_msgWhisper->setVisible(systemPackages == false);
         KdenliveSettings::setSpeech_system_python(systemPackages);
         speech_system_params->setVisible(systemPackages);
         whisper_venv_params->setEnabled(systemPackages == false);
@@ -320,19 +282,17 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     });
 
     // Sam
-    PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
-    message_layout_sam->addWidget(pythonSamLabel);
-    // Also show VOSK setup messages in the python env page
-    connect(m_samInterface, &AbstractPythonInterface::setupMessage, pythonSamLabel,
-            [pythonSamLabel](const QString message, int type) { pythonSamLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
+    m_pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
+    message_layout_sam->addWidget(m_pythonSamLabel);
     connect(m_samInterface, &AbstractPythonInterface::gotPythonSize, this, [this](const QString &label) {
         sam_venv_size->setText(label);
         deleteSamVenv->setEnabled(!label.isEmpty());
+        sam_rebuild->setEnabled(!label.isEmpty());
     });
     m_samInterface->checkVenv(true);
     connect(m_samInterface, &AbstractPythonInterface::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
-    connect(m_samInterface, &AbstractPythonInterface::scriptFinished, pythonSamLabel,
-            [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_samInterface, &AbstractPythonInterface::scriptFinished, this,
+            [this]() { QMetaObject::invokeMethod(m_pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
     combo_sam_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     connect(downloadSamButton, &QPushButton::clicked, this, &PluginsSettings::downloadSamModels);
     connect(deleteSamVenv, &QPushButton::clicked, this, &PluginsSettings::doDeleteSamVenv);
@@ -340,35 +300,22 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(m_samInterface, &AbstractPythonInterface::venvSetupChanged, this,
             [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
     connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, &PluginsSettings::samDependenciesChecked);
-    connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &) { modelBox->setEnabled(false); });
-    connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, this,
-            [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
-                Q_UNUSED(args);
-                if (scriptName.contains("checkgpu")) {
-                    combo_sam_device->clear();
-                    for (auto &s : jobData) {
-                        if (s.contains(QLatin1Char('#'))) {
-                            combo_sam_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-                        } else {
-                            combo_sam_device->addItem(s.simplified(), s.simplified());
-                        }
-                    }
-                }
-            });
-    connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, this, [this](const QString &scriptName, const QStringList &args) {
-        qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
-        if (scriptName.contains("checkgpu")) {
-            if (!KdenliveSettings::samDevice().isEmpty()) {
-                int ix = combo_sam_device->findData(KdenliveSettings::samDevice());
-                if (ix > -1) {
-                    combo_sam_device->setCurrentIndex(ix);
-                }
-            } else if (combo_sam_device->count() > 0) {
-                combo_sam_device->setCurrentIndex(0);
-                KdenliveSettings::setSamDevice(combo_sam_device->currentData().toString());
-            }
+
+    connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, &PluginsSettings::samMissing);
+    connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, this, &PluginsSettings::gotSamFeedback);
+    connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, this, &PluginsSettings::samFinished);
+    connect(sam_rebuild, &QToolButton::clicked, this, [this]() {
+        if (KMessageBox::warningContinueCancel(this, i18n("This will attempt to rebuild the plugin's virtual environment. Only use if the plugin fails. If "
+                                                          "this does not work, try deleting and reinstalling the plugin.")) != KMessageBox::Continue) {
+            return;
         }
+        sam_rebuild->setEnabled(false);
+        setCursor(Qt::WaitCursor);
+        m_samInterface->rebuildVenv();
+        setCursor(Qt::ArrowCursor);
+        sam_rebuild->setEnabled(true);
     });
+
     if (modelBox->isEnabled()) {
         m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
     }
@@ -380,15 +327,17 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         // Using system packages only, disable all dependency checks
         sam_venv_params->setEnabled(false);
         script_sam_log->setVisible(false);
+        m_pythonSamLabel->setVisible(false);
         reloadSamModels();
     } else {
         sam_system_params->setVisible(false);
+        m_pythonSamLabel->setVisible(true);
         checkSamEnvironement(false);
     }
     connect(install_nvidia_wr, &QPushButton::clicked, this, [this]() { checkCuda(false); });
     connect(install_nvidia_sam, &QPushButton::clicked, this, [this]() { checkCuda(true); });
-    connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this, pythonSamLabel](bool systemPackages) {
-        pythonSamLabel->setVisible(false);
+    connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this](bool systemPackages) {
+        m_pythonSamLabel->setVisible(systemPackages == false);
         KdenliveSettings::setSam_system_python(systemPackages);
         sam_system_params->setVisible(systemPackages);
         sam_venv_params->setEnabled(systemPackages == false);
@@ -403,6 +352,93 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             checkSamEnvironement(false);
         }
     });
+}
+
+PluginsSettings::~PluginsSettings()
+{
+    delete m_msgWhisper;
+    delete m_msgVosk;
+    delete m_pythonSamLabel;
+}
+
+void PluginsSettings::whisperAvailable()
+{
+    // Check if a GPU is available
+    whispersettings->setEnabled(true);
+    m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+}
+
+void PluginsSettings::whisperMissing()
+{
+    // Check if a GPU is available
+    whispersettings->setEnabled(false);
+}
+
+void PluginsSettings::whisperFinished(const QString &scriptName, const QStringList &args)
+{
+    qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
+    if (scriptName.contains("checkgpu")) {
+        if (!KdenliveSettings::whisperDevice().isEmpty()) {
+            int ix = combo_wr_device->findData(KdenliveSettings::whisperDevice());
+            if (ix > -1) {
+                combo_wr_device->setCurrentIndex(ix);
+            }
+        } else if (combo_wr_device->count() > 0) {
+            combo_wr_device->setCurrentIndex(0);
+            KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());
+        }
+    }
+}
+
+void PluginsSettings::gotWhisperFeedback(const QString &scriptName, const QStringList args, const QStringList jobData)
+{
+    Q_UNUSED(args);
+    if (scriptName.contains("checkgpu")) {
+        combo_wr_device->clear();
+        for (auto &s : jobData) {
+            if (s.contains(QLatin1Char('#'))) {
+                combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+            } else {
+                combo_wr_device->addItem(s.simplified(), s.simplified());
+            }
+        }
+    }
+}
+
+void PluginsSettings::samFinished(const QString &scriptName, const QStringList &args)
+{
+    qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
+    if (scriptName.contains("checkgpu")) {
+        if (!KdenliveSettings::samDevice().isEmpty()) {
+            int ix = combo_sam_device->findData(KdenliveSettings::samDevice());
+            if (ix > -1) {
+                combo_sam_device->setCurrentIndex(ix);
+            }
+        } else if (combo_sam_device->count() > 0) {
+            combo_sam_device->setCurrentIndex(0);
+            KdenliveSettings::setSamDevice(combo_sam_device->currentData().toString());
+        }
+    }
+}
+
+void PluginsSettings::samMissing(const QStringList &)
+{
+    modelBox->setEnabled(false);
+}
+
+void PluginsSettings::gotSamFeedback(const QString &scriptName, const QStringList args, const QStringList jobData)
+{
+    Q_UNUSED(args);
+    if (scriptName.contains("checkgpu")) {
+        combo_sam_device->clear();
+        for (auto &s : jobData) {
+            if (s.contains(QLatin1Char('#'))) {
+                combo_sam_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+            } else {
+                combo_sam_device->addItem(s.simplified(), s.simplified());
+            }
+        }
+    }
 }
 
 void PluginsSettings::samDependenciesChecked()
@@ -463,7 +499,7 @@ void PluginsSettings::doDeleteSamVenv()
     if (pluginDir.cd(m_samInterface->getVenvPath())) {
         if (KMessageBox::warningContinueCancel(this,
                                                i18n("This will delete the plugin python environment from:<br/><b>%1</b><br/>The environment will be recreated "
-                                                    "and modules downloaded whenever you reenable the plugin.",
+                                                    "and modules downloaded whenever you enable the plugin again.",
                                                     pluginDir.absolutePath())) != KMessageBox::Continue) {
             return;
         }
@@ -477,7 +513,7 @@ void PluginsSettings::doDeleteWrVenv()
     if (pluginDir.cd(m_sttWhisper->getVenvPath())) {
         if (KMessageBox::warningContinueCancel(this,
                                                i18n("This will delete the plugin python environment from:<br/><b>%1</b><br/>The environment will be recreated "
-                                                    "and modules downloaded whenever you reenable the plugin.",
+                                                    "and modules downloaded whenever you enable the plugin again.",
                                                     pluginDir.absolutePath())) != KMessageBox::Continue) {
             return;
         }
@@ -654,21 +690,15 @@ void PluginsSettings::checkSamFolderSize()
         const QString path = modelsFolder.absolutePath();
         sam_folder_label->setLink(path);
         sam_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(path, flags)) {
-            totalSize += dirEntry.size();
-        }
-        sam_model_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(path));
-        connect(job, &KJob::result, this, [job, label = sam_model_size, button = downloadSamButton]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
+
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), path);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            sam_model_size->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     }
 }
 
@@ -683,31 +713,20 @@ void PluginsSettings::checkWhisperFolderSize()
         const QString path = modelsFolder.absolutePath();
         whisper_folder_label->setLink(path);
         whisper_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(path, flags)) {
-            totalSize += dirEntry.size();
-        }
-        whisper_model_size->setText(KIO::convertSize(totalSize));
-        if (totalSize == 0) {
-            downloadButton->setText(i18n("Install a model"));
-        } else {
-            downloadButton->setText(i18n("Manage models"));
-        }
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(path));
-        connect(job, &KJob::result, this, [job, label = whisper_model_size, button = downloadButton]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            if (job->totalSize() == 0) {
-                button->setText(i18n("Install a model"));
+
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), path);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            whisper_model_size->setText(KIO::convertSize(size));
+            if (size == 0) {
+                downloadButton->setText(i18n("Install a model"));
             } else {
-                button->setText(i18n("Manage models"));
+                downloadButton->setText(i18n("Manage models"));
             }
-            job->deleteLater();
+            watcher->deleteLater();
         });
-#endif
     }
     const QString folder2 = m_sttWhisper->modelFolder(false);
     QDir seamlessFolder(folder2);
@@ -716,21 +735,14 @@ void PluginsSettings::checkWhisperFolderSize()
     } else {
         seamless_folder_label->setLink(seamlessFolder.absolutePath());
         seamless_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(seamlessFolder.absolutePath(), flags)) {
-            totalSize += dirEntry.size();
-        }
-        seamless_folder_label->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *jobSeamless = KIO::directorySize(QUrl::fromLocalFile(seamlessFolder.absolutePath()));
-        connect(jobSeamless, &KJob::result, this, [jobSeamless, label = seamless_folder_size]() {
-            label->setText(KIO::convertSize(jobSeamless->totalSize()));
-            jobSeamless->deleteLater();
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), seamlessFolder.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            seamless_folder_label->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     }
 }
 
@@ -892,21 +904,14 @@ void PluginsSettings::slotParseVoskDictionaries()
     if (!voskModelFolder.isEmpty()) {
         modelV_folder_label->setLink(voskModelFolder);
         modelV_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
-            totalSize += dirEntry.size();
-        }
-        modelV_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
-        connect(job, &KJob::result, this, [job, label = modelV_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), voskModelFolder);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            modelV_size->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     } else {
         modelV_folder_label->setVisible(false);
     }
@@ -983,6 +988,8 @@ void PluginsSettings::checkCuda(bool isSam)
                 detectedCuda = QStringLiteral("cuda124");
             } else if (output.contains(QLatin1String("12.6"))) {
                 detectedCuda = QStringLiteral("cuda126");
+            } else if (output.contains(QLatin1String("12.8"))) {
+                detectedCuda = QStringLiteral("cuda128");
             }
         }
     }
@@ -994,7 +1001,7 @@ void PluginsSettings::checkCuda(bool isSam)
     d.setLayout(l);
     const QString featureName = isSam ? m_samInterface->featureName() : m_sttWhisper->featureName();
     l->addWidget(new QLabel(i18n("Nvidia GPU support for %1\nSelect the CUDA version to install.", featureName), &d));
-    const QStringList versions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6")};
+    const QStringList versions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6"), QStringLiteral("12.8")};
     QButtonGroup bg;
     for (auto &v : versions) {
         QRadioButton *button = new QRadioButton(i18n("CUDA %1", v), &d);

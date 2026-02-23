@@ -43,6 +43,10 @@
       <label>Add markers on Scene split.</label>
       <default>true</default>
     </entry>
+    <entry name="scenesplitrangemarkers" type="Bool">
+      <label>Add range markers on Scene split.</label>
+      <default>true</default>
+    </entry>
     <entry name="scenesplitsubclips" type="Bool">
       <label>Add subclips on Scene split.</label>
       <default>false</default>
@@ -60,6 +64,14 @@
     <entry name="crashrecovery" type="Bool">
       <label>Enable autosave.</label>
       <default>true</default>
+    </entry>
+    <entry name="autosave_time" type="Int">
+      <label>Autosave frequency in seconds.</label>
+      <default>60</default>
+    </entry>
+    <entry name="autosave_ops" type="Int">
+      <label>Autosave when we reach this count of undo entries.</label>
+      <default>25</default>
     </entry>
     <entry name="tabposition" type="Int">
       <label>Select tab position in dockwidgets.</label>
@@ -330,6 +342,11 @@
       <label>Enables nvenc hw accel scaling.</label>
       <default>false</default>
     </entry>
+    <entry name="hwDecoding" type="String">
+      <label>Enable hw decoding. String must be vaapi, nvdec, etc</label>
+      <default></default>
+    </entry>
+
     <entry name="showRenderTextParameters" type="Bool">
       <label>Show render preset parameters as editable text.</label>
       <default>false</default>
@@ -351,6 +368,10 @@
     </entry>
     <entry name="autopreview" type="Bool">
       <label>Automatically regenerate dirty zones of timeline preview.</label>
+      <default>false</default>
+    </entry>
+    <entry name="draginprogress" type="Bool">
+      <label>True when a timeline drag operation is in progress.</label>
       <default>false</default>
     </entry>
     <entry name="proxypreview" type="Bool">
@@ -390,7 +411,7 @@
 
     <entry name="displayallchannels" type="Bool">
       <label>Display all channels in audio thumbnails.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="normalizechannels" type="Bool">
@@ -404,6 +425,10 @@
     <entry name="autoscroll" type="Bool">
       <label>Auto scroll timeline while playing.</label>
       <default>true</default>
+    </entry>
+    <entry name="centeredplayhead" type="Bool">
+      <label>Center timeline on playhead while playing or seeking.</label>
+      <default>false</default>
     </entry>
 
     <entry name="jumptostart" type="Bool">
@@ -423,6 +448,21 @@
 
     <entry name="enableBuiltInEffects" type="Bool">
       <label>Enable built-in effects.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="tenbitpipeline" type="Bool">
+      <label>Hide all effects that are not compatible with 10 bit.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="effectsFilter" type="Bool">
+      <label>Filter effects by property.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="transitionsFilter" type="Bool">
+      <label>Filter transitions by property.</label>
       <default>false</default>
     </entry>
 
@@ -561,11 +601,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="monitor_gamma" type="Int">
-      <label>Monitor gamma (rbg / rec 709).</label>
-      <default>1</default>
-    </entry>
-
     <entry name="external_display" type="Bool">
       <label>Use Blackmagic device for video out.</label>
       <default>false</default>
@@ -639,11 +674,6 @@
       <default></default>
     </entry>
 
-    <entry name="mediainfopath" type="Path">
-      <label>mediaInfo binary path.</label>
-      <default></default>
-    </entry>
-
     <entry name="processingthreads" type="Int">
       <label>Processing thread count.</label>
       <default>4</default>
@@ -671,6 +701,11 @@
 
     <entry name="checkForUpdate" type="Bool">
       <label>Automatically check for updates</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="usePowerManagement" type="Bool">
+      <label>Disable sleep on playback/render</label>
       <default>true</default>
     </entry>
 
@@ -744,6 +779,11 @@
       <default></default>
     </entry>
 
+    <entry name="defaultvideoapp" type="String">
+      <label>Default video editing application name.</label>
+      <default></default>
+    </entry>
+
     <entry name="nice_tasks" type="Bool">
       <label>Use lower CPU priority for proxy and transcode tasks</label>
       <default>true</default>
@@ -757,6 +797,15 @@
     <entry name="multipleguidesinterval" type="Double">
       <label>Default interval to insert multiple guides</label>
       <default>30</default>
+    </entry>
+
+    <entry name="guidesShowThumbs" type="Bool">
+      <label>Display markers thumbnails in guide dialog.</label>
+      <default>false</default>
+    </entry>
+    <entry name="guidesSelectZone" type="Bool">
+      <label>Select zone when selecting a range marker.</label>
+      <default>false</default>
     </entry>
 
   </group>
@@ -782,64 +831,19 @@
       <default>48000</default>
     </entry>
 
+    <entry name="audiocapturesampleformat" type="Int">
+      <label>Audio capture sample format</label>
+      <default>2</default>
+    </entry>
+
     <entry name="defaultcapture" type="Int">
       <label>Default video capture system.</label>
       <default>0</default>
     </entry>
 
-    <entry name="detectedv4ldevices" type="UInt">
-      <label>Detected v4l devices.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="video4vdevice" type="String">
-      <label>Default video4linux capture format.</label>
-      <default>/dev/video0</default>
-    </entry>
-
-    <entry name="v4l_alsadevice" type="Int">
-      <label>Audio device for v4l capture.</label>
-      <default></default>
-    </entry>
-
     <entry name="alsachannels" type="UInt">
       <label>Number of audio channels.</label>
       <default>2</default>
-    </entry>
-
-    <entry name="v4l_alsadevicename" type="String">
-      <label>Audio device for v4l capture.</label>
-      <default>default</default>
-    </entry>
-
-    <entry name="v4l_parameters" type="String">
-      <label>Default video4linux format.</label>
-      <default></default>
-    </entry>
-
-    <entry name="v4l_extension" type="String">
-      <label>Default video4linux file extension.</label>
-      <default></default>
-    </entry>
-
-    <entry name="v4l_format" type="UInt">
-      <label>Selected capture format.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="v4l_capturevideo" type="Bool">
-      <label>Should we capture video.</label>
-      <default>true</default>
-    </entry>
-
-    <entry name="v4l_captureaudio" type="Bool">
-      <label>Should we also capture audio.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="v4l_profile" type="Int">
-      <label>default v4l encoding profile.</label>
-      <default>0</default>
     </entry>
 
     <entry name="grab_profile" type="Int">
@@ -988,6 +992,16 @@
        </entry>
    </group>
 
+  <group name="Recent Profiles">
+    <entry name="recentProfiles" type="StringList">
+         <label>List of recently used profile ids</label>
+         <default></default>
+    </entry>
+    <entry name="recentProfileNames" type="StringList">
+         <label>List of recently used profile display names</label>
+         <default></default>
+    </entry>
+  </group>
 
   <group name="unmanaged">
     <entry name="properties_panel_page" type="Int">
@@ -1001,6 +1015,14 @@
     <entry name="default_profile" type="String">
       <label>Default project format.</label>
       <default></default>
+    </entry>
+    <entry name="kdockLayout" type="String">
+      <label>Default project layout.</label>
+      <default></default>
+    </entry>
+    <entry name="layoutsOrder" type="StringList">
+      <label>Project layout order</label>
+      <default>logging,editing,audio,effects,color</default>
     </entry>
 
     <entry name="showdescriptioncolumn" type="Bool">
@@ -1033,6 +1055,10 @@
       <default>true</default>
     </entry>
 
+    <entry name="showClipOverlays" type="Bool">
+      <label>Show clip name and infos in timeline.</label>
+      <default>true</default>
+    </entry>
     <entry name="rippleResize" type="Bool">
       <label>Enable Ripple edit when changing multiple clips duration.</label>
       <default>false</default>
@@ -1079,7 +1105,10 @@
       <label>Default render profile.</label>
       <default>MP4-H264/AAC</default>
     </entry>
-
+    <entry name="keepRenderLogFiles" type="Bool">
+      <label>Should we delete log files after successful render.</label>
+      <default>false</default>
+    </entry>
     <entry name="validated_luts" type="StringList">
       <label>The paths of lut files that have been validated.</label>
       <default></default>
@@ -1088,6 +1117,14 @@
     <entry name="displayClipMonitorInfo" type="Int">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>0x55</default>
+    </entry>
+    <entry name="showClipMonitorSafeZone" type="Bool">
+      <label>Show monitor safe zones.</label>
+      <default>false</default>
+    </entry>
+    <entry name="showProjectMonitorSafeZone" type="Bool">
+      <label>Show monitor safe zones.</label>
+      <default>false</default>
     </entry>
 
     <entry name="displayProjectMonitorInfo" type="Int">
@@ -1210,6 +1247,11 @@
     <entry name="overlayColor" type="Color">
       <label>Color to draw the monitor overlay guides.</label>
       <default>#00ffff</default>
+    </entry>
+
+    <entry name="safeColor" type="Color">
+      <label>Color to draw the safe zone.</label>
+      <default>#ffcc00</default>
     </entry>
 
     <entry name="defaultrescalewidth" type="Int">
@@ -1357,6 +1399,8 @@
       <label>Last opened tab in effects list.</label>
       <default>0</default>
     </entry>
+    </group>
+  <group name="startup">
     <entry name="force_breeze" type="Bool">
       <label>Force breeze icon theme for consistent look.</label>
       <default>false</default>
@@ -1365,6 +1409,24 @@
       <label>Force breeze icon color theme for consistent look.</label>
       <default>false</default>
     </entry>
+    <entry name="showWelcome" type="Bool">
+      <label>Show Welcome page on Start.</label>
+      <default>true</default>
+    </entry>
+    <entry name="lastSeenVersionMajor" type="Int">
+      <label>Last used version of Kdenlive - major.</label>
+      <default>0</default>
+    </entry>
+    <entry name="lastSeenVersionMinor" type="Int">
+      <label>Last used version of Kdenlive - minor.</label>
+      <default>0</default>
+    </entry>
+    <entry name="lastSeenVersionMicro" type="Int">
+      <label>Last used version of Kdenlive - micro.</label>
+      <default>0</default>
+    </entry>
+
+
     </group>
   <group name="effects">
       <entry name="lock_ratio" type="Bool">
@@ -1474,11 +1536,11 @@
          <default></default>
        </entry>
        <entry name="whisperAvailableModels" type="StringList">
-         <label>The list of available models, whith modelname=filename</label>
+         <label>The list of available models, with modelname=filename</label>
          <default>tiny.en=tiny.en.pt,tiny=tiny.pt,base.en=base.en.pt,base=base.pt,small.en=small.en.pt,small=small.pt,medium.en=medium.en.pt,medium=medium.pt,large-v1=large-v1.pt,large-v2=large-v2.pt,large-v3=large-v3.pt,large=large-v3.pt,large-v3-turbo=large-v3-turbo.pt,turbo=large-v3-turbo.pt</default>
        </entry>
        <entry name="whisperAvailableModelsHash" type="StringList">
-         <label>The list of available models, whith filaneme=hash</label>
+         <label>The list of available models, with filename=hash</label>
          <default></default>
        </entry>
        <entry name="whisperModelFolder" type="String">
@@ -1547,7 +1609,27 @@
       <label>Default size for media browser icons.</label>
       <default>16</default>
     </entry>
+    <entry name="mediaManagerPanelLayout" type="String">
+      <label>Show preview panel in browser.</label>
+      <default></default>
+    </entry>
+    <entry name="mediaManagerPanelWidth" type="Int">
+      <label>Default width for the preview panel.</label>
+      <default>0</default>
+    </entry>
+    <entry name="mediaBrowserAutoPlay" type="Bool">
+      <label>Autoplay preview in panel.</label>
+      <default>false</default>
+    </entry>
+    <entry name="mediaBrowserWithAudio" type="Bool">
+      <label>Play audio in browser.</label>
+      <default>true</default>
+    </entry>
     <entry name="mediaDoubleClickImport" type="Bool">
+      <label>Double click on a file imports it to the project.</label>
+        <default>true</default>
+    </entry>
+    <entry name="mediaBrowserInlinePreview" type="Bool">
       <label>Show inline preview in media browser.</label>
       <default>true</default>
     </entry>

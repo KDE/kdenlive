@@ -17,6 +17,7 @@
 #include <unordered_set>
 
 class TimelineModel;
+class TimelineItemModel;
 class ClipModel;
 class CompositionModel;
 class EffectStackModel;
@@ -155,7 +156,7 @@ public:
     QByteArray trackHash();
     /** @brief This is an helper function that test frame level consistency with the MLT structures */
     bool checkConsistency();
-    /** @brief Check if a mix is reversed (moslty used in tests) */
+    /** @brief Check if a mix is reversed (mostly used in tests) */
     bool mixIsReversed(int cid) const;
     /** @brief Returns the size of the blank before or after the given clip
        @param clipId is the id of the clip

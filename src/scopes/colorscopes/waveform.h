@@ -37,11 +37,24 @@ private:
     Ui::Waveform_UI *m_ui{nullptr};
     WaveformGenerator *m_waveformGenerator;
 
+    // Settings menu
+    QMenu *m_settingsMenu;
+    QMenu *m_paintModeMenu;
+
+    // Paint mode actions
+    QActionGroup *m_agPaintMode;
+    QAction *m_aPaintModeYellow;
+    QAction *m_aPaintModeWhite;
+    QAction *m_aPaintModeGreen;
+
+    /** Paint mode */
+    int m_iPaintMode;
+
     QAction *m_aRec601;
     QAction *m_aRec709;
     QActionGroup *m_agRec;
 
-    static const QSize m_textWidth;
+    int m_textWidth;
     static const int m_paddingBottom;
 
     QImage m_waveform;
@@ -54,4 +67,8 @@ private:
     bool isHUDDependingOnInput() const override;
     bool isScopeDependingOnInput() const override;
     bool isBackgroundDependingOnInput() const override;
+
+private Q_SLOTS:
+    void showSettingsMenu();
+    void slotPaintModeChanged();
 };

@@ -11,7 +11,7 @@
 #include "kdenlivesettings.h"
 #include "timeline2/model/snapmodel.hpp"
 
-using Marker = std::tuple<GenTime, QString, int>;
+using Marker = std::tuple<GenTime, QString, int, GenTime>;
 double fps;
 
 void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::vector<Marker> &l, const std::shared_ptr<SnapModel> &snaps)
@@ -37,6 +37,13 @@ void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::v
         REQUIRE(std::get<1>(m) == model->data(model->index(i), MarkerListModel::CommentRole).toString());
         REQUIRE(std::get<2>(m) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
         REQUIRE(pCore->markerTypes.value(std::get<2>(m)).color == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
+        double duration = model->data(model->index(i), MarkerListModel::DurationRole).toDouble();
+        REQUIRE(std::get<3>(m).frames(fps) == duration);
+        double pos = model->data(model->index(i), MarkerListModel::FrameRole).toDouble();
+        double endPos = model->data(model->index(i), MarkerListModel::EndPosRole).toDouble();
+        REQUIRE(endPos == pos + duration);
+        bool hasRange = model->data(model->index(i), MarkerListModel::HasRangeRole).toBool();
+        REQUIRE((duration > 0) == hasRange);
 
         // check for marker existence
         int frame = std::get<0>(m).frames(fps);
@@ -87,14 +94,14 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list, snaps);
 
         // add markers
-        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3);
+        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3, GenTime(0));
         REQUIRE(model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3));
         checkMarkerList(model, list, snaps);
         auto state1 = list;
 
         checkStates(undoStack, model, {{}, state1}, snaps);
 
-        list.emplace_back(GenTime(0.3), QLatin1String("test marker2"), 0);
+        list.emplace_back(GenTime(0.3), QLatin1String("test marker2"), 0, GenTime(0));
         REQUIRE(model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0));
         checkMarkerList(model, list, snaps);
         auto state2 = list;
@@ -106,7 +113,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list, snaps);
         checkStates(undoStack, model, {{}, state1, state2}, snaps);
 
-        // rename markers
+        // rename markers (adding marker at the same position)
         std::get<1>(list[0]) = QLatin1String("new comment");
         std::get<2>(list[0]) = 1;
         REQUIRE(model->addMarker(GenTime(1.3), QLatin1String("new comment"), 1));
@@ -139,13 +146,13 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5, state6}, snaps);
 
         // add some back
-        list.emplace_back(GenTime(1.7), QLatin1String("test marker6"), KdenliveSettings::default_marker_type());
+        list.emplace_back(GenTime(1.7), QLatin1String("test marker6"), KdenliveSettings::default_marker_type(), GenTime(0));
         REQUIRE(model->addMarker(GenTime(1.7), QLatin1String("test marker6"), -1));
         auto state7 = list;
-        list.emplace_back(GenTime(2), QLatin1String("auieuansr"), 3);
+        list.emplace_back(GenTime(2), QLatin1String("auieuansr"), 3, GenTime(0));
         REQUIRE(model->addMarker(GenTime(2), QLatin1String("auieuansr"), 3));
         auto state8 = list;
-        list.emplace_back(GenTime(0), QLatin1String("sasenust"), 1);
+        list.emplace_back(GenTime(0), QLatin1String("sasenust"), 1, GenTime(0));
         REQUIRE(model->addMarker(GenTime(0), QLatin1String("sasenust"), 1));
         checkMarkerList(model, list, snaps);
         auto state9 = list;
@@ -172,7 +179,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list, snaps);
 
         // add markers
-        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3);
+        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3, GenTime(0));
         REQUIRE(model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3));
         REQUIRE(model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0));
 
@@ -204,11 +211,11 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list, snaps);
 
         // add markers
-        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3);
+        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3, GenTime(0));
         model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3);
-        list.emplace_back(GenTime(0.3), QLatin1String("test marker2"), 0);
+        list.emplace_back(GenTime(0.3), QLatin1String("test marker2"), 0, GenTime(0));
         model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0);
-        list.emplace_back(GenTime(3), QLatin1String("test marker3"), 0);
+        list.emplace_back(GenTime(3), QLatin1String("test marker3"), 0, GenTime(0));
         model->addMarker(GenTime(3), QLatin1String("test marker3"), 0);
         checkMarkerList(model, list, snaps);
 
@@ -235,9 +242,9 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->undo();
         checkMarkerList(model, {}, snaps);
         // non - conflicting marker
-        list.emplace_back(GenTime(5), QLatin1String("non conflicting"), 0);
+        list.emplace_back(GenTime(5), QLatin1String("non conflicting"), 0, GenTime(0));
         std::vector<Marker> otherMarkers;
-        otherMarkers.emplace_back(GenTime(5), QLatin1String("non conflicting"), 0);
+        otherMarkers.emplace_back(GenTime(5), QLatin1String("non conflicting"), 0, GenTime(0));
         model->addMarker(GenTime(5), QLatin1String("non conflicting"), 0);
         REQUIRE(model->importFromJson(json, false));
         checkMarkerList(model, list, snaps);
@@ -248,7 +255,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->undo();
 
         // conflicting marker
-        otherMarkers.emplace_back(GenTime(1.3), QLatin1String("conflicting"), 1);
+        otherMarkers.emplace_back(GenTime(1.3), QLatin1String("conflicting"), 1, GenTime(0));
         model->addMarker(GenTime(1.3), QLatin1String("conflicting"), 1);
         checkMarkerList(model, otherMarkers, snaps);
         REQUIRE_FALSE(model->importFromJson(json, false));
@@ -259,6 +266,119 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, otherMarkers, snaps);
         undoStack->redo();
         checkMarkerList(model, list, snaps);
+    }
+
+    SECTION("Duration-based markers")
+    {
+        std::vector<Marker> list;
+        checkMarkerList(model, list, snaps);
+
+        REQUIRE(model->addRangeMarker(GenTime(1.0), GenTime(2.0), QLatin1String("range marker 1"), 1));
+        list.emplace_back(GenTime(1.0), QLatin1String("range marker 1"), 1, GenTime(2.0));
+        auto state1 = list;
+        checkStates(undoStack, model, {{}, state1}, snaps);
+
+        REQUIRE(model->addRangeMarker(GenTime(5.0), GenTime(1.5), QLatin1String("range marker 2"), 2));
+        list.emplace_back(GenTime(5.0), QLatin1String("range marker 2"), 2, GenTime(1.5));
+        auto state2 = list;
+        checkStates(undoStack, model, {{}, state1, state2}, snaps);
+
+        bool exists;
+        auto marker1 = model->getMarker(GenTime(1.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(marker1.hasRange());
+        REQUIRE(marker1.duration().seconds() == 2.0);
+        REQUIRE(marker1.endTime().seconds() == 3.0);
+        REQUIRE(marker1.comment() == QLatin1String("range marker 1"));
+        REQUIRE(marker1.markerType() == 1);
+
+        auto marker2 = model->getMarker(GenTime(5.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(marker2.hasRange());
+        REQUIRE(marker2.duration().seconds() == 1.5);
+        REQUIRE(marker2.endTime().seconds() == 6.5);
+
+        // Test point marker (duration = 0)
+        REQUIRE(model->addMarker(GenTime(10.0), QLatin1String("point marker"), 0));
+        list.emplace_back(GenTime(10.0), QLatin1String("point marker"), 0, GenTime(0));
+        auto state3 = list;
+        checkStates(undoStack, model, {{}, state1, state2, state3}, snaps);
+
+        auto pointMarker = model->getMarker(GenTime(10.0), &exists);
+        REQUIRE(exists);
+        REQUIRE_FALSE(pointMarker.hasRange());
+        REQUIRE(pointMarker.duration().seconds() == 0.0);
+        REQUIRE(pointMarker.endTime().seconds() == 10.0);
+
+        // Test converting point marker to range marker
+        REQUIRE(model->addRangeMarker(GenTime(10.0), GenTime(3.0), QLatin1String("converted to range"), 0));
+        std::get<1>(list[2]) = QLatin1String("converted to range");
+        std::get<3>(list[2]) = GenTime(3.0);
+        auto state4 = list;
+        checkStates(undoStack, model, {{}, state1, state2, state3, state4}, snaps);
+
+        auto convertedMarker = model->getMarker(GenTime(10.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(convertedMarker.hasRange());
+        REQUIRE(convertedMarker.duration().seconds() == 3.0);
+        REQUIRE(convertedMarker.comment() == QLatin1String("converted to range"));
+
+        // Test converting range marker to point marker
+        REQUIRE(model->addMarker(GenTime(1.0), QLatin1String("converted to point"), 1));
+        std::get<1>(list[0]) = QLatin1String("converted to point");
+        std::get<3>(list[0]) = GenTime(0);
+        auto state5 = list;
+        checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5}, snaps);
+
+        auto convertedToPoint = model->getMarker(GenTime(1.0), &exists);
+        REQUIRE(exists);
+        REQUIRE_FALSE(convertedToPoint.hasRange());
+        REQUIRE(convertedToPoint.duration().seconds() == 0.0);
+        REQUIRE(convertedToPoint.comment() == QLatin1String("converted to point"));
+
+        // Test editing markers with duration
+        REQUIRE(model->editMarker(GenTime(5.0), GenTime(5.0), QLatin1String("edited range"), 2, GenTime(2.5)));
+        std::get<1>(list[1]) = QLatin1String("edited range");
+        std::get<3>(list[1]) = GenTime(2.5);
+        auto state6 = list;
+        checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5, state6}, snaps);
+
+        auto editedMarker = model->getMarker(GenTime(5.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(editedMarker.hasRange());
+        REQUIRE(editedMarker.duration().seconds() == 2.5);
+        REQUIRE(editedMarker.comment() == QLatin1String("edited range"));
+
+        // Test JSON export/import with duration
+        QString json = model->toJson();
+
+        REQUIRE(json.contains(QLatin1String("duration")));
+
+        REQUIRE(model->removeAllMarkers());
+        checkMarkerList(model, {}, snaps);
+
+        REQUIRE(model->importFromJson(json, false));
+
+        // Verify imported markers have correct duration
+        auto reimportedMarker = model->getMarker(GenTime(5.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(reimportedMarker.hasRange());
+        REQUIRE(qAbs(reimportedMarker.duration().seconds() - 2.5) < 0.1);
+
+        // Test backward compatibility - import JSON without duration field
+        QString legacyJson = R"([{"pos":120,"comment":"legacy marker","type":1}])";
+        REQUIRE(model->removeAllMarkers());
+        REQUIRE(model->importFromJson(legacyJson, false));
+
+        auto legacyMarker = model->getMarker(GenTime(120, fps), &exists);
+        REQUIRE(exists);
+        REQUIRE_FALSE(legacyMarker.hasRange());
+        REQUIRE(legacyMarker.duration().seconds() == 0.0);
+        REQUIRE(legacyMarker.comment() == QLatin1String("legacy marker"));
+
+        // Clean up
+        REQUIRE(model->removeAllMarkers());
+        checkMarkerList(model, {}, snaps);
     }
     snaps.reset();
     // undoStack->clear();

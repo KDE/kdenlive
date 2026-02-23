@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.brightness" id="frei0r.brightness">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.brightness" id="frei0r.brightness">
     <name context="Brightness Effect Name">Brightness</name>
     <description>Adjusts the brightness of a source image</description>
     <author>Jean-Sebastien Senecal</author>

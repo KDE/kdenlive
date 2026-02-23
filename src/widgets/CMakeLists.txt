@@ -11,6 +11,7 @@ set(kdenlive_SRCS
   widgets/geometrywidget.cpp
   widgets/markercategorychooser.cpp
   widgets/markercategorybutton.cpp
+  widgets/pointwidget.cpp
   widgets/positionwidget.cpp
   widgets/precisionspinbox.cpp
   widgets/progressbutton.cpp
@@ -54,7 +55,7 @@ if (BUILD_DESIGNERPLUGIN)
 
     ecm_qtdesignerplugin_widget(PrecisionSpinBox
         INCLUDE_FILE widgets/precisionspinbox.h
-        TOOLTIP "A double spinbox allowing an arbitrary nubmer of decimals (Kdenlive)"
+        TOOLTIP "A double spinbox allowing an arbitrary number of decimals (Kdenlive)"
         GROUP "Kdenlive Widgets"
     )
 

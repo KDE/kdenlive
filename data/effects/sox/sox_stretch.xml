@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox_stretch" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="sox" id="sox_stretch" type="audio">
     <name>Sox Stretch</name>
     <description>Sox stretch audio effect</description>
     <author>http://sox.sourceforge.net</author>

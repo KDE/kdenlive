@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.shear" id="avfilter.shear">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.shear" id="avfilter.shear">
     <name>Shear</name>
     <description>Apply shear transform to input video.</description>
     <author>libavfilter</author>
     <parameter type="animated" name="av.shx" default="0" min="-2" max="2" decimals="3">
-        <name>X shear factor</name>
+        <name>X-axis Shear Factor</name>
     </parameter>
     <parameter type="animated" name="av.shy" default="0" min="-2" max="2" decimals="3">
-        <name>Y shear factor</name>
+        <name>Y-axis Shear Factor</name>
     </parameter>
-    <parameter type="fixedcolor" name="av.c" default="black">
-        <name>Background fill color</name>
+    <parameter type="fixedcolor" name="av.c" default="0x00000000" alpha="1">
+        <name>Background Fill Color</name>
     </parameter>
     <parameter type="list" name="av.interp" default="nearest" paramlist="nearest;bilinear">
+        <name>Interpolation Mode</name>
         <paramlistdisplay>Nearest,Bilinear</paramlistdisplay>
-        <name>Interpolation mode</name>
     </parameter>
 </effect>

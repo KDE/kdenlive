@@ -40,6 +40,8 @@ public:
     /** @brief Remove all masks tmp data */
     void cleanup();
     void loadData(const QString points, const QString labels, const QString boxes, int in, const QDir &previewFolder);
+    bool pythonReady();
+    /** @brief Return false if the venv python exec is missing*/
 
 public Q_SLOTS:
     bool generateMask(const QString &binId, const QString &maskName, const QString &maskFile, const QPoint &zone);
@@ -77,4 +79,5 @@ Q_SIGNALS:
     void showMessage(const QString &message, KMessageWidget::MessageType type = KMessageWidget::Information);
     void updateProgress(int progress);
     void samJobFinished();
+    void processCrashed(const QString &message);
 };

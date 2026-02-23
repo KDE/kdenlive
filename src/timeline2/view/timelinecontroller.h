@@ -74,6 +74,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
     Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
     Q_PROPERTY(int multicamIn MEMBER multicamIn NOTIFY multicamInChanged)
+    Q_PROPERTY(int timecodeOffset MEMBER m_timecodeOffset NOTIFY timecodeOffsetChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -202,7 +203,7 @@ public:
     Q_INVOKABLE QVariantList subtitlesList() const;
     int getMaxSubLayer() const;
     void setMaxSubLayer(int value);
-    /** @brief Returns true if the avfilter.subtiles filter is not found */
+    /** @brief Returns true if the avfilter.subtitles filter is not found */
     bool subtitlesWarning() const;
     Q_INVOKABLE void subtitlesWarningDetails();
     void switchSubtitleDisable();
@@ -242,6 +243,7 @@ public:
      */
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
     Q_INVOKABLE int copyItem();
+    void cutItem();
     std::pair<int, QString> getCopyItemData();
     Q_INVOKABLE bool pasteItem(int position = -1, int tid = -1);
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
@@ -318,6 +320,14 @@ public:
     /** @brief Ask for marker delete
      */
     Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);
+    /** @brief Resize a range marker
+     * @param cid The clip id
+     * @param position The marker position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeMarker(int cid, int position, int duration, bool isStart = false, int newPosition = -1);
     /** @brief Ask for all markers delete
      */
     Q_INVOKABLE void deleteAllMarkers(int cid = -1);
@@ -326,6 +336,27 @@ public:
     Q_INVOKABLE void editGuide(int frame = -1);
     Q_INVOKABLE void moveGuideById(int id, int newFrame);
     Q_INVOKABLE int moveGuideWithoutUndo(int mid, int newFrame);
+    Q_INVOKABLE void pauseGuideSorting(bool pause);
+    /** @brief Resize a range guide marker
+     * @param position The guide position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeGuide(int position, int duration, bool isStart = false, int newPosition = -1);
+    /** @brief Suggest a snap point for the given position
+     * @param position The position in frames
+     * @param snapDistance The maximum distance to snap to (or -1 to disable snapping)
+     * @return The suggested snap position
+     */
+    Q_INVOKABLE int suggestSnapPoint(int position, int snapDistance);
+    /** @brief Create a range marker from the current timeline zone
+     * @param comment Optional comment for the marker
+     * @param type Marker type
+     * @return true if successful
+     */
+    Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
+
     /** @brief Move all guides in the given range
      * @param start the start point of the range in frames
      * @param end the end point of the range in frames
@@ -466,6 +497,8 @@ public:
 
     Q_INVOKABLE void setAudioRef(int clipId = -1);
     Q_INVOKABLE void alignAudio(int clipId = -1);
+    Q_INVOKABLE void setTimecodeRef(int clipId = -1);
+    Q_INVOKABLE void alignTimecode(int clipId = -1);
     Q_INVOKABLE void urlDropped(QStringList droppedFile, int frame, int tid);
 
     Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
@@ -484,9 +517,6 @@ public:
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());
     Q_INVOKABLE bool hasKeyframeAt(int cid, int frame);
-    /** @brief Cycle vertical zooming of audio waveforms */
-    Q_INVOKABLE void zoomWaveform();
-
     /** @brief Make current timeline track active/inactive*/
     Q_INVOKABLE void switchTrackActive(int trackId = -1);
     /** @brief Toggle the active/inactive state of all tracks*/
@@ -530,12 +560,22 @@ public:
     /** @brief Get the x,y position of the mouse in the timeline widget
      */
     Q_INVOKABLE const QPoint getMousePosInTimeline() const;
+    /** @brief Warp the mouse cursor to a new position */
+    Q_INVOKABLE void warpCursor(const QPoint &pos);
+    /** @brief Hide or show the mouse cursor */
+    Q_INVOKABLE void hideCursor(bool hide);
+    int m_cursorHidden{0};
     /** @brief Get the frame where mouse is positioned
      */
     Q_INVOKABLE int getMousePos();
+    int getMousePos(const QPoint &pos);
     /** @brief Get the frame where mouse is positioned
      */
-    int getMouseTrack();
+    Q_INVOKABLE int getMouseTrack();
+    int getMouseTrack(const QPoint &pos);
+    double scale() const { return m_scale; }
+    /** @brief Returns the free space at position on track tid */
+    Q_INVOKABLE int getFreeSpace(int tid, int position);
     /** @brief Returns a map of track ids/track names
      */
     QMap<int, QString> getTrackNames(bool videoOnly);
@@ -627,8 +667,6 @@ public:
     bool grabIsActive() const;
     /** @brief Returns keys for all used thumbnails */
     const std::unordered_map<QString, std::vector<int>> getThumbKeys();
-    /** @brief Returns true if a drag operation is currently running in timeline */
-    bool dragOperationRunning();
     /** @brief Returns true if the timeline is in trimming mode (slip, slide, ripple, rolle) */
     bool trimmingActive();
     /** @brief Disconnect some stuff before closing project */
@@ -643,6 +681,7 @@ public:
     bool refreshIfVisible(int cid);
     /** @brief Collapse / expand active track */
     void collapseActiveTrack();
+    void collapseAllTracks();
     /** @brief Expand MLT playlist to its contained clips/compositions */
     void expandActiveClip();
     /** @brief Retrieve a list of possible audio stream targets */
@@ -688,6 +727,8 @@ public:
     int activeSubLayer() const;
     /** @brief Set the active subtitle layer */
     void setActiveSubLayer(int layer);
+    /** @brief Set the timecode offset for this sequence */
+    void setTimecodeOffset(int offset);
 
 public Q_SLOTS:
     void updateClipActions();
@@ -701,6 +742,7 @@ public Q_SLOTS:
     void disablePreview(bool disable);
     void invalidateItem(int cid);
     void invalidateTrack(int tid);
+    void invalidateMix(ObjectId owner);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable = true, bool refresh = true);
@@ -729,6 +771,7 @@ public Q_SLOTS:
     void enableBuildInTransform();
     /** @brief Open the Subtitle Manager */
     void showSubtitleManager(int page = 0);
+    Q_INVOKABLE void setTimelineMouseOffset(int offset);
 
 private Q_SLOTS:
     void updateVideoTarget();
@@ -748,6 +791,7 @@ public:
     int multicamIn;
     /** @brief Set the in point for a multicam operation and trigger necessary signals */
     void setMulticamIn(int pos);
+    int timelineMouseOffset() { return m_timelineMouseOffset; };
 
 private:
     int m_duration;
@@ -757,7 +801,9 @@ private:
     bool m_usePreview;
     int m_audioTarget;
     int m_videoTarget;
-    int m_audioRef;
+    int m_audioRef{-1};
+    int m_timecodeRef{-1};
+    int m_timelineMouseOffset{0};
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};
     int m_lastVideoTarget {-1};
@@ -786,6 +832,7 @@ private:
     int m_trimmingMainClip;
     /** @brief The position of the active subtitle in the menu list*/
     int m_activeSubPosition{-1};
+    int m_timecodeOffset{0};
 
     int getMenuOrTimelinePos() const;
     /** @brief Prepare the preview manager */
@@ -806,6 +853,7 @@ Q_SIGNALS:
     void lastAudioTargetChanged();
     void autoScrollChanged();
     void lastVideoTargetChanged();
+    void timelineMouseOffsetChanged(int);
     void activeTrackChanged();
     void activeSubLayerChanged();
     void colorsChanged();
@@ -848,4 +896,7 @@ Q_SIGNALS:
     void updateAssetPosition(int itemId, const QUuid uuid);
     void stopAudioRecord();
     void activeSubtitlePositionChanged();
+    /** @brief TimecodeOffset for this sequence
+     */
+    void timecodeOffsetChanged();
 };

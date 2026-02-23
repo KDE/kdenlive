@@ -8,7 +8,6 @@
 #include "core.h"
 #include "mainwindow.h"
 
-#include <KIO/DirectorySizeJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QAction>
@@ -166,7 +165,19 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     addScript(QStringLiteral("checkgpu.py"));
 }
 
-AbstractPythonInterface::~AbstractPythonInterface() {}
+AbstractPythonInterface::~AbstractPythonInterface()
+{
+    qDebug() << ":::: DELETING ABSTRACT PYTHON INTERFACE.....";
+    if (m_watcher.isRunning()) {
+        m_watcher.waitForFinished();
+    }
+    if (m_depsWatcher.isRunning()) {
+        m_depsWatcher.waitForFinished();
+    }
+    if (m_versionWatcher.isRunning()) {
+        m_versionWatcher.waitForFinished();
+    }
+}
 
 const QString AbstractPythonInterface::getVenvPath()
 {
@@ -181,6 +192,36 @@ const QString AbstractPythonInterface::getVenvBinPath()
     const QString pythonPath = QStringLiteral("%1/bin/").arg(getVenvPath());
 #endif
     return pythonPath;
+}
+
+void AbstractPythonInterface::rebuildVenv()
+{
+#ifdef Q_OS_WIN
+    const QString pythonName = QStringLiteral("python");
+#else
+    const QString pythonName = QStringLiteral("python3");
+#endif
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    QFileInfo pyPath(pluginDir.absoluteFilePath(pythonName));
+    if (!pyPath.exists()) { // && pyPath.isSymLink()) {
+        // Recreate venv with updated python path
+        QFile::remove(pyPath.absoluteFilePath());
+        QProcess envProcess;
+        if (pluginDir.cd(getVenvPath())) {
+            QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absolutePath(), QStringLiteral("--upgrade")};
+            const QString pythonExec = systemPythonExec();
+            envProcess.start(pythonExec, args);
+            envProcess.waitForStarted();
+            envProcess.waitForFinished(-1);
+            if (envProcess.exitStatus() != QProcess::NormalExit) {
+                Q_EMIT setupMessage(envProcess.readAllStandardError(), KMessageWidget::Warning);
+            } else {
+                Q_EMIT setupMessage(i18n("Successfully rebuilt environment"), KMessageWidget::Positive);
+            }
+        } else {
+            qDebug() << ":::: CANNOT ENTER PLUGIN DIR: " << pluginDir.absoluteFilePath(getVenvPath());
+        }
+    }
 }
 
 void AbstractPythonInterface::deleteVenv()
@@ -218,6 +259,30 @@ AbstractPythonInterface::PythonExec AbstractPythonInterface::venvPythonExecs(boo
     const QStringList pythonPaths = {pluginDir.absolutePath()};
 
     QString pythonExe = QStandardPaths::findExecutable(pythonName, pythonPaths);
+    if (pythonExe.isEmpty()) {
+        // Try reinstalling the venv
+        QFileInfo pyPath(pluginDir.absoluteFilePath(pythonName));
+        if (pyPath.isSymLink()) {
+            // To recreate the venv, python3 must be removed
+            QFile::remove(pyPath.absoluteFilePath());
+        }
+        pluginDir.cdUp();
+        QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absolutePath(), QStringLiteral("--upgrade")};
+        const QString sPython = systemPythonExec();
+        Q_EMIT setupMessage(i18n("Corrupted plugin, trying to reinstall…"), KMessageWidget::Warning);
+        QProcess envProcess;
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        envProcess.setProcessEnvironment(env);
+        envProcess.start(sPython, args);
+        envProcess.waitForStarted();
+        envProcess.waitForFinished(-1);
+        if (envProcess.exitStatus() != QProcess::NormalExit) {
+            Q_EMIT setupMessage(envProcess.readAllStandardError(), KMessageWidget::Warning);
+        } else {
+            Q_EMIT setupMessage(QString());
+        }
+    }
+    pythonExe = QStandardPaths::findExecutable(pythonName, pythonPaths);
     QString pipExe;
     if (checkPip) {
         pipExe = QStandardPaths::findExecutable(pipName, pythonPaths);
@@ -241,7 +306,7 @@ QString AbstractPythonInterface::systemPythonExec()
                 if (line.startsWith(QStringLiteral("#python"))) {
                     QStringList compatiblePython = line.section(QLatin1Char('#'), 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
                     for (auto &p : compatiblePython) {
-                        QString compatPath = QStandardPaths::findExecutable(p);
+                        const QString compatPath = QStandardPaths::findExecutable(p);
                         if (!compatPath.isEmpty()) {
                             return compatPath;
                         }
@@ -330,7 +395,7 @@ bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
     if (!forceInstall) {
         return false;
     }
-
+    qDebug() << "================\n\nSTARTING INSTALL\n\n=========================";
     // Setup venv
     if (!setupVenv()) {
         // setup failed
@@ -345,21 +410,17 @@ void AbstractPythonInterface::calculateVenvSize()
 {
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     if (pluginDir.cd(getVenvPath())) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(pluginDir.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &AbstractPythonInterface::gotFolderSize);
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), pluginDir.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            Q_EMIT gotPythonSize(KIO::convertSize(size));
+            watcher->deleteLater();
+        });
     } else {
         Q_EMIT gotPythonSize(QString());
     }
-}
-
-void AbstractPythonInterface::gotFolderSize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
-    Q_EMIT gotPythonSize(KIO::convertSize(total));
 }
 
 bool AbstractPythonInterface::checkSetup(bool requestInstall, bool *newInstall)
@@ -367,7 +428,10 @@ bool AbstractPythonInterface::checkSetup(bool requestInstall, bool *newInstall)
     PythonExec exes = venvPythonExecs(true);
     qDebug() << "::::: FOUND PYTHON EXECS: " << exes.python << exes.pip;
     if (!exes.python.isEmpty() && !exes.pip.isEmpty() && std::find(m_scripts.cbegin(), m_scripts.cend(), QString()) == m_scripts.cend()) {
-        qDebug() << "//// SCRIP VALUES: " << m_scripts.values();
+        qDebug() << "//// SCRIPT VALUES: " << m_scripts.values();
+        if (m_installStatus == Unknown) {
+            setStatus(Installed);
+        }
         return true;
     }
     if (!checkVenv(false, requestInstall)) {
@@ -391,15 +455,15 @@ bool AbstractPythonInterface::setupVenv()
 {
     // First check if python and venv are available
     QString pythonExec = systemPythonExec();
-
     // Check that the system python is found
     if (pythonExec.isEmpty() || installInProgress) {
-        Q_EMIT setupError(i18n("Cannot find system python"));
+        if (m_installStatus != Broken) {
+            Q_EMIT setupError(i18n("Cannot find system python"));
+        }
         return false;
     }
     // Use system python to check for venv
     installInProgress = true;
-    setStatus(InProgress);
     // Ensure the message is displayed before starting the busy work
     qApp->processEvents();
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
@@ -470,18 +534,20 @@ const QString AbstractPythonInterface::getScript(const QString &scriptName) cons
 
 void AbstractPythonInterface::checkDependenciesConcurrently()
 {
-    (void)QtConcurrent::run(&AbstractPythonInterface::checkDependencies, this, false, false);
+    m_depsJob = QtConcurrent::run(&AbstractPythonInterface::checkDependencies, this, false, false);
+    m_depsWatcher.setFuture(m_depsJob);
 }
 
 void AbstractPythonInterface::checkVersionsConcurrently()
 {
-    (void)QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
+    m_versionJob = QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
+    m_versionWatcher.setFuture(m_versionJob);
 }
 
 bool AbstractPythonInterface::checkDependencies(bool force, bool async)
 {
     if (m_installStatus == InProgress || (!force && m_dependenciesChecked)) {
-        // Don't check twice if dependecies are satisfied
+        // Don't check twice if dependencies are satisfied
         return true;
     }
     // Force check, reset flag
@@ -579,7 +645,8 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
         qWarning() << "setup error for script: " << script;
         return;
     }
-    (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, feedback);
+    m_scriptJob = QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, feedback);
+    m_watcher.setFuture(m_scriptJob);
 }
 
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
@@ -625,7 +692,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
         }
     }
     if (m_versions.isEmpty()) {
-        Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), int(KMessageWidget::Warning));
+        Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), KMessageWidget::Warning);
         qDebug() << "::: CHECKING DEPENDENCIES... NO VERSION INFO AVAILABLE";
         return;
     }
@@ -657,6 +724,8 @@ QStringList AbstractPythonInterface::parseDependencies(const QStringList deps, b
             while (!textStream.atEnd()) {
                 QString line = textStream.readLine();
                 if (line.simplified().isEmpty())
+                    continue;
+                else if (line.contains(QLatin1Char(';')))
                     continue;
                 else if (!line.startsWith(QLatin1Char('#'))) {
                     if (line.contains(QLatin1Char('>'))) {
@@ -737,7 +806,7 @@ const QStringList AbstractPythonInterface::listDependencies()
 QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent, bool packageFeedback)
 {
     const QString scriptpath = m_scripts.value(script);
-    qDebug() << "=== CHECKING RUNNING SCTIPR: " << scriptpath;
+    qDebug() << "=== CHECKING RUNNING SCRIPT: " << scriptpath;
     const QString pythonExe = venvPythonExecs().python;
     if (pythonExe.isEmpty()) {
         Q_EMIT setupError(i18n("Python exec not found"));
@@ -778,7 +847,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
 
     scriptJob.start(pythonExe, args);
     // Don't timeout
-    qDebug() << "::: RUNNONG SCRIPT: " << pythonExe << " = " << args;
+    qDebug() << "::: RUNNING SCRIPT: " << pythonExe << " = " << args;
     scriptJob.waitForFinished(-1);
 
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {

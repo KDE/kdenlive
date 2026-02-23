@@ -7,8 +7,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include <QObject>
 #include "colorconstants.h"
+#include <QObject>
+#include <QPalette>
 
 class QColor;
 class QImage;
@@ -31,10 +32,11 @@ public:
      * @param unscaled unscaled = true leaves the width at 256 if the widget is wider (to avoid scaling).
      * @param logScale Use a logarithmic instead of linear scale.
      * @param accelFactor
+     * @param palette
      * @return
      */
     QImage calculateHistogram(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const int &components, const ITURec rec, bool unscaled,
-                              bool logScale, uint accelFactor = 1) const;
+                              bool logScale, uint accelFactor = 1, const QPalette &palette = QPalette()) const;
 
     /**
      * Draws the histogram of a single component.
@@ -47,10 +49,11 @@ public:
      * @param logScale Use logarithmic scale instead of linear
      * @param max Number of bins, usually 256
      */
-    static QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, bool logScale, int max) ;
+    static QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const QColor &backgroundColor, bool unscaled,
+                                bool logScale, int max);
 
-    static void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color, int textSpace,
-            bool unscaled, bool logScale, int max) ;
+    static void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color, const QColor &backgroundColor,
+                                  int textSpace, bool unscaled, bool logScale, int max);
 
     enum Components { ComponentY = 1 << 0, ComponentR = 1 << 1, ComponentG = 1 << 2, ComponentB = 1 << 3, ComponentSum = 1 << 4 };
 };

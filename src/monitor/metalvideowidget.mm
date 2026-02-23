@@ -98,7 +98,7 @@ public:
     }
 
     void render(const QSize& viewportSize, const QRectF& videoRect, const double devicePixelRatio,
-                const double zoom, const QPoint& offset, const SharedFrame& sharedFrame)
+                const double zoom, const QPoint& offset, const QPointF& monitorOffset, const SharedFrame& sharedFrame)
     {
         const QQuickWindow::GraphicsStateInfo &stateInfo(m_window->graphicsStateInfo());
 
@@ -119,6 +119,7 @@ public:
 
         // Setup an orthographic projection
         QMatrix4x4 modelView;
+
         width = viewportSize.width() * devicePixelRatio;
         height = viewportSize.height() * devicePixelRatio;
         modelView.scale(2.0f / width, 2.0f / height);
@@ -129,6 +130,9 @@ public:
                 modelView.translate(-offset.x() * devicePixelRatio,
                                     offset.y() * devicePixelRatio);
             modelView.scale(zoom, zoom);
+        }
+        if (!monitorOffset.isNull()) {
+            modelView.translate(monitorOffset.x() * devicePixelRatio, -monitorOffset.y() * devicePixelRatio);
         }
         for (int i = 0; i < 4; i++) {
             vertexData[4 * i] *= modelView(0, 0);
@@ -333,7 +337,7 @@ void MetalVideoWidget::renderVideo()
 {
     m_mutex.lock();
     if (m_sharedFrame.is_valid()) {
-        m_renderer->render(size(), rect(), devicePixelRatio(), zoom(), offset(), m_sharedFrame);
+        m_renderer->render(size(), rect(), devicePixelRatio(), zoom(), offset(), m_monitorOffset, m_sharedFrame);
     }
     m_mutex.unlock();
     VideoWidget::renderVideo();

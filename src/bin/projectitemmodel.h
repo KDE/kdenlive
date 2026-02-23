@@ -97,6 +97,8 @@ public:
 
     /** @brief Returns the id of all the clips (excluding folders) */
     std::vector<QString> getAllClipIds() const;
+    /** @brief Returns the list of all bin clips used in a sequence */
+    QStringList getAllSequenceBinIds(const QUuid uuid, QList<QUuid> *processedUuids);
 
     /** @brief Updates the list of all created bin thumbnails */
     void updateCacheThumbnail(std::unordered_map<QString, std::vector<int>> &thumbData);
@@ -116,8 +118,8 @@ public:
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree
      *  @return A list of invalid sequence clips found in Project Bin (can be caused by 23.04.0 bug)
      */
-    QList<QUuid> loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                 QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel);
+    QMap<QUuid, QString> loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
+                                         QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel);
     void loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Save document properties in MLT's bin playlist */
@@ -228,7 +230,7 @@ public:
     /** @brief Returns true if current project has a clip with id \@clipId and a hash of \@clipHash */
     bool validateClip(const QString &binId, const QString &clipHash);
     /** @brief Returns clip id if folder "folderId" has a clip with hash of "clipHash" or empty if not found */
-    QString validateClipInFolder(const QString &folderId, const QString &clipHash);
+    QString validateClipInFolder(const QString &folderId, const QString &clipHash, const QString &clipUuid);
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
@@ -352,4 +354,7 @@ Q_SIGNALS:
     void addTag(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
     void resetPlayOrLoopZone(const QString &id);
+    void clipRenamed(const QString &controlUuid, const QString &clipName);
+    /** @brief emitted when a project clip is added / removed */
+    void projectClipsModified();
 };

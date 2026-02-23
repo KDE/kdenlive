@@ -21,6 +21,9 @@ public:
     ThemeManager(QObject *parent);
     KActionMenu *menu() { return m_menu; };
 
+public Q_SLOTS:
+    void switchDarkPalette(bool dark);
+
 private Q_SLOTS:
     void schemeActionTriggered(QAction *action);
 
@@ -31,6 +34,7 @@ private:
     QString loadCurrentPath() const;
     void saveCurrentScheme(const QString & path);
     QString currentSchemeName() const;
+    QString loadScheme(const QString &schemeName);
 
 Q_SIGNALS:
     void themeChanged(const QString &name);

@@ -97,6 +97,17 @@ bool TimelineTabs::raiseTimeline(const QUuid &uuid)
     return false;
 }
 
+int TimelineTabs::getTimelineIndex(const QUuid &uuid)
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        if (timeline->getUuid() == uuid) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 void TimelineTabs::setModified(const QUuid &uuid, bool modified)
 {
     for (int i = 0; i < count(); i++) {
@@ -118,7 +129,7 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QStrin
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
-                                 m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu);
+                                 m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu, m_timelineAddClipMenu);
     newTimeline->setModel(timelineModel, proxy);
     int newIndex = 0;
     if (ix == -1 || ix >= count()) {
@@ -154,7 +165,22 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
             }
             int pos = pCore->getMonitorPosition();
             m_activeTimeline->model()->updateDuration();
-            pCore->bin()->updateSequenceClip(previousTab, m_activeTimeline->model()->durations(), pos);
+            std::pair<int, int> durations = m_activeTimeline->model()->durations();
+            qDebug() << "::::: GOT SEQUENCES DURATIONS: " << durations;
+            if (durations.second > 0) {
+                int previousIndex = getTimelineIndex(previousTab);
+                const QString seqName = KLocalizedString::removeAcceleratorMarker(tabText(previousIndex));
+                // A sequence was made shorter, this will resize its instance in other sequences. Warn user
+                if (KMessageBox::questionTwoActions(this,
+                                                    i18n("The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in other timelines ?<br>Not "
+                                                         "resizing will temporarily keep the current duration in all other sequences.",
+                                                         seqName),
+                                                    {}, KGuiItem(i18nc("@action:button", "Resize")),
+                                                    KGuiItem(i18nc("@action:button", "Don't Resize"))) == KMessageBox::PrimaryAction) {
+                    durations.second = 0;
+                }
+            }
+            pCore->bin()->updateSequenceClip(previousTab, durations, pos);
         }
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
@@ -210,7 +236,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         m_activeTimeline->model()->updateDuration();
         // timeline->controller()->saveSequenceProperties();
     }
-    const QString seqName = tabText(ix);
+    const QString seqName = KLocalizedString::removeAcceleratorMarker(tabText(ix));
     std::shared_ptr<TimelineItemModel> model = timeline->model();
     const QUuid uuid = timeline->getUuid();
     const QString id = pCore->projectItemModel()->getSequenceId(uuid);
@@ -324,7 +350,10 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 void TimelineTabs::buildClipMenu()
 {
     // Timeline clip menu
-    delete m_timelineClipMenu;
+    if (m_timelineClipMenu) {
+        // Timeline clip menu already built
+        return;
+    }
     m_timelineClipMenu = new QMenu(this);
     KActionCollection *coll = pCore->window()->actionCollection();
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_copy")));
@@ -340,11 +369,18 @@ void TimelineTabs::buildClipMenu()
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("save_to_bin")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("send_sequence")));
 
-    QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("marker_menu"), pCore->window()));
-    m_timelineClipMenu->addMenu(markerMenu);
-
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("align_audio")));
+    QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("markers"), pCore->window()));
+    if (markerMenu) {
+        m_timelineClipMenu->addMenu(markerMenu);
+    }
+    QMenu *alignMenu = new QMenu(i18n("Align to Reference"), this);
+    if (alignMenu) {
+        m_timelineClipMenu->addMenu(alignMenu);
+    }
+    alignMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
+    alignMenu->addAction(coll->action(QStringLiteral("align_audio")));
+    alignMenu->addAction(coll->action(QStringLiteral("set_timecode_ref")));
+    alignMenu->addAction(coll->action(QStringLiteral("align_timecode")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_speed")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_remap")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_in_project_tree")));
@@ -352,7 +388,7 @@ void TimelineTabs::buildClipMenu()
 }
 
 void TimelineTabs::setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
-                                   QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
+                                   QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu)
 {
     buildClipMenu();
     m_timelineCompositionMenu = compositionMenu;
@@ -364,6 +400,7 @@ void TimelineTabs::setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, 
     m_headerMenu->addMenu(m_thumbsMenu);
     m_timelineSubtitleClipMenu = subtitleClipMenu;
     m_editGuideAction = editGuideAction;
+    m_timelineAddClipMenu = addClipMenu;
 }
 
 const QStringList TimelineTabs::openedSequences()
@@ -411,7 +448,7 @@ void TimelineTabs::onTabBarDoubleClicked(int index)
         // No action when double clicking in empty space
         return;
     }
-    const QString currentTabName = KLocalizedString::removeAcceleratorMarker(tabBar()->tabText(index));
+    const QString currentTabName = KLocalizedString::removeAcceleratorMarker(tabText(index));
     bool ok = false;
     const QString newName = QInputDialog::getText(this, i18n("Rename Sequence"), i18n("Rename Sequence"), QLineEdit::Normal, currentTabName, &ok);
     if (ok && !newName.isEmpty()) {

@@ -113,6 +113,7 @@ public:
     void removeTrackCompositing() override;
     /** @brief Register all tracks in the mixer */
     void rebuildMixer();
+    int getEndMixDuration(int cid) const;
     void _beginRemoveRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _beginInsertRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _endRemoveRows() override;

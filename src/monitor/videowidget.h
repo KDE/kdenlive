@@ -53,7 +53,6 @@ typedef void *(*thread_function_t)(void *);
 class VideoWidget : public QQuickWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QRect rect READ rect NOTIFY rectChanged)
     Q_PROPERTY(float zoom READ zoom NOTIFY zoomChanged)
 
 public:
@@ -76,7 +75,7 @@ public:
     int displayHeight() const { return m_rect.height(); }
 
     QObject *videoWidget() { return this; }
-    QRect rect() const { return m_rect; }
+    QRectF rect() const { return m_rect; }
     QRect effectRect() const { return m_effectRect; }
     float zoom() const;
     QPoint offset() const;
@@ -123,6 +122,12 @@ public:
     virtual const QStringList getGPUInfo();
     /** @brief Returns the current frame as image */
     QImage image() const;
+    /** @brief Enforce fixed image size */
+    void setFixedImageSize(const QSize fixedSize);
+    /** @brief Ensure image position on fixed size */
+    void updateImagePosition();
+    /** @brief Enable/disable timer to hide mouse cursor in fullscreen */
+    void enableMouseTimer(bool enable);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -147,9 +152,10 @@ public Q_SLOTS:
     virtual void onFrameDisplayed(const SharedFrame &frame);
     void requestSeek(int position, bool noAudioScrub = false);
     void setZoom(float zoom, bool force = false);
-    void setOffsetX(int x, int max);
-    void setOffsetY(int y, int max);
+    void setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth);
+    void setOffsetY(int verticalScrollValue, int verticalScrollMaximum, int horizontalScrollBarHeight);
     void slotZoom(bool zoomIn);
+    void slotZoomReset();
     void releaseAnalyse();
     bool switchPlay(bool play, double speed = 1.0);
     void reloadProfile();
@@ -168,7 +174,6 @@ Q_SIGNALS:
     void started();
     void paused();
     void playing();
-    void rectChanged();
     void zoomChanged(float zoomRatio);
     void monitorPlay();
     void switchFullScreen(bool minimizeOnly = false);
@@ -195,10 +200,13 @@ protected:
     int m_maxTextureSize;
     /** @brief For some reason on Qt6 fullscreen switch, image position is not correctly updated, so use this to track state */
     bool refreshZoom{false};
+    bool m_fullScreen{false};
     SharedFrame m_sharedFrame;
     bool m_sendFrame;
     QSemaphore m_analyseSem;
     float m_zoom;
+    QRectF m_rect;
+    QPointF m_monitorOffset;
     QSize m_profileSize;
     QMutex m_mutex;
     bool m_isInitialized{false};
@@ -209,14 +217,15 @@ protected:
     virtual void updateRulerHeight(int addedHeight);
 
 private:
-    QRect m_rect;
     QRect m_effectRect;
     QPoint m_panStart;
     QPoint m_dragStart;
     QSemaphore m_initSem;
+    QTimer m_mouseTimer;
     bool m_qmlEvent;
     bool m_swallowDrop{false};
     int m_bckpMax;
+    QSize m_fixedSize;
     std::unique_ptr<Mlt::Filter> m_glslManager;
     std::unique_ptr<Mlt::Event> m_threadStartEvent;
     std::unique_ptr<Mlt::Event> m_threadStopEvent;
@@ -255,7 +264,7 @@ private:
      */
     bool playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode);
     bool isPaused() const;
-    void pause(int position = -1);
+    void pause();
 
 private Q_SLOTS:
     void resizeVideo(int width, int height);
@@ -264,12 +273,16 @@ private Q_SLOTS:
     void switchRecordState(bool on);
     /** @brief Enforce a zoom refresh, can be useful when switching to/from fullscreen to adjust image size/position */
     void forceRefreshZoom();
+    /** @brief Hide cursor on inactivity over monitor */
+    void blankCursor();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
 };
 
 class RenderThread : public QThread

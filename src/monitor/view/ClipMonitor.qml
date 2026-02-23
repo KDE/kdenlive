@@ -3,12 +3,13 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Window 2.15
-import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
+import QtQuick
 
 import org.kde.kdenlive as K
+import 'Utils.js' as Utils
 
 Item {
     id: root
@@ -28,6 +29,7 @@ Item {
     property double scalex: 1.
     property double scaley: 1.
     property bool captureRightClick: false
+    property bool seeking: false
     // Zoombar properties
     // The start position of the zoomed area, between 0 and 1
     property double zoomStart: 0
@@ -43,7 +45,6 @@ Item {
     property bool showMarkers: false
     property bool showTimecode: false
     property bool showFps: false
-    property bool showSafezone: false
     // Display hover audio thumbnails overlay
     property bool showAudiothumb: false
     property bool showClipJobs: false
@@ -59,14 +60,20 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
+    property bool alwaysShowAudio: K.KdenliveSettings.alwaysShowMonitorAudio
+    property bool inLowerThird: (audioView.containsMyMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
+    property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
-        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
-            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        if (alwaysShowAudio && audioView.visible) {
+            controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
+    }
+
+    onAlwaysShowAudioChanged: {
+        audioView.refreshView()
     }
 
     function updateClickCapture() {
@@ -85,16 +92,6 @@ Item {
 
     signal editCurrentMarker()
 
-
-    function updateScrolling() {
-        if (thumbMouseArea.pressed) {
-            var pos = Math.max(thumbMouseArea.mouseX, 0)
-            pos += audioThumb.width / root.zoomFactor * root.zoomStart
-            controller.setPosition(Math.min(pos / root.timeScale, root.duration));
-
-        }
-    }
-
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
     }
@@ -110,24 +107,24 @@ Item {
         }
 
         // adjust monitor image size if audio thumb is displayed
-        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
-            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        if (alwaysShowAudio && audioView.visible) {
+            controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
     }
 
     onZoomOffsetChanged: {
-        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
-            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        if (alwaysShowAudio && audioView.visible) {
+            controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
     }
 
     onHeightChanged: {
-        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
-            controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
+        if (alwaysShowAudio && audioView.visible) {
+            controller.rulerHeight = (audioView.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
@@ -152,6 +149,15 @@ Item {
         // Enable to block hide menu event
         acceptedButtons: contextMenu.visible ? Qt.LeftButton : Qt.NoButton
         anchors.fill: parent
+        onContainsMouseChanged: {
+            if (containsMouse) {
+                if (!cursorArea.pressed) {
+                    controller.dragType = ''
+                }
+            } else {
+                controller.dragType = '-'
+            }
+        }
         onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
                 var pos = Math.max(mouseX, 0)
@@ -161,20 +167,6 @@ Item {
         }
         onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
-        }
-        onEntered: {
-            // Show clip name
-            if (labelContainer.opacity == 0) {
-                labelContainer.opacity = 1
-                contextMenu.opacity = 1
-                if (!clipNameLabel.hovered) {
-                    showAnimate.restart()
-                }
-            }
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
-        }
-        onExited: {
-            controller.setWidgetKeyBinding();
         }
     }
 
@@ -197,13 +189,18 @@ Item {
             objectName: "referenceframe"
             width: root.profile.x * root.scalex
             height: root.profile.y * root.scaley
-            x: root.center.x - width / 2 - root.offsetx;
-            y: root.center.y - height / 2 - root.offsety;
+            x: root.center.x - width / 2 - root.offsetx
+            y: root.center.y - height / 2 - root.offsety
 
             K.MonitorOverlay {
                 anchors.fill: frame
                 color: K.KdenliveSettings.overlayColor
                 overlayType: root.overlayType
+            }
+            K.MonitorSafeZone {
+                id: safeZone
+                anchors.fill: frame
+                showSafeZone: controller.showSafezone
             }
         }
         DropArea { //Drop area for effects
@@ -226,207 +223,18 @@ Item {
         Item {
             id: monitorOverlay
             anchors.fill: parent
-
-            Item {
-                id: audioThumb
-                property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
-                property bool isAudioClip: controller.clipType == K.ClipType.Audio
+            AudioView {
+                id: audioView
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
                     bottomMargin: root.zoomOffset
                 }
-                height: isAudioClip ? parent.height : parent.height / 6
-                //font.pixelSize * 3
+                height: isAudioClip ? parent.height : parent.height / 5
                 width: parent.width
-                visible: (K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (isAudioClip || controller.clipType == K.ClipType.AV || controller.clipHasAV)
-
-                Label {
-                    id: clipStreamLabel
-                    font: fixedFont
-                    anchors {
-                        bottom: audioThumb.isAudioClip ? parent.bottom : parent.top
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                    color: "white"
-                    text: controller.clipStream
-                    background: Rectangle {
-                        color: "#222277"
-                    }
-                    visible: text != ""
-                    padding: 4
-                }
-                onStateVisibleChanged: {
-                    // adjust monitor image size
-                    if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
-                        controller.rulerHeight = audioThumb.height + root.zoomOffset
-                    } else {
-                        controller.rulerHeight = root.zoomOffset
-                    }
-                }
-
-                states: [
-                    State {
-                        when: audioThumb.stateVisible || audioThumb.isAudioClip;
-                        PropertyChanges {
-                            audioThumb.opacity: 1.0
-                        }
-                    },
-                    State {
-                        when: !audioThumb.stateVisible && !audioThumb.isAudioClip;
-                        PropertyChanges {
-                            audioThumb.opacity: 0.0
-                        }
-                    }
-                ]
-                transitions: [Transition {
-                    NumberAnimation {
-                        property: "opacity";
-                        duration: audioThumb.isAudioClip ? 0 : 500
-                    }
-                }]
-                Rectangle {
-                    color: "black"
-                    opacity: audioThumb.isAudioClip || K.KdenliveSettings.alwaysShowMonitorAudio ? 1 : 0.6
-                    anchors.fill: parent
-                }
-                Rectangle {
-                    color: "yellow"
-                    opacity: 0.3
-                    height: parent.height
-                    x: controller.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
-                    width: (controller.zoneOut - controller.zoneIn) * timeScale
-                    visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
-                }
-                Repeater {
-                    id: streamThumb
-                    model: controller.audioStreams.length
-                    onCountChanged: {
-                        thumbTimer.start()
-                    }
-                    property double streamHeight: audioThumb.height / streamThumb.count
-                    Item {
-                        anchors.fill: parent
-                        K.TimelineWaveform {
-                            id: waveform
-                            anchors.right: parent.right
-                            anchors.left: parent.left
-                            height: streamThumb.streamHeight
-                            property int aChannels: controller.audioChannels[model.index]
-                            y: model.index * waveform.height
-                            channels: aChannels
-                            binId: controller.clipId
-                            audioStream: controller.audioStreams[model.index]
-                            format: K.KdenliveSettings.displayallchannels
-                            normalize: K.KdenliveSettings.normalizechannels
-                            property int aClipDuration: root.duration + 1
-                            scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
-                            waveInPoint: waveform.aClipDuration * root.zoomStart
-                            waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
-                            fgColorEven: K.KdenliveSettings.thumbColor1
-                            fgColorOdd: K.KdenliveSettings.thumbColor2
-                            bgColorEven: "#00000000"
-                            bgColorOdd: "#00000000"
-                        }
-                        Rectangle {
-                            width: parent.width
-                            y: (model.index + 1) * streamThumb.streamHeight
-                            height: 1
-                            visible: streamThumb.count > 1 && model.index < streamThumb.count - 1
-                            color: 'yellow'
-                        }
-                    }
-                }
-                Rectangle {
-                    color: "red"
-                    width: 1
-                    height: parent.height
-                    x: controller.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
-                }
-                MouseArea {
-                    id: thumbMouseArea
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton
-                    hoverEnabled: true
-                    propagateComposedEvents: true
-                    onEntered: {
-                        // Show clip name
-                        if (labelContainer.opacity == 0) {
-                            labelContainer.opacity = 1
-                            contextMenu.opacity = 1
-                            if (!clipNameLabel.hovered) {
-                                showAnimate.restart()
-                            }
-                        }
-                    }
-                    onPressed: {
-                        if (audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
-                            mouse.accepted = false
-                            return
-                        }
-                        var pos = Math.max(mouseX, 0)
-                        pos += audioThumb.width / root.zoomFactor * root.zoomStart
-                        controller.setPosition(Math.min(pos / root.timeScale, root.duration));
-                    }
-                    onPositionChanged: mouse => {
-                        if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
-                            mouse.accepted = false
-                            return
-                        }
-                        if (mouse.modifiers & Qt.ShiftModifier || pressed) {
-                            var pos = Math.max(mouseX, 0)
-                            pos += audioThumb.width / root.zoomFactor * root.zoomStart
-                            controller.setPosition(Math.min(pos / root.timeScale, root.duration));
-                        }
-                    }
-                    onWheel: wheel => {
-                        if (wheel.modifiers & Qt.ControlModifier) {
-                            if (wheel.angleDelta.y == 0) {
-                                // Don't trigger zoom if delta is null
-                                return
-                            }
-                            if (wheel.angleDelta.y < 0) {
-                                // zoom out
-                                clipMonitorRuler.zoomOutRuler(wheel.x)
-                            } else {
-                                // zoom in
-                                clipMonitorRuler.zoomInRuler(wheel.x)
-                            }
-                        } else {
-                            wheel.accepted = false
-                        }
-
-                    }
-                    Rectangle {
-                        id: audioSeekZone
-                        width: parent.width
-                        height: parent.height / 6
-                        anchors.centerIn: parent
-                        anchors.verticalCenterOffset: audioThumb.isAudioClip ? parent.height * 5 / 12 : 0
-                        visible: audioThumb.isAudioClip && thumbMouseArea.containsMouse && thumbMouseArea.mouseY > y
-                        color: 'yellow'
-                        opacity: 0.5
-                        Rectangle {
-                            width: parent.width
-                            height: 1
-                            color: '#000'
-                            anchors.top: parent.top
-                        }
-                        // frame ticks
-                        Repeater {
-                            id: rulerAudioTicks
-                            model: parent.width / root.frameSize + 2
-                            Rectangle {
-                                x: index * root.frameSize - (clipMonitorRuler.rulerZoomOffset % root.frameSize)
-                                anchors.top: audioSeekZone.top
-                                height: (index % 5) ? audioSeekZone.height / 6 : audioSeekZone.height / 3
-                                width: 1
-                                color: '#000'
-                                opacity: 0.8
-                            }
-                        }
-                    }
-                }
+                dragButtonsVisible: root.inLowerThird
+                dirty: !controller.audioSynced
+                visible: isAudioClip || ((alwaysShowAudio || root.showAudiothumb) && (controller.clipType === K.ClipType.AV || controller.clipHasAV))
             }
             Menu {
                 id: contextMenu
@@ -537,6 +345,12 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: overlayMargin
                 }
+                MouseArea {
+                    id: overlayTC
+                    anchors.fill: parent
+                    //acceptedButtons: Qt.NoButton
+                    hoverEnabled: true
+                }
             }
             Label {
                 id: fpsdropped
@@ -554,6 +368,12 @@ Item {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
                     bottomMargin: overlayMargin
+                }
+                MouseArea {
+                    id: overlayFPS
+                    anchors.fill: parent
+                    //acceptedButtons: Qt.NoButton
+                    hoverEnabled: true
                 }
             }
             Label {
@@ -591,6 +411,7 @@ Item {
                 MouseArea {
                     id: inPointArea
                     anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
                     hoverEnabled: true
                 }
             }
@@ -613,6 +434,7 @@ Item {
                 MouseArea {
                     id: outPointArea
                     anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
                     hoverEnabled: true
                 }
             }
@@ -651,107 +473,114 @@ Item {
             property string uuid
             x: 2
             y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
-            width: videoDragButton.width * 2
-            height: videoDragButton.height
-            color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.5)
+            property bool showVideoDrag: controller.clipHasAV || !audioView.isAudioClip
+            height: root.baseUnit * 3
+            width: showVideoDrag ? height * 2 : height
+            color: Qt.rgba(activePalette.base.r, activePalette.base.g, activePalette.base.b, 0.5)
             radius: 4
-            opacity: (audioDragButton.hovered || videoDragButton.hovered || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse || dragAudioArea.active || dragVideoArea.active
-                || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
-            visible: controller.clipHasAV
-            MouseArea {
-                id: buttonArea
-                anchors.fill: parent
-                acceptedButtons: Qt.NoButton
-                hoverEnabled: true
-            }
+            opacity: root.inLowerThird ? 1 : 0
+            visible: controller.clipHasAV || audioView.isAudioClip
             Rectangle {
-                width: dragZone.width / 2
+                id: videoDragArea
                 height: dragZone.height
+                width: height
                 radius: 4
                 color: activePalette.highlight
-                visible: videoDragButton.hovered || videoDragButton.isDragging
+                border.width: 1
+                border.color: activePalette.base
+                visible: dragZone.showVideoDrag && (cursorArea.containsMouse && cursorArea.leftSide)
             }
             Rectangle {
+                id: audioDragArea
                 anchors.right: dragZone.right
-                width: dragZone.width / 2
                 height: dragZone.height
+                width: height
                 radius: 4
                 color: activePalette.highlight
-                visible: audioDragButton.hovered || audioDragButton.isDragging
+                border.width: 1
+                border.color: activePalette.base
+                visible: (cursorArea.containsMouse && !cursorArea.leftSide)
             }
             Row {
-                id: dragRow
-                ToolButton {
-                    id: videoDragButton
-                    property bool isDragging
-                    hoverEnabled: true
-                    icon.name: "kdenlive-show-video"
-                    focusPolicy: Qt.NoFocus
-                    Drag.active: dragVideoArea.active
-                    Drag.dragType: Drag.Automatic
-                    Drag.mimeData: {
-                        "text/producerslist": "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
-                        "text/dragid": dragZone.uuid
-                    }
-                    Drag.onDragStarted: {
-                        videoDragButton.isDragging = true
-                        dragZone.uuid = controller.getUuid()
-                    }
-                    Drag.onDragFinished: dropAction => {
-                        videoDragButton.isDragging = false
-                        dragVideoArea.enabled = false
-                        root.captureRightClick = false
-                    }
-                    onPressed: {
-                        dragVideoArea.enabled = true
-                        videoDragButton.grabToImage(function(result) {
-                            videoDragButton.Drag.imageSource = result.url
-                        })
-                    }
-                    DragHandler {
-                        id: dragVideoArea
-                        acceptedButtons: Qt.LeftButton
-                        target: null
-                        enabled: false
+                Item {
+                    width: dragZone.height
+                    height: width
+                    visible: dragZone.showVideoDrag
+                    Image {
+                        anchors.fill: parent
+                        anchors.margins: height / 6
+                        source: "image://icon/kdenlive-show-video"
                     }
                 }
-                ToolButton {
-                    id: audioDragButton
-                    property bool isDragging
-                    hoverEnabled: true
-                    icon.name: "audio-volume-medium"
-                    focusPolicy: Qt.NoFocus
-                    Drag.active: dragAudioArea.active
-                    Drag.dragType: Drag.Automatic
-                    Drag.mimeData: {
-                        "text/producerslist": "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
-                        "text/dragid": dragZone.uuid
-                    }
-                    Drag.onDragStarted: {
-                        audioDragButton.isDragging = true
-                        dragZone.uuid = controller.getUuid()
-                    }
-                    Drag.onDragFinished: {
-                        audioDragButton.isDragging = false
-                        root.captureRightClick = false
-                        dragAudioArea.enabled = false
-                    }
-                    onPressed: {
-                        dragAudioArea.enabled = true
-                        audioDragButton.grabToImage(function(result) {
-                            audioDragButton.Drag.imageSource = result.url
-                        })
-                    }
-                    DragHandler {
-                        id: dragAudioArea
-                        acceptedButtons: Qt.LeftButton
-                        target: null
-                        enabled: false
+                Item {
+                    width: dragZone.height
+                    height: width
+                    Image {
+                        anchors.fill: parent
+                        anchors.margins: height / 6
+                        source: "image://icon/audio-volume-medium"
                     }
                 }
+            }
+
+            MouseArea {
+                id: cursorArea
+                // ToolButtons don't allow setting a cursor shape, so workaround
+                anchors.fill: dragZone
+                acceptedButtons: Qt.LeftButton
+                hoverEnabled: true
+                property bool leftSide: dragZone.showVideoDrag ? mouseX < width / 2 : false
+                cursorShape: Qt.OpenHandCursor
+                propagateComposedEvents: true
+                onPositionChanged: {
+                    if (pressed) {
+                        root.captureRightClick = false
+                    }
+                }
+                onPressed: mouse => {
+                    root.captureRightClick = true
+                    controller.dragType = leftSide ? 'V' : 'A'
+                    mouse.accepted = false
+                }
+                onReleased: mouse => {
+                    controller.dragType = ''
+                    root.captureRightClick = false
+                    mouse.accepted = false
+                }
+            }
+            ToolTip {
+                visible: cursorArea.containsMouse && !cursorArea.drag.active
+                delay: 1000
+                text: cursorArea.leftSide ? i18n("Drag to add only video to timeline") : i18n("Drag to add only audio to timeline")
             }
         }
     }
+    /*MouseArea {
+        id: barPosArea
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        propagateComposedEvents: true
+        hoverEnabled: true
+        property bool inLowerThird: (containsMouse && mouseY > height / 2) || audioView.containsMouse
+        onInLowerThirdChanged: {
+            console.log('LOWER AREA CONTAINS MOUSE: ', inLowerThird)
+        }
+        //cursorShape: cursorArea.containsMouse ? Qt.OpenHandCursor : Qt.ArrowCursor
+        onEntered: {
+            // Show clip name
+            if (labelContainer.opacity == 0) {
+                labelContainer.opacity = 1
+                contextMenu.opacity = 1
+                if (!clipNameLabel.hovered) {
+                    showAnimate.restart()
+                }
+            }
+            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding();
+        }
+    }*/
     Item {
         id: clipJobInfo
         x: sceneToolBar.visible && sceneToolBar.rightSide == false ? sceneToolBar.width + 10 : 10
@@ -834,11 +663,12 @@ Item {
         Repeater {
             model: controller.clipBounds
             anchors.fill: parent
+            // Usage bar
             Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: 1
                 property point bd: controller.clipBoundary(model.index)
-                x: bd.x * root.timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+                x: bd.x * root.timeScale - (clipMonitorRuler.width / root.zoomFactor * root.zoomStart)
                 width: bd.y * root.timeScale
                 height: 2
                 color: 'goldenrod'

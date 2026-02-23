@@ -56,6 +56,7 @@ private Q_SLOTS:
     void slotUpdateShuttleDevice(int ix = 0);
     void slotEditImageApplication();
     void slotEditAudioApplication();
+    void slotEditVideoApplication();
     void slotEditGlaxnimateApplication();
     void slotReadAudioDevices();
     void slotUpdateGrabRegionStatus();
@@ -74,9 +75,6 @@ private Q_SLOTS:
     void slotRevealCaptureFolder(int ix);
     void slotEnableLibraryFolder();
     void slotEnableVideoFolder(int ix);
-    void slotUpdatev4lDevice();
-    void slotUpdatev4lCaptureProfile();
-    void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
     /** @brief fill list of connected monitors */
@@ -86,6 +84,10 @@ private Q_SLOTS:
     /** @brief Open an external browser window */
     void openBrowserUrl(const QString &url);
     void loadExternalProxyProfiles();
+    /** @brief Enable/disable Breeze drag window from empty areas behavior */
+    void slotUpdateBreezeDrag(bool dragOnTitleBar);
+    /** @brief Use current device's default recording profile */
+    void useRecordDefault();
 
 private:
     KPageWidgetItem *m_pageMisc;
@@ -118,6 +120,7 @@ private:
     bool m_modified;
     bool m_shuttleModified;
     bool m_voskUpdated;
+    bool m_breezeDragFromTitlebarOnly{false};
 
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
@@ -125,13 +128,10 @@ private:
     EncodingProfilesChooser *m_proxyProfiles;
     EncodingProfilesChooser *m_alphaProxyProfiles;
     EncodingProfilesChooser *m_decklinkProfiles;
-    EncodingProfilesChooser *m_v4lProfiles;
     EncodingProfilesChooser *m_grabProfiles;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();
-    void loadCurrentV4lProfileInfo();
-    void saveCurrentV4lProfile();
     void setupJogshuttleBtns(const QString &device);
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(QComboBox *devicelist, bool force = false);
@@ -150,6 +150,7 @@ private:
     void initJogShuttlePage();
     void initSdlPage(bool gpuAllowed);
     void initTranscodePage();
+    void updateRecordProperties();
 
 Q_SIGNALS:
     void customChanged();

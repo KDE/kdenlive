@@ -23,9 +23,11 @@
 #include <QIcon>
 #include <QInputDialog>
 #include <QMenu>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QTimer>
 #include <QToolBar>
-#include <QtConcurrent/QtConcurrentRun>
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
@@ -33,7 +35,6 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    m_tmpThumbFile = new QTemporaryFile(this);
 
     int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
     m_iconSize = QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight);
@@ -44,6 +45,9 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     connect(button_zoomout, &QToolButton::clicked, this, [&]() { slider_zoom->setValue(qMax(slider_zoom->value() - 1, slider_zoom->minimum())); });
 
     message_line->hide();
+
+    m_stopAction = new QAction(i18n("Abort"), this);
+    connect(m_stopAction, &QAction::triggered, this, &ResourceWidget::abortDownload);
 
     for (const QPair<QString, QString> &provider : ProvidersRepository::get()->getAllProviers()) {
         QIcon icon;
@@ -106,7 +110,6 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 ResourceWidget::~ResourceWidget()
 {
     saveConfig();
-    delete m_tmpThumbFile;
 }
 
 /**
@@ -162,6 +165,10 @@ void ResourceWidget::slotChangeProvider()
         m_currentProvider->get()->disconnect(this);
     }
 
+    // Reset backoff when provider changes assuming the new has not put us under rate limit (yet)
+    m_backoff = 0;
+    m_backoffCooldownTimer.invalidate();
+
     details_box->setEnabled(false);
     button_import->setEnabled(false);
     button_preview->setEnabled(false);
@@ -213,8 +220,22 @@ void ResourceWidget::slotOpenUrl(const QString &url)
  */
 void ResourceWidget::slotStartSearch()
 {
+    // Abort and clear all active image downloads from previous searches
+    for (QNetworkReply *reply : std::as_const(m_activeImageReplies)) {
+        reply->abort();
+        reply->deleteLater();
+    }
+    m_activeImageReplies.clear();
+    // Stop and delete all active delay timers from previous searches
+    for (QTimer *timer : std::as_const(m_imageBackoffTimers)) {
+        timer->stop();
+        timer->deleteLater();
+    }
+    m_imageBackoffTimers.clear();
+    message_line->clearActions();
     message_line->setText(i18nc("@info:status", "Search pending…"));
     message_line->setMessageType(KMessageWidget::Information);
+    message_line->addAction(m_stopAction);
     message_line->show();
 
     blockUI(true);
@@ -302,7 +323,7 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
     page_number->setEnabled(true);
     blockUI(false);
     lock.unlock();
-    (void)QtConcurrent::run(&ResourceWidget::slotLoadImages, this);
+    slotLoadImages();
 }
 
 void ResourceWidget::slotShowPixmap(const QString &url, const QPixmap &pixmap)
@@ -316,6 +337,14 @@ void ResourceWidget::slotShowPixmap(const QString &url, const QPixmap &pixmap)
     }
 }
 
+void ResourceWidget::abortDownload()
+{
+    message_line->clearActions();
+    slotSearchFinished({}, 1);
+    delete m_networkManager;
+    m_networkManager = nullptr;
+}
+
 void ResourceWidget::slotLoadImages()
 {
     if (!m_imageLock.tryLock()) {
@@ -327,25 +356,91 @@ void ResourceWidget::slotLoadImages()
         m_imageLock.unlock();
         return;
     }
-    while (!m_imagesUrl.isEmpty()) {
-        const QString url = m_imagesUrl.takeFirst();
-        m_imageLock.unlock();
-        QUrl img(url);
-        m_tmpThumbFile->close();
-        if (m_tmpThumbFile->open()) {
-            KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
-            if (copyjob->exec()) {
-                QPixmap pic(m_tmpThumbFile->fileName());
-                Q_EMIT gotPixmap(url, pic);
-            }
-        }
-        if (m_imagesUrl.isEmpty()) {
-            break;
-        }
-        if (!m_imageLock.tryLock()) {
-            break;
-        }
+    delete m_networkManager;
+    m_networkManager = new QNetworkAccessManager(this);
+    qDebug() << "Starting image download for" << m_imagesUrl.size() << "URLs";
+    QSharedPointer<QMap<QString, int>> retryCount(new QMap<QString, int>());
+
+    // Make a copy of the URLs before we start processing
+    QStringList urls = m_imagesUrl;
+    // Clear the original list to avoid reprocessing
+    m_imagesUrl.clear();
+    m_imageLock.unlock();
+
+    // Start downloads for all URLs
+    for (const QString &url : urls) {
+        retryCount->insert(url, 0);
+        downloadImage(url, retryCount);
     }
+}
+
+void ResourceWidget::downloadImage(const QString &url, QSharedPointer<QMap<QString, int>> retryCount)
+{
+    // Apply delay if needed (for handling rate limiting)
+    if (m_backoff > 0) {
+        QTimer *timer = new QTimer(this);
+        timer->setSingleShot(true);
+        connect(timer, &QTimer::timeout, this, [this, url, retryCount, timer]() {
+            m_imageBackoffTimers.remove(timer);
+            timer->deleteLater();
+            downloadImage(url, retryCount);
+        });
+        m_imageBackoffTimers.insert(timer);
+        timer->start(m_backoff);
+        return;
+    }
+
+    QNetworkRequest request(QUrl::fromUserInput(url));
+    QNetworkReply *reply = m_networkManager->get(request);
+    m_activeImageReplies.insert(reply);
+
+    connect(
+        reply, &QNetworkReply::finished, this,
+        [this, reply, url, retryCount]() {
+            m_activeImageReplies.remove(reply);
+            if (reply->error() == QNetworkReply::NoError) {
+                QByteArray imageData = reply->readAll();
+                QPixmap pixmap;
+                if (pixmap.loadFromData(imageData)) {
+                    Q_EMIT gotPixmap(url, pixmap);
+                } else {
+                    qDebug() << "Failed to load image from URL:" << url << "- Invalid image format";
+                }
+                // Decay backoff after successful download
+                if (m_backoff > 0) {
+                    m_backoff = m_backoff / 2;
+                    if (m_backoff < 1000) m_backoff = 0;
+                    qDebug() << "Backoff decreased to" << m_backoff << "ms after successful download";
+                }
+            } else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 429) {
+                // Rate limited, retry with exponential backoff
+                int attempts = retryCount->value(url);
+                if (attempts < 3) {
+                    retryCount->insert(url, attempts + 1);
+                    // Exponential backoff: 1s, 3s, 7s (2**attempts - 1)
+                    int backoffSingleImageCurrentAttempt = 1000 * ((1 << (attempts + 1)) - 1);
+                    int newBackoff = qMin(qMax(m_backoff * 2, backoffSingleImageCurrentAttempt), 15000); // cap at 15s
+                    // Only increase backoff if the last backoff period has expired
+                    if (!m_backoffCooldownTimer.isValid() || m_backoffCooldownTimer.elapsed() > m_backoff) {
+                        if (newBackoff > m_backoff) {
+                            m_backoff = newBackoff;
+                            m_backoffCooldownTimer.restart();
+                            qDebug() << "Backoff increased to" << m_backoff << "ms due to 429 on URL:" << url;
+                        }
+                    } else {
+                        qDebug() << "Backoff not increased due to recent increase, current backoff:" << m_backoff;
+                    }
+                    qDebug() << "Rate limited, retrying URL:" << url << "attempt:" << attempts + 1 << "with delay:" << m_backoff;
+                    downloadImage(url, retryCount);
+                } else {
+                    qDebug() << "Maximum retry attempts reached for URL:" << url << "giving up";
+                }
+            } else {
+                qDebug() << "Error downloading image from URL:" << url << "- Error:" << reply->errorString();
+            }
+            reply->deleteLater();
+        },
+        Qt::DirectConnection);
 }
 
 /**

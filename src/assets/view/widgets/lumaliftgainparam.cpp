@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
-    Some code was borrowed from shotcut
+    Some code was borrowed from Shotcut
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
@@ -52,7 +52,7 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
                                        QString::number(sourceColor.blueF() * 2 - 1, 'f')};
         const QStringList values{QString::number(color.redF() * 2 - 1, 'f'), QString::number(color.greenF() * 2 - 1, 'f'),
                                  QString::number(color.blueF() * 2 - 1, 'f')};
-        qDebug() << "EMMITING LIF TVAL CHANGES: " << values;
+        qDebug() << "EMITTING LIF TVAL CHANGES: " << values;
         Q_EMIT valuesChanged(ixes, sourceValues, values, createUndo);
     });
     connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes](const NegQColor &sourceColor, const NegQColor &color, bool createUndo) {

@@ -136,7 +136,12 @@ RenderPresetParams::RateControl RenderPresetParams::videoRateControl() const
     QString vbufsize = value(QStringLiteral("vbufsize"));
     QString vcodec = value(QStringLiteral("vcodec"));
     if (contains(QStringLiteral("crf"))) {
-        return !vbufsize.isEmpty() ? (vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
+        if (!vbufsize.isEmpty()) {
+            return RateControl::Constrained;
+        } else {
+            // If the video buffer size is empty, control is Quality AKA unconstrained VBR
+            return vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality;
+        }
     }
     if (contains(QStringLiteral("vq")) || contains(QStringLiteral("vqp")) || contains(QStringLiteral("vglobal_quality")) ||
         contains(QStringLiteral("qscale"))) {
@@ -175,24 +180,20 @@ bool RenderPresetParams::isX265()
     return value(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265");
 }
 
-RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName, const QString &renderer)
+RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupId, const QString &renderer)
     : m_presetFile(presetFile)
     , m_editable(editable)
     , m_name(preset.attribute(QStringLiteral("name")))
     , m_note()
     , m_standard(preset.attribute(QStringLiteral("standard")))
     , m_params()
-    , m_groupName(preset.attribute(QStringLiteral("category"), groupName))
+    , m_groupId(groupId)
     , m_renderer(renderer)
     , m_url(preset.attribute(QStringLiteral("url")))
     , m_speeds(preset.attribute(QStringLiteral("speeds")))
     , m_defaultSpeedIndex(preset.attribute(QStringLiteral("defaultspeedindex"), QStringLiteral("-1")).toInt())
     , m_topFieldFirst(preset.attribute(QStringLiteral("top_field_first")))
 {
-    if (m_groupName.isEmpty()) {
-        m_groupName = i18nc("Category Name", "Custom");
-    }
-
     m_extension = preset.attribute(QStringLiteral("extension"));
     m_manual = preset.attribute(QStringLiteral("manual")) == QLatin1String("1");
 
@@ -218,18 +219,18 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
     checkPreset();
 }
 
-RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName)
+RenderPresetModel::RenderPresetModel(const QString &groupId, const QString &path, QString presetName, const QString &params, bool codecInName)
     : m_editable(false)
     , m_manual(false)
     , m_params()
-    , m_groupName(groupName)
+    , m_groupId(groupId)
     , m_renderer(QStringLiteral("avformat"))
     , m_defaultSpeedIndex(-1)
 {
     KConfig config(path, KConfig::SimpleConfig);
     KConfigGroup group = config.group(QByteArray());
-    QString vcodec = group.readEntry("vcodec");
-    QString acodec = group.readEntry("acodec");
+    const QString vcodec = group.readEntry("vcodec");
+    const QString acodec = group.readEntry("acodec");
     m_extension = group.readEntry("meta.preset.extension");
     // setParams after we know the extension to make setting the format automatically work
     setParams(params);
@@ -251,8 +252,8 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
     checkPreset();
 }
 
-RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension,
-                                     const QString &defaultVBitrate, const QString &defaultVQuality, const QString &defaultABitrate,
+RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupId, const QString &params, const QString &extension,
+                                     const QString &defaultVBitrate, const QString &defaultVQuality, const QString &vQualities, const QString &defaultABitrate,
                                      const QString &defaultAQuality, const QString &speedsString, bool manualPreset)
     : m_presetFile()
     , m_editable()
@@ -260,14 +261,14 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_note()
     , m_standard()
     , m_extension(extension)
-    , m_groupName(groupName)
+    , m_groupId(groupId)
     , m_renderer(QStringLiteral("avformat"))
     , m_url()
     , m_speeds(speedsString)
     , m_topFieldFirst()
     , m_vBitrates()
     , m_defaultVBitrate(defaultVBitrate)
-    , m_vQualities()
+    , m_vQualities(vQualities)
     , m_defaultVQuality(defaultVQuality)
     , m_aBitrates()
     , m_defaultABitrate(defaultABitrate)
@@ -275,8 +276,8 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_defaultAQuality(defaultAQuality)
 {
     setParams(params);
-    if (m_groupName.isEmpty()) {
-        m_groupName = i18nc("Category Name", "Custom");
+    if (m_groupId.isEmpty()) {
+        m_groupId = QStringLiteral("custom");
     }
 
     m_defaultSpeedIndex = (speeds().count() - 1) * 0.75;
@@ -349,6 +350,10 @@ void RenderPresetModel::checkPreset()
             m_errors = i18n("Unsupported audio codec: %1", acodec);
             return;
         }
+        if (presetName.contains(QLatin1String("ten_bit"))) {
+            // Warn that 10 bit won't work with track compositing and most effects except avfilter
+            m_warnings = i18n("10 bit color depth will be converted to 8 bit if you use compositing or effects not provided by avfilter.");
+        }
     }
 
     // Make sure the selected preset uses an installed avformat codec / format
@@ -372,6 +377,12 @@ void RenderPresetModel::checkPreset()
         return;
     }
 
+    if (hasParam(QStringLiteral("pix_fmt"))) {
+        if (getParam(QStringLiteral("pix_fmt")).toLower().contains(QLatin1String("p010le"))) {
+            m_warnings = i18n("10 bit color depth will be converted to 8 bit if you use compositing or effects not provided by avfilter.");
+        }
+    }
+
     if (hasParam(QStringLiteral("profile"))) {
         m_warnings = i18n("This render preset uses a 'profile' parameter.<br />Unless you know what you are doing you will probably "
                           "have to change it to 'mlt_profile'.");
@@ -386,7 +397,7 @@ QDomElement RenderPresetModel::toXml()
     doc.appendChild(profileElement);
 
     profileElement.setAttribute(QStringLiteral("name"), m_name);
-    profileElement.setAttribute(QStringLiteral("category"), m_groupName);
+    profileElement.setAttribute(QStringLiteral("category"), m_groupId);
     if (!m_extension.isEmpty()) {
         profileElement.setAttribute(QStringLiteral("extension"), m_extension);
     }

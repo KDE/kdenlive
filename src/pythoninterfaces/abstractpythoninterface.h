@@ -8,13 +8,13 @@
 #include "kdenlivesettings.h"
 
 #include <KMessageWidget>
+
+#include <QFutureWatcher>
 #include <QMap>
 #include <QMutex>
 #include <QObject>
 #include <QPair>
 #include <QString>
-
-class KJob;
 
 class AbstractPythonInterface : public QObject
 {
@@ -31,12 +31,11 @@ public:
     /** @brief Check if python and pip are installed, as well as all required scripts.
         If a check failed setupError() will be emitted with an error message that can be
         shown to the user.
-        @returns wether all checks succeeded.
+        @returns whether all checks succeeded.
     */
     ~AbstractPythonInterface() override;
-    bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
     /** @brief Check if the Python venv is setup correctly, if not create it if requested.
-     *  @returns true if the venv is setup properly or was created sucessfully, otherwiese false
+     *  @returns true if the venv is setup properly or was created successfully, otherwise false
      */
     bool checkVenv(bool calculateSize = false, bool forceInstall = false);
     /** @brief Check which versions of the dependencies are installed.
@@ -53,7 +52,7 @@ public:
     QStringList missingDependencies(const QStringList &filter = {});
     /** @brief Install an additional requirements file. */
     virtual bool installRequirements(const QString reqFile);
-    QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
+    QString runScript(const QString &script, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
     virtual PythonExec venvPythonExecs(bool checkPip = false);
     virtual bool useSystemPython();
     QString systemPythonExec();
@@ -65,9 +64,9 @@ public:
     bool optionalDependencyAvailable(const QString &dependency) const;
     /** @brief The text that will appear on the install button when a dependency is missing. */
     virtual const QString installMessage() const;
-    /** @brief The path to the binary location for this virtual environement. */
+    /** @brief The path to the binary location for this virtual environment. */
     const QString getVenvBinPath();
-    /** @brief The virtual enviroments dir name. */
+    /** @brief The virtual environments dir name. */
     virtual const QString getVenvPath();
     /** @brief Add a special dependency. */
     void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
@@ -87,15 +86,18 @@ public Q_SLOTS:
     /** @brief Check if all dependencies are installed.
         If everything is okay dependenciesAvailable() will be emitted,
         otherwise dependenciesMissing() with a message that can be shown
-        to the user telling wich dependencies are missing.
+        to the user telling which dependencies are missing.
         To get a list of all missing dependencies use missingDependencies
-        @returns wether all checks succeeded.
+        @returns whether all checks succeeded.
     */
     bool checkDependencies(bool force = false, bool async = true);
     void checkDependenciesConcurrently();
     void checkVersionsConcurrently();
     /** @brief Ensure all dependenciew are installed. */
     bool installMissingDependencies();
+    bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
+    /** @brief Try to update the venv if something is broken */
+    void rebuildVenv();
 
 private:
     QStringList m_missing;
@@ -103,12 +105,17 @@ private:
     QMap<QString, QString> m_versions;
     bool m_dependenciesChecked{false};
     QMutex m_versionsMutex;
+    QFutureWatcher<void> m_watcher;
+    QFutureWatcher<void> m_depsWatcher;
+    QFutureWatcher<void> m_versionWatcher;
+    QFuture<void> m_depsJob;
+    QFuture<void> m_versionJob;
+    QFuture<void> m_scriptJob;
     const QString locateScript(const QString &script);
     QString runPackageScript(QString mode, bool concurrent = false, bool displayFeedback = true, bool forceInstall = false);
     int versionToInt(const QString &version);
     /** @brief Create a python virtualenv */
     bool setupVenv();
-    void gotFolderSize(KJob *job);
     QString installPackage(const QStringList packageNames);
     QStringList parseDependencies(QStringList deps, bool split);
 
@@ -121,7 +128,7 @@ protected:
 
 Q_SIGNALS:
     void setupError(const QString &message);
-    void setupMessage(const QString &message, int messageType);
+    void setupMessage(const QString &message, KMessageWidget::MessageType messageType = KMessageWidget::Information);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
@@ -151,6 +158,5 @@ private:
     AbstractPythonInterface * m_interface;
     QAction *m_installAction{nullptr};
     QAction *m_abortAction{nullptr};
-    bool m_updated;
-
+    bool m_updated{false};
 };

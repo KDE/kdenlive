@@ -3,6 +3,7 @@
     SPDX-FileCopyrightText: 2017 Nicolas Carion
     SPDX-FileCopyrightText: 2020 Sashmita Raghav
     SPDX-FileCopyrightText: 2021 Julius Künzel <julius.kuenzel@kde.org>
+    SPDX-FileCopyrightText: 2025 Abdias J
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -10,10 +11,11 @@
 import QtQuick 2.15
 import QtQml.Models 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 
 import org.kde.kdenlive as K
 import 'TimelineLogic.js' as Logic
-
+import 'Utils.js' as Utils
 
 Rectangle {
     id: root
@@ -21,15 +23,63 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: activePalette.window
     property bool debugmode: K.KdenliveSettings.uiDebugMode
+    property bool showClipOverlays: K.KdenliveSettings.showClipOverlays
     property bool validMenu: false
     property bool subtitleMoving: false
     property var subtitleItem
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
+    property bool isPanning: tracksArea.isCursorHidden
+    property bool captureRightClick: false
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
+
+    function screenForGlobalPos(globalPos) {
+        const screens = Qt.application.screens
+        if (!screens || screens.length === 0) {
+            return null
+        }
+        for (let i = 0; i < screens.length; ++i) {
+            const s = screens[i]
+            const left = s.virtualX
+            const right = s.virtualX + s.width
+            const top = s.virtualY
+            const bottom = s.virtualY + s.height
+            if (globalPos.x >= left && globalPos.x < right && globalPos.y >= top && globalPos.y < bottom) {
+                return s
+            }
+        }
+        // Fallback to nearest screen center if the point is slightly outside
+        let best = screens[0]
+        let bestDist = Number.MAX_VALUE
+        for (let i = 0; i < screens.length; ++i) {
+            const s = screens[i]
+            const cx = s.virtualX + s.width / 2
+            const cy = s.virtualY + s.height / 2
+            const dist = Math.pow(globalPos.x - cx, 2) + Math.pow(globalPos.y - cy, 2)
+            if (dist < bestDist) {
+                bestDist = dist
+                best = s
+            }
+        }
+        return best
+    }
+
+    function screenEdges(globalPos) {
+        const s = screenForGlobalPos(globalPos)
+        if (!s) {
+            return null
+        }
+        return {
+            left: s.virtualX,
+            right: s.virtualX + s.width,
+            top: s.virtualY,
+            bottom: s.virtualY + s.height
+        }
+    }
+
     Timer {
         id: doubleClickTimer
         interval: root.doubleClickInterval
@@ -37,7 +87,6 @@ Rectangle {
     }
 
     signal clipClicked()
-    signal mousePosChanged(int position)
     signal showClipMenu(int cid)
     signal showMixMenu(int cid)
     signal showCompositionMenu()
@@ -45,10 +94,12 @@ Rectangle {
     signal showRulerMenu()
     signal showHeaderMenu()
     signal showTargetMenu(int ix)
+    signal markerActivated(int frame)
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
+    signal updateTimelineMousePos(int frame, int duration)
 
     readonly property font miniFont: ({
         pixelSize: miniFontSize
@@ -226,20 +277,25 @@ Rectangle {
     }
 
     function verticalScroll(wheel) {
+        var initialY = scrollView.contentY
         if (wheel.angleDelta.y < 0) {
             scrollView.contentY = Math.max(0, Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height))
         } else {
             scrollView.contentY = Math.max(scrollView.contentY - wheel.angleDelta.y, 0)
         }
+        if (dragProxyArea.pressed && dragProxy.draggedItem > -1) {
+            dragProxyArea.moveItem()
+        }
     }
 
-    function continuousScrolling(x, y) {
+    function continuousScrolling(x, y, upMove = 10) {
         // This provides continuous scrolling at the left/right edges.
         var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
         y += ruler.height
-        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3 && x < scrollView.contentX + scrollView.width) {
+        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
             scrollTimer.horizontal = root.baseUnit
+            scrollTimer.interval = 80
             scrollTimer.start()
         } else if (x < 50) {
             scrollView.contentX = 0;
@@ -247,15 +303,18 @@ Rectangle {
             scrollTimer.stop()
         } else if (x < scrollView.contentX + root.baseUnit * 3) {
             scrollTimer.horizontal = -root.baseUnit
+            scrollTimer.interval = 80
             scrollTimer.start()
         } else {
             if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit) {
                 scrollTimer.vertical = root.baseUnit
                 scrollTimer.horizontal = 0
+                scrollTimer.interval = 200
                 scrollTimer.start()
-            } else if (scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < root.baseUnit)) {
+            } else if (upMove > 6 && scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < root.baseUnit)) {
                 scrollTimer.vertical = -root.baseUnit
                 scrollTimer.horizontal = 0
+                scrollTimer.interval = 200
                 scrollTimer.start()
             } else {
                 scrollTimer.vertical = 0
@@ -265,14 +324,10 @@ Rectangle {
         }
     }
 
-    function getMouseOffset()
-    {
-        return scrollView.contentX - trackHeaders.width
-    }
-
     function getMouseFrame() {
         return getMousePos() / root.timeScale
     }
+
     function getMousePos() {
         var posInWidget = timeline.getMousePosInTimeline()
         return Math.max(0, scrollView.contentX + posInWidget.x - trackHeaders.width)
@@ -281,14 +336,6 @@ Rectangle {
     function getMouseX() {
         var posInWidget = timeline.getMousePosInTimeline()
         return Math.max(0, posInWidget.x - trackHeaders.width)
-        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
-            return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) - scrollView.contentX
-        }
-        if (tracksArea.containsMouse) {
-            return tracksArea.mouseX
-        } else {
-            return -1;
-        }
     }
 
     function getScrollPos() {
@@ -312,16 +359,20 @@ Rectangle {
         return Logic.getTrackIdFromPos(posInWidget.y - ruler.height + scrollView.contentY - subtitleTrack.height)
     }
 
-    function getTrackColor(audio, header) {
-        var col = activePalette.alternateBase
-        if (audio) {
-            col = Qt.tint(col, "#06FF00CC")
-        }
-        if (header) {
-            col = Qt.darker(col, 1.05)
-        }
-        return col
+function getTrackColor(audio, header) {
+    var isDarkTheme = activePalette.window.hslLightness < activePalette.windowText.hslLightness
+    var lighterColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.base : activePalette.alternateBase;
+    var darkerColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.alternateBase : activePalette.base;
+
+    if (isDarkTheme) {
+        // For dark themes, choose the lighter color
+        return header ? Qt.darker(lighterColor, 1.05) : lighterColor;
+    } else {
+        // For light themes, choose the darker color
+        return header ? Qt.darker(darkerColor, 1.05) : darkerColor;
     }
+
+}
 
     function centerViewOnCursor() {
         scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
@@ -378,7 +429,6 @@ Rectangle {
         var mouseYPos = (mousePos.y - ruler.height + scrollView.contentY) - sourceTrack.y
         var allowComposition = mouseYPos > sourceTrack.height / 2
         var tentativeClip = undefined
-        root.mousePosChanged(scrollView.contentX - trackHeaders.width)
         if (allowComposition) {
             tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), true)
             if (tentativeClip) {
@@ -405,7 +455,7 @@ Rectangle {
             dragProxy.sourceFrame = tentativeClip.modelStart
             dragProxy.isComposition = tentativeClip.isComposition
             dragProxy.verticalOffset = tentativeClip.isComposition ? tentativeClip.displayHeight : 0
-            //console.log('missing item', tentativeClip.clipId, ', COORDS: ', dragProxy.x, 'x', dragProxy.y,'-',dragProxy.width,'x',dragProxy.height, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk),' STARTFRM: ', dragProxy.sourceFrame)
+            //console.log('missing item', tentativeClip.clipId, ', COORDS: ', dragProxy.x, 'x', dragProxy.y,'-',dragProxy.width,'x',dragProxy.height, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk),' STARTFRAME: ', dragProxy.sourceFrame)
         } else {
             console.log('item not found')
             if (dragProxy.draggedItem > -1) {
@@ -479,7 +529,7 @@ Rectangle {
     property bool autoScrolling: timeline.autoScroll
     property bool blockAutoScroll: false
     property int duration: timeline.duration
-    property color audioColor: timeline.audioColor
+    property color audioColor: Utils.mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.3)
     property color videoColor: timeline.videoColor
     property color titleColor: timeline.titleColor
     property color imageColor: timeline.imageColor
@@ -569,6 +619,9 @@ Rectangle {
         if (timeline.fullDuration * root.timeScale < scrollView.width) {
             scrollView.contentX = 0
             root.zoomOnMouse = -1
+        } else if (K.KdenliveSettings.centeredplayhead) {
+            scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
+            root.zoomOnMouse = -1
         } else if (root.zoomOnMouse >= 0) {
             scrollView.contentX = Math.max(0, root.zoomOnMouse * root.timeScale - getMouseX())
             root.zoomOnMouse = -1
@@ -582,11 +635,17 @@ Rectangle {
             // update dragged item pos
             dragProxy.masterObject.updateDrag()
         }
-        root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+        timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
     }
 
     onConsumerPositionChanged: {
-        if (root.autoScrolling && !root.blockAutoScroll && root.consumerPosition > -1) Logic.scrollIfNeeded()
+        if (!root.blockAutoScroll && root.consumerPosition > -1) {
+            if (K.KdenliveSettings.centeredplayhead) {
+                scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
+            } else if (root.autoScrolling) {
+                Logic.scrollIfNeeded()
+            }
+        }
     }
 
     onViewActiveTrackChanged: {
@@ -633,14 +692,17 @@ Rectangle {
 
     DropArea { //Drop area for compositions
         id: compoArea
-        width: root.width - headerWidth
+        width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
-        x: headerWidth
+        x: root.headerWidth
         property bool isAudioDrag
         property int sameCutPos: -1
         property int fakeFrame: -1
         property int fakeTrack: -1
+        // Tracks mouse move up, used to prevent scrolling up once entering the area
+        property int lastYPos: -1
+        property int upMove: 0
         keys: ['kdenlive/composition']
         function moveDrop(offset, voffset)
         {
@@ -669,14 +731,16 @@ Rectangle {
                     } else {
                         sameTrackIndicator.visible = false
                     }
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 if (offset != 0) {
-                    root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+                    timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                 }
             }
         }
         onEntered: drag => {
+            upMove = 0
+            lastYPos = -1
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 var yOffset = 0
                 if (root.showSubtitles) {
@@ -689,12 +753,24 @@ Rectangle {
                 if (track >= 0 && controller.isAudioTrack(track) == isAudioDrag) {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 drag.acceptProposedAction()
             }
         }
         onPositionChanged: drag => {
+            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.updateTimelineMousePos(frame, timeline.duration)
+            if (lastYPos == -1) {
+                lastYPos = drag.y
+            } else if (drag.y <= lastYPos) {
+                upMove += lastYPos - drag.y
+                lastYPos = drag.y
+            } else {
+                lastYPos = drag.y
+                upMove = 0
+            }
+
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId >= 0) {
                     moveDrop(0, 0)
@@ -705,11 +781,10 @@ Rectangle {
                     }
                     var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track !== -1 && controller.isAudioTrack(track) == isAudioDrag) {
-                        var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, lastPos, upMove)
                     } else {
                         drag.accepted = false
                     }
@@ -717,6 +792,8 @@ Rectangle {
             }
         }
         onExited:{
+            upMove = 0
+            lastYPos = -1
             if (clipBeingDroppedId != -1) {
                 // If we exit, remove composition
                 controller.requestItemDeletion(clipBeingDroppedId, false)
@@ -724,6 +801,8 @@ Rectangle {
             }
         }
         onDropped: drag => {
+            lastYPos = -1
+            upMove = 0
             if (clipBeingDroppedId != -1) {
                 var frame = controller.getCompositionPosition(clipBeingDroppedId)
                 var track = controller.getCompositionTrackId(clipBeingDroppedId)
@@ -736,6 +815,7 @@ Rectangle {
                     timeline.insertNewCompositionAtPos(track, frame, clipBeingDroppedData)
                 } else {
                     // Cannot insert an audio mix composition
+                    // TODO: show warning
                 }
             }
             clearDropData()
@@ -771,10 +851,13 @@ Rectangle {
 
         property int fakeFrame: -1
         property int fakeTrack: -1
-        width: root.width - headerWidth
+        width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
-        x: headerWidth
+        x: root.headerWidth
+        // Tracks mouse move up, used to prevent scrolling up once entering the area
+        property int lastYPos: -1
+        property int upMove: 0
         keys: ['text/producerslist']
         enabled: !compoArea.containsDrag
         function moveDrop(offset, voffset)
@@ -792,11 +875,13 @@ Rectangle {
                     fakeFrame = moveData[0]
                     fakeTrack = moveData[1]
                     timeline.activeTrack = fakeTrack
-                    //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    if (!controller.normalEdit()) {
+                        controller.requestFakeClipMove(clipBeingDroppedId, fakeTrack, fakeFrame, true, false, false)
+                    }
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 if (offset != 0) {
-                    root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+                    timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                 }
             }
         }
@@ -804,8 +889,10 @@ Rectangle {
         {
             // Process the drop event, useful if drop event happens outside of drop area
             if (clipBeingDroppedId != -1) {
-                var frame = controller.getClipPosition(clipBeingDroppedId)
-                var track = controller.getClipTrackId(clipBeingDroppedId)
+                var cid = clipBeingDroppedId
+                clearDropData()
+                var frame = controller.getClipPosition(cid)
+                var track = controller.getClipTrackId(cid)
                 if (!controller.normalEdit()) {
                     frame = fakeFrame
                     track = fakeTrack
@@ -814,7 +901,7 @@ Rectangle {
                  * NOTE: even if dropping multiple clips, requesting the deletion of the first one is
                  * enough as internally it will request the group deletion
                  */
-                controller.requestItemDeletion(clipBeingDroppedId, false)
+                controller.requestItemDeletion(cid, false)
 
                 var binIds = clipBeingDroppedData.split(";")
                 if (binIds.length == 1) {
@@ -833,13 +920,15 @@ Rectangle {
                 }
                 fakeTrack = -1
                 fakeFrame = -1
-                clearDropData()
                 if (clipDropArea.containsDrag) {
                     regainFocus(clipDropArea.mapToItem(root, drag.x, drag.y))
                 }
+                //root.updateTimelineMousePos(frame, timeline.duration)
             }
         }
         onEntered: drag => {
+            lastYPos = -1
+            upMove = 0
             if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('text/dragid') && timeline.exists(clipBeingDroppedId)) {
                 // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
                 processDrop()
@@ -870,12 +959,14 @@ Rectangle {
                             fakeTrack = moveData[1]
                         }
                     }
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 drag.acceptProposedAction()
             }
         }
         onExited: {
+            lastYPos = -1
+            upMove = 0
             timeline.keepAudioTargets(false)
             if (clipBeingDroppedId != -1 && (lastDragPos.y < lastDragPos.x || (clipDropArea.height - lastDragPos.y < lastDragPos.x))) {
                 // If we exit on top or bottom, remove clip
@@ -891,6 +982,17 @@ Rectangle {
         }
         onPositionChanged: drag => {
             lastDragPos = Qt.point(drag.x, drag.y)
+            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            if (lastYPos == -1) {
+                lastYPos = drag.y
+            } else if (drag.y <= lastYPos) {
+                upMove += lastYPos - drag.y
+                lastYPos = drag.y
+            } else {
+                lastYPos = drag.y
+                upMove = 0
+            }
+            root.updateTimelineMousePos(frame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId > -1) {
                     moveDrop(0, 0)
@@ -902,7 +1004,6 @@ Rectangle {
                     var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track >= 0  && track < tracksRepeater.count) {
                         var targetTrack = tracksRepeater.itemAt(track).trackInternalId
-                        var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (controller.normalEdit()) {
                             timeline.activeTrack = targetTrack
@@ -917,7 +1018,7 @@ Rectangle {
                                 timeline.activeTrack = fakeTrack
                             }
                         }
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                     } else {
                         drag.accepted = false
                     }
@@ -925,6 +1026,8 @@ Rectangle {
             }
         }
         onDropped: {
+            lastYPos = -1
+            upMove = 0
             processDrop()
             timeline.keepAudioTargets(false)
         }
@@ -934,10 +1037,10 @@ Rectangle {
         property int fakeFrame: -1
         property var droppedUrls: []
         enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
-        width: root.width - headerWidth
+        width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
-        x: headerWidth
+        x: root.headerWidth
         keys: ['text/uri-list']
         onEntered: drag => {
             drag.accepted = true
@@ -957,6 +1060,8 @@ Rectangle {
             clearDropData()
         }
         onPositionChanged: drag => {
+            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.updateTimelineMousePos(frame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 var yOffset = 0
                 if (root.showSubtitles) {
@@ -982,29 +1087,30 @@ Rectangle {
     Row {
         Column {
             id: headerContainer
-            width: headerWidth
+            width: root.headerWidth
             z: 1
             Item {
                 // Padding between toolbar and track headers.
                 width: parent.width
                 height: ruler.height
-                Button {
+                ToolButton {
                     text: metrics.elidedText
                     font: miniFont
                     flat: true
+                    icon.name: 'tools-wizard'
                     anchors.fill: parent
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: i18n("Show master effects")
+                    ToolTip.text: i18n("Show sequence effects")
                     TextMetrics {
                         id: metrics
                         font: miniFont
                         elide: Text.ElideRight
                         elideWidth: root.headerWidth * 0.8
-                        text: root.addedSequenceName.length == 0 ? i18n("Master") : root.addedSequenceName
+                        text: root.addedSequenceName.length == 0 ? i18n("Sequence") : root.addedSequenceName
                     }
                     onClicked: {
                         timeline.showMasterEffects()
@@ -1057,7 +1163,6 @@ Rectangle {
                     id: subtitleTrackHeader
                     width: trackHeaders.width
                     height: subtitleTrack.height
-
                     isDisabled: root.subtitlesDisabled
                     isLocked: root.subtitlesLocked
                     collapsedHeight: root.collapsedHeight
@@ -1088,7 +1193,7 @@ Rectangle {
                             showAudioRecord: model.audioRecord
                             effectNames: model.effectNames
                             isStackEnabled: model.isStackEnabled
-                            width: headerWidth
+                            width: root.headerWidth
                             current: item === timeline.activeTrack
                             trackId: item
                             height: model.trackHeight
@@ -1120,7 +1225,7 @@ Rectangle {
                             id: headerMouseArea
                             anchors.fill: parent
                             hoverEnabled: true
-                            cursorShape: Qt.SizeHorCursor
+                            cursorShape: tracksArea.isCursorHidden ? Qt.BlankCursor : Qt.SizeHorCursor
                             drag.target: parent
                             drag.axis: Drag.XAxis
                             drag.minimumX: root.minHeaderWidth
@@ -1134,13 +1239,14 @@ Rectangle {
                             onReleased: {
                                 root.blockAutoScroll = false
                                 parent.opacity = 0
+                                timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                             }
                             onEntered: parent.opacity = 0.5
                             onExited: parent.opacity = 0
                             onPositionChanged: mouse => {
                                 if (mouse.buttons === Qt.LeftButton) {
                                     parent.opacity = 0.5
-                                    headerWidth = Math.max( root.minHeaderWidth, mapToItem(null, x, y).x + 2)
+                                    root.headerWidth = Math.max( root.minHeaderWidth, mapToItem(null, x, y).x + 2)
                                     timeline.setHeaderWidth(headerWidth)
                                 }
                             }
@@ -1153,6 +1259,10 @@ Rectangle {
             id: tracksArea
             property real clickX
             property real clickY
+            property point lastGlobalPos
+            property point panStartGlobalPos
+            property bool isWarping: false
+            property bool isCursorHidden: false
             width: root.width - root.headerWidth
             height: root.height
             x: root.headerWidth
@@ -1162,6 +1272,9 @@ Rectangle {
             preventStealing: true
             acceptedButtons: Qt.AllButtons
             cursorShape: {
+                if (isCursorHidden) {
+                    return Qt.BlankCursor
+                }
                 switch(root.activeTool) {
                 case K.ToolType.SelectTool:
                 case K.ToolType.RollTool:
@@ -1189,6 +1302,11 @@ Rectangle {
                 if (mouse.buttons === Qt.MiddleButton || (selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
+                    panStartGlobalPos = mapToGlobal(mouse.x, mouse.y)
+                    lastGlobalPos = panStartGlobalPos
+                    isWarping = false
+                    timeline.hideCursor(true)
+                    isCursorHidden = true
                     return
                 }
                 if (selectLikeTool && shiftPress && mouse.y > ruler.height) {
@@ -1210,8 +1328,7 @@ Rectangle {
                         } else if (subtitleTrack.height > 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
                         }
-                    }
-                    if(root.activeTool === K.ToolType.SlipTool) {
+                    } else if (root.activeTool === K.ToolType.SlipTool) {
                         //slip tool
                         if (mouse.y > ruler.height) {
                             var tk = getMouseTrack()
@@ -1309,6 +1426,10 @@ Rectangle {
             property bool scim: false
             onExited: {
                 scim = false
+                if (isCursorHidden) {
+                    timeline.hideCursor(false)
+                    isCursorHidden = false
+                }
                 timeline.showTimelineToolInfo(false)
             }
             onEntered: {
@@ -1331,21 +1452,63 @@ Rectangle {
                 let selectLikeTool = root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
                 if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
-                    var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
-                    var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height+ horZoomBar.height)
-                    scrollView.contentX = Math.max(newScroll, 0)
-                    scrollView.contentY = Math.max(vScroll, 0)
-                    clickX = mouseX
-                    clickY = mouseY
+                    if (!isCursorHidden) {
+                        timeline.hideCursor(true)
+                        isCursorHidden = true
+                    }
+                    let globalPos = mapToGlobal(mouse.x, mouse.y)
+                    
+                    if (isWarping) {
+                        // After warp, skip frames until the mouse has reached the center area.
+                        // This handles cases where multiple "old" mouse events are in flight
+                        // from before the warp was processed by the windowing system.
+                        let dist = Math.abs(globalPos.x - lastGlobalPos.x) + Math.abs(globalPos.y - lastGlobalPos.y)
+                        if (dist > 100) {
+                            return
+                        }
+                        isWarping = false
+                    }
+
+                    let deltaX = globalPos.x - lastGlobalPos.x
+                    let deltaY = globalPos.y - lastGlobalPos.y
+                    
+                    if (deltaX === 0 && deltaY === 0) {
+                        return
+                    }
+                    
+                    var maxScrollX = timeline.fullDuration * root.timeScale - scrollView.width
+                    var maxScrollY = trackHeaders.height + subtitleTrackHeader.height - scrollView.height + horZoomBar.height
+                    
+                    scrollView.contentX = Math.max(0, Math.min(scrollView.contentX - deltaX, maxScrollX))
+                    scrollView.contentY = Math.max(0, Math.min(scrollView.contentY - deltaY, maxScrollY))
+                    
+                    lastGlobalPos = globalPos
+                    clickX = mouse.x
+                    clickY = mouse.y
+
+                    // Check for screen or window edge and warp to center of tracks area
+                    let margin = 20
+                    let edges = screenEdges(globalPos)
+                    let atScreenEdge = edges && (globalPos.x <= edges.left + margin || globalPos.x >= edges.right - margin
+                                                || globalPos.y <= edges.top + margin || globalPos.y >= edges.bottom - margin)
+                    let atWindowEdge = mouse.x <= margin || mouse.x >= tracksArea.width - margin
+                                    || mouse.y <= margin || mouse.y >= tracksArea.height - margin
+
+                    if (atScreenEdge || atWindowEdge) {
+                        let center = mapToGlobal(tracksArea.width / 2, tracksArea.height / 2)
+                        isWarping = true
+                        lastGlobalPos = center
+                        timeline.warpCursor(Qt.point(center.x, center.y))
+                    }
                     return
                 }
-                var mouseXPos = getMouseFrame()
                 if (root.activeTool === K.ToolType.SlipTool && pressed && mouse.y > ruler.height) {
-                    var frame = mouseXPos
+                    var frame = getMouseFrame()
                     trimmingOffset = frame - trimmingClickFrame
                     timeline.slipPosChanged(trimmingOffset);
                 }
                 if (!pressed && !rubberSelect.visible && root.activeTool === K.ToolType.RazorTool) {
+                    var mouseXPos = getMouseFrame()
                     cutLine.x = mouseXPos * root.timeScale - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek
@@ -1414,7 +1577,20 @@ Rectangle {
                     scim = false
                 }
             }
+            onCanceled: {
+                if (isCursorHidden) {
+                    timeline.hideCursor(false)
+                    isCursorHidden = false
+                    timeline.warpCursor(panStartGlobalPos)
+                }
+            }
             onReleased: mouse => {
+                isWarping = false
+                if (isCursorHidden) {
+                    timeline.hideCursor(false)
+                    isCursorHidden = false
+                    timeline.warpCursor(panStartGlobalPos)
+                }
                 if((mouse.button & Qt.LeftButton) && root.activeTool === K.ToolType.SlipTool) {
                     // slip tool
                     controller.requestSlipSelection(trimmingOffset, true)
@@ -1527,7 +1703,7 @@ Rectangle {
                 Flickable {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
-                    width: root.width - headerWidth
+                    width: root.width - root.headerWidth
                     height: Math.round(root.baseUnit * 2.5) + ruler.guideLabelHeight
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
@@ -1574,12 +1750,12 @@ Rectangle {
                     height: rulercontainer.height
                     width: rulercontainer.width
                     acceptedButtons: Qt.NoButton
-                    cursorShape: ruler.cursorShape
+                                cursorShape: tracksArea.isCursorHidden ? Qt.BlankCursor : ruler.cursorShape
                 }
 
                 Item {
                     id: baseContainer
-                    width: root.width - headerWidth
+                    width: root.width - root.headerWidth
                     height: root.height - ruler.height
                     y: ruler.height
                     clip: true
@@ -1624,8 +1800,10 @@ Rectangle {
                         clip: true
                         interactive: false
                         pixelAligned: true
+                        property int firstVisibleFrame: Math.floor(scrollView.contentX / root.timeScale)
+                        property int lastVisibleFrame: firstVisibleFrame + Math.ceil(scrollView.width / root.timeScale)
                         onContentXChanged: {
-                            root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+                            timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                         }
                         /*
                          // Replaced by our custom ZoomBar
@@ -1700,9 +1878,13 @@ Rectangle {
                                     property int dragFrame
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true
+                                    property point dragStartGlobalPos
                                     cursorShape: {
                                         if (root.activeTool === K.ToolType.SelectTool) {
                                             return dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+                                        }
+                                        if (tracksArea.isCursorHidden) {
+                                            return Qt.BlankCursor
                                         }
                                         return tracksArea.cursorShape
                                     }
@@ -1712,6 +1894,8 @@ Rectangle {
                                             mouse.accepted = false
                                             return
                                         }
+                                        dragStartGlobalPos = mapToGlobal(mouse.x, mouse.y)
+                                        tracksArea.lastGlobalPos = dragStartGlobalPos
                                         if (!timeline.exists(dragProxy.draggedItem)) {
                                             endDrag()
                                             mouse.accepted = false
@@ -1787,39 +1971,60 @@ Rectangle {
                                             endDrag()
                                             return
                                         }
+                                        
+                                        let globalPos = mapToGlobal(mouse.x, mouse.y)
+                                        if (tracksArea.isWarping) {
+                                            // After warp, skip this frame and reset tracking to current position
+                                            tracksArea.isWarping = false
+                                            tracksArea.lastGlobalPos = globalPos
+                                            return
+                                        }
+
                                         if (dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
-                                            continuousScrolling(mouse.x + parent.x, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset)
-                                            snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
-                                            moveItem()
+                                            let deltaX = globalPos.x - tracksArea.lastGlobalPos.x
+                                            let deltaY = globalPos.y - tracksArea.lastGlobalPos.y
+                                            
+                                            if (deltaX !== 0 || deltaY !== 0) {
+                                                // If we have movement, process it
+                                                let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
+                                                // Clamp y to tracks area height to avoid jumping tracks when mouse is far outside
+                                                let clampedY = Math.max(0, Math.min(posInTracks.y, tracksArea.height))
+                                                continuousScrolling(dragProxyArea.mouseX + parent.x, clampedY + scrollView.contentY - ruler.height)
+                                                snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
+                                                moveItem()
+                                                
+                                                tracksArea.lastGlobalPos = globalPos
+                                            }
                                         }
                                     }
 
                                     function moveItem() {
                                         if (dragProxy.draggedItem > -1 && !rubberSelect.visible) {
                                             var posx = Math.round((parent.x)/ root.timeScale)
-                                            var posy = Math.min(Math.max(0, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
+                                            let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
+                                            var posy = Math.min(Math.max(0, posInTracks.y + scrollView.contentY - ruler.height), tracksContainerArea.height)
                                             var tId = Logic.getTrackIdFromPos(posy)
                                             if (dragProxy.masterObject && tId === dragProxy.masterObject.trackId) {
                                                 if (posx == dragProxyArea.dragFrame && controller.normalEdit()) {
                                                     return
                                                 }
                                             }
+                                            var moveData
                                             if (dragProxy.isComposition) {
-                                                var moveData = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
+                                                moveData = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
                                                 dragProxyArea.dragFrame = moveData[0]
                                                 timeline.activeTrack = moveData[1]
                                             } else {
-                                                if (!controller.normalEdit() && dragProxy.masterObject.parent !== dragContainer) {
-                                                    var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y)
-                                                    dragProxy.masterObject.parent = dragContainer
-                                                    pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)
-                                                    dragProxy.masterObject.x = pos.x
-                                                    dragProxy.masterObject.y = pos.y
-                                                }
-                                                var moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
+                                                moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
                                                 dragProxyArea.dragFrame = moveData[0]
                                                 timeline.activeTrack = moveData[1]
-                                                //timeline.getItemMovingTrack(dragProxy.draggedItem)
+                                                if (!controller.normalEdit()) {
+                                                    controller.requestFakeClipMove(dragProxy.draggedItem, timeline.activeTrack, dragProxyArea.dragFrame, true, false, false)
+                                                }
+                                            }
+                                            var targetTrack = Logic.getTrackById(timeline.activeTrack)
+                                            if (targetTrack) {
+                                                dragProxy.y = targetTrack.y + dragProxy.verticalOffset
                                             }
                                             var delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
@@ -1831,6 +2036,8 @@ Rectangle {
                                                 //bubbleHelp.hide()
                                             }
                                         }
+                                    }
+                                    onCanceled: {
                                     }
                                     onReleased: {
                                         clipBeingMovedId = -1
@@ -1871,7 +2078,7 @@ Rectangle {
                                             //bubbleHelp.hide()
                                             tracksArea.focus = true
                                             if (!dragProxyArea.containsMouse) {
-                                                regainFocus(dragProxyArea.mapToItem(root,mouseX, mouseY))
+                                                regainFocus(dragProxyArea.mapToItem(root, dragProxyArea.mouseX, dragProxyArea.mouseY))
                                             }
                                         }
                                     }
@@ -1905,15 +2112,16 @@ Rectangle {
                                 anchors.fill: parent
                                 acceptedButtons: Qt.NoButton
                                 onWheel: wheel => zoomByWheel(wheel)
-                                cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
+                                cursorShape: (dragProxyArea.drag.active ? Qt.ClosedHandCursor : (tracksArea.isCursorHidden ? Qt.BlankCursor : tracksArea.cursorShape))
                             }
                             Column {
                                 id: tracksContainer
                                 Repeater { id: tracksRepeater; model: trackDelegateModel }
-                                Item {
-                                    id: dragContainer
-                                    z: 100
-                                }
+                            }
+                            Item {
+                                id: dragContainer
+                                anchors.fill: tracksContainer
+                                z: 100
                             }
                             Rectangle {
                                 id: sameTrackIndicator
@@ -1948,7 +2156,7 @@ Rectangle {
                         Item {
                             id: recordPlaceHolder
                             // Used to determine if drag start should trigger an event
-                            property var startTime: 0
+                            property int startTime: 0
                             property double currentLevel
                             property var recModel: []
                             property int channels: 1
@@ -2226,6 +2434,9 @@ Rectangle {
         onTriggered: {
             if (vertical != 0) {
                 scrollView.contentY += vertical
+                if (dragProxyArea.pressed && dragProxy.draggedItem > -1) {
+                    dragProxyArea.moveItem()
+                }
                 if (scrollView.contentY <= 0) {
                     scrollView.contentY = 0
                     vertical = 0

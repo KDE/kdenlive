@@ -5,6 +5,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "backupwidget.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 
 #include <QDir>
@@ -31,18 +32,27 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QSt
             m_projectWildcard.append(QLatin1Char('*'));
         }
     }
+
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("??"));
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("-??.kdenlive"));
-
+    QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
+    connect(openContainingFolder, &QAction::triggered, [&]() {
+        if (backup_list->currentItem()) {
+            const QString fileName = backup_list->currentItem()->data(Qt::UserRole).toString();
+            pCore->highlightFileInExplorer({QUrl::fromLocalFile(fileName)});
+        }
+    });
+    backup_list->addAction(openContainingFolder);
+    backup_list->setContextMenuPolicy(Qt::ActionsContextMenu);
     slotParseBackupFiles();
+    search_list->setListWidget(backup_list);
     connect(backup_list, &QListWidget::currentRowChanged, this, &BackupWidget::slotDisplayBackupPreview);
     backup_list->setCurrentRow(0);
     backup_list->setMinimumHeight(QFontMetrics(font()).lineSpacing() * 12);
-    slotParseBackupFiles();
 }
 
 BackupWidget::~BackupWidget() = default;
@@ -50,8 +60,7 @@ BackupWidget::~BackupWidget() = default;
 void BackupWidget::slotParseBackupFiles()
 {
     QLocale locale;
-    QStringList filter;
-    filter << m_projectWildcard;
+    QStringList filter = {m_projectWildcard};
     backup_list->clear();
 
     // Parse new XDG backup folder $HOME/.local/share/kdenlive/.backup
@@ -59,7 +68,12 @@ void BackupWidget::slotParseBackupFiles()
     backupFolder.setNameFilters(filter);
     QFileInfoList resultList = backupFolder.entryInfoList(QDir::Files, QDir::Time);
     for (int i = 0; i < resultList.count(); ++i) {
-        QString label = locale.toString(resultList.at(i).lastModified(), QLocale::ShortFormat);
+        const QString fileName = resultList.at(i).baseName();
+        QString label = getDateFromName(locale, fileName);
+        if (label.isEmpty()) {
+            // Use file timestamp
+            label = locale.toString(resultList.at(i).lastModified(), QLocale::ShortFormat);
+        }
         if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
             // Displaying all backup files, so add project name in the entries
             label.prepend(resultList.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
@@ -75,7 +89,13 @@ void BackupWidget::slotParseBackupFiles()
         dir.setNameFilters(filter);
         QFileInfoList resultList2 = dir.entryInfoList(QDir::Files, QDir::Time);
         for (int i = 0; i < resultList2.count(); ++i) {
-            QString label = locale.toString(resultList2.at(i).lastModified(), QLocale::ShortFormat);
+            // Get modified time from filename
+            const QString fileName = resultList2.at(i).baseName();
+            QString label = getDateFromName(locale, fileName);
+            if (label.isEmpty()) {
+                // Use file timestamp
+                label = locale.toString(resultList2.at(i).lastModified(), QLocale::ShortFormat);
+            }
             if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
                 // Displaying all backup files, so add project name in the entries
                 label.prepend(resultList2.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
@@ -87,6 +107,21 @@ void BackupWidget::slotParseBackupFiles()
     }
 
     buttonBox->button(QDialogButtonBox::Open)->setEnabled(backup_list->count() > 0);
+}
+
+const QString BackupWidget::getDateFromName(const QLocale locale, const QString &fileName)
+{
+    QStringList dateData = fileName.section(QLatin1Char('-'), -5).split(QLatin1Char('-'));
+    QString label;
+    if (dateData.size() == 5) {
+        QDate date(dateData.at(0).toInt(), dateData.at(1).toInt(), dateData.at(2).toInt());
+        QTime time(dateData.at(3).toInt(), dateData.at(4).toInt());
+        QDateTime dt(date, time);
+        if (dt.isValid()) {
+            label = locale.toString(dt, QLocale::ShortFormat);
+        }
+    }
+    return label;
 }
 
 void BackupWidget::slotDisplayBackupPreview()

@@ -30,14 +30,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <project/projectmanager.h>
 
-SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject *object)
+SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool rangeMarkers, bool addSubclips, int minDuration,
+                               QObject *object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
     , m_threshold(threshold)
     , m_jobDuration(0)
     , m_markersType(markersCategory)
+    , m_rangeMarkers(rangeMarkers)
     , m_subClips(addSubclips)
     , m_minInterval(minDuration)
-    , m_jobProcess(nullptr)
 {
     m_description = i18n("Detecting scene change");
     qDebug() << "Threshold is" << threshold << QString::number(threshold);
@@ -51,6 +52,8 @@ void SceneSplitTask::start(QObject *object, bool force)
     view.setupUi(d);
     view.threshold->setValue(KdenliveSettings::scenesplitthreshold());
     view.add_markers->setChecked(KdenliveSettings::scenesplitmarkers());
+    view.range_markers->setChecked(KdenliveSettings::scenesplitrangemarkers());
+    view.range_markers->setEnabled(KdenliveSettings::scenesplitmarkers());
     view.cut_scenes->setChecked(KdenliveSettings::scenesplitsubclips());
     // Set  up categories
     view.marker_category->setMarkerModel(pCore->projectManager()->getGuideModel().get());
@@ -60,14 +63,16 @@ void SceneSplitTask::start(QObject *object, bool force)
     }
     int threshold = view.threshold->value();
     bool addMarkers = view.add_markers->isChecked();
+    bool rangeMarkers = view.range_markers->isChecked();
     bool addSubclips = view.cut_scenes->isChecked();
     int markersCategory = addMarkers ? view.marker_category->currentCategory() : -1;
     int minDuration = view.minDuration->value();
     KdenliveSettings::setScenesplitthreshold(threshold);
-    KdenliveSettings::setScenesplitmarkers(view.add_markers->isChecked());
-    KdenliveSettings::setScenesplitsubclips(view.cut_scenes->isChecked());
+    KdenliveSettings::setScenesplitmarkers(addMarkers);
+    KdenliveSettings::setScenesplitrangemarkers(rangeMarkers);
+    KdenliveSettings::setScenesplitsubclips(addSubclips);
 
-    std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
+    std::vector<QString> binIds = pCore->activeBin()->selectedClipsIds(true);
     for (auto &id : binIds) {
         SceneSplitTask *task = nullptr;
         ObjectId owner;
@@ -80,12 +85,12 @@ void SceneSplitTask::start(QObject *object, bool force)
             }
             owner = ObjectId(KdenliveObjectType::BinClip, binData.first().toInt(), QUuid());
             auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
-            task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
+            task = new SceneSplitTask(owner, threshold / 100., markersCategory, rangeMarkers, addSubclips, minDuration, binClip.get());
 
         } else {
             owner = ObjectId(KdenliveObjectType::BinClip, id.toInt(), QUuid());
             auto binClip = pCore->projectItemModel()->getClipByBinID(id);
-            task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
+            task = new SceneSplitTask(owner, threshold / 100., markersCategory, rangeMarkers, addSubclips, minDuration, binClip.get());
         }
         // See if there is already a task for this MLT service and resource.
         if (task && pCore->taskManager.hasPendingJob(owner, AbstractTask::ANALYSECLIPJOB)) {
@@ -107,6 +112,7 @@ void SceneSplitTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     const QString source = binClip->url();
@@ -144,13 +150,13 @@ void SceneSplitTask::run()
                               QStringLiteral("null"),
                               QStringLiteral("-")};
 
-    m_jobProcess.reset(new QProcess);
+    m_jobProcess = new QProcess();
     // m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");
     m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
     qDebug() << "=== READY TO START JOB:" << parameters;
-    QObject::connect(this, &SceneSplitTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardOutput, this, &SceneSplitTask::processLogInfo);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &SceneSplitTask::processLogErr);
+    QObject::connect(this, &SceneSplitTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &SceneSplitTask::processLogInfo);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &SceneSplitTask::processLogErr);
     m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters);
     // m_jobProcess->closeReadChannel(QProcess::StandardError);
     m_jobProcess->waitForStarted();
@@ -161,6 +167,7 @@ void SceneSplitTask::run()
     }*/
     m_jobProcess->waitForFinished(-1);
     result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
 
     // remove temporary playlist if it exists
     m_progress = 100;
@@ -178,13 +185,27 @@ void SceneSplitTask::run()
                 if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
                     continue;
                 }
-                lastCut = pos;
+
                 QJsonObject currentMarker;
-                currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
                 currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
                 currentMarker.insert(QLatin1String("type"), QJsonValue(m_markersType));
+                if (m_rangeMarkers) {
+                    currentMarker.insert(QLatin1String("pos"), QJsonValue(lastCut));
+                    currentMarker.insert(QLatin1String("duration"), QJsonValue(pos - lastCut - 1));
+                } else {
+                    currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
+                }
+                lastCut = pos;
                 list.push_back(currentMarker);
                 ix++;
+            }
+            if (m_rangeMarkers && lastCut < producerDuration) {
+                QJsonObject currentMarker;
+                currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
+                currentMarker.insert(QLatin1String("type"), QJsonValue(m_markersType));
+                currentMarker.insert(QLatin1String("pos"), QJsonValue(lastCut));
+                currentMarker.insert(QLatin1String("duration"), QJsonValue(producerDuration - lastCut - 1));
+                list.push_back(currentMarker);
             }
             QJsonDocument json(list);
             QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(QString, QString(json.toJson())));

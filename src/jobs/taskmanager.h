@@ -44,6 +44,7 @@ public:
      */
     void discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, bool softDelete = false, const QVector<AbstractTask::JOBTYPE> exceptions = {});
     void discardJob(const ObjectId &owner, const QUuid &uuid);
+    void discardJobsByType(AbstractTask::JOBTYPE jobType);
 
     /** @brief Check if there is a pending / running job a clip.
      *  @param owner the owner item for this task
@@ -81,6 +82,7 @@ public Q_SLOTS:
 private:
     QThreadPool m_taskPool;
     QThreadPool m_transcodePool;
+    /** @brief List of created tasks, in the form {owner clip id, {tasks}} */
     std::unordered_map<int, std::vector<AbstractTask*> > m_taskList;
     mutable QReadWriteLock m_tasksListLock;
     bool m_blockUpdates;

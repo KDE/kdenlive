@@ -28,7 +28,14 @@ TimelineWaveform::TimelineWaveform(QQuickItem *parent)
     // setMipmap(true);
     // setTextureSize(QSize(1, 1));
     connect(this, &TimelineWaveform::needRecompute, [this] {
+        if (m_outPoint <= m_inPoint) {
+            // Waveform not initialized
+            return;
+        }
         m_needRecompute = true;
+        if (m_normalize && m_normalizeFactor == 1.) {
+            m_normalizeFactor = static_cast<double>(std::numeric_limits<int16_t>::max()) / pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream);
+        }
         update();
     });
     connect(this, &TimelineWaveform::needRedraw, &QQuickItem::update);
@@ -75,10 +82,15 @@ void TimelineWaveform::drawWaveformPath(QPainter *painter, const int ch, const i
     const auto lineHeight = channelHeight * level * m_normalizeFactor / std::numeric_limits<int16_t>::max();
     path.lineTo(width() + extraSpace, yMiddle + lineHeight / 2);
     path.lineTo(width() + extraSpace, yMiddle);
-
+    if (!m_opaquePaint) {
+        painter->setCompositionMode(QPainter::CompositionMode_SourceIn);
+    }
     painter->drawPath(path);                          // draw top waveform
     const QTransform tr(1, 0, 0, -1, 0, 2 * yMiddle); // mirror it
     painter->drawPath(tr.map(path));                  // draw bottom waveform
+    if (!m_opaquePaint) {
+        painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+    }
 }
 
 void TimelineWaveform::compute()
@@ -90,21 +102,18 @@ void TimelineWaveform::compute()
     if (m_stream >= 0) {
         levels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId, m_stream);
         if (levels.isEmpty()) {
+            m_needRecompute = false;
+            m_audioLevels.clear();
             return;
         }
     }
 
     const auto inPoint = static_cast<int>(m_inPoint);
-    auto outPoint = static_cast<int>(m_outPoint);
     const auto clipLength = levels.size() / AUDIOLEVELS_POINTS_PER_FRAME / m_channels;
+    const auto outPoint = qMin(clipLength, static_cast<int>(m_outPoint));
 
     if (inPoint < 0 || outPoint < 0 || outPoint <= inPoint || inPoint >= clipLength) {
         return;
-    }
-
-    if (outPoint > clipLength) {
-        qWarning() << "Waveform render outPoint=" << outPoint << " is higher than clipLength=" << clipLength << ", truncating.";
-        outPoint = clipLength;
     }
 
     const double timescale = m_scale / std::abs(m_speed);
@@ -180,7 +189,13 @@ void TimelineWaveform::paint(QPainter *painter)
         if (m_pointsPerPixel > 1) {
             painter->setBrush(Qt::NoBrush);
             painter->setPen(fgColor);
+            if (!m_opaquePaint) {
+                painter->setCompositionMode(QPainter::CompositionMode_SourceIn);
+            }
             drawWaveformLines(painter, ch, channels, yMiddle, channelHeight);
+            if (!m_opaquePaint) {
+                painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+            }
         } else {
             painter->setPen(Qt::NoPen);
             painter->setBrush(fgColor);

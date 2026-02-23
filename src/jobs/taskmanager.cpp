@@ -44,6 +44,45 @@ void TaskManager::updateConcurrency()
     m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
+void TaskManager::discardJobsByType(AbstractTask::JOBTYPE jobType)
+{
+    if (m_blockUpdates) {
+        // We are already deleting all tasks
+        return;
+    }
+    m_tasksListLock.lockForWrite();
+    m_blockUpdates = true;
+    int cnt = 0;
+    for (const auto &task : m_taskList) {
+        int ix = task.second.size() - 1;
+        cnt++;
+        while (ix >= 0) {
+            AbstractTask *t = task.second.at(ix);
+            if (t->m_type != jobType) {
+                // Ignore
+                ix--;
+                continue;
+            }
+            if (m_taskPool.tryTake(t)) {
+                // Task was not started yet, we can simply delete
+                m_taskList[task.first].erase(std::remove(m_taskList[task.first].begin(), m_taskList[task.first].end(), t), m_taskList[task.first].end());
+                delete t;
+            } else {
+                t->cancelJob();
+            }
+            ix--;
+        }
+    }
+    int count = 0;
+    for (const auto &task : m_taskList) {
+        count += task.second.size();
+    }
+    m_blockUpdates = false;
+    m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(count);
+}
+
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete, const QVector<AbstractTask::JOBTYPE> exceptions)
 {
     if (m_blockUpdates) {
@@ -217,11 +256,11 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
     }
     m_tasksListLock.lockForWrite();
     m_blockUpdates = true;
-    qDebug() << "ZZZZZZZZZZZZZZZZZZZZZZZ\n\nSTARTING TASKMANAGER CLOSURE, ACTIVE THREADS: " << m_taskPool.activeThreadCount() << "\n\nZZZZZZZZZZZZZZZZZZZZZZZ";
+    qDebug() << "ZZZZZZZZZZZZZZZZZZZZZZZ\n\nSTARTING TASKMANAGER CLOSURE, ACTIVE THREADS: " << m_taskPool.activeThreadCount() << "\nEXCEPTIONS: " << exceptions
+             << "\n\nZZZZZZZZZZZZZZZZZZZZZZZ";
 
     for (const auto &task : m_taskList) {
         int ix = task.second.size() - 1;
-        qDebug() << "::: CLOSING TASKS : " << task.second.size();
         while (ix >= 0) {
             AbstractTask *t = task.second.at(ix);
             AbstractTask::JOBTYPE taskType = t->m_type;
@@ -233,6 +272,7 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
                 if (m_taskPool.tryTake(t)) {
                     // Task was not started yet, we can simply delete
                     qDebug() << "** DELETED  1 TASK from task pool: " << taskType;
+                    m_taskList[task.first].erase(std::remove(m_taskList[task.first].begin(), m_taskList[task.first].end(), t), m_taskList[task.first].end());
                     delete t;
                     ix--;
                     continue;
@@ -240,7 +280,7 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
             } else {
                 if (m_transcodePool.tryTake(t)) {
                     // Task was not started yet, we can simply delete
-                    qDebug() << "** DELETED  1 TASK from transcode pool: " << taskType;
+                    m_taskList[task.first].erase(std::remove(m_taskList[task.first].begin(), m_taskList[task.first].end(), t), m_taskList[task.first].end());
                     delete t;
                     ix--;
                     continue;
@@ -248,12 +288,12 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
             }
             if (m_taskList.find(task.first) != m_taskList.end()) {
                 // If so, then just add ourselves to be notified upon completion.
-                qDebug() << "** CLOSING 1 TASK : " << taskType;
-                t->cancelJob();
-                t->m_runMutex.lock();
-                t->m_runMutex.unlock();
-                t->deleteLater();
-                qDebug() << "** CLOSING 1 TASK DONE : " << taskType;
+                if (t->cancelJob()) {
+                    m_taskList[task.first].erase(std::remove(m_taskList[task.first].begin(), m_taskList[task.first].end(), t), m_taskList[task.first].end());
+                    t->m_runMutex.lock();
+                    t->m_runMutex.unlock();
+                    t->deleteLater();
+                }
             }
             ix--;
         }
@@ -302,7 +342,6 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
     for (const auto &task : m_taskList) {
         count += task.second.size();
     }
-    m_tasksListLock.unlock();
     // Set jobs count
     Q_EMIT jobCount(count);
     if (task->m_type == AbstractTask::TRANSCODEJOB || task->m_type == AbstractTask::PROXYJOB) {
@@ -311,6 +350,7 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
     } else {
         m_taskPool.start(task, task->m_priority);
     }
+    m_tasksListLock.unlock();
 }
 
 int TaskManager::getJobProgressForClip(const ObjectId &owner)

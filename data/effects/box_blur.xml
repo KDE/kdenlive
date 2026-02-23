@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
 <effect tag="box_blur" id="box_blur" version="2">
     <name>BoxBlur</name>
     <description>Box blur (separate horizontal and vertical blur)</description>

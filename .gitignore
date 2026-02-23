@@ -20,3 +20,6 @@ compile_commands.json
 
 # VSCode
 .vscode/
+
+# Artefacts from running KDE CI locally
+kde-ci-reports/*

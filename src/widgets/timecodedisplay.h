@@ -10,6 +10,43 @@
 #include "utils/timecode.h"
 
 #include <QAbstractSpinBox>
+#include <QLineEdit>
+
+class PopupLineEdit : public QLineEdit
+{
+    Q_OBJECT
+
+public:
+    explicit PopupLineEdit(QWidget *parent = nullptr);
+
+Q_SIGNALS:
+    void focusOuted();
+
+protected:
+    void focusOutEvent(QFocusEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+};
+
+class PopupInput : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit PopupInput(QWidget *parent = nullptr);
+
+    void Popup(const QString text, QPoint pos, QPoint size);
+    QString getText();
+
+Q_SIGNALS:
+    void editingFinished();
+
+private:
+    void handleEditingFinished();
+
+private:
+    PopupLineEdit *m_lineedit;
+};
 
 /** @class TimecodeValidator
     @brief Input validator for TimecodeDisplay
@@ -86,14 +123,21 @@ public:
     
     /** @brief Sets an offset for timecode display only, Used to show recording time instead of absolute timecode
      * @param offset the offset in msecs */
-    void setOffset(int offset);
+    void setMsOffset(int offset);
+    /** @brief  Set offset in frames */
+    void setFrameOffset(int offset);
 
     /** @brief Select all timecode text */
     void selectAll();
     /** @brief Make font bold */
     void setBold(bool enable);
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
+    PopupInput *m_popupInput;
+
     /** timecode for widget */
     Timecode m_timecode;
     /** Should we display the timecode in frames or in format hh:mm:ss:ff */
@@ -102,6 +146,13 @@ private:
     int m_maximum;
     int m_value;
     int m_offset;
+    QPointF m_clickPos;
+    QPointF m_startDragPos;
+    QPoint m_clickMouse;
+    bool m_dragging{false};
+    bool m_editing{false};
+    /** @brief the position of the lineedit cursor on mouse click */
+    int m_cursorClickPos{0};
 
 public Q_SLOTS:
     /** @brief Sets the value.
@@ -112,6 +163,8 @@ public Q_SLOTS:
     void setValue(const GenTime &value);
 
 private Q_SLOTS:
+    void onPopupInputFinished();
+
     void slotEditingFinished();
     /** @brief Refresh timecode to match project.*/
     void refreshTimeCode();

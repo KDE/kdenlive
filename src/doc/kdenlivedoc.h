@@ -183,7 +183,7 @@ public:
     void setSequenceProperty(const QUuid &uuid, const QString &name, int value);
     /** @brief Get a timeline sequence property. */
     const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString defaultValue = QString()) const;
-    /** @brief Return the names of oll sequences in this project. */
+    /** @brief Return the names of all sequences in this project. */
     const QStringList getSequenceNames() const;
     /** @brief Returns true if a sequence property exists. */
     bool hasSequenceProperty(const QUuid &uuid, const QString &name) const;
@@ -454,8 +454,6 @@ Q_SIGNALS:
     void startAutoSave();
     /** @brief Current doc created effects, reload list */
     void reloadEffects(const QStringList &paths);
-    /** @brief Fps was changed, update timeline (changed = 1 means no change) */
-    void updateFps(double changed);
     /** @brief If a command is pushed when we are in the middle of undo stack, invalidate further undo history */
     void removeInvalidUndo(int ix);
     /** @brief Update compositing info */

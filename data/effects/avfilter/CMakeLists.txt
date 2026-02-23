@@ -22,6 +22,7 @@ avfilter_boxblur.xml
 avfilter_bs2b.xml
 avfilter_bwdif.xml
 avfilter_cas.xml
+avfilter_ciescope.xml
 avfilter_chromahold.xml
 avfilter_chromanr.xml
 avfilter_chromashift.xml
@@ -82,6 +83,9 @@ avfilter_histeq.xml
 avfilter_histogram.xml
 avfilter_hqdn3d.xml
 avfilter_hqx.xml
+avfilter_hsvhold.xml
+avfilter_hsvkey.xml
+avfilter_huesaturation.xml
 avfilter_il.xml
 avfilter_inflate.xml
 avfilter_kerneldeint.xml
@@ -109,6 +113,7 @@ avfilter_removegrain.xml
 avfilter_rgbashift.xml
 avfilter_roberts.xml
 avfilter_sab.xml
+avfilter_scharr.xml
 avfilter_scroll.xml
 avfilter_selectivecolor.xml
 avfilter_separatefields.xml

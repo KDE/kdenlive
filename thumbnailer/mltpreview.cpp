@@ -39,7 +39,7 @@ KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
     int width = request.targetSize().width();
     int height = request.targetSize().height();
     std::unique_ptr<Mlt::Profile> profile(new Mlt::Profile());
-    std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(*profile.get(), request.url().toLocalFile().toUtf8().data()));
+    std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(*profile.get(), "xml-nogl", request.url().toLocalFile().toUtf8().data()));
 
     if (producer == nullptr || !producer->is_valid() || producer->is_blank()) {
         return KIO::ThumbnailResult::fail();
@@ -129,7 +129,7 @@ int MltPreview::imageVariance(const QImage &image)
         return 0;
     }
     QVarLengthArray<uchar> pivot(STEPS);
-    qDebug() << "Using " << STEPS << " steps\n";
+    // qDebug() << "Using " << STEPS << " steps\n";
     const uchar *bits = image.bits();
     // First pass: get pivots and taking average
     for (int i = 0; i < STEPS; i++) {

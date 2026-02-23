@@ -47,9 +47,10 @@ public:
 
     enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole };
     friend class KeyframeModelList;
-    friend class KeyframeWidget;
+    friend class KeyframeContainer;
     friend class KeyframeImport;
     friend class AssetMultiKeyframeCommand;
+    static KeyframeType::KeyframeEnum convertFromMltType(mlt_keyframe_type type);
 
 protected:
     /** @brief These methods should ONLY be called by keyframemodellist to ensure synchronisation
@@ -167,6 +168,8 @@ public:
     static const QString getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration,
                                                       ParamType paramType, bool useOpacity = true);
     static const QString getIconByKeyframeType(KeyframeType::KeyframeEnum type);
+    /** @brief Returns the MLT keyframe separator for a type, like ~= or |= */
+    static const QString getSeparatorForKeyframeType(mlt_keyframe_type type);
     static void initKeyframeTypes();
     static const QMap<KeyframeType::KeyframeEnum, QString> getKeyframeTypes();
     /** @brief Used for testing */

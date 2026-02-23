@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="pillar_echo" id="pillar_echo">
+<effect xmlns="https://www.kdenlive.org" tag="pillar_echo" id="pillar_echo">
     <name>Pillar Echo</name>
     <description>Create an echo effect (blur) outside of an area of interest.</description>
     <author>Meltytech, LLC</author>

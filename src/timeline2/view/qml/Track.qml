@@ -46,10 +46,12 @@ Item{
             speedController.lastValidDuration = newDuration
             clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
             speedController.visible = true
+            speedController.updatedSpeed = Math.round(clip.speed*100)
+            speedController.resizeRight = right
             // var delta = newDuration - clip.originalDuration
             // var s = timeline.simplifiedTC(Math.abs(delta))
             let s = '%1:%2\%, %3:%4'.arg(i18n("Speed"))
-                .arg(Math.round(clip.speed*100))
+                .arg(Math.round(speedController.updatedSpeed))
                 .arg(i18n("Duration"))
                 .arg(timeline.simplifiedTC(newDuration))
             timeline.showToolTip(s)
@@ -133,7 +135,7 @@ Item{
                 // Z order indicates the items that will be drawn on top.
                 if (model.clipType == Kdenlive.ClipType.Composition) {
                     // Compositions should be top, then clips
-                    return 50000;
+                    return 50000
                 }
 
                 if (model.mixDuration > 0) {
@@ -193,6 +195,12 @@ Item{
                     target: loader.item
                     property: "mixCut"
                     value: model.mixCut
+                    when: loader.status == Loader.Ready && loader.item && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "mixEndDuration"
+                    value: model.mixEndDuration
                     when: loader.status == Loader.Ready && loader.item && clipItem
                 }
                 Binding {
@@ -497,13 +505,15 @@ Item{
         height: root.baseUnit * 1.5
         property int lastValidDuration: 0
         property real originalSpeed: 1
+        property real updatedSpeed: 100
+        property bool resizeRight: true
         Text {
             id: speedLabel
-            text: i18n("Adjusting speed")
+            text: i18n("%1% | Adjusting speed", speedController.updatedSpeed)
             font: miniFont
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+            horizontalAlignment: speedController.resizeRight ? (speedLabel.implicitWidth > speedController.width ? Text.AlignLeft : Text.AlignRight) : Text.AlignLeft
             color: activePalette.highlightedText
         }
         transitions: [ Transition {

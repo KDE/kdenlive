@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="grain" id="grain" type="video" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="grain" id="grain" type="video" unique="1">
     <name context="Grain Effect Name">Grain</name>
     <description>Grain over the image</description>
     <author>Marco Gittler</author>

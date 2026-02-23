@@ -172,7 +172,6 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     if (version < 1.00) {
         changedDecimalPoint = upgradeTo100(documentLocale);
     }
-
     return QPair<bool, QString>(true, changedDecimalPoint);
 }
 
@@ -1358,7 +1357,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     if (version < 0.93) {
         // convert old keyframe filters to animated
         // these filters were "animated" by adding several instance of the filter, each one having a start and end tag.
-        // We convert by parsing the start and end tags vor values and adding all to the new animated parameter
+        // We convert by parsing the start and end tags for values and adding all to the new animated parameter
         QMap<QString, QStringList> keyframeFilterToConvert;
         keyframeFilterToConvert.insert(QStringLiteral("volume"), QStringList() << QStringLiteral("gain") << QStringLiteral("end") << QStringLiteral("level"));
         keyframeFilterToConvert.insert(QStringLiteral("brightness"), QStringList()

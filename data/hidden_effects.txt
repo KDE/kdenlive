@@ -1,0 +1,10 @@
+# INTERNAL EFFECTS, USED BY MLT BUT HIDDEN IN UI
+avcolor_space
+avcolour_space
+avdeinterlace
+color_transform
+sws_colortransform
+qtblend_mode
+deinterlace
+imageconvert
+subtitle_feed

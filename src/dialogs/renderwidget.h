@@ -13,6 +13,7 @@ namespace Purpose {
 class Menu;
 }
 
+#include "abstractmodel/treeproxymodel.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
 #include "render/renderrequest.h"
@@ -20,6 +21,7 @@ class Menu;
 #include "renderpresets/tree/renderpresettreemodel.hpp"
 #include "ui_renderwidget_ui.h"
 
+#include <KIO/FileJob>
 #include <KNSWidgets/Button>
 
 class QDomElement;
@@ -30,60 +32,18 @@ class RenderViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit RenderViewDelegate(QWidget *parent)
-        : QStyledItemDelegate(parent)
-    {
-    }
+    explicit RenderViewDelegate(QWidget *parent);
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
-    {
-        if (index.column() == 1) {
-            painter->save();
-            QStyleOptionViewItem opt(option);
-            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+protected:
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+    bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override;
 
-            QFont font = painter->font();
-            font.setBold(true);
-            painter->setFont(font);
-            QRect r1 = option.rect;
-            r1.adjust(0, textMargin, 0, -textMargin);
-            int mid = int((r1.height() / 2));
-            r1.setBottom(r1.y() + mid);
-            QRect bounding;
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
-            r1.moveTop(r1.bottom() - textMargin);
-            font.setBold(false);
-            painter->setFont(font);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
-            int progress = index.data(Qt::UserRole + 3).toInt();
-            if (progress > 0 && progress < 100) {
-                // draw progress bar
-                QColor color = option.palette.alternateBase().color();
-                QColor fgColor = option.palette.text().color();
-                color.setAlpha(150);
-                fgColor.setAlpha(150);
-                painter->setBrush(QBrush(color));
-                painter->setPen(QPen(fgColor));
-                int width = qMin(200, r1.width() - 4);
-                QRect bgrect(r1.left() + 2, option.rect.bottom() - 6 - textMargin, width, 6);
-                painter->drawRoundedRect(bgrect, 3, 3);
-                painter->setBrush(QBrush(fgColor));
-                bgrect.adjust(2, 2, 0, -1);
-                painter->setPen(Qt::NoPen);
-                bgrect.setWidth((width - 2) * progress / 100);
-                painter->drawRect(bgrect);
-            } else {
-                r1.setBottom(opt.rect.bottom());
-                r1.setTop(r1.bottom() - mid);
-                painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data(Qt::UserRole + 5).toString());
-            }
-            painter->restore();
-        } else {
-            QStyledItemDelegate::paint(painter, option, index);
-        }
-    }
+private:
+    mutable QRect m_logRect;
+    mutable QRect m_playlistRect;
+Q_SIGNALS:
+    bool hoverLink(bool hover);
 };
 
 class RenderJobItem : public QTreeWidgetItem
@@ -105,7 +65,24 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4 };
+    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning };
+    enum RenderStatus { NotRendering = 0, Rendering = 1 };
+    enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3 };
+    // Render job roles
+    enum ItemRole {
+        ParametersRole = Qt::UserRole + 1,
+        StartTimeRole,
+        ProgressRole,
+        ExtraInfoRole = ProgressRole + 2, // vpinon: don't understand why, else spurious message displayed
+        LastTimeRole,
+        LastFrameRole,
+        OpenBrowserRole,
+        PlayAfterRole,
+        LogFileRole,
+        PlaylistFileRole,
+        PlaylistDisplayRole,
+        TwoPassRole
+    };
 
     explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
     ~RenderWidget() override;
@@ -133,6 +110,8 @@ public:
     void zoneDurationChanged();
     /** @brief Update the render duration info. */
     void showRenderDuration(int projectLength = -1);
+    /** @brief True if a rendering is in progress. */
+    bool isRendering() const;
 
 protected:
     QSize sizeHint() const override;
@@ -151,6 +130,8 @@ public Q_SLOTS:
     void updateMetadataToolTip();
     /** @brief Update missing clip info. */
     void updateMissingClipsCount(int total, int used);
+    void updateRenderInfoMessage();
+    void updateRenderOffset();
 
 private Q_SLOTS:
     /**
@@ -178,6 +159,7 @@ private Q_SLOTS:
     void slotUpdateRescaleWidth(int);
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
+    void updateGuideEndOptionsForStartSelection();
     /** @brief Enable / disable the rescale options. */
     void setRescaleEnabled(bool enable);
     /** @brief Show updated command parameter in tooltip. */
@@ -200,6 +182,8 @@ private Q_SLOTS:
     /** @brief Prepare the render request. */
     void slotPrepareExport2(bool scriptExport = false);
     void slotCheckFreeMemory();
+    void updatePowerManagement();
+    void checkDriveSpace();
 
 private:
     enum Tabs { RenderTab = 0, JobsTab, ScriptsTab };
@@ -212,32 +196,41 @@ private:
     bool m_blockProcessing;
     QMap<int, QString> m_errorMessages;
     std::weak_ptr<MarkerListModel> m_guidesModel;
+    QList<CommentedTime> m_currentMarkers;
     std::shared_ptr<RenderPresetTreeModel> m_treeModel;
     QString m_currentProfile;
     RenderPresetParams m_params;
+    std::unique_ptr<TreeProxyModel> m_proxyModel;
     int m_renderDuration{0};
     int m_missingClips{0};
     int m_missingUsedClips{0};
     int m_lowMemThreshold{1000};
     int m_veryLowMemThreshold{500};
+    QByteArray m_lastCheckedDevice;
+    QTimer m_lowSpaceTimer;
+    KIO::filesize_t m_lastFreeSpace{0};
     MemCheckStatus m_lowMemStatus{NoWarning};
+    RenderStatus m_renderStatus{NotRendering};
+    DriveSpaceStatus m_freeSpaceStatus{SpaceOk};
     QTimer m_memCheckTimer;
 
     Purpose::Menu *m_shareMenu;
     void parseProfiles(const QString &selectedProfile = QString());
     QUrl filenameWithExtension(QUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
-    void checkRenderStatus();
+    void checkRenderStatus(int lastStatus = -1);
     void startRendering(RenderJobItem *item);
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, QString profileName, bool codecInName = false);
     RenderJobItem *createRenderJob(const RenderRequest::RenderJob &job);
-    void updateRenderInfoMessage();
+    /** Returns the first starting job */
+    RenderJobItem *startingJob();
 
 Q_SIGNALS:
     void abortProcess(const QString &url);
     /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file) */
     void selectedRenderProfile(const QMap<QString, QString> &renderProps);
+    void renderStatusChanged();
     void shutdown();
 };

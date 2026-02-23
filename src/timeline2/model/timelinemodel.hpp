@@ -117,13 +117,14 @@ public:
     /// Two level model: tracks and clips on track
     enum {
         NameRole = Qt::UserRole + 1,
-        ResourceRole, /// clip only
-        IsProxyRole,  /// clip only
-        ServiceRole,  /// clip only
-        StartRole,    /// clip only
-        MixRole,      /// clip only, the duration of the mix
-        MixCutRole,   /// The original cut position for the mix
-        BinIdRole,    /// clip only
+        ResourceRole,       /// clip only
+        IsProxyRole,        /// clip only
+        ServiceRole,        /// clip only
+        StartRole,          /// clip only
+        MixRole,            /// clip only, the duration of the mix
+        MixCutRole,         /// The original cut position for the mix
+        MixEndDurationRole, /// Duration of the mix at the end of the clip
+        BinIdRole,          /// clip only
         TrackIdRole,
         FakeTrackIdRole,
         FakePositionRole,
@@ -178,6 +179,8 @@ public:
         AudioRecordRole,    /// track only
         EffectZonesRole     /// track only
     };
+
+    enum MoveResult { MoveSuccess, MoveErrorAudio, MoveErrorVideo, MoveErrorType, MoveErrorOther };
 
     ~TimelineModel() override;
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
@@ -325,6 +328,9 @@ public:
        @param clipId Id of the clip to test
     */
     QPoint getClipInDuration(int clipId) const;
+    /** @brief Returns the rec timecode for a timeline clip
+     */
+    int64_t getClipTimecodeOffset(int clipId) const;
 
     /** @brief Returns the clip state (audio/video only) and type (Video, Color, Title...)
      */
@@ -387,7 +393,8 @@ public:
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackIndex(int trackId) const;
-    int getTopVideoTrackIndex();
+    int getTopVideoTrackIndex() const;
+    int getLowestVideoTrackIndex() const;
 
     /** @brief Set the marker model on this timeline (usually the marker model from its Bin Sequence clip.
      */
@@ -441,14 +448,14 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo,
-                         Fun &redo, bool revertMove = false, bool groupMove = false, const QMap<int, int> &moving_clips = QMap<int, int>(),
-                         std::pair<MixInfo, MixInfo> mixData = {});
+    TimelineModel::MoveResult requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline,
+                                              bool finalMove, Fun &undo, Fun &redo, bool revertMove = false, bool groupMove = false,
+                                              const QMap<int, int> &moving_clips = QMap<int, int>(), std::pair<MixInfo, MixInfo> mixData = {});
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /** @brief When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
     bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
-    bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
+    Q_INVOKABLE bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
                               bool allowViewRefresh = true);
@@ -534,7 +541,7 @@ public:
     /**  @brief True if we are selecting a single item in a group
      */
     bool singleSelectionMode() const;
-    /**  @brief CHange the black bacground track duration.
+    /**  @brief Change the black background track duration.
      *  if @limit is  true, reduce track duration to project duration
      *  if @limit is false, add seek offset
      */
@@ -591,7 +598,7 @@ public:
        @param clipId is the id of the clip that triggers the group deletion
     */
     Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
-    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
 
     /** @brief Change the duration of an item (clip or composition)
      *  This action is undoable
@@ -839,6 +846,10 @@ public:
      *  @returns true if the timeline clip was shortened by the reload operation
      */
     bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
+    /** @brief Ensure a clip occurrence is not longer than maxDuration
+     *  @returns true if the timeline clip was shortened by the operation
+     */
+    bool limitClipMaxDuration(int clipId, int maxDuration, Fun &local_undo, Fun &local_redo);
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);
@@ -935,7 +946,7 @@ public:
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
-    /** @brief The sequence name displayed in master effec button needs an update */
+    /** @brief The sequence name displayed in master effect button needs an update */
     void updateVisibleSequenceName(const QString displayName);
     /** @brief Register all clips in this sequence to Bin */
     void registerTimeline();
@@ -1030,7 +1041,8 @@ Q_SIGNALS:
     void requestClearAssetView(int);
     void requestMonitorRefresh();
     /** @brief signal triggered by track operations */
-    void invalidateZone(int in, int out);
+    void invalidateZone(int in, int out, bool isAudio = false);
+    void invalidateAudioZone(int in, int out);
     /** @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated(const QUuid &uuid);
 

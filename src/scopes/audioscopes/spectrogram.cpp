@@ -369,7 +369,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         if (m_fftHistoryImg.size() == m_scopeRect.size() && !m_parameterChanged) {
             // The size of the widget and the parameters (like min/max dB) have not changed since last time,
-            // so we can re-use it, shift it by one pixel, and render the single remaining line. Usually about
+            // so we can reuse it, shift it by one pixel, and render the single remaining line. Usually about
             // 10 times faster for a widget height of around 400 px.
             if (newDataAvailable) {
                 davinci.drawImage(0, -1, m_fftHistoryImg);
@@ -426,7 +426,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
 #ifdef DEBUG_SPECTROGRAM
         qCDebug(KDENLIVE_LOG) << "Rendered " << y - topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
-                              << (completeRedraw ? "" : " (re-used old image)");
+                              << (completeRedraw ? "" : " (reused old image)");
         uint storedBytes = 0;
         for (QList<QVector<float>>::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
             storedBytes += (*it).size() * sizeof((*it)[0]);

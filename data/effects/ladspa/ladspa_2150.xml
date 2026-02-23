@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2150" tag="ladspa.2150" ladspaid="2150" type="audio">
+   <name>TAP Pitch Shifter</name>
+   <description><![CDATA[TAP Pitch Shifter (LADSPA 2150)<br>
+   Change the pitch in the range of plus/minus one octave.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" max="12.0" min="-12.0" decimals="1" default="0.00">
+      <name>Semitone Shift</name>
+      <comment><![CDATA[Does the same thing as <b>Rate Shift</b></br>
+      but allows to set musically sensible pitch shift rates.]]></comment>
+   </parameter>
+   <parameter name="1" type="animated" max="100.0" min="-50.0" decimals="1" default="0.0" suffix="%">
+      <name>Rate Shift</name>
+      <comment><![CDATA[Does the same thing as <b>Semitone Shift</b><br>
+      but in percentage of the original pitch, so that is closer to a "physical", non-musical approach]]></comment>
+   </parameter>
+   <parameter name="2" type="animated" max="20.0" min="-90.0" decimals="1" default="-90.0" suffix="dB">
+      <name>Dry Level</name>
+   </parameter>
+   <parameter name="3" type="animated" max="20.0" min="-90.0" decimals="1" default="0.0" suffix="dB">
+      <name>Wet Level</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

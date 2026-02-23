@@ -15,8 +15,34 @@
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
+#include <QImageReader>
 #include <QTemporaryFile>
 #include <QtGlobal>
+
+QString getCIMltRepositoryPath()
+{
+    for (auto varname : {"CRAFT_ROOT", "KDEROOT"}) {
+        if (!qEnvironmentVariableIsSet(varname)) {
+            continue;
+        }
+
+        qDebug() << varname << "envvar is set, try to use it for MLT repository path";
+        QString repositoryPath = QDir::cleanPath(qgetenv(varname) + QDir::separator() + QStringLiteral("lib/mlt"));
+        if (!QFile::exists(repositoryPath)) {
+            qDebug() << repositoryPath << "does not exist ($" << varname << "/lib/mlt)";
+            QString repositoryPath = QDir::cleanPath(qgetenv(varname) + QDir::separator() + QStringLiteral("lib/mlt-7"));
+        }
+        if (!QFile::exists(repositoryPath)) {
+            qDebug() << repositoryPath << "does not exist ($" << varname << "/lib/mlt-7)";
+            return {};
+        }
+
+        qDebug() << "Using this path as MLT repository path:" << repositoryPath;
+
+        return repositoryPath;
+    }
+    return {};
+}
 
 int main(int argc, char **argv)
 {
@@ -27,6 +53,7 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("kdenlive_render");
     QCoreApplication::setApplicationVersion(KDENLIVE_VERSION);
+    QImageReader::setAllocationLimit(1024);
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Kdenlive video renderer for MLT");
@@ -41,11 +68,11 @@ int main(int argc, char **argv)
     if (mode == "preview-chunks") {
 
         parser.clearPositionalArguments();
-        parser.addPositionalArgument("preview-chunks", "Mode: Render splited in to multiple files for timeline preview.");
+        parser.addPositionalArgument("preview-chunks", "Mode: Render split into multiple files for timeline preview.");
         parser.addPositionalArgument("source", "Source file (usually MLT XML).");
         parser.addPositionalArgument("destination", "Destination directory.");
         parser.addPositionalArgument("chunks", "Chunks to render.");
-        parser.addPositionalArgument("chunk_size", "Chunks to render.");
+        parser.addPositionalArgument("chunk_size", "Size of chunks to render.");
         parser.addPositionalArgument("profile_path", "Path to profile.");
         parser.addPositionalArgument("file_extension", "Rendered file extension.");
         parser.addPositionalArgument("args", "Space separated libavformat arguments.", "[arg1 arg2 ...]");
@@ -57,9 +84,19 @@ int main(int argc, char **argv)
             parser.showHelp(1);
             // the command above will quit the app with return 1;
         }
+
+        QString repoPath = getCIMltRepositoryPath();
+        if (!repoPath.isEmpty() && !qEnvironmentVariableIsSet("MLT_DATA")) {
+            QString dataPath = QDir::cleanPath(repoPath + QStringLiteral("/../../share/mlt"));
+            if (QFile::exists(dataPath)) {
+                qDebug() << "Setting MLT_DATA to" << dataPath;
+                qputenv("MLT_DATA", dataPath.toUtf8());
+            }
+        }
+
         // After initialising the MLT factory, set the locale back from user default to C
         // to ensure numbers are always serialised with . as decimal point.
-        Mlt::Factory::init();
+        Mlt::Factory::init(repoPath.isEmpty() ? NULL : repoPath.toUtf8().constData());
         LocaleHandling::resetAllLocale();
 
         // mode
@@ -157,7 +194,7 @@ int main(int argc, char **argv)
 
         QCommandLineOption outputOption({"o", "output"},
                                         "The destination file, optional. If no set the destination will be retrieved from the \"target\" property of the "
-                                        "consumer in the source file. If set it overrides the consumers \"taget\" property.",
+                                        "consumer in the source file. If set it overrides the consumers \"target\" property.",
                                         "file");
         parser.addOption(outputOption);
 
@@ -175,6 +212,8 @@ int main(int argc, char **argv)
 
         if (args.count() != 3) {
             qCritical() << "Error: wrong number of arguments specified\n";
+            int pid = parser.value(pidOption).toInt();
+            RenderJob r(QStringLiteral("Error: wrong number of arguments specified\n"), pid, &app);
             parser.showHelp(1);
             // the command above will quit the app with return 1;
         }
@@ -191,10 +230,14 @@ int main(int argc, char **argv)
         QDomDocument doc;
         if (!f.open(QIODevice::ReadOnly)) {
             qCWarning(KDENLIVE_RENDERER_LOG) << "Failed to open file" << f.fileName() << "for reading";
+            int pid = parser.value(pidOption).toInt();
+            RenderJob r(QStringLiteral("Failed to open file %1").arg(f.fileName()), pid, &app);
             return 1;
         }
         if (!doc.setContent(&f)) {
             qCWarning(KDENLIVE_RENDERER_LOG) << "Failed to parse file" << f.fileName() << "to QDomDocument";
+            int pid = parser.value(pidOption).toInt();
+            RenderJob r(QStringLiteral("Failed to parse file %1").arg(f.fileName()), pid, &app);
             f.close();
             return 1;
         }

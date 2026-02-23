@@ -30,14 +30,21 @@
 #include <mlt++/MltTransition.h>
 
 #ifdef CRASH_AUTO_TEST
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
+
 #include <rttr/registration>
+
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+
 RTTR_REGISTRATION
 {
     using namespace rttr;
@@ -253,6 +260,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[StartRole] = "start";
     roles[MixRole] = "mixDuration";
     roles[MixCutRole] = "mixCut";
+    roles[MixEndDurationRole] = "mixEndDuration";
     roles[DurationRole] = "duration";
     roles[MaxDurationRole] = "maxDuration";
     roles[MarkersRole] = "markers";
@@ -403,6 +411,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getMixDuration();
         case MixCutRole:
             return clip->getMixCutPosition();
+        case MixEndDurationRole:
+            return getEndMixDuration(id);
         case ClipThumbRole:
             return clip->clipThumbPath();
         case ReloadAudioThumbRole:
@@ -556,10 +566,14 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         roles.push_back(IsLockedRole);
     } else if (name == QLatin1String("hide")) {
         roles.push_back(IsDisabledRole);
-        if (!track->isAudioTrack() && !isLoading) {
-            pCore->invalidateItem(ObjectId(KdenliveObjectType::TimelineTrack, trackId, m_uuid));
-            pCore->refreshProjectMonitorOnce();
-            updateMultiTrack = true;
+        if (!isLoading) {
+            if (!track->isAudioTrack()) {
+                pCore->invalidateItem(ObjectId(KdenliveObjectType::TimelineTrack, trackId, m_uuid));
+                pCore->refreshProjectMonitorOnce();
+                updateMultiTrack = true;
+            } else {
+                pCore->invalidateAudio(ObjectId(KdenliveObjectType::TimelineTrack, trackId, m_uuid));
+            }
         }
     } else if (name == QLatin1String("kdenlive:timeline_active")) {
         roles.push_back(TrackActiveRole);
@@ -724,6 +738,10 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
     const QUuid uuid(source.at(3));
     bool singleTarget = source.at(4).toInt() == 1;
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
+    if (effectStack == nullptr) {
+        pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::ErrorMessage);
+        return false;
+    }
     if (!singleTarget && m_singleSelectionMode && m_currentSelection.count(clipId)) {
         // only operate on the selected item
         Fun undo = []() { return true; };
@@ -793,6 +811,9 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     QString composite;
     if (pCore->currentDoc()->getSequenceProperty(m_uuid, QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0) {
         composite = TransitionsRepository::get()->getCompositingTransition();
+        if (composite.isEmpty()) {
+            pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
+        }
     }
     int videoTracks = 0;
     int audioTracks = 0;
@@ -835,9 +856,6 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     pCore->updateSequenceAVType(m_uuid, audioTracks + videoTracks);
     if (isMultiTrack) {
         pCore->enableMultiTrack(true);
-    }
-    if (composite.isEmpty()) {
-        pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
     }
 }
 
@@ -1170,4 +1188,24 @@ QList<std::shared_ptr<KeyframeModelList>> TimelineItemModel::getGroupKeyframeMod
         }
     }
     return models;
+}
+
+int TimelineItemModel::getEndMixDuration(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    int tid = m_allClips.at(cid)->getCurrentTrackId();
+    qDebug() << ":::: CHECKING MIX  FOR: " << cid;
+    if (tid > -1) {
+        MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).second;
+        if (mixData.secondClipId > -1) {
+            qDebug() << ":::: CLIP HAS END MIX WITH: " << mixData.secondClipId;
+            MixInfo mixData2 = getTrackById_const(tid)->getMixInfo(mixData.secondClipId).first;
+            qDebug() << ":::: GOT OFFSET DATA FOR CLIP: " << cid << " = " << mixData2.mixOffset;
+            return mixData2.firstClipInOut.second - mixData2.secondClipInOut.first;
+            // return {mixData.secondClipInOut.first, mixData.firstClipInOut.second};
+        } else {
+            qDebug() << ":::: CLIP HAS NO END MIX... FIRST MIX:" << getTrackById_const(tid)->getMixInfo(cid).first.firstClipId;
+        }
+    }
+    return 0;
 }

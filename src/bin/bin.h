@@ -9,9 +9,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "abstractprojectitem.h"
+#include "project/transcodeseek.h"
 #include "utils/timecode.h"
 
 #include <KMessageWidget>
+#include <kddockwidgets/DockWidget.h>
 
 #include <QActionGroup>
 #include <QDir>
@@ -55,6 +57,7 @@ class QUndoCommand;
 class QVBoxLayout;
 class SmallJobLabel;
 class MediaBrowser;
+class MarkerListModel;
 
 namespace Mlt {
 class Producer;
@@ -78,16 +81,19 @@ protected:
     void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 Q_SIGNALS:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
-    void processDragEnd();
+    void performDrag(const QModelIndexList indexes);
+
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
     QModelIndex m_lastHoveredItem;
+    QModelIndexList m_clickedIndexes;
 };
 
 /** @class MyTreeView
@@ -110,6 +116,7 @@ protected:
     void enterEvent(QEnterEvent *) override;
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 protected Q_SLOTS:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
@@ -119,8 +126,8 @@ private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
     QModelIndex m_lastHoveredItem;
+    QModelIndexList m_clickedIndexes;
     bool m_editing;
-    bool performDrag();
     bool isEditing() const;
 
 Q_SIGNALS:
@@ -130,6 +137,7 @@ Q_SIGNALS:
     void processDragEnd();
     void selectCurrent();
     void editingChanged();
+    void performDrag(const QModelIndexList indexes);
 };
 
 /** @class SmallJobLabel
@@ -147,7 +155,7 @@ public:
 private:
     enum ItemRole { NameRole = Qt::UserRole, DurationRole, UsageRole };
 
-    QTimeLine *m_timeLine;
+    QTimeLine *m_timeLine{nullptr};
     QAction *m_action{nullptr};
     QMutex m_locker;
 
@@ -192,6 +200,13 @@ public:
     explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr, bool isMainBin = true, BinViewType type = BinUnknownView);
     ~Bin() override;
 
+    struct ClipZoneInfo
+    {
+        QString clipId;
+        QPoint zone;
+        int seekFrame;
+    };
+
     bool isLoading;
     /** @brief Sets the document for the bin and initialize some stuff  */
     const QString setDocument(KdenliveDoc *project, const QString &id = QString());
@@ -219,8 +234,8 @@ public:
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     std::pair<PlaylistState::ClipState, ClipType::ProducerType> getClipState(int itemId) const;
 
-    /** @brief Add markers on clip \@param binId at \@param positions with @comments text if given */
-    void addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments = {});
+    /** @brief Add markers on clip \@param binId at \@param markersData with @comments text if given */
+    void addClipMarker(const QString &binId, const QMap<int, QString> &markersData);
 
     /** @brief Get the count of all markers in all clips using this category */
     int getAllClipMarkers(int category) const;
@@ -231,7 +246,7 @@ public:
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
      */
-    std::vector<QString> selectedClipsIds(bool allowSubClips = false);
+    std::vector<QString> selectedClipsIds(bool allowSubClips = false, bool allowFolders = false);
 
     // Returns the selected clips
     QList<std::shared_ptr<ProjectClip>> selectedClips();
@@ -267,6 +282,9 @@ public:
     void blockBin(bool block);
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu();
+    QMenu *addClipMenu() const;
+    void setReadyCallBack(const std::function<void(const QString &)> &cb);
+    void setSuggestedDuration(int duration);
     void clearMonitor();
 
     /** @brief Set focus to the Bin view. */
@@ -303,7 +321,7 @@ public:
     /** @brief Get usage stats for project bin. */
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */
-    QDockWidget *clipPropertiesDock();
+    KDDockWidgets::QtWidgets::DockWidget *clipPropertiesDock();
     void rebuildProxies();
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
@@ -313,6 +331,10 @@ public:
     void saveZone(const QStringList &info, const QDir &dir);
     /** @brief A bin clip changed (its effects), invalidate preview */
     void invalidateClip(const QString &binId);
+    /** @brief A bin clip changed (its effects), invalidate audio preview */
+    void invalidateClipAudio(const QString &binId);
+    /** @brief Update sequence audio thumb if necessary */
+    void rebuildAudioThumb(const QString &binId);
     /** @brief Recreate missing proxies on document opening */
     void checkMissingProxies();
     /** @brief Save folder state (expanded or not) */
@@ -381,6 +403,24 @@ public:
     void showItemEffectStack(ObjectId owner);
     /** @brief Return the bin search widget */
     QLineEdit *searchLine();
+    /** @brief Get marker models for all clips */
+    const QList<std::shared_ptr<MarkerListModel>> getAllClipsMarkers();
+    /** @brief Get the first selected clip*/
+    std::shared_ptr<ProjectClip> getFirstSelectedClip();
+    /** @brief Expand / collapse current item */
+    void expandCurrent();
+    /** @brief Expand / collapse all items */
+    void expandAll();
+    bool isMainBin() const;
+    void buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock);
+    const QString slotAddClipToProject(const QUrl &url);
+    /** @brief Save all sequence audio thumbnails to disk */
+    void saveSequenceAudioThumb();
+    /** @brief Generate or load all sequence audio thumbnails from disk */
+    void loadSequenceAudioThumb();
+
+public Q_SLOTS:
+    const QString slotUrlsDropped(const QList<QUrl> urls, const QModelIndex parent);
 
 private Q_SLOTS:
     void slotAddClip();
@@ -447,9 +487,13 @@ private Q_SLOTS:
     /** @brief Set (or unset) the default folder for newly created audio captures. */
     void setDefaultAudioCaptureFolder(bool enable);
     /** @brief Fetch the filters from the UI and apply them to the proxy model */
-    void slotApplyFilters();
+    void slotApplyFilters(bool fromFilterButton = false);
     /** @brief Open a new Bin widget */
     void slotOpenNewBin();
+    /** @brief Open clip in monitor */
+    void openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1, const QUuid &uuid = QUuid(), int seekFrame = -1);
+    /** @brief Perform the drag */
+    bool performDrag(const QModelIndexList indexes);
 
 public Q_SLOTS:
 
@@ -466,7 +510,6 @@ public Q_SLOTS:
     void slotStartFilterJob(/*const ItemInfo &info,*/ const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                             QMap<QString, QString> &extraParams);
     void slotItemDropped(const QStringList ids, const QModelIndex parent, bool dropFromSameSource);
-    const QString slotUrlsDropped(const QList<QUrl> urls, const QModelIndex parent);
     void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
     void slotTagDropped(const QString &tag, const QModelIndex &parent);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
@@ -488,7 +531,6 @@ public Q_SLOTS:
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString logInfo);
     /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint(), bool activateMonitor = true);
-    const QString slotAddClipToProject(const QUrl &url);
     void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
     /** @brief Adjust project profile to current clip. */
     void adjustProjectProfileToItem();
@@ -505,8 +547,9 @@ public Q_SLOTS:
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
     /** @brief A non seekable clip was added to project, propose transcoding */
-    void requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix = QString(), const QString &message = QString());
-    /** @brief Display the transcode to edit friendly format for currenly selected bin clips */
+    void requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo info, bool checkProfile, const QString &suffix = QString(),
+                            const QString &message = QString());
+    /** @brief Display the transcode to edit friendly format for currently selected bin clips */
     void requestSelectionTranscoding(bool forceReplace = false);
     /** @brief Build the project bin audio/video icons according to color theme */
     void slotUpdatePalette();
@@ -552,7 +595,7 @@ private:
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
     QVBoxLayout *m_layout;
-    QDockWidget *m_propertiesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_propertiesDock;
     QScrollArea *m_propertiesPanel;
     QSlider *m_slider;
     QIcon m_blankThumb;
@@ -579,7 +622,7 @@ private:
     QAction *m_upAction{nullptr};
     QAction *m_tagAction{nullptr};
     QActionGroup *m_sortGroup{nullptr};
-    SmallJobLabel *m_infoLabel;
+    SmallJobLabel *m_infoLabel{nullptr};
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu{nullptr};
     QActionGroup m_filterTagGroup;
@@ -610,17 +653,19 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
+    std::function<void(const QString &)> m_readyCallBack;
+    int m_suggestedDuration{-1};
     QAction *addBinAction(const QString &name, const QString &text, const QIcon &icon, const QString &category = {});
     void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
-    std::shared_ptr<ProjectClip> getFirstSelectedClip();
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
     void updateSortingAction(int ix);
     int wheelAccumulatedDelta;
     QString m_keyBindingMessage;
     QString m_clipsCountMessage;
+    ClipZoneInfo m_activateClipZoneInfo;
     /** @brief Show the clip count and key binfing info in status bar. */
     void showBinInfo();
     /** @brief Find all clip Ids that have a specific tag. */
@@ -641,7 +686,7 @@ Q_SIGNALS:
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
-    void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1, const QUuid sequenceUuid = QUuid());
+    void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1, const QUuid sequenceUuid = QUuid(), int seekFrame = -1);
     /** @brief Fill context menu with occurrences of this clip in timeline. */
     void findInTimeline(const QString &, QList<int> ids = QList<int>());
     void clipNameChanged(int, const QString);
@@ -652,6 +697,7 @@ Q_SIGNALS:
     void requestBinClose();
     /** @brief Update a timeline tab name on clip rename. */
     void updateTabName(const QUuid &, const QString &);
+    void requestAddClipReset();
     /** @brief Some timeline sequence producers have been updated, refresh their occurrences. */
     void requestUpdateSequences(QMap<QUuid, std::pair<int, int>> seqs);
 };

@@ -12,6 +12,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/timecode.h"
 #include "widgets/timecodedisplay.h"
 
+#include <QFutureWatcher>
+
 class ProjectClip;
 
 namespace Mlt {
@@ -35,13 +37,23 @@ public:
     bool addMultiMarker() const;
     GenTime getInterval() const;
     int getOccurrences() const;
+    /** @brief cache marker thumbnail */
+    void cacheThumbnail();
 
 private Q_SLOTS:
     void slotUpdateThumb();
+    void slotUpdateDuration();
+    void slotUpdateEndTime();
+    void slotRangeMarkerToggled(bool enabled);
 
 private:
     ProjectClip *m_clip;
+    int m_position{0};
     QTimer *m_previewTimer;
+    QFuture<QImage> m_future;
+    QFutureWatcher<QImage> m_watcher;
+    void updateDurationDisplay();
+    void setupRangeMarkerConnections();
 
 Q_SIGNALS:
     void updateThumb();

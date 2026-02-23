@@ -180,7 +180,7 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     check_error(f);
     f->glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width / 2, height / 2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height + width / 2 * height / 2);
     check_error(f);
-    // Restore the default pixel alignement .
+    // Restore the default pixel alignment .
     f->glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
@@ -246,7 +246,10 @@ void OpenGLVideoWidget::renderVideo()
 
     // Set model view.
     QMatrix4x4 modelView;
-    if (rect().width() > 0.0 && zoom() > 0.0) {
+    if (!m_monitorOffset.isNull()) {
+        modelView.translate(m_monitorOffset.x() * devicePixelRatioF(), -m_monitorOffset.y() * devicePixelRatioF());
+    }
+    if (m_rect.width() > 0.0 && zoom() > 0.0) {
         if (offset().x() || offset().y()) modelView.translate(-offset().x() * devicePixelRatioF(), offset().y() * devicePixelRatioF());
         modelView.scale(zoom(), zoom());
     }
@@ -255,8 +258,8 @@ void OpenGLVideoWidget::renderVideo()
 
     // Provide vertices of triangle strip.
     QVector<QVector2D> vertices;
-    width = rect().width() * devicePixelRatioF();
-    height = rect().height() * devicePixelRatioF();
+    width = m_rect.width() * devicePixelRatioF();
+    height = m_rect.height() * devicePixelRatioF();
     vertices << QVector2D(-width / 2.0f, -height / 2.0f);
     vertices << QVector2D(-width / 2.0f, height / 2.0f);
     vertices << QVector2D(width / 2.0f, -height / 2.0f);

@@ -13,6 +13,7 @@
 */
 
 #include "monitor/monitor.h"
+#include "monitor/view/qmliconprovider.hpp"
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -24,6 +25,7 @@
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QStyle>
 #include <QtGlobal>
 #include <memory>
 
@@ -132,17 +134,39 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     m_proxy = new MonitorProxy(this);
     rootContext()->setContextProperty("controller", m_proxy);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
+    int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    engine()->addImageProvider(QStringLiteral("icon"), new QmlIconProvider(QSize(iconSize, iconSize), this));
+    m_mouseTimer.setSingleShot(true);
+    m_mouseTimer.setInterval(2000);
 }
 
 VideoWidget::~VideoWidget()
 {
     stop();
+    m_mouseTimer.stop();
     if (m_frameRenderer && m_frameRenderer->isRunning()) {
         m_frameRenderer->quit();
         m_frameRenderer->wait();
         m_frameRenderer->deleteLater();
     }
     m_blackClip.reset();
+}
+
+void VideoWidget::enableMouseTimer(bool enable)
+{
+    m_fullScreen = enable;
+    if (enable) {
+        connect(&m_mouseTimer, &QTimer::timeout, this, &VideoWidget::blankCursor, Qt::UniqueConnection);
+    } else {
+        m_mouseTimer.stop();
+        setCursor(Qt::ArrowCursor);
+        disconnect(&m_mouseTimer, &QTimer::timeout, this, &VideoWidget::blankCursor);
+    }
+}
+
+void VideoWidget::blankCursor()
+{
+    setCursor(Qt::BlankCursor);
 }
 
 void VideoWidget::updateAudioForAnalysis()
@@ -193,34 +217,47 @@ const QStringList VideoWidget::getGPUInfo()
     return {};
 }
 
+void VideoWidget::setFixedImageSize(const QSize fixedSize)
+{
+    m_fixedSize = fixedSize;
+}
+
 void VideoWidget::resizeVideo(int width, int height)
 {
-    int x, y, w, h;
+    double x, y, w, h;
     height -= m_displayRulerHeight;
     double this_aspect = double(width) / height;
 
     // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
-    if (int(this_aspect * 1000) == int(m_dar * 1000)) {
-        w = width;
-        h = height;
-    }
-    // Use OpenGL to normalise sample aspect ratio
-    else if (height * m_dar > width) {
-        w = width;
-        h = int(width / m_dar);
+    if (m_fixedSize.isValid()) {
+        w = m_fixedSize.width();
+        h = m_fixedSize.height();
     } else {
-        w = int(height * m_dar);
-        h = height;
+        if (int(this_aspect * 1000) == int(m_dar * 1000)) {
+            w = width;
+            h = height;
+        }
+        // Use OpenGL to normalise sample aspect ratio
+        else if (height * m_dar > width) {
+            w = width;
+            h = width / m_dar;
+        } else {
+            w = height * m_dar;
+            h = height;
+        }
     }
-    x = (width - w) / 2;
-    y = (height - h) / 2;
-    m_rect.setRect(x, y, w, h);
+    x = (width - w) / 2.0;
+    y = (height - h) / 2.0;
+    m_rect = QRectF(x, y, w, h);
+    const QSize parentSize = parentWidget()->size();
+    m_monitorOffset = QPointF((parentSize.width() - width) / 2., (parentSize.height() - m_displayRulerHeight - height) / 2.);
+
     QQuickItem *rootQml = rootObject();
     if (rootQml) {
         QSize s = pCore->getCurrentFrameSize();
-        double scalex = double(m_rect.width() * m_zoom) / s.width();
-        double scaley = double(m_rect.height() * m_zoom) / s.height();
+        double scalex = m_rect.width() * m_zoom / s.width();
+        double scaley = m_rect.height() * m_zoom / s.height();
         rootQml->setProperty("center", m_rect.center());
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
@@ -229,7 +266,6 @@ void VideoWidget::resizeVideo(int width, int height)
             rootQml->setProperty("splitterPos", x + (rootQml->property("percentage").toDouble() * w));
         }
     }
-    Q_EMIT rectChanged();
 }
 
 void VideoWidget::resizeEvent(QResizeEvent *event)
@@ -240,6 +276,13 @@ void VideoWidget::resizeEvent(QResizeEvent *event)
         refreshZoom = false;
     }
     resizeVideo(event->size().width(), event->size().height());
+}
+
+void VideoWidget::updateImagePosition()
+{
+    if (m_fixedSize.isValid()) {
+        resizeVideo(width(), height());
+    }
 }
 
 void VideoWidget::forceRefreshZoom()
@@ -288,6 +331,11 @@ void VideoWidget::slotZoom(bool zoomIn)
     }
 }
 
+void VideoWidget::slotZoomReset()
+{
+    setZoom(1.);
+}
+
 void VideoWidget::refreshRect()
 {
     resizeVideo(width(), height());
@@ -295,7 +343,6 @@ void VideoWidget::refreshRect()
 
 void VideoWidget::updateRulerHeight(int addedHeight)
 {
-    qDebug() << "::: ADJUSTED RULER HEHGIT: " << addedHeight << "\n9999999999999999999999999999999999\n";
     m_displayRulerHeight =
         m_rulerHeight > 0 ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) + addedHeight : 0;
     resizeVideo(width(), height());
@@ -318,6 +365,7 @@ void VideoWidget::requestSeek(int position, bool noAudioScrub)
     restartConsumer();
     m_consumer->set("refresh", 1);
     if (KdenliveSettings::audio_scrub() && !noAudioScrub) {
+        m_consumer->set("volume", KdenliveSettings::volume() / 100.0);
         m_consumer->set("scrub_audio", 1);
     } else {
         m_consumer->set("scrub_audio", 0);
@@ -405,28 +453,32 @@ bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
 
 void VideoWidget::mousePressEvent(QMouseEvent *event)
 {
-    if ((rootObject() != nullptr) && rootObject()->property("captureRightClick").toBool() && !(event->modifiers() & Qt::ControlModifier) &&
-        !(event->buttons() & Qt::MiddleButton)) {
-        event->ignore();
-        QQuickWidget::mousePressEvent(event);
-        return;
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        } else {
+            m_mouseTimer.stop();
+        }
     }
     QQuickWidget::mousePressEvent(event);
     // For some reason, on Qt6 in mouseReleaseEvent, the event is always accepted, so use this m_qmlEvent bool to track if the event is accepted in qml
     m_qmlEvent = event->isAccepted();
-    if (rootObject() != nullptr && rootObject()->property("captureRightClick").toBool()) {
+    m_dragStart = QPoint();
+    if (rootObject() != nullptr && m_qmlEvent && rootObject()->property("captureRightClick").toBool()) {
         // The event has been handled in qml
         m_swallowDrop = true;
+    } else {
+        m_swallowDrop = false;
     }
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
             // Pan view
             m_panStart = event->pos();
             setCursor(Qt::ClosedHandCursor);
-        } else {
+        } else if (getControllerProxy()->dragType() != QLatin1String("-")) {
             m_dragStart = event->pos();
         }
-    } else if ((event->button() & Qt::RightButton) != 0u) {
+    } else if ((event->button() & Qt::RightButton) != 0u && !m_swallowDrop) {
         Q_EMIT showContextMenu(event->globalPosition().toPoint());
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
@@ -434,18 +486,50 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
+void VideoWidget::focusInEvent(QFocusEvent *event)
+{
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        }
+        if (parentWidget()->isFullScreen()) {
+            m_mouseTimer.start();
+        }
+    }
+    QQuickWidget::focusInEvent(event);
+}
+
+void VideoWidget::focusOutEvent(QFocusEvent *event)
+{
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        }
+        m_mouseTimer.stop();
+    }
+    QQuickWidget::focusOutEvent(event);
+}
+
 void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (m_fullScreen) {
+        m_mouseTimer.start();
+    }
+    bool qmlClick = rootObject()->property("captureRightClick").toBool();
     QQuickWidget::mouseReleaseEvent(event);
-    bool playMonitor = KdenliveSettings::play_monitor_on_click() && !m_dragStart.isNull() && m_panStart.isNull();
+    rootObject()->setProperty("captureRightClick", false);
+    bool playMonitor = KdenliveSettings::play_monitor_on_click() &&
+                       (m_dragStart.isNull() || (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) && m_panStart.isNull();
+
     m_dragStart = QPoint();
     m_panStart = QPoint();
     setCursor(Qt::ArrowCursor);
     if (event->modifiers() & Qt::ControlModifier || m_qmlEvent) {
         event->accept();
+        m_swallowDrop = false;
         return;
     }
-    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop) {
+    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop && !qmlClick) {
         event->accept();
         Q_EMIT monitorPlay();
     }
@@ -454,6 +538,12 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void VideoWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        }
+        m_mouseTimer.start();
+    }
     if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
@@ -472,7 +562,7 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
 
-    if (!event->isAccepted() && !m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
+    if (!m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
         m_dragStart = QPoint();
         Q_EMIT startDrag();
     }
@@ -600,6 +690,9 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     int consumerPosition = 0;
     if (m_producer) {
         currentId = m_producer->parent().get("kdenlive:id");
+        if (producer == nullptr && currentId == QLatin1String("black")) {
+            return 0;
+        }
     }
     if (m_consumer) {
         consumerPosition = m_consumer->position();
@@ -609,9 +702,6 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     if (producer) {
         m_producer = std::move(producer);
     } else {
-        if (currentId == QLatin1String("black")) {
-            return 0;
-        }
         m_producer = m_blackClip;
         // Reset markersModel
         rootContext()->setContextProperty("markersModel", nullptr);
@@ -639,7 +729,7 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     }
     m_consumer->set("scrub_audio", 0);
     if (position != -2) {
-        m_proxy->setPositionAdvanced(position > 0 ? position : m_producer->position(), true);
+        m_proxy->setPositionAdvanced(position >= 0 ? position : m_producer->position(), true);
     }
     return error;
 }
@@ -649,15 +739,18 @@ bool VideoWidget::isPaused() const
     return m_producer && qAbs(m_producer->get_speed()) < 0.1;
 }
 
-void VideoWidget::pause(int position)
+void VideoWidget::pause()
 {
-    if (m_producer && !isPaused()) {
+    int position = m_consumer ? m_consumer->position() + 1 : -1;
+    if (m_producer && (!isPaused() || (m_maxProducerPosition - position < 25))) {
+        Q_EMIT paused();
         m_producer->set_speed(0);
         if (m_consumer && m_consumer->is_valid()) {
-            position = position > -1 ? position : m_consumer->position() + 1;
+            m_consumer->set("volume", 0);
             m_producer->seek(position);
             m_consumer->purge();
             m_consumer->start();
+            m_consumer->set("scrub_audio", 0);
         }
     }
 }
@@ -810,10 +903,25 @@ int VideoWidget::reconfigure()
         m_consumer->set("prefill", 6);
         m_consumer->set("drop_max", fps / 4);
         m_consumer->set("scrub_audio", KdenliveSettings::audio_scrub());
-        if (KdenliveSettings::monitor_gamma() == 0) {
-            m_consumer->set("color_trc", "iec61966_2_1");
-        } else {
+        switch (pCore->getProjectProfile().colorspace()) {
+        case 601:
+        case 170:
+            m_consumer->set("color_trc", "smpte170m");
+            break;
+        case 240:
+            m_consumer->set("color_trc", "smpte240m");
+            break;
+        case 470:
+            m_consumer->set("color_trc", "bt470bg");
+            break;
+        case 2020:
+            // if (isDeckLinkHLG) {
+            //     m_consumer->set("color_trc", "arib-std-b67");
+            m_consumer->clear("color_trc");
+            break;
+        default:
             m_consumer->set("color_trc", "bt709");
+            break;
         }
     } else {
         // Cleanup on error
@@ -855,7 +963,7 @@ QSize VideoWidget::profileSize() const
 
 QRect VideoWidget::displayRect() const
 {
-    return m_rect;
+    return m_rect.toRect();
 }
 
 QPoint VideoWidget::offset() const
@@ -878,7 +986,7 @@ void VideoWidget::setZoom(float zoom, bool force)
         double scaley = rootObject()->property("scaley").toDouble() * zoomRatio;
         rootObject()->setProperty("scaley", scaley);
     }
-    // When zooming a lot in the image, switch to nearest neightbor interpolation for the display so we can see individual pixels
+    // When zooming a lot in the image, switch to nearest neighbor interpolation for the display so we can see individual pixels
     m_nearestNeighborInterpolation = zoom > 10;
     resizeVideo(width(), height());
 }
@@ -913,20 +1021,47 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
     event->accept();
 }
 
-void VideoWidget::setOffsetX(int x, int max)
+void VideoWidget::setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth)
 {
-    m_offset.setX(x);
+    m_offset.setX(horizontalScrollValue);
+
     if (rootObject()) {
-        rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0f + 10 * m_zoom : 0);
+        double adjustedOffset = 0.0;
+        if (m_zoom > 1.0) {
+            // Center the view and account for the zoom and scrollbar width
+            double scrollValue = static_cast<double>(horizontalScrollValue);
+            double scrollMax = static_cast<double>(horizontalScrollMaximum);
+            double scrollBarWidth = static_cast<double>(verticalScrollBarWidth);
+
+            // Center the offset, then adjust for the zoomed-in view and scrollbar width
+            double centerOffset = scrollValue - (scrollMax / 2.0);
+            double zoomAdjustment = (scrollBarWidth * m_zoom) / 2.0;
+            adjustedOffset = centerOffset + zoomAdjustment;
+        }
+        rootObject()->setProperty("offsetx", adjustedOffset);
     }
+
     quickWindow()->update();
 }
 
-void VideoWidget::setOffsetY(int y, int max)
+void VideoWidget::setOffsetY(int verticalScrollValue, int verticalScrollMaximum, int horizontalScrollBarHeight)
 {
-    m_offset.setY(y);
+    m_offset.setY(verticalScrollValue);
+
     if (rootObject()) {
-        rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0f + 10 * m_zoom : 0);
+        double adjustedOffset = 0.0;
+        if (m_zoom > 1.0) {
+            // Center the view and account for the zoom and scrollbar height
+            double scrollValue = static_cast<double>(verticalScrollValue);
+            double scrollMax = static_cast<double>(verticalScrollMaximum);
+            double scrollBarHeight = static_cast<double>(horizontalScrollBarHeight);
+
+            // Center the offset, then adjust for the zoomed-in view and scrollbar height
+            double centerOffset = scrollValue - (scrollMax / 2.0);
+            double zoomAdjustment = (scrollBarHeight * m_zoom) / 2.0;
+            adjustedOffset = centerOffset + zoomAdjustment;
+        }
+        rootObject()->setProperty("offsety", adjustedOffset);
     }
     quickWindow()->update();
 }
@@ -1059,7 +1194,6 @@ bool VideoWidget::switchPlay(bool play, double speed)
                 return false;
             }
         }
-        qDebug() << "pos: " << m_consumer->position() << "out: " << m_producer->get_playtime() - 1;
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
         m_proxy->setSpeed(speed);
@@ -1069,6 +1203,11 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_consumer->set("scrub_audio", 1);
         }
         if (qFuzzyIsNull(current_speed)) {
+            if (m_maxProducerPosition - m_consumer->position() < 6) {
+                m_consumer->set("prefill", 1);
+            } else {
+                m_consumer->set("prefill", 6);
+            }
             m_consumer->start();
             m_consumer->set("refresh", 1);
             m_consumer->set("volume", KdenliveSettings::volume() / 100.);
@@ -1078,14 +1217,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
         }
     } else {
-        Q_EMIT paused();
-        m_producer->set_speed(0);
-        m_consumer->set("volume", 0);
-        m_proxy->setSpeed(0);
-        m_producer->seek(m_consumer->position() + 1);
-        m_consumer->purge();
-        m_consumer->start();
-        m_consumer->set("scrub_audio", 0);
+        pause();
     }
     return true;
 }
@@ -1298,6 +1430,9 @@ bool VideoWidget::updateScaling()
 {
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
+    case 1:
+        previewHeight = qMin(previewHeight, 1080);
+        break;
     case 2:
         previewHeight = qMin(previewHeight, 720);
         break;

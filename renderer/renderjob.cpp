@@ -22,9 +22,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_scenelist(scenelist)
     , m_dest(target)
     , m_progress(0)
-    , m_prog(render)
     , m_kdenlivesocket(new QLocalSocket(this))
-    , m_logfile(m_dest + QStringLiteral(".log"))
     , m_erase(debugMode == false && (scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QStringLiteral("xml:%1").arg(QDir::tempPath()))))
     , m_seconds(0)
     , m_frame(0)
@@ -36,12 +34,24 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_debugMode(debugMode)
     , m_renderProcess(&m_looper)
 {
+    if (target == QLatin1String("/dev/null") || target == QLatin1String("NUL")) {
+        m_logfile.setFileName(QDir::temp().absoluteFilePath("render.log"));
+    } else {
+        m_logfile.setFileName(m_dest + QStringLiteral(".log"));
+    }
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    m_renderProcess.setProgram(render);
+    m_renderProcess.setProcessEnvironment(env);
     m_renderProcess.setReadChannel(QProcess::StandardError);
     connect(&m_renderProcess, &QProcess::finished, this, &RenderJob::slotIsOver);
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
-    m_args = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("-progress2"), scenelist};
+    if (debugMode) {
+        m_args = {QStringLiteral("-loglevel"), QStringLiteral("debug"), QStringLiteral("-progress2"), QUrl::toPercentEncoding(scenelist)};
+    } else {
+        m_args = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("-progress2"), QUrl::toPercentEncoding(scenelist)};
+    }
 
     // Create a log of every render process.
     if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -51,6 +61,31 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     }
     m_connectTimer.setSingleShot(true);
     m_connectTimer.setInterval(5000);
+}
+
+RenderJob::RenderJob(const QString &errorMessage, int pid, QObject *parent)
+    : QObject(parent)
+    , m_progress(0)
+    , m_kdenlivesocket(new QLocalSocket(this))
+    , m_pid(pid)
+    , m_renderProcess(&m_looper)
+{
+    m_renderProcess.setReadChannel(QProcess::StandardError);
+    connect(&m_renderProcess, &QProcess::finished, this, &RenderJob::slotIsOver);
+
+    QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
+    m_kdenlivesocket->connectToServer(servername);
+    if (m_kdenlivesocket->waitForConnected(1000)) {
+        QJsonObject method, args;
+        args["status"] = -2;
+        args["error"] = errorMessage;
+        method["setRenderingFinished"] = args;
+        m_kdenlivesocket->write(QJsonDocument(method).toJson());
+        m_kdenlivesocket->flush();
+        m_looper.quit();
+    } else {
+    }
+    qApp->quit();
 }
 
 RenderJob::~RenderJob()
@@ -116,7 +151,7 @@ void RenderJob::receivedStderr()
     result = result.simplified();
     if (!result.startsWith(QLatin1String("Current Frame"))) {
         m_errorMessage.append(result + QStringLiteral("<br>"));
-        m_logstream << result;
+        m_logstream << result << "\n";
     } else {
         bool ok;
         int progress = result.section(QLatin1Char(' '), -1).toInt(&ok);
@@ -207,8 +242,9 @@ void RenderJob::start()
     }
     // Because of the logging, we connect to stderr in all cases.
     connect(&m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
-    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
-    m_renderProcess.start(m_prog, m_args);
+    m_logstream << "Started render process: " << m_renderProcess.program() << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
+    m_renderProcess.setArguments(m_args);
+    m_renderProcess.start();
     if (m_debugMode) {
         m_logstream << "Using MLT REPOSITORY: " << qgetenv("MLT_REPOSITORY") << "\n";
         m_logstream << "Using MLT DATA: " << qgetenv("MLT_DATA") << "\n";
@@ -254,15 +290,25 @@ void RenderJob::slotIsOver(int exitCode, QProcess::ExitStatus status)
             int error = -1;
             QString errorMessage;
             bool fileFound = false;
-            if (QFile::exists(m_dest)) {
+            if (QFile::exists(m_dest) || m_dest == QLatin1String("/dev/null") || m_dest == QLatin1String("NUL")) {
                 if (!m_debugMode) {
                     m_logfile.remove();
                 }
                 fileFound = true;
             } else {
                 // Special case, on Linux file names with an ampersand are saved using the html entity &#38;
-                if (m_dest.contains(QLatin1Char('&'))) {
-                    QString fixedDest = m_dest;
+                QString fixedDest = m_dest;
+                // Special case, image sequences have the %05d replaced with a number
+                if (m_dest.contains(QLatin1String("%05d"))) {
+                    fixedDest.replace(QLatin1String("%05d"), QStringLiteral("00001"));
+                    if (QFile::exists(fixedDest)) {
+                        if (!m_debugMode) {
+                            m_logfile.remove();
+                        }
+                        fileFound = true;
+                    }
+                }
+                if (!fileFound && fixedDest.contains(QLatin1Char('&'))) {
                     fixedDest.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
                     if (QFile::exists(fixedDest)) {
                         if (!m_debugMode) {

@@ -29,5 +29,6 @@ set(kdenlive_SRCS
     monitor/recmanager.cpp
     monitor/qmlmanager.cpp
     monitor/monitorproxy.cpp
+    monitor/view/qmliconprovider.cpp
     PARENT_SCOPE
 )

@@ -14,6 +14,7 @@ set(kdenlive_SRCS
   utils/timecode.cpp
   utils/uiutils.cpp
   utils/qstringutils.cpp
+  utils/styledspinbox.cpp
   PARENT_SCOPE
 )
 

@@ -10,12 +10,14 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
+#include "config-kdenlive.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "otioutil.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -54,10 +56,14 @@ void OtioExport::exportFile(const QString &fileName)
 
 void OtioExport::slotExport()
 {
-    const QString fileName = QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(),
-                                                          QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
+    QString fileName = QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(),
+                                                    QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
     if (fileName.isNull()) {
         return;
+    }
+    // Ensure the file gets a .otio extension
+    if (!fileName.endsWith(QStringLiteral(".otio"), Qt::CaseInsensitive)) {
+        fileName += ".otio";
     }
     exportFile(fileName);
 }
@@ -74,6 +80,9 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
 
     // Create the OTIO timeline.
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline(new OTIO_NS::Timeline);
+    OTIO_NS::AnyDictionary otioMetadata;
+    otioMetadata["version"] = std::string(KDENLIVE_VERSION);
+    otioTimeline->metadata()["kdenlive"] = otioMetadata;
 
     // Export guides as OTIO markers.
     const double fps = projectFps();
@@ -82,17 +91,15 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
         exportMarker(marker, OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(1, fps)), otioTimeline->tracks());
     }
 
-    // Export the tracks.
-    const int tracksCount = timeline->getTracksCount();
-    for (int index = tracksCount - 1; index >= 0; --index) {
-        const int trackId = timeline->getTrackIndexFromPosition(index);
+    QList<int> orderedTrackIds = getOtioExportTrackOrder(timeline);
+    for (int trackId : orderedTrackIds) {
         std::shared_ptr<TrackModel> track = timeline->getTrackById(trackId);
         exportTrack(timeline, trackId, track, otioTimeline);
     }
 
     // Write the OTIO timeline to disk.
     OTIO_NS::ErrorStatus otioError;
-    bool r = otioTimeline->to_json_file(fileName.toStdString());
+    bool r = otioTimeline->to_json_file(fileName.toStdString(), &otioError);
     if (m_exportingDialog) {
         m_exportingDialog->setValue(timeline->getClipsCount());
         m_exportingDialog->close();
@@ -191,9 +198,9 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
             // Note that the OTIO generator "kind" and "parameters" are not
             // standardized, so we use the "kdenlive" namespace/prefix to
             // indicate these values are specific to kdenlive.
+            OTIO_NS::AnyDictionary otioParameters;
             OTIO_NS::AnyDictionary parameters;
             parameters["color"] = QFileInfo(projectClip->getProducerProperty("resource")).fileName().toStdString();
-            OTIO_NS::AnyDictionary otioParameters;
             otioParameters["kdenlive"] = parameters;
             otioMediaReference = new OTIO_NS::GeneratorReference(projectClip->name().toStdString(), "kdenlive:SolidColor", otioAvailableRange, otioParameters);
         }
@@ -233,9 +240,11 @@ void OtioExport::exportMarker(const CommentedTime &marker, const OTIO_NS::TimeRa
     otioMarker->set_comment(marker.comment().toStdString());
     otioMarker->set_marked_range(otioRange);
     otioMarker->set_color(toOtioMarkerColor(marker.markerType()));
+
     OTIO_NS::AnyDictionary otioMetadata;
     otioMetadata["type"] = static_cast<int64_t>(marker.markerType());
     otioMarker->metadata()["kdenlive"] = otioMetadata;
+
     otioItem->markers().push_back(otioMarker);
 }
 
@@ -243,4 +252,21 @@ double OtioExport::projectFps() const
 {
     const std::pair<int, int> fps = pCore->getProjectFpsInfo();
     return fps.second > 0 ? (fps.first / static_cast<double>(fps.second)) : 24.0;
+}
+
+QList<int> OtioExport::getOtioExportTrackOrder(const std::shared_ptr<TimelineItemModel> &timeline)
+{
+    QList<int> orderedTrackIds;
+    QList<int> audioTrackIds;
+    const int tracksCount = timeline->getTracksCount();
+    for (int index = 0; index < tracksCount; index++) {
+        const int trackId = timeline->getTrackIndexFromPosition(index);
+        if (timeline->isAudioTrack(trackId)) {
+            audioTrackIds.prepend(trackId);
+        } else {
+            orderedTrackIds.append(trackId);
+        }
+    }
+    orderedTrackIds << audioTrackIds;
+    return orderedTrackIds;
 }

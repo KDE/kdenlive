@@ -33,6 +33,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(709), 709);
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(240), 240);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(2020), 2020);
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
@@ -94,6 +95,7 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(709), 709);
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(240), 240);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(2020), 2020);
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
@@ -303,7 +305,11 @@ void ProfilesDialog::saveProfile(const QString &path)
     profile->m_sample_aspect_den = m_view.aspect_den->text().toInt();
     profile->m_display_aspect_num = m_view.display_num->value();
     profile->m_display_aspect_den = m_view.display_den->value();
-    profile->m_colorspace = m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt();
+    int colorSpace = m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt();
+    if (colorSpace == 0) {
+        colorSpace = 709;
+    }
+    profile->m_colorspace = colorSpace;
     ProfileRepository::get()->saveProfile(profile.get(), path);
 }
 

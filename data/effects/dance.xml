@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="dance" id="dance" type="video" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="dance" id="dance" type="video" unique="1">
     <name>Dance</name>
     <description>An audio visualization filter that moves the image around proportional to the magnitude of the audio spectrum.</description>
     <author>Brian Matherly</author>

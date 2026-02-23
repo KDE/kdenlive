@@ -6,8 +6,11 @@
 */
 
 #include "monitorproxy.h"
+#include "KLocalizedString"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "monitormanager.h"
@@ -39,21 +42,11 @@ MonitorProxy::MonitorProxy(VideoWidget *parent)
     if (q->m_id == int(Kdenlive::ClipMonitor)) {
         connect(pCore->bin(), &Bin::clipNameChanged, this, &MonitorProxy::updateClipName);
     }
-    m_showGrid = KdenliveSettings::showMonitorGrid();
-    m_builtinEffectsEnabled = KdenliveSettings::enableBuiltInEffects();
-}
-
-void MonitorProxy::buildInEffectsChanged()
-{
-    m_builtinEffectsEnabled = KdenliveSettings::enableBuiltInEffects();
-    Q_EMIT builtinEffectsEnabledChanged();
 }
 
 void MonitorProxy::switchGrid()
 {
-    m_showGrid = !m_showGrid;
-    KdenliveSettings::setShowMonitorGrid(m_showGrid);
-    Q_EMIT showGridChanged();
+    KdenliveSettings::setShowMonitorGrid(!KdenliveSettings::showMonitorGrid());
 }
 
 int MonitorProxy::getPosition() const
@@ -154,6 +147,21 @@ void MonitorProxy::setOverlayType(int ix)
     } else {
         KdenliveSettings::setProjectMonitorOverlayGuides(ix);
     }
+}
+
+bool MonitorProxy::showSafezone() const
+{
+    return (q->m_id == int(Kdenlive::ClipMonitor) ? KdenliveSettings::showClipMonitorSafeZone() : KdenliveSettings::showProjectMonitorSafeZone());
+}
+
+void MonitorProxy::setShowSafezone(bool display)
+{
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        KdenliveSettings::setShowClipMonitorSafeZone(display);
+    } else {
+        KdenliveSettings::setShowProjectMonitorSafeZone(display);
+    }
+    Q_EMIT showSafezoneChanged();
 }
 
 bool MonitorProxy::setPosition(int pos)
@@ -442,19 +450,28 @@ void MonitorProxy::selectClip(int ix)
     }
 }
 
-void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName)
+void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced)
 {
-    if (clipId != m_clipId) {
-        m_clipId = clipId;
+    bool idChanged = clipId != m_clipId;
+    bool avChanged = hasAV != m_hasAV;
+    bool typeChanged = type != m_clipType;
+    bool audioChanged = audioSynced != m_audioSynced;
+    m_clipId = clipId;
+    m_hasAV = hasAV;
+    m_clipType = type;
+    m_audioSynced = audioSynced;
+
+    if (idChanged) {
         Q_EMIT clipIdChanged();
     }
-    if (hasAV != m_hasAV) {
-        m_hasAV = hasAV;
+    if (avChanged) {
         Q_EMIT clipHasAVChanged();
     }
-    if (type != m_clipType) {
-        m_clipType = type;
+    if (typeChanged) {
         Q_EMIT clipTypeChanged();
+    }
+    if (audioChanged) {
+        Q_EMIT audioSyncedChanged();
     }
     if (!clipName.isEmpty()) {
         std::pair<int, QString> id = {clipId, clipName};
@@ -576,11 +593,11 @@ void MonitorProxy::setWidgetKeyBinding(const QString &text) const
 
 void MonitorProxy::setSpeed(double speed)
 {
-    if (qAbs(m_speed) > 1. || qAbs(speed) > 1.) {
-        // check if we have or had a speed > 1 or < -1
-        m_speed = speed;
-        Q_EMIT speedChanged();
+    if (m_speed == speed) {
+        return;
     }
+    m_speed = speed;
+    Q_EMIT speedChanged();
 }
 
 QByteArray MonitorProxy::getUuid() const
@@ -649,7 +666,137 @@ void MonitorProxy::terminateJob(const QString &uuid)
     pCore->taskManager.discardJob(ObjectId(KdenliveObjectType::BinClip, m_clipId, QUuid()), QUuid(uuid));
 }
 
+void MonitorProxy::resizeMarker(int position, int duration, bool isStart, int newPosition)
+{
+    std::shared_ptr<MarkerListModel> markerModel;
+
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        // For clip monitor, use the currently active clip
+        auto activeClip = pCore->monitorManager()->clipMonitor()->activeClipId();
+        if (!activeClip.isEmpty()) {
+            auto clip = pCore->bin()->getBinClip(activeClip);
+            if (clip) {
+                markerModel = clip->getMarkerModel();
+            }
+        }
+    } else {
+        // For project monitor, use the timeline guide model
+        if (pCore->currentDoc()) {
+            markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+        }
+    }
+
+    if (markerModel) {
+        GenTime pos(position, pCore->getCurrentFps());
+        bool exists;
+        CommentedTime marker = markerModel->getMarker(pos, &exists);
+        if (exists && marker.hasRange()) {
+            GenTime newDuration(duration, pCore->getCurrentFps());
+            GenTime newStartTime;
+
+            if (isStart) {
+                if (newPosition != -1) {
+                    newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+                } else {
+                    GenTime endTime = marker.endTime();
+                    newStartTime = endTime - newDuration;
+                }
+            } else {
+                newStartTime = pos;
+            }
+
+            if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+                newDuration = GenTime(1, pCore->getCurrentFps());
+            }
+
+            markerModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+        }
+    }
+}
+
+bool MonitorProxy::createRangeMarkerFromZone(const QString &comment, int type)
+{
+    if (m_zoneIn < 0 || m_zoneOut <= 0 || m_zoneIn >= m_zoneOut) {
+        return false;
+    }
+
+    std::shared_ptr<MarkerListModel> markerModel;
+
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        auto activeClip = pCore->monitorManager()->clipMonitor()->activeClipId();
+        if (!activeClip.isEmpty()) {
+            auto clip = pCore->bin()->getBinClip(activeClip);
+            if (clip) {
+                markerModel = clip->getMarkerModel();
+            }
+        }
+    } else {
+        if (pCore->currentDoc()) {
+            markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+        }
+    }
+
+    if (!markerModel) {
+        return false;
+    }
+
+    GenTime startPos(m_zoneIn, pCore->getCurrentFps());
+    GenTime duration(m_zoneOut - m_zoneIn, pCore->getCurrentFps());
+    QString markerComment = comment.isEmpty() ? i18n("Zone marker") : comment;
+
+    if (type == -1) {
+        type = KdenliveSettings::default_marker_type();
+    }
+
+    bool success = markerModel->addRangeMarker(startPos, duration, markerComment, type);
+    return success;
+}
+
 bool MonitorProxy::monitorIsActive() const
 {
     return pCore->monitorManager()->isActive(Kdenlive::MonitorId(q->m_id));
+}
+
+bool MonitorProxy::isKeyframe() const
+{
+    return m_isKeyframe;
+}
+
+bool MonitorProxy::cursorOutsideEffect() const
+{
+    return m_cursorOutsideEffect;
+}
+
+void MonitorProxy::setIsKeyframe(bool isKeyframe)
+{
+    m_isKeyframe = isKeyframe;
+    Q_EMIT isKeyframeChanged();
+}
+
+void MonitorProxy::setCursorOutsideEffect(bool isOutside)
+{
+    m_cursorOutsideEffect = isOutside;
+    Q_EMIT cursorOutsideEffectChanged();
+}
+
+const QString MonitorProxy::dragType()
+{
+    return m_dragType;
+}
+
+void MonitorProxy::setDragType(const QString dragType)
+{
+    m_dragType = dragType;
+    Q_EMIT dragTypeChanged();
+}
+
+void MonitorProxy::setAudioSynced(bool synced)
+{
+    m_audioSynced = synced;
+    Q_EMIT audioSyncedChanged();
+}
+
+void MonitorProxy::refreshAudio()
+{
+    Q_EMIT rebuildAudio(m_clipId);
 }

@@ -254,7 +254,8 @@ enum MonitorSceneType {
     MonitorSceneSplit,
     MonitorSceneTrimming,
     MonitorSplitTrack,
-    MonitorSceneAutoMask
+    MonitorSceneAutoMask,
+    MonitorSceneRotatedGeometry
 };
 
 enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };
@@ -276,7 +277,8 @@ enum CacheType {
     CacheSequence = 6,
     CacheTmpWorkFiles = 7,
     CacheMask = 8,
-    CacheMaskSource = 9
+    CacheMaskSource = 9,
+    CacheLayouts = 10
 };
 
 enum TrimMode { NormalTrim, RippleTrim, RollingTrim, SlipTrim, SlideTrim };
@@ -370,7 +372,7 @@ class CommentedTime
 {
 public:
     CommentedTime();
-    CommentedTime(const GenTime &time, QString comment, int markerType = 0);
+    CommentedTime(const GenTime &time, QString comment, int markerType = 0, const GenTime &duration = GenTime(0));
     CommentedTime(const QString &hash, const GenTime &time);
 
     QString comment() const;
@@ -381,6 +383,15 @@ public:
     void setTime(const GenTime &t);
     void setMarkerType(int t);
     int markerType() const;
+
+    /** @brief Gets the duration of the marker (0 for point markers) */
+    GenTime duration() const;
+    /** @brief Sets the duration of the marker */
+    void setDuration(const GenTime &duration);
+    /** @brief Returns true if this marker has a duration > 0 (range marker) */
+    bool hasRange() const;
+    /** @brief Returns the end time of the marker (start + duration) */
+    GenTime endTime() const;
 
     /* Implementation of > operator; Works identically as with basic types. */
     bool operator>(const CommentedTime &op) const;
@@ -399,6 +410,7 @@ private:
     GenTime m_time;
     QString m_comment;
     int m_type{0};
+    GenTime m_duration{GenTime(0)};
 };
 
 class SubtitleEvent

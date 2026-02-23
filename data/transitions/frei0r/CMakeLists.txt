@@ -17,6 +17,7 @@ frei0r_darken.xml
 frei0r_difference.xml
 frei0r_divide.xml
 frei0r_dodge.xml
+frei0r_euclid_eraser.xml
 frei0r_grain_extract.xml
 frei0r_grain_merge.xml
 frei0r_hardlight.xml

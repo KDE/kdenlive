@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="brightness" id="fade_to_black" type="video" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="brightness" id="fade_to_black" type="video" unique="1">
     <name context="Image Fade Out Effect Name">Fade out</name>
     <description>Fade video to black</description>
     <author>Charles Yates</author>

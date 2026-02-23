@@ -21,8 +21,8 @@
 #include <QStandardPaths>
 #include <QToolBar>
 
-TransitionListWidget::TransitionListWidget(QWidget *parent)
-    : AssetListWidget(false, parent)
+TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit, QWidget *parent)
+    : AssetListWidget(false, includeList, tenBit, parent)
 {
     m_model = TransitionTreeModel::construct(true, this);
     m_proxyModel = std::make_unique<TransitionFilter>(this);
@@ -36,6 +36,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     m_effectsTree->setColumnHidden(2, true);
     m_effectsTree->setColumnHidden(3, true);
     m_effectsTree->setColumnHidden(4, true);
+    m_effectsTree->setColumnHidden(5, true);
     m_effectsTree->header()->setStretchLastSection(true);
 
     // Set up icon view with custom delegate
@@ -218,4 +219,10 @@ void TransitionListWidget::generatePreviews()
     }
 
     KMessageBox::information(this, i18n("Generating transition previews. This may take a few minutes..."));
+}
+
+void TransitionListWidget::switchTenBitFilter()
+{
+    KdenliveSettings::setTransitionsFilter(m_filterButton->isChecked());
+    m_proxyModel->invalidate();
 }

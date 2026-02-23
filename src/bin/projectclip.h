@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "abstractprojectitem.h"
 #include "definitions.h"
 #include "mltcontroller/clipcontroller.h"
+#include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 
 #include <QFuture>
@@ -49,6 +50,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
 
 public:
     friend class Bin;
+    friend class AudioLevelsTask;
     friend class KdenliveTests;
     friend bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps); // for testing
     /**
@@ -64,15 +66,15 @@ public:
                                                   std::shared_ptr<ProjectItemModel> model);
 
     /**
-     * @brief Retreive original clip from proxy path when using external proxies
+     * @brief Retrieve original clip from proxy path when using external proxies
      */
     static const QString getOriginalFromProxy(QString proxyPath);
     /**
-     * @brief Retreive original clip from proxy path when using external proxies
+     * @brief Retrieve original clip from proxy path when using external proxies
      */
     static const QString getProxyFromOriginal(QString originalPath);
     /**
-     * @brief Retreive the list of external files used for sequence clip timewarp
+     * @brief Retrieve the list of external files used for sequence clip timewarp
      */
     QStringList timelineSequenceExtraResources() const;
 
@@ -85,8 +87,14 @@ public:
     {
         bool enableRemap;
         QString timeMapData;
-        int pitchShift;
+        bool pitchShift;
         QString imageMode;
+
+        TimeWarpInfo()
+            : enableRemap(false)
+            , pitchShift(false)
+        {
+        }
     };
 
 protected:
@@ -161,6 +169,7 @@ public:
     double getOriginalFps() const;
     /** @brief Returns the original clip's fps as {frame_rate_num, frame_rate_den}. */
     std::pair<int, int> fpsInfo() const;
+    static std::pair<int, int> fpsInfo(std::shared_ptr<Mlt::Producer> producer);
 
     bool rename(const QString &name, int column) override;
 
@@ -182,7 +191,7 @@ public:
     QString getToolTip() const override;
 
     /** @brief The clip hash created from the clip's resource. */
-    const QString hash(bool createIfEmpty = true);
+    virtual const QString hash(bool createIfEmpty = true);
 
     /** @brief Callculate a file hash from a path. */
     static const QPair<QByteArray, qint64> calculateHash(const QString &path);
@@ -203,7 +212,7 @@ public:
     /** @brief Returns the list of this clip's subclip's ids. */
     QStringList subClipIds() const;
     /** @brief Delete cached audio thumb - needs to be recreated */
-    void discardAudioThumb();
+    void discardAudioThumb(bool recreate = false);
     /** @brief Get path for this clip's audio thumbnail */
     const QString getAudioThumbPath(int stream);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
@@ -213,6 +222,9 @@ public:
         Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
     */
     bool isIncludedInTimeline() override;
+    /** @brief Returns true if a clip corresponding to this bin is inserted in the timeline with UUid uuid.
+     */
+    bool isIncludedInSequence(const QUuid &seqUuid);
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList<int> timelineInstances(QUuid activeUuid = QUuid()) const;
     QMap<QUuid, QList<int>> getAllTimelineInstances() const;
@@ -223,8 +235,8 @@ public:
                                                        bool secondPlaylist = false, const TimeWarpInfo timeremapInfo = {});
 
     /** @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
-       use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
-       bool returned has the following sementic:
+        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline.
+        The bool returned has the following semantic:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
            - if false, then the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
     */
@@ -232,7 +244,7 @@ public:
                                                                                      PlaylistState::ClipState state, int tid, bool secondPlaylist = false);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false, bool timelineProducer = false);
-    void cloneProducerToFile(const QString &path, bool thumbsProducer = false);
+    void cloneProducerToFile(const QString &path, bool thumbsProducer = false, bool audioOnly = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::unique_ptr<Mlt::Producer> softClone(const char *list);
     /** @brief Returns a clone of the producer, useful for movit clip jobs
@@ -270,9 +282,9 @@ public:
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
     /** @brief Get the timecode of the first frame (record time)
-     * @return timecode in milliseconds.
+     * @return timecode in frames.
      */
-    int getStartTimecode();
+    virtual int getStartTimecode();
     /** @brief Return maximum audio level for a stream. */
     int16_t getAudioMax(int streamIdx) const;
     /** @brief A timeline clip was modified, reload its other timeline instances. */
@@ -281,7 +293,7 @@ public:
     void copyTimeWarpProducers(const QDir sequenceFolder, bool copy);
     /** @brief Refresh zones of insertion in timeline. */
     void refreshBounds();
-    /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
+    /** @brief Returns a list of important enforced parameters in MLT format, for example to disable autorotate. */
     const QStringList enforcedParams() const;
     /** @brief Remove clip references in a timeline. */
     void purgeReferences(const QUuid &activeUuid, bool deleteClip = true);
@@ -298,17 +310,12 @@ public:
     void resetSequenceThumbnails();
     /** @brief Returns the clip name (usually file name) */
     QString clipName();
+    virtual bool audioSynced() const;
+    virtual void markAudioDirty();
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
     /** @brief When a sequence clip has a track change, update info and properties panel */
     void refreshTracksState(int tracksCount = -1);
-    /**
-     * @brief Returns a pixmap created from a frame of the producer.
-     * @param position frame position
-     * @param width width of the pixmap (only a guidance)
-     * @param height height of the pixmap (only a guidance)
-     */
-    QPixmap pixmap(int position = 0, int width = 0, int height = 0);
     /** @brief Returns true if this clip has a variable framerate */
     bool hasVariableFps();
     /** @brief Get the unique and unmutable uuid for this project clip */
@@ -323,10 +330,11 @@ public:
 
 protected:
     friend class ClipModel;
+    friend class FilterTask;
     QMutex m_thumbMutex;
     /** @brief the following holds a producer for each audio clip in the timeline
      * keys are the id of the clips in the timeline, values are their values */
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
+    std::unordered_map<QString, std::shared_ptr<Mlt::Producer>> m_audioProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
@@ -335,6 +343,7 @@ protected:
     /** @brief This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled */
     virtual void createDisabledMasterProducer();
     virtual const QString getSequenceResource();
+    virtual QTemporaryFile *getSequenceTmpResource();
     virtual void removeSequenceWarpResources();
     /** @brief Generate and store file hash if not available. */
     virtual const QString getFileHash();
@@ -343,7 +352,8 @@ protected:
         @param clipId id of the inserted clip
      */
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
-    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, bool forceRegister = false);
+    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, ClipModel::TimelineClipInfo info,
+                         bool forceRegister = false);
 
     /** @brief update the producer to reflect new parent folder */
     void updateParent(std::shared_ptr<TreeItem> parent) override;
@@ -351,8 +361,9 @@ protected:
     /** @brief This is a call-back called by a ClipModel when it is deleted
         @param clipId id of the deleted clip
     */
-    void deregisterTimelineClip(int clipId, bool audioClip, const QUuid &uuid);
+    void deregisterTimelineClip(int clipId, bool audioClip, ClipModel::TimelineClipInfo info, const QUuid &uuid);
     void replaceInTimeline();
+    void limitMaxDuration(int maxDuration);
     void connectEffectStack() override;
 
 public Q_SLOTS:
@@ -404,13 +415,14 @@ public Q_SLOTS:
     void removeMask(const QString &maskName);
 
     /** @brief Get the timecode of the first frame from the ffmpeg/mlt properties
-     * @return timecode in milliseconds or -1 if not found
+     * @return timecode in frames or -1 if not found
      */
     int getStartTCFromProperties();
-    /** @brief Get the timecode of the first frame (record time) by calling the mediainfo cmd tool
-     * @return timecode in milliseconds or -1 if not found
+    /**
+     * @brief Returns an image created from a frame of the producer.
+     * @param position frame position
      */
-    int getStartTCFromMediainfo();
+    QImage fetchPixmap(int position = 0);
 
 private Q_SLOTS:
     void refreshIconOverlay();

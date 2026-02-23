@@ -139,6 +139,15 @@ MaskManager::MaskManager(QWidget *parent)
         maskTools->setCurrentIndex(0);
         disconnectMonitor();
     });
+    connect(m_maskHelper, &AutomaskHelper::processCrashed, this, [this](QString errorMessage) {
+        Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+        clipMon->abortPreviewMask();
+        buttonPreview->setChecked(false);
+        buttonEdit->setChecked(false);
+        maskTools->setCurrentIndex(0);
+        Q_EMIT pCore->processInvalidFilter(QString(), i18n("Mask plugin crashed"), errorMessage);
+        disconnectMonitor();
+    });
     connect(buttonStop, &QPushButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
     connect(buttonApply, &QPushButton::clicked, this, [this]() { applyMask(); });
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
@@ -183,6 +192,11 @@ bool MaskManager::launchSimpleSam()
 
 bool MaskManager::initMaskMode(bool autoAdd, bool editMode)
 {
+    if (!m_maskHelper->pythonReady()) {
+        // Check our python env is working
+        KMessageBox::information(this, i18n("Please configure the SAM2 plugin"));
+        return false;
+    }
     // Define operating zone
     Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
     bool ok;
@@ -195,6 +209,8 @@ bool MaskManager::initMaskMode(bool autoAdd, bool editMode)
         }
     }
     if (m_zone.y() - m_zone.x() > 300) {
+        // TODO (SAM): Adjust this warning or remove it now that high memory consumption is fixed. Maybe we should still keep it for much longer clips (more
+        //  than a few minutes) just because it will take a long time to process.
         if (KMessageBox::warningContinueCancel(
                 this,
                 i18n("Creating masks for clips more than a few seconds long can fail due to memory shortage. You can try to enable the <i>Offload video to "

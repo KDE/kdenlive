@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QImage>
+#include <QMap>
 #include <QUrl>
 
 namespace Mlt {
@@ -17,7 +18,8 @@ class Frame;
 
 namespace KThumb {
 QPixmap getImage(const QUrl &url, int width, int height = -1);
-QPixmap getImage(const QUrl &url, int frame, int width, int height = -1);
+QPixmap getImage(const QUrl &url, int frame, int width, int height = -1, QMap<QString, QString> params = QMap<QString, QString>());
+QPixmap getImageWithParams(const QUrl &url, QMap<QString, QString> params, int width, int height = -1);
 QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height, int displayWidth = 0);
 QImage getFrame(Mlt::Producer &producer, int framepos, int width, int height, int displayWidth = 0);
 QImage getFrame(Mlt::Frame *frame, int width = 0, int height = 0, int scaledWidth = 0);

@@ -14,6 +14,7 @@ set(kdenlive_SRCS
   assets/keyframes/model/rotoscoping/rotohelper.cpp
   assets/keyframes/model/corners/cornershelper.cpp
   assets/keyframes/model/rect/recthelper.cpp
+  assets/keyframes/model/rect/rotatedrecthelper.cpp
   assets/keyframes/model/keyframemodel.cpp
   assets/keyframes/model/keyframemodellist.cpp
   assets/keyframes/view/keyframeview.cpp
@@ -23,6 +24,7 @@ set(kdenlive_SRCS
   assets/view/widgets/abstractparamwidget.cpp
   assets/view/widgets/boolparamwidget.cpp
   assets/view/widgets/buttonparamwidget.cpp
+  assets/view/widgets/pointparamwidget.cpp
   assets/view/widgets/switchparamwidget.cpp
   assets/view/widgets/multiswitchparamwidget.cpp
   assets/view/widgets/effectbuttonsparamwidget.cpp
@@ -33,7 +35,7 @@ set(kdenlive_SRCS
   assets/view/widgets/slidewidget.cpp
   assets/view/widgets/lumaliftgainparam.cpp
   assets/view/widgets/keyframeimport.cpp
-  assets/view/widgets/keyframewidget.cpp
+  assets/view/widgets/keyframecontainer.cpp
   assets/view/widgets/listparamwidget.cpp
   assets/view/widgets/listdependencyparamwidget.cpp
   assets/view/widgets/geometryeditwidget.cpp

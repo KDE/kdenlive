@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kdenlive_debug.h"
 #include <QDialogButtonBox>
+#include <QElapsedTimer>
 #include <QFontDatabase>
 #include <QPushButton>
 #include <QTemporaryFile>
@@ -20,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent/QtConcurrentRun>
 
 #include "klocalizedstring.h"
-#include <kio/directorysizejob.h>
+#include <KIO/Global>
 
 ProxyTest::ProxyTest(QWidget *parent)
     : QDialog(parent)
@@ -96,7 +97,7 @@ ProxyTest::~ProxyTest()
 {
     m_closing = true;
     Q_EMIT jobCanceled();
-    // Wait until concurrent tread is finished
+    // Wait until concurrent thread is finished
     QMutexLocker lk(&m_locker);
 }
 

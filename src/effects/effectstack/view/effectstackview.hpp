@@ -36,7 +36,6 @@ public:
     void setHeight(const QModelIndex &index, int height);
     int height(const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
     QMap<QPersistentModelIndex, int> m_height;
@@ -82,6 +81,9 @@ public Q_SLOTS:
      */
     void slotSaveStack();
     void updateSamProgress(int progress, bool exportStep = false);
+    /** @brief Collapse / expand all effects in the stack
+     */
+    void slotSwitchCollapseAll();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -92,10 +94,12 @@ protected:
     void paintEvent(QPaintEvent *event) override;
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     bool eventFilter(QObject *o, QEvent *e) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     QMutex m_mutex;
     QVBoxLayout *m_lay;
+    bool m_effectsLoaded{false};
 
     QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;
@@ -122,6 +126,12 @@ private:
     const QString getStyleSheet();
     /** @brief Start drag operation on a CollapsibleEffectView */
     void startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget = false);
+
+    void destroyBuildinWidget();
+    void constructBuildinWidget();
+    /** @brief Activate an effect and ensure it is visible
+     */
+    void activateAndScroll(int row);
 
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
@@ -159,4 +169,5 @@ Q_SIGNALS:
     void checkDragScrolling();
     void updateEffectsGroupesInstances();
     void abortSam();
+    void effectsCountChanged();
 };

@@ -284,33 +284,66 @@ void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vec
     }
 }
 
-void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
+void ThumbnailCache::invalidateThumbsForClip(const QString &binId, std::set<int> frames)
 {
     QMutexLocker locker(&m_mutex);
-    if (m_storedVolatile.find(binId) != m_storedVolatile.end()) {
-        bool ok = false;
-        for (int pos : m_storedVolatile.at(binId)) {
-            auto key = getKey(binId, pos, &ok);
-            if (ok) {
-                m_volatileCache->remove(key);
-            }
-        }
-        m_storedVolatile.erase(binId);
-    }
     bool ok = false;
+    if (m_storedVolatile.find(binId) != m_storedVolatile.end()) {
+        if (frames.size() > 0) {
+            // Remove only specified frames
+            auto cachedFrames = m_storedVolatile.at(binId);
+            for (auto &f : frames) {
+                auto it = std::find(cachedFrames.begin(), cachedFrames.end(), f);
+                if (it != cachedFrames.end()) {
+                    auto key = getKey(binId, f, &ok);
+                    if (ok) {
+                        m_volatileCache->remove(key);
+                        cachedFrames.erase(it);
+                    }
+                }
+            }
+            m_storedVolatile[binId] = cachedFrames;
+        } else {
+            // Remove all thumbs
+            for (int pos : m_storedVolatile.at(binId)) {
+                auto key = getKey(binId, pos, &ok);
+                if (ok) {
+                    m_volatileCache->remove(key);
+                }
+            }
+            m_storedVolatile.erase(binId);
+        }
+    }
     // Video thumbs
     QStringList files;
     if (m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
-        for (const auto &pos : m_storedOnDisk.at(binId)) {
-            if (pos >= 0) {
-                auto key = getKey(binId, pos, &ok);
-                if (ok) {
-                    files << key;
+        if (frames.size() > 0) {
+            // Remove only specified frames
+            auto cachedFrames = m_storedOnDisk.at(binId);
+            for (auto &f : frames) {
+                auto it = std::find(cachedFrames.begin(), cachedFrames.end(), f);
+                if (it != cachedFrames.end()) {
+                    auto key = getKey(binId, f, &ok);
+                    if (ok) {
+                        files << key;
+                        cachedFrames.erase(it);
+                    }
+                }
+                m_storedOnDisk[binId] = cachedFrames;
+            }
+        } else {
+            // Remove all thumbs
+            for (const auto &pos : m_storedOnDisk.at(binId)) {
+                if (pos >= 0) {
+                    auto key = getKey(binId, pos, &ok);
+                    if (ok) {
+                        files << key;
+                    }
                 }
             }
+            m_storedOnDisk.erase(binId);
         }
-        m_storedOnDisk.erase(binId);
     }
     // Release mutex before deleting files
     locker.unlock();

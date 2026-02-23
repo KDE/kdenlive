@@ -13,6 +13,8 @@
 #include <QWidget>
 
 class SamInterface;
+class PythonDependencyMessage;
+class KJob;
 
 class SpeechList : public QListWidget
 {
@@ -35,6 +37,7 @@ class PluginsSettings : public QWidget, public Ui::ConfigSpeech_UI
 
 public:
     PluginsSettings(QWidget *parent = nullptr);
+    ~PluginsSettings() override;
     /** @brief Launch pytonh scripts to check speech engine dependencies */
     void checkSpeechDependencies();
     void applySettings();
@@ -43,6 +46,9 @@ public:
 private:
     SpeechToText *m_sttVosk;
     SpeechToText *m_sttWhisper;
+    PythonDependencyMessage *m_msgWhisper;
+    PythonDependencyMessage *m_msgVosk;
+    PythonDependencyMessage *m_pythonSamLabel;
     SamInterface *m_samInterface;
     SpeechList *m_speechListWidget;
     QAction *m_downloadModelAction;
@@ -83,8 +89,15 @@ private Q_SLOTS:
     void doDeleteWrVenv();
     /** @brief Get ready to delete the models */
     void doDeleteSamModels();
-    /** @brief Check if SAM is corectly setup */
+    /** @brief Check if SAM is correctly setup */
     void checkSamEnvironement(bool afterInstall = true);
+    void gotWhisperFeedback(const QString &scriptName, const QStringList args, const QStringList jobData);
+    void whisperFinished(const QString &scriptName, const QStringList &args);
+    void whisperAvailable();
+    void whisperMissing();
+    void gotSamFeedback(const QString &scriptName, const QStringList args, const QStringList jobData);
+    void samFinished(const QString &scriptName, const QStringList &args);
+    void samMissing(const QStringList &);
     void samDependenciesChecked();
 
 Q_SIGNALS:

@@ -27,6 +27,7 @@ Rectangle {
     property int modelStart
     property int mixDuration: 0
     property int mixCut: 0
+    property int mixEndDuration: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -73,10 +74,11 @@ Rectangle {
     property string clipThumbId
     property bool forceReloadAudioThumb
     property bool isComposition: false
-    property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
-    property int scrollStart: scrollView.contentX - (clipRoot.modelStart * root.timeScale)
-    visible: scrollView.width + clipRoot.scrollStart >= 0 && clipRoot.scrollStart < clipRoot.width
+    property int slipOffset: boundValue(outPoint - maxDuration + 1, root.trimmingOffset, inPoint)
+    visible: scrollView.lastVisibleFrame > clipRoot.modelStart && scrollView.firstVisibleFrame <= (clipRoot.modelStart + clipRoot.clipDuration)
+    property int scrollStart: visible ? scrollView.contentX - (clipRoot.modelStart * root.timeScale) : 0
     property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
+    property bool hideDecorations: !root.showClipOverlays || !visible || trimInMouseArea.drag.active || trimOutMouseArea.drag.active || fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
@@ -98,6 +100,7 @@ Rectangle {
         if (!clipRoot.visible) {
             return
         }
+        //console.log('SCROLL START: ', clipRoot.scrollStart, '; VISIBLE: ', clipRoot.visible)
         updateLabelOffset()
         if (isAudio && thumbsLoader.item) {
             thumbsLoader.item.reload(1)
@@ -176,11 +179,8 @@ Rectangle {
     onFakeTidChanged: {
         if (clipRoot.fakeTid > -1 && parentTrack) {
             if (clipRoot.parent != dragContainer) {
-                var pos = clipRoot.mapToGlobal(clipRoot.x, clipRoot.y);
+                // Clip is parented to a track, reparent to allow moving outside of the track
                 clipRoot.parent = dragContainer
-                pos = clipRoot.mapFromGlobal(pos.x, pos.y)
-                clipRoot.x = pos.x
-                clipRoot.y = pos.y
             }
             clipRoot.y = Logic.getTrackById(clipRoot.fakeTid).y
             clipRoot.height = Logic.getTrackById(clipRoot.fakeTid).height
@@ -213,14 +213,10 @@ Rectangle {
             }
         }
     }
-    
     function updateLabelOffset()
     {
         nameContainer.anchors.leftMargin = clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
     }
-
-    /*border.color: (clipStatus === K.FileStatus.StatusMissing || clipStatus === K.FileStatus.StatusWaiting || clipStatus === K.FileStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
-    border.width: isGrabbed ? 8 : 2*/
 
     function updateDrag() {
         var itemPos = mapToItem(tracksContainerArea, 0, 0, clipRoot.width, clipRoot.height)
@@ -262,16 +258,6 @@ Rectangle {
         return isAudio? root.audioColor : root.videoColor
     }
 
-/*    function reparent(track) {
-        console.log('TrackId: ',trackId)
-        parent = track
-        height = track.height
-        parentTrack = track
-        trackId = parentTrack.trackId
-        console.log('Reparenting clip to Track: ', trackId)
-        //generateWaveform()
-    }
-*/
     property bool noThumbs: (isAudio || itemType === K.ClipType.Color || mltService === '')
     property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
 
@@ -290,15 +276,15 @@ Rectangle {
             if (dropSource == '') {
                 // drop from effects list
                 controller.addClipEffect(clipRoot.clipId, dropData)
-                if (K.KdenliveSettings.seekonaddeffect && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
-                    // If timeline cursor is not inside clip, seek to drop position
-                    proxy.position = clipRoot.modelStart + drag.x / timeScale
-                }
             } else {
                 controller.copyClipEffect(clipRoot.clipId, dropSource)
             }
+            if (K.KdenliveSettings.seekonaddeffect && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
+                // If timeline cursor is not inside clip, seek to drop position
+                proxy.position = clipRoot.modelStart + drag.x / timeScale
+            }
             dropSource = ''
-            drag.acceptProposedAction
+            drag.acceptProposedAction()
             root.regainFocus(mapToItem(root, drag.x, drag.y))
             //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
         }
@@ -308,10 +294,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+        enabled: !root.isPanning && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+        hoverEnabled: !root.isPanning && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: mouse => {
             root.autoScrolling = false
@@ -373,6 +359,9 @@ Rectangle {
             //focus = false
         }
         onEntered: {
+            if (root.isPanning) {
+                return
+            }
             if (clipRoot.clipId > -1) {
                 var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                 initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
@@ -381,6 +370,9 @@ Rectangle {
         }
 
         onExited: {
+            if (root.isPanning) {
+                return
+            }
             if (!dragProxyArea.pressed) {
                 root.endDragIfFocused(clipRoot.clipId)
             }
@@ -398,12 +390,14 @@ Rectangle {
             id: thumbsLoader
             anchors.fill: parent
             anchors.leftMargin: parentTrack.isAudio ? xIntegerOffset : itemBorder.border.width + mixContainer.width
-            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width
+            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width + clipRoot.mixEndDuration * clipRoot.timeScale
             anchors.topMargin: itemBorder.border.width
             anchors.bottomMargin: itemBorder.border.width
+
             //clip: true
             asynchronous: true
             visible: status == Loader.Ready
+            active: clipRoot.visible
             source: {
                 if (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === K.ClipType.Color) {
                     return ""
@@ -483,7 +477,8 @@ Rectangle {
             anchors.margins: itemBorder.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
-            property bool handleVisible: clipRoot.width - width > 3 * root.baseUnit / 2 || width > 3 * root.baseUnit / 2
+            property bool handleMini: width < 2 * root.baseUnit
+            property bool handleVisible: width > root.baseUnit * 1.2
             
             Item {
                 // Mix indicator
@@ -502,30 +497,41 @@ Rectangle {
                     id: mixBackground
                     property double mixPos: mixBackground.width - clipRoot.mixCut * clipRoot.timeScale
                     property bool mixSelected: root.selectedMix == clipRoot.clipId
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    anchors.fill: parent
                     visible: clipRoot.mixDuration > 0
-                    color: mixSelected ? root.selectionColor : "mediumpurple"
+                    color: mixSelected ? root.selectionColor : "transparent"
                     Loader {
-                        id: shapeLoader
-                        source: clipRoot.mixDuration > 0 ? "MixShape.qml" : ""
-                        property bool valid: item !== null
+                        active: mixBackground.visible
+                        asynchronous: true
+                        source: container.handleVisible && mixContainer.width > 2 * root.baseUnit ? "MixShape.qml" : ""
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
-                    border.color: mixSelected ? root.selectionColor : "transparent"
+                    border.color: mixSelected ? root.selectionColor : "white"
                     border.width: clipRoot.mixDuration > 0 ? 2 : 0
+                    radius: 3
+                    Rectangle {
+                        id: mixCutPos
+                        anchors.right: parent.right
+                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: 2
+                        color: itemBorder.border.color
+                    }
                     MouseArea {
                         // Mix click mouse area
                         id: mixArea
                         anchors.fill: parent
-                        hoverEnabled: true
+                        hoverEnabled: !root.isPanning
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton | Qt.LeftButton
-                        enabled: container.handleVisible && width > root.baseUnit * 0.8
+                        enabled: !root.isPanning && container.handleVisible && width > root.baseUnit * 0.8
                         onPressed: mouse => {
+                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                mouse.accepted = false
+                                return
+                            }
                             controller.requestMixSelection(clipRoot.clipId);
                             root.autoScrolling = false
                             if (mouse.button == Qt.RightButton) {
@@ -540,15 +546,6 @@ Rectangle {
                             timeline.showToolTip(text)
                         }
                     }
-                    Rectangle {
-                        id: mixCutPos
-                        anchors.right: parent.right
-                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        width: 2
-                        color: "navy"
-                    }
                     MouseArea {
                         // Right mix resize handle
                         id: trimInMixArea
@@ -558,8 +555,8 @@ Rectangle {
                         width: root.baseUnit / 2
                         visible: root.activeTool === K.ToolType.SelectTool
                         property int previousMix
-                        enabled: !isLocked && mixArea.enabled && (pressed || container.handleVisible)
-                        hoverEnabled: true
+                        enabled: !root.isPanning && !isLocked && mixArea.enabled && (pressed || container.handleVisible)
+                        hoverEnabled: !root.isPanning
                         drag.target: trimInMixArea
                         drag.axis: Drag.XAxis
                         drag.smoothed: false
@@ -568,6 +565,10 @@ Rectangle {
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
+                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                mouse.accepted = false
+                                return
+                            }
                             root.trimInProgress = true;
                             previousMix = clipRoot.mixDuration
                             root.autoScrolling = false
@@ -644,63 +645,323 @@ Rectangle {
                 }
                 
             }
+            Component {
+                id: markerComponent
+                Rectangle {
+                    id: markerBase
+                    property string markerText
+                    property color markerColor
+                    property int position
+                    property bool hasRange: false
+                    property real duration: 0
+                    width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
+                    height: hasRange ? textMetrics.height + 2 : container.height
+                    x: clipRoot.speed < 0
+                    ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
+                    : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
+                    y: hasRange ? Math.min(label.height, container.height - textMetrics.height) : 0
+                    color: hasRange ? Qt.rgba(markerColor.r, markerColor.g, markerColor.b, 0.7) : markerColor
+                    border.color: hasRange ? markerColor : "transparent"
+                    border.width: hasRange ? 1 : 0
+                    radius: hasRange ? 2 : 0
 
-            Repeater {
-                // Clip markers
-                model: markers
-                delegate:
-                Item {
-                    visible: markerBase.x >= 0 && markerBase.x < clipRoot.width
                     Rectangle {
-                        id: markerBase
+                        visible: markerBase.hasRange
+                        x: 0
+                        y: -markerBase.y
                         width: 1
                         height: container.height
-                        x: clipRoot.speed < 0
-                           ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(model.frame / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
-                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
-                        color: model.color
-                        ToolTip.visible: markerArea.containsMouse
-                        ToolTip.text: textMetrics.text
-                        ToolTip.delay: 1000
-                        ToolTip.timeout: 5000
+                        color: markerBase.markerColor
+                    }
+                    
+                    // Tapered end effect for range markers
+                    Rectangle {
+                        id: clipRangeEndTaper
+                        visible: markerBase.hasRange
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: Math.min(parent.width / 8, 10)
+                        gradient: Gradient {
+                            orientation: Gradient.Horizontal
+                            GradientStop { position: 0.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.3) }
+                            GradientStop { position: 1.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.1) }
+                        }
+                    }
+                    
+                    TextMetrics {
+                        id: textMetrics
+                        font: miniFont
+                        text: markerBase.markerText
+                        elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
+                        elideWidth: root.maxLabelWidth
                     }
                     Rectangle {
-                        visible: mlabel.visible
-                        opacity: 0.7
-                        x: markerBase.x
+                        id: labelRectangle
+                        width: textMetrics.width + 4
+                        height: textMetrics.height
+                        color: markerBase.hasRange ? "transparent" : markerBase.markerColor
                         radius: 2
-                        width: mlabel.width + 4
-                        height: mlabel.height
-                        y: mlabel.y
-                        color: model.color
+                        opacity: 0.7
+                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
+
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                            topMargin: markerBase.hasRange ? (parent.height - height) / 2 : Math.min(label.height, container.height - height)
+                        }
+                        Text {
+                            id: mlabel
+                            text: textMetrics.elidedText
+                            topPadding: -1
+                            leftPadding: 2
+                            rightPadding: 2
+                            font: miniFont
+                            color: '#FFF'
+                        }
                         MouseArea {
                             z: 10
                             id: markerArea
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton
                             cursorShape: Qt.PointingHandCursor
-                            hoverEnabled: true
-                            onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
-                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
-                                                                               ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(model.frame / clipRoot.speed))
-                                                                               : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
+                            property bool shiftTrim: false
+                            hoverEnabled: !root.isPanning
+                            enabled: !root.isPanning
+                            ToolTip.visible: containsMouse
+                            ToolTip.text: markerBase.markerText
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            onDoubleClicked: timeline.editMarker(clipRoot.clipId, markerBase.position)
+                            onPressed: mouse => {
+                                shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                            }
+
+                            onClicked: {
+                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                    mouse.accepted = false
+                                    return
+                                }
+                                proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
+                                ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
+                                : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
+                                controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                            }
                         }
                     }
-                    TextMetrics {
-                        id: textMetrics
-                        font: miniFont
-                        text: model.comment
-                        elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
-                        elideWidth: root.maxLabelWidth
+                    
+                    // Left resize handle for range markers
+                    Rectangle {
+                        id: leftResizeHandle
+                        visible: markerBase.hasRange && markerBase.width > 10
+                        width: 4
+                        height: markerBase.height
+                        x: 0
+                        y: 0
+                        color: Qt.darker(markerBase.markerColor, 1.3)
+                        opacity: leftResizeArea.containsMouse || leftResizeArea.isResizing ? 0.8 : 0.5
+                        
+                        MouseArea {
+                            id: leftResizeArea
+                            anchors.fill: parent
+                            anchors.margins: -2
+                            z: 15
+                            hoverEnabled: !root.isPanning
+                            enabled: !root.isPanning
+                            cursorShape: Qt.SizeHorCursor
+                            acceptedButtons: Qt.LeftButton
+                            preventStealing: true
+                            
+                            property bool isResizing: false
+                            property real startX: 0
+                            property real globalStartX: 0
+                            property real startDuration: 0
+                            property real startPosition: 0
+                            property real originalEndPosition: 0
+                            
+                            onPressed: {
+                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                    mouse.accepted = false
+                                    return
+                                }
+                                isResizing = true
+                                startX = mouseX
+                                globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                startDuration = markerBase.duration
+                                startPosition = markerBase.position
+                                originalEndPosition = markerBase.position + markerBase.duration
+                                cursorShape = Qt.SizeHorCursor
+                            }
+                            
+                            onPositionChanged: {
+                                if (isResizing) {
+                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    var realDeltaX = globalCurrentX - globalStartX
+                                    
+                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    var newStartPosition = Math.max(clipRoot.inPoint * clipRoot.speed, startPosition + deltaFrames)
+                                    var newDuration = Math.max(1, originalEndPosition - newStartPosition)
+                                    
+                                    markerBase.position = newStartPosition
+                                    markerBase.duration = newDuration
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onReleased: {
+                                if (isResizing) {
+                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, true, markerBase.position)
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onCanceled: {
+                                if (isResizing) {
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                }
+                            }
+                        }
                     }
-                    Text {
-                        id: mlabel
-                        visible: K.KdenliveSettings.showmarkers && textMetrics.elideWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
-                        text: textMetrics.elidedText
-                        font: miniFont
-                        x: markerBase.x + 1
-                        y: Math.min(label.height, container.height - height)
-                        color: 'white'
+                    
+                    // Right resize handle for range markers
+                    Rectangle {
+                        id: rightResizeHandle
+                        visible: markerBase.hasRange && markerBase.width > 10
+                        width: 4
+                        height: markerBase.height
+                        anchors.right: parent.right
+                        y: 0
+                        color: Qt.darker(markerBase.markerColor, 1.3)
+                        opacity: rightResizeArea.containsMouse || rightResizeArea.isResizing ? 0.8 : 0.5
+                        
+                        MouseArea {
+                            id: rightResizeArea
+                            anchors.fill: parent
+                            anchors.margins: -2
+                            z: 15
+                            hoverEnabled: !root.isPanning
+                            enabled: !root.isPanning
+                            cursorShape: Qt.SizeHorCursor
+                            acceptedButtons: Qt.LeftButton
+                            preventStealing: true
+                            
+                            property bool isResizing: false
+                            property real startX: 0
+                            property real globalStartX: 0
+                            property real startDuration: 0
+                            property real startPosition: 0
+                            
+                            onPressed: {
+                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                    mouse.accepted = false
+                                    return
+                                }
+                                isResizing = true
+                                startX = mouseX
+                                globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                startDuration = markerBase.duration
+                                startPosition = markerBase.position
+                                cursorShape = Qt.SizeHorCursor
+                            }
+                            
+                            onPositionChanged: {
+                                if (isResizing) {
+                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    var realDeltaX = globalCurrentX - globalStartX
+                                    
+                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    var maxEnd = (clipRoot.inPoint + clipRoot.outPoint) * clipRoot.speed
+                                    var newDuration = Math.max(1, Math.min(startDuration + deltaFrames, maxEnd - startPosition))
+                                    
+                                    markerBase.duration = newDuration
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onReleased: {
+                                if (isResizing) {
+                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, false)
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onCanceled: {
+                                if (isResizing) {
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Item {
+                // Clipping container
+                anchors.fill: container
+                clip: true
+
+                Repeater {
+                    // Clip markers
+                    id: markersContainer
+                    model: container.width > 3 * root.baseUnit ? markers : 0
+                    anchors.fill: parent
+                    delegate: Loader {
+                        id: loader
+                        required property var modelData
+                        property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
+                        asynchronous: true
+                        active: clipRoot.visible
+                        Binding {
+                            target: loader.item
+                            property: "position"
+                            value: modelData.frame
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerText"
+                            value: modelData.comment
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerColor"
+                            value: modelData.color
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "hasRange"
+                            value: modelData.hasRange || false
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "duration"
+                            value: modelData.duration || 0
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        sourceComponent: {
+                            if (isInside) {
+                                return markerComponent;
+                            } else {
+                                return null;
+                            }
+                        }
                     }
                 }
             }
@@ -711,7 +972,7 @@ Rectangle {
                 x: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: root.baseUnit
+                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
                 visible: {
                     if (!enabled) {
                         return false
@@ -766,7 +1027,12 @@ Rectangle {
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) { //TODO
                             timeline.requestEndTrimmingMode();
+                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                        } else if (shiftTrim) {
+                            controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
+
                         root.groupTrimData = undefined
                     }
                     root.trimInProgress = false;
@@ -841,7 +1107,7 @@ Rectangle {
                 anchors.rightMargin: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: root.baseUnit
+                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === K.ToolType.SelectTool
                                      || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
@@ -883,6 +1149,10 @@ Rectangle {
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) {
                             timeline.requestEndTrimmingMode();
+                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                        } else if (shiftTrim) {
+                            controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
                         root.groupTrimData = undefined
                     }
@@ -942,6 +1212,7 @@ Rectangle {
                 curveType: clipRoot.fadeInMethod
                 width: Math.min(clipRoot.fadeIn * clipRoot.timeScale, container.width)
                 height: parent.height
+                visible: width > 2
                 anchors.left: parent.left
                 anchors.top: parent.top
                 opacity: 0.4
@@ -956,6 +1227,7 @@ Rectangle {
                 height: parent.height
                 anchors.right: parent.right
                 anchors.top: parent.top
+                visible: width > 2
                 endFade: true
                 opacity: 0.4
                 transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2 }
@@ -967,6 +1239,18 @@ Rectangle {
                 anchors.fill: parent
                 anchors.leftMargin: clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
                 clip: true
+                states: [
+                    State { when: !clipRoot.hideDecorations
+                        PropertyChanges { target: nameContainer; opacity: 1.0 }
+                    },
+                    State { when: clipRoot.hideDecorations
+                        PropertyChanges { target: nameContainer; opacity: 0.0 }
+                    }
+                ]
+                transitions: Transition {
+                    NumberAnimation { property: "opacity"; duration: 250}
+                }
+
                 Rectangle {
                     // Debug: Clip Id background
                     id: debugCidRect
@@ -1003,11 +1287,13 @@ Rectangle {
                         property string clipNameString: (clipRoot.isAudio && clipRoot.multiStream) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipName ) : clipName
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: miniFont
+                        topPadding: -2
+                        bottomPadding: -1
                         anchors {
                             left: labelRect.left
                             leftMargin: itemBorder.border.width
                         }
-                        color: 'white'
+                        color: "#FFFFFF"
                         //style: Text.Outline
                         //styleColor: 'black'
                     }
@@ -1170,6 +1456,7 @@ Rectangle {
                 anchors.fill: parent
                 asynchronous: true
                 property bool hasKeyframes: false
+                active: clipRoot.visible
                 visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * root.baseUnit
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
@@ -1266,11 +1553,15 @@ Rectangle {
             anchors.bottom: parent.bottom
             width: Math.min(root.baseUnit, container.height / 3)
             height: width
-            hoverEnabled: true
+            hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
             visible: !clipRoot.isAudio
-            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
-            onPressed: {
+            enabled: !root.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
+            onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
@@ -1303,11 +1594,15 @@ Rectangle {
             anchors.bottom: parent.bottom
             width: Math.min(root.baseUnit, container.height / 3)
             height: width
-            hoverEnabled: true
+            hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
-            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
+            enabled: !root.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
             visible: !clipRoot.isAudio
-            onPressed: {
+            onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
@@ -1359,7 +1654,11 @@ Rectangle {
                     timeline.adjustFade(clipRoot.clipId, 'fadeout', 0, -2)
                 }
             }
-            onPressed: {
+            onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.autoScrolling = false
                 startFadeOut = clipRoot.fadeOut
                 dragStarted = startFadeOut > 0
@@ -1468,6 +1767,10 @@ Rectangle {
                 }
             }
             onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.autoScrolling = false
                 startFadeIn = clipRoot.fadeIn
                 dragStarted = startFadeIn > 0
@@ -1590,7 +1893,7 @@ Rectangle {
             }
         }
         Text {
-            id: slipLable
+            id: slipLabel
             text: i18n("Slip Clip")
             font: miniFont
             anchors.fill: parent

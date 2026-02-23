@@ -78,7 +78,7 @@ public:
     */
     bool updateMultiKeyframe(GenTime pos, const QStringList &sourceValues, const QStringList &values, const QList<QModelIndex> &indexes,
                              QUndoCommand *parentCommand = nullptr);
-    bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
+    bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo = true);
     KeyframeType::KeyframeEnum keyframeType(GenTime pos) const;
     /** @brief Returns a keyframe data at given pos
@@ -117,6 +117,9 @@ public:
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
+    /** @brief Returns true if at least one keyframe exists
+     */
+    bool hasKeyframes(const QPersistentModelIndex index) const;
 
     /** @brief Return the interpolated value of a parameter.
        @param pos is the position where we interpolate

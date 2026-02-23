@@ -23,7 +23,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/wizard.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "docktitlebarmanager.h"
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -33,8 +32,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/speedtask.h"
 #include "jobs/stabilizetask.h"
 #include "jobs/transcodetask.h"
+#include "kddocksetup.h"
 #include "kdenlivesettings.h"
-#include "layoutmanagement.h"
+#include "keysequencehandler.h"
+#include "layouts/layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "render/renderserver.h"
 
@@ -43,6 +44,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDBusInterface>
 #endif
 
+#include "dialogs/markerdialog.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
 #include "filefilter.h"
@@ -51,6 +53,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
+#include "monitor/monitorproxy.h"
 #include "monitor/scopes/audiographspectrum.h"
 #include "onlineresources/resourcewidget.hpp"
 #include "profiles/profilemodel.hpp"
@@ -76,9 +79,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
-#include <KStyleManager>
-#include <kwidgetsaddons_version.h>
-#include <kxmlgui_version.h>
+#include <kddockwidgets/core/FloatingWindow.h>
+#include <kddockwidgets/core/MainWindow.h>
 
 #include <KAboutData>
 #include <KActionCollection>
@@ -88,6 +90,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KCoreAddons>
 #include <KDualAction>
 #include <KEditToolBar>
+#include <KIconEffect>
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -96,9 +99,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KRecentDirs>
 #include <KShortcutsDialog>
 #include <KStandardAction>
+#include <KStyleManager>
 #include <KToggleFullScreenAction>
 #include <KToolBar>
 #include <KXMLGUIFactory>
+#include <kddockwidgets/kddockwidgets_version.h>
+#include <kwidgetsaddons_version.h>
+#include <kxmlgui_version.h>
 
 #include <KConfigGroup>
 #include <QAction>
@@ -116,6 +123,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStyleFactory>
 #include <QUndoGroup>
 #include <QVBoxLayout>
+#include <QtConcurrent/QtConcurrentRun>
 
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt {
@@ -124,6 +132,8 @@ class Producer;
 
 QMap<QString, QImage> MainWindow::m_lumacache;
 QMap<QString, QStringList> MainWindow::m_lumaFiles;
+KIO::filesize_t m_totalCacheSize = 0;
+int m_totalCacheJobs = 0;
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
@@ -137,28 +147,45 @@ MainWindow::MainWindow(QWidget *parent)
     kdenliveCategoryMap.insert(QStringLiteral("monitor"), category);
     category = new KActionCategory(i18n("Add Clip"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("addclip"), category);
-    category = new KActionCategory(i18n("Add Marker/Guide by Category Number"), actionCollection());
+    category = new KActionCategory(i18n("Add Marker by Category Number"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("guidecategorynumber"), category);
     category = new KActionCategory(i18n("Navigation and Playback"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("navandplayback"), category);
     category = new KActionCategory(i18n("Bin Tags"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("bintags"), category);
+    auto flags = KDDockWidgets::Config::self().flags();
+    flags |= KDDockWidgets::Config::Flag_HideTitleBarWhenTabsVisible;
+    flags |= KDDockWidgets::Config::Flag_AllowReorderTabs;
+#if (KDDOCKWIDGETS_VERSION > QT_VERSION_CHECK(2, 3, 0))
+    // The Flag_TitleBarShowAutoHide was added in 2.4.0
+    flags |= KDDockWidgets::Config::Flag_TitleBarShowAutoHide;
+#endif
+    KDDockWidgets::Config::self().setFlags(flags);
+    KDDockWidgets::Core::FloatingWindow::s_windowFlagsOverride = Qt::Tool;
+
+    // Increase the separator size, just for demo
+    KDDockWidgets::Config::self().setViewFactory(new CustomWidgetFactory());
+    KDDockWidgets::Config::self().setLayoutSpacing(0); // SeparatorThickness(3);
+    if (KdenliveSettings::tabposition() == 1) {
+        KDDockWidgets::Config::self().setTabsAtBottom(true);
+    }
+    mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("KdenliveKDDock"));
+    mainDockWindow->setCenterWidgetMargins(QMargins(1, 1, 1, 1));
 }
 
-void MainWindow::init(const QString &mltPath)
+void MainWindow::init()
 {
     QString desktopStyle = QApplication::style()->objectName();
     // Load themes
     auto themeManager = new ThemeManager(actionCollection());
     actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged, Qt::QueuedConnection);
+    connect(pCore.get(), &Core::switchDarkPalette, themeManager, &ThemeManager::switchDarkPalette);
 
     // Handle communication with the renderer app
     new RenderServer(this);
     QString defaultProfile = KdenliveSettings::default_profile();
 
-    // Initialise MLT connection
-    MltConnection::construct(mltPath);
     pCore->setCurrentProfile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
     m_commandStack = new QUndoGroup();
 
@@ -175,43 +202,19 @@ void MainWindow::init(const QString &mltPath)
     KdenliveSettings::setGpu_accel(false);
 
     // m_gpuAllowed = EffectsRepository::get()->hasInternalEffect(QStringLiteral("glsl.manager"));
+    setCentralWidget(mainDockWindow);
+    mainDockWindow->show();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence(QStringLiteral("Esc")), this);
     connect(m_shortcutRemoveFocus, &QShortcut::activated, this, &MainWindow::slotRemoveFocus);
 
     /// Add Widgets
-    setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
-    setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
-    setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new TimelineContainer(this);
     auto *ctnLay = new QVBoxLayout;
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
     m_timelineToolBarContainer->setLayout(ctnLay);
-    QWidget *topFrame = new QWidget(this);
-    topFrame->setAutoFillBackground(true);
-    topFrame->setFixedHeight(2);
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
-    QPalette palette = topFrame->palette();
-    QColor color1 = scheme.decoration(KColorScheme::HoverColor).color();
-    QColor color2 = color1;
-    color2.setAlpha(100);
-    connect(this, &MainWindow::showTimelineFocus, this, [topFrame, color1, color2](bool focus, bool highlight) {
-        QPalette palette = topFrame->palette();
-        if (focus) {
-            if (highlight) {
-                palette.setColor(QPalette::Active, QPalette::Window, color2);
-            } else {
-                palette.setColor(QPalette::Active, QPalette::Window, color1);
-            }
-            topFrame->setPalette(palette);
-        } else {
-            palette.setColor(QPalette::Active, QPalette::Window, QApplication::palette().color(QPalette::Active, QPalette::Window));
-            topFrame->setPalette(palette);
-        }
-    });
-    ctnLay->addWidget(topFrame);
     ctnLay->addWidget(m_timelineToolBar);
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup mainConfig(config, QStringLiteral("MainWindow"));
@@ -224,20 +227,11 @@ void MainWindow::init(const QString &mltPath)
     ctnLay->addWidget(fr);
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
+    connect(pCore.get(), &Core::loadLayoutById, layoutManager, &LayoutManagement::slotLoadLayoutById, Qt::DirectConnection);
+    connect(pCore.get(), &Core::loadLayoutFromData, layoutManager, &LayoutManagement::slotLoadLayoutFromData, Qt::DirectConnection);
+    connect(pCore.get(), &Core::adjustLayoutToDar, layoutManager, &LayoutManagement::adjustLayoutToDar, Qt::DirectConnection);
     pCore->buildDocks();
 
-    QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
-    QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
-    QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
-    QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
-    QDockWidget *guidesDock = addDock(i18n("Guides"), QStringLiteral("guides"), pCore->guidesList());
-    connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock](int id) {
-        if (id > -1) {
-            timeRemapDock->show();
-            timeRemapDock->raise();
-        }
-        pCore->timeRemapWidget()->selectedClip(id, pCore->currentTimelineId());
-    });
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerWithCategory);
@@ -260,9 +254,38 @@ void MainWindow::init(const QString &mltPath)
     installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
 
-    m_timelineTabs = new TimelineTabs(this);
+    m_timelineTabs = new TimelineTabs();
     ctnLay->addWidget(m_timelineTabs);
-    setCentralWidget(m_timelineToolBarContainer);
+
+    // Timeline dock
+    const QSize firstWindowSize = mainDockWindow->size();
+    m_timelineDock = addDock(i18n("Timeline"), QStringLiteral("timeline"), m_timelineToolBarContainer, KDDockWidgets::Location_OnBottom, nullptr);
+
+    // Project bin
+    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin(), KDDockWidgets::Location_OnTop, m_timelineDock);
+
+    auto dockLib = addDock(i18n("Library"), QStringLiteral("library"), pCore->library(), KDDockWidgets::Location_OnRight);
+    dockLib->close();
+
+    auto dockSubs = addDock(i18n("Subtitles"), QStringLiteral("subtitles"), pCore->subtitleWidget(), KDDockWidgets::Location_OnRight);
+    dockSubs->close();
+
+    auto dockText = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget(), KDDockWidgets::Location_OnRight);
+    dockText->close();
+
+    auto dockRemap = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget(), KDDockWidgets::Location_OnRight);
+    dockRemap->close();
+
+    connect(pCore.get(), &Core::remapClip, this, [&, dockRemap](int id) {
+        if (id > -1) {
+            dockRemap->open();
+            dockRemap->setAsCurrentTab();
+        }
+        pCore->timeRemapWidget()->selectedClip(id, pCore->currentTimelineId());
+    });
+
+    auto dockGuides = addDock(i18n("Markers"), QStringLiteral("markers"), pCore->guidesList(), KDDockWidgets::Location_OnRight);
+    dockGuides->close();
 
     // Screen grab widget
     QWidget *grabWidget = new QWidget(this);
@@ -301,10 +324,8 @@ void MainWindow::init(const QString &mltPath)
     QAction *recConfig = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"), this);
     recToolbar->addAction(recConfig);
     connect(recConfig, &QAction::triggered, [&]() { Q_EMIT pCore->showConfigDialog(Kdenlive::PageCapture, 0); });
-    QDockWidget *screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
-
-    // Notes widget
-    pCore->projectManager()->buildNotesWidget();
+    auto screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
+    screenGrabDock->close();
 
     // Sequence actions
     QAction *nextSequence = new QAction(QIcon::fromTheme(QStringLiteral("go-next")), i18n("Switch to next Sequence"), this);
@@ -317,39 +338,44 @@ void MainWindow::init(const QString &mltPath)
 
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
-    QDockWidget *spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
-    connect(spectrumDock, &QDockWidget::visibilityChanged, this, [&](bool visible) { m_audioSpectrum->dockVisible(visible); });
+    auto spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
+    connect(spectrumDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this, [&](bool visible) { m_audioSpectrum->dockVisible(visible); });
+    spectrumDock->close();
 
-    // Project bin
-    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
+    // Add monitors here to keep them at the right of the window
+    m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clipmonitor"), m_clipMonitor, KDDockWidgets::Location_OnRight, m_projectBinDock);
+    m_projectMonitorDock =
+        addDock(i18n("Project Monitor"), QStringLiteral("projectmonitor"), m_projectMonitor, KDDockWidgets::Location_OnRight, m_clipMonitorDock);
+
+    m_clipMonitorDock->addDockWidgetAsTab(dockLib);
+    pCore->bin()->buildPropertiesDock(m_clipMonitorDock);
+    m_projectMonitorDock->addDockWidgetAsTab(dockText);
+    // Notes widget
+    pCore->projectManager()->buildNotesWidget(m_projectMonitorDock);
+    // Raise monitors
+    m_clipMonitorDock->setAsCurrentTab();
+    m_projectMonitorDock->setAsCurrentTab();
 
     // Media browser widget
-    QDockWidget *clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->mediaBrowser());
+    auto clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("media_browser"), pCore->mediaBrowser());
+    clipDockWidget->close();
 
     // Online resources widget
     auto *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
+    m_onlineResourcesDock->close();
     connect(onlineResources, &ResourceWidget::previewClip, this, [&](const QString &path, const QString &title) {
         m_clipMonitor->slotPreviewResource(path, title);
-        m_clipMonitorDock->show();
-        m_clipMonitorDock->raise();
+        m_clipMonitorDock->open();
+        m_clipMonitorDock->setAsCurrentTab();
     });
 
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
     connect(onlineResources, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
 
-    // Close library and audiospectrum and others on first run
-    screenGrabDock->close();
-    libraryDock->close();
-    subtitlesDock->close();
-    textEditingDock->close();
-    timeRemapDock->close();
-    spectrumDock->close();
-    clipDockWidget->close();
-    guidesDock->close();
-    m_onlineResourcesDock->close();
-
-    m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
+    const QSize stackSize(firstWindowSize.width() * 0.3, 0);
+    m_effectStackDock =
+        addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel, KDDockWidgets::Location_OnRight, m_timelineDock, stackSize);
     connect(pCore.get(), &Core::requestShowBinEffectStack, m_assetPanel, &AssetPanel::showEffectStack, Qt::QueuedConnection);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
@@ -358,14 +384,22 @@ void MainWindow::init(const QString &mltPath)
     connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
     connect(m_timelineTabs, &TimelineTabs::showMixModel, this, [&](int cid, std::shared_ptr<AssetParameterModel> model, bool refreshOnly) {
         m_assetPanel->showMix(cid, model, refreshOnly);
+        if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
+            // Don't raise if tabbed with timeline
+            return;
+        }
         if (KdenliveSettings::raisepropsmixes()) {
-            m_effectStackDock->raise();
+            m_effectStackDock->setAsCurrentTab();
         }
     });
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
         m_assetPanel->showTransition(tid, model);
+        if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
+            // Don't raise if tabbed with timeline
+            return;
+        }
         if (KdenliveSettings::raisepropscompositions()) {
-            m_effectStackDock->raise();
+            m_effectStackDock->setAsCurrentTab();
         }
     });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
@@ -375,19 +409,23 @@ void MainWindow::init(const QString &mltPath)
                     return;
                 }
                 m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
+                if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
+                    // Don't raise if tabbed with timeline
+                    return;
+                }
                 bool isClip = model && model->getOwnerId().type == KdenliveObjectType::TimelineClip;
                 bool isTrack = model && model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
                 if ((isClip && KdenliveSettings::raisepropsclips()) || (isTrack && KdenliveSettings::raisepropstracks())) {
-                    m_effectStackDock->raise();
+                    m_effectStackDock->setAsCurrentTab();
                 }
             });
 
     connect(m_timelineTabs, &TimelineTabs::updateAssetPosition, m_assetPanel, &AssetPanel::updateAssetPosition);
 
-    connect(m_timelineTabs, &TimelineTabs::showSubtitle, this, [&, subtitlesDock](int id) {
+    connect(m_timelineTabs, &TimelineTabs::showSubtitle, this, [&, dockSubs](int id) {
         if (id > -1) {
-            subtitlesDock->show();
-            subtitlesDock->raise();
+            dockSubs->open();
+            dockSubs->setAsCurrentTab();
         }
         pCore->subtitleWidget()->setActiveSubtitle(id);
     });
@@ -421,36 +459,71 @@ void MainWindow::init(const QString &mltPath)
         }
     });
 
-    m_effectList2 = new EffectListWidget(this);
+    // Assets filter options
+    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("games-solve")), i18n("Only show reviewed items"), this);
+    includeList->setCheckable(true);
+    includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
+    // 10 bit support
+    QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Only show 10 bit compatible items"), this);
+    tenBit->setCheckable(true);
+    tenBit->setChecked(KdenliveSettings::tenbitpipeline());
+
+    m_effectList2 = new EffectListWidget(includeList, tenBit, this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
-    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
+    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2, KDDockWidgets::Location_None, m_projectBinDock);
 
-    m_compositionList = new TransitionListWidget(this);
-    m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList);
+    m_compositionList = new TransitionListWidget(includeList, tenBit, this);
+    m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList, KDDockWidgets::Location_None, m_projectBinDock);
 
-    // Add monitors here to keep them at the right of the window
-    m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
-    m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
+    // Clear history action
+    QAction *cleanHistory = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear-history")), i18n("Clear Undo History"), this);
+    addAction(QStringLiteral("clear_undo_history"), cleanHistory);
+    connect(cleanHistory, &QAction::triggered, this, [this]() {
+        if (KMessageBox::warningContinueCancel(this, i18n("This will clear all undo history, you will not be able to undo any previous action.")) !=
+            KMessageBox::Continue) {
+            return;
+        }
+        QList<QUndoStack *> stacks = m_commandStack->stacks();
+        for (auto &s : stacks) {
+            s->clear();
+        }
+    });
 
     m_undoView = new QUndoView();
     m_undoView->setCleanIcon(QIcon::fromTheme(QStringLiteral("edit-clear")));
     m_undoView->setEmptyLabel(i18n("Clean"));
     m_undoView->setGroup(m_commandStack);
-    m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView);
+    m_undoView->addAction(cleanHistory);
 
-    // Color and icon theme stuff
-    connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
+    m_undoView->setContextMenuPolicy(Qt::ActionsContextMenu);
+    m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
-    QStringList stylesToHide = {
-        QStringLiteral("windowsvista"), // recoloring does not work well
-        QStringLiteral("Windows"),
-        // QStringLiteral("macintosh")
-    };
+    connect(m_commandStack, &QUndoGroup::cleanChanged, [this, cleanHistory](bool isClean) {
+        m_saveAction->setDisabled(isClean);
+        cleanHistory->setDisabled(isClean);
+    });
+
+    // Switch title bars
+    auto switchAction = new QAction(i18n("Show Title Bars"), this);
+    switchAction->setCheckable(true);
+    switchAction->setChecked(KdenliveSettings::showtitlebars());
+    addAction(QStringLiteral("show_titlebars"), switchAction);
+    connect(switchAction, &QAction::triggered, this, [](bool checked) {
+        KdenliveSettings::setShowtitlebars(checked);
+        Q_EMIT pCore->hideBars(!checked);
+    });
+    connect(pCore.get(), &Core::switchTitleBars, this, [switchAction]() { switchAction->trigger(); });
 
     QAction *stylesAction = KStyleManager::createConfigureAction(this);
     // stylesAction->menu() is only available on non KDE platform
     if (stylesAction->menu()) {
+        // Color and icon theme stuff
+        const QStringList stylesToHide = {
+            QStringLiteral("windowsvista"), // recoloring does not work well
+            QStringLiteral("Windows"),
+            // QStringLiteral("macintosh")
+        };
         for (QAction *child : stylesAction->menu()->actions()) {
             if (stylesToHide.contains(child->data().toString(), Qt::CaseInsensitive)) {
                 child->setVisible(false);
@@ -459,12 +532,12 @@ void MainWindow::init(const QString &mltPath)
     }
     addAction(QStringLiteral("styles_menu"), stylesAction);
 
-    m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer(), KDDockWidgets::Location_None, m_effectStackDock);
     m_mixerDock->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the audio mixer panel/widget."));
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
-    connect(m_mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
+    connect(m_mixerDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this, [&, showMixer](bool visible) {
         pCore->mixer()->connectMixer(visible);
         pCore->audioMixerVisible = visible;
         m_projectMonitor->displayAudioMonitor(m_projectMonitor->isActive());
@@ -474,20 +547,16 @@ void MainWindow::init(const QString &mltPath)
         if (m_mixerDock->isVisible() && !m_mixerDock->visibleRegion().isEmpty()) {
             m_mixerDock->close();
         } else {
-            m_mixerDock->show();
-            m_mixerDock->raise();
+            m_mixerDock->open();
+            m_mixerDock->setAsCurrentTab();
         }
     });
 
     // Close non-general docks for the initial layout
     // only show important ones
-    m_undoViewDock->close();
     m_mixerDock->close();
+    m_projectBinDock->setAsCurrentTab();
 
-    // Tabify Widgets
-    tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
-    tabifyDockWidget(m_compositionListDock, m_effectListDock);
-    tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
     bool firstRun = readOptions();
     if (KdenliveSettings::lastCacheCheck().isNull()) {
         // Define a date for first check
@@ -504,10 +573,6 @@ void MainWindow::init(const QString &mltPath)
 
     m_scopesManager = new ScopeManager(this);
 
-    auto *titleBars = new DockTitleBarManager(this);
-    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, [&]() { titleBars->slotUpdateTitleBars(); });
-    connect(layoutManager, &LayoutManagement::connectDocks, titleBars, &DockTitleBarManager::connectDocks);
-    connect(this, &MainWindow::connectDockAfterInit, titleBars, &DockTitleBarManager::connectDockWidget);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
@@ -565,21 +630,14 @@ void MainWindow::init(const QString &mltPath)
     previewButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("preview-render-on")));
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
-    setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
+
+    // Since not all widgets are added yet, don't use the Save flag now
+    setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Create);
+
+    // Only start saving config once all GUI setup is done.
+    connect(pCore.get(), &Core::GUISetupDone, this, &MainWindow::finishUiSetup, Qt::DirectConnection);
 
     LocaleHandling::resetLocale();
-    if (firstRun) {
-        if (QScreen *current = QApplication::primaryScreen()) {
-            int screenHeight = current->availableSize().height();
-            if (screenHeight < 1000) {
-                resize(current->availableSize());
-            } else if (screenHeight < 2000) {
-                resize(current->availableSize() / 1.2);
-            } else {
-                resize(current->availableSize() / 1.6);
-            }
-        }
-    }
 
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     m_timelineToolBar->setProperty("otherToolbar", true);
@@ -608,21 +666,30 @@ void MainWindow::init(const QString &mltPath)
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
-    QMenu *guideMenu = new QMenu(i18n("Go to Guide…"), this);
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_sequence_marker")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_sequence_marker")));
+    QMenu *guideMenu = new QMenu(i18n("Go to Marker…"), this);
     timelineMenu->addMenu(guideMenu);
 
     // Timeline ruler menu
     auto *timelineRulerMenu = new QMenu(this);
-    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
-    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_sequence_marker")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_sequence_marker")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("export_guides")));
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_in")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_out")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("select_timeline_zone")));
+
+    auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone"), this);
+    connect(createZoneMarker, &QAction::triggered, this, &MainWindow::slotCreateRangeMarkerFromZone);
+    timelineRulerMenu->addAction(createZoneMarker);
+
+    auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone Quickly"), this);
+    connect(createZoneMarkerQuick, &QAction::triggered, this, &MainWindow::slotCreateRangeMarkerFromZoneQuick);
+    timelineRulerMenu->addAction(createZoneMarkerQuick);
+
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
 
@@ -728,17 +795,6 @@ void MainWindow::init(const QString &mltPath)
 
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
-        KConfigGroup group(&conf, "video4linux");
-        QMap<QString, QString> values = group.entryMap();
-        QMapIterator<QString, QString> i(values);
-        if (i.hasNext()) {
-            i.next();
-            QString v4lstring = i.value();
-            KdenliveSettings::setV4l_parameters(v4lstring.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setV4l_extension(v4lstring.section(QLatin1Char(';'), 1, 1));
-        }
-    }
     if (KdenliveSettings::grab_parameters().isEmpty() || KdenliveSettings::grab_extension().isEmpty()) {
         KConfigGroup group(&conf, "screengrab");
         QMap<QString, QString> values = group.entryMap();
@@ -764,16 +820,11 @@ void MainWindow::init(const QString &mltPath)
     if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
-    if (firstRun) {
-        // Load editing layout
-        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"), true);
-    }
-
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    m_timelineTabs->setTimelineMenu(compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")),
-                                    timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu);
+    m_timelineTabs->setTimelineMenu(compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_clip_marker")),
+                                    timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu, m_binWidgets.first()->addClipMenu());
     m_scopesManager->slotCheckActiveScopes();
     connect(qApp, &QGuiApplication::applicationStateChanged, this, [&](Qt::ApplicationState state) {
         if (state == Qt::ApplicationActive && getCurrentTimeline()) {
@@ -799,8 +850,8 @@ void MainWindow::init(const QString &mltPath)
         if (visible && !toolBar()->actions().contains(m_hamburgerMenu)) {
             // hack to be able to insert the hamburger menu at the first position
             QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
-            QAction *const seperator = toolBar()->insertSeparator(firstChild);
-            toolBar()->insertAction(seperator, m_hamburgerMenu);
+            QAction *const separator = toolBar()->insertSeparator(firstChild);
+            toolBar()->insertAction(separator, m_hamburgerMenu);
             m_hamburgerMenu->hideActionsOf(toolBar());
         }
     });
@@ -815,6 +866,28 @@ void MainWindow::init(const QString &mltPath)
     m_loadingDialog->setAutoReset(false);
     m_loadingDialog->setModal(true);
     m_loadingDialog->close();
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT pCore->hideBars(true);
+    }
+
+    // fix for Bug 376053: intercept "Configure Toolbars" to prevent shortcut reset
+    QAction *tbAction = actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars));
+    if (tbAction) {
+        // disconnect EVERYTHING currently connected to it
+        disconnect(tbAction, nullptr, nullptr, nullptr);
+
+        // connect to a custom slot
+        connect(tbAction, &QAction::triggered, this, &MainWindow::slotEditToolbars);
+    }
+}
+
+void MainWindow::finishUiSetup()
+{
+    pCore->restoreLayout();
+    Q_EMIT pCore->closeSplash();
+    setAutoSaveSettings();
+    QObject::disconnect(pCore.get(), &Core::GUISetupDone, this, nullptr);
+    // This should connect only after splash is done
     connect(pCore.get(), &Core::loadingMessageNewStage, this, [&](const QString &message, int max = -1) {
         if (max > -1) {
             m_loadingDialog->reset();
@@ -831,6 +904,39 @@ void MainWindow::init(const QString &mltPath)
         m_loadingDialog->setMaximum(0);
         m_loadingDialog->close();
     });
+}
+
+void MainWindow::loadBins(QStringList binInfo)
+{
+    // Delete all secondary bins
+    while (m_binWidgets.size() > 1) {
+        int ix = 0;
+        auto bin = m_binWidgets.at(ix);
+        if (bin->isMainBin()) {
+            ix = 1;
+            bin = m_binWidgets.at(ix);
+        }
+        auto toDelete = bin->parentWidget();
+        m_binWidgets.takeAt(ix);
+        delete toDelete;
+    }
+
+    // Create missing bins
+    Bin *mainBin = nullptr;
+    if (!m_binWidgets.isEmpty()) {
+        // Main bin still there
+        mainBin = m_binWidgets.first();
+    }
+
+    QStringList existingNames;
+    for (const QString &info : binInfo) {
+        if (mainBin && info.startsWith("project_bin:")) {
+            // Main Bin, don't recreate
+            continue;
+        }
+        auto bin = new Bin(pCore->projectItemModel(), this, false);
+        addBin(bin, QString(), false, info.section(QLatin1Char(':'), 0, 0));
+    }
 }
 
 void MainWindow::loadContainerActions()
@@ -908,8 +1014,13 @@ void MainWindow::slotThemeChanged(const QString &name)
     }
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
-        getCurrentTimeline()->controller()->resetView();
+        if (getCurrentTimeline() && getCurrentTimeline()->controller()) {
+            getCurrentTimeline()->controller()->resetView();
+        }
     }
+    applyToolMessageStyling();
+    applyZoomLevelButtonStyling();
+
     Q_EMIT pCore->updatePalette();
 }
 
@@ -917,14 +1028,16 @@ MainWindow::~MainWindow()
 {
     pCore->prepareShutdown();
     delete m_timelineTabs;
-    delete m_audioSpectrum;
+    if (m_audioSpectrum) {
+        delete m_audioSpectrum;
+    }
     if (m_projectMonitor) {
         m_projectMonitor->stop();
     }
     if (m_clipMonitor) {
         m_clipMonitor->stop();
     }
-    ClipController::mediaUnavailable.reset();
+    // Core::mediaUnavailable.reset();
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
@@ -939,10 +1052,6 @@ MainWindow::~MainWindow()
 // virtual
 bool MainWindow::queryClose()
 {
-    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
-        return false;
-    }
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
         int runningJobs = m_renderWidget->runningJobsCount();
@@ -985,6 +1094,13 @@ bool MainWindow::queryClose()
             }
         }
     }
+    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    KdenliveSettings::setKdockLayout(QString(dockLayout.serializeLayout()));
+    // setAutoSaveSettings(QStringLiteral("MainWindow"), false);
+    if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
+        return false;
+    }
     saveOptions();
     m_windowClosing = true;
     return true;
@@ -1025,8 +1141,8 @@ void MainWindow::saveNewToolbarConfig()
 
     // hack to be able to insert the hamburger menu at the first position
     QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
-    QAction *const seperator = toolBar()->insertSeparator(firstChild);
-    toolBar()->insertAction(seperator, m_hamburgerMenu);
+    QAction *const separator = toolBar()->insertSeparator(firstChild);
+    toolBar()->insertAction(separator, m_hamburgerMenu);
     m_hamburgerMenu->hideActionsOf(toolBar());
 }
 
@@ -1179,22 +1295,20 @@ void MainWindow::setupActions()
     clipTypeGroup->addAction(splitView2);
     connect(clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateTimelineView);
 
-    auto tlsettings = new QMenu(this);
-    tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    tlsettings->addAction(m_compositeAction);
-    tlsettings->addSeparator();
-    tlsettings->addAction(mixedView);
-    tlsettings->addAction(splitView);
-    tlsettings->addAction(splitView2);
-
-    auto *timelineSett = new QToolButton(this);
-    timelineSett->setPopupMode(QToolButton::InstantPopup);
-    timelineSett->setMenu(tlsettings);
-    timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    auto *tlButtonAction = new QWidgetAction(this);
-    tlButtonAction->setDefaultWidget(timelineSett);
-    tlButtonAction->setText(i18n("Track menu"));
-    addAction(QStringLiteral("timeline_settings"), tlButtonAction);
+    // Create audio waveform zoom actions
+    m_audioZoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In Audio Waveforms"), this);
+    m_audioZoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out Audio Waveforms"), this);
+    m_audioZoomReset = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Reset Audio Waveform Zoom"), this);
+    m_audioZoomCycle = new QAction(QIcon::fromTheme(QStringLiteral("zoom-1-to-2")), i18n("Cycle Audio Waveform Zoom Levels"), this);
+    connect(m_audioZoomIn, &QAction::triggered, this, &MainWindow::slotAudioZoomIn);
+    connect(m_audioZoomOut, &QAction::triggered, this, &MainWindow::slotAudioZoomOut);
+    connect(m_audioZoomReset, &QAction::triggered, this, &MainWindow::slotAudioZoomReset);
+    connect(m_audioZoomCycle, &QAction::triggered, this, &MainWindow::slotAudioZoomCycle);
+    addAction(QStringLiteral("zoom_audio_in"), m_audioZoomIn);
+    addAction(QStringLiteral("zoom_audio_out"), m_audioZoomOut);
+    addAction(QStringLiteral("zoom_audio_reset"), m_audioZoomReset);
+    addAction(QStringLiteral("zoom_audio_thumbs"),
+              m_audioZoomCycle); // kept action name zoom_audio_thumbs for backwards compatibility before in/out/reset were introduced
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
@@ -1276,13 +1390,13 @@ void MainWindow::setupActions()
 
     toolGroup->setExclusive(true);
 
-    QAction *zoomWaveform = new QAction(QIcon::fromTheme(QStringLiteral("zoom-1-to-2")), i18n("Zoom Audio Waveforms"), this);
-    addAction(QStringLiteral("zoom_audio_thumbs"), zoomWaveform);
-    connect(zoomWaveform, &QAction::triggered, this, &MainWindow::slotZoomWaveForm);
-
     QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
     addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
+
+    QAction *collapseAllItems = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand All Items"), this);
+    addAction(QStringLiteral("collapse_expand_all"), collapseAllItems, QKeySequence(Qt::SHIFT | Qt::Key_Less));
+    connect(collapseAllItems, &QAction::triggered, this, &MainWindow::slotCollapseAll);
 
     QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Mix Clips"), this);
     sameTrack->setWhatsThis(
@@ -1310,6 +1424,95 @@ void MainWindow::setupActions()
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, &QAction::triggered, this, &MainWindow::slotSwitchAudioThumbs);
 
+    // Create split button for audio thumbnails with zoom controls
+    auto *audioThumbsButton = new QToolButton(this);
+    audioThumbsButton->setDefaultAction(m_buttonAudioThumbs);
+    audioThumbsButton->setPopupMode(QToolButton::MenuButtonPopup);
+    audioThumbsButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
+
+    // Set initial icon colorization based on current zoom level
+    updateAudioWaveformActionIcon();
+
+    // Create menu for zoom controls
+    m_audioThumbsMenu = new QMenu(this);
+    QWidget *statusAudioZoomWidget = new QWidget();
+    QVBoxLayout *statusAudioZoomLayout = new QVBoxLayout(statusAudioZoomWidget);
+    statusAudioZoomLayout->setContentsMargins(2, 2, 2, 2);
+    statusAudioZoomLayout->setSpacing(2);
+
+    // Current zoom level (top)
+    m_statusZoomLevelButton = new QPushButton(i18n("%1×", KdenliveSettings::waveformScaler()));
+    QFont statusBoldFont = m_statusZoomLevelButton->font();
+    statusBoldFont.setBold(true);
+    m_statusZoomLevelButton->setFont(statusBoldFont);
+    applyZoomLevelButtonStyling();
+    statusAudioZoomLayout->addWidget(m_statusZoomLevelButton);
+
+    // Separator between label and buttons
+    QFrame *statusZoomSeparator = new QFrame();
+    statusZoomSeparator->setFrameShape(QFrame::HLine);
+    statusZoomSeparator->setFixedHeight(1);
+    statusZoomSeparator->setLineWidth(1);
+    statusAudioZoomLayout->addWidget(statusZoomSeparator);
+
+    // Zoom in button
+    QToolButton *statusZoomInButton = new QToolButton();
+    statusZoomInButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
+    statusZoomInButton->setToolTip(i18n("Zoom In Audio Waveforms"));
+    statusZoomInButton->setAutoRaise(true);
+    connect(statusZoomInButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomIn);
+    statusAudioZoomLayout->addWidget(statusZoomInButton);
+
+    // Zoom out button (bottom)
+    QToolButton *statusZoomOutButton = new QToolButton();
+    statusZoomOutButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
+    statusZoomOutButton->setToolTip(i18n("Zoom Out Audio Waveforms"));
+    statusZoomOutButton->setAutoRaise(true);
+    connect(statusZoomOutButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomOut);
+    statusAudioZoomLayout->addWidget(statusZoomOutButton);
+
+    // Set initial button states
+    statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
+    statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+    // Helper function to update button state based on zoom level (click to reset zoom)
+    auto updateZoomButtonState = [this]() {
+        if (KdenliveSettings::waveformScaler() > 1) {
+            m_statusZoomLevelButton->setToolTip(i18n("Click to reset Audio Waveform Zoom"));
+            m_statusZoomLevelButton->setEnabled(true);
+            // Ensure the connection exists
+            disconnect(m_statusZoomLevelButton, &QPushButton::clicked, this, &MainWindow::slotAudioZoomReset);
+            connect(m_statusZoomLevelButton, &QPushButton::clicked, this, &MainWindow::slotAudioZoomReset);
+        } else {
+            m_statusZoomLevelButton->setToolTip(i18n("Current Audio Waveform Zoom Level"));
+            m_statusZoomLevelButton->setEnabled(false);
+            disconnect(m_statusZoomLevelButton, &QPushButton::clicked, this, &MainWindow::slotAudioZoomReset);
+        }
+    };
+    updateZoomButtonState();
+
+    auto *statusAudioZoomAction = new QWidgetAction(this);
+    statusAudioZoomAction->setDefaultWidget(statusAudioZoomWidget);
+    m_audioThumbsMenu->addAction(statusAudioZoomAction);
+
+    // Connect to update zoom level display when it changes
+    connect(KdenliveSettings::self(), &KdenliveSettings::waveformScalerChanged, this, [this, statusZoomInButton, statusZoomOutButton, updateZoomButtonState]() {
+        m_statusZoomLevelButton->setText(i18n("%1×", KdenliveSettings::waveformScaler()));
+        // Update button states based on zoom level
+        statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
+        statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+        // Enable or disable the reset zoom button
+        updateZoomButtonState();
+        updateAudioWaveformActionIcon();
+    });
+
+    audioThumbsButton->setMenu(m_audioThumbsMenu);
+
+    // Create widget action for the split button
+    auto *audioThumbsButtonAction = new QWidgetAction(this);
+    audioThumbsButtonAction->setDefaultWidget(audioThumbsButton);
+    audioThumbsButtonAction->setText(i18n("Audio Thumbnails"));
+    audioThumbsButtonAction->setIcon(QIcon::fromTheme(waveformIconName));
+
     m_buttonShowMarkers = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-markers")), i18n("Show Markers Comments"), this);
 
     m_buttonShowMarkers->setCheckable(true);
@@ -1318,10 +1521,15 @@ void MainWindow::setupActions()
 
     m_buttonSnap = new QAction(QIcon::fromTheme(QStringLiteral("snap")), i18n("Snap"), this);
     m_buttonSnap->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the snap function (clips snap to playhead, edges, markers, guides and others)."));
-
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, &QAction::triggered, this, &MainWindow::slotSwitchSnap);
+
+    m_buttonHideClipOverlays = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Show Clip Names"), this);
+    m_buttonHideClipOverlays->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of clip names and info in timeline."));
+    m_buttonHideClipOverlays->setCheckable(true);
+    m_buttonHideClipOverlays->setChecked(KdenliveSettings::showClipOverlays());
+    connect(m_buttonHideClipOverlays, &QAction::triggered, this, &MainWindow::slotSwitchClipOverlays);
 
     m_buttonTimelineTags = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show Color Tags in Timeline"), this);
     m_buttonTimelineTags->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of clip tags in the timeline (default is On)."));
@@ -1373,8 +1581,9 @@ void MainWindow::setupActions()
     toolbar->addSeparator();
     toolbar->addAction(m_buttonTimelineTags);
     toolbar->addAction(m_buttonVideoThumbs);
-    toolbar->addAction(m_buttonAudioThumbs);
+    toolbar->addAction(audioThumbsButtonAction);
     toolbar->addAction(m_buttonShowMarkers);
+    toolbar->addAction(m_buttonHideClipOverlays);
     toolbar->addAction(m_buttonSnap);
     toolbar->addSeparator();
     toolbar->addAction(m_buttonFitZoom);
@@ -1414,6 +1623,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("show_audio_thumbs"), m_buttonAudioThumbs);
     addAction(QStringLiteral("show_markers"), m_buttonShowMarkers);
     addAction(QStringLiteral("snap"), m_buttonSnap);
+    addAction(QStringLiteral("hide_overlay"), m_buttonHideClipOverlays);
     addAction(QStringLiteral("zoom_fit"), m_buttonFitZoom);
 
 #if defined(Q_OS_WIN)
@@ -1453,7 +1663,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
               QIcon::fromTheme(QStringLiteral("media-record")));
 
-    addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
+    addAction(QStringLiteral("project_clean"), i18n("Remove Unused Media"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear-all")));
 
     QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Configuration…"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
@@ -1533,7 +1743,11 @@ void MainWindow::setupActions()
     QAction *scale_no = new QAction(i18n("Full Resolution (1:1)"), m_scaleGroup);
     addAction(QStringLiteral("scale_no_preview"), scale_no, QKeySequence(), resolutionActionCategory);
     scale_no->setCheckable(true);
-    scale_no->setData(1);
+    scale_no->setData(0);
+    QAction *scale_1 = new QAction(i18n("1080p"), m_scaleGroup);
+    addAction(QStringLiteral("scale_1_preview"), scale_1, QKeySequence(), resolutionActionCategory);
+    scale_1->setCheckable(true);
+    scale_1->setData(1);
     QAction *scale_2 = new QAction(i18n("720p"), m_scaleGroup);
     addAction(QStringLiteral("scale_2_preview"), scale_2, QKeySequence(), resolutionActionCategory);
     scale_2->setCheckable(true);
@@ -1550,8 +1764,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("scale_16_preview"), scale_16, QKeySequence(), resolutionActionCategory);
     scale_16->setCheckable(true);
     scale_16->setData(16);
-    connect(pCore->monitorManager(), &MonitorManager::scalingChanged, this, [scale_2, scale_4, scale_8, scale_16, scale_no]() {
+    connect(pCore->monitorManager(), &MonitorManager::scalingChanged, this, [scale_1, scale_2, scale_4, scale_8, scale_16, scale_no]() {
         switch (KdenliveSettings::previewScaling()) {
+        case 1:
+            scale_1->setChecked(true);
+            break;
         case 2:
             scale_2->setChecked(true);
             break;
@@ -1583,14 +1800,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("mlt_realtime"), dropFrames);
     connect(dropFrames, &QAction::toggled, this, &MainWindow::slotSwitchDropFrames);
 
-    KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
-    monitorGamma->addAction(i18n("sRGB (computer)"));
-    monitorGamma->addAction(i18n("Rec. 709 (TV)"));
-    addAction(QStringLiteral("mlt_gamma"), monitorGamma, {}, QStringLiteral("monitor"));
-    monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-    connect(monitorGamma, &KSelectAction::indexTriggered, this, &MainWindow::slotSetMonitorGamma);
-    actionCollection()->setShortcutsConfigurable(monitorGamma, false);
-
     QAction *insertBinZone = addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
                                        QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
     insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
@@ -1605,22 +1814,15 @@ void MainWindow::setupActions()
               Qt::Key_Home, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
               Qt::Key_End, QStringLiteral("navandplayback"));
-    addAction(QStringLiteral("monitor_seek_guide_backward"), i18n("Go to Previous Guide"), this, SLOT(slotGuideRewind()),
+    addAction(QStringLiteral("monitor_seek_guide_backward"), i18n("Go to Previous Marker"), this, SLOT(slotGuideRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::CTRL | Qt::Key_Left, QStringLiteral("navandplayback"));
-    addAction(QStringLiteral("monitor_seek_guide_forward"), i18n("Go to Next Guide"), this, SLOT(slotGuideForward()),
+    addAction(QStringLiteral("monitor_seek_guide_forward"), i18n("Go to Next Marker"), this, SLOT(slotGuideForward()),
               QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::CTRL | Qt::Key_Right, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P,
               QStringLiteral("navandplayback"));
 
     addAction(QStringLiteral("grab_item"), i18n("Grab Current Item"), this, SLOT(slotGrabItem()), QIcon::fromTheme(QStringLiteral("transform-move")),
               Qt::SHIFT | Qt::Key_G);
-
-    QAction *stickTransition = new QAction(i18n("Automatic Transition"), this);
-    stickTransition->setData(QStringLiteral("auto"));
-    stickTransition->setCheckable(true);
-    stickTransition->setEnabled(false);
-    addAction(QStringLiteral("auto_transition"), stickTransition);
-    connect(stickTransition, &QAction::triggered, this, &MainWindow::slotAutoTransition);
 
     QAction *overwriteZone = addAction(QStringLiteral("overwrite_to_in_point"), i18n("Overwrite Clip Zone in Timeline"), this, SLOT(slotInsertClipOverwrite()),
                                        QIcon::fromTheme(QStringLiteral("timeline-overwrite")), Qt::Key_B);
@@ -1672,47 +1874,47 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide Quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
+    addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker Quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_Asterisk));
 
     QAction *addMarkerWithCategory1 =
-        addAction(QStringLiteral("add_marker_guide_1"), i18n("Add Marker/Guide 1"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_1"), i18n("Add Marker Category 1"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_1), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory1->setData(1);
     QAction *addMarkerWithCategory2 =
-        addAction(QStringLiteral("add_marker_guide_2"), i18n("Add Marker/Guide 2"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_2"), i18n("Add Marker Category 2"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_2), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory2->setData(2);
     QAction *addMarkerWithCategory3 =
-        addAction(QStringLiteral("add_marker_guide_3"), i18n("Add Marker/Guide 3"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_3"), i18n("Add Marker Category 3"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_3), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory3->setData(3);
     QAction *addMarkerWithCategory4 =
-        addAction(QStringLiteral("add_marker_guide_4"), i18n("Add Marker/Guide 4"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_4"), i18n("Add Marker Category 4"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_4), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory4->setData(4);
     QAction *addMarkerWithCategory5 =
-        addAction(QStringLiteral("add_marker_guide_5"), i18n("Add Marker/Guide 5"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_5"), i18n("Add Marker Category 5"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_5), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory5->setData(5);
     QAction *addMarkerWithCategory6 =
-        addAction(QStringLiteral("add_marker_guide_6"), i18n("Add Marker/Guide 6"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_6"), i18n("Add Marker Category 6"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_6), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory6->setData(6);
     QAction *addMarkerWithCategory7 =
-        addAction(QStringLiteral("add_marker_guide_7"), i18n("Add Marker/Guide 7"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_7"), i18n("Add Marker Category 7"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_7), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory7->setData(7);
     QAction *addMarkerWithCategory8 =
-        addAction(QStringLiteral("add_marker_guide_8"), i18n("Add Marker/Guide 8"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_8"), i18n("Add Marker Category 8"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_8), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory8->setData(8);
     QAction *addMarkerWithCategory9 =
-        addAction(QStringLiteral("add_marker_guide_9"), i18n("Add Marker/Guide 9"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_9"), i18n("Add Marker Category 9"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_9), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory9->setData(9);
     QAction *addMarkerWithCategory10 =
-        addAction(QStringLiteral("add_marker_guide_10"), i18n("Add Marker/Guide 10"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_10"), i18n("Add Marker Category 10"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_0), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory10->setData(10);
 
@@ -1724,11 +1926,11 @@ void MainWindow::setupActions()
     addMarker->setData('P');
 
     QAction *delMarker = addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()),
-                                   QIcon::fromTheme(QStringLiteral("edit-delete")), QKeySequence(), clipActionCategory);
+                                   QIcon::fromTheme(QStringLiteral("bookmark-remove")), QKeySequence(), clipActionCategory);
     delMarker->setData('P');
 
     QAction *editClipMarker = addAction(QStringLiteral("edit_clip_marker"), i18n("Edit Marker…"), this, SLOT(slotEditClipMarker()),
-                                        QIcon::fromTheme(QStringLiteral("document-properties")), QKeySequence(), clipActionCategory);
+                                        QIcon::fromTheme(QStringLiteral("bookmark-edit")), QKeySequence(), clipActionCategory);
     editClipMarker->setObjectName(QStringLiteral("edit_marker"));
     editClipMarker->setData('P');
 
@@ -1754,6 +1956,7 @@ void MainWindow::setupActions()
     switchEnable->setData('W');
     switchEnable->setEnabled(false);
 
+    // Audio reference
     QAction *setAudioAlignReference = addAction(QStringLiteral("set_audio_align_ref"), i18n("Set Audio Reference"), this, SLOT(slotSetAudioAlignReference()),
                                                 QIcon(), QKeySequence(), clipActionCategory);
     // "A" as data means this action should only be available for clips with audio
@@ -1765,6 +1968,14 @@ void MainWindow::setupActions()
     // "A" as data means this action should only be available for clips with audio
     // alignAudio->setData('A');
     alignAudio->setEnabled(false);
+
+    // Timecode reference
+    QAction *setTimecodeReference = addAction(QStringLiteral("set_timecode_ref"), i18n("Set Timecode Reference"), this, SLOT(slotSetTimecodeReference()),
+                                              QIcon(), QKeySequence(), clipActionCategory);
+    setTimecodeReference->setEnabled(false);
+    QAction *alignTimecode = addAction(QStringLiteral("align_timecode"), i18n("Align Timecode to Reference"), this, SLOT(slotAlignTimecode()), QIcon(),
+                                       QKeySequence(), clipActionCategory);
+    alignTimecode->setEnabled(false);
 
     QAction *act = addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()),
                              QIcon::fromTheme(QStringLiteral("measure")), QKeySequence(), clipActionCategory);
@@ -1813,7 +2024,7 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     pasteEffects->setData('C');
 
-    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Effects"), this);
+    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Remove Effects"), this);
     addAction(QStringLiteral("delete_effects"), delEffects, QKeySequence(), clipActionCategory);
     delEffects->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
@@ -1840,6 +2051,9 @@ void MainWindow::setupActions()
     sentToSequence->setEnabled(false);
 
     act = clipActionCategory->addAction(KStandardAction::Copy, this, SLOT(slotCopy()));
+    act->setEnabled(false);
+
+    act = clipActionCategory->addAction(KStandardAction::Cut, this, SLOT(slotCut()));
     act->setEnabled(false);
 
     KStandardAction::paste(this, SLOT(slotPaste()), actionCollection());
@@ -1873,7 +2087,7 @@ void MainWindow::setupActions()
     connect(autoTrackHeight, &QAction::triggered, this, &MainWindow::slotAutoTrackHeight);
     timelineActions->addAction(QStringLiteral("fit_all_tracks"), autoTrackHeight);
 
-    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Master effects"), this);
+    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Sequence effects"), this);
     connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         getCurrentTimeline()->controller()->showMasterEffects();
@@ -1920,22 +2134,26 @@ void MainWindow::setupActions()
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
-    addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
-    addAction(QStringLiteral("search_guide"), i18n("Search Guide…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
-    addAction(QStringLiteral("export_guides"), i18n("Export Guides…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
+    addAction(QStringLiteral("add_sequence_marker"), i18n("Add/Remove Timeline Marker"), this, SLOT(slotAddGuide()),
+              QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_G);
+    addAction(QStringLiteral("delete_sequence_marker"), i18n("Delete Timeline Marker"), this, SLOT(slotDeleteGuide()),
+              QIcon::fromTheme(QStringLiteral("bookmark-remove")));
+    addAction(QStringLiteral("delete_all_sequence_markers"), i18n("Delete All Timeline Markers"), this, SLOT(slotDeleteAllSequenceMarkers()),
+              QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("edit_sequence_marker"), i18n("Edit Timeline Marker…"), this, SLOT(slotEditGuide()),
+              QIcon::fromTheme(QStringLiteral("bookmark-edit")));
+
+    addAction(QStringLiteral("export_guides"), i18n("Export Markers…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
+    addAction(QStringLiteral("search_guide"), i18n("Search Marker…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
 
     QAction *lockGuides =
-        addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("lock")));
+        addAction(QStringLiteral("lock_guides"), i18n("Lock Timeline Markers"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("lock")));
     lockGuides->setCheckable(true);
     lockGuides->setChecked(KdenliveSettings::lockedGuides());
-    lockGuides->setToolTip(i18n("Lock guides"));
-    lockGuides->setWhatsThis(
-        xi18nc("@info:whatsthis", "Lock guides. When locked, the guides won't move when using the spacer tool or inserting/removing blank in tracks."));
+    lockGuides->setToolTip(i18n("Lock Timeline Markers"));
+    lockGuides->setWhatsThis(xi18nc(
+        "@info:whatsthis", "Lock Timeline Markers. When locked, the markers won't move when using the spacer tool or inserting/removing blank in tracks."));
 
-    addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
-              QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")),
               Qt::SHIFT | Qt::Key_S);
     addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
@@ -1964,33 +2182,52 @@ void MainWindow::setupActions()
     KStandardAction::configureNotifications(this, &MainWindow::configureNotifications, actionCollection());
     KStandardAction::fullScreen(this, &MainWindow::slotFullScreen, this, actionCollection());
 
+    // cppcheck-suppress legacyUninitvar
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
     undo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
-    connect(this, &MainWindow::enableUndo, this, [this, undo](bool enable) {
-        if (enable) {
-            enable = m_commandStack->activeStack()->canUndo();
-        }
-        undo->setEnabled(enable);
-    });
 
+    // cppcheck-suppress legacyUninitvar
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
     redo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
-    connect(this, &MainWindow::enableUndo, this, [this, redo](bool enable) {
-        if (enable) {
+    connect(this, &MainWindow::enableUndo, this, [this, undo, redo](bool enable) {
+        bool undoEnabled = enable;
+        if (enable && m_commandStack->activeStack()) {
             enable = m_commandStack->activeStack()->canRedo();
+            undoEnabled = m_commandStack->activeStack()->canUndo();
         }
         redo->setEnabled(enable);
+        undo->setEnabled(undoEnabled);
     });
 
     addAction(QStringLiteral("copy_debuginfo"), i18n("Copy Debug Information"), this, SLOT(slotCopyDebugInfo()), QIcon::fromTheme(QStringLiteral("edit-copy")));
 
     QAction *disableEffects = addAction(QStringLiteral("disable_timeline_effects"), i18n("Disable Timeline Effects"), pCore->projectManager(),
-                                        SLOT(slotDisableTimelineEffects(bool)), QIcon::fromTheme(QStringLiteral("favorite")));
+                                        SLOT(slotDisableTimelineEffects(bool)), QIcon::fromTheme(QStringLiteral("tools-wizard")));
     disableEffects->setData("disable_timeline_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
+
+    // Timeline hamburger menu
+    auto tlsettings = new QMenu(this);
+    tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    tlsettings->addAction(m_compositeAction);
+    tlsettings->addAction(disableEffects);
+    tlsettings->addSeparator();
+    tlsettings->addAction(mixedView);
+    tlsettings->addAction(splitView);
+    tlsettings->addAction(splitView2);
+
+    auto *timelineSett = new QToolButton(this);
+    timelineSett->setPopupMode(QToolButton::InstantPopup);
+    timelineSett->setMenu(tlsettings);
+    timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    auto *tlButtonAction = new QWidgetAction(this);
+    tlButtonAction->setDefaultWidget(timelineSett);
+    tlButtonAction->setText(i18n("Track menu"));
+    addAction(QStringLiteral("timeline_settings"), tlButtonAction);
+    // end of new place for the TL hmbg menu
 
     addAction(QStringLiteral("switch_track_disabled"), i18n("Toggle Track Disabled"), pCore->projectManager(), SLOT(slotSwitchTrackDisabled()), QIcon(),
               Qt::SHIFT | Qt::Key_H, timelineActions);
@@ -2011,7 +2248,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()), {},
               {}, timelineActions);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
-              QIcon::fromTheme(QStringLiteral("bookmark-new")), {}, timelineActions);
+              QIcon::fromTheme(QStringLiteral("list-add")), {}, timelineActions);
 
     // Build activate track shortcut sequences
     QList<int> keysequence{Qt::Key_1, Qt::Key_2, Qt::Key_3, Qt::Key_4, Qt::Key_5, Qt::Key_6, Qt::Key_7, Qt::Key_8, Qt::Key_9};
@@ -2082,6 +2319,7 @@ bool MainWindow::readOptions()
         firstRun = true;
         // Define default video location for first run
         KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+        KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
 
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true);
@@ -2329,6 +2567,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(pCore.get(), &Core::gotMissingClipsCount, m_renderWidget, &RenderWidget::updateMissingClipsCount);
+        connect(pCore.get(), &Core::updateRenderOffset, m_renderWidget, &RenderWidget::updateRenderOffset);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
         m_renderWidget->setGuides(project->getGuideModel(getCurrentTimeline()->getUuid()));
         m_renderWidget->updateDocumentPath();
@@ -2419,21 +2658,22 @@ void MainWindow::slotCleanProject()
 
 void MainWindow::slotUpdateMousePosition(int pos, int duration)
 {
-    if (pCore->currentDoc()) {
-        if (duration < 0) {
-            duration = getCurrentTimeline()->controller()->duration();
-        }
-        if (pos >= 0) {
-            m_mousePosition = pos;
-        }
-        switch (m_timeFormatButton->currentItem()) {
-        case 0:
-            m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(m_mousePosition) + QStringLiteral(" / ") +
-                                        pCore->currentDoc()->timecode().getTimecodeFromFrames(duration));
-            break;
-        default:
-            m_timeFormatButton->setText(QStringLiteral("%1 / %2").arg(m_mousePosition, 6, 10, QLatin1Char('0')).arg(duration, 6, 10, QLatin1Char('0')));
-        }
+    if (!pCore->currentDoc()) {
+        return;
+    }
+    if (duration < 0) {
+        duration = getCurrentTimeline()->controller()->duration();
+    }
+    if (pos >= 0) {
+        m_mousePosition = pos;
+    }
+    switch (m_timeFormatButton->currentItem()) {
+    case 0:
+        m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(m_mousePosition) + QStringLiteral(" / ") +
+                                    pCore->currentDoc()->timecode().getTimecodeFromFrames(duration));
+        break;
+    default:
+        m_timeFormatButton->setText(QStringLiteral("%1 / %2").arg(m_mousePosition, 6, 10, QLatin1Char('0')).arg(duration, 6, 10, QLatin1Char('0')));
     }
 }
 
@@ -2486,6 +2726,7 @@ void MainWindow::connectDocument()
     }
 
     m_clipMonitor->updateDocumentUuid();
+    pCore->guidesList()->refreshDar();
     connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getCurrentTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
     connect(getCurrentTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&](bool selected) {
@@ -2539,9 +2780,8 @@ void MainWindow::connectDocument()
     }
 
     m_buttonSelectTool->setChecked(true);
-    connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
-    connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
-    pCore->guidesList()->reset();
+    connect(m_projectMonitorDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
+    connect(m_clipMonitorDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     // Initialize audio mixer
     getCurrentTimeline()->model()->rebuildMixer();
     getCurrentTimeline()->focusTimeline();
@@ -2553,8 +2793,43 @@ void MainWindow::slotEditKeys()
 
     KNSWidgets::Action *downloadKeybordSchemes =
         new KNSWidgets::Action(i18n("Download New Keyboard Schemes…"), QStringLiteral(":data/kdenlive_keyboardschemes.knsrc"), this);
-    connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+    connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&, dialog](const QList<KNSCore::Entry> &changedEntries) {
         if (changedEntries.count() > 0) {
+            for (auto &entry : changedEntries) {
+                const QStringList files = entry.installedFiles();
+                for (auto &file : files) {
+                    KConfig conf(file);
+                    KConfigGroup group(&conf, "Shortcuts");
+                    if (group.exists()) {
+                        QMap<QString, QString> values = group.entryMap();
+                        // This is an ui.rc file, convert to xml
+                        QDomDocument doc;
+                        auto node = doc.createElement(QStringLiteral("gui"));
+                        node.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive"));
+                        node.setAttribute(QStringLiteral("version"), QStringLiteral("1"));
+                        doc.appendChild(node);
+                        auto list = doc.createElement(QStringLiteral("ActionProperties"));
+                        node.appendChild(list);
+                        for (auto i = values.cbegin(), end = values.cend(); i != end; ++i) {
+                            if (i.value() == QLatin1String("none")) {
+                                continue;
+                            }
+                            auto e = doc.createElement(QStringLiteral("Action"));
+                            e.setAttribute(QStringLiteral("name"), i.key());
+                            e.setAttribute(QStringLiteral("shortcut"), i.value());
+                            list.appendChild(e);
+                        }
+                        QFile f(file);
+                        if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                            qDebug() << "/// COULD NOT open shortcut file : " << file;
+                            continue;
+                        }
+                        QTextStream stream(&f);
+                        stream << doc.toString();
+                        f.close();
+                    }
+                }
+            }
             dialog->refreshSchemes();
         }
     });
@@ -2573,7 +2848,7 @@ void MainWindow::slotEditKeys()
 
 void MainWindow::slotPreferences()
 {
-    slotShowPreferencePage(Kdenlive::NoPage);
+    slotShowPreferencePage(m_lastConfigPage);
 }
 
 void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
@@ -2584,8 +2859,8 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
      * instead of creating another one
      */
     if (KConfigDialog::showDialog(QStringLiteral("settings"))) {
-        KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
         if (page != Kdenlive::NoPage) {
+            KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
             d->showPage(page, option);
         }
         return;
@@ -2603,6 +2878,7 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     }
 
     auto *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
     connect(dialog, &KdenliveSettingsDialog::doResetConsumer, this, [this](bool fullReset) {
@@ -2623,9 +2899,9 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
 
 void MainWindow::slotCheckTabPosition()
 {
-    int pos = tabPosition(Qt::LeftDockWidgetArea);
+    int pos = KDDockWidgets::Config::self().tabsAtBottom() ? 1 : 0;
     if (KdenliveSettings::tabposition() != pos) {
-        setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
+        KDDockWidgets::Config::self().setTabsAtBottom(pos == 1);
     }
 }
 
@@ -2638,17 +2914,22 @@ void MainWindow::slotRestart(bool clean)
             return;
         }
     }
-    cleanRestart(clean);
+    cleanRestart(clean, false);
 }
 
-void MainWindow::cleanRestart(bool clean)
+void MainWindow::cleanRestart(bool clean, bool forceQuit)
 {
     m_exitCode = clean ? EXIT_CLEAN_RESTART : EXIT_RESTART;
     QApplication::closeAllWindows();
+    if (forceQuit) {
+        // qApp->quit();
+        qApp->exit(m_exitCode);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    qDebug() << ":::: CLOSE EVENT REQUESTED....";
     KXmlGuiWindow::closeEvent(event);
     if (event->isAccepted()) {
         QApplication::exit(m_exitCode);
@@ -2679,6 +2960,8 @@ void MainWindow::slotSwitchAudioThumbs()
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->bin()->checkAudioThumbs();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
+    // Preserve icon colorization based on zoom level after toggle
+    updateAudioWaveformActionIcon();
 }
 
 void MainWindow::slotSwitchMarkersComments()
@@ -2691,6 +2974,12 @@ void MainWindow::slotSwitchSnap()
 {
     KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
+}
+
+void MainWindow::slotSwitchClipOverlays()
+{
+    KdenliveSettings::setShowClipOverlays(!KdenliveSettings::showClipOverlays());
+    m_buttonHideClipOverlays->setChecked(KdenliveSettings::showClipOverlays());
 }
 
 void MainWindow::slotShowTimelineTags()
@@ -2799,6 +3088,16 @@ void MainWindow::slotDeleteAllClipMarkers()
     }
 }
 
+void MainWindow::slotDeleteAllSequenceMarkers()
+{
+    auto model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+    bool ok = model->removeAllMarkers();
+    if (!ok) {
+        m_messageLabel->setMessage(i18n("An error occurred while deleting markers"), ErrorMessage);
+        return;
+    }
+}
+
 void MainWindow::slotEditClipMarker()
 {
     std::shared_ptr<ProjectClip> clip(nullptr);
@@ -2832,9 +3131,10 @@ void MainWindow::slotAddMarkerGuideQuickly()
     if (!getCurrentTimeline() || !pCore->currentDoc()) {
         return;
     }
-
     if (m_clipMonitor->isActive()) {
-        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), {m_clipMonitor->position()});
+        QMap<int, QString> marker;
+        marker.insert(m_clipMonitor->position(), QString());
+        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), marker);
     } else {
         int selectedClip = getCurrentTimeline()->controller()->getMainSelectedItem();
         if (selectedClip == -1) {
@@ -2869,7 +3169,9 @@ void MainWindow::slotAddMarkerWithCategory()
 
     KdenliveSettings::setDefault_marker_type(category);
     if (m_clipMonitor->isActive()) {
-        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), {m_clipMonitor->position()});
+        QMap<int, QString> marker;
+        marker.insert(m_clipMonitor->position(), QString());
+        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), marker);
     } else {
         int selectedClip = getCurrentTimeline()->controller()->getMainSelectedItem();
         if (selectedClip == -1) {
@@ -2992,6 +3294,11 @@ void MainWindow::slotEditGuide()
 
 void MainWindow::slotSearchGuide()
 {
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(pCore->guidesList()->parentWidget());
+    if (dock) {
+        dock->open();
+        dock->setAsCurrentTab();
+    }
     pCore->guidesList()->filter_line->setFocus();
 }
 
@@ -3223,7 +3530,7 @@ void MainWindow::slotAddEffect(QAction *result)
 
 void MainWindow::addEffect(const QString &effectId)
 {
-    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip) {
+    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip || m_clipMonitor->isActive()) {
         // Pass the command to bin
         pCore->activeBin()->slotAddEffect({}, {effectId});
     } else if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineTrack ||
@@ -3478,21 +3785,23 @@ void MainWindow::showToolMessage()
     if (getCurrentTimeline() && getCurrentTimeline()->model()) {
         mode = getCurrentTimeline()->model()->editMode();
     }
+
+    // Store the current edit mode for palette updates
+    m_currentEditMode = mode;
+
     if (mode != TimelineMode::NormalEdit) {
         if (!toolLabel.isEmpty()) {
             toolLabel.append(QStringLiteral(" | "));
         }
         if (mode == TimelineMode::InsertEdit) {
             toolLabel.append(i18n("Insert"));
-            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :red; }"));
         } else if (mode == TimelineMode::OverwriteEdit) {
             toolLabel.append(i18n("Overwrite"));
-            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
         }
-    } else {
-        m_trimLabel->setStyleSheet(
-            QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
     }
+
+    applyToolMessageStyling();
+
     m_trimLabel->setText(toolLabel);
     m_messageLabel->setKeyMap(message);
 }
@@ -3514,10 +3823,30 @@ void MainWindow::slotCopy()
         if (widget == m_effectStackDock) {
             m_assetPanel->sendStandardCommand(KStandardAction::Copy);
             return;
+        } else if (widget == m_effectList2 && m_effectList2->infoPanelIsFocused()) {
+            m_effectList2->processCopy();
+            return;
+        } else if (widget == m_compositionList && m_compositionList->infoPanelIsFocused()) {
+            m_compositionList->processCopy();
+            return;
         }
         widget = widget->parentWidget();
     }
     getCurrentTimeline()->controller()->copyItem();
+}
+
+void MainWindow::slotCut()
+{
+    QWidget *widget = QApplication::focusWidget();
+    while ((widget != nullptr) && widget != this) {
+        if (widget == m_effectStackDock) {
+            // Todo: cut effect?
+            // m_assetPanel->sendStandardCommand(KStandardAction::Copy);
+            return;
+        }
+        widget = widget->parentWidget();
+    }
+    getCurrentTimeline()->controller()->cutItem();
 }
 
 void MainWindow::slotPaste()
@@ -3571,21 +3900,21 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     }
 }
 
-void MainWindow::raiseBin(bool unconditionnaly)
+void MainWindow::raiseBin(bool unconditionally)
 {
     Bin *bin = activeBin();
     if (bin) {
-        if (!unconditionnaly) {
-            QDockWidget *dock = qobject_cast<QDockWidget *>(bin->parentWidget());
-            if (dock) {
-                if (isDockTabbedWith(dock, m_clipMonitorDock)) {
+        KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
+        if (!unconditionally) {
+            if (dock && dock->asDockWidgetController()->isTabbed()) {
+                if (dock->asGroupController()->containsDockWidget(m_clipMonitorDock->asDockWidgetController())) {
                     return;
                 }
             }
         }
         bin->focusBinView();
-        bin->parentWidget()->setVisible(true);
-        bin->parentWidget()->raise();
+        dock->open();
+        dock->setAsCurrentTab();
     }
 }
 
@@ -3675,16 +4004,6 @@ void MainWindow::slotResizeItemEnd()
     getCurrentTimeline()->controller()->setOutPoint(m_activeTool == ToolType::RippleTool);
 }
 
-void MainWindow::slotAutoTransition()
-{
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->autoTransition();
-    }
-    */
-}
-
 void MainWindow::slotSplitAV()
 {
     getCurrentTimeline()->controller()->splitAV();
@@ -3705,22 +4024,21 @@ void MainWindow::slotAlignAudio()
     getCurrentTimeline()->controller()->alignAudio();
 }
 
+void MainWindow::slotSetTimecodeReference()
+{
+    getCurrentTimeline()->controller()->setTimecodeRef();
+}
+
+void MainWindow::slotAlignTimecode()
+{
+    getCurrentTimeline()->controller()->alignTimecode();
+}
+
 void MainWindow::slotUpdateTimelineView(QAction *action)
 {
     int viewMode = action->data().toInt();
     KdenliveSettings::setAudiotracksbelow(viewMode);
     getCurrentTimeline()->model()->_resetView();
-}
-
-void MainWindow::slotShowTimeline(bool show)
-{
-    if (!show) {
-        m_timelineState = saveState();
-        centralWidget()->setHidden(true);
-    } else {
-        centralWidget()->setHidden(false);
-        restoreState(m_timelineState);
-    }
 }
 
 void MainWindow::loadClipActions()
@@ -3912,6 +4230,13 @@ void MainWindow::buildDynamicActions()
                     clipOut = -1;
                 }
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(clipId);
+                TranscodeSeek::TranscodeInfo info;
+                info.url = clip->clipUrl();
+                info.type = clip->clipType();
+                if (clip->statusReady()) {
+                    info.vCodec = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
+                }
+                info.fps_info = clip->fpsInfo();
                 if (clipStreamSelection.contains(clipId)) {
                     // Extract selected audio streams only, create one task per stream
                     QVector<int> selectedStreams = clipStreamSelection.value(clipId);
@@ -3928,12 +4253,12 @@ void MainWindow::buildDynamicActions()
                             suffix = i18n("-stream-%1", ix);
                         }
                         args.append(tData);
-                        TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, clipIn, clipOut, false,
-                                             clip.get());
+                        TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, info, clipIn, clipOut,
+                                             false, clip.get());
                     }
                 } else {
-                    TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, clipIn, clipOut, false,
-                                         clip.get());
+                    TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, info, clipIn, clipOut,
+                                         false, clip.get());
                 }
             }
         });
@@ -3953,51 +4278,25 @@ void MainWindow::updateDockMenu()
 {
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
+    QList<QAction *> existing;
     const QString raise("_raise");
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
-        guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
-        // Remove timeline and raise_ actions
-        QList<QAction *> actions = guiActions->actions();
-        QList<QAction *> toDelete;
-        for (auto &a : actions) {
-            if (a->data().toString().contains(raise)) {
-                toDelete << guiActions->collection()->takeAction(a);
-            }
-        }
-        qDeleteAll(toDelete);
-        delete guiActions;
+        guiActions = kdenliveCategoryMap.value(QStringLiteral("interface"));
+        existing = guiActions->actions();
+    } else {
+        guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     }
-    guiActions = new KActionCategory(i18n("Interface"), actionCollection());
-    QAction *showTimeline = new QAction(i18n("Timeline"), this);
-    showTimeline->setData(QVariant(showTimeline->text() + QLatin1Char('#') + raise));
-    showTimeline->setCheckable(true);
-    showTimeline->setChecked(true);
-    connect(showTimeline, &QAction::triggered, this, &MainWindow::slotShowTimeline);
-    guiActions->addAction(QStringLiteral("show_timeline"), showTimeline);
-    actionCollection()->addAction(showTimeline->text(), showTimeline);
 
-    QList<QDockWidget *> docks = findChildren<QDockWidget *>();
+    QList<KDDockWidgets::QtWidgets::DockWidget *> docks = findChildren<KDDockWidgets::QtWidgets::DockWidget *>();
     for (auto dock : std::as_const(docks)) {
-        QAction *dockInformations = dock->toggleViewAction();
-        if (!dockInformations) {
+        QAction *dockInfo = dock->toggleAction();
+        if (!dockInfo || existing.contains(dockInfo)) {
             continue;
         }
-        dockInformations->setChecked(!dock->isHidden());
-        const QString actionText = KLocalizedString::removeAcceleratorMarker(dockInformations->text());
-        QAction *a = guiActions->addAction(dock->objectName(), dockInformations);
-        // As action data, we set the dock title (1) and the dock object name (2)
-        // // This ensures that the list can be sorted alphabetically (1) and that each data is unique (2)
-        QString actionData = actionText + QLatin1Char('#') + dock->objectName();
-        a->setData(actionData);
-        QAction *action = new QAction(i18n("Raise %1", actionText), this);
-        action->setData(raise);
-        connect(action, &QAction::triggered, this, [dock]() {
-            dock->raise();
-            dock->setFocus();
-        });
-        addAction("raise_" + dock->objectName(), action, {}, guiActions);
+        guiActions->addAction(dock->objectName(), dockInfo);
     }
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
+    loadDockActions();
 }
 
 QList<QAction *> MainWindow::getExtraActions(const QString &name)
@@ -4091,6 +4390,45 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 }
 
+void MainWindow::applyToolMessageStyling()
+{
+    if (!m_trimLabel) {
+        return;
+    }
+
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+
+    switch (m_currentEditMode) {
+    case TimelineMode::InsertEdit:
+        // Use a red color from the palette for insert mode
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }")
+                                       .arg(scheme.foreground(KColorScheme::NegativeText).color().name()));
+        break;
+    case TimelineMode::OverwriteEdit:
+        // Use a green color from the palette for overwrite mode
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }")
+                                       .arg(scheme.foreground(KColorScheme::PositiveText).color().name()));
+        break;
+    default:
+        // Use normal window background color for normal edit mode
+        m_trimLabel->setStyleSheet(
+            QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
+        break;
+    }
+}
+
+void MainWindow::applyZoomLevelButtonStyling()
+{
+    if (!m_statusZoomLevelButton) {
+        return;
+    }
+
+    m_statusZoomLevelButton->setStyleSheet(
+        QStringLiteral("QPushButton { padding: 2px; background-color: rgba(255, 0, 0, 0.25); border: none; border-radius: 4px; } "
+                       "QPushButton:hover { border: 1px solid palette(highlight); } "
+                       "QPushButton:disabled { color: palette(text); background-color: transparent; }"));
+}
+
 void MainWindow::slotRemoveFocus()
 {
     getCurrentTimeline()->setFocus();
@@ -4104,8 +4442,8 @@ void MainWindow::slotShutdown()
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
     // org.kde.Shutdown is DBus activatable, so we can't query for it running
     if (qgetenv("XDG_CURRENT_DESKTOP") == QLatin1String("KDE")) {
-        QDBusInterface kdeShutdown(QStringLiteral("org.kde.Shutdown"), QStringLiteral("/Shutdown"), QStringLiteral("org.kde.Shutdown"));
-        kdeShutdown.call(QStringLiteral("logoutAndShutdown"));
+        QDBusInterface kdeShutdown(QStringLiteral("org.kde.LogoutPrompt"), QStringLiteral("/LogoutPrompt"), QStringLiteral("org.kde.LogoutPrompt"));
+        kdeShutdown.call(QStringLiteral("promptShutDown"));
     } else if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager"))) {
         QDBusInterface smserver(QStringLiteral("org.gnome.SessionManager"), QStringLiteral("/org/gnome/SessionManager"),
                                 QStringLiteral("org.gnome.SessionManager"));
@@ -4148,13 +4486,6 @@ void MainWindow::slotSwitchMonitorOverlay(QAction *action)
 void MainWindow::slotSwitchDropFrames(bool drop)
 {
     KdenliveSettings::setMonitor_dropframes(drop);
-    m_clipMonitor->restart();
-    m_projectMonitor->restart();
-}
-
-void MainWindow::slotSetMonitorGamma(int gamma)
-{
-    KdenliveSettings::setMonitor_gamma(gamma);
     m_clipMonitor->restart();
     m_projectMonitor->restart();
 }
@@ -4202,8 +4533,8 @@ void MainWindow::slotArchiveProject()
 
 void MainWindow::slotDownloadResources()
 {
-    m_onlineResourcesDock->show();
-    m_onlineResourcesDock->raise();
+    m_onlineResourcesDock->open();
+    m_onlineResourcesDock->setAsCurrentTab();
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)
@@ -4235,10 +4566,13 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     // So on keypress events we parse keys and check for shortcuts in all existing actions
     QKeySequence seq;
     // Remove the Num modifier or some shortcuts like "*" will not work
-    if (ev->modifiers() != Qt::KeypadModifier) {
-        seq = QKeySequence(ev->key() + static_cast<int>(ev->modifiers()));
+    auto mods = ev->modifiers() & ~Qt::KeypadModifier;
+    // Some shortcuts are translated, for example Shift+5 is equal to '%' in a swiss keyboard
+    // So we need to remove the Shift Modifier to match. Logic copied from KKeySequenceRecorder
+    if (KdenliveKeySequence::isShiftAsModifierAllowed(ev->key())) {
+        seq = QKeySequence(static_cast<int>(mods) + ev->key());
     } else {
-        seq = QKeySequence(ev->key());
+        seq = QKeySequence(static_cast<int>(mods & ~Qt::ShiftModifier) + ev->key());
     }
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
@@ -4255,24 +4589,50 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QWidget::keyPressEvent(ev);
 }
 
-QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area)
+KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, KDDockWidgets::Location area,
+                                                          KDDockWidgets::QtWidgets::DockWidget *otherDockWidget, const QSize preferredSize)
 {
-    QDockWidget *dockWidget = new QDockWidget(title, this);
-    dockWidget->setObjectName(objectName);
-    dockWidget->setWidget(widget);
-    addDockWidget(area, dockWidget);
-    if (pCore->guiReady()) {
-        Q_EMIT connectDockAfterInit(dockWidget);
-        // Update dock list to endure it is sorted
-        updateDockMenu();
-        loadDockActions();
+    auto dock = new KDDockWidgets::QtWidgets::DockWidget(objectName);
+    qDebug() << "Building dock: " << objectName;
+    Q_ASSERT(widget != nullptr);
+    widget->setProperty("_breeze_force_frame", false);
+    dock->setTitle(title);
+    dock->setWidget(widget);
+    dock->setObjectName(objectName);
+    dock->toggleAction()->setData(QStringLiteral("%1#%2").arg(title, objectName));
+    if (area == KDDockWidgets::Location_None) {
+        // Add widget as tab
+        qDebug() << "Creating dock: " << objectName;
+        Q_ASSERT(otherDockWidget != nullptr);
+        otherDockWidget->addDockWidgetAsTab(dock, preferredSize);
+    } else {
+        mainDockWindow->addDockWidget(dock, area, otherDockWidget, preferredSize);
     }
-    return dockWidget;
+    KActionCategory *guiActions = nullptr;
+    if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
+        guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
+    } else {
+        guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+    }
+    auto dockAction = dock->toggleAction();
+    connect(dockAction, &QAction::triggered, this, [dock](bool dockVisible) {
+        if (!dockVisible && !KdenliveSettings::showtitlebars()) {
+            // Hack: when titlebar is hidden and a standalone widget is hidden through its
+            // menu action, empty space is not automatically reused. So we hack around by
+            // showing widget again, then hiding
+            dock->open();
+            dock->close();
+        }
+    });
+    guiActions->addAction(objectName, dockAction);
+    kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
+    return dock;
 }
 
 bool MainWindow::isMixedTabbed() const
 {
-    return !tabifiedDockWidgets(m_mixerDock).isEmpty();
+    return m_mixerDock->asDockWidgetController()->isTabbed();
+    return false;
 }
 
 void MainWindow::slotUpdateMonitorOverlays(int id, int code)
@@ -4291,37 +4651,19 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     }
 }
 
-void MainWindow::raiseMonitor(bool clipMonitor)
+void MainWindow::raiseMonitor(bool clipMonitor, bool raise)
 {
     if (clipMonitor) {
-        m_clipMonitorDock->show();
-        m_clipMonitorDock->raise();
+        if (raise) {
+            m_clipMonitorDock->open();
+        }
+        m_clipMonitorDock->setAsCurrentTab();
     } else {
-        m_projectMonitorDock->show();
-        m_projectMonitorDock->raise();
-    }
-}
-
-bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
-{
-    QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : std::as_const(tabbed)) {
-        if (tab->objectName() == otherWidget) {
-            return true;
+        if (raise) {
+            m_projectMonitorDock->open();
         }
+        m_projectMonitorDock->setAsCurrentTab();
     }
-    return false;
-}
-
-bool MainWindow::isDockTabbedWith(QDockWidget *widget, QDockWidget *otherWidget)
-{
-    QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : std::as_const(tabbed)) {
-        if (tab == otherWidget) {
-            return true;
-        }
-    }
-    return false;
 }
 
 void MainWindow::slotToggleAutoPreview(bool enable)
@@ -4533,16 +4875,75 @@ void MainWindow::slotGrabItem()
     getCurrentTimeline()->controller()->grabCurrent();
 }
 
-void MainWindow::slotZoomWaveForm()
+void MainWindow::slotAudioZoomIn()
 {
-    getCurrentTimeline()->controller()->zoomWaveform();
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    if (KdenliveSettings::waveformScaler() < 5) {
+        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
+    }
+    slotNormalizeAudioChannel(true);
+}
+
+void MainWindow::slotAudioZoomOut()
+{
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    if (KdenliveSettings::waveformScaler() > 1) {
+        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() / 2);
+    }
+    slotNormalizeAudioChannel(true);
+}
+
+void MainWindow::slotAudioZoomReset()
+{
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    KdenliveSettings::setWaveformScaler(1);
+    slotNormalizeAudioChannel(true);
+
+    // Close the audio thumbs menu when reset is clicked
+    if (m_audioThumbsMenu && m_audioThumbsMenu->isVisible()) {
+        m_audioThumbsMenu->close();
+    }
+}
+
+void MainWindow::slotAudioZoomCycle()
+{
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    if (KdenliveSettings::waveformScaler() < 5) {
+        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
+    } else {
+        KdenliveSettings::setWaveformScaler(1);
+    }
+    slotNormalizeAudioChannel(true);
+}
+
+void MainWindow::updateAudioWaveformActionIcon()
+{
+    // TODO: remove icon check once we require KF > 6.1
+    QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
+    if (KdenliveSettings::waveformScaler() > 1 && KdenliveSettings::audiothumbnails()) {
+        int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+        QImage img = QIcon::fromTheme(waveformIconName).pixmap(iconSize, iconSize).toImage();
+        KIconEffect::toMonochrome(img, Qt::red, Qt::red, 1.0);
+        m_buttonAudioThumbs->setIcon(QIcon(QPixmap::fromImage(img)));
+    } else {
+        m_buttonAudioThumbs->setIcon(QIcon::fromTheme(waveformIconName));
+    }
 }
 
 void MainWindow::slotCollapse()
 {
     if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
         QApplication::focusWidget()->parentWidget() == pCore->bin()) {
-        // Bin expand/collapse?
+        // Bin expand/collapse
+        pCore->bin()->expandCurrent();
 
     } else {
         QWidget *widget = QApplication::focusWidget();
@@ -4553,9 +4954,29 @@ void MainWindow::slotCollapse()
             }
             widget = widget->parentWidget();
         }
-
         // Collapse / expand track
         getCurrentTimeline()->controller()->collapseActiveTrack();
+    }
+}
+
+void MainWindow::slotCollapseAll()
+{
+    if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
+        QApplication::focusWidget()->parentWidget() == pCore->bin()) {
+        // Bin expand/collapse
+        pCore->bin()->expandAll();
+
+    } else {
+        QWidget *widget = QApplication::focusWidget();
+        while ((widget != nullptr) && widget != this) {
+            if (widget == m_effectStackDock) {
+                Q_EMIT m_assetPanel->slotSwitchCollapseAll();
+                return;
+            }
+            widget = widget->parentWidget();
+        }
+        // Collapse / expand track
+        getCurrentTimeline()->controller()->collapseAllTracks();
     }
 }
 
@@ -4730,9 +5151,9 @@ void MainWindow::slotSpeechRecognition()
 
 void MainWindow::slotCopyDebugInfo()
 {
-    // General note for this function: since the information targets developers, we don't want it it be translated
+    // General note for this function: since the information targets developers, we don't want it to be translated
 
-    QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
+    QString debuginfo;
     QString packageType;
     switch (pCore->packageType()) {
     case LinuxPackageType::AppImage:
@@ -4748,8 +5169,11 @@ void MainWindow::slotCopyDebugInfo()
         packageType = QStringLiteral("Unknown/Default");
         break;
     }
+    QList<KAboutComponent> components = KAboutData::applicationData().components();
+    for (auto &c : components) {
+        debuginfo.append(QStringLiteral("%1: %2\n").arg(c.name(), c.version()));
+    }
     debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType));
-    debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
     debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
     debuginfo.append(QStringLiteral("System: %1\n").arg(QSysInfo::prettyProductName()));
@@ -4816,11 +5240,10 @@ void MainWindow::slotRemoveBinDock(const QString &name)
     if (!m_windowClosing) {
         KdenliveSettings::setBinsCount(m_binWidgets.size());
         updateDockMenu();
-        loadDockActions();
     }
 }
 
-void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
+void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount, const QString &objectName)
 {
     connect(bin, &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
     connect(bin, &Bin::setupTargets, this, [&](bool hasVideo, QMap<int, QString> audioStreams) {
@@ -4840,32 +5263,62 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
                 objectNames << p->objectName();
             }
         }
-        QString newBinName = QStringLiteral("project_bin_%1").arg(ix);
+        QString newBinName = objectName.isEmpty() ? QStringLiteral("project_bin_%1").arg(ix) : objectName;
         while (objectNames.contains(newBinName)) {
             ix++;
             newBinName = QStringLiteral("project_bin_%1").arg(ix);
         }
-        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin);
+        KDDockWidgets::QtWidgets::DockWidget *binDock =
+            addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin, KDDockWidgets::Location_None, m_projectBinDock);
         if (pCore->guiReady()) {
             bin->setupGeneratorMenu();
         }
-        connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties);
+        connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties, Qt::QueuedConnection);
         connect(bin, &Bin::requestBinClose, this, [this, binDock]() { Q_EMIT removeBinDock(binDock->objectName()); });
-        tabifyDockWidget(m_projectBinDock, binDock);
-        // Disable title bar since it is tabbed
-        binDock->setTitleBarWidget(new QWidget);
-        binDock->show();
-        binDock->raise();
+        binDock->open();
+        binDock->setAsCurrentTab();
     }
     if (updateCount) {
         KdenliveSettings::setBinsCount(m_binWidgets.size());
+    }
+    if (pCore->guiReady()) {
+        updateDockMenu();
     }
 }
 
 void MainWindow::cleanBins()
 {
+    // Close secondary bins
+    QWidget *wid = QApplication::focusWidget();
+    bool binHasFocus = false;
+    while (m_binWidgets.size() > 1) {
+        int ix = 0;
+        auto bin = m_binWidgets.at(ix);
+        if (!binHasFocus && (bin == wid || bin->isAncestorOf(wid))) {
+            binHasFocus = true;
+        }
+        if (bin->isMainBin()) {
+            ix = 1;
+            bin = m_binWidgets.at(ix);
+            if (!binHasFocus && (bin == wid || bin->isAncestorOf(wid))) {
+                binHasFocus = true;
+            }
+        }
+        auto toDelete = bin->parentWidget();
+        m_binWidgets.takeAt(ix);
+        delete toDelete;
+    }
+
+    // Clean main bins last
     for (auto &bin : m_binWidgets) {
+        if (!bin->isMainBin()) {
+            continue;
+        }
         bin->cleanDocument();
+    }
+    // Ensure monitor is cleared
+    if (!binHasFocus) {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshMonitor();
     }
 }
 
@@ -4874,14 +5327,15 @@ void MainWindow::loadExtraBins(const QStringList binInfo)
     QString folderName;
     QStringList existingNames;
     pCore->lastActiveBin.clear();
+
     for (auto &bin : m_binWidgets) {
-        QDockWidget *dock = qobject_cast<QDockWidget *>(bin->parentWidget());
+        KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
         if (!dock) {
             continue;
         }
         bool binFound = false;
         const QString dockName = dock->objectName() + QLatin1Char(':');
-        for (auto info : binInfo) {
+        for (const QString &info : binInfo) {
             if (info.startsWith(dockName)) {
                 existingNames << bin->loadInfo(info.split(QLatin1Char(':')), existingNames);
                 binFound = true;
@@ -4909,21 +5363,11 @@ void MainWindow::folderRenamed(const QString &binId, const QString &folderName)
     for (auto &b : m_binWidgets) {
         // Find out dock widget
         if (b->rootFolderId() == binId) {
-            QDockWidget *dock = qobject_cast<QDockWidget *>(b->parentWidget());
+            KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(b->parentWidget());
             if (dock) {
                 dock->setWindowTitle(folderName);
             }
             break;
-        }
-    }
-}
-
-void MainWindow::tabifyBins()
-{
-    QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (auto dock : std::as_const(docks)) {
-        if (dock->objectName().startsWith(QLatin1String("project_bin_"))) {
-            tabifyDockWidget(m_projectBinDock, dock);
         }
     }
 }
@@ -4971,17 +5415,9 @@ int MainWindow::binCount() const
     return m_binWidgets.count();
 }
 
-void MainWindow::processRestoreState(const QByteArray &state)
-{
-    // On Wayland, restoreState crashes when quickly hiding/showing/hiding a monitor in restoreState, so hide before restoring
-    m_projectMonitorDock->close();
-    m_clipMonitorDock->close();
-    restoreState(state);
-}
-
 void MainWindow::checkMaxCacheSize()
 {
-    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
+    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 12) {
         return;
     }
     if (KdenliveSettings::checkForUpdate()) {
@@ -5004,7 +5440,8 @@ void MainWindow::checkMaxCacheSize()
                             QAction *updateAction = new QAction(i18n("Go to download page"), this);
                             connect(updateAction, &QAction::triggered, this, []() {
                                 QDesktopServices::openUrl(
-                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder")));
+                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder&mtm_content=%1")
+                                             .arg(KAboutData::applicationData().version())));
                             });
                             QAction *abortAction = new QAction(i18n("Never check again"), this);
                             connect(abortAction, &QAction::triggered, this, []() { KdenliveSettings::setCheckForUpdate(false); });
@@ -5030,7 +5467,6 @@ void MainWindow::checkMaxCacheSize()
         return;
     }
     bool ok;
-    KIO::filesize_t total = 0;
     QDir cacheDir = pCore->currentDoc()->getCacheDir(SystemCacheRoot, &ok);
     if (!ok) {
         return;
@@ -5059,18 +5495,35 @@ void MainWindow::checkMaxCacheSize()
     pCore->displayMessage(i18n("Checking cached data size"), InformationMessage);
     while (!toAdd.isEmpty()) {
         QDir dir = toAdd.takeFirst();
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(dir.absolutePath()));
-        job->exec();
-        total += job->totalSize();
+        m_totalCacheJobs++;
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            m_totalCacheSize += size;
+            m_totalCacheJobs--;
+            watcher->deleteLater();
+            if (m_totalCacheJobs == 0 && m_totalCacheSize > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
+                slotManageCache();
+            }
+        });
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        watcher->setFuture(future);
     }
     while (!toRemove.isEmpty()) {
         QDir dir = toRemove.takeFirst();
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(dir.absolutePath()));
-        job->exec();
-        total -= job->totalSize();
-    }
-    if (total > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
-        slotManageCache();
+        m_totalCacheJobs++;
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            m_totalCacheSize -= size;
+            m_totalCacheJobs--;
+            watcher->deleteLater();
+            if (m_totalCacheJobs == 0 && m_totalCacheSize > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
+                slotManageCache();
+            }
+        });
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        watcher->setFuture(future);
     }
 }
 
@@ -5179,6 +5632,7 @@ void MainWindow::connectTimeline()
     KdenliveSettings::setShowSubtitles(showSubs && hasSubtitleModel);
     getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
     m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
+    pCore->projectManager()->updateSequenceOffset(uuid);
     if (hasSubtitleModel) {
         // Restore style
         getCurrentTimeline()->model()->getSubtitleModel()->loadProperties({});
@@ -5189,7 +5643,6 @@ void MainWindow::connectTimeline()
     if (m_renderWidget) {
         slotCheckRenderStatus();
         m_renderWidget->setGuides(project->getGuideModel(uuid));
-        m_renderWidget->updateDocumentPath();
         m_renderWidget->showRenderDuration();
     }
 }
@@ -5204,6 +5657,12 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
     if (!onClose) {
         // Ensure the active timeline has an transparent black background for embedded compositing
         timeline->model()->makeTransparentBg(true);
+        if (!pCore->currentDoc()->loading) {
+            // Update audio thumb if necessary
+            const QUuid uuid = timeline->getUuid();
+            const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
+            getBin()->rebuildAudioThumb(binId);
+        }
     }
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     disconnect(m_projectMonitor, &Monitor::multitrackView, timeline->controller(), &TimelineController::slotMultitrackView);
@@ -5267,6 +5726,8 @@ void MainWindow::appHelpActivated()
 {
     // Don't use default help, show our website
     // QDesktopServices::openUrl(QUrl(QStringLiteral("help:kdenlive")));
+    const QString helpUrl =
+        QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action&mtm_content=%1").arg(KAboutData::applicationData().version());
     if (pCore->packageType() == LinuxPackageType::AppImage) {
         qDebug() << "::::: LAUNCHING APPIMAGE BROWSER.........";
         QProcessEnvironment env = getCleanEnvironement();
@@ -5275,10 +5736,10 @@ void MainWindow::appHelpActivated()
         QString openPath = QStandardPaths::findExecutable(QStringLiteral("xdg-open"));
         qDebug() << "------------\nFOUND OPEN PATH: " << openPath;
         process.setProgram(openPath.isEmpty() ? QStringLiteral("xdg-open") : openPath);
-        process.setArguments({QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")});
+        process.setArguments({helpUrl});
         process.startDetached();
     } else {
-        QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")));
+        QDesktopServices::openUrl(QUrl(helpUrl));
     }
 }
 
@@ -5315,6 +5776,109 @@ bool MainWindow::hasRunningTask() const
     return m_assetPanel->hasRunningTask();
 }
 
+bool MainWindow::hasRunningRenderTask() const
+{
+    if (m_renderWidget) {
+        return m_renderWidget->isRendering();
+    }
+    return false;
+}
+
+KIO::filesize_t MainWindow::fetchFolderSize(const QString path)
+{
+    // KIO::DirectorySizeJob doesn't work on Windows, so use Qt only
+    KIO::filesize_t totalSize = 0;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
+    for (const auto &dirEntry : QDirListing(path, flags)) {
+        totalSize += dirEntry.size();
+    }
+#else
+    QDirIterator it(path, QDir::NoFilter, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QFileInfo f(it.next());
+        totalSize += f.size();
+    }
+#endif
+    return totalSize;
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif
+
+void MainWindow::slotCreateRangeMarkerFromZone()
+{
+    if (!getCurrentTimeline() || !pCore->currentDoc()) {
+        return;
+    }
+
+    if (pCore->monitorManager()->clipMonitor()->isActive()) {
+        pCore->monitorManager()->clipMonitor()->slotCreateRangeMarkerFromZone();
+    } else {
+        pCore->monitorManager()->projectMonitor()->slotCreateRangeMarkerFromZone();
+    }
+}
+
+void MainWindow::slotCreateRangeMarkerFromZoneQuick()
+{
+    if (!getCurrentTimeline() || !pCore->currentDoc()) {
+        return;
+    }
+
+    if (pCore->monitorManager()->clipMonitor()->isActive()) {
+        pCore->monitorManager()->clipMonitor()->slotCreateRangeMarkerFromZoneQuick();
+    } else {
+        pCore->monitorManager()->projectMonitor()->slotCreateRangeMarkerFromZoneQuick();
+    }
+}
+
+QSize MainWindow::sizeHint() const
+{
+    const QSize desktopSize = QGuiApplication::primaryScreen()->availableSize();
+    return KXmlGuiWindow::sizeHint().expandedTo(desktopSize * 0.8);
+}
+
+void MainWindow::slotEditToolbars()
+{
+    // backup all current shortcuts
+    QMap<QString, QKeySequence> shortcutBackup;
+    for (auto *action : actionCollection()->actions()) {
+        if (!action->shortcut().isEmpty()) {
+            shortcutBackup.insert(action->objectName(), action->shortcut());
+        }
+    }
+
+    // open the standard KDE Toolbar Editor
+    KEditToolBar dlg(guiFactory(), this);
+
+    // connect dialog changes to Kdenlive's refresh/save function (Fixes visual toolbar updates)
+    connect(&dlg, &KEditToolBar::newToolBarConfig, this, &MainWindow::saveNewToolbarConfig);
+
+    dlg.exec();
+
+    // restore shortcuts
+    bool restorationHappened = false;
+
+    for (auto i = shortcutBackup.begin(); i != shortcutBackup.end(); ++i) {
+        QAction *action = actionCollection()->action(i.key());
+        if (action && action->shortcut() != i.value()) {
+            if (!i.value().isEmpty()) {
+                for (auto *otherAction : actionCollection()->actions()) {
+                    if (otherAction != action && otherAction->shortcut() == i.value()) {
+                        otherAction->setShortcut(QKeySequence());
+                    }
+                }
+            }
+            action->setShortcut(i.value());
+            actionCollection()->setShortcutsConfigurable(action, true);
+            restorationHappened = true;
+        }
+    }
+
+    // PERSISTENCE FIX: Force the action collection to write its current state (with our restored shortcuts)
+    // to the standard XML file immediately.
+    if (restorationHappened) {
+        actionCollection()->writeSettings();
+    }
+}

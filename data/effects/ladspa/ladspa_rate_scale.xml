@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="rate_shifter_1417.so" id="rate_scale" ladspaid="1417" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="rate_shifter_1417.so" id="rate_scale" ladspaid="1417" type="audio">
     <name>Rate Scaler</name>
     <description>LADSPA rate scale audio effect</description>
     <author>http://www.ladspa.org</author>
