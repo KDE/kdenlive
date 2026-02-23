@@ -2115,12 +2115,25 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 }
                 m_track->plant_transition(*t.get(), 0, 1);
             } else {
-                assetName = mixId.isEmpty() || mixId == QLatin1String("mix") ? QStringLiteral("luma") : mixId;
+                bool isLuma = mixId.startsWith("luma:");
+                if (isLuma) {
+                    assetName = QStringLiteral("dissolve");
+                } else {
+                    assetName = mixId.isEmpty() || isLuma || mixId == QLatin1String("mix") ? QStringLiteral("luma") : mixId;
+                }
                 t = TransitionsRepository::get()->getTransition(assetName);
                 t->set_in_and_out(mixPosition, mixPosition + mixDurations.first + mixDurations.second);
                 xml = TransitionsRepository::get()->getXml(assetName);
+                QDomDocument doc;
+                doc.importNode(xml, true);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", assetName.toUtf8().constData());
+                if (isLuma) {
+                    QString res = mixId;
+                    res.remove(0, 5);
+                    t->set("resource", res.toUtf8().constData());
+                    Xml::setXmlParameter(xml, QStringLiteral("resource"), res);
+                }
                 if (dest_track == 0) {
                     t->set_tracks(1, 0);
                     m_track->plant_transition(*t.get(), 1, 0);

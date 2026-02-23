@@ -253,7 +253,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted composition
     */
-    Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    Q_INVOKABLE int insertComposition(int tid, int position, QString transitionId, bool logUndo);
     /** @brief Request inserting a new mix in timeline (dragged from compositions list)
        @param tid is the destination track
        @param position is the timeline position (clip start of the second clip)

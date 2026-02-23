@@ -84,6 +84,7 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     }
 
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
+    Q_ASSERT(item);
     switch (role) {
     case IdRole:
         return item->dataColumn(AssetTreeModel::IdCol);

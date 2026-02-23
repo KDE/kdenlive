@@ -639,7 +639,7 @@ int TimelineController::isOnCut(int cid) const
     return m_model->getTrackById_const(tid)->isOnCut(cid);
 }
 
-int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
+int TimelineController::insertComposition(int tid, int position, QString transitionId, bool logUndo)
 {
     int id;
     int duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
@@ -662,8 +662,16 @@ int TimelineController::insertComposition(int tid, int position, const QString &
         }
     }
     std::unique_ptr<Mlt::Properties> props(nullptr);
-    if (reverse) {
+    if (transitionId.startsWith(QLatin1String("luma:"))) {
         props = std::make_unique<Mlt::Properties>();
+        transitionId.remove(0, 5);
+        props->set("resource", transitionId.toUtf8().constData());
+        transitionId = QStringLiteral("dissolve");
+    }
+    if (reverse) {
+        if (props == nullptr) {
+            props = std::make_unique<Mlt::Properties>();
+        }
         if (transitionId == QLatin1String("dissolve")) {
             props->set("reverse", 1);
         } else if (transitionId == QLatin1String("composite")) {

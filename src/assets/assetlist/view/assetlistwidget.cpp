@@ -129,6 +129,12 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
         transOnly->setCheckable(true);
         filterGroup->addAction(transOnly);
         m_toolbar->addAction(transOnly);
+        // Add Luma view to toolbar
+        QAction *lumasAction = new QAction(QIcon::fromTheme(QStringLiteral("pixelate")), i18n("Show lumas only"), this);
+        connect(lumasAction, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("lumas")); });
+        lumasAction->setCheckable(true);
+        filterGroup->addAction(lumasAction);
+        m_toolbar->addAction(lumasAction);
     }
     QAction *favEffects = new QAction(this);
     favEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));

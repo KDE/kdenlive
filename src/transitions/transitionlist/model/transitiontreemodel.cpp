@@ -11,8 +11,11 @@
 
 #include <KActionCategory>
 #include <QDebug>
+#include <QFileInfo>
 #include <QMenu>
 #include <QMimeData>
+#include <QPainter>
+#include <QPainterPath>
 
 TransitionTreeModel::TransitionTreeModel(QObject *parent)
     : AssetTreeModel(parent)
@@ -23,14 +26,15 @@ TransitionTreeModel::TransitionTreeModel(QObject *parent)
 std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, QObject *parent)
 {
     std::shared_ptr<TransitionTreeModel> self(new TransitionTreeModel(parent));
-    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Includelist", "SupportTenBit"};
+    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Includelist", "SupportTenBit", "Icon"};
     self->rootItem = TreeItem::construct(rootData, self, true);
 
     // We create categories, if requested
-    std::shared_ptr<TreeItem> compoCategory, transCategory;
+    std::shared_ptr<TreeItem> compoCategory, transCategory, lumaCategory;
     if (!flat) {
         compoCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Compositions"), QStringLiteral("root")});
         transCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Transitions"), QStringLiteral("root")});
+        lumaCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Lumas"), QStringLiteral("root")});
     }
 
     // We parse transitions
@@ -54,7 +58,37 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
 
         targetCategory->appendChild(data);
     }
+
+    // Parse Lumas
+    self->reparseLumas();
+
     return self;
+}
+
+void TransitionTreeModel::reparseLumas()
+{
+    const QStringList lumaFiles = pCore->getLumasForProfile();
+    // bool isPreferred = false;
+    bool includeListed = true;
+    bool supportsTenBit = false;
+    QPixmap pix(QSize(120, 68));
+    QPainterPath path;
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 4, 4);
+    for (auto &f : lumaFiles) {
+        QFileInfo fName(f);
+        const QString lumaId = QStringLiteral("luma:%1").arg(f);
+        bool isFav = KdenliveSettings::favorite_transitions().contains(lumaId);
+        QPixmap previewPixmap(f);
+        pix.fill(Qt::transparent);
+        QPainter p(&pix);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        p.setClipPath(path);
+        p.drawPixmap(0, 0, pix.width(), pix.height(), previewPixmap);
+        p.end();
+        QList<QVariant> data{fName.baseName(), lumaId,    QVariant::fromValue(AssetListType::AssetType::LumaTransition), isFav, 0, true, includeListed,
+                             supportsTenBit,   QIcon(pix)};
+        rootItem->appendChild(data);
+    }
 }
 
 void TransitionTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions)
@@ -96,6 +130,25 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
     KdenliveSettings::setFavorite_transitions(favs);
 }
 
+QVariant TransitionTreeModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid()) {
+        return QVariant();
+    }
+    qDebug() << ":::: QUERYING INDEX: " << index << " for role: " << role;
+
+    if (role == Qt::DecorationRole) {
+        auto type = index.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+        if (type == AssetListType::AssetType::LumaTransition) {
+            // Fetch Luma image
+            auto item = getItemById(int(index.internalId()));
+            return item->dataColumn(AssetTreeModel::IconCol).value<QIcon>();
+        }
+    }
+
+    return AssetTreeModel::data(index, role);
+}
+
 void TransitionTreeModel::deleteEffect(const QModelIndex &) {}
 
 void TransitionTreeModel::editCustomAsset(const QString &, const QString &, const QModelIndex &) {}
@@ -107,7 +160,7 @@ QMimeData *TransitionTreeModel::mimeData(const QModelIndexList &indexes) const
     if (item) {
         const QString assetId = item->dataColumn(AssetTreeModel::IdCol).toString();
         mimeData->setData(QStringLiteral("kdenlive/composition"), assetId.toUtf8());
-        AssetListType::AssetType type = TransitionsRepository::get()->getType(assetId);
+        AssetListType::AssetType type = item->dataColumn(TypeCol).value<AssetListType::AssetType>();
         if (type == AssetListType::AssetType::AudioTransition) {
             mimeData->setData(QStringLiteral("type"), "audio");
         }

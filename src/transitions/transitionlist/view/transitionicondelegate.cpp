@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QFileInfo>
+#include <QFont>
 #include <QListView>
 #include <QMovie>
 #include <QPainter>
@@ -22,7 +23,7 @@
 TransitionIconDelegate::TransitionIconDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
     , m_previewDirectory(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews"))
-    , m_iconSize(320, 180)
+    , m_iconSize(120, 68)
 {
     // Create default pixmap
     m_defaultPixmap = QPixmap(m_iconSize);
@@ -50,7 +51,8 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     // Get transition ID
     QString transitionId = index.data(AssetTreeModel::IdRole).toString();
-    if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
+    auto type = index.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+    if (transitionId.isEmpty() || transitionId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
         QStyledItemDelegate::paint(painter, option, index);
         return;
     }
@@ -115,15 +117,7 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 QSize TransitionIconDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(index);
-
-    // Calculate item width based on font metrics
-    int width = qMax(m_iconSize.width() / 2, option.rect.width());
-
-    // Height includes icon height + text height + padding
-    int textHeight = option.fontMetrics.height() * 2;                                // Allow for 2 lines of text
-    int height = m_iconSize.height() * width / m_iconSize.width() + textHeight + 10; // 10px padding
-
-    return QSize(width, height);
+    return QSize(m_iconSize.width(), m_iconSize.height() + option.fontMetrics.lineSpacing() + 4);
 }
 
 void TransitionIconDelegate::setPreviewDirectory(const QString &path)

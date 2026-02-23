@@ -37,6 +37,7 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     m_effectsTree->setColumnHidden(3, true);
     m_effectsTree->setColumnHidden(4, true);
     m_effectsTree->setColumnHidden(5, true);
+    m_effectsTree->setColumnHidden(6, true);
     m_effectsTree->header()->setStretchLastSection(true);
 
     // Set up icon view with custom delegate
@@ -49,9 +50,10 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     QDir().mkpath(previewDir);
     qDebug() << "Setting transition preview directory to:" << previewDir;
     m_iconDelegate->setPreviewDirectory(previewDir);
-
+    // TODO: icon size relative to project profile
+    m_effectsIcon->setIconSize(QSize(120, 68));
+    m_effectsIcon->setViewMode(QListView::IconMode);
     m_effectsIcon->setItemDelegate(m_iconDelegate);
-    m_effectsIcon->setGridSize(QSize(200, 150));
 
     // Connect selection models
     QItemSelectionModel *sel = m_effectsTree->selectionModel();
@@ -82,6 +84,8 @@ void TransitionListWidget::setFilterType(const QString &type)
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Favorites);
     } else if (type == "transition") {
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::VideoTransition);
+    } else if (type == "lumas") {
+        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::LumaTransition);
     } else {
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(false, AssetListType::AssetType::Favorites);
     }
@@ -222,6 +226,12 @@ void TransitionListWidget::generatePreviews()
 }
 
 void TransitionListWidget::switchTenBitFilter()
+{
+    KdenliveSettings::setTransitionsFilter(m_filterButton->isChecked());
+    m_proxyModel->invalidate();
+}
+
+void TransitionListWidget::showLumas()
 {
     KdenliveSettings::setTransitionsFilter(m_filterButton->isChecked());
     m_proxyModel->invalidate();

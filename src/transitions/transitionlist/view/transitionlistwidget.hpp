@@ -41,6 +41,9 @@ public Q_SLOTS:
      */
     void generatePreviews();
 
+private Q_SLOTS:
+    void showLumas();
+
 private:
     TransitionIconDelegate *m_iconDelegate;
 };
