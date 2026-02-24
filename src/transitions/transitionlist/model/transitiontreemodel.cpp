@@ -88,6 +88,7 @@ void TransitionTreeModel::reparseLumas()
         QList<QVariant> data{fName.baseName(), lumaId,    QVariant::fromValue(AssetListType::AssetType::LumaTransition), isFav, 0, true, includeListed,
                              supportsTenBit,   QIcon(pix)};
         rootItem->appendChild(data);
+        TransitionsRepository::get()->addLuma(f);
     }
 }
 
@@ -120,7 +121,10 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
         return;
     }
     item->setData(AssetTreeModel::FavCol, favorite);
-    auto id = item->dataColumn(AssetTreeModel::IdCol).toString();
+    QString id = item->dataColumn(AssetTreeModel::IdCol).toString();
+    if (id.startsWith(QLatin1String("luma:"))) {
+        id.remove(0, 5);
+    }
     QStringList favs = KdenliveSettings::favorite_transitions();
     if (favorite) {
         favs << id;
@@ -135,7 +139,6 @@ QVariant TransitionTreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid()) {
         return QVariant();
     }
-    qDebug() << ":::: QUERYING INDEX: " << index << " for role: " << role;
 
     if (role == Qt::DecorationRole) {
         auto type = index.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();

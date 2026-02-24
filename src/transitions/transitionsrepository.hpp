@@ -36,6 +36,9 @@ public:
     /** @brief Returns the id of the transition to be used for compositing */
     const QString getCompositingTransition();
 
+    /** @brief Manually adda luma file */
+    void addLuma(const QString &path);
+
 protected:
     // Constructor is protected because class is a Singleton
     TransitionsRepository();

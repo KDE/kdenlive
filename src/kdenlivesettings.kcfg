@@ -1399,6 +1399,14 @@
       <label>Last opened tab in effects list.</label>
       <default>0</default>
     </entry>
+    <entry name="effectViewAsIcon" type="Bool">
+      <label>Show effects as icon list.</label>
+      <default>false</default>
+    </entry>
+    <entry name="transitionViewAsIcon" type="Bool">
+      <label>Show transitions as icon list.</label>
+      <default>false</default>
+    </entry>
     </group>
   <group name="startup">
     <entry name="force_breeze" type="Bool">

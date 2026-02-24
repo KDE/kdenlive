@@ -80,6 +80,19 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     QMovie *movie = getMovie(transitionId);
     if (movie) {
         // Draw the current frame of the movie
+        int max = movie->frameCount() / 2;
+        if (max == 0) {
+            max = 20;
+        }
+        if (movie->state() == QMovie::NotRunning) {
+            movie->start();
+            movie->setPaused(true);
+            int i = 0;
+            while (i < max) {
+                movie->jumpToNextFrame();
+                i++;
+            }
+        }
         QPixmap currentFrame = movie->currentPixmap().scaled(iconRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         // Center the frame in the icon rect
@@ -150,31 +163,7 @@ QMovie *TransitionIconDelegate::getMovie(const QString &transitionId) const
 
     qDebug() << "Found preview for transition:" << transitionId;
     QMovie *movie = new QMovie(filePath);
-    movie->setCacheMode(QMovie::CacheAll);
-    movie->start();
-
-    // Connect to frameChanged to trigger repaint
-    connect(movie, &QMovie::frameChanged, [this, movie, transitionId]() {
-        // Find all list views using this delegate
-        for (QWidget *widget : QApplication::allWidgets()) {
-            QListView *listView = qobject_cast<QListView *>(widget);
-            if (listView && listView->itemDelegate() == this) {
-                // Force update of the view
-                QAbstractItemModel *model = listView->model();
-                if (model) {
-                    for (int row = 0; row < model->rowCount(); row++) {
-                        QModelIndex idx = model->index(row, 0);
-                        QString id = idx.data(AssetTreeModel::IdRole).toString();
-                        if (id == transitionId) {
-                            listView->update(idx);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    });
-
+    // movie->setCacheMode(QMovie::CacheAll);
     m_movies[transitionId] = movie;
     return movie;
 }

@@ -80,7 +80,7 @@ public:
     virtual void setFilterType(const QString &type) = 0;
 
     /** @brief Toggle between tree view and icon view */
-    void toggleViewMode();
+    void toggleViewMode(bool checked);
 
     /** @brief Returns true if we are in icon view mode */
     bool isIconView() const;
@@ -119,6 +119,7 @@ public Q_SLOTS:
     void setFilterName(const QString &pattern);
     /** @brief Update the info panel */
     void updateAssetInfo(const QModelIndex &current, const QModelIndex &previous);
+    void setItemFavorite();
 
 Q_SIGNALS:
     void activateAsset(const QVariantMap &);

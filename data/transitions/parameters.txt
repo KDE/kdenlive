@@ -4,9 +4,25 @@
 
 # Slide transitions
 frei0r.sleid0r_slide-left=position="0=0;-1=1"
-frei0r.sleid0r_slide-right=position="0=1;-1=0"
+frei0r.sleid0r_slide-right=position="0=0;-1=1"
 frei0r.sleid0r_slide-up=position="0=0;-1=1"
-frei0r.sleid0r_slide-down=position="0=1;-1=0"
+frei0r.sleid0r_slide-down=position="0=0;-1=1"
+
+# Wipe transitions
+frei0r.sleid0r_wipe-left=position="0=0;-1=1"
+frei0r.sleid0r_wipe-right=position="0=0;-1=1"
+frei0r.sleid0r_wipe-up=position="0=0;-1=1"
+frei0r.sleid0r_wipe-down=position="0=0;-1=1"
+frei0r.sleid0r_wipe-circle=position="0=0;-1=1"
+
+# Push transitions
+frei0r.sleid0r_push-left=position="0=0;-1=1"
+frei0r.sleid0r_push-right=position="0=0;-1=1"
+frei0r.sleid0r_push-up=position="0=0;-1=1"
+frei0r.sleid0r_push-down=position="0=0;-1=1"
+
+frei0r.sleid0r_wipe-barn-door-h=position="0=0;-1=1"
+frei0r.sleid0r_wipe-barn-door-v=position="0=0;-1=1"
 
 # Wipe transitions
 frei0r.cairoaffineblend=blend_mode=0 operator=0 start_x="0=0;-1=1" start_y=0 end_x="0=0;-1=1" end_y=1

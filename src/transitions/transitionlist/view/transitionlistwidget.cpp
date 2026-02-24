@@ -54,10 +54,15 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     m_effectsIcon->setIconSize(QSize(120, 68));
     m_effectsIcon->setViewMode(QListView::IconMode);
     m_effectsIcon->setItemDelegate(m_iconDelegate);
+    m_effectsIcon->setMouseTracking(true);
 
     // Connect selection models
     QItemSelectionModel *sel = m_effectsTree->selectionModel();
-    connect(sel, &QItemSelectionModel::currentChanged, this, &AssetListWidget::updateAssetInfo);
+    connect(sel, &QItemSelectionModel::currentChanged, this, &TransitionListWidget::updateAssetInfo);
+
+    QItemSelectionModel *iconSel = m_effectsIcon->selectionModel();
+    connect(iconSel, &QItemSelectionModel::currentChanged, this, &TransitionListWidget::updateTransitionInfo);
+    connect(m_effectsIcon, &QAbstractItemView::entered, this, &TransitionListWidget::iconViewEntered);
 
     // Add "Generate Previews" action to toolbar
     QAction *generateAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
@@ -235,4 +240,67 @@ void TransitionListWidget::showLumas()
 {
     KdenliveSettings::setTransitionsFilter(m_filterButton->isChecked());
     m_proxyModel->invalidate();
+}
+
+void TransitionListWidget::updateTransitionInfo(const QModelIndex &current, const QModelIndex &previous)
+{
+    if (previous.isValid()) {
+        // Stop previous animation
+        const QString previousId = previous.data(AssetTreeModel::IdRole).toString();
+        auto type = previous.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+        if (previousId.isEmpty() || previousId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
+            // Nothing to do
+        } else {
+            auto movie = m_iconDelegate->getMovie(previousId);
+            if (movie) {
+                movie->stop();
+            }
+        }
+    }
+    // Get transition ID
+    const QString transitionId = current.data(AssetTreeModel::IdRole).toString();
+    auto type = current.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+    if (transitionId.isEmpty() || transitionId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
+        return;
+    }
+    auto movie = m_iconDelegate->getMovie(transitionId);
+    if (movie) {
+        // Connect to frameChanged to trigger repaint
+        QObject::disconnect(m_animationConnection);
+        m_animationConnection = connect(movie, &QMovie::frameChanged, [this, current]() {
+            // Find all list views using this delegate
+            m_effectsIcon->update(current);
+        });
+        movie->start();
+    }
+    updateAssetInfo(current, previous);
+}
+
+void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
+{
+    if (!m_hoveredTransition.isEmpty()) {
+        auto movie = m_iconDelegate->getMovie(m_hoveredTransition);
+        if (movie) {
+            movie->stop();
+        }
+        QObject::disconnect(m_hoverAnimationConnection);
+        m_hoveredTransition.clear();
+    }
+    const QString transitionId = ix.data(AssetTreeModel::IdRole).toString();
+    auto type = ix.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+    if (transitionId.isEmpty() || transitionId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
+        return;
+    }
+    auto movie = m_iconDelegate->getMovie(transitionId);
+    if (movie) {
+        m_hoveredTransition = transitionId;
+        // Connect to frameChanged to trigger repaint
+        QObject::disconnect(m_animationConnection);
+        m_hoverAnimationConnection = connect(movie, &QMovie::frameChanged, [this, ix]() {
+            // Find all list views using this delegate
+            m_effectsIcon->update(ix);
+        });
+        movie->start();
+        qDebug() << "Start Animation...";
+    }
 }

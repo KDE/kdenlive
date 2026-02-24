@@ -31,7 +31,6 @@ public:
      */
     void setPreviewDirectory(const QString &path);
 
-private:
     /**
      * @brief Get a movie for a transition
      * @param transitionId The ID of the transition
@@ -39,6 +38,7 @@ private:
      */
     QMovie *getMovie(const QString &transitionId) const;
 
+private:
     /**
      * @brief Get a static preview for a transition
      * @param transitionId The ID of the transition

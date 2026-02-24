@@ -43,7 +43,12 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void showLumas();
+    void updateTransitionInfo(const QModelIndex &current, const QModelIndex &previous);
+    void iconViewEntered(const QModelIndex &ix);
 
 private:
     TransitionIconDelegate *m_iconDelegate;
+    QMetaObject::Connection m_animationConnection;
+    QMetaObject::Connection m_hoverAnimationConnection;
+    QString m_hoveredTransition;
 };

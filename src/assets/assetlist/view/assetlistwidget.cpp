@@ -61,7 +61,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     m_contextMenu = new QMenu(this);
     QAction *addFavorite = new QAction(i18n("Add to favorites"), this);
     addFavorite->setData(QStringLiteral("favorite"));
-    connect(addFavorite, &QAction::triggered, this, [this]() { setFavorite(m_effectsTree->currentIndex(), !isFavorite(m_effectsTree->currentIndex())); });
+    connect(addFavorite, &QAction::triggered, this, &AssetListWidget::setItemFavorite);
     m_contextMenu->addAction(addFavorite);
     if (m_isEffect) {
         // Delete effect
@@ -337,6 +337,17 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
 
     // Initialize icon provider for the list view
     m_assetIconProvider = new AssetIconProvider(m_isEffect, this);
+    if (m_isEffect) {
+        if (KdenliveSettings::effectViewAsIcon()) {
+            toggleView->setChecked(true);
+            toggleViewMode(true);
+        }
+    } else {
+        if (KdenliveSettings::transitionViewAsIcon()) {
+            toggleView->setChecked(true);
+            toggleViewMode(true);
+        }
+    }
 }
 
 AssetListWidget::~AssetListWidget() {}
@@ -493,7 +504,12 @@ bool AssetListWidget::isAudioType(AssetListType::AssetType type)
 
 void AssetListWidget::onCustomContextMenu(const QPoint &pos)
 {
-    QModelIndex index = m_effectsTree->indexAt(pos);
+    QModelIndex index;
+    if (isIconView()) {
+        index = m_effectsIcon->indexAt(pos);
+    } else {
+        index = m_effectsTree->indexAt(pos);
+    }
     if (index.isValid()) {
         const QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
         const QString assetId = m_model->data(sourceIndex, AssetTreeModel::IdRole).toString();
@@ -569,29 +585,43 @@ void AssetListWidget::processCopy()
     m_textEdit->copy();
 }
 
-void AssetListWidget::toggleViewMode()
+void AssetListWidget::toggleViewMode(bool checked)
 {
     // Switch between tree view (index 0) and icon view (index 1)
-    int newIndex = (m_effectsView->currentIndex() == 0) ? 1 : 0;
+    int newIndex = checked ? 1 : 0;
     m_effectsView->setCurrentIndex(newIndex);
 
     // Sync selection between views
     if (newIndex == 0) {
         // Switching to tree view
-        if (m_effectsIcon->selectionModel()->hasSelection()) {
+        if (m_effectsIcon->selectionModel() && m_effectsIcon->selectionModel()->hasSelection()) {
             QModelIndex iconIndex = m_effectsIcon->selectionModel()->currentIndex();
             m_effectsTree->selectionModel()->setCurrentIndex(iconIndex, QItemSelectionModel::ClearAndSelect);
         }
     } else {
         // Switching to icon view
-        if (m_effectsTree->selectionModel()->hasSelection()) {
+        if (m_effectsTree->selectionModel() && m_effectsTree->selectionModel()->hasSelection()) {
             QModelIndex treeIndex = m_effectsTree->selectionModel()->currentIndex();
             m_effectsIcon->selectionModel()->setCurrentIndex(treeIndex, QItemSelectionModel::ClearAndSelect);
         }
+    }
+    if (m_isEffect) {
+        KdenliveSettings::setEffectViewAsIcon(checked);
+    } else {
+        KdenliveSettings::setTransitionViewAsIcon(checked);
     }
 }
 
 bool AssetListWidget::isIconView() const
 {
     return m_effectsView->currentIndex() == 1;
+}
+
+void AssetListWidget::setItemFavorite()
+{
+    if (isIconView()) {
+        setFavorite(m_effectsIcon->currentIndex(), !isFavorite(m_effectsIcon->currentIndex()));
+    } else {
+        setFavorite(m_effectsTree->currentIndex(), !isFavorite(m_effectsTree->currentIndex()));
+    }
 }

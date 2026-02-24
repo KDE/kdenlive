@@ -26,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class TransitionPreviewGenerator:
-    def __init__(self, output_dir, param_file=None, image_path1=None, image_path2=None, size=(320, 180), duration=30, mix_duration=15):
+    def __init__(self, output_dir, param_file=None, image_path1=None, image_path2=None, size=(320, 180), duration=20, mix_duration=40):
         """
         Initialize the preview generator
         
@@ -153,13 +153,13 @@ class TransitionPreviewGenerator:
             
             # First clip
             if self.image_path1 is None:
-                command.extend(['color:red', f'out={self.duration}'])
+                command.extend(['color:red', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path1, f'out={self.duration}'])
             
             # Second clip
             if self.image_path2 is None:
-                command.extend(['color:blue', f'out={self.duration}'])
+                command.extend(['color:blue', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path2, f'out={self.duration}'])
             
@@ -171,26 +171,6 @@ class TransitionPreviewGenerator:
                 command.append(self.transition_params[transition_id])
                 logger.info(f"Using custom parameters for {transition_id}: {self.transition_params[transition_id]}")
             
-            # Only add text overlay if no images are provided
-            if self.image_path1 is None and self.image_path2 is None:
-                command.extend([
-                    # Text overlay track
-                    '-track',
-                    f'qtext:+A', 'weight=800', f'out={self.duration}',
-                    f'qtext:+B', 'weight=800', f'out={self.duration}',
-                    
-                    # Text transition
-                    '-mix', str(self.mix_duration),
-                    '-mixer', transition_id,
-                ])
-                
-                # Add text transition parameters if available
-                if transition_id in self.transition_params:
-                    command.append(self.transition_params[transition_id])
-                
-                # Add text blend
-                command.extend(['-transition', 'qtblend'])
-            
             # Add output settings
             command.extend([
                 '-consumer', f'avformat:{output_path}',
@@ -200,7 +180,7 @@ class TransitionPreviewGenerator:
             ])
             
             logger.info(f"Generating preview for {transition_id}...")
-            logger.debug(f"Command: {' '.join(command)}")
+            logger.info(f"Command: {' '.join(command)}")
             result = subprocess.run(command, capture_output=True, text=True)
             
             if result.returncode == 0:
@@ -272,14 +252,14 @@ def main():
     parser.add_argument(
         '--duration',
         type=int,
-        default=30,
+        default=20,
         help='Duration of each clip in frames'
     )
     
     parser.add_argument(
         '--mix-duration',
         type=int,
-        default=15,
+        default=40,
         help='Duration of transition in frames'
     )
     

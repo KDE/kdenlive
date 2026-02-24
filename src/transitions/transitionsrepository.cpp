@@ -47,6 +47,15 @@ Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) cons
     return pCore->getMltRepository()->metadata(mlt_service_transition_type, assetId.toLatin1().data());
 }
 
+void TransitionsRepository::addLuma(const QString &path)
+{
+    Info info;
+    info.id = path;
+    info.mltId = QStringLiteral("luma");
+    info.type = AssetListType::AssetType::LumaTransition;
+    m_assets[path] = info;
+}
+
 void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
 {
     QDomDocument doc;
