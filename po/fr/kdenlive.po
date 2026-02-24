@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-23 00:43+0000\n"
-"PO-Revision-Date: 2026-02-18 21:03+0100\n"
+"PO-Revision-Date: 2026-02-22 19:45+0100\n"
 "Last-Translator: Alexandre Bento <alexandre.bento@nightrain.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -4242,23 +4242,12 @@ msgstr ""
 "10."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
-#, fuzzy, kde-format
-#| msgid "gradfun"
+#, kde-format
 msgid "Gradfun"
-msgstr "gradfun"
+msgstr "Gradfun"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>-= Deprecated =-</b><br>\n"
-#| "    Debands video quickly using gradients.<br>\n"
-#| "    Fix the banding artifacts that are sometimes introduced into nearly "
-#| "flat regions by truncation to 8-bit color depth.<br>\n"
-#| "    Interpolate the gradients that should go where the bands are, and "
-#| "dither them.<br>\n"
-#| "    <b>It is designed for playback only. Do not use it prior to lossy "
-#| "compression, because compression tends to lose the dither and bring back "
-#| "the bands</b>."
+#, kde-format
 msgid ""
 "Debands video quickly using gradients.<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
@@ -4269,16 +4258,15 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</i></b>."
 msgstr ""
-"<b>-= Déconseillé =-</b><br>\n"
-"Supprime les bandes de vidéo rapidement en utilisant des dégradés.<br>\n"
-"    Correction des artefacts de bande qui sont parfois introduits dans des "
-"régions presque plates par troncature jusqu'à une profondeur de couleurs de "
-"8 bits.<br>\n"
-"    Interpolation des dégradés qui devraient aller là où se trouvent les "
-"bandes et les faire osciller.<br>\n"
-"    <b>Il n'est conçu que pour la lecture. Veuillez ne pas l'utiliser avant "
-"la compression avec perte, car la compression a tendance à perdre les "
-"oscillations et à faire réapparaître les bandes<b>."
+"Supprime rapidement les bandes de couleur de la vidéo à l'aide de dégradés."
+"<br>\n"
+"    Corrige les artefacts parfois introduits dans les régions quasi-"
+"uniformes après une troncature à une profondeur de couleur de 8 bits.<br>\n"
+"    Interpole les dégradés qui devraient se trouver à l'emplacement des "
+"bandes et leur applique un tramage.<br><br>\n"
+"    <b><i>Ce filtre est conçu uniquement pour la lecture. Ne pas l'utiliser "
+"avant une compression avec perte, car la compression a tendance à éliminer "
+"le tramage et à faire réapparaître les bandes<i><b>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -12162,40 +12150,39 @@ msgstr ""
 #: data/effects/frei0r/frei0r_ndvi.xml:4
 #, kde-format
 msgid "NDVI"
-msgstr ""
+msgstr "NDVI"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:5
 #, kde-format
 msgid "This filter creates a false image from a visible + infrared source"
 msgstr ""
+"Ce filtre crée une fausse image à partir d'une source visible et d'une "
+"source infrarouge"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:8
-#, fuzzy, kde-format
-#| msgid "Color Matrix"
+#, kde-format
 msgid "Color Map"
-msgstr "Matrices de couleurs"
+msgstr "Palette de couleurs"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:9
 #, kde-format
 msgid "Earth,Grayscale,Heat,Rainbow"
-msgstr ""
+msgstr "Terre, Niveaux de gris, Chaleur, Arc-en-ciel"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:13
 #, kde-format
 msgid "The number of color levels to use in the false image"
-msgstr ""
+msgstr "Le nombre de niveaux de couleur à utiliser dans la fausse image"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:16
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "VIS Scale"
-msgstr "Redimensionner"
+msgstr "Échelle VIS"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:20
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "VIS Offset"
-msgstr "Décalage en X"
+msgstr "Décalage VIS"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:22
 #, no-c-format, kde-format
@@ -12203,24 +12190,23 @@ msgid ""
 "An offset to be applied to<br>\n"
 "        the visible component (mapped to [-100%, 100%])"
 msgstr ""
+"Un décalage à appliquer à la<br>\n"
+"        composante visible (ramené à [-100 %, 100 %])"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:25
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "NIR Scale"
-msgstr "Redimensionner"
+msgstr "Échelle NIR"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:26
-#, fuzzy, kde-format
-#| msgid "The background color to be applied to the entire frame."
+#, kde-format
 msgid "A scaling factor to be applied to the near-infrared component"
-msgstr "La couleur de fond à appliquer à la totalité de la trame."
+msgstr "Un facteur d'échelle à appliquer à la composante infrarouge proche"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:29
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "NIR Offset"
-msgstr "Décalage en X"
+msgstr "Décalage NIR"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:31
 #, no-c-format, kde-format
@@ -12228,62 +12214,59 @@ msgid ""
 "An offset to be applied to<br>\n"
 "        the near-infrared component (mapped to [-100%, 100%])"
 msgstr ""
+"Un décalage à appliquer à<br>\n"
+"        la composante infrarouge proche (ramené à [-100 %, 100 %])"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:34
-#, fuzzy, kde-format
-#| msgid "4 Channels"
+#, kde-format
 msgid "Visible Channel"
-msgstr "4 canaux "
+msgstr "Canal visible"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:35
 #, kde-format
 msgid "The channel to use for the visible component"
-msgstr ""
+msgstr "Le canal à utiliser pour la composante visible"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:36
 #: data/effects/frei0r/frei0r_ndvi.xml:41
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue,Luma"
+#, kde-format
 msgid "Red,Green,Blue"
-msgstr "Rouge, vert, bleu, luminosité"
+msgstr "Rouge, vert, bleu"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:39
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "NIR Channel"
-msgstr "Canal"
+msgstr "Canal NIR"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:40
 #, kde-format
 msgid "The channel to use for the near-infrared component"
-msgstr ""
+msgstr "Le canal à utiliser pour la composante infrarouge proche"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:44
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Index Calculation"
-msgstr "Calcul en cours..."
+msgstr "Calcul de l'index"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:45
 #, kde-format
 msgid "The index calculation to use"
-msgstr ""
+msgstr "Le calcul de l'index à utiliser"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:46
 #, kde-format
 msgid "NDVI,VI"
-msgstr ""
+msgstr "NDVI, VI"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:49
-#, fuzzy, kde-format
-#| msgid "Legend unit"
+#, kde-format
 msgid "Legend"
-msgstr "Unité de légende"
+msgstr "Légende"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:50
 #, kde-format
 msgid "Control legend display"
-msgstr ""
+msgstr "Contrôler l'affichage de la légende"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:51
 #, fuzzy, kde-format
@@ -13042,34 +13025,29 @@ msgid "Interval"
 msgstr "Intervalle"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
-#, fuzzy, kde-format
-#| msgid "3 point balance"
+#, kde-format
 msgid "3-Point Balance"
-msgstr "Balance des blancs à 3 points"
+msgstr "Balance des couleurs à 3 points"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
-#, fuzzy, kde-format
-#| msgid "Balances colors along with 3 points"
+#, kde-format
 msgid "Adjust color balance with 3 color points"
-msgstr "Balance des couleurs sur les 3 niveaux RVB"
+msgstr "Ajuster la balance des couleurs avec 3 points de couleur"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
-#| msgid "Black color"
+#, kde-format
 msgid "Black Color"
 msgstr "Couleur noire"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
-#| msgid "Gray color"
+#, kde-format
 msgid "Gray Color"
-msgstr "Couleur de gris"
+msgstr "Couleur grise"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
-#, fuzzy, kde-format
-#| msgid "White color"
+#, kde-format
 msgid "White Color"
-msgstr "Couleur de remplissage blanche"
+msgstr "Couleur blanche"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:17
 #, kde-format
@@ -22822,16 +22800,14 @@ msgid "Stereo (2 channels)"
 msgstr "Stereo (2 canaux)"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:511
-#, fuzzy, kde-format
-#| msgid "%1 channels "
+#, kde-format
 msgid "%1 channels"
-msgstr "%1 canaux "
+msgstr "%1 canaux"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
-#, fuzzy, kde-format
-#| msgid "311 Hz"
+#, kde-format
 msgid "%1 Hz"
-msgstr "311 Hz"
+msgstr "%1 Hz"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:525
 #, kde-format
@@ -22844,30 +22820,29 @@ msgid "48000 Hz"
 msgstr "48000 Hz"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:531
-#, fuzzy, kde-format
-#| msgid "5000 Hz"
+#, kde-format
 msgid "96000 Hz"
-msgstr "5000 Hz"
+msgstr "96000 Hz"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:544
 #, kde-format
 msgid "Unsigned 8 bit"
-msgstr ""
+msgstr "Entier 8 bits non signé"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:547
 #, kde-format
 msgid "Signed 16 bit"
-msgstr ""
+msgstr "Entier 16 bits signé"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:550
 #, kde-format
 msgid "Signed 32 bit"
-msgstr ""
+msgstr "Entier 32 bits signé"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:553
 #, kde-format
 msgid "Float"
-msgstr ""
+msgstr "Nombre à virgule flottante"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:604
 #, kde-format
@@ -28610,10 +28585,9 @@ msgid "Delete Timeline Marker"
 msgstr "Supprimer le repère de frise chronologique"
 
 #: src/mainwindow.cpp:2142
-#, fuzzy, kde-format
-#| msgid "Delete Timeline Marker"
+#, kde-format
 msgid "Delete All Timeline Markers"
-msgstr "Supprimer le repère de frise chronologique"
+msgstr "Supprimer tous les repères de la frise chronologique"
 
 #: src/mainwindow.cpp:2144
 #, kde-format
@@ -33766,10 +33740,9 @@ msgid "Disable clip"
 msgstr "Désactiver le clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1159
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot change clip state"
-msgstr "Impossible de créer le clip"
+msgstr "Impossible de changer l'état du clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format
@@ -36472,16 +36445,15 @@ msgstr "Désactiver le compte à rebours avant d'enregistrer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configcapture_ui.ui:434
-#, fuzzy, kde-format
-#| msgid "Sample rate:"
+#, kde-format
 msgid "Sample format:"
-msgstr "Taux d'échantillonnage :"
+msgstr "Format des échantillons :"
 
 #. i18n: ectx: property (text), widget (QPushButton, audiocapturedefaults)
 #: src/ui/configcapture_ui.ui:441
 #, kde-format
 msgid "Use Device Default Settings"
-msgstr ""
+msgstr "Utiliser les paramètres par défaut de l'appareil"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
@@ -36583,13 +36555,14 @@ msgstr "Empêcher la mise en veille lors de la lecture et du rendu"
 #: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "Drag window from titlebar only"
-msgstr ""
+msgstr "Faire glisser la fenêtre uniquement depuis la barre de titre"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configenv_ui.ui:135
 #, kde-format
 msgid "This will apply to all KDE applications using the Breeze style."
 msgstr ""
+"Cela s'appliquera à toutes les applications KDE utilisant le thème Breeze."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:161
