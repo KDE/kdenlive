@@ -26,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class TransitionPreviewGenerator:
-    def __init__(self, output_dir, param_file=None, image_path1=None, image_path2=None, size=(320, 180), duration=20, mix_duration=40):
+    def __init__(self, output_dir, param_file=None, luma_path=None, image_path1=None, image_path2=None, size=(320, 180), duration=20, mix_duration=40):
         """
         Initialize the preview generator
         
@@ -38,6 +38,7 @@ class TransitionPreviewGenerator:
             size (tuple): Width and height of preview (default: 320x180)
             duration (int): Duration of each clip in frames
             mix_duration (int): Duration of transition in frames
+            luma_path (str: Path to luma files
         """
         self.output_dir = Path(output_dir)
         self.width, self.height = size
@@ -46,6 +47,7 @@ class TransitionPreviewGenerator:
         self.transition_params = {}
         self.image_path1 = image_path1
         self.image_path2 = image_path2
+        self.luma_path = luma_path
         
         # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -86,7 +88,23 @@ class TransitionPreviewGenerator:
             logger.info(f"Loaded parameters for {len(self.transition_params)} transitions")
         except Exception as e:
             logger.error(f"Error loading transition parameters: {e}")
-        
+
+    def get_available_lumas(self):
+        """Query available lumas in selected folder"""
+        try:
+            if self.luma_path == None:
+                return []
+            lumas = []
+            directory_path = Path(self.luma_path)
+            for path_object in directory_path.rglob("*.png"):
+                lumas.append(str(path_object))
+            for path_object in directory_path.rglob("*.pgm"):
+                lumas.append(str(path_object))
+            return lumas
+        except Exception as e:
+            logger.error(f"Unexpected error querying transitions: {e}")
+            return []
+
     def get_available_transitions(self):
         """Query MLT for available transitions"""
         try:
@@ -129,6 +147,64 @@ class TransitionPreviewGenerator:
         except Exception as e:
             logger.error(f"Unexpected error querying transitions: {e}")
             return []
+
+    def create_luma_preview(self, luma_id):
+        """
+        Create a preview GIF for a specific luma
+
+        Args:
+        luma_id (str): The MLT luma file
+        """
+        file_path = Path(luma_id).stem
+        logger.error(f"Processing luma: {luma_id}")
+        output_path = self.output_dir / f"{file_path}.gif"
+
+        # Skip if preview already exists
+        if output_path.exists():
+            logger.info(f"Preview for {luma_id} already exists, skipping...")
+            return
+
+        try:
+            # Basic command structure
+            command = [
+                'melt',
+                '-profile', self.profile,
+            ]
+
+            # First clip
+            if self.image_path1 is None:
+                command.extend(['color:red', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+            else:
+                command.extend([self.image_path1, f'out={self.duration}'])
+
+            # Second clip
+            if self.image_path2 is None:
+                command.extend(['color:blue', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+            else:
+                command.extend([self.image_path2, f'out={self.duration}'])
+
+            # Apply transition
+            command.extend(['-mix', str(self.mix_duration), '-mixer', 'luma', f'resource={luma_id}'])
+
+            # Add output settings
+            command.extend([
+                '-consumer', f'avformat:{output_path}',
+                f'width={self.width}',
+                f'height={self.height}',
+                'fps=15'
+            ])
+
+            logger.info(f"Generating preview for {luma_id}...")
+            logger.info(f"Command: {' '.join(command)}")
+            result = subprocess.run(command, capture_output=True, text=True)
+
+            if result.returncode == 0:
+                logger.info(f"Successfully generated preview for {luma_id}")
+            else:
+                logger.error(f"Failed to generate preview for {luma_id}: {result.stderr}")
+
+        except Exception as e:
+            logger.error(f"Error generating preview for {luma_id}: {e}")
 
     def create_transition_preview(self, transition_id):
         """
@@ -199,6 +275,7 @@ class TransitionPreviewGenerator:
             max_workers (int): Number of parallel preview generations
         """
         transitions = self.get_available_transitions()
+        lumas = self.get_available_lumas()
         
         if not transitions:
             logger.error("No transitions found. Make sure MLT is properly installed.")
@@ -206,8 +283,11 @@ class TransitionPreviewGenerator:
         
         logger.info(f"Starting preview generation for {len(transitions)} transitions...")
         
+        #with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        #    list(executor.map(self.create_transition_preview, transitions))
+
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            list(executor.map(self.create_transition_preview, transitions))
+                list(executor.map(self.create_luma_preview, lumas))
         
         logger.info("Preview generation completed!")
 
@@ -223,6 +303,11 @@ def main():
     parser.add_argument(
         '--param-file',
         help='Path to the transition parameters file'
+    )
+
+    parser.add_argument(
+        '--luma-path',
+        help='Path to luma files'
     )
     
     parser.add_argument(
@@ -279,7 +364,8 @@ def main():
         image_path2=args.image2,
         size=(args.width, args.height),
         duration=args.duration,
-        mix_duration=args.mix_duration
+        mix_duration=args.mix_duration,
+        luma_path=args.luma_path
     )
     
     generator.generate_all_previews(max_workers=args.workers)
