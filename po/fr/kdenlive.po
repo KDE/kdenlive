@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-21 00:43+0000\n"
-"PO-Revision-Date: 2026-02-18 21:03+0100\n"
+"POT-Creation-Date: 2026-02-23 00:43+0000\n"
+"PO-Revision-Date: 2026-02-22 19:45+0100\n"
 "Last-Translator: Alexandre Bento <alexandre.bento@nightrain.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -4242,23 +4242,12 @@ msgstr ""
 "10."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
-#, fuzzy, kde-format
-#| msgid "gradfun"
+#, kde-format
 msgid "Gradfun"
-msgstr "gradfun"
+msgstr "Gradfun"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>-= Deprecated =-</b><br>\n"
-#| "    Debands video quickly using gradients.<br>\n"
-#| "    Fix the banding artifacts that are sometimes introduced into nearly "
-#| "flat regions by truncation to 8-bit color depth.<br>\n"
-#| "    Interpolate the gradients that should go where the bands are, and "
-#| "dither them.<br>\n"
-#| "    <b>It is designed for playback only. Do not use it prior to lossy "
-#| "compression, because compression tends to lose the dither and bring back "
-#| "the bands</b>."
+#, kde-format
 msgid ""
 "Debands video quickly using gradients.<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
@@ -4269,16 +4258,15 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</i></b>."
 msgstr ""
-"<b>-= Déconseillé =-</b><br>\n"
-"Supprime les bandes de vidéo rapidement en utilisant des dégradés.<br>\n"
-"    Correction des artefacts de bande qui sont parfois introduits dans des "
-"régions presque plates par troncature jusqu'à une profondeur de couleurs de "
-"8 bits.<br>\n"
-"    Interpolation des dégradés qui devraient aller là où se trouvent les "
-"bandes et les faire osciller.<br>\n"
-"    <b>Il n'est conçu que pour la lecture. Veuillez ne pas l'utiliser avant "
-"la compression avec perte, car la compression a tendance à perdre les "
-"oscillations et à faire réapparaître les bandes<b>."
+"Supprime rapidement les bandes de couleur de la vidéo à l'aide de dégradés."
+"<br>\n"
+"    Corrige les artefacts parfois introduits dans les régions quasi-"
+"uniformes après une troncature à une profondeur de couleur de 8 bits.<br>\n"
+"    Interpole les dégradés qui devraient se trouver à l'emplacement des "
+"bandes et leur applique un tramage.<br><br>\n"
+"    <b><i>Ce filtre est conçu uniquement pour la lecture. Ne pas l'utiliser "
+"avant une compression avec perte, car la compression a tendance à éliminer "
+"le tramage et à faire réapparaître les bandes<i><b>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -12162,40 +12150,39 @@ msgstr ""
 #: data/effects/frei0r/frei0r_ndvi.xml:4
 #, kde-format
 msgid "NDVI"
-msgstr ""
+msgstr "NDVI"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:5
 #, kde-format
 msgid "This filter creates a false image from a visible + infrared source"
 msgstr ""
+"Ce filtre crée une fausse image à partir d'une source visible et d'une "
+"source infrarouge"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:8
-#, fuzzy, kde-format
-#| msgid "Color Matrix"
+#, kde-format
 msgid "Color Map"
-msgstr "Matrices de couleurs"
+msgstr "Palette de couleurs"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:9
 #, kde-format
 msgid "Earth,Grayscale,Heat,Rainbow"
-msgstr ""
+msgstr "Terre, Niveaux de gris, Chaleur, Arc-en-ciel"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:13
 #, kde-format
 msgid "The number of color levels to use in the false image"
-msgstr ""
+msgstr "Le nombre de niveaux de couleur à utiliser dans la fausse image"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:16
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "VIS Scale"
-msgstr "Redimensionner"
+msgstr "Échelle VIS"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:20
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "VIS Offset"
-msgstr "Décalage en X"
+msgstr "Décalage VIS"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:22
 #, no-c-format, kde-format
@@ -12203,24 +12190,23 @@ msgid ""
 "An offset to be applied to<br>\n"
 "        the visible component (mapped to [-100%, 100%])"
 msgstr ""
+"Un décalage à appliquer à la<br>\n"
+"        composante visible (ramené à [-100 %, 100 %])"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:25
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "NIR Scale"
-msgstr "Redimensionner"
+msgstr "Échelle NIR"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:26
-#, fuzzy, kde-format
-#| msgid "The background color to be applied to the entire frame."
+#, kde-format
 msgid "A scaling factor to be applied to the near-infrared component"
-msgstr "La couleur de fond à appliquer à la totalité de la trame."
+msgstr "Un facteur d'échelle à appliquer à la composante infrarouge proche"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:29
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "NIR Offset"
-msgstr "Décalage en X"
+msgstr "Décalage NIR"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:31
 #, no-c-format, kde-format
@@ -12228,62 +12214,59 @@ msgid ""
 "An offset to be applied to<br>\n"
 "        the near-infrared component (mapped to [-100%, 100%])"
 msgstr ""
+"Un décalage à appliquer à<br>\n"
+"        la composante infrarouge proche (ramené à [-100 %, 100 %])"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:34
-#, fuzzy, kde-format
-#| msgid "4 Channels"
+#, kde-format
 msgid "Visible Channel"
-msgstr "4 canaux "
+msgstr "Canal visible"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:35
 #, kde-format
 msgid "The channel to use for the visible component"
-msgstr ""
+msgstr "Le canal à utiliser pour la composante visible"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:36
 #: data/effects/frei0r/frei0r_ndvi.xml:41
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue,Luma"
+#, kde-format
 msgid "Red,Green,Blue"
-msgstr "Rouge, vert, bleu, luminosité"
+msgstr "Rouge, vert, bleu"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:39
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "NIR Channel"
-msgstr "Canal"
+msgstr "Canal NIR"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:40
 #, kde-format
 msgid "The channel to use for the near-infrared component"
-msgstr ""
+msgstr "Le canal à utiliser pour la composante infrarouge proche"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:44
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Index Calculation"
-msgstr "Calcul en cours..."
+msgstr "Calcul de l'index"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:45
 #, kde-format
 msgid "The index calculation to use"
-msgstr ""
+msgstr "Le calcul de l'index à utiliser"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:46
 #, kde-format
 msgid "NDVI,VI"
-msgstr ""
+msgstr "NDVI, VI"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:49
-#, fuzzy, kde-format
-#| msgid "Legend unit"
+#, kde-format
 msgid "Legend"
-msgstr "Unité de légende"
+msgstr "Légende"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:50
 #, kde-format
 msgid "Control legend display"
-msgstr ""
+msgstr "Contrôler l'affichage de la légende"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:51
 #, fuzzy, kde-format
@@ -13042,34 +13025,29 @@ msgid "Interval"
 msgstr "Intervalle"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
-#, fuzzy, kde-format
-#| msgid "3 point balance"
+#, kde-format
 msgid "3-Point Balance"
-msgstr "Balance des blancs à 3 points"
+msgstr "Balance des couleurs à 3 points"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
-#, fuzzy, kde-format
-#| msgid "Balances colors along with 3 points"
+#, kde-format
 msgid "Adjust color balance with 3 color points"
-msgstr "Balance des couleurs sur les 3 niveaux RVB"
+msgstr "Ajuster la balance des couleurs avec 3 points de couleur"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
-#| msgid "Black color"
+#, kde-format
 msgid "Black Color"
 msgstr "Couleur noire"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
-#| msgid "Gray color"
+#, kde-format
 msgid "Gray Color"
-msgstr "Couleur de gris"
+msgstr "Couleur grise"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
-#, fuzzy, kde-format
-#| msgid "White color"
+#, kde-format
 msgid "White Color"
-msgstr "Couleur de remplissage blanche"
+msgstr "Couleur blanche"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:17
 #, kde-format
@@ -18515,7 +18493,7 @@ msgstr "Effets de a piste %1"
 msgid "Bin %1 effects"
 msgstr "Effets pour la source %1"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4165
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4174
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -18523,7 +18501,7 @@ msgstr "Effets pour la source %1"
 msgid "Show log"
 msgstr "Afficher le log"
 
-#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4168
+#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4177
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
@@ -19807,7 +19785,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Remplacer dans la frise chronologique"
 
-#: src/bin/bin.cpp:2395 src/bin/bin.cpp:6201 src/bin/clipcreator.cpp:344
+#: src/bin/bin.cpp:2395 src/bin/bin.cpp:6210 src/bin/clipcreator.cpp:344
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -19962,7 +19940,7 @@ msgstr "Dossier"
 msgid "Create bin folder"
 msgstr "Créer un dossier source"
 
-#: src/bin/bin.cpp:2996 src/bin/bin.cpp:3009 src/bin/bin.cpp:4068
+#: src/bin/bin.cpp:2996 src/bin/bin.cpp:3009 src/bin/bin.cpp:4061
 #: src/timeline2/model/timelinemodel.cpp:2235
 #, kde-format
 msgid "Delete Clip"
@@ -19978,7 +19956,7 @@ msgstr ""
 "Supprime les vidéos actuellement sélectionnées du dossier du projet et aussi "
 "de la frise chronologique."
 
-#: src/bin/bin.cpp:2999 src/bin/bin.cpp:3012 src/bin/bin.cpp:4044
+#: src/bin/bin.cpp:2999 src/bin/bin.cpp:3012 src/bin/bin.cpp:4037
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Clip intermédiaire"
@@ -20003,17 +19981,17 @@ msgstr "Modifier la note"
 msgid "Cannot set rating on this item"
 msgstr "Impossible de mettre une note à cet élément"
 
-#: src/bin/bin.cpp:3968 src/bin/bin.cpp:4098 src/mainwindow.cpp:148
+#: src/bin/bin.cpp:3960 src/bin/bin.cpp:4091 src/mainwindow.cpp:148
 #, kde-format
 msgid "Add Clip"
 msgstr "Ajouter une vidéo"
 
-#: src/bin/bin.cpp:3988
+#: src/bin/bin.cpp:3980
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Ajouter une vidéo ou un dossier..."
 
-#: src/bin/bin.cpp:3989
+#: src/bin/bin.cpp:3981
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20028,97 +20006,97 @@ msgstr ""
 "sélectionner. <nl/>Cliquez sur l'icône de média pour l'ouverture d'une "
 "fenêtre pour sélectionner les fichiers source."
 
-#: src/bin/bin.cpp:3995
+#: src/bin/bin.cpp:3987
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Ajouter un vidéo de couleur..."
 
-#: src/bin/bin.cpp:3997
+#: src/bin/bin.cpp:3989
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Ajouter une séquence d'images..."
 
-#: src/bin/bin.cpp:3999
+#: src/bin/bin.cpp:3991
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Ajouter une vidéo de titre..."
 
-#: src/bin/bin.cpp:4001
+#: src/bin/bin.cpp:3993
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Ajouter un modèle de titre..."
 
-#: src/bin/bin.cpp:4003
+#: src/bin/bin.cpp:3995
 #, kde-format
 msgid "Create Animation…"
 msgstr "Créer une animation..."
 
-#: src/bin/bin.cpp:4005
+#: src/bin/bin.cpp:3997
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Ajouter une séquence..."
 
-#: src/bin/bin.cpp:4008 src/mainwindow.cpp:365
+#: src/bin/bin.cpp:4001 src/mainwindow.cpp:365
 #, kde-format
 msgid "Online Resources"
 msgstr "Ressources en ligne"
 
-#: src/bin/bin.cpp:4012
+#: src/bin/bin.cpp:4005
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Localiser une vidéo..."
 
-#: src/bin/bin.cpp:4017
+#: src/bin/bin.cpp:4010
 #, kde-format
 msgid "Reload Clip"
 msgstr "Recharger le clip"
 
-#: src/bin/bin.cpp:4023
+#: src/bin/bin.cpp:4016
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transcoder pour modification dans un format plus agréable..."
 
-#: src/bin/bin.cpp:4028
+#: src/bin/bin.cpp:4021
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Remplacer une vidéo..."
 
-#: src/bin/bin.cpp:4034
+#: src/bin/bin.cpp:4027
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Remplacer une vidéo dans la frise chronologique..."
 
-#: src/bin/bin.cpp:4039
+#: src/bin/bin.cpp:4032
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Dupliquer le clip"
 
-#: src/bin/bin.cpp:4051 src/bin/bin.cpp:4112
+#: src/bin/bin.cpp:4044 src/bin/bin.cpp:4121
 #, kde-format
 msgid "Clip Properties"
 msgstr "Propriétés du clip"
 
-#: src/bin/bin.cpp:4056 src/mltcontroller/clippropertiescontroller.cpp:638
+#: src/bin/bin.cpp:4049 src/mltcontroller/clippropertiescontroller.cpp:638
 #, kde-format
 msgid "Edit Clip"
 msgstr "Modifier le clip"
 
-#: src/bin/bin.cpp:4074
+#: src/bin/bin.cpp:4067
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Dossier cible par défaut pour les séquences"
 
-#: src/bin/bin.cpp:4079
+#: src/bin/bin.cpp:4072
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Dossier cible par défaut pour les captures audio"
 
-#: src/bin/bin.cpp:4083
+#: src/bin/bin.cpp:4076
 #, kde-format
 msgid "Create Folder"
 msgstr "Créer un dossier"
 
-#: src/bin/bin.cpp:4086
+#: src/bin/bin.cpp:4079
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20129,58 +20107,58 @@ msgstr ""
 "une meilleure organisation des fichiers sources. Les dossiers peuvent être "
 "imbriqués."
 
-#: src/bin/bin.cpp:4230 src/bin/bin.cpp:4263
+#: src/bin/bin.cpp:4239 src/bin/bin.cpp:4272
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Créer une nouvelle séquence"
 
-#: src/bin/bin.cpp:4233 src/bin/bin.cpp:4236 src/bin/bin.cpp:4266
+#: src/bin/bin.cpp:4242 src/bin/bin.cpp:4245 src/bin/bin.cpp:4275
 #, kde-format
 msgid "Sequence %1"
 msgstr "Séquence %1"
 
-#: src/bin/bin.cpp:4297
+#: src/bin/bin.cpp:4306
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Déplacer le clip"
 msgstr[1] "Déplacer les clips"
 
-#: src/bin/bin.cpp:4339
+#: src/bin/bin.cpp:4348
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Aucun clip valable à insérer"
 
-#: src/bin/bin.cpp:4352 src/timeline2/view/timelinecontroller.cpp:1620
+#: src/bin/bin.cpp:4361 src/timeline2/view/timelinecontroller.cpp:1620
 #: src/timeline2/view/timelinecontroller.cpp:3567
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Sélectionner un clip auquel appliquer un effet"
 
-#: src/bin/bin.cpp:4386 src/effects/effectstack/model/effectstackmodel.cpp:761
+#: src/bin/bin.cpp:4395 src/effects/effectstack/model/effectstackmodel.cpp:761
 #: src/effects/effectstack/model/effectstackmodel.cpp:767
 #: src/timeline2/model/timelineitemmodel.cpp:742
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Impossible d'ajouter l'effet au clip"
 
-#: src/bin/bin.cpp:4460 src/effects/effectstack/model/effectstackmodel.cpp:717
+#: src/bin/bin.cpp:4469 src/effects/effectstack/model/effectstackmodel.cpp:717
 #, kde-format
 msgid "Paste effect"
 msgstr "Coller l'effet"
 
-#: src/bin/bin.cpp:4497 src/bin/bin.cpp:4504
+#: src/bin/bin.cpp:4506 src/bin/bin.cpp:4513
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Sélectionner un clip pour ajouter une étiquette"
 
-#: src/bin/bin.cpp:4643
+#: src/bin/bin.cpp:4652
 #, kde-format
 msgid "Edit Tags"
 msgstr "Modifier des étiquettes"
 
-#: src/bin/bin.cpp:4980 src/bin/projectclip.cpp:196
+#: src/bin/bin.cpp:4989 src/bin/projectclip.cpp:196
 #: src/bin/projectclip.cpp:2010 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
@@ -20188,40 +20166,40 @@ msgstr "Modifier des étiquettes"
 msgid "Unnamed"
 msgstr "Sans nom"
 
-#: src/bin/bin.cpp:5044
+#: src/bin/bin.cpp:5053
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Saisissez l'emplacement de votre application d'édition d'images"
 
-#: src/bin/bin.cpp:5056
+#: src/bin/bin.cpp:5065
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 "Veuillez définir une application par défaut pour ouvrir les fichiers d'images"
 
-#: src/bin/bin.cpp:5061
+#: src/bin/bin.cpp:5070
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Saisissez l'emplacement de votre application d'édition audio"
 
-#: src/bin/bin.cpp:5073
+#: src/bin/bin.cpp:5082
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 "Veuillez définir une application par défaut pour ouvrir les fichiers audio"
 
-#: src/bin/bin.cpp:5080
+#: src/bin/bin.cpp:5089
 #, kde-format
 msgid "Enter path for your video editing application"
 msgstr "Saisissez l'emplacement de votre application d'édition vidéo"
 
-#: src/bin/bin.cpp:5092
+#: src/bin/bin.cpp:5101
 #, kde-format
 msgid "Please set a default application to open video files"
 msgstr ""
 "Veuillez définir une application par défaut pour ouvrir les fichiers vidéo"
 
-#: src/bin/bin.cpp:5102 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5111 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20231,12 +20209,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Impossible d'ouvrir le ficher %1"
 
-#: src/bin/bin.cpp:5139 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5148 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(copier)"
 
-#: src/bin/bin.cpp:5149
+#: src/bin/bin.cpp:5158
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -20246,75 +20224,75 @@ msgstr ""
 "modifications dans le fichier titre ou enregistrer les modifications pour ce "
 "projet seulement ?"
 
-#: src/bin/bin.cpp:5152 src/titler/titlewidget.cpp:2334
+#: src/bin/bin.cpp:5161 src/titler/titlewidget.cpp:2334
 #, kde-format
 msgid "Save Title"
 msgstr "Enregistrer le titre"
 
-#: src/bin/bin.cpp:5152
+#: src/bin/bin.cpp:5161
 #, kde-format
 msgid "Save to title file"
 msgstr "Enregistrer vers un fichier titre"
 
-#: src/bin/bin.cpp:5153
+#: src/bin/bin.cpp:5162
 #, kde-format
 msgid "Save in project only"
 msgstr "Enregistrer dans le projet seulement"
 
-#: src/bin/bin.cpp:5176 src/dialogs/clipcreationdialog.cpp:345
+#: src/bin/bin.cpp:5185 src/dialogs/clipcreationdialog.cpp:345
 #, kde-format
 msgid "Title clip"
 msgstr "Clip titre"
 
-#: src/bin/bin.cpp:5226
+#: src/bin/bin.cpp:5235
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Le clip n'est pas valable, il va être supprimé du projet."
 
-#: src/bin/bin.cpp:5230
+#: src/bin/bin.cpp:5239
 #, kde-format
 msgid "Invalid clip"
 msgstr "Clip non valable"
 
-#: src/bin/bin.cpp:5344
+#: src/bin/bin.cpp:5353
 #, kde-format
 msgid "Enable proxies"
 msgstr "Activer les intermédiaires"
 
-#: src/bin/bin.cpp:5344
+#: src/bin/bin.cpp:5353
 #, kde-format
 msgid "Disable proxies"
 msgstr "Désactiver les intermédiaires"
 
-#: src/bin/bin.cpp:5525
+#: src/bin/bin.cpp:5534
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruire les intermédiaires"
 
-#: src/bin/bin.cpp:5800
+#: src/bin/bin.cpp:5809
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Dossier du projet"
 
-#: src/bin/bin.cpp:5816
+#: src/bin/bin.cpp:5825
 #, kde-format
 msgid "Add Tracks"
 msgstr "Ajouter des pistes"
 
-#: src/bin/bin.cpp:5818
+#: src/bin/bin.cpp:5827
 #, kde-format
 msgid "Edit Streams"
 msgstr "Modifier les flux"
 
-#: src/bin/bin.cpp:5837
+#: src/bin/bin.cpp:5846
 #, kde-format
 msgid "Don't ask again"
 msgstr "Ne plus demander"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5841
+#: src/bin/bin.cpp:5850
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -20323,7 +20301,7 @@ msgstr ""
 "Votre projet nécessite plus de pistes audio pour gérer tous les flux. "
 "Ajouter %1 pistes audio ?"
 
-#: src/bin/bin.cpp:5853 src/mainwindow.cpp:3037
+#: src/bin/bin.cpp:5862 src/mainwindow.cpp:3037
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Impossible de trouver le clip pour ajouter un repère"
@@ -20331,7 +20309,7 @@ msgstr "Impossible de trouver le clip pour ajouter un repère"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5867 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5876 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1394
 #: src/timeline2/view/timelinecontroller.cpp:1584
@@ -20341,34 +20319,34 @@ msgstr "Impossible de trouver le clip pour ajouter un repère"
 msgid "Marker"
 msgstr "Repère"
 
-#: src/bin/bin.cpp:5957
+#: src/bin/bin.cpp:5966
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Impossible de trouver la vidéo principale"
 
-#: src/bin/bin.cpp:6223
+#: src/bin/bin.cpp:6232
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> vidéos | "
 
-#: src/bin/bin.cpp:6225
+#: src/bin/bin.cpp:6234
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> vidéos (%2 sélectionnés) | "
 
-#: src/bin/bin.cpp:6294 src/bin/bin.cpp:6372
+#: src/bin/bin.cpp:6303 src/bin/bin.cpp:6381
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Ajouter un flux supplémentaire pour une vidéo"
 msgstr[1] "Ajouter des flux supplémentaires pour une vidéo"
 
-#: src/bin/bin.cpp:6315
+#: src/bin/bin.cpp:6324
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importer les clips sélectionnés"
 
-#: src/bin/bin.cpp:6317
+#: src/bin/bin.cpp:6326
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -20377,22 +20355,22 @@ msgstr ""
 "Flux supplémentaires pour le clip\n"
 " %1"
 
-#: src/bin/bin.cpp:6331 src/mltcontroller/clippropertiescontroller.cpp:754
+#: src/bin/bin.cpp:6340 src/mltcontroller/clippropertiescontroller.cpp:754
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flux vidéo %1"
 
-#: src/bin/bin.cpp:6346
+#: src/bin/bin.cpp:6355
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Flux audio %1"
 
-#: src/bin/bin.cpp:6399
+#: src/bin/bin.cpp:6408
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Supprimer les repères de vidéos"
 
-#: src/bin/bin.cpp:6596
+#: src/bin/bin.cpp:6605
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
@@ -20400,30 +20378,30 @@ msgstr ""
 "Nous vous recommandons d'enregistrer le projet avant l'opération de "
 "conversion."
 
-#: src/bin/bin.cpp:6597
+#: src/bin/bin.cpp:6606
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Enregistrer un projet"
 
-#: src/bin/bin.cpp:6598
+#: src/bin/bin.cpp:6607
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Convertir sans enregistrement"
 
-#: src/bin/bin.cpp:6756 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6765 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1125
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Supprimer l'effet %1"
 
-#: src/bin/bin.cpp:6822 src/mainwindow.cpp:265
+#: src/bin/bin.cpp:6831 src/mainwindow.cpp:265
 #, kde-format
 msgid "Project Bin"
 msgstr "Sources du projet"
 
-#: src/bin/bin.cpp:6825 src/bin/bin.cpp:6828 src/mainwindow.cpp:5273
+#: src/bin/bin.cpp:6834 src/bin/bin.cpp:6837 src/mainwindow.cpp:5273
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Environnement du projet %1"
@@ -22822,16 +22800,14 @@ msgid "Stereo (2 channels)"
 msgstr "Stereo (2 canaux)"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:511
-#, fuzzy, kde-format
-#| msgid "%1 channels "
+#, kde-format
 msgid "%1 channels"
-msgstr "%1 canaux "
+msgstr "%1 canaux"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
-#, fuzzy, kde-format
-#| msgid "311 Hz"
+#, kde-format
 msgid "%1 Hz"
-msgstr "311 Hz"
+msgstr "%1 Hz"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:525
 #, kde-format
@@ -22844,30 +22820,29 @@ msgid "48000 Hz"
 msgstr "48000 Hz"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:531
-#, fuzzy, kde-format
-#| msgid "5000 Hz"
+#, kde-format
 msgid "96000 Hz"
-msgstr "5000 Hz"
+msgstr "96000 Hz"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:544
 #, kde-format
 msgid "Unsigned 8 bit"
-msgstr ""
+msgstr "Entier 8 bits non signé"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:547
 #, kde-format
 msgid "Signed 16 bit"
-msgstr ""
+msgstr "Entier 16 bits signé"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:550
 #, kde-format
 msgid "Signed 32 bit"
-msgstr ""
+msgstr "Entier 32 bits signé"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:553
 #, kde-format
 msgid "Float"
-msgstr ""
+msgstr "Nombre à virgule flottante"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:604
 #, kde-format
@@ -28610,10 +28585,9 @@ msgid "Delete Timeline Marker"
 msgstr "Supprimer le repère de frise chronologique"
 
 #: src/mainwindow.cpp:2142
-#, fuzzy, kde-format
-#| msgid "Delete Timeline Marker"
+#, kde-format
 msgid "Delete All Timeline Markers"
-msgstr "Supprimer le repère de frise chronologique"
+msgstr "Supprimer tous les repères de la frise chronologique"
 
 #: src/mainwindow.cpp:2144
 #, kde-format
@@ -33766,10 +33740,9 @@ msgid "Disable clip"
 msgstr "Désactiver le clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1159
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot change clip state"
-msgstr "Impossible de créer le clip"
+msgstr "Impossible de changer l'état du clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format
@@ -36472,16 +36445,15 @@ msgstr "Désactiver le compte à rebours avant d'enregistrer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configcapture_ui.ui:434
-#, fuzzy, kde-format
-#| msgid "Sample rate:"
+#, kde-format
 msgid "Sample format:"
-msgstr "Taux d'échantillonnage :"
+msgstr "Format des échantillons :"
 
 #. i18n: ectx: property (text), widget (QPushButton, audiocapturedefaults)
 #: src/ui/configcapture_ui.ui:441
 #, kde-format
 msgid "Use Device Default Settings"
-msgstr ""
+msgstr "Utiliser les paramètres par défaut de l'appareil"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
@@ -36583,13 +36555,14 @@ msgstr "Empêcher la mise en veille lors de la lecture et du rendu"
 #: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "Drag window from titlebar only"
-msgstr ""
+msgstr "Faire glisser la fenêtre uniquement depuis la barre de titre"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configenv_ui.ui:135
 #, kde-format
 msgid "This will apply to all KDE applications using the Breeze style."
 msgstr ""
+"Cela s'appliquera à toutes les applications KDE utilisant le thème Breeze."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:161
