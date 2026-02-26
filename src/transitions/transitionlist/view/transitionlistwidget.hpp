@@ -45,6 +45,7 @@ private Q_SLOTS:
     void showLumas();
     void updateTransitionInfo(const QModelIndex &current, const QModelIndex &previous);
     void iconViewEntered(const QModelIndex &ix);
+    void iconViewExited();
 
 private:
     TransitionIconDelegate *m_iconDelegate;

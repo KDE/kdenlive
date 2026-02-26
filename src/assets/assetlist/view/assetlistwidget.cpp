@@ -80,6 +80,12 @@ void AssetListView::startDrag(Qt::DropActions supportedActions)
     drag->exec(supportedActions);
 }
 
+void AssetListView::leaveEvent(QEvent *event)
+{
+    Q_EMIT exited();
+    QListView::leaveEvent(event);
+}
+
 AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QWidget *parent)
     : QWidget(parent)
     , m_isEffect(isEffect)

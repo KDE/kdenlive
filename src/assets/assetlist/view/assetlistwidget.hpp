@@ -35,6 +35,10 @@ public:
 
 protected:
     void startDrag(Qt::DropActions supportedActions) override;
+    void leaveEvent(QEvent *event) override;
+
+Q_SIGNALS:
+    void exited();
 };
 
 /** @class AssetListWidget

@@ -62,6 +62,7 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     QItemSelectionModel *iconSel = m_effectsIcon->selectionModel();
     connect(iconSel, &QItemSelectionModel::currentChanged, this, &TransitionListWidget::updateTransitionInfo);
     connect(m_effectsIcon, &QAbstractItemView::entered, this, &TransitionListWidget::iconViewEntered);
+    connect(m_effectsIcon, &AssetListView::exited, this, &TransitionListWidget::iconViewExited);
 
     // Add "Generate Previews" action to toolbar
     QAction *generateAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
@@ -302,14 +303,7 @@ void TransitionListWidget::updateTransitionInfo(const QModelIndex &current, cons
 
 void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
 {
-    if (!m_hoveredTransition.isEmpty()) {
-        auto movie = m_iconDelegate->getMovie(m_hoveredTransition);
-        if (movie) {
-            movie->stop();
-        }
-        QObject::disconnect(m_hoverAnimationConnection);
-        m_hoveredTransition.clear();
-    }
+    iconViewExited();
     QString transitionId = ix.data(AssetTreeModel::IdRole).toString();
     if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
         return;
@@ -330,5 +324,17 @@ void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
         });
         movie->start();
         qDebug() << "Start Animation...";
+    }
+}
+
+void TransitionListWidget::iconViewExited()
+{
+    if (!m_hoveredTransition.isEmpty()) {
+        auto movie = m_iconDelegate->getMovie(m_hoveredTransition);
+        if (movie) {
+            movie->stop();
+        }
+        QObject::disconnect(m_hoverAnimationConnection);
+        m_hoveredTransition.clear();
     }
 }

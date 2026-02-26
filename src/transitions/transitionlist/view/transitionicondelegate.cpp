@@ -37,11 +37,7 @@ TransitionIconDelegate::TransitionIconDelegate(QObject *parent)
     qDebug() << "TransitionIconDelegate initialized with preview directory:" << m_previewDirectory;
 }
 
-TransitionIconDelegate::~TransitionIconDelegate()
-{
-    // Clean up movies
-    qDeleteAll(m_movies);
-}
+TransitionIconDelegate::~TransitionIconDelegate() {}
 
 void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
@@ -142,8 +138,6 @@ void TransitionIconDelegate::setPreviewDirectory(const QString &path)
 {
     if (m_previewDirectory != path) {
         // Clean up existing movies
-        qDeleteAll(m_movies);
-        m_movies.clear();
         m_staticPreviews.clear();
 
         m_previewDirectory = path;
@@ -153,11 +147,12 @@ void TransitionIconDelegate::setPreviewDirectory(const QString &path)
 QMovie *TransitionIconDelegate::getMovie(QString transitionId) const
 {
     // Check if we already have this movie
-    if (m_movies.contains(transitionId)) {
-        return m_movies[transitionId];
+    if (m_currentTransitionId == transitionId) {
+        return m_movie.get();
     }
+    m_currentTransitionId = transitionId;
 
-    // Try to load the movie"
+    // Try to load the movie
     QString filePath = QDir(m_previewDirectory).filePath(transitionId + QStringLiteral(".gif"));
     qDebug() << "Looking for transition preview at:" << filePath;
 
@@ -167,10 +162,8 @@ QMovie *TransitionIconDelegate::getMovie(QString transitionId) const
     }
 
     qDebug() << "Found preview for transition:" << transitionId;
-    QMovie *movie = new QMovie(filePath);
-    // movie->setCacheMode(QMovie::CacheAll);
-    m_movies[transitionId] = movie;
-    return movie;
+    m_movie.reset(new QMovie(filePath));
+    return m_movie.get();
 }
 
 QPixmap TransitionIconDelegate::getStaticPreview(const QString &transitionId) const

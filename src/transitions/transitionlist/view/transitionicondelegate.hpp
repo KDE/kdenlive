@@ -47,7 +47,8 @@ private:
     QPixmap getStaticPreview(const QString &transitionId) const;
 
     QString m_previewDirectory;
-    mutable QHash<QString, QMovie *> m_movies;
+    mutable std::unique_ptr<QMovie> m_movie;
+    mutable QString m_currentTransitionId;
     mutable QHash<QString, QPixmap> m_staticPreviews;
     QPixmap m_defaultPixmap;
     QSize m_iconSize;
