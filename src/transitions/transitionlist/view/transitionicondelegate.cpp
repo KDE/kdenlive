@@ -51,10 +51,14 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     // Get transition ID
     QString transitionId = index.data(AssetTreeModel::IdRole).toString();
-    auto type = index.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-    if (transitionId.isEmpty() || transitionId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
+    if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
         QStyledItemDelegate::paint(painter, option, index);
         return;
+    }
+    // Luma transition id is the full path to luma, adjust
+    auto type = index.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+    if (type == AssetListType::AssetType::LumaTransition) {
+        transitionId = QFileInfo(transitionId).baseName();
     }
 
     // Prepare to draw
@@ -122,7 +126,8 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->setPen(option.state & QStyle::State_Selected ? option.palette.highlightedText().color() : option.palette.text().color());
 
     // Draw text centered
-    painter->drawText(textRect, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, name);
+    const QString elidedName = option.fontMetrics.elidedText(name, Qt::ElideMiddle, textRect.width());
+    painter->drawText(textRect, Qt::AlignHCenter | Qt::AlignVCenter, elidedName);
 
     painter->restore();
 }
@@ -145,14 +150,14 @@ void TransitionIconDelegate::setPreviewDirectory(const QString &path)
     }
 }
 
-QMovie *TransitionIconDelegate::getMovie(const QString &transitionId) const
+QMovie *TransitionIconDelegate::getMovie(QString transitionId) const
 {
     // Check if we already have this movie
     if (m_movies.contains(transitionId)) {
         return m_movies[transitionId];
     }
 
-    // Try to load the movie
+    // Try to load the movie"
     QString filePath = QDir(m_previewDirectory).filePath(transitionId + QStringLiteral(".gif"));
     qDebug() << "Looking for transition preview at:" << filePath;
 

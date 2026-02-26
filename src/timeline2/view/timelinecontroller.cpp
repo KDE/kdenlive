@@ -662,7 +662,7 @@ int TimelineController::insertComposition(int tid, int position, QString transit
         }
     }
     std::unique_ptr<Mlt::Properties> props(nullptr);
-    if (transitionId.startsWith(QLatin1String("luma:"))) {
+    if (TransitionsRepository::get()->isLuma(transitionId)) {
         props = std::make_unique<Mlt::Properties>();
         transitionId.remove(0, 5);
         props->set("resource", transitionId.toUtf8().constData());

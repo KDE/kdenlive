@@ -36,7 +36,7 @@ public:
      * @param transitionId The ID of the transition
      * @return A pointer to the QMovie, or nullptr if not found
      */
-    QMovie *getMovie(const QString &transitionId) const;
+    QMovie *getMovie(QString transitionId) const;
 
 private:
     /**

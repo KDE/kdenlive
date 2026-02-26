@@ -94,7 +94,7 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
         return item->dataColumn(AssetTreeModel::TypeCol);
     case NameRole:
     case Qt::DisplayRole:
-        return item->dataColumn(index.column());
+        return item->dataColumn(AssetTreeModel::NameCol);
     case IncludeListRole:
         return item->dataColumn(AssetTreeModel::IncludeListCol);
     case TenBitRole:

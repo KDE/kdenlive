@@ -145,6 +145,12 @@ SPDX-FileCopyrightText = "2024 Jean-Baptiste Mardelle"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
+path = "data/transitions/parameters.txt"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Swastik Patel, Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
 path = "data/man/kdenlive**"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Mads Bondo Dydensborg"

@@ -211,6 +211,10 @@ void TransitionListWidget::generatePreviews()
     if (!paramFile.isEmpty()) {
         args << QStringLiteral("--param-file") << paramFile;
     }
+    const QStringList lumaFolders = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
+    if (!lumaFolders.isEmpty()) {
+        args << QStringLiteral("--luma-path") << lumaFolders.join(QLatin1Char(' '));
+    }
 
 #ifdef Q_OS_WIN
     const QString pythonName = QStringLiteral("python");
@@ -246,11 +250,14 @@ void TransitionListWidget::updateTransitionInfo(const QModelIndex &current, cons
 {
     if (previous.isValid()) {
         // Stop previous animation
-        const QString previousId = previous.data(AssetTreeModel::IdRole).toString();
-        auto type = previous.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-        if (previousId.isEmpty() || previousId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
+        QString previousId = previous.data(AssetTreeModel::IdRole).toString();
+        if (previousId.isEmpty() || previousId == QLatin1String("root")) {
             // Nothing to do
         } else {
+            auto type = previous.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+            if (type == AssetListType::AssetType::LumaTransition) {
+                previousId = QFileInfo(previousId).baseName();
+            }
             auto movie = m_iconDelegate->getMovie(previousId);
             if (movie) {
                 movie->stop();
@@ -258,10 +265,14 @@ void TransitionListWidget::updateTransitionInfo(const QModelIndex &current, cons
         }
     }
     // Get transition ID
-    const QString transitionId = current.data(AssetTreeModel::IdRole).toString();
-    auto type = current.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-    if (transitionId.isEmpty() || transitionId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
+    QString transitionId = current.data(AssetTreeModel::IdRole).toString();
+    if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
         return;
+    }
+    // Luma transition id is the full path to luma, adjust
+    auto type = current.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+    if (type == AssetListType::AssetType::LumaTransition) {
+        transitionId = QFileInfo(transitionId).baseName();
     }
     auto movie = m_iconDelegate->getMovie(transitionId);
     if (movie) {
@@ -286,10 +297,14 @@ void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
         QObject::disconnect(m_hoverAnimationConnection);
         m_hoveredTransition.clear();
     }
-    const QString transitionId = ix.data(AssetTreeModel::IdRole).toString();
-    auto type = ix.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-    if (transitionId.isEmpty() || transitionId == QLatin1String("root") || type == AssetListType::AssetType::LumaTransition) {
+    QString transitionId = ix.data(AssetTreeModel::IdRole).toString();
+    if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
         return;
+    }
+    // Luma transition id is the full path to luma, adjust
+    auto type = ix.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+    if (type == AssetListType::AssetType::LumaTransition) {
+        transitionId = QFileInfo(transitionId).baseName();
     }
     auto movie = m_iconDelegate->getMovie(transitionId);
     if (movie) {

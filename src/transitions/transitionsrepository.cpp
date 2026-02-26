@@ -47,11 +47,12 @@ Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) cons
     return pCore->getMltRepository()->metadata(mlt_service_transition_type, assetId.toLatin1().data());
 }
 
-void TransitionsRepository::addLuma(const QString &path)
+void TransitionsRepository::addLuma(const QString &name, const QString &path)
 {
     Info info;
     info.id = path;
     info.mltId = QStringLiteral("luma");
+    info.name = name;
     info.type = AssetListType::AssetType::LumaTransition;
     m_assets[path] = info;
 }
@@ -196,6 +197,12 @@ bool TransitionsRepository::isComposition(const QString &transitionId) const
     auto type = getType(transitionId);
     return type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::VideoComposition ||
            type == AssetListType::AssetType::VideoShortComposition;
+}
+
+bool TransitionsRepository::isLuma(const QString &transitionId) const
+{
+    auto type = getType(transitionId);
+    return type == AssetListType::AssetType::LumaTransition;
 }
 
 const QString TransitionsRepository::getCompositingTransition()

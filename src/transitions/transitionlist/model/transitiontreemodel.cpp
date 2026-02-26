@@ -76,8 +76,7 @@ void TransitionTreeModel::reparseLumas()
     path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 4, 4);
     for (auto &f : lumaFiles) {
         QFileInfo fName(f);
-        const QString lumaId = QStringLiteral("luma:%1").arg(f);
-        bool isFav = KdenliveSettings::favorite_transitions().contains(lumaId);
+        bool isFav = KdenliveSettings::favorite_transitions().contains(f);
         QPixmap previewPixmap(f);
         pix.fill(Qt::transparent);
         QPainter p(&pix);
@@ -85,10 +84,11 @@ void TransitionTreeModel::reparseLumas()
         p.setClipPath(path);
         p.drawPixmap(0, 0, pix.width(), pix.height(), previewPixmap);
         p.end();
-        QList<QVariant> data{fName.baseName(), lumaId,    QVariant::fromValue(AssetListType::AssetType::LumaTransition), isFav, 0, true, includeListed,
-                             supportsTenBit,   QIcon(pix)};
+        const QString lumaName = pCore->nameForLumaFile(fName.fileName());
+        QList<QVariant> data{lumaName,       f,         QVariant::fromValue(AssetListType::AssetType::LumaTransition), isFav, 0, true, includeListed,
+                             supportsTenBit, QIcon(pix)};
         rootItem->appendChild(data);
-        TransitionsRepository::get()->addLuma(f);
+        TransitionsRepository::get()->addLuma(lumaName, f);
     }
 }
 
@@ -121,10 +121,7 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
         return;
     }
     item->setData(AssetTreeModel::FavCol, favorite);
-    QString id = item->dataColumn(AssetTreeModel::IdCol).toString();
-    if (id.startsWith(QLatin1String("luma:"))) {
-        id.remove(0, 5);
-    }
+    const QString id = item->dataColumn(AssetTreeModel::IdCol).toString();
     QStringList favs = KdenliveSettings::favorite_transitions();
     if (favorite) {
         favs << id;
@@ -132,24 +129,6 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
         favs.removeAll(id);
     }
     KdenliveSettings::setFavorite_transitions(favs);
-}
-
-QVariant TransitionTreeModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid()) {
-        return QVariant();
-    }
-
-    if (role == Qt::DecorationRole) {
-        auto type = index.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-        if (type == AssetListType::AssetType::LumaTransition) {
-            // Fetch Luma image
-            auto item = getItemById(int(index.internalId()));
-            return item->dataColumn(AssetTreeModel::IconCol).value<QIcon>();
-        }
-    }
-
-    return AssetTreeModel::data(index, role);
 }
 
 void TransitionTreeModel::deleteEffect(const QModelIndex &) {}

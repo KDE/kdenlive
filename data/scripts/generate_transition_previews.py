@@ -38,7 +38,7 @@ class TransitionPreviewGenerator:
             size (tuple): Width and height of preview (default: 320x180)
             duration (int): Duration of each clip in frames
             mix_duration (int): Duration of transition in frames
-            luma_path (str: Path to luma files
+            luma_path (str): Path to luma files
         """
         self.output_dir = Path(output_dir)
         self.width, self.height = size
@@ -92,17 +92,28 @@ class TransitionPreviewGenerator:
     def get_available_lumas(self):
         """Query available lumas in selected folder"""
         try:
-            if self.luma_path == None:
+            if not self.luma_path or self.luma_path == None:
+                logger.error(f"Empty luma path...")
                 return []
             lumas = []
-            directory_path = Path(self.luma_path)
-            for path_object in directory_path.rglob("*.png"):
-                lumas.append(str(path_object))
-            for path_object in directory_path.rglob("*.pgm"):
-                lumas.append(str(path_object))
+            logger.error(f"INIT LUMA SEARCH ON: {self.luma_path}")
+            luma_folders = self.luma_path.split()
+            for l in luma_folders:
+                directory_path = Path(l)
+                logger.error(f"Checking luma path: {l} / {directory_path}")
+                for path_object in directory_path.rglob("*.png"):
+                    logger.error(f"APPENDING PNG luma: {path_object}")
+                    lumas.append(str(path_object))
+                for path_object in directory_path.rglob("*.pgm"):
+                    logger.error(f"APPENDING luma: {path_object}")
+                    lumas.append(str(path_object))
+            # Add MLT internal lumas
+            for k in range(1,23,1):
+                lumas.append(f"luma{k:02}.pgm")
+            logger.error(f"FOUND lumas: {lumas}")
             return lumas
         except Exception as e:
-            logger.error(f"Unexpected error querying transitions: {e}")
+            logger.error(f"Unexpected error querying lumas: {e}")
             return []
 
     def get_available_transitions(self):
@@ -283,8 +294,8 @@ class TransitionPreviewGenerator:
         
         logger.info(f"Starting preview generation for {len(transitions)} transitions...")
         
-        #with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        #    list(executor.map(self.create_transition_preview, transitions))
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            list(executor.map(self.create_transition_preview, transitions))
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
                 list(executor.map(self.create_luma_preview, lumas))

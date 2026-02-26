@@ -2115,7 +2115,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 }
                 m_track->plant_transition(*t.get(), 0, 1);
             } else {
-                bool isLuma = mixId.startsWith("luma:");
+                bool isLuma = TransitionsRepository::get()->isLuma(mixId);
                 if (isLuma) {
                     assetName = QStringLiteral("dissolve");
                 } else {

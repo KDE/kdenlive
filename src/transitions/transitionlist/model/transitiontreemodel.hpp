@@ -25,7 +25,6 @@ public:
     void deleteEffect(const QModelIndex &index) override;
     void editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index) override;
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
 
 protected:
     void reparseLumas();
