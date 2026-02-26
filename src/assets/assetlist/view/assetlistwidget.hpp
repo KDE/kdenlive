@@ -144,4 +144,5 @@ Q_SIGNALS:
     void activateAsset(const QVariantMap &);
     void reloadFavorites();
     void showDescriptionChanged();
+    void checkAssetPreview();
 };

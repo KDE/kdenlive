@@ -650,6 +650,9 @@ void AssetListWidget::toggleViewMode(bool checked)
         KdenliveSettings::setEffectViewAsIcon(checked);
     } else {
         KdenliveSettings::setTransitionViewAsIcon(checked);
+        if (checked) {
+            Q_EMIT checkAssetPreview();
+        }
     }
 }
 

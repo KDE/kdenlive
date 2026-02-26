@@ -65,12 +65,29 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     connect(m_effectsIcon, &AssetListView::exited, this, &TransitionListWidget::iconViewExited);
 
     // Add "Generate Previews" action to toolbar
-    QAction *generateAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
-    connect(generateAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
-    m_toolbar->addAction(generateAction);
+    m_generatePreviewAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
+    connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
+    m_toolbar->addAction(m_generatePreviewAction);
+    connect(this, &AssetListWidget::checkAssetPreview, this, &TransitionListWidget::checkPreviews);
 }
 
-TransitionListWidget::~TransitionListWidget() {}
+TransitionListWidget::~TransitionListWidget()
+{
+    if (m_previewProcess) {
+        disconnect(m_previewProcess.get(), nullptr, nullptr, nullptr);
+        m_previewProcess->kill();
+        m_previewProcess->waitForFinished();
+    }
+}
+
+void TransitionListWidget::checkPreviews()
+{
+    const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
+    QDir previewFolder(outputDir);
+    if (!previewFolder.exists() || previewFolder.isEmpty()) {
+        generatePreviews();
+    }
+}
 
 bool TransitionListWidget::isAudio(const QString &assetId) const
 {
@@ -174,40 +191,20 @@ void TransitionListWidget::generatePreviews()
     qDebug() << "Using parameters file:" << (paramFile.isEmpty() ? "not found" : paramFile);
 
     // Create output directory
-    QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
+    const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
     QDir().mkpath(outputDir);
 
     qDebug() << "Generating previews to:" << outputDir;
 
     // Run the script
-    QProcess *process = new QProcess(this);
-    process->setProcessChannelMode(QProcess::MergedChannels);
+    m_previewProcess.reset(new QProcess(this));
+    m_previewProcess->setProcessChannelMode(QProcess::MergedChannels);
 
-    connect(process, &QProcess::readyReadStandardOutput, this, [process]() { qDebug() << "Preview generation:" << process->readAllStandardOutput(); });
+    connect(m_previewProcess.get(), &QProcess::readyReadStandardOutput, this,
+            [this]() { qDebug() << "Preview generation:" << m_previewProcess->readAllStandardOutput(); });
 
-    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this,
-            [this, process, outputDir](int exitCode, QProcess::ExitStatus exitStatus) {
-                if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-                    // Update the delegate's preview directory
-                    m_iconDelegate->setPreviewDirectory(outputDir);
-
-                    // Force refresh of the view
-                    if (isIconView()) {
-                        m_effectsIcon->reset();
-                    }
-                    m_infoBar->setMessageType(KMessageWidget::Information);
-                    m_infoBar->setText(i18n("Transition previews have been generated successfully."));
-                    m_infoBar->setVisible(true);
-                    QTimer::singleShot(5000, this, [&]() { m_infoBar->setVisible(false); });
-                } else {
-                    m_infoBar->setMessageType(KMessageWidget::Warning);
-                    m_infoBar->setText(i18n("Failed to generate transition previews. Check the application log for details."));
-                    m_infoBar->setVisible(true);
-                    QTimer::singleShot(7000, this, [&]() { m_infoBar->setVisible(false); });
-                }
-
-                process->deleteLater();
-            });
+    connect(m_previewProcess.get(), QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &TransitionListWidget::previewDone,
+            Qt::UniqueConnection);
 
     // Start the process
     QStringList args;
@@ -232,13 +229,14 @@ void TransitionListWidget::generatePreviews()
     const QString pythonExe = QStandardPaths::findExecutable(pythonName);
     if (!pythonExe.isEmpty()) {
         args.prepend(scriptPath);
-        process->start(pythonExe, args);
+        m_generatePreviewAction->setEnabled(false);
+        m_previewProcess->start(pythonExe, args);
     } else {
         m_infoBar->setMessageType(KMessageWidget::Warning);
         m_infoBar->setText(i18n("Python interpreter not found. Please make sure Python is installed."));
         m_infoBar->setVisible(true);
         QTimer::singleShot(7000, this, [&]() { m_infoBar->setVisible(false); });
-        process->deleteLater();
+        m_previewProcess.reset();
         return;
     }
 
@@ -246,6 +244,31 @@ void TransitionListWidget::generatePreviews()
     m_infoBar->setText(i18n("Generating transition previews. This may take a few minutes..."));
     m_infoBar->setVisible(true);
     QTimer::singleShot(5000, this, [&]() { m_infoBar->setVisible(false); });
+}
+
+void TransitionListWidget::previewDone(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    m_generatePreviewAction->setEnabled(true);
+    if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
+        // Update the delegate's preview directory
+        const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
+        m_iconDelegate->setPreviewDirectory(outputDir);
+
+        // Force refresh of the view
+        if (isIconView()) {
+            m_effectsIcon->reset();
+        }
+        m_infoBar->setMessageType(KMessageWidget::Information);
+        m_infoBar->setText(i18n("Transition previews have been generated successfully."));
+        m_infoBar->setVisible(true);
+        QTimer::singleShot(5000, this, [&]() { m_infoBar->setVisible(false); });
+    } else {
+        m_infoBar->setMessageType(KMessageWidget::Warning);
+        m_infoBar->setText(i18n("Failed to generate transition previews. Check the application log for details."));
+        m_infoBar->setVisible(true);
+        QTimer::singleShot(7000, this, [&]() { m_infoBar->setVisible(false); });
+    }
+    m_previewProcess.reset();
 }
 
 void TransitionListWidget::switchTenBitFilter()

@@ -9,6 +9,7 @@
 #include "kdenlivesettings.h"
 
 class TransitionIconDelegate;
+class QProcess;
 
 /** @class TransitionListWidget
     @brief This class is a widget that display the list of available effects
@@ -46,10 +47,17 @@ private Q_SLOTS:
     void updateTransitionInfo(const QModelIndex &current, const QModelIndex &previous);
     void iconViewEntered(const QModelIndex &ix);
     void iconViewExited();
+    void previewDone(int exitCode, QProcess::ExitStatus exitStatus);
+    /**
+     * @brief Start preview generation if it does not exist yet
+     */
+    void checkPreviews();
 
 private:
     TransitionIconDelegate *m_iconDelegate;
     QMetaObject::Connection m_animationConnection;
     QMetaObject::Connection m_hoverAnimationConnection;
     QString m_hoveredTransition;
+    std::unique_ptr<QProcess> m_previewProcess;
+    QAction *m_generatePreviewAction;
 };
