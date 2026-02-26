@@ -319,6 +319,13 @@ int TimelineModel::getCompositionTrackId(int compoId) const
     return trans->getCurrentTrackId();
 }
 
+void TimelineModel::hideComposition(int itemId, bool hide)
+{
+    Q_ASSERT(m_allCompositions.count(itemId) > 0);
+    const auto trans = m_allCompositions.at(itemId);
+    trans->setHidden(hide);
+}
+
 int TimelineModel::getItemTrackId(int itemId) const
 {
     READ_LOCK();

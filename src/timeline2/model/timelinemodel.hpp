@@ -168,6 +168,7 @@ public:
         PositionOffsetRole,   /// clip only
         TimeRemapRole,        /// clip only
         ItemATrack,           /// composition only
+        IsHiddenRole,         /// composition only
         ItemIdRole,
         ThumbsFormatRole,   /// track only
         EffectNamesRole,    /// track and clip only
@@ -229,6 +230,8 @@ public:
        @param clipId Id of the composition to test */
     Q_INVOKABLE int getCompositionTrackId(int compoId) const;
 
+    /** @brief Temporarily hide a composition */
+    Q_INVOKABLE void hideComposition(int itemId, bool hide);
     /** @brief Convenience function that calls either of the previous ones based on item type*/
     Q_INVOKABLE int getItemTrackId(int itemId) const;
 

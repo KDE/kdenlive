@@ -241,6 +241,22 @@ int CompositionModel::getForcedTrack() const
     return (service()->get_int("force_track") == 0 || m_a_track == -1) ? -1 : service()->get_int("a_track");
 }
 
+void CompositionModel::setHidden(bool hide)
+{
+    QWriteLocker locker(&m_lock);
+    m_isHidden = hide;
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+        Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::IsHiddenRole});
+    }
+}
+
+bool CompositionModel::isHidden() const
+{
+    READ_LOCK();
+    return m_isHidden;
+}
+
 void CompositionModel::setATrack(int trackMltPosition, int trackId)
 {
     QWriteLocker locker(&m_lock);

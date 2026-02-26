@@ -720,7 +720,7 @@ function getTrackColor(audio, header) {
                     sameCutPos = timeline.isOnCut(clipBeingDroppedId)
                     if (sameCutPos > -1) {
                         var sourceTrack = Logic.getTrackById(fakeTrack)
-                        if ((drag.y > sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
+                        if ((drag.y < sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
                             sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
                             sameTrackIndicator.y = sourceTrack.y
                             sameTrackIndicator.height = sourceTrack.height
@@ -2125,11 +2125,18 @@ function getTrackColor(audio, header) {
                             }
                             Rectangle {
                                 id: sameTrackIndicator
-                                color: 'red'
-                                opacity: 0.5
+                                border.color: '#FFF'
+                                border.width: 2
+                                radius: 2
+                                color: Qt.rgba(1, 1, 1, 0.3)
                                 visible: false
                                 width: root.baseUnit
                                 height: width
+                                onVisibleChanged: {
+                                    if (clipBeingDroppedId > -1) {
+                                        controller.hideComposition(clipBeingDroppedId, visible)
+                                    }
+                                }
                             }
                         }
                         Rectangle {

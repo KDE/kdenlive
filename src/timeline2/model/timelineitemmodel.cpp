@@ -281,6 +281,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[AudioStreamIndexRole] = "audioStreamIndex";
     roles[IsCompositeRole] = "composite";
     roles[IsLockedRole] = "locked";
+    roles[IsHiddenRole] = "hideItem";
     roles[FadeInRole] = "fadeIn";
     roles[FadeOutRole] = "fadeOut";
     roles[FadeInMethodRole] = "fadeInMethod";
@@ -515,6 +516,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return compo->showKeyframes();
         case ItemATrack:
             return compo->getForcedTrack();
+        case IsHiddenRole:
+            return compo->isHidden();
         case MarkersRole: {
             QVariantList markersList;
             return markersList;

@@ -16,6 +16,7 @@
 #include <KNSWidgets/Action>
 #include <QAction>
 #include <QActionGroup>
+#include <QDrag>
 #include <QFontDatabase>
 #include <QKeyEvent>
 #include <QLineEdit>
@@ -50,6 +51,34 @@ protected:
         }
     }
 };
+
+AssetListView::AssetListView(QWidget *parent)
+    : QListView(parent)
+{
+    setViewMode(QListView::IconMode);
+    setMovement(QListView::Static);
+    setResizeMode(QListView::Adjust);
+    setWordWrap(true);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setUniformItemSizes(true);
+    setDragEnabled(true);
+    setAcceptDrops(false);
+    viewport()->setAcceptDrops(true);
+}
+
+void AssetListView::startDrag(Qt::DropActions supportedActions)
+{
+    auto drag = new QDrag(this);
+    drag->setMimeData(model()->mimeData(selectedIndexes()));
+    auto index = currentIndex();
+    QIcon icon = index.data(Qt::DecorationRole).value<QIcon>();
+    if (!icon.isNull()) {
+        auto small_pixmap = icon.pixmap(32, 32);
+        drag->setPixmap(small_pixmap);
+        drag->setHotSpot(small_pixmap.rect().topLeft());
+    }
+    drag->exec(supportedActions);
+}
 
 AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QWidget *parent)
     : QWidget(parent)
@@ -284,7 +313,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     connect(m_effectsTree, &QTreeView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
 
     // Icon view
-    m_effectsIcon = new QListView(this);
+    m_effectsIcon = new AssetListView(this);
     m_effectsIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_effectsIcon->setViewMode(QListView::IconMode);
     m_effectsIcon->setResizeMode(QListView::Adjust);

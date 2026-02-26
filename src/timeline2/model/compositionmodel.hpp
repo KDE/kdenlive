@@ -72,6 +72,8 @@ public:
     KeyframeModel *getEffectKeyframeModel();
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);
+    void setHidden(bool hide);
+    bool isHidden() const;
     const QString &displayName() const;
     Mlt::Properties *properties();
 
@@ -103,4 +105,5 @@ private:
     int m_a_track;
     QString m_compositionName;
     int m_duration;
+    bool m_isHidden{false};
 };

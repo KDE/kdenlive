@@ -6,6 +6,7 @@
 #pragma once
 
 #include "effects/effectsrepository.hpp"
+#include <QListView>
 #include <QTreeView>
 #include <QWidget>
 #include <memory>
@@ -19,10 +20,22 @@ class QVBoxLayout;
 class QMenu;
 class QTextDocument;
 class QLineEdit;
-class QListView;
 class QStackedWidget;
 class QToolButton;
 class KMessageWidget;
+
+/** @class AssetListView
+    @brief Custom list view for assets
+ */
+class AssetListView : public QListView
+{
+    Q_OBJECT
+public:
+    explicit AssetListView(QWidget *parent = nullptr);
+
+protected:
+    void startDrag(Qt::DropActions supportedActions) override;
+};
 
 /** @class AssetListWidget
     @brief This class is the widget that display the list of available assets (effects or compositions)
@@ -99,7 +112,7 @@ private:
 
 protected:
     QTreeView *m_effectsTree;
-    QListView *m_effectsIcon;
+    AssetListView *m_effectsIcon;
     QToolBar *m_toolbar;
     QStackedWidget *m_effectsView;
     QMenu *m_contextMenu;
