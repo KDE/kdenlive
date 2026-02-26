@@ -14,7 +14,6 @@
 #include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "transitions/transitionsrepository.hpp"
 
-#include <KMessageBox>
 #include <QDir>
 #include <QHeaderView>
 #include <QProcess>
@@ -141,7 +140,10 @@ void TransitionListWidget::generatePreviews()
 
     // If still not found, show error
     if (scriptPath.isEmpty() || !QFile::exists(scriptPath)) {
-        KMessageBox::error(this, i18n("Could not find the preview generation script. Please make sure it is installed correctly."));
+        m_infoBar->setMessageType(KMessageWidget::Warning);
+        m_infoBar->setText(i18n("Could not find the preview generation script. Please make sure it is installed correctly."));
+        m_infoBar->setVisible(true);
+        QTimer::singleShot(7000, this, [&]() { m_infoBar->setVisible(false); });
         return;
     }
 
@@ -192,10 +194,15 @@ void TransitionListWidget::generatePreviews()
                     if (isIconView()) {
                         m_effectsIcon->reset();
                     }
-
-                    KMessageBox::information(this, i18n("Transition previews have been generated successfully."));
+                    m_infoBar->setMessageType(KMessageWidget::Information);
+                    m_infoBar->setText(i18n("Transition previews have been generated successfully."));
+                    m_infoBar->setVisible(true);
+                    QTimer::singleShot(5000, this, [&]() { m_infoBar->setVisible(false); });
                 } else {
-                    KMessageBox::error(this, i18n("Failed to generate transition previews. Check the application log for details."));
+                    m_infoBar->setMessageType(KMessageWidget::Warning);
+                    m_infoBar->setText(i18n("Failed to generate transition previews. Check the application log for details."));
+                    m_infoBar->setVisible(true);
+                    QTimer::singleShot(7000, this, [&]() { m_infoBar->setVisible(false); });
                 }
 
                 process->deleteLater();
@@ -226,12 +233,18 @@ void TransitionListWidget::generatePreviews()
         args.prepend(scriptPath);
         process->start(pythonExe, args);
     } else {
-        KMessageBox::error(this, i18n("Python interpreter not found. Please make sure Python is installed."));
+        m_infoBar->setMessageType(KMessageWidget::Warning);
+        m_infoBar->setText(i18n("Python interpreter not found. Please make sure Python is installed."));
+        m_infoBar->setVisible(true);
+        QTimer::singleShot(7000, this, [&]() { m_infoBar->setVisible(false); });
         process->deleteLater();
         return;
     }
 
-    KMessageBox::information(this, i18n("Generating transition previews. This may take a few minutes..."));
+    m_infoBar->setMessageType(KMessageWidget::Information);
+    m_infoBar->setText(i18n("Generating transition previews. This may take a few minutes..."));
+    m_infoBar->setVisible(true);
+    QTimer::singleShot(5000, this, [&]() { m_infoBar->setVisible(false); });
 }
 
 void TransitionListWidget::switchTenBitFilter()

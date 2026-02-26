@@ -22,6 +22,7 @@ class QLineEdit;
 class QListView;
 class QStackedWidget;
 class QToolButton;
+class KMessageWidget;
 
 /** @class AssetListWidget
     @brief This class is the widget that display the list of available assets (effects or compositions)
@@ -108,6 +109,7 @@ protected:
     bool m_isEffect;
     AssetIconProvider *m_assetIconProvider;
     QToolButton *m_filterButton;
+    KMessageWidget *m_infoBar;
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 private Q_SLOTS:

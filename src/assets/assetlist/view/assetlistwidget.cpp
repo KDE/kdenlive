@@ -318,15 +318,21 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     viewSplitter->setStretchFactor(1, 2);
     viewSplitter->setSizes({50, 0});
 
+    m_infoBar = new KMessageWidget(this);
+    m_infoBar->setWordWrap(true);
+    m_infoBar->setCloseButtonVisible(false);
+    m_lay->addWidget(m_infoBar);
+
     if (pCore->debugMode) {
         tenBit->setEnabled(false);
         includeList->setEnabled(false);
-        KMessageWidget *mw = new KMessageWidget(this);
-        mw->setMessageType(KMessageWidget::Warning);
-        mw->setText(i18n("You have enabled unsupported assets"));
-        mw->setCloseButtonVisible(false);
-        m_lay->addWidget(mw);
+        m_infoBar->setMessageType(KMessageWidget::Warning);
+        m_infoBar->setText(i18n("You have enabled unsupported assets"));
+        m_infoBar->setCloseButtonVisible(false);
+    } else {
+        m_infoBar->setVisible(false);
     }
+
     connect(showInfo, &QAction::triggered, this, [showInfo, viewSplitter]() {
         if (showInfo->isChecked()) {
             viewSplitter->setSizes({50, 20});
