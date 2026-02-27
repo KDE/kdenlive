@@ -19,7 +19,7 @@ class TransitionIconDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    explicit TransitionIconDelegate(QObject *parent = nullptr);
+    explicit TransitionIconDelegate(const QSize &iconSize, QObject *parent = nullptr);
     ~TransitionIconDelegate() override;
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -39,17 +39,9 @@ public:
     QMovie *getMovie(QString transitionId) const;
 
 private:
-    /**
-     * @brief Get a static preview for a transition
-     * @param transitionId The ID of the transition
-     * @return A pixmap with the static preview
-     */
-    QPixmap getStaticPreview(const QString &transitionId) const;
-
     QString m_previewDirectory;
     mutable std::unique_ptr<QMovie> m_movie;
     mutable QString m_currentTransitionId;
-    mutable QHash<QString, QPixmap> m_staticPreviews;
     QPixmap m_defaultPixmap;
     QSize m_iconSize;
 };

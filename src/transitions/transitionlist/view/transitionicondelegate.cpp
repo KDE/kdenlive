@@ -20,10 +20,10 @@
 #include <QPainter>
 #include <QStandardPaths>
 
-TransitionIconDelegate::TransitionIconDelegate(QObject *parent)
+TransitionIconDelegate::TransitionIconDelegate(const QSize &iconSize, QObject *parent)
     : QStyledItemDelegate(parent)
     , m_previewDirectory(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews"))
-    , m_iconSize(120, 68)
+    , m_iconSize(iconSize)
 {
     // Create default pixmap
     m_defaultPixmap = QPixmap(m_iconSize);
@@ -76,7 +76,7 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     QRect textRect = option.rect;
     textRect.setTop(iconRect.bottom() + 5);
 
-    // Get movie or static preview
+    // Get movie
     QMovie *movie = getMovie(transitionId);
     if (movie) {
         // Draw the current frame of the movie
@@ -101,8 +101,8 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
         painter->drawPixmap(frameRect, currentFrame);
     } else {
-        // Draw static preview or default pixmap
-        QPixmap preview = getStaticPreview(transitionId);
+        // Draw default pixmap
+        QPixmap preview = m_defaultPixmap;
         QRect previewRect = QRect(iconRect.left() + (iconRect.width() - preview.width()) / 2, iconRect.top() + (iconRect.height() - preview.height()) / 2,
                                   preview.width(), preview.height());
         painter->drawPixmap(previewRect, preview);
@@ -138,8 +138,6 @@ void TransitionIconDelegate::setPreviewDirectory(const QString &path)
 {
     if (m_previewDirectory != path) {
         // Clean up existing movies
-        m_staticPreviews.clear();
-
         m_previewDirectory = path;
     }
 }
@@ -162,27 +160,4 @@ QMovie *TransitionIconDelegate::getMovie(QString transitionId) const
 
     m_movie.reset(new QMovie(filePath));
     return m_movie.get();
-}
-
-QPixmap TransitionIconDelegate::getStaticPreview(const QString &transitionId) const
-{
-    // Check if we already have this preview
-    if (m_staticPreviews.contains(transitionId)) {
-        return m_staticPreviews[transitionId];
-    }
-
-    // Try to load a static preview
-    QString filePath = QDir(m_previewDirectory).filePath(transitionId + QStringLiteral(".png"));
-    if (QFileInfo::exists(filePath)) {
-        QPixmap pixmap(filePath);
-        if (!pixmap.isNull()) {
-            pixmap = pixmap.scaled(m_iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            m_staticPreviews[transitionId] = pixmap;
-            return pixmap;
-        }
-    }
-
-    // Use default pixmap
-    m_staticPreviews[transitionId] = m_defaultPixmap;
-    return m_defaultPixmap;
 }

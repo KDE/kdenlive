@@ -43,7 +43,15 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
 
     // Set up icon view with custom delegate
     m_effectsIcon->setModel(m_proxyModel.get());
-    m_iconDelegate = new TransitionIconDelegate(this);
+    int iconHeight = QFontMetrics(font()).lineSpacing() * 4.5;
+    QSize iconSize;
+    if (pCore->getCurrentDar() > 1.) {
+        iconSize = QSize(iconHeight, iconHeight / pCore->getCurrentDar());
+    } else {
+        iconSize = QSize(iconHeight / pCore->getCurrentDar(), iconHeight);
+    }
+    m_effectsIcon->setIconSize(iconSize);
+    m_iconDelegate = new TransitionIconDelegate(iconSize, this);
 
     // Set the preview directory
     QString previewDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
@@ -51,8 +59,7 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     QDir().mkpath(previewDir);
     qDebug() << "Setting transition preview directory to:" << previewDir;
     m_iconDelegate->setPreviewDirectory(previewDir);
-    // TODO: icon size relative to project profile
-    m_effectsIcon->setIconSize(QSize(120, 68));
+
     m_effectsIcon->setViewMode(QListView::IconMode);
     m_effectsIcon->setItemDelegate(m_iconDelegate);
     m_effectsIcon->setMouseTracking(true);
