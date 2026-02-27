@@ -154,14 +154,12 @@ QMovie *TransitionIconDelegate::getMovie(QString transitionId) const
 
     // Try to load the movie
     QString filePath = QDir(m_previewDirectory).filePath(transitionId + QStringLiteral(".gif"));
-    qDebug() << "Looking for transition preview at:" << filePath;
 
     if (!QFileInfo::exists(filePath)) {
         qDebug() << "No preview found for transition:" << transitionId;
         return nullptr;
     }
 
-    qDebug() << "Found preview for transition:" << transitionId;
     m_movie.reset(new QMovie(filePath));
     return m_movie.get();
 }

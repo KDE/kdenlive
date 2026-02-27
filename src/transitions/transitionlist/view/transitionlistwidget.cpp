@@ -19,6 +19,8 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QToolBar>
+#include <qsplitter.h>
+#include <qstackedwidget.h>
 
 TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit, QWidget *parent)
     : AssetListWidget(false, includeList, tenBit, parent)
@@ -69,6 +71,25 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
     m_toolbar->addAction(m_generatePreviewAction);
     connect(this, &AssetListWidget::checkAssetPreview, this, &TransitionListWidget::checkPreviews);
+    connect(m_model.get(), &AssetTreeModel::rowsInserted, this, [this]() { m_proxyModel->sort(0, Qt::AscendingOrder); });
+
+    if (!KdenliveSettings::showTransitionsInfo()) {
+        m_viewSplitter->setSizes({50, 0});
+    } else {
+        const QByteArray restoreData = KdenliveSettings::transitionsInfoHeight().toLatin1();
+        if (restoreData.isEmpty()) {
+            m_viewSplitter->setSizes({50, 20});
+            const QByteArray splitterData = m_viewSplitter->saveState();
+            KdenliveSettings::setTransitionsInfoHeight(QString::fromLatin1(splitterData));
+        } else {
+            // Use a single-shot timer to restore the state
+            QTimer::singleShot(0, this, [this, restoreData]() { m_viewSplitter->restoreState(restoreData); });
+        }
+    }
+    connect(m_viewSplitter, &QSplitter::splitterMoved, this, [this]() {
+        const QByteArray splitterData = m_viewSplitter->saveState();
+        KdenliveSettings::setTransitionsInfoHeight(QString::fromLatin1(splitterData));
+    });
 }
 
 TransitionListWidget::~TransitionListWidget()
@@ -80,11 +101,28 @@ TransitionListWidget::~TransitionListWidget()
     }
 }
 
-void TransitionListWidget::checkPreviews()
+void TransitionListWidget::switchSplitter(bool enable)
+{
+    KdenliveSettings::setShowTransitionsInfo(enable);
+    if (enable) {
+        const QByteArray restoreData = KdenliveSettings::transitionsInfoHeight().toLatin1();
+        if (restoreData.isEmpty()) {
+            m_viewSplitter->setSizes({50, 20});
+            const QByteArray saveData = m_viewSplitter->saveState();
+            KdenliveSettings::setTransitionsInfoHeight(QString::fromLatin1(saveData));
+        } else {
+            m_viewSplitter->restoreState(restoreData);
+        }
+    } else {
+        m_viewSplitter->setSizes({50, 0});
+    }
+}
+
+void TransitionListWidget::checkPreviews(bool force)
 {
     const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
     QDir previewFolder(outputDir);
-    if (!previewFolder.exists() || previewFolder.isEmpty()) {
+    if (force || !previewFolder.exists() || previewFolder.isEmpty()) {
         generatePreviews();
     }
 }

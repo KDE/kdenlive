@@ -37,6 +37,9 @@ public:
     virtual void editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index) = 0;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+public Q_SLOTS:
+    virtual void reparseUpdatedAssets() {};
+
 protected:
     AssetIconProvider *m_assetIconProvider;
 };

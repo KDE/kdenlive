@@ -157,6 +157,13 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
         filterGroup->addAction(customEffects);
         m_toolbar->addAction(customEffects);
     } else {
+        // Add Luma view to toolbar
+        QAction *lumasAction = new QAction(QIcon::fromTheme(QStringLiteral("pixelate")), i18n("Show lumas only"), this);
+        connect(lumasAction, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("lumas")); });
+        lumasAction->setCheckable(true);
+        filterGroup->addAction(lumasAction);
+        m_toolbar->addAction(lumasAction);
+        // Add Short transitions view to toolbar
         QAction *transOnly = new QAction(this);
         transOnly->setIcon(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")));
         transOnly->setToolTip(i18n("Show transitions only"));
@@ -164,12 +171,6 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
         transOnly->setCheckable(true);
         filterGroup->addAction(transOnly);
         m_toolbar->addAction(transOnly);
-        // Add Luma view to toolbar
-        QAction *lumasAction = new QAction(QIcon::fromTheme(QStringLiteral("pixelate")), i18n("Show lumas only"), this);
-        connect(lumasAction, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("lumas")); });
-        lumasAction->setCheckable(true);
-        filterGroup->addAction(lumasAction);
-        m_toolbar->addAction(lumasAction);
     }
     QAction *favEffects = new QAction(this);
     favEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
@@ -276,6 +277,8 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
         connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 MltConnection::refreshLumas();
+                m_model->reparseUpdatedAssets();
+                Q_EMIT checkAssetPreview(true);
             }
         });
     }
@@ -286,6 +289,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     QAction *showInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
     showInfo->setCheckable(true);
     showInfo->setToolTip(m_isEffect ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions"));
+    showInfo->setChecked(m_isEffect ? KdenliveSettings::showEffectsInfo() : KdenliveSettings::showTransitionsInfo());
     m_toolbar->addAction(showInfo);
     m_lay->addWidget(m_toolbar);
 
@@ -337,8 +341,8 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     m_effectsView->addWidget(m_effectsTree);
     m_effectsView->addWidget(m_effectsIcon);
 
-    auto *viewSplitter = new QSplitter(Qt::Vertical, this);
-    viewSplitter->addWidget(m_effectsView);
+    m_viewSplitter = new QSplitter(Qt::Vertical, this);
+    m_viewSplitter->addWidget(m_effectsView);
     QTextBrowser *textEdit = new QTextBrowser(this);
     textEdit->setReadOnly(true);
     textEdit->setAcceptRichText(true);
@@ -346,12 +350,8 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     connect(textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
     m_infoDocument = new QTextDocument(this);
     textEdit->setDocument(m_infoDocument);
-    viewSplitter->addWidget(textEdit);
-    viewSplitter->addWidget(textEdit);
-    m_lay->addWidget(viewSplitter);
-    viewSplitter->setStretchFactor(0, 4);
-    viewSplitter->setStretchFactor(1, 2);
-    viewSplitter->setSizes({50, 0});
+    m_viewSplitter->addWidget(textEdit);
+    m_lay->addWidget(m_viewSplitter);
 
     m_infoBar = new KMessageWidget(this);
     m_infoBar->setWordWrap(true);
@@ -368,13 +368,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
         m_infoBar->setVisible(false);
     }
 
-    connect(showInfo, &QAction::triggered, this, [showInfo, viewSplitter]() {
-        if (showInfo->isChecked()) {
-            viewSplitter->setSizes({50, 20});
-        } else {
-            viewSplitter->setSizes({50, 0});
-        }
-    });
+    connect(showInfo, &QAction::triggered, this, &AssetListWidget::switchSplitter);
 
     // Initialize icon provider for the list view
     m_assetIconProvider = new AssetIconProvider(m_isEffect, this);
@@ -609,6 +603,12 @@ const QString AssetListWidget::buildLink(const QString &id, AssetListType::Asset
     } else if (type == AssetListType::AssetType::VideoShortComposition || type == AssetListType::AssetType::VideoComposition ||
                type == AssetListType::AssetType::VideoTransition) {
         prefix = QStringLiteral("transition_link");
+    } else if (type == AssetListType::AssetType::LumaTransition) {
+        // Link to local file
+        if (QFileInfo(id).isRelative()) {
+            return QString();
+        }
+        return QStringLiteral("file:///%1").arg(id);
     } else {
         prefix = QStringLiteral("other");
     }

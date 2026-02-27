@@ -41,6 +41,7 @@ public Q_SLOTS:
      * @brief Generate preview GIFs for transitions
      */
     void generatePreviews();
+    void switchSplitter(bool enable) override;
 
 private Q_SLOTS:
     void showLumas();
@@ -51,7 +52,7 @@ private Q_SLOTS:
     /**
      * @brief Start preview generation if it does not exist yet
      */
-    void checkPreviews();
+    void checkPreviews(bool force = false);
 
 private:
     TransitionIconDelegate *m_iconDelegate;

@@ -2260,6 +2260,14 @@ void Core::showEffectStackFromId(ObjectId owner)
 
 void Core::openDocumentationLink(const QUrl &link)
 {
+    if (link.isEmpty()) {
+        // Silently abort
+        return;
+    }
+    if (link.isLocalFile()) {
+        highlightFileInExplorer({link});
+        return;
+    }
     if (KMessageBox::questionTwoActions(
             QApplication::activeWindow(),
             i18n("This will open a browser to display Kdenlive's online documentation at the following url:\n %1", link.toDisplayString()), {},

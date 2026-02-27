@@ -52,6 +52,7 @@ void TransitionsRepository::addLuma(const QString &name, const QString &path)
     Info info;
     info.id = path;
     info.mltId = QStringLiteral("luma");
+    info.description = i18n("Luma file :");
     info.name = name;
     info.type = AssetListType::AssetType::LumaTransition;
     m_assets[path] = info;

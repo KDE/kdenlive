@@ -163,9 +163,22 @@
       <default>false</default>
     </entry>
 
-    <entry name="assetsInfoHeight" type="Double">
-      <label>Height of the info box.</label>
-      <default>0</default>
+    <entry name="effectsInfoHeight" type="String">
+      <label>Splitter data for height of the info box.</label>
+      <default></default>
+    </entry>
+    <entry name="showEffectsInfo" type="Bool">
+      <label>Shall we show the info box.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="transitionsInfoHeight" type="String">
+      <label>Splitter data for height of the info box.</label>
+      <default></default>
+    </entry>
+    <entry name="showTransitionsInfo" type="Bool">
+      <label>Shall we show the info box.</label>
+      <default>false</default>
     </entry>
 
     <entry name="disable_effect_parameters" type="Bool">

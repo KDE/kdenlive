@@ -6,6 +6,7 @@
 #include "transitiontreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "kdenlivesettings.h"
+#include "macros.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <KLocalizedString>
 
@@ -60,13 +61,24 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
     }
 
     // Parse Lumas
-    self->reparseLumas();
-
+    self->reparseUpdatedAssets();
     return self;
 }
 
-void TransitionTreeModel::reparseLumas()
+void TransitionTreeModel::reparseUpdatedAssets()
 {
+    // Remove existing if any
+    READ_LOCK();
+    QList<int> toRemove;
+    for (const auto &item : m_allItems) {
+        if (item.second.lock()->dataColumn(TypeCol).value<AssetListType::AssetType>() == AssetListType::AssetType::LumaTransition) {
+            toRemove.append(item.first);
+        }
+    }
+    for (auto &i : toRemove) {
+        auto child = getItemById(i);
+        rootItem->removeChild(child);
+    }
     const QStringList lumaFiles = pCore->getLumasForProfile();
     // bool isPreferred = false;
     bool includeListed = true;

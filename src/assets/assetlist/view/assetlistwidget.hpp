@@ -14,6 +14,7 @@
 class AssetIconProvider;
 class AssetFilter;
 class AssetTreeModel;
+class QSplitter;
 class QTextBrowser;
 class QToolBar;
 class QVBoxLayout;
@@ -128,6 +129,7 @@ protected:
     QToolButton *m_filterButton;
     KMessageWidget *m_infoBar;
     bool eventFilter(QObject *obj, QEvent *event) override;
+    QSplitter *m_viewSplitter;
 
 private Q_SLOTS:
     /** @brief Display the context menu */
@@ -139,10 +141,11 @@ public Q_SLOTS:
     /** @brief Update the info panel */
     void updateAssetInfo(const QModelIndex &current, const QModelIndex &previous);
     void setItemFavorite();
+    virtual void switchSplitter(bool) {};
 
 Q_SIGNALS:
     void activateAsset(const QVariantMap &);
     void reloadFavorites();
     void showDescriptionChanged();
-    void checkAssetPreview();
+    void checkAssetPreview(bool force = false);
 };
