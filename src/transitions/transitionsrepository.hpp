@@ -44,6 +44,9 @@ public:
     /** @brief Manually adda luma file */
     void addLuma(const QString &name, const QString &path);
 
+    /** @brief Ensure favorite transitions really exist */
+    void checkFavorites();
+
 protected:
     // Constructor is protected because class is a Singleton
     TransitionsRepository();

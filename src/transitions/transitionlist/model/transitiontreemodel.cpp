@@ -62,6 +62,7 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
 
     // Parse Lumas
     self->reparseUpdatedAssets();
+    TransitionsRepository::get()->checkFavorites();
     return self;
 }
 

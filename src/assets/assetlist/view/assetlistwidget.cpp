@@ -180,13 +180,17 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     filterGroup->addAction(favEffects);
     m_toolbar->addAction(favEffects);
 
-    // Add view mode toggle button
-    QAction *toggleView = new QAction(this);
-    toggleView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-icons")));
-    toggleView->setToolTip(i18n("Toggle between list and icon view"));
-    toggleView->setCheckable(true);
-    connect(toggleView, &QAction::triggered, this, &AssetListWidget::toggleViewMode);
-    m_toolbar->addAction(toggleView);
+    QAction *toggleView = nullptr;
+    if (!m_isEffect) {
+        // Icon view for effects still needs work
+        // Add view mode toggle button
+        toggleView = new QAction(this);
+        toggleView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-icons")));
+        toggleView->setToolTip(i18n("Toggle between list and icon view"));
+        toggleView->setCheckable(true);
+        connect(toggleView, &QAction::triggered, this, &AssetListWidget::toggleViewMode);
+        m_toolbar->addAction(toggleView);
+    }
 
     m_lay->addWidget(m_toolbar);
     QWidget *empty = new QWidget(this);
@@ -373,10 +377,11 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     // Initialize icon provider for the list view
     m_assetIconProvider = new AssetIconProvider(m_isEffect, this);
     if (m_isEffect) {
-        if (KdenliveSettings::effectViewAsIcon()) {
+        // Icon view for effects still needs work
+        /*if (KdenliveSettings::effectViewAsIcon()) {
             toggleView->setChecked(true);
             toggleViewMode(true);
-        }
+        }*/
     } else {
         if (KdenliveSettings::transitionViewAsIcon()) {
             toggleView->setChecked(true);

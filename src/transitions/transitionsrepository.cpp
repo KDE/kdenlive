@@ -20,6 +20,15 @@ TransitionsRepository::TransitionsRepository()
     : AbstractAssetsRepository<AssetListType::AssetType>()
 {
     init();
+}
+
+Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
+{
+    return pCore->getMltRepository()->transitions();
+}
+
+void TransitionsRepository::checkFavorites()
+{
     QStringList invalidTransition;
     for (const QString &effect : KdenliveSettings::favorite_transitions()) {
         if (!exists(effect)) {
@@ -35,11 +44,6 @@ TransitionsRepository::TransitionsRepository()
         }
         KdenliveSettings::setFavorite_transitions(newFavorites);
     }
-}
-
-Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
-{
-    return pCore->getMltRepository()->transitions();
 }
 
 Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) const
