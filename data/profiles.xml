@@ -36,7 +36,7 @@
   <profile name="MP4-H265 (HEVC)" extension="mp4"
    qualities="15,45" defaultquality="28"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="properties=x265-medium f=mp4 vcodec=libx265 crf=%quality acodec=aac ab=%audiobitrate+'k'"
+   args="properties=x265-medium f=mp4 vcodec=libx265 crf=%quality:open-gop=0 acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
  </group>
  <group renderer="avformat" type="av" id="alpha">
