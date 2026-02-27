@@ -165,31 +165,6 @@ void TransitionListWidget::generatePreviews()
         return;
     }
 
-    // Find the transition parameters file
-    QString paramFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("transitions/parameters.txt"));
-
-    // If not found, try fallback locations
-    if (paramFile.isEmpty()) {
-        // Try development environment location
-        QString devPath = QString::fromLocal8Bit(qgetenv("KDENLIVE_SOURCE_DIR"));
-        if (!devPath.isEmpty()) {
-            paramFile = devPath + QStringLiteral("/data/transitions/parameters.txt");
-            if (!QFile::exists(paramFile)) {
-                paramFile.clear();
-            }
-        }
-
-        // Try relative to app directory
-        if (paramFile.isEmpty()) {
-            paramFile = QCoreApplication::applicationDirPath() + QStringLiteral("/../share/kdenlive/transitions/parameters.txt");
-            if (!QFile::exists(paramFile)) {
-                paramFile = QCoreApplication::applicationDirPath() + QStringLiteral("/transitions/parameters.txt");
-            }
-        }
-    }
-
-    qDebug() << "Using parameters file:" << (paramFile.isEmpty() ? "not found" : paramFile);
-
     // Create output directory
     const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
     QDir().mkpath(outputDir);
@@ -206,19 +181,25 @@ void TransitionListWidget::generatePreviews()
     connect(m_previewProcess.get(), QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &TransitionListWidget::previewDone,
             Qt::UniqueConnection);
 
+    const QStringList xmlFolders = TransitionsRepository::get()->assetDirs();
+    QStringList encodedXmlFolders;
+    for (auto &l : xmlFolders) {
+        encodedXmlFolders << QUrl::toPercentEncoding(l, "{/}");
+    }
     // Start the process
     QStringList args;
+    args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
     args << QStringLiteral("--output-dir") << outputDir;
     args << QStringLiteral("--width") << QStringLiteral("320");
     args << QStringLiteral("--height") << QStringLiteral("180");
 
-    // Add parameter file if found
-    if (!paramFile.isEmpty()) {
-        args << QStringLiteral("--param-file") << paramFile;
-    }
     const QStringList lumaFolders = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
+    QStringList encodedLumas;
+    for (auto &l : lumaFolders) {
+        encodedLumas << QUrl::toPercentEncoding(l, "{/}");
+    }
     if (!lumaFolders.isEmpty()) {
-        args << QStringLiteral("--luma-path") << lumaFolders.join(QLatin1Char(' '));
+        args << QStringLiteral("--luma-path") << encodedLumas.join(QLatin1Char(' '));
     }
 
 #ifdef Q_OS_WIN
@@ -243,7 +224,6 @@ void TransitionListWidget::generatePreviews()
     m_infoBar->setMessageType(KMessageWidget::Information);
     m_infoBar->setText(i18n("Generating transition previews. This may take a few minutes..."));
     m_infoBar->setVisible(true);
-    QTimer::singleShot(5000, this, [&]() { m_infoBar->setVisible(false); });
 }
 
 void TransitionListWidget::previewDone(int exitCode, QProcess::ExitStatus exitStatus)

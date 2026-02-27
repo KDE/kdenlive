@@ -17,6 +17,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import logging
+import urllib.parse
 
 # Set up logging
 logging.basicConfig(
@@ -26,13 +27,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class TransitionPreviewGenerator:
-    def __init__(self, output_dir, param_file=None, luma_path=None, image_path1=None, image_path2=None, size=(320, 180), duration=20, mix_duration=40):
+    def __init__(self, output_dir, xml_dir=None, luma_path=None, image_path1=None, image_path2=None, size=(320, 180), duration=20, mix_duration=40):
         """
         Initialize the preview generator
         
         Args:
             output_dir (str): Directory to store generated previews
-            param_file (str): Path to the transition parameters file
+            xml_dir (str): Path to the transitions xml files
             image_path1 (str): Path to first image (optional)
             image_path2 (str): Path to second image (optional)
             size (tuple): Width and height of preview (default: 320x180)
@@ -41,10 +42,10 @@ class TransitionPreviewGenerator:
             luma_path (str): Path to luma files
         """
         self.output_dir = Path(output_dir)
+        self.xml_dir = xml_dir
         self.width, self.height = size
         self.duration = duration
         self.mix_duration = mix_duration
-        self.transition_params = {}
         self.image_path1 = image_path1
         self.image_path2 = image_path2
         self.luma_path = luma_path
@@ -52,43 +53,9 @@ class TransitionPreviewGenerator:
         # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
-        # Load transition parameters if file provided
-        if param_file:
-            self.load_transition_parameters(param_file)
-        
         # Standard MLT profile for preview generation
         self.profile = "qcif_15" # Using 15fps for smaller file sizes
     
-    def load_transition_parameters(self, param_file):
-        """
-        Load transition parameters from a file
-        
-        Args:
-            param_file (str): Path to the parameter file
-        """
-        try:
-            param_file_path = Path(param_file)
-            if not param_file_path.exists():
-                logger.warning(f"Parameters file {param_file} not found")
-                return
-            
-            logger.info(f"Loading transition parameters from {param_file}")
-            with open(param_file_path, 'r') as f:
-                for line in f:
-                    line = line.strip()
-                    if not line or line.startswith('#'):
-                        continue
-                    
-                    try:
-                        transition_id, params = line.split('=', 1)
-                        self.transition_params[transition_id.strip()] = params.strip()
-                    except ValueError:
-                        logger.warning(f"Invalid parameter line: {line}")
-            
-            logger.info(f"Loaded parameters for {len(self.transition_params)} transitions")
-        except Exception as e:
-            logger.error(f"Error loading transition parameters: {e}")
-
     def get_available_lumas(self):
         """Query available lumas in selected folder"""
         try:
@@ -99,7 +66,7 @@ class TransitionPreviewGenerator:
             logger.error(f"INIT LUMA SEARCH ON: {self.luma_path}")
             luma_folders = self.luma_path.split()
             for l in luma_folders:
-                directory_path = Path(l)
+                directory_path = Path(urllib.parse.unquote(l))
                 logger.error(f"Checking luma path: {l} / {directory_path}")
                 for path_object in directory_path.rglob("*.png"):
                     logger.error(f"APPENDING PNG luma: {path_object}")
@@ -117,47 +84,15 @@ class TransitionPreviewGenerator:
             return []
 
     def get_available_transitions(self):
-        """Query MLT for available transitions"""
-        try:
-            result = subprocess.run(
-                ['melt', '-query', 'transitions'],
-                capture_output=True,
-                text=True
-            )
-            
-            # Split output into lines
-            lines = result.stdout.split('\n')
-            
-            # Find where the transitions list starts
-            for i, line in enumerate(lines):
-                if line.strip() == 'transitions:':
-                    transitions_start = i + 1
-                    break
-            else:
-                logger.error("Could not find transitions list in MLT output")
-                return []
-            
-            # Parse transitions
-            transitions = []
-            for line in lines[transitions_start:]:
-                line = line.strip()
-                if line.startswith('- '):
-                    # Extract transition name
-                    transition_id = line[2:].strip()
-                    transitions.append(transition_id)
-                elif line == '...' or not line:
-                    # End of transitions list
-                    break
-            
-            logger.info(f"Found {len(transitions)} transitions: {', '.join(transitions)}")
-            return transitions
-            
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to query transitions: {e}")
-            return []
-        except Exception as e:
-            logger.error(f"Unexpected error querying transitions: {e}")
-            return []
+        transitionsXml = []
+        xml_folders = self.xml_dir.split()
+        for l in xml_folders:
+            directory_path = Path(urllib.parse.unquote(l))
+            logger.error(f"Checking transitions path: {directory_path}")
+            for path_object in directory_path.rglob("*.xml"):
+                logger.error(f"APPENDING transition: {path_object}")
+                transitionsXml.append(str(path_object))
+        return transitionsXml
 
     def create_luma_preview(self, luma_id):
         """
@@ -217,18 +152,42 @@ class TransitionPreviewGenerator:
         except Exception as e:
             logger.error(f"Error generating preview for {luma_id}: {e}")
 
-    def create_transition_preview(self, transition_id):
+    def create_transition_preview(self, transition_path):
         """
         Create a preview GIF for a specific transition
         
         Args:
             transition_id (str): The MLT transition identifier
         """
+        from xml.dom import minidom
+
+        xmldoc = minidom.parse(transition_path)
+        top_element = xmldoc.documentElement
+        if not top_element.hasAttribute('tag'):
+            logger.info(f"Xml for {transition_path} has no tag...")
+            return
+        mlt_tag = top_element.getAttribute('tag')
+        transition_params = []
+        if top_element.hasAttribute('id'):
+            transition_id = top_element.getAttribute('id')
+        else:
+            transition_id = mlt_tag
+        try:
+            preview_tag = xmldoc.getElementsByTagName("preview")[0]
+            params = preview_tag.getElementsByTagName("parameter")
+            for p in params:
+                p_name = p.getAttribute('name')
+                p_value = p.firstChild.nodeValue
+                transition_params.append(f'{p_name}="{p_value}"')
+                logger.error(f"FOUND param for transition {mlt_tag} = {p_name}={p_value}")
+        except:
+            logger.error(f"No preview param for transition {mlt_tag}")
+
         output_path = self.output_dir / f"{transition_id}.gif"
         
         # Skip if preview already exists
         if output_path.exists():
-            logger.info(f"Preview for {transition_id} already exists, skipping...")
+            logger.info(f"Preview {output_path} for {transition_id} already exists, skipping...")
             return
         
         try:
@@ -251,12 +210,11 @@ class TransitionPreviewGenerator:
                 command.extend([self.image_path2, f'out={self.duration}'])
             
             # Apply transition
-            command.extend(['-mix', str(self.mix_duration), '-mixer', transition_id])
+            command.extend(['-mix', str(self.mix_duration), '-mixer', mlt_tag])
             
             # Add transition-specific parameters if available
-            if transition_id in self.transition_params:
-                command.append(self.transition_params[transition_id])
-                logger.info(f"Using custom parameters for {transition_id}: {self.transition_params[transition_id]}")
+            for param in transition_params:
+                command.append(param)
             
             # Add output settings
             command.extend([
@@ -312,8 +270,8 @@ def main():
     )
     
     parser.add_argument(
-        '--param-file',
-        help='Path to the transition parameters file'
+        '--xml-dir',
+        help='Path to the transitions xml folder'
     )
 
     parser.add_argument(
@@ -370,7 +328,7 @@ def main():
     
     generator = TransitionPreviewGenerator(
         args.output_dir,
-        param_file=args.param_file,
+        xml_dir=args.xml_dir,
         image_path1=args.image1,
         image_path2=args.image2,
         size=(args.width, args.height),

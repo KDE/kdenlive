@@ -2130,7 +2130,6 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 t->set("kdenlive_id", assetName.toUtf8().constData());
                 if (isLuma) {
                     QString res = mixId;
-                    res.remove(0, 5);
                     t->set("resource", res.toUtf8().constData());
                     Xml::setXmlParameter(xml, QStringLiteral("resource"), res);
                 }

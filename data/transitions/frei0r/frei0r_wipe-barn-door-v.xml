@@ -7,4 +7,7 @@
     <parameter type="animated" name="position" max="1000" min="0" default="0=0;%out=1" factor="1000">
         <name>Edges position</name>
     </parameter>
+    <preview>
+        <parameter name="position">0=0;-1=1</parameter>
+    </preview>
 </transition>

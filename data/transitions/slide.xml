@@ -7,4 +7,7 @@
     <parameter type="wipe" default="0=-100% 0% 100% 100% 100%;-1=0% 0% 100% 100% 100%" name="rect">
         <name>Direction</name>
     </parameter>
+    <preview>
+        <parameter name="wipe">0=-100% 0% 100% 100% 100%;-1=0% 0% 100% 100% 100%</parameter>
+    </preview>
 </transition>

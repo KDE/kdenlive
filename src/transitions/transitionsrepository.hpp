@@ -20,6 +20,8 @@ class TransitionsRepository : public AbstractAssetsRepository<AssetListType::Ass
 {
 
 public:
+    friend class TransitionListWidget;
+
     /** @brief Returns the instance of the Singleton */
     static std::unique_ptr<TransitionsRepository> &get();
 

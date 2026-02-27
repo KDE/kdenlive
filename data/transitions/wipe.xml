@@ -18,4 +18,7 @@
     </parameter>
     <parameter type="fixed" name="aligned" value="0"/>
     <parameter type="fixed" name="fill" value="1"/>
+    <preview>
+        <parameter name="geometry">0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%</parameter>
+    </preview>
 </transition>
