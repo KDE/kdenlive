@@ -546,8 +546,21 @@ void TimelineController::insertNewMix(int tid, int position, const QString &tran
 
 int TimelineController::insertNewCompositionAtPos(int tid, int position, const QString &transitionId)
 {
-    // TODO: adjust position and duration to existing clips ?
-    return insertComposition(tid, position, transitionId, true);
+    int topCid = m_model->getTrackById_const(tid)->getClipByStartPosition(position);
+    if (topCid > 0) {
+        return addCompositionToClip(transitionId, topCid, 0);
+    } else {
+        QList<int> lower = m_model->getLowerTracksId(tid, TrackType::VideoTrack);
+        if (!lower.isEmpty()) {
+            int lowerCid = m_model->getTrackById_const(lower.first())->getClipByStartPosition(position);
+            if (lowerCid > 0) {
+                // There is a clip on track below
+                topCid = m_model->getTrackById_const(tid)->getClipByPosition(position);
+                return addCompositionToClip(transitionId, topCid, m_model->getClipPlaytime(topCid) - 1);
+            }
+        }
+        return insertComposition(tid, position, transitionId, true);
+    }
 }
 
 int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
@@ -3380,13 +3393,13 @@ void TimelineController::switchEnableState(std::unordered_set<int> selection)
     TimelineFunctions::switchEnableState(m_model, selection);
 }
 
-void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
+int TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
 {
     if (clipId == -1) {
         clipId = getMainSelectedClip();
         if (clipId == -1) {
             pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
-            return;
+            return -1;
         }
     }
     if (offset == -1) {
@@ -3398,7 +3411,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
         QStringList compositions = KdenliveSettings::favorite_transitions();
         if (compositions.isEmpty()) {
             pCore->displayMessage(i18n("Select a favorite composition"), ErrorMessage, 500);
-            return;
+            return -1;
         }
         compoId = insertNewComposition(track, clipId, offset, compositions.first(), true);
     } else {
@@ -3407,6 +3420,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
     if (compoId > 0) {
         m_model->requestSetSelection({compoId});
     }
+    return compoId;
 }
 
 void TimelineController::setEffectsEnabled(int clipId, bool enabled)
