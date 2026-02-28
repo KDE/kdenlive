@@ -448,6 +448,7 @@
           <li xml:lang="ar">أُصلح الخط المشوه في بعض أجزاء واجهة المستخدم</li>
           <li xml:lang="ca">Corregeix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
           <li xml:lang="ca-valencia">Corregix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
+          <li xml:lang="he">תוקן גופן מעוות בחלקים מסוימים בממשק המשתמש</li>
           <li xml:lang="it">Correzione dei caratteri distorti in alcune parti dell'interfaccia utente</li>
           <li xml:lang="nl">Vervormde lettertypen in sommige delen van de gebruikersinterface corrigeren</li>
           <li xml:lang="pt-BR">Corrigido problema de distorção de fonte em algumas partes da interface do usuário</li>
@@ -458,6 +459,7 @@
           <li xml:lang="ar">أُصلح الانهيار عند تحرير التدرجات في أداة العنونة</li>
           <li xml:lang="ca">Corregeix una fallada editant els degradats al creador de títols</li>
           <li xml:lang="ca-valencia">Corregix una fallada editant els degradats al creador de títols</li>
+          <li xml:lang="he">תוקנה קריסה בעת עריכת מדרגים בעורך הכותרות</li>
           <li xml:lang="it">Correzione del crash durante la modifica dei gradienti nella titolatrice</li>
           <li xml:lang="nl">Los het probleem op dat het bewerken van kleurverlopen in de titelpagina vastloopt</li>
           <li xml:lang="pt-BR">Corrigido o problema de travamento ao editar gradientes no editor de títulos</li>
@@ -468,6 +470,7 @@
           <li xml:lang="ar">أُصلح خلل إضافة مزيج إلى مقطع مجمع كان يؤدي لتحريك القص الموجود</li>
           <li xml:lang="ca">Corregeix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
           <li xml:lang="ca-valencia">Corregix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
+          <li xml:lang="he">תוקנה בעיה שהוספת סרטונים מקובצים הייתה עלולה להזיז חיתוך קיים</li>
           <li xml:lang="it">Correzione all'aggiunta di una miscela alle clip raggruppate, che poteva spostare il taglio esistente</li>
           <li xml:lang="nl">Het probleem is opgelost dat het toevoegen van een mix aan een gegroepeerde clip de bestaande knipsel kon verschuiven.</li>
           <li xml:lang="pt-BR">Corrigido o problema em que adicionar uma mixagem a um clipe agrupado podia mover um corte existente</li>
@@ -478,6 +481,7 @@
           <li xml:lang="ar">أُصلح تحريك وحذف عنصر واحد في مجموعة</li>
           <li xml:lang="ca">Corregeix el moure i suprimir un element individual en un grup</li>
           <li xml:lang="ca-valencia">Corregix el moure i suprimir un element individual en un grup</li>
+          <li xml:lang="he">תוקנה העברה ומחיקה של פריט בודד בקבוצה</li>
           <li xml:lang="it">Correzione dello spostamento e dell'eliminazione di un singolo elemento in un gruppo</li>
           <li xml:lang="nl">Het probleem met het verplaatsen en verwijderen van een enkel item in een groep is verholpen</li>
           <li xml:lang="pt-BR">Corrigido problema ao mover e excluir um único item em um grupo</li>
@@ -488,6 +492,7 @@
           <li xml:lang="ar">أُصلح الانهيار في أداة المباعدة مع الترجمات المجمعة</li>
           <li xml:lang="ca">Corregeix una fallada a l'eina espaiador amb subtítols agrupats</li>
           <li xml:lang="ca-valencia">Corregix una fallada a l'eina espaiador amb subtítols agrupats</li>
+          <li xml:lang="he">תוקנה קריסה בכלי ריווח עם כתוביות מקובצות</li>
           <li xml:lang="it">Correzione del crash nello strumento spaziatore con i sottotitoli raggruppati</li>
           <li xml:lang="nl">Verhelp een crash in het hulpmiddel spacer bij het gebruik van gegroepeerde ondertitels</li>
           <li xml:lang="pt-BR">Corrigido problema que causava o fechamento inesperado do programa na ferramenta de espaçamento com legendas agrupadas</li>
