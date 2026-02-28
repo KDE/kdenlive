@@ -45,6 +45,7 @@ lift_gamma_gain.xml
 lightshow.xml
 loudness.xml
 luma.xml
+lumakey.xml
 lumaliftgaingamma.xml
 mask_start.xml
 mask_start_frei0r_alphaspot.xml

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="lumakey" tag="lumakey" type="video">
+   <name>Lumakey</name>
+   <description><![CDATA[This filter modifies the<br>
+   alpha channel as a function of the image's luma value. This is used together with a compositor to combine two images so that bright or dark areas of source image are overwritten on top of the destination image.]]></description>
+   <author>Janne Liljeblad</author>
+   <parameter name="threshold" type="constant" max="255" min="0" default="128">
+      <name>Threshold</name>
+      <comment><![CDATA[Luma value that defines the<br>
+      center point of transition from prelevel to postlevel opacity value.]]></comment>
+   </parameter>
+   <parameter name="slope" type="constant" max="128" min="0" default="0">
+      <name>Slope</name>
+      <comment><![CDATA[This defines the width of the<br>
+      transition from prelevel to postlevel luma value. Start point of transition in opacity value is threshold - slope and end point is thresholt + slope, values are forced in range 0 - 255.]]></comment>
+   </parameter>
+   <parameter name="prelevel" type="constant" max="255" min="0" default="0">
+      <name>Pre-Threshold Luma Level</name>
+      <comment><![CDATA[Opacity value before the<br>
+      transition in opacity value begins.]]></comment>
+   </parameter>
+   <parameter name="postlevel" type="constant" max="255" min="0" default="255">
+      <name>Post-Threshold Luma Level</name>
+      <comment><![CDATA[Opacity value after the<br>
+      transition in opacity value ends.]]></comment>
+   </parameter>
+</effect>

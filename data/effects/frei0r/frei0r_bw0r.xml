@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="frei0r.bw0r" tag="frei0r.bw0r" type="video">
+   <name>BW0r</name>
+   <description><![CDATA[Turns image black and white]]></description>
+   <author>coma@gephex.org</author>
+</effect>

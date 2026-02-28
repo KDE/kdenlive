@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="frei0r.invert0r" tag="frei0r.invert0r" type="video">
+   <name>Invert0r</name>
+   <description><![CDATA[Inverts all colors of a source image]]></description>
+   <author>Gephex crew</author>
+</effect>

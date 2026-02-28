@@ -26,6 +26,7 @@ frei0r_bigsh0t_stabilize_360.xml
 frei0r_bigsh0t_transform_360.xml
 frei0r_bluescreen0r.xml
 frei0r_brightness.xml
+frei0r_bw0r.xml
 frei0r_c0rners.xml
 frei0r_cairogradient.xml
 frei0r_cairoimagegrid.xml
@@ -59,6 +60,7 @@ frei0r_glow.xml
 frei0r_heatmap0r.xml
 frei0r_hqdn3d.xml
 frei0r_hueshift0r.xml
+frei0r_invert0r.xml
 frei0r_iirblur.xml
 frei0r_kaleid0sc0pe.xml
 frei0r_keyspillm0pup.xml
@@ -80,6 +82,7 @@ frei0r_nosync0r.xml
 frei0r_pixeliz0r.xml
 frei0r_pixs0r.xml
 frei0r_posterize.xml
+frei0r_premultiply.xml
 frei0r_pr0be.xml
 frei0r_pr0file.xml
 frei0r_primaries.xml
@@ -96,6 +99,7 @@ frei0r_sigmoidaltransfer.xml
 frei0r_sobel.xml
 frei0r_softglow.xml
 frei0r_sopsat.xml
+frei0r_spillsupress.xml
 frei0r_squareblur.xml
 frei0r_tehroxx0r.xml
 frei0r_three_point_balance.xml

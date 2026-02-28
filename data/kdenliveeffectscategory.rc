@@ -2,7 +2,7 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <data name="effects" version="0">
     
-<group list="avfilter.hsvkey,chroma,frei0r.alpha0ps_alpha0ps,frei0r.alpha0ps_alphagrad,frei0r.alpha0ps_alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,mask_start-rotoscoping,frei0r.keyspillm0pup,avfilter.despill,obscure,frei0r.bluescreen0r,lumakey,shape,mask_start-shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker,strobe,mask_start-frei0r.alphaspot,mask_apply,mask_start-frei0r.select0r,frei0r.premultiply">
+<group list="avfilter.hsvkey,avfilter_backgroundkey,chroma,frei0r.alpha0ps_alpha0ps,frei0r.alpha0ps_alphagrad,frei0r.alpha0ps_alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,mask_start-rotoscoping,frei0r.keyspillm0pup,avfilter.despill,obscure,frei0r.bluescreen0r,lumakey,shape,mask_start-shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker,strobe,mask_start-frei0r.alphaspot,mask_apply,mask_start-frei0r.select0r,frei0r.premultiply">
 <text>Alpha, Mask, and Keying</text>
 </group>
 
