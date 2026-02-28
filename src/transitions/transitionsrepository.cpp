@@ -84,6 +84,11 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             continue;
         }
         Info result;
+        // Remove preview tag
+        QDomElement preview = currentNode.firstChildElement(QStringLiteral("preview"));
+        if (!preview.isNull()) {
+            currentNode.removeChild(preview);
+        }
         bool ok = parseInfoFromXml(currentNode.toElement(), result);
         if (!ok) {
             continue;
