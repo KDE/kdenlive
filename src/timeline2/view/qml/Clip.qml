@@ -499,7 +499,7 @@ Rectangle {
                     property bool mixSelected: root.selectedMix == clipRoot.clipId
                     anchors.fill: parent
                     visible: clipRoot.mixDuration > 0
-                    color: mixSelected ? root.selectionColor : "transparent"
+                    color: mixSelected ? Qt.rgba(root.selectionColor.r, root.selectionColor.g, root.selectionColor.b, 0.5) : "transparent"
                     Loader {
                         active: mixBackground.visible
                         asynchronous: true
