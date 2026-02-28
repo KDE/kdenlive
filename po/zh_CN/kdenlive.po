@@ -6652,12 +6652,12 @@ msgstr "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
 #: data/effects/avfilter/avfilter_waveform.xml:73
 #, kde-format
 msgid "Tint 1"
-msgstr "颜色 1"
+msgstr "着色 1"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:15
 #, kde-format
 msgid "Tint 2"
-msgstr "辅助色调参考角度"
+msgstr "着色 2"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:18
 #, kde-format
@@ -6953,7 +6953,7 @@ msgstr "<![CDATA[设置背景不透明度]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:68
 #, kde-format
 msgid "Tint 0"
-msgstr "颜色 0"
+msgstr "着色 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
@@ -12397,7 +12397,7 @@ msgstr "映射白色到"
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, kde-format
 msgid "Tint amount"
-msgstr "染色程度"
+msgstr "着色强度"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
 #, kde-format
