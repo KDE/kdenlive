@@ -1761,7 +1761,8 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     return {currentPos, sourceTrackId};
 }
 
-QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance, bool fakeMove)
+QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance, bool fakeMove,
+                                                   bool allowAdjustDuration)
 {
     QWriteLocker locker(&m_lock);
     TRACE(compoId, trackId, position, cursorPosition, snapDistance);
@@ -1810,7 +1811,7 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
         return {position, trackId};
     }
     // we check if move is possible
-    bool possible = requestCompositionMove(compoId, trackId, position, true, false, fakeMove);
+    bool possible = requestCompositionMove(compoId, trackId, position, true, false, fakeMove, allowAdjustDuration);
     if (possible) {
         TRACE_RES(position);
         return {position, trackId};
@@ -5796,7 +5797,7 @@ int TimelineModel::getTrackCompositionsCount(int trackId) const
     return getTrackById_const(trackId)->getCompositionsCount();
 }
 
-bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, bool logUndo, bool fakeMove)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, bool logUndo, bool fakeMove, bool allowResize)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
@@ -5820,6 +5821,13 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     int max = min + getCompositionPlaytime(compoId);
     int tk = getCompositionTrackId(compoId);
     bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, updateView, logUndo, undo, redo);
+    if (allowResize) {
+        int compositionLength = getOptimalTransitionDuration(trackId, position);
+        if (compositionLength != getCompositionPlaytime(compoId)) {
+            requestItemResize(compoId, compositionLength, true, false, undo, redo);
+        }
+    }
+
     if (tk > -1) {
         min = qMin(min, getCompositionPosition(compoId));
         max = qMax(max, getCompositionPosition(compoId));
@@ -5833,6 +5841,42 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
         checkRefresh(min, max);
     }
     return res;
+}
+
+int TimelineModel::getOptimalTransitionDuration(int trackId, int position)
+{
+    int topCid = getTrackById_const(trackId)->getClipByStartPosition(position);
+    if (topCid > 0) {
+        int lowerVideoTrackId = getPreviousVideoTrackIndex(trackId);
+        if (lowerVideoTrackId > 0) {
+            int lowerCid = getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
+            if (lowerCid > 0) {
+                // There is a clip on track below, get out point
+                int outPos = getTrackById_const(lowerVideoTrackId)->getClipEnd(position, 0);
+                outPos = qMin(outPos, position + getItemPlaytime(topCid));
+                if (outPos - position > 2) {
+                    return qMin(outPos - position, 2 * pCore->getDurationFromString(KdenliveSettings::transition_duration()));
+                }
+            }
+        }
+    } else {
+        int lowerVideoTrackId = getPreviousVideoTrackIndex(trackId);
+        if (lowerVideoTrackId > 0) {
+            int lowerCid = getTrackById_const(lowerVideoTrackId)->getClipByStartPosition(position);
+            if (lowerCid > 0) {
+                // There is a clip on track below
+                topCid = getTrackById_const(trackId)->getClipByPosition(position);
+                if (topCid > 0) {
+                    int outPos = getTrackById_const(trackId)->getClipEnd(position, 0);
+                    outPos = qMin(outPos, position + getItemPlaytime(lowerCid));
+                    if (outPos - position > 2) {
+                        return qMin(outPos - position, 2 * pCore->getDurationFromString(KdenliveSettings::transition_duration()));
+                    }
+                }
+            }
+        }
+    }
+    return pCore->getDurationFromString(KdenliveSettings::transition_duration());
 }
 
 bool TimelineModel::isAudioTrack(int trackId) const

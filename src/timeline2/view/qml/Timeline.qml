@@ -714,7 +714,7 @@ function getTrackColor(audio, header) {
                         // Don't allow moving composition to an audio track
                         track = controller.getCompositionTrackId(clipBeingDroppedId)
                     }
-                    var frameData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
+                    var frameData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping, false, true)
                     fakeTrack = frameData[1]
                     timeline.activeTrack = fakeTrack
                     sameCutPos = timeline.isOnCut(clipBeingDroppedId)

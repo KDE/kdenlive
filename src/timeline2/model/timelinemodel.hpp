@@ -447,7 +447,8 @@ public:
        the clip is in a group, the call is deferred to requestGroupMove @param
        transid is the ID of the composition @param trackId is the ID of the
        track */
-    Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true, bool fakeMove = false);
+    Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true, bool fakeMove = false,
+                                            bool allowResize = false);
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
@@ -478,7 +479,8 @@ public:
     Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true,
                                              bool fakeMove = false);
     Q_INVOKABLE int suggestSubtitleMove(int subId, int newLayer, int position, int cursorPosition, int snapDistance, bool fakeMove = false);
-    Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
+    Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false,
+                                                    bool allowAdjustDuration = false);
     /** @brief returns the frame pos adjusted to edit mode
      */
     Q_INVOKABLE int adjustFrame(int frame, int trackId);
@@ -564,6 +566,8 @@ protected:
     void setSelected(int itemId, bool sel);
     /** @brief Check if selection is 2 clips from the same bin clip and check offset */
     void checkAndUpdateOffset(std::unordered_set<int> pairIds);
+    /** @brief Get the optimal length for a transition when moving it, according to the related clips */
+    int getOptimalTransitionDuration(int trackId, int position);
 
 public:
     /** @brief Deletes the given clip or composition from the timeline.

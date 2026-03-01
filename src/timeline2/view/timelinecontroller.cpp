@@ -550,13 +550,16 @@ int TimelineController::insertNewCompositionAtPos(int tid, int position, const Q
     if (topCid > 0) {
         return addCompositionToClip(transitionId, topCid, 0);
     } else {
-        QList<int> lower = m_model->getLowerTracksId(tid, TrackType::VideoTrack);
-        if (!lower.isEmpty()) {
-            int lowerCid = m_model->getTrackById_const(lower.first())->getClipByStartPosition(position);
+        int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
+        if (lowerVideoTrackId > 0) {
+            int lowerCid = m_model->getTrackById_const(lowerVideoTrackId)->getClipByStartPosition(position);
             if (lowerCid > 0) {
                 // There is a clip on track below
                 topCid = m_model->getTrackById_const(tid)->getClipByPosition(position);
-                return addCompositionToClip(transitionId, topCid, m_model->getClipPlaytime(topCid) - 1);
+                if (topCid > -1) {
+                    int outPos = qMin(m_model->getClipEnd(lowerCid), m_model->getClipEnd(topCid));
+                    return insertComposition(tid, position, transitionId, true, outPos - position);
+                }
             }
         }
         return insertComposition(tid, position, transitionId, true);
@@ -652,10 +655,12 @@ int TimelineController::isOnCut(int cid) const
     return m_model->getTrackById_const(tid)->isOnCut(cid);
 }
 
-int TimelineController::insertComposition(int tid, int position, QString transitionId, bool logUndo)
+int TimelineController::insertComposition(int tid, int position, QString transitionId, bool logUndo, int duration)
 {
     int id;
-    int duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
+    if (duration == -1) {
+        duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
+    }
     // Check if composition should be reversed (top clip at beginning, bottom at end)
     int a_track = m_model->getPreviousVideoTrackPos(tid);
     int topClip = m_model->getTrackById_const(tid)->getClipByPosition(position);
