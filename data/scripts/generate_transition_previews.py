@@ -27,7 +27,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class TransitionPreviewGenerator:
-    def __init__(self, output_dir, xml_dir=None, luma_path=None, image_path1=None, image_path2=None, size=(320, 180), duration=20, mix_duration=40):
+    def __init__(self, output_dir, xml_dir=None, luma_path=None, image_path1=None, image_path2=None, size=(320, 180), duration=15, mix_duration=30):
         """
         Initialize the preview generator
         
@@ -119,13 +119,15 @@ class TransitionPreviewGenerator:
 
             # First clip
             if self.image_path1 is None:
-                command.extend(['color:red', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                # #5fa6fc 263f4d
+                command.extend(['color:#253d4b', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path1, f'out={self.duration}'])
 
             # Second clip
             if self.image_path2 is None:
-                command.extend(['color:blue', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                # #f1e38e
+                command.extend(['color:#91cdfa', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=#505050', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path2, f'out={self.duration}'])
 
@@ -199,13 +201,13 @@ class TransitionPreviewGenerator:
             
             # First clip
             if self.image_path1 is None:
-                command.extend(['color:red', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                command.extend(['color:#253d4b', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path1, f'out={self.duration}'])
             
             # Second clip
             if self.image_path2 is None:
-                command.extend(['color:blue', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                command.extend(['color:#91cdfa', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=#505050', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path2, f'out={self.duration}'])
             
@@ -306,14 +308,14 @@ def main():
     parser.add_argument(
         '--duration',
         type=int,
-        default=20,
+        default=10,
         help='Duration of each clip in frames'
     )
     
     parser.add_argument(
         '--mix-duration',
         type=int,
-        default=40,
+        default=20,
         help='Duration of transition in frames'
     )
     
