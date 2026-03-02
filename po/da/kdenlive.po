@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-13 02:41+0000\n"
+"POT-Creation-Date: 2026-03-02 02:43+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -18922,7 +18922,7 @@ msgid "No audio"
 msgstr "Optag lyd"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:434
-#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:659
+#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:660
 #: src/mltcontroller/clippropertiescontroller.cpp:1067
 #, kde-format
 msgid "dB"
@@ -19853,7 +19853,7 @@ msgid "Edit Tags"
 msgstr "Redigér vurdering"
 
 #: src/bin/bin.cpp:4945 src/bin/projectclip.cpp:196
-#: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1994 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -20633,41 +20633,41 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:1128 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1130 src/jobs/cliploadtask.cpp:270
 #, kde-format
 msgid "Invalid"
 msgstr "Ugyldig"
 
-#: src/bin/projectclip.cpp:1354 src/dialogs/clipcreationdialog.cpp:129
+#: src/bin/projectclip.cpp:1364 src/dialogs/clipcreationdialog.cpp:129
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1516
+#: src/timeline2/model/timelinefunctions.cpp:1519
 #, kde-format
 msgid "File already exists"
 msgstr "Filen findes allerede"
 
-#: src/bin/projectclip.cpp:2606 src/bin/projectclip.cpp:2645
+#: src/bin/projectclip.cpp:2616 src/bin/projectclip.cpp:2655
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Indsæt tidslinjeklip"
 
-#: src/bin/projectclip.cpp:2835
+#: src/bin/projectclip.cpp:2845
 #, kde-format
 msgid "Add stream effect"
 msgstr "Tilføj streameffekt"
 
-#: src/bin/projectclip.cpp:2860
+#: src/bin/projectclip.cpp:2870
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Fjern streameffekt"
 
-#: src/bin/projectclip.cpp:3203
+#: src/bin/projectclip.cpp:3213
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Mask added to clip"
 msgstr "Maskér klip"
 
-#: src/bin/projectclip.cpp:3207
+#: src/bin/projectclip.cpp:3217
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing clip for mask"
@@ -26342,7 +26342,7 @@ msgid "Clip in Timeline"
 msgstr "Klip i tidslinje"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1012
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1053
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence"
@@ -28307,7 +28307,7 @@ msgstr "Slet markør"
 msgid "Edit Marker…"
 msgstr "Redigér markør"
 
-#: src/mainwindow.cpp:1908 src/timeline2/model/timelinefunctions.cpp:1233
+#: src/mainwindow.cpp:1908 src/timeline2/model/timelinefunctions.cpp:1236
 #, kde-format
 msgid "Restore Audio"
 msgstr "Genskab lyd"
@@ -29384,7 +29384,7 @@ msgid "Audio streams"
 msgstr "Lydstreams"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2110
+#: src/monitor/monitor.cpp:2112
 #, kde-format
 msgid "Merge all streams"
 msgstr "Flet alle streams"
@@ -29855,19 +29855,19 @@ msgstr ""
 msgid "Exit Mask Mode ?"
 msgstr "Redigér varighed"
 
-#: src/monitor/monitor.cpp:2095 src/monitor/monitor.cpp:2224
+#: src/monitor/monitor.cpp:2097 src/monitor/monitor.cpp:2226
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 lydstream"
 msgstr[1] "%1 lydstreams"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2548
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Kan ikke initiere Movit's GLSL-håndtering, deaktivér venligst Movit"
 
-#: src/monitor/monitor.cpp:2588 src/monitor/monitor.cpp:2645
+#: src/monitor/monitor.cpp:2590 src/monitor/monitor.cpp:2647
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29876,18 +29876,18 @@ msgstr ""
 "Alphagrad-filteret kræves af funktionaliteten, installér venligst frei0r og "
 "genstart Kdenlive"
 
-#: src/monitor/monitor.cpp:2608
+#: src/monitor/monitor.cpp:2610
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klippet har ingen effekter"
 
-#: src/monitor/monitor.cpp:2610
+#: src/monitor/monitor.cpp:2612
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Vælg et klip hvis du vil anvende en effekt"
 
-#: src/monitor/monitor.cpp:2652
+#: src/monitor/monitor.cpp:2654
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29896,41 +29896,41 @@ msgstr ""
 "Cairoblend-overgangen kræves af funktionaliteten, installér venligst frei0r "
 "og genstart Kdenlive"
 
-#: src/monitor/monitor.cpp:2732
+#: src/monitor/monitor.cpp:2734
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3239
+#: src/monitor/monitor.cpp:3237
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No clip selected in Clip Monitor"
 msgstr "Ingen profil valgt"
 
-#: src/monitor/monitor.cpp:3260
+#: src/monitor/monitor.cpp:3258
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Kan ikke skrive til filen %1"
 
-#: src/monitor/monitor.cpp:3342 src/monitor/monitor.cpp:3373
+#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3371
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3352
+#: src/monitor/monitor.cpp:3350
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3358 src/monitor/monitor.cpp:3379
+#: src/monitor/monitor.cpp:3356 src/monitor/monitor.cpp:3377
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3360 src/monitor/monitor.cpp:3381
+#: src/monitor/monitor.cpp:3358 src/monitor/monitor.cpp:3379
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -30150,17 +30150,17 @@ msgstr "MLT skal kompileres med libfftw3 for at aktivere lydspektrum"
 msgid "Enable Audio Spectrum"
 msgstr "Aktivér lydspektrum"
 
-#: src/monitor/videowidget.cpp:1167
+#: src/monitor/videowidget.cpp:1168
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Vælg en zone som skal afspilles"
 
-#: src/monitor/videowidget.cpp:1176
+#: src/monitor/videowidget.cpp:1177
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Vælg et klip som skal afspilles"
 
-#: src/monitor/videowidget.cpp:1281
+#: src/monitor/videowidget.cpp:1282
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -33709,146 +33709,152 @@ msgstr "Aktivér klip"
 msgid "Disable clip"
 msgstr "Deaktivér klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:1185
+#: src/timeline2/model/timelinefunctions.cpp:1159
+#, fuzzy, kde-format
+#| msgid "Cannot create clip"
+msgid "Cannot change clip state"
+msgstr "Kan ikke oprette klip"
+
+#: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1210
-#: src/timeline2/model/timelinefunctions.cpp:1226
+#: src/timeline2/model/timelinefunctions.cpp:1213
+#: src/timeline2/model/timelinefunctions.cpp:1229
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Gendannelse af lyd mislykkedes"
 
-#: src/timeline2/model/timelinefunctions.cpp:1265
+#: src/timeline2/model/timelinefunctions.cpp:1268
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1273
-#: src/timeline2/model/timelinefunctions.cpp:1286
+#: src/timeline2/model/timelinefunctions.cpp:1276
+#: src/timeline2/model/timelinefunctions.cpp:1289
 #, kde-format
 msgid "Video restore failed"
 msgstr "Gendannelse af video mislykkedes"
 
-#: src/timeline2/model/timelinefunctions.cpp:1292
+#: src/timeline2/model/timelinefunctions.cpp:1295
 #, kde-format
 msgid "Restore Video"
 msgstr "Genskab video"
 
-#: src/timeline2/model/timelinefunctions.cpp:1339
+#: src/timeline2/model/timelinefunctions.cpp:1342
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change Composition Track"
 msgstr "Centerposition (x)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1354
+#: src/timeline2/model/timelinefunctions.cpp:1357
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Kan ikke fjerne tomrum i et låst spor"
 
-#: src/timeline2/model/timelinefunctions.cpp:1508
+#: src/timeline2/model/timelinefunctions.cpp:1511
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Tilføj klip til bibliotek"
 
-#: src/timeline2/model/timelinefunctions.cpp:1508
+#: src/timeline2/model/timelinefunctions.cpp:1511
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Indtast et navn til klippet i biblioteket"
 
-#: src/timeline2/model/timelinefunctions.cpp:1913
+#: src/timeline2/model/timelinefunctions.cpp:1916
 #, kde-format
 msgid "Paste clips"
 msgstr "Indsæt klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:1927
-#: src/timeline2/model/timelinefunctions.cpp:2101
-#: src/timeline2/model/timelinefunctions.cpp:2124
-#: src/timeline2/model/timelinefunctions.cpp:2161
-#: src/timeline2/model/timelinefunctions.cpp:2579
+#: src/timeline2/model/timelinefunctions.cpp:1930
+#: src/timeline2/model/timelinefunctions.cpp:2104
+#: src/timeline2/model/timelinefunctions.cpp:2127
+#: src/timeline2/model/timelinefunctions.cpp:2164
+#: src/timeline2/model/timelinefunctions.cpp:2582
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "Not enough tracks to paste clipboard"
 msgstr "Kopiér keyframes til udklipsholder"
 
-#: src/timeline2/model/timelinefunctions.cpp:1996
+#: src/timeline2/model/timelinefunctions.cpp:1999
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2009
+#: src/timeline2/model/timelinefunctions.cpp:2012
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "No valid data in clipboard"
 msgstr "Kopiér keyframes til udklipsholder"
 
-#: src/timeline2/model/timelinefunctions.cpp:2047
+#: src/timeline2/model/timelinefunctions.cpp:2050
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "Kopiér keyframes til udklipsholder"
 
-#: src/timeline2/model/timelinefunctions.cpp:2189
-#: src/timeline2/model/timelinefunctions.cpp:2210
-#: src/timeline2/model/timelinefunctions.cpp:2241
-#: src/timeline2/model/timelinefunctions.cpp:2246
+#: src/timeline2/model/timelinefunctions.cpp:2192
+#: src/timeline2/model/timelinefunctions.cpp:2213
+#: src/timeline2/model/timelinefunctions.cpp:2244
+#: src/timeline2/model/timelinefunctions.cpp:2249
 #, kde-format
 msgid "Pasted clips"
 msgstr "Indsatte klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2230
+#: src/timeline2/model/timelinefunctions.cpp:2233
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2232
+#: src/timeline2/model/timelinefunctions.cpp:2235
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2232
+#: src/timeline2/model/timelinefunctions.cpp:2235
 #, fuzzy, kde-format
 #| msgid "Master"
 msgid "Paste"
 msgstr "Master"
 
-#: src/timeline2/model/timelinefunctions.cpp:2365
-#: src/timeline2/model/timelinefunctions.cpp:2489
-#: src/timeline2/model/timelinefunctions.cpp:2517
+#: src/timeline2/model/timelinefunctions.cpp:2368
+#: src/timeline2/model/timelinefunctions.cpp:2492
+#: src/timeline2/model/timelinefunctions.cpp:2520
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "Tilføj klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2571
+#: src/timeline2/model/timelinefunctions.cpp:2574
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2627
-#: src/timeline2/model/timelinefunctions.cpp:2808
+#: src/timeline2/model/timelinefunctions.cpp:2630
+#: src/timeline2/model/timelinefunctions.cpp:2811
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kunne ikke indsætte elementer i tidslinje"
 
-#: src/timeline2/model/timelinefunctions.cpp:2828
+#: src/timeline2/model/timelinefunctions.cpp:2831
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Indsæt tidslinjeklip"
 
-#: src/timeline2/model/timelinefunctions.cpp:3048
+#: src/timeline2/model/timelinefunctions.cpp:3051
 #, fuzzy, kde-format
 #| msgid "Remove Space In All Tracks"
 msgid "Remove space on track"
 msgstr "Fjern tomrum i alle spor"
 
-#: src/timeline2/model/timelinefunctions.cpp:3075
+#: src/timeline2/model/timelinefunctions.cpp:3078
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"
@@ -34351,7 +34357,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:1999
+#: src/timeline2/view/qml/Timeline.qml:2040
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -34544,19 +34550,19 @@ msgstr "Vis"
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/timeline2/view/qml/Timeline.qml:1006
+#: src/timeline2/view/qml/Timeline.qml:1047
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "Vis mastereffekter"
 
-#: src/timeline2/view/qml/Timeline.qml:1665
+#: src/timeline2/view/qml/Timeline.qml:1706
 #, fuzzy, kde-format
 #| msgid "Click to add composition"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Klik for at tilføje komposition"
 
-#: src/timeline2/view/qml/Timeline.qml:1828
+#: src/timeline2/view/qml/Timeline.qml:1869
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -34566,14 +34572,14 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/Timeline.qml:1988
-#: src/timeline2/view/qml/Timeline.qml:1997
+#: src/timeline2/view/qml/Timeline.qml:2029
+#: src/timeline2/view/qml/Timeline.qml:2038
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Optag"
 
-#: src/timeline2/view/qml/Timeline.qml:2091
+#: src/timeline2/view/qml/Timeline.qml:2132
 #, kde-format
 msgid "Multicam In"
 msgstr ""
