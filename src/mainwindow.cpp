@@ -617,6 +617,21 @@ void MainWindow::init()
     // Only start saving config once all GUI setup is done.
     connect(pCore.get(), &Core::GUISetupDone, this, &MainWindow::finishUiSetup, Qt::DirectConnection);
 
+    // By default, cut has a secondary shortcut defined as Shift+Del.
+    // Remove it so we can assign it to our own extract action
+    QAction *cutAction = actionCollection()->action("edit_cut");
+    if (cutAction) {
+        QList<QKeySequence> sCuts = cutAction->shortcuts();
+        if (sCuts.length() > 1) {
+            // Remove secondary shortcut
+            QAction *extractAction = actionCollection()->action("extract_clip");
+            if (extractAction->shortcuts().contains(QKeySequence(Qt::SHIFT | Qt::Key_Delete))) {
+                sCuts.removeAll(QKeySequence(Qt::SHIFT | Qt::Key_Delete));
+                cutAction->setShortcuts(sCuts);
+            }
+        }
+    }
+
     LocaleHandling::resetLocale();
 
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
