@@ -5118,33 +5118,6 @@ bool TimelineModel::requestTrackMove(int trackId, bool up, Fun &undo, Fun &redo)
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
 
-    std::unordered_set<int> affectedItems;
-    auto sourceTrack = getTrackById_const(trackId);
-    auto targetTrack = getTrackById_const(targetTrackId);
-    for (const auto &it : sourceTrack->m_allClips) {
-        affectedItems.insert(it.first);
-    }
-    for (const auto &it : sourceTrack->m_allCompositions) {
-        affectedItems.insert(it.first);
-    }
-    for (const auto &it : targetTrack->m_allClips) {
-        affectedItems.insert(it.first);
-    }
-    for (const auto &it : targetTrack->m_allCompositions) {
-        affectedItems.insert(it.first);
-    }
-
-    // for (int itemId : affectedItems) {
-    //     if (m_groups->isInGroup(itemId)) {
-    //         bool ungrouped = requestRemoveFromGroup(itemId, local_undo, local_redo);
-    //         if (!ungrouped) {
-    //             bool undone = local_undo();
-    //             Q_ASSERT(undone);
-    //             return false;
-    //         }
-    //     }
-    // }
-
     auto swapTracks = [this, trackId, targetTrackId]() {
         int pos1 = getTrackPosition(trackId);
         int pos2 = getTrackPosition(targetTrackId);
