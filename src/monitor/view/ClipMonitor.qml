@@ -232,6 +232,7 @@ Item {
                 }
                 height: isAudioClip ? parent.height : parent.height / 5
                 width: parent.width
+                enabled: !cursorArea.containsMouse
                 dragButtonsVisible: root.inLowerThird
                 dirty: !controller.audioSynced
                 visible: isAudioClip || ((alwaysShowAudio || root.showAudiothumb) && (controller.clipType === K.ClipType.AV || controller.clipHasAV))
