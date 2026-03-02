@@ -438,6 +438,7 @@
         <p xml:lang="ar">هذا هو الإصدار الأول لإصلاح العيوب للإصدار 24.02. بعض أبرز الإصلاحات:</p>
         <p xml:lang="ca">Aquesta és la primera versió de correcció d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
         <p xml:lang="ca-valencia">Esta és la primera versió d'esmena d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
+        <p xml:lang="fr">Il s'agit de la première correction de bogues pour la version 24.02. Voici les corrections les plus remarquables :</p>
         <p xml:lang="it">Questa è la prima versione di correzione dei bug per la versione 24.02. Alcune delle correzioni più importanti:</p>
         <p xml:lang="nl">Dit is de eerste uitgave met reparaties van bugs voor versie 24.02. Enkele van de meest opvallende oplossingen:</p>
         <p xml:lang="pt-BR">Esta é a primeira versão de correção de bugs para a versão 24.02. Algumas das correções mais notáveis:</p>
@@ -449,6 +450,7 @@
           <li xml:lang="ar">أُصلح الخط المشوه في بعض أجزاء واجهة المستخدم</li>
           <li xml:lang="ca">Corregeix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
           <li xml:lang="ca-valencia">Corregix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
+          <li xml:lang="fr">Correction de la police déformée dans certaines parties de l'interface utilisateur</li>
           <li xml:lang="he">תוקן גופן מעוות בחלקים מסוימים בממשק המשתמש</li>
           <li xml:lang="it">Correzione dei caratteri distorti in alcune parti dell'interfaccia utente</li>
           <li xml:lang="nl">Vervormde lettertypen in sommige delen van de gebruikersinterface corrigeren</li>
@@ -460,6 +462,7 @@
           <li xml:lang="ar">أُصلح الانهيار عند تحرير التدرجات في أداة العنونة</li>
           <li xml:lang="ca">Corregeix una fallada editant els degradats al creador de títols</li>
           <li xml:lang="ca-valencia">Corregix una fallada editant els degradats al creador de títols</li>
+          <li xml:lang="fr">Correction du plantage lors de l'édition des dégradés dans l'outil de titrage</li>
           <li xml:lang="he">תוקנה קריסה בעת עריכת מדרגים בעורך הכותרות</li>
           <li xml:lang="it">Correzione del crash durante la modifica dei gradienti nella titolatrice</li>
           <li xml:lang="nl">Los het probleem op dat het bewerken van kleurverlopen in de titelpagina vastloopt</li>
@@ -471,6 +474,7 @@
           <li xml:lang="ar">أُصلح خلل إضافة مزيج إلى مقطع مجمع كان يؤدي لتحريك القص الموجود</li>
           <li xml:lang="ca">Corregeix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
           <li xml:lang="ca-valencia">Corregix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
+          <li xml:lang="fr">Correction de l'ajout d'un mixage à une vidéo regroupée, qui pouvait déplacer une coupe existante</li>
           <li xml:lang="he">תוקנה בעיה שהוספת סרטונים מקובצים הייתה עלולה להזיז חיתוך קיים</li>
           <li xml:lang="it">Correzione all'aggiunta di una miscela alle clip raggruppate, che poteva spostare il taglio esistente</li>
           <li xml:lang="nl">Het probleem is opgelost dat het toevoegen van een mix aan een gegroepeerde clip de bestaande knipsel kon verschuiven.</li>
@@ -482,6 +486,7 @@
           <li xml:lang="ar">أُصلح تحريك وحذف عنصر واحد في مجموعة</li>
           <li xml:lang="ca">Corregeix el moure i suprimir un element individual en un grup</li>
           <li xml:lang="ca-valencia">Corregix el moure i suprimir un element individual en un grup</li>
+          <li xml:lang="fr">Correction du déplacement et de la suppression d'un seul élément dans un groupe</li>
           <li xml:lang="he">תוקנה העברה ומחיקה של פריט בודד בקבוצה</li>
           <li xml:lang="it">Correzione dello spostamento e dell'eliminazione di un singolo elemento in un gruppo</li>
           <li xml:lang="nl">Het probleem met het verplaatsen en verwijderen van een enkel item in een groep is verholpen</li>
@@ -493,6 +498,7 @@
           <li xml:lang="ar">أُصلح الانهيار في أداة المباعدة مع الترجمات المجمعة</li>
           <li xml:lang="ca">Corregeix una fallada a l'eina espaiador amb subtítols agrupats</li>
           <li xml:lang="ca-valencia">Corregix una fallada a l'eina espaiador amb subtítols agrupats</li>
+          <li xml:lang="fr">Correction du plantage de l'outil d'espacement avec des sous-titres groupés</li>
           <li xml:lang="he">תוקנה קריסה בכלי ריווח עם כתוביות מקובצות</li>
           <li xml:lang="it">Correzione del crash nello strumento spaziatore con i sottotitoli raggruppati</li>
           <li xml:lang="nl">Verhelp een crash in het hulpmiddel spacer bij het gebruik van gegroepeerde ondertitels</li>
@@ -504,6 +510,7 @@
           <li xml:lang="ar">أُصلحت مشكلات متعددة في مقاطع التسلسل (حفظ التغييرات بشكل غير صحيح، عدم تكرار الترجمات)</li>
           <li xml:lang="ca">Corregeix problemes diversos en els clips de seqüència (desant incorrectament els canvis, subtítols no duplicats)</li>
           <li xml:lang="ca-valencia">Corregix problemes diversos en els clips de seqüència (guardant incorrectament els canvis, subtítols no duplicats)</li>
+          <li xml:lang="fr">Correction de plusieurs problèmes sur les vidéos de séquence (enregistrement incorrect des modifications, sous-titres non dupliqués)</li>
           <li xml:lang="it">Correzione di vari problemi relativi alle sequenza di clip (salvataggio errato delle modifiche, sottotitoli non duplicati)</li>
           <li xml:lang="nl">Diverse problemen met sequentieclips opgelost (wijzigingen werden onjuist opgeslagen, ondertitels werden niet gedupliceerd)</li>
           <li xml:lang="pt-BR">Corrigidos diversos problemas em clipes de sequência (salvamento incorreto de alterações, legendas não duplicadas)</li>
@@ -514,6 +521,7 @@
           <li xml:lang="ar">أُصلحت مشكلات متعددة في الترجمات (عدم حفظ أو عرض مسارات الترجمة المتعددة بشكل صحيح)</li>
           <li xml:lang="ca">Corregeix problemes diversos amb els subtítols (pistes de subtítols múltiples no desades o mostrades correctament)</li>
           <li xml:lang="ca-valencia">Corregix problemes diversos amb els subtítols (pistes de subtítols múltiples no guardades o mostrades correctament)</li>
+          <li xml:lang="fr">Correction de plusieurs problèmes avec les sous-titres (les pistes de sous-titres multiples n'étaient pas enregistrées ou affichées correctement)</li>
           <li xml:lang="it">Correzione di vari problemi relativi ai sottotitoli (tracce multiple di sottotitoli non salvate, o non visualizzate correttamente)</li>
           <li xml:lang="nl">Diverse problemen met ondertitels opgelost (meerdere ondertitelsporen werden niet correct opgeslagen of weergegeven).</li>
           <li xml:lang="pt-BR">Corrigidos diversos problemas com legendas (várias faixas de legendas não salvas ou exibidas corretamente)</li>
