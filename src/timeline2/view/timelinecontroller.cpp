@@ -986,6 +986,58 @@ void TimelineController::deleteMultipleTracks(int tid)
     }
 }
 
+bool TimelineController::canMoveTrackUp(int tid) const
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!m_model->isTrack(tid) || m_model->isSubtitleTrack(tid)) {
+        return false;
+    }
+    return m_model->getNextTrackId(tid) != tid;
+}
+
+bool TimelineController::canMoveTrackDown(int tid) const
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!m_model->isTrack(tid) || m_model->isSubtitleTrack(tid)) {
+        return false;
+    }
+    return m_model->getPreviousTrackId(tid) != tid;
+}
+
+bool TimelineController::moveTrackUp(int tid)
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!canMoveTrackUp(tid)) {
+        return false;
+    }
+    bool result = m_model->requestTrackMove(tid, true, true);
+    if (result) {
+        pCore->refreshProjectMonitorOnce();
+    }
+    return result;
+}
+
+bool TimelineController::moveTrackDown(int tid)
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!canMoveTrackDown(tid)) {
+        return false;
+    }
+    bool result = m_model->requestTrackMove(tid, false, true);
+    if (result) {
+        pCore->refreshProjectMonitorOnce();
+    }
+    return result;
+}
+
 void TimelineController::switchTrackRecord(int tid, bool monitor)
 {
     if (tid == -1) {

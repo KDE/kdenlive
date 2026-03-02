@@ -702,8 +702,30 @@ void MainWindow::init()
     auto *timelineHeadersMenu = new QMenu(this);
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("move_track_up")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("move_track_down")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("fit_all_tracks")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
+    connect(timelineHeadersMenu, &QMenu::aboutToShow, this, [this]() {
+        auto moveUp = actionCollection()->action(QStringLiteral("move_track_up"));
+        auto moveDown = actionCollection()->action(QStringLiteral("move_track_down"));
+        auto timeline = getCurrentTimeline();
+        if (!timeline || !timeline->controller()) {
+            if (moveUp) {
+                moveUp->setEnabled(false);
+            }
+            if (moveDown) {
+                moveDown->setEnabled(false);
+            }
+            return;
+        }
+        if (moveUp) {
+            moveUp->setEnabled(timeline->controller()->canMoveTrackUp());
+        }
+        if (moveDown) {
+            moveDown->setEnabled(timeline->controller()->canMoveTrackDown());
+        }
+    });
 
     QAction *separate_channels = new QAction(QIcon(), i18n("Separate Channels"), this);
     separate_channels->setCheckable(true);
@@ -2112,6 +2134,14 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
     deleteTrack->setData("delete_track");
 
+    QAction *moveTrackUp = new QAction(QIcon::fromTheme(QStringLiteral("go-up")), i18n("Move Track Up"), this);
+    connect(moveTrackUp, &QAction::triggered, this, &MainWindow::slotMoveTrackUp);
+    timelineActions->addAction(QStringLiteral("move_track_up"), moveTrackUp);
+
+    QAction *moveTrackDown = new QAction(QIcon::fromTheme(QStringLiteral("go-down")), i18n("Move Track Down"), this);
+    connect(moveTrackDown, &QAction::triggered, this, &MainWindow::slotMoveTrackDown);
+    timelineActions->addAction(QStringLiteral("move_track_down"), moveTrackDown);
+
     QAction *showAudio = new QAction(QIcon(), i18n("Show Record Controls"), this);
     connect(showAudio, &QAction::triggered, this, &MainWindow::slotShowTrackRec);
     timelineActions->addAction(QStringLiteral("show_track_record"), showAudio);
@@ -3256,6 +3286,18 @@ void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     getCurrentTimeline()->controller()->deleteMultipleTracks(-1);
+}
+
+void MainWindow::slotMoveTrackUp()
+{
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    getCurrentTimeline()->controller()->moveTrackUp();
+}
+
+void MainWindow::slotMoveTrackDown()
+{
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    getCurrentTimeline()->controller()->moveTrackDown();
 }
 
 void MainWindow::slotSwitchTrackAudioStream()

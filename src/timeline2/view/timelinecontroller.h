@@ -299,6 +299,10 @@ public:
     /** @brief Remove multiple(or single) timeline tracks
      */
     Q_INVOKABLE void deleteMultipleTracks(int tid);
+    Q_INVOKABLE bool moveTrackUp(int tid = -1);
+    Q_INVOKABLE bool moveTrackDown(int tid = -1);
+    Q_INVOKABLE bool canMoveTrackUp(int tid = -1) const;
+    Q_INVOKABLE bool canMoveTrackDown(int tid = -1) const;
     /** @brief Show / hide audio rec controls in active track
      */
     void switchTrackRecord(int tid = -1, bool monitor = false);

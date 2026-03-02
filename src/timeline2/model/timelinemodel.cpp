@@ -5088,6 +5088,126 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     return false;
 }
 
+bool TimelineModel::requestTrackMove(int trackId, bool up, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE(trackId, up, logUndo);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = requestTrackMove(trackId, up, undo, redo);
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move Track"));
+    }
+    TRACE_RES(result);
+    return result;
+}
+
+bool TimelineModel::requestTrackMove(int trackId, bool up, Fun &undo, Fun &redo)
+{
+    if (!isTrack(trackId)) {
+        return false;
+    }
+    const int targetTrackId = up ? getNextTrackId(trackId) : getPreviousTrackId(trackId);
+    if (targetTrackId == trackId || !isTrack(targetTrackId)) {
+        return false;
+    }
+    if (isAudioTrack(trackId) != isAudioTrack(targetTrackId)) {
+        return false;
+    }
+
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+
+    std::unordered_set<int> affectedItems;
+    auto sourceTrack = getTrackById_const(trackId);
+    auto targetTrack = getTrackById_const(targetTrackId);
+    for (const auto &it : sourceTrack->m_allClips) {
+        affectedItems.insert(it.first);
+    }
+    for (const auto &it : sourceTrack->m_allCompositions) {
+        affectedItems.insert(it.first);
+    }
+    for (const auto &it : targetTrack->m_allClips) {
+        affectedItems.insert(it.first);
+    }
+    for (const auto &it : targetTrack->m_allCompositions) {
+        affectedItems.insert(it.first);
+    }
+
+    // for (int itemId : affectedItems) {
+    //     if (m_groups->isInGroup(itemId)) {
+    //         bool ungrouped = requestRemoveFromGroup(itemId, local_undo, local_redo);
+    //         if (!ungrouped) {
+    //             bool undone = local_undo();
+    //             Q_ASSERT(undone);
+    //             return false;
+    //         }
+    //     }
+    // }
+
+    auto swapTracks = [this, trackId, targetTrackId]() {
+        int pos1 = getTrackPosition(trackId);
+        int pos2 = getTrackPosition(targetTrackId);
+        if (pos1 == pos2) {
+            return true;
+        }
+        int lowPos = qMin(pos1, pos2);
+        int highPos = qMax(pos1, pos2);
+        int lowTrackId = getTrackIndexFromPosition(lowPos);
+        int highTrackId = getTrackIndexFromPosition(highPos);
+        auto lowTrack = getTrackById(lowTrackId);
+        auto highTrack = getTrackById(highTrackId);
+
+        m_tractor->block();
+        int error = 0;
+        error += m_tractor->remove_track(highPos + 1);
+        error += m_tractor->remove_track(lowPos + 1);
+        error += m_tractor->insert_track(*highTrack, lowPos + 1);
+        error += m_tractor->insert_track(*lowTrack, highPos + 1);
+        m_tractor->unblock();
+        if (error != 0) {
+            return false;
+        }
+
+        auto lowIt = m_iteratorTable[lowTrackId];
+        auto highIt = m_iteratorTable[highTrackId];
+        Q_EMIT layoutAboutToBeChanged();
+        std::iter_swap(lowIt, highIt);
+        m_iteratorTable[lowTrackId] = highIt;
+        m_iteratorTable[highTrackId] = lowIt;
+        Q_EMIT layoutChanged();
+        return true;
+    };
+
+    auto refreshTracks = [this, trackId, targetTrackId]() {
+        buildTrackCompositing(true);
+        QVector<int> roles{TrackTagRole, NameRole, IsAudioRole, AudioRecordRole, EffectZonesRole};
+        QModelIndex ix1 = makeTrackIndexFromID(trackId);
+        QModelIndex ix2 = makeTrackIndexFromID(targetTrackId);
+        if (ix1.isValid()) {
+            Q_EMIT dataChanged(ix1, ix1, roles);
+        }
+        if (ix2.isValid()) {
+            Q_EMIT dataChanged(ix2, ix2, roles);
+        }
+        return true;
+    };
+
+    if (!swapTracks()) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
+    }
+    refreshTracks();
+
+    PUSH_LAMBDA(swapTracks, local_undo);
+    PUSH_LAMBDA(refreshTracks, local_undo);
+    PUSH_LAMBDA(swapTracks, local_redo);
+    PUSH_LAMBDA(refreshTracks, local_redo);
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}
+
 void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert, bool singleOperation)
 {
     int id = track->getId();

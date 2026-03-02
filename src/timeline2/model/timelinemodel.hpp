@@ -706,6 +706,14 @@ public:
     /** @brief Same function, but accumulates undo and redo*/
     bool requestTrackDeletion(int trackId, Fun &undo, Fun &redo);
 
+      /** @brief Move a track one step up/down among tracks of the same type (audio/video).
+          Group links for clips/compositions in the swapped tracks are temporarily removed so
+          grouped items on other tracks are not affected.
+       */
+      bool requestTrackMove(int trackId, bool up, bool logUndo = true);
+      /** @brief Same function, but accumulates undo and redo*/
+      bool requestTrackMove(int trackId, bool up, Fun &undo, Fun &redo);
+
     /** @brief Get project duration
        Returns the duration in frames
     */

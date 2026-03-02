@@ -553,6 +553,8 @@ private Q_SLOTS:
     void slotAutoTrackHeight(bool enable);
     void slotInsertTrack();
     void slotDeleteTrack();
+    void slotMoveTrackUp();
+    void slotMoveTrackDown();
     /** @brief Show context menu to switch current track target audio stream. */
     void slotSwitchTrackAudioStream();
     void slotShowTrackRec(bool checked);
