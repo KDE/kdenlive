@@ -710,9 +710,9 @@ public:
           Group links for clips/compositions in the swapped tracks are temporarily removed so
           grouped items on other tracks are not affected.
        */
-      bool requestTrackMove(int trackId, bool up, bool logUndo = true);
+      bool requestTrackMove(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, bool up, bool logUndo = true);
       /** @brief Same function, but accumulates undo and redo*/
-      bool requestTrackMove(int trackId, bool up, Fun &undo, Fun &redo);
+      bool requestTrackMove(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, bool up, Fun &undo, Fun &redo);
 
     /** @brief Get project duration
        Returns the duration in frames

@@ -5088,13 +5088,13 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     return false;
 }
 
-bool TimelineModel::requestTrackMove(int trackId, bool up, bool logUndo)
+bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, bool up, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(trackId, up, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestTrackMove(trackId, up, undo, redo);
+    bool result = requestTrackMove(timeline, trackId, up, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move Track"));
     }
@@ -5102,7 +5102,7 @@ bool TimelineModel::requestTrackMove(int trackId, bool up, bool logUndo)
     return result;
 }
 
-bool TimelineModel::requestTrackMove(int trackId, bool up, Fun &undo, Fun &redo)
+bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, bool up, Fun &undo, Fun &redo)
 {
     if (!isTrack(trackId)) {
         return false;
@@ -5117,7 +5117,16 @@ bool TimelineModel::requestTrackMove(int trackId, bool up, Fun &undo, Fun &redo)
 
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
+    Fun updateCompositionsUndo = []() { return true; };
+    Fun updateCompositionsRedo = []() { return true; };
+    
+    // Gather all compositions ATrack before the move, to be able to update them after swapping the tracks
+    std::unordered_map<int, int> compositionATrackMode;
+    for (const auto &compo : m_allCompositions) {
+        compositionATrackMode[compo.first] = compo.second->getForcedTrack();
+    }
 
+    // swap tracks in the MLT Tractor and in our model
     auto swapTracks = [this, trackId, targetTrackId]() {
         int pos1 = getTrackPosition(trackId);
         int pos2 = getTrackPosition(targetTrackId);
@@ -5166,16 +5175,71 @@ bool TimelineModel::requestTrackMove(int trackId, bool up, Fun &undo, Fun &redo)
         return true;
     };
 
+    // Update the ATrack of compositions affected by the move.
+    auto updateCompositionsATrack = [this, timeline, compositionATrackMode, trackId, targetTrackId, &updateCompositionsUndo, &updateCompositionsRedo]() {
+        Fun updateUndo = []() { return true; };
+        Fun updateRedo = []() { return true; };
+        for (const auto &compoData : compositionATrackMode) {
+            const int compoId = compoData.first;
+            if (!isComposition(compoId)) {
+                continue;
+            }
+            int newATrack = compoData.second;
+            if (newATrack > 0) {
+                int compoTrackId = getCompositionTrackId(compoId);
+                bool validSpecificTrack = false;
+                if (isTrack(compoTrackId)) {
+                    int compoTrackPos = getTrackMltIndex(compoTrackId);
+                    if (newATrack < compoTrackPos) {
+                        // If the newATrack is the one that got swapped, set it to the other one
+                        if (newATrack == getTrackPosition(trackId) + 1) {
+                            newATrack = getTrackPosition(targetTrackId) + 1;
+                        }
+                        else if (newATrack == getTrackPosition(targetTrackId) + 1) {
+                            newATrack = getTrackPosition(trackId) + 1;
+                        }
+                        int targetATrackPos = newATrack - 1;
+                        if (targetATrackPos >= 0 && targetATrackPos < getTracksCount()) {
+                            int targetATrackId = getTrackIndexFromPosition(targetATrackPos);
+                            validSpecificTrack = isTrack(targetATrackId) && !isAudioTrack(targetATrackId);
+                        }
+                    }
+                }
+                if (!validSpecificTrack) {
+                    newATrack = 0;
+                }
+            }
+            bool ok = TimelineFunctions::setCompositionATrack(timeline, compoId, newATrack, updateUndo, updateRedo, false);
+            if (!ok) {
+                bool undone = updateUndo();
+                Q_ASSERT(undone);
+                return false;
+            }
+        }
+        updateCompositionsUndo = updateUndo;
+        updateCompositionsRedo = updateRedo;
+        return true;
+    };
+    // First swap the tracks data
     if (!swapTracks()) {
         bool undone = local_undo();
         Q_ASSERT(undone);
         return false;
     }
+    // Then update the ATracks as needed
+    if (!updateCompositionsATrack()) {
+        bool undone = swapTracks();
+        Q_ASSERT(undone);
+        return false;
+    }
+    // Finally refresh the tracks to update the view and the compositing
     refreshTracks();
 
     PUSH_LAMBDA(swapTracks, local_undo);
+    PUSH_LAMBDA(updateCompositionsUndo, local_undo);
     PUSH_LAMBDA(refreshTracks, local_undo);
     PUSH_LAMBDA(swapTracks, local_redo);
+    PUSH_LAMBDA(updateCompositionsRedo, local_redo);
     PUSH_LAMBDA(refreshTracks, local_redo);
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;

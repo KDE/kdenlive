@@ -1309,6 +1309,11 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    setCompositionATrack(timeline, cid, aTrack, undo, redo, true);
+}
+
+bool TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack, Fun &undo, Fun &redo, bool pushUndo)
+{
     std::shared_ptr<CompositionModel> compo = timeline->getCompositionPtr(cid);
     int previousATrack = compo->getATrack();
     int previousAutoTrack = static_cast<int>(compo->getForcedTrack() == -1);
@@ -1346,8 +1351,12 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     if (local_redo()) {
         PUSH_LAMBDA(local_undo, undo);
         PUSH_LAMBDA(local_redo, redo);
+        if (pushUndo) {
+            pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
+        }
+        return true;
     }
-    pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
+    return false;
 }
 
 QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh)

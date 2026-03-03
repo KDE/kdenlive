@@ -1016,7 +1016,7 @@ bool TimelineController::moveTrackUp(int tid)
     if (!canMoveTrackUp(tid)) {
         return false;
     }
-    bool result = m_model->requestTrackMove(tid, true, true);
+    bool result = m_model->requestTrackMove(m_model, tid, true, true);
     if (result) {
         pCore->refreshProjectMonitorOnce();
     }
@@ -1031,7 +1031,7 @@ bool TimelineController::moveTrackDown(int tid)
     if (!canMoveTrackDown(tid)) {
         return false;
     }
-    bool result = m_model->requestTrackMove(tid, false, true);
+    bool result = m_model->requestTrackMove(m_model, tid, false, true);
     if (result) {
         pCore->refreshProjectMonitorOnce();
     }

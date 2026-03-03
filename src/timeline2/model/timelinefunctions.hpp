@@ -151,6 +151,7 @@ struct TimelineFunctions
     static bool requestSplitAudio(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, QList<int> targetTracks);
     static bool requestSplitVideo(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int videoTarget);
     static void setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack);
+    static bool setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack, Fun &undo, Fun &redo, bool pushUndo);
     static QStringList enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh);
     static void saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection, const QDir &targetDir,
                                       int duration);
