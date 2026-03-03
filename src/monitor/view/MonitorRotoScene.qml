@@ -5,7 +5,7 @@
 */
 
 import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick.Controls
 
 import org.kde.kdenlive as K
 
@@ -468,6 +468,7 @@ Item {
         onPressed: mouse=> {
             lastMouseX = mouse.x
             lastMouseY = mouse.y
+            root.captureRightClick = true
         }
         onExited: {
             controller.setWidgetKeyBinding()
@@ -531,7 +532,7 @@ Item {
 
         onClicked: mouse => {
             if (!root.isDefined) {
-                if (mouse.button == Qt.RightButton && root.centerPoints.length > 2) {
+                if (mouse.button === Qt.RightButton && root.centerPoints.length > 2) {
                     root.closeShape()
                 } else if (root.requestedKeyFrame < 0) {
                     var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);

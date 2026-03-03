@@ -421,6 +421,8 @@ public:
 
 public Q_SLOTS:
     const QString slotUrlsDropped(const QList<QUrl> urls, const QModelIndex parent);
+
+private Q_SLOTS:
     void slotAddClip();
     /** @brief Reload clip from disk */
     void slotReloadClip();
@@ -598,6 +600,7 @@ private:
     QSlider *m_slider;
     QIcon m_blankThumb;
     QMenu *m_menu{nullptr};
+    QMenu *m_folderContextMenu{nullptr};
     QAction *m_openAction{nullptr};
     QAction *m_editAction{nullptr};
     QAction *m_reloadAction{nullptr};

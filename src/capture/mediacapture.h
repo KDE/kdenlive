@@ -109,10 +109,6 @@ private:
     /** @brief Duration of pre-pause recording */
     int m_recOffset;
     int m_tid;
-    // Channels supported by rec device
-    int m_captureSampleRate{48000};
-    // Channels supported by rec device
-    int m_captureChannels{2};
     /** @brief true if we started the record countdown */
     bool m_readyForRecord;
     QTimer m_resetTimer;

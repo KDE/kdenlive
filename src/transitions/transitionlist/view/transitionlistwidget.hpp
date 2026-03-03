@@ -8,7 +8,8 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
 
-class TransitionListWidgetProxy;
+class TransitionIconDelegate;
+class QProcess;
 
 /** @class TransitionListWidget
     @brief This class is a widget that display the list of available effects
@@ -35,4 +36,29 @@ public:
 
 public Q_SLOTS:
     void reloadCustomEffect(const QString &path) override;
+
+    /**
+     * @brief Generate preview GIFs for transitions
+     */
+    void generatePreviews();
+    void switchSplitter(bool enable) override;
+
+private Q_SLOTS:
+    void showLumas();
+    void updateTransitionInfo(const QModelIndex &current, const QModelIndex &previous);
+    void iconViewEntered(const QModelIndex &ix);
+    void iconViewExited();
+    void previewDone(int exitCode, QProcess::ExitStatus exitStatus);
+    /**
+     * @brief Start preview generation if it does not exist yet
+     */
+    void checkPreviews(bool force = false);
+
+private:
+    TransitionIconDelegate *m_iconDelegate;
+    QMetaObject::Connection m_animationConnection;
+    QMetaObject::Connection m_hoverAnimationConnection;
+    QString m_hoveredTransition;
+    std::unique_ptr<QProcess> m_previewProcess;
+    QAction *m_generatePreviewAction;
 };

@@ -485,6 +485,7 @@ private Q_SLOTS:
     void slotAddClipMarker();
     void slotDeleteClipMarker(bool allowGuideDeletion = false);
     void slotDeleteAllClipMarkers();
+    void slotDeleteAllSequenceMarkers();
     void slotEditClipMarker();
 
     /** @brief Adds marker or guide at the current position without showing the marker dialog.

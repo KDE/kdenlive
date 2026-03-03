@@ -414,6 +414,7 @@ void TimelineWidget::showTimelineMenu()
 
     pCore->bin()->setReadyCallBack([this](const QString &clipId) {
         qDebug() << "CALLBACK TRIGGERED FOR CLIP:" << clipId;
+        // Process with insertion
         timelineController.insertClips(m_addClipTrack, m_addClipFrame, QStringList(clipId), true, true);
     });
     m_timelineMenu->popup(m_clickPos);

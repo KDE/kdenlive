@@ -24,7 +24,7 @@ Write your tests in a file with a name corresponding to what you're testing */
 
 QString getMltRepositoryPath()
 {
-    for(auto varname : { "CRAFT_ROOT", "KDEROOT" }) {
+    for (auto varname : {"CRAFT_ROOT", "KDEROOT"}) {
         if (!qEnvironmentVariableIsSet(varname)) {
             continue;
         }

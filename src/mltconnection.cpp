@@ -437,14 +437,20 @@ void MltConnection::refreshLumas()
     }
     hdLumas << autoLumas;
     sdLumas << autoLumas;
-    ntscLumas << autoLumas;
-    verticalLumas << autoLumas;
-    squareLumas << autoLumas;
+    if (!ntscLumas.isEmpty()) {
+        ntscLumas << autoLumas;
+        MainWindow::m_lumaFiles.insert(QStringLiteral("NTSC"), ntscLumas);
+    }
+    if (!verticalLumas.isEmpty()) {
+        verticalLumas << autoLumas;
+        MainWindow::m_lumaFiles.insert(QStringLiteral("9_16"), verticalLumas);
+    }
+    if (!squareLumas.isEmpty()) {
+        squareLumas << autoLumas;
+        MainWindow::m_lumaFiles.insert(QStringLiteral("square"), squareLumas);
+    }
     MainWindow::m_lumaFiles.insert(QStringLiteral("16_9"), hdLumas);
-    MainWindow::m_lumaFiles.insert(QStringLiteral("9_16"), verticalLumas);
-    MainWindow::m_lumaFiles.insert(QStringLiteral("square"), squareLumas);
     MainWindow::m_lumaFiles.insert(QStringLiteral("PAL"), sdLumas);
-    MainWindow::m_lumaFiles.insert(QStringLiteral("NTSC"), ntscLumas);
     allImagefiles.removeDuplicates();
     (void)QtConcurrent::run(&Core::buildLumaThumbs, pCore.get(), allImagefiles);
 }

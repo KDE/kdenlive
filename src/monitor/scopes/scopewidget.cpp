@@ -27,6 +27,13 @@ void ScopeWidget::onNewFrame(const SharedFrame &frame)
     requestRefresh();
 }
 
+void ScopeWidget::clear()
+{
+    while (m_queue.count() > 0) {
+        m_queue.pop();
+    }
+}
+
 void ScopeWidget::requestRefresh()
 {
     if (m_future.isFinished()) {

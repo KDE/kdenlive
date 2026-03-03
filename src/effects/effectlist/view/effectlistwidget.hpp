@@ -39,4 +39,5 @@ public:
 
 public Q_SLOTS:
     void reloadCustomEffect(const QString &path) override;
+    void switchSplitter(bool enable) override;
 };

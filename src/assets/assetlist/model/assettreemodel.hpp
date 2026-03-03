@@ -20,8 +20,8 @@ class AssetTreeModel : public AbstractTreeModel
 public:
     explicit AssetTreeModel(QObject *parent = nullptr);
 
-    enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole, TypeRole, IncludeListRole, TenBitRole };
-    enum { NameCol = 0, IdCol = 1, TypeCol = 2, FavCol = 3, PreferredCol = 5, IncludeListCol = 6, TenBitCol = 7 };
+    enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole, TypeRole, IncludeListRole, TenBitRole, IconRole };
+    enum { NameCol = 0, IdCol = 1, TypeCol = 2, FavCol = 3, PreferredCol = 5, IncludeListCol = 6, TenBitCol = 7, IconCol = 8 };
 
     /** @brief Helper function to retrieve name */
     QString getName(const QModelIndex &index) const;
@@ -36,6 +36,9 @@ public:
     virtual void deleteEffect(const QModelIndex &index) = 0;
     virtual void editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index) = 0;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+public Q_SLOTS:
+    virtual void reparseUpdatedAssets() {};
 
 protected:
     AssetIconProvider *m_assetIconProvider;

@@ -20,6 +20,15 @@ TransitionsRepository::TransitionsRepository()
     : AbstractAssetsRepository<AssetListType::AssetType>()
 {
     init();
+}
+
+Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
+{
+    return pCore->getMltRepository()->transitions();
+}
+
+void TransitionsRepository::checkFavorites()
+{
     QStringList invalidTransition;
     for (const QString &effect : KdenliveSettings::favorite_transitions()) {
         if (!exists(effect)) {
@@ -37,14 +46,20 @@ TransitionsRepository::TransitionsRepository()
     }
 }
 
-Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
-{
-    return pCore->getMltRepository()->transitions();
-}
-
 Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) const
 {
     return pCore->getMltRepository()->metadata(mlt_service_transition_type, assetId.toLatin1().data());
+}
+
+void TransitionsRepository::addLuma(const QString &name, const QString &path)
+{
+    Info info;
+    info.id = path;
+    info.mltId = QStringLiteral("luma");
+    info.description = i18n("Luma file :");
+    info.name = name;
+    info.type = AssetListType::AssetType::LumaTransition;
+    m_assets[path] = info;
 }
 
 void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
@@ -69,6 +84,11 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             continue;
         }
         Info result;
+        // Remove preview tag
+        QDomElement preview = currentNode.firstChildElement(QStringLiteral("preview"));
+        if (!preview.isNull()) {
+            currentNode.removeChild(preview);
+        }
         bool ok = parseInfoFromXml(currentNode.toElement(), result);
         if (!ok) {
             continue;
@@ -187,6 +207,12 @@ bool TransitionsRepository::isComposition(const QString &transitionId) const
     auto type = getType(transitionId);
     return type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::VideoComposition ||
            type == AssetListType::AssetType::VideoShortComposition;
+}
+
+bool TransitionsRepository::isLuma(const QString &transitionId) const
+{
+    auto type = getType(transitionId);
+    return type == AssetListType::AssetType::LumaTransition;
 }
 
 const QString TransitionsRepository::getCompositingTransition()

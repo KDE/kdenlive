@@ -291,7 +291,13 @@ Item{
                     target: loader.item
                     property: "aTrack"
                     value: model.a_track
-                    when: loader.status == Loader.Ready && model.clipType == Kdenlive.ClipType.Composition
+                    when: loader.status == Loader.Ready && model.clipType === Kdenlive.ClipType.Composition
+                }
+                Binding {
+                    target: loader.item
+                    property: "visible"
+                    value: !model.hideItem
+                    when: loader.status == Loader.Ready && model.clipType === Kdenlive.ClipType.Composition
                 }
                 Binding {
                     target: loader.item

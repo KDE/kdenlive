@@ -13,6 +13,7 @@
 #include <QWidget>
 
 class SamInterface;
+class PythonDependencyMessage;
 class KJob;
 
 class SpeechList : public QListWidget
@@ -36,6 +37,7 @@ class PluginsSettings : public QWidget, public Ui::ConfigSpeech_UI
 
 public:
     PluginsSettings(QWidget *parent = nullptr);
+    ~PluginsSettings() override;
     /** @brief Launch pytonh scripts to check speech engine dependencies */
     void checkSpeechDependencies();
     void applySettings();
@@ -44,6 +46,9 @@ public:
 private:
     SpeechToText *m_sttVosk;
     SpeechToText *m_sttWhisper;
+    PythonDependencyMessage *m_msgWhisper;
+    PythonDependencyMessage *m_msgVosk;
+    PythonDependencyMessage *m_pythonSamLabel;
     SamInterface *m_samInterface;
     SpeechList *m_speechListWidget;
     QAction *m_downloadModelAction;

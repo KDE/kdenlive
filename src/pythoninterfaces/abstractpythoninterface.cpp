@@ -171,6 +171,12 @@ AbstractPythonInterface::~AbstractPythonInterface()
     if (m_watcher.isRunning()) {
         m_watcher.waitForFinished();
     }
+    if (m_depsWatcher.isRunning()) {
+        m_depsWatcher.waitForFinished();
+    }
+    if (m_versionWatcher.isRunning()) {
+        m_versionWatcher.waitForFinished();
+    }
 }
 
 const QString AbstractPythonInterface::getVenvPath()
@@ -528,12 +534,14 @@ const QString AbstractPythonInterface::getScript(const QString &scriptName) cons
 
 void AbstractPythonInterface::checkDependenciesConcurrently()
 {
-    (void)QtConcurrent::run(&AbstractPythonInterface::checkDependencies, this, false, false);
+    m_depsJob = QtConcurrent::run(&AbstractPythonInterface::checkDependencies, this, false, false);
+    m_depsWatcher.setFuture(m_depsJob);
 }
 
 void AbstractPythonInterface::checkVersionsConcurrently()
 {
-    (void)QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
+    m_versionJob = QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
+    m_versionWatcher.setFuture(m_versionJob);
 }
 
 bool AbstractPythonInterface::checkDependencies(bool force, bool async)

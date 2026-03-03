@@ -1059,6 +1059,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         createDisabledMasterProducer();
         int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration")) - 1;
         std::shared_ptr<Mlt::Producer> prod(m_disabledProducer->cut(-1, duration > 0 ? duration : -1));
+        // Ensure we don't lose audio index
+        prod->set("kdenlive:audio_index", audioStream);
         if (m_clipType == ClipType::Timeline) {
             prod->set("set.test_audio", 1);
             prod->set("set.test_image", 1);
@@ -1222,7 +1224,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     qDebug() << "Warning: weird, we found a disabled clip whose master is already loaded but we don't have any yet";
                     createDisabledMasterProducer();
                 }
-                return {std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(in, out)), false};
+                auto disabledProducer = std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(in, out));
+                if (master->property_exists("kdenlive:audio_index")) {
+                    disabledProducer->set("kdenlive:audio_index", master->get_int("kdenlive:audio_index"));
+                }
+                return {disabledProducer, false};
             }
             // We have a good id, this clip can be used
             return {master, true};
@@ -1289,7 +1295,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 if (!m_disabledProducer) {
                     createDisabledMasterProducer();
                 }
-                return {std::make_shared<Mlt::Producer>(m_disabledProducer->cut(master->get_in(), master->get_out())), true};
+                auto disabledProducer = std::make_shared<Mlt::Producer>(m_disabledProducer->cut(master->get_in(), master->get_out()));
+                if (master->property_exists("kdenlive:audio_index")) {
+                    disabledProducer->set("kdenlive:audio_index", master->get_int("kdenlive:audio_index"));
+                }
+                return {disabledProducer, true};
             }
             qDebug() << "Warning: weird, we found a clip whose master is not loaded but we already have a master";
             Q_ASSERT(false);

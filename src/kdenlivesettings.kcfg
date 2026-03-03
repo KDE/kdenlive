@@ -163,9 +163,22 @@
       <default>false</default>
     </entry>
 
-    <entry name="assetsInfoHeight" type="Double">
-      <label>Height of the info box.</label>
-      <default>0</default>
+    <entry name="effectsInfoHeight" type="String">
+      <label>Splitter data for height of the info box.</label>
+      <default></default>
+    </entry>
+    <entry name="showEffectsInfo" type="Bool">
+      <label>Shall we show the info box.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="transitionsInfoHeight" type="String">
+      <label>Splitter data for height of the info box.</label>
+      <default></default>
+    </entry>
+    <entry name="showTransitionsInfo" type="Bool">
+      <label>Shall we show the info box.</label>
+      <default>false</default>
     </entry>
 
     <entry name="disable_effect_parameters" type="Bool">
@@ -779,6 +792,11 @@
       <default></default>
     </entry>
 
+    <entry name="defaultvideoapp" type="String">
+      <label>Default video editing application name.</label>
+      <default></default>
+    </entry>
+
     <entry name="nice_tasks" type="Bool">
       <label>Use lower CPU priority for proxy and transcode tasks</label>
       <default>true</default>
@@ -824,6 +842,11 @@
     <entry name="audiocapturesamplerate" type="Int">
       <label>Audio capture sample rate</label>
       <default>48000</default>
+    </entry>
+
+    <entry name="audiocapturesampleformat" type="Int">
+      <label>Audio capture sample format</label>
+      <default>2</default>
     </entry>
 
     <entry name="defaultcapture" type="Int">
@@ -1388,6 +1411,14 @@
     <entry name="selected_effecttab" type="Int">
       <label>Last opened tab in effects list.</label>
       <default>0</default>
+    </entry>
+    <entry name="effectViewAsIcon" type="Bool">
+      <label>Show effects as icon list.</label>
+      <default>false</default>
+    </entry>
+    <entry name="transitionViewAsIcon" type="Bool">
+      <label>Show transitions as icon list.</label>
+      <default>false</default>
     </entry>
     </group>
   <group name="startup">

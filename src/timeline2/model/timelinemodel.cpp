@@ -251,7 +251,8 @@ QPair<int, int> TimelineModel::getAVtracksCount() const
         ++it;
     }
     if (m_overlayTrackCount > -1) {
-        tracks.first -= m_overlayTrackCount;
+        // Don't count the timeline preview and other internal video tracks
+        tracks.second -= m_overlayTrackCount;
     }
     return tracks;
 }
@@ -316,6 +317,13 @@ int TimelineModel::getCompositionTrackId(int compoId) const
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     const auto trans = m_allCompositions.at(compoId);
     return trans->getCurrentTrackId();
+}
+
+void TimelineModel::hideComposition(int itemId, bool hide)
+{
+    Q_ASSERT(m_allCompositions.count(itemId) > 0);
+    const auto trans = m_allCompositions.at(itemId);
+    trans->setHidden(hide);
 }
 
 int TimelineModel::getItemTrackId(int itemId) const
@@ -778,7 +786,6 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
         qWarning() << "clip type mismatch 3";
         return MoveErrorType;
     }
-    int sourceIndex = m_allClips[clipId]->audioStreamIndex();
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool ok = true;
@@ -1754,7 +1761,8 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     return {currentPos, sourceTrackId};
 }
 
-QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance, bool fakeMove)
+QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance, bool fakeMove,
+                                                   bool allowAdjustDuration)
 {
     QWriteLocker locker(&m_lock);
     TRACE(compoId, trackId, position, cursorPosition, snapDistance);
@@ -1803,7 +1811,7 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
         return {position, trackId};
     }
     // we check if move is possible
-    bool possible = requestCompositionMove(compoId, trackId, position, true, false, fakeMove);
+    bool possible = requestCompositionMove(compoId, trackId, position, true, false, fakeMove, allowAdjustDuration);
     if (possible) {
         TRACE_RES(position);
         return {position, trackId};
@@ -1983,11 +1991,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             return false;
         }
         int audioStream = -1;
-        QList<int> keys = m_binAudioTargets.keys();
+        QList<int> keys = useTargets ? m_binAudioTargets.keys() : master->activeStreams().keys();
         if (!useTargets) {
             // Drag and drop, calculate target tracks
             if (audioDrop) {
-                keys = master->activeStreams().keys();
                 if (keys.count() > 1) {
                     // Dropping a clip with several audio streams
                     int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
@@ -2019,8 +2026,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                         audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
                     }
                 }
-                // keys = master->activeStreams().keys();
-                if (audioTids.count() < keys.count() - 1 || (mirror == -1 && !keys.isEmpty())) {
+                // Check if we don't have enough audio tracks below (remove the mirror track from count)
+                if ((!audioTids.isEmpty() && audioTids.count() < keys.count() - 1) || (allowedTracks.isEmpty() && mirror == -1 && !keys.isEmpty())) {
                     // Check if project has enough audio tracks
                     if (keys.count() > getTracksIds(true).count()) {
                         // Not enough audio tracks in the project
@@ -2207,7 +2214,7 @@ bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool l
 {
     QWriteLocker locker(&m_lock);
     if (m_groups->isInGroup(itemId)) {
-        return requestGroupDeletion(itemId, undo, redo);
+        return requestGroupDeletion(itemId, undo, redo, logUndo);
     }
     if (isClip(itemId)) {
         return requestClipDeletion(itemId, undo, redo, logUndo);
@@ -3293,7 +3300,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
     return res;
 }
 
-bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
+bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo)
 {
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
     std::queue<int> group_queue;
@@ -3346,7 +3353,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
         }
     }
     for (int clip : all_items) {
-        bool res = requestClipDeletion(clip, undo, redo);
+        bool res = requestClipDeletion(clip, undo, redo, logUndo);
         if (!res) {
             // Undo is processed in requestClipDeletion
             return false;
@@ -5790,7 +5797,7 @@ int TimelineModel::getTrackCompositionsCount(int trackId) const
     return getTrackById_const(trackId)->getCompositionsCount();
 }
 
-bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, bool logUndo, bool fakeMove)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, bool logUndo, bool fakeMove, bool allowResize)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
@@ -5814,6 +5821,13 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     int max = min + getCompositionPlaytime(compoId);
     int tk = getCompositionTrackId(compoId);
     bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, updateView, logUndo, undo, redo);
+    if (allowResize) {
+        int compositionLength = getOptimalTransitionDuration(trackId, position);
+        if (compositionLength != getCompositionPlaytime(compoId)) {
+            requestItemResize(compoId, compositionLength, true, false, undo, redo);
+        }
+    }
+
     if (tk > -1) {
         min = qMin(min, getCompositionPosition(compoId));
         max = qMax(max, getCompositionPosition(compoId));
@@ -5827,6 +5841,42 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
         checkRefresh(min, max);
     }
     return res;
+}
+
+int TimelineModel::getOptimalTransitionDuration(int trackId, int position)
+{
+    int topCid = getTrackById_const(trackId)->getClipByStartPosition(position);
+    if (topCid > 0) {
+        int lowerVideoTrackId = getPreviousVideoTrackIndex(trackId);
+        if (lowerVideoTrackId > 0) {
+            int lowerCid = getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
+            if (lowerCid > 0) {
+                // There is a clip on track below, get out point
+                int outPos = getTrackById_const(lowerVideoTrackId)->getClipEnd(position, 0);
+                outPos = qMin(outPos, position + getItemPlaytime(topCid));
+                if (outPos - position > 2) {
+                    return qMin(outPos - position, 2 * pCore->getDurationFromString(KdenliveSettings::transition_duration()));
+                }
+            }
+        }
+    } else {
+        int lowerVideoTrackId = getPreviousVideoTrackIndex(trackId);
+        if (lowerVideoTrackId > 0) {
+            int lowerCid = getTrackById_const(lowerVideoTrackId)->getClipByStartPosition(position);
+            if (lowerCid > 0) {
+                // There is a clip on track below
+                topCid = getTrackById_const(trackId)->getClipByPosition(position);
+                if (topCid > 0) {
+                    int outPos = getTrackById_const(trackId)->getClipEnd(position, 0);
+                    outPos = qMin(outPos, position + getItemPlaytime(lowerCid));
+                    if (outPos - position > 2) {
+                        return qMin(outPos - position, 2 * pCore->getDurationFromString(KdenliveSettings::transition_duration()));
+                    }
+                }
+            }
+        }
+    }
+    return pCore->getDurationFromString(KdenliveSettings::transition_duration());
 }
 
 bool TimelineModel::isAudioTrack(int trackId) const

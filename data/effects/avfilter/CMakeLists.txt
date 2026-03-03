@@ -14,6 +14,7 @@ avfilter_aphaser.xml
 avfilter_apulsator.xml
 avfilter_atadenoise.xml
 avfilter_avgblur.xml
+avfilter_backgroundkey.xml
 avfilter_bandpass.xml
 avfilter_bandreject.xml
 avfilter_bass.xml
@@ -75,6 +76,7 @@ avfilter_fspp.xml
 avfilter_gblur.xml
 avfilter_gradfun.xml
 avfilter_graphmonitor.xml
+avfilter_grayworld.xml
 avfilter_haas.xml
 avfilter_hflip.xml
 avfilter_highpass.xml
@@ -127,6 +129,7 @@ avfilter_sr.xml
 avfilter_stereo3D.xml
 avfilter_stereotools.xml
 avfilter_stereowiden.xml
+avfilter_swapuv.xml
 avfilter_tmix.xml
 avfilter_transpose.xml
 avfilter_unsharp.xml

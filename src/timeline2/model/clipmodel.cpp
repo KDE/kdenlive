@@ -969,6 +969,10 @@ void ClipModel::refreshProducerFromBin(int trackId)
         hasPitch = m_producer->parent().get_int("warp_pitch") == 1;
     }
     int stream = m_producer->parent().get_int("audio_index");
+    if (m_producer->property_exists("kdenlive:audio_index")) {
+        // The clip was disabled, restore original audio stream
+        stream = m_producer->get_int("kdenlive:audio_index");
+    }
     refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1, hasTimeRemap());
 }
 
@@ -1147,6 +1151,9 @@ bool ClipModel::audioMultiStream() const
 
 int ClipModel::audioStream() const
 {
+    if (m_currentState == PlaylistState::Disabled) {
+        return m_producer->get_int("kdenlive:audio_index");
+    }
     return m_producer->parent().get_int("audio_index");
 }
 
@@ -1269,6 +1276,9 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
     return [this, state]() {
+        if (state == m_currentState) {
+            return true;
+        }
         if (auto ptr = m_parent.lock()) {
             m_currentState = state;
             // Enforce producer reload
@@ -1276,7 +1286,7 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
             if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
                 refreshProducerFromBin(m_currentTrackId);
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
+                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::PlaylistStateRole, TimelineModel::AudioStreamRole});
             }
             return true;
         }

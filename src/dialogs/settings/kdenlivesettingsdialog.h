@@ -56,6 +56,7 @@ private Q_SLOTS:
     void slotUpdateShuttleDevice(int ix = 0);
     void slotEditImageApplication();
     void slotEditAudioApplication();
+    void slotEditVideoApplication();
     void slotEditGlaxnimateApplication();
     void slotReadAudioDevices();
     void slotUpdateGrabRegionStatus();
@@ -83,6 +84,10 @@ private Q_SLOTS:
     /** @brief Open an external browser window */
     void openBrowserUrl(const QString &url);
     void loadExternalProxyProfiles();
+    /** @brief Enable/disable Breeze drag window from empty areas behavior */
+    void slotUpdateBreezeDrag(bool dragOnTitleBar);
+    /** @brief Use current device's default recording profile */
+    void useRecordDefault();
 
 private:
     KPageWidgetItem *m_pageMisc;
@@ -115,6 +120,7 @@ private:
     bool m_modified;
     bool m_shuttleModified;
     bool m_voskUpdated;
+    bool m_breezeDragFromTitlebarOnly{false};
 
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
@@ -144,6 +150,7 @@ private:
     void initJogShuttlePage();
     void initSdlPage(bool gpuAllowed);
     void initTranscodePage();
+    void updateRecordProperties();
 
 Q_SIGNALS:
     void customChanged();

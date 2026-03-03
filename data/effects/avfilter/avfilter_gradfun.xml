@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="avfilter.gradfun" id="avfilter.gradfun">
-    <name>gradfun</name>
-    <description><![CDATA[<b>-= Deprecated =-</b><br>
-    Debands video quickly using gradients.<br>
+    <name>Gradfun</name>
+    <description><![CDATA[Debands video quickly using gradients.<br>
     Fix the banding artifacts that are sometimes introduced into nearly flat regions by truncation to 8-bit color depth.<br>
-    Interpolate the gradients that should go where the bands are, and dither them.<br>
-    <b>It is designed for playback only. Do not use it prior to lossy compression, because compression tends to lose the dither and bring back the bands</b>.]]></description>
+    Interpolate the gradients that should go where the bands are, and dither them.<br><br>
+    <b><i>It is designed for playback only. Do not use it prior to lossy compression, because compression tends to lose the dither and bring back the bands</i></b>.]]></description>
     <author>libavfilter</author>
-    <parameter type="animated" name="av.strength" min="0.51" max="64" default="1.2" decimals="2">
+    <parameter type="constant" name="av.strength" min="0.51" max="64" default="1.2" decimals="2">
         <name>Strength</name>
        	<comment><![CDATA[The maximum amount by which the filter will change any one pixel.<br>
        	This is also the threshold for detecting nearly flat regions.]]></comment>
     </parameter>
-    <parameter type="animated" name="av.radius" min="4" max="32" default="16" decimals="0">
+    <parameter type="constant" name="av.radius" min="4" max="32" default="16" decimals="0">
         <name>Radius</name>
        	<comment><![CDATA[The neighborhood to fit the gradient to.<br>
        	A larger radius makes for smoother gradients, but also prevents the filter from modifying the pixels near detailed regions.]]></comment>

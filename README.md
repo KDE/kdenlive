@@ -43,8 +43,10 @@ Kdenlive's primary development happens on [KDE Invent](https://invent.kde.org/mu
 
 ### Finding Things to Work On
 
-- Browse open issues on [KDE Invent](https://invent.kde.org/multimedia/kdenlive/-/issues)
+- Browse open issues on [KDE Invent](https://invent.kde.org/multimedia/kdenlive/-/issues), for example those labeled with [First Task](https://invent.kde.org/multimedia/kdenlive/-/issues?label_name%5B%5D=First%20Task)
 - Check the [KDE Bug Tracker](https://bugs.kde.org) for reported issues
 - Look for issues tagged with "good first issue" or "help wanted"
 
 Need help getting started? Join our Matrix channel `#kdenlive-dev:kde.org` - our community is friendly and always ready to help new contributors!
+
+Please get in touch with us before working on a task, either by commenting in the issue or through our Matrix channel.

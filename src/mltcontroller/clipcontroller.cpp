@@ -1184,14 +1184,14 @@ const QString ClipController::getOriginalUrl()
 bool ClipController::supportsProxy() const
 {
     switch (clipType()) {
-        case ClipType::Video:
-        case ClipType::AV:
-        case ClipType::Image:
-        case ClipType::Playlist:
-        case ClipType::SlideShow:
-            return true;
-        default:
-            return false;
+    case ClipType::Video:
+    case ClipType::AV:
+    case ClipType::Image:
+    case ClipType::Playlist:
+    case ClipType::SlideShow:
+        return true;
+    default:
+        return false;
     }
 }
 

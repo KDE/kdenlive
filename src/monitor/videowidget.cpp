@@ -365,6 +365,7 @@ void VideoWidget::requestSeek(int position, bool noAudioScrub)
     restartConsumer();
     m_consumer->set("refresh", 1);
     if (KdenliveSettings::audio_scrub() && !noAudioScrub) {
+        m_consumer->set("volume", KdenliveSettings::volume() / 100.0);
         m_consumer->set("scrub_audio", 1);
     } else {
         m_consumer->set("scrub_audio", 0);
@@ -477,7 +478,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
         } else if (getControllerProxy()->dragType() != QLatin1String("-")) {
             m_dragStart = event->pos();
         }
-    } else if ((event->button() & Qt::RightButton) != 0u) {
+    } else if ((event->button() & Qt::RightButton) != 0u && !m_swallowDrop) {
         Q_EMIT showContextMenu(event->globalPosition().toPoint());
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
@@ -689,6 +690,9 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     int consumerPosition = 0;
     if (m_producer) {
         currentId = m_producer->parent().get("kdenlive:id");
+        if (producer == nullptr && currentId == QLatin1String("black")) {
+            return 0;
+        }
     }
     if (m_consumer) {
         consumerPosition = m_consumer->position();
@@ -698,9 +702,6 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     if (producer) {
         m_producer = std::move(producer);
     } else {
-        if (currentId == QLatin1String("black")) {
-            return 0;
-        }
         m_producer = m_blackClip;
         // Reset markersModel
         rootContext()->setContextProperty("markersModel", nullptr);

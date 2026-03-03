@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="frei0r.spillsupress" tag="frei0r.spillsupress" type="video">
+   <name>Spill Suppress</name>
+   <description><![CDATA[Multiply (or divide) each color component by the pixel's alpha value]]></description>
+   <author>Janne Liljeblady</author>
+   <parameter name="0" type="list" default="0" paramlist="0;1">
+      <name>Suppress Type</name>
+      <comment><![CDATA[Defines if green or blue screen spill suppress is applied]]></comment>
+      <paramlistdisplay>Green screen,Blue screen</paramlistdisplay>
+   </parameter>
+</effect>

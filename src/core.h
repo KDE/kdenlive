@@ -375,8 +375,10 @@ public:
     void updateHideBarsTimer(bool inhibit);
     /** @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
     std::unique_ptr<Mlt::Producer> mediaUnavailable;
-    /** Returns true if the project uses a vertical profile */
+    /** @brief Returns true if the project uses a vertical profile */
     bool isVertical() const;
+    /** @brief Returns a list of luma files compatible with current project profile */
+    const QStringList getLumasForProfile();
 
 private:
     explicit Core(LinuxPackageType packageType, bool debugMode = false);

@@ -10,10 +10,10 @@
     <parameter type="animated" name="av.v" min="-1000" max="1000" default="0" factor="1000">
         <name>Vertical Scrolling Speed</name>
     </parameter>
-    <parameter type="animated" name="av.hpos" min="0" max="%width" default="0" factor="%width">
+    <parameter type="constant" name="av.hpos" min="0" max="%width" default="0" factor="%width">
         <name>Initial Horizontal Position</name>
     </parameter>
-    <parameter type="animated" name="av.vpos" min="0" max="%height" default="0" factor="%height">
+    <parameter type="constant" name="av.vpos" min="0" max="%height" default="0" factor="%height">
         <name>Initial Vertical Position</name>
     </parameter>
 </effect>

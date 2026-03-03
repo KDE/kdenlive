@@ -161,18 +161,7 @@ void UrlListParamWidget::slotRefresh()
         m_listType = LUMALIST;
         values.clear();
         names.clear();
-        if (pCore->getCurrentFrameSize().width() > 1000) {
-            // HD project
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
-        } else if (pCore->getCurrentFrameSize().height() > 1000) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
-        } else if (pCore->getCurrentFrameSize().height() == pCore->getCurrentFrameSize().width()) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("square"));
-        } else if (pCore->getCurrentFrameSize().height() == 480) {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
-        } else {
-            values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
-        }
+        values = pCore->getLumasForProfile();
         // Fetch names
         for (auto &v : values) {
             QString lumaName = pCore->nameForLumaFile(QFileInfo(v).fileName());
@@ -215,8 +204,10 @@ void UrlListParamWidget::slotRefresh()
                 if (MainWindow::m_lumacache.contains(entry)) {
                     m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                 } else {
-                    // render thumbnails in another thread
-                    thumbnailsToBuild << entry;
+                    // render thumbnails in another thread, except for build-ins
+                    if (!lumaRegexp.match(entry).hasMatch()) {
+                        thumbnailsToBuild << entry;
+                    }
                 }
             }
         }

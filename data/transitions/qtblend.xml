@@ -23,4 +23,7 @@
     <parameter type="bool" name="rotate_center" default="1" min="0" max="1">
         <name>Rotate from center</name>
     </parameter>
+    <preview>
+        <parameter name="rect">0=0% 0% 100% 100% 100%;-1=50% 0% 50% 50% 50%</parameter>
+    </preview>
 </transition>

@@ -51,8 +51,8 @@ Item {
     property color borderColor: 'black'
     property bool hideCompoViews: !visible || width < root.minClipWidthForViews
     property bool hideDecorations: !root.showClipOverlays || trimInMouseArea.drag.active || trimOutMouseArea.drag.active
-    property int scrollStart: scrollView.contentX - (compositionRoot.modelStart * root.timeScale)
-    visible: scrollView.width + compositionRoot.scrollStart >= 0 && compositionRoot.scrollStart < compositionRoot.width
+    visible: scrollView.lastVisibleFrame > compositionRoot.modelStart && scrollView.firstVisibleFrame <= (compositionRoot.modelStart + compositionRoot.clipDuration)
+    property int scrollStart: visible ? scrollView.contentX - (compositionRoot.modelStart * root.timeScale) : 0
 
     property int mouseXPos: mouseArea.mouseX
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
@@ -496,7 +496,8 @@ Item {
             id: effectRow
             clip: true
             anchors.fill: parent
-            //asynchronous: true
+            active: compositionRoot.visible
+            asynchronous: true
             visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
             source: compositionRoot.hideClipViews || compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {

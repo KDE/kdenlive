@@ -254,7 +254,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted composition
     */
-    Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    Q_INVOKABLE int insertComposition(int tid, int position, QString transitionId, bool logUndo, int duration = -1);
     /** @brief Request inserting a new mix in timeline (dragged from compositions list)
        @param tid is the destination track
        @param position is the timeline position (clip start of the second clip)
@@ -483,7 +483,7 @@ public:
     /** @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});
-    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId = -1, int offset = -1);
+    Q_INVOKABLE int addCompositionToClip(const QString &assetId, int clipId = -1, int offset = -1);
     Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId = -1);
     Q_INVOKABLE void setEffectsEnabled(int clipId, bool enabled);
 
@@ -744,6 +744,7 @@ public Q_SLOTS:
     void disablePreview(bool disable);
     void invalidateItem(int cid);
     void invalidateTrack(int tid);
+    void invalidateMix(ObjectId owner);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable = true, bool refresh = true);

@@ -26,4 +26,7 @@
     <parameter type="bool" name="transition.mirror_off" default="1">
         <name>Disable mirror</name>
     </parameter>
+    <preview>
+        <parameter name="rect">0=0% 0% 100% 100% 100%;-1=50% 50% 50% 50% 100%</parameter>
+    </preview>
 </transition>

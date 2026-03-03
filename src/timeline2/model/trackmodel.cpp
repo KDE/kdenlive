@@ -398,14 +398,15 @@ void TrackModel::replugClip(int clipId)
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
         m_playlists[target_track].insert_at(clip_position, *clip, 1);
+        ItemInfo info = clip->getItemInfo();
         if (!clip->isAudioOnly() && !isAudioTrack()) {
-            Q_EMIT ptr->invalidateZone(clip->getIn(), clip->getOut());
+            Q_EMIT ptr->invalidateZone(info.position, info.position + info.playTime);
         } else {
-            Q_EMIT ptr->invalidateAudioZone(clip->getIn(), clip->getOut());
+            Q_EMIT ptr->invalidateAudioZone(info.position, info.position + info.playTime);
         }
         if (!clip->isAudioOnly() && !isHidden() && !isAudioTrack()) {
             // only refresh monitor if not an audio track and not hidden
-            ptr->checkRefresh(clip->getIn(), clip->getOut());
+            ptr->checkRefresh(info.position, info.position + info.playTime);
         }
     }
     m_playlists[target_track].consolidate_blanks();
@@ -2114,12 +2115,24 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 }
                 m_track->plant_transition(*t.get(), 0, 1);
             } else {
-                assetName = mixId.isEmpty() || mixId == QLatin1String("mix") ? QStringLiteral("luma") : mixId;
+                bool isLuma = TransitionsRepository::get()->isLuma(mixId);
+                if (isLuma) {
+                    assetName = QStringLiteral("dissolve");
+                } else {
+                    assetName = mixId.isEmpty() || isLuma || mixId == QLatin1String("mix") ? QStringLiteral("luma") : mixId;
+                }
                 t = TransitionsRepository::get()->getTransition(assetName);
                 t->set_in_and_out(mixPosition, mixPosition + mixDurations.first + mixDurations.second);
                 xml = TransitionsRepository::get()->getXml(assetName);
+                QDomDocument doc;
+                doc.importNode(xml, true);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", assetName.toUtf8().constData());
+                if (isLuma) {
+                    QString res = mixId;
+                    t->set("resource", res.toUtf8().constData());
+                    Xml::setXmlParameter(xml, QStringLiteral("resource"), res);
+                }
                 if (dest_track == 0) {
                     t->set_tracks(1, 0);
                     m_track->plant_transition(*t.get(), 1, 0);

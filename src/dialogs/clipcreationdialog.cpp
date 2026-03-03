@@ -521,7 +521,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
                         properties[QStringLiteral("luma_duration")] =
                             QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps())))));
                         int frame_duration = doc->getFramePos(duration) * count;
-                        ClipCreator::createSlideshowClip(pattern, frame_duration, fileName, parentFolder, properties, model);
+                        ClipCreator::createSlideshowClip(pattern, frame_duration, fileName, parentFolder, properties, model, readyCallBack);
                         return;
                     }
                 }
@@ -535,7 +535,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    const QString id = ClipCreator::createClipsFromList(list, true, parentFolder, model, undo, redo);
+    const QString id = ClipCreator::createClipsFromList(list, true, parentFolder, model, undo, redo, readyCallBack);
 
     // We reset the state of the "don't ask again" for the question about removable devices
     KMessageBox::enableMessage(QStringLiteral("removable"));

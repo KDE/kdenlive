@@ -92,10 +92,6 @@ void MediaCapture::initializeAudioSetup()
         return;
     }
     setAudioCaptureDevice();
-    QAudioFormat format;
-    format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
-    format.setChannelCount(KdenliveSettings::audiocapturechannels());
-    format.setSampleFormat(QAudioFormat::Int16);
     QAudioDevice deviceInfo = QMediaDevices::defaultAudioInput();
     if (!m_audioDevice.isEmpty() && m_audioDevice != QLatin1String("default:")) {
         const auto deviceInfos = QMediaDevices::audioInputs();
@@ -108,13 +104,18 @@ void MediaCapture::initializeAudioSetup()
             }
         }
     }
+    if (deviceInfo.isNull()) {
+        return;
+    }
+    QAudioFormat format = deviceInfo.preferredFormat();
+    format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
+    format.setChannelCount(KdenliveSettings::audiocapturechannels());
+    format.setSampleFormat(static_cast<QAudioFormat::SampleFormat>(KdenliveSettings::audiocapturesampleformat()));
     if (!deviceInfo.isFormatSupported(format)) {
         qWarning() << "Default format not supported - trying to use preferred";
         format = deviceInfo.preferredFormat();
         pCore->displayMessage(i18n("Recording format adjusted to %1 channels, %2Hz.", format.channelCount(), format.sampleRate()), InformationMessage, 8000);
     }
-    m_captureSampleRate = format.sampleRate();
-    m_captureChannels = format.channelCount();
     m_audioInfo.reset(new AudioDevInfo(format));
     m_audioInput.reset(new QAudioInput(deviceInfo, this));
     m_audioSource = std::make_unique<QAudioSource>(deviceInfo, format, this);
@@ -265,14 +266,16 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
         connect(m_mediaRecorder.get(), &QMediaRecorder::errorChanged, this, &MediaCapture::displayErrorMessage);
 
         // audioSettings.setCodec("audio/x-flac");
-        if (m_captureSampleRate == 48000 || m_captureSampleRate == 44100) {
-            m_mediaRecorder->setAudioSampleRate(m_captureSampleRate);
+        int captureSampleRate = m_audioSource->format().sampleRate();
+        if (captureSampleRate == 48000 || captureSampleRate == 44100) {
+            m_mediaRecorder->setAudioSampleRate(captureSampleRate);
         } else {
             // Non standard sample rate, try to do our best
             m_mediaRecorder->setAudioSampleRate(-1);
         }
-        if (m_captureChannels <= 2) {
-            m_mediaRecorder->setAudioChannelCount(m_captureChannels);
+        int captureChannels = m_audioSource->format().channelCount();
+        if (captureChannels <= 2) {
+            m_mediaRecorder->setAudioChannelCount(captureChannels);
         } else {
             // Non standard channels count, try to do our best
             m_mediaRecorder->setAudioChannelCount(-1);

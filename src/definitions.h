@@ -161,6 +161,7 @@ enum AssetType {
     VideoComposition,
     AudioTransition,
     VideoTransition,
+    LumaTransition,
     Text,
     Hidden = -1
 };

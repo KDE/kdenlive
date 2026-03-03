@@ -136,21 +136,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 
     // Fill luma list
     m_view.luma_file->setIconSize(QSize(50, 30));
-    QStringList values;
-    if (pCore->getCurrentFrameSize().width() > 1000) {
-        // HD project
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
-    } else if (pCore->getCurrentFrameSize().height() > 1000) {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
-    } else if (pCore->getCurrentFrameSize().height() == pCore->getCurrentFrameSize().width()) {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("square"));
-    } else if (pCore->getCurrentFrameSize().height() == 480) {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
-    } else {
-        values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
-    }
-    values.removeDuplicates();
-
+    const QStringList values = pCore->getLumasForProfile();
     QStringList names;
     for (const QString &value : std::as_const(values)) {
         names.append(QUrl(value).fileName());

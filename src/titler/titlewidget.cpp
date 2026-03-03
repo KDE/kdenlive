@@ -573,6 +573,9 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(cancelButton, &QPushButton::clicked, this, [this]() { done(QDialog::Rejected); });
     refreshTitleTemplates(m_projectTitlePath);
 
+    cancelButton->setAutoDefault(false);
+    cancelButton->setDefault(false);
+
     // patterns
 
     m_patternsModel = new PatternsModel(this);

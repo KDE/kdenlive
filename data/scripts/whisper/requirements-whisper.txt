@@ -1,4 +1,4 @@
-#python3.9,python3.10,python3.11,python3.12,python3.13
+#python3.9,python3.10,python3.11,python3.12,python3.13,python3.14
 openai-whisper>=20240930,<=20250625
 srt
 # Downgrade torch/triton on Linux to support older Python versions: https://github.com/triton-lang/triton/issues/5919

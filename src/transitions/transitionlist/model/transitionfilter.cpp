@@ -34,13 +34,16 @@ bool TransitionFilter::filterType(const std::shared_ptr<TreeItem> &item) const
         return false;
     }
     if (!m_type_enabled) {
-        return true;
+        return itemType != AssetListType::AssetType::LumaTransition;
     }
     if (m_type_value == AssetListType::AssetType::Favorites) {
         return item->dataColumn(AssetTreeModel::FavCol).toBool();
     }
     if (m_type_value == AssetListType::AssetType::VideoTransition) {
         return itemType == m_type_value || itemType == AssetListType::AssetType::AudioTransition;
+    }
+    if (m_type_value == AssetListType::AssetType::LumaTransition) {
+        return itemType == m_type_value;
     }
     return itemType == m_type_value;
 }

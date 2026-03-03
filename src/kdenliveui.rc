@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="242" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="248" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -20,7 +20,15 @@
       <Action name="open_backup"/>
       <Action name="project_settings"/>
     </Menu>
-    <Menu name="edit">
+    <Menu name="edit" noMerge="1">
+      <text>Edit</text>
+      <Action name="edit_undo"/>
+      <Action name="edit_redo"/>
+      <Action name="clear_undo_history"/>
+      <Separator/>
+      <Action name="edit_cut"/>
+      <Action name="edit_copy"/>
+      <Action name="edit_paste"/>
       <Separator/>
       <Menu name="video_effects_menu">
         <text>Add Effects</text>
@@ -298,18 +306,9 @@
     </Menu>
     <Menu name="markers">
       <text>Markers</text>
-      <Action name="add_clip_marker"/>
       <Action name="add_marker_guide_quickly"/>
-      <Action name="edit_clip_marker"/>
-      <Action name="delete_clip_marker"/>
-      <Action name="add_sequence_marker"/>
-      <Action name="edit_sequence_marker"/>
-      <Action name="delete_sequence_marker"/>
-      <Action name="delete_all_clip_markers"/>
-      <Action name="lock_guides"/>
       <Separator/>
-      <Action name="search_guide"/>
-      <Action name="export_guides"/>
+      <Action name="add_clip_marker"/>
       <Menu name="marker_category_menu">
         <text>Add Markers by Category</text>
         <Action name="add_marker_guide_1"/>
@@ -323,6 +322,18 @@
         <Action name="add_marker_guide_9"/>
         <Action name="add_marker_guide_10"/>
       </Menu>
+      <Action name="edit_clip_marker"/>
+      <Action name="delete_clip_marker"/>
+      <Action name="delete_all_clip_markers"/>
+      <Separator/>
+      <Action name="add_sequence_marker"/>
+      <Action name="edit_sequence_marker"/>
+      <Action name="delete_sequence_marker"/>
+      <Action name="delete_all_sequence_markers"/>
+      <Action name="lock_guides"/>
+      <Separator/>
+      <Action name="search_guide"/>
+      <Action name="export_guides"/>
       <Separator/>
     </Menu>
     <Menu name="settings">

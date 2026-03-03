@@ -99,6 +99,14 @@ For double values these placeholders are available:
 
 #### values for attribute `type`
 
+##### `"animated"`
+* Alias for [`"keyframe"`](#\`\"keyframe\"\`)
+
+
+##### `"animatedrect"`
+* A rectangle that can change in time. The parameter is exported in a semicolon separated string:<br>`"keyframe=x y width height opacity"`, for example: `"0=10 10 50 50 1;50=100 100 50 50 1"`
+
+
 ##### `"bezier_spline"`
 * cubic Bézier spline editor for the frei0r color curves filter (new version, might be reused for other filters)
 

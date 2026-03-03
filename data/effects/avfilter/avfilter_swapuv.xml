@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="avfilter.swapuv" tag="avfilter.swapuv" type="video">
+   <name>Swap UV</name>
+   <description><![CDATA[Swap U and V components]]></description>
+   <author>libavfilter maintainers</author>
+</effect>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="avfilter.grayworld" tag="avfilter.grayworld" type="video">
+   <name>Grayworld</name>
+   <description><![CDATA[Adjust white balance using LAB gray world algorithm]]></description>
+   <author>libavfilter maintainers</author>
+</effect>

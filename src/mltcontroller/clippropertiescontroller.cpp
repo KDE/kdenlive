@@ -1660,7 +1660,7 @@ QMap<QString, QString> ClipPropertiesController::getMetadataExif()
                 metadata.insert(key, value);
             }
         }
-        return metadata; //TODO: this copies the current behaviour but maybe we should continue below eg. if metadate is empty yet?
+        return metadata; // TODO: this copies the current behaviour but maybe we should continue below eg. if metadate is empty yet?
     }
 
     if (!(m_type == ClipType::Image || m_controller->codec(false) == QLatin1String("h264"))) {
@@ -1730,7 +1730,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         QMapIterator<QString, QString> i(exifMetadata);
         while (i.hasNext()) {
             i.next();
-            new QTreeWidgetItem(exif, { i.key(), i.value() });
+            new QTreeWidgetItem(exif, {i.key(), i.value()});
         }
     }
 
@@ -1750,7 +1750,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
 
     if (!magicLanternMetadata.isEmpty()) {
         // Parent tree item
-        QTreeWidgetItem *magicL = new QTreeWidgetItem(tree, { i18n("Magic Lantern"), QString() });
+        QTreeWidgetItem *magicL = new QTreeWidgetItem(tree, {i18n("Magic Lantern"), QString()});
         QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
         magicL->setIcon(0, icon);
         magicL->setExpanded(true);
@@ -1759,7 +1759,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         QMapIterator<QString, QString> i(magicLanternMetadata);
         while (i.hasNext()) {
             i.next();
-            new QTreeWidgetItem(magicL, { i.key(), i.value() });
+            new QTreeWidgetItem(magicL, {i.key(), i.value()});
         }
     }
 

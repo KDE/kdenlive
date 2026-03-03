@@ -146,8 +146,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     combo_sam_device->setPlaceholderText(i18n("Probing..."));
     combo_sam_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 
-    PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
-    message_layout_wr->addWidget(msgWhisper);
+    m_msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
+    message_layout_wr->addWidget(m_msgWhisper);
     QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
     QMapIterator<QString, QString> j(whisperLanguages);
     while (j.hasNext()) {
@@ -162,13 +162,13 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     script_log->setCenterOnScroll(true);
     connect(m_sttWhisper, &SpeechToText::scriptStarted, this, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
     connect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
-    connect(m_sttWhisper, &SpeechToText::scriptFinished, this, [this, modelDownload, msgWhisper](const QStringList &args) {
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, this, [this, modelDownload](const QStringList &args) {
         if (args.join(QLatin1Char(' ')).contains("requirements-seamless.txt")) {
             install_seamless->setText(i18n("Downloading multilingual model…"));
             modelDownload->setVisible(true);
             modelDownload->startDownload();
         }
-        QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(m_msgWhisper, "checkAfterInstall", Qt::QueuedConnection);
     });
     connect(downloadButton, &QPushButton::clicked, this, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog);
@@ -186,8 +186,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
 
     // VOSK
     vosk_folder->setPlaceholderText(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
-    PythonDependencyMessage *msgVosk = new PythonDependencyMessage(this, m_sttVosk);
-    message_layout->addWidget(msgVosk);
+    m_msgVosk = new PythonDependencyMessage(this, m_sttVosk);
+    message_layout->addWidget(m_msgVosk);
 
     connect(m_sttVosk, &SpeechToText::dependenciesAvailable, this, [&]() {
         if (m_speechListWidget->count() == 0) {
@@ -197,7 +197,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(m_sttVosk, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { speech_info->animatedHide(); });
     connect(m_sttVosk, &SpeechToText::scriptStarted, this, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
     connect(m_sttVosk, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
-    connect(m_sttVosk, &SpeechToText::scriptFinished, msgVosk, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_sttVosk, &SpeechToText::scriptFinished, this, [this]() { QMetaObject::invokeMethod(m_msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &PluginsSettings::getDictionary);
@@ -257,14 +257,14 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         whisper_venv_params->setEnabled(false);
         reloadWhisperModels();
         script_log->setVisible(false);
-        msgWhisper->setVisible(false);
+        m_msgWhisper->setVisible(false);
     } else {
         speech_system_params->setVisible(false);
         checkSpeechDependencies();
-        msgWhisper->setVisible(true);
+        m_msgWhisper->setVisible(true);
     }
-    connect(kcfg_speech_system_python, &QCheckBox::toggled, this, [this, msgWhisper](bool systemPackages) {
-        msgWhisper->setVisible(systemPackages == false);
+    connect(kcfg_speech_system_python, &QCheckBox::toggled, this, [this](bool systemPackages) {
+        m_msgWhisper->setVisible(systemPackages == false);
         KdenliveSettings::setSpeech_system_python(systemPackages);
         speech_system_params->setVisible(systemPackages);
         whisper_venv_params->setEnabled(systemPackages == false);
@@ -282,8 +282,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     });
 
     // Sam
-    PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
-    message_layout_sam->addWidget(pythonSamLabel);
+    m_pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
+    message_layout_sam->addWidget(m_pythonSamLabel);
     connect(m_samInterface, &AbstractPythonInterface::gotPythonSize, this, [this](const QString &label) {
         sam_venv_size->setText(label);
         deleteSamVenv->setEnabled(!label.isEmpty());
@@ -291,8 +291,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     });
     m_samInterface->checkVenv(true);
     connect(m_samInterface, &AbstractPythonInterface::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
-    connect(m_samInterface, &AbstractPythonInterface::scriptFinished, pythonSamLabel,
-            [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_samInterface, &AbstractPythonInterface::scriptFinished, this,
+            [this]() { QMetaObject::invokeMethod(m_pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
     combo_sam_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     connect(downloadSamButton, &QPushButton::clicked, this, &PluginsSettings::downloadSamModels);
     connect(deleteSamVenv, &QPushButton::clicked, this, &PluginsSettings::doDeleteSamVenv);
@@ -327,17 +327,17 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         // Using system packages only, disable all dependency checks
         sam_venv_params->setEnabled(false);
         script_sam_log->setVisible(false);
-        pythonSamLabel->setVisible(false);
+        m_pythonSamLabel->setVisible(false);
         reloadSamModels();
     } else {
         sam_system_params->setVisible(false);
-        pythonSamLabel->setVisible(true);
+        m_pythonSamLabel->setVisible(true);
         checkSamEnvironement(false);
     }
     connect(install_nvidia_wr, &QPushButton::clicked, this, [this]() { checkCuda(false); });
     connect(install_nvidia_sam, &QPushButton::clicked, this, [this]() { checkCuda(true); });
-    connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this, pythonSamLabel](bool systemPackages) {
-        pythonSamLabel->setVisible(systemPackages == false);
+    connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this](bool systemPackages) {
+        m_pythonSamLabel->setVisible(systemPackages == false);
         KdenliveSettings::setSam_system_python(systemPackages);
         sam_system_params->setVisible(systemPackages);
         sam_venv_params->setEnabled(systemPackages == false);
@@ -352,6 +352,13 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             checkSamEnvironement(false);
         }
     });
+}
+
+PluginsSettings::~PluginsSettings()
+{
+    delete m_msgWhisper;
+    delete m_msgVosk;
+    delete m_pythonSamLabel;
 }
 
 void PluginsSettings::whisperAvailable()

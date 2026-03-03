@@ -3,8 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 Item {
     id: root
@@ -25,6 +25,7 @@ Item {
     property point center
     property double offsetx
     property double offsety
+    property double frameSize: 10
     property double scalex
     property double scaley
     property bool captureRightClick: false

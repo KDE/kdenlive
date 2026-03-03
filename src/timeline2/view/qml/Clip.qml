@@ -74,9 +74,9 @@ Rectangle {
     property string clipThumbId
     property bool forceReloadAudioThumb
     property bool isComposition: false
-    property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
-    property int scrollStart: scrollView.contentX - (clipRoot.modelStart * root.timeScale)
-    visible: scrollView.width + clipRoot.scrollStart >= 0 && clipRoot.scrollStart < clipRoot.width
+    property int slipOffset: boundValue(outPoint - maxDuration + 1, root.trimmingOffset, inPoint)
+    visible: scrollView.lastVisibleFrame > clipRoot.modelStart && scrollView.firstVisibleFrame <= (clipRoot.modelStart + clipRoot.clipDuration)
+    property int scrollStart: visible ? scrollView.contentX - (clipRoot.modelStart * root.timeScale) : 0
     property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
     property bool hideDecorations: !root.showClipOverlays || !visible || trimInMouseArea.drag.active || trimOutMouseArea.drag.active || fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active
     property int mouseXPos: mouseArea.mouseX
@@ -393,9 +393,11 @@ Rectangle {
             anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width + clipRoot.mixEndDuration * clipRoot.timeScale
             anchors.topMargin: itemBorder.border.width
             anchors.bottomMargin: itemBorder.border.width
+
             //clip: true
             asynchronous: true
             visible: status == Loader.Ready
+            active: clipRoot.visible
             source: {
                 if (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === K.ClipType.Color) {
                     return ""
@@ -497,8 +499,10 @@ Rectangle {
                     property bool mixSelected: root.selectedMix == clipRoot.clipId
                     anchors.fill: parent
                     visible: clipRoot.mixDuration > 0
-                    color: mixSelected ? root.selectionColor : "transparent"
+                    color: mixSelected ? Qt.rgba(root.selectionColor.r, root.selectionColor.g, root.selectionColor.b, 0.5) : "transparent"
                     Loader {
+                        active: mixBackground.visible
+                        asynchronous: true
                         source: container.handleVisible && mixContainer.width > 2 * root.baseUnit ? "MixShape.qml" : ""
                     }
 
@@ -920,6 +924,7 @@ Rectangle {
                         required property var modelData
                         property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
                         asynchronous: true
+                        active: clipRoot.visible
                         Binding {
                             target: loader.item
                             property: "position"
@@ -994,10 +999,6 @@ Rectangle {
                 property bool sizeChanged: false
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: mouse => {
-                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
-                        mouse.accepted = false
-                        return
-                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
@@ -1120,10 +1121,6 @@ Rectangle {
                 drag.smoothed: false
 
                 onPressed: mouse => {
-                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
-                        mouse.accepted = false
-                        return
-                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalDuration = clipDuration
@@ -1459,6 +1456,7 @@ Rectangle {
                 anchors.fill: parent
                 asynchronous: true
                 property bool hasKeyframes: false
+                active: clipRoot.visible
                 visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * root.baseUnit
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {

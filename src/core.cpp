@@ -1572,6 +1572,11 @@ void Core::invalidateItem(ObjectId itemId)
             tl->controller()->invalidateItem(itemId.itemId);
         }
         break;
+    case KdenliveObjectType::TimelineMix:
+        if (tl) {
+            tl->controller()->invalidateMix(itemId);
+        }
+        break;
     case KdenliveObjectType::TimelineTrack:
         if (tl) {
             tl->controller()->invalidateTrack(itemId.itemId);
@@ -1586,7 +1591,7 @@ void Core::invalidateItem(ObjectId itemId)
         }
         break;
     default:
-        // compositions should not have effects
+        qWarning() << "::::: INVALIDATING ITEM NOT HANDLED: " << int(itemId.type);
         break;
     }
 }
@@ -2273,6 +2278,14 @@ void Core::showEffectStackFromId(ObjectId owner)
 
 void Core::openDocumentationLink(const QUrl &link)
 {
+    if (link.isEmpty()) {
+        // Silently abort
+        return;
+    }
+    if (link.isLocalFile()) {
+        highlightFileInExplorer({link});
+        return;
+    }
     if (KMessageBox::questionTwoActions(
             QApplication::activeWindow(),
             i18n("This will open a browser to display Kdenlive's online documentation at the following url:\n %1", link.toDisplayString()), {},
@@ -2328,4 +2341,22 @@ void Core::closeApp()
     }
     QApplication::closeAllWindows();
     QApplication::exit(EXIT_SUCCESS);
+}
+
+const QStringList Core::getLumasForProfile()
+{
+    if (getCurrentFrameSize().width() < 1000 && getCurrentFrameSize().height() < 1000) {
+        if (MainWindow::m_lumaFiles.contains(QLatin1String("NTSC")) && getCurrentFrameSize() == QSize(720, 480)) {
+            return MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
+        }
+        return MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
+    }
+    // At some point, we should create square and vertical lumas...
+    if (MainWindow::m_lumaFiles.contains(QLatin1String("square")) && getCurrentFrameSize().height() == getCurrentFrameSize().width()) {
+        return MainWindow::m_lumaFiles.value(QStringLiteral("square"));
+    }
+    if (MainWindow::m_lumaFiles.contains(QLatin1String("9_16")) && getCurrentDar() < 1.) {
+        return MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
+    }
+    return MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
 }

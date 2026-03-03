@@ -14,19 +14,22 @@
 #include <KMessageWidget>
 #include <KNSCore/Entry>
 #include <KNSWidgets/Action>
-#include <KStandardAction>
 #include <QAction>
 #include <QActionGroup>
+#include <QDrag>
 #include <QFontDatabase>
 #include <QKeyEvent>
 #include <QLineEdit>
+#include <QListView>
 #include <QMenu>
 #include <QSplitter>
+#include <QStackedWidget>
 #include <QStandardPaths>
 #include <QStyledItemDelegate>
 #include <QTextBrowser>
 #include <QTextDocument>
 #include <QToolBar>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 class AssetDelegate : public QStyledItemDelegate
@@ -49,6 +52,40 @@ protected:
     }
 };
 
+AssetListView::AssetListView(QWidget *parent)
+    : QListView(parent)
+{
+    setViewMode(QListView::IconMode);
+    setMovement(QListView::Static);
+    setResizeMode(QListView::Adjust);
+    setWordWrap(true);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setUniformItemSizes(true);
+    setDragEnabled(true);
+    setAcceptDrops(false);
+    viewport()->setAcceptDrops(true);
+}
+
+void AssetListView::startDrag(Qt::DropActions supportedActions)
+{
+    auto drag = new QDrag(this);
+    drag->setMimeData(model()->mimeData(selectedIndexes()));
+    auto index = currentIndex();
+    QIcon icon = index.data(Qt::DecorationRole).value<QIcon>();
+    if (!icon.isNull()) {
+        auto small_pixmap = icon.pixmap(32, 32);
+        drag->setPixmap(small_pixmap);
+        drag->setHotSpot(small_pixmap.rect().topLeft());
+    }
+    drag->exec(supportedActions);
+}
+
+void AssetListView::leaveEvent(QEvent *event)
+{
+    Q_EMIT exited();
+    QListView::leaveEvent(event);
+}
+
 AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QWidget *parent)
     : QWidget(parent)
     , m_isEffect(isEffect)
@@ -59,7 +96,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     m_contextMenu = new QMenu(this);
     QAction *addFavorite = new QAction(i18n("Add to favorites"), this);
     addFavorite->setData(QStringLiteral("favorite"));
-    connect(addFavorite, &QAction::triggered, this, [this]() { setFavorite(m_effectsTree->currentIndex(), !isFavorite(m_effectsTree->currentIndex())); });
+    connect(addFavorite, &QAction::triggered, this, &AssetListWidget::setItemFavorite);
     m_contextMenu->addAction(addFavorite);
     if (m_isEffect) {
         // Delete effect
@@ -120,6 +157,13 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
         filterGroup->addAction(customEffects);
         m_toolbar->addAction(customEffects);
     } else {
+        // Add Luma view to toolbar
+        QAction *lumasAction = new QAction(QIcon::fromTheme(QStringLiteral("pixelate")), i18n("Show lumas only"), this);
+        connect(lumasAction, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("lumas")); });
+        lumasAction->setCheckable(true);
+        filterGroup->addAction(lumasAction);
+        m_toolbar->addAction(lumasAction);
+        // Add Short transitions view to toolbar
         QAction *transOnly = new QAction(this);
         transOnly->setIcon(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")));
         transOnly->setToolTip(i18n("Show transitions only"));
@@ -135,6 +179,19 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     favEffects->setCheckable(true);
     filterGroup->addAction(favEffects);
     m_toolbar->addAction(favEffects);
+
+    QAction *toggleView = nullptr;
+    if (!m_isEffect) {
+        // Icon view for effects still needs work
+        // Add view mode toggle button
+        toggleView = new QAction(this);
+        toggleView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-icons")));
+        toggleView->setToolTip(i18n("Toggle between list and icon view"));
+        toggleView->setCheckable(true);
+        connect(toggleView, &QAction::triggered, this, &AssetListWidget::toggleViewMode);
+        m_toolbar->addAction(toggleView);
+    }
+
     m_lay->addWidget(m_toolbar);
     QWidget *empty = new QWidget(this);
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -224,6 +281,8 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
         connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 MltConnection::refreshLumas();
+                m_model->reparseUpdatedAssets();
+                Q_EMIT checkAssetPreview(true);
             }
         });
     }
@@ -234,6 +293,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     QAction *showInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
     showInfo->setCheckable(true);
     showInfo->setToolTip(m_isEffect ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions"));
+    showInfo->setChecked(m_isEffect ? KdenliveSettings::showEffectsInfo() : KdenliveSettings::showTransitionsInfo());
     m_toolbar->addAction(showInfo);
     m_lay->addWidget(m_toolbar);
 
@@ -247,11 +307,12 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) { setFilterName(str); });
     m_lay->addWidget(m_searchLine);
 
-    QAction *findAction = KStandardAction::find(m_searchLine, SLOT(setFocus()), this);
-    addAction(findAction);
-    findAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-
     setAcceptDrops(true);
+
+    // Create stacked widget to hold both views
+    m_effectsView = new QStackedWidget(this);
+
+    // Tree view
     m_effectsTree = new QTreeView(this);
     m_effectsTree->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_effectsTree->setHeaderHidden(true);
@@ -264,51 +325,69 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     m_effectsTree->installEventFilter(this);
     m_effectsTree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_effectsTree, &QTreeView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
-    auto *viewSplitter = new QSplitter(Qt::Vertical, this);
-    viewSplitter->insertWidget(0, m_effectsTree);
-    m_textEdit = new QTextBrowser(this);
-    m_textEdit->setReadOnly(true);
-    m_textEdit->setAcceptRichText(true);
-    m_textEdit->setOpenLinks(false);
-    connect(m_textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
+
+    // Icon view
+    m_effectsIcon = new AssetListView(this);
+    m_effectsIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    m_effectsIcon->setViewMode(QListView::IconMode);
+    m_effectsIcon->setResizeMode(QListView::Adjust);
+    m_effectsIcon->setUniformItemSizes(true);
+    m_effectsIcon->setDragEnabled(true);
+    m_effectsIcon->setDragDropMode(QAbstractItemView::DragDrop);
+    m_effectsIcon->setSpacing(10);
+    m_effectsIcon->setWordWrap(true);
+    connect(m_effectsIcon, &QListView::doubleClicked, this, &AssetListWidget::activate);
+    m_effectsIcon->installEventFilter(this);
+    m_effectsIcon->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_effectsIcon, &QListView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
+
+    // Add views to stacked widget
+    m_effectsView->addWidget(m_effectsTree);
+    m_effectsView->addWidget(m_effectsIcon);
+
+    m_viewSplitter = new QSplitter(Qt::Vertical, this);
+    m_viewSplitter->addWidget(m_effectsView);
+    QTextBrowser *textEdit = new QTextBrowser(this);
+    textEdit->setReadOnly(true);
+    textEdit->setAcceptRichText(true);
+    textEdit->setOpenLinks(false);
+    connect(textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
     m_infoDocument = new QTextDocument(this);
-    m_textEdit->setDocument(m_infoDocument);
-    viewSplitter->insertWidget(1, m_textEdit);
-    m_lay->addWidget(viewSplitter);
-    viewSplitter->setSizes({50, 0});
+    textEdit->setDocument(m_infoDocument);
+    m_viewSplitter->addWidget(textEdit);
+    m_lay->addWidget(m_viewSplitter);
+
+    m_infoBar = new KMessageWidget(this);
+    m_infoBar->setWordWrap(true);
+    m_infoBar->setCloseButtonVisible(false);
+    m_lay->addWidget(m_infoBar);
 
     if (pCore->debugMode) {
         tenBit->setEnabled(false);
         includeList->setEnabled(false);
-        KMessageWidget *mw = new KMessageWidget(this);
-        mw->setMessageType(KMessageWidget::Warning);
-        mw->setText(i18n("You have enabled unsupported assets"));
-        mw->setCloseButtonVisible(false);
-        m_lay->addWidget(mw);
+        m_infoBar->setMessageType(KMessageWidget::Warning);
+        m_infoBar->setText(i18n("You have enabled unsupported assets"));
+        m_infoBar->setCloseButtonVisible(false);
+    } else {
+        m_infoBar->setVisible(false);
     }
-    connect(showInfo, &QAction::triggered, this, [showInfo, viewSplitter]() {
-        if (showInfo->isChecked()) {
-            int height;
-            if (KdenliveSettings::assetsInfoHeight() > 0) {
-                height = KdenliveSettings::assetsInfoHeight();
-            } else {
-                height = viewSplitter->height() / 4;
-            }
-            viewSplitter->setSizes({viewSplitter->height() - height, height});
-        } else {
-            viewSplitter->setSizes({50, 0});
+
+    connect(showInfo, &QAction::triggered, this, &AssetListWidget::switchSplitter);
+
+    // Initialize icon provider for the list view
+    m_assetIconProvider = new AssetIconProvider(m_isEffect, this);
+    if (m_isEffect) {
+        // Icon view for effects still needs work
+        /*if (KdenliveSettings::effectViewAsIcon()) {
+            toggleView->setChecked(true);
+            toggleViewMode(true);
+        }*/
+    } else {
+        if (KdenliveSettings::transitionViewAsIcon()) {
+            toggleView->setChecked(true);
+            toggleViewMode(true);
         }
-    });
-    connect(viewSplitter, &QSplitter::splitterMoved, this, [showInfo, viewSplitter]() {
-        int infoHeight = viewSplitter->sizes().at(1);
-        if (infoHeight == 0) {
-            showInfo->setChecked(false);
-            return;
-        } else {
-            showInfo->setChecked(true);
-        }
-        KdenliveSettings::setAssetsInfoHeight(qMax(viewSplitter->height() / 5, infoHeight));
-    });
+    }
 }
 
 AssetListWidget::~AssetListWidget() {}
@@ -376,12 +455,12 @@ QString AssetListWidget::getName(const QModelIndex &index) const
 
 bool AssetListWidget::isFavorite(const QModelIndex &index) const
 {
-    return m_model->isFavorite(m_proxyModel->mapToSource(index), isEffect());
+    return m_model->isFavorite(m_proxyModel->mapToSource(index), m_isEffect);
 }
 
 void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
 {
-    m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect());
+    m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, m_isEffect);
     Q_EMIT m_proxyModel->dataChanged(index, index, QVector<int>());
     m_proxyModel->reloadFilterOnFavorite();
     Q_EMIT reloadFavorites();
@@ -394,7 +473,7 @@ void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
 
 QString AssetListWidget::getDescription(const QModelIndex &index) const
 {
-    return m_model->getDescription(isEffect(), m_proxyModel->mapToSource(index));
+    return m_model->getDescription(m_isEffect, m_proxyModel->mapToSource(index));
 }
 
 void AssetListWidget::setFilterName(const QString &pattern)
@@ -465,7 +544,12 @@ bool AssetListWidget::isAudioType(AssetListType::AssetType type)
 
 void AssetListWidget::onCustomContextMenu(const QPoint &pos)
 {
-    QModelIndex index = m_effectsTree->indexAt(pos);
+    QModelIndex index;
+    if (isIconView()) {
+        index = m_effectsIcon->indexAt(pos);
+    } else {
+        index = m_effectsTree->indexAt(pos);
+    }
     if (index.isValid()) {
         const QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
         const QString assetId = m_model->data(sourceIndex, AssetTreeModel::IdRole).toString();
@@ -511,6 +595,7 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
     }
 }
 
+// static
 const QString AssetListWidget::buildLink(const QString &id, AssetListType::AssetType type)
 {
     QString prefix;
@@ -523,6 +608,12 @@ const QString AssetListWidget::buildLink(const QString &id, AssetListType::Asset
     } else if (type == AssetListType::AssetType::VideoShortComposition || type == AssetListType::AssetType::VideoComposition ||
                type == AssetListType::AssetType::VideoTransition) {
         prefix = QStringLiteral("transition_link");
+    } else if (type == AssetListType::AssetType::LumaTransition) {
+        // Link to local file
+        if (QFileInfo(id).isRelative()) {
+            return QString();
+        }
+        return QStringLiteral("file:///%1").arg(id);
     } else {
         prefix = QStringLiteral("other");
     }
@@ -538,4 +629,48 @@ bool AssetListWidget::infoPanelIsFocused()
 void AssetListWidget::processCopy()
 {
     m_textEdit->copy();
+}
+
+void AssetListWidget::toggleViewMode(bool checked)
+{
+    // Switch between tree view (index 0) and icon view (index 1)
+    int newIndex = checked ? 1 : 0;
+    m_effectsView->setCurrentIndex(newIndex);
+
+    // Sync selection between views
+    if (newIndex == 0) {
+        // Switching to tree view
+        if (m_effectsIcon->selectionModel() && m_effectsIcon->selectionModel()->hasSelection()) {
+            QModelIndex iconIndex = m_effectsIcon->selectionModel()->currentIndex();
+            m_effectsTree->selectionModel()->setCurrentIndex(iconIndex, QItemSelectionModel::ClearAndSelect);
+        }
+    } else {
+        // Switching to icon view
+        if (m_effectsTree->selectionModel() && m_effectsTree->selectionModel()->hasSelection()) {
+            QModelIndex treeIndex = m_effectsTree->selectionModel()->currentIndex();
+            m_effectsIcon->selectionModel()->setCurrentIndex(treeIndex, QItemSelectionModel::ClearAndSelect);
+        }
+    }
+    if (m_isEffect) {
+        KdenliveSettings::setEffectViewAsIcon(checked);
+    } else {
+        KdenliveSettings::setTransitionViewAsIcon(checked);
+        if (checked) {
+            Q_EMIT checkAssetPreview();
+        }
+    }
+}
+
+bool AssetListWidget::isIconView() const
+{
+    return m_effectsView->currentIndex() == 1;
+}
+
+void AssetListWidget::setItemFavorite()
+{
+    if (isIconView()) {
+        setFavorite(m_effectsIcon->currentIndex(), !isFavorite(m_effectsIcon->currentIndex()));
+    } else {
+        setFavorite(m_effectsTree->currentIndex(), !isFavorite(m_effectsTree->currentIndex()));
+    }
 }

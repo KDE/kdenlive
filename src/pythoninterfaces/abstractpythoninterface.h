@@ -106,6 +106,10 @@ private:
     bool m_dependenciesChecked{false};
     QMutex m_versionsMutex;
     QFutureWatcher<void> m_watcher;
+    QFutureWatcher<void> m_depsWatcher;
+    QFutureWatcher<void> m_versionWatcher;
+    QFuture<void> m_depsJob;
+    QFuture<void> m_versionJob;
     QFuture<void> m_scriptJob;
     const QString locateScript(const QString &script);
     QString runPackageScript(QString mode, bool concurrent = false, bool displayFeedback = true, bool forceInstall = false);

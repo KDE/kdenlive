@@ -366,6 +366,7 @@
     </ul>
   </description>
   <releases>
+    <release version="25.12.3" date="2026-03-05"/>
     <release version="25.12.2" date="2026-02-05"/>
     <release version="25.12.1" date="2026-01-08"/>
     <release version="25.12.0" date="2025-12-11">
@@ -434,14 +435,118 @@
     <release version="24.02.1" date="2024-03-21">
       <description>
         <p>This is the first bugfix release for the 24.02 version. Some of the most noteworthy fixes:</p>
+        <p xml:lang="ar">هذا هو الإصدار الأول لإصلاح العيوب للإصدار 24.02. بعض أبرز الإصلاحات:</p>
+        <p xml:lang="ca">Aquesta és la primera versió de correcció d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
+        <p xml:lang="ca-valencia">Esta és la primera versió d'esmena d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
+        <p xml:lang="fr">Il s'agit de la première correction de bogues pour la version 24.02. Voici les corrections les plus remarquables :</p>
+        <p xml:lang="he">זאת מהדורת תיקוני התקלות הראשונה לגרסת 24.02. חלק מהתיקונים שהכי ראוי לציין:</p>
+        <p xml:lang="it">Questa è la prima versione di correzione dei bug per la versione 24.02. Alcune delle correzioni più importanti:</p>
+        <p xml:lang="ka">ეს პირველი შეცდომების გასწორების გამოცემაა ვერსიისთვის 24.02. ზოგიერთი შესამჩნევი გასწორებული შეცდომაა:</p>
+        <p xml:lang="nl">Dit is de eerste uitgave met reparaties van bugs voor versie 24.02. Enkele van de meest opvallende oplossingen:</p>
+        <p xml:lang="pt-BR">Esta é a primeira versão de correção de bugs para a versão 24.02. Algumas das correções mais notáveis:</p>
+        <p xml:lang="ru">Это первый выпуск с исправлениями для версии 24.02. Наиболее значимые исправления:</p>
+        <p xml:lang="sl">To je prva izdaja s popravki za različico 24.02. Nekaj najbolj omembe vrednih popravkov:</p>
+        <p xml:lang="tr">Bu, 24.02 sürümü için ilk hata düzeltme yayımıdır. En dikkat çekici düzeltmelerden bazıları şunlardır:</p>
+        <p xml:lang="uk">Це перший випуск з виправленнями вад у версії 24.02. Деякі з найбільш вартих уваги виправлень:</p>
         <ul>
           <li>Fix distorted font in some parts of the UI</li>
+          <li xml:lang="ar">أُصلح الخط المشوه في بعض أجزاء واجهة المستخدم</li>
+          <li xml:lang="ca">Corregeix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
+          <li xml:lang="ca-valencia">Corregix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
+          <li xml:lang="fr">Correction de la police déformée dans certaines parties de l'interface utilisateur</li>
+          <li xml:lang="he">תוקן גופן מעוות בחלקים מסוימים בממשק המשתמש</li>
+          <li xml:lang="it">Correzione dei caratteri distorti in alcune parti dell'interfaccia utente</li>
+          <li xml:lang="ka">გასწორდა დამახინჯებული ფონტი ინტერფეისის ზოგიერთ ნაწილში</li>
+          <li xml:lang="nl">Vervormde lettertypen in sommige delen van de gebruikersinterface corrigeren</li>
+          <li xml:lang="pt-BR">Corrigido problema de distorção de fonte em algumas partes da interface do usuário</li>
+          <li xml:lang="ru">Исправлено искажение шрифта в некоторых элементах интерфейса;</li>
+          <li xml:lang="sl">popravljena deformirana pisava v nekaterih delih vmesnika;</li>
+          <li xml:lang="tr">Kullanıcı arayüzünün bazı bölümlerindeki bozuk yazıtipi düzeltildi.</li>
+          <li xml:lang="uk">Виправлено викривлення шрифту у певних частинах інтерфейсу</li>
           <li>Fix crash editing gradients in titler</li>
+          <li xml:lang="ar">أُصلح الانهيار عند تحرير التدرجات في أداة العنونة</li>
+          <li xml:lang="ca">Corregeix una fallada editant els degradats al creador de títols</li>
+          <li xml:lang="ca-valencia">Corregix una fallada editant els degradats al creador de títols</li>
+          <li xml:lang="fr">Correction du plantage lors de l'édition des dégradés dans l'outil de titrage</li>
+          <li xml:lang="he">תוקנה קריסה בעת עריכת מדרגים בעורך הכותרות</li>
+          <li xml:lang="it">Correzione del crash durante la modifica dei gradienti nella titolatrice</li>
+          <li xml:lang="ka">გასწორდა ავარიული დასრულება სუბტიტრებში გრადიენტების ჩასწორებისას</li>
+          <li xml:lang="nl">Los het probleem op dat het bewerken van kleurverlopen in de titelpagina vastloopt</li>
+          <li xml:lang="pt-BR">Corrigido o problema de travamento ao editar gradientes no editor de títulos</li>
+          <li xml:lang="ru">Исправлено аварийное завершение при редактировании градиентов в титрах;</li>
+          <li xml:lang="sl">odpravljeno sesutje pri urejanju prelivov v urejevalniku naslovov;</li>
+          <li xml:lang="tr">Başlık düzenleyicisinde gradyanları düzenlerken oluşan çökme sorunu düzeltildi.</li>
+          <li xml:lang="uk">Усунено аварійне завершення роботи при редагування градієнтів у засобі титрування</li>
           <li>Fix adding a mix to a grouped clip could move existing cut</li>
+          <li xml:lang="ar">أُصلح خلل إضافة مزيج إلى مقطع مجمع كان يؤدي لتحريك القص الموجود</li>
+          <li xml:lang="ca">Corregeix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
+          <li xml:lang="ca-valencia">Corregix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
+          <li xml:lang="fr">Correction de l'ajout d'un mixage à une vidéo regroupée, qui pouvait déplacer une coupe existante</li>
+          <li xml:lang="he">תוקנה בעיה שהוספת סרטונים מקובצים הייתה עלולה להזיז חיתוך קיים</li>
+          <li xml:lang="it">Correzione all'aggiunta di una miscela alle clip raggruppate, che poteva spostare il taglio esistente</li>
+          <li xml:lang="ka">გასწორდა შეცდომა, როცა დაჯგუფებული კლიპების დამატებას არსებული ამოჭრის გადაადგილება შეეძლო</li>
+          <li xml:lang="nl">Het probleem is opgelost dat het toevoegen van een mix aan een gegroepeerde clip de bestaande knipsel kon verschuiven.</li>
+          <li xml:lang="pt-BR">Corrigido o problema em que adicionar uma mixagem a um clipe agrupado podia mover um corte existente</li>
+          <li xml:lang="ru">Исправлено перемещение существующего разреза при добавлении микшера к сгруппированному клипу;</li>
+          <li xml:lang="sl">popravljeno premikanje obstoječega reza ob dodajanju mešanice združenemu posnetku;</li>
+          <li xml:lang="tr">Gruplandırılmış bir klibe karışım eklemenin, var olan klibin hareket etmesine neden olma sorunu düzeltildi.</li>
+          <li xml:lang="uk">Виправлено проблему, пов'язану із тим, що додавання міксу до згрупованого кліпу могло призвести до пересування наявного розрізу</li>
           <li>Fix moving and deleting a single item in a group</li>
+          <li xml:lang="ar">أُصلح تحريك وحذف عنصر واحد في مجموعة</li>
+          <li xml:lang="ca">Corregeix el moure i suprimir un element individual en un grup</li>
+          <li xml:lang="ca-valencia">Corregix el moure i suprimir un element individual en un grup</li>
+          <li xml:lang="fr">Correction du déplacement et de la suppression d'un seul élément dans un groupe</li>
+          <li xml:lang="he">תוקנה העברה ומחיקה של פריט בודד בקבוצה</li>
+          <li xml:lang="it">Correzione dello spostamento e dell'eliminazione di un singolo elemento in un gruppo</li>
+          <li xml:lang="ka">გასწორდა ჯგუფში ერთი ელემენტის გადაადგილება და წაშლა</li>
+          <li xml:lang="nl">Het probleem met het verplaatsen en verwijderen van een enkel item in een groep is verholpen</li>
+          <li xml:lang="pt-BR">Corrigido problema ao mover e excluir um único item em um grupo</li>
+          <li xml:lang="ru">Исправлено перемещение и удаление одного элемента в группе;</li>
+          <li xml:lang="sl">popravljeno premikanje in brisanje posameznega elementa v skupini;</li>
+          <li xml:lang="tr">Grup içindeki tek bir ögeyi taşıma ve silme sorunu düzeltildi.</li>
+          <li xml:lang="uk">Виправлено пересування і вилучення окремого запису у групі</li>
           <li>Fix crash in spacer tool with grouped subtitles</li>
+          <li xml:lang="ar">أُصلح الانهيار في أداة المباعدة مع الترجمات المجمعة</li>
+          <li xml:lang="ca">Corregeix una fallada a l'eina espaiador amb subtítols agrupats</li>
+          <li xml:lang="ca-valencia">Corregix una fallada a l'eina espaiador amb subtítols agrupats</li>
+          <li xml:lang="fr">Correction du plantage de l'outil d'espacement avec des sous-titres groupés</li>
+          <li xml:lang="he">תוקנה קריסה בכלי ריווח עם כתוביות מקובצות</li>
+          <li xml:lang="it">Correzione del crash nello strumento spaziatore con i sottotitoli raggruppati</li>
+          <li xml:lang="ka">გასწორდა ავარიული დასრულება დაჯგუფებული სუბტიტრების ხელსაწყოში</li>
+          <li xml:lang="nl">Verhelp een crash in het hulpmiddel spacer bij het gebruik van gegroepeerde ondertitels</li>
+          <li xml:lang="pt-BR">Corrigido problema que causava o fechamento inesperado do programa na ferramenta de espaçamento com legendas agrupadas</li>
+          <li xml:lang="ru">Исправлено аварийное завершение при использовании инструмента «Интервал» с группированными субтитрами;</li>
+          <li xml:lang="sl">odpravljeno sesutje orodja praznine s podnapisi v skupini;</li>
+          <li xml:lang="tr">Gruplandırılmış altyazılarla ilgili olarak ara parça aracında meydana gelen çökme düzeltildi.</li>
+          <li xml:lang="uk">Усунено аварійне завершення роботи у розпірці зі згрупованими субтитрами</li>
           <li>Fix multiple issues on sequence clips (incorrectly saving changes, subtitles not duplicated)</li>
+          <li xml:lang="ar">أُصلحت مشكلات متعددة في مقاطع التسلسل (حفظ التغييرات بشكل غير صحيح، عدم تكرار الترجمات)</li>
+          <li xml:lang="ca">Corregeix problemes diversos en els clips de seqüència (desant incorrectament els canvis, subtítols no duplicats)</li>
+          <li xml:lang="ca-valencia">Corregix problemes diversos en els clips de seqüència (guardant incorrectament els canvis, subtítols no duplicats)</li>
+          <li xml:lang="fr">Correction de plusieurs problèmes sur les vidéos de séquence (enregistrement incorrect des modifications, sous-titres non dupliqués)</li>
+          <li xml:lang="he">תוקנו מגוון תקלות על סרטוני רצף (שמירה שגויה של שינויים, כתוביות לא משוכפלות)</li>
+          <li xml:lang="it">Correzione di vari problemi relativi alle sequenza di clip (salvataggio errato delle modifiche, sottotitoli non duplicati)</li>
+          <li xml:lang="ka">გასწორდა ბევრი პრობლემა კლიპების განლაგებაზე (ცვლილებების არასწორი შენახვა, სუბტიტრების დუბლირების გარეშე)</li>
+          <li xml:lang="nl">Diverse problemen met sequentieclips opgelost (wijzigingen werden onjuist opgeslagen, ondertitels werden niet gedupliceerd)</li>
+          <li xml:lang="pt-BR">Corrigidos diversos problemas em clipes de sequência (salvamento incorreto de alterações, legendas não duplicadas)</li>
+          <li xml:lang="ru">Исправлены проблемы с клипами последовательности: некорректное сохранение изменений и недублируемые субтитры;</li>
+          <li xml:lang="sl">popravljenih več težav s posnetki zaporedja (nepravilno shranjevanje sprememb, podnaslovi se ne podvojijo);</li>
+          <li xml:lang="tr">Sıralı kliplerdeki birden fazla sorunu düzeltildi (değişikliklerin yanlış kaydedilmesi, altyazıların çoğaltılmaması).</li>
+          <li xml:lang="uk">Виправлено декілька вад у кліпах-послідовностях (неправильне збереження змін, не було дублювання субтитрів)</li>
           <li>Fix multiple issues with subtitles (multiple subtitles tracks not correctly saved or displayed)</li>
+          <li xml:lang="ar">أُصلحت مشكلات متعددة في الترجمات (عدم حفظ أو عرض مسارات الترجمة المتعددة بشكل صحيح)</li>
+          <li xml:lang="ca">Corregeix problemes diversos amb els subtítols (pistes de subtítols múltiples no desades o mostrades correctament)</li>
+          <li xml:lang="ca-valencia">Corregix problemes diversos amb els subtítols (pistes de subtítols múltiples no guardades o mostrades correctament)</li>
+          <li xml:lang="fr">Correction de plusieurs problèmes avec les sous-titres (les pistes de sous-titres multiples n'étaient pas enregistrées ou affichées correctement)</li>
+          <li xml:lang="he">תוקנו מגוון תקלות עם כתוביות (ריבוי רצועות כתוביות לא נשמרו או הוצגו כראוי)</li>
+          <li xml:lang="it">Correzione di vari problemi relativi ai sottotitoli (tracce multiple di sottotitoli non salvate, o non visualizzate correttamente)</li>
+          <li xml:lang="ka">გასწორდა ბევრი პრობლემა სუბტიტრებთან (ერთზე მეტი სუბტიტრის ტრეკის შენახვა და ჩვენება არასწორად ხდებოდა)</li>
+          <li xml:lang="nl">Diverse problemen met ondertitels opgelost (meerdere ondertitelsporen werden niet correct opgeslagen of weergegeven).</li>
+          <li xml:lang="pt-BR">Corrigidos diversos problemas com legendas (várias faixas de legendas não salvas ou exibidas corretamente)</li>
+          <li xml:lang="ru">Исправлены различные проблемы с субтитрами:</li>
+          <li xml:lang="sl">popravljenih več težav s podnaslovi (več stez podnaslovov se ne shrani ali prikaže pravilno).</li>
+          <li xml:lang="tr">Altyazılarla ilgili birden fazla sorun düzeltildi (birden fazla altyazı parçası doğru kaydedilmiyor veya görüntülenmiyor).</li>
+          <li xml:lang="uk">Виправлено кілька проблем із субтитрами (кілька доріжок субтитрів неправильно зберігалися або показувалися)</li>
         </ul>
       </description>
       <url>https://kdenlive.org/news/releases/24.02.1/</url>

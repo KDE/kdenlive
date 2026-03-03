@@ -547,8 +547,24 @@ void TimelineController::insertNewMix(int tid, int position, const QString &tran
 
 int TimelineController::insertNewCompositionAtPos(int tid, int position, const QString &transitionId)
 {
-    // TODO: adjust position and duration to existing clips ?
-    return insertComposition(tid, position, transitionId, true);
+    int topCid = m_model->getTrackById_const(tid)->getClipByStartPosition(position);
+    if (topCid > 0) {
+        return addCompositionToClip(transitionId, topCid, 0);
+    } else {
+        int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
+        if (lowerVideoTrackId > 0) {
+            int lowerCid = m_model->getTrackById_const(lowerVideoTrackId)->getClipByStartPosition(position);
+            if (lowerCid > 0) {
+                // There is a clip on track below
+                topCid = m_model->getTrackById_const(tid)->getClipByPosition(position);
+                if (topCid > -1) {
+                    int outPos = qMin(m_model->getClipEnd(lowerCid), m_model->getClipEnd(topCid));
+                    return insertComposition(tid, position, transitionId, true, outPos - position);
+                }
+            }
+        }
+        return insertComposition(tid, position, transitionId, true);
+    }
 }
 
 int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
@@ -640,10 +656,12 @@ int TimelineController::isOnCut(int cid) const
     return m_model->getTrackById_const(tid)->isOnCut(cid);
 }
 
-int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
+int TimelineController::insertComposition(int tid, int position, QString transitionId, bool logUndo, int duration)
 {
     int id;
-    int duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
+    if (duration == -1) {
+        duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
+    }
     // Check if composition should be reversed (top clip at beginning, bottom at end)
     int a_track = m_model->getPreviousVideoTrackPos(tid);
     int topClip = m_model->getTrackById_const(tid)->getClipByPosition(position);
@@ -663,8 +681,15 @@ int TimelineController::insertComposition(int tid, int position, const QString &
         }
     }
     std::unique_ptr<Mlt::Properties> props(nullptr);
-    if (reverse) {
+    if (TransitionsRepository::get()->isLuma(transitionId)) {
         props = std::make_unique<Mlt::Properties>();
+        props->set("resource", transitionId.toUtf8().constData());
+        transitionId = QStringLiteral("dissolve");
+    }
+    if (reverse) {
+        if (props == nullptr) {
+            props = std::make_unique<Mlt::Properties>();
+        }
         if (transitionId == QLatin1String("dissolve")) {
             props->set("reverse", 1);
         } else if (transitionId == QLatin1String("composite")) {
@@ -1165,6 +1190,10 @@ void TimelineController::setInPoint(bool ripple)
             int size = start + m_model->getItemPlaytime(id) - cursorPos;
             requestResize(id, size);
             selectionFound = true;
+            if (ripple) {
+                // Ripple op moves the playhead
+                cursorPos = pCore->getMonitorPosition();
+            }
         }
     }
     if (!selectionFound) {
@@ -2657,7 +2686,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
 void TimelineController::requestEndTrimmingMode()
 {
     if (pCore->monitorManager()->isTrimming()) {
-        pCore->monitorManager()->projectMonitor()->setProducer(m_model->uuid(), m_model->producer(), 0);
+        pCore->monitorManager()->projectMonitor()->setProducer(m_model->uuid(), m_model->producer(), -1);
         pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
     }
 }
@@ -2913,6 +2942,21 @@ void TimelineController::invalidateTrack(int tid)
     for (const auto &clp : m_model->getTrackById_const(tid)->m_allClips) {
         invalidateItem(clp.first);
     }
+}
+
+void TimelineController::invalidateMix(ObjectId owner)
+{
+    if (!m_model->hasTimelinePreview() || !m_model->isClip(owner.itemId)) {
+        return;
+    }
+    const int tid = m_model->getItemTrackId(owner.itemId);
+    if (tid == -1 || m_model->getTrackById_const(tid)->isAudioTrack()) {
+        return;
+    }
+    std::pair<MixInfo, MixInfo> mixData = m_model->getTrackById_const(tid)->getMixInfo(owner.itemId);
+    int start = mixData.first.secondClipInOut.first;
+    int end = mixData.first.firstClipInOut.second;
+    m_model->previewManager()->invalidatePreview(start, end);
 }
 
 void TimelineController::remapItemTime(int clipId)
@@ -3355,13 +3399,13 @@ void TimelineController::switchEnableState(std::unordered_set<int> selection)
     TimelineFunctions::switchEnableState(m_model, selection);
 }
 
-void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
+int TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
 {
     if (clipId == -1) {
         clipId = getMainSelectedClip();
         if (clipId == -1) {
             pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
-            return;
+            return -1;
         }
     }
     if (offset == -1) {
@@ -3373,7 +3417,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
         QStringList compositions = KdenliveSettings::favorite_transitions();
         if (compositions.isEmpty()) {
             pCore->displayMessage(i18n("Select a favorite composition"), ErrorMessage, 500);
-            return;
+            return -1;
         }
         compoId = insertNewComposition(track, clipId, offset, compositions.first(), true);
     } else {
@@ -3382,6 +3426,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
     if (compoId > 0) {
         m_model->requestSetSelection({compoId});
     }
+    return compoId;
 }
 
 void TimelineController::setEffectsEnabled(int clipId, bool enabled)

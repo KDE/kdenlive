@@ -288,13 +288,14 @@ Rectangle {
         }
     }
 
-    function continuousScrolling(x, y) {
+    function continuousScrolling(x, y, upMove = 10) {
         // This provides continuous scrolling at the left/right edges.
         var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
         y += ruler.height
         if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
             scrollTimer.horizontal = root.baseUnit
+            scrollTimer.interval = 80
             scrollTimer.start()
         } else if (x < 50) {
             scrollView.contentX = 0;
@@ -302,15 +303,18 @@ Rectangle {
             scrollTimer.stop()
         } else if (x < scrollView.contentX + root.baseUnit * 3) {
             scrollTimer.horizontal = -root.baseUnit
+            scrollTimer.interval = 80
             scrollTimer.start()
         } else {
             if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit) {
                 scrollTimer.vertical = root.baseUnit
                 scrollTimer.horizontal = 0
+                scrollTimer.interval = 200
                 scrollTimer.start()
-            } else if (scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < root.baseUnit)) {
+            } else if (upMove > 6 && scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < root.baseUnit)) {
                 scrollTimer.vertical = -root.baseUnit
                 scrollTimer.horizontal = 0
+                scrollTimer.interval = 200
                 scrollTimer.start()
             } else {
                 scrollTimer.vertical = 0
@@ -696,6 +700,9 @@ function getTrackColor(audio, header) {
         property int sameCutPos: -1
         property int fakeFrame: -1
         property int fakeTrack: -1
+        // Tracks mouse move up, used to prevent scrolling up once entering the area
+        property int lastYPos: -1
+        property int upMove: 0
         keys: ['kdenlive/composition']
         function moveDrop(offset, voffset)
         {
@@ -707,13 +714,13 @@ function getTrackColor(audio, header) {
                         // Don't allow moving composition to an audio track
                         track = controller.getCompositionTrackId(clipBeingDroppedId)
                     }
-                    var frameData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
+                    var frameData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping, false, true)
                     fakeTrack = frameData[1]
                     timeline.activeTrack = fakeTrack
                     sameCutPos = timeline.isOnCut(clipBeingDroppedId)
                     if (sameCutPos > -1) {
                         var sourceTrack = Logic.getTrackById(fakeTrack)
-                        if ((drag.y > sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
+                        if ((drag.y < sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
                             sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
                             sameTrackIndicator.y = sourceTrack.y
                             sameTrackIndicator.height = sourceTrack.height
@@ -724,7 +731,7 @@ function getTrackColor(audio, header) {
                     } else {
                         sameTrackIndicator.visible = false
                     }
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 if (offset != 0) {
                     timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
@@ -732,6 +739,8 @@ function getTrackColor(audio, header) {
             }
         }
         onEntered: drag => {
+            upMove = 0
+            lastYPos = -1
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 var yOffset = 0
                 if (root.showSubtitles) {
@@ -744,7 +753,7 @@ function getTrackColor(audio, header) {
                 if (track >= 0 && controller.isAudioTrack(track) == isAudioDrag) {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 drag.acceptProposedAction()
             }
@@ -752,6 +761,16 @@ function getTrackColor(audio, header) {
         onPositionChanged: drag => {
             var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             root.updateTimelineMousePos(frame, timeline.duration)
+            if (lastYPos == -1) {
+                lastYPos = drag.y
+            } else if (drag.y <= lastYPos) {
+                upMove += lastYPos - drag.y
+                lastYPos = drag.y
+            } else {
+                lastYPos = drag.y
+                upMove = 0
+            }
+
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId >= 0) {
                     moveDrop(0, 0)
@@ -765,7 +784,7 @@ function getTrackColor(audio, header) {
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, lastPos, upMove)
                     } else {
                         drag.accepted = false
                     }
@@ -773,6 +792,8 @@ function getTrackColor(audio, header) {
             }
         }
         onExited:{
+            upMove = 0
+            lastYPos = -1
             if (clipBeingDroppedId != -1) {
                 // If we exit, remove composition
                 controller.requestItemDeletion(clipBeingDroppedId, false)
@@ -780,6 +801,8 @@ function getTrackColor(audio, header) {
             }
         }
         onDropped: drag => {
+            lastYPos = -1
+            upMove = 0
             if (clipBeingDroppedId != -1) {
                 var frame = controller.getCompositionPosition(clipBeingDroppedId)
                 var track = controller.getCompositionTrackId(clipBeingDroppedId)
@@ -832,6 +855,9 @@ function getTrackColor(audio, header) {
         height: root.height - ruler.height
         y: ruler.height
         x: root.headerWidth
+        // Tracks mouse move up, used to prevent scrolling up once entering the area
+        property int lastYPos: -1
+        property int upMove: 0
         keys: ['text/producerslist']
         enabled: !compoArea.containsDrag
         function moveDrop(offset, voffset)
@@ -852,7 +878,7 @@ function getTrackColor(audio, header) {
                     if (!controller.normalEdit()) {
                         controller.requestFakeClipMove(clipBeingDroppedId, fakeTrack, fakeFrame, true, false, false)
                     }
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 if (offset != 0) {
                     timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
@@ -901,6 +927,8 @@ function getTrackColor(audio, header) {
             }
         }
         onEntered: drag => {
+            lastYPos = -1
+            upMove = 0
             if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('text/dragid') && timeline.exists(clipBeingDroppedId)) {
                 // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
                 processDrop()
@@ -931,12 +959,14 @@ function getTrackColor(audio, header) {
                             fakeTrack = moveData[1]
                         }
                     }
-                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                 }
                 drag.acceptProposedAction()
             }
         }
         onExited: {
+            lastYPos = -1
+            upMove = 0
             timeline.keepAudioTargets(false)
             if (clipBeingDroppedId != -1 && (lastDragPos.y < lastDragPos.x || (clipDropArea.height - lastDragPos.y < lastDragPos.x))) {
                 // If we exit on top or bottom, remove clip
@@ -953,6 +983,15 @@ function getTrackColor(audio, header) {
         onPositionChanged: drag => {
             lastDragPos = Qt.point(drag.x, drag.y)
             var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            if (lastYPos == -1) {
+                lastYPos = drag.y
+            } else if (drag.y <= lastYPos) {
+                upMove += lastYPos - drag.y
+                lastYPos = drag.y
+            } else {
+                lastYPos = drag.y
+                upMove = 0
+            }
             root.updateTimelineMousePos(frame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId > -1) {
@@ -979,7 +1018,7 @@ function getTrackColor(audio, header) {
                                 timeline.activeTrack = fakeTrack
                             }
                         }
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                     } else {
                         drag.accepted = false
                     }
@@ -987,6 +1026,8 @@ function getTrackColor(audio, header) {
             }
         }
         onDropped: {
+            lastYPos = -1
+            upMove = 0
             processDrop()
             timeline.keepAudioTargets(false)
         }
@@ -1287,8 +1328,7 @@ function getTrackColor(audio, header) {
                         } else if (subtitleTrack.height > 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
                         }
-                    }
-                    if(root.activeTool === K.ToolType.SlipTool) {
+                    } else if (root.activeTool === K.ToolType.SlipTool) {
                         //slip tool
                         if (mouse.y > ruler.height) {
                             var tk = getMouseTrack()
@@ -1763,6 +1803,8 @@ function getTrackColor(audio, header) {
                         clip: true
                         interactive: false
                         pixelAligned: true
+                        property int firstVisibleFrame: Math.floor(scrollView.contentX / root.timeScale)
+                        property int lastVisibleFrame: firstVisibleFrame + Math.ceil(scrollView.width / root.timeScale)
                         onContentXChanged: {
                             timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                         }
@@ -2041,9 +2083,6 @@ function getTrackColor(audio, header) {
                                             if (!dragProxyArea.containsMouse) {
                                                 regainFocus(dragProxyArea.mapToItem(root, dragProxyArea.mouseX, dragProxyArea.mouseY))
                                             }
-                                            endDrag()
-                                        } else {
-                                            endDrag()
                                         }
                                     }
                                     onDoubleClicked: {
@@ -2089,11 +2128,18 @@ function getTrackColor(audio, header) {
                             }
                             Rectangle {
                                 id: sameTrackIndicator
-                                color: 'red'
-                                opacity: 0.5
+                                border.color: '#FFF'
+                                border.width: 2
+                                radius: 2
+                                color: Qt.rgba(1, 1, 1, 0.3)
                                 visible: false
                                 width: root.baseUnit
                                 height: width
+                                onVisibleChanged: {
+                                    if (clipBeingDroppedId > -1) {
+                                        controller.hideComposition(clipBeingDroppedId, visible)
+                                    }
+                                }
                             }
                         }
                         Rectangle {

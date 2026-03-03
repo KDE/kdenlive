@@ -12,11 +12,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  */
 struct LayoutInfo
 {
-    QString internalId;  // Internal ID like "kdenlive_editing"
-    QString displayName; // User specified name or for default layouts this we be the translated name like "Editing"
-    QString path;        // The path to the json layout
+    QString internalId;   // Internal ID like "kdenlive_editing"
+    QString displayName;  // User specified name or for default layouts this we be the translated name like "Editing"
+    QString path;         // The path to the json layout
     QString verticalPath; // The path to the json vertical layout
-    bool isDefault;      // Whether this is a default layout
+    bool isDefault;       // Whether this is a default layout
     // int sortOrder;       // Custom order for display
 
     /**

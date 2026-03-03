@@ -245,7 +245,7 @@ void SequenceClip::setProperties(const QMap<QString, QString> &properties, bool 
         }
     }
     bool durationChanged = properties.contains("length") && properties.value("length").toInt() != getFramePlaytime();
-    qDebug() << ":::: SEQUENCE DURATION CHANGED;: " << properties.value("length").toInt() << " != " << getFramePlaytime();
+    qDebug() << ":::: SEQUENCE DURATION CHANGED: " << properties.value("length").toInt() << " != " << getFramePlaytime();
     ProjectClip::setProperties(properties, refreshPanel);
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
         if (!m_sequenceUuid.isNull()) {

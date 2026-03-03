@@ -20,6 +20,8 @@ class TransitionsRepository : public AbstractAssetsRepository<AssetListType::Ass
 {
 
 public:
+    friend class TransitionListWidget;
+
     /** @brief Returns the instance of the Singleton */
     static std::unique_ptr<TransitionsRepository> &get();
 
@@ -30,11 +32,20 @@ public:
     /** @brief returns true if the transition corresponding to \@transitionId is a composition*/
     bool isComposition(const QString &transitionId) const;
 
+    /** @brief returns true if the transition corresponding to \@transitionId is a luma file*/
+    bool isLuma(const QString &transitionId) const;
+
     /** @brief returns true if the transition corresponding to \@transitionId is audio*/
     bool isAudio(const QString &transitionId) const;
 
     /** @brief Returns the id of the transition to be used for compositing */
     const QString getCompositingTransition();
+
+    /** @brief Manually adda luma file */
+    void addLuma(const QString &name, const QString &path);
+
+    /** @brief Ensure favorite transitions really exist */
+    void checkFavorites();
 
 protected:
     // Constructor is protected because class is a Singleton
