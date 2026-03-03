@@ -707,8 +707,11 @@ public:
     bool requestTrackDeletion(int trackId, Fun &undo, Fun &redo);
 
       /** @brief Move a track one step up/down among tracks of the same type (audio/video).
-          Group links for clips/compositions in the swapped tracks are temporarily removed so
-          grouped items on other tracks are not affected.
+         This action is undoable
+         Returns true on success. If it fails, nothing is modified.
+         @param trackId id of the track to move
+         @param up if true, the track will be moved up, otherwise down
+         @param logUndo if true, the action will be logged for undo
        */
       bool requestTrackMove(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, bool up, bool logUndo = true);
       /** @brief Same function, but accumulates undo and redo*/
