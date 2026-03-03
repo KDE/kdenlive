@@ -21,6 +21,7 @@
 class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
+class EffectStackModel;
 
 /** @class KeyframeModel
     @brief This class is the model for a list of keyframes.
@@ -86,11 +87,13 @@ private:
     QVariantList m_selectedIndexes;
     QMap<QModelIndex, int> m_relatedMove;
     QList<QMetaObject::Connection> m_connectionList;
+    std::shared_ptr<EffectStackModel> m_model;
     QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);
     QVariantMap selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame);
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);
+    void loadEffects();
 
 Q_SIGNALS:
     void modelChanged();

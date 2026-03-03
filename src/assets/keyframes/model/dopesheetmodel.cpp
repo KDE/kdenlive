@@ -119,6 +119,18 @@ void DopeSheetModel::deregisterItem(QPersistentModelIndex ix)
 
 void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 {
+    m_model.reset();
+    m_model = std::move(model);
+    if (m_model) {
+        connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
+        connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
+        connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
+    }
+    loadEffects();
+}
+
+void DopeSheetModel::loadEffects()
+{
     QWriteLocker locker(&m_lock);
     if (!m_paramsList.empty()) {
         m_paramsList.clear();
@@ -128,12 +140,12 @@ void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
         QObject::disconnect(c);
     }
     m_connectionList.clear();
-    if (!model) {
+    if (!m_model) {
         return;
     }
-    int max = model->rowCount();
+    int max = m_model->rowCount();
     for (int i = 0; i < max; i++) {
-        std::shared_ptr<AbstractEffectItem> item = model->getEffectStackRow(i);
+        std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         if (item->childCount() > 0) {
             // group, create sub stack
             continue;
@@ -145,7 +157,6 @@ void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 
 void DopeSheetModel::registerAsset(std::shared_ptr<EffectItemModel> effectModel)
 {
-    READ_LOCK();
     qDebug() << ":::: REGISTERING DOPE EFFECT: " << effectModel->dataColumn(0);
     auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString()}, shared_from_this(), false);
     std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
