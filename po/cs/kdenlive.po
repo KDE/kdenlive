@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-02 00:44+0000\n"
+"POT-Creation-Date: 2026-03-03 00:45+0000\n"
 "PO-Revision-Date: 2025-05-16 15:05+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -14343,10 +14343,9 @@ msgid "Luma"
 msgstr "Luma"
 
 #: data/effects/lumakey.xml:4
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Lumakey"
-msgstr "Luma"
+msgstr "Lumakey"
 
 #: data/effects/lumakey.xml:6
 #, kde-format
@@ -18171,12 +18170,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:681 src/monitor/view/ClipMonitor.qml:554
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:681 src/monitor/view/ClipMonitor.qml:555
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:685 src/monitor/view/ClipMonitor.qml:554
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:685 src/monitor/view/ClipMonitor.qml:555
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -28515,27 +28514,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Vrstva monitoru Zvukových křivek"
 
-#: src/monitor/view/ClipMonitor.qml:365 src/monitor/view/ProjectMonitor.qml:195
+#: src/monitor/view/ClipMonitor.qml:366 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:228
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Počáteční bod"
 
-#: src/monitor/view/ClipMonitor.qml:404
+#: src/monitor/view/ClipMonitor.qml:405
 #, kde-format
 msgid "In/Out Point"
 msgstr ""
 
-#: src/monitor/view/ClipMonitor.qml:427 src/monitor/view/ProjectMonitor.qml:245
+#: src/monitor/view/ClipMonitor.qml:428 src/monitor/view/ProjectMonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Koncový bod"
 
-#: src/monitor/view/ClipMonitor.qml:615
+#: src/monitor/view/ClipMonitor.qml:616
 #, kde-format
 msgid "Terminate Job"
 msgstr "Ukončit úlohu"
@@ -33711,10 +33710,9 @@ msgid "Lumas"
 msgstr "Luma"
 
 #: src/transitions/transitionlist/view/transitionicondelegate.cpp:33
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "No Preview"
-msgstr "Náhled"
+msgstr "Žádný náhled"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:77
 #, fuzzy, kde-format

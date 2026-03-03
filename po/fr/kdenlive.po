@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-02 00:44+0000\n"
+"POT-Creation-Date: 2026-03-03 00:45+0000\n"
 "PO-Revision-Date: 2026-02-27 12:18+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
@@ -19576,13 +19576,13 @@ msgstr ""
 "Veuillez faire un double clic, déposer des fichiers\n"
 "ou cliquer sur %1 pour importer des média"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:681 src/monitor/view/ClipMonitor.qml:554
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:681 src/monitor/view/ClipMonitor.qml:555
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 "Faire glisser pour ajouter uniquement de l'audio à la frise chronologique"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:685 src/monitor/view/ClipMonitor.qml:554
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:685 src/monitor/view/ClipMonitor.qml:555
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -30355,27 +30355,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Cliquez pour rafraîchir la forme d'onde audio"
 
-#: src/monitor/view/ClipMonitor.qml:365 src/monitor/view/ProjectMonitor.qml:195
+#: src/monitor/view/ClipMonitor.qml:366 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1 FPS"
 
-#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:228
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Point d'entrée"
 
-#: src/monitor/view/ClipMonitor.qml:404
+#: src/monitor/view/ClipMonitor.qml:405
 #, kde-format
 msgid "In/Out Point"
 msgstr "Point d'entrée / sortie"
 
-#: src/monitor/view/ClipMonitor.qml:427 src/monitor/view/ProjectMonitor.qml:245
+#: src/monitor/view/ClipMonitor.qml:428 src/monitor/view/ProjectMonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Point de sortie"
 
-#: src/monitor/view/ClipMonitor.qml:615
+#: src/monitor/view/ClipMonitor.qml:616
 #, kde-format
 msgid "Terminate Job"
 msgstr "Terminer une tâche"

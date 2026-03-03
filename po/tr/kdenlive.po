@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-02 00:44+0000\n"
+"POT-Creation-Date: 2026-03-03 00:45+0000\n"
 "PO-Revision-Date: 2026-03-01 15:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -19281,12 +19281,12 @@ msgstr ""
 "Ortam içe aktarmak için fareyle çift\n"
 "tıklayın veya %1 simgesine tıklayın"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:681 src/monitor/view/ClipMonitor.qml:554
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:681 src/monitor/view/ClipMonitor.qml:555
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Zaman akışına yalnızca ses eklemek için sürükleyin"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:685 src/monitor/view/ClipMonitor.qml:554
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:685 src/monitor/view/ClipMonitor.qml:555
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Zaman akışına yalnızca video eklemek için sürükleyin"
@@ -29881,27 +29881,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Ses dalga biçimini yenilemek için tıklayın"
 
-#: src/monitor/view/ClipMonitor.qml:365 src/monitor/view/ProjectMonitor.qml:195
+#: src/monitor/view/ClipMonitor.qml:366 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1 FPS"
 
-#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:228
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Giriş noktası"
 
-#: src/monitor/view/ClipMonitor.qml:404
+#: src/monitor/view/ClipMonitor.qml:405
 #, kde-format
 msgid "In/Out Point"
 msgstr "Giriş/çıkış noktası"
 
-#: src/monitor/view/ClipMonitor.qml:427 src/monitor/view/ProjectMonitor.qml:245
+#: src/monitor/view/ClipMonitor.qml:428 src/monitor/view/ProjectMonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Çıkış noktası"
 
-#: src/monitor/view/ClipMonitor.qml:615
+#: src/monitor/view/ClipMonitor.qml:616
 #, kde-format
 msgid "Terminate Job"
 msgstr "İşi sonlandır"
