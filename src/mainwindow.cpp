@@ -3009,38 +3009,40 @@ void MainWindow::slotShowTimelineTags()
 
 void MainWindow::slotDeleteItem()
 {
-    if (QApplication::focusWidget() != nullptr) {
-        for (auto &bin : m_binWidgets) {
-            if (bin->isAncestorOf(QApplication::focusWidget())) {
-                bin->slotDeleteClip();
-                return;
-            }
-        }
-        if (m_dopeWidget->isAncestorOf(QApplication::focusWidget())) {
-            m_dopeWidget->deleteItem();
-            return;
-        }
-        if (pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
-            pCore->textEditWidget()->deleteItem();
-            return;
-        }
-    } else {
-        QWidget *widget = QApplication::focusWidget();
-        while ((widget != nullptr) && widget != this) {
-            if (widget == m_effectStackDock) {
-                m_assetPanel->deleteCurrentEffect();
-                return;
-            }
-            if (widget == pCore->guidesList()) {
-                pCore->guidesList()->removeGuide();
-                return;
-            }
-            widget = widget->parentWidget();
-        }
-
-        // effect stack has no focus
-        getCurrentTimeline()->controller()->deleteSelectedClips();
+    QWidget *focusWidget = QApplication::focusWidget();
+    if (focusWidget == nullptr) {
+        return;
     }
+    for (auto &bin : m_binWidgets) {
+        if (bin->isAncestorOf(focusWidget)) {
+            bin->slotDeleteClip();
+            return;
+        }
+    }
+    qDebug() << ":::: FOUND FOCUS WIDGET: " << QApplication::focusWidget()->objectName();
+    if (m_dopeWidget->isAncestorOf(focusWidget)) {
+        qDebug() << ":::: /// DOPE IS ANCESTOR";
+        m_dopeWidget->deleteItem();
+        return;
+    }
+    if (pCore->textEditWidget()->isAncestorOf(focusWidget)) {
+        pCore->textEditWidget()->deleteItem();
+        return;
+    }
+    while ((focusWidget != nullptr) && focusWidget != this) {
+        if (focusWidget == m_effectStackDock) {
+            m_assetPanel->deleteCurrentEffect();
+            return;
+        }
+        if (focusWidget == pCore->guidesList()) {
+            pCore->guidesList()->removeGuide();
+            return;
+        }
+        focusWidget = focusWidget->parentWidget();
+    }
+
+    // effect stack has no focus
+    getCurrentTimeline()->controller()->deleteSelectedClips();
 }
 
 void MainWindow::slotAddClipMarker()

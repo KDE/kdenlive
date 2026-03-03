@@ -12,6 +12,7 @@ import QtQuick 2.15
 import QtQml.Models 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import QtQuick.Layouts
 
 import org.kde.kdenlive as K
 import 'TimelineLogic.js' as Logic
@@ -1147,8 +1148,12 @@ function getTrackColor(audio, header) {
                 width: parent.width
                 y: ruler.height
                 height: root.height - ruler.height
+                contentHeight: contentItem.childrenRect.height
                 interactive: false
                 clip: true
+                onContentYChanged: {
+                    console.log("ADJUSTING HEADERS Y POS: ", contentY)
+                }
 
                 MouseArea {
                     width: trackHeaders.width
@@ -1168,7 +1173,7 @@ function getTrackColor(audio, header) {
                     collapsedHeight: root.collapsedHeight
                     collapsed: subtitleTrack.height === subtitleTrackHeader.collapsedHeight
                 }
-                Column {
+                ColumnLayout {
                     id: trackHeaders
                     y: subtitleTrack.height
                     spacing: 0
@@ -1807,6 +1812,14 @@ function getTrackColor(audio, header) {
                         property int lastVisibleFrame: firstVisibleFrame + Math.ceil(scrollView.width / root.timeScale)
                         onContentXChanged: {
                             timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
+                        }
+                        onHeightChanged: {
+                            headerFlick.contentY = contentY
+                            console.log('height changed, passing contentY: ', contentY)
+                            headerFlick.contentY = Qt.binding(function() { return contentY })
+                        }
+                        onContentYChanged: {
+                            console.log("ADJUSTING TIMELINE Y POS: ", contentY)
                         }
                         /*
                          // Replaced by our custom ZoomBar

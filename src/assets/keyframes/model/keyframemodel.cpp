@@ -492,9 +492,10 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
 void KeyframeModel::seekToKeyframe(int index)
 {
     if (auto ptr = m_model.lock()) {
-        GenTime pos = getPosAtIndex(index);
+        int frame = getPosAtIndex(index).frames(pCore->getCurrentFps());
         auto owner = ptr->getOwnerId();
-        pCore->seekMonitor(owner, pos.frames(pCore->getCurrentFps()));
+        frame += pCore->getItemPosition(owner);
+        pCore->seekMonitor(owner, frame);
     }
 }
 

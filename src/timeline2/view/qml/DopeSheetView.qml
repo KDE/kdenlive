@@ -28,6 +28,9 @@ Item {
     property bool rubberSelect: false
     property point rubberTopLeft
     property point rubberBottomRight
+    property int wheelAccumulatedDelta: 0
+    readonly property int defaultDeltasPerStep: 120
+    property int scrollPos: 0
     // Playhead position
     property int consumerPosition: proxy ? proxy.position - offset: -1
     property int keyframeContainerWidth: width - treeView.headerWidth - (2 * baseUnit)
@@ -44,6 +47,49 @@ Item {
     }
     onConsumerPositionChanged: {
         console.log('UPDATED DOPE POSITION: ', consumerPosition)
+    }
+
+    function zoomByWheel(wheel) {
+        if (wheel.modifiers & Qt.AltModifier) {
+            // Seek to next snap
+            if (wheel.angleDelta.x > 0) {
+                timeline.triggerAction('monitor_seek_snap_backward')
+            } else {
+                timeline.triggerAction('monitor_seek_snap_forward')
+            }
+        } else if (wheel.modifiers & Qt.ControlModifier) {
+            root.wheelAccumulatedDelta += wheel.angleDelta.y;
+            // Zoom
+            if (root.wheelAccumulatedDelta >= defaultDeltasPerStep) {
+                root.zoom(1.5);
+                root.wheelAccumulatedDelta = 0;
+            } else if (root.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
+                var factor = 2. / 3
+                root.zoom(factor);
+                root.wheelAccumulatedDelta = 0;
+            }
+        }/* else if (wheel.modifiers & Qt.ShiftModifier) {
+            if (K.KdenliveSettings.scrollvertically || rubberSelect.visible) {
+                horizontalScroll(wheel)
+            } else {
+                verticalScroll(wheel)
+            }
+        } else {
+            if (K.KdenliveSettings.scrollvertically) {
+                verticalScroll(wheel)
+            } else {
+                horizontalScroll(wheel)
+            }
+        }*/
+        wheel.accepted = true
+    }
+
+    function zoom(factor) {
+        root.timeScale = Math.max(root.keyframeContainerWidth / root.frameDuration, root.timeScale * factor)
+    }
+
+    function fitZoom() {
+        return root.keyframeContainerWidth / root.frameDuration
     }
 
     function deleteSelection() {
@@ -152,7 +198,7 @@ Item {
         anchors.leftMargin: root.baseUnit + treeView.headerWidth
         anchors.rightMargin: root.baseUnit
         height: Math.round(root.baseUnit * 2.5)
-        contentWidth: Math.max(parent.width, root.frameDuration * root.timeScale)
+        contentWidth: Math.min(parent.width, root.frameDuration * root.timeScale)
         interactive: false
         clip: true
         onWidthChanged: {
@@ -164,6 +210,8 @@ Item {
             height: parent.height
             rulerOffset: root.offset
             scalingFactor: root.timeScale
+            maxDuration: root.frameDuration
+            hideZone: true
             /*K.TimelinePlayhead {
                 id: playhead
                 height: Math.round(root.baseUnit * .8)
@@ -324,9 +372,9 @@ Item {
                     property point clickPoint
                     property bool shiftClick: false
                     anchors.fill: parent
+                    anchors.leftMargin: -root.baseUnit
+                    anchors.rightMargin: -root.baseUnit
                     hoverEnabled: true
-                    anchors.leftMargin: keyframeSlider.anchors.leftMargin
-                    anchors.rightMargin: keyframeSlider.anchors.rightMargin
                     onPressed: mouse => {
                         clickPos = currentFrame
                         clickIndex = currentIndex
@@ -393,8 +441,10 @@ Item {
                         mouse.accepted = true
                     }
 
+                    onWheel: wheel => zoomByWheel(wheel)
+
                     onPositionChanged: mouse => {
-                        var mouseFrame = Math.max(0., mouse.x / root.keyframeContainerWidth)
+                        var mouseFrame = Math.max(0., (mouse.x - root.baseUnit) / root.keyframeContainerWidth)
                         mouseFrame = Math.min(1., mouseFrame)
                         root.mouseFramePos = Math.round(mouseFrame * frameDuration)
                         if (!pressed) {
@@ -463,7 +513,7 @@ Item {
                     Rectangle {
                         id: handle
                         z: 10
-                        x: percentPosition * kfContainer.width - root.baseUnit/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
+                        x: percentPosition * root.timeScale / root.fitZoom() * kfContainer.width - root.baseUnit/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
@@ -501,5 +551,29 @@ Item {
         y: Math.min(root.rubberTopLeft.y, root.rubberBottomRight.y)
         width: Math.abs(root.rubberBottomRight.x - root.rubberTopLeft.x)
         height: Math.abs(root.rubberBottomRight.y - root.rubberTopLeft.y)
+    }
+    K.ZoomBar {
+        id: horZoomBar
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: root.bottom
+        }
+        height: Math.round(root.baseUnit * 0.7)
+        barMinWidth: root.baseUnit
+        fitsZoom: root.timeScale === root.fitZoom() && root.scrollPos === 0
+        zoomFactor: root.fitZoom() / root.timeScale
+        /*onProposeZoomFactor: (proposedValue) => {
+            timeScale = treeView.width / Math.round(proposedValue * scrollView.contentWidth / root.timeScale)
+            zoomOnBar = true
+        }*/
+        contentPos: 0
+        /*onProposeContentPos: (proposedValue) => { scrollView.contentX = Math.max(0, proposedValue * scrollView.contentWidth) }*/
+        onZoomByWheel: wheel => root.zoomByWheel(wheel)
+        onFitZoom: {
+            root.scaleFactor = root.fitZoom()
+            //scrollView.contentX = 0
+            //zoomOnBar = true
+        }
     }
 }

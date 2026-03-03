@@ -21,9 +21,11 @@ Item {
     property real scalingFactor: 1.
     property real tickSpacing: scalingFactor
     property alias rulerZone : zone
+    property bool hideZone: false
     property int workingPreview : timeline.workingPreview
     property int timecodeOffset : timeline.timecodeOffset
     property int rulerOffset: 0
+    property int maxDuration: -1
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
     property int zoneHeight: Math.ceil(root.baseUnit / 2) + 1
@@ -67,7 +69,7 @@ Item {
 
     // Timeline preview stuff
     Repeater {
-        model: timeline.dirtyChunks
+        model: root.hideZone ? 0 : timeline.dirtyChunks
         anchors.fill: parent
         delegate: Rectangle {
             x: modelData * scalingFactor
@@ -80,7 +82,7 @@ Item {
     }
 
     Repeater {
-        model: timeline.renderedChunks
+        model: root.hideZone ? 0 : timeline.renderedChunks
         anchors.fill: parent
         delegate: Rectangle {
             x: modelData * scalingFactor
@@ -93,19 +95,19 @@ Item {
     }
     Rectangle {
         id: working
-        x: rulerRoot.workingPreview * scalingFactor
+        x: root.hideZone ? 0 : rulerRoot.workingPreview * scalingFactor
         anchors.bottom: parent.bottom
         anchors.bottomMargin: zoneHeight
         width: 25 * scalingFactor
         height: previewHeight
         color: 'orange'
-        visible: rulerRoot.workingPreview > -1
+        visible: !root.hideZone && rulerRoot.workingPreview > -1
     }
 
     // Guides
     Repeater {
         id: guidesRepeater
-        model: guidesModel
+        model: root.hideZone ? 0 : guidesModel
         property int radiusSize: K.KdenliveSettings.lockedGuides ? 0 : guideLabelHeight / 2
         delegate:
         Item {
@@ -608,6 +610,7 @@ Item {
     
     RulerZone {
         id: zone
+        visible: !ruler.hideZone
         z: 2
         Binding {
             target: zone
@@ -631,7 +634,7 @@ Item {
 
     // Master effect zones
     Repeater {
-        model: effectZones
+        model: root.hideZone ? 0 : effectZones
         Rectangle {
             x: effectZones[index].x * scalingFactor
             height: zoneHeight - 1
