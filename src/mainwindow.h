@@ -217,8 +217,6 @@ public:
     bool hasRunningTask() const;
     /** @brief If a render task is running */
     bool hasRunningRenderTask() const;
-    /** @brief Set the effect stack for the dopesheet model */
-    void registerDopeStack(std::shared_ptr<EffectStackModel> model);
 
 protected:
     /** @brief Closes the window.
@@ -696,4 +694,6 @@ Q_SIGNALS:
     void removeBinDock(const QString &name);
     /** @brief Connect a newly created dock to signals updating/hiding its title bar. */
     void connectDockAfterInit(QDockWidget *);
+    /** @brief Set the effect stack for the dopesheet model */
+    void registerDopeStack(std::shared_ptr<EffectStackModel> model);
 };

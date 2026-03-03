@@ -4,8 +4,9 @@
 */
 
 #include "dopewidget.hpp"
+#include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "core.h"
-#include "kdenlivesettings.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 
 #include <QQmlContext>
 #include <QQuickItem>
@@ -28,4 +29,14 @@ void DopeWidget::deleteItem()
 void DopeWidget::doKeyPressEvent(QKeyEvent *ev)
 {
     keyPressEvent(ev);
+}
+
+void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
+{
+    pCore->dopeSheetModel()->registerStack(model);
+    if (!model || !rootObject()) {
+        return;
+    }
+    rootObject()->setProperty("frameDuration", pCore->getItemDuration(model->getOwnerId()));
+    rootObject()->setProperty("offset", pCore->getItemPosition(model->getOwnerId()));
 }

@@ -8,10 +8,15 @@
 #include <QQuickWidget>
 #include <QWidget>
 
+class EffectStackModel;
+
 class DopeWidget : public QQuickWidget
 {
 public:
     DopeWidget(QWidget *parent = nullptr);
     void deleteItem();
     void doKeyPressEvent(QKeyEvent *ev);
+
+public Q_SLOTS:
+    void registerDopeStack(std::shared_ptr<EffectStackModel> model);
 };

@@ -120,7 +120,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenuBar>
 #include <QPushButton>
 #include <QQmlContext>
-#include <QQuickItem>
 #include <QScreen>
 #include <QStandardPaths>
 #include <QStatusBar>
@@ -413,7 +412,7 @@ void MainWindow::init()
                     return;
                 }
                 m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
-                registerDopeStack(model);
+                Q_EMIT registerDopeStack(model);
                 if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
                     // Don't raise if tabbed with timeline
                     return;
@@ -507,6 +506,7 @@ void MainWindow::init()
     // DopeSheet
     m_dopeWidget = new DopeWidget(this);
     addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
+    connect(this, &MainWindow::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
@@ -5671,15 +5671,6 @@ void MainWindow::connectTimeline()
         slotCheckRenderStatus();
         m_renderWidget->setGuides(project->getGuideModel(uuid));
         m_renderWidget->showRenderDuration();
-    }
-}
-
-void MainWindow::registerDopeStack(std::shared_ptr<EffectStackModel> model)
-{
-    pCore->dopeSheetModel()->registerStack(model);
-    if (model && m_dopeWidget->rootObject()) {
-        m_dopeWidget->rootObject()->setProperty("frameDuration", pCore->getItemDuration(model->getOwnerId()));
-        m_dopeWidget->rootObject()->setProperty("offset", pCore->getItemPosition(model->getOwnerId()));
     }
 }
 
