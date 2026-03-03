@@ -5209,6 +5209,10 @@ bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &t
                     newATrack = 0;
                 }
             }
+            // If the ATrack was not affected by the move, we don't need to update it
+            if (newATrack == compoData.second) {
+                continue;
+            }
             bool ok = TimelineFunctions::setCompositionATrack(timeline, compoId, newATrack, updateUndo, updateRedo, false);
             if (!ok) {
                 bool undone = updateUndo();
