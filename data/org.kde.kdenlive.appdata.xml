@@ -439,6 +439,7 @@
         <p xml:lang="ca">Aquesta és la primera versió de correcció d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
         <p xml:lang="ca-valencia">Esta és la primera versió d'esmena d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
         <p xml:lang="fr">Il s'agit de la première correction de bogues pour la version 24.02. Voici les corrections les plus remarquables :</p>
+        <p xml:lang="he">זאת מהדורת תיקוני התקלות הראשונה לגרסת 24.02. חלק מהתיקונים שהכי ראוי לציין:</p>
         <p xml:lang="it">Questa è la prima versione di correzione dei bug per la versione 24.02. Alcune delle correzioni più importanti:</p>
         <p xml:lang="ka">ეს პირველი შეცდომების გასწორების გამოცემაა ვერსიისთვის 24.02. ზოგიერთი შესამჩნევი გასწორებული შეცდომაა:</p>
         <p xml:lang="nl">Dit is de eerste uitgave met reparaties van bugs voor versie 24.02. Enkele van de meest opvallende oplossingen:</p>
@@ -523,6 +524,7 @@
           <li xml:lang="ca">Corregeix problemes diversos en els clips de seqüència (desant incorrectament els canvis, subtítols no duplicats)</li>
           <li xml:lang="ca-valencia">Corregix problemes diversos en els clips de seqüència (guardant incorrectament els canvis, subtítols no duplicats)</li>
           <li xml:lang="fr">Correction de plusieurs problèmes sur les vidéos de séquence (enregistrement incorrect des modifications, sous-titres non dupliqués)</li>
+          <li xml:lang="he">תוקנו מגוון תקלות על סרטוני רצף (שמירה שגויה של שינויים, כתוביות לא משוכפלות)</li>
           <li xml:lang="it">Correzione di vari problemi relativi alle sequenza di clip (salvataggio errato delle modifiche, sottotitoli non duplicati)</li>
           <li xml:lang="ka">გასწორდა ბევრი პრობლემა კლიპების განლაგებაზე (ცვლილებების არასწორი შენახვა, სუბტიტრების დუბლირების გარეშე)</li>
           <li xml:lang="nl">Diverse problemen met sequentieclips opgelost (wijzigingen werden onjuist opgeslagen, ondertitels werden niet gedupliceerd)</li>
@@ -536,6 +538,7 @@
           <li xml:lang="ca">Corregeix problemes diversos amb els subtítols (pistes de subtítols múltiples no desades o mostrades correctament)</li>
           <li xml:lang="ca-valencia">Corregix problemes diversos amb els subtítols (pistes de subtítols múltiples no guardades o mostrades correctament)</li>
           <li xml:lang="fr">Correction de plusieurs problèmes avec les sous-titres (les pistes de sous-titres multiples n'étaient pas enregistrées ou affichées correctement)</li>
+          <li xml:lang="he">תוקנו מגוון תקלות עם כתוביות (ריבוי רצועות כתוביות לא נשמרו או הוצגו כראוי)</li>
           <li xml:lang="it">Correzione di vari problemi relativi ai sottotitoli (tracce multiple di sottotitoli non salvate, o non visualizzate correttamente)</li>
           <li xml:lang="ka">გასწორდა ბევრი პრობლემა სუბტიტრებთან (ერთზე მეტი სუბტიტრის ტრეკის შენახვა და ჩვენება არასწორად ხდებოდა)</li>
           <li xml:lang="nl">Diverse problemen met ondertitels opgelost (meerdere ondertitelsporen werden niet correct opgeslagen of weergegeven).</li>
