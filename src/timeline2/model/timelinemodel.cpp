@@ -5154,7 +5154,7 @@ bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &t
         error += m_tractor->insert_track(*highTrack, lowPos + 1);
         error += m_tractor->insert_track(*lowTrack, highPos + 1);
         
-        // After this reseting of the a and b tracks, from mlt point of view, 
+        // After this resetting of the a and b tracks, from mlt point of view, 
         // only the tracks would have been swapped and the compositions would be on the same tracks as before.
         // That will make this whole operation reversible by just swapping the tracks again.
         // The proper a and b tracks are calculated and set in the updateCompositionsATrack lambda, 
