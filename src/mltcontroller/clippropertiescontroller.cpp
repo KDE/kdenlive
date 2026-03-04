@@ -1427,6 +1427,16 @@ QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
     int b_frames = m_sourceProperties->get_int("meta.media.has_b_frames");
     propertyMap.append({i18n("B frames:"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
 
+    // Timecode
+    QString timecode = m_sourceProperties->get(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(streamIndex).toUtf8().constData());
+    if (timecode.isEmpty()) {
+        timecode = m_sourceProperties->get("meta.attr.timecode.markup");
+    }
+
+    if (!timecode.isEmpty()) {
+        propertyMap.append({i18n("Timecode:"), timecode});
+    }
+
     return propertyMap;
 }
 
@@ -1457,6 +1467,16 @@ QList<QStringList> ClipPropertiesController::getAudioProperties(int streamIndex)
     int bitrate = m_sourceProperties->get_int(property.toUtf8().constData()) / 1000;
     if (bitrate > 0) {
         propertyMap.append({i18n("Audio bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+    }
+
+    // Timecode
+    QString timecode = m_sourceProperties->get(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(streamIndex).toUtf8().constData());
+    if (timecode.isEmpty()) {
+        timecode = m_sourceProperties->get("meta.attr.timecode.markup");
+    }
+
+    if (!timecode.isEmpty()) {
+        propertyMap.append({i18n("Timecode:"), timecode});
     }
 
     return propertyMap;
