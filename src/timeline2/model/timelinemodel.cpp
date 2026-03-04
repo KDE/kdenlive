@@ -5119,12 +5119,6 @@ bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &t
     Fun local_redo = []() { return true; };
     Fun updateCompositionsUndo = []() { return true; };
     Fun updateCompositionsRedo = []() { return true; };
-    
-    // Gather all compositions ATrack before the move, to be able to update them after swapping the tracks
-    std::unordered_map<int, int> compositionATrackMode;
-    for (const auto &compo : m_allCompositions) {
-        compositionATrackMode[compo.first] = compo.second->getForcedTrack();
-    }
 
     // swap tracks in the MLT Tractor and in our model
     auto swapTracks = [this, trackId, targetTrackId]() {
@@ -5142,10 +5136,37 @@ bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &t
 
         m_tractor->block();
         int error = 0;
+        // IMPORTANT: MLT internally sets the a and b tracks of the compositions. This logic is based on that.
+        // When we do the remove an insert operations on the tracks to swap in mlt,
+        // the a and b tracks are also set for existing compositions by mlt.
+        // We reset those changed a and b tracks to their original values after the swap operations.
+        std::unordered_map<int, std::pair<int, int>> compositionTracksBeforeSwap;
+        for (const auto &compo : m_allCompositions) {
+            int bTrack = getTrackMltIndex(compo.second->getCurrentTrackId());
+            if (compo.second->getATrack() == lowPos + 1 || compo.second->getATrack() == highPos + 1
+                || bTrack == lowPos + 1 || bTrack == highPos + 1) {
+                compositionTracksBeforeSwap[compo.first] = {compo.second->getATrack(), bTrack};
+            }
+        }
+
         error += m_tractor->remove_track(highPos + 1);
         error += m_tractor->remove_track(lowPos + 1);
         error += m_tractor->insert_track(*highTrack, lowPos + 1);
         error += m_tractor->insert_track(*lowTrack, highPos + 1);
+        
+        // After this reseting of the a and b tracks, from mlt point of view, 
+        // only the tracks would have been swapped and the compositions would be on the same tracks as before.
+        // That will make this whole operation reversible by just swapping the tracks again.
+        // The proper a and b tracks are calculated and set in the updateCompositionsATrack lambda, 
+        // which will be called after the swap operation in our model, 
+        // and if it fails, the swap operation will be reversed by calling the swapTracks lambda again.
+        for (const auto &compoData : compositionTracksBeforeSwap) {
+            int compoId = compoData.first;
+            int aTrack = compoData.second.first;
+            int bTrack = compoData.second.second;
+            Mlt::Transition &transition = *m_allCompositions[compoId].get();
+            transition.set_tracks(aTrack, bTrack);
+        }
         m_tractor->unblock();
         if (error != 0) {
             return false;
@@ -5175,44 +5196,75 @@ bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &t
         return true;
     };
 
-    // Update the ATrack of compositions affected by the move.
-    auto updateCompositionsATrack = [this, timeline, compositionATrackMode, trackId, targetTrackId, &updateCompositionsUndo, &updateCompositionsRedo]() {
+    // Update the A track of compositions affected by the move.
+    // B tracks are set correctly by setCompositionATrack through the track id of the composition.
+    // B track will only change for the swapped tracks, 
+    // so we just need to make sure that compositions that had A and/or B track on any of the swapped tracks are updated to trigger the replant with the new tracks.
+    auto updateCompositionsATrack = [this, timeline, trackId, targetTrackId, &updateCompositionsUndo, &updateCompositionsRedo]() {
         Fun updateUndo = []() { return true; };
         Fun updateRedo = []() { return true; };
-        for (const auto &compoData : compositionATrackMode) {
-            const int compoId = compoData.first;
-            if (!isComposition(compoId)) {
-                continue;
+        std::unordered_map<int, int> compositionATrackMode; // compoId -> new A track to set for this composition, only for compositions that need to be updated
+        int trackPosition = getTrackPosition(trackId);
+        int targetTrackPosition = getTrackPosition(targetTrackId);
+        for (const auto &compo : m_allCompositions) {
+            int compoCurrentTrackPos = getTrackPosition(compo.second->getCurrentTrackId());
+            int forcedTrack = compo.second->getForcedTrack();
+            int aTrack = compo.second->getATrack();
+            bool isInserted = false;
+            // Check if A track of any composition is on one of the swapped tracks.
+            // If its auto (-1) then just reset it to auto to trigger the replant with the new tracks.
+            // If it is forced to one of the swapped tracks,
+            // then change it to the other swapped track to keep the same track but in the new position.
+            if (aTrack==trackPosition + 1) {
+                if (forcedTrack == trackPosition + 1) {
+                    compositionATrackMode[compo.first] = targetTrackPosition + 1;
+                    isInserted = true;
+                }
+                else if (forcedTrack == -1)
+                {
+                    compositionATrackMode[compo.first] = -1;
+                    isInserted = true;
+                }
+            } else if (aTrack == targetTrackPosition + 1) {
+                if (forcedTrack == targetTrackPosition + 1) {
+                    compositionATrackMode[compo.first] = trackPosition + 1;
+                    isInserted = true;
+                }
+                else if (forcedTrack == -1)
+                {
+                    compositionATrackMode[compo.first] = -1;
+                    isInserted = true;
+                }
             }
-            int newATrack = compoData.second;
+            if ((compoCurrentTrackPos == trackPosition || compoCurrentTrackPos == targetTrackPosition) && !isInserted) {
+                // Here, A track is on a lower track but only B track is on one of the swapped tracks.
+                // Here keep the same A track same as before.
+                // Forced track can be -1 or the current A track value. 
+                // So we set it back to force a replant to update the B track.
+                compositionATrackMode[compo.first] = forcedTrack;
+            }
+        }
+        // Validate and set the new A track for the compositions that need to be updated.
+        // B tracks will also be updated in the replant.
+        for (const auto &mode : compositionATrackMode) {
+            int compoId = mode.first;
+            int newATrack = mode.second;
+            bool validSpecificTrack = false;
             if (newATrack > 0) {
+                int targetATrackPos = newATrack - 1;
+                if (targetATrackPos < getTracksCount()) {
+                    int targetATrackId = getTrackIndexFromPosition(targetATrackPos);
+                    validSpecificTrack = isTrack(targetATrackId) && !isAudioTrack(targetATrackId);
+                }
                 int compoTrackId = getCompositionTrackId(compoId);
-                bool validSpecificTrack = false;
-                if (isTrack(compoTrackId)) {
-                    int compoTrackPos = getTrackMltIndex(compoTrackId);
-                    if (newATrack < compoTrackPos) {
-                        // If the newATrack is the one that got swapped, set it to the other one
-                        if (newATrack == getTrackPosition(trackId) + 1) {
-                            newATrack = getTrackPosition(targetTrackId) + 1;
-                        }
-                        else if (newATrack == getTrackPosition(targetTrackId) + 1) {
-                            newATrack = getTrackPosition(trackId) + 1;
-                        }
-                        int targetATrackPos = newATrack - 1;
-                        if (targetATrackPos >= 0 && targetATrackPos < getTracksCount()) {
-                            int targetATrackId = getTrackIndexFromPosition(targetATrackPos);
-                            validSpecificTrack = isTrack(targetATrackId) && !isAudioTrack(targetATrackId);
-                        }
-                    }
+                if (!isTrack(compoTrackId) || newATrack >= getTrackMltIndex(compoTrackId)) {
+                    validSpecificTrack = false;
                 }
                 if (!validSpecificTrack) {
-                    newATrack = 0;
+                    newATrack = -1;
                 }
             }
-            // If the ATrack was not affected by the move, we don't need to update it
-            if (newATrack == compoData.second) {
-                continue;
-            }
+            
             bool ok = TimelineFunctions::setCompositionATrack(timeline, compoId, newATrack, updateUndo, updateRedo, false);
             if (!ok) {
                 bool undone = updateUndo();
@@ -5230,7 +5282,7 @@ bool TimelineModel::requestTrackMove(const std::shared_ptr<TimelineItemModel> &t
         Q_ASSERT(undone);
         return false;
     }
-    // Then update the ATracks as needed
+    // Then update the compositions
     if (!updateCompositionsATrack()) {
         bool undone = swapTracks();
         Q_ASSERT(undone);
