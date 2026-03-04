@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-03 02:55+0000\n"
-"PO-Revision-Date: 2026-02-16 01:41+0100\n"
+"PO-Revision-Date: 2026-03-03 14:43+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -33478,10 +33478,9 @@ msgid "Disable clip"
 msgstr "Deshabilitar clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1159
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot change clip state"
-msgstr "No es posible crear un medio"
+msgstr "No es posible cambiar el estado del clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format

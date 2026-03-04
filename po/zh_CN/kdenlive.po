@@ -32170,10 +32170,9 @@ msgid "Disable clip"
 msgstr "禁用片段"
 
 #: src/timeline2/model/timelinefunctions.cpp:1159
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot change clip state"
-msgstr "无法创建片段"
+msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format
