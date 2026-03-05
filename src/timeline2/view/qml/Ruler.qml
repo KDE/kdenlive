@@ -591,13 +591,7 @@ Item {
         }
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
-                if (wheel.angleDelta.y < 0) {
-                    // zoom out
-                    timeline.setScaleFactor(Math.max(0.1, timeline.scaleFactor / 1.2))
-                } else {
-                    // zoom in
-                    timeline.setScaleFactor(Math.min(10, timeline.scaleFactor * 1.2))
-                }
+                root.zoomByWheel(wheel)
             } else {
                 wheel.accepted = false
             }
