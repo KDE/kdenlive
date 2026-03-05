@@ -18,6 +18,7 @@ Item {
     property int frameDuration: 100
     property int mouseFramePos: -1
     property int hoverKeyframe: -1
+    // The position in frame of the stack owner
     property int offset: 0
     property color hoverColor: "#cc9900"
     // Ruler scaling, 1 means view is fully visible, 2 means zoomed twice
@@ -176,6 +177,14 @@ Item {
         return Math.round(position / root.maximumScaleFactor / root.timeScale)
     }
 
+    function isInView(position) {
+        if (position < 0) {
+            return false
+        }
+        var viewPos = frameToView(position)
+        return viewPos >= -root.baseUnit/2 && viewPos < root.keyframeContainerWidth + root.baseUnit/2
+    }
+
     function selectRubber(addToSelection) {
         // Start frame
         var startFrame = Math.min(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit + (root.contentScroll * root.timeScale * root.maximumScaleFactor)
@@ -259,12 +268,13 @@ Item {
     }
     Rectangle {
         anchors.fill: playheadLabel
+        visible: playheadLabel.visible
         radius: 4
         color: activePalette.light
     }
     Label {
         id: playheadLabel
-        visible: root.mouseFramePos > -1
+        visible: root.isInView(root.consumerPosition)
         anchors.horizontalCenter: rulerCursor.horizontalCenter
         text: root.consumerPosition
         leftPadding: 6
@@ -275,13 +285,14 @@ Item {
         id: rulerCursor
         anchors.top: playheadLabel.bottom
         anchors.bottom: parent.bottom
+        visible: playheadLabel.visible
         z: 4
         x: treeView.headerWidth + root.baseUnit + frameToView(root.consumerPosition)
         color: activePalette.text
         width: 1
         Rectangle {
             color: ruler.dimmedColor
-            width: Math.max(1, root.timeScale)
+            width: Math.max(1, 1 / root.timeScale)
             height: 1
             visible: width > root.baseUnit * 1.2
         }
@@ -294,7 +305,7 @@ Item {
     }
     Label {
         id: mouseLabel
-        visible: root.mouseFramePos > -1
+        visible: root.isInView(root.mouseFramePos)
         anchors.horizontalCenter: mouseLine.horizontalCenter
         text: root.mouseFramePos
         leftPadding: 6
@@ -558,7 +569,7 @@ Item {
                         id: handle
                         z: 10
                         x: percentPosition * kfContainer.width * root.timeScale - root.contentScroll * root.timeScale * root.maximumScaleFactor - root.baseUnit/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
-                        visible : x >= -root.baseUnit/2 && x < root.keyframeContainerWidth + root.baseUnit/2
+                        visible : x >= -root.baseUnit/2 - 1 && x < root.keyframeContainerWidth + root.baseUnit/2
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
