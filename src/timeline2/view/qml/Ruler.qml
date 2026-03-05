@@ -544,7 +544,7 @@ Item {
     Repeater {
         id: tickRepeater
         model: Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
-        property int offset: Math.floor(scrollView.contentX /rulerRoot.tickSpacing)
+        property int offset: Math.floor(rulercontainer.contentX /rulerRoot.tickSpacing)
         Item {
             property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / scalingFactor
             x: Math.round(realPos * scalingFactor)

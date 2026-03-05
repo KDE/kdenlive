@@ -20,8 +20,10 @@ Item {
     property int hoverKeyframe: -1
     property int offset: 0
     property color hoverColor: "#cc9900"
-    // Ruler scaling
-    property real timeScale: keyframeContainerWidth / frameDuration
+    // Ruler scaling, 1 means view is fully visible, 2 means zoomed twice
+    property real timeScale: 1
+    // The maximum timeScale factor, where the full item width is visible
+    property real maximumScaleFactor: keyframeContainerWidth / frameDuration
     // Contains a map of item model index / index of selected keyframes
     property var allSelectedKeyframes: []
     // Rubber selection
@@ -30,7 +32,8 @@ Item {
     property point rubberBottomRight
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
-    property int scrollPos: 0
+    // the X offset for the keyframes view
+    property double contentScroll: 0
     // Playhead position
     property int consumerPosition: proxy ? proxy.position - offset: -1
     property int keyframeContainerWidth: width - treeView.headerWidth - (2 * baseUnit)
@@ -47,6 +50,13 @@ Item {
     }
     onConsumerPositionChanged: {
         console.log('UPDATED DOPE POSITION: ', consumerPosition)
+    }
+
+    function updateOwner(totalDuration, itemStartPos) {
+        root.frameDuration = totalDuration
+        root.offset = itemStartPos
+        root.contentScroll = 0
+        root.timeScale = 1
     }
 
     function zoomByWheel(wheel) {
@@ -85,11 +95,7 @@ Item {
     }
 
     function zoom(factor) {
-        root.timeScale = Math.max(root.keyframeContainerWidth / root.frameDuration, root.timeScale * factor)
-    }
-
-    function fitZoom() {
-        return root.keyframeContainerWidth / root.frameDuration
+        root.timeScale = Math.max(1, root.timeScale * factor)
     }
 
     function deleteSelection() {
@@ -151,12 +157,21 @@ Item {
         root.allSelectedKeyframes.push({index: itemIndex, kfrs: itemKeyframes})
     }
 
+    function frameToView(position) {
+        return position * root.maximumScaleFactor * root.timeScale - (root.contentScroll * root.timeScale * root.maximumScaleFactor)
+    }
+
+    function viewToFrame(position) {
+        return Math.round(position / root.maximumScaleFactor / root.timeScale)
+    }
+
     function selectRubber(addToSelection) {
         // Start frame
-        var startFrame = Math.min(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit
-        var endFrame = Math.max(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit
-        startFrame = Math.round(startFrame / root.timeScale)
-        endFrame = Math.round(endFrame / root.timeScale)
+        var startFrame = Math.min(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit + (root.contentScroll * root.timeScale * root.maximumScaleFactor)
+        var endFrame = Math.max(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit + (root.contentScroll * root.timeScale * root.maximumScaleFactor)
+        startFrame = viewToFrame(startFrame)
+        endFrame = viewToFrame(endFrame)
+        console.log('SELECTING FRAMES BETWEEN: ', startFrame, '-', endFrame)
         var topPos = mapToItem(treeView, 0, Math.min(root.rubberBottomRight.y, root.rubberTopLeft.y))
         topPos.y = Math.max(0, topPos.y)
         var bottomPos = mapToItem(treeView, 0, Math.max(root.rubberBottomRight.y, root.rubberTopLeft.y))
@@ -199,6 +214,7 @@ Item {
         anchors.rightMargin: root.baseUnit
         height: Math.round(root.baseUnit * 2.5)
         contentWidth: Math.min(parent.width, root.frameDuration * root.timeScale)
+        contentX: Math.min(root.contentScroll * root.timeScale * root.maximumScaleFactor, root.frameDuration * root.timeScale - width)
         interactive: false
         clip: true
         onWidthChanged: {
@@ -209,19 +225,9 @@ Item {
             width: parent.width
             height: parent.height
             rulerOffset: root.offset
-            scalingFactor: root.timeScale
+            scalingFactor: root.timeScale * root.maximumScaleFactor
             maxDuration: root.frameDuration
             hideZone: true
-            /*K.TimelinePlayhead {
-                id: playhead
-                height: Math.round(root.baseUnit * .8)
-                width: Math.round(root.baseUnit * 1.2)
-                fillColor: activePalette.windowText
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: ruler.zoneHeight - 1
-                anchors.horizontalCenter: rulerCursor.horizontalCenter
-                // bottom line on zoom
-            }*/
         }
     }
     Rectangle {
@@ -243,7 +249,7 @@ Item {
         anchors.top: playheadLabel.bottom
         anchors.bottom: parent.bottom
         z: 4
-        x: treeView.headerWidth + root.baseUnit + root.consumerPosition * root.timeScale
+        x: treeView.headerWidth + root.baseUnit + frameToView(root.consumerPosition)
         color: activePalette.text
         width: 1
         Rectangle {
@@ -274,8 +280,17 @@ Item {
         z: 5
         width: 1
         visible: mouseLabel.visible
-        x: treeView.headerWidth + root.baseUnit + root.mouseFramePos * root.keyframeContainerWidth / root.frameDuration
+        x: treeView.headerWidth + root.baseUnit + frameToView(root.mouseFramePos)
         color: activePalette.highlight
+    }
+
+    Rectangle {
+        // Param name background
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        width: treeView.headerWidth
+        color: activePalette.alternateBase
     }
 
     TreeView {
@@ -367,7 +382,6 @@ Item {
                     property int clickIndex
                     property int currentFrame: -1
                     property int currentIndex: -1
-                    property double currentPercentPos
                     property bool dragStarted: false
                     property point clickPoint
                     property bool shiftClick: false
@@ -444,9 +458,8 @@ Item {
                     onWheel: wheel => zoomByWheel(wheel)
 
                     onPositionChanged: mouse => {
-                        var mouseFrame = Math.max(0., (mouse.x - root.baseUnit) / root.keyframeContainerWidth)
-                        mouseFrame = Math.min(1., mouseFrame)
-                        root.mouseFramePos = Math.round(mouseFrame * frameDuration)
+                        var mousePos = Math.max(0., (mouse.x - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
+                        root.mouseFramePos = viewToFrame(mousePos)
                         if (!pressed) {
                             kfMoveArea.currentFrame = -1
                             kfMoveArea.currentIndex = -1
@@ -494,14 +507,11 @@ Item {
                             root.hoverKeyframe = -1
                             return
                         }
-
-                        currentPercentPos = Math.max(0., mouse.x / root.keyframeContainerWidth)
-                        currentPercentPos = Math.min(1., currentPercentPos)
                         if (depth == 0) {
-                            timeline.dopeSheetModel().addPercentKeyframe(kfContainer.itemIndex, currentPercentPos)
+                            timeline.dopeSheetModel().addKeyframe(kfContainer.itemIndex, root.mouseFramePos)
                         } else {
-                            console.log('Adding keyframe at: ', currentPercentPos)
-                            dopeModel.addPercentKeyframe(currentPercentPos)
+                            console.log('Adding keyframe at: ', root.mouseFramePos)
+                            dopeModel.addKeyframe(root.mouseFramePos)
                         }
                         kfMoveArea.currentFrame = root.mouseFramePos
                         root.hoverKeyframe = root.mouseFramePos
@@ -513,7 +523,8 @@ Item {
                     Rectangle {
                         id: handle
                         z: 10
-                        x: percentPosition * root.timeScale / root.fitZoom() * kfContainer.width - root.baseUnit/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
+                        x: percentPosition * kfContainer.width * root.timeScale - root.contentScroll * root.timeScale * root.maximumScaleFactor - root.baseUnit/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
+                        visible : x >= root.baseUnit/2 && x < root.keyframeContainerWidth + root.baseUnit/2
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
@@ -561,17 +572,21 @@ Item {
         }
         height: Math.round(root.baseUnit * 0.7)
         barMinWidth: root.baseUnit
-        fitsZoom: root.timeScale === root.fitZoom() && root.scrollPos === 0
-        zoomFactor: root.fitZoom() / root.timeScale
-        /*onProposeZoomFactor: (proposedValue) => {
-            timeScale = treeView.width / Math.round(proposedValue * scrollView.contentWidth / root.timeScale)
+        fitsZoom: root.timeScale === 1 && root.contentScroll === 0
+        zoomFactor: 1 / root.timeScale
+        onProposeZoomFactor: (proposedValue) => {
+            root.timeScale = 1. / proposedValue
             zoomOnBar = true
-        }*/
+        }
         contentPos: 0
-        /*onProposeContentPos: (proposedValue) => { scrollView.contentX = Math.max(0, proposedValue * scrollView.contentWidth) }*/
+        onProposeContentPos: (proposedValue) => {
+            // The corresponding pixel offset
+            root.contentScroll = Math.max(0, proposedValue * root.frameDuration)
+            console.log('proposing scroll: ', proposedValue, ', CONTENT SCROLL: ', root.contentScroll, ', SCLAE: ', root.timeScale)
+        }
         onZoomByWheel: wheel => root.zoomByWheel(wheel)
         onFitZoom: {
-            root.scaleFactor = root.fitZoom()
+            root.timeScale = 1
             //scrollView.contentX = 0
             //zoomOnBar = true
         }

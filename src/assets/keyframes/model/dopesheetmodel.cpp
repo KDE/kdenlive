@@ -270,7 +270,7 @@ void DopeSheetModel::moveKeyframe(const QModelIndex &ix, int updatedPos, bool lo
     }
 }
 
-void DopeSheetModel::addPercentKeyframe(const QModelIndex &ix, double percentPos)
+void DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)
 {
     int itemId = int(ix.internalId());
     auto tItem = getItemById(itemId);
@@ -280,7 +280,7 @@ void DopeSheetModel::addPercentKeyframe(const QModelIndex &ix, double percentPos
         auto current = tItem->child(j);
         auto ix2 = getIndexFromItem(current);
         KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
-        km->addPercentKeyframe(percentPos, undo, redo);
+        km->addKeyframe(framePosition, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Add keyframes"));
 }

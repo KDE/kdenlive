@@ -181,8 +181,8 @@ public:
     void loadKeyframePos(QList<GenTime> all_pos);
 
 public Q_SLOTS:
-    Q_INVOKABLE bool addPercentKeyframe(double percentPos);
-    bool addPercentKeyframe(double percentPos, Fun &undo, Fun &redo);
+    Q_INVOKABLE bool addKeyframe(int framePos);
+    bool addKeyframe(int framePos, Fun &undo, Fun &redo);
     Q_INVOKABLE void seekToKeyframe(int index);
 
 protected:

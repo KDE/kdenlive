@@ -64,7 +64,7 @@ public:
     /** @brief Remove all keyframes at given position */
     Q_INVOKABLE void removeKeyframe(const QModelIndex &ix, int framePos);
     /** @brief Add a keyframe to all parameters */
-    Q_INVOKABLE void addPercentKeyframe(const QModelIndex &ix, double percentPos);
+    Q_INVOKABLE void addKeyframe(const QModelIndex &ix, int framePosition);
     /** @brief Move keyframes in all parameters at current pos */
     Q_INVOKABLE void moveKeyframe(const QModelIndex &ix, int updatedPos, bool logUndo);
     /** @brief Register all keyframes that will need to move */
