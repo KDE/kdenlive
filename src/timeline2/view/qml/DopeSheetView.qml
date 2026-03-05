@@ -59,6 +59,17 @@ Item {
         root.timeScale = 1
     }
 
+    function scrollByWheel(wheel) {
+        var proposedPos
+        if (wheel.angleDelta.y < 0) {
+            proposedPos = Math.max(0, Math.min((horZoomBar.contentPos * root.frameDuration - wheel.angleDelta.y) / root.frameDuration, 1 - 1 / root.timeScale))
+        } else {
+            proposedPos = Math.max(horZoomBar.contentPos * root.frameDuration - wheel.angleDelta.y, 0) / root.frameDuration
+        }
+        horZoomBar.contentPos = proposedPos
+        horZoomBar.proposeContentPos(proposedPos)
+    }
+
     function zoomByWheel(wheel) {
         if (wheel.modifiers & Qt.AltModifier) {
             // Seek to next snap
@@ -202,6 +213,22 @@ Item {
             updateSelectedKeyframesForIndex(id, kf, true)
         }
         root.allSelectedKeyframesChanged()
+    }
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onWheel: wheel => {
+            if (wheel.modifiers & Qt.ControlModifier) {
+                root.zoomByWheel(wheel)
+            } else {
+                // Scroll
+                root.scrollByWheel(wheel)
+            }
+        }
+        onPositionChanged: mouse => {
+            var mousePos = Math.max(0., (mouse.x - treeView.headerWidth - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
+            root.mouseFramePos = viewToFrame(mousePos)
+        }
     }
 
     Flickable {
@@ -455,7 +482,14 @@ Item {
                         mouse.accepted = true
                     }
 
-                    onWheel: wheel => zoomByWheel(wheel)
+                    onWheel: wheel => {
+                        if (wheel.modifiers & Qt.ControlModifier) {
+                            root.zoomByWheel(wheel)
+                        } else {
+                            // Scroll
+                            root.scrollByWheel(wheel)
+                        }
+                    }
 
                     onPositionChanged: mouse => {
                         var mousePos = Math.max(0., (mouse.x - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
@@ -524,7 +558,7 @@ Item {
                         id: handle
                         z: 10
                         x: percentPosition * kfContainer.width * root.timeScale - root.contentScroll * root.timeScale * root.maximumScaleFactor - root.baseUnit/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
-                        visible : x >= root.baseUnit/2 && x < root.keyframeContainerWidth + root.baseUnit/2
+                        visible : x >= -root.baseUnit/2 && x < root.keyframeContainerWidth + root.baseUnit/2
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
