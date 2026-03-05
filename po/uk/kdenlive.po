@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-03 02:55+0000\n"
-"PO-Revision-Date: 2026-01-02 11:31+0200\n"
+"PO-Revision-Date: 2026-03-04 15:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -33302,10 +33302,9 @@ msgid "Disable clip"
 msgstr "Вимкнути кліп"
 
 #: src/timeline2/model/timelinefunctions.cpp:1159
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot change clip state"
-msgstr "Не вдалося створити кліп"
+msgstr "Не вдалося змінити стан кліпу"
 
 #: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format

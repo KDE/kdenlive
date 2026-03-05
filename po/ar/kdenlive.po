@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-03 02:55+0000\n"
-"PO-Revision-Date: 2026-02-24 23:02+0400\n"
+"PO-Revision-Date: 2026-02-28 13:24+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -32694,10 +32694,9 @@ msgid "Disable clip"
 msgstr "عطّل مقطع"
 
 #: src/timeline2/model/timelinefunctions.cpp:1159
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot change clip state"
-msgstr "تعذّر إنشاء مقطع"
+msgstr "لا يمكن تغيير حالة المقطع"
 
 #: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format

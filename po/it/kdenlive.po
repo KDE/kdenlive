@@ -33171,10 +33171,9 @@ msgid "Disable clip"
 msgstr "Disabilita clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1159
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot change clip state"
-msgstr "Impossibile creare la clip"
+msgstr "Impossibile modificare lo stato della clip"
 
 #: src/timeline2/model/timelinefunctions.cpp:1188
 #, kde-format
