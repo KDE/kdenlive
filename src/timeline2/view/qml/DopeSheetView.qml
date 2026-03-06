@@ -309,7 +309,6 @@ Item {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         hoverEnabled: true
-        enabled: !keyframeMenu.visible
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
                 root.zoomByWheel(wheel)
@@ -353,10 +352,37 @@ Item {
                 timeline.dopeSheetModel().copyKeyframes(allSelectedKeyframes)
             }
         }
+        MenuItem { text: i18n("Type") }
+        MenuItem {
+            text: i18n("Remove Keyframe")
+            onTriggered: {
+                if (treeView.selectedKeyframe > -1) {
+                    console.log('Removing keyframe')
+                    // Double click on a keyframe, remove it
+                    timeline.dopeSheetModel().removeKeyframe(treeView.activeIndex, treeView.selectedKeyframe)
+                    treeView.selectedKeyframe = -1
+                    treeView.activeIndex = -1
+                    root.hoverKeyframe = -1
+                }
+            }
+        }
+    }
+
+    Menu {
+        id: otherMenu
         MenuItem {
             text: i18n("Paste")
         }
-        MenuItem { text: i18n("Type") }
+        MenuItem {
+            text: i18n("Add keyframe")
+            onTriggered: {
+                if (treeView.selectedKeyframe > -1) {
+                    console.log('Adding keyframe')
+                    timeline.dopeSheetModel().addKeyframe(treeView.activeIndex, root.mouseFramePos)
+                    root.hoverKeyframe = root.mouseFramePos
+                }
+            }
+        }
     }
 
     TreeView {
@@ -367,6 +393,8 @@ Item {
         anchors.topMargin: rulercontainer.height
         property int headerWidth: 100
         property int hoveredParam: -1
+        property var activeIndex
+        property int selectedKeyframe
         // Disable flicking
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
@@ -445,6 +473,7 @@ Item {
                 }
                 MouseArea {
                     id: kfMoveArea
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                     property int clickPos
                     property int clickIndex
                     property int currentFrame: -1
@@ -452,6 +481,7 @@ Item {
                     property bool dragStarted: false
                     property point clickPoint
                     property bool shiftClick: false
+                    property var buttonClicked
                     anchors.fill: parent
                     anchors.leftMargin: -root.baseUnit
                     anchors.rightMargin: -root.baseUnit
@@ -474,16 +504,30 @@ Item {
                         } else {
                             shiftClick = false
                         }
+                        buttonClicked = mouse.buttons
                         // Select parameter
                         treeView.selectionModel.setCurrentIndex(kfContainer.itemIndex, ItemSelectionModel.SelectCurrent)
 
                         if (clickIndex < 0) {
                             // Not on a keyframe
-                            root.clearSelection()
+                            if (mouse.buttons === Qt.RightButton) {
+                                treeView.activeIndex = kfContainer.itemIndex
+                                otherMenu.popup()
+                            } else {
+                                root.clearSelection()
+                            }
                             return
                         }
                         var selectedKeyframes = getSelectedKeyframesForIndex(kfContainer.itemIndex)
-
+                        if (mouse.buttons === Qt.RightButton) {
+                            if (selectedKeyframes.indexOf(currentIndex) > -1) {
+                                // keyframe already selected, just show menu
+                                treeView.selectedKeyframe = kfMoveArea.currentFrame
+                                treeView.activeIndex = kfContainer.itemIndex
+                                keyframeMenu.popup()
+                                return
+                            }
+                        }
                         if (mouse.modifiers & Qt.ShiftModifier) {
                             const selectionIndex = selectedKeyframes.indexOf(currentIndex);
                             if (selectionIndex > -1) {
@@ -502,6 +546,11 @@ Item {
                         }
                         updateSelectedKeyframesForIndex(kfContainer.itemIndex, selectedKeyframes, shiftClick)
                         root.allSelectedKeyframesChanged()
+                        if (mouse.buttons === Qt.RightButton) {
+                            treeView.selectedKeyframe = kfMoveArea.currentFrame
+                            treeView.activeIndex = kfContainer.itemIndex
+                            keyframeMenu.popup()
+                        }
                     }
                     onReleased: mouse => {
                         if (root.rubberSelect) {
@@ -521,9 +570,11 @@ Item {
                                     dopeModel.moveKeyframeByIndex(clickIndex, root.mouseFramePos, true)
                                 }
                             }
-                        } else if (clickIndex > -1) {
+                        } else if (clickIndex > -1 && buttonClicked === Qt.LeftButton && !shiftClick) {
+                            console.log('MOUSE RELEASED, SEEKING TO: ', clickIndex)
                             dopeModel.seekToKeyframe(clickIndex)
                         }
+                        console.log('MOUSE RELEASED WITH BUTTON: ', buttonClicked)
                         dragStarted = false
                         mouse.accepted = true
                     }
@@ -546,7 +597,7 @@ Item {
                             root.hoverKeyframe = -1
                             return
                         }
-                        if (!dragStarted) {
+                        if (!dragStarted && mouse.buttons === Qt.LeftButton) {
                             if (Math.abs(mouseX - clickPoint.x) + Math.abs(mouseY - clickPoint.y) > Qt.styleHints.startDragDistance) {
                                 console.log(' - - - DRAG STARTED -- - ')
                                 dragStarted = true
@@ -620,16 +671,13 @@ Item {
                             anchors.fill: handle
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            acceptedButtons: Qt.RightButton
+                            acceptedButtons: Qt.NoButton
                             onEntered: {
                                 console.log("entered kfr: ", index)
                                 kfMoveArea.currentFrame = frame
                                 kfMoveArea.currentIndex = index
                                 root.hoverKeyframe = frame
                                 root.mouseFramePos = frame
-                            }
-                            onClicked: {
-                                keyframeMenu.popup()
                             }
                         }
                     }

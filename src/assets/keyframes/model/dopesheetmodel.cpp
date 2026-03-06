@@ -277,13 +277,24 @@ void DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)
     auto tItem = getItemById(itemId);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    for (int j = 0; j < tItem->childCount(); ++j) {
-        auto current = tItem->child(j);
-        auto ix2 = getIndexFromItem(current);
-        KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
-        km->addKeyframe(framePosition, undo, redo);
+    bool success = false;
+    if (tItem->childCount() == 0) {
+        // Single parameter
+        KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+        success = km->addKeyframe(framePosition, undo, redo);
+    } else {
+        for (int j = 0; j < tItem->childCount(); ++j) {
+            auto current = tItem->child(j);
+            auto ix2 = getIndexFromItem(current);
+            KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+            success = km->addKeyframe(framePosition, undo, redo);
+        }
     }
-    pCore->pushUndo(undo, redo, i18n("Add keyframes"));
+    if (success) {
+        pCore->pushUndo(undo, redo, i18n("Add keyframes"));
+    } else {
+        pCore->displayMessage(i18n("Failed to add keyframe"), InformationMessage);
+    }
 }
 
 void DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
@@ -293,15 +304,28 @@ void DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     GenTime position = GenTime(framePos, pCore->getCurrentFps());
-    for (int j = 0; j < tItem->childCount(); ++j) {
-        auto current = tItem->child(j);
-        auto ix2 = getIndexFromItem(current);
-        KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+    bool success = false;
+    if (tItem->childCount() == 0) {
+        // Single parameter
+        KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
         if (km->hasKeyframe(position)) {
-            km->removeKeyframe(position, undo, redo);
+            success = km->removeKeyframe(position, undo, redo);
+        }
+    } else {
+        for (int j = 0; j < tItem->childCount(); ++j) {
+            auto current = tItem->child(j);
+            auto ix2 = getIndexFromItem(current);
+            KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+            if (km->hasKeyframe(position)) {
+                success = km->removeKeyframe(position, undo, redo);
+            }
         }
     }
-    pCore->pushUndo(undo, redo, i18n("Remove keyframe"));
+    if (success) {
+        pCore->pushUndo(undo, redo, i18n("Remove keyframe"));
+    } else {
+        pCore->displayMessage(i18n("Failed to remove keyframe"), InformationMessage);
+    }
 }
 
 void DopeSheetModel::removeKeyframes(QVariantList indexes, QVariantList keyframes)
