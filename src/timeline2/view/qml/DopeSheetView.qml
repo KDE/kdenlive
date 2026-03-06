@@ -223,22 +223,6 @@ Item {
         }
         root.allSelectedKeyframesChanged()
     }
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        onWheel: wheel => {
-            if (wheel.modifiers & Qt.ControlModifier) {
-                root.zoomByWheel(wheel)
-            } else {
-                // Scroll
-                root.scrollByWheel(wheel)
-            }
-        }
-        onPositionChanged: mouse => {
-            var mousePos = Math.max(0., (mouse.x - treeView.headerWidth - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
-            root.mouseFramePos = viewToFrame(mousePos)
-        }
-    }
 
     Flickable {
         // scroll area for the Ruler.
@@ -321,6 +305,29 @@ Item {
         x: treeView.headerWidth + root.baseUnit + frameToView(root.mouseFramePos)
         color: activePalette.highlight
     }
+    MouseArea {
+        acceptedButtons: Qt.NoButton
+        anchors.fill: parent
+        hoverEnabled: true
+        enabled: !keyframeMenu.visible
+        onWheel: wheel => {
+            if (wheel.modifiers & Qt.ControlModifier) {
+                root.zoomByWheel(wheel)
+            } else {
+                // Scroll
+                root.scrollByWheel(wheel)
+            }
+        }
+        onPositionChanged: mouse => {
+            var mousePos = Math.max(0., (mouse.x - treeView.headerWidth - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
+            if (mousePos <= 0 && root.mouseFramePos == 0) {
+                // In the header zone, ignore
+                return
+            }
+            console.log('MOUSE FRAME TO: ', root.mouseFramePos, ', NEW: ', mousePos)
+            root.mouseFramePos = viewToFrame(mousePos)
+        }
+    }
 
     Rectangle {
         // Param name background
@@ -331,6 +338,27 @@ Item {
         color: activePalette.alternateBase
     }
 
+    Menu {
+        id: keyframeMenu
+        MenuItem {
+            text: i18n("Cut")
+            enabled: root.hoverKeyframe > -1
+            onTriggered: {
+            }
+        }
+        MenuItem {
+            text: i18n("Copy")
+            enabled: root.hoverKeyframe > -1
+            onTriggered: {
+                timeline.dopeSheetModel().copyKeyframes(allSelectedKeyframes)
+            }
+        }
+        MenuItem {
+            text: i18n("Paste")
+        }
+        MenuItem { text: i18n("Type") }
+    }
+
     TreeView {
         // The model needs to be a QAbstractItemModel
         id: treeView
@@ -338,6 +366,7 @@ Item {
         anchors.fill: parent
         anchors.topMargin: rulercontainer.height
         property int headerWidth: 100
+        property int hoveredParam: -1
         // Disable flicking
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
@@ -410,7 +439,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     height: 6
                     radius: 2
-                    color: kfMoveArea.containsMouse || kfMoveArea.currentFrame > -1 ? Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1) : activePalette.light
+                    color: contentRect.row == treeView.hoveredParam ? Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1) : activePalette.light
                     border.width: 1
                     border.color: activePalette.shadow
                 }
@@ -427,6 +456,12 @@ Item {
                     anchors.leftMargin: -root.baseUnit
                     anchors.rightMargin: -root.baseUnit
                     hoverEnabled: true
+                    onHoveredChanged: {
+                        if (containsMouse) {
+                            treeView.hoveredParam = contentRect.row
+                        }
+                    }
+
                     onPressed: mouse => {
                         clickPos = currentFrame
                         clickIndex = currentIndex
@@ -525,6 +560,7 @@ Item {
                         } else if (shiftClick) {
                             // Update rectangle selection
                             root.rubberBottomRight = mapToItem(root, mouseX, mouseY)
+                            selectRubber(false)
                             return
                         }
 
@@ -584,13 +620,16 @@ Item {
                             anchors.fill: handle
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            acceptedButtons: Qt.NoButton
+                            acceptedButtons: Qt.RightButton
                             onEntered: {
                                 console.log("entered kfr: ", index)
                                 kfMoveArea.currentFrame = frame
                                 kfMoveArea.currentIndex = index
                                 root.hoverKeyframe = frame
                                 root.mouseFramePos = frame
+                            }
+                            onClicked: {
+                                keyframeMenu.popup()
                             }
                         }
                     }

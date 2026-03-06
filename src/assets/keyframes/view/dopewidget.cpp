@@ -4,16 +4,32 @@
 */
 
 #include "dopewidget.hpp"
+
+#include <QQmlContext>
+#include <QQuickItem>
+#include <QVariant>
+#include <QtGlobal>
+
+#include <ki18n_version.h>
+
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <KLocalizedQmlContext>
+#else
+#include <KLocalizedContext>
+#endif
+
 #include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
-#include <QQmlContext>
-#include <QQuickItem>
-
 DopeWidget::DopeWidget(QWidget *parent)
     : QQuickWidget(parent)
 {
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    KLocalization::setupLocalizedContext(engine());
+#else
+    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
+#endif
     setClearColor(palette().base().color());
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     QList<QQmlContext::PropertyPair> propertyList = {{"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())}};

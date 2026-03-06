@@ -57,7 +57,7 @@ public:
     void deregisterItem(QPersistentModelIndex ix);
     // void clear();
     /** @brief Register all keyframable params for an effect */
-    void registerAsset(std::shared_ptr<EffectItemModel> effectModel);
+    void registerAsset(int i, std::shared_ptr<EffectItemModel> effectModel);
     void registerStack(std::shared_ptr<EffectStackModel> model);
     /** @brief Remove all keyframes at given indexes (parameter indexes / keyframes indexes) */
     Q_INVOKABLE void removeKeyframes(QVariantList indexes, QVariantList keyframes);
@@ -71,6 +71,7 @@ public:
     Q_INVOKABLE void buildMasterSelection(const QModelIndex &ix, int index);
     Q_INVOKABLE QVariantMap selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame);
     Q_INVOKABLE QVariantList selectedIndexes() const;
+    Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
@@ -88,6 +89,8 @@ private:
     QMap<QModelIndex, int> m_relatedMove;
     QList<QMetaObject::Connection> m_connectionList;
     std::shared_ptr<EffectStackModel> m_model;
+    /** @brief Returns a list on int indexes of keyframes in a
+     *  parameter ix that are placed between startFrame and endFrame */
     QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);
     QVariantMap selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame);
 

@@ -19,6 +19,8 @@
 #include <QLineF>
 #include <QSize>
 #include <mlt++/Mlt.h>
+#include <qapplication.h>
+#include <qclipboard.h>
 #include <utility>
 
 DopeSheetModel::DopeSheetModel(QObject *parent)
@@ -59,7 +61,6 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
         qDebug() << "Item index is not valid" << itemId << ", ROLE: " << role;
         return QVariant();
     }
-    // auto stack = std::static_pointer_cast<EffectItemModel> (parentItem
     qDebug() << "::: QUERYING DATA FOR INDEX: " << index.row() << " = " << role;
     switch (role) {
     case Qt::DisplayRole:
@@ -151,14 +152,14 @@ void DopeSheetModel::loadEffects()
             continue;
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
-        registerAsset(effectModel);
+        registerAsset(i, effectModel);
     }
 }
 
-void DopeSheetModel::registerAsset(std::shared_ptr<EffectItemModel> effectModel)
+void DopeSheetModel::registerAsset(int i, std::shared_ptr<EffectItemModel> effectModel)
 {
     qDebug() << ":::: REGISTERING DOPE EFFECT: " << effectModel->dataColumn(0);
-    auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString()}, shared_from_this(), false);
+    auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString(), i}, shared_from_this(), false);
     std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
     QStringList blockedParams = effectModel->data(QModelIndex(), AssetParameterModel::BlockedKeyframesRole).toStringList();
     getRoot()->appendChild(effectItem);
@@ -379,14 +380,19 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
                 auto parentItem = tItem->parentItem();
                 int currentRow = tItem->row();
                 if (auto ptr = parentItem.lock()) {
-                    int siblings = ptr->childCount() - 1;
+                    int siblings = ptr->childCount();
+                    qDebug() << ":::: SELECTING ITEM in ROW: " << currentRow << ", MAX: " << ptr->childCount();
                     while (currentRow < siblings) {
-                        auto nextItem = getRoot()->child(++currentRow);
-                        if (!nextItem) {
-                            stopParsing = true;
-                        } else {
+                        qDebug() << "_____ CHECKING EFFECT ROW: " << currentRow;
+                        auto nextItem = getRoot()->child(currentRow++);
+                        qDebug() << "_____ CHECKING EFFECT ROW DONE; NXT: " << currentRow;
+                        if (nextItem) {
                             currentIndex = getIndexFromItem(nextItem);
+                            break;
                         }
+                    }
+                    if (currentRow == siblings) {
+                        stopParsing = true;
                     }
                 }
             }
@@ -450,4 +456,47 @@ QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, 
         }
     }
     return currentKeyframeIndexes;
+}
+
+void DopeSheetModel::copyKeyframes(QVariantMap kfData)
+{
+    qDebug() << ":::: " << kfData;
+    QJsonArray jsonArray;
+    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
+        auto index = i.value().toMap();
+        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
+        int itemId = int(ix.internalId());
+        auto tItem = getItemById(itemId);
+        if (tItem) {
+            qDebug() << "::: CHECKING ITEM FOR ID: " << itemId << ", " << tItem->dataColumn(0);
+            if (tItem->depth() == 1) {
+                continue;
+            }
+            auto parentItem = tItem->parentItem();
+            if (auto ptr = parentItem.lock()) {
+                qDebug() << "::: FETCHIBNG ITEM PARENT: " << ptr->dataColumn(0) << " = " << ptr->dataColumn(1);
+                std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(ptr->dataColumn(1).toInt());
+                std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
+                if (!effectModel) {
+                    continue;
+                }
+                const QVariantList keys = index.value(QStringLiteral("kfrs")).toList();
+                QVector<int> selection;
+                for (auto &k : keys) {
+                    selection << k.toInt();
+                }
+                int paramRow = m_paramsList.at(tItem->getId()).first.row;
+                QJsonDocument doc1 = effectModel->toJson(selection, false, false, {paramRow});
+                jsonArray.append(doc1.array());
+            }
+        }
+    }
+    QJsonDocument effectDoc(jsonArray);
+    if (effectDoc.isEmpty()) {
+        pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
+        return;
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(QString(effectDoc.toJson()));
+    pCore->displayMessage(i18n("Current values copied"), InformationMessage);
 }

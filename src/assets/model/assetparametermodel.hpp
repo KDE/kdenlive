@@ -358,7 +358,7 @@ public:
      *  @param includeFixed if true, also export the fixed (non user editable) parameters for this effect
      *  @param percentageExport if true, the animated rect parameters will be exported in percentage instead of pixel value
      */
-    QJsonDocument toJson(QVector<int> selection = {}, bool includeFixed = true, bool percentageExport = false) const;
+    QJsonDocument toJson(QVector<int> selection = {}, bool includeFixed = true, bool percentageExport = false, QList<int> includeList = {}) const;
     /** @brief Returns the interpolated value at the given position with all param values as json*/
     QJsonDocument valueAsJson(int pos, bool includeFixed = true) const;
 

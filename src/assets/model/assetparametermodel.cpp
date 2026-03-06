@@ -1317,13 +1317,13 @@ const QString AssetParameterModel::animationToPercentage(const QString &inputVal
     return QString();
 }
 
-QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFixed, bool percentageExport) const
+QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFixed, bool percentageExport, QList<int> includeList) const
 {
     QJsonArray list;
     if (selection == (QVector<int>() << -1)) {
         selection.clear();
     }
-    if (includeFixed) {
+    if (includeFixed && includeList.isEmpty()) {
         for (const auto &fixed : m_fixedParams) {
             QJsonObject currentParam;
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
@@ -1369,6 +1369,9 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
         }
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+        if (!includeList.isEmpty() && !includeList.contains(ix.row())) {
+            continue;
+        }
 
         if (param.first.contains(QLatin1String("Position X"))) {
             x = param.second.value.toString();

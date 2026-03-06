@@ -220,6 +220,9 @@ Item {
                                     destFrame = frame
                                 }
                             }
+                        } else {
+                            mouse.accepted = false
+                            console.log('MOVE OVER RANGE AREA')
                         }
                     }
                     drag.smoothed: false
@@ -570,12 +573,13 @@ Item {
     MouseArea {
         id: rulerMouseArea
         anchors.fill: parent
-        hoverEnabled: true
+        hoverEnabled: false
         acceptedButtons: Qt.LeftButton
         z: 1
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
+                pos = Math.min(pos, width)
                 var frame = Math.round(pos / scalingFactor)
                 proxy.position = frame + rulerRoot.rulerOffset
                 mouse.accepted = true
@@ -584,12 +588,13 @@ Item {
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton && pressed) {
                 var pos = Math.max(mouseX, 0)
+                pos = Math.min(pos, width)
                 var frame = Math.round(pos / scalingFactor)
                 proxy.position = frame + rulerRoot.rulerOffset
             }
         }
         onDoubleClicked: mouse => {
-            if (mouse.y < guideLabelHeight) {
+            if (mouse.y < guideLabelHeight && !root.hideZone) {
                 timeline.switchGuide(Math.round(mouseX / scalingFactor), false)
             }
         }
