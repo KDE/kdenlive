@@ -17,13 +17,20 @@
 
 SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate,
                          ClipType::ProducerType clipType)
+    : SpeedDialog(parent, speed, duration, minSpeed, maxSpeed, reversed, pitch_compensate,
+                  clipType == ClipType::Playlist || clipType == ClipType::Timeline, true)
+{
+}
+
+SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate,
+                         bool isTimelineOrPlaylistClips, bool isSingleOrPartnerClip)
     : QDialog(parent)
     , ui(new Ui::ClipSpeed_UI)
     , m_durationDisplay(nullptr)
     , m_duration(duration)
 {
     ui->setupUi(this);
-    setWindowTitle(i18n("Clip Speed"));
+    setWindowTitle(i18n(isSingleOrPartnerClip ? "Clip Speed" : "Clips Speed"));
     ui->speedSlider->setMinimum(0);
     ui->speedSlider->setMaximum(100);
     ui->speedSlider->setTickInterval(10);
@@ -42,7 +49,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     }
 
     // Info widget
-    if (clipType == ClipType::Playlist || clipType == ClipType::Timeline) {
+    if (isTimelineOrPlaylistClips) {
         ui->infoMessage->setText(i18n("Speed effect will render better when used on single high fps clips"));
         ui->infoMessage->show();
     } else {
@@ -53,7 +60,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     ui->precisionSpin->setValue(speed);
     ui->precisionSpin->setFocus();
     ui->precisionSpin->selectAll();
-    if (m_duration > 0) {
+    if (isSingleOrPartnerClip &&m_duration > 0) {
         QLabel *durationLabel = new QLabel(i18n("Duration"), this);
         ui->durationLayout->addWidget(durationLabel);
         m_durationDisplay = new TimecodeDisplay(this);
