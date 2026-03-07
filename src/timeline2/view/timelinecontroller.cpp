@@ -3089,7 +3089,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             }
         }
     }
-    // if multiple clips are selected and they have the same speed and pitch compensate, thn use that value in the dialog,
+    // if multiple clips are selected and they have the same speed and pitch compensate, then use that value in the dialog,
     // otherwise use default values (100 for speed and false for pitch compensate)
     if (!isSingleOrPartnerClip) {
         if (isCommonSpeed) {
