@@ -3099,7 +3099,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             pitchCompensate = firstPitchCompensate;
         }
     }
-    qCWarning(KDENLIVE_LOG) << "Requesting dialog with speed " << speed << " min " << minSpeed << " and max " << maxSpeed;
+    qDebug() << "Requesting dialog with speed " << speed << " min " << minSpeed << " and max " << maxSpeed;
     QScopedPointer<SpeedDialog> d(
         new SpeedDialog(QApplication::activeWindow(), std::abs(speed), duration, minSpeed, maxSpeed, speed < 0, pitchCompensate, isTimeLineOrPlaylistClip, isSingleOrPartnerClip)
     );
@@ -3111,7 +3111,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     speed = d->getValue();
     pitchCompensate = d->getPitchCompensate();
     for (int cid : sel) {
-        qCWarning(KDENLIVE_LOG) << "Requesting speed " << speed << " for clip " << cid << "from dialog";
+        qDebug() << "Requesting speed " << speed << " for clip " << cid << "from dialog";
     
         bool res = m_model->requestClipTimeWarp(cid, speed/100.0, pitchCompensate, true, undo, redo);
         if (!res) {
