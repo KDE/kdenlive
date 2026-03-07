@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2016 Microsoft Corporation. All rights reserved.
+# SPDX-FileCopyrightText: 2026 Vineet Tiwari
+
 import unittest
+from pathlib import Path
 
 import selenium.common.exceptions
 from appium import webdriver
 from appium.options.common.base import AppiumOptions
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
 
@@ -50,14 +56,35 @@ class ChangeSpeedDialogTests(unittest.TestCase):
         if last_exc is not None:
             raise last_exc
 
+    def add_clip_from_file(self, clip_path: str):
+        self.click_action(["Add Clip or Folder", "Add Clip or Folder…"])
+
+        for accessibility_id in [
+            "QApplication.QFileDialog.fileNameEdit.QLineEdit",
+            "QApplication.MainWindow#1.QFileDialog.fileNameEdit.QLineEdit",
+            "QApplication.FileWidget.fileNameEdit.QLineEdit",
+        ]:
+            try:
+                field = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=accessibility_id)
+                field.clear()
+                field.send_keys(clip_path)
+                field.send_keys(Keys.ENTER)
+                self.wait_for_name(Path(clip_path).name, timeout=30)
+                return
+            except selenium.common.exceptions.NoSuchElementException:
+                continue
+
+        active = self.driver.switch_to.active_element
+        active.send_keys(Keys.CONTROL, "l")
+        active.send_keys(clip_path)
+        active.send_keys(Keys.ENTER)
+        self.wait_for_name(Path(clip_path).name, timeout=30)
+
     def test_change_speed_dialog(self):
         self.wait_for_name("Start Editing").click()
 
-        self.wait_for_name("Add Color Clip…").click()
-        self.driver.find_element(
-            by=AppiumBy.ACCESSIBILITY_ID,
-            value="QApplication.ColorClip_UI.buttonBox.QPushButton",
-        ).click()
+        clip_path = str(Path(__file__).resolve().parent / "test-clip.mp4")
+        self.add_clip_from_file(clip_path)
 
         self.wait_for_name("Insert Clip Zone in Timeline").click()
 
