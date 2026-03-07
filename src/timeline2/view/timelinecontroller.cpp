@@ -2989,9 +2989,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     Fun redo = []() { return true; };
     std::unordered_set<int> sel = {};
     if (clipId == -1) {
-        qCWarning(KDENLIVE_LOG) << "changeItemSpeed with clipId -1, using selection";
         sel = m_model->getCurrentSelection();
-        qCWarning(KDENLIVE_LOG) << "current selection is " << sel.size() << " items";
     }
     else{
         if (m_model->isClip(clipId)) {
@@ -3038,6 +3036,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             pitchCompensate = m_model->m_allClips[mainClipId]->getIntProperty(QStringLiteral("warp_pitch"));
             // single or partner clip selected and speed is provided by argument, if not provided get it from mainClip
             if (!qFuzzyCompare(speed, -1)) {
+                qDebug() << "Requesting speed " << speed << " for clip " << mainClipId;
                 bool res = m_model->requestClipTimeWarp(mainClipId, speed, pitchCompensate, true);
                 if (res) {
                     updateClipActions();
@@ -3055,28 +3054,39 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     double minSpeed = 0;
     double maxSpeed = double(std::numeric_limits<int>::max());
     bool isTimeLineOrPlaylistClip = false;
-    double firstSpeed = 100 * m_model->getClipSpeed(*sel.begin());
-    bool firstPitchCompensate = m_model->m_allClips[*sel.begin()]->getIntProperty(QStringLiteral("warp_pitch"));
+    bool haveFirstClipStats = false;
+    double firstSpeed = 0.;
+    bool firstPitchCompensate = false;
     bool isCommonSpeed = true;
     bool isCommonPitchCompensate = true;
     for (int cid : sel) {
-        qCWarning(KDENLIVE_LOG) << "clip " << cid ;
         double clipDuration = m_model->getItemPlaytime(cid);
         double clipSpeed = 100. * m_model->getClipSpeed(cid);
         bool clipPitchCompensate = m_model->m_allClips[cid]->getIntProperty(QStringLiteral("warp_pitch"));
-        if (!qFuzzyCompare(firstSpeed, clipSpeed)) {
-            isCommonSpeed = false;
-        }
-        if (firstPitchCompensate != clipPitchCompensate) {
-            isCommonPitchCompensate = false;
+        if (!haveFirstClipStats) {
+            firstSpeed = clipSpeed;
+            firstPitchCompensate = clipPitchCompensate;
+            haveFirstClipStats = true;
+        } else if(isCommonSpeed || isCommonPitchCompensate) {
+            if (!qFuzzyCompare(firstSpeed, clipSpeed)) {
+                isCommonSpeed = false;
+            }
+            if (firstPitchCompensate != clipPitchCompensate) {
+                isCommonPitchCompensate = false;
+            }
         }
         // this is the max speed so that the clip is at least one frame long
         maxSpeed = std::min(maxSpeed, clipDuration * qAbs(clipSpeed));
         // this is the min speed so that the clip doesn't bump into the next one on track
         minSpeed = std::max(minSpeed, (clipDuration * qAbs(clipSpeed)) / (clipDuration + double(m_model->getBlankSizeNearClip(cid, true))));
-        ClipType::ProducerType type = pCore->projectItemModel()->getClipByBinID(getClipBinId(cid))->clipType();
-        if (type == ClipType::Timeline || type == ClipType::Playlist) {
-            isTimeLineOrPlaylistClip = true;
+        if (!isTimeLineOrPlaylistClip) {
+            const auto binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(cid));
+            if (binClip != nullptr) {
+                ClipType::ProducerType type = binClip->clipType();
+                if (type == ClipType::Timeline || type == ClipType::Playlist) {
+                    isTimeLineOrPlaylistClip = true;
+                }
+            }
         }
     }
     // if multiple clips are selected and they have the same speed and pitch compensate, thn use that value in the dialog,
@@ -3089,7 +3099,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             pitchCompensate = firstPitchCompensate;
         }
     }
-    qCWarning(KDENLIVE_LOG) << "requesting speed " << speed << " with min " << minSpeed << " and max " << maxSpeed;
+    qDebug() << "Requesting dialog with speed " << speed << " min " << minSpeed << " and max " << maxSpeed;
     QScopedPointer<SpeedDialog> d(
         new SpeedDialog(QApplication::activeWindow(), std::abs(speed), duration, minSpeed, maxSpeed, speed < 0, pitchCompensate, isTimeLineOrPlaylistClip, isSingleOrPartnerClip)
     );
@@ -3101,7 +3111,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     speed = d->getValue();
     pitchCompensate = d->getPitchCompensate();
     for (int cid : sel) {
-        qCWarning(KDENLIVE_LOG) << "requesting speed " << speed << " for clip " << cid;
+        qDebug() << "Requesting speed " << speed << " for clip " << cid << "from dialog";
     
         bool res = m_model->requestClipTimeWarp(cid, speed/100.0, pitchCompensate, true, undo, redo);
         if (!res) {
@@ -3109,7 +3119,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             return;
         }
     }
-    pCore->pushUndo(undo, redo, i18n("Change clip speed"));
+    pCore->pushUndo(undo, redo, i18n(isSingleOrPartnerClip ? "Change clip speed" : "Change clips speed"));
 
     updateClipActions();
 }
