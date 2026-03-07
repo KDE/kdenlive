@@ -6,6 +6,8 @@
 
 import unittest
 from pathlib import Path
+from urllib.error import URLError
+from urllib.request import urlopen
 
 import selenium.common.exceptions
 from appium import webdriver
@@ -17,8 +19,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class ChangeSpeedDialogTests(unittest.TestCase):
 
+    SAMPLE_CLIP_URL = "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/73/Mandelbrot_Set_Color_Cycling_Video_1080p_3.webm/Mandelbrot_Set_Color_Cycling_Video_1080p_3.webm.360p.webm"
+    SAMPLE_CLIP_NAME = "test-clip.webm"
+
     @classmethod
     def setUpClass(cls):
+        cls.clip_path = cls.ensure_sample_clip()
         options = AppiumOptions()
         options.set_capability("app", "org.kde.kdenlive.desktop")
         options.set_capability("args", "--no-welcome")
@@ -28,6 +34,20 @@ class ChangeSpeedDialogTests(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
+
+    @classmethod
+    def ensure_sample_clip(cls) -> str:
+        clip_path = Path(__file__).resolve().parent / cls.SAMPLE_CLIP_NAME
+        if clip_path.exists():
+            return str(clip_path)
+
+        try:
+            with urlopen(cls.SAMPLE_CLIP_URL, timeout=60) as response:
+                clip_path.write_bytes(response.read())
+        except URLError as exc:
+            raise unittest.SkipTest(f"Could not download sample clip from {cls.SAMPLE_CLIP_URL}: {exc}")
+
+        return str(clip_path)
 
     def wait_for_name(self, text: str, timeout: int = 20):
         wait = WebDriverWait(self.driver, timeout)
@@ -83,8 +103,7 @@ class ChangeSpeedDialogTests(unittest.TestCase):
     def test_change_speed_dialog(self):
         self.wait_for_name("Start Editing").click()
 
-        clip_path = str(Path(__file__).resolve().parent / "test-clip.mp4")
-        self.add_clip_from_file(clip_path)
+        self.add_clip_from_file(self.clip_path)
 
         self.wait_for_name("Insert Clip Zone in Timeline").click()
 
