@@ -3066,7 +3066,6 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         double clipSpeed = 100. * m_model->getClipSpeed(cid);
         bool clipPitchCompensate = m_model->m_allClips[cid]->getIntProperty(QStringLiteral("warp_pitch"));
         int clipOriginalDuration = int(clipDuration * qAbs(clipSpeed) / 100.0);
-        qCWarning(KDENLIVE_LOG) << "Clip " << cid << " duration " << clipDuration << " speed " << clipSpeed << " original duration " << clipOriginalDuration << " pitch compensate " << clipPitchCompensate << " max speed " << maxSpeed << " length " << m_model->getClipLength(cid);
         if (!haveFirstClipStats) {
             firstSpeed = clipSpeed;
             firstOriginalDuration = clipOriginalDuration;
