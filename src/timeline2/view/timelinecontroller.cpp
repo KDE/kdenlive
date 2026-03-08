@@ -3017,7 +3017,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     bool pitchCompensate = false;
     int duration = 0;
     if (sel.size() > 2) {
-        speed = 100;
+        speed = 100.;
     }
     else {
         int mainClipId = *sel.begin();
@@ -3044,11 +3044,11 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
                 return;
             }
             else {
-                speed = 100 * m_model->getClipSpeed(mainClipId);
+                speed = 100. * m_model->getClipSpeed(mainClipId);
             }
         }
         else {
-            speed = 100;
+            speed = 100.;
         }
     }
     double minSpeed = 0;
@@ -3057,9 +3057,11 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     bool haveFirstClipStats = false;
     double firstSpeed = 0.;
     int firstOriginalDuration = 0;
+    int firstDuration = 0;
     bool firstPitchCompensate = false;
     bool isCommonSpeed = true;
     bool isCommonPitchCompensate = true;
+    bool isCommonOriginalDuration = true;
     bool isCommonDuration = true;
     for (int cid : sel) {
         double clipDuration = m_model->getItemPlaytime(cid);
@@ -3069,13 +3071,17 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         if (!haveFirstClipStats) {
             firstSpeed = clipSpeed;
             firstOriginalDuration = clipOriginalDuration;
+            firstDuration = clipDuration;
             firstPitchCompensate = clipPitchCompensate;
             haveFirstClipStats = true;
         } else {
             if (isCommonSpeed && !qFuzzyCompare(firstSpeed, clipSpeed)) {
                 isCommonSpeed = false;
             }
-            if (isCommonDuration && firstOriginalDuration != clipOriginalDuration) {
+            if (isCommonOriginalDuration && firstOriginalDuration != clipOriginalDuration) {
+                isCommonOriginalDuration = false;
+            }
+            if (isCommonDuration && clipDuration != firstDuration) {
                 isCommonDuration = false;
             }
             if (isCommonPitchCompensate && firstPitchCompensate != clipPitchCompensate) {
@@ -3101,9 +3107,21 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     if (!isSingleOrPartnerClip) {
         if (isCommonSpeed) {
             speed = firstSpeed;
+            if (isCommonDuration) {
+                duration = firstDuration;
+            }
+            else {
+                duration = 0; // don't show duration in dialog
+            }
         }
-        if (isCommonDuration) {
-            duration = firstOriginalDuration;
+        else {
+            speed = 100.;
+            if (isCommonOriginalDuration) {
+                duration = firstOriginalDuration;
+            }
+            else {
+                duration = 0; // don't show duration in dialog
+            }
         }
         if (isCommonPitchCompensate) {
             pitchCompensate = firstPitchCompensate;
