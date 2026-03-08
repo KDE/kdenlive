@@ -3056,22 +3056,30 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     bool isTimeLineOrPlaylistClip = false;
     bool haveFirstClipStats = false;
     double firstSpeed = 0.;
+    int firstOriginalDuration = 0;
     bool firstPitchCompensate = false;
     bool isCommonSpeed = true;
     bool isCommonPitchCompensate = true;
+    bool isCommonDuration = true;
     for (int cid : sel) {
         double clipDuration = m_model->getItemPlaytime(cid);
         double clipSpeed = 100. * m_model->getClipSpeed(cid);
         bool clipPitchCompensate = m_model->m_allClips[cid]->getIntProperty(QStringLiteral("warp_pitch"));
+        int clipOriginalDuration = int(clipDuration * qAbs(clipSpeed) / 100.0);
+        qCWarning(KDENLIVE_LOG) << "Clip " << cid << " duration " << clipDuration << " speed " << clipSpeed << " original duration " << clipOriginalDuration << " pitch compensate " << clipPitchCompensate << " max speed " << maxSpeed << " length " << m_model->getClipLength(cid);
         if (!haveFirstClipStats) {
             firstSpeed = clipSpeed;
+            firstOriginalDuration = clipOriginalDuration;
             firstPitchCompensate = clipPitchCompensate;
             haveFirstClipStats = true;
-        } else if(isCommonSpeed || isCommonPitchCompensate) {
-            if (!qFuzzyCompare(firstSpeed, clipSpeed)) {
+        } else {
+            if (isCommonSpeed && !qFuzzyCompare(firstSpeed, clipSpeed)) {
                 isCommonSpeed = false;
             }
-            if (firstPitchCompensate != clipPitchCompensate) {
+            if (isCommonDuration && firstOriginalDuration != clipOriginalDuration) {
+                isCommonDuration = false;
+            }
+            if (isCommonPitchCompensate && firstPitchCompensate != clipPitchCompensate) {
                 isCommonPitchCompensate = false;
             }
         }
@@ -3094,6 +3102,9 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     if (!isSingleOrPartnerClip) {
         if (isCommonSpeed) {
             speed = firstSpeed;
+        }
+        if (isCommonDuration) {
+            duration = firstOriginalDuration;
         }
         if (isCommonPitchCompensate) {
             pitchCompensate = firstPitchCompensate;
