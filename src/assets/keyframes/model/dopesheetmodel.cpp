@@ -490,6 +490,31 @@ void DopeSheetModel::changeKeyframeType(const QVariantMap kfData, int type)
     bool success = true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    QList<QModelIndex> includedIndexes;
+    // First check if we have summary items
+    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
+        auto index = i.value().toMap();
+        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
+        includedIndexes << ix;
+    }
+    QMap<QModelIndex, QVariant> additionalData;
+    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
+        auto index = i.value().toMap();
+        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
+        int itemId = int(ix.internalId());
+        auto tItem = getItemById(itemId);
+        if (tItem && tItem->depth() == 1) {
+            // Top level summary, ensure child params are included
+            for (int j = 0; j < tItem->childCount(); j++) {
+                auto current = tItem->child(j);
+                auto ix2 = getIndexFromItem(current);
+                if (!includedIndexes.contains(ix2)) {
+                    additionalData.insert(ix2, index.value(QStringLiteral("kfrs")));
+                }
+            }
+        }
+    }
+
     for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
         auto index = i.value().toMap();
         const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
@@ -503,6 +528,24 @@ void DopeSheetModel::changeKeyframeType(const QVariantMap kfData, int type)
             if (!success) {
                 pCore->displayMessage(i18n("Failed to change keyframe type"), InformationMessage);
                 break;
+            }
+        }
+    }
+    if (success) {
+        // Process child params
+        for (auto i = additionalData.cbegin(), end = additionalData.cend(); i != end; ++i) {
+            const QModelIndex ix = i.key();
+            KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+            if (km) {
+                const QVariantList keys = i.value().toList();
+                for (auto &k : keys) {
+                    GenTime pos = km->getPosAtIndex(k.toInt());
+                    success = success && km->updateKeyframeType(pos, type, undo, redo);
+                }
+                if (!success) {
+                    pCore->displayMessage(i18n("Failed to change keyframe type"), InformationMessage);
+                    break;
+                }
             }
         }
     }
