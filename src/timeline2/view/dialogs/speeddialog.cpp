@@ -60,7 +60,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     ui->precisionSpin->setValue(speed);
     ui->precisionSpin->setFocus();
     ui->precisionSpin->selectAll();
-    if (isSingleOrPartnerClip &&m_duration > 0) {
+    if (m_duration > 0) {
         QLabel *durationLabel = new QLabel(i18n("Duration"), this);
         ui->durationLayout->addWidget(durationLabel);
         m_durationDisplay = new TimecodeDisplay(this);
