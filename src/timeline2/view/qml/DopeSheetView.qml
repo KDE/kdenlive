@@ -290,7 +290,7 @@ Item {
     }
     Label {
         id: mouseLabel
-        visible: root.isInView(root.mouseFramePos)
+        visible: (backgroundArea.containsMouse || treeView.hoveredParam > -1) && root.isInView(root.mouseFramePos)
         anchors.horizontalCenter: mouseLine.horizontalCenter
         text: root.mouseFramePos
         leftPadding: 6
@@ -307,6 +307,7 @@ Item {
         color: activePalette.highlight
     }
     MouseArea {
+        id: backgroundArea
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         hoverEnabled: true
@@ -318,6 +319,10 @@ Item {
                 root.scrollByWheel(wheel)
             }
         }
+        onEntered: {
+            treeView.hoveredParam = -1
+        }
+
         onPositionChanged: mouse => {
             var mousePos = Math.max(0., (mouse.x - treeView.headerWidth - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
             if (mousePos <= 0 && root.mouseFramePos == 0) {
