@@ -66,7 +66,7 @@
 > 
 <sect1 id="creating-a-new-project"
 ><title
->Yeni bir proje oluşturmak</title
+>Yeni Proje Oluşturmak</title
 > 
 <para>
 <screenshot>
@@ -102,10 +102,10 @@
 >quickstart-tutorial/Videos/</filename
 >. </para>
 <para
->Soldaki görsel, önerilen dizin yapısını gösterir: Her proje<filename
->Videos</filename
+>Soldaki görsel, önerilen dizin yapısını gösterir: Her proje, <filename
+>Videolar</filename
 > dizinindeki video dosyalarını ve <filename
->Audio</filename
+>Ses</filename
 > dizini içindeki ses dosyaları gibi kendi dizinlerine sahiptir (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure"
 >Daha Fazla Oku</ulink
 >). </para>
@@ -141,7 +141,7 @@
 <para
 >Önceden oluşturulmuş proje klasörünü seçin (<filename
 >quickstart-tutorial/</filename
->) ve uygun bir proje profili bulun. Yukarıda sağlanan video dosyaları 720p, 23,98 FPS’dir.<footnote
+>) ve uygun bir proje profili bulun. Yukarıda sağlanan video dosyaları 720p; 23,98 FPS’dir.<footnote
 ><para
 ><ulink url="http://en.wikipedia.org/wiki/720p"
 >720</ulink
@@ -163,7 +163,7 @@
 </sect1>
 <sect1 id="adding-clips"
 ><title
->Klipler eklemek</title
+>Klipler Eklemek</title
 > 
 <para>
 <screenshot>
@@ -650,7 +650,7 @@
 </sect1>
 <sect1 id="complete-manual"
 ><title
->Tam kılavuz</title
+>Tam Kılavuz</title
 > 
 <para
 >Geçerli &kdenlive; sürümünün tam bir belgelendirmesi <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual"
