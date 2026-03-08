@@ -72,6 +72,7 @@ public:
     Q_INVOKABLE QVariantMap selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame);
     Q_INVOKABLE QVariantList selectedIndexes() const;
     Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
+    Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;

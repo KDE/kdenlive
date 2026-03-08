@@ -123,6 +123,16 @@ const QMap<KeyframeType::KeyframeEnum, QString> KeyframeModel::getKeyframeTypes(
     return KeyframeTypeName;
 }
 
+const QVariantMap KeyframeModel::getKeyframeTypesVariant()
+{
+    QVariantMap map = {{i18n("Linear"), KeyframeType::Linear},
+                       {i18n("Discrete"), KeyframeType::Discrete},
+                       {i18n("Smooth"), KeyframeType::CurveSmooth},
+                       {i18n("Bounce In"), KeyframeType::BounceIn},
+                       {i18n("Bounce Out"), KeyframeType::BounceOut}};
+    return map;
+}
+
 void KeyframeModel::setup()
 {
     // We connect the signals of the abstractitemmodel to a more generic one.
@@ -305,6 +315,16 @@ GenTime KeyframeModel::getPosAtIndex(int ix) const
         return GenTime();
     }
     return positions.at(ix);
+}
+
+int KeyframeModel::getKeyframeTypeAtFrame(int frame) const
+{
+    GenTime pos(frame, pCore->getCurrentFps());
+    if (frame < 0 || m_keyframeList.count(pos) == 0) {
+        // Not on a keyframe
+        return KdenliveSettings::defaultkeyframeinterp();
+    }
+    return m_keyframeList.at(pos).first;
 }
 
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)

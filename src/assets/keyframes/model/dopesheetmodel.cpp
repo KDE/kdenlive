@@ -473,6 +473,9 @@ QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, 
 {
     QVariantList currentKeyframeIndexes;
     KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+    if (!km) {
+        return currentKeyframeIndexes;
+    }
     for (int k = 0; k < km->keyframesCount(); k++) {
         int pos = km->getPosAtIndex(k).frames(pCore->getCurrentFps());
         if (pos >= startFrame && pos <= endFrame) {
@@ -480,6 +483,32 @@ QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, 
         }
     }
     return currentKeyframeIndexes;
+}
+
+void DopeSheetModel::changeKeyframeType(const QVariantMap kfData, int type)
+{
+    bool success = true;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
+        auto index = i.value().toMap();
+        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
+        KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+        if (km) {
+            const QVariantList keys = index.value(QStringLiteral("kfrs")).toList();
+            for (auto &k : keys) {
+                GenTime pos = km->getPosAtIndex(k.toInt());
+                success = success && km->updateKeyframeType(pos, type, undo, redo);
+            }
+            if (!success) {
+                pCore->displayMessage(i18n("Failed to change keyframe type"), InformationMessage);
+                break;
+            }
+        }
+    }
+    if (success) {
+        pCore->pushUndo(undo, redo, i18n("Change keyframe type"));
+    }
 }
 
 void DopeSheetModel::copyKeyframes(QVariantMap kfData)

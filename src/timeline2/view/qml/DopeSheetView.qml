@@ -18,6 +18,7 @@ Item {
     property int frameDuration: 100
     property int mouseFramePos: -1
     property int hoverKeyframe: -1
+    property var keyframeType
     // The position in frame of the stack owner
     property int offset: 0
     property color hoverColor: "#cc9900"
@@ -349,10 +350,35 @@ Item {
             text: i18n("Copy")
             enabled: root.hoverKeyframe > -1
             onTriggered: {
-                timeline.dopeSheetModel().copyKeyframes(allSelectedKeyframes)
+                timeline.dopeSheetModel().copyKeyframes(root.allSelectedKeyframes)
             }
         }
-        MenuItem { text: i18n("Type") }
+        Menu {
+            id: typeMenu
+            title: i18n("Type")
+            ActionGroup {
+                id: typeActions
+                exclusive: true
+            }
+            Repeater {
+                model: keyframeTypeNames
+                MenuItem {
+                    required property string modelData
+                    text: modelData
+                    checkable: true
+                    action: Action {
+                        text: modelData
+                        checkable: true
+                        checked:keyframeTypes[text] == root.keyframeType
+                        ActionGroup.group: typeActions
+                        onTriggered: {
+                            console.log('changing kf type to: ', keyframeTypes[text], ' current: ', root.keyframeType)
+                            timeline.dopeSheetModel().changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
+                        }
+                    }
+                }
+            }
+        }
         MenuItem {
             text: i18n("Remove Keyframe")
             onTriggered: {
@@ -510,6 +536,7 @@ Item {
 
                         if (clickIndex < 0) {
                             // Not on a keyframe
+                            root.keyframeType = -1
                             if (mouse.buttons === Qt.RightButton) {
                                 treeView.activeIndex = kfContainer.itemIndex
                                 otherMenu.popup()
@@ -595,6 +622,7 @@ Item {
                             kfMoveArea.currentFrame = -1
                             kfMoveArea.currentIndex = -1
                             root.hoverKeyframe = -1
+                            root.keyframeType = -1
                             return
                         }
                         if (!dragStarted && mouse.buttons === Qt.LeftButton) {
@@ -637,6 +665,7 @@ Item {
                             kfMoveArea.currentFrame = -1
                             kfMoveArea.currentIndex = -1
                             root.hoverKeyframe = -1
+                            root.keyframeType = -1
                             return
                         }
                         if (depth == 0) {
@@ -646,6 +675,7 @@ Item {
                             dopeModel.addKeyframe(root.mouseFramePos)
                         }
                         kfMoveArea.currentFrame = root.mouseFramePos
+                        root.keyframeType = dopeModel.getKeyframeTypeAtFrame(kfMoveArea.currentFrame)
                         root.hoverKeyframe = root.mouseFramePos
                     }
                 }
@@ -662,7 +692,7 @@ Item {
                         height: width
                         property bool atMousePos: root.mouseFramePos == frame
                         color: keyframeSelected(kfContainer.itemIndex, index) > -1 ? activePalette.highlight : activePalette.light
-                        radius: Math.round(width/2)
+                        radius: type == 1 ? 0 : Math.round(width/2)
                         border.width: atMousePos ? 2 : 1
                         border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? root.hoverColor : activePalette.text
 
@@ -676,6 +706,7 @@ Item {
                                 console.log("entered kfr: ", index)
                                 kfMoveArea.currentFrame = frame
                                 kfMoveArea.currentIndex = index
+                                root.keyframeType = type
                                 root.hoverKeyframe = frame
                                 root.mouseFramePos = frame
                             }

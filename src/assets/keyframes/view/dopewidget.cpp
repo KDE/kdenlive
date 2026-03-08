@@ -32,7 +32,9 @@ DopeWidget::DopeWidget(QWidget *parent)
 #endif
     setClearColor(palette().base().color());
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    QList<QQmlContext::PropertyPair> propertyList = {{"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())}};
+    QList<QQmlContext::PropertyPair> propertyList = {{"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
+                                                     {"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()},
+                                                     {"keyframeTypeNames", KeyframeModel::getKeyframeTypesVariant().keys()}};
     rootContext()->setContextProperties(propertyList);
     setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/DopeSheetView.qml")));
 }
