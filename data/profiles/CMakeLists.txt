@@ -10,5 +10,11 @@ dci_2160p_30
 dci_2160p_50
 dci_2160p_5994
 dci_2160p_60
+hd_ready_768p_25
+hd_ready_768p_2997
+hd_ready_768p_30
+hd_ready_768p_50
+hd_ready_768p_5994
+hd_ready_768p_60
 vertical_1080p_25
 DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/profiles)
