@@ -28,6 +28,7 @@ Item {
     property real maximumScaleFactor: keyframeContainerWidth / frameDuration
     // Contains a map of item model index / index of selected keyframes
     property var allSelectedKeyframes: []
+    property int collapsedHeight: Math.max(28, baseUnit * 1.8)
     // Rubber selection
     property bool rubberSelect: false
     property point rubberTopLeft
@@ -225,6 +226,67 @@ Item {
         root.allSelectedKeyframesChanged()
     }
 
+    Menu {
+        id: defaultTypeMenu
+        ActionGroup {
+            id: defTypeActions
+            exclusive: true
+        }
+        MenuItem {
+            text: i18n("Use same type as previous keyframe")
+            checkable: true
+            checked: K.KdenliveSettings.usepreviouskeyframeinterp
+            onTriggered: {
+                K.KdenliveSettings.usepreviouskeyframeinterp = checked
+            }
+        }
+        ActionGroup {
+            id: currTypeActions
+            exclusive: true
+        }
+        Menu {
+            title: i18n("Type for selected keyframes")
+            Repeater {
+                model: keyframeTypeNames
+                MenuItem {
+                    required property string modelData
+                    text: modelData
+                    checkable: true
+                    action: Action {
+                        text: modelData
+                        checkable: true
+                        ActionGroup.group: currTypeActions
+                        onTriggered: {
+                            timeline.dopeSheetModel().changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
+                            root.keyframeType = keyframeTypes[text]
+                        }
+                    }
+                }
+            }
+        }
+        Menu {
+            title: i18n("Default type for new keyframes")
+            Repeater {
+                model: keyframeTypeNames
+                MenuItem {
+                    required property string modelData
+                    text: modelData
+                    checkable: true
+                    action: Action {
+                        text: modelData
+                        checkable: true
+                        checked: keyframeTypes[text] == K.KdenliveSettings.defaultkeyframeinterp
+                        ActionGroup.group: defTypeActions
+                        onTriggered: {
+                            console.log('changing default kf type to: ', keyframeTypes[text])
+                            K.KdenliveSettings.defaultkeyframeinterp = keyframeTypes[text]
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     Flickable {
         // scroll area for the Ruler.
         id: rulercontainer
@@ -290,7 +352,7 @@ Item {
     }
     Label {
         id: mouseLabel
-        visible: (backgroundArea.containsMouse || treeView.hoveredParam > -1) && root.isInView(root.mouseFramePos)
+        visible: (backgroundArea.containsMouse || treeView.hoveredParam > -1)// && root.isInView(root.mouseFramePos)
         anchors.horizontalCenter: mouseLine.horizontalCenter
         text: root.mouseFramePos
         leftPadding: 6
@@ -310,6 +372,7 @@ Item {
         id: backgroundArea
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
+        anchors.leftMargin: treeView.headerWidth
         hoverEnabled: true
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
@@ -339,6 +402,7 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        anchors.topMargin: rulercontainer.height
         width: treeView.headerWidth
         color: activePalette.alternateBase
     }
@@ -374,11 +438,11 @@ Item {
                     action: Action {
                         text: modelData
                         checkable: true
-                        checked:keyframeTypes[text] == root.keyframeType
                         ActionGroup.group: typeActions
                         onTriggered: {
                             console.log('changing kf type to: ', keyframeTypes[text], ' current: ', root.keyframeType)
                             timeline.dopeSheetModel().changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
+                            root.keyframeType = keyframeTypes[text]
                         }
                     }
                 }
@@ -557,6 +621,7 @@ Item {
                             }
                             return
                         }
+                        root.keyframeType = dopeModel.getKeyframeTypeAtFrame(clickFrame)
                         var selectedKeyframes = getSelectedKeyframesForIndex(kfContainer.itemIndex)
                         var alreadySelected = selectedKeyframes.indexOf(currentIndex) > -1
                         if (mouse.buttons === Qt.RightButton) {
@@ -564,6 +629,15 @@ Item {
                                 // keyframe already selected, just show menu
                                 treeView.selectedKeyframe = kfMoveArea.currentFrame
                                 treeView.activeIndex = kfContainer.itemIndex
+                                var actionList = typeActions.actions
+                                for (var i = 0; i < actionList.length; i++) {
+                                    console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
+                                    if (keyframeTypes[actionList[i].text] == root.keyframeType) {
+                                        console.log('CHECK ACTION: ', i)
+                                        actionList[i].checked = true
+                                        break
+                                   }
+                                }
                                 keyframeMenu.popup()
                                 return
                             }
@@ -591,6 +665,15 @@ Item {
                         if (mouse.buttons === Qt.RightButton) {
                             treeView.selectedKeyframe = kfMoveArea.currentFrame
                             treeView.activeIndex = kfContainer.itemIndex
+                            var actionList = typeActions.actions
+                            for (var i = 0; i < actionList.length; i++) {
+                                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
+                                if (keyframeTypes[actionList[i].text] == root.keyframeType) {
+                                    console.log('CHECK ACTION: ', i)
+                                    actionList[i].checked = true
+                                    break
+                                }
+                            }
                             keyframeMenu.popup()
                         }
                     }
@@ -630,7 +713,6 @@ Item {
                             kfMoveArea.currentFrame = -1
                             kfMoveArea.currentIndex = -1
                             root.hoverKeyframe = -1
-                            root.keyframeType = -1
                             return
                         }
                         if (!dragStarted && mouse.buttons === Qt.LeftButton) {
@@ -760,6 +842,29 @@ Item {
             root.timeScale = 1
             //scrollView.contentX = 0
             //zoomOnBar = true
+        }
+    }
+    ToolButton {
+        id: kfTypeButton
+        anchors.top: root.top
+        anchors.left: root.left
+        anchors.topMargin: 2
+        anchors.leftMargin: 2
+        icon.name: "application-menu"
+        width: root.collapsedHeight
+        height: width
+        onClicked: {
+            // Check requiered kfr type
+            var actionList = currTypeActions.actions
+            for (var i = 0; i < actionList.length; i++) {
+                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
+                if (keyframeTypes[actionList[i].text] == root.keyframeType) {
+                    console.log('CHECK ACTION: ', i)
+                    actionList[i].checked = true
+                    break
+                }
+            }
+            defaultTypeMenu.popup()
         }
     }
 }

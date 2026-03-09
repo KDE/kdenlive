@@ -538,7 +538,16 @@ bool KeyframeModel::addKeyframe(int framePos, Fun &undo, Fun &redo)
     if (auto ptr = m_model.lock()) {
         GenTime pos(framePos, pCore->getCurrentFps());
         QVariant value = getInterpolatedValue(pos);
-        return addKeyframe(pos, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
+        KeyframeType::KeyframeEnum kfrType = KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp());
+        if (KdenliveSettings::usepreviouskeyframeinterp()) {
+            // Check if we have a precious keyframe
+            bool ok;
+            Keyframe previous = getPrevKeyframe(pos, &ok);
+            if (ok) {
+                kfrType = previous.second;
+            }
+        }
+        return addKeyframe(pos, kfrType, value, true, undo, redo);
     }
     return false;
 }

@@ -35,7 +35,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 1.5 * root.baseUnit
         width: trackHeader.collapsedHeight
-        height: trackHeader.collapsedHeight
+        height: width
         icon.name: trackHeader.collapsed ? "go-next" : "go-down"
         onClicked: {
             if (subtitleTrack.height > trackHeader.collapsedHeight) {
