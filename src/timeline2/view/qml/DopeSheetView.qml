@@ -505,10 +505,16 @@ Item {
                 MouseArea {
                     id: kfMoveArea
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    property int clickPos
-                    property int clickIndex
+                    // The frame position of the clicked keyframe, -1 if none
+                    property int clickFrame: -1
+                    // The index of the clicked keyframe, -1 if none
+                    property int clickIndex: -1
+                    // The frame position of the hovered keyframe, -1 if none
                     property int currentFrame: -1
+                    // The index of the hovered keyframe, -1 if none
                     property int currentIndex: -1
+                    // The last position of a moved keyframe, -1 if none
+                    property int movePosition: -1
                     property bool dragStarted: false
                     property point clickPoint
                     property bool shiftClick: false
@@ -524,8 +530,9 @@ Item {
                     }
 
                     onPressed: mouse => {
-                        clickPos = currentFrame
+                        clickFrame = currentFrame
                         clickIndex = currentIndex
+                        movePosition = -1
                         dragStarted = false
                         clickPoint = Qt.point(mouseX, mouseY)
                         rubberTopLeft = mapToItem(root, mouseX, mouseY)
@@ -551,8 +558,9 @@ Item {
                             return
                         }
                         var selectedKeyframes = getSelectedKeyframesForIndex(kfContainer.itemIndex)
+                        var alreadySelected = selectedKeyframes.indexOf(currentIndex) > -1
                         if (mouse.buttons === Qt.RightButton) {
-                            if (selectedKeyframes.indexOf(currentIndex) > -1) {
+                            if (alreadySelected) {
                                 // keyframe already selected, just show menu
                                 treeView.selectedKeyframe = kfMoveArea.currentFrame
                                 treeView.activeIndex = kfContainer.itemIndex
@@ -560,24 +568,26 @@ Item {
                                 return
                             }
                         }
-                        if (mouse.modifiers & Qt.ShiftModifier) {
-                            const selectionIndex = selectedKeyframes.indexOf(currentIndex);
-                            if (selectionIndex > -1) {
-                                // Remove from selection
-                                selectedKeyframes.splice(selectionIndex, 1);
+                        if (!alreadySelected) {
+                            if (mouse.modifiers & Qt.ShiftModifier) {
+                                const selectionIndex = selectedKeyframes.indexOf(currentIndex);
+                                if (selectionIndex > -1) {
+                                    // Remove from selection
+                                    selectedKeyframes.splice(selectionIndex, 1);
+                                } else {
+                                    // Add to selection
+                                    selectedKeyframes.push(currentIndex)
+                                }
                             } else {
-                                // Add to selection
-                                selectedKeyframes.push(currentIndex)
+                                selectedKeyframes = [currentIndex]
                             }
-                        } else {
-                            selectedKeyframes = [currentIndex]
+                            if (depth == 0) {
+                                // Build index of related kf to move
+                                timeline.dopeSheetModel().buildMasterSelection(kfContainer.itemIndex, clickIndex)
+                            }
+                            updateSelectedKeyframesForIndex(kfContainer.itemIndex, selectedKeyframes, shiftClick)
+                            root.allSelectedKeyframesChanged()
                         }
-                        if (depth == 0) {
-                            // Build index of related kf to move
-                            timeline.dopeSheetModel().buildMasterSelection(kfContainer.itemIndex, clickIndex)
-                        }
-                        updateSelectedKeyframesForIndex(kfContainer.itemIndex, selectedKeyframes, shiftClick)
-                        root.allSelectedKeyframesChanged()
                         if (mouse.buttons === Qt.RightButton) {
                             treeView.selectedKeyframe = kfMoveArea.currentFrame
                             treeView.activeIndex = kfContainer.itemIndex
@@ -594,19 +604,12 @@ Item {
                         }
                         if (dragStarted) {
                             if (clickIndex > -1) {
-                                if (depth == 0) {
-                                    timeline.dopeSheetModel().moveKeyframe(kfContainer.itemIndex, clickPos, false)
-                                    timeline.dopeSheetModel().moveKeyframe(kfContainer.itemIndex, root.mouseFramePos, true)
-                                } else {
-                                    dopeModel.moveKeyframeByIndex(clickIndex, clickPos, false)
-                                    dopeModel.moveKeyframeByIndex(clickIndex, root.mouseFramePos, true)
-                                }
+                                timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, movePosition, clickFrame, false)
+                                timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, clickFrame, movePosition, true)
                             }
                         } else if (clickIndex > -1 && buttonClicked === Qt.LeftButton && !shiftClick) {
-                            console.log('MOUSE RELEASED, SEEKING TO: ', clickIndex)
                             dopeModel.seekToKeyframe(clickIndex)
                         }
-                        console.log('MOUSE RELEASED WITH BUTTON: ', buttonClicked)
                         dragStarted = false
                         mouse.accepted = true
                     }
@@ -647,14 +650,14 @@ Item {
                             selectRubber(false)
                             return
                         }
-
                         if (mouse.buttons === Qt.LeftButton && dragStarted && clickIndex > -1) {
-                            if (depth == 0) {
-                                // Moving a recap keyframe
-                                timeline.dopeSheetModel().moveKeyframe(kfContainer.itemIndex, root.mouseFramePos, false)
-                            } else {
-                                dopeModel.moveKeyframeByIndex(clickIndex, root.mouseFramePos, false)
+                            if (movePosition == root.mouseFramePos) {
+                                // No move, abort
+                                return
                             }
+
+                            timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, root.mouseFramePos, false)
+                            movePosition = root.mouseFramePos
                         }
                     }
                     onDoubleClicked: mouse => {

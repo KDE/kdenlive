@@ -483,7 +483,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     };
     Fun local_redo = [this, row, pos, oldPos, finalKf, updateView]() {
         bool res = true;
-        qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
+        // qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
         if (auto ptr = m_model.lock()) {
             const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
             Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());

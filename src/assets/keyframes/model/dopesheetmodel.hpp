@@ -66,7 +66,7 @@ public:
     /** @brief Add a keyframe to all parameters */
     Q_INVOKABLE void addKeyframe(const QModelIndex &ix, int framePosition);
     /** @brief Move keyframes in all parameters at current pos */
-    Q_INVOKABLE void moveKeyframe(const QModelIndex &ix, int updatedPos, bool logUndo);
+    Q_INVOKABLE void moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo);
     /** @brief Register all keyframes that will need to move */
     Q_INVOKABLE void buildMasterSelection(const QModelIndex &ix, int index);
     Q_INVOKABLE QVariantMap selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame);
@@ -94,6 +94,8 @@ private:
      *  parameter ix that are placed between startFrame and endFrame */
     QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);
     QVariantMap selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame);
+    /** @brief Ensure selected keyframes contain all child parameters */
+    const QMap<QModelIndex, QVariant> sanitizeKeyframesIndexes(const QVariantMap kfData);
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);

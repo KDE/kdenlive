@@ -257,16 +257,55 @@ void DopeSheetModel::buildMasterSelection(const QModelIndex &ix, int index)
     }
 }
 
-void DopeSheetModel::moveKeyframe(const QModelIndex &ix, int updatedPos, bool logUndo)
+void DopeSheetModel::moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo)
 {
-    int itemId = int(ix.internalId());
-    auto tItem = getItemById(itemId);
-    for (int j = 0; j < tItem->childCount(); ++j) {
-        auto current = tItem->child(j);
-        auto ix2 = getIndexFromItem(current);
-        if (m_relatedMove.contains(ix2)) {
-            KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
-            km->moveKeyframeByIndex(m_relatedMove.value(ix2), updatedPos, logUndo);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    const QMap<QModelIndex, QVariant> selection = sanitizeKeyframesIndexes(kfData);
+    bool success = true;
+    const GenTime offset(updatedPos - sourcePos, pCore->getCurrentFps());
+    for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
+        int itemId = int(i.key().internalId());
+        auto tItem = getItemById(itemId);
+        if (tItem->depth() == 1) {
+            // Summary item, ignore
+            continue;
+        }
+        KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
+        if (km && success) {
+            const QVariantList indexes = i.value().toList();
+            if (indexes.size() > 1) {
+                QVector<int> selection;
+                for (auto &k : indexes) {
+                    selection << k.toInt();
+                }
+                km->setSelectedKeyframes(selection);
+            } else {
+                km->setSelectedKeyframes({});
+            }
+            GenTime pos = km->getPosAtIndex(indexes.first().toInt());
+            GenTime updatedPos = pos + offset;
+            if (updatedPos < GenTime()) {
+                success = false;
+                qDebug() << "------\n\nABORTING MOVE FORM: " << pos.frames(25) << " TO " << updatedPos.frames(25) << "";
+                break;
+            }
+            qDebug() << "::: MOVING KEYFRAME TO: " << updatedPos.frames(25) << "; OFFSET: " << offset.frames(25) << ", PREV: " << pos.frames(25)
+                     << "\n**************************";
+            success = success && km->moveKeyframe(pos, updatedPos, QVariant(), undo, redo);
+            if (success && logUndo) {
+                km->setSelectedKeyframes({});
+            }
+        }
+    }
+    if (success) {
+        if (logUndo) {
+            pCore->pushUndo(undo, redo, i18n("Move keyframes"));
+        }
+    } else {
+        undo();
+        if (logUndo) {
+            pCore->displayMessage(i18n("Failed to move keyframe"), InformationMessage);
         }
     }
 }
@@ -293,6 +332,7 @@ void DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)
     if (success) {
         pCore->pushUndo(undo, redo, i18n("Add keyframes"));
     } else {
+        undo();
         pCore->displayMessage(i18n("Failed to add keyframe"), InformationMessage);
     }
 }
@@ -324,6 +364,7 @@ void DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
     if (success) {
         pCore->pushUndo(undo, redo, i18n("Remove keyframe"));
     } else {
+        undo();
         pCore->displayMessage(i18n("Failed to remove keyframe"), InformationMessage);
     }
 }
@@ -485,67 +526,55 @@ QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, 
     return currentKeyframeIndexes;
 }
 
+const QMap<QModelIndex, QVariant> DopeSheetModel::sanitizeKeyframesIndexes(const QVariantMap kfData)
+{
+    QMap<QModelIndex, QVariant> results;
+    // First list all existing indexes
+    QList<QModelIndex> includedIndexes;
+    QList<QModelIndex> childrenIndexes;
+    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
+        auto index = i.value().toMap();
+        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
+        includedIndexes << ix;
+        results.insert(ix, index.value(QStringLiteral("kfrs")));
+    }
+    // Next, check if we have summary items
+    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
+        auto index = i.value().toMap();
+        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
+        // Check if we have top level items
+        int itemId = int(ix.internalId());
+        auto tItem = getItemById(itemId);
+        if (tItem && tItem->depth() == 1) {
+            // match, list children
+            for (int j = 0; j < tItem->childCount(); j++) {
+                auto current = tItem->child(j);
+                auto ix2 = getIndexFromItem(current);
+                if (!includedIndexes.contains(ix2)) {
+                    results.insert(ix2, index.value(QStringLiteral("kfrs")));
+                }
+            }
+        }
+    }
+    return results;
+}
+
 void DopeSheetModel::changeKeyframeType(const QVariantMap kfData, int type)
 {
     bool success = true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    QList<QModelIndex> includedIndexes;
-    // First check if we have summary items
-    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
-        auto index = i.value().toMap();
-        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
-        includedIndexes << ix;
-    }
-    QMap<QModelIndex, QVariant> additionalData;
-    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
-        auto index = i.value().toMap();
-        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
-        int itemId = int(ix.internalId());
-        auto tItem = getItemById(itemId);
-        if (tItem && tItem->depth() == 1) {
-            // Top level summary, ensure child params are included
-            for (int j = 0; j < tItem->childCount(); j++) {
-                auto current = tItem->child(j);
-                auto ix2 = getIndexFromItem(current);
-                if (!includedIndexes.contains(ix2)) {
-                    additionalData.insert(ix2, index.value(QStringLiteral("kfrs")));
-                }
-            }
-        }
-    }
-
-    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
-        auto index = i.value().toMap();
-        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
-        KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+    const QMap<QModelIndex, QVariant> selection = sanitizeKeyframesIndexes(kfData);
+    for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
+        KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
         if (km) {
-            const QVariantList keys = index.value(QStringLiteral("kfrs")).toList();
-            for (auto &k : keys) {
+            for (auto &k : i.value().toList()) {
                 GenTime pos = km->getPosAtIndex(k.toInt());
                 success = success && km->updateKeyframeType(pos, type, undo, redo);
             }
             if (!success) {
                 pCore->displayMessage(i18n("Failed to change keyframe type"), InformationMessage);
                 break;
-            }
-        }
-    }
-    if (success) {
-        // Process child params
-        for (auto i = additionalData.cbegin(), end = additionalData.cend(); i != end; ++i) {
-            const QModelIndex ix = i.key();
-            KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
-            if (km) {
-                const QVariantList keys = i.value().toList();
-                for (auto &k : keys) {
-                    GenTime pos = km->getPosAtIndex(k.toInt());
-                    success = success && km->updateKeyframeType(pos, type, undo, redo);
-                }
-                if (!success) {
-                    pCore->displayMessage(i18n("Failed to change keyframe type"), InformationMessage);
-                    break;
-                }
             }
         }
     }
