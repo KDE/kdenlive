@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-03 00:45+0000\n"
-"PO-Revision-Date: 2026-03-05 10:42+0400\n"
+"PO-Revision-Date: 2026-03-08 10:39+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -932,7 +932,7 @@ msgstr "دقة المرشح"
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
-msgstr "آلي,16 بت موقّع,32 بت موقّع,32 بت عائم,64 بت عائم"
+msgstr "آلي,16 بت موقع,32 بت موقع,32 بت عائم,64 بت عائم"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1120,7 +1120,7 @@ msgstr "مفتاح الخلفيّة"
 #: data/effects/avfilter/avfilter_backgroundkey.xml:5
 #, kde-format
 msgid "Turns a static background into transparency"
-msgstr "يُحوّل الخلفيّة الثابتة إلى شفافة"
+msgstr "يُحوّل الخلفية الساكنة إلى شفافة"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:9
 #, kde-format
@@ -4202,7 +4202,7 @@ msgstr "نسبة الفيديو"
 #: data/effects/avfilter/avfilter_grayworld.xml:4
 #, kde-format
 msgid "Grayworld"
-msgstr "عالم رمادي"
+msgstr "عالم رمادي (Grayworld)"
 
 #: data/effects/avfilter/avfilter_grayworld.xml:5
 #, kde-format
@@ -6567,7 +6567,7 @@ msgstr "بدّل UV"
 #: data/effects/avfilter/avfilter_swapuv.xml:5
 #, kde-format
 msgid "Swap U and V components"
-msgstr "يبدّل مكوني U و V"
+msgstr "يُبدّل بين مكونات U و V"
 
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
@@ -9367,7 +9367,7 @@ msgstr "BW0r"
 #: data/effects/frei0r/frei0r_bw0r.xml:5
 #, kde-format
 msgid "Turns image black and white"
-msgstr "يُحوّل الصورة إلى اللونين الأبيض والأسود"
+msgstr "يُحوّل الصورة إلى الأسود والأبيض"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
 #, kde-format
@@ -10756,7 +10756,7 @@ msgstr "Invert0r"
 #: data/effects/frei0r/frei0r_invert0r.xml:5
 #, kde-format
 msgid "Inverts all colors of a source image"
-msgstr "يعكس جميع ألوان صورة المصدر"
+msgstr "يعكس كافة ألوان الصورة المصدر"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
@@ -12183,23 +12183,23 @@ msgstr ""
 #: data/effects/frei0r/frei0r_premultiply.xml:4
 #, kde-format
 msgid "Premultiply or Unpremultiply"
-msgstr "ضرب مسبق أو إلغاء الضرب المسبق"
+msgstr "ضرب مسبق أو عكس الضرب المسبق"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:5
 #: data/effects/frei0r/frei0r_spillsupress.xml:5
 #, kde-format
 msgid "Multiply (or divide) each color component by the pixel's alpha value"
-msgstr "يضرب (أو يقسم) كل مكون لوني بقيمة ألفا للبكسل"
+msgstr "يضرب (أو يقسم) كل مكون لوني في قيمة ألفا (الشفافية) للبكسل"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:8
 #, kde-format
 msgid "Unpremultiply"
-msgstr "إلغاء الضرب المسبق"
+msgstr "عكس الضرب المسبق (Unpremultiply)"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:9
 #, kde-format
 msgid "Whether to unpremultiply instead"
-msgstr "ما إذا كان سيُلغى الضرب المسبق بدلاً من ذلك"
+msgstr "فيما إذا كان سيُطبق عكس الضرب المسبق بدلاً من ذلك"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -12693,7 +12693,7 @@ msgstr "التشبع الكلي سيُغير في الخطوة الأخيرة ل
 #: data/effects/frei0r/frei0r_spillsupress.xml:4
 #, kde-format
 msgid "Spill Suppress"
-msgstr "كبح الانسكاب"
+msgstr "كبح التسرب (Spill Suppress)"
 
 #: data/effects/frei0r/frei0r_spillsupress.xml:8
 #, kde-format
@@ -12703,12 +12703,12 @@ msgstr "نوع الكبح"
 #: data/effects/frei0r/frei0r_spillsupress.xml:9
 #, kde-format
 msgid "Defines if green or blue screen spill suppress is applied"
-msgstr "يحدد ما إذا كان سيُطبق كبح انسكاب الشاشة الخضراء أو الزرقاء"
+msgstr "يحدد ما إذا كان سيُطبق كبح تسرب الشاشة الخضراء أو الزرقاء"
 
 #: data/effects/frei0r/frei0r_spillsupress.xml:10
 #, kde-format
 msgid "Green screen,Blue screen"
-msgstr "شاشة خضراء,شاشة زرقاء"
+msgstr "شاشة خضراء،شاشة زرقاء"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:4
 #, kde-format
@@ -15072,7 +15072,7 @@ msgstr "لوما"
 #: data/effects/lumakey.xml:4
 #, kde-format
 msgid "Lumakey"
-msgstr "Lumakey"
+msgstr "مفتاح الإضاءة (Lumakey)"
 
 #: data/effects/lumakey.xml:6
 #, kde-format
@@ -15082,9 +15082,9 @@ msgid ""
 "together with a compositor to combine two images so that bright or dark "
 "areas of source image are overwritten on top of the destination image."
 msgstr ""
-"يعدل هذا المُرشّح<br>\n"
-"   قناة ألفا كدالة لقيمة إضاءة (luma) الصورة. يُستخدم هذا مع المجمّع لدمج "
-"صورتين بحيث تُكتب المناطق الساطعة أو المظلمة من صورة المصدر فوق الصورة الهدف."
+"يعدل هذا المرشح قناة<br>\n"
+"   ألفا كدالة لقيمة الإضاءة (luma) للصورة. يُستخدم هذا مع المازج لدمج صورتين "
+"بحيث تُكتب المناطق الساطعة أو المظلمة من الصورة المصدر فوق الصورة الهدف."
 
 #: data/effects/lumakey.xml:11
 #, kde-format
@@ -15093,7 +15093,7 @@ msgid ""
 "      center point of transition from prelevel to postlevel opacity value."
 msgstr ""
 "قيمة الإضاءة (Luma) التي تحدد<br>\n"
-"      نقطة مركز الانتقال من قيمة عتامة ما قبل المستوى إلى ما بعد المستوى."
+"      نقطة المنتصف للانتقال من قيمة عتامة ما قبل المستوى إلى ما بعده."
 
 #: data/effects/lumakey.xml:16
 #, kde-format
@@ -15104,9 +15104,9 @@ msgid ""
 "+ slope, values are forced in range 0 - 255."
 msgstr ""
 "يحدد هذا عرض<br>\n"
-"      الانتقال من قيمة إضاءة ما قبل المستوى إلى ما بعد المستوى. نقطة بداية "
-"الانتقال في قيمة العتمة هي (العتبة - الميل) ونقطة النهاية هي (العتبة + "
-"الميل)، وتُجبر القيم لتكون في النطاق 0 - 255."
+"      الانتقال من قيمة إضاءة ما قبل المستوى إلى ما بعده. نقطة بداية الانتقال "
+"في قيمة العتامة هي (العتبة - الميل) ونقطة النهاية هي (العتبة + الميل)، وتُجبر "
+"القيم لتكون في النطاق 0 - 255."
 
 #: data/effects/lumakey.xml:19
 #, kde-format
@@ -15119,8 +15119,8 @@ msgid ""
 "Opacity value before the<br>\n"
 "      transition in opacity value begins."
 msgstr ""
-"قيمة العتمة قبل أن<br>\n"
-"      يبدأ الانتقال في قيمة العتمة."
+"قيمة العتامة قبل<br>\n"
+"      بدء الانتقال في قيمة العتامة."
 
 #: data/effects/lumakey.xml:24
 #, kde-format
@@ -15133,8 +15133,8 @@ msgid ""
 "Opacity value after the<br>\n"
 "      transition in opacity value ends."
 msgstr ""
-"قيمة العتمة بعد أن<br>\n"
-"      ينتهي الانتقال في قيمة العتمة."
+"قيمة العتامة بعد<br>\n"
+"      انتهاء الانتقال في قيمة العتامة."
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -22401,17 +22401,17 @@ msgstr "96000 هرتز"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:544
 #, kde-format
 msgid "Unsigned 8 bit"
-msgstr "8 بت غير موقّع"
+msgstr "8 بت غير موقع"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:547
 #, kde-format
 msgid "Signed 16 bit"
-msgstr " 16 بت موقّعة"
+msgstr " 16 بت موقعة"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:550
 #, kde-format
 msgid "Signed 32 bit"
-msgstr " 32 بت موقّعة"
+msgstr " 32 بت موقعة"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:553
 #, kde-format
