@@ -48,6 +48,7 @@ void AbstractTreeModel::clear()
     if (m_allItems.empty()) {
         return;
     }
+    // beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
     std::vector<int> vals;
     vals.reserve(m_allItems.size());
 

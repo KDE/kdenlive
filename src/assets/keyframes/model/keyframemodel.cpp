@@ -317,14 +317,19 @@ GenTime KeyframeModel::getPosAtIndex(int ix) const
     return positions.at(ix);
 }
 
-int KeyframeModel::getKeyframeTypeAtFrame(int frame) const
+int KeyframeModel::getKeyframeTypeAtPos(GenTime pos) const
 {
-    GenTime pos(frame, pCore->getCurrentFps());
-    if (frame < 0 || m_keyframeList.count(pos) == 0) {
+    if (pos < GenTime() || m_keyframeList.count(pos) == 0) {
         // Not on a keyframe
         return KdenliveSettings::defaultkeyframeinterp();
     }
     return m_keyframeList.at(pos).first;
+}
+
+int KeyframeModel::getKeyframeTypeAtFrame(int frame) const
+{
+    const GenTime pos(frame, pCore->getCurrentFps());
+    return getKeyframeTypeAtPos(pos);
 }
 
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
@@ -1740,7 +1745,7 @@ QList<GenTime> KeyframeModel::getKeyframePos() const
     return all_pos;
 }
 
-void KeyframeModel::loadKeyframePos(QList<GenTime> all_pos)
+void KeyframeModel::loadKeyframePos(QMap<GenTime, KeyframeType::KeyframeEnum> all_pos)
 {
     std::vector<GenTime> current;
     for (auto &k : m_keyframeList) {
@@ -1748,6 +1753,7 @@ void KeyframeModel::loadKeyframePos(QList<GenTime> all_pos)
             current.push_back(k.first);
         }
     }
+    // Remove unwanted keys
     for (auto &c : current) {
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(c)));
         beginRemoveRows(QModelIndex(), row, row);
@@ -1755,13 +1761,13 @@ void KeyframeModel::loadKeyframePos(QList<GenTime> all_pos)
         endRemoveRows();
     }
 
-    for (const auto &p : all_pos) {
-        if (m_keyframeList.find(p) != m_keyframeList.end()) {
+    for (auto i = all_pos.cbegin(), end = all_pos.cend(); i != end; ++i) {
+        if (m_keyframeList.find(i.key()) != m_keyframeList.end()) {
             continue;
         }
         int insertionRow = static_cast<int>(m_keyframeList.size());
         beginInsertRows(QModelIndex(), insertionRow, insertionRow);
-        m_keyframeList[p].first = KeyframeType::Linear;
+        m_keyframeList[i.key()].first = i.value();
         endInsertRows();
     }
 }

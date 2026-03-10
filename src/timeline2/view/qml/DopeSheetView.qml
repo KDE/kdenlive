@@ -246,6 +246,7 @@ Item {
         }
         Menu {
             title: i18n("Type for selected keyframes")
+            id: selectionTypeMenu
             Repeater {
                 model: keyframeTypeNames
                 MenuItem {
@@ -387,7 +388,7 @@ Item {
         }
 
         onPositionChanged: mouse => {
-            var mousePos = Math.max(0., (mouse.x - treeView.headerWidth - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
+            var mousePos = Math.max(0., (mouse.x - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
             if (mousePos <= 0 && root.mouseFramePos == 0) {
                 // In the header zone, ignore
                 return
@@ -420,6 +421,13 @@ Item {
             enabled: root.hoverKeyframe > -1
             onTriggered: {
                 timeline.dopeSheetModel().copyKeyframes(root.allSelectedKeyframes)
+            }
+        }
+        MenuItem {
+            text: i18n("Move to Playhead")
+            enabled: root.hoverKeyframe > -1
+            onTriggered: {
+                timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, root.mouseFramePos, root.consumerPosition, true)
             }
         }
         Menu {
@@ -553,7 +561,6 @@ Item {
                 anchors.bottom: contentRect.bottom
                 anchors.leftMargin: root.baseUnit + treeView.headerWidth
                 anchors.rightMargin: root.baseUnit
-                property var itemIndex: contentRect.treeView.index(contentRect.row, contentRect.column)
                 Rectangle {
                     // keyframe slider
                     id: keyframeSlider
@@ -608,13 +615,14 @@ Item {
                         }
                         buttonClicked = mouse.buttons
                         // Select parameter
-                        treeView.selectionModel.setCurrentIndex(kfContainer.itemIndex, ItemSelectionModel.SelectCurrent)
+                        var parameterIndex = treeView.model.index(contentRect.row, contentRect.column)
+                        treeView.selectionModel.setCurrentIndex(parameterIndex, ItemSelectionModel.SelectCurrent)
 
                         if (clickIndex < 0) {
                             // Not on a keyframe
                             root.keyframeType = -1
                             if (mouse.buttons === Qt.RightButton) {
-                                treeView.activeIndex = kfContainer.itemIndex
+                                treeView.activeIndex = parameterIndex
                                 otherMenu.popup()
                             } else {
                                 root.clearSelection()
@@ -622,13 +630,13 @@ Item {
                             return
                         }
                         root.keyframeType = dopeModel.getKeyframeTypeAtFrame(clickFrame)
-                        var selectedKeyframes = getSelectedKeyframesForIndex(kfContainer.itemIndex)
+                        var selectedKeyframes = getSelectedKeyframesForIndex(parameterIndex)
                         var alreadySelected = selectedKeyframes.indexOf(currentIndex) > -1
                         if (mouse.buttons === Qt.RightButton) {
                             if (alreadySelected) {
                                 // keyframe already selected, just show menu
                                 treeView.selectedKeyframe = kfMoveArea.currentFrame
-                                treeView.activeIndex = kfContainer.itemIndex
+                                treeView.activeIndex = parameterIndex
                                 var actionList = typeActions.actions
                                 for (var i = 0; i < actionList.length; i++) {
                                     console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
@@ -657,14 +665,14 @@ Item {
                             }
                             if (depth == 0) {
                                 // Build index of related kf to move
-                                timeline.dopeSheetModel().buildMasterSelection(kfContainer.itemIndex, clickIndex)
+                                timeline.dopeSheetModel().buildMasterSelection(parameterIndex, clickIndex)
                             }
-                            updateSelectedKeyframesForIndex(kfContainer.itemIndex, selectedKeyframes, shiftClick)
+                            updateSelectedKeyframesForIndex(parameterIndex, selectedKeyframes, shiftClick)
                             root.allSelectedKeyframesChanged()
                         }
                         if (mouse.buttons === Qt.RightButton) {
                             treeView.selectedKeyframe = kfMoveArea.currentFrame
-                            treeView.activeIndex = kfContainer.itemIndex
+                            treeView.activeIndex = parameterIndex
                             var actionList = typeActions.actions
                             for (var i = 0; i < actionList.length; i++) {
                                 console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
@@ -743,12 +751,12 @@ Item {
                         }
                     }
                     onDoubleClicked: mouse => {
-                        var tIndex
+                        var parameterIndex = treeView.model.index(contentRect.row, contentRect.column)
                         if (kfMoveArea.currentFrame > -1) {
                             console.log('Removing keyframe')
                             // Double click on a keyframe, remove it
                             if (depth == 0) {
-                                timeline.dopeSheetModel().removeKeyframe(kfContainer.itemIndex, kfMoveArea.currentFrame)
+                                timeline.dopeSheetModel().removeKeyframe(parameterIndex, kfMoveArea.currentFrame)
                             } else {
                                 dopeModel.removeKeyframe(kfMoveArea.currentFrame)
                             }
@@ -759,7 +767,7 @@ Item {
                             return
                         }
                         if (depth == 0) {
-                            timeline.dopeSheetModel().addKeyframe(kfContainer.itemIndex, root.mouseFramePos)
+                            timeline.dopeSheetModel().addKeyframe(parameterIndex, root.mouseFramePos)
                         } else {
                             console.log('Adding keyframe at: ', root.mouseFramePos)
                             dopeModel.addKeyframe(root.mouseFramePos)
@@ -781,7 +789,7 @@ Item {
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
                         property bool atMousePos: root.mouseFramePos == frame
-                        color: keyframeSelected(kfContainer.itemIndex, index) > -1 ? activePalette.highlight : activePalette.light
+                        color: keyframeSelected(treeView.model.index(contentRect.row, contentRect.column), index) > -1 ? activePalette.highlight : activePalette.light
                         radius: type == 1 ? 0 : Math.round(width/2)
                         border.width: atMousePos ? 2 : 1
                         border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? root.hoverColor : activePalette.text
@@ -802,6 +810,9 @@ Item {
                             }
                         }
                     }
+                }
+                Component.onCompleted: {
+                    console.log('Loaded TREEVIEW COMPONENT ID: ', treeView.model.index(contentRect.row, contentRect.column))
                 }
             }
         }
@@ -864,6 +875,7 @@ Item {
                     break
                 }
             }
+            selectionTypeMenu.enabled = root.allSelectedKeyframes.length > 0
             defaultTypeMenu.popup()
         }
     }

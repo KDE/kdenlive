@@ -106,21 +106,16 @@ void KeyframeModelList::addParameter(const QModelIndex &index, int in, int out)
 
 void KeyframeModelList::updateRecap()
 {
-    QList<GenTime> kfrList;
+    QMap<GenTime, KeyframeType::KeyframeEnum> kfrList;
     for (const auto &param : m_parameters) {
         QList<GenTime> paramKF = param.second->getKeyframePos();
         for (auto &g : paramKF) {
             if (!kfrList.contains(g)) {
-                kfrList << g;
+                KeyframeType::KeyframeEnum type = KeyframeType::KeyframeEnum(param.second->getKeyframeTypeAtPos(g));
+                kfrList.insert(g, type);
             }
         }
     }
-    std::sort(kfrList.begin(), kfrList.end());
-    qDebug() << ":::: UPDATING RECAP WITH POS -----------------";
-    for (auto &g : kfrList) {
-        qDebug() << "::POS " << g.frames(25);
-    }
-    qDebug() << ":::: UPDATING RECAP WITH POS DONE";
     m_kfrRecap->loadKeyframePos(kfrList);
     const QModelIndex start = m_kfrRecap->index(0);
     const QModelIndex end = m_kfrRecap->index(kfrList.size() - 1);

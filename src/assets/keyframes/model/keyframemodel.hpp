@@ -160,6 +160,7 @@ public:
     int getIndexForPos(const GenTime pos) const;
     GenTime getPosAtIndex(int ix) const;
     Q_INVOKABLE bool moveKeyframeByIndex(int ix, int pos, bool logUndo);
+    int getKeyframeTypeAtPos(GenTime pos) const;
     Q_INVOKABLE int getKeyframeTypeAtFrame(int frame) const;
 
     // Mandatory overloads
@@ -180,7 +181,7 @@ public:
     int keyframesCount() const;
     QList<QVariant> testSerializeKeyframes() const;
     /** @brief Load all keyframes from a list of position, used for recap */
-    void loadKeyframePos(QList<GenTime> all_pos);
+    void loadKeyframePos(QMap<GenTime, KeyframeType::KeyframeEnum> all_pos);
 
 public Q_SLOTS:
     Q_INVOKABLE bool addKeyframe(int framePos);
