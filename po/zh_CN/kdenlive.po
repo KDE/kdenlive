@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 49324\n"
+"X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 49586\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5804,7 +5804,7 @@ msgstr "Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg"
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
 msgid "Shear"
-msgstr "斜切"
+msgstr "Shear - 斜切"
 
 #: data/effects/avfilter/avfilter_shear.xml:5
 #, kde-format
@@ -13745,6 +13745,16 @@ msgid ""
 "Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
+"AfterBurn,AfterBurn (Long),Ambience,Ambience (Thick),Ambience (Thick) - HD,"
+"Cathedral,Cathedral - HD,Drum Chamber,Garage,Garage (Bright),Gymnasium,"
+"Gymnasium (Bright),Gymnasium (Bright) - HD,Hall (Small),Hall (Medium),Hall "
+"(Large),Hall (Large) - HD,Plate (Small),Plate (Medium),Plate (Large),Plate "
+"(Large) - HD,Pulse Chamber,Pulse Chamber (Reverse),Resonator (96 ms),"
+"Resonator (152 ms),Resonator (208 ms),Room (Small),Room (Medium),Room "
+"(Large),Room (Large) - HD,Slap Chamber,Slap Chamber - HD,Slap Chamber "
+"(Bright),Slap Chamber (Bright) - HD,Smooth Hall (Small),Smooth Hall (Medium),"
+"Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
+"Warble Chamber,Warehouse,Warehouse - HD"
 
 #: data/effects/ladspa/ladspa_2143.xml:4
 #, kde-format
@@ -20318,7 +20328,7 @@ msgstr "新标签"
 #: src/capture/mediacapture.cpp:117
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "录制格式已调整为 %1 声道，%2 Hz。"
 
 #: src/capture/mediacapture.cpp:222
 #, kde-format
@@ -25671,7 +25681,7 @@ msgstr "效果"
 #, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
-msgstr "色彩"
+msgstr "颜色"
 
 #: src/layouts/layoutmanagement.cpp:41
 #, kde-format
