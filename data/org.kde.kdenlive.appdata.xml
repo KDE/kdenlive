@@ -448,6 +448,7 @@
         <p xml:lang="sl">To je prva izdaja s popravki za različico 24.02. Nekaj najbolj omembe vrednih popravkov:</p>
         <p xml:lang="tr">Bu, 24.02 sürümü için ilk hata düzeltme yayımıdır. En dikkat çekici düzeltmelerden bazıları şunlardır:</p>
         <p xml:lang="uk">Це перший випуск з виправленнями вад у версії 24.02. Деякі з найбільш вартих уваги виправлень:</p>
+        <p xml:lang="zh-CN">这是 24.02 版本的首个错误修复版本。部分值得关注的修复包括：</p>
         <ul>
           <li>Fix distorted font in some parts of the UI</li>
           <li xml:lang="ar">أُصلح الخط المشوه في بعض أجزاء واجهة المستخدم</li>
@@ -463,6 +464,7 @@
           <li xml:lang="sl">popravljena deformirana pisava v nekaterih delih vmesnika;</li>
           <li xml:lang="tr">Kullanıcı arayüzünün bazı bölümlerindeki bozuk yazıtipi düzeltildi.</li>
           <li xml:lang="uk">Виправлено викривлення шрифту у певних частинах інтерфейсу</li>
+          <li xml:lang="zh-CN">修复用户界面某些字体显示失真的问题</li>
           <li>Fix crash editing gradients in titler</li>
           <li xml:lang="ar">أُصلح الانهيار عند تحرير التدرجات في أداة العنونة</li>
           <li xml:lang="ca">Corregeix una fallada editant els degradats al creador de títols</li>
@@ -477,6 +479,7 @@
           <li xml:lang="sl">odpravljeno sesutje pri urejanju prelivov v urejevalniku naslovov;</li>
           <li xml:lang="tr">Başlık düzenleyicisinde gradyanları düzenlerken oluşan çökme sorunu düzeltildi.</li>
           <li xml:lang="uk">Усунено аварійне завершення роботи при редагування градієнтів у засобі титрування</li>
+          <li xml:lang="zh-CN">修复在标题编辑器中编辑渐变时崩溃的问题</li>
           <li>Fix adding a mix to a grouped clip could move existing cut</li>
           <li xml:lang="ar">أُصلح خلل إضافة مزيج إلى مقطع مجمع كان يؤدي لتحريك القص الموجود</li>
           <li xml:lang="ca">Corregeix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
@@ -491,6 +494,7 @@
           <li xml:lang="sl">popravljeno premikanje obstoječega reza ob dodajanju mešanice združenemu posnetku;</li>
           <li xml:lang="tr">Gruplandırılmış bir klibe karışım eklemenin, var olan klibin hareket etmesine neden olma sorunu düzeltildi.</li>
           <li xml:lang="uk">Виправлено проблему, пов'язану із тим, що додавання міксу до згрупованого кліпу могло призвести до пересування наявного розрізу</li>
+          <li xml:lang="zh-CN">修复向分组片段添加混合效果时可能导致已有剪辑位置偏移的问题</li>
           <li>Fix moving and deleting a single item in a group</li>
           <li xml:lang="ar">أُصلح تحريك وحذف عنصر واحد في مجموعة</li>
           <li xml:lang="ca">Corregeix el moure i suprimir un element individual en un grup</li>
@@ -505,6 +509,7 @@
           <li xml:lang="sl">popravljeno premikanje in brisanje posameznega elementa v skupini;</li>
           <li xml:lang="tr">Grup içindeki tek bir ögeyi taşıma ve silme sorunu düzeltildi.</li>
           <li xml:lang="uk">Виправлено пересування і вилучення окремого запису у групі</li>
+          <li xml:lang="zh-CN">修复在组中移动或删除单个项目时的问题</li>
           <li>Fix crash in spacer tool with grouped subtitles</li>
           <li xml:lang="ar">أُصلح الانهيار في أداة المباعدة مع الترجمات المجمعة</li>
           <li xml:lang="ca">Corregeix una fallada a l'eina espaiador amb subtítols agrupats</li>
@@ -519,6 +524,7 @@
           <li xml:lang="sl">odpravljeno sesutje orodja praznine s podnapisi v skupini;</li>
           <li xml:lang="tr">Gruplandırılmış altyazılarla ilgili olarak ara parça aracında meydana gelen çökme düzeltildi.</li>
           <li xml:lang="uk">Усунено аварійне завершення роботи у розпірці зі згрупованими субтитрами</li>
+          <li xml:lang="zh-CN">修复在使用间隔工具处理分组字幕时崩溃的问题</li>
           <li>Fix multiple issues on sequence clips (incorrectly saving changes, subtitles not duplicated)</li>
           <li xml:lang="ar">أُصلحت مشكلات متعددة في مقاطع التسلسل (حفظ التغييرات بشكل غير صحيح، عدم تكرار الترجمات)</li>
           <li xml:lang="ca">Corregeix problemes diversos en els clips de seqüència (desant incorrectament els canvis, subtítols no duplicats)</li>
@@ -533,6 +539,7 @@
           <li xml:lang="sl">popravljenih več težav s posnetki zaporedja (nepravilno shranjevanje sprememb, podnaslovi se ne podvojijo);</li>
           <li xml:lang="tr">Sıralı kliplerdeki birden fazla sorunu düzeltildi (değişikliklerin yanlış kaydedilmesi, altyazıların çoğaltılmaması).</li>
           <li xml:lang="uk">Виправлено декілька вад у кліпах-послідовностях (неправильне збереження змін, не було дублювання субтитрів)</li>
+          <li xml:lang="zh-CN">修复序列片段中的多个问题 (更改未正确保存、字幕未被复制) </li>
           <li>Fix multiple issues with subtitles (multiple subtitles tracks not correctly saved or displayed)</li>
           <li xml:lang="ar">أُصلحت مشكلات متعددة في الترجمات (عدم حفظ أو عرض مسارات الترجمة المتعددة بشكل صحيح)</li>
           <li xml:lang="ca">Corregeix problemes diversos amb els subtítols (pistes de subtítols múltiples no desades o mostrades correctament)</li>
@@ -547,6 +554,7 @@
           <li xml:lang="sl">popravljenih več težav s podnaslovi (več stez podnaslovov se ne shrani ali prikaže pravilno).</li>
           <li xml:lang="tr">Altyazılarla ilgili birden fazla sorun düzeltildi (birden fazla altyazı parçası doğru kaydedilmiyor veya görüntülenmiyor).</li>
           <li xml:lang="uk">Виправлено кілька проблем із субтитрами (кілька доріжок субтитрів неправильно зберігалися або показувалися)</li>
+          <li xml:lang="zh-CN">修复字幕相关的多个问题 (多条字幕轨道未正确保存或显示) </li>
         </ul>
       </description>
       <url>https://kdenlive.org/news/releases/24.02.1/</url>
