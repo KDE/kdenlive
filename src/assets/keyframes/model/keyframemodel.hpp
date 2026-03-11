@@ -45,7 +45,18 @@ public:
     explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in = -1,
                            int out = -1, QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole, PercentPositionRole };
+    enum {
+        TypeRole = Qt::UserRole + 1,
+        PosRole,
+        FrameRole,
+        ValueRole,
+        NormalizedValueRole,
+        SelectedRole,
+        ActiveRole,
+        MoveOnlyRole,
+        PercentPositionRole,
+        DescriptionRole
+    };
     friend class KeyframeModelList;
     friend class KeyframeContainer;
     friend class KeyframeImport;

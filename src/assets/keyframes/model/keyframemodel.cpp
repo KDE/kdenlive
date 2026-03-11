@@ -752,7 +752,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        if (notify) Q_EMIT dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
+        if (notify) Q_EMIT dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole, DescriptionRole});
         return true;
     };
 }
@@ -800,6 +800,7 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[PosRole] = "position";
     roles[FrameRole] = "frame";
     roles[TypeRole] = "type";
+    roles[DescriptionRole] = "description";
     roles[ValueRole] = "value";
     roles[SelectedRole] = "selected";
     roles[ActiveRole] = "active";
@@ -881,6 +882,12 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         return it->first.frames(pCore->getCurrentFps());
     case TypeRole:
         return QVariant::fromValue<KeyframeType::KeyframeEnum>(it->second.first);
+    case DescriptionRole:
+        if (m_paramType == ParamType::Roto_spline || it->second.second.isNull()) {
+            return KeyframeTypeName.value(it->second.first);
+        } else {
+            return QStringLiteral("%1\n%2").arg(KeyframeTypeName.value(it->second.first)).arg(it->second.second.toString());
+        }
     case SelectedRole:
         if (auto ptr = m_model.lock()) {
             return ptr->m_selectedKeyframes.contains(index.row());

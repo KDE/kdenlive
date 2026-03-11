@@ -130,7 +130,6 @@ Item {
 
     function keyframeSelected(itemIndex, keyframeIndex) {
         var selectedKeyframes = getSelectedKeyframesForIndex(itemIndex)
-        console.log('Looking for KF: ', keyframeIndex, ' in: ', selectedKeyframes)
         return selectedKeyframes.indexOf(keyframeIndex)
     }
 
@@ -201,6 +200,10 @@ Item {
         var topRow = treeView.cellAtPosition(topPos)
         var bottomRow = treeView.cellAtPosition(bottomPos)
         var result = timeline.dopeSheetModel().selectKeyframeRange(treeView.modelIndex(topRow), treeView.modelIndex(bottomRow), startFrame, endFrame)
+        updateSelectedKeyframesFromModel(result, addToSelection)
+    }
+
+    function updateSelectedKeyframesFromModel(result, addToSelection) {
         if (!addToSelection) {
             root.allSelectedKeyframes = []
         }
@@ -528,12 +531,26 @@ Item {
                 height: parent.height
                 width: treeView.headerWidth
             }
+            property Animation indicatorAnimation: NumberAnimation {
+                target: indicator
+                property: "rotation"
+                from: expanded ? 0 : 90
+                to: expanded ? 90 : 0
+                duration: 200
+                easing.type: Easing.OutQuart
+            }
+            TableView.onPooled: indicatorAnimation.complete()
+            TableView.onReused: if (current) indicatorAnimation.start()
+            onExpandedChanged: indicator.rotation = expanded ? 90 : 0
+
             ToolButton {
-                icon.name: expanded ? "arrow-down" : "arrow-right"
+                id: indicator
+                icon.name: "arrow-right"
                 visible: depth == 0
                 onClicked: {
                     treeView.toggleExpanded(row)
                 }
+                x: contentRect.padding
                 height: paramLabel.height
                 width: height
                 anchors.verticalCenter: parent.verticalCenter
@@ -542,14 +559,15 @@ Item {
             Label {
                 id: paramLabel
                 anchors.verticalCenter: parent.verticalCenter
-                x: indentation
+                anchors.left: indicator.right
+                //anchors.leftMargin: contentRect.padding
                 text: dopeName
                 rightPadding: 4
                 leftPadding: 4
                 font.bold: depth == 0
                 Component.onCompleted: {
-                    if (treeView.headerWidth < (paramLabel.width + indentation)) {
-                        treeView.headerWidth = paramLabel.width + indentation
+                    if (treeView.headerWidth < (paramLabel.width + indicator.width + contentRect.padding)) {
+                        treeView.headerWidth = paramLabel.width + indicator.width + contentRect.padding
                     }
                 }
             }
@@ -615,7 +633,7 @@ Item {
                         }
                         buttonClicked = mouse.buttons
                         // Select parameter
-                        var parameterIndex = treeView.model.index(contentRect.row, contentRect.column)
+                        var parameterIndex = treeView.index(row, column)
                         treeView.selectionModel.setCurrentIndex(parameterIndex, ItemSelectionModel.SelectCurrent)
 
                         if (clickIndex < 0) {
@@ -664,13 +682,18 @@ Item {
                                 selectedKeyframes = [currentIndex]
                             }
                             if (depth == 0) {
-                                // Build index of related kf to move
+                                // Top level item, build index of related kf to select
                                 timeline.dopeSheetModel().buildMasterSelection(parameterIndex, clickIndex)
+                                var result = timeline.dopeSheetModel().selectKeyframeAtPos(parameterIndex, clickFrame)
+                                updateSelectedKeyframesFromModel(result, shiftClick)
+                                return
                             }
+
                             updateSelectedKeyframesForIndex(parameterIndex, selectedKeyframes, shiftClick)
                             root.allSelectedKeyframesChanged()
                         }
                         if (mouse.buttons === Qt.RightButton) {
+                            // Show context menu
                             treeView.selectedKeyframe = kfMoveArea.currentFrame
                             treeView.activeIndex = parameterIndex
                             var actionList = typeActions.actions
@@ -751,7 +774,7 @@ Item {
                         }
                     }
                     onDoubleClicked: mouse => {
-                        var parameterIndex = treeView.model.index(contentRect.row, contentRect.column)
+                        var parameterIndex = treeView.index(row, column)
                         if (kfMoveArea.currentFrame > -1) {
                             console.log('Removing keyframe')
                             // Double click on a keyframe, remove it
@@ -789,7 +812,7 @@ Item {
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
                         property bool atMousePos: root.mouseFramePos == frame
-                        color: keyframeSelected(treeView.model.index(contentRect.row, contentRect.column), index) > -1 ? activePalette.highlight : activePalette.light
+                        color: keyframeSelected(treeView.index(contentRect.row, contentRect.column), index) > -1 ? activePalette.highlight : activePalette.light
                         radius: type == 1 ? 0 : Math.round(width/2)
                         border.width: atMousePos ? 2 : 1
                         border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? root.hoverColor : activePalette.text
@@ -808,6 +831,9 @@ Item {
                                 root.hoverKeyframe = frame
                                 root.mouseFramePos = frame
                             }
+                            ToolTip.text: description
+                            ToolTip.delay: 1000
+                            ToolTip.visible: containsMouse
                         }
                     }
                 }

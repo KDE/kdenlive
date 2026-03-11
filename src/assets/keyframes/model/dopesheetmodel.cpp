@@ -406,6 +406,17 @@ void DopeSheetModel::removeKeyframes(QVariantList indexes, QVariantList keyframe
     pCore->pushUndo(undo, redo, i18n("Delete keyframes"));
 }
 
+QVariantMap DopeSheetModel::selectKeyframeAtPos(const QModelIndex &masterIndex, int frame)
+{
+    QVariantMap keyframeIndexes;
+    m_selectedIndexes.clear();
+    QVariantMap currentMap = selectKeyframeByRange(masterIndex, frame, -1);
+    for (auto i = currentMap.cbegin(), end = currentMap.cend(); i != end; ++i) {
+        keyframeIndexes.insert(i.key(), i.value());
+    }
+    return keyframeIndexes;
+}
+
 QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame)
 {
     QVariantList paramIndexes;
@@ -516,6 +527,12 @@ QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, 
     KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
     if (!km) {
         return currentKeyframeIndexes;
+    }
+    if (endFrame == -1) {
+        if (km->hasKeyframe(startFrame)) {
+            return {km->getIndexForPos(GenTime(startFrame, pCore->getCurrentFps()))};
+        }
+        return {};
     }
     for (int k = 0; k < km->keyframesCount(); k++) {
         int pos = km->getPosAtIndex(k).frames(pCore->getCurrentFps());

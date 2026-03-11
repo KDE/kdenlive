@@ -70,6 +70,7 @@ public:
     /** @brief Register all keyframes that will need to move */
     Q_INVOKABLE void buildMasterSelection(const QModelIndex &ix, int index);
     Q_INVOKABLE QVariantMap selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame);
+    Q_INVOKABLE QVariantMap selectKeyframeAtPos(const QModelIndex &masterIndex, int frame);
     Q_INVOKABLE QVariantList selectedIndexes() const;
     Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
