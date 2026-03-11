@@ -626,6 +626,10 @@
       <label>Play/pause monitor on click.</label>
       <default>true</default>
     </entry>
+    <entry name="mirrorMonitorOnFullscreen" type="Bool">
+      <label>Whether to mirror the monitor on fullscreen instead of moving it.</label>
+      <default>false</default>
+    </entry>
     <entry name="fullscreen_monitor" type="String">
       <label>Monitor used for fullscreen output.</label>
       <default></default>
