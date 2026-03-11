@@ -891,7 +891,7 @@ Item {
         width: root.collapsedHeight
         height: width
         onClicked: {
-            // Check requiered kfr type
+            // Check required kfr type
             var actionList = currTypeActions.actions
             for (var i = 0; i < actionList.length; i++) {
                 console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
