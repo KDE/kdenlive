@@ -968,7 +968,12 @@ QRect VideoWidget::displayRect() const
 
 QPoint VideoWidget::offset() const
 {
-    return {m_offset.x() - static_cast<int>(width() * m_zoom / 2), m_offset.y() - static_cast<int>(height() * m_zoom / 2)};
+    if (m_zoom <= 1.) {
+        return {0, 0};
+    }
+    int centerX = static_cast<int>(width() * m_zoom / 2);
+    int centerY = static_cast<int>(height() * m_zoom / 2);
+    return {m_offset.x() - centerX, m_offset.y() - centerY};
 }
 
 void VideoWidget::setZoom(float zoom, bool force)
