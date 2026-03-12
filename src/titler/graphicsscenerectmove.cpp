@@ -1276,12 +1276,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             }
             QPointF diff = e->scenePos() - m_sceneClickPoint;
             diff += m_selectedItemInitialPos;
-            if (!(e->modifiers() & Qt::ControlModifier)) {
-                diff = getSnappedGraphicsItem(m_selectedItem, diff);
-            }
             int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
             int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
+            if (!(e->modifiers() & Qt::ControlModifier)) {
+                newpoint = getSnappedGraphicsItem(m_selectedItem, newpoint);
+            }
             m_selectedItem->setPos(newpoint);
         } else if (objectType == QGraphicsTextItem::Type) {
             qDebug() << "///// MOVING AN ITEM WITH TEXT\nXXXXXXXXXXXXXXXXXXXXXX";
@@ -1293,12 +1293,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             }
             QPointF diff = e->scenePos() - m_sceneClickPoint;
             diff += m_selectedItemInitialPos;
-            if (!(e->modifiers() & Qt::ControlModifier)) {
-                diff = getSnappedGraphicsItem(m_selectedItem, diff);
-            }
             int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
             int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
+            if (!(e->modifiers() & Qt::ControlModifier)) {
+                newpoint = getSnappedGraphicsItem(m_selectedItem, newpoint);
+            }
             m_selectedItem->setPos(newpoint);
         }
         Q_EMIT itemMoved();
