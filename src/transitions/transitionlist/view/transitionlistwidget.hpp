@@ -56,7 +56,6 @@ private Q_SLOTS:
 
 private:
     TransitionIconDelegate *m_iconDelegate;
-    QMetaObject::Connection m_animationConnection;
     QMetaObject::Connection m_hoverAnimationConnection;
     QString m_hoveredTransition;
     std::unique_ptr<QProcess> m_previewProcess;

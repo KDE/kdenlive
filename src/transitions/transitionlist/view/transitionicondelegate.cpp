@@ -142,13 +142,15 @@ void TransitionIconDelegate::setPreviewDirectory(const QString &path)
     }
 }
 
-QMovie *TransitionIconDelegate::getMovie(QString transitionId) const
+QMovie *TransitionIconDelegate::getMovie(QString transitionId, bool animate) const
 {
     // Check if we already have this movie
-    if (m_currentTransitionId == transitionId) {
-        return m_movie.get();
+    if (m_currentTransitionId == transitionId && m_animatedMovie) {
+        return m_animatedMovie.get();
     }
-    m_currentTransitionId = transitionId;
+    if (animate) {
+        m_currentTransitionId = transitionId;
+    }
 
     // Try to load the movie
     QString filePath = QDir(m_previewDirectory).filePath(transitionId + QStringLiteral(".gif"));
@@ -157,7 +159,10 @@ QMovie *TransitionIconDelegate::getMovie(QString transitionId) const
         qDebug() << "No preview found for transition:" << transitionId;
         return nullptr;
     }
-
+    if (animate) {
+        m_animatedMovie.reset(new QMovie(filePath));
+        return m_animatedMovie.get();
+    }
     m_movie.reset(new QMovie(filePath));
     return m_movie.get();
 }
