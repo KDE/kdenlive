@@ -1531,6 +1531,13 @@ void MainWindow::setupActions()
     m_buttonHideClipOverlays->setChecked(KdenliveSettings::showClipOverlays());
     connect(m_buttonHideClipOverlays, &QAction::triggered, this, &MainWindow::slotSwitchClipOverlays);
 
+    m_buttonMouseZoomOnPlayhead = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Mouse Zoom on Playhead"), this);
+    m_buttonMouseZoomOnPlayhead->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the mouse zoom on playhead feature (default is Off)."));
+
+    m_buttonMouseZoomOnPlayhead->setCheckable(true);
+    m_buttonMouseZoomOnPlayhead->setChecked(KdenliveSettings::timelinemousezoomonplayhead());
+    connect(m_buttonMouseZoomOnPlayhead, &QAction::triggered, this, &MainWindow::slotMouseZoomOnPlayhead);
+
     m_buttonTimelineTags = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show Color Tags in Timeline"), this);
     m_buttonTimelineTags->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of clip tags in the timeline (default is On)."));
 
@@ -1579,6 +1586,7 @@ void MainWindow::setupActions()
 
     toolbar->addWidget(m_trimLabel);
     toolbar->addSeparator();
+    toolbar->addAction(m_buttonMouseZoomOnPlayhead);
     toolbar->addAction(m_buttonTimelineTags);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(audioThumbsButtonAction);
@@ -2990,6 +2998,12 @@ void MainWindow::slotShowTimelineTags()
     getCurrentTimeline()->model()->_resetView();
 }
 
+void MainWindow::slotMouseZoomOnPlayhead()
+{
+    KdenliveSettings::setTimelinemousezoomonplayhead(!KdenliveSettings::timelinemousezoomonplayhead());
+    m_buttonMouseZoomOnPlayhead->setChecked(KdenliveSettings::timelinemousezoomonplayhead());
+}
+
 void MainWindow::slotDeleteItem()
 {
     if (QApplication::focusWidget() != nullptr) {
@@ -3548,13 +3562,13 @@ void MainWindow::addEffect(const QString &effectId)
 
 void MainWindow::slotZoomIn(bool zoomOnMouse)
 {
-    slotSetZoom(m_zoomSlider->value() - 1, zoomOnMouse);
+    slotSetZoom(m_zoomSlider->value() - 1, KdenliveSettings::timelinemousezoomonplayhead() ? false : zoomOnMouse);
     slotShowZoomSliderToolTip();
 }
 
 void MainWindow::slotZoomOut(bool zoomOnMouse)
 {
-    slotSetZoom(m_zoomSlider->value() + 1, zoomOnMouse);
+    slotSetZoom(m_zoomSlider->value() + 1, KdenliveSettings::timelinemousezoomonplayhead() ? false : zoomOnMouse);
     slotShowZoomSliderToolTip();
 }
 
