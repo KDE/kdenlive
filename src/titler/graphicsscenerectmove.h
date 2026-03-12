@@ -155,6 +155,7 @@ protected:
 
 private:
     void setCursor(const QCursor &);
+    QPointF getSnappedGraphicsItem(QGraphicsItem *item, QPointF moveDestination);
     double m_zoom;
     QGraphicsItem *m_selectedItem{nullptr};
     resizeModes m_resizeMode{NoResize};
@@ -169,6 +170,7 @@ private:
     bool m_createdText{false};
     bool m_moveStarted{false};
     bool m_pan{false};
+    QList<QGraphicsItem *> m_lastSnapPreviews;
 
 Q_SIGNALS:
     void itemMoved();

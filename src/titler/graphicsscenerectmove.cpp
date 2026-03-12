@@ -808,6 +808,12 @@ GraphicsSceneRectMove::resizeModes GraphicsSceneRectMove::resizeMode() const
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     m_pan = false;
+
+    for (auto item : m_lastSnapPreviews) {
+        delete item;
+    }
+    m_lastSnapPreviews.clear();
+
     if (m_selectedItem && (m_tool == TITLE_RECTANGLE || m_tool == TITLE_ELLIPSE)) {
         setSelectedItem(m_selectedItem);
     }
@@ -1036,6 +1042,121 @@ void GraphicsSceneRectMove::clearTextSelection(bool reset)
     }
 }
 
+QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, QPointF moveDestination)
+{
+    QRectF rect = moveItem->sceneBoundingRect();
+    rect.moveTopLeft(moveDestination);
+
+    float edgeDistance = 16;
+
+    // For snapping
+    float bestX = 0;
+    float bestXDistance = INFINITY;
+    float bestY = 0;
+    float bestYDistance = INFINITY;
+
+    // For visualization
+    QGraphicsItem *bestXItem = nullptr;
+    float bestXHappened = 0;
+    QGraphicsItem *bestYItem = nullptr;
+    float bestYHappened = 0;
+
+    for (auto item : items()) {
+        if (!(item->flags() & QGraphicsItem::ItemIsSelectable)) continue;
+        if (item == moveItem) continue;
+        QRectF itemRect = item->sceneBoundingRect();
+
+        // Make sure the element is vertically aligned for horizontal snapping
+        if (rect.bottom() >= itemRect.top() && rect.top() <= itemRect.bottom()) {
+            float outerRightDist = qAbs(itemRect.right() - rect.left());
+            float outerLeftDist = qAbs(itemRect.left() - rect.right());
+            float innerLeftDist = qAbs(itemRect.left() - rect.left());
+            float innerRightDist = qAbs(itemRect.right() - rect.right());
+            if (outerRightDist < bestXDistance) {
+                bestX = itemRect.right();
+                bestXDistance = outerRightDist;
+                bestXItem = item;
+                bestXHappened = itemRect.right();
+            }
+            if (outerLeftDist < bestXDistance) {
+                bestX = itemRect.left() - rect.width();
+                bestXDistance = outerLeftDist;
+                bestXItem = item;
+                bestXHappened = itemRect.left();
+            }
+            if (innerLeftDist < bestXDistance) {
+                bestX = itemRect.left();
+                bestXDistance = innerLeftDist;
+                bestXItem = item;
+                bestXHappened = itemRect.left();
+            }
+            if (innerRightDist < bestXDistance) {
+                bestX = itemRect.right() - rect.width();
+                bestXDistance = innerRightDist;
+                bestXItem = item;
+                bestXHappened = itemRect.right();
+            }
+        }
+        // Make sure the element is horizontally aligned for vertical snapping
+        if (rect.right() >= itemRect.left() && rect.left() <= itemRect.right()) {
+            float outerBottomDist = qAbs(itemRect.bottom() - rect.top());
+            float outerTopDist = qAbs(itemRect.top() - rect.bottom());
+            float innerTopDist = qAbs(itemRect.top() - rect.top());
+            float innerBottomDist = qAbs(itemRect.bottom() - rect.bottom());
+            if (outerBottomDist < bestYDistance) {
+                bestY = itemRect.bottom();
+                bestYDistance = outerBottomDist;
+                bestYItem = item;
+                bestYHappened = itemRect.bottom();
+            }
+            if (outerTopDist < bestYDistance) {
+                bestY = itemRect.top() - rect.height();
+                bestYDistance = outerTopDist;
+                bestYItem = item;
+                bestYHappened = itemRect.top();
+            }
+            if (innerTopDist < bestYDistance) {
+                bestY = itemRect.top();
+                bestYDistance = innerTopDist;
+                bestYItem = item;
+                bestYHappened = itemRect.top();
+            }
+            if (innerBottomDist < bestYDistance) {
+                bestY = itemRect.bottom() - rect.height();
+                bestYDistance = innerBottomDist;
+                bestYItem = item;
+                bestYHappened = itemRect.bottom();
+            }
+        }
+    }
+
+    for (auto item : m_lastSnapPreviews) {
+        delete item;
+    }
+
+    m_lastSnapPreviews.clear();
+
+    if (bestXDistance <= edgeDistance) {
+        moveDestination.setX(bestX);
+
+        auto line = addLine(bestXHappened, bestXItem->y() - 100, bestXHappened, bestXItem->y() + bestXItem->boundingRect().height() + 100,
+                            QPen(Qt::darkGreen, 3, Qt::DotLine));
+        line->setZValue(10000);
+        m_lastSnapPreviews.append(line);
+    }
+
+    if (bestYDistance <= edgeDistance) {
+        moveDestination.setY(bestY);
+
+        auto line = addLine(bestYItem->x() - 100, bestYHappened, bestYItem->x() + bestYItem->boundingRect().width() + 100, bestYHappened,
+                            QPen(Qt::darkGreen, 3, Qt::DotLine));
+        line->setZValue(10000);
+        m_lastSnapPreviews.append(line);
+    }
+
+    return moveDestination;
+}
+
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
     QList<QGraphicsView *> viewlist = views();
@@ -1155,6 +1276,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             }
             QPointF diff = e->scenePos() - m_sceneClickPoint;
             diff += m_selectedItemInitialPos;
+            if (!(e->modifiers() & Qt::ControlModifier)) {
+                diff = getSnappedGraphicsItem(m_selectedItem, diff);
+            }
             int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
             int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
@@ -1169,6 +1293,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             }
             QPointF diff = e->scenePos() - m_sceneClickPoint;
             diff += m_selectedItemInitialPos;
+            if (!(e->modifiers() & Qt::ControlModifier)) {
+                diff = getSnappedGraphicsItem(m_selectedItem, diff);
+            }
             int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
             int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
