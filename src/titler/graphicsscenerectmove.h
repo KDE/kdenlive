@@ -123,7 +123,7 @@ class GraphicsSceneRectMove : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit GraphicsSceneRectMove(int titlerVersion, QObject *parent = nullptr);
+    explicit GraphicsSceneRectMove(int titlerVersion, int frameWidth, int frameHeight, QObject *parent = nullptr);
     enum resizeModes { NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down };
     enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3, TITLE_ELLIPSE = 4 };
     void setSelectedItem(QGraphicsItem *item);
@@ -171,6 +171,8 @@ private:
     bool m_moveStarted{false};
     bool m_pan{false};
     QList<QGraphicsItem *> m_lastSnapPreviews;
+    int m_frameWidth;
+    int m_frameHeight;
 
 Q_SIGNALS:
     void itemMoved();

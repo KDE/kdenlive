@@ -667,7 +667,7 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
     }
     return QGraphicsItem::itemChange(change, value);
 }
-GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, QObject *parent)
+GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, int frameWidth, int frameHeight, QObject *parent)
     : QGraphicsScene(parent)
 
 {
@@ -676,6 +676,8 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, QObject *parent)
     m_zoom = 1.0;
     setBackgroundBrush(QBrush(Qt::transparent));
     m_fontSize = 0;
+    m_frameWidth = frameWidth;
+    m_frameHeight = frameHeight;
 }
 
 void GraphicsSceneRectMove::contextMenuEvent(QGraphicsSceneContextMenuEvent *)
@@ -1061,6 +1063,59 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
     QGraphicsItem *bestYItem = nullptr;
     float bestYHappened = 0;
 
+    // Scene edge snapping
+
+    float edgeStartHDist = qAbs(rect.left() - 0);
+    float edgeStartVDist = qAbs(rect.top() - 0);
+    float edgeEndHDist = qAbs(rect.right() - m_frameWidth);
+    float edgeEndVDist = qAbs(rect.bottom() - m_frameHeight);
+
+    if (edgeStartHDist < bestXDistance) {
+        bestX = 0;
+        bestXDistance = edgeStartHDist;
+        bestXHappened = 0;
+    }
+
+    if (edgeStartVDist < bestYDistance) {
+        bestY = 0;
+        bestYDistance = edgeStartVDist;
+        bestYHappened = 0;
+    }
+
+    if (edgeEndHDist < bestXDistance) {
+        bestX = m_frameWidth - rect.width();
+        bestXDistance = edgeEndHDist;
+        bestXHappened = m_frameWidth;
+    }
+
+    if (edgeEndVDist < bestYDistance) {
+        bestY = m_frameHeight - rect.height();
+        bestYDistance = edgeEndVDist;
+        bestYHappened = m_frameHeight;
+    }
+
+    // Center snapping
+
+    float centerX = m_frameWidth / 2.0;
+    float centerY = m_frameHeight / 2.0;
+
+    float centerHDist = qAbs(rect.center().x() - centerX);
+    float centerVDist = qAbs(rect.center().y() - centerY);
+
+    if (centerHDist < bestXDistance) {
+        bestX = centerX - rect.width() / 2;
+        bestXDistance = centerHDist;
+        bestXHappened = centerX;
+    }
+
+    if (centerVDist < bestYDistance) {
+        bestY = centerY - rect.height() / 2;
+        bestYDistance = centerVDist;
+        bestYHappened = centerY;
+    }
+
+    // Item snapping
+
     for (auto item : items()) {
         if (!(item->flags() & QGraphicsItem::ItemIsSelectable)) continue;
         if (item == moveItem) continue;
@@ -1139,8 +1194,16 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
     if (bestXDistance <= edgeDistance) {
         moveDestination.setX(bestX);
 
-        auto line = addLine(bestXHappened, bestXItem->y() - 100, bestXHappened, bestXItem->y() + bestXItem->boundingRect().height() + 100,
-                            QPen(Qt::darkGreen, 3, Qt::DotLine));
+        int start = 0;
+        int end = m_frameHeight;
+
+        if (bestXItem != nullptr) {
+            start = bestXItem->y() - 100;
+            end = bestXItem->y() + bestXItem->boundingRect().height() + 100;
+        }
+
+        auto line =
+            addLine(bestXHappened, start, bestXHappened, end, bestXItem != nullptr ? QPen(Qt::darkGreen, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
         line->setZValue(10000);
         m_lastSnapPreviews.append(line);
     }
@@ -1148,8 +1211,16 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
     if (bestYDistance <= edgeDistance) {
         moveDestination.setY(bestY);
 
-        auto line = addLine(bestYItem->x() - 100, bestYHappened, bestYItem->x() + bestYItem->boundingRect().width() + 100, bestYHappened,
-                            QPen(Qt::darkGreen, 3, Qt::DotLine));
+        int start = 0;
+        int end = m_frameWidth;
+
+        if (bestYItem != nullptr) {
+            start = bestYItem->x() - 100;
+            end = bestYItem->x() + bestYItem->boundingRect().width() + 100;
+        }
+
+        auto line =
+            addLine(start, bestYHappened, end, bestYHappened, bestYItem != nullptr ? QPen(Qt::darkGreen, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
         line->setZValue(10000);
         m_lastSnapPreviews.append(line);
     }

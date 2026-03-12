@@ -454,7 +454,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     layout->addWidget(m_toolbar);
 
     // initialize graphic scene
-    m_scene = new GraphicsSceneRectMove(TITLERVERSION, this);
+    m_scene = new GraphicsSceneRectMove(TITLERVERSION, m_frameWidth, m_frameHeight, this);
     graphicsView->setScene(m_scene);
     graphicsView->setMouseTracking(true);
     graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
