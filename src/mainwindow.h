@@ -313,6 +313,7 @@ private:
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
     QAction *m_buttonTimelineTags;
+    QAction *m_buttonMouseZoomOnPlayhead;
     QAction *m_normalEditTool;
     QAction *m_overwriteEditTool;
     QAction *m_insertEditTool;
@@ -457,6 +458,7 @@ private Q_SLOTS:
     void slotSwitchSnap();
     void slotSwitchClipOverlays();
     void slotShowTimelineTags();
+    void slotMouseZoomOnPlayhead();
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
