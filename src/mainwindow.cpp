@@ -4836,9 +4836,9 @@ bool MainWindow::hasTimeline() const
     return m_timelineTabs != nullptr;
 }
 
-void MainWindow::closeTimelineTab(const QUuid uuid, bool onDeletion)
+void MainWindow::closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed)
 {
-    m_timelineTabs->closeTimelineTab(uuid);
+    m_timelineTabs->closeTimelineTab(uuid, checkActiveClosed);
     if (onDeletion) {
         resetSubtitles(uuid);
     }

@@ -2024,7 +2024,7 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
 }
 
 bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, int position, bool duplicate, std::shared_ptr<TimelineItemModel> existingModel,
-                                  bool openInMonitor)
+                                  bool openInMonitor, bool forceCompositingForExistingModel)
 {
     if (position > -1) {
         m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
@@ -2082,6 +2082,11 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
         if (existingModel == nullptr && !constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
+        }
+        // Construct timeline from the tractor does the compositing, which is not called for existingModels
+        if (forceCompositingForExistingModel && existingModel != nullptr) {
+            timelineModel->setReOpenTimeline();
+            timelineModel->buildTrackCompositing(true);
         }
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
 
@@ -2321,7 +2326,7 @@ void ProjectManager::doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bo
     }
 }
 
-bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clearUndo)
+bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clearUndo, bool checkActiveClosed)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
     if (model == nullptr) {
@@ -2333,7 +2338,7 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clea
         // triggered when deleting bin clip, also close timeline tab
         pCore->projectItemModel()->removeReferencedClips(uuid, true);
         if (pCore->window()) {
-            pCore->window()->closeTimelineTab(uuid, false);
+            pCore->window()->closeTimelineTab(uuid, false, checkActiveClosed);
         }
     } else {
         if (!m_project->closing && !onDeletion) {
@@ -2421,7 +2426,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
     local_redo();
     PUSH_LAMBDA(local_redo, redo);
     int newId;
-    result = m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {});
+    result = m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {}, 1);
     if (!result) {
         undo();
         pCore->displayMessage(i18n("Cannot insert sequence in current timeline"), ErrorMessage);
