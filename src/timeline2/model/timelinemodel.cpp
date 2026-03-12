@@ -211,6 +211,11 @@ TimelineModel::~TimelineModel()
     }
 }
 
+void TimelineModel::setReOpenTimeline() {
+    m_closing = false;
+    m_blockRefresh = false;
+}
+
 void TimelineModel::setMarkerModel(std::shared_ptr<MarkerListModel> markerModel)
 {
     if (m_guidesModel) {
@@ -1885,7 +1890,8 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     return true;
 }
 
-bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets)
+bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets,
+                                         int finalMove)
 {
     QWriteLocker locker(&m_lock);
     TRACE(binClipId, trackId, position, id, logUndo, refreshView, useTargets);
@@ -1906,7 +1912,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage, 500);
         return false;
     }
-    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo, allowedTracks);
+    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo, allowedTracks, finalMove);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
@@ -1915,11 +1921,12 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 }
 
 bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets,
-                                         Fun &undo, Fun &redo, const QVector<int> &allowedTracks)
+                                         Fun &undo, Fun &redo, const QVector<int> &allowedTracks, int finalMove)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     bool res = false;
+    const bool effectiveFinalMove = finalMove < 0 ? logUndo : finalMove > 0;
     ClipType::ProducerType type = ClipType::Unknown;
     // binClipId id is in the form: A2/10/50
     // A2 means audio only insertion for bin clip with id 2
@@ -2117,7 +2124,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
 
         res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioStream, 1.0, false, local_undo, local_redo);
-        res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == TimelineModel::MoveSuccess);
+        res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, effectiveFinalMove, local_undo, local_redo) == TimelineModel::MoveSuccess);
         // Get mirror track
         int mirror = dropType == PlaylistState::Disabled && hasAV ? getMirrorTrackId(trackId) : -1;
         if (mirror > -1 && ((getTrackById_const(mirror)->isLocked() && !useTargets) || (!allowedTracks.isEmpty() && !allowedTracks.contains(mirror)))) {
@@ -2245,7 +2252,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
         int audioIndex = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
         res = requestClipCreation(normalisedBinId, id, dropType, audioIndex, 1.0, false, local_undo, local_redo);
-        res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == TimelineModel::MoveSuccess);
+          res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, effectiveFinalMove, local_undo, local_redo) == TimelineModel::MoveSuccess);
     }
     if (!res) {
         bool undone = local_undo();

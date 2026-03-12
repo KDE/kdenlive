@@ -86,7 +86,7 @@ public Q_SLOTS:
     void connectCurrent(int ix);
     void doConnectCurrent(int ix, bool openInMonitor = true);
     void closeTimelineByIndex(int ix);
-    void closeTimelineTab(const QUuid uuid);
+    void closeTimelineTab(const QUuid uuid, bool checkActiveClosed = false);
     void renameTab(const QUuid &uuid, const QString &name);
     void slotNextSequence();
     void slotPreviousSequence();

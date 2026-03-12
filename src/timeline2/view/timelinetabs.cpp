@@ -266,10 +266,11 @@ TimelineWidget *TimelineTabs::getCurrentTimeline() const
     return m_activeTimeline;
 }
 
-void TimelineTabs::closeTimelineTab(const QUuid uuid)
+void TimelineTabs::closeTimelineTab(const QUuid uuid, bool checkActiveClosed)
 {
     QMutexLocker lk(&m_lock);
     int currentCount = count();
+    bool activeTimelineClosed = false;
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     bool closing = pCore->currentDoc()->closing;
     for (int i = 0; i < currentCount; i++) {
@@ -278,6 +279,7 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid)
             removeTab(i);
             timeline->blockSignals(true);
             if (timeline == m_activeTimeline) {
+                activeTimelineClosed = true;
                 Q_EMIT showSubtitle(-1);
                 pCore->window()->disconnectTimeline(timeline, closing);
                 disconnectTimeline(timeline);
@@ -298,6 +300,11 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid)
         return;
     }
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
+    // if the tab is being closed by an undo action,
+    // we need to trigger the connection of the remaining tab, as the undo stack won't trigger a currentChanged signal
+    if (checkActiveClosed && activeTimelineClosed && count() > 0) {
+        connectCurrent(currentIndex());
+    }
 }
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
