@@ -640,6 +640,7 @@ void RenderWidget::saveConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "RenderWidget");
     resourceConfig.writeEntry(QStringLiteral("showoptions"), m_view.options->isChecked());
+    resourceConfig.writeEntry(QStringLiteral("addtobin"), m_view.add_to_bin->isChecked());
     QWindow *handle = windowHandle();
     KConfigGroup group = config->group("RenderDialogSize");
     if (handle) {
@@ -653,6 +654,7 @@ void RenderWidget::loadConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "RenderWidget");
     m_view.options->setChecked(resourceConfig.readEntry("showoptions", false));
+    m_view.add_to_bin->setChecked(resourceConfig.readEntry("addtobin", false));
 }
 
 void RenderWidget::updateDocumentPath()
@@ -1109,6 +1111,7 @@ RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
     renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
     renderItem->setData(1, PlayAfterRole, m_view.play_after->isChecked());
+    renderItem->setData(1, AddToBinRole, m_view.add_to_bin->isChecked());
     if (!m_view.audio_box->isChecked()) {
         renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
     } else if (!m_view.video_box->isChecked()) {
@@ -1793,6 +1796,9 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
                 auto *job = new KIO::OpenUrlJob(url);
                 job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
                 job->start();
+            }
+            if (item->data(1, AddToBinRole).toBool()) {
+                pCore->activeBin()->slotAddClipToProject(url);
             }
         }
     } else if (status == -2) {
