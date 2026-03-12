@@ -216,7 +216,7 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
         description += QStringLiteral("<br/>");
         description += i18n("Pixel aspect ratio: %1", profile->sar());
         description += QStringLiteral("<br/>");
-        description += i18n("Color space: %1", profile->colorspaceDescription());
+        description += i18n("Color space: %1", ProfileRepository::getColorspaceDescription(profile->colorspace()));
         description += QStringLiteral("<br/>");
         description += i18n("Interlaced: %1", profile->progressive() ? i18n("no") : i18n("yes"));
         if (!profile->progressive()) {
