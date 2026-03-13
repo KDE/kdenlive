@@ -1191,9 +1191,6 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
         }
     }
 
-    qDeleteAll(m_lastSnapPreviews);
-    m_lastSnapPreviews.clear();
-
     if (bestXDistance <= edgeDistance) {
         moveDestination.setX(bestX);
 
@@ -1256,6 +1253,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     }
 
     if ((m_selectedItem != nullptr) && ((e->buttons() & Qt::LeftButton) != 0u)) {
+        qDeleteAll(m_lastSnapPreviews);
+        m_lastSnapPreviews.clear();
+
         int objectType = m_selectedItem->type();
         if (objectType == QGraphicsRectItem::Type || objectType == QGraphicsEllipseItem::Type || objectType == QGraphicsSvgItem::Type ||
             objectType == QGraphicsPixmapItem::Type) {
