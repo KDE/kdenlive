@@ -811,9 +811,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     m_pan = false;
 
-    for (auto item : m_lastSnapPreviews) {
-        delete item;
-    }
+    qDeleteAll(m_lastSnapPreviews);
     m_lastSnapPreviews.clear();
 
     if (m_selectedItem && (m_tool == TITLE_RECTANGLE || m_tool == TITLE_ELLIPSE)) {
@@ -1185,10 +1183,7 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
         }
     }
 
-    for (auto item : m_lastSnapPreviews) {
-        delete item;
-    }
-
+    qDeleteAll(m_lastSnapPreviews);
     m_lastSnapPreviews.clear();
 
     if (bestXDistance <= edgeDistance) {
