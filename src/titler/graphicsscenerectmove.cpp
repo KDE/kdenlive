@@ -1047,26 +1047,26 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
     QRectF rect = moveItem->sceneBoundingRect();
     rect.moveTopLeft(moveDestination);
 
-    float edgeDistance = 16;
+    qreal edgeDistance = 16;
 
     // For snapping
-    float bestX = 0;
-    float bestXDistance = INFINITY;
-    float bestY = 0;
-    float bestYDistance = INFINITY;
+    qreal bestX = 0;
+    qreal bestXDistance = INFINITY;
+    qreal bestY = 0;
+    qreal bestYDistance = INFINITY;
 
     // For visualization
     QGraphicsItem *bestXItem = nullptr;
-    float bestXHappened = 0;
+    qreal bestXHappened = 0;
     QGraphicsItem *bestYItem = nullptr;
-    float bestYHappened = 0;
+    qreal bestYHappened = 0;
 
     // Scene edge snapping
 
-    float edgeStartHDist = qAbs(rect.left() - 0);
-    float edgeStartVDist = qAbs(rect.top() - 0);
-    float edgeEndHDist = qAbs(rect.right() - m_frameWidth);
-    float edgeEndVDist = qAbs(rect.bottom() - m_frameHeight);
+    qreal edgeStartHDist = qAbs(rect.left() - 0);
+    qreal edgeStartVDist = qAbs(rect.top() - 0);
+    qreal edgeEndHDist = qAbs(rect.right() - m_frameWidth);
+    qreal edgeEndVDist = qAbs(rect.bottom() - m_frameHeight);
 
     if (edgeStartHDist < bestXDistance) {
         bestX = 0;
@@ -1094,11 +1094,11 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
 
     // Center snapping
 
-    float centerX = m_frameWidth / 2.0;
-    float centerY = m_frameHeight / 2.0;
+    qreal centerX = m_frameWidth / 2.0;
+    qreal centerY = m_frameHeight / 2.0;
 
-    float centerHDist = qAbs(rect.center().x() - centerX);
-    float centerVDist = qAbs(rect.center().y() - centerY);
+    qreal centerHDist = qAbs(rect.center().x() - centerX);
+    qreal centerVDist = qAbs(rect.center().y() - centerY);
 
     if (centerHDist < bestXDistance) {
         bestX = centerX - rect.width() / 2;
@@ -1121,10 +1121,10 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
 
         // Make sure the element is vertically aligned for horizontal snapping
         if (rect.bottom() >= itemRect.top() && rect.top() <= itemRect.bottom()) {
-            float outerRightDist = qAbs(itemRect.right() - rect.left());
-            float outerLeftDist = qAbs(itemRect.left() - rect.right());
-            float innerLeftDist = qAbs(itemRect.left() - rect.left());
-            float innerRightDist = qAbs(itemRect.right() - rect.right());
+            qreal outerRightDist = qAbs(itemRect.right() - rect.left());
+            qreal outerLeftDist = qAbs(itemRect.left() - rect.right());
+            qreal innerLeftDist = qAbs(itemRect.left() - rect.left());
+            qreal innerRightDist = qAbs(itemRect.right() - rect.right());
             if (outerRightDist < bestXDistance) {
                 bestX = itemRect.right();
                 bestXDistance = outerRightDist;
@@ -1152,10 +1152,10 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
         }
         // Make sure the element is horizontally aligned for vertical snapping
         if (rect.right() >= itemRect.left() && rect.left() <= itemRect.right()) {
-            float outerBottomDist = qAbs(itemRect.bottom() - rect.top());
-            float outerTopDist = qAbs(itemRect.top() - rect.bottom());
-            float innerTopDist = qAbs(itemRect.top() - rect.top());
-            float innerBottomDist = qAbs(itemRect.bottom() - rect.bottom());
+            qreal outerBottomDist = qAbs(itemRect.bottom() - rect.top());
+            qreal outerTopDist = qAbs(itemRect.top() - rect.bottom());
+            qreal innerTopDist = qAbs(itemRect.top() - rect.top());
+            qreal innerBottomDist = qAbs(itemRect.bottom() - rect.bottom());
             if (outerBottomDist < bestYDistance) {
                 bestY = itemRect.bottom();
                 bestYDistance = outerBottomDist;
