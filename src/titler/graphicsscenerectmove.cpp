@@ -1063,33 +1063,41 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
 
     // Scene edge snapping
 
-    qreal edgeStartHDist = qAbs(rect.left() - 0);
-    qreal edgeStartVDist = qAbs(rect.top() - 0);
-    qreal edgeEndHDist = qAbs(rect.right() - m_frameWidth);
-    qreal edgeEndVDist = qAbs(rect.bottom() - m_frameHeight);
+    QRectF frameRects[] = {
+        QRectF(0, 0, m_frameWidth, m_frameHeight),
+        QRectF(m_frameWidth * 0.05, m_frameHeight * 0.05, m_frameWidth * 0.9, m_frameHeight * 0.9),
+        QRectF(m_frameWidth * 0.1, m_frameHeight * 0.1, m_frameWidth * 0.8, m_frameHeight * 0.8),
+    };
 
-    if (edgeStartHDist < bestXDistance) {
-        bestX = 0;
-        bestXDistance = edgeStartHDist;
-        bestXHappened = 0;
-    }
+    for (auto frameRect : frameRects) {
+        qreal edgeStartHDist = qAbs(rect.left() - frameRect.left());
+        qreal edgeStartVDist = qAbs(rect.top() - frameRect.top());
+        qreal edgeEndHDist = qAbs(rect.right() - frameRect.right());
+        qreal edgeEndVDist = qAbs(rect.bottom() - frameRect.bottom());
 
-    if (edgeStartVDist < bestYDistance) {
-        bestY = 0;
-        bestYDistance = edgeStartVDist;
-        bestYHappened = 0;
-    }
+        if (edgeStartHDist < bestXDistance) {
+            bestX = frameRect.left();
+            bestXDistance = edgeStartHDist;
+            bestXHappened = frameRect.left();
+        }
 
-    if (edgeEndHDist < bestXDistance) {
-        bestX = m_frameWidth - rect.width();
-        bestXDistance = edgeEndHDist;
-        bestXHappened = m_frameWidth;
-    }
+        if (edgeStartVDist < bestYDistance) {
+            bestY = frameRect.top();
+            bestYDistance = edgeStartVDist;
+            bestYHappened = frameRect.top();
+        }
 
-    if (edgeEndVDist < bestYDistance) {
-        bestY = m_frameHeight - rect.height();
-        bestYDistance = edgeEndVDist;
-        bestYHappened = m_frameHeight;
+        if (edgeEndHDist < bestXDistance) {
+            bestX = frameRect.right() - rect.width();
+            bestXDistance = edgeEndHDist;
+            bestXHappened = frameRect.right();
+        }
+
+        if (edgeEndVDist < bestYDistance) {
+            bestY = frameRect.bottom() - rect.height();
+            bestYDistance = edgeEndVDist;
+            bestYHappened = frameRect.bottom();
+        }
     }
 
     // Center snapping
