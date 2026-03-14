@@ -179,6 +179,7 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> &items, int width, 
             if (!gradient.isEmpty()) {
                 content.setAttribute(QStringLiteral("gradient"), gradient);
             }
+            content.setAttribute(QStringLiteral("cornerRadius"), static_cast<MyRectItem *>(item)->cornerRadius());
             break;
         case 4:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsEllipseItem"));
@@ -547,6 +548,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                     QString br_str = rectProperties.namedItem(QStringLiteral("brushcolor")).nodeValue();
                     QString pen_str = rectProperties.namedItem(QStringLiteral("pencolor")).nodeValue();
                     double penwidth = rectProperties.namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
+                    double cornerRadius = rectProperties.namedItem(QStringLiteral("cornerRadius")).nodeValue().toDouble();
                     auto *rec = new MyRectItem();
                     rec->setRect(stringToRect(rect));
                     if (penwidth > 0) {
@@ -563,6 +565,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                     } else {
                         rec->setBrush(QBrush(stringToColor(br_str)));
                     }
+                    rec->setCornerRadius(cornerRadius);
                     gitems.append(rec);
 
                     gitem = rec;

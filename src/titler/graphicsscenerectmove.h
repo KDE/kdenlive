@@ -33,7 +33,7 @@ class MyTextItem : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    MyTextItem(const QString& txt, QGraphicsItem* parent = nullptr);
+    MyTextItem(const QString &txt, QGraphicsItem *parent = nullptr);
     void setAlignment(Qt::Alignment alignment);
     /** @brief returns an extended bounding containing shadow */
     QRectF boundingRect() const override;
@@ -80,12 +80,17 @@ class MyRectItem : public QGraphicsRectItem
 public:
     explicit MyRectItem(QGraphicsItem *parent = nullptr);
     void setRect(const QRectF &rectangle);
+    void setCornerRadius(int cornerRadius);
+    int cornerRadius();
+    int normalizedCornerRadius();
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 private:
     QRectF m_rect;
+    int m_cornerRadius;
 };
 
 class MyEllipseItem : public QGraphicsEllipseItem
@@ -124,7 +129,7 @@ class GraphicsSceneRectMove : public QGraphicsScene
     Q_OBJECT
 public:
     explicit GraphicsSceneRectMove(int titlerVersion, int frameWidth, int frameHeight, QObject *parent = nullptr);
-    enum resizeModes { NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down };
+    enum resizeModes { NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down, RadiusAdjust };
     enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3, TITLE_ELLIPSE = 4 };
     void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);
@@ -165,6 +170,7 @@ private:
     TITLETOOL m_tool{TITLE_RECTANGLE};
     QPointF m_clickPoint;
     QPointF m_dragPoint;
+    int m_dragStartRadius;
     int m_fontSize;
     int m_gridSize{20};
     bool m_createdText{false};

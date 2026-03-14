@@ -522,6 +522,7 @@ MyRectItem::MyRectItem(QGraphicsItem *parent)
     // Disabled because cache makes text cursor invisible and borders ugly
     // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    m_cornerRadius = 0;
 }
 
 void MyRectItem::setRect(const QRectF &rectangle)
@@ -556,6 +557,49 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);
+}
+
+void MyRectItem::setCornerRadius(int cornerRadius)
+{
+    m_cornerRadius = cornerRadius;
+    update(boundingRect());
+}
+
+int MyRectItem::cornerRadius()
+{
+    return m_cornerRadius;
+}
+
+int MyRectItem::normalizedCornerRadius()
+{
+    return qMin(m_cornerRadius, (int)qMin(rect().width(), rect().height()) / 2);
+}
+
+void MyRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(widget);
+    int radius = normalizedCornerRadius();
+
+    painter->setBrush(brush());
+    painter->setPen(pen());
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->drawRoundedRect(rect(), radius, radius);
+
+    if (option->state & QStyle::State_Selected) {
+        qreal itemPenWidth = pen().widthF();
+        const qreal pad = itemPenWidth / 2;
+
+        painter->setPen(QPen(option->palette.windowText(), 0, Qt::DashLine));
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRect(boundingRect().adjusted(pad, pad, -pad, -pad));
+
+        if (radius > 0) {
+            painter->setBrush(QColor(128, 128, 128, 200));
+            painter->setPen(QPen(QColor(255, 255, 255, 200), 5));
+            int ellipseSize = 24;
+            painter->drawEllipse(radius - ellipseSize / 2, ellipseSize / -2, ellipseSize, ellipseSize);
+        }
+    }
 }
 
 MyEllipseItem::MyEllipseItem(QGraphicsItem *parent)
@@ -1295,6 +1339,15 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 case Left:
                     m_dragPoint = QPointF(newpoint.x(), m_dragPoint.y());
                     break;
+                case RadiusAdjust: {
+                    int newRadius = m_dragStartRadius + (newpoint.x() - m_clickPoint.x());
+                    if (newRadius < 0) newRadius = 0;
+                    int maxRadius = qMin(m_selectedItem->boundingRect().width(), m_selectedItem->boundingRect().height()) / 2;
+                    if (newRadius > maxRadius) newRadius = maxRadius;
+                    auto rectItem = static_cast<MyRectItem *>(m_selectedItem);
+                    rectItem->setCornerRadius(newRadius);
+                    return;
+                }
                 default:
                     break;
                 }
@@ -1448,6 +1501,19 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 m_possibleAction = Left;
                 setCursor(Qt::SizeHorCursor);
                 itemFound = true;
+            }
+
+            if (m_selectedItem->type() == QGraphicsRectItem::Type) {
+                int radius = static_cast<MyRectItem *>(m_selectedItem)->normalizedCornerRadius();
+                qreal ellipseSize = 24;
+                QRectF radiusAdjustRect(m_selectedItem->sceneBoundingRect().left() + radius - ellipseSize / 2,
+                                        m_selectedItem->sceneBoundingRect().top() + ellipseSize / -2, ellipseSize, ellipseSize);
+                if (mouseArea.intersects(radiusAdjustRect)) {
+                    setCursor(Qt::PointingHandCursor);
+                    m_possibleAction = RadiusAdjust;
+                    itemFound = true;
+                    m_dragStartRadius = radius;
+                }
             }
         }
         if (!itemFound) {

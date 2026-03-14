@@ -224,6 +224,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(gradient_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
     connect(gradients_rect_combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::rectChanged);
     connect(rectLineWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::rectChanged);
+    connect(rectCornerRadius, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::rectChanged);
 
     connect(zValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::zIndexChanged);
     connect(itemzoom, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::itemScaled);
@@ -1173,6 +1174,7 @@ void TitleWidget::slotNewRect(QGraphicsRectItem *rect)
     }
     rect->setZValue(m_count++);
     rect->setData(TitleDocument::ZoomFactor, 100);
+    static_cast<MyRectItem *>(rect)->setCornerRadius(rectCornerRadius->value());
     prepareTools(rect);
     // setCurrentItem(rect);
     // graphicsView->setFocus();
@@ -2007,7 +2009,7 @@ void TitleWidget::rectChanged()
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     for (auto i : std::as_const(l)) {
         if (i->type() == RECTITEM && (settingUp == 0)) {
-            auto *rec = static_cast<QGraphicsRectItem *>(i);
+            auto *rec = static_cast<MyRectItem *>(i);
             QColor f = rectFColor->color();
             if (rectLineWidth->value() == 0) {
                 rec->setPen(Qt::NoPen);
@@ -2027,6 +2029,7 @@ void TitleWidget::rectChanged()
                 QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rec->boundingRect().width()), int(rec->boundingRect().height()));
                 rec->setBrush(QBrush(gr));
             }
+            rec->setCornerRadius(rectCornerRadius->value());
         } else if (i->type() == ELLIPSEITEM && (settingUp == 0)) {
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(i);
             QColor f = rectFColor->color();
@@ -3245,7 +3248,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         } else if ((referenceItem)->type() == RECTITEM) {
             showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             settingUp = 1;
-            auto *rec = static_cast<QGraphicsRectItem *>(referenceItem);
+            auto *rec = static_cast<MyRectItem *>(referenceItem);
             if (rec == m_startViewport || rec == m_endViewport) {
                 enableToolbars(GraphicsSceneRectMove::TITLE_SELECT);
             } else {
@@ -3273,6 +3276,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 } else {
                     rectLineWidth->setValue(rec->pen().width());
                 }
+                rectCornerRadius->setValue(rec->cornerRadius());
                 enableToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             }
 
