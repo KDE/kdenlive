@@ -14,10 +14,11 @@
 #pragma once
 
 #include "graphicsscenerectmove.h"
-#include "utils/timecode.h"
 #include "titler/titledocument.h"
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"
+#include "utils/timecode.h"
+#include "widgets/dragvalue.h"
 
 #include <KNSWidgets/Action>
 #include <QMap>
@@ -161,6 +162,8 @@ private:
     QAction *m_createTitleAction;
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
+
+    MySpinBox *rectCornerRadius;
 
     PatternsModel *m_patternsModel;
 

@@ -21,6 +21,7 @@
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "titler/patternsmodel.h"
+#include "widgets/dragvalue.h"
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
@@ -185,6 +186,11 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     splitter->setStretchFactor(0, 20);
 
     m_duration->setValue(KdenliveSettings::title_duration());
+
+    rectCornerRadius = new MySpinBox(rectangle);
+    rectCornerRadius->setSuffix(i18n(" pixels"));
+    rectCornerRadius->setMaximum(1000);
+    gridLayout_2->addWidget(rectCornerRadius, 4, 1);
 
     connect(backgroundColor, &KColorButton::changed, this, &TitleWidget::slotChangeBackground);
     connect(backgroundAlpha, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotChangeBackground);
