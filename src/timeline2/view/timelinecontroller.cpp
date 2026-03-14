@@ -3369,6 +3369,38 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     return res;
 }
 
+void TimelineController::insertAtTimecode(const QString &binId)
+{
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+    if (!clip) {
+        pCore->displayMessage(i18n("Clip not found in project bin"), ErrorMessage);
+        return;
+    }
+
+    int vIndex = qMax(0, clip->getProducerIntProperty(QStringLiteral("video_index")));
+    QString tcString = clip->getProducerProperty(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(vIndex));
+    if (tcString.isEmpty()) tcString = clip->getProducerProperty(QStringLiteral("meta.attr.timecode.markup"));
+    if (tcString.isEmpty()) tcString = clip->getProducerProperty(QStringLiteral("meta.media.%1.codec.timecode").arg(vIndex));
+    if (tcString.isEmpty()) {
+        pCore->displayMessage(i18n("No timecode metadata found in clip"), ErrorMessage);
+        return;
+    }
+
+    int trackId = m_activeTrack;
+    if (trackId == -1 || m_model->isAudioTrack(trackId)) {
+        trackId = videoTarget();
+    }
+    if (trackId == -1) {
+        pCore->displayMessage(i18n("Please select a target video track"), ErrorMessage);
+        return;
+    }
+
+    int startFrame = pCore->timecode().getFrameCount(tcString);
+    int newClipId = -1;
+    m_model->requestClipInsertion(binId, trackId, startFrame, newClipId, true, true, false);
+    Q_EMIT seeked(startFrame);
+}
+
 void TimelineController::updateClip(int clipId, const QVector<int> &roles)
 {
     const QModelIndex ix = m_model->makeClipIndexFromID(clipId);

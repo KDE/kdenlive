@@ -2439,6 +2439,13 @@ void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<M
     pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
 }
 
+void ProjectManager::insertAtTimecode(const QString &binId)
+{
+    if (m_activeTimelineModel) {
+        pCore->window()->getCurrentTimeline()->controller()->insertAtTimecode(binId);
+    }
+}
+
 void ProjectManager::replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo)
 {
     std::shared_ptr<ProjectClip> currentItem = pCore->projectItemModel()->getClipByBinID(sourceId);

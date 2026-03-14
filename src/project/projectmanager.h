@@ -144,6 +144,8 @@ public:
      * @param replaceAudio if true, only the audio clips will be replaced. if false, only the video parts.
      */
     void replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo);
+    /** @brief Insert selected clip at metadata Timecode*/
+    void insertAtTimecode(const QString &binId);
     /** @brief Sync the recent file list to settings file
      */
     void saveRecentFiles();

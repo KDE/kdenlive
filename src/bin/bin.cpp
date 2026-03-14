@@ -2198,6 +2198,32 @@ void Bin::replaceSingleClip(const QString clipId, const QString &newUrl)
     }
 }
 
+void Bin::slotInsertAtTimecode()
+{
+    std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
+    if (!clip) return;
+    pCore->projectManager()->insertAtTimecode(clip->binId());
+}
+
+bool Bin::hasTimecode()
+{
+    std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
+    if (!clip) {
+        return false;
+    }
+    int vIndex = qMax(0, clip->getProducerIntProperty(QStringLiteral("video_index")));
+    if (!clip->getProducerProperty(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(vIndex)).isEmpty()) {
+        return true;
+    }
+    if (!clip->getProducerProperty(QStringLiteral("meta.attr.timecode.markup")).isEmpty()) {
+        return true;
+    }
+    if (!clip->getProducerProperty(QStringLiteral("meta.media.%1.codec.timecode").arg(vIndex)).isEmpty()) {
+        return true;
+    }
+    return false;
+}
+
 void Bin::slotReplaceClipInTimeline()
 {
     // Check if we have 2 selected clips
@@ -3054,6 +3080,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_proxyAction->setEnabled(m_doc->useProxy() && !isFolder);
             m_reloadAction->setEnabled(isClip && type != ClipType::Timeline);
             m_reloadAction->setVisible(!isFolder);
+            m_insertAtTimecodeAction->setEnabled(hasTimecode());
+            m_insertAtTimecodeAction->setVisible(!isFolder);
             m_replaceAction->setEnabled(isClip);
             m_replaceAction->setVisible(!isFolder);
             m_replaceInTimelineAction->setEnabled(isClip);
@@ -3106,6 +3134,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
     m_transcodeAction->setEnabled(false);
     m_proxyAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
+    m_insertAtTimecodeAction->setEnabled(false);
     m_replaceAction->setEnabled(false);
     m_replaceInTimelineAction->setEnabled(false);
     m_locateAction->setEnabled(false);
@@ -3903,6 +3932,9 @@ void Bin::setupGeneratorMenu()
     if (m_reloadAction) {
         m_menu->addAction(m_reloadAction);
     }
+    if (m_insertAtTimecodeAction) {
+        m_menu->addAction(m_insertAtTimecodeAction);
+    }
     if (m_replaceAction) {
         m_menu->addAction(m_replaceAction);
     }
@@ -4017,6 +4049,11 @@ void Bin::setupMenu()
     m_transcodeAction->setData("transcode_clip");
     m_transcodeAction->setEnabled(false);
     connect(m_transcodeAction, &QAction::triggered, this, &Bin::requestSelectionTranscoding);
+
+    m_insertAtTimecodeAction = addBinAction(QStringLiteral("insert_at_timecode"), i18n("Insert at Timecode"), QIcon::fromTheme(QStringLiteral("")));
+    m_insertAtTimecodeAction->setData("insert_at_timecode");
+    m_insertAtTimecodeAction->setEnabled(false);
+    connect(m_insertAtTimecodeAction, &QAction::triggered, this, &Bin::slotInsertAtTimecode);
 
     m_replaceAction = addBinAction(QStringLiteral("replace_clip"), i18n("Replace Clip…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
     m_replaceAction->setData("replace_clip");

@@ -220,6 +220,8 @@ public:
     /** @brief Request a seek operation
        @param position is the desired new timeline position
      */
+    /** @brief Insert selected clip at metadata Timecode */
+    void insertAtTimecode(const QString &binId);
     Q_INVOKABLE void setPosition(int position);
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
