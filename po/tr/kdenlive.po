@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-13 02:38+0000\n"
-"PO-Revision-Date: 2026-03-09 21:45+0300\n"
+"PO-Revision-Date: 2026-03-13 14:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -27600,17 +27600,15 @@ msgstr ""
 #: src/mainwindow.cpp:1534
 #, kde-format
 msgid "Mouse Zoom on Playhead"
-msgstr ""
+msgstr "Oynatma Kafasında Fare ile Yakınlaştır"
 
 #: src/mainwindow.cpp:1535
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the mouse zoom on playhead feature (default is Off)."
 msgstr ""
-"Zaman akışındaki klip künyelerinin görüntülenmesini açar/kapatır (öntanımlı "
-"olarak açık)."
+"Oynatma kafasında fareyle yakınlaştırma özelliğini açıp kapatır (öntanımlı "
+"olarak kapalıdır)."
 
 #: src/mainwindow.cpp:1541
 #, kde-format
@@ -30561,7 +30559,7 @@ msgstr "Tam YB 1080"
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD Ready 768p"
-msgstr ""
+msgstr "HD Ready 768p"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, kde-format
@@ -34369,10 +34367,9 @@ msgstr "Düzenlenecek öge yok"
 
 #: src/timeline2/view/timelinecontroller.cpp:3010
 #: src/timeline2/view/timelinecontroller.cpp:3147
-#, fuzzy, kde-format
-#| msgid "Cannot change clip state"
+#, kde-format
 msgid "Cannot change speed of item(s)"
-msgstr "Klip durumu değiştirilemiyor"
+msgstr "Ögelerin hızı değiştirilemiyor"
 
 #: src/timeline2/view/timelinecontroller.cpp:3207
 #: src/timeline2/view/timelinecontroller.cpp:5600
@@ -36907,10 +36904,9 @@ msgstr "Çıkış aygıtı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configsdl_ui.ui:196
-#, fuzzy, kde-format
-#| msgid "Monitor for fullscreen output:"
+#, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "Tam ekran çıkışını izle:"
+msgstr "Monitörü tam ekranda yansıt:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -39117,10 +39113,9 @@ msgstr "Günlük dosyalarını tut"
 
 #. i18n: ectx: property (text), widget (QCheckBox, add_to_bin)
 #: src/ui/renderwidget_ui.ui:886
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Add to Project Bin"
-msgstr "Proje Kovası"
+msgstr "Proje kovasına ekle"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:908

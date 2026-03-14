@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-13 02:38+0000\n"
-"PO-Revision-Date: 2026-03-01 12:28+0200\n"
+"PO-Revision-Date: 2026-03-13 09:29+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -27814,16 +27814,15 @@ msgstr ""
 #: src/mainwindow.cpp:1534
 #, kde-format
 msgid "Mouse Zoom on Playhead"
-msgstr ""
+msgstr "Масштабування мишею на позиції відтворення"
 
 #: src/mainwindow.cpp:1535
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the mouse zoom on playhead feature (default is Off)."
 msgstr ""
-"Вмикає або вимикає показ міток кліпів на монтажному столі (типово увімкнено)."
+"Вмикає або вимикає можливість масштабування мишею на позиції відтворення "
+"(типово вимкнено)"
 
 #: src/mainwindow.cpp:1541
 #, kde-format
@@ -30792,7 +30791,7 @@ msgstr "Full HD 1080"
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD Ready 768p"
-msgstr ""
+msgstr "HD Ready 768p"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, kde-format
@@ -34666,10 +34665,9 @@ msgstr "Немає записів для редагування"
 
 #: src/timeline2/view/timelinecontroller.cpp:3010
 #: src/timeline2/view/timelinecontroller.cpp:3147
-#, fuzzy, kde-format
-#| msgid "Cannot change clip state"
+#, kde-format
 msgid "Cannot change speed of item(s)"
-msgstr "Не вдалося змінити стан кліпу"
+msgstr "Не вдалося змінити швидкість записів"
 
 #: src/timeline2/view/timelinecontroller.cpp:3207
 #: src/timeline2/view/timelinecontroller.cpp:5600
@@ -37228,10 +37226,9 @@ msgstr "Пристрій виводу:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configsdl_ui.ui:196
-#, fuzzy, kde-format
-#| msgid "Monitor for fullscreen output:"
+#, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "Монітор для повноекранного виведення:"
+msgstr "Віддзеркалення монітора у повноекранному режимі:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -39440,10 +39437,9 @@ msgstr "Зберігати файли журналу"
 
 #. i18n: ectx: property (text), widget (QCheckBox, add_to_bin)
 #: src/ui/renderwidget_ui.ui:886
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Add to Project Bin"
-msgstr "Контейнер проєкту"
+msgstr "Додати до контейнера проєкту"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:908
