@@ -405,8 +405,10 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
-    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move vertically, "
-                                                           "Alt+Shift+Drag to move horizontally, Shift+Drag edge to center resize, Ctrl+Drag to pan."));
+    m_buttonCursor->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move vertically, "
+               "Alt+Shift+Drag to move horizontally, Shift+Drag edge to center resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."));
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
