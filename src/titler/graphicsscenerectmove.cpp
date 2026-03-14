@@ -1133,6 +1133,14 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
             qreal outerLeftDist = qAbs(itemRect.left() - rect.right());
             qreal innerLeftDist = qAbs(itemRect.left() - rect.left());
             qreal innerRightDist = qAbs(itemRect.right() - rect.right());
+            qreal centerDist = qAbs(itemRect.center().x() - rect.center().x());
+
+            if (centerDist < bestXDistance) {
+                bestX = itemRect.center().x() - rect.width() / 2;
+                bestXDistance = centerDist;
+                bestXItem = item;
+                bestXHappened = itemRect.center().x();
+            }
             if (outerRightDist < bestXDistance) {
                 bestX = itemRect.right();
                 bestXDistance = outerRightDist;
@@ -1164,6 +1172,14 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
             qreal outerTopDist = qAbs(itemRect.top() - rect.bottom());
             qreal innerTopDist = qAbs(itemRect.top() - rect.top());
             qreal innerBottomDist = qAbs(itemRect.bottom() - rect.bottom());
+            qreal centerDist = qAbs(itemRect.center().y() - rect.center().y());
+
+            if (centerDist < bestYDistance) {
+                bestY = itemRect.center().y() - rect.height() / 2;
+                bestYDistance = centerDist;
+                bestYItem = item;
+                bestYHappened = itemRect.center().y();
+            }
             if (outerBottomDist < bestYDistance) {
                 bestY = itemRect.bottom();
                 bestYDistance = outerBottomDist;
