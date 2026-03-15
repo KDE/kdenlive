@@ -1266,6 +1266,31 @@
       <default>#2ed172</default>
     </entry>
 
+    <entry name="videoColor" type="Color">
+      <label>Color for video clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="audioColor" type="Color">
+      <label>Color for audio clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="titleColor" type="Color">
+      <label>Color for title clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="imageColor" type="Color">
+      <label>Color to draw image clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+    
+    <entry name="slideshowColor" type="Color">
+      <label>Color for slideshow clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
     <entry name="overlayColor" type="Color">
       <label>Color to draw the monitor overlay guides.</label>
       <default>#00ffff</default>

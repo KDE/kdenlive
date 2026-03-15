@@ -2985,6 +2985,11 @@ void MainWindow::updateConfiguration()
     // Update list of transcoding profiles
     buildDynamicActions();
     loadClipActions();
+
+    TimelineWidget *current = getCurrentTimeline();
+    if (current) {
+        current->controller()->resetView();
+    }
 }
 
 void MainWindow::slotSwitchVideoThumbs()

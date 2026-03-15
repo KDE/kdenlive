@@ -4993,6 +4993,9 @@ bool TimelineController::hasKeyframeAt(int cid, int frame)
 
 QColor TimelineController::videoColor() const
 {
+    if (KdenliveSettings::videoColor().alpha() > 0) {
+        return KdenliveSettings::videoColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     return scheme.foreground(KColorScheme::LinkText).color();
 }
@@ -5016,11 +5019,17 @@ QColor TimelineController::targetTextColor() const
 
 QColor TimelineController::audioColor() const
 {
+    if (KdenliveSettings::audioColor().alpha() > 0) {
+        return KdenliveSettings::audioColor();
+    }
     return KdenliveSettings::thumbColor1().darker(150);
 }
 
 QColor TimelineController::titleColor() const
 {
+    if (KdenliveSettings::titleColor().alpha() > 0) {
+        return KdenliveSettings::titleColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     QColor base = scheme.foreground(KColorScheme::LinkText).color();
     QColor high = scheme.foreground(KColorScheme::NegativeText).color();
@@ -5031,12 +5040,18 @@ QColor TimelineController::titleColor() const
 
 QColor TimelineController::imageColor() const
 {
+    if (KdenliveSettings::imageColor().alpha() > 0) {
+        return KdenliveSettings::imageColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     return scheme.foreground(KColorScheme::NeutralText).color();
 }
 
 QColor TimelineController::slideshowColor() const
 {
+    if (KdenliveSettings::slideshowColor().alpha() > 0) {
+        return KdenliveSettings::slideshowColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     QColor base = scheme.foreground(KColorScheme::LinkText).color();
     QColor high = scheme.foreground(KColorScheme::NeutralText).color();
