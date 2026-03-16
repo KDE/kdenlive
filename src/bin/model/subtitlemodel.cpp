@@ -1243,7 +1243,7 @@ int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFi
     QFile outF(outFile);
 
     QWriteLocker locker(&m_lock);
-    if (list.isEmpty()) {
+    if (list.isEmpty() && !m_subtitleList.empty()) {
         qDebug() << "Error : Json file should be an array";
         return 0;
     }

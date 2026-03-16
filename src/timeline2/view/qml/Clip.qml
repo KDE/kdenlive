@@ -75,7 +75,7 @@ Rectangle {
     property bool forceReloadAudioThumb
     property bool isComposition: false
     property int slipOffset: boundValue(outPoint - maxDuration + 1, root.trimmingOffset, inPoint)
-    visible: scrollView.lastVisibleFrame > clipRoot.modelStart && scrollView.firstVisibleFrame <= (clipRoot.modelStart + clipRoot.clipDuration)
+    visible: fakeTid > -1 || (scrollView.lastVisibleFrame > clipRoot.modelStart && scrollView.firstVisibleFrame <= (clipRoot.modelStart + clipRoot.clipDuration))
     property int scrollStart: visible ? scrollView.contentX - (clipRoot.modelStart * root.timeScale) : 0
     property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
     property bool hideDecorations: !root.showClipOverlays || !visible || trimInMouseArea.drag.active || trimOutMouseArea.drag.active || fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active
