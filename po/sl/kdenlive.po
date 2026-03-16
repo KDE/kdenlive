@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-13 02:38+0000\n"
-"PO-Revision-Date: 2026-03-02 14:42+0100\n"
+"PO-Revision-Date: 2026-03-14 22:47+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -27639,15 +27639,13 @@ msgstr "Preklopi prikaz imen in podatkov posnetkov na časovnici."
 #: src/mainwindow.cpp:1534
 #, kde-format
 msgid "Mouse Zoom on Playhead"
-msgstr ""
+msgstr "Povečava z miško na predvajalni glavi"
 
 #: src/mainwindow.cpp:1535
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the mouse zoom on playhead feature (default is Off)."
-msgstr "Preklopi prikaz značk posnetkov na časovnici (privzeto vklopljeno)."
+msgstr "Preklopi povečavo z miško na predvajalni glavi (privzeto izklopljeno)."
 
 #: src/mainwindow.cpp:1541
 #, kde-format
@@ -30597,7 +30595,7 @@ msgstr "Full HD 1080"
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD Ready 768p"
-msgstr ""
+msgstr "HD Ready 768p"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, kde-format
@@ -34444,10 +34442,9 @@ msgstr "Ni predmeta urejanja"
 
 #: src/timeline2/view/timelinecontroller.cpp:3010
 #: src/timeline2/view/timelinecontroller.cpp:3147
-#, fuzzy, kde-format
-#| msgid "Cannot change clip state"
+#, kde-format
 msgid "Cannot change speed of item(s)"
-msgstr "Ni možno spremeniti stanja posnetka"
+msgstr "Ni možno spremeniti hitrosti elementov"
 
 #: src/timeline2/view/timelinecontroller.cpp:3207
 #: src/timeline2/view/timelinecontroller.cpp:5600
@@ -36981,10 +36978,9 @@ msgstr "Izhodna naprava:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configsdl_ui.ui:196
-#, fuzzy, kde-format
-#| msgid "Monitor for fullscreen output:"
+#, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "Zaslon za celozaslonski video:"
+msgstr "Zrcali zaslon v celozaslonskem načinu:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -39186,10 +39182,9 @@ msgstr "Ohrani dnevniške datoteke"
 
 #. i18n: ectx: property (text), widget (QCheckBox, add_to_bin)
 #: src/ui/renderwidget_ui.ui:886
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Add to Project Bin"
-msgstr "Projektna posoda"
+msgstr "Dodaj v projektno posodo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:908
