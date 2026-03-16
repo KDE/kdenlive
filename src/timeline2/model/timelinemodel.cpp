@@ -3575,12 +3575,15 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     std::unordered_set<int> all_items;
-    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
-        int groupId = m_groups->getRootId(itemId);
+    std::unordered_set<int> selectionOnlyItems;
+    if (!allowSingleResize) {
+        int splitId = m_groups->getSplitPartner(itemId);
         std::unordered_set<int> items;
-        if (m_groups->getType(groupId) == GroupType::AVSplit) {
+        if (splitId != -1) {
             // Only resize group elements if it is an avsplit
-            items = m_groups->getLeaves(groupId);
+            items.insert(splitId);
+            items.insert(itemId);
+
         } else {
             all_items.insert(itemId);
         }
@@ -3599,11 +3602,24 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
                 all_items.insert(id);
             }
         }
+        for( int id : getCurrentSelection()) {
+            if (id == itemId || all_items.find(id) != all_items.end() || !isClip(id)) {
+                continue;
+            }
+            all_items.insert(id);
+            selectionOnlyItems.insert(id);
+        }
     } else {
         all_items.insert(itemId);
     }
     bool result = true;
     for (int id : all_items) {
+        // calculate size of each item
+        int itemSize = size;
+        if (selectionOnlyItems.find(id) != selectionOnlyItems.end()) {
+            itemSize = getItemPlaytime(id) * qAbs(getClipSpeed(id)) / qAbs(speed);
+        }
+
         int tid = getItemTrackId(id);
         if (tid > -1 && trackIsLocked(tid)) {
             continue;
@@ -3613,7 +3629,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
         int invalidateIn = pos;
         int invalidateOut = invalidateIn + getClipPlaytime(id);
         if (!right) {
-            pos += getItemPlaytime(id) - size;
+            pos += getItemPlaytime(id) - itemSize;
         }
         bool hasVideo = false;
         bool hasAudio = false;
@@ -3628,7 +3644,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
         result = getTrackById(tid)->requestClipDeletion(id, true, false, undo, redo, false, false);
         bool pitchCompensate = m_allClips[id]->getIntProperty(QStringLiteral("warp_pitch"));
         result = result && requestClipTimeWarp(id, speed, pitchCompensate, true, undo, redo);
-        result = result && requestItemResize(id, size, true, true, undo, redo);
+        result = result && requestItemResize(id, itemSize, true, true, undo, redo);
         result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, false, undo, redo, false, false);
         if (!result) {
             break;
