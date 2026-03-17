@@ -48,6 +48,7 @@ std::shared_ptr<ProfileTreeModel> ProfileTreeModel::construct(QObject *parent)
         {createCat(i18n("4K DCI 2160")), {{4096, 2160, -1}}},
         {createCat(i18n("2.5K QHD 1440")), {{-1, 1440, -1}}},
         {createCat(i18n("Full HD 1080")), {{1920, 1080, -1}}},
+        {createCat(i18n("HD Ready 768p")), {{1366, 768, -1}}},
         {createCat(i18n("HD 720")), {{-1, 720, -1}}},
         {createCat(i18n("SD/DVD")), {{720, QVariant::fromValue(QPair<int, int>{480, 576}), 4}}},
         {createCat(i18n("SD/DVD Widescreen")), {{720, QVariant::fromValue(QPair<int, int>{480, 576}), 16}}},

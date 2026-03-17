@@ -157,9 +157,9 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
         pCore->projectManager()->openTimeline(id, -1, uuid);
         std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(uuid);
-        Fun local_redo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model); };
+        Fun local_redo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model, true, true); };
         Fun local_undo = [uuid]() {
-            pCore->projectManager()->closeTimeline(uuid, true, false);
+            pCore->projectManager()->closeTimeline(uuid, true, false, true);
             return true;
         };
         pCore->currentDoc()->checkUsage(uuid);
@@ -225,9 +225,9 @@ QString ClipCreator::createPlaylistClipWithUndo(const QString &name, std::pair<i
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
         pCore->projectManager()->openTimeline(id, -1, uuid);
         std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(uuid);
-        Fun local_redo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model); };
+        Fun local_redo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model, true, true); };
         Fun local_undo = [uuid]() {
-            pCore->projectManager()->closeTimeline(uuid, true, false);
+            pCore->projectManager()->closeTimeline(uuid, true, false, true);
             return true;
         };
         UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);

@@ -839,7 +839,7 @@ function getTrackColor(audio, header) {
             if (binIds.length === 1) {
                 id = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true, false)
             } else {
-                var ids = timeline.insertClips(timeline.activeTrack, frame, binIds, false, true, false)
+                var ids = timeline.insertClips(timeline.activeTrack, frame, binIds, false, true)
 
                 // if the clip insertion succeeded, request the clips to be grouped
                 if (ids.length > 0) {
@@ -852,6 +852,7 @@ function getTrackColor(audio, header) {
 
         property int fakeFrame: -1
         property int fakeTrack: -1
+        property int lastCheckedFrame: -1
         width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
@@ -930,6 +931,7 @@ function getTrackColor(audio, header) {
         onEntered: drag => {
             lastYPos = -1
             upMove = 0
+            lastCheckedFrame = -1
             if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('text/dragid') && timeline.exists(clipBeingDroppedId)) {
                 // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
                 processDrop()
@@ -952,12 +954,13 @@ function getTrackColor(audio, header) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
                         // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
-                        frame = controller.adjustFrame(frame, timeline.activeTrack)
-                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
+                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
                         if (clipBeingDroppedId > -1) {
                             var moveData = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                             fakeFrame = moveData[0]
                             fakeTrack = moveData[1]
+                        } else {
+                            console.log('FAILED CLIP INSERT AND GROUP')
                         }
                     }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
@@ -1006,18 +1009,24 @@ function getTrackColor(audio, header) {
                     if (track >= 0  && track < tracksRepeater.count) {
                         var targetTrack = tracksRepeater.itemAt(track).trackInternalId
                         frame = controller.suggestSnapPoint(frame, root.snapping)
-                        if (controller.normalEdit()) {
+                        if (lastCheckedFrame != frame) {
                             timeline.activeTrack = targetTrack
-                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, drag.getDataAsString('text/producerslist'), false, true)
-                        } else {
-                            // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
-                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, timeline.fullDuration, clipBeingDroppedData)
-                            if (clipBeingDroppedId > -1) {
-                                var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
-                                fakeFrame = moveData[0]
-                                fakeTrack = moveData[1]
-                                timeline.activeTrack = fakeTrack
+                            if (controller.normalEdit()) {
+                                clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame,
+                                                                     drag.getDataAsString('text/producerslist'), false, true)
+                            } else {
+                                // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
+                                clipBeingDroppedId = insertAndMaybeGroup(targetTrack, timeline.fullDuration, clipBeingDroppedData)
+                                if (clipBeingDroppedId > -1) {
+                                    var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
+                                    fakeFrame = moveData[0]
+                                    fakeTrack = moveData[1]
+                                    timeline.activeTrack = fakeTrack
+                                } else {
+                                    console.log('FAILED INSERT.......', frame,', ON TRACK: ', targetTrack)
+                                }
                             }
+                            lastCheckedFrame = frame
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                     } else {

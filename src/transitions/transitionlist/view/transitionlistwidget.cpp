@@ -17,6 +17,7 @@
 #include <QDir>
 #include <QHeaderView>
 #include <QProcess>
+#include <QScrollBar>
 #include <QStandardPaths>
 #include <QToolBar>
 #include <qsplitter.h>
@@ -96,6 +97,12 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     connect(m_viewSplitter, &QSplitter::splitterMoved, this, [this]() {
         const QByteArray splitterData = m_viewSplitter->saveState();
         KdenliveSettings::setTransitionsInfoHeight(QString::fromLatin1(splitterData));
+    });
+    connect(m_effectsIcon->verticalScrollBar(), &QScrollBar::valueChanged, this, [this]() {
+        auto currentIndex = m_effectsIcon->indexAt(m_effectsIcon->mapFromGlobal(QCursor::pos()));
+        if (currentIndex.isValid()) {
+            iconViewEntered(currentIndex);
+        }
     });
 }
 
@@ -310,50 +317,19 @@ void TransitionListWidget::showLumas()
 
 void TransitionListWidget::updateTransitionInfo(const QModelIndex &current, const QModelIndex &previous)
 {
-    if (previous.isValid()) {
-        // Stop previous animation
-        QString previousId = previous.data(AssetTreeModel::IdRole).toString();
-        if (previousId.isEmpty() || previousId == QLatin1String("root")) {
-            // Nothing to do
-        } else {
-            auto type = previous.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-            if (type == AssetListType::AssetType::LumaTransition) {
-                previousId = QFileInfo(previousId).baseName();
-            }
-            auto movie = m_iconDelegate->getMovie(previousId);
-            if (movie) {
-                movie->stop();
-            }
-        }
-    }
     // Get transition ID
     QString transitionId = current.data(AssetTreeModel::IdRole).toString();
     if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
         return;
-    }
-    // Luma transition id is the full path to luma, adjust
-    auto type = current.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-    if (type == AssetListType::AssetType::LumaTransition) {
-        transitionId = QFileInfo(transitionId).baseName();
-    }
-    auto movie = m_iconDelegate->getMovie(transitionId);
-    if (movie) {
-        // Connect to frameChanged to trigger repaint
-        QObject::disconnect(m_animationConnection);
-        m_animationConnection = connect(movie, &QMovie::frameChanged, [this, current]() {
-            // Find all list views using this delegate
-            m_effectsIcon->update(current);
-        });
-        movie->start();
     }
     updateAssetInfo(current, previous);
 }
 
 void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
 {
-    iconViewExited();
     QString transitionId = ix.data(AssetTreeModel::IdRole).toString();
     if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
+        iconViewExited();
         return;
     }
     // Luma transition id is the full path to luma, adjust
@@ -361,14 +337,17 @@ void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
     if (type == AssetListType::AssetType::LumaTransition) {
         transitionId = QFileInfo(transitionId).baseName();
     }
-    auto movie = m_iconDelegate->getMovie(transitionId);
+    if (transitionId == m_hoveredTransition) {
+        return;
+    }
+    iconViewExited();
+    auto movie = m_iconDelegate->getMovie(transitionId, true);
     if (movie) {
         m_hoveredTransition = transitionId;
         // Connect to frameChanged to trigger repaint
-        QObject::disconnect(m_animationConnection);
-        m_hoverAnimationConnection = connect(movie, &QMovie::frameChanged, [this, ix]() {
-            // Find all list views using this delegate
-            m_effectsIcon->update(ix);
+        m_hoverAnimationConnection = connect(movie, &QMovie::updated, [this, ix]() {
+            auto index = m_proxyModel->mapToSource(ix);
+            Q_EMIT m_model->dataChanged(index, index, {Qt::DecorationRole, Qt::DisplayRole});
         });
         movie->start();
         qDebug() << "Start Animation...";
@@ -378,10 +357,8 @@ void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
 void TransitionListWidget::iconViewExited()
 {
     if (!m_hoveredTransition.isEmpty()) {
-        auto movie = m_iconDelegate->getMovie(m_hoveredTransition);
-        if (movie) {
-            movie->stop();
-        }
+        auto movie = m_iconDelegate->getMovie(m_hoveredTransition, true);
+        movie->stop();
         QObject::disconnect(m_hoverAnimationConnection);
         m_hoveredTransition.clear();
     }

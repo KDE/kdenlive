@@ -881,6 +881,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </widget>
            </item>
            <item>
+            <widget class="QCheckBox" name="add_to_bin">
+             <property name="text">
+              <string>Add to Project Bin</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QTextEdit" name="advanced_params">
              <property name="readOnly">
               <bool>true</bool>

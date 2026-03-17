@@ -122,7 +122,7 @@ public:
      *  @returns true if the timeline was not previously opened
      */
     bool openTimeline(const QString &id, int ix, const QUuid &uuid, int position = -1, bool duplicate = false,
-                      std::shared_ptr<TimelineItemModel> existingModel = nullptr, bool openInMonitor = true);
+                      std::shared_ptr<TimelineItemModel> existingModel = nullptr, bool openInMonitor = true, bool forceCompositingForExistingModel = false);
     bool buildTimeline(const QString &binId, const QUuid &uuid);
     /** @brief Set a property on timeline uuid
      */
@@ -134,7 +134,7 @@ public:
     void activateDocument(const QUuid &uuid);
     /** @brief Close a timeline tab through its uuid
      */
-    bool closeTimeline(const QUuid &uuid, bool onDeletion = false, bool clearUndo = true);
+    bool closeTimeline(const QUuid &uuid, bool onDeletion = false, bool clearUndo = true, bool checkActiveClosed = false);
     /** @brief Update a timeline sequence before saving or extracting xml
      */
     void syncTimeline(const QUuid &uuid, bool refresh = false);

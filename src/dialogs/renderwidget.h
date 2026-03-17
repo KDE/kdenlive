@@ -78,6 +78,7 @@ public:
         LastFrameRole,
         OpenBrowserRole,
         PlayAfterRole,
+        AddToBinRole,
         LogFileRole,
         PlaylistFileRole,
         PlaylistDisplayRole,

@@ -150,7 +150,7 @@ public:
     /** @brief Returns a pointer to the timeline with @uuid */
     TimelineWidget *getTimeline(const QUuid uuid) const;
     void getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props);
-    void closeTimelineTab(const QUuid uuid, bool onDeletion);
+    void closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed=false);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
     DopeWidget *m_dopeWidget;
@@ -316,6 +316,7 @@ private:
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
     QAction *m_buttonTimelineTags;
+    QAction *m_buttonMouseZoomOnPlayhead;
     QAction *m_normalEditTool;
     QAction *m_overwriteEditTool;
     QAction *m_insertEditTool;
@@ -460,6 +461,7 @@ private Q_SLOTS:
     void slotSwitchSnap();
     void slotSwitchClipOverlays();
     void slotShowTimelineTags();
+    void slotMouseZoomOnPlayhead();
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();

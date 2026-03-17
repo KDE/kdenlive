@@ -212,6 +212,12 @@ protected:
     void updateBgColor();
 
 private:
+    const QScreen *getScreenForFullscreen();
+
+    // Fullscreen mirror helpers
+    void createFullscreenMirror();
+    void destroyFullscreenMirror();
+
     std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
     VideoWidget *m_glMonitor;
@@ -272,6 +278,10 @@ private:
     int m_speedIndex;
     QMetaObject::Connection m_switchConnection;
     QMetaObject::Connection m_captureConnection;
+
+    // Fullscreen mirror window & widget.
+    QWidget *m_fullscreenWindow{nullptr};
+    VideoWidget *m_monitorMirror{nullptr};
 
     void adjustScrollBars(float horizontal, float vertical);
     void updateQmlDisplay(int currentOverlay);

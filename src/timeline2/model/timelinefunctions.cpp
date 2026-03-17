@@ -269,7 +269,15 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         int mainOut = mainIn + timeline->getItemPlaytime(clipId);
         if (position > mainIn && position < mainOut) {
             trackToSelect = timeline->getItemTrackId(clipId);
-            if (timeline->getSubtitleModel() != nullptr) subLayerToSelect = timeline->getSubtitleLayer(clipId);
+        }
+    } else if (timeline->isSubTitle(clipId)) {
+        int mainIn = timeline->getItemPosition(clipId);
+        int mainOut = mainIn + timeline->getItemPlaytime(clipId);
+        if (position > mainIn && position < mainOut) {
+            trackToSelect = timeline->getItemTrackId(clipId);
+        }
+        if (timeline->getSubtitleModel() != nullptr) {
+            subLayerToSelect = timeline->getSubtitleLayer(clipId);
         }
     }
     // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)

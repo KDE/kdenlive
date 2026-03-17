@@ -36,11 +36,12 @@ public:
      * @param transitionId The ID of the transition
      * @return A pointer to the QMovie, or nullptr if not found
      */
-    QMovie *getMovie(QString transitionId) const;
+    QMovie *getMovie(QString transitionId, bool animate = false) const;
 
 private:
     QString m_previewDirectory;
     mutable std::unique_ptr<QMovie> m_movie;
+    mutable std::unique_ptr<QMovie> m_animatedMovie;
     mutable QString m_currentTransitionId;
     QPixmap m_defaultPixmap;
     QSize m_iconSize;
