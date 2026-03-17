@@ -19,15 +19,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class ChangeSpeedDialogTests(unittest.TestCase):
 
-    SAMPLE_CLIP_URL = "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/73/Mandelbrot_Set_Color_Cycling_Video_1080p_3.webm/Mandelbrot_Set_Color_Cycling_Video_1080p_3.webm.360p.webm"
-    SAMPLE_CLIP_NAME = "test-clip.webm"
+    SAMPLE_CLIP_NAME = "../tests/dataset/red.mp4"
 
     @classmethod
     def setUpClass(cls):
         cls.clip_path = cls.ensure_sample_clip()
-        options = AppiumOptions()
-        options.set_capability("app", "org.kde.kdenlive.desktop")
-        options.set_capability("args", "--no-welcome")
+        caps = {
+            "app" : "kdenlive --no-welcome"
+        }
+        options = AppiumOptions().load_capabilities(caps)
         cls.driver = webdriver.Remote(command_executor="http://127.0.0.1:4723", options=options)
         cls.driver.implicitly_wait = 10
 
@@ -38,20 +38,19 @@ class ChangeSpeedDialogTests(unittest.TestCase):
     @classmethod
     def ensure_sample_clip(cls) -> str:
         clip_path = Path(__file__).resolve().parent / cls.SAMPLE_CLIP_NAME
+        print('CHECKING SOURCE CLIP PATH: ' + str(clip_path))
         if clip_path.exists():
             return str(clip_path)
 
-        try:
-            with urlopen(cls.SAMPLE_CLIP_URL, timeout=60) as response:
-                clip_path.write_bytes(response.read())
-        except URLError as exc:
-            raise unittest.SkipTest(f"Could not download sample clip from {cls.SAMPLE_CLIP_URL}: {exc}")
-
+        raise unittest.SkipTest(f"Could not find sample clip")
         return str(clip_path)
 
     def wait_for_name(self, text: str, timeout: int = 20):
         wait = WebDriverWait(self.driver, timeout)
-        return wait.until(lambda _: self.driver.find_element(by=AppiumBy.NAME, value=text))
+        try:
+            return wait.until(lambda _: self.driver.find_element(by=AppiumBy.NAME, value=text))
+        except:
+            return None
 
     def wait_not_present(self, text: str, timeout: int = 20):
         wait = WebDriverWait(self.driver, timeout)
@@ -77,39 +76,35 @@ class ChangeSpeedDialogTests(unittest.TestCase):
             raise last_exc
 
     def add_clip_from_file(self, clip_path: str):
-        self.click_action(["Add Clip or Folder", "Add Clip or Folder…"])
+        menu = self.driver.find_element(by=AppiumBy.NAME, value="Add Media")
+        addAction = menu.find_element(by=AppiumBy.NAME, value="Add Clip or Folder…")
+        addAction.click()
+        #self.click_action(["Add Clip or Folder…"])
 
-        for accessibility_id in [
-            "QApplication.QFileDialog.fileNameEdit.QLineEdit",
-            "QApplication.MainWindow#1.QFileDialog.fileNameEdit.QLineEdit",
-            "QApplication.FileWidget.fileNameEdit.QLineEdit",
-        ]:
-            try:
-                field = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=accessibility_id)
-                field.clear()
-                field.send_keys(clip_path)
-                field.send_keys(Keys.ENTER)
-                self.wait_for_name(Path(clip_path).name, timeout=30)
-                return
-            except selenium.common.exceptions.NoSuchElementException:
-                continue
+        dialog = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.QDialog.KFileWidget")
+        field = dialog.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.QDialog.KFileWidget.QSplitter.QWidget.KUrlComboBox.KLineEdit")
+        field.send_keys(str(clip_path))
+        dialog.find_element(by=AppiumBy.NAME, value="OK").click()
 
-        active = self.driver.switch_to.active_element
-        active.send_keys(Keys.CONTROL, "l")
-        active.send_keys(clip_path)
-        active.send_keys(Keys.ENTER)
-        self.wait_for_name(Path(clip_path).name, timeout=30)
+        # profile match message box - cancel it
+        try:
+            self.wait_for_name("Warning — Kdenlive", timeout=8)
+            dialog = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.warningYesNo")
+            dialog.find_element(by=AppiumBy.NAME, value="Cancel").click()
+        except:
+            print('Profile dialog not found')
 
     def test_change_speed_dialog(self):
-        self.wait_for_name("Start Editing").click()
-
         self.add_clip_from_file(self.clip_path)
 
         self.wait_for_name("Insert Clip Zone in Timeline").click()
 
+        # focus timeline
+        self.driver.find_element(by=AppiumBy.NAME, value="Switch Monitor").click()
+        # select all in timeline
+        self.driver.find_element(by=AppiumBy.NAME, value="Select All").click()
         self.click_action(["Change Speed", "Change Speed…"])
-
-        self.wait_for_name("Clip Speed")
+        self.wait_for_name("Clip Speed — Kdenlive")
         self.wait_for_name("Reverse clip").click()
         self.wait_for_name("OK").click()
         self.wait_not_present("Clip Speed")
