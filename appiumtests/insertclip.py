@@ -17,10 +17,11 @@ class SimpleKdenliveTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        options = AppiumOptions()
         # The app capability may be a command line or a desktop file id.
-        options.set_capability("app", "org.kde.kdenlive.desktop")
-        options.set_capability("args", "--no-welcome")
+        caps = {
+            "app" : "kdenlive --no-welcome"
+        }
+        options = AppiumOptions().load_capabilities(caps)
 
         # Boilerplate, always the same
         self.driver = webdriver.Remote(command_executor='http://127.0.0.1:4723', options=options)
@@ -54,16 +55,15 @@ class SimpleKdenliveTests(unittest.TestCase):
         self.assertEqual(self.getStatusText(), expected)
 
     def test_initialize(self):
-        # Close welcome screen
-        self.driver.find_element(by=AppiumBy.NAME, value="Start Editing").click()
-
         self.driver.find_element(by=AppiumBy.NAME, value="Add Color Clip…").click()
         self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.ColorClip_UI.buttonBox.QPushButton").click()
         # insert clip in timeline
         self.driver.find_element(by=AppiumBy.NAME, value="Insert Clip Zone in Timeline").click()
         # insert clip in timeline again
         self.driver.find_element(by=AppiumBy.NAME, value="Insert Clip Zone in Timeline").click()
-        # select all in Bin
+        # focus timeline
+        self.driver.find_element(by=AppiumBy.NAME, value="Switch Monitor").click()
+        # select all in timeline
         self.driver.find_element(by=AppiumBy.NAME, value="Select All").click()
         #wait = WebDriverWait(self.driver, 2)
         self.assertResult(self.getStatusText(), "2 items selected (00:10:00) |")
