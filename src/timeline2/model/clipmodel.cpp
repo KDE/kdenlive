@@ -927,7 +927,14 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     // Q_ASSERT(binClip->statusReady());
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist, remapInfo);
+    int length = m_producer->get_int("length");
     m_producer = std::move(binProducer);
+    if (m_endlessResize) {
+        // if endless resize is enabled, we have to carry the length over from
+        // the other instance, as we might have extended it in a previous
+        // resize.
+        m_producer->set("length", length);
+    }
     m_producer->set_in_and_out(in, out);
     if (m_hasTimeRemap != hasTimeRemap()) {
         m_hasTimeRemap = !m_hasTimeRemap;
