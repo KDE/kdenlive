@@ -15,12 +15,12 @@ Item {
     SystemPalette { id: activePalette }
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     // Effects duration
-    property int frameDuration: 100
+    property int frameDuration: dopesheetmodel.dopeDuration
     property int mouseFramePos: -1
     property int hoverKeyframe: -1
     property var keyframeType
     // The position in frame of the stack owner
-    property int offset: 0
+    property int offset: dopesheetmodel.dopePosition
     property color hoverColor: "#cc9900"
     // Ruler scaling, 1 means view is fully visible, 2 means zoomed twice
     property real timeScale: 1
@@ -55,9 +55,7 @@ Item {
         console.log('UPDATED DOPE POSITION: ', consumerPosition)
     }
 
-    function updateOwner(totalDuration, itemStartPos) {
-        root.frameDuration = totalDuration
-        root.offset = itemStartPos
+    function updateOwner() {
         root.contentScroll = 0
         root.timeScale = 1
     }
@@ -125,7 +123,7 @@ Item {
             });
             keyframesList.push(elem.kfrs)
         }
-        timeline.dopeSheetModel().removeKeyframes(indexList, keyframesList)
+        dopesheetmodel.removeKeyframes(indexList, keyframesList)
     }
 
     function keyframeSelected(itemIndex, keyframeIndex) {
@@ -199,7 +197,7 @@ Item {
         bottomPos.y = Math.min(treeView.contentHeight - 1, bottomPos.y)
         var topRow = treeView.cellAtPosition(topPos)
         var bottomRow = treeView.cellAtPosition(bottomPos)
-        var result = timeline.dopeSheetModel().selectKeyframeRange(treeView.modelIndex(topRow), treeView.modelIndex(bottomRow), startFrame, endFrame)
+        var result = dopesheetmodel.selectKeyframeRange(treeView.modelIndex(topRow), treeView.modelIndex(bottomRow), startFrame, endFrame)
         updateSelectedKeyframesFromModel(result, addToSelection)
     }
 
@@ -207,7 +205,7 @@ Item {
         if (!addToSelection) {
             root.allSelectedKeyframes = []
         }
-        var indexes = timeline.dopeSheetModel().selectedIndexes()
+        var indexes = dopesheetmodel.selectedIndexes()
         while (indexes.length > 0) {
             var id = indexes.pop()
             if (!id.valid) {
@@ -261,7 +259,7 @@ Item {
                         checkable: true
                         ActionGroup.group: currTypeActions
                         onTriggered: {
-                            timeline.dopeSheetModel().changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
+                            dopesheetmodel.changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
                             root.keyframeType = keyframeTypes[text]
                         }
                     }
@@ -309,11 +307,10 @@ Item {
         }
         Ruler {
             id: ruler
-            width: parent.width
-            height: parent.height
+            width: rulercontainer.width
+            height: rulercontainer.height
             rulerOffset: root.offset
             scalingFactor: root.timeScale * root.maximumScaleFactor
-            maxDuration: root.frameDuration
             hideZone: true
         }
     }
@@ -423,14 +420,14 @@ Item {
             text: i18n("Copy")
             enabled: root.hoverKeyframe > -1
             onTriggered: {
-                timeline.dopeSheetModel().copyKeyframes(root.allSelectedKeyframes)
+                dopesheetmodel.copyKeyframes(root.allSelectedKeyframes)
             }
         }
         MenuItem {
             text: i18n("Move to Playhead")
             enabled: root.hoverKeyframe > -1
             onTriggered: {
-                timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, root.mouseFramePos, root.consumerPosition, true)
+                dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, root.mouseFramePos, root.consumerPosition, true)
             }
         }
         Menu {
@@ -452,7 +449,7 @@ Item {
                         ActionGroup.group: typeActions
                         onTriggered: {
                             console.log('changing kf type to: ', keyframeTypes[text], ' current: ', root.keyframeType)
-                            timeline.dopeSheetModel().changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
+                            dopesheetmodel.changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
                             root.keyframeType = keyframeTypes[text]
                         }
                     }
@@ -465,7 +462,7 @@ Item {
                 if (treeView.selectedKeyframe > -1) {
                     console.log('Removing keyframe')
                     // Double click on a keyframe, remove it
-                    timeline.dopeSheetModel().removeKeyframe(treeView.activeIndex, treeView.selectedKeyframe)
+                    dopesheetmodel.removeKeyframe(treeView.activeIndex, treeView.selectedKeyframe)
                     treeView.selectedKeyframe = -1
                     treeView.activeIndex = -1
                     root.hoverKeyframe = -1
@@ -484,7 +481,7 @@ Item {
             onTriggered: {
                 if (treeView.selectedKeyframe > -1) {
                     console.log('Adding keyframe')
-                    timeline.dopeSheetModel().addKeyframe(treeView.activeIndex, root.mouseFramePos)
+                    dopesheetmodel.addKeyframe(treeView.activeIndex, root.mouseFramePos)
                     root.hoverKeyframe = root.mouseFramePos
                 }
             }
@@ -494,7 +491,7 @@ Item {
     TreeView {
         // The model needs to be a QAbstractItemModel
         id: treeView
-        model: timeline.dopeSheetModel()
+        model: dopesheetmodel
         anchors.fill: parent
         anchors.topMargin: rulercontainer.height
         property int headerWidth: 100
@@ -504,7 +501,7 @@ Item {
         // Disable flicking
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
-            model: timeline.dopeSheetModel()
+            model: dopesheetmodel
         }
         // You can set a custom delegate or use a built-in TreeViewDelegate
         delegate: Item {
@@ -683,8 +680,8 @@ Item {
                             }
                             if (depth == 0) {
                                 // Top level item, build index of related kf to select
-                                timeline.dopeSheetModel().buildMasterSelection(parameterIndex, clickIndex)
-                                var result = timeline.dopeSheetModel().selectKeyframeAtPos(parameterIndex, clickFrame)
+                                dopesheetmodel.buildMasterSelection(parameterIndex, clickIndex)
+                                var result = dopesheetmodel.selectKeyframeAtPos(parameterIndex, clickFrame)
                                 updateSelectedKeyframesFromModel(result, shiftClick)
                                 return
                             }
@@ -718,8 +715,8 @@ Item {
                         }
                         if (dragStarted) {
                             if (clickIndex > -1) {
-                                timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, movePosition, clickFrame, false)
-                                timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, clickFrame, movePosition, true)
+                                dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, movePosition, clickFrame, false)
+                                dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, clickFrame, movePosition, true)
                             }
                         } else if (clickIndex > -1 && buttonClicked === Qt.LeftButton && !shiftClick) {
                             dopeModel.seekToKeyframe(clickIndex)
@@ -769,7 +766,7 @@ Item {
                                 return
                             }
 
-                            timeline.dopeSheetModel().moveKeyframe(root.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, root.mouseFramePos, false)
+                            dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, root.mouseFramePos, false)
                             movePosition = root.mouseFramePos
                         }
                     }
@@ -779,7 +776,7 @@ Item {
                             console.log('Removing keyframe')
                             // Double click on a keyframe, remove it
                             if (depth == 0) {
-                                timeline.dopeSheetModel().removeKeyframe(parameterIndex, kfMoveArea.currentFrame)
+                                dopesheetmodel.removeKeyframe(parameterIndex, kfMoveArea.currentFrame)
                             } else {
                                 dopeModel.removeKeyframe(kfMoveArea.currentFrame)
                             }
@@ -790,7 +787,7 @@ Item {
                             return
                         }
                         if (depth == 0) {
-                            timeline.dopeSheetModel().addKeyframe(parameterIndex, root.mouseFramePos)
+                            dopesheetmodel.addKeyframe(parameterIndex, root.mouseFramePos)
                         } else {
                             console.log('Adding keyframe at: ', root.mouseFramePos)
                             dopeModel.addKeyframe(root.mouseFramePos)

@@ -5618,7 +5618,11 @@ void TimelineController::checkClipPosition(const QModelIndex &topLeft, const QMo
 {
     if (roles.contains(TimelineModel::StartRole)) {
         int id = int(topLeft.internalId());
-        if (m_model->isComposition(id) || m_model->isClip(id)) {
+        if (m_model->isComposition(id)) {
+            pCore->dopeSheetModel()->updateItemPosition(ObjectId(KdenliveObjectType::TimelineComposition, id, m_model->uuid()));
+            Q_EMIT updateAssetPosition(id, m_model->uuid());
+        } else if (m_model->isClip(id)) {
+            pCore->dopeSheetModel()->updateItemPosition(ObjectId(KdenliveObjectType::TimelineClip, id, m_model->uuid()));
             Q_EMIT updateAssetPosition(id, m_model->uuid());
         }
     }

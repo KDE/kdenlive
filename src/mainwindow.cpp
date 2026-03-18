@@ -5678,6 +5678,7 @@ void MainWindow::connectTimeline()
     }
     // Dopesheet
     QList<QQmlContext::PropertyPair> propertyList = {{"timeline", QVariant::fromValue(getCurrentTimeline()->controller())},
+                                                     {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())},
                                                      {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
                                                      {"proxy", QVariant::fromValue(m_projectMonitor->getControllerProxy())}};
     m_dopeWidget->rootContext()->setContextProperties(propertyList);

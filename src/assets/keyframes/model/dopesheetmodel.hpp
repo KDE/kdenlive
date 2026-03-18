@@ -43,6 +43,9 @@ protected:
 
 public:
     friend class KdenliveTests;
+
+    Q_PROPERTY(int dopeDuration READ dopeDuration NOTIFY dopeDurationChanged)
+    Q_PROPERTY(int dopePosition READ dopePosition NOTIFY dopePositionChanged)
     static std::shared_ptr<DopeSheetModel> construct(QObject *parent = nullptr);
     enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, IndexRole, SelectedRole };
     friend class KeyframeModel;
@@ -74,6 +77,9 @@ public:
     Q_INVOKABLE QVariantList selectedIndexes() const;
     Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
+    int dopeDuration() const;
+    int dopePosition() const;
+    void updateItemPosition(ObjectId itemId);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
@@ -104,5 +110,7 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void modelChanged();
+    void dopeDurationChanged();
+    void dopePositionChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 };

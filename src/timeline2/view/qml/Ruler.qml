@@ -25,7 +25,6 @@ Item {
     property int workingPreview : timeline.workingPreview
     property int timecodeOffset : timeline.timecodeOffset
     property int rulerOffset: 0
-    property int maxDuration: -1
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
     property int zoneHeight: Math.ceil(root.baseUnit / 2) + 1
@@ -569,7 +568,7 @@ Item {
         }
     }
     }
-    
+
     MouseArea {
         id: rulerMouseArea
         anchors.fill: parent
@@ -581,6 +580,7 @@ Item {
                 var pos = Math.max(mouseX, 0)
                 pos = Math.min(pos, width)
                 var frame = Math.round(pos / scalingFactor)
+                console.log('MOUSE PRESSED, MOUSEX: ', mouseX, ' / frame: ', frame, ', offset: ', rulerRoot.rulerOffset)
                 proxy.position = frame + rulerRoot.rulerOffset
                 mouse.accepted = true
             }

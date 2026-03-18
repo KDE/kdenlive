@@ -122,6 +122,8 @@ void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 {
     m_model.reset();
     m_model = std::move(model);
+    Q_EMIT dopeDurationChanged();
+    Q_EMIT dopePositionChanged();
     if (m_model) {
         connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
         connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
@@ -187,6 +189,9 @@ void DopeSheetModel::registerAsset(int i, std::shared_ptr<EffectItemModel> effec
     }
     auto connection = connect(effectModel.get(), &AssetParameterModel::dataChanged, this,
                               [this, effectItem, effectModel](const QModelIndex &ix1, const QModelIndex & /*ix2*/, const QList<int> &roles) {
+                                  if (roles.contains(AssetParameterModel::ParentDurationRole)) {
+                                      Q_EMIT dopeDurationChanged();
+                                  }
                                   if (roles.contains(AssetParameterModel::BlockedKeyframesRole)) {
                                       qDebug() << "KEYFRAMABLE EFFECT CHANGED FOR ROW: " << ix1.row();
                                       // Remove and reload keyframable params
@@ -641,4 +646,29 @@ void DopeSheetModel::copyKeyframes(QVariantMap kfData)
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(QString(effectDoc.toJson()));
     pCore->displayMessage(i18n("Current values copied"), InformationMessage);
+}
+
+int DopeSheetModel::dopeDuration() const
+{
+    if (!m_model) {
+        return 0;
+    }
+    return pCore->getItemDuration(m_model->getOwnerId());
+}
+
+int DopeSheetModel::dopePosition() const
+{
+    if (!m_model) {
+        return 0;
+    }
+    return pCore->getItemPosition(m_model->getOwnerId());
+}
+
+void DopeSheetModel::updateItemPosition(ObjectId itemId)
+{
+    if (m_model) {
+        if (m_model->getOwnerId() == itemId) {
+            Q_EMIT dopePositionChanged();
+        }
+    }
 }
