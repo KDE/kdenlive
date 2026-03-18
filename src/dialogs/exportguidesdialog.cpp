@@ -75,7 +75,18 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     connect(btn2, &QAbstractButton::clicked, this, [this]() {
         QString filter = format_text->isChecked() ? QStringLiteral("%1 (*.txt)").arg(i18n("Text File")) : QStringLiteral("%1 (*.json)").arg(i18n("JSON File"));
         const QString startFolder = pCore->projectManager()->current()->projectDataFolder();
-        QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Markers Data"), startFolder, filter);
+        QString selectedFilter;
+        QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Markers Data"), startFolder, filter, &selectedFilter);
+        if (filename.isEmpty()) {
+            return;
+        }
+        if (QFileInfo(filename).suffix().isEmpty()) {
+            if (selectedFilter.contains(QLatin1String(".txt"))) {
+                filename.append(QStringLiteral(".txt"));
+            } else {
+                filename.append(QStringLiteral(".json"));
+            }
+        }
         QFile file(filename);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             messageWidget->setText(i18n("Cannot write to file %1", QUrl::fromLocalFile(filename).fileName()));
