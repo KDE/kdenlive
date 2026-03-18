@@ -20,6 +20,7 @@
 #include <QDebug>
 #include <effects/effectsrepository.hpp>
 #include <mlt++/MltProducer.h>
+#include <limits>
 #include <utility>
 
 ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id,
@@ -873,12 +874,20 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     int in = getIn();
     int out = getOut();
     if (!qFuzzyCompare(speed, m_speed) && !qFuzzyIsNull(speed)) {
-        in = int(in * std::abs(m_speed / speed));
-        out = in + getPlaytime() - 1;
-        // prevent going out of the clip's range
-        out = std::min(out, int(double(m_producer->get_length()) * std::abs(m_speed / speed)) - 1);
+        const double currentAbsSpeed = qFuzzyIsNull(m_speed) ? 1. : std::abs(m_speed);
+        const double targetAbsSpeed = std::abs(speed);
+        const double speedRatio = currentAbsSpeed / targetAbsSpeed;
+        const qint64 mappedIn = qRound64(double(in) * speedRatio);
+        const qint64 mappedOut = qRound64(double(out + 1) * speedRatio) - 1;
+        const qint64 clampedIn = qBound<qint64>(qint64(0), mappedIn, qint64(std::numeric_limits<int>::max()));
+        const qint64 clampedOut = qBound<qint64>(clampedIn, mappedOut, qint64(std::numeric_limits<int>::max()));
+        in = int(clampedIn);
+        out = int(clampedOut);
+        // Prevent going out of the clip's range.
+        const qint64 maxOut64 = qBound<qint64>(qint64(0), qRound64(double(m_producer->get_length()) * speedRatio) - 1,
+                               qint64(std::numeric_limits<int>::max()));
+        out = qMin(out, int(maxOut64));
         m_speed = speed;
-        qDebug() << "changing speed" << in << out << m_speed;
     }
     QString remapMap;
     int remapPitch = 0;
@@ -1056,9 +1065,10 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
     std::function<bool(void)> local_redo = []() { return true; };
     double previousSpeed = getSpeed();
     int oldDuration = getPlaytime();
-    int newDuration = qRound(oldDuration * std::fabs(m_speed / speed));
+    const double speedRatio = std::fabs(previousSpeed / speed);
     int oldOut = getOut();
     int oldIn = getIn();
+    int newDuration = qMax(1, int(qRound64(double(oldDuration) * speedRatio)));
     bool revertSpeed = false;
     if (speed < 0) {
         if (previousSpeed > 0) {
@@ -1082,9 +1092,8 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
         };
     }
     if (revertSpeed) {
-        int out = getOut();
-        int in = qMax(0, qRound((m_producer->get_length() - 1 - out) * std::fabs(m_speed / speed)));
-        out = in + newDuration;
+        int in = qMax(0, int(qRound64(double(m_producer->get_length() - oldOut - 1) * speedRatio)));
+        int out = in + newDuration;
         operation = [operation, in, out, this]() {
             bool res = operation();
             if (res) {
