@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "layouts/layoutcollection.h"
 #include "layouts/layoutinfo.h"
+#include "utils/uiutils.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KStandardGuiItem>
@@ -281,7 +282,7 @@ void LayoutManagerDialog::exportLayout()
         QMessageBox::warning(this, i18n("Export Layout"), i18n("Cannot find layout file for %1.", layoutId));
         return;
     }
-    QString fileName = QFileDialog::getSaveFileName(this, i18n("Export Layout"), layoutId + ".json", i18n("Kdenlive Layout (*.json)"));
+    QString fileName = UiUtils::getSaveFileName(this, i18n("Export Layout"), layoutId + ".json", i18n("Kdenlive Layout (*.json)"), QStringLiteral(".json"));
     if (fileName.isEmpty()) return;
 
     bool result = false;

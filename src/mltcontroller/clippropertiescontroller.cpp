@@ -1791,8 +1791,8 @@ void ClipPropertiesController::slotDeleteAnalysis()
 
 void ClipPropertiesController::slotSaveAnalysis()
 {
-    const QString url = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(),
-                                                     i18n("Text File (*.txt)"));
+    const QString url = UiUtils::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(),
+                                                 i18n("Text File (*.txt)"), QStringLiteral(".txt"));
     if (url.isEmpty()) {
         return;
     }

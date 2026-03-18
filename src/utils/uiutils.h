@@ -15,4 +15,8 @@ public:
      *  It will be of size @param iconSize and @param rotation.
      */
     static QIcon rotatedIcon(const QString &iconName, const QSize iconSize, qreal rotation = -90);
+    /** @returns a user selected filename to save stuff. Ensures the requested file extension is always appended to the filename
+     */
+    static QString getSaveFileName(QWidget *parent = nullptr, const QString &caption = QString(), const QString &dir = QString(),
+                                   const QString &filter = QString(), const QString &extension = QString());
 };
