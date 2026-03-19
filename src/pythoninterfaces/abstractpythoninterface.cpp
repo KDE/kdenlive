@@ -851,7 +851,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     scriptJob.waitForFinished(-1);
 
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
-        const QString errorMessage = scriptJob.readAllStandardError();
+        const QString errorMessage = concurrent ? scriptJob.readAllStandardOutput() : scriptJob.readAllStandardError();
         Q_EMIT setupError(i18n("Error while running python3 script:\n %1\n%2", scriptpath, errorMessage));
         if (installAction) {
             setStatus(Broken);
