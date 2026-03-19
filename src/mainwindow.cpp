@@ -4293,7 +4293,6 @@ void MainWindow::updateDockMenu()
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
     QList<QAction *> existing;
-    const QString raise("_raise");
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
         guiActions = kdenliveCategoryMap.value(QStringLiteral("interface"));
         existing = guiActions->actions();
@@ -4639,6 +4638,15 @@ KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, 
         }
     });
     guiActions->addAction(objectName, dockAction);
+    const QString actionText = KLocalizedString::removeAcceleratorMarker(dockAction->text());
+    QAction *action = new QAction(i18n("Raise %1", actionText), this);
+    action->setData(QStringLiteral("_raise"));
+    connect(action, &QAction::triggered, this, [dock]() {
+        dock->open();
+        dock->setAsCurrentTab();
+        dock->setFocus(Qt::OtherFocusReason);
+    });
+    guiActions->addAction("raise_" + dock->objectName(), action);
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
     return dock;
 }
