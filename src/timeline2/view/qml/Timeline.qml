@@ -2011,7 +2011,7 @@ function getTrackColor(audio, header) {
                                         if (dragProxy.draggedItem > -1 && !rubberSelect.visible) {
                                             var posx = Math.round((parent.x)/ root.timeScale)
                                             let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
-                                            var posy = Math.min(Math.max(0, posInTracks.y + scrollView.contentY - ruler.height), tracksContainerArea.height)
+                                            var posy = Math.min(Math.max(0, posInTracks.y + scrollView.contentY - ruler.height - subtitleTrack.height), tracksContainerArea.height)
                                             var tId = Logic.getTrackIdFromPos(posy)
                                             if (dragProxy.masterObject && tId === dragProxy.masterObject.trackId) {
                                                 if (posx == dragProxyArea.dragFrame && controller.normalEdit()) {
