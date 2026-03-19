@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-18 00:44+0000\n"
+"POT-Creation-Date: 2026-03-19 00:45+0000\n"
 "PO-Revision-Date: 2026-03-16 07:54+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -7341,7 +7341,7 @@ msgstr "Durata"
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
 #: src/core.cpp:1106 src/kdenliveui.rc:192 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
-#: src/project/dialogs/projectsettings.cpp:433
+#: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
 msgid "Subtitles"
 msgstr "Sottotitoli"
@@ -11627,7 +11627,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:624
-#: src/dialogs/Splash.qml:997 src/layouts/layoutmanagerdialog.cpp:98
+#: src/dialogs/Splash.qml:997 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -19326,7 +19326,7 @@ msgstr "Nome"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1507 src/bin/projectitemmodel.cpp:328
-#: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Data"
@@ -19467,7 +19467,7 @@ msgid "Missing source clip"
 msgstr "Clip sorgente mancante"
 
 #: src/bin/bin.cpp:2132 src/bin/bin.cpp:2829
-#: src/effects/effectlist/view/effectlistwidget.cpp:184
+#: src/effects/effectlist/view/effectlistwidget.cpp:185
 #: src/renderpresets/renderpresetrepository.cpp:169
 #: src/renderpresets/renderpresetrepository.cpp:474
 #, kde-format
@@ -19753,7 +19753,7 @@ msgstr "Lista di riproduzione"
 msgid "Sequences"
 msgstr "Sequenze"
 
-#: src/bin/bin.cpp:2756 src/project/dialogs/projectsettings.cpp:215
+#: src/bin/bin.cpp:2756 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
 msgid "Title"
 msgstr "Titolo"
@@ -20040,7 +20040,7 @@ msgstr "Imposta un'applicazione predefinita per aprire i file video"
 #: src/bin/bin.cpp:5111 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
-#: src/layouts/layoutmanagerdialog.cpp:211
+#: src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:172
 #: src/renderpresets/renderpresetrepository.cpp:418
 #, kde-format
@@ -21549,7 +21549,7 @@ msgstr "Visualizza i parametri del profilo selezionato"
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
-#: src/project/dialogs/projectsettings.cpp:907
+#: src/project/dialogs/projectsettings.cpp:908
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Automatico (%1)"
@@ -21557,15 +21557,15 @@ msgstr "Automatico (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:811
-#: src/project/dialogs/projectsettings.cpp:909
+#: src/project/dialogs/projectsettings.cpp:910
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Automatico"
 
 #: src/dialogs/encodingprofilesdialog.cpp:333
-#: src/project/dialogs/projectsettings.cpp:944
-#: src/project/dialogs/projectsettings.cpp:974
+#: src/project/dialogs/projectsettings.cpp:945
+#: src/project/dialogs/projectsettings.cpp:975
 #, kde-format
 msgid "Current Settings"
 msgstr "Impostazioni correnti"
@@ -21620,13 +21620,13 @@ msgstr "File di testo"
 msgid "JSON File"
 msgstr "File JSON"
 
-#: src/dialogs/exportguidesdialog.cpp:78
+#: src/dialogs/exportguidesdialog.cpp:79
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Esporta dati sui marcatori"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2200
+#: src/dialogs/exportguidesdialog.cpp:92 src/dialogs/renderwidget.cpp:2200
 #: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:767
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
@@ -21634,7 +21634,7 @@ msgstr "Esporta dati sui marcatori"
 #: src/effects/effectsrepository.cpp:433
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
-#: src/layouts/layoutmanagerdialog.cpp:315
+#: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:702
 #: src/project/dialogs/archivewidget.cpp:706
@@ -21652,72 +21652,72 @@ msgstr "Esporta dati sui marcatori"
 msgid "Cannot write to file %1"
 msgstr "Impossibile scrivere sul file %1"
 
-#: src/dialogs/exportguidesdialog.cpp:88
+#: src/dialogs/exportguidesdialog.cpp:99
 #, kde-format
 msgid "Markers saved to %1"
 msgstr "Marcatori salvati in %1"
 
-#: src/dialogs/exportguidesdialog.cpp:111
+#: src/dialogs/exportguidesdialog.cpp:122
 #, kde-format
 msgid "Category name"
 msgstr "Nome della categoria"
 
-#: src/dialogs/exportguidesdialog.cpp:112
+#: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Marker number"
 msgstr "Numero marcatore"
 
-#: src/dialogs/exportguidesdialog.cpp:113
+#: src/dialogs/exportguidesdialog.cpp:124
 #, kde-format
 msgid "Marker position in HH:MM:SS:FF"
 msgstr "Posizione del marcatore in HH:MM:SS:FF"
 
-#: src/dialogs/exportguidesdialog.cpp:114
+#: src/dialogs/exportguidesdialog.cpp:125
 #, kde-format
 msgid "Marker position in (HH:)MM.SS"
 msgstr "Posizione del marcatore in (HH:)MM.SS"
 
-#: src/dialogs/exportguidesdialog.cpp:115
+#: src/dialogs/exportguidesdialog.cpp:126
 #, kde-format
 msgid "Next marker position in (HH:)MM.SS"
 msgstr "Posizione del marcatore successivo in (HH:)MM.SS"
 
-#: src/dialogs/exportguidesdialog.cpp:116
+#: src/dialogs/exportguidesdialog.cpp:127
 #, kde-format
 msgid "Marker position in frames"
 msgstr "Posizione del marcatore in fotogrammi"
 
-#: src/dialogs/exportguidesdialog.cpp:117
+#: src/dialogs/exportguidesdialog.cpp:128
 #, kde-format
 msgid "Next marker position in frames"
 msgstr "Posizione del marcatore successivo in fotogrammi"
 
-#: src/dialogs/exportguidesdialog.cpp:118
+#: src/dialogs/exportguidesdialog.cpp:129
 #, kde-format
 msgid "Marker comment"
 msgstr "Commento del marcatore"
 
-#: src/dialogs/exportguidesdialog.cpp:119
+#: src/dialogs/exportguidesdialog.cpp:130
 #, kde-format
 msgid "Marker duration in frames"
 msgstr "Durata del marcatore in fotogrammi"
 
-#: src/dialogs/exportguidesdialog.cpp:120
+#: src/dialogs/exportguidesdialog.cpp:131
 #, kde-format
 msgid "Marker duration in timecode"
 msgstr "Durata del marcatore in codici temporali"
 
-#: src/dialogs/exportguidesdialog.cpp:121
+#: src/dialogs/exportguidesdialog.cpp:132
 #, kde-format
 msgid "Marker end position in timecode"
 msgstr "Posizione finale del marcatore in codici temporali"
 
-#: src/dialogs/exportguidesdialog.cpp:122
+#: src/dialogs/exportguidesdialog.cpp:133
 #, kde-format
 msgid "Marker end position in frames"
 msgstr "Posizione del marcatore in fotogrammi"
 
-#: src/dialogs/exportguidesdialog.cpp:123
+#: src/dialogs/exportguidesdialog.cpp:134
 #, kde-format
 msgid "Whether marker has range (true/false)"
 msgstr "Se il marcatore ha un intervallo (vero/falso)"
@@ -22772,7 +22772,7 @@ msgstr "Inserisci il percorso dell'applicazione per l'elaborazione video"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1097
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1144
-#: src/project/dialogs/projectsettings.cpp:541
+#: src/project/dialogs/projectsettings.cpp:542
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Seleziona un profilo video"
@@ -25389,28 +25389,28 @@ msgstr ""
 "Il nome dell'effetto %1 esiste già.\n"
 " Provare con un altro nome?"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:149
+#: src/effects/effectlist/view/effectlistwidget.cpp:150
 #, kde-format
 msgid "Name : "
 msgstr "Nome : "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:150
+#: src/effects/effectlist/view/effectlistwidget.cpp:151
 #, kde-format
 msgid "Comments : "
 msgstr "Commenti : "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:172 src/filefilter.cpp:135
+#: src/effects/effectlist/view/effectlistwidget.cpp:173 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
 msgstr "Tutti i file"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:172
+#: src/effects/effectlist/view/effectlistwidget.cpp:173
 #, kde-format
 msgid "Kdenlive Effect definitions"
 msgstr "Definizioni di effetto di Kdenlive"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:177
+#: src/effects/effectlist/view/effectlistwidget.cpp:178
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
@@ -26452,12 +26452,12 @@ msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Salva disposizione"
 
-#: src/layouts/layoutmanagement.cpp:287 src/layouts/layoutmanagerdialog.cpp:223
+#: src/layouts/layoutmanagement.cpp:287 src/layouts/layoutmanagerdialog.cpp:224
 #, kde-format
 msgid "Layout name:"
 msgstr "Nome della disposizione:"
 
-#: src/layouts/layoutmanagement.cpp:305 src/layouts/layoutmanagerdialog.cpp:245
+#: src/layouts/layoutmanagement.cpp:305 src/layouts/layoutmanagerdialog.cpp:246
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "La disposizione %1 esiste già. Vuoi sostituirla?"
@@ -26467,49 +26467,49 @@ msgstr "La disposizione %1 esiste già. Vuoi sostituirla?"
 msgid "Could not save layout to file: %1"
 msgstr "Impossibile salvare la disposizione su file %1"
 
-#: src/layouts/layoutmanagerdialog.cpp:32
+#: src/layouts/layoutmanagerdialog.cpp:33
 #, kde-format
 msgid "Manage Layouts"
 msgstr "Gestisci le disposizioni"
 
 # Da controlare se intende la creazione di un progetto pulito o la pulizia di un progetto esistente
-#: src/layouts/layoutmanagerdialog.cpp:34
+#: src/layouts/layoutmanagerdialog.cpp:35
 #, kde-format
 msgid "Current Layouts"
 msgstr "Disposizioni correnti"
 
-#: src/layouts/layoutmanagerdialog.cpp:82
+#: src/layouts/layoutmanagerdialog.cpp:83
 #, kde-format
 msgid "Delete the layout."
 msgstr "Elimina disposizione."
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/layouts/layoutmanagerdialog.cpp:104 src/ui/resourcewidget_ui.ui:234
+#: src/layouts/layoutmanagerdialog.cpp:105 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
 msgstr "Importa"
 
-#: src/layouts/layoutmanagerdialog.cpp:110
+#: src/layouts/layoutmanagerdialog.cpp:111
 #, kde-format
 msgid "Export selected"
 msgstr "Importa il selezionato"
 
-#: src/layouts/layoutmanagerdialog.cpp:134
+#: src/layouts/layoutmanagerdialog.cpp:135
 #, kde-format
 msgid "Delete Layout"
 msgstr "Elimina disposizione"
 
-#: src/layouts/layoutmanagerdialog.cpp:134
+#: src/layouts/layoutmanagerdialog.cpp:135
 #, kde-format
 msgid "Are you sure you want to delete the layout %1?"
 msgstr "Sei sicuro di voler eliminare la disposizione %1?"
 
-#: src/layouts/layoutmanagerdialog.cpp:189
+#: src/layouts/layoutmanagerdialog.cpp:190
 #, kde-format
 msgid "Reset Layouts"
 msgstr "Ripristina disposizioni"
 
-#: src/layouts/layoutmanagerdialog.cpp:190
+#: src/layouts/layoutmanagerdialog.cpp:191
 #, kde-format
 msgid ""
 "Are you sure you want to reset all layouts to the default set? This will "
@@ -26518,82 +26518,82 @@ msgstr ""
 "Sei sicuro di voler ripristinare tutte le disposizioni all'insieme "
 "predefinito? Questo rimuoverà tute quelle personalizzate."
 
-#: src/layouts/layoutmanagerdialog.cpp:206
-#: src/layouts/layoutmanagerdialog.cpp:211
-#: src/layouts/layoutmanagerdialog.cpp:223
+#: src/layouts/layoutmanagerdialog.cpp:207
+#: src/layouts/layoutmanagerdialog.cpp:212
+#: src/layouts/layoutmanagerdialog.cpp:224
 #, kde-format
 msgid "Import Layout"
 msgstr "Importa disposizione"
 
-#: src/layouts/layoutmanagerdialog.cpp:206
-#: src/layouts/layoutmanagerdialog.cpp:284
+#: src/layouts/layoutmanagerdialog.cpp:207
+#: src/layouts/layoutmanagerdialog.cpp:285
 #, kde-format
 msgid "Kdenlive Layout (*.json)"
 msgstr "Disposizione di Kdenlive (*.json)"
 
-#: src/layouts/layoutmanagerdialog.cpp:230
+#: src/layouts/layoutmanagerdialog.cpp:231
 #, kde-format
 msgid "Could not write in the layouts folder %1"
 msgstr "Impossibile scrivere nella cartella delle disposizioni %1"
 
-#: src/layouts/layoutmanagerdialog.cpp:234
+#: src/layouts/layoutmanagerdialog.cpp:235
 #, kde-format
 msgid "Selected layout is already imported"
 msgstr "La disposizione selezionata è già stata importata"
 
-#: src/layouts/layoutmanagerdialog.cpp:241
+#: src/layouts/layoutmanagerdialog.cpp:242
 #, kde-format
 msgid "Invalid file selected: %1"
 msgstr "File non valido selezionato: %1"
 
-#: src/layouts/layoutmanagerdialog.cpp:274
-#: src/layouts/layoutmanagerdialog.cpp:281
-#: src/layouts/layoutmanagerdialog.cpp:284
-#: src/layouts/layoutmanagerdialog.cpp:304
-#: src/layouts/layoutmanagerdialog.cpp:315
-#: src/layouts/layoutmanagerdialog.cpp:318
+#: src/layouts/layoutmanagerdialog.cpp:275
+#: src/layouts/layoutmanagerdialog.cpp:282
+#: src/layouts/layoutmanagerdialog.cpp:285
+#: src/layouts/layoutmanagerdialog.cpp:305
+#: src/layouts/layoutmanagerdialog.cpp:316
+#: src/layouts/layoutmanagerdialog.cpp:319
 #, kde-format
 msgid "Export Layout"
 msgstr "Disposizione di esportazione"
 
-#: src/layouts/layoutmanagerdialog.cpp:274
+#: src/layouts/layoutmanagerdialog.cpp:275
 #, kde-format
 msgid "No layout selected."
 msgstr "Nessuna disposizione selezionata."
 
-#: src/layouts/layoutmanagerdialog.cpp:281
+#: src/layouts/layoutmanagerdialog.cpp:282
 #, kde-format
 msgid "Cannot find layout file for %1."
 msgstr "Impossibile trovare il file della disposizione per %1."
 
-#: src/layouts/layoutmanagerdialog.cpp:302
+#: src/layouts/layoutmanagerdialog.cpp:303
 #, kde-format
 msgid "Overwrite existing file for vertical layout %1?"
 msgstr "Sovrascrivi il file esistente per la disposizione verticale %1?"
 
-#: src/layouts/layoutmanagerdialog.cpp:304
+#: src/layouts/layoutmanagerdialog.cpp:305
 #, kde-format
 msgid "Horizontal layout exported successfully."
 msgstr "Disposizione orizzontale esportata con successo."
 
-#: src/layouts/layoutmanagerdialog.cpp:318
+#: src/layouts/layoutmanagerdialog.cpp:319
 #, kde-format
 msgid "Layout exported successfully."
 msgstr "Disposizione esportata con successo."
 
-#: src/layouts/layoutmanagerdialog.cpp:332
+#: src/layouts/layoutmanagerdialog.cpp:333
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains horizontal and vertical profiles"
 msgstr "Questa disposizione contiene profili orizzontali e verticali"
 
-#: src/layouts/layoutmanagerdialog.cpp:335
+#: src/layouts/layoutmanagerdialog.cpp:336
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a horizontal profile"
 msgstr "Questa disposizione contiene un profilo orizzontale"
 
-#: src/layouts/layoutmanagerdialog.cpp:339
+#: src/layouts/layoutmanagerdialog.cpp:340
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
@@ -29032,7 +29032,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:244
-#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:874 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "Metadati"
@@ -29416,7 +29416,7 @@ msgstr "Salva dati dell'analisi"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1795
 #: src/mltcontroller/clippropertiescontroller.cpp:1808
-#: src/project/dialogs/projectsettings.cpp:811
+#: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "File di testo (*.txt)"
@@ -30310,7 +30310,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "Creato da <a href=\"%1\">"
 
 #: src/onlineresources/resourcewidget.cpp:482
-#: src/project/dialogs/projectsettings.cpp:222
+#: src/project/dialogs/projectsettings.cpp:223
 #, kde-format
 msgid "Author"
 msgstr "Autore"
@@ -30537,24 +30537,24 @@ msgid "Error Getting Access Token from %1."
 msgstr "Errore nell'ottenere il gettone di accesso da %1."
 
 # , kde-format, kde-format
-#: src/otio/otioexport.cpp:45
+#: src/otio/otioexport.cpp:46
 #, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
 msgstr "Esportazione OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:59
+#: src/otio/otioexport.cpp:60
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Esporta OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:60 src/otio/otioimport.cpp:239
+#: src/otio/otioexport.cpp:61 src/otio/otioimport.cpp:239
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Progetto OpenTimelineIO"
 
 # , kde-format, kde-format
-#: src/otio/otioexport.cpp:109
+#: src/otio/otioexport.cpp:110
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Errore nell'esportazione del file OpenTimelineIO"
@@ -31286,67 +31286,67 @@ msgstr "Prima il campo superiore"
 msgid "Field order: %1"
 msgstr "Ordine dei campi: %1"
 
-#: src/project/dialogs/projectsettings.cpp:69
+#: src/project/dialogs/projectsettings.cpp:70
 #, kde-format
 msgid "Select the profile (preset) of the project"
 msgstr "Seleziona il profilo (le preimpostazioni) del progetto"
 
-#: src/project/dialogs/projectsettings.cpp:72
+#: src/project/dialogs/projectsettings.cpp:73
 #, kde-format
 msgid "Default: %1"
 msgstr "Predefinito: %1"
 
-#: src/project/dialogs/projectsettings.cpp:140
+#: src/project/dialogs/projectsettings.cpp:141
 #, kde-format
 msgid "Cache Data"
 msgstr "Dati nella cache"
 
-#: src/project/dialogs/projectsettings.cpp:189
+#: src/project/dialogs/projectsettings.cpp:190
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "Mostra i parametri predefiniti del profilo"
 
-#: src/project/dialogs/projectsettings.cpp:191
+#: src/project/dialogs/projectsettings.cpp:192
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "Gestisci i profili per le clip rappresentative"
 
-#: src/project/dialogs/projectsettings.cpp:193
+#: src/project/dialogs/projectsettings.cpp:194
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "Confronta l'efficienza dei profili delle clip rappresentative"
 
-#: src/project/dialogs/projectsettings.cpp:196
+#: src/project/dialogs/projectsettings.cpp:197
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "Seleziona il profilo predefinito per le clip rappresentative"
 
-#: src/project/dialogs/projectsettings.cpp:203
+#: src/project/dialogs/projectsettings.cpp:204
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "Seleziona profilo videocamera"
 
-#: src/project/dialogs/projectsettings.cpp:228
+#: src/project/dialogs/projectsettings.cpp:229
 #, kde-format
 msgid "Artist"
 msgstr "Artista"
 
-#: src/project/dialogs/projectsettings.cpp:234
+#: src/project/dialogs/projectsettings.cpp:235
 #, kde-format
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/project/dialogs/projectsettings.cpp:241
+#: src/project/dialogs/projectsettings.cpp:242
 #, kde-format
 msgid "Year"
 msgstr "Anno"
 
-#: src/project/dialogs/projectsettings.cpp:381
+#: src/project/dialogs/projectsettings.cpp:382
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "Nessun file da eliminare nell'unità."
 
-#: src/project/dialogs/projectsettings.cpp:389
+#: src/project/dialogs/projectsettings.cpp:390
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -31358,47 +31358,47 @@ msgstr ""
 "stai facendo.\n"
 "Sei sicuro di voler continuare?"
 
-#: src/project/dialogs/projectsettings.cpp:391
+#: src/project/dialogs/projectsettings.cpp:392
 #, kde-format
 msgid "Delete unused clips"
 msgstr "Elimina clip non usate"
 
-#: src/project/dialogs/projectsettings.cpp:412
+#: src/project/dialogs/projectsettings.cpp:413
 #, kde-format
 msgid "Video clips"
 msgstr "Clip video"
 
-#: src/project/dialogs/projectsettings.cpp:415
+#: src/project/dialogs/projectsettings.cpp:416
 #, kde-format
 msgid "Audio clips"
 msgstr "Clip audio"
 
-#: src/project/dialogs/projectsettings.cpp:418
+#: src/project/dialogs/projectsettings.cpp:419
 #, kde-format
 msgid "Image clips"
 msgstr "Clip di immagini"
 
-#: src/project/dialogs/projectsettings.cpp:421
+#: src/project/dialogs/projectsettings.cpp:422
 #, kde-format
 msgid "Slideshow clips"
 msgstr "Clip di presentazione"
 
-#: src/project/dialogs/projectsettings.cpp:424
+#: src/project/dialogs/projectsettings.cpp:425
 #, kde-format
 msgid "Text clips"
 msgstr "Clip di testo"
 
-#: src/project/dialogs/projectsettings.cpp:427
+#: src/project/dialogs/projectsettings.cpp:428
 #, kde-format
 msgid "Playlist clips"
 msgstr "Lista di riproduzione clip"
 
-#: src/project/dialogs/projectsettings.cpp:430
+#: src/project/dialogs/projectsettings.cpp:431
 #, kde-format
 msgid "Other clips"
 msgstr "Altre clip"
 
-#: src/project/dialogs/projectsettings.cpp:550
+#: src/project/dialogs/projectsettings.cpp:551
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -31410,13 +31410,13 @@ msgstr ""
 "progetto.\n"
 " Sei sicuro di voler procedere?"
 
-#: src/project/dialogs/projectsettings.cpp:552
-#: src/project/dialogs/projectsettings.cpp:562
+#: src/project/dialogs/projectsettings.cpp:553
+#: src/project/dialogs/projectsettings.cpp:563
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Conferma modifica del profilo"
 
-#: src/project/dialogs/projectsettings.cpp:560
+#: src/project/dialogs/projectsettings.cpp:561
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -31429,8 +31429,8 @@ msgstr ""
 "potrebbe causare delle corruzioni nelle transizioni.\n"
 "Sei sicuro di voler procedere?"
 
-#: src/project/dialogs/projectsettings.cpp:789
-#: src/project/dialogs/projectsettings.cpp:804
+#: src/project/dialogs/projectsettings.cpp:790
+#: src/project/dialogs/projectsettings.cpp:805
 #: src/project/dialogs/slideshowclip.cpp:321
 #, kde-format
 msgid "1 image found"
@@ -31438,27 +31438,27 @@ msgid_plural "%1 images found"
 msgstr[0] "1 immagine trovata"
 msgstr[1] "%1 immagini trovate"
 
-#: src/project/dialogs/projectsettings.cpp:811
+#: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Save As"
 msgstr "Salva come"
 
-#: src/project/dialogs/projectsettings.cpp:817
+#: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Cartella del progetto: %1"
 
-#: src/project/dialogs/projectsettings.cpp:818
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Profilo del progetto: %1"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:820
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Clip totali: %1 (%2 utilizzate nella linea temporale)"
 
-#: src/project/dialogs/projectsettings.cpp:873
+#: src/project/dialogs/projectsettings.cpp:874
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
