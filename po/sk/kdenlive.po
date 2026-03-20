@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-19 02:46+0000\n"
+"POT-Creation-Date: 2026-03-20 02:34+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -33079,7 +33079,7 @@ msgstr ""
 msgid "Install missing dependencies"
 msgstr ""
 
-#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
+#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:85
 #, fuzzy, kde-format
 #| msgid "Error Downloading File. Error code: %1"
 msgid ""
