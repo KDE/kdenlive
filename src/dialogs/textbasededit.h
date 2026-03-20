@@ -206,4 +206,5 @@ private:
     void enableEditActions(bool enable, bool enableStart = true);
     void buildWhisperModelsList(const QStringList whisperModels);
     void buildVoskModelsList(const QStringList models);
+    void processSearch(bool forwards);
 };
