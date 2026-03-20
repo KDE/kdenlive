@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-19 00:45+0000\n"
+"POT-Creation-Date: 2026-03-20 00:42+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -18421,7 +18421,7 @@ msgstr ""
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:304 src/bin/bin.cpp:1407
 #: src/dialogs/renderwidget.cpp:565 src/project/dialogs/profilewidget.cpp:35
-#: src/project/notesplugin.cpp:178
+#: src/project/notesplugin.cpp:179
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -20569,7 +20569,7 @@ msgstr "Kustuta efekt %1"
 msgid "Project Bin"
 msgstr "Projektipuu"
 
-#: src/bin/bin.cpp:6834 src/bin/bin.cpp:6837 src/mainwindow.cpp:5286
+#: src/bin/bin.cpp:6834 src/bin/bin.cpp:6837 src/mainwindow.cpp:5294
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -29592,60 +29592,66 @@ msgstr "Ühenda"
 msgid "-stream-%1"
 msgstr "Videovoog %1"
 
-#: src/mainwindow.cpp:4301 src/mainwindow.cpp:4629
+#: src/mainwindow.cpp:4300 src/mainwindow.cpp:4628
 #, kde-format
 msgid "Interface"
 msgstr "Liides"
 
-#: src/mainwindow.cpp:4372
+#: src/mainwindow.cpp:4371
 #, fuzzy, kde-format
 #| msgid "Files to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Ümber kodeeritavad failid"
 
-#: src/mainwindow.cpp:4536
+#: src/mainwindow.cpp:4535
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektifaili ei saa arhiveerimiseks salvestada."
 
-#: src/mainwindow.cpp:4544
+#: src/mainwindow.cpp:4543
 #, kde-format
 msgid "Archiving project"
 msgstr "Projekti arhiveerimine"
 
-#: src/mainwindow.cpp:4695
+#: src/mainwindow.cpp:4642
+#, fuzzy, kde-format
+#| msgid "Disable %1"
+msgid "Raise %1"
+msgstr "%1 keelamine"
+
+#: src/mainwindow.cpp:4703
 #, kde-format
 msgid "Icon Size"
 msgstr "Ikooni suurus"
 
-#: src/mainwindow.cpp:4699
+#: src/mainwindow.cpp:4707
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Vaikimisi"
 
-#: src/mainwindow.cpp:4720 src/mainwindow.cpp:4748
+#: src/mainwindow.cpp:4728 src/mainwindow.cpp:4756
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Väike (%1x%2)"
 
-#: src/mainwindow.cpp:4722 src/mainwindow.cpp:4750
+#: src/mainwindow.cpp:4730 src/mainwindow.cpp:4758
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Keskmine (%1x%2)"
 
-#: src/mainwindow.cpp:4724 src/mainwindow.cpp:4752
+#: src/mainwindow.cpp:4732 src/mainwindow.cpp:4760
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Suur (%1x%2)"
 
-#: src/mainwindow.cpp:4726 src/mainwindow.cpp:4754
+#: src/mainwindow.cpp:4734 src/mainwindow.cpp:4762
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Hiiglaslik (%1x%2)"
 
-#: src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4818
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -29653,42 +29659,42 @@ msgid ""
 msgstr ""
 "See peidab üldse menüüriba. Seda saab näha uuesti, kui vajutada Ctrl+M."
 
-#: src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4818
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menüüriba peitmine"
 
-#: src/mainwindow.cpp:5152 src/timeline2/view/timelinecontroller.cpp:5410
+#: src/mainwindow.cpp:5160 src/timeline2/view/timelinecontroller.cpp:5410
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No subtitles in current project"
 msgstr "Praeguses asukohas ei leitud ühtegi abijoont"
 
-#: src/mainwindow.cpp:5454
+#: src/mainwindow.cpp:5462
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5460
+#: src/mainwindow.cpp:5468
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Seadme seadistamine"
 
-#: src/mainwindow.cpp:5463
+#: src/mainwindow.cpp:5471
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5467
+#: src/mainwindow.cpp:5475
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5509
+#: src/mainwindow.cpp:5517
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -32486,22 +32492,22 @@ msgstr "Siia saab kirjutada märkusi projekti kohta ..."
 msgid "Project Notes"
 msgstr "Projekti märkused"
 
-#: src/project/notesplugin.cpp:158
+#: src/project/notesplugin.cpp:159
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 
-#: src/project/notesplugin.cpp:162
+#: src/project/notesplugin.cpp:163
 #, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr ""
 
-#: src/project/notesplugin.cpp:166
+#: src/project/notesplugin.cpp:167
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr ""
 
-#: src/project/notesplugin.cpp:168
+#: src/project/notesplugin.cpp:169
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32509,12 +32515,12 @@ msgid ""
 "if other text is selected too)."
 msgstr ""
 
-#: src/project/notesplugin.cpp:213
+#: src/project/notesplugin.cpp:214
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Märkust ei saa lisada, projektipuus pole ühtegi klippi valitud"
 
-#: src/project/notesplugin.cpp:243
+#: src/project/notesplugin.cpp:244
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Omistamist ei saa sooritada"
@@ -33017,7 +33023,7 @@ msgstr ""
 msgid "Install missing dependencies"
 msgstr ""
 
-#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
+#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:85
 #, fuzzy, kde-format
 #| msgid "Error Downloading File. Error code: %1"
 msgid ""
@@ -41741,11 +41747,6 @@ msgstr "%1h"
 #~| msgid "Monitor Overlay Timecode"
 #~ msgid "Monitor overlay color:"
 #~ msgstr "Monitori ajakoodi ülekatteteave"
-
-#, fuzzy
-#~| msgid "Disable %1"
-#~ msgid "Raise %1"
-#~ msgstr "%1 keelamine"
 
 #, fuzzy
 #~| msgid "<select a keyword>"

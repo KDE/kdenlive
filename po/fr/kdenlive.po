@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-19 00:45+0000\n"
+"POT-Creation-Date: 2026-03-20 00:42+0000\n"
 "PO-Revision-Date: 2026-02-27 12:18+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
@@ -18518,7 +18518,7 @@ msgstr "Afficher/cacher la description des compositions"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:304 src/bin/bin.cpp:1407
 #: src/dialogs/renderwidget.cpp:565 src/project/dialogs/profilewidget.cpp:35
-#: src/project/notesplugin.cpp:178
+#: src/project/notesplugin.cpp:179
 #, kde-format
 msgid "Search…"
 msgstr "Rechercher..."
@@ -20587,7 +20587,7 @@ msgstr "Supprimer l'effet %1"
 msgid "Project Bin"
 msgstr "Sources du projet"
 
-#: src/bin/bin.cpp:6834 src/bin/bin.cpp:6837 src/mainwindow.cpp:5286
+#: src/bin/bin.cpp:6834 src/bin/bin.cpp:6837 src/mainwindow.cpp:5294
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Environnement du projet %1"
@@ -29270,59 +29270,64 @@ msgstr "-merged"
 msgid "-stream-%1"
 msgstr "-flux-%1"
 
-#: src/mainwindow.cpp:4301 src/mainwindow.cpp:4629
+#: src/mainwindow.cpp:4300 src/mainwindow.cpp:4628
 #, kde-format
 msgid "Interface"
 msgstr "Interface"
 
-#: src/mainwindow.cpp:4372
+#: src/mainwindow.cpp:4371
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Fichiers à transcoder"
 
-#: src/mainwindow.cpp:4536
+#: src/mainwindow.cpp:4535
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Impossible de sauvegarder le fichier de projet pour archivage."
 
-#: src/mainwindow.cpp:4544
+#: src/mainwindow.cpp:4543
 #, kde-format
 msgid "Archiving project"
 msgstr "Archivage du projet"
 
-#: src/mainwindow.cpp:4695
+#: src/mainwindow.cpp:4642
+#, kde-format
+msgid "Raise %1"
+msgstr "Augmenter %1"
+
+#: src/mainwindow.cpp:4703
 #, kde-format
 msgid "Icon Size"
 msgstr "Taille des icônes"
 
-#: src/mainwindow.cpp:4699
+#: src/mainwindow.cpp:4707
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Par défaut"
 
-#: src/mainwindow.cpp:4720 src/mainwindow.cpp:4748
+#: src/mainwindow.cpp:4728 src/mainwindow.cpp:4756
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Petites (%1x%2)"
 
-#: src/mainwindow.cpp:4722 src/mainwindow.cpp:4750
+#: src/mainwindow.cpp:4730 src/mainwindow.cpp:4758
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Moyennes (%1x%2)"
 
-#: src/mainwindow.cpp:4724 src/mainwindow.cpp:4752
+#: src/mainwindow.cpp:4732 src/mainwindow.cpp:4760
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Grandes (%1x%2)"
 
-#: src/mainwindow.cpp:4726 src/mainwindow.cpp:4754
+#: src/mainwindow.cpp:4734 src/mainwindow.cpp:4762
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Immenses (%1x%2)"
 
-#: src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4818
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -29331,27 +29336,27 @@ msgstr ""
 "Ceci masquera complètement la barre de menu. Vous pouvez l'afficher à "
 "nouveau en pressant Ctrl+M."
 
-#: src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4818
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Masquer la barre de menu"
 
-#: src/mainwindow.cpp:5152 src/timeline2/view/timelinecontroller.cpp:5410
+#: src/mainwindow.cpp:5160 src/timeline2/view/timelinecontroller.cpp:5410
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Aucun sous-titre dans le projet actuel."
 
-#: src/mainwindow.cpp:5454
+#: src/mainwindow.cpp:5462
 #, kde-format
 msgid "Go to download page"
 msgstr "Aller à la page de téléchargement"
 
-#: src/mainwindow.cpp:5460
+#: src/mainwindow.cpp:5468
 #, kde-format
 msgid "Never check again"
 msgstr "Ne plus vérifier"
 
-#: src/mainwindow.cpp:5463
+#: src/mainwindow.cpp:5471
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -29360,7 +29365,7 @@ msgstr ""
 "Votre version de Kdenlive a plus d'un an. Vous êtes fortement incité à faire "
 "une mise à jour."
 
-#: src/mainwindow.cpp:5467
+#: src/mainwindow.cpp:5475
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -29368,7 +29373,7 @@ msgstr ""
 "Votre version de Kdenlive a plus de 6 mois. Vous êtes fortement incité à "
 "faire une mise à jour."
 
-#: src/mainwindow.cpp:5509
+#: src/mainwindow.cpp:5517
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Vérification du volume de données en cache en cours"
@@ -32126,25 +32131,25 @@ msgstr "Saisissez vos notes de projet ici…"
 msgid "Project Notes"
 msgstr "Notes de projet"
 
-#: src/project/notesplugin.cpp:158
+#: src/project/notesplugin.cpp:159
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 "Réassigner les repères de temps sélectionnés vers le clip source courant."
 
-#: src/project/notesplugin.cpp:162
+#: src/project/notesplugin.cpp:163
 #, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr ""
 "Réassigner les codes d'horodatage à la séquence courante de la frise "
 "chronologique."
 
-#: src/project/notesplugin.cpp:166
+#: src/project/notesplugin.cpp:167
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Créer des signets à partir des repères de temps sélectionnés."
 
-#: src/project/notesplugin.cpp:168
+#: src/project/notesplugin.cpp:169
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32155,14 +32160,14 @@ msgstr ""
 "d'horodatage sélectionnées (Peu importe si un autre texte est également "
 "sélectionné)."
 
-#: src/project/notesplugin.cpp:213
+#: src/project/notesplugin.cpp:214
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "Impossible d'ajouter une remarque. Aucun clip sélectionné dans les sources "
 "du projet."
 
-#: src/project/notesplugin.cpp:243
+#: src/project/notesplugin.cpp:244
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Impossible de réaliser une assignation"
@@ -32662,7 +32667,7 @@ msgstr ""
 msgid "Install missing dependencies"
 msgstr "Installer les dépendances manquantes"
 
-#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
+#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:85
 #, kde-format
 msgid ""
 "Error downloading model:\n"
@@ -41050,9 +41055,6 @@ msgstr "%1h"
 
 #~ msgid "Arrange Dock Areas In Columns"
 #~ msgstr "Organiser les zones de panneaux en colonnes"
-
-#~ msgid "Raise %1"
-#~ msgstr "Augmenter %1"
 
 #~ msgid "<Select a Keyword>"
 #~ msgstr "<Choisir un mot clé>"

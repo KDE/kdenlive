@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-19 00:45+0000\n"
+"POT-Creation-Date: 2026-03-20 00:42+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -18438,7 +18438,7 @@ msgstr "Zobraziť popis"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:304 src/bin/bin.cpp:1407
 #: src/dialogs/renderwidget.cpp:565 src/project/dialogs/profilewidget.cpp:35
-#: src/project/notesplugin.cpp:178
+#: src/project/notesplugin.cpp:179
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -20618,7 +20618,7 @@ msgstr "Vymazať efekt %1"
 msgid "Project Bin"
 msgstr "Kôš projektu"
 
-#: src/bin/bin.cpp:6834 src/bin/bin.cpp:6837 src/mainwindow.cpp:5286
+#: src/bin/bin.cpp:6834 src/bin/bin.cpp:6837 src/mainwindow.cpp:5294
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -29645,60 +29645,66 @@ msgstr "Spojiť"
 msgid "-stream-%1"
 msgstr "Video stream %1"
 
-#: src/mainwindow.cpp:4301 src/mainwindow.cpp:4629
+#: src/mainwindow.cpp:4300 src/mainwindow.cpp:4628
 #, kde-format
 msgid "Interface"
 msgstr "Rozhranie"
 
-#: src/mainwindow.cpp:4372
+#: src/mainwindow.cpp:4371
 #, fuzzy, kde-format
 #| msgid "Files to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Súbory na prekódovanie"
 
-#: src/mainwindow.cpp:4536
+#: src/mainwindow.cpp:4535
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4544
+#: src/mainwindow.cpp:4543
 #, kde-format
 msgid "Archiving project"
 msgstr "Archivovanie projektu"
 
-#: src/mainwindow.cpp:4695
+#: src/mainwindow.cpp:4642
+#, fuzzy, kde-format
+#| msgid "Disable %1"
+msgid "Raise %1"
+msgstr "Zakázať %1"
+
+#: src/mainwindow.cpp:4703
 #, kde-format
 msgid "Icon Size"
 msgstr "Veľkosť ikon"
 
-#: src/mainwindow.cpp:4699
+#: src/mainwindow.cpp:4707
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Predvolené"
 
-#: src/mainwindow.cpp:4720 src/mainwindow.cpp:4748
+#: src/mainwindow.cpp:4728 src/mainwindow.cpp:4756
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Malá (%1x%2)"
 
-#: src/mainwindow.cpp:4722 src/mainwindow.cpp:4750
+#: src/mainwindow.cpp:4730 src/mainwindow.cpp:4758
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Stredná (%1x%2)"
 
-#: src/mainwindow.cpp:4724 src/mainwindow.cpp:4752
+#: src/mainwindow.cpp:4732 src/mainwindow.cpp:4760
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Veľká (%1x%2)"
 
-#: src/mainwindow.cpp:4726 src/mainwindow.cpp:4754
+#: src/mainwindow.cpp:4734 src/mainwindow.cpp:4762
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Obrovská (%1x%2)"
 
-#: src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4818
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -29706,42 +29712,42 @@ msgid ""
 msgstr ""
 "Toto úplne skryje panel ponuky. Môžete ho znova zobraziť stlačením Ctrl+M."
 
-#: src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4818
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Skryť lištu ponuky"
 
-#: src/mainwindow.cpp:5152 src/timeline2/view/timelinecontroller.cpp:5410
+#: src/mainwindow.cpp:5160 src/timeline2/view/timelinecontroller.cpp:5410
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Nebolo žiadne vodidlo na čase kurzora"
 
-#: src/mainwindow.cpp:5454
+#: src/mainwindow.cpp:5462
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5460
+#: src/mainwindow.cpp:5468
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Nastavenie zariadenia"
 
-#: src/mainwindow.cpp:5463
+#: src/mainwindow.cpp:5471
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5467
+#: src/mainwindow.cpp:5475
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5509
+#: src/mainwindow.cpp:5517
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -32558,22 +32564,22 @@ msgstr "Sem zadajte svoje poznámky k projektu ..."
 msgid "Project Notes"
 msgstr "Poznámky projektu"
 
-#: src/project/notesplugin.cpp:158
+#: src/project/notesplugin.cpp:159
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 
-#: src/project/notesplugin.cpp:162
+#: src/project/notesplugin.cpp:163
 #, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr ""
 
-#: src/project/notesplugin.cpp:166
+#: src/project/notesplugin.cpp:167
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr ""
 
-#: src/project/notesplugin.cpp:168
+#: src/project/notesplugin.cpp:169
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32581,13 +32587,13 @@ msgid ""
 "if other text is selected too)."
 msgstr ""
 
-#: src/project/notesplugin.cpp:213
+#: src/project/notesplugin.cpp:214
 #, fuzzy, kde-format
 #| msgid "No clip selected"
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Nie je vybraný klip"
 
-#: src/project/notesplugin.cpp:243
+#: src/project/notesplugin.cpp:244
 #, fuzzy, kde-format
 #| msgid "Cannot update transition"
 msgid "Cannot perform assign"
@@ -33079,7 +33085,7 @@ msgstr ""
 msgid "Install missing dependencies"
 msgstr ""
 
-#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
+#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:85
 #, fuzzy, kde-format
 #| msgid "Error Downloading File. Error code: %1"
 msgid ""
@@ -41901,11 +41907,6 @@ msgstr "%1h"
 #~| msgid "Monitor Overlay Timecode"
 #~ msgid "Monitor overlay color:"
 #~ msgstr "Prekrytie monitora časový kód"
-
-#, fuzzy
-#~| msgid "Disable %1"
-#~ msgid "Raise %1"
-#~ msgstr "Zakázať %1"
 
 #, fuzzy
 #~| msgid "<select a keyword>"
