@@ -171,7 +171,7 @@ const QPointF KeyframeCurveEditor::getPointFromModel(int framePos, int offset)
     }
     double normalizedx = (double)(framePos - offset) / m_duration * m_wWidth;
     double normalizedy = 0.5; // center the curve when all values are the same
-    if (m_interval) {
+    if (!qFuzzyIsNull(m_interval)) {
         normalizedy = ((val - m_minVal) / m_interval) * (1 - 2 * m_paddingfactor) + m_paddingfactor;
     }
     return QPointF(normalizedx, (1. - normalizedy) * m_wHeight);
@@ -511,7 +511,7 @@ void KeyframeCurveEditor::loadSplineFromModel()
         // if(m_model->selectedKeyframes().contains(i)) continue;
         double normalizedx = double(pos.frames(pCore->getCurrentFps())) / (offset + m_duration);
         double normalizedy = 0.5; // center the curve when all values are the same
-        if (m_interval) {
+        if (!qFuzzyIsNull(m_interval)) {
             normalizedy = ((val - m_minVal) / m_interval) * (1 - 2 * m_paddingfactor) + m_paddingfactor;
         }
         QPointF p = QPointF(normalizedx, normalizedy);
@@ -646,7 +646,7 @@ double KeyframeCurveEditor::valueFromCanvasPos(double ypos)
 {
     double padding = getPadding();
     double value;
-    if (m_interval) {
+    if (!qFuzzyIsNull(m_interval) && !qFuzzyIsNull(m_paddingfactor)) {
         if (ypos <= m_paddingfactor) {
             value = m_minVal + ((ypos - m_paddingfactor) / m_paddingfactor) * padding;
         } else if (ypos > m_paddingfactor && ypos < (1 - m_paddingfactor)) {

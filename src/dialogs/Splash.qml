@@ -67,6 +67,13 @@ Window {
         actionsEnabled = true
     }
 
+    function displayProgress(message)
+    {
+        loadingLabel.text = message
+        loadingBox.visible = message.length > 0
+        recentProjects.enabled = false
+    }
+
     Component.onCompleted: {
         if (splash.firstRun)
             buttonNext.forceActiveFocus();
@@ -341,6 +348,7 @@ Window {
                                         text: splash.fileNames[model.index]
                                         elide: Text.ElideRight
                                         color: labelArea.containsMouse || listButton.hovered ? activePalette.highlight : activePalette.text
+                                        opacity: recentProjects.enabled ? 1 : 0.5
                                     }
                                     Label {
                                         id: datesLabel
@@ -349,7 +357,7 @@ Window {
                                         anchors.rightMargin: 4
                                         text: splash.fileDates[model.index]
                                         color: activePalette.text
-                                        opacity: 0.7
+                                        opacity: recentProjects.enabled ? 0.7 : 0.4
                                     }
 
                                     MouseArea {
@@ -508,6 +516,7 @@ Window {
                                         text: splash.profileNames[model.index]
                                         color: templatesArea.containsMouse || tlistButton.hovered ? activePalette.highlight : activePalette.text
                                         elide: Text.ElideMiddle
+                                        opacity: recentProjects.enabled ? 1 : 0.5
                                     }
 
                                     MouseArea {
@@ -670,6 +679,26 @@ Window {
                     onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
                     KeyNavigation.tab: listView
                 }
+            }
+            // Loading progress info
+            Rectangle {
+                id: loadingBox
+                visible: false
+                color: activePalette.highlight
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: buttonBar.top
+                radius: 5
+                height: Math.max(loadingLabel.height, notesButton.height) + 10
+                opacity: 0.5
+            }
+            Label {
+                id: loadingLabel
+                anchors.verticalCenter: loadingBox.verticalCenter
+                anchors.left: loadingBox.left
+                anchors.margins: 5
+                wrapMode: Text.Wrap
+                color: activePalette.highlightedText
             }
 
             Rectangle {

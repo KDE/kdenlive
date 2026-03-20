@@ -76,7 +76,7 @@ private:
     int m_size;
     double m_minVal, m_maxVal;
     double m_minLimit, m_maxLimit;
-    double m_interval;
+    double m_interval{0.};
     double m_factor;
     double m_paddingfactor;
     BPoint::PointType m_currentPointType{BPoint::PointType::P};

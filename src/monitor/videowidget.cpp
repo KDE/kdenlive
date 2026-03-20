@@ -515,9 +515,11 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
     if (m_fullScreen) {
         m_mouseTimer.start();
     }
-    bool qmlClick = rootObject()->property("captureRightClick").toBool();
+    bool qmlClick = rootObject() ? rootObject()->property("captureRightClick").toBool() : false;
     QQuickWidget::mouseReleaseEvent(event);
-    rootObject()->setProperty("captureRightClick", false);
+    if (rootObject()) {
+        rootObject()->setProperty("captureRightClick", false);
+    }
     bool playMonitor = KdenliveSettings::play_monitor_on_click() &&
                        (m_dragStart.isNull() || (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) && m_panStart.isNull();
 

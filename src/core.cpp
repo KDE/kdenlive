@@ -259,6 +259,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
         connect(m_splash, &Splash::openFile, this, [this](QString url) {
             // Ensure this can only be called once
             disconnect(m_splash, &Splash::openFile, this, nullptr);
+            Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
             if (m_splash->hasEventLoop() || !m_guiConstructed) {
                 connect(this, &Core::mainWindowReady, this,
                         [&, url]() { QMetaObject::invokeMethod(m_projectManager, "openFile", Qt::QueuedConnection, Q_ARG(QUrl, QUrl::fromLocalFile(url))); });
@@ -341,6 +342,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
                     m_projectManager->newFile(true);
                 }
             } else {
+                Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
                 if (m_splash->hasEventLoop() || !m_guiConstructed) {
                     connect(this, &Core::mainWindowReady, this, [&, url]() {
                         m_mainWindow->show();
@@ -373,11 +375,12 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
     } else {
         // Simple splash
         connect(this, &Core::closeSplash, m_splash, &Splash::fadeOutAndDelete, Qt::QueuedConnection);
-        connect(this, &Core::loadingMessageNewStage, m_splash, &Splash::showProgressMessage, Qt::DirectConnection);
+
         /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);*/
     }
+    connect(this, &Core::loadingMessageNewStage, m_splash, &Splash::showProgressMessage, Qt::DirectConnection);
     if (m_splash->hasEventLoop()) {
         // Last startup crashed, so stop here until we have a change to reset the config file
         connect(m_splash, &Splash::releaseLock, this, [&]() {
