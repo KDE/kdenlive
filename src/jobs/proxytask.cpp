@@ -372,11 +372,13 @@ void ProxyTask::run()
             // Make sure we keep the stream order
             parameters << QStringLiteral("-sn") << QStringLiteral("-dn");
             if (binClip->hasProducerProperty(QStringLiteral("kdenlive:coverartstream"))) {
-                // int streamIx = binClip->getProducerIntProperty(QStringLiteral("kdenlive:coverartstream"));
                 // Use 0:V to drop cover art streams
                 // TODO: this might change the streams index
                 parameters << QStringLiteral("-map") << QStringLiteral("0:V");
-                parameters << QStringLiteral("-map") << QStringLiteral("0:a");
+                if (binClip->clipType() == ClipType::AV || binClip->clipType() == ClipType::Audio) {
+                    // Only add audio transcoding if source has audio
+                    parameters << QStringLiteral("-map") << QStringLiteral("0:a");
+                }
             } else {
                 parameters << QStringLiteral("-map") << QStringLiteral("0");
             }
