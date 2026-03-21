@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 02:34+0000\n"
+"POT-Creation-Date: 2026-03-21 02:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -7379,7 +7379,7 @@ msgstr "अवधि"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1106 src/kdenliveui.rc:192 src/mainwindow.cpp:270
+#: src/core.cpp:1109 src/kdenliveui.rc:192 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -11655,8 +11655,8 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:624
-#: src/dialogs/Splash.qml:997 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:633
+#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -17172,12 +17172,12 @@ msgstr "अंत आयाम"
 msgid "Wave Amplitude"
 msgstr "तरंग आयाम"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:814
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
 #, kde-format
 msgid "Horizontal"
 msgstr "क्षैतिज"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:861
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
 #, kde-format
 msgid "Vertical"
 msgstr "खड़ा"
@@ -20403,7 +20403,7 @@ msgstr "अपने ऑडियो संपादन अनुप्रयो
 msgid "Please set a default application to open video files"
 msgstr "कृपया ऑडियो फ़ाइलें खोलने के लिए एक डिफ़ॉल्ट एप्लिकेशन सेट करें"
 
-#: src/bin/bin.cpp:5111 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5111 src/core.cpp:672 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
@@ -21289,7 +21289,13 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "GPU प्रसंस्करण अक्षम करें"
 
-#: src/core.cpp:473
+#: src/core.cpp:262 src/core.cpp:345 src/core.cpp:516
+#: src/project/projectmanager.cpp:869
+#, kde-format
+msgid "Loading project…"
+msgstr "प्रोजेक्ट लोड हो रहा है…"
+
+#: src/core.cpp:476
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -21298,19 +21304,19 @@ msgstr ""
 "Kdenlive का डिफ़ॉल्ट प्रोफ़ाइल सेट नहीं है या अमान्य है, इसे सही मान पर सेट करने के लिए "
 "OK दबाएँ।"
 
-#: src/core.cpp:485
+#: src/core.cpp:488
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "डिफ़ॉल्ट प्रोफ़ाइल चुनें"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:485 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:488 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "प्रोफ़ाइल:"
 
-#: src/core.cpp:498
+#: src/core.cpp:501
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -21319,268 +21325,263 @@ msgstr ""
 "दी गई प्रोफ़ाइल अमान्य है। हम डिफ़ॉल्ट रूप से \"dv_pal\" प्रोफ़ाइल का उपयोग करते हैं, "
 "लेकिन आप इसे Kdenlive के सेटिंग पैनल से बदल सकते हैं"
 
-#: src/core.cpp:513 src/project/projectmanager.cpp:869
-#, kde-format
-msgid "Loading project…"
-msgstr "प्रोजेक्ट लोड हो रहा है…"
-
-#: src/core.cpp:721
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "स्क्वायर 2 बार"
 
-#: src/core.cpp:722
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "चेकरबोर्ड छोटा"
 
-#: src/core.cpp:723
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "क्षैतिज अंधा"
 
-#: src/core.cpp:724
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "रेडियल"
 
-#: src/core.cpp:725
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "रैखिक एक्स"
 
-#: src/core.cpp:726
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "द्वि-रैखिक एक्स"
 
-#: src/core.cpp:727
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "रैखिक वाई"
 
-#: src/core.cpp:728
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "द्वि-रैखिक Y"
 
-#: src/core.cpp:729
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "वर्ग"
 
-#: src/core.cpp:730
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "वर्ग 2"
 
-#: src/core.cpp:731
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "बादल"
 
-#: src/core.cpp:732
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "सममित घड़ी"
 
-#: src/core.cpp:733
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "रेडियल बार्स"
 
-#: src/core.cpp:734
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "कुंडली"
 
-#: src/core.cpp:735
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "सर्पिल 2"
 
-#: src/core.cpp:736
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "परदा"
 
-#: src/core.cpp:737
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "फोड़ना"
 
-#: src/core.cpp:738
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "घड़ी"
 
-#: src/core.cpp:740
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "बार क्षैतिज"
 
-#: src/core.cpp:741
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "बार वर्टिकल"
 
-#: src/core.cpp:742
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "खलिहान दरवाजा क्षैतिज"
 
-#: src/core.cpp:743
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "खलिहान दरवाजा ऊर्ध्वाधर"
 
-#: src/core.cpp:744
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "खलिहान दरवाजा विकर्ण SW-NE"
 
-#: src/core.cpp:745
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "खलिहान दरवाजा विकर्ण NW-SE"
 
-#: src/core.cpp:746
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "विकर्ण ऊपर बाएँ"
 
-#: src/core.cpp:747
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "विकर्ण शीर्ष दायाँ"
 
-#: src/core.cpp:748
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "मैट्रिक्स झरना क्षैतिज"
 
-#: src/core.cpp:749
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "मैट्रिक्स वाटरफॉल वर्टिकल"
 
-#: src/core.cpp:750
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "मैट्रिक्स साँप क्षैतिज"
 
-#: src/core.cpp:751
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "मैट्रिक्स साँप समानांतर क्षैतिज"
 
-#: src/core.cpp:752
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "मैट्रिक्स स्नेक वर्टिकल"
 
-#: src/core.cpp:753
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "मैट्रिक्स साँप समानांतर लंबवत"
 
-#: src/core.cpp:754
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "बार्न वी अप"
 
-#: src/core.cpp:755
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "आइरिस सर्किल"
 
-#: src/core.cpp:756
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "डबल आइरिस"
 
-#: src/core.cpp:757
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "आइरिस बॉक्स"
 
-#: src/core.cpp:758
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "बॉक्स नीचे दाएँ"
 
-#: src/core.cpp:759
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "बॉक्स नीचे बाएँ"
 
-#: src/core.cpp:760
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "बॉक्स दायाँ मध्य"
 
-#: src/core.cpp:761
+#: src/core.cpp:764
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "घड़ी का शीर्ष"
 
-#: src/core.cpp:1052
+#: src/core.cpp:1055
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "आपकी प्रोजेक्ट प्रोफ़ाइल अमान्य है, रेंडरिंग विफल हो सकती है."
 
-#: src/core.cpp:1416
+#: src/core.cpp:1419
 #, kde-format
 msgid "Loading clips"
 msgstr "क्लिप लोड हो रहा है"
 
-#: src/core.cpp:1911
+#: src/core.cpp:1914
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "निशान"
 
-#: src/core.cpp:2273
+#: src/core.cpp:2276
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21590,12 +21591,12 @@ msgstr ""
 "इससे एक ब्राउज़र खुलेगा जिसमें Kdenlive का ऑनलाइन दस्तावेज़ निम्न URL पर प्रदर्शित होगा:\n"
 "%1"
 
-#: src/core.cpp:2274 src/core.cpp:2285
+#: src/core.cpp:2277 src/core.cpp:2288
 #, kde-format
 msgid "Open Browser"
 msgstr "खुला ब्राउज़र"
 
-#: src/core.cpp:2284
+#: src/core.cpp:2287
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will open a browser to display Kdenlive's online documentation at "
@@ -23401,12 +23402,12 @@ msgid ""
 "is not correctly detected or not working with this plugin."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:183
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:190
 #, kde-format
 msgid "Made by KDE"
 msgstr "केडीई द्वारा निर्मित"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:592 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:601 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "केडेनलाइव"
@@ -23429,14 +23430,14 @@ msgstr "कॉन्फ़िगरेशन रीसेट करें"
 msgid "Start Normally"
 msgstr "पहला रंग"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:651
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:660
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:668
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:677
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -23477,14 +23478,14 @@ msgstr "विश्लेषण करने के लिए टाइमल�
 msgid "No audio track found"
 msgstr "कोई ऑडियो ट्रैक नहीं मिला"
 
-#: src/dialogs/speechdialog.cpp:190 src/dialogs/textbasededit.cpp:1064
-#: src/dialogs/textbasededit.cpp:1077
+#: src/dialogs/speechdialog.cpp:190 src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1097
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "कृपया भाषण को पाठ में कॉन्फ़िगर करें."
 
-#: src/dialogs/speechdialog.cpp:211 src/dialogs/textbasededit.cpp:954
-#: src/dialogs/textbasededit.cpp:991
+#: src/dialogs/speechdialog.cpp:211 src/dialogs/textbasededit.cpp:974
+#: src/dialogs/textbasededit.cpp:1011
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "कृपया वाक् पहचान मॉडल स्थापित करें"
@@ -23499,12 +23500,12 @@ msgstr "ऑडियो निर्यात प्रारंभ करना
 msgid "Audio export failed"
 msgstr "ऑडियो निर्यात विफल"
 
-#: src/dialogs/speechdialog.cpp:378 src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/speechdialog.cpp:378 src/dialogs/textbasededit.cpp:1118
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "वाक् पहचान प्रारंभ करना"
 
-#: src/dialogs/speechdialog.cpp:441 src/dialogs/textbasededit.cpp:1285
+#: src/dialogs/speechdialog.cpp:441 src/dialogs/textbasededit.cpp:1305
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "वाक् पहचान निरस्त कर दी गई।"
@@ -24182,59 +24183,59 @@ msgstr ""
 msgid "60 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:250
+#: src/dialogs/Splash.qml:257
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "पुरालेख परियोजना…"
 
-#: src/dialogs/Splash.qml:277
+#: src/dialogs/Splash.qml:284
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "दस्तावेज़ खोलें"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:292
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr ""
 
-#: src/dialogs/Splash.qml:390
+#: src/dialogs/Splash.qml:398
 #, fuzzy, kde-format
 #| msgid "Remove from favorites"
 msgid "Remove file from list"
 msgstr "पसंदीदा से हटाएं"
 
-#: src/dialogs/Splash.qml:418
+#: src/dialogs/Splash.qml:426
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "पुरालेख परियोजना…"
 
-#: src/dialogs/Splash.qml:446
+#: src/dialogs/Splash.qml:454
 #, fuzzy, kde-format
 #| msgid "Test Proxy Profiles"
 msgid "New From Profile"
 msgstr "प्रॉक्सी प्रोफाइल का परीक्षण करें"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:463
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:543
+#: src/dialogs/Splash.qml:552
 #, fuzzy, kde-format
 #| msgid "Request option from list"
 msgid "Remove profile from list"
 msgstr "सूची से विकल्प का अनुरोध करें"
 
-#: src/dialogs/Splash.qml:582
+#: src/dialogs/Splash.qml:591
 #, fuzzy, kde-format
 #| msgid "Go to Zone Start"
 msgid "Show on Startup"
 msgstr "ज़ोन प्रारंभ पर जाएँ"
 
-#: src/dialogs/Splash.qml:615 src/dialogs/Splash.qml:987
+#: src/dialogs/Splash.qml:624 src/dialogs/Splash.qml:1016
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -24244,45 +24245,45 @@ msgstr ""
 "Kdenlive पिछले स्टार्टअप पर क्रैश हो गया। क्या आप कॉन्फ़िगरेशन फ़ाइलों को रीसेट करना "
 "चाहते हैं?"
 
-#: src/dialogs/Splash.qml:697
+#: src/dialogs/Splash.qml:726
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:702
+#: src/dialogs/Splash.qml:731
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:708
+#: src/dialogs/Splash.qml:737
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:739
+#: src/dialogs/Splash.qml:768
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "केडेनलाइव%1 में आपका स्वागत है"
 
-#: src/dialogs/Splash.qml:745
+#: src/dialogs/Splash.qml:774
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:757
+#: src/dialogs/Splash.qml:786
 #, fuzzy, kde-format
 #| msgid "Change default project profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "डिफ़ॉल्ट प्रोजेक्ट प्रोफ़ाइल बदलें"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:874 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "संकल्प"
 
-#: src/dialogs/Splash.qml:901
+#: src/dialogs/Splash.qml:930
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -24290,7 +24291,7 @@ msgstr "फ्रेम रेट:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:927
+#: src/dialogs/Splash.qml:956
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24299,31 +24300,31 @@ msgstr "फ्रेम रेट:"
 msgid "Interlaced"
 msgstr "interlaced"
 
-#: src/dialogs/Splash.qml:946
+#: src/dialogs/Splash.qml:975
 #, fuzzy, kde-format
 #| msgid "Video tracks:"
 msgid "Video Tracks"
 msgstr "वीडियो ट्रैक:"
 
-#: src/dialogs/Splash.qml:955
+#: src/dialogs/Splash.qml:984
 #, fuzzy, kde-format
 #| msgid "Audio tracks:"
 msgid "Audio Tracks"
 msgstr "ऑडियो ट्रैक:"
 
-#: src/dialogs/Splash.qml:968
+#: src/dialogs/Splash.qml:997
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1014
+#: src/dialogs/Splash.qml:1043
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Online documentation"
 msgid "Check Online Documentation"
 msgstr "ऑनलाइन दस्तावेज़ीकरण"
 
-#: src/dialogs/Splash.qml:1023
+#: src/dialogs/Splash.qml:1052
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -24650,8 +24651,8 @@ msgid "Delete selection"
 msgstr "चयन हटाएं"
 
 #: src/dialogs/textbasededit.cpp:357 src/dialogs/textbasededit.cpp:613
-#: src/dialogs/textbasededit.cpp:1305 src/dialogs/textbasededit.cpp:1375
-#: src/dialogs/textbasededit.cpp:1399 src/dialogs/textbasededit.cpp:1456
+#: src/dialogs/textbasededit.cpp:1325 src/dialogs/textbasededit.cpp:1395
+#: src/dialogs/textbasededit.cpp:1419 src/dialogs/textbasededit.cpp:1476
 #, kde-format
 msgid "No speech"
 msgstr "कोई भाषण नहीं"
@@ -24728,7 +24729,7 @@ msgstr "फ़ॉन्ट का आकार घटाएँ"
 msgid "Remove non speech zones"
 msgstr "गैर-भाषण क्षेत्र हटाएं"
 
-#: src/dialogs/textbasededit.cpp:1048
+#: src/dialogs/textbasededit.cpp:1068
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -24737,75 +24738,75 @@ msgstr ""
 "एक और मान्यता कार्य पहले से चल रहा है। नए कार्य के पक्ष में इसे निरस्त कर दिया जाएगा। "
 "क्या आप आगे बढ़ना चाहते हैं?"
 
-#: src/dialogs/textbasededit.cpp:1085
+#: src/dialogs/textbasededit.cpp:1105
 #, kde-format
 msgid "Please install a language model."
 msgstr "कृपया एक भाषा मॉडल स्थापित करें."
 
-#: src/dialogs/textbasededit.cpp:1093
+#: src/dialogs/textbasededit.cpp:1113
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "प्रोजेक्ट बिन में ऑडियो के साथ एक क्लिप का चयन करें."
 
-#: src/dialogs/textbasededit.cpp:1139
+#: src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "वाक् पहचान के लिए ऑडियो वाली क्लिप का चयन करें."
 
-#: src/dialogs/textbasededit.cpp:1148 src/dialogs/textbasededit.cpp:1197
-#: src/dialogs/textbasededit.cpp:1257
+#: src/dialogs/textbasededit.cpp:1168 src/dialogs/textbasededit.cpp:1217
+#: src/dialogs/textbasededit.cpp:1277
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "अस्थायी फ़ाइल नहीं बनाई जा सकती."
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1173
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "%1 के लिए ऑडियो निकाला जा रहा है."
 
-#: src/dialogs/textbasededit.cpp:1161
+#: src/dialogs/textbasededit.cpp:1181
 #, kde-format
 msgid "Audio extract failed."
 msgstr "ऑडियो निष्कर्षण विफल."
 
-#: src/dialogs/textbasededit.cpp:1167 src/dialogs/textbasededit.cpp:1233
+#: src/dialogs/textbasededit.cpp:1187 src/dialogs/textbasededit.cpp:1253
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "%1 पर वाक् पहचान प्रारंभ हो रही है।"
 
-#: src/dialogs/textbasededit.cpp:1289
+#: src/dialogs/textbasededit.cpp:1309
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "त्रुटि, कृपया वाक् से पाठ कॉन्फ़िगरेशन की जाँच करें."
 
-#: src/dialogs/textbasededit.cpp:1291
+#: src/dialogs/textbasededit.cpp:1311
 #, kde-format
 msgid "No speech detected."
 msgstr "कोई भाषण नहीं मिला."
 
-#: src/dialogs/textbasededit.cpp:1312
+#: src/dialogs/textbasededit.cpp:1332
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "वाक् पहचान समाप्त."
 
-#: src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1569
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "क्लिप पाठ संपादित करें"
 
-#: src/dialogs/textbasededit.cpp:1581 src/dialogs/textbasededit.cpp:1663
+#: src/dialogs/textbasededit.cpp:1601 src/dialogs/textbasededit.cpp:1683
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "अनुक्रम क्लिप बनाएँ"
 
-#: src/dialogs/textbasededit.cpp:1588 src/dialogs/textbasededit.cpp:1624
+#: src/dialogs/textbasededit.cpp:1608 src/dialogs/textbasededit.cpp:1644
 #, kde-format
 msgid "No text to export"
 msgstr "निर्यात करने के लिए कोई पाठ नहीं"
 
-#: src/dialogs/textbasededit.cpp:1608
+#: src/dialogs/textbasededit.cpp:1628
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "नया प्लेलिस्ट पथ दर्ज करें"
@@ -26446,7 +26447,7 @@ msgstr "छवि प्रॉक्सी करने के लिए बह�
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg नहीं मिला, कृपया Kdenlive की सेटिंग में पथ सेट करें वातावरण"
 
-#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
+#: src/jobs/proxytask.cpp:407 src/jobs/proxytask.cpp:420
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "प्रॉक्सी क्लिप बनाने में विफल."
@@ -30331,17 +30332,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "ऑडियो स्पेक्ट्रम सक्षम करें"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1235
 #, kde-format
 msgid "Select a zone to play"
 msgstr "खेलने के लिए एक क्षेत्र का चयन करें"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1244
 #, kde-format
 msgid "Select a clip to play"
 msgstr "चलाने के लिए कोई क्लिप चुनें"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1349
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

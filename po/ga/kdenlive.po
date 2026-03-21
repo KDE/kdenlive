@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 02:34+0000\n"
+"POT-Creation-Date: 2026-03-21 02:42+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -7397,7 +7397,7 @@ msgstr "Aga"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1106 src/kdenliveui.rc:192 src/mainwindow.cpp:270
+#: src/core.cpp:1109 src/kdenliveui.rc:192 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -11694,8 +11694,8 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:624
-#: src/dialogs/Splash.qml:997 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:633
+#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -17014,12 +17014,12 @@ msgstr "Aimplitiúid Deiridh"
 msgid "Wave Amplitude"
 msgstr "Aimplitiúid Tonnta"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:814
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
 #, kde-format
 msgid "Horizontal"
 msgstr "Cothrománach"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:861
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
 #, kde-format
 msgid "Vertical"
 msgstr "Ingearach"
@@ -20209,7 +20209,7 @@ msgstr ""
 msgid "Please set a default application to open video files"
 msgstr ""
 
-#: src/bin/bin.cpp:5111 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5111 src/core.cpp:672 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
@@ -21091,7 +21091,13 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Díchumasaigh próiseáil GPU"
 
-#: src/core.cpp:473
+#: src/core.cpp:262 src/core.cpp:345 src/core.cpp:516
+#: src/project/projectmanager.cpp:869
+#, kde-format
+msgid "Loading project…"
+msgstr "Ag lódáil an tionscadail…"
+
+#: src/core.cpp:476
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -21100,19 +21106,19 @@ msgstr ""
 "Níl próifíl réamhshocraithe Kdenlive socraithe nó tá sí neamhbhailí, brúigh "
 "OK chun í a shocrú go luach ceart."
 
-#: src/core.cpp:485
+#: src/core.cpp:488
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Roghnaigh Próifíl Réamhshocraithe"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:485 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:488 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Próifíl:"
 
-#: src/core.cpp:498
+#: src/core.cpp:501
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -21121,269 +21127,264 @@ msgstr ""
 "Tá an phróifíl tugtha neamhbhailí. Úsáidimid an phróifíl \"dv_pal\" mar "
 "réamhshocrú, ach is féidir leat é seo a athrú ó phainéal socruithe Kdenlive"
 
-#: src/core.cpp:513 src/project/projectmanager.cpp:869
-#, kde-format
-msgid "Loading project…"
-msgstr "Ag lódáil an tionscadail…"
-
-#: src/core.cpp:721
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Barraí Cearnógacha 2"
 
-#: src/core.cpp:722
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Clár Seiceála Beag"
 
-#: src/core.cpp:723
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Dallóga Cothrománacha"
 
-#: src/core.cpp:724
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Gathach"
 
-#: src/core.cpp:725
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Líneach X"
 
-#: src/core.cpp:726
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Dé-Líneach X"
 
-#: src/core.cpp:727
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Líneach Y"
 
-#: src/core.cpp:728
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Dé-Líneach Y"
 
-#: src/core.cpp:729
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Cearnóg"
 
-#: src/core.cpp:730
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Cearnóg 2"
 
-#: src/core.cpp:731
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Néal"
 
-#: src/core.cpp:732
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Clog Siméadrach"
 
-#: src/core.cpp:733
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barraí Gathacha"
 
-#: src/core.cpp:734
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Bíorlach"
 
-#: src/core.cpp:735
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Bíorlach 2"
 
-#: src/core.cpp:736
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Cuirtín"
 
-#: src/core.cpp:737
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Pléasc"
 
-#: src/core.cpp:738
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Clog"
 
-#: src/core.cpp:740
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barra Cothrománach"
 
-#: src/core.cpp:741
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barra Ingearach"
 
-#: src/core.cpp:742
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Doras Sciatháin Cothrománach"
 
-#: src/core.cpp:743
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Doras Sciatháin Ingearach"
 
-#: src/core.cpp:744
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Trasnán Doras Sciatháin Iardheisceart-Thuaidh"
 
-#: src/core.cpp:745
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Trasnán Doras Sciatháin Iarthuaisceart-Oirthear"
 
-#: src/core.cpp:746
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Trasnánach Barr ar Chlé"
 
-#: src/core.cpp:747
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Trasnánach Barr ar Dheis"
 
-#: src/core.cpp:748
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Eas Maitrís Cothrománach"
 
-#: src/core.cpp:749
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Eas Maitrís Ingearach"
 
-#: src/core.cpp:750
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Maitrís Nathair Cothrománach"
 
-#: src/core.cpp:751
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Maitrís Nathair Comhthreomhar Cothrománach"
 
-#: src/core.cpp:752
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Maitrís Nathair Ingearach"
 
-#: src/core.cpp:753
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Maitrís Nathair Ingearach Comhthreomhar"
 
-#: src/core.cpp:754
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Sciathán V Suas"
 
-#: src/core.cpp:755
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Ciorcal na hIrise"
 
-#: src/core.cpp:756
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Iris Dúbailte"
 
-#: src/core.cpp:757
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Bosca Iris"
 
-#: src/core.cpp:758
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Bosca Bun Ar Dheis"
 
-#: src/core.cpp:759
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Bosca Bun Ar Chlé"
 
-#: src/core.cpp:760
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Bosca Deas Lár"
 
-#: src/core.cpp:761
+#: src/core.cpp:764
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Barr an Chloig"
 
-#: src/core.cpp:1052
+#: src/core.cpp:1055
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Tá próifíl do thionscadail neamhbhailí, d’fhéadfadh teip a bheith ar an "
 "rindreáil."
 
-#: src/core.cpp:1416
+#: src/core.cpp:1419
 #, kde-format
 msgid "Loading clips"
 msgstr "Gearrthóga á lódáil"
 
-#: src/core.cpp:1911
+#: src/core.cpp:1914
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcóir %1"
 
-#: src/core.cpp:2273
+#: src/core.cpp:2276
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21394,12 +21395,12 @@ msgstr ""
 "ag an url seo a leanas:\n"
 "%1"
 
-#: src/core.cpp:2274 src/core.cpp:2285
+#: src/core.cpp:2277 src/core.cpp:2288
 #, kde-format
 msgid "Open Browser"
 msgstr "Oscail Brabhsálaí"
 
-#: src/core.cpp:2284
+#: src/core.cpp:2287
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -23222,12 +23223,12 @@ msgstr ""
 "Ná húsáid an rogha suiteála seo ach amháin mura bhfuil do GPU \n"
 "braite i gceart nó mura bhfuil sé ag obair leis an mbreiseán seo."
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:183
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:190
 #, kde-format
 msgid "Made by KDE"
 msgstr "Déanta ag KDE"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:592 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:601 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -23247,7 +23248,7 @@ msgstr "Athshocraigh an Chumraíocht"
 msgid "Start Normally"
 msgstr "Tosaigh de ghnáth"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:651
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:660
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
@@ -23256,7 +23257,7 @@ msgstr ""
 "Rinneadh uasghrádú ar Kdenlive. Más maith leat é, smaoinigh ar <a href="
 "\"%1\">bheith páirteach</a> nó cabhraigh le <a href=\"%2\">maoiniú</a>."
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:668
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:677
 #, kde-format
 msgid "What's New"
 msgstr "Cad atá Nua"
@@ -23296,14 +23297,14 @@ msgstr "Roghnaigh gearrthóg sa líne ama chun anailís a dhéanamh"
 msgid "No audio track found"
 msgstr "Níor aimsíodh aon rian fuaime"
 
-#: src/dialogs/speechdialog.cpp:190 src/dialogs/textbasededit.cpp:1064
-#: src/dialogs/textbasededit.cpp:1077
+#: src/dialogs/speechdialog.cpp:190 src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1097
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Cumraigh ó urlabhra go téacs le do thoil."
 
-#: src/dialogs/speechdialog.cpp:211 src/dialogs/textbasededit.cpp:954
-#: src/dialogs/textbasededit.cpp:991
+#: src/dialogs/speechdialog.cpp:211 src/dialogs/textbasededit.cpp:974
+#: src/dialogs/textbasededit.cpp:1011
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Suiteáil samhlacha aitheantais urlabhra le do thoil"
@@ -23318,12 +23319,12 @@ msgstr "Ag tosú easpórtáil fuaime"
 msgid "Audio export failed"
 msgstr "Theip ar easpórtáil fuaime"
 
-#: src/dialogs/speechdialog.cpp:378 src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/speechdialog.cpp:378 src/dialogs/textbasededit.cpp:1118
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Ag tosú aitheantais urlabhra"
 
-#: src/dialogs/speechdialog.cpp:441 src/dialogs/textbasededit.cpp:1285
+#: src/dialogs/speechdialog.cpp:441 src/dialogs/textbasededit.cpp:1305
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Cuireadh deireadh leis an aithint cainte."
@@ -23995,102 +23996,102 @@ msgstr "59.94 fps"
 msgid "60 fps"
 msgstr "60 fps"
 
-#: src/dialogs/Splash.qml:250
+#: src/dialogs/Splash.qml:257
 #, kde-format
 msgid "Open Project…"
 msgstr "Oscail an Tionscadal…"
 
-#: src/dialogs/Splash.qml:277
+#: src/dialogs/Splash.qml:284
 #, kde-format
 msgid "Open Recent"
 msgstr "Oscail Le Déanaí"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:292
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "Glan Stair na dTionscadal Le Déanaí"
 
-#: src/dialogs/Splash.qml:390
+#: src/dialogs/Splash.qml:398
 #, kde-format
 msgid "Remove file from list"
 msgstr "Bain comhad den liosta"
 
-#: src/dialogs/Splash.qml:418
+#: src/dialogs/Splash.qml:426
 #, kde-format
 msgid "New Project…"
 msgstr "Tionscadal Nua…"
 
-#: src/dialogs/Splash.qml:446
+#: src/dialogs/Splash.qml:454
 #, kde-format
 msgid "New From Profile"
 msgstr "Nua Ó Phróifíl"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:463
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "Glan Stair na bPróifílí Le Déanaí"
 
-#: src/dialogs/Splash.qml:543
+#: src/dialogs/Splash.qml:552
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Bain próifíl den liosta"
 
-#: src/dialogs/Splash.qml:582
+#: src/dialogs/Splash.qml:591
 #, kde-format
 msgid "Show on Startup"
 msgstr "Taispeáin ar an Tosaithe"
 
-#: src/dialogs/Splash.qml:615 src/dialogs/Splash.qml:987
+#: src/dialogs/Splash.qml:624 src/dialogs/Splash.qml:1016
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "Thuairteáil Kdenlive an uair dheireanach a thosaigh tú é. Athshocraigh an "
 "chumraíocht agus atosú?"
 
-#: src/dialogs/Splash.qml:697
+#: src/dialogs/Splash.qml:726
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "Cabhraigh linn Kdenlive a dhéanamh níos fearr fós"
 
-#: src/dialogs/Splash.qml:702
+#: src/dialogs/Splash.qml:731
 #, kde-format
 msgid "Contribute…"
 msgstr "Cuir leis…"
 
-#: src/dialogs/Splash.qml:708
+#: src/dialogs/Splash.qml:737
 #, kde-format
 msgid "Donate…"
 msgstr "Tabhair síntiús…"
 
-#: src/dialogs/Splash.qml:739
+#: src/dialogs/Splash.qml:768
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>Fáilte go Socrú Tapa Kdenlive</b>"
 
-#: src/dialogs/Splash.qml:745
+#: src/dialogs/Splash.qml:774
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "Úsáid Téama Dath Dorcha i gCónaí"
 
-#: src/dialogs/Splash.qml:757
+#: src/dialogs/Splash.qml:786
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>Próifíl Réamhshocraithe an Tionscadail</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:874 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Taifeach"
 
-#: src/dialogs/Splash.qml:901
+#: src/dialogs/Splash.qml:930
 #, kde-format
 msgid "Frame Rate"
 msgstr "Ráta Fráma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:927
+#: src/dialogs/Splash.qml:956
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24099,27 +24100,27 @@ msgstr "Ráta Fráma"
 msgid "Interlaced"
 msgstr "Crosfhite"
 
-#: src/dialogs/Splash.qml:946
+#: src/dialogs/Splash.qml:975
 #, kde-format
 msgid "Video Tracks"
 msgstr "Rianta Físeáin"
 
-#: src/dialogs/Splash.qml:955
+#: src/dialogs/Splash.qml:984
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Rianta Fuaime"
 
-#: src/dialogs/Splash.qml:968
+#: src/dialogs/Splash.qml:997
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Is féidir é seo a athrú níos déanaí sna Socruithe i gcónaí."
 
-#: src/dialogs/Splash.qml:1014
+#: src/dialogs/Splash.qml:1043
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Seiceáil Doiciméadacht Ar Líne"
 
-#: src/dialogs/Splash.qml:1023
+#: src/dialogs/Splash.qml:1052
 #, kde-format
 msgid "Start Editing"
 msgstr "Tosaigh ag Eagarthóireacht"
@@ -24457,8 +24458,8 @@ msgid "Delete selection"
 msgstr "Scrios an rogha"
 
 #: src/dialogs/textbasededit.cpp:357 src/dialogs/textbasededit.cpp:613
-#: src/dialogs/textbasededit.cpp:1305 src/dialogs/textbasededit.cpp:1375
-#: src/dialogs/textbasededit.cpp:1399 src/dialogs/textbasededit.cpp:1456
+#: src/dialogs/textbasededit.cpp:1325 src/dialogs/textbasededit.cpp:1395
+#: src/dialogs/textbasededit.cpp:1419 src/dialogs/textbasededit.cpp:1476
 #, kde-format
 msgid "No speech"
 msgstr "Gan aon chaint"
@@ -24535,7 +24536,7 @@ msgstr "Laghdaigh Méid an Chló"
 msgid "Remove non speech zones"
 msgstr "Bain criosanna neamh-urlabhra"
 
-#: src/dialogs/textbasededit.cpp:1048
+#: src/dialogs/textbasededit.cpp:1068
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -24544,75 +24545,75 @@ msgstr ""
 "Tá post aitheantais eile ar siúl cheana féin. Cuirfear deireadh leis ar "
 "mhaithe leis an bpost nua. Ar mhaith leat dul ar aghaidh?"
 
-#: src/dialogs/textbasededit.cpp:1085
+#: src/dialogs/textbasededit.cpp:1105
 #, kde-format
 msgid "Please install a language model."
 msgstr "Suiteáil samhail teanga le do thoil."
 
-#: src/dialogs/textbasededit.cpp:1093
+#: src/dialogs/textbasededit.cpp:1113
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Roghnaigh gearrthóg le fuaim i mBosca Tionscadail."
 
-#: src/dialogs/textbasededit.cpp:1139
+#: src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Roghnaigh gearrthóg le fuaim le haghaidh aitheantais urlabhra."
 
-#: src/dialogs/textbasededit.cpp:1148 src/dialogs/textbasededit.cpp:1197
-#: src/dialogs/textbasededit.cpp:1257
+#: src/dialogs/textbasededit.cpp:1168 src/dialogs/textbasededit.cpp:1217
+#: src/dialogs/textbasededit.cpp:1277
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Ní féidir comhad sealadach a chruthú."
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1173
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Ag baint fuaime as %1."
 
-#: src/dialogs/textbasededit.cpp:1161
+#: src/dialogs/textbasededit.cpp:1181
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Theip ar an eastóscadh fuaime."
 
-#: src/dialogs/textbasededit.cpp:1167 src/dialogs/textbasededit.cpp:1233
+#: src/dialogs/textbasededit.cpp:1187 src/dialogs/textbasededit.cpp:1253
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Ag tosú aitheantas cainte ar %1."
 
-#: src/dialogs/textbasededit.cpp:1289
+#: src/dialogs/textbasededit.cpp:1309
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Earráid, seiceáil an chumraíocht cainte go téacs le do thoil."
 
-#: src/dialogs/textbasededit.cpp:1291
+#: src/dialogs/textbasededit.cpp:1311
 #, kde-format
 msgid "No speech detected."
 msgstr "Níor braitheadh aon urlabhra."
 
-#: src/dialogs/textbasededit.cpp:1312
+#: src/dialogs/textbasededit.cpp:1332
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Aitheantas cainte críochnaithe."
 
-#: src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1569
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Cuir téacs an ghearrthóige in eagar"
 
-#: src/dialogs/textbasededit.cpp:1581 src/dialogs/textbasededit.cpp:1663
+#: src/dialogs/textbasededit.cpp:1601 src/dialogs/textbasededit.cpp:1683
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Cruthaigh gearrthóg seicheamh"
 
-#: src/dialogs/textbasededit.cpp:1588 src/dialogs/textbasededit.cpp:1624
+#: src/dialogs/textbasededit.cpp:1608 src/dialogs/textbasededit.cpp:1644
 #, kde-format
 msgid "No text to export"
 msgstr "Gan aon téacs le honnmhairiú"
 
-#: src/dialogs/textbasededit.cpp:1608
+#: src/dialogs/textbasededit.cpp:1628
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Cuir isteach cosán nua seinmliosta"
@@ -26318,7 +26319,7 @@ msgstr ""
 "Níor aimsíodh FFmpeg, socraigh an cosán i socruithe Timpeallacht Kdenlive le "
 "do thoil"
 
-#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
+#: src/jobs/proxytask.cpp:407 src/jobs/proxytask.cpp:420
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Theip ar ghearrthóg seachfhreastalaí a chruthú."
@@ -30179,17 +30180,17 @@ msgstr "Ní mór MLT a thiomsú le libfftw3 chun Speictream Fuaime a chumasú"
 msgid "Enable Audio Spectrum"
 msgstr "Cumasaigh Speictream Fuaime"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1235
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Roghnaigh crios le himirt"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1244
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Roghnaigh gearrthóg le seinm"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1349
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
