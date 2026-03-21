@@ -72,6 +72,7 @@ Window {
         loadingLabel.text = message
         loadingBox.visible = message.length > 0
         recentProjects.enabled = false
+        donateBar.visible = false
     }
 
     Component.onCompleted: {
@@ -680,30 +681,9 @@ Window {
                     KeyNavigation.tab: listView
                 }
             }
-            // Loading progress info
-            Rectangle {
-                id: loadingBox
-                visible: false
-                color: activePalette.highlight
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: buttonBar.top
-                radius: 5
-                height: Math.max(loadingLabel.height, notesButton.height) + 10
-                opacity: 0.5
-            }
-            Label {
-                id: loadingLabel
-                anchors.verticalCenter: loadingBox.verticalCenter
-                anchors.left: loadingBox.left
-                anchors.margins: 5
-                wrapMode: Text.Wrap
-                color: activePalette.highlightedText
-            }
 
             Rectangle {
                 id: donateBar
-
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: buttonBar.top
@@ -743,6 +723,26 @@ Window {
 
                 }
 
+            }
+            // Loading progress info
+            Rectangle {
+                id: loadingBox
+                visible: false
+                color: activePalette.highlight
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: buttonBar.top
+                radius: 5
+                height: Math.max(loadingLabel.height, notesButton.height) + 10
+                opacity: 0.5
+            }
+            Label {
+                id: loadingLabel
+                anchors.verticalCenter: loadingBox.verticalCenter
+                anchors.left: loadingBox.left
+                anchors.margins: 5
+                wrapMode: Text.Wrap
+                color: activePalette.highlightedText
             }
 
         }
