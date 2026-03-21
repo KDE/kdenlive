@@ -668,6 +668,7 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_sequence_marker")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_sequence_marker")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_markers_at_gaps")));
     QMenu *guideMenu = new QMenu(i18n("Go to Marker…"), this);
     timelineMenu->addMenu(guideMenu);
 
@@ -2185,6 +2186,8 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("bookmark-remove")));
     addAction(QStringLiteral("delete_all_sequence_markers"), i18n("Delete All Timeline Markers"), this, SLOT(slotDeleteAllSequenceMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("add_markers_at_gaps"), i18n("Add Markers at Gaps"), this, SLOT(slotAddMarkersAtGaps()),
+              QIcon::fromTheme(QStringLiteral("bookmark-new")));
     addAction(QStringLiteral("edit_sequence_marker"), i18n("Edit Timeline Marker…"), this, SLOT(slotEditGuide()),
               QIcon::fromTheme(QStringLiteral("bookmark-edit")));
 
@@ -3235,6 +3238,11 @@ void MainWindow::slotAddMarkerWithCategory()
     }
     // return to previously-chosen default category
     KdenliveSettings::setDefault_marker_type(currentCategory);
+}
+
+void MainWindow::slotAddMarkersAtGaps()
+{
+    getCurrentTimeline()->controller()->addMarkersAtGaps();
 }
 
 void MainWindow::slotAddGuide()

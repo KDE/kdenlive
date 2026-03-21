@@ -1477,6 +1477,11 @@ void TimelineController::addQuickMarker(int cid, int position)
     clip->getMarkerModel()->addMarker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
 }
 
+void TimelineController::addMarkersAtGaps()
+{
+    TimelineFunctions::addMarkersAtGaps(m_model);
+}
+
 void TimelineController::deleteMarker(int cid, int position)
 {
     if (cid == -1) {

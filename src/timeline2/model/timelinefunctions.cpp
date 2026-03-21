@@ -3125,6 +3125,41 @@ bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<Timeline
     return true;
 }
 
+bool TimelineFunctions::addMarkersAtGaps(const std::shared_ptr<TimelineItemModel> &timeline)
+{
+    // Collect gap positions across all video tracks (using set to avoid duplicates)
+    std::set<int> gapPositions;
+    QList<int> videoTrackIds = timeline->getTracksIds(false); // false = video tracks
+
+    for (int trackId : videoTrackIds) {
+        auto track = timeline->getTrackById_const(trackId);
+        // Get all clips on this track sorted by position
+        std::unordered_set<int> clipSet = track->getClipsInRange(0, -1);
+        std::vector<int> clips(clipSet.begin(), clipSet.end());
+        std::sort(clips.begin(), clips.end(), [&](int a, int b) { return timeline->getClipPosition(a) < timeline->getClipPosition(b); });
+        // Find gaps between consecutive clips
+        for (int i = 0; i < (int)clips.size() - 1; i++) {
+            int clipEnd = timeline->getClipEnd(clips[i]);
+            int nextStart = timeline->getClipPosition(clips[i + 1]);
+            if (nextStart > clipEnd) {
+                gapPositions.insert(clipEnd);
+            }
+        }
+    }
+
+    if (gapPositions.empty()) {
+        pCore->displayBinMessage(i18n("No gaps found in timeline"), KMessageWidget::Information);
+        return false;
+    }
+
+    // Add a guide marker at each gap position
+    auto guideModel = timeline->getGuideModel();
+    for (int pos : gapPositions) {
+        guideModel->addMarker(GenTime(pos, pCore->getCurrentFps()), i18n("Gap"));
+    }
+    return true;
+}
+
 QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemModel> &timeline, int cid, const QString &binId)
 {
     int tid = timeline->getClipTrackId(cid);

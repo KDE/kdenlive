@@ -326,6 +326,9 @@ public:
     /** @brief Ask for quick marker add (without dialog)
      */
     Q_INVOKABLE void addQuickMarker(int cid = -1, int position = -1);
+    /** @brief Add guide markers at the start of every gap between clips on video tracks
+     */
+    Q_INVOKABLE void addMarkersAtGaps();
     /** @brief Ask for marker delete
      */
     Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);
