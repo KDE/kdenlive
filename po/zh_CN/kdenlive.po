@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-20 00:42+0000\n"
+"POT-Creation-Date: 2026-03-21 00:44+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7133,7 +7133,7 @@ msgstr "持续时间"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1106 src/kdenliveui.rc:192 src/mainwindow.cpp:270
+#: src/core.cpp:1109 src/kdenliveui.rc:192 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -11272,8 +11272,8 @@ msgstr "如果正常变暗参数效果不够自然，可以尝试使用非线性
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:624
-#: src/dialogs/Splash.qml:997 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:633
+#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16413,12 +16413,12 @@ msgstr "结尾振幅"
 msgid "Wave Amplitude"
 msgstr "波浪振幅"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:814
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
 #, kde-format
 msgid "Horizontal"
 msgstr "水平"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:861
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
 #, kde-format
 msgid "Vertical"
 msgstr "垂直"
@@ -19500,7 +19500,7 @@ msgstr "输入视频编辑应用程序的路径"
 msgid "Please set a default application to open video files"
 msgstr "请设置用于打开视频文件的默认程序"
 
-#: src/bin/bin.cpp:5111 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5111 src/core.cpp:672 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
@@ -20358,7 +20358,13 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "禁用 GPU 处理功能"
 
-#: src/core.cpp:473
+#: src/core.cpp:262 src/core.cpp:345 src/core.cpp:516
+#: src/project/projectmanager.cpp:869
+#, kde-format
+msgid "Loading project…"
+msgstr "正在加载项目…"
+
+#: src/core.cpp:476
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20366,19 +20372,19 @@ msgid ""
 msgstr ""
 "Kdenlive 的默认编码方案尚未设定或者无效，请点击确定将其设置为正确的值。"
 
-#: src/core.cpp:485
+#: src/core.cpp:488
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "选择默认编码方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:485 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:488 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "编码方案："
 
-#: src/core.cpp:498
+#: src/core.cpp:501
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20387,267 +20393,262 @@ msgstr ""
 "指定的编码方案无效。默认的编码方案为“dv_pal”，您也可以在 Kdenlive 的设置对话"
 "框对此进行更改。"
 
-#: src/core.cpp:513 src/project/projectmanager.cpp:869
-#, kde-format
-msgid "Loading project…"
-msgstr "正在加载项目…"
-
-#: src/core.cpp:721
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Square 2 Bars - 正方形 2 条纹"
 
-#: src/core.cpp:722
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Checkerboard Small - 棋盘 (小)"
 
-#: src/core.cpp:723
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontal Blinds - 百叶窗 (水平)"
 
-#: src/core.cpp:724
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial - 径向"
 
-#: src/core.cpp:725
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X - 线性 (X 轴)"
 
-#: src/core.cpp:726
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X - 对称线性 (X 轴)"
 
-#: src/core.cpp:727
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y - 线性 (Y 轴)"
 
-#: src/core.cpp:728
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y - 对称线性 (Y 轴)"
 
-#: src/core.cpp:729
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Square - 正方形"
 
-#: src/core.cpp:730
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Square 2 - 正方形 2"
 
-#: src/core.cpp:731
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Cloud - 云朵"
 
-#: src/core.cpp:732
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetric Clock - 时钟扫描 (对称)"
 
-#: src/core.cpp:733
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radial Bars - 径向条纹"
 
-#: src/core.cpp:734
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiral - 螺旋"
 
-#: src/core.cpp:735
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiral 2 - 螺旋 2"
 
-#: src/core.cpp:736
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Curtain - 窗帘"
 
-#: src/core.cpp:737
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Burst - 爆炸"
 
-#: src/core.cpp:738
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Clock - 时钟扫描"
 
-#: src/core.cpp:740
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Bar Horizontal - 条纹 (水平)"
 
-#: src/core.cpp:741
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Bar Vertical - 条纹 (垂直)"
 
-#: src/core.cpp:742
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Barn Door Horizontal - 挡光板 (水平)"
 
-#: src/core.cpp:743
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Barn Door Vertical - 挡光板 (垂直)"
 
-#: src/core.cpp:744
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Barn Door Diagonal SW-NE 挡光板 (对角线-西南-东北)"
 
-#: src/core.cpp:745
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Barn Door Diagonal NW-SE - 挡光板 (对角线-东北-西南)"
 
-#: src/core.cpp:746
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal Top Left - 对角线左上"
 
-#: src/core.cpp:747
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Top Right - 对角线右上"
 
-#: src/core.cpp:748
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix Waterfall Horizontal - 黑客帝国瀑布 (水平)"
 
-#: src/core.cpp:749
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix Waterfall Vertical - 黑客帝国瀑布 (垂直)"
 
-#: src/core.cpp:750
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix Snake Horizontal - 黑客帝国蛇形 (水平)"
 
-#: src/core.cpp:751
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix Snake Parallel Horizontal - 黑客帝国蛇形 (水平平行)"
 
-#: src/core.cpp:752
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix Snake Vertical - 黑客帝国蛇形 (垂直)"
 
-#: src/core.cpp:753
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix Snake Parallel Vertical - 黑客帝国蛇形 (垂直平行)"
 
-#: src/core.cpp:754
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Barn V Up - 挡光板 V 字打开"
 
-#: src/core.cpp:755
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris Circle - 瞳孔圆圈"
 
-#: src/core.cpp:756
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double Iris - 双重瞳孔"
 
-#: src/core.cpp:757
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris Box 瞳孔边框"
 
-#: src/core.cpp:758
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Box Bottom Right -边框 (右)"
 
-#: src/core.cpp:759
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Box Bottom Left - 边框 (左)"
 
-#: src/core.cpp:760
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Box Right Center - 边框 (中心)"
 
-#: src/core.cpp:761
+#: src/core.cpp:764
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Clock Top - 时钟扫描 (顶部)"
 
-#: src/core.cpp:1052
+#: src/core.cpp:1055
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的项目编码方案无效，导出可能失败。"
 
-#: src/core.cpp:1416
+#: src/core.cpp:1419
 #, kde-format
 msgid "Loading clips"
 msgstr "加载片段"
 
-#: src/core.cpp:1911
+#: src/core.cpp:1914
 #, kde-format
 msgid "Marker %1"
 msgstr "标记 %1"
 
-#: src/core.cpp:2273
+#: src/core.cpp:2276
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20657,12 +20658,12 @@ msgstr ""
 "这将打开浏览器以显示 Kdenlive 的在线文档，网址如下：\n"
 " %1"
 
-#: src/core.cpp:2274 src/core.cpp:2285
+#: src/core.cpp:2277 src/core.cpp:2288
 #, kde-format
 msgid "Open Browser"
 msgstr "打开浏览器"
 
-#: src/core.cpp:2284
+#: src/core.cpp:2287
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -22421,12 +22422,12 @@ msgstr ""
 "仅在 GPU 无法被正确经检测或不支持此插件时\n"
 "才应使用此安装选项。"
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:183
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:190
 #, kde-format
 msgid "Made by KDE"
 msgstr "KDE 社区项目"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:592 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:601 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22446,7 +22447,7 @@ msgstr "重置配置"
 msgid "Start Normally"
 msgstr "正常启动"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:651
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:660
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
@@ -22455,7 +22456,7 @@ msgstr ""
 "Kdenlive 已升级。如果您喜欢，请考虑<a href=\"%1\">参与贡献</a>或<a href="
 "\"%2\">进行捐赠</a>。"
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:668
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:677
 #, kde-format
 msgid "What's New"
 msgstr "更新内容"
@@ -22495,14 +22496,14 @@ msgstr "在时间轴中选择一段片段以进行分析"
 msgid "No audio track found"
 msgstr "未找到音轨"
 
-#: src/dialogs/speechdialog.cpp:190 src/dialogs/textbasededit.cpp:1064
-#: src/dialogs/textbasededit.cpp:1077
+#: src/dialogs/speechdialog.cpp:190 src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1097
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "请配置语音转文本功能。"
 
-#: src/dialogs/speechdialog.cpp:211 src/dialogs/textbasededit.cpp:954
-#: src/dialogs/textbasededit.cpp:991
+#: src/dialogs/speechdialog.cpp:211 src/dialogs/textbasededit.cpp:974
+#: src/dialogs/textbasededit.cpp:1011
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "请安装语音识别模型"
@@ -22517,12 +22518,12 @@ msgstr "开始音频导出"
 msgid "Audio export failed"
 msgstr "音频导出失败"
 
-#: src/dialogs/speechdialog.cpp:378 src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/speechdialog.cpp:378 src/dialogs/textbasededit.cpp:1118
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "开始语音识别"
 
-#: src/dialogs/speechdialog.cpp:441 src/dialogs/textbasededit.cpp:1285
+#: src/dialogs/speechdialog.cpp:441 src/dialogs/textbasededit.cpp:1305
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "语音识别已中止。"
@@ -23194,100 +23195,100 @@ msgstr "59.94 fps"
 msgid "60 fps"
 msgstr "60 fps"
 
-#: src/dialogs/Splash.qml:250
+#: src/dialogs/Splash.qml:257
 #, kde-format
 msgid "Open Project…"
 msgstr "打开项目…"
 
-#: src/dialogs/Splash.qml:277
+#: src/dialogs/Splash.qml:284
 #, kde-format
 msgid "Open Recent"
 msgstr "打开最近项目"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:292
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "清除最近项目历史"
 
-#: src/dialogs/Splash.qml:390
+#: src/dialogs/Splash.qml:398
 #, kde-format
 msgid "Remove file from list"
 msgstr "从列表中移除文件"
 
-#: src/dialogs/Splash.qml:418
+#: src/dialogs/Splash.qml:426
 #, kde-format
 msgid "New Project…"
 msgstr "新建项目…"
 
-#: src/dialogs/Splash.qml:446
+#: src/dialogs/Splash.qml:454
 #, kde-format
 msgid "New From Profile"
 msgstr "从配置文件新建项目"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:463
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "清除最近配置文件历史"
 
-#: src/dialogs/Splash.qml:543
+#: src/dialogs/Splash.qml:552
 #, kde-format
 msgid "Remove profile from list"
 msgstr "从列表中移除配置文件"
 
-#: src/dialogs/Splash.qml:582
+#: src/dialogs/Splash.qml:591
 #, kde-format
 msgid "Show on Startup"
 msgstr "启动时显示"
 
-#: src/dialogs/Splash.qml:615 src/dialogs/Splash.qml:987
+#: src/dialogs/Splash.qml:624 src/dialogs/Splash.qml:1016
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr "Kdenlive 在上次启动时崩溃。是否重置配置并重新启动？"
 
-#: src/dialogs/Splash.qml:697
+#: src/dialogs/Splash.qml:726
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "帮助我们让 Kdenlive 变得更好"
 
-#: src/dialogs/Splash.qml:702
+#: src/dialogs/Splash.qml:731
 #, kde-format
 msgid "Contribute…"
 msgstr "参与贡献…"
 
-#: src/dialogs/Splash.qml:708
+#: src/dialogs/Splash.qml:737
 #, kde-format
 msgid "Donate…"
 msgstr "捐赠…"
 
-#: src/dialogs/Splash.qml:739
+#: src/dialogs/Splash.qml:768
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>欢迎使用 Kdenlive 快速设置</b>"
 
-#: src/dialogs/Splash.qml:745
+#: src/dialogs/Splash.qml:774
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "始终使用深色主题"
 
-#: src/dialogs/Splash.qml:757
+#: src/dialogs/Splash.qml:786
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>默认项目配置</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:874 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "分辨率"
 
-#: src/dialogs/Splash.qml:901
+#: src/dialogs/Splash.qml:930
 #, kde-format
 msgid "Frame Rate"
 msgstr "帧速率"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:927
+#: src/dialogs/Splash.qml:956
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23296,27 +23297,27 @@ msgstr "帧速率"
 msgid "Interlaced"
 msgstr "隔行扫描"
 
-#: src/dialogs/Splash.qml:946
+#: src/dialogs/Splash.qml:975
 #, kde-format
 msgid "Video Tracks"
 msgstr "视频轨道"
 
-#: src/dialogs/Splash.qml:955
+#: src/dialogs/Splash.qml:984
 #, kde-format
 msgid "Audio Tracks"
 msgstr "音频轨道"
 
-#: src/dialogs/Splash.qml:968
+#: src/dialogs/Splash.qml:997
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "此设置可以在设置中更改。"
 
-#: src/dialogs/Splash.qml:1014
+#: src/dialogs/Splash.qml:1043
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "查看在线文档"
 
-#: src/dialogs/Splash.qml:1023
+#: src/dialogs/Splash.qml:1052
 #, kde-format
 msgid "Start Editing"
 msgstr "开始编辑"
@@ -23637,8 +23638,8 @@ msgid "Delete selection"
 msgstr "删除所选内容"
 
 #: src/dialogs/textbasededit.cpp:357 src/dialogs/textbasededit.cpp:613
-#: src/dialogs/textbasededit.cpp:1305 src/dialogs/textbasededit.cpp:1375
-#: src/dialogs/textbasededit.cpp:1399 src/dialogs/textbasededit.cpp:1456
+#: src/dialogs/textbasededit.cpp:1325 src/dialogs/textbasededit.cpp:1395
+#: src/dialogs/textbasededit.cpp:1419 src/dialogs/textbasededit.cpp:1476
 #, kde-format
 msgid "No speech"
 msgstr "无语音"
@@ -23715,82 +23716,82 @@ msgstr "减少字体大小"
 msgid "Remove non speech zones"
 msgstr "移除非语音区段"
 
-#: src/dialogs/textbasededit.cpp:1048
+#: src/dialogs/textbasededit.cpp:1068
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr "另一个识别任务正在运行。程序将中止该任务并执行新的任务。你想要继续吗？"
 
-#: src/dialogs/textbasededit.cpp:1085
+#: src/dialogs/textbasededit.cpp:1105
 #, kde-format
 msgid "Please install a language model."
 msgstr "请安装语言模型。"
 
-#: src/dialogs/textbasededit.cpp:1093
+#: src/dialogs/textbasededit.cpp:1113
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "选择项目素材箱中的带音频片段。"
 
-#: src/dialogs/textbasededit.cpp:1139
+#: src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "选择一段带有音频的片段以进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1148 src/dialogs/textbasededit.cpp:1197
-#: src/dialogs/textbasededit.cpp:1257
+#: src/dialogs/textbasededit.cpp:1168 src/dialogs/textbasededit.cpp:1217
+#: src/dialogs/textbasededit.cpp:1277
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "无法创建临时文件。"
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1173
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "正在为 %1 提取音频。"
 
-#: src/dialogs/textbasededit.cpp:1161
+#: src/dialogs/textbasededit.cpp:1181
 #, kde-format
 msgid "Audio extract failed."
 msgstr "音频提取失败。"
 
-#: src/dialogs/textbasededit.cpp:1167 src/dialogs/textbasededit.cpp:1233
+#: src/dialogs/textbasededit.cpp:1187 src/dialogs/textbasededit.cpp:1253
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "正在开始对 %1 进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1289
+#: src/dialogs/textbasededit.cpp:1309
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "发生错误，请检查语音转文本功能配置。"
 
-#: src/dialogs/textbasededit.cpp:1291
+#: src/dialogs/textbasededit.cpp:1311
 #, kde-format
 msgid "No speech detected."
 msgstr "未检测到语音。"
 
-#: src/dialogs/textbasededit.cpp:1312
+#: src/dialogs/textbasededit.cpp:1332
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "语音识别已完成。"
 
-#: src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1569
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "编辑片段文本"
 
-#: src/dialogs/textbasededit.cpp:1581 src/dialogs/textbasededit.cpp:1663
+#: src/dialogs/textbasededit.cpp:1601 src/dialogs/textbasededit.cpp:1683
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "创建序列片段"
 
-#: src/dialogs/textbasededit.cpp:1588 src/dialogs/textbasededit.cpp:1624
+#: src/dialogs/textbasededit.cpp:1608 src/dialogs/textbasededit.cpp:1644
 #, kde-format
 msgid "No text to export"
 msgstr "没有可供导出的文本"
 
-#: src/dialogs/textbasededit.cpp:1608
+#: src/dialogs/textbasededit.cpp:1628
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "输入新播放列表路径"
@@ -25377,7 +25378,7 @@ msgstr "图片太小，无法代理。"
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "找不到 FFmpeg，请在配置 Kdenlive 对话框的系统环境页面设置其路径。"
 
-#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
+#: src/jobs/proxytask.cpp:407 src/jobs/proxytask.cpp:420
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "无法创建代理片段。"
@@ -28090,10 +28091,9 @@ msgid "Archiving project"
 msgstr "正在压缩项目"
 
 #: src/mainwindow.cpp:4642
-#, fuzzy, kde-format
-#| msgid "Disable %1"
+#, kde-format
 msgid "Raise %1"
-msgstr "禁用 %1"
+msgstr ""
 
 #: src/mainwindow.cpp:4703
 #, kde-format
@@ -29114,17 +29114,17 @@ msgstr "MLT 必须使用 libfftw3 构建才能启用音频频谱图"
 msgid "Enable Audio Spectrum"
 msgstr "启用音频频谱图"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1235
 #, kde-format
 msgid "Select a zone to play"
 msgstr "选择要播放的区段"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1244
 #, kde-format
 msgid "Select a clip to play"
 msgstr "选择要播放的片段"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1349
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
