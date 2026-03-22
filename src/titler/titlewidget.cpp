@@ -992,6 +992,8 @@ void TitleWidget::showToolbars(GraphicsSceneRectMove::TITLETOOL toolType)
     case GraphicsSceneRectMove::TITLE_ELLIPSE:
     case GraphicsSceneRectMove::TITLE_RECTANGLE:
         toolbar_stack->setCurrentIndex(1);
+        label_cornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE);
+        rectCornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE);
         break;
     case GraphicsSceneRectMove::TITLE_TEXT:
     default:
@@ -3291,7 +3293,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             updateDimension(rec);
 
         } else if ((referenceItem)->type() == ELLIPSEITEM) {
-            showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
+            showToolbars(GraphicsSceneRectMove::TITLE_ELLIPSE);
             settingUp = 1;
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(referenceItem);
             QColor fcol = ellipse->pen().color();
