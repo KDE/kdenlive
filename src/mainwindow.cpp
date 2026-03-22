@@ -2186,7 +2186,7 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("bookmark-remove")));
     addAction(QStringLiteral("delete_all_sequence_markers"), i18n("Delete All Timeline Markers"), this, SLOT(slotDeleteAllSequenceMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("add_markers_at_gaps"), i18n("Add Markers at Gaps"), this, SLOT(slotAddMarkersAtGaps()),
+    addAction(QStringLiteral("add_markers_at_gaps"), i18n("Identify Gaps"), this, SLOT(slotAddMarkersAtGaps()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")));
     addAction(QStringLiteral("edit_sequence_marker"), i18n("Edit Timeline Marker…"), this, SLOT(slotEditGuide()),
               QIcon::fromTheme(QStringLiteral("bookmark-edit")));

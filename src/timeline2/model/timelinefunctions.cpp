@@ -3127,35 +3127,58 @@ bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<Timeline
 
 bool TimelineFunctions::addMarkersAtGaps(const std::shared_ptr<TimelineItemModel> &timeline)
 {
-    // Collect gap positions across all video tracks (using set to avoid duplicates)
-    std::set<int> gapPositions;
-    QList<int> videoTrackIds = timeline->getTracksIds(false); // false = video tracks
+    // Collect all clip intervals from all video tracks
+    std::vector<std::pair<int, int>> intervals;
+    QList<int> videoTrackIds = timeline->getTracksIds(false);
 
     for (int trackId : videoTrackIds) {
         auto track = timeline->getTrackById_const(trackId);
-        // Get all clips on this track sorted by position
         std::unordered_set<int> clipSet = track->getClipsInRange(0, -1);
-        std::vector<int> clips(clipSet.begin(), clipSet.end());
-        std::sort(clips.begin(), clips.end(), [&](int a, int b) { return timeline->getClipPosition(a) < timeline->getClipPosition(b); });
-        // Find gaps between consecutive clips
-        for (int i = 0; i < (int)clips.size() - 1; i++) {
-            int clipEnd = timeline->getClipEnd(clips[i]);
-            int nextStart = timeline->getClipPosition(clips[i + 1]);
-            if (nextStart > clipEnd) {
-                gapPositions.insert(clipEnd);
-            }
+        for (int cid : clipSet) {
+            int start = timeline->getClipPosition(cid);
+            int end = timeline->getClipEnd(cid);
+            intervals.push_back({start, end});
         }
     }
 
-    if (gapPositions.empty()) {
+    if (intervals.empty()) {
+        pCore->displayBinMessage(i18n("No clips found in timeline"), KMessageWidget::Information);
+        return false;
+    }
+
+    // Sort by start position
+    std::sort(intervals.begin(), intervals.end());
+
+    // Merge overlapping intervals (union of all video track coverage)
+    std::vector<std::pair<int, int>> merged;
+    merged.push_back(intervals[0]);
+    for (size_t i = 1; i < intervals.size(); i++) {
+        if (intervals[i].first <= merged.back().second) {
+            merged.back().second = std::max(merged.back().second, intervals[i].second);
+        } else {
+            merged.push_back(intervals[i]);
+        }
+    }
+
+    // Find gaps between merged intervals
+    std::vector<std::pair<int, int>> gaps;
+    for (size_t i = 0; i + 1 < merged.size(); i++) {
+        int gapStart = merged[i].second;
+        int gapEnd = merged[i + 1].first;
+        if (gapEnd > gapStart) {
+            gaps.push_back({gapStart, gapEnd});
+        }
+    }
+
+    if (gaps.empty()) {
         pCore->displayBinMessage(i18n("No gaps found in timeline"), KMessageWidget::Information);
         return false;
     }
 
-    // Add a guide marker at each gap position
+    // Add a guide marker at each gap start
     auto guideModel = timeline->getGuideModel();
-    for (int pos : gapPositions) {
-        guideModel->addMarker(GenTime(pos, pCore->getCurrentFps()), i18n("Gap"));
+    for (auto &gap : gaps) {
+        guideModel->addMarker(GenTime(gap.first, pCore->getCurrentFps()), i18n("Gap"));
     }
     return true;
 }
