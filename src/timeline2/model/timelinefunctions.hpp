@@ -97,6 +97,13 @@ struct TimelineFunctions
     */
     static bool addMarkersAtGaps(const std::shared_ptr<TimelineItemModel> &timeline);
 
+    /** @brief Adds guide markers at the start of every gap between clips on a specific track
+        @returns true if at least one gap marker was added
+        @param timeline TimelineItemModel to scan for gaps
+        @param trackId Id of the track to scan for gaps
+    */
+    static bool addMarkersAtGapsOnTrack(const std::shared_ptr<TimelineItemModel> &timeline, int trackId);
+
     /** @brief This function will delete all clips on the given track after the given position
         @returns true on success, false otherwise
         @param trackId id of the track to search in

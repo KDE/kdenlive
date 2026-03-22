@@ -535,6 +535,7 @@ private Q_SLOTS:
     void slotRemoveAllSpacesInTrack();
     void slotRemoveAllClipsInTrack();
     void slotAddMarkersAtGaps();
+    void slotAddMarkersAtGapsOnTrack();
     void slotAddGuide();
     void slotEditGuide();
     void slotExportGuides();

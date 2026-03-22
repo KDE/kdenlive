@@ -3186,6 +3186,38 @@ bool TimelineFunctions::addMarkersAtGaps(const std::shared_ptr<TimelineItemModel
     return true;
 }
 
+bool TimelineFunctions::addMarkersAtGapsOnTrack(const std::shared_ptr<TimelineItemModel> &timeline, int trackId)
+{
+    auto track = timeline->getTrackById_const(trackId);
+    if (!track || timeline->isAudioTrack(trackId)) {
+        return false;
+    }
+    std::unordered_set<int> clipSet = track->getClipsInRange(0, -1);
+    std::vector<int> clips(clipSet.begin(), clipSet.end());
+    std::sort(clips.begin(), clips.end(), [&](int a, int b) {
+        return timeline->getClipPosition(a) < timeline->getClipPosition(b);
+    });
+    std::vector<std::pair<int,int>> gaps;
+    for (int i = 0; i < (int)clips.size() - 1; i++) {
+        int clipEnd = timeline->getClipEnd(clips[i]);
+        int nextStart = timeline->getClipPosition(clips[i + 1]);
+        if (nextStart > clipEnd) {
+            gaps.push_back({clipEnd, nextStart});
+        }
+    }
+    if (gaps.empty()) {
+        pCore->displayBinMessage(i18n("No gaps found on selected track"), KMessageWidget::Information);
+        return false;
+    }
+    auto guideModel = timeline->getGuideModel();
+    for (auto &gap : gaps) {
+        GenTime gapStart(gap.first, pCore->getCurrentFps());
+        GenTime gapDuration(gap.second - gap.first, pCore->getCurrentFps());
+        guideModel->addRangeMarker(gapStart, gapDuration, i18n("Gap"), KdenliveSettings::default_marker_type());
+    }
+    return true;
+}
+
 QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemModel> &timeline, int cid, const QString &binId)
 {
     int tid = timeline->getClipTrackId(cid);

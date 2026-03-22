@@ -1482,6 +1482,11 @@ void TimelineController::addMarkersAtGaps()
     TimelineFunctions::addMarkersAtGaps(m_model);
 }
 
+void TimelineController::addMarkersAtGapsOnTrack()
+{
+    TimelineFunctions::addMarkersAtGapsOnTrack(m_model, m_activeTrack);
+}
+
 void TimelineController::deleteMarker(int cid, int position)
 {
     if (cid == -1) {

@@ -742,6 +742,16 @@ void MainWindow::init()
     connect(normalize_channels, &QAction::triggered, this, &MainWindow::slotNormalizeAudioChannel);
     timelineHeadersMenu->addAction(normalize_channels);
 
+    // Identify Gaps submenu
+    QMenu *identifyGapsMenu = new QMenu(i18n("Identify Gaps"), this);
+    QAction *gapsAllTracks = new QAction(i18n("All Tracks"), this);
+    connect(gapsAllTracks, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGaps);
+    identifyGapsMenu->addAction(gapsAllTracks);
+    QAction *gapsSelectedTrack = new QAction(i18n("Selected Track"), this);
+    connect(gapsSelectedTrack, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGapsOnTrack);
+    identifyGapsMenu->addAction(gapsSelectedTrack);
+    timelineHeadersMenu->addMenu(identifyGapsMenu);
+
     QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
     auto *thumbGroup = new QActionGroup(this);
     QAction *inFrame = new QAction(i18n("In Frame"), thumbGroup);
@@ -3243,6 +3253,11 @@ void MainWindow::slotAddMarkerWithCategory()
 void MainWindow::slotAddMarkersAtGaps()
 {
     getCurrentTimeline()->controller()->addMarkersAtGaps();
+}
+
+void MainWindow::slotAddMarkersAtGapsOnTrack()
+{
+    getCurrentTimeline()->controller()->addMarkersAtGapsOnTrack();
 }
 
 void MainWindow::slotAddGuide()
