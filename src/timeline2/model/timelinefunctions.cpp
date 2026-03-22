@@ -3179,7 +3179,9 @@ bool TimelineFunctions::addMarkersAtGaps(const std::shared_ptr<TimelineItemModel
     // Add a guide marker at each gap start
     auto guideModel = timeline->getGuideModel();
     for (auto &gap : gaps) {
-        guideModel->addMarker(GenTime(gap.first, pCore->getCurrentFps()), i18n("Gap"), KdenliveSettings::default_marker_type());
+        GenTime gapStart(gap.first, pCore->getCurrentFps());
+        GenTime gapDuration(gap.second - gap.first, pCore->getCurrentFps());
+        guideModel->addRangeMarker(gapStart, gapDuration, i18n("Gap"), KdenliveSettings::default_marker_type());
     }
     return true;
 }
