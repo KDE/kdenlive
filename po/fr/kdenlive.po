@@ -29293,8 +29293,7 @@ msgid "Archiving project"
 msgstr "Archivage du projet"
 
 #: src/mainwindow.cpp:4642
-#, fuzzy, kde-format
-#| msgid "Raise %1"
+#, kde-format
 msgid "Raise %1"
 msgstr "Augmenter %1"
 
