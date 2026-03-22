@@ -24,6 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 #include "project/projectmanager.h"
 #include "snapmodel.hpp"
+#include "kdenlivesettings.h"
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -3178,7 +3179,7 @@ bool TimelineFunctions::addMarkersAtGaps(const std::shared_ptr<TimelineItemModel
     // Add a guide marker at each gap start
     auto guideModel = timeline->getGuideModel();
     for (auto &gap : gaps) {
-        guideModel->addMarker(GenTime(gap.first, pCore->getCurrentFps()), i18n("Gap"));
+        guideModel->addMarker(GenTime(gap.first, pCore->getCurrentFps()), i18n("Gap"), KdenliveSettings::default_marker_type());
     }
     return true;
 }
