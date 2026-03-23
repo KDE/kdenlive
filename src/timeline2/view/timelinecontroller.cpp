@@ -5072,6 +5072,75 @@ QColor TimelineController::groupColor() const
     return scheme.foreground(KColorScheme::ActiveText).color().darker(150);
 }
 
+QColor TimelineController::getDefaultClipColor(ClipType::ProducerType type) const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    switch (type) {
+    case ClipType::Video:
+    case ClipType::AV:
+        return scheme.foreground(KColorScheme::LinkText).color();
+    case ClipType::Audio:
+        return KdenliveSettings::thumbColor1().darker(150);
+    case ClipType::Text:
+    case ClipType::TextTemplate:
+    {
+        QColor base = scheme.foreground(KColorScheme::LinkText).color();
+        QColor high = scheme.foreground(KColorScheme::NegativeText).color();
+        return QColor(qBound(0, base.red() + int(high.red() - 128), 255),
+                      qBound(0, base.green() + int(high.green() - 128), 255),
+                      qBound(0, base.blue() + int(high.blue() - 128), 255), 255);
+    }
+    case ClipType::Image:
+        return scheme.foreground(KColorScheme::NeutralText).color();
+    case ClipType::SlideShow:
+    {
+        QColor base = scheme.foreground(KColorScheme::LinkText).color();
+        QColor high = scheme.foreground(KColorScheme::NeutralText).color();
+        return QColor(qBound(0, base.red() + int(high.red() - 128), 255),
+                      qBound(0, base.green() + int(high.green() - 128), 255),
+                      qBound(0, base.blue() + int(high.blue() - 128), 255), 255);
+    }
+    default:
+        return scheme.foreground(KColorScheme::LinkText).color();
+    }
+}
+
+QColor TimelineController::getTimelineClipColor(ClipType::ProducerType type) const
+{
+    switch(type) {
+    case ClipType::Video:
+    case ClipType::AV:
+        if (KdenliveSettings::videoColor().alpha() > 0) {
+            return KdenliveSettings::videoColor();
+        }
+        break;
+    case ClipType::Audio:
+        if (KdenliveSettings::audioColor().alpha() > 0) {
+            return KdenliveSettings::audioColor();
+        }
+        break;
+    case ClipType::Text:
+    case ClipType::TextTemplate:
+        if (KdenliveSettings::titleColor().alpha() > 0) {
+            return KdenliveSettings::titleColor();
+        }
+        break;
+    case ClipType::Image:
+        if (KdenliveSettings::imageColor().alpha() > 0) {
+            return KdenliveSettings::imageColor();
+        }
+        break;
+    case ClipType::SlideShow:
+        if (KdenliveSettings::slideshowColor().alpha() > 0) {
+            return KdenliveSettings::slideshowColor();
+        }
+        break;
+    default:
+        break;
+    }
+    return getDefaultClipColor(type);
+}
+
 QColor TimelineController::selectionColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);

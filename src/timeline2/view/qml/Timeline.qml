@@ -529,7 +529,7 @@ function getTrackColor(audio, header) {
     property bool autoScrolling: timeline.autoScroll
     property bool blockAutoScroll: false
     property int duration: timeline.duration
-    property color audioColor: Utils.mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.3)
+    property color audioColor: timeline.audioColor
     property color videoColor: timeline.videoColor
     property color titleColor: timeline.titleColor
     property color imageColor: timeline.imageColor

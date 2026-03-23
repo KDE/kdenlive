@@ -195,6 +195,8 @@ public:
     Q_INVOKABLE QColor lockedColor() const;
     Q_INVOKABLE QColor selectionColor() const;
     Q_INVOKABLE QColor groupColor() const;
+    QColor getDefaultClipColor(ClipType::ProducerType type) const;
+    QColor getTimelineClipColor(ClipType::ProducerType type) const;
     Q_INVOKABLE int doubleClickInterval() const { return QApplication::doubleClickInterval(); }
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
     Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;

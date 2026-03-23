@@ -88,6 +88,23 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     QWidget *p11 = new QWidget;
     m_configColors.setupUi(p11);
+
+    // Initialize clip color buttons with live computed colors
+    if (auto *tc = pCore->window()->getCurrentTimeline()->controller()) {
+        m_configColors.videoColor->setColor(tc->getTimelineClipColor(ClipType::Video));
+        m_configColors.audioColor->setColor(tc->getTimelineClipColor(ClipType::Audio));
+        m_configColors.titleColor->setColor(tc->getTimelineClipColor(ClipType::Text));
+        m_configColors.imageColor->setColor(tc->getTimelineClipColor(ClipType::Image));
+        m_configColors.slideshowColor->setColor(tc->getTimelineClipColor(ClipType::SlideShow));
+        connect(m_configColors.resetClipColors, &QPushButton::clicked, this, [this, tc]() {
+            m_configColors.videoColor->setColor(tc->getDefaultClipColor(ClipType::Video));
+            m_configColors.audioColor->setColor(tc->getDefaultClipColor(ClipType::Audio));
+            m_configColors.titleColor->setColor(tc->getDefaultClipColor(ClipType::Text));
+            m_configColors.imageColor->setColor(tc->getDefaultClipColor(ClipType::Image));
+            m_configColors.slideshowColor->setColor(tc->getDefaultClipColor(ClipType::SlideShow));
+        });
+    }
+
     m_pageColors = addPage(p11, i18n("Colors and Markers"), QStringLiteral("color-management"));
     m_guidesCategories = new GuideCategories(nullptr, this);
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
@@ -1384,6 +1401,53 @@ void KdenliveSettingsDialog::updateSettings()
         m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
+    }
+
+    bool colorsChanged = false;
+    if (auto *tc = pCore->window()->getCurrentTimeline()->controller()) {
+        QColor videoCol = m_configColors.videoColor->color();
+        QColor videoDefault = tc->getDefaultClipColor(ClipType::Video);
+        QColor videoToStore = (videoCol == videoDefault) ? QColor(0,0,0,0) : videoCol;
+        if (videoToStore != KdenliveSettings::videoColor()) {
+            KdenliveSettings::setVideoColor(videoToStore);
+            colorsChanged = true;
+        }
+
+        QColor audioCol = m_configColors.audioColor->color();
+        QColor audioDefault = tc->getDefaultClipColor(ClipType::Audio);
+        QColor audioToStore = (audioCol == audioDefault) ? QColor(0,0,0,0) : audioCol;
+        if (audioToStore != KdenliveSettings::audioColor()) {
+            KdenliveSettings::setAudioColor(audioToStore);
+            colorsChanged = true;
+        }
+
+        QColor titleCol = m_configColors.titleColor->color();
+        QColor titleDefault = tc->getDefaultClipColor(ClipType::Text);
+        QColor titleToStore = (titleCol == titleDefault) ? QColor(0,0,0,0) : titleCol;
+        if (titleToStore != KdenliveSettings::titleColor()) {
+            KdenliveSettings::setTitleColor(titleToStore);
+            colorsChanged = true;
+        }
+
+        QColor imageCol = m_configColors.imageColor->color();
+        QColor imageDefault = tc->getDefaultClipColor(ClipType::Image);
+        QColor imageToStore = (imageCol == imageDefault) ? QColor(0,0,0,0) : imageCol;
+        if (imageToStore != KdenliveSettings::imageColor()) {
+            KdenliveSettings::setImageColor(imageToStore);
+            colorsChanged = true;
+        }
+
+        QColor slideshowCol = m_configColors.slideshowColor->color();
+        QColor slideshowDefault = tc->getDefaultClipColor(ClipType::SlideShow);
+        QColor slideshowToStore = (slideshowCol == slideshowDefault) ? QColor(0,0,0,0) : slideshowCol;
+        if (slideshowToStore != KdenliveSettings::slideshowColor()) {
+            KdenliveSettings::setSlideshowColor(slideshowToStore);
+            colorsChanged = true;
+        }
+
+        if (colorsChanged) {
+            Q_EMIT tc->colorsChanged();
+        }
     }
 
     if (m_configColors.kcfg_overlayColor->color() != KdenliveSettings::overlayColor()) {
