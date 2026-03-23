@@ -1219,7 +1219,7 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
         }
 
         auto line =
-            addLine(bestXHappened, start, bestXHappened, end, bestXItem != nullptr ? QPen(Qt::darkGreen, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
+            addLine(bestXHappened, start, bestXHappened, end, bestXItem != nullptr ? QPen(Qt::yellow, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
         line->setZValue(10000);
         m_lastSnapPreviews.append(line);
     }
@@ -1236,7 +1236,7 @@ QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, Q
         }
 
         auto line =
-            addLine(start, bestYHappened, end, bestYHappened, bestYItem != nullptr ? QPen(Qt::darkGreen, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
+            addLine(start, bestYHappened, end, bestYHappened, bestYItem != nullptr ? QPen(Qt::yellow, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
         line->setZValue(10000);
         m_lastSnapPreviews.append(line);
     }
