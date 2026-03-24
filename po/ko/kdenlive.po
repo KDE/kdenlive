@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-22 02:36+0000\n"
+"POT-Creation-Date: 2026-03-24 02:35+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -20855,7 +20855,7 @@ msgid "Cut clip"
 msgstr "클립 잘라내기"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4151
+#: src/timeline2/model/timelinemodel.cpp:4167
 #, kde-format
 msgid "Resize subtitle"
 msgstr "자막 크기 조정"
@@ -25846,7 +25846,7 @@ msgstr "%1 효과를 두 번 추가할 수 없습니다."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:229
-#: src/timeline2/model/timelinemodel.cpp:5274
+#: src/timeline2/model/timelinemodel.cpp:5290
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 효과 추가"
@@ -34278,7 +34278,7 @@ msgid "Delete clips on track"
 msgstr "트랙 삭제"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:4851
+#: src/timeline2/model/timelinemodel.cpp:4867
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -34438,47 +34438,47 @@ msgstr "그룹 이동"
 msgid "Resize group"
 msgstr "그룹 크기 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:3666
+#: src/timeline2/model/timelinemodel.cpp:3682
 #, kde-format
 msgid "Resize clip speed"
 msgstr "클립 크기 조정 속도"
 
-#: src/timeline2/model/timelinemodel.cpp:3825
+#: src/timeline2/model/timelinemodel.cpp:3841
 #, kde-format
 msgid "Remove mix"
 msgstr "믹스 삭제"
 
-#: src/timeline2/model/timelinemodel.cpp:3827
+#: src/timeline2/model/timelinemodel.cpp:3843
 #, kde-format
 msgid "Removing mix failed"
 msgstr "믹스 삭제 실패"
 
-#: src/timeline2/model/timelinemodel.cpp:4147
+#: src/timeline2/model/timelinemodel.cpp:4163
 #, kde-format
 msgid "Resize clip"
 msgstr "클립 크기 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:4149
+#: src/timeline2/model/timelinemodel.cpp:4165
 #, kde-format
 msgid "Resize composition"
 msgstr "합성 크기 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:4477
+#: src/timeline2/model/timelinemodel.cpp:4493
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "클립 크기 일괄 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:4479
+#: src/timeline2/model/timelinemodel.cpp:4495
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "합성 크기 일괄 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:4481
+#: src/timeline2/model/timelinemodel.cpp:4497
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "자막 크기 일괄 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:4624
+#: src/timeline2/model/timelinemodel.cpp:4640
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgctxt "Undo/Redo menu text"
@@ -34486,137 +34486,137 @@ msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "슬라이드 쇼 클립"
 
-#: src/timeline2/model/timelinemodel.cpp:4659
+#: src/timeline2/model/timelinemodel.cpp:4675
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgid "Slip clip"
 msgstr "슬라이드 쇼 클립"
 
-#: src/timeline2/model/timelinemodel.cpp:4694
+#: src/timeline2/model/timelinemodel.cpp:4710
 #, kde-format
 msgid "Group clips"
 msgstr "클립 그룹"
 
-#: src/timeline2/model/timelinemodel.cpp:4779
 #: src/timeline2/model/timelinemodel.cpp:4795
+#: src/timeline2/model/timelinemodel.cpp:4811
 #, kde-format
 msgid "Ungroup clips"
 msgstr "클립 그룹 해제"
 
-#: src/timeline2/model/timelinemodel.cpp:4960
+#: src/timeline2/model/timelinemodel.cpp:4976
 #: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "트랙 삭제"
 
-#: src/timeline2/model/timelinemodel.cpp:4970
+#: src/timeline2/model/timelinemodel.cpp:4986
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "타임라인의 마지막 트랙을 삭제할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:5195
+#: src/timeline2/model/timelinemodel.cpp:5211
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "%1 효과를 마스터 트랙에 추가할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:5202
+#: src/timeline2/model/timelinemodel.cpp:5218
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "선택한 트랙에 %1 효과를 추가할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:5223
+#: src/timeline2/model/timelinemodel.cpp:5239
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "마스터 트랙에 효과를 붙여넣을 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:5229
+#: src/timeline2/model/timelinemodel.cpp:5245
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "선택한 트랙에 효과를 붙여넣을 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:5277
+#: src/timeline2/model/timelinemodel.cpp:5293
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "선택한 클립에 %1 효과를 추가할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:5301
+#: src/timeline2/model/timelinemodel.cpp:5317
 #, kde-format
 msgid "Adjust Fade"
 msgstr "페이드 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:5666
+#: src/timeline2/model/timelinemodel.cpp:5682
 #, kde-format
 msgid "Insert Composition"
 msgstr "합성 삽입"
 
-#: src/timeline2/model/timelinemodel.cpp:5894
+#: src/timeline2/model/timelinemodel.cpp:5910
 #, kde-format
 msgid "Move composition"
 msgstr "합성 이동"
 
-#: src/timeline2/model/timelinemodel.cpp:6648
+#: src/timeline2/model/timelinemodel.cpp:6664
 #, kde-format
 msgid "Enable time remap"
 msgstr "시간 리매핑 사용"
 
-#: src/timeline2/model/timelinemodel.cpp:6722
+#: src/timeline2/model/timelinemodel.cpp:6738
 #, kde-format
 msgid "Change speed failed"
 msgstr "클립 속도 변경 실패"
 
-#: src/timeline2/model/timelinemodel.cpp:6732
+#: src/timeline2/model/timelinemodel.cpp:6748
 #: src/timeline2/view/timelinecontroller.cpp:3151
 #, kde-format
 msgid "Change clip speed"
 msgstr "클립 속도 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7196
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "트랙 잠금"
 
-#: src/timeline2/model/timelinemodel.cpp:7185
+#: src/timeline2/model/timelinemodel.cpp:7201
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "트랙 잠금 해제"
 
-#: src/timeline2/model/timelinemodel.cpp:7219
-#: src/timeline2/model/timelinemodel.cpp:7281
+#: src/timeline2/model/timelinemodel.cpp:7235
+#: src/timeline2/model/timelinemodel.cpp:7297
 #, kde-format
 msgid "Change composition"
 msgstr "합성 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:7233
+#: src/timeline2/model/timelinemodel.cpp:7249
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "그룹화된 합성에서 작업할 수 없습니다. 그룹을 해제하십시오"
 
-#: src/timeline2/model/timelinemodel.cpp:7431
-#: src/timeline2/model/timelinemodel.cpp:7470
-#: src/timeline2/model/timelinemodel.cpp:7505
-#: src/timeline2/model/timelinemodel.cpp:7586
+#: src/timeline2/model/timelinemodel.cpp:7447
+#: src/timeline2/model/timelinemodel.cpp:7486
+#: src/timeline2/model/timelinemodel.cpp:7521
+#: src/timeline2/model/timelinemodel.cpp:7602
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "믹스 크기를 1프레임 미만으로 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:7442
-#: src/timeline2/model/timelinemodel.cpp:7478
-#: src/timeline2/model/timelinemodel.cpp:7522
-#: src/timeline2/model/timelinemodel.cpp:7610
+#: src/timeline2/model/timelinemodel.cpp:7458
+#: src/timeline2/model/timelinemodel.cpp:7494
+#: src/timeline2/model/timelinemodel.cpp:7538
+#: src/timeline2/model/timelinemodel.cpp:7626
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "믹스의 크기를 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:7626
+#: src/timeline2/model/timelinemodel.cpp:7642
 #, kde-format
 msgid "Resize mix"
 msgstr "믹스 크기 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:7746
+#: src/timeline2/model/timelinemodel.cpp:7762
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"

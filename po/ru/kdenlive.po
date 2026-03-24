@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-22 02:36+0000\n"
-"PO-Revision-Date: 2026-03-20 17:20+0300\n"
+"POT-Creation-Date: 2026-03-24 02:35+0000\n"
+"PO-Revision-Date: 2026-03-23 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1534,25 +1534,17 @@ msgid "The color which will not be replaced with neutral chroma"
 msgstr "Цвет, который не будет заменён нейтральным"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Similarity percentage with the select color<br>\n"
-#| "        0.01 matches only the exact key color, while 1.0 matches "
-#| "everything.]]>"
+#, kde-format
 msgid ""
 "Similarity percentage with the select color<br>\n"
 "        0.01 matches only the exact key color, while 1.0 matches everything."
 msgstr ""
-"Процент сходства с выбранным цветом<br>\n"
+"Процент сходства с выбранным цветом.<br>\n"
 "        0.01 — соответствует только точный ключевой цвет, 1.0 — "
 "соответствует всё."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Blend percentage. 0.0 makes pixels either fully grey, or not "
-#| "grey at all.<br>\n"
-#| "        Higher values result in more preserved color.]]>"
+#, kde-format
 msgid ""
 "Blend percentage. 0.0 makes pixels either fully grey, or not grey at all."
 "<br>\n"
@@ -1568,8 +1560,7 @@ msgid "YUV color"
 msgstr "Цвет YUV"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
+#, kde-format
 msgid "Select this if the clip has YUV data instead of RGB."
 msgstr "Выберите этот пункт, если клип содержит данные YUV вместо RGB."
 
@@ -2844,11 +2835,7 @@ msgstr "Порог первой плоскости"
 #: data/effects/avfilter/avfilter_deband.xml:15
 #: data/effects/avfilter/avfilter_deband.xml:20
 #: data/effects/avfilter/avfilter_deband.xml:25
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets banding detection threshold for each plane.<br>\n"
-#| "        If difference between current pixel and reference pixel is less "
-#| "than threshold, it will be considered as banded.]]>"
+#, kde-format
 msgid ""
 "Sets banding detection threshold for each plane.<br>\n"
 "        If difference between current pixel and reference pixel is less than "
@@ -2934,13 +2921,7 @@ msgid "Blur"
 msgstr "Размытие"
 
 #: data/effects/avfilter/avfilter_deband.xml:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled, current pixel is compared with average value of all "
-#| "four surrounding pixels.<br>\n"
-#| "        The default is enabled. If disabled, current pixel is compared "
-#| "with all four surrounding pixels. The pixel is considered banded if only "
-#| "all four differences with surrounding pixels are less than threshold.]]>"
+#, kde-format
 msgid ""
 "If enabled, current pixel is compared with average value of all four "
 "surrounding pixels.<br>\n"
@@ -3818,6 +3799,8 @@ msgid ""
 "Linearly increases the difference between left and right channels which adds "
 "some sort of \"live\" effect to playback. "
 msgstr ""
+"Линейно увеличивает разницу между левым и правым каналами, что добавляет "
+"эффект «живого присутствия» при воспроизведении. "
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:11
 #, kde-format
@@ -4241,16 +4224,13 @@ msgstr ""
 "       \tПо умолчанию фильтруются все плоскости (YUV)."
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set sigma, the standard deviation of Gaussian blur.<br>\n"
-#| "        Determines the strength of the horizontal blur. Default is 10.]]>"
+#, kde-format
 msgid ""
 "Set sigma, the standard deviation of Gaussian blur.<br>\n"
 "        Determines the strength of the horizontal blur. Default is 10."
 msgstr ""
 "Устанавливает сигма, стандартное отклонение размытия по Гауссу.<br>\n"
-"        Определяет силу размытия по горизонтали. По умолчанию 10."
+"        Определяет силу размытия по горизонтали. По умолчанию: 10."
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
@@ -4258,10 +4238,7 @@ msgid "Vertical Sigma"
 msgstr "Сигма вертикали"
 
 #: data/effects/avfilter/avfilter_gblur.xml:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set vertical sigma.<br>\n"
-#| "        Determines the strength of the vertical blur. Default is 10.]]>"
+#, kde-format
 msgid ""
 "Set vertical sigma.<br>\n"
 "        Determines the strength of the vertical blur. Default is 10."
@@ -4791,8 +4768,7 @@ msgid "Set the intensity shift"
 msgstr "Установить смещение интенсивности"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set strength of filtering]]>"
+#, kde-format
 msgid "Set strength of filtering"
 msgstr "Устанавливает силу фильтра"
 
@@ -4802,9 +4778,9 @@ msgid "Preserve Lightness"
 msgstr "Сохранить освещённость"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:34
-#, fuzzy, kde-format
+#, kde-format
 msgid "Red Strength"
-msgstr "Сила"
+msgstr "Сила красного"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
 #, fuzzy, kde-format
@@ -4819,9 +4795,9 @@ msgstr ""
 "        Используется при обработке насыщенности и освещённости."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Green Strength"
-msgstr "Сила"
+msgstr "Сила зелёного"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
 #, fuzzy, kde-format
@@ -4836,9 +4812,9 @@ msgstr ""
 "        Используется при обработке насыщенности и освещённости."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blue Strength"
-msgstr "Сила яркости"
+msgstr "Сила синего"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
 #, fuzzy, kde-format
@@ -5028,9 +5004,9 @@ msgid "Slowly update darker pixels."
 msgstr "Медленно обновлять более тёмные пикселы"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens Correction (avfilter)"
-msgstr "Коррекция объектива (по ключевым кадрам)"
+msgstr "Коррекция объектива (avfilter)"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:5
 #, kde-format
@@ -5042,19 +5018,19 @@ msgstr ""
 "для несопоставленных пикселов."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Interpolation Type"
-msgstr "Интерполяция"
+msgstr "Тип интерполяции"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Nearest,Bi-linear"
-msgstr "Ближайшее соседнее,Билинейное"
+msgstr "Ближайшее,Билинейное"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
 msgid "Unmapped Pixel Color"
-msgstr ""
+msgstr "Цвет несопоставленных пикселов"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:16
 #, kde-format
@@ -5062,6 +5038,8 @@ msgid ""
 "Focal Point Relative<br>\n"
 "        X-Coordinate"
 msgstr ""
+"Относительная координата точки фокусировки<br>\n"
+"        по X"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
 #, kde-format
@@ -5069,6 +5047,8 @@ msgid ""
 "Focal Point Relative<br>\n"
 "        Y-Coordinate"
 msgstr ""
+"Относительная координата точки фокусировки<br>\n"
+"        по Y"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
 #, kde-format
@@ -5434,17 +5414,22 @@ msgid ""
 "        <li>Temporal noise (noise pattern changes between frames)</li>\n"
 "        <li>Uniform noise (Gaussian otherwise)</li></ul>"
 msgstr ""
+"Доступные типы шума:<ul><li>Усреднённый временной шум (больше сглаживания)</"
+"li>\n"
+"        <li>Смесь случайного шума с полу(регулярным) структурой</li>\n"
+"        <li>Временной шум (структура шума меняется от кадра к кадру)</li>\n"
+"        <li>Однородный шум (если нет, то Гауссов)</li></ul>"
 
 #: data/effects/avfilter/avfilter_noise.xml:19
 #: data/effects/avfilter/avfilter_noise.xml:33
 #: data/effects/avfilter/avfilter_noise.xml:47
 #: data/effects/avfilter/avfilter_noise.xml:61
 #: data/effects/avfilter/avfilter_noise.xml:75
-#, fuzzy, kde-format
-#| msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+#, kde-format
 msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
-"Средний временной шум,Смешанный случайный шум,Временной шум,Однородный шум"
+"Усреднённый временной шум,Смешанный случайный шум,Временной шум,Однородный "
+"шум"
 
 #: data/effects/avfilter/avfilter_noise.xml:22
 #, fuzzy, kde-format
@@ -5453,10 +5438,9 @@ msgid "<b><u>Component #0</u></b> Noise Seed"
 msgstr "<b>--Низ--</b> Начало"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
-#, fuzzy, kde-format
-#| msgid "Strength"
+#, kde-format
 msgid " Strength"
-msgstr "Сила"
+msgstr " Сила"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
 #, fuzzy, kde-format
@@ -6112,9 +6096,9 @@ msgid "Background Fill Color"
 msgstr "Цвет заливки фона"
 
 #: data/effects/avfilter/avfilter_shear.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Nearest,Bilinear"
-msgstr "Ближайшее соседнее,Билинейное"
+msgstr "Ближайшее,Билинейное"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -9810,8 +9794,8 @@ msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
 "Lanczos"
 msgstr ""
-"Ближайшее значение,Билинейная,Бикубическая со сглаживанием,Бикубическая без "
-"сглаживания,Сплайн 4x4,Сплайн 6x6, Ланцзош"
+"Методом ближайшего соседа,Билинейная,Бикубическая со сглаживанием,"
+"Бикубическая без сглаживания,Сплайн 4x4,Сплайн 6x6,Ланцош"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
@@ -10330,11 +10314,13 @@ msgstr ""
 "        4:3 и 16:9"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Scale Y to Affect<br>\n"
 "        Aspect Ratio"
-msgstr "Сохранять соотношение сторон"
+msgstr ""
+"Масштабировать по Y для изменения<br>\n"
+"        соотношения сторон"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:34
 #, kde-format
@@ -12113,34 +12099,31 @@ msgstr "Координата Y профиля"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
 #: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Profile Tilt"
-msgstr "Профиль"
+msgstr "Наклон профиля"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:17
 #: data/effects/frei0r/frei0r_pr0file.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the profile]]>"
+#, kde-format
 msgid "Tilting of the profile"
 msgstr "Наклон профиля"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:20
 #: data/effects/frei0r/frei0r_pr0file.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "Profile Length"
-msgstr "Имя профиля"
+msgstr "Длина профиля"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:21
 #: data/effects/frei0r/frei0r_pr0file.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "Length of the profile in pixel"
 msgstr "Длина профиля в пикселах"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:25
 #: data/effects/frei0r/frei0r_pr0file.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Channel to numerically display]]>"
+#, kde-format
 msgid "Channel to numerically display"
 msgstr "Канал для числового отображения"
 
@@ -12152,15 +12135,15 @@ msgstr "R,G,B,Y',Pr,Pb,Альфа"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker 1"
-msgstr "Маркер 2"
+msgstr "Маркер 1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:30
 #: data/effects/frei0r/frei0r_pr0file.xml:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "Position of marker 1"
-msgstr "Смещение вдоль оси Y"
+msgstr "Положение маркера 1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
@@ -12170,93 +12153,93 @@ msgstr "Маркер 2"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:34
 #: data/effects/frei0r/frei0r_pr0file.xml:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "Position of marker 2"
-msgstr "Смещение вдоль оси Y"
+msgstr "Положение маркера 2"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "R Trace"
-msgstr "Кривая канала R"
+msgstr "Линия трассировки R"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:38
 #: data/effects/frei0r/frei0r_pr0file.xml:39
 #, kde-format
 msgid "Show R trace (red) on scope"
-msgstr "Показать след R (красного) на панели"
+msgstr "Показать линию трассировки R (красного) на панели"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:41
 #: data/effects/frei0r/frei0r_pr0file.xml:42
-#, fuzzy, kde-format
+#, kde-format
 msgid "G Trace"
-msgstr "Кривая канала G"
+msgstr "Линия трассировки G"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:42
 #: data/effects/frei0r/frei0r_pr0file.xml:43
 #, kde-format
 msgid "Show G trace (green) on scope"
-msgstr "Показать след G (зелёного) на панели"
+msgstr "Показать линию трассировки G (зелёного) на панели"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:45
 #: data/effects/frei0r/frei0r_pr0file.xml:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "B Trace"
-msgstr "Кривая канала B"
+msgstr "Линия трассировки B"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:46
 #: data/effects/frei0r/frei0r_pr0file.xml:47
 #, kde-format
 msgid "Show B trace (blue) on scope"
-msgstr "Показать след B (синего) на панели"
+msgstr "Показать линию трассировки B (синего) на панели"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:49
 #: data/effects/frei0r/frei0r_pr0file.xml:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "Y Trace"
-msgstr "Кривая канала Y"
+msgstr "Линия трассировки Y"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:50
 #: data/effects/frei0r/frei0r_pr0file.xml:51
 #, kde-format
 msgid "Show Y trace (luma) on scope"
-msgstr "Показать след Y (яркости) на панели"
+msgstr "Показать линию трассировки Y (яркости) на панели"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:53
 #: data/effects/frei0r/frei0r_pr0file.xml:54
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pr Trace"
-msgstr "Кривая канала Pr"
+msgstr "Линия трассировки Pr"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:54
 #: data/effects/frei0r/frei0r_pr0file.xml:55
 #, kde-format
 msgid "Show Pr trace (red-difference) on scope"
-msgstr "Показать след Pr (разницы с красным) на панели"
+msgstr "Показать линию трассировки Pr (разницы с красным) на панели"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:57
 #: data/effects/frei0r/frei0r_pr0file.xml:58
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pb Trace"
-msgstr "Кривая канала Pb"
+msgstr "Линия трассировки Pb"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:58
 #: data/effects/frei0r/frei0r_pr0file.xml:59
 #, kde-format
 msgid "Show Pb trace (blue_difference) on scope"
-msgstr "Показать след Pb (разницы с синим) на панели"
+msgstr "Показать линию трассировки Pb (разницы с синим) на панели"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:61
 #: data/effects/frei0r/frei0r_pr0file.xml:62
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha Trace"
-msgstr "Кривая альфа-канала"
+msgstr "Линия трассировки альфа"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:62
 #: data/effects/frei0r/frei0r_pr0file.xml:63
 #, kde-format
 msgid "Show Alpha trace on scope"
-msgstr "Показать след альфа на панели"
+msgstr "Показать линию трассировки альфа на панели"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:65
 #: data/effects/frei0r/frei0r_pr0file.xml:66
@@ -13566,15 +13549,7 @@ msgid "Time offset in seconds"
 msgstr "Смещение времени в секундах"
 
 #: data/effects/gpsgraphic.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[An offset (in seconds) to be added to the video file to match it "
-#| "to the GPS track.<br>\n"
-#| "    \tMost of the time this will at least need to be set to the timezone "
-#| "difference between the 2 files plus some seconds if the video recording "
-#| "device isn't precisely set to correct time. GPS time is always exact and "
-#| "in UTC. Use positive values if GPS is ahead of video and negative "
-#| "otherwise.]]>"
+#, kde-format
 msgid ""
 "An offset (in seconds) to be added to the video file to match it to the GPS "
 "track.<br>\n"
@@ -13584,7 +13559,7 @@ msgid ""
 "UTC. Use positive values if GPS is ahead of video and negative otherwise."
 msgstr ""
 "Смещение (в секундах), которое будет добавлено в видеофайл для обеспечения "
-"его соотвествия маршруту GPS.<br>\n"
+"его соответствия маршруту GPS.<br>\n"
 "    \tЧаще всего бывает нужно установить как минимум значение разницы "
 "часовых поясов между двумя файлами, а также несколько секунд, если для "
 "устройства записи видео неточно настроено время. Время GPS всегда является "
@@ -13726,14 +13701,7 @@ msgid "Crop mode horizontal"
 msgstr "Режим кадрирования по горизонтали"
 
 #: data/effects/gpsgraphic.xml:57
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop "
-#| "right</em> values.<br>\n"
-#| "    \tNote: for the horizontal type, absolute values are the longitude "
-#| "(for the location\n"
-#| "source type) and time (in milliseconds since epoch) for the rest of the "
-#| "data source types)]]>"
+#, kde-format
 msgid ""
 "Decides how to interpret the <em>Crop left</em> and <em>Crop right</em> "
 "values.<br>\n"
@@ -13747,7 +13715,7 @@ msgstr ""
 "    \tПримечание: для горизонтального типа абсолютными значениями являются "
 "долгота (для типа источника\n"
 "«расположение») и время (в миллисекундах с начала эпохи) (для остальных "
-"типов источников данных)"
+"типов источников данных)."
 
 #: data/effects/gpsgraphic.xml:58 data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -13808,20 +13776,7 @@ msgid "Crop mode vertical"
 msgstr "Режим кадрирования по вертикали"
 
 #: data/effects/gpsgraphic.xml:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop "
-#| "top</em> values.<br/>\n"
-#| "    \tWith an absolute value, it can zoom in to between 100 and 150m of "
-#| "altitude to show\n"
-#| "small changes in altitude between those 2 values better.<br/>\n"
-#| "Note: for the vertical type, absolute values are latitude degrees (for "
-#| "the location\n"
-#| "source type) and altitude, heart rate, speed for the others interpreted "
-#| "as the <em>Legend unit</em>\n"
-#| "type where applicable (ie: a value of 10 for altitude will be considered "
-#| "meters by default\n"
-#| "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
+#, kde-format
 msgid ""
 "Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</em> "
 "values.<br/>\n"
@@ -13839,7 +13794,7 @@ msgstr ""
 "Определяет, как обрабатываются значения параметров <em>Кадрирование снизу</"
 "em> и <em>Кадрирование сверху</em>.<br/>\n"
 "    \tС абсолютным значением возможно масштабирование в промежутке от 100 до "
-"150 мвысоты\n"
+"150 м высоты\n"
 "для улучшения показа небольших изменений в высоте между этими двумя "
 "значениями.<br/>\n"
 "Примечание: для вертикального типа абсолютными значениями являются градусы "
@@ -13956,11 +13911,7 @@ msgid "Show Now dot"
 msgstr "Показывать текущую точку"
 
 #: data/effects/gpsgraphic.xml:118
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Enable it to draw a disc at the current location/time over the "
-#| "graph line.<br>\n"
-#| "    \tIf graph type is speedometer, this affects the needle.]]>"
+#, kde-format
 msgid ""
 "Enable it to draw a disc at the current location/time over the graph line."
 "<br>\n"
@@ -13986,13 +13937,7 @@ msgid "Show Now text"
 msgstr "Показывать текущее значение"
 
 #: data/effects/gpsgraphic.xml:127
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Enable it to draw the current value in big white bold letters on "
-#| "the bottom right side of the rect.<br>\n"
-#| "    \tThe <em>Legend unit</em> value will be appended at the end and it "
-#| "will be used as the current unit (if a valid unit is found ie: kilometers "
-#| "if \"km\" is found anywhere in the <em>Legend unit</em> string).]]>"
+#, kde-format
 msgid ""
 "Enable it to draw the current value in big white bold letters on the bottom "
 "right side of the rect.<br>\n"
@@ -14094,14 +14039,7 @@ msgid "Show dots only"
 msgstr "Показать только точки"
 
 #: data/effects/gpsgraphic.xml:151
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled, the graph will be drawn using individual dots "
-#| "instead of lines.<br>\n"
-#| "    \tThis will effectively show the individual data points as affected "
-#| "by smoothing (ie: for location data it will display each GPS fix if "
-#| "smoothing is 1) and can either be used as a cool effect when zoomed in "
-#| "enough or to debug unexpected line jumps.]]>"
+#, kde-format
 msgid ""
 "If enabled, the graph will be drawn using individual dots instead of lines."
 "<br>\n"
@@ -18011,7 +17949,7 @@ msgstr "Разница"
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
 msgid "Perform an RGB[A] difference operation between the pixel sources."
-msgstr "Выполняет RGB[A] операцию разности между источниками пикселов."
+msgstr "Выполняет операцию разности RGB[A] между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
 #, kde-format
@@ -21146,7 +21084,7 @@ msgid "Cut clip"
 msgstr "Разрезать клип"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4151
+#: src/timeline2/model/timelinemodel.cpp:4167
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Изменить размер субтитра"
@@ -23053,6 +22991,7 @@ msgstr "Добавить клипы на монтажный стол перед 
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
+"Место для сохранения результатов недоступно для записи, выберите другое"
 
 #: src/dialogs/renderwidget.cpp:2348
 #, fuzzy, kde-format
@@ -24419,10 +24358,9 @@ msgid "60 fps"
 msgstr "%1 кадров/с"
 
 #: src/dialogs/Splash.qml:258
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "Open Project…"
-msgstr "Создать архивную копию проекта…"
+msgstr "Открыть проект…"
 
 #: src/dialogs/Splash.qml:285
 #, fuzzy, kde-format
@@ -24443,16 +24381,14 @@ msgid "Remove file from list"
 msgstr "Удалить файл"
 
 #: src/dialogs/Splash.qml:427
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "New Project…"
-msgstr "Создать архивную копию проекта…"
+msgstr "Новый проект…"
 
 #: src/dialogs/Splash.qml:455
-#, fuzzy, kde-format
-#| msgid "Test Proxy Profiles"
+#, kde-format
 msgid "New From Profile"
-msgstr "Проверить профили прокси"
+msgstr "Новый из профиля"
 
 #: src/dialogs/Splash.qml:464
 #, kde-format
@@ -24508,10 +24444,9 @@ msgid "Always Use Dark Color Theme"
 msgstr ""
 
 #: src/dialogs/Splash.qml:786
-#, fuzzy, kde-format
-#| msgid "Change default project profile"
+#, kde-format
 msgid "<b>Default Project Profile</b>"
-msgstr "Изменить профиль проекта по умолчанию"
+msgstr "<b>Профиль проекта по умолчанию</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
@@ -26095,7 +26030,7 @@ msgstr "Эффект %1 нельзя добавить дважды."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:229
-#: src/timeline2/model/timelinemodel.cpp:5274
+#: src/timeline2/model/timelinemodel.cpp:5290
 #, kde-format
 msgid "Add effect %1"
 msgstr "Добавить эффект %1"
@@ -27705,10 +27640,9 @@ msgid "Output file for rendered video."
 msgstr "Выходной файл для собранного видео."
 
 #: src/mainwindow.cpp:150
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "Добавить маркер/направляющую по номеру категории"
+msgstr "Добавить маркер по номеру категории"
 
 #: src/mainwindow.cpp:152
 #, kde-format
@@ -28786,70 +28720,59 @@ msgid "Delete All Markers"
 msgstr "Удалить все маркеры"
 
 #: src/mainwindow.cpp:1885
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Быстро добавить маркер/направляющую"
+msgstr "Быстро добавить маркер"
 
 #: src/mainwindow.cpp:1889
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 1"
 
 #: src/mainwindow.cpp:1893
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 2"
 
 #: src/mainwindow.cpp:1897
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 3"
 
 #: src/mainwindow.cpp:1901
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 4"
 
 #: src/mainwindow.cpp:1905
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 5"
 
 #: src/mainwindow.cpp:1909
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 6"
 
 #: src/mainwindow.cpp:1913
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 7"
 
 #: src/mainwindow.cpp:1917
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 8"
 
 #: src/mainwindow.cpp:1921
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 9"
 
 #: src/mainwindow.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Добавить маркеры по категории"
+msgstr "Добавить категорию маркеров 10"
 
 #: src/mainwindow.cpp:1930
 #, kde-format
@@ -30583,10 +30506,9 @@ msgstr "В конец участка"
 
 #: src/monitor/monitorproxy.cpp:745
 #: src/timeline2/view/timelinecontroller.cpp:5970
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "Переименовать маркер"
+msgstr "Маркер участка"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -31682,8 +31604,7 @@ msgid "Showing backup files for %1"
 msgstr "Показаны резервные копии для %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
 msgstr "Изменить категорию маркеров"
 
@@ -31698,10 +31619,9 @@ msgid "Category %1"
 msgstr "Категория %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "Изменить категорию маркеров"
+msgstr "Удалить категорию маркеров"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -31740,9 +31660,9 @@ msgid "Configure Categories"
 msgstr "Настроить категории"
 
 #: src/project/dialogs/guideslist.cpp:209
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show markers for all clips in the project"
-msgstr "Клипы слайд-шоу"
+msgstr "Показывать маркеры для всех клипов в проекте"
 
 #: src/project/dialogs/guideslist.cpp:218
 #, kde-format
@@ -31815,40 +31735,32 @@ msgstr ""
 "изменение их категории."
 
 #: src/project/dialogs/guideslist.cpp:265
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "Фильтр категорий направляющих."
+msgstr "Фильтр категорий маркеров."
 
 #: src/project/dialogs/guideslist.cpp:267
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
 msgstr ""
-"Фильтр категорий направляющих. Позволяет отображать или скрывать выбранные "
-"категории направляющих в этом диалоговом окне и на монтажном столе."
+"Фильтр категорий маркеров. Позволяет отображать или скрывать выбранные "
+"категории маркеров в этом диалоговом окне и на монтажном столе."
 
 #: src/project/dialogs/guideslist.cpp:268
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "Категория направляющих по умолчанию."
+msgstr "Категория маркеров по умолчанию."
 
 #: src/project/dialogs/guideslist.cpp:269
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
-"Категория направляющих по умолчанию. Эта категория используется при создании "
-"новых направляющих."
+"Категория маркеров по умолчанию. Эта категория используется при создании "
+"новых маркеров."
 
 #: src/project/dialogs/guideslist.cpp:294
 #, fuzzy, kde-format
@@ -34366,10 +34278,9 @@ msgid "Could not add bin clip"
 msgstr "Не удалось добавить клип из корзины"
 
 #: src/timeline2/model/timelinefunctions.cpp:2582
-#, fuzzy, kde-format
-#| msgid "All clips were not successfully copied"
+#, kde-format
 msgid "Not all clips were copied successfully"
-msgstr "Успешно скопированы не все клипы"
+msgstr "Не все клипы были успешно скопированы"
 
 #: src/timeline2/model/timelinefunctions.cpp:2638
 #: src/timeline2/model/timelinefunctions.cpp:2819
@@ -34393,7 +34304,7 @@ msgid "Delete clips on track"
 msgstr "Удалить клипы на дорожке"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:4851
+#: src/timeline2/model/timelinemodel.cpp:4867
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -34552,47 +34463,47 @@ msgstr "Переместить группу"
 msgid "Resize group"
 msgstr "Изменить размер группы"
 
-#: src/timeline2/model/timelinemodel.cpp:3666
+#: src/timeline2/model/timelinemodel.cpp:3682
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Изменить скорость клипа"
 
-#: src/timeline2/model/timelinemodel.cpp:3825
+#: src/timeline2/model/timelinemodel.cpp:3841
 #, kde-format
 msgid "Remove mix"
 msgstr "Удалить соединение"
 
-#: src/timeline2/model/timelinemodel.cpp:3827
+#: src/timeline2/model/timelinemodel.cpp:3843
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Не удалось удалить соединение"
 
-#: src/timeline2/model/timelinemodel.cpp:4147
+#: src/timeline2/model/timelinemodel.cpp:4163
 #, kde-format
 msgid "Resize clip"
 msgstr "Изменить размер клипа"
 
-#: src/timeline2/model/timelinemodel.cpp:4149
+#: src/timeline2/model/timelinemodel.cpp:4165
 #, kde-format
 msgid "Resize composition"
 msgstr "Изменить размер композиции"
 
-#: src/timeline2/model/timelinemodel.cpp:4477
+#: src/timeline2/model/timelinemodel.cpp:4493
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Изменить размер клипа со сдвигом"
 
-#: src/timeline2/model/timelinemodel.cpp:4479
+#: src/timeline2/model/timelinemodel.cpp:4495
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Изменить размер композиции со сдвигом"
 
-#: src/timeline2/model/timelinemodel.cpp:4481
+#: src/timeline2/model/timelinemodel.cpp:4497
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Изменить размер субтитров со сдвигом"
 
-#: src/timeline2/model/timelinemodel.cpp:4624
+#: src/timeline2/model/timelinemodel.cpp:4640
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -34602,136 +34513,136 @@ msgstr[1] "Прокрутить клипы"
 msgstr[2] "Прокрутить клипы"
 msgstr[3] "Прокрутить клип"
 
-#: src/timeline2/model/timelinemodel.cpp:4659
+#: src/timeline2/model/timelinemodel.cpp:4675
 #, kde-format
 msgid "Slip clip"
 msgstr "Прокрутить клип"
 
-#: src/timeline2/model/timelinemodel.cpp:4694
+#: src/timeline2/model/timelinemodel.cpp:4710
 #, kde-format
 msgid "Group clips"
 msgstr "Сгруппировать клипы"
 
-#: src/timeline2/model/timelinemodel.cpp:4779
 #: src/timeline2/model/timelinemodel.cpp:4795
+#: src/timeline2/model/timelinemodel.cpp:4811
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Разгруппировать клипы"
 
-#: src/timeline2/model/timelinemodel.cpp:4960
+#: src/timeline2/model/timelinemodel.cpp:4976
 #: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "Удалить дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:4970
+#: src/timeline2/model/timelinemodel.cpp:4986
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Не удалось удалить последнюю дорожку монтажного стола"
 
-#: src/timeline2/model/timelinemodel.cpp:5195
+#: src/timeline2/model/timelinemodel.cpp:5211
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Не удалось добавить эффект %1 на основную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:5202
+#: src/timeline2/model/timelinemodel.cpp:5218
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Не удалось добавить эффект %1 на выбранную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:5223
+#: src/timeline2/model/timelinemodel.cpp:5239
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Не удалось вставить эффект на основную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:5229
+#: src/timeline2/model/timelinemodel.cpp:5245
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Не удалось вставить эффект на выбранную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:5277
+#: src/timeline2/model/timelinemodel.cpp:5293
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Не удалось добавить эффект %1 к выбранному клипу"
 
-#: src/timeline2/model/timelinemodel.cpp:5301
+#: src/timeline2/model/timelinemodel.cpp:5317
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Настроить исчезание"
 
-#: src/timeline2/model/timelinemodel.cpp:5666
+#: src/timeline2/model/timelinemodel.cpp:5682
 #, kde-format
 msgid "Insert Composition"
 msgstr "Добавить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:5894
+#: src/timeline2/model/timelinemodel.cpp:5910
 #, kde-format
 msgid "Move composition"
 msgstr "Переместить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:6648
+#: src/timeline2/model/timelinemodel.cpp:6664
 #, kde-format
 msgid "Enable time remap"
 msgstr "Включить переназначение времени"
 
-#: src/timeline2/model/timelinemodel.cpp:6722
+#: src/timeline2/model/timelinemodel.cpp:6738
 #, kde-format
 msgid "Change speed failed"
 msgstr "Не удалось изменить скорость"
 
-#: src/timeline2/model/timelinemodel.cpp:6732
+#: src/timeline2/model/timelinemodel.cpp:6748
 #: src/timeline2/view/timelinecontroller.cpp:3151
 #, kde-format
 msgid "Change clip speed"
 msgstr "Изменить скорость клипа"
 
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7196
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокировать дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:7185
+#: src/timeline2/model/timelinemodel.cpp:7201
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Разблокировать дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:7219
-#: src/timeline2/model/timelinemodel.cpp:7281
+#: src/timeline2/model/timelinemodel.cpp:7235
+#: src/timeline2/model/timelinemodel.cpp:7297
 #, kde-format
 msgid "Change composition"
 msgstr "Изменить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:7233
+#: src/timeline2/model/timelinemodel.cpp:7249
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Разгруппируете композицию для дальнейшей работы с ней"
 
-#: src/timeline2/model/timelinemodel.cpp:7431
-#: src/timeline2/model/timelinemodel.cpp:7470
-#: src/timeline2/model/timelinemodel.cpp:7505
-#: src/timeline2/model/timelinemodel.cpp:7586
+#: src/timeline2/model/timelinemodel.cpp:7447
+#: src/timeline2/model/timelinemodel.cpp:7486
+#: src/timeline2/model/timelinemodel.cpp:7521
+#: src/timeline2/model/timelinemodel.cpp:7602
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Невозможно изменить размер соединения меньше, чем на 1 кадр"
 
-#: src/timeline2/model/timelinemodel.cpp:7442
-#: src/timeline2/model/timelinemodel.cpp:7478
-#: src/timeline2/model/timelinemodel.cpp:7522
-#: src/timeline2/model/timelinemodel.cpp:7610
+#: src/timeline2/model/timelinemodel.cpp:7458
+#: src/timeline2/model/timelinemodel.cpp:7494
+#: src/timeline2/model/timelinemodel.cpp:7538
+#: src/timeline2/model/timelinemodel.cpp:7626
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Не удалось изменить размер соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:7626
+#: src/timeline2/model/timelinemodel.cpp:7642
 #, kde-format
 msgid "Resize mix"
 msgstr "Изменить размер соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:7746
+#: src/timeline2/model/timelinemodel.cpp:7762
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Ошибка инициализации предпросмотра монтажного стола"
@@ -35054,10 +34965,9 @@ msgid "%1%2, Duration = %3"
 msgstr "%1%2, Длительность = %3"
 
 #: src/timeline2/view/qml/Track.qml:518
-#, fuzzy, kde-format
-#| msgid "Adjusting speed"
+#, kde-format
 msgid "%1% | Adjusting speed"
-msgstr "Регулировка скорости"
+msgstr "%1% | Регулировка скорости"
 
 #: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
@@ -37701,11 +37611,9 @@ msgstr "Профиль для клипов с альфа-каналом:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Удалить прокси-клипы"
+msgstr "Прокси-клипы видеокамеры:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -39615,11 +39523,9 @@ msgstr "Размер прокси-изображения"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Удалить прокси-клипы"
+msgstr "Прокси-клипы видеокамеры"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:612

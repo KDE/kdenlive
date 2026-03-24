@@ -17,10 +17,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-22 02:36+0000\n"
-"PO-Revision-Date: 2026-02-27 12:18+0100\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2026-03-24 02:35+0000\n"
+"PO-Revision-Date: 2026-03-22 16:21+0100\n"
+"Last-Translator: Alexandre Bento <alexandre.bento@nightrain.fr>\n"
+"Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1145,21 +1145,19 @@ msgid "Alpha,Y,U,V,Red,Green,Blue,All"
 msgstr "Alpha, Y, U, V,Rouge, Vert, Bleu, Tout"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:4
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background Key"
-msgstr "Arrière-plan"
+msgstr "Clé d'arrière-plan"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:5
 #, kde-format
 msgid "Turns a static background into transparency"
-msgstr ""
+msgstr "Transforme un arrière-plan statique en arrière-plan transparent"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:9
-#, fuzzy, kde-format
-#| msgid "4th plane threshold"
+#, kde-format
 msgid "Set the scene change threshold"
-msgstr "Seuil pour le quatrième plan"
+msgstr "Définir le seuil de changement de scène"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:12
 #: data/effects/avfilter/avfilter_chromahold.xml:12
@@ -1171,10 +1169,9 @@ msgid "Similarity"
 msgstr "Similarité"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:13
-#, fuzzy, kde-format
-#| msgid "Similarity"
+#, kde-format
 msgid "Set the similarity"
-msgstr "Similarité"
+msgstr "Définir la similarité"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:16
 #: data/effects/avfilter/avfilter_chromahold.xml:17
@@ -1186,10 +1183,9 @@ msgid "Blend"
 msgstr "Mélange"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:17
-#, fuzzy, kde-format
-#| msgid "Set the envelope mode"
+#, kde-format
 msgid "Set the blend value"
-msgstr "Définir le mode d'enveloppe"
+msgstr "Définir la valeur de fusion"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, kde-format
@@ -4361,15 +4357,15 @@ msgid "Video Ratio"
 msgstr "Ratio vidéo"
 
 #: data/effects/avfilter/avfilter_grayworld.xml:4
-#, fuzzy, kde-format
-#| msgid "Gray Color"
+#, kde-format
 msgid "Grayworld"
-msgstr "Couleur grise"
+msgstr "Monde gris"
 
 #: data/effects/avfilter/avfilter_grayworld.xml:5
 #, kde-format
 msgid "Adjust white balance using LAB gray world algorithm"
 msgstr ""
+"Ajuster la balance des blancs en utilisant l'algorithme LAB du monde gris"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
@@ -6794,12 +6790,12 @@ msgstr "Définir le niveau du signal d'entrée du canal d'origine."
 #: data/effects/avfilter/avfilter_swapuv.xml:4
 #, kde-format
 msgid "Swap UV"
-msgstr ""
+msgstr "Échanger U et V"
 
 #: data/effects/avfilter/avfilter_swapuv.xml:5
 #, kde-format
 msgid "Swap U and V components"
-msgstr ""
+msgstr "Échanger les composants U et V"
 
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
@@ -9671,12 +9667,12 @@ msgstr "Ajuste la luminosité d'une image source"
 #: data/effects/frei0r/frei0r_bw0r.xml:4
 #, kde-format
 msgid "BW0r"
-msgstr ""
+msgstr "BW0r"
 
 #: data/effects/frei0r/frei0r_bw0r.xml:5
 #, kde-format
 msgid "Turns image black and white"
-msgstr ""
+msgstr "Transforme l'image en noir et blanc"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
 #, kde-format
@@ -11088,16 +11084,14 @@ msgid "Enable edge compensation"
 msgstr "Activer la compensation des contours"
 
 #: data/effects/frei0r/frei0r_invert0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert0r"
-msgstr "Inverser"
+msgstr "Invert0r"
 
 #: data/effects/frei0r/frei0r_invert0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Inverts all colors of a source image"
-msgstr "Ajuster le contraste d'une image source"
+msgstr "Inverser toutes les couleurs d'une image source"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
@@ -12566,24 +12560,25 @@ msgstr ""
 #: data/effects/frei0r/frei0r_premultiply.xml:4
 #, kde-format
 msgid "Premultiply or Unpremultiply"
-msgstr ""
+msgstr "Prémultiplier ou dé-prémultiplier"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:5
 #: data/effects/frei0r/frei0r_spillsupress.xml:5
 #, kde-format
 msgid "Multiply (or divide) each color component by the pixel's alpha value"
 msgstr ""
+"Multiplier (ou diviser) chaque composant de couleur par la valeur alpha du "
+"pixel"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:8
-#, fuzzy, kde-format
-#| msgid "Multiply"
+#, kde-format
 msgid "Unpremultiply"
-msgstr "Multiplier"
+msgstr "Dé-prémultiplier"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:9
 #, kde-format
 msgid "Whether to unpremultiply instead"
-msgstr ""
+msgstr "Dé-prémultiplier à la place"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -13090,25 +13085,25 @@ msgstr ""
 "La saturation globale sera changée durant la dernière étape de ce filtre"
 
 #: data/effects/frei0r/frei0r_spillsupress.xml:4
-#, fuzzy, kde-format
-#| msgid "All Supported Files"
+#, kde-format
 msgid "Spill Suppress"
-msgstr "Tous les fichiers gérés"
+msgstr "Suppression des débordements"
 
 #: data/effects/frei0r/frei0r_spillsupress.xml:8
 #, kde-format
 msgid "Suppress Type"
-msgstr ""
+msgstr "Type de suppression"
 
 #: data/effects/frei0r/frei0r_spillsupress.xml:9
 #, kde-format
 msgid "Defines if green or blue screen spill suppress is applied"
 msgstr ""
+"Définit si la suppression des débordements de fond vert ou bleu est appliquée"
 
 #: data/effects/frei0r/frei0r_spillsupress.xml:10
 #, kde-format
 msgid "Green screen,Blue screen"
-msgstr ""
+msgstr "Écran vert, écran bleu"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:4
 #, kde-format
@@ -15561,10 +15556,9 @@ msgid "Luma"
 msgstr "Luminosité"
 
 #: data/effects/lumakey.xml:4
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Lumakey"
-msgstr "Luminosité"
+msgstr "Lumakey"
 
 #: data/effects/lumakey.xml:6
 #, kde-format
@@ -15574,6 +15568,11 @@ msgid ""
 "together with a compositor to combine two images so that bright or dark "
 "areas of source image are overwritten on top of the destination image."
 msgstr ""
+"Ce filtre modifie le<br> \n"
+"   canal alpha en fonction de la valeur de luminosité de l'image. Il est "
+"utilisé conjointement avec un compositeur pour combiner deux images, de "
+"sorte que les zones claires ou sombres de l'image source viennent écraser "
+"l'image de destination."
 
 #: data/effects/lumakey.xml:11
 #, kde-format
@@ -15581,6 +15580,9 @@ msgid ""
 "Luma value that defines the<br>\n"
 "      center point of transition from prelevel to postlevel opacity value."
 msgstr ""
+"Valeur de luminosité définissant le<br>\n"
+"      point central de transition entre la valeur d'opacité pré-niveau et "
+"post-niveau."
 
 #: data/effects/lumakey.xml:16
 #, kde-format
@@ -15590,12 +15592,16 @@ msgid ""
 "transition in opacity value is threshold - slope and end point is thresholt "
 "+ slope, values are forced in range 0 - 255."
 msgstr ""
+"Cela définit la largeur de la<br> \n"
+"      transition de la valeur de luminosité pré niveau à post niveau. Le "
+"point de départ de la transition de la valeur d'opacité est le seuil - la "
+"pente et le point d'arrivée est le seuil + la pente, les valeurs sont "
+"contraintes dans la plage 0 - 255."
 
 #: data/effects/lumakey.xml:19
-#, fuzzy, kde-format
-#| msgid "Threshold Level"
+#, kde-format
 msgid "Pre-Threshold Luma Level"
-msgstr "Valeur du seuil"
+msgstr "Niveau de luminosité avant seuillage"
 
 #: data/effects/lumakey.xml:21
 #, kde-format
@@ -15603,12 +15609,13 @@ msgid ""
 "Opacity value before the<br>\n"
 "      transition in opacity value begins."
 msgstr ""
+"Valeur d'opacité avant le<br> \n"
+"      début de la transition de la valeur de l'opacité."
 
 #: data/effects/lumakey.xml:24
-#, fuzzy, kde-format
-#| msgid "Threshold Level"
+#, kde-format
 msgid "Post-Threshold Luma Level"
-msgstr "Valeur du seuil"
+msgstr "Niveau de luminosité après seuillage"
 
 #: data/effects/lumakey.xml:26
 #, kde-format
@@ -15616,6 +15623,8 @@ msgid ""
 "Opacity value after the<br>\n"
 "      transition in opacity value ends."
 msgstr ""
+"Valeur d'opacité après la<br> \n"
+"      transition de la valeur de l'opacité."
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -18465,10 +18474,9 @@ msgid "Show all custom effects"
 msgstr "Afficher tous les effets personnalisés"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:161
-#, fuzzy, kde-format
-#| msgid "Show dots only"
+#, kde-format
 msgid "Show lumas only"
-msgstr "Afficher uniquement les points"
+msgstr "Afficher uniquement la luminosité"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:169
 #, kde-format
@@ -18483,7 +18491,7 @@ msgstr "Afficher les éléments favoris"
 #: src/assets/assetlist/view/assetlistwidget.cpp:189
 #, kde-format
 msgid "Toggle between list and icon view"
-msgstr ""
+msgstr "Basculer entre la vue en liste et la vue en icônes"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:206
 #, kde-kuit-format
@@ -20924,7 +20932,7 @@ msgid "Cut clip"
 msgstr "Couper le clip"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4151
+#: src/timeline2/model/timelinemodel.cpp:4167
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensionner un sous-titre"
@@ -25837,7 +25845,7 @@ msgstr "L'effet %1 ne peut être ajouté une deuxième fois."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:229
-#: src/timeline2/model/timelinemodel.cpp:5274
+#: src/timeline2/model/timelinemodel.cpp:5290
 #, kde-format
 msgid "Add effect %1"
 msgstr "Ajouter l'effet %1"
@@ -28043,23 +28051,21 @@ msgstr "Afficher les noms de séquences"
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
 msgstr ""
-"Affiche / masque l'affichage des noms et des informations de séquences dans "
-"la frise chronologique."
+"Affiche / masque le nom et les informations des clips sur la frise "
+"chronologique."
 
 #: src/mainwindow.cpp:1534
 #, kde-format
 msgid "Mouse Zoom on Playhead"
-msgstr ""
+msgstr "Zoom de la souris sur la tête de lecture"
 
 #: src/mainwindow.cpp:1535
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the mouse zoom on playhead feature (default is Off)."
 msgstr ""
-"Affiche / masque l'affichage des étiquettes de vidéo sur la frise "
-"chronologique (Activé par défaut)."
+"Active / désactive la zoom de la souris sur la tête de lecture (désactivé "
+"par défaut)"
 
 #: src/mainwindow.cpp:1541
 #, kde-format
@@ -31046,7 +31052,7 @@ msgstr "Full HD 1080"
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD Ready 768p"
-msgstr ""
+msgstr "HD Ready 768p"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, kde-format
@@ -34091,7 +34097,7 @@ msgid "Delete clips on track"
 msgstr "Supprimer des vidéos d'une piste"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:4851
+#: src/timeline2/model/timelinemodel.cpp:4867
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -34251,47 +34257,47 @@ msgstr "Déplacer le groupe"
 msgid "Resize group"
 msgstr "Redimensionner le groupe"
 
-#: src/timeline2/model/timelinemodel.cpp:3666
+#: src/timeline2/model/timelinemodel.cpp:3682
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Redimensionner la vitesse du clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3825
+#: src/timeline2/model/timelinemodel.cpp:3841
 #, kde-format
 msgid "Remove mix"
 msgstr "Supprimer un mixage"
 
-#: src/timeline2/model/timelinemodel.cpp:3827
+#: src/timeline2/model/timelinemodel.cpp:3843
 #, kde-format
 msgid "Removing mix failed"
 msgstr "La suppression du mixage a échoué."
 
-#: src/timeline2/model/timelinemodel.cpp:4147
+#: src/timeline2/model/timelinemodel.cpp:4163
 #, kde-format
 msgid "Resize clip"
 msgstr "Redimensionner le clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4149
+#: src/timeline2/model/timelinemodel.cpp:4165
 #, kde-format
 msgid "Resize composition"
 msgstr "Redimensionner la composition"
 
-#: src/timeline2/model/timelinemodel.cpp:4477
+#: src/timeline2/model/timelinemodel.cpp:4493
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Faire onduler et redimensionner la vidéo"
 
-#: src/timeline2/model/timelinemodel.cpp:4479
+#: src/timeline2/model/timelinemodel.cpp:4495
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Faire onduler et redimensionner la composition"
 
-#: src/timeline2/model/timelinemodel.cpp:4481
+#: src/timeline2/model/timelinemodel.cpp:4497
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Faire onduler et redimensionner le sous-titre"
 
-#: src/timeline2/model/timelinemodel.cpp:4624
+#: src/timeline2/model/timelinemodel.cpp:4640
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -34299,137 +34305,137 @@ msgid_plural "Slip clips"
 msgstr[0] "Déplacer une vidéo"
 msgstr[1] "Déplacer des vidéos"
 
-#: src/timeline2/model/timelinemodel.cpp:4659
+#: src/timeline2/model/timelinemodel.cpp:4675
 #, kde-format
 msgid "Slip clip"
 msgstr "Déplacer une vidéo"
 
-#: src/timeline2/model/timelinemodel.cpp:4694
+#: src/timeline2/model/timelinemodel.cpp:4710
 #, kde-format
 msgid "Group clips"
 msgstr "Grouper les clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4779
 #: src/timeline2/model/timelinemodel.cpp:4795
+#: src/timeline2/model/timelinemodel.cpp:4811
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Dégrouper les clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4960
+#: src/timeline2/model/timelinemodel.cpp:4976
 #: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "Supprimer la piste"
 
-#: src/timeline2/model/timelinemodel.cpp:4970
+#: src/timeline2/model/timelinemodel.cpp:4986
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Impossible de supprimer la dernière piste du montage"
 
-#: src/timeline2/model/timelinemodel.cpp:5195
+#: src/timeline2/model/timelinemodel.cpp:5211
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Impossible d'ajouter l'effet %1 au montage"
 
-#: src/timeline2/model/timelinemodel.cpp:5202
+#: src/timeline2/model/timelinemodel.cpp:5218
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Impossible d'ajouter l'effet %1 à la piste sélectionnée"
 
-#: src/timeline2/model/timelinemodel.cpp:5223
+#: src/timeline2/model/timelinemodel.cpp:5239
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Impossible de coller l'effet au montage"
 
-#: src/timeline2/model/timelinemodel.cpp:5229
+#: src/timeline2/model/timelinemodel.cpp:5245
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Impossible de coller l'effet à la piste sélectionnée"
 
-#: src/timeline2/model/timelinemodel.cpp:5277
+#: src/timeline2/model/timelinemodel.cpp:5293
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Impossible d'ajouter l'effet %1 au clip sélectionné"
 
-#: src/timeline2/model/timelinemodel.cpp:5301
+#: src/timeline2/model/timelinemodel.cpp:5317
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Ajuster le fondu"
 
-#: src/timeline2/model/timelinemodel.cpp:5666
+#: src/timeline2/model/timelinemodel.cpp:5682
 #, kde-format
 msgid "Insert Composition"
 msgstr "Insérer une composition"
 
-#: src/timeline2/model/timelinemodel.cpp:5894
+#: src/timeline2/model/timelinemodel.cpp:5910
 #, kde-format
 msgid "Move composition"
 msgstr "Déplacer la composition"
 
-#: src/timeline2/model/timelinemodel.cpp:6648
+#: src/timeline2/model/timelinemodel.cpp:6664
 #, kde-format
 msgid "Enable time remap"
 msgstr "Autoriser la modification de l'échelle de temps"
 
-#: src/timeline2/model/timelinemodel.cpp:6722
+#: src/timeline2/model/timelinemodel.cpp:6738
 #, kde-format
 msgid "Change speed failed"
 msgstr "Échec du changement de vitesse"
 
-#: src/timeline2/model/timelinemodel.cpp:6732
+#: src/timeline2/model/timelinemodel.cpp:6748
 #: src/timeline2/view/timelinecontroller.cpp:3151
 #, kde-format
 msgid "Change clip speed"
 msgstr "Changer la vitesse du clip"
 
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7196
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Piste verrouillée"
 
-#: src/timeline2/model/timelinemodel.cpp:7185
+#: src/timeline2/model/timelinemodel.cpp:7201
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Déverrouiller la piste"
 
-#: src/timeline2/model/timelinemodel.cpp:7219
-#: src/timeline2/model/timelinemodel.cpp:7281
+#: src/timeline2/model/timelinemodel.cpp:7235
+#: src/timeline2/model/timelinemodel.cpp:7297
 #, kde-format
 msgid "Change composition"
 msgstr "Changer la composition"
 
-#: src/timeline2/model/timelinemodel.cpp:7233
+#: src/timeline2/model/timelinemodel.cpp:7249
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Impossible d'opérer sur des compositions groupées, veuillez les dégrouper"
 
-#: src/timeline2/model/timelinemodel.cpp:7431
-#: src/timeline2/model/timelinemodel.cpp:7470
-#: src/timeline2/model/timelinemodel.cpp:7505
-#: src/timeline2/model/timelinemodel.cpp:7586
+#: src/timeline2/model/timelinemodel.cpp:7447
+#: src/timeline2/model/timelinemodel.cpp:7486
+#: src/timeline2/model/timelinemodel.cpp:7521
+#: src/timeline2/model/timelinemodel.cpp:7602
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Impossible de redimensionner le mixage à moins de 1 trame."
 
-#: src/timeline2/model/timelinemodel.cpp:7442
-#: src/timeline2/model/timelinemodel.cpp:7478
-#: src/timeline2/model/timelinemodel.cpp:7522
-#: src/timeline2/model/timelinemodel.cpp:7610
+#: src/timeline2/model/timelinemodel.cpp:7458
+#: src/timeline2/model/timelinemodel.cpp:7494
+#: src/timeline2/model/timelinemodel.cpp:7538
+#: src/timeline2/model/timelinemodel.cpp:7626
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Impossible de redimensionner le mixage"
 
-#: src/timeline2/model/timelinemodel.cpp:7626
+#: src/timeline2/model/timelinemodel.cpp:7642
 #, kde-format
 msgid "Resize mix"
 msgstr "Redimensionner le mixage"
 
-#: src/timeline2/model/timelinemodel.cpp:7746
+#: src/timeline2/model/timelinemodel.cpp:7762
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Erreur durant l'initialisation de l'aperçu de la frise chronologique"
@@ -34937,10 +34943,9 @@ msgstr "Aucun élément à modifier"
 
 #: src/timeline2/view/timelinecontroller.cpp:3010
 #: src/timeline2/view/timelinecontroller.cpp:3147
-#, fuzzy, kde-format
-#| msgid "Cannot change clip state"
+#, kde-format
 msgid "Cannot change speed of item(s)"
-msgstr "Impossible de changer l'état du clip"
+msgstr "Impossible de modifier la vitesse de(s) élément(s)"
 
 #: src/timeline2/view/timelinecontroller.cpp:3207
 #: src/timeline2/view/timelinecontroller.cpp:5600
@@ -35890,22 +35895,19 @@ msgid "<small>No additional information available for this character.</small>"
 msgstr "<small>Aucune information n'est disponible pour ce caractère.</small>"
 
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:38
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Lumas"
 msgstr "Luminosité"
 
 #: src/transitions/transitionlist/view/transitionicondelegate.cpp:33
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "No Preview"
-msgstr "Aperçu"
+msgstr "Pas d'aperçu"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
-#, fuzzy, kde-format
-#| msgid "Delete Profile"
+#, kde-format
 msgid "Generate Previews"
-msgstr "Supprimer le profil"
+msgstr "Générer des aperçus"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:214
 #, kde-format
@@ -35913,21 +35915,26 @@ msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
+"Impossible de trouver le script de génération d'aperçu. Veuillez vous "
+"assurer qu'il est installé correctement."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:269
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
+"Impossible de trouver l'interpréteur Python. Veuillez vous assurer que "
+"Python est installé."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:277
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
+"Génération des aperçus de transition. Cela peut prendre quelques minutes..."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:294
 #, kde-format
 msgid "Transition previews have been generated successfully."
-msgstr ""
+msgstr "Les aperçus de transition ont été générés avec succès."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:299
 #, kde-format
@@ -35935,6 +35942,8 @@ msgid ""
 "Failed to generate transition previews. Check the application log for "
 "details."
 msgstr ""
+"Échec de la génération des aperçus de transition. Vérifiez le journal de "
+"l'application pour plus de détails."
 
 #: src/transitions/transitionsrepository.cpp:39
 #, kde-format
@@ -35944,10 +35953,9 @@ msgstr ""
 "supprimés : %1"
 
 #: src/transitions/transitionsrepository.cpp:59
-#, fuzzy, kde-format
-#| msgid "Luma file"
+#, kde-format
 msgid "Luma file :"
-msgstr "Fichier luminosité"
+msgstr "Fichier de luminosité"
 
 #: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:123
 #, kde-format
@@ -37509,10 +37517,9 @@ msgstr "Périphérique de sortie :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configsdl_ui.ui:196
-#, fuzzy, kde-format
-#| msgid "Monitor for fullscreen output:"
+#, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "Moniteur pour une sortie plein écran :"
+msgstr "Refléter le monitor en plein écran :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -39728,10 +39735,9 @@ msgstr "Conserver les fichiers de journaux"
 
 #. i18n: ectx: property (text), widget (QCheckBox, add_to_bin)
 #: src/ui/renderwidget_ui.ui:886
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Add to Project Bin"
-msgstr "Sources du projet"
+msgstr "Ajouter au dossier du projet"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:908
