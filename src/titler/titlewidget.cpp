@@ -99,7 +99,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 {
     setupUi(this);
     if (TITLERVERSION == 0) {
-        if (KdenliveSettings::titlerVersion() < 400) {
+        if (KdenliveSettings::titlerVersion() < 600) {
             // Check version of the titler module
             QScopedPointer<Mlt::Properties> metadata(pCore->getMltRepository()->metadata(mlt_service_producer_type, "kdenlivetitle"));
             KdenliveSettings::setTitlerVersion(int(ceil(100 * metadata->get_double("version"))));
@@ -992,8 +992,8 @@ void TitleWidget::showToolbars(GraphicsSceneRectMove::TITLETOOL toolType)
     case GraphicsSceneRectMove::TITLE_ELLIPSE:
     case GraphicsSceneRectMove::TITLE_RECTANGLE:
         toolbar_stack->setCurrentIndex(1);
-        label_cornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE);
-        rectCornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE);
+        label_cornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE && TITLERVERSION >= 600);
+        rectCornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE && TITLERVERSION >= 600);
         break;
     case GraphicsSceneRectMove::TITLE_TEXT:
     default:

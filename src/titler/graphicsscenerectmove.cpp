@@ -1503,7 +1503,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 itemFound = true;
             }
 
-            if (m_selectedItem->type() == QGraphicsRectItem::Type) {
+            if (TITLERVERSION >= 600 && m_selectedItem->type() == QGraphicsRectItem::Type) {
                 int radius = static_cast<MyRectItem *>(m_selectedItem)->normalizedCornerRadius();
                 qreal ellipseSize = 24;
                 QRectF radiusAdjustRect(m_selectedItem->sceneBoundingRect().left() + radius - ellipseSize / 2,
