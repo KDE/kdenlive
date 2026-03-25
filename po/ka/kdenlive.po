@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-24 00:43+0000\n"
-"PO-Revision-Date: 2026-03-13 07:47+0100\n"
+"PO-Revision-Date: 2026-03-24 03:45+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -27667,16 +27667,14 @@ msgid "Delete Track…"
 msgstr "ტრეკის წაშლა…"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgid "Move clip"
+#, kde-format
 msgid "Move Track Up"
-msgstr "კლიპის გადატანა"
+msgstr "ტრეკის ატანა"
 
 #: src/mainwindow.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Move effect down"
+#, kde-format
 msgid "Move Track Down"
-msgstr "ეფექტის დაბლა ჩამოტანა"
+msgstr "ტრეკის ჩამოტანა"
 
 #: src/mainwindow.cpp:2145
 #, kde-format
@@ -33149,10 +33147,9 @@ msgid "Cannot delete last track in timeline"
 msgstr "დროის ხაზიდან უკანასკნელი ტრეკის წაშლა შეუძლებელია"
 
 #: src/timeline2/model/timelinemodel.cpp:5099
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Move Track"
-msgstr "ტრეკის დამალვა"
+msgstr "ტრეკის გადაადგილება"
 
 #: src/timeline2/model/timelinemodel.cpp:5424
 #, kde-format
@@ -34259,12 +34256,7 @@ msgid "Unselect all"
 msgstr "მონიშვნის ყველაფერზე მოხსნა"
 
 #: src/titler/titlewidget.cpp:410
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
-#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
-#| "center resize, Ctrl+Drag to pan."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
@@ -34274,7 +34266,8 @@ msgstr ""
 "დააწკაპუნეთ ელემენტის მოსანიშნად, Alt+Click მონიშვნის გადასართავად. Shift"
 "+გადათრევა ვერტიკალურად გადაადგილებისთვის, Alt+Shift+გადათრევა ჰორიზონტალური "
 "გადაადგილებისთვის, Shift+გადათრევა ზომის შეცვლა წიბოდან ცენტრისკენ, Ctrl"
-"+გადათრევა პანორამირებისთვის."
+"+გადათრევა პანორამირებისთვის. მიმაგრება გაითიშება, თუ ელემენტს Ctrl-ით "
+"გადაათრევთ."
 
 #: src/titler/titlewidget.cpp:419
 #, kde-format

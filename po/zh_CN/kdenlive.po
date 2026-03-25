@@ -27571,16 +27571,14 @@ msgid "Delete Track…"
 msgstr "删除轨道…"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgid "Move clip"
+#, kde-format
 msgid "Move Track Up"
-msgstr "移动片段"
+msgstr ""
 
 #: src/mainwindow.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Move effect down"
+#, kde-format
 msgid "Move Track Down"
-msgstr "下移效果"
+msgstr ""
 
 #: src/mainwindow.cpp:2145
 #, kde-format
@@ -32952,10 +32950,9 @@ msgid "Cannot delete last track in timeline"
 msgstr "无法删除时间轴中的最后一条轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:5099
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Move Track"
-msgstr "隐藏轨道"
+msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:5424
 #, kde-format
@@ -34036,20 +34033,13 @@ msgid "Unselect all"
 msgstr "取消选择"
 
 #: src/titler/titlewidget.cpp:410
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
-#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
-#| "center resize, Ctrl+Drag to pan."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
 "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
-"单击以选择对象，Alt+点击进行循环选择。Shift+拖动可垂直移动，Alt+Shift+拖动进"
-"行水平移动，Shift+拖拉边缘可中心缩放，Ctrl+拖动进行平移。"
 
 #: src/titler/titlewidget.cpp:419
 #, kde-format

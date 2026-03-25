@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-24 00:43+0000\n"
-"PO-Revision-Date: 2026-03-13 08:36-0300\n"
+"PO-Revision-Date: 2026-03-24 07:25-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -28427,14 +28427,12 @@ msgid "Delete Track…"
 msgstr "Excluir trilha…"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgid "Move Track upwards"
+#, kde-format
 msgid "Move Track Up"
 msgstr "Mover trilha para cima"
 
 #: src/mainwindow.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Move Track downwards"
+#, kde-format
 msgid "Move Track Down"
 msgstr "Mover trilha para baixo"
 
@@ -33947,10 +33945,9 @@ msgid "Cannot delete last track in timeline"
 msgstr "Não é possível excluir a última trilha na linha do tempo"
 
 #: src/timeline2/model/timelinemodel.cpp:5099
-#, fuzzy, kde-format
-#| msgid "Move Track upwards"
+#, kde-format
 msgid "Move Track"
-msgstr "Mover trilha para cima"
+msgstr "Mover trilha"
 
 #: src/timeline2/model/timelinemodel.cpp:5424
 #, kde-format
@@ -35065,12 +35062,7 @@ msgid "Unselect all"
 msgstr "Desmarcar Todos"
 
 #: src/titler/titlewidget.cpp:410
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
-#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
-#| "center resize, Ctrl+Drag to pan."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
@@ -35080,7 +35072,8 @@ msgstr ""
 "Clique para selecionar um item, Alt+Clique para alternar a seleção. Shift"
 "+Arraste para mover verticalmente, Alt+Shift+Arraste para mover "
 "horizontalmente, Shift+Arraste a borda para o centro para redimensionar, Ctrl"
-"+Arraste para mover."
+"+Arraste para mover. Desative o alinhamento automático ao mover um item com "
+"Ctrl."
 
 #: src/titler/titlewidget.cpp:419
 #, kde-format

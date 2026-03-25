@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-24 00:43+0000\n"
-"PO-Revision-Date: 2026-03-13 08:57+0100\n"
+"PO-Revision-Date: 2026-03-24 10:54+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -28556,16 +28556,14 @@ msgid "Delete Track…"
 msgstr "Suprimeix la pista…"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgid "Move clip"
+#, kde-format
 msgid "Move Track Up"
-msgstr "Mou el clip"
+msgstr "Mou la pista amunt"
 
 #: src/mainwindow.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Move effect down"
+#, kde-format
 msgid "Move Track Down"
-msgstr "Baixa l'efecte"
+msgstr "Mou la pista avall"
 
 #: src/mainwindow.cpp:2145
 #, kde-format
@@ -34109,10 +34107,9 @@ msgid "Cannot delete last track in timeline"
 msgstr "No es pot suprimir l'última pista a la línia de temps"
 
 #: src/timeline2/model/timelinemodel.cpp:5099
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Move Track"
-msgstr "Oculta la pista"
+msgstr "Mou la pista"
 
 #: src/timeline2/model/timelinemodel.cpp:5424
 #, kde-format
@@ -35232,12 +35229,7 @@ msgid "Unselect all"
 msgstr "Desselecciona-ho tot"
 
 #: src/titler/titlewidget.cpp:410
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
-#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
-#| "center resize, Ctrl+Drag to pan."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
@@ -35247,7 +35239,8 @@ msgstr ""
 "Feu clic per a seleccionar un element, Alt+Clic per a circular entre la "
 "selecció. Maj+Arrossegar per a moure verticalment, Alt+Maj+Arrossegar per a "
 "moure horitzontalment, Maj+Arrossegar la vora per a centrar el canvi de "
-"mida, Ctrl+Arrossegar per a desplaçar amb panorama."
+"mida, Ctrl+Arrossegar per a desplaçar amb panorama. Desactiveu l'ajustament "
+"en moyre un element amb Ctrl."
 
 #: src/titler/titlewidget.cpp:419
 #, kde-format

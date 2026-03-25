@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-24 00:43+0000\n"
-"PO-Revision-Date: 2026-03-23 17:16+0300\n"
+"PO-Revision-Date: 2026-03-24 17:29+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -27801,7 +27801,7 @@ msgstr "Полный кадр (1:1)"
 #: src/mainwindow.cpp:1777 src/monitor/monitor.cpp:240
 #, kde-format
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/mainwindow.cpp:1781 src/monitor/monitor.cpp:240
 #, kde-format
@@ -28311,13 +28311,11 @@ msgstr "Удалить дорожку…"
 
 #: src/mainwindow.cpp:2137
 #, fuzzy, kde-format
-#| msgid "Move Track upwards"
 msgid "Move Track Up"
 msgstr "Поднять дорожку"
 
 #: src/mainwindow.cpp:2141
 #, fuzzy, kde-format
-#| msgid "Move Track downwards"
 msgid "Move Track Down"
 msgstr "Опустить дорожку"
 
@@ -33840,7 +33838,6 @@ msgstr "Не удалось удалить последнюю дорожку м�
 
 #: src/timeline2/model/timelinemodel.cpp:5099
 #, fuzzy, kde-format
-#| msgid "Move Track upwards"
 msgid "Move Track"
 msgstr "Поднять дорожку"
 

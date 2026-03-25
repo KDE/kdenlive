@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-24 00:43+0000\n"
-"PO-Revision-Date: 2026-03-13 09:29+0200\n"
+"PO-Revision-Date: 2026-03-24 08:15+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -28515,14 +28515,12 @@ msgid "Delete Track…"
 msgstr "Вилучити доріжку…"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgid "Move Track upwards"
+#, kde-format
 msgid "Move Track Up"
 msgstr "Пересунути доріжку вище"
 
 #: src/mainwindow.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Move Track downwards"
+#, kde-format
 msgid "Move Track Down"
 msgstr "Пересунути доріжку вниз"
 
@@ -34078,10 +34076,9 @@ msgid "Cannot delete last track in timeline"
 msgstr "Не можна вилучати останню доріжку на монтажному столі"
 
 #: src/timeline2/model/timelinemodel.cpp:5099
-#, fuzzy, kde-format
-#| msgid "Move Track upwards"
+#, kde-format
 msgid "Move Track"
-msgstr "Пересунути доріжку вище"
+msgstr "Пересунути доріжку"
 
 #: src/timeline2/model/timelinemodel.cpp:5424
 #, kde-format
@@ -35199,12 +35196,7 @@ msgid "Unselect all"
 msgstr "Зняти позначення з усього"
 
 #: src/titler/titlewidget.cpp:410
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
-#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
-#| "center resize, Ctrl+Drag to pan."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
@@ -35214,7 +35206,8 @@ msgstr ""
 "Клацніть, щоб позначити пункт, Alt+клацання — циклічне позначення. Shift"
 "+перетягування — вертикальне пересування, Alt+Shift+перетягування — "
 "горизонтальне пересування, Shift+перетягування до центра — зміна розмірів, "
-"Ctrl+перетягування — панорамування."
+"Ctrl+перетягування — панорамування. Вимкнути прилипання при пересуванні "
+"елемента — Ctrl."
 
 #: src/titler/titlewidget.cpp:419
 #, kde-format

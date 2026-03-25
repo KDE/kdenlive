@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-24 00:43+0000\n"
-"PO-Revision-Date: 2026-03-20 12:13+0100\n"
+"PO-Revision-Date: 2026-03-24 17:00+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -28333,16 +28333,14 @@ msgid "Delete Track…"
 msgstr "Izbriši stezo …"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgid "Move clip"
+#, kde-format
 msgid "Move Track Up"
-msgstr "Premakni posnetek"
+msgstr "Premakni stezo navzgor"
 
 #: src/mainwindow.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Move effect down"
+#, kde-format
 msgid "Move Track Down"
-msgstr "Premakni učinek dol"
+msgstr "Premakni stezo navzdol"
 
 #: src/mainwindow.cpp:2145
 #, kde-format
@@ -33855,10 +33853,9 @@ msgid "Cannot delete last track in timeline"
 msgstr "Zadnje steze na časovnici ni možno izbrisati"
 
 #: src/timeline2/model/timelinemodel.cpp:5099
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Move Track"
-msgstr "Skrij stezo"
+msgstr "Premakni stezo"
 
 #: src/timeline2/model/timelinemodel.cpp:5424
 #, kde-format
@@ -34971,12 +34968,7 @@ msgid "Unselect all"
 msgstr "Odstrani izbiro"
 
 #: src/titler/titlewidget.cpp:410
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
-#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
-#| "center resize, Ctrl+Drag to pan."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
@@ -34986,7 +34978,7 @@ msgstr ""
 "Kliknite, če želite izbrati element, Izmenjalka+klik za krožni izbor. "
 "Dvigalka+povlek za vodoravni premik, izmenjalka+dvigalka+povlek za "
 "premikanje vodoravno, dvigalka+povlek sprememba velikosti z roba na sredino, "
-"krmilka+povlek za zasuk."
+"krmilka+povlek za zasuk. S krmilko onemogočite pripenjanje med premikanjem."
 
 #: src/titler/titlewidget.cpp:419
 #, kde-format
