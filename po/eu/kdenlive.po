@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-24 00:43+0000\n"
+"POT-Creation-Date: 2026-03-26 00:43+0000\n"
 "PO-Revision-Date: 2025-12-11 23:38+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -7394,7 +7394,7 @@ msgstr "Aplikatu zoom eta panorama efektua"
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:14
-#: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:381
+#: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Zoom"
 msgstr "Zoom"
@@ -7923,7 +7923,7 @@ msgstr "Goian,Erdian,Behean"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1006 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1050 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "Testua"
@@ -14143,7 +14143,7 @@ msgstr ""
 "100 baino handiagoak diren balioek zooma urruntzen dute. 0k ezkutatu egiten "
 "du.]]>"
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:385
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:392
 #, kde-format
 msgid "Background opacity"
 msgstr "Atzeko planoaren opakutasuna"
@@ -19188,7 +19188,7 @@ msgstr "Gorde efektua"
 
 #: src/assets/view/assetparameterview.cpp:377
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1623
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -19196,7 +19196,7 @@ msgstr "Sartu Aurrezarpen Izena"
 
 #: src/assets/view/assetparameterview.cpp:377
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1623
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Sartu aurrezarpen honen izena:"
@@ -20603,7 +20603,7 @@ msgstr ""
 "Kanpoko izneburu klipa ari zara editatzen (%1). Aldaketak tituluaren "
 "fitxategian edo soilik proiektu honentzako gorde nahi dituzu?"
 
-#: src/bin/bin.cpp:5161 src/titler/titlewidget.cpp:2336
+#: src/bin/bin.cpp:5161 src/titler/titlewidget.cpp:2347
 #, kde-format
 msgid "Save Title"
 msgstr "Gorde izenburua"
@@ -21138,7 +21138,7 @@ msgstr ""
 "%1 fitxategia jadanik existitzen da.\n"
 "Gainidatzi nahi duzu?"
 
-#: src/bin/model/subtitlemodel.cpp:1610 src/titler/titlewidget.cpp:414
+#: src/bin/model/subtitlemodel.cpp:1610 src/titler/titlewidget.cpp:421
 #, kde-format
 msgid "Add Text"
 msgstr "Gehitu testua"
@@ -22022,7 +22022,7 @@ msgid "Manage Encoding Profiles"
 msgstr "[@title:window] Kudeatu Kodeketa Profilak"
 
 #: src/dialogs/encodingprofilesdialog.cpp:55
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:289
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:306
 #: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
@@ -22111,7 +22111,7 @@ msgstr "Automatikoa (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:811
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:828
 #: src/project/dialogs/projectsettings.cpp:910
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -22201,9 +22201,9 @@ msgstr "Esportatu marken datuak"
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:424
 #: src/renderpresets/renderpresetrepository.cpp:480
-#: src/timeline2/view/timelinecontroller.cpp:5504
-#: src/timeline2/view/timelinecontroller.cpp:5509
-#: src/titler/titlewidget.cpp:2349
+#: src/timeline2/view/timelinecontroller.cpp:5588
+#: src/timeline2/view/timelinecontroller.cpp:5593
+#: src/titler/titlewidget.cpp:2360
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ezin da %1 fitxategian idatzi"
@@ -22431,7 +22431,7 @@ msgstr "Goian Eskuinean"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:385
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:836
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:853
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -23069,41 +23069,41 @@ msgstr "Ireki hau barnean duen karpeta"
 msgid "Timeline"
 msgstr "Denbora-lerroa"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:91
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:108
 #, kde-format
 msgid "Colors and Markers"
 msgstr "Koloreak eta markak"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:115
 #, kde-format
 msgid "Plugins"
 msgstr "Pluginak"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:119
 #, kde-format
 msgid "Playback"
 msgstr "Erreproduzitu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:110
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:127
 #, kde-format
 msgid "Capture"
 msgstr "Kapturatu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:187
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:204
 #: src/effects/effectlist/model/effecttreemodel.cpp:64
 #, kde-format
 msgid "Misc"
 msgstr "Beste batzuk"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:237
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:920
 #: src/doc/documentvalidator.cpp:2511
 #: src/transitions/transitionsrepository.cpp:223
 #, kde-format
 msgid "auto"
 msgstr "auto"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:230
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23115,114 +23115,114 @@ msgstr ""
 "gehituko ditu (Irauli, Eraldatu, Bolumena). Efektu horiek ezgaituta daude "
 "eta parametro bat aldatzen baduzu aplikatuko dira."
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:257
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:274
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "Aukeratu lehenetsitako profila (aurrezarpena)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:295
 #, kde-format
 msgid "Project Defaults"
 msgstr "Proiektuaren lehenetsiak"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:323
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:348
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:340
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:365
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Erabili lehenetsitako karpeta: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:325
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:351
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1193
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1194
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1209
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:342
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:368
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1210
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1211
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1226
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1227
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Erabili proiektuaren karpeta: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:327
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:353
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1205
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1206
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:344
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:370
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1222
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1223
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Erabili proiektu aktiboaren karpeta beti"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:385
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
 #, kde-format
 msgid "Environment"
 msgstr "Ingurunea"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:417
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:434
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Kapturatu ez dago oraindik Mac OS X-en erabilgarri."
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:505
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (kanal 1)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:508
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:525
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Estereoa (2 kanal)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:511
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:528
 #, fuzzy, kde-format
 #| msgid "%1 channels "
 msgid "%1 channels"
 msgstr "%1 kanal "
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:539
 #, fuzzy, kde-format
 #| msgid "311 Hz"
 msgid "%1 Hz"
 msgstr "311 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:525
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:542
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:528
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:545
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:531
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:548
 #, fuzzy, kde-format
 #| msgid "5000 Hz"
 msgid "96000 Hz"
 msgstr "5000 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:544
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:561
 #, kde-format
 msgid "Unsigned 8 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:547
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:564
 #, kde-format
 msgid "Signed 16 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:550
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:567
 #, kde-format
 msgid "Signed 32 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:553
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:570
 #, kde-format
 msgid "Float"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:604
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:621
 #, kde-format
 msgid "JogShuttle"
 msgstr "Jog/Shuttle"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:606
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:623
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -23236,7 +23236,7 @@ msgstr ""
 "dokumentazioa</a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:645
 #: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:810
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
@@ -23244,93 +23244,93 @@ msgstr ""
 msgid "Transcode"
 msgstr "Transkodetu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:662
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:679
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "GPU prozesatzeak Movit eta Rtaudio moduluekin konpilatutako MLT-a behar du"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:818
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:835
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:819
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:836
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:820
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:837
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:821
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:838
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:823
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:840
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound Daimona"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:841
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS daimona"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:871
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:888
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:883
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:900
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:907 src/mainwindow.cpp:302
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:924 src/mainwindow.cpp:302
 #, kde-format
 msgid "Monitor %1"
 msgstr "%1 Monitorea"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:991
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1008
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Sartu zure audio ediziorako aplikazioaren bidea"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:999
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1016
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Sartu zure irudien ediziorako aplikazioaren bidea"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1007
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1024
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Sartu bidea Glaxnimate aplikaziorako"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1015
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1032
 #, fuzzy, kde-format
 #| msgid "Enter path to the audio editing application"
 msgid "Enter path to the video editing application"
 msgstr "Sartu zure audio ediziorako aplikazioaren bidea"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1097
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1144
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1114
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1161
 #: src/project/dialogs/projectsettings.cpp:542
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Mesedez aukeratu bideo profila"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1434
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1498
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive berrabiarazi behar da aukera hau aldatzeko"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1626
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
@@ -25936,7 +25936,7 @@ msgstr "Pertsonalizatua"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
 #: src/effects/effectlist/model/effecttreemodel.cpp:67
-#: src/ui/titlewidget_ui.ui:1687
+#: src/ui/titlewidget_ui.ui:1681
 #, kde-format
 msgid "Templates"
 msgstr "Txantiloiak"
@@ -28048,7 +28048,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Denbora-lerroan azpidatzi pista txandakatzen du."
 
-#: src/mainwindow.cpp:1358 src/titler/titlewidget.cpp:405
+#: src/mainwindow.cpp:1358 src/titler/titlewidget.cpp:412
 #, kde-format
 msgid "Selection Tool"
 msgstr "Hautapen tresna"
@@ -28907,7 +28907,7 @@ msgstr "Txertatu Pista…"
 msgid "Fit all Tracks in View"
 msgstr "Doitu ikuspegiko pista guztiak"
 
-#: src/mainwindow.cpp:2120 src/timeline2/view/timelinecontroller.cpp:5231
+#: src/mainwindow.cpp:2120 src/timeline2/view/timelinecontroller.cpp:5315
 #, kde-format
 msgid "Sequence effects"
 msgstr "Sekuentziaren efektuak"
@@ -29164,7 +29164,7 @@ msgstr "Berriz sortu"
 
 #: src/mainwindow.cpp:2462 src/onlineresources/resourcewidget.cpp:705
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2332
+#: src/titler/titlewidget.cpp:2343
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -29515,7 +29515,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Ezkutatu menu-barra"
 
-#: src/mainwindow.cpp:5202 src/timeline2/view/timelinecontroller.cpp:5462
+#: src/mainwindow.cpp:5202 src/timeline2/view/timelinecontroller.cpp:5546
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Ez dago azpidatzirik uneko proiektuan"
@@ -30285,7 +30285,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "Ezin da %1 fitxategiaren iraupena eskuratu"
 
 #: src/monitor/monitor.cpp:3443 src/monitor/monitor.cpp:3474
-#: src/timeline2/view/timelinecontroller.cpp:6015
+#: src/timeline2/view/timelinecontroller.cpp:6099
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
@@ -30296,13 +30296,13 @@ msgid "Create Range Marker from Zone"
 msgstr "Sortu tarte-marka eremutik"
 
 #: src/monitor/monitor.cpp:3459 src/monitor/monitor.cpp:3480
-#: src/timeline2/view/timelinecontroller.cpp:6030
+#: src/timeline2/view/timelinecontroller.cpp:6114
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Eremutik tarte-marka sortu da"
 
 #: src/monitor/monitor.cpp:3461 src/monitor/monitor.cpp:3482
-#: src/timeline2/view/timelinecontroller.cpp:6033
+#: src/timeline2/view/timelinecontroller.cpp:6117
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "Eremutik tarte-marka sortzea huts egin du"
@@ -30448,7 +30448,7 @@ msgid "Go to Zone End"
 msgstr "Joan eskualdearen amaierara"
 
 #: src/monitor/monitorproxy.cpp:745
-#: src/timeline2/view/timelinecontroller.cpp:6022
+#: src/timeline2/view/timelinecontroller.cpp:6106
 #, kde-format
 msgid "Zone marker"
 msgstr "Eremu marka"
@@ -33677,7 +33677,7 @@ msgstr "Jatorrizko kolorea"
 #: src/scopes/colorscopes/vectorscope.cpp:104
 #: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
-#: src/ui/titlewidget_ui.ui:1515
+#: src/ui/titlewidget_ui.ui:1509
 #, kde-format
 msgid "Background"
 msgstr "Atzeko planoa"
@@ -34965,7 +34965,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Ezin da eragiketa burutu denbora-lerroan arrastatzen zauden bitartean"
 
 #: src/timeline2/view/timelinecontroller.cpp:959
-#: src/timeline2/view/timelinecontroller.cpp:5392
+#: src/timeline2/view/timelinecontroller.cpp:5476
 #, kde-format
 msgid "Could not insert track"
 msgstr "Ezin izan da pista txertatu"
@@ -35052,7 +35052,7 @@ msgid "Cannot change speed of item(s)"
 msgstr "Ezin da klipa sortu"
 
 #: src/timeline2/view/timelinecontroller.cpp:3259
-#: src/timeline2/view/timelinecontroller.cpp:5652
+#: src/timeline2/view/timelinecontroller.cpp:5736
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -35156,12 +35156,12 @@ msgstr "Leheneratu audioa"
 msgid "Move item"
 msgstr "Mugitu elementua"
 
-#: src/timeline2/view/timelinecontroller.cpp:5083
+#: src/timeline2/view/timelinecontroller.cpp:5167
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Ezin da atzeman giltzatutako pista batean"
 
-#: src/timeline2/view/timelinecontroller.cpp:5094
+#: src/timeline2/view/timelinecontroller.cpp:5178
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -35170,41 +35170,41 @@ msgstr ""
 "Ezinezkoa hemen kapturatzea: kapturak klipak gainidatzi ditzake. Mesedez "
 "ezabatu klipak uneko posiziotik aurrera edo aukeratu beste pista bat"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5269
 #, kde-format
 msgid "Record audio"
 msgstr "Grabatu audioa"
 
-#: src/timeline2/view/timelinecontroller.cpp:5332
+#: src/timeline2/view/timelinecontroller.cpp:5416
 #, kde-format
 msgid "Expand clip"
 msgstr "Zabaldu klipa"
 
-#: src/timeline2/view/timelinecontroller.cpp:5335
+#: src/timeline2/view/timelinecontroller.cpp:5419
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Ezin izan du klipa zabaldu"
 
-#: src/timeline2/view/timelinecontroller.cpp:5390
+#: src/timeline2/view/timelinecontroller.cpp:5474
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Txertatu pista"
 msgstr[1] "Txertatu pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5469
+#: src/timeline2/view/timelinecontroller.cpp:5553
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Esportatu azpidatzi fitxategia"
 
-#: src/timeline2/view/timelinecontroller.cpp:5470
+#: src/timeline2/view/timelinecontroller.cpp:5554
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "«Sub Station Alpha» v4.00+ fitxategia (*.ass);;«SubRip» azpidatzi-fitxategia "
 "(*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5484
+#: src/timeline2/view/timelinecontroller.cpp:5568
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -35217,12 +35217,12 @@ msgstr ""
 "geruzako azpidatziak bakarrik atxikiko direla. Horrek esportatutako "
 "fitxategietan azpidatzi batzuk galtzea ekar lezake. Jarraitu nahi duzu?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5489
+#: src/timeline2/view/timelinecontroller.cpp:5573
 #, kde-format
 msgid "Warning"
 msgstr "Abisua"
 
-#: src/timeline2/view/timelinecontroller.cpp:5527
+#: src/timeline2/view/timelinecontroller.cpp:5611
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -35231,40 +35231,40 @@ msgstr ""
 "avfilter.subtitles iragazkia beharrezkoa da, baina ez da aurkitu. "
 "Azpidatzien ezaugarriak segur aski ez du espero moduan funtzionatuko."
 
-#: src/timeline2/view/timelinecontroller.cpp:5544
+#: src/timeline2/view/timelinecontroller.cpp:5628
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Erakutsi azpidatzien pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5544
+#: src/timeline2/view/timelinecontroller.cpp:5628
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Ezkutatu azpidatzien pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5567
+#: src/timeline2/view/timelinecontroller.cpp:5651
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Giltzapetik askatu azpidatzien pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5567
+#: src/timeline2/view/timelinecontroller.cpp:5651
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Azpidatzien pista giltzatu"
 
-#: src/timeline2/view/timelinecontroller.cpp:5729
-#: src/timeline2/view/timelinecontroller.cpp:5738
+#: src/timeline2/view/timelinecontroller.cpp:5813
+#: src/timeline2/view/timelinecontroller.cpp:5822
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Azpidatziak"
 
-#: src/timeline2/view/timelinecontroller.cpp:5740
+#: src/timeline2/view/timelinecontroller.cpp:5824
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Kudeatu azpidatziak"
 
-#: src/timeline2/view/timelinecontroller.cpp:5971
+#: src/timeline2/view/timelinecontroller.cpp:6055
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No range guide found at position"
@@ -35339,22 +35339,22 @@ msgid "No available stream"
 msgstr "Ez dago korronterik eskuragarri"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3412 src/titler/titlewidget.cpp:3415
+#: src/titler/titlewidget.cpp:3424 src/titler/titlewidget.cpp:3427
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradientea %1"
 
-#: src/titler/titledocument.cpp:390
+#: src/titler/titledocument.cpp:391
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Izenburu hau fotograma-tamaina ezberdinarekin sortu zen."
 
-#: src/titler/titledocument.cpp:390
+#: src/titler/titledocument.cpp:391
 #, kde-format
 msgid "Title Profile"
 msgstr "Izenburu profila"
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35366,195 +35366,206 @@ msgstr ""
 "bihutuko dira hauek eramangarri bihurtuz, baina haien tamaina doitu beharko "
 "duzu agian."
 
-#: src/titler/titledocument.cpp:465
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Testu klipak eguneratuak"
 
-#: src/titler/titlewidget.cpp:138
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "Kanpoko lerroaren zabalera"
 
-#: src/titler/titlewidget.cpp:145
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "Atzeko-planoaren kolorearen opakotasuna"
 
-#: src/titler/titlewidget.cpp:151
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Errotazioa X ardatzaren inguruan"
 
-#: src/titler/titlewidget.cpp:157
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Errotazioa Y ardatzaren inguruan"
 
-#: src/titler/titlewidget.cpp:163
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Errotazioa z ardatzaren inguruan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1453
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "Ertzaren zabalera"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:162 src/widgets/geometrywidget.cpp:172
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:293
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:66
+#: src/ui/configproxy_ui.ui:86 src/ui/configproxy_ui.ui:133
+#: src/ui/configproxy_ui.ui:156
+#, kde-format
+msgid " pixels"
+msgstr " pixelak"
+
+#: src/titler/titlewidget.cpp:300
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Arina"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:301
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Arrunta"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:302
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Erdi-lodia"
 
-#: src/titler/titlewidget.cpp:296
+#: src/titler/titlewidget.cpp:303
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Lodia"
 
-#: src/titler/titlewidget.cpp:297
+#: src/titler/titlewidget.cpp:304
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Beltza"
 
-#: src/titler/titlewidget.cpp:298
+#: src/titler/titlewidget.cpp:305
 #, kde-format
 msgid "Font weight"
 msgstr "Letra-tipoaren lodiera"
 
-#: src/titler/titlewidget.cpp:312
+#: src/titler/titlewidget.cpp:319
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Txertatu Unicode karakterea"
 
-#: src/titler/titlewidget.cpp:318
+#: src/titler/titlewidget.cpp:325
 #, kde-format
 msgid "Raise object"
 msgstr "Eraman objektua gora"
 
-#: src/titler/titlewidget.cpp:324
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Lower object"
 msgstr "Eraman objektua behera"
 
-#: src/titler/titlewidget.cpp:332
+#: src/titler/titlewidget.cpp:339
 #, kde-format
 msgid "Raise object to top"
 msgstr "Eraman objektua goraino"
 
-#: src/titler/titlewidget.cpp:339
+#: src/titler/titlewidget.cpp:346
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Eraman objektua beheraino"
 
-#: src/titler/titlewidget.cpp:345
+#: src/titler/titlewidget.cpp:352
 #, kde-format
 msgid "Select All"
 msgstr "Hautatu dena"
 
-#: src/titler/titlewidget.cpp:351
+#: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Mantendu bakarrik testu-itemak hautatuta"
 
-#: src/titler/titlewidget.cpp:358
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Mantendu bakarrik elementu zuzenak hautatuta"
 
-#: src/titler/titlewidget.cpp:365
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Mantendu bakarrik hautatutako elementuak"
 
-#: src/titler/titlewidget.cpp:372
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Deselect"
 msgstr "Desautatu"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Irauli x ardatza eta aldatu 0 puntua"
 
-#: src/titler/titlewidget.cpp:378
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Irauli y ardatza eta aldatu 0 puntua"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select fill color"
 msgstr "Hautatu betetze kolorea"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select border color"
 msgstr "Hautatu ertz kolorea"
 
-#: src/titler/titlewidget.cpp:382
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Jatorrizko tamaina (1:1)"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:390
 #, kde-format
 msgid "Fit zoom"
 msgstr "Doitu zooma"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:391
 #, kde-format
 msgid "Select background color"
 msgstr "Hautatu atzeko planoaren kolorea"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:393
 #, kde-format
 msgid "Select all"
 msgstr "Hautatu dena"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:394
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Hautatu testu elementuak uneko hautapenean"
 
-#: src/titler/titlewidget.cpp:388
+#: src/titler/titlewidget.cpp:395
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Hautatu elementu zuzenak uneko hautapenean"
 
-#: src/titler/titlewidget.cpp:389
+#: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Hautatu irudi elementuak uneko hautapenean"
 
-#: src/titler/titlewidget.cpp:390
+#: src/titler/titlewidget.cpp:397
 #, kde-format
 msgid "Unselect all"
 msgstr "Desautatu denak"
 
-#: src/titler/titlewidget.cpp:410
+#: src/titler/titlewidget.cpp:417
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -35572,47 +35583,47 @@ msgstr ""
 "Maius+ Arrastatu ertza erditik neurria aldatzeko, Ktrl+Arrastatu panorama "
 "mugitzeko."
 
-#: src/titler/titlewidget.cpp:419
+#: src/titler/titlewidget.cpp:426
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Gehitu laukizuzena"
 
-#: src/titler/titlewidget.cpp:424
+#: src/titler/titlewidget.cpp:431
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Gehitu elipsea"
 
-#: src/titler/titlewidget.cpp:429
+#: src/titler/titlewidget.cpp:436
 #, kde-format
 msgid "Add Image…"
 msgstr "Gehitu irudia…"
 
-#: src/titler/titlewidget.cpp:436
+#: src/titler/titlewidget.cpp:443
 #, kde-format
 msgid "Open Title…"
 msgstr "Ireki titulua…"
 
-#: src/titler/titlewidget.cpp:441
+#: src/titler/titlewidget.cpp:448
 #, kde-format
 msgid "Save Title As…"
 msgstr "Gorde titulua honela…"
 
-#: src/titler/titlewidget.cpp:446
+#: src/titler/titlewidget.cpp:453
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "Zama-Jaitsi titulu txantiloi berriak…"
 
-#: src/titler/titlewidget.cpp:563
+#: src/titler/titlewidget.cpp:570
 #, kde-format
 msgid "Save and add to project"
 msgstr "Gorde eta gehitu proiektuan"
 
-#: src/titler/titlewidget.cpp:564
+#: src/titler/titlewidget.cpp:571
 #, kde-format
 msgid "Create Title"
 msgstr "Sortu izenburua"
 
-#: src/titler/titlewidget.cpp:825
+#: src/titler/titlewidget.cpp:832
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -35621,54 +35632,54 @@ msgstr ""
 "Txantiloi berria kargatu nahi duzu benetan? Uneko izenburuaren aldaketak "
 "galdu egingo dira!"
 
-#: src/titler/titlewidget.cpp:934
+#: src/titler/titlewidget.cpp:941
 #, kde-format
 msgid "All Images"
 msgstr "Irudi guztiak"
 
-#: src/titler/titlewidget.cpp:936
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 Irudia"
 
-#: src/titler/titlewidget.cpp:946
+#: src/titler/titlewidget.cpp:953
 #, kde-format
 msgid "Add Image"
 msgstr "Gehitu irudia"
 
-#: src/titler/titlewidget.cpp:1786
+#: src/titler/titlewidget.cpp:1796
 #, kde-format
 msgid "−X"
 msgstr "-X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1798 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1810
+#: src/titler/titlewidget.cpp:1820
 #, kde-format
 msgid "−Y"
 msgstr "-Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1822 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2283
+#: src/titler/titlewidget.cpp:2294
 #, kde-format
 msgid "Load Title"
 msgstr "Kargatu izenburua"
 
-#: src/titler/titlewidget.cpp:2284
+#: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive izenburua"
 
-#: src/titler/titlewidget.cpp:2330
+#: src/titler/titlewidget.cpp:2341
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -35677,57 +35688,57 @@ msgstr ""
 "Titulu-dokumentu horretan irudiak txertatu nahi dituzu?\n"
 "Hori beharrezkoa da tituluak partekatzeko."
 
-#: src/titler/titlewidget.cpp:2331
+#: src/titler/titlewidget.cpp:2342
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Txertatu irudiak"
 
-#: src/titler/titlewidget.cpp:2394
+#: src/titler/titlewidget.cpp:2405
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Izenburu honek elementu bat falta du"
 msgstr[1] "Izenburu honek %1 elementu falta ditu"
 
-#: src/titler/titlewidget.cpp:2395 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2406 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Xehetasunak"
 
-#: src/titler/titlewidget.cpp:2398
+#: src/titler/titlewidget.cpp:2409
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Ezabatu falta diren elementuak"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2469
 #, kde-format
 msgid "Update Title"
 msgstr "Eguneratu izenburua"
 
-#: src/titler/titlewidget.cpp:2461
+#: src/titler/titlewidget.cpp:2472
 #, kde-format
 msgid "Add as new Title"
 msgstr "Gehitu izenburu berri moduan"
 
-#: src/titler/titlewidget.cpp:2515
+#: src/titler/titlewidget.cpp:2526
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Ondorengo fitxategiak falta dira:"
 
-#: src/titler/titlewidget.cpp:2712
+#: src/titler/titlewidget.cpp:2723
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Hasi ikuspegi azalera"
 
-#: src/titler/titlewidget.cpp:2713
+#: src/titler/titlewidget.cpp:2724
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Amaitu ikuspegi azalera"
 
-#: src/titler/titlewidget.cpp:3445
+#: src/titler/titlewidget.cpp:3457
 #, kde-format
 msgid "Gradient"
 msgstr "Gradientea"
@@ -36362,8 +36373,8 @@ msgstr "Ezabatu uneko puntua."
 #: src/ui/titlewidget_ui.ui:949 src/ui/titlewidget_ui.ui:1153
 #: src/ui/titlewidget_ui.ui:1207 src/ui/titlewidget_ui.ui:1256
 #: src/ui/titlewidget_ui.ui:1278 src/ui/titlewidget_ui.ui:1310
-#: src/ui/titlewidget_ui.ui:1399 src/ui/titlewidget_ui.ui:1754
-#: src/ui/titlewidget_ui.ui:1770 src/ui/titlewidget_ui.ui:1783
+#: src/ui/titlewidget_ui.ui:1464 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1764 src/ui/titlewidget_ui.ui:1777
 #: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
@@ -36845,8 +36856,50 @@ msgstr "Monitorearen atzeko planoko kolorea:"
 msgid "Monitor grid"
 msgstr "Monitorearen sareta"
 
+#. i18n: ectx: property (text), widget (QLabel, label_video_color)
+#: src/ui/configcolors_ui.ui:112
+#, fuzzy, kde-format
+#| msgid "Video clip"
+msgid "Video clip color:"
+msgstr "Bideo klipa"
+
+#. i18n: ectx: property (text), widget (QLabel, label_audio_color)
+#: src/ui/configcolors_ui.ui:126
+#, fuzzy, kde-format
+#| msgid "Audio clips"
+msgid "Audio clip color:"
+msgstr "Audio klipak"
+
+#. i18n: ectx: property (text), widget (QLabel, label_title_color)
+#: src/ui/configcolors_ui.ui:140
+#, fuzzy, kde-format
+#| msgid "Title clips:"
+msgid "Title clip color:"
+msgstr "Titulu klipak:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_image_color)
+#: src/ui/configcolors_ui.ui:154
+#, fuzzy, kde-format
+#| msgid "Image clips:"
+msgid "Image clip color:"
+msgstr "Irudi klipak:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
+#: src/ui/configcolors_ui.ui:168
+#, fuzzy, kde-format
+#| msgid "Slideshow clip"
+msgid "Slideshow clip color:"
+msgstr "Irudi-segida klipa"
+
+#. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
+#: src/ui/configcolors_ui.ui:182
+#, fuzzy, kde-format
+#| msgid "Turn clip colors to sepia"
+msgid "Reset clip colors to default"
+msgstr "Bihurtu koloredun klipak sepiara"
+
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configcolors_ui.ui:125
+#: src/ui/configcolors_ui.ui:202
 #, kde-format
 msgid "Monitor safe zone:"
 msgstr "Monitorearen segurtasun eremua:"
@@ -37484,16 +37537,6 @@ msgstr "Gaitu klip-ordezkariak"
 #, kde-format
 msgid "Generate for videos larger than:"
 msgstr "Sortu hau baino bideo handiagoetarako:"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
-#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
-#, kde-format
-msgid " pixels"
-msgstr " pixelak"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:79
@@ -40364,7 +40407,7 @@ msgstr "Lerroartea:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
-#: src/ui/titlewidget_ui.ui:988 src/ui/titlewidget_ui.ui:1385
+#: src/ui/titlewidget_ui.ui:988 src/ui/titlewidget_ui.ui:1361
 #, kde-format
 msgid "&Gradient:"
 msgstr "&Gradientea:"
@@ -40460,91 +40503,98 @@ msgid "So&lid color:"
 msgstr "Kolore so&lidoa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_border)
-#: src/ui/titlewidget_ui.ui:1422
+#: src/ui/titlewidget_ui.ui:1375
 #, kde-format
 msgid "Border "
 msgstr "Ertza "
 
+#. i18n: ectx: property (text), widget (QLabel, label_cornerRadius)
+#: src/ui/titlewidget_ui.ui:1433
+#, fuzzy, kde-format
+#| msgid "Inner radius"
+msgid "Corner radius"
+msgstr "Barruko erradioa"
+
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/titlewidget_ui.ui:1487
+#: src/ui/titlewidget_ui.ui:1481
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "Mantendu proportzioa"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
-#: src/ui/titlewidget_ui.ui:1573
+#: src/ui/titlewidget_ui.ui:1567
 #, kde-format
 msgid "Animation"
 msgstr "Animazioa"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_end)
-#: src/ui/titlewidget_ui.ui:1579
+#: src/ui/titlewidget_ui.ui:1573
 #, kde-format
 msgid "Edit end viewport"
 msgstr "Editatu amaierako ikuspegi azalera"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_start)
-#: src/ui/titlewidget_ui.ui:1602
+#: src/ui/titlewidget_ui.ui:1596
 #, kde-format
 msgid "Edit start viewport"
 msgstr "Editatu hasierako ikuspegi azalera"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_aspect)
-#: src/ui/titlewidget_ui.ui:1631
+#: src/ui/titlewidget_ui.ui:1625
 #, kde-format
 msgid "Keep aspect ratio"
 msgstr "Mantendu itxura proportzioa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/titlewidget_ui.ui:1640
+#: src/ui/titlewidget_ui.ui:1634
 #, kde-format
 msgid "Resize"
 msgstr "Neurria aldatu"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize50)
-#: src/ui/titlewidget_ui.ui:1647
+#: src/ui/titlewidget_ui.ui:1641
 #, no-c-format, kde-format
 msgid "50%"
 msgstr "% 50"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
-#: src/ui/titlewidget_ui.ui:1654
+#: src/ui/titlewidget_ui.ui:1648
 #, no-c-format, kde-format
 msgid "100%"
 msgstr "% 100"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
-#: src/ui/titlewidget_ui.ui:1661
+#: src/ui/titlewidget_ui.ui:1655
 #, no-c-format, kde-format
 msgid "200%"
 msgstr "% 200"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
-#: src/ui/titlewidget_ui.ui:1701
+#: src/ui/titlewidget_ui.ui:1695
 #, kde-format
 msgid "Load template:"
 msgstr "Kargatu txantiloia:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/titlewidget_ui.ui:1723
+#: src/ui/titlewidget_ui.ui:1717
 #, kde-format
 msgid "Patterns"
 msgstr "Txantiloiak"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
-#: src/ui/titlewidget_ui.ui:1751
+#: src/ui/titlewidget_ui.ui:1745
 #, kde-format
 msgid "Add pattern."
 msgstr "Gehitu eredua."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
-#: src/ui/titlewidget_ui.ui:1767
+#: src/ui/titlewidget_ui.ui:1761
 #, kde-format
 msgid "Delete pattern."
 msgstr "Ezabatu eredua."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
-#: src/ui/titlewidget_ui.ui:1780
+#: src/ui/titlewidget_ui.ui:1774
 #, kde-format
 msgid "Delete all patterns."
 msgstr "Ezabatu eredu guztiak."
@@ -42772,9 +42822,6 @@ msgstr "%1h"
 
 #~ msgid "Vignette (GPU)"
 #~ msgstr "Bineta (GPU)"
-
-#~ msgid "Inner radius"
-#~ msgstr "Barruko erradioa"
 
 #~ msgid "White Balance (GPU)"
 #~ msgstr "Zuri Balantzea (GPU)"

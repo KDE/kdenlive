@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-24 00:43+0000\n"
+"POT-Creation-Date: 2026-03-26 00:43+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -7342,7 +7342,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:14
-#: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:381
+#: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Zoom"
 msgstr "जूम"
@@ -7868,7 +7868,7 @@ msgstr "उपरि,मध्य,तलम्"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1006 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1050 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "पाठ"
@@ -13936,7 +13936,7 @@ msgstr ""
 "above GPS track.<br> १०० तः लघुमूल्यानि चित्रे जूम् कुर्वन्ति, १०० तः बृहत्तराणि मूल्यानि "
 "जूम आउट् कुर्वन्ति । ० तत् गोपयति ।]]&gt;"
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:385
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:392
 #, kde-format
 msgid "Background opacity"
 msgstr "पृष्ठभूमि अस्पष्टता"
@@ -18995,7 +18995,7 @@ msgstr "प्रभावं रक्षतु"
 
 #: src/assets/view/assetparameterview.cpp:377
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1623
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -19003,7 +19003,7 @@ msgstr "पूर्वनिर्धारितनाम प्रविष�
 
 #: src/assets/view/assetparameterview.cpp:377
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1623
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "अस्य पूर्वनिर्धारितस्य नाम प्रविशतु :"
@@ -20413,7 +20413,7 @@ msgstr ""
 "भवान् बाह्यशीर्षकक्लिप् (%1) सम्पादयति । किं भवान् स्वपरिवर्तनं शीर्षकसञ्चिकायां रक्षितुं "
 "इच्छति अथवा परिवर्तनं केवलं अस्य परियोजनायाः कृते रक्षितुं इच्छति वा?"
 
-#: src/bin/bin.cpp:5161 src/titler/titlewidget.cpp:2336
+#: src/bin/bin.cpp:5161 src/titler/titlewidget.cpp:2347
 #, kde-format
 msgid "Save Title"
 msgstr "शीर्षकं रक्षतु"
@@ -20955,7 +20955,7 @@ msgstr ""
 "%1 सञ्चिका पूर्वमेव अस्ति ।\n"
 "किं भवन्तः तस्य अधिलेखनं कर्तुम् इच्छन्ति ?"
 
-#: src/bin/model/subtitlemodel.cpp:1610 src/titler/titlewidget.cpp:414
+#: src/bin/model/subtitlemodel.cpp:1610 src/titler/titlewidget.cpp:421
 #, kde-format
 msgid "Add Text"
 msgstr "पाठं योजयतु"
@@ -21834,7 +21834,7 @@ msgid "Manage Encoding Profiles"
 msgstr "एन्कोडिंग् प्रोफाइल्स् प्रबन्धयन्तु"
 
 #: src/dialogs/encodingprofilesdialog.cpp:55
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:289
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:306
 #: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
@@ -21923,7 +21923,7 @@ msgstr "स्वचालित (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:811
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:828
 #: src/project/dialogs/projectsettings.cpp:910
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -22014,9 +22014,9 @@ msgstr "निर्यात मार्गदर्शकाः आँकड�
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:424
 #: src/renderpresets/renderpresetrepository.cpp:480
-#: src/timeline2/view/timelinecontroller.cpp:5504
-#: src/timeline2/view/timelinecontroller.cpp:5509
-#: src/titler/titlewidget.cpp:2349
+#: src/timeline2/view/timelinecontroller.cpp:5588
+#: src/timeline2/view/timelinecontroller.cpp:5593
+#: src/titler/titlewidget.cpp:2360
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "%1 सञ्चिकायां लिखितुं न शक्यते"
@@ -22256,7 +22256,7 @@ msgstr "उपरि दक्षिणतः"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:385
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:836
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:853
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -22892,42 +22892,42 @@ msgstr "Containing Folder उद्घाटयन्तु"
 msgid "Timeline"
 msgstr "कालरेखा"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:91
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:108
 #, fuzzy, kde-format
 #| msgid "Colors and Guides"
 msgid "Colors and Markers"
 msgstr "वर्णाः मार्गदर्शकाः च"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:115
 #, kde-format
 msgid "Plugins"
 msgstr "प्लगिन्स्"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:119
 #, kde-format
 msgid "Playback"
 msgstr "प्लेबैक"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:110
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:127
 #, kde-format
 msgid "Capture"
 msgstr "पटल"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:187
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:204
 #: src/effects/effectlist/model/effecttreemodel.cpp:64
 #, kde-format
 msgid "Misc"
 msgstr "विविधाः"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:237
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:920
 #: src/doc/documentvalidator.cpp:2511
 #: src/transitions/transitionsrepository.cpp:223
 #, kde-format
 msgid "auto"
 msgstr "ऑटो"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:230
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22939,113 +22939,113 @@ msgstr ""
 "Volume) योजिताः भविष्यन्ति । एते प्रभावाः अक्षमाः सन्ति, केवलं तदा एव प्रयुक्ताः "
 "भविष्यन्ति यदा भवान् कञ्चन पैरामीटर् परिवर्तयति ।"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:257
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:274
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "पूर्वनिर्धारितं प्रोफाइल (पूर्वनिर्धारितम्) चिनोतु ।"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:295
 #, kde-format
 msgid "Project Defaults"
 msgstr "परियोजना पूर्वनिर्धारित"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:323
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:348
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:340
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:365
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "पूर्वनिर्धारितपुटस्य उपयोगं कुर्वन्तु: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:325
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:351
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1193
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1194
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1209
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:342
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:368
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1210
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1211
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1226
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1227
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "सदैव परियोजनापुटस्य उपयोगं कुर्वन्तु: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:327
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:353
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1205
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1206
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:344
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:370
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1222
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1223
 #, kde-format
 msgid "Always use active project folder"
 msgstr "सदैव सक्रियप्रकल्पपुटस्य उपयोगं कुर्वन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:385
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
 #, kde-format
 msgid "Environment"
 msgstr "पर्यावरणम्‌"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:417
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:434
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Mac OS X इत्यत्र अद्यापि Capture उपलब्धं नास्ति ।"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:505
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "मोनो (१ चैनल)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:508
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:525
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "स्टीरियो (२ चैनल्स्)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:511
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:528
 #, fuzzy, kde-format
 #| msgid "%1 channels "
 msgid "%1 channels"
 msgstr "%1 चैनल्स् "
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:539
 #, kde-format
 msgid "%1 Hz"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:525
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:542
 #, kde-format
 msgid "44100 Hz"
 msgstr "४४१०० हर्ट्ज"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:528
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:545
 #, kde-format
 msgid "48000 Hz"
 msgstr "४८००० हर्ट्ज"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:531
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:548
 #, fuzzy, kde-format
 #| msgid "48000 Hz"
 msgid "96000 Hz"
 msgstr "४८००० हर्ट्ज"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:544
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:561
 #, kde-format
 msgid "Unsigned 8 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:547
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:564
 #, kde-format
 msgid "Signed 16 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:550
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:567
 #, kde-format
 msgid "Signed 32 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:553
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:570
 #, kde-format
 msgid "Float"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:604
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:621
 #, kde-format
 msgid "JogShuttle"
 msgstr "जोगशटल"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:606
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:623
 #, fuzzy, kde-format
 #| msgid ""
 #| "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -23064,7 +23064,7 @@ msgstr ""
 "a> पश्यन्तु ."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:645
 #: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:810
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
@@ -23072,92 +23072,92 @@ msgstr ""
 msgid "Transcode"
 msgstr "ट्रांसकोड"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:662
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:679
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU प्रसंस्करणाय Movit तथा Rtaudio मॉड्यूल् इत्यनेन सह संकलितं MLT आवश्यकम् अस्ति"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:818
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:835
 #, kde-format
 msgid "ALSA"
 msgstr "अलसा"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:819
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:836
 #, kde-format
 msgid "PulseAudio"
 msgstr "पल्सऑडियो"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:820
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:837
 #, kde-format
 msgid "PipeWire"
 msgstr "पाइपवायर"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:821
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:838
 #, kde-format
 msgid "OSS"
 msgstr "वयम्‌"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:823
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:840
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound डेमन"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:841
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "कला दानव"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:871
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:888
 #, kde-format
 msgid "SDL"
 msgstr "एसडीएल"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:883
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:900
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio इति"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:907 src/mainwindow.cpp:302
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:924 src/mainwindow.cpp:302
 #, kde-format
 msgid "Monitor %1"
 msgstr "निरीक्षक %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:991
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1008
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "श्रव्यसम्पादनअनुप्रयोगस्य मार्गं प्रविशन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:999
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1016
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "चित्रसम्पादन-अनुप्रयोगस्य मार्गं प्रविशतु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1007
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1024
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Glaxnimate अनुप्रयोगस्य मार्गं प्रविशन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1015
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1032
 #, fuzzy, kde-format
 #| msgid "Enter path to the audio editing application"
 msgid "Enter path to the video editing application"
 msgstr "श्रव्यसम्पादनअनुप्रयोगस्य मार्गं प्रविशन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1097
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1144
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1114
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1161
 #: src/project/dialogs/projectsettings.cpp:542
 #, kde-format
 msgid "Please select a video profile"
 msgstr "कृपया एकं विडियो प्रोफाइलं चिनोतु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1434
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1498
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "एतत् सेटिङ्ग् परिवर्तयितुं Kdenlive पुनः आरभणीयम्"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1626
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
@@ -25711,7 +25711,7 @@ msgstr "आचारः"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
 #: src/effects/effectlist/model/effecttreemodel.cpp:67
-#: src/ui/titlewidget_ui.ui:1687
+#: src/ui/titlewidget_ui.ui:1681
 #, kde-format
 msgid "Templates"
 msgstr "टेम्पलेट्स"
@@ -27834,7 +27834,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "समयरेखायां उपशीर्षकपट्टिकां टॉगलं करोति ।"
 
-#: src/mainwindow.cpp:1358 src/titler/titlewidget.cpp:405
+#: src/mainwindow.cpp:1358 src/titler/titlewidget.cpp:412
 #, kde-format
 msgid "Selection Tool"
 msgstr "चयनसाधनम्"
@@ -28697,7 +28697,7 @@ msgstr "Insert Track…"
 msgid "Fit all Tracks in View"
 msgstr "View मध्ये सर्वाणि Tracks फिट् कुर्वन्तु"
 
-#: src/mainwindow.cpp:2120 src/timeline2/view/timelinecontroller.cpp:5231
+#: src/mainwindow.cpp:2120 src/timeline2/view/timelinecontroller.cpp:5315
 #, fuzzy, kde-format
 #| msgid "Sequence count"
 msgid "Sequence effects"
@@ -28967,7 +28967,7 @@ msgstr "पुनः सृजतु"
 
 #: src/mainwindow.cpp:2462 src/onlineresources/resourcewidget.cpp:705
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2332
+#: src/titler/titlewidget.cpp:2343
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -29315,7 +29315,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "मेनू-पट्टिकां गोपयन्तु"
 
-#: src/mainwindow.cpp:5202 src/timeline2/view/timelinecontroller.cpp:5462
+#: src/mainwindow.cpp:5202 src/timeline2/view/timelinecontroller.cpp:5546
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "वर्तमान परियोजनायां उपशीर्षकाणि नास्ति"
@@ -30089,7 +30089,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3443 src/monitor/monitor.cpp:3474
-#: src/timeline2/view/timelinecontroller.cpp:6015
+#: src/timeline2/view/timelinecontroller.cpp:6099
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
@@ -30100,13 +30100,13 @@ msgid "Create Range Marker from Zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3459 src/monitor/monitor.cpp:3480
-#: src/timeline2/view/timelinecontroller.cpp:6030
+#: src/timeline2/view/timelinecontroller.cpp:6114
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3461 src/monitor/monitor.cpp:3482
-#: src/timeline2/view/timelinecontroller.cpp:6033
+#: src/timeline2/view/timelinecontroller.cpp:6117
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to create range marker from zone"
@@ -30254,7 +30254,7 @@ msgid "Go to Zone End"
 msgstr "Zone End इति गच्छन्तु"
 
 #: src/monitor/monitorproxy.cpp:745
-#: src/timeline2/view/timelinecontroller.cpp:6022
+#: src/timeline2/view/timelinecontroller.cpp:6106
 #, fuzzy, kde-format
 #| msgid "Rename marker"
 msgid "Zone marker"
@@ -33511,7 +33511,7 @@ msgstr "मूल रंग"
 #: src/scopes/colorscopes/vectorscope.cpp:104
 #: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
-#: src/ui/titlewidget_ui.ui:1515
+#: src/ui/titlewidget_ui.ui:1509
 #, kde-format
 msgid "Background"
 msgstr "पृष्ठभूमि"
@@ -34780,7 +34780,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "समयरेखायां कर्षन् कार्यं कर्तुं न शक्यते"
 
 #: src/timeline2/view/timelinecontroller.cpp:959
-#: src/timeline2/view/timelinecontroller.cpp:5392
+#: src/timeline2/view/timelinecontroller.cpp:5476
 #, kde-format
 msgid "Could not insert track"
 msgstr "पटलं सम्मिलितुं न शक्तवान्"
@@ -34868,7 +34868,7 @@ msgid "Cannot change speed of item(s)"
 msgstr "क्लिप् निर्मातुं न शक्यते"
 
 #: src/timeline2/view/timelinecontroller.cpp:3259
-#: src/timeline2/view/timelinecontroller.cpp:5652
+#: src/timeline2/view/timelinecontroller.cpp:5736
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "कृपया अस्य क्रियायाः कृते एकं पटलं तस्य लेबल् क्लिक् कृत्वा सक्रियं कुर्वन्तु"
@@ -34970,12 +34970,12 @@ msgstr "श्रव्यं पुनर्स्थापयन्तु"
 msgid "Move item"
 msgstr "मदं चालयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5083
+#: src/timeline2/view/timelinecontroller.cpp:5167
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "तालाबद्धे पटले गृहीतुं असम्भवम्"
 
-#: src/timeline2/view/timelinecontroller.cpp:5094
+#: src/timeline2/view/timelinecontroller.cpp:5178
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -34984,39 +34984,39 @@ msgstr ""
 "अत्र गृहीतुं असम्भवम्: ग्रहणं क्लिप्स् अधिलिखितुं शक्नोति स्म । कृपया वर्तमानस्थानस्य अनन्तरं "
 "क्लिप्स् निष्कासयन्तु अथवा भिन्नं पटलं चिनोतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5269
 #, kde-format
 msgid "Record audio"
 msgstr "श्रव्यं अभिलेखयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5332
+#: src/timeline2/view/timelinecontroller.cpp:5416
 #, kde-format
 msgid "Expand clip"
 msgstr "क्लिप् विस्तारयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5335
+#: src/timeline2/view/timelinecontroller.cpp:5419
 #, kde-format
 msgid "Could not expand clip"
 msgstr "क्लिप् विस्तारयितुं न शक्तवान्"
 
-#: src/timeline2/view/timelinecontroller.cpp:5390
+#: src/timeline2/view/timelinecontroller.cpp:5474
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Track सम्मिलित करें"
 msgstr[1] "Tracks सम्मिलित करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5469
+#: src/timeline2/view/timelinecontroller.cpp:5553
 #, kde-format
 msgid "Export subtitle file"
 msgstr "उपशीर्षकसञ्चिकां निर्यातयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5470
+#: src/timeline2/view/timelinecontroller.cpp:5554
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "उप स्टेशन अल्फा v4.00+ फ़ाइल (*.ass);;SubRip उपशीर्षक फ़ाइल (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5484
+#: src/timeline2/view/timelinecontroller.cpp:5568
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -35028,12 +35028,12 @@ msgstr ""
 "साझां कुर्वन्ति तर्हि केवलं निम्नतमस्तरस्य उपशीर्षकं एव अवशिष्यते एतेन निर्यातितसञ्चिकायां "
 "केषाञ्चन उपशीर्षकाणां हानिः भवितुम् अर्हति । किं भवन्तः अग्रे गन्तुं इच्छन्ति ?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5489
+#: src/timeline2/view/timelinecontroller.cpp:5573
 #, kde-format
 msgid "Warning"
 msgstr "चेतवानी"
 
-#: src/timeline2/view/timelinecontroller.cpp:5527
+#: src/timeline2/view/timelinecontroller.cpp:5611
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -35042,40 +35042,40 @@ msgstr ""
 "avfilter.subtitles फ़िल्टर आवश्यकम्, परन्तु न प्राप्तम् । उपशीर्षकविशेषता सम्भवतः "
 "अपेक्षितरूपेण कार्यं न करिष्यति ।"
 
-#: src/timeline2/view/timelinecontroller.cpp:5544
+#: src/timeline2/view/timelinecontroller.cpp:5628
 #, kde-format
 msgid "Show subtitle track"
 msgstr "उपशीर्षकपटं दर्शयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5544
+#: src/timeline2/view/timelinecontroller.cpp:5628
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "उपशीर्षकपटं गोपयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5567
+#: src/timeline2/view/timelinecontroller.cpp:5651
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "उपशीर्षक ट्रैक अनलॉक करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5567
+#: src/timeline2/view/timelinecontroller.cpp:5651
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "उपशीर्षक पटलं ताडयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5729
-#: src/timeline2/view/timelinecontroller.cpp:5738
+#: src/timeline2/view/timelinecontroller.cpp:5813
+#: src/timeline2/view/timelinecontroller.cpp:5822
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "उपशीर्षक"
 
-#: src/timeline2/view/timelinecontroller.cpp:5740
+#: src/timeline2/view/timelinecontroller.cpp:5824
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "उपशीर्षकं प्रबन्धयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5971
+#: src/timeline2/view/timelinecontroller.cpp:6055
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No range guide found at position"
@@ -35149,22 +35149,22 @@ msgid "No available stream"
 msgstr "न उपलब्धः धारा"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3412 src/titler/titlewidget.cpp:3415
+#: src/titler/titlewidget.cpp:3424 src/titler/titlewidget.cpp:3427
 #, kde-format
 msgid "Gradient %1"
 msgstr "ढाल %1"
 
-#: src/titler/titledocument.cpp:390
+#: src/titler/titledocument.cpp:391
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "इदं शीर्षकक्लिप् भिन्नेन फ्रेम आकारेण निर्मितम् आसीत् ।"
 
-#: src/titler/titledocument.cpp:390
+#: src/titler/titledocument.cpp:391
 #, kde-format
 msgid "Title Profile"
 msgstr "शीर्षक प्रोफाइल"
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35175,195 +35175,206 @@ msgstr ""
 "आकाराः । ते पिक्सेल आकारे परिवर्तिताः भविष्यन्ति, येन ते पोर्टेबलाः भविष्यन्ति, परन्तु "
 "भवद्भिः तेषां आकारः समायोजितः भवितुम् अर्हति ।"
 
-#: src/titler/titledocument.cpp:465
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "पाठ क्लिप्स् अद्यतनम्"
 
-#: src/titler/titlewidget.cpp:138
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "रूपरेखा विस्तार"
 
-#: src/titler/titlewidget.cpp:145
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "पृष्ठभूमि रंग अस्पष्टता"
 
-#: src/titler/titlewidget.cpp:151
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "X अक्षस्य परितः परिभ्रमणम्"
 
-#: src/titler/titlewidget.cpp:157
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Y अक्षस्य परितः परिभ्रमणम्"
 
-#: src/titler/titlewidget.cpp:163
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Z अक्षस्य परितः परिभ्रमणम्"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1453
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "सीमाविस्तारः"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:162 src/widgets/geometrywidget.cpp:172
 #, no-c-format, kde-format
 msgid "%"
 msgstr "% ."
 
-#: src/titler/titlewidget.cpp:293
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:66
+#: src/ui/configproxy_ui.ui:86 src/ui/configproxy_ui.ui:133
+#: src/ui/configproxy_ui.ui:156
+#, kde-format
+msgid " pixels"
+msgstr " पिक्सेल्"
+
+#: src/titler/titlewidget.cpp:300
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "प्रकाशः"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:301
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "सामान्य"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:302
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "अर्ध-बोल्ड"
 
-#: src/titler/titlewidget.cpp:296
+#: src/titler/titlewidget.cpp:303
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "विक्रान्तः"
 
-#: src/titler/titlewidget.cpp:297
+#: src/titler/titlewidget.cpp:304
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "कृष्णः"
 
-#: src/titler/titlewidget.cpp:298
+#: src/titler/titlewidget.cpp:305
 #, kde-format
 msgid "Font weight"
 msgstr "फन्ट् भारः"
 
-#: src/titler/titlewidget.cpp:312
+#: src/titler/titlewidget.cpp:319
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "यूनिकोड वर्णं सम्मिलितं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:318
+#: src/titler/titlewidget.cpp:325
 #, kde-format
 msgid "Raise object"
 msgstr "वस्तु उत्थापयतु"
 
-#: src/titler/titlewidget.cpp:324
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Lower object"
 msgstr "अधो वस्तु"
 
-#: src/titler/titlewidget.cpp:332
+#: src/titler/titlewidget.cpp:339
 #, kde-format
 msgid "Raise object to top"
 msgstr "वस्तुं उपरि उत्थापयन्तु"
 
-#: src/titler/titlewidget.cpp:339
+#: src/titler/titlewidget.cpp:346
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "वस्तु अधः अधः यावत्"
 
-#: src/titler/titlewidget.cpp:345
+#: src/titler/titlewidget.cpp:352
 #, kde-format
 msgid "Select All"
 msgstr "सर्वं चिनोतु"
 
-#: src/titler/titlewidget.cpp:351
+#: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "केवलं पाठवस्तूनि चयनितानि स्थापयन्तु"
 
-#: src/titler/titlewidget.cpp:358
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "केवलं rect items चयनितं स्थापयन्तु"
 
-#: src/titler/titlewidget.cpp:365
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "केवलं चित्रवस्तूनि चयनितानि स्थापयन्तु"
 
-#: src/titler/titlewidget.cpp:372
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Deselect"
 msgstr "विचयनं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "x अक्षं परिवर्त्य 0 बिन्दुं परिवर्तयन्तु"
 
-#: src/titler/titlewidget.cpp:378
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "y अक्षं परिवर्त्य 0 बिन्दुं परिवर्तयन्तु"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select fill color"
 msgstr "पूरणवर्णं चिनोतु"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select border color"
 msgstr "सीमावर्णं चिनोतु"
 
-#: src/titler/titlewidget.cpp:382
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "मूल आकार (१:१)"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:390
 #, kde-format
 msgid "Fit zoom"
 msgstr "जूम फिट्"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:391
 #, kde-format
 msgid "Select background color"
 msgstr "पृष्ठभूमिवर्णं चिनोतु"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:393
 #, kde-format
 msgid "Select all"
 msgstr "सर्वाणि चिनोतु"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:394
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "वर्तमानचयनस्य पाठवस्तूनाम् चयनं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:388
+#: src/titler/titlewidget.cpp:395
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "वर्तमानचयनं rect items चयनं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:389
+#: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "वर्तमानचयनं प्रति चित्रवस्तूनि चिनोतु"
 
-#: src/titler/titlewidget.cpp:390
+#: src/titler/titlewidget.cpp:397
 #, kde-format
 msgid "Unselect all"
 msgstr "सर्वाणि अचयनं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:410
+#: src/titler/titlewidget.cpp:417
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -35372,51 +35383,51 @@ msgid ""
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:419
+#: src/titler/titlewidget.cpp:426
 #, kde-format
 msgid "Add Rectangle"
 msgstr "आयत योजयतु"
 
-#: src/titler/titlewidget.cpp:424
+#: src/titler/titlewidget.cpp:431
 #, kde-format
 msgid "Add Ellipse"
 msgstr "दीर्घवृत्तं योजयन्तु"
 
-#: src/titler/titlewidget.cpp:429
+#: src/titler/titlewidget.cpp:436
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Image…"
 msgstr "चित्रं योजयतु"
 
-#: src/titler/titlewidget.cpp:436
+#: src/titler/titlewidget.cpp:443
 #, fuzzy, kde-format
 #| msgid "Open Backup File…"
 msgid "Open Title…"
 msgstr "बैकअप सञ्चिकां उद्घाटयन्तु…"
 
-#: src/titler/titlewidget.cpp:441
+#: src/titler/titlewidget.cpp:448
 #, fuzzy, kde-format
 #| msgid "Save Title"
 msgid "Save Title As…"
 msgstr "शीर्षकं रक्षतु"
 
-#: src/titler/titlewidget.cpp:446
+#: src/titler/titlewidget.cpp:453
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Title Templates…"
 msgstr "नवीन शीर्षक टेम्पलेट्स डाउनलोड करें..."
 
-#: src/titler/titlewidget.cpp:563
+#: src/titler/titlewidget.cpp:570
 #, kde-format
 msgid "Save and add to project"
 msgstr "रक्षन्तु परियोजनायां योजयन्तु च"
 
-#: src/titler/titlewidget.cpp:564
+#: src/titler/titlewidget.cpp:571
 #, kde-format
 msgid "Create Title"
 msgstr "शीर्षकं रचयतु"
 
-#: src/titler/titlewidget.cpp:825
+#: src/titler/titlewidget.cpp:832
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -35424,54 +35435,54 @@ msgid ""
 msgstr ""
 "किं भवान् वास्तवमेव नूतनं टेम्पलेट् लोड् कर्तुम् इच्छति? अस्मिन् शीर्षके परिवर्तनं नष्टं भविष्यति!"
 
-#: src/titler/titlewidget.cpp:934
+#: src/titler/titlewidget.cpp:941
 #, kde-format
 msgid "All Images"
 msgstr "सर्वाणि चित्राणि"
 
-#: src/titler/titlewidget.cpp:936
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 चित्रम्"
 
-#: src/titler/titlewidget.cpp:946
+#: src/titler/titlewidget.cpp:953
 #, kde-format
 msgid "Add Image"
 msgstr "चित्रं योजयतु"
 
-#: src/titler/titlewidget.cpp:1786
+#: src/titler/titlewidget.cpp:1796
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1798 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1810
+#: src/titler/titlewidget.cpp:1820
 #, kde-format
 msgid "−Y"
 msgstr "−अथ च"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1822 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2283
+#: src/titler/titlewidget.cpp:2294
 #, kde-format
 msgid "Load Title"
 msgstr "भार शीर्षक"
 
-#: src/titler/titlewidget.cpp:2284
+#: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Kdenlive title"
 msgstr "क्डेन्लाइव शीर्षक"
 
-#: src/titler/titlewidget.cpp:2330
+#: src/titler/titlewidget.cpp:2341
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -35480,57 +35491,57 @@ msgstr ""
 "किं भवान् अस्मिन् TitleDocument मध्ये Images एम्बेड् कर्तुम् इच्छति?\n"
 "शीर्षकसाझेदारी कर्तुं एतत् सर्वाधिकं आवश्यकम् अस्ति।"
 
-#: src/titler/titlewidget.cpp:2331
+#: src/titler/titlewidget.cpp:2342
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "चित्राणि एम्बेड् कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:2394
+#: src/titler/titlewidget.cpp:2405
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "अस्मिन् शीर्षके १ तत्त्वम् अस्ति"
 msgstr[1] "अस्मिन् शीर्षके %1 लुप्ततत्त्वानि सन्ति"
 
-#: src/titler/titlewidget.cpp:2395 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2406 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "वर्णन"
 
-#: src/titler/titlewidget.cpp:2398
+#: src/titler/titlewidget.cpp:2409
 #, kde-format
 msgid "Delete missing elements"
 msgstr "लुप्ततत्त्वानि विलोपयन्तु"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2469
 #, kde-format
 msgid "Update Title"
 msgstr "शीर्षक अद्यतन करें"
 
-#: src/titler/titlewidget.cpp:2461
+#: src/titler/titlewidget.cpp:2472
 #, kde-format
 msgid "Add as new Title"
 msgstr "नूतनं शीर्षकरूपेण योजयन्तु"
 
-#: src/titler/titlewidget.cpp:2515
+#: src/titler/titlewidget.cpp:2526
 #, kde-format
 msgid "The following files are missing:"
 msgstr "निम्नलिखितसञ्चिकाः अनुपलब्धाः सन्ति ।"
 
-#: src/titler/titlewidget.cpp:2712
+#: src/titler/titlewidget.cpp:2723
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Viewport आरभत"
 
-#: src/titler/titlewidget.cpp:2713
+#: src/titler/titlewidget.cpp:2724
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "दृश्यस्थानकं समाप्तं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:3445
+#: src/titler/titlewidget.cpp:3457
 #, kde-format
 msgid "Gradient"
 msgstr "ढाल"
@@ -36157,8 +36168,8 @@ msgstr "वर्तमान बिन्दुः विलोपयन्त�
 #: src/ui/titlewidget_ui.ui:949 src/ui/titlewidget_ui.ui:1153
 #: src/ui/titlewidget_ui.ui:1207 src/ui/titlewidget_ui.ui:1256
 #: src/ui/titlewidget_ui.ui:1278 src/ui/titlewidget_ui.ui:1310
-#: src/ui/titlewidget_ui.ui:1399 src/ui/titlewidget_ui.ui:1754
-#: src/ui/titlewidget_ui.ui:1770 src/ui/titlewidget_ui.ui:1783
+#: src/ui/titlewidget_ui.ui:1464 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1764 src/ui/titlewidget_ui.ui:1777
 #: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
@@ -36636,8 +36647,50 @@ msgstr "पृष्ठभूमिवर्णः निरीक्षकः :
 msgid "Monitor grid"
 msgstr "निरीक्षकजालम्"
 
+#. i18n: ectx: property (text), widget (QLabel, label_video_color)
+#: src/ui/configcolors_ui.ui:112
+#, fuzzy, kde-format
+#| msgid "Video clip"
+msgid "Video clip color:"
+msgstr "विडियो क्लिप्"
+
+#. i18n: ectx: property (text), widget (QLabel, label_audio_color)
+#: src/ui/configcolors_ui.ui:126
+#, fuzzy, kde-format
+#| msgid "Audio clips"
+msgid "Audio clip color:"
+msgstr "श्रव्यक्लिप्स्"
+
+#. i18n: ectx: property (text), widget (QLabel, label_title_color)
+#: src/ui/configcolors_ui.ui:140
+#, fuzzy, kde-format
+#| msgid "Title clips:"
+msgid "Title clip color:"
+msgstr "शीर्षक क्लिप्स् :"
+
+#. i18n: ectx: property (text), widget (QLabel, label_image_color)
+#: src/ui/configcolors_ui.ui:154
+#, fuzzy, kde-format
+#| msgid "Image clips:"
+msgid "Image clip color:"
+msgstr "चित्रक्लिप्स् :"
+
+#. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
+#: src/ui/configcolors_ui.ui:168
+#, fuzzy, kde-format
+#| msgid "Slideshow clip"
+msgid "Slideshow clip color:"
+msgstr "स्लाइड शो क्लिप"
+
+#. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
+#: src/ui/configcolors_ui.ui:182
+#, fuzzy, kde-format
+#| msgid "Turn clip colors to sepia"
+msgid "Reset clip colors to default"
+msgstr "क्लिप् रङ्गं सेपिया इति परिवर्तयन्तु"
+
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configcolors_ui.ui:125
+#: src/ui/configcolors_ui.ui:202
 #, fuzzy, kde-format
 #| msgid "Monitor audio"
 msgid "Monitor safe zone:"
@@ -37275,16 +37328,6 @@ msgstr "प्रॉक्सी क्लिप्स् सक्षमं क
 #| msgid "Generate for videos larger than"
 msgid "Generate for videos larger than:"
 msgstr "इत्यस्मात् बृहत्तरेभ्यः विडियोभ्यः जनयन्तु"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
-#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
-#, kde-format
-msgid " pixels"
-msgstr " पिक्सेल्"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:79
@@ -40162,7 +40205,7 @@ msgstr "रेखाविस्तारः :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
-#: src/ui/titlewidget_ui.ui:988 src/ui/titlewidget_ui.ui:1385
+#: src/ui/titlewidget_ui.ui:988 src/ui/titlewidget_ui.ui:1361
 #, kde-format
 msgid "&Gradient:"
 msgstr "&ढालः :"
@@ -40258,92 +40301,99 @@ msgid "So&lid color:"
 msgstr "सो&ढक्कनवर्णः"
 
 #. i18n: ectx: property (text), widget (QLabel, label_border)
-#: src/ui/titlewidget_ui.ui:1422
+#: src/ui/titlewidget_ui.ui:1375
 #, kde-format
 msgid "Border "
 msgstr "सीमा "
 
+#. i18n: ectx: property (text), widget (QLabel, label_cornerRadius)
+#: src/ui/titlewidget_ui.ui:1433
+#, fuzzy, kde-format
+#| msgid "radius"
+msgid "Corner radius"
+msgstr "त्रिज्या"
+
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/titlewidget_ui.ui:1487
+#: src/ui/titlewidget_ui.ui:1481
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "आस्पेक्ट रेश्यो संरक्षितं कुर्वन्तु"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
-#: src/ui/titlewidget_ui.ui:1573
+#: src/ui/titlewidget_ui.ui:1567
 #, kde-format
 msgid "Animation"
 msgstr "एनिमेशन"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_end)
-#: src/ui/titlewidget_ui.ui:1579
+#: src/ui/titlewidget_ui.ui:1573
 #, kde-format
 msgid "Edit end viewport"
 msgstr "अन्तदृश्यपोर्टं सम्पादयन्तु"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_start)
-#: src/ui/titlewidget_ui.ui:1602
+#: src/ui/titlewidget_ui.ui:1596
 #, kde-format
 msgid "Edit start viewport"
 msgstr "प्रारम्भ दृश्यपोर्ट् सम्पादयतु"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_aspect)
-#: src/ui/titlewidget_ui.ui:1631
+#: src/ui/titlewidget_ui.ui:1625
 #, kde-format
 msgid "Keep aspect ratio"
 msgstr "आस्पेक्ट रेश्यो रखें"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/titlewidget_ui.ui:1640
+#: src/ui/titlewidget_ui.ui:1634
 #, kde-format
 msgid "Resize"
 msgstr "आकारं परिवर्तयतु"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize50)
-#: src/ui/titlewidget_ui.ui:1647
+#: src/ui/titlewidget_ui.ui:1641
 #, no-c-format, kde-format
 msgid "50%"
 msgstr "५०%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
-#: src/ui/titlewidget_ui.ui:1654
+#: src/ui/titlewidget_ui.ui:1648
 #, no-c-format, kde-format
 msgid "100%"
 msgstr "१००%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
-#: src/ui/titlewidget_ui.ui:1661
+#: src/ui/titlewidget_ui.ui:1655
 #, no-c-format, kde-format
 msgid "200%"
 msgstr "२००%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
-#: src/ui/titlewidget_ui.ui:1701
+#: src/ui/titlewidget_ui.ui:1695
 #, fuzzy, kde-format
 #| msgid "Template:"
 msgid "Load template:"
 msgstr "टेम्पलेट:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/titlewidget_ui.ui:1723
+#: src/ui/titlewidget_ui.ui:1717
 #, kde-format
 msgid "Patterns"
 msgstr "प्रतिमानाः"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
-#: src/ui/titlewidget_ui.ui:1751
+#: src/ui/titlewidget_ui.ui:1745
 #, kde-format
 msgid "Add pattern."
 msgstr "प्रतिमानं योजयन्तु।"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
-#: src/ui/titlewidget_ui.ui:1767
+#: src/ui/titlewidget_ui.ui:1761
 #, kde-format
 msgid "Delete pattern."
 msgstr "प्रतिरूपं विलोपयन्तु।"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
-#: src/ui/titlewidget_ui.ui:1780
+#: src/ui/titlewidget_ui.ui:1774
 #, kde-format
 msgid "Delete all patterns."
 msgstr "सर्वाणि प्रतिमानाः विलोपयन्तु।"
