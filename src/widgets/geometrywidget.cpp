@@ -12,6 +12,8 @@
 #include <KLocalizedString>
 #include <QFormLayout>
 #include <QLabel>
+#include <QPoint>
+#include <QString>
 #include <QStyle>
 #include <QtMath>
 #include <cmath>
@@ -25,6 +27,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     , m_monitor(monitor)
     , m_opacityFactor(100.)
     , m_layout(layout)
+    , m_rotationAnchorMode(RotationAnchorMode::TopLeft)
 {
     Q_UNUSED(useRatioLock)
     m_defaultSize = pCore->getCurrentFrameSize();
@@ -431,14 +434,14 @@ void GeometryWidget::slotMoveRight()
 // Helper: returns the bounding rect of a rotated rectangle
 QRectF GeometryWidget::rotatedBoundingRect(double x, double y, double w, double h, double angleDeg) const
 {
-    QPointF center(x + w / 2.0, y + h / 2.0);
+    QPointF anchor = rotationAnchor();
     double angleRad = qDegreesToRadians(angleDeg);
     QVector<QPointF> corners = {QPointF(x, y), QPointF(x + w, y), QPointF(x + w, y + h), QPointF(x, y + h)};
     for (QPointF &pt : corners) {
-        QPointF rel = pt - center;
+        QPointF rel = pt - anchor;
         double xr = rel.x() * qCos(angleRad) - rel.y() * qSin(angleRad);
         double yr = rel.x() * qSin(angleRad) + rel.y() * qCos(angleRad);
-        pt = QPointF(xr, yr) + center;
+        pt = QPointF(xr, yr) + anchor;
     }
     double minX = corners[0].x(), maxX = corners[0].x();
     double minY = corners[0].y(), maxY = corners[0].y();
@@ -703,4 +706,22 @@ void GeometryWidget::slotUpdateRotation(double rotation)
         return;
     }
     m_rotation = rotation;
+}
+
+void GeometryWidget::setRotationAnchorMode(RotationAnchorMode mode)
+{
+    m_rotationAnchorMode = mode;
+}
+
+QPointF GeometryWidget::rotationAnchor() const
+{
+    double x = m_spinX->value();
+    double y = m_spinY->value();
+    double w = m_spinWidth->value();
+    double h = m_spinHeight->value();
+    if (m_rotationAnchorMode == RotationAnchorMode::Center) {
+        return QPointF(x + w / 2.0, y + h / 2.0);
+    } else { // TopLeft
+        return QPointF(x, y);
+    }
 }

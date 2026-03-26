@@ -21,6 +21,7 @@ class GeometryWidget : public QObject
     Q_OBJECT
 
 public:
+    enum class RotationAnchorMode { Center, TopLeft };
     /**
      * @brief Default constructor.
      * @param monitor The monitor attached to this stack
@@ -37,6 +38,7 @@ public:
     const QRect getRect() const;
     const QList<double> getValueList() const;
     void setRotatable(bool rotatable);
+    void setRotationAnchorMode(RotationAnchorMode mode);
 
 private:
     int m_min;
@@ -62,6 +64,8 @@ private:
     const QString getValue() const;
     void adjustSizeValue();
     QRectF rotatedBoundingRect(double x, double y, double w, double h, double angleDeg) const;
+    QPointF rotationAnchor() const;
+    RotationAnchorMode m_rotationAnchorMode;
 
 public Q_SLOTS:
     void slotUpdateGeometryRect(const QRectF &r);

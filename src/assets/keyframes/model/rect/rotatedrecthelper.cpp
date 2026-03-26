@@ -40,19 +40,27 @@ void RotatedRectHelper::refreshParams(int pos)
 
     // Now handle rotation-specific parts
     double rotation = 0;
+    QPointF rotation_anchor(0.5, 0.5);
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
 
     // Find rotation parameter and get its interpolated value
     for (const auto &ix : std::as_const(m_indexes)) {
-        QString name = m_model->data(ix, AssetParameterModel::NameRole).toString();
+        const QString name = m_model->data(ix, AssetParameterModel::NameRole).toString();
+        qDebug() << "::: REFRESH PARAM NAME: " << name;
         if (name == QLatin1String("rotation")) {
             rotation = keyframes->getInterpolatedValue(pos, ix).toDouble();
-            break;
+        } else if (name == QLatin1String("rotate_anchor")) {
+            const QString anchorData = keyframes->getInterpolatedValue(pos, ix).toString();
+            qDebug() << "::: GOT ANCHOR DATA: " << anchorData;
+            QStringList anchors = anchorData.split(QLatin1Char(' '));
+            rotation_anchor = QPointF(anchors.at(0).toDouble(), anchors.at(1).toDouble());
         }
     }
 
     if (m_monitor) {
         m_monitor->setEffectSceneProperty(QStringLiteral("rect_rotation"), rotation);
+        qDebug() << ":::: PASSING ANCHOR: " << rotation_anchor;
+        m_monitor->setEffectSceneProperty(QStringLiteral("rect_anchor"), rotation_anchor);
     }
 }
 

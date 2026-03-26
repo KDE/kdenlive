@@ -29,7 +29,7 @@ public:
      * @param suffix (optional) Suffix to display in spinbox
      * @param parent (optional) Parent Widget */
     explicit PointWidget(const QString &name, QPointF value, QPointF min, QPointF max, QPointF factor, QPointF defaultValue, int decimals,
-                         const QString &comment, int id, QWidget *parent = nullptr);
+                         const QString &comment, int id, const QString &suffix = QString(), QWidget *parent = nullptr);
     ~PointWidget() override;
 
     /** @brief Gets the parameter's value. */
