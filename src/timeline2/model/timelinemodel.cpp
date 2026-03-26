@@ -3574,43 +3574,36 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     // size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    std::unordered_set<int> all_items;
+    std::list<int> all_items;
     std::unordered_set<int> selectionOnlyItems;
+    //first item has to be the item being resized
+    all_items.push_back(itemId);
     if (!allowSingleResize) {
         int splitId = m_groups->getSplitPartner(itemId);
-        std::unordered_set<int> items;
+        std::list<int> items;
         if (splitId != -1) {
             // Only resize group elements if it is an avsplit
-            items.insert(splitId);
-            items.insert(itemId);
-
-        } else {
-            all_items.insert(itemId);
-        }
-        for (int id : items) {
-            if (id == itemId) {
-                all_items.insert(id);
-                continue;
-            }
-            int start = getItemPosition(id);
-            int end = in + getItemPlaytime(id);
+            int start = getItemPosition(splitId);
+            int end = in + getItemPlaytime(splitId);
             if (right) {
                 if (out == end) {
-                    all_items.insert(id);
+                    all_items.push_back(splitId);
                 }
             } else if (start == in) {
-                all_items.insert(id);
+                all_items.push_back(splitId);
             }
         }
-        for( int id : getCurrentSelection()) {
-            if (id == itemId || all_items.find(id) != all_items.end() || !isClip(id)) {
-                continue;
+        std::unordered_set<int> currentSelection = getCurrentSelection();
+        //if the clip being resized is not part of the current selection, don't change the selection
+        if (currentSelection.find(itemId) != currentSelection.end()) {
+            for (int id : currentSelection) {
+                if (id == itemId || std::find(all_items.begin(), all_items.end(), id) != all_items.end() || !isClip(id)) {
+                    continue;
+                }
+                all_items.push_back(id);
+                selectionOnlyItems.insert(id);
             }
-            all_items.insert(id);
-            selectionOnlyItems.insert(id);
         }
-    } else {
-        all_items.insert(itemId);
     }
     bool result = true;
     for (int id : all_items) {

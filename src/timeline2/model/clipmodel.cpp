@@ -300,7 +300,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                 }
                 return true;
             }
-            qDebug() << "============\n+++++++++++++++++\nREVRSE TRACK OP FAILED FOR: " << m_id << "\n\n++++++++++++++++";
+            qDebug() << "============\n+++++++++++++++++\nREVERSE TRACK OP FAILED FOR: " << m_id << "\n\n++++++++++++++++";
             return false;
         };
         Fun preProcess = [this, roles, oldIn, oldOut, newIn = m_position, newOut = m_position + getOut() - getIn(), right, logUndo]() {
