@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-24 02:35+0000\n"
+"POT-Creation-Date: 2026-03-27 02:40+0000\n"
 "PO-Revision-Date: 2025-05-16 15:05+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -17590,7 +17590,7 @@ msgstr "Uložit efekt"
 
 #: src/assets/view/assetparameterview.cpp:377
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1563
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -17598,7 +17598,7 @@ msgstr "Zadejte název šablony"
 
 #: src/assets/view/assetparameterview.cpp:377
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1563
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -20400,7 +20400,7 @@ msgstr "Automaticky (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:811
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:815
 #: src/project/dialogs/projectsettings.cpp:910
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -20712,7 +20712,7 @@ msgstr "Vpravo nahoře"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:385
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:836
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:840
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -21358,7 +21358,7 @@ msgid "Misc"
 msgstr "Různé"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:907
 #: src/doc/documentvalidator.cpp:2511
 #: src/transitions/transitionsrepository.cpp:223
 #, kde-format
@@ -21392,18 +21392,18 @@ msgstr "Použít výchozí složku: %1"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:325
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:351
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1193
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1194
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1209
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1210
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1197
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1198
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1213
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1214
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr ""
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:327
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:353
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1205
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1206
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1209
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1210
 #, kde-format
 msgid "Always use active project folder"
 msgstr ""
@@ -21502,86 +21502,86 @@ msgstr "Překódovat"
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU zpracování potřebuje MLT kompilované s modulem Movit a Rtaudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:818
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:822
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:819
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:823
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:820
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:821
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:825
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:823
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:827
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Démon Esound"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:828
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Démon ARTS"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:871
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:875
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:883
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:887
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:907 src/mainwindow.cpp:302
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:911 src/mainwindow.cpp:302
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:991
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:995
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:999
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1003
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1007
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1011
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1015
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1019
 #, kde-format
 msgid "Enter path to the video editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1097
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1144
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1101
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1148
 #: src/project/dialogs/projectsettings.cpp:542
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Vyberte prosím profil videa"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1434
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1438
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Pro změnu nastavení je potřeba Kdenlive restartovat"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1566
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
