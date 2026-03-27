@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-26 00:43+0000\n"
-"PO-Revision-Date: 2026-03-24 17:00+0100\n"
+"PO-Revision-Date: 2026-03-26 20:03+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -36260,45 +36260,39 @@ msgstr "Mreža ogleda"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_color)
 #: src/ui/configcolors_ui.ui:112
-#, fuzzy, kde-format
-#| msgid "Video clip"
+#, kde-format
 msgid "Video clip color:"
-msgstr "Video posnetek"
+msgstr "Barva video posnetka:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_color)
 #: src/ui/configcolors_ui.ui:126
-#, fuzzy, kde-format
-#| msgid "Audio clips"
+#, kde-format
 msgid "Audio clip color:"
-msgstr "Zvočni posnetki"
+msgstr "Barva zvočnega posnetka:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_title_color)
 #: src/ui/configcolors_ui.ui:140
-#, fuzzy, kde-format
-#| msgid "Title clips:"
+#, kde-format
 msgid "Title clip color:"
-msgstr "Posnetki naslovov:"
+msgstr "Barva posnetka naslova:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_image_color)
 #: src/ui/configcolors_ui.ui:154
-#, fuzzy, kde-format
-#| msgid "Image clips:"
+#, kde-format
 msgid "Image clip color:"
-msgstr "Slikovni posnetki:"
+msgstr "Barva slikovnega posnetka:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
 #: src/ui/configcolors_ui.ui:168
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Slideshow clip color:"
-msgstr "Predstavitveni posnetek"
+msgstr "Barva predstavitvenega posnetka:"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
 #: src/ui/configcolors_ui.ui:182
-#, fuzzy, kde-format
-#| msgid "Turn clip colors to sepia"
+#, kde-format
 msgid "Reset clip colors to default"
-msgstr "Pretvori barve posnetka v sepijo"
+msgstr "Ponastavi barve posnetkov na privzete"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:202
@@ -39902,11 +39896,9 @@ msgstr "Obroba "
 
 #. i18n: ectx: property (text), widget (QLabel, label_cornerRadius)
 #: src/ui/titlewidget_ui.ui:1433
-#, fuzzy, kde-format
-#| msgctxt "Corners Effect Name"
-#| msgid "Corners"
+#, kde-format
 msgid "Corner radius"
-msgstr "Oglišča"
+msgstr "Polmer oglišča"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
 #: src/ui/titlewidget_ui.ui:1481

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-26 00:43+0000\n"
-"PO-Revision-Date: 2026-03-24 03:45+0100\n"
+"PO-Revision-Date: 2026-03-26 08:09+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -35557,45 +35557,39 @@ msgstr "ბადის მონიტორინგი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_color)
 #: src/ui/configcolors_ui.ui:112
-#, fuzzy, kde-format
-#| msgid "Video clip"
+#, kde-format
 msgid "Video clip color:"
-msgstr "ვიდეოკლიპი"
+msgstr "ვიდეოკლიპის ფერი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_color)
 #: src/ui/configcolors_ui.ui:126
-#, fuzzy, kde-format
-#| msgid "Audio clips"
+#, kde-format
 msgid "Audio clip color:"
-msgstr "აუდიოკლიპები"
+msgstr "აუდიოკლიპის ფერი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_title_color)
 #: src/ui/configcolors_ui.ui:140
-#, fuzzy, kde-format
-#| msgid "Title clips:"
+#, kde-format
 msgid "Title clip color:"
-msgstr "ტიტრის კლიპები:"
+msgstr "ტიტრის კლიპის ფერი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_image_color)
 #: src/ui/configcolors_ui.ui:154
-#, fuzzy, kde-format
-#| msgid "Image clips:"
+#, kde-format
 msgid "Image clip color:"
-msgstr "გამოსახულების კლიპები:"
+msgstr "გამოსახულების კლიპის ფერი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
 #: src/ui/configcolors_ui.ui:168
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Slideshow clip color:"
-msgstr "სლაიდშოუ კლიპი"
+msgstr "სლაიდშოუ კლიპი ფერი:"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
 #: src/ui/configcolors_ui.ui:182
-#, fuzzy, kde-format
-#| msgid "Turn clip colors to sepia"
+#, kde-format
 msgid "Reset clip colors to default"
-msgstr "ფერადი კლიპის სეპიაში გადაყვანა"
+msgstr "კლიპის ფერების ნაგულისხმევზე ჩამოყრა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:202
@@ -39208,11 +39202,9 @@ msgstr "საზღვარი "
 
 #. i18n: ectx: property (text), widget (QLabel, label_cornerRadius)
 #: src/ui/titlewidget_ui.ui:1433
-#, fuzzy, kde-format
-#| msgctxt "Corners Effect Name"
-#| msgid "Corners"
+#, kde-format
 msgid "Corner radius"
-msgstr "კუთხეები"
+msgstr "კუთხის რადიუსი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
 #: src/ui/titlewidget_ui.ui:1481
