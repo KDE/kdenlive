@@ -450,6 +450,22 @@ public:
                         painter->drawRoundedRect(m_thumbRect.adjusted(0, 0, -1, -1), 4, 4);
                         painter->restore();
                     }
+                    if (type == AbstractProjectItem::ClipItem) {
+                        if (clipStatus == FileStatus::StatusProxy || clipStatus == FileStatus::StatusProxyOnly) {
+                            // Overlay proxy icon
+                            painter->save();
+                            int rectSize = qMin(m_thumbRect.height() / 2.5, style->pixelMetric(QStyle::PM_SmallIconSize) * 1.5);
+                            const QRect proxyRect(m_thumbRect.x(), m_thumbRect.y(), rectSize, rectSize);
+                            painter->fillRect(proxyRect, QColor(220, 220, 10, 200));
+                            QFont font = painter->font();
+                            font.setPixelSize(proxyRect.height());
+                            font.setBold(true);
+                            painter->setFont(font);
+                            painter->setPen(Qt::black);
+                            painter->drawText(proxyRect, Qt::AlignCenter, i18nc("@label The first letter of Proxy, used as abbreviation", "P"));
+                            painter->restore();
+                        }
+                    }
                 }
                 int mid = int((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
@@ -812,6 +828,22 @@ public:
                 r.setTop(r.bottom() - (opt.rect.height() - r.height()));
                 r.setWidth(r.height());
                 reload.paint(painter, r);
+            }
+            if (type == AbstractProjectItem::ClipItem) {
+                if (clipStatus == FileStatus::StatusProxy || clipStatus == FileStatus::StatusProxyOnly) {
+                    // Overlay proxy icon
+                    painter->save();
+                    int rectSize = qMin(m_thumbRect.height() / 2.5, logicalIconSize * 1.5);
+                    const QRect proxyRect(m_thumbRect.x(), m_thumbRect.y(), rectSize, rectSize);
+                    painter->fillRect(proxyRect, QColor(220, 220, 10, 200));
+                    QFont font = painter->font();
+                    font.setPixelSize(proxyRect.height());
+                    font.setBold(true);
+                    painter->setFont(font);
+                    painter->setPen(Qt::black);
+                    painter->drawText(proxyRect, Qt::AlignCenter, i18nc("@label The first letter of Proxy, used as abbreviation", "P"));
+                    painter->restore();
+                }
             }
             int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
             auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();

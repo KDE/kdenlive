@@ -536,19 +536,6 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
         return;
     }
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
-    if (hasProxy() && !thumb.isNull()) {
-        // Overlay proxy icon
-        QPainter p(&thumb);
-        QColor c(220, 220, 10, 200);
-        QRect r(0, 0, int(thumb.height() / 2.5), int(thumb.height() / 2.5));
-        p.fillRect(r, c);
-        QFont font = p.font();
-        font.setPixelSize(r.height());
-        font.setBold(true);
-        p.setFont(font);
-        p.setPen(Qt::black);
-        p.drawText(r, Qt::AlignCenter, i18nc("@label The first letter of Proxy, used as abbreviation", "P"));
-    }
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
@@ -833,14 +820,14 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer(const QUuid &)
         m_clipStatus == FileStatus::StatusMissing) {
         return nullptr;
     }
-    if (!m_thumbMutex.tryLock()) {
+    if (!m_thumbMutex.tryLock(50)) {
         return nullptr;
     }
     std::unique_ptr<Mlt::Producer> thumbProd;
     if (!m_thumbXml.isEmpty()) {
+        m_thumbMutex.unlock();
         QReadLocker lock(&pCore->xmlMutex);
         thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
-        m_thumbMutex.unlock();
         return thumbProd;
     }
     if (KdenliveSettings::gpu_accel()) {
