@@ -3578,6 +3578,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     std::unordered_set<int> selectionOnlyItems;
     //first item has to be the item being resized
     all_items.push_back(itemId);
+    bool isSplitItemPresent = false;
     if (!allowSingleResize) {
         int splitId = m_groups->getSplitPartner(itemId);
         std::list<int> items;
@@ -3588,9 +3589,11 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
             if (right) {
                 if (out == end) {
                     all_items.push_back(splitId);
+                    isSplitItemPresent = true;
                 }
             } else if (start == in) {
                 all_items.push_back(splitId);
+                isSplitItemPresent = true;
             }
         }
         std::unordered_set<int> currentSelection = getCurrentSelection();
@@ -3606,6 +3609,8 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
         }
     }
     bool result = true;
+    bool isMainItemResized = false;
+    bool isSplitItemResized = false;
     for (int id : all_items) {
         // calculate size of each item
         int itemSize = size;
@@ -3642,6 +3647,12 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
         if (!result) {
             break;
         }
+        else if (id == itemId) {
+            isMainItemResized = true;
+        }
+        else if (find(all_items.begin(), all_items.end(), id) != all_items.end() && selectionOnlyItems.find(id) == selectionOnlyItems.end()) {
+            isSplitItemResized = true;
+        }
         bool durationChanged = false;
         if (trackDuration != getTrackById_const(tid)->trackDuration()) {
             durationChanged = true;
@@ -3671,6 +3682,17 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     if (!result) {
         bool undone = undo();
         Q_ASSERT(undone);
+        QString errorMessage;
+        if(!isMainItemResized) {
+            errorMessage = i18n("Cannot resize this clip");
+        }
+        else if (isSplitItemPresent && !isSplitItemResized) {
+            errorMessage = i18n("Cannot resize the corresponding split clip");
+        }
+        else {
+            errorMessage = i18n("Cannot resize one or more clips in the selection");
+        }
+        pCore->displayMessage(errorMessage, ErrorMessage, 500);
     } else {
         PUSH_UNDO(undo, redo, i18n("Resize clip speed"));
     }
