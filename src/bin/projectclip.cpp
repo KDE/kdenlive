@@ -1094,7 +1094,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             QString url;
             QString original_resource;
             if (m_clipStatus == FileStatus::StatusMissing) {
-                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), QStringLiteral("qtext"));
+                url = QStringLiteral("timewarp:%1:%2").arg(QString::number(speed, 'g', 15), QStringLiteral("qtext"));
                 original_resource = originalProducer()->get("resource");
 
             } else {
@@ -1105,7 +1105,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                     // We must use the special "consumer" producer for mlt playlist files
                     resource.prepend(QStringLiteral("consumer:"));
                 }
-                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+                url = QStringLiteral("timewarp:%1:%2").arg(QString::number(speed, 'g', 15), resource);
             }
             warpProducer.reset(new Mlt::Producer(pCore->getProjectProfile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
