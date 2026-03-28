@@ -305,8 +305,6 @@ public:
     const QList<QUuid> registeredUuids() const;
     /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
     virtual const QUuid getSequenceUuid() const;
-    /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
-    virtual void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);
     void resetSequenceThumbnails();
     /** @brief Returns the clip name (usually file name) */
     QString clipName();
@@ -367,6 +365,8 @@ protected:
     void connectEffectStack() override;
 
 public Q_SLOTS:
+    /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
+    virtual void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);
     /** @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
     void updateAudioThumbnail(bool cachedThumb);

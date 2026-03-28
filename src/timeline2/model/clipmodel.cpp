@@ -888,7 +888,6 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
                                qint64(std::numeric_limits<int>::max()));
         out = qMin(out, int(maxOut64));
         m_speed = speed;
-        qDebug() << "Changing speed from " << m_speed << " to " << speed << " with in " << in << " and out " << out;
     }
     QString remapMap;
     int remapPitch = 0;

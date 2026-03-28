@@ -83,7 +83,6 @@ public:
     std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &) override;
     /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
     const QUuid getSequenceUuid() const override;
-    void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false) override;
     std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
     int getStartTimecode() override;
@@ -97,6 +96,7 @@ public:
 
 public Q_SLOTS:
     bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false, bool clearTrackProducers = true) override;
+    void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false) override;
 
 private Q_SLOTS:
     void updateAudioSync();
