@@ -1177,7 +1177,7 @@ void RemapView::updateAfterSpeed(double speed)
         it++;
         QMap<int, int> updatedKfrs;
         QList<int> toDelete;
-        double updatedLength = (it.value() - m_currentKeyframe.second) * 100. / speed;
+        double updatedLength = qFuzzyIsNull(speed) ? 0 : (it.value() - m_currentKeyframe.second) * 100. / speed;
         double offset = m_currentKeyframe.first + updatedLength - it.key();
         int offsetInt = int(offset);
         int lengthInt = int(updatedLength);
