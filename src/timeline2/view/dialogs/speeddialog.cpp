@@ -58,6 +58,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     ui->precisionSpin->setSuffix(QLatin1Char('%'));
     ui->precisionSpin->setRange(minSpeed, maxSpeed, 6);
     ui->precisionSpin->setValue(speed);
+    ui->precisionSpin->setSendEmptyValue(true);
     ui->precisionSpin->setFocus();
     ui->precisionSpin->selectAll();
     if (m_duration > 0) {

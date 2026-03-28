@@ -42,6 +42,8 @@ public:
     /** @brief get max
      */
     double max() const;
+    /** @brief set send empty value signal */
+    void setSendEmptyValue(bool send) { m_sendEmptyValue = send; }
 
 protected:
     void stepBy(int steps) override;
@@ -50,6 +52,7 @@ protected:
 private:
     QDoubleValidator m_validator;
     QString m_suffix;
+    bool m_sendEmptyValue = false;
 
 private Q_SLOTS:
     void textChanged(const QString &text);

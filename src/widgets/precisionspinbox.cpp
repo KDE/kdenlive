@@ -6,6 +6,7 @@
 
 #include "precisionspinbox.h"
 #include <QLineEdit>
+#include <cmath>
 
 PrecisionSpinBox::PrecisionSpinBox(QWidget *parent, double min, double max, int precision, double val)
     : QAbstractSpinBox(parent)
@@ -80,7 +81,10 @@ void PrecisionSpinBox::stepBy(int steps)
 
 void PrecisionSpinBox::setValue(double value)
 {
-    lineEdit()->setText(QLocale().toString(value) + m_suffix);
+    // 'g' uses significant digits, so compute: digits-before-decimal + desired decimals
+    int intPartDigits = (value != 0.0) ? qMax(1, (int)std::floor(std::log10(std::abs(value))) + 1) : 1;
+    int sigDigits = qMax(1, intPartDigits + m_validator.decimals());
+    lineEdit()->setText(QLocale().toString(value, 'g', sigDigits) + m_suffix);
 }
 
 void PrecisionSpinBox::textChanged(const QString &text)
@@ -94,20 +98,22 @@ void PrecisionSpinBox::textChanged(const QString &text)
     if (tmp.isEmpty()) {
         blockUpdate = true;
     }
-    val = QLocale().toDouble(tmp);
     QSignalBlocker bk(lineEdit());
     QString finalString;
     for (int i = 0; i < tmp.length(); i++) {
-        if (lineEdit()->validator()->validate(tmp, i) != QValidator::Invalid) {
+        // Since QDoubleValidator does not use the pos parameter, we need to create the substring first.
+        QString sub = tmp.left(i + 1);
+        if (lineEdit()->validator()->validate(sub, i) != QValidator::Invalid) {
             finalString.append(tmp.at(i));
         }
     }
+    val = QLocale().toDouble(finalString);
     lineEdit()->setText(finalString + m_suffix);
     int cursorPos = lineEdit()->cursorPosition();
     if (cursorPos == lineEdit()->text().length()) {
         lineEdit()->setCursorPosition(cursorPos - 1);
     }
-    if (!blockUpdate) {
+    if (m_sendEmptyValue || !blockUpdate) {
         Q_EMIT valueChanged(val);
     }
 }
