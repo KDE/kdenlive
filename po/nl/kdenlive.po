@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-26 00:43+0000\n"
-"PO-Revision-Date: 2026-03-24 16:19+0100\n"
+"PO-Revision-Date: 2026-03-26 13:31+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -36364,45 +36364,39 @@ msgstr "Monitorraster"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_color)
 #: src/ui/configcolors_ui.ui:112
-#, fuzzy, kde-format
-#| msgid "Video clip"
+#, kde-format
 msgid "Video clip color:"
-msgstr "Videoclip"
+msgstr "Videoclipkleur:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_color)
 #: src/ui/configcolors_ui.ui:126
-#, fuzzy, kde-format
-#| msgid "Audio clips"
+#, kde-format
 msgid "Audio clip color:"
-msgstr "Audioclips"
+msgstr "Audioclipkleur:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_title_color)
 #: src/ui/configcolors_ui.ui:140
-#, fuzzy, kde-format
-#| msgid "Title clips:"
+#, kde-format
 msgid "Title clip color:"
-msgstr "Titelclips:"
+msgstr "Titelclipkleur:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_image_color)
 #: src/ui/configcolors_ui.ui:154
-#, fuzzy, kde-format
-#| msgid "Image clips:"
+#, kde-format
 msgid "Image clip color:"
-msgstr "Afbeeldingsclips:"
+msgstr "Afbeeldingsclipkleur:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
 #: src/ui/configcolors_ui.ui:168
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Slideshow clip color:"
-msgstr "Diashowclip"
+msgstr "Diashowclipkleur:"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
 #: src/ui/configcolors_ui.ui:182
-#, fuzzy, kde-format
-#| msgid "Turn clip colors to sepia"
+#, kde-format
 msgid "Reset clip colors to default"
-msgstr "Verander clip kleuren naar sepia"
+msgstr "REset clipkleuren naar standaard"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:202
@@ -40011,10 +40005,9 @@ msgstr "Rand "
 
 #. i18n: ectx: property (text), widget (QLabel, label_cornerRadius)
 #: src/ui/titlewidget_ui.ui:1433
-#, fuzzy, kde-format
-#| msgid "Inner radius"
+#, kde-format
 msgid "Corner radius"
-msgstr "Inwendige straal"
+msgstr "Hoekradius"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
 #: src/ui/titlewidget_ui.ui:1481
