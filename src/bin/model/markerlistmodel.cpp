@@ -349,17 +349,21 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     CommentedTime oldState = current;
     int mid = getIdFromPos(oldPos);
     Q_ASSERT(mid != -1);
-    Fun local_redo = [this, oldPos, pos, comment, type, duration]() {
+    Fun local_redo = [this, oldPos, pos, comment, type, duration, oldState]() {
         CommentedTime newMarker(pos, comment, type, duration);
         int mid = getIdFromPos(oldPos);
         if (oldPos != pos) {
             Q_ASSERT(m_markerPositions.contains(oldPos.frames(pCore->getCurrentFps())));
             int row = getRowfromId(mid);
             beginRemoveRows(QModelIndex(), row, row);
+            GenTime previousDuration = oldState.duration();
             m_markerList.erase(mid);
             m_markerPositions.remove(oldPos.frames(pCore->getCurrentFps()));
             endRemoveRows();
             removeSnapPoint(oldPos);
+            if (previousDuration > GenTime()) {
+                removeSnapPoint(oldPos + previousDuration);
+            }
             mid = TimelineModel::getNextId();
             int insertionRow = static_cast<int>(m_markerList.size());
             beginInsertRows(QModelIndex(), insertionRow, insertionRow);
@@ -367,8 +371,20 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
             m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
             endInsertRows();
             addSnapPoint(pos);
+            if (duration > GenTime()) {
+                addSnapPoint(pos + previousDuration);
+            }
         } else {
+            GenTime previousDuration = oldState.duration();
             m_markerList[mid] = newMarker;
+            if (previousDuration != duration) {
+                if (previousDuration > GenTime()) {
+                    removeSnapPoint(pos + previousDuration);
+                }
+                if (duration > GenTime()) {
+                    addSnapPoint(pos + duration);
+                }
+            }
         }
         int row = getRowfromId(mid);
         Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
@@ -377,7 +393,7 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
 
     res = local_redo();
     if (res) {
-        Fun local_undo = [this, oldPos, pos, oldState]() {
+        Fun local_undo = [this, oldPos, pos, duration, oldState]() {
             int mid = getIdFromPos(pos);
             if (oldPos != pos) {
                 Q_ASSERT(m_markerPositions.contains(pos.frames(pCore->getCurrentFps())));
@@ -387,6 +403,9 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
                 m_markerPositions.remove(pos.frames(pCore->getCurrentFps()));
                 endRemoveRows();
                 removeSnapPoint(pos);
+                if (duration > GenTime()) {
+                    removeSnapPoint(pos + duration);
+                }
                 mid = TimelineModel::getNextId();
                 int insertionRow = static_cast<int>(m_markerList.size());
                 beginInsertRows(QModelIndex(), insertionRow, insertionRow);
@@ -394,9 +413,19 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
                 m_markerPositions.insert(oldPos.frames(pCore->getCurrentFps()), mid);
                 endInsertRows();
                 addSnapPoint(oldPos);
-
+                if (oldState.duration() > GenTime()) {
+                    addSnapPoint(pos + oldState.duration());
+                }
             } else {
                 m_markerList[mid] = oldState;
+                if (oldState.duration() != duration) {
+                    if (duration > GenTime()) {
+                        removeSnapPoint(pos + duration);
+                    }
+                    if (oldState.duration() > GenTime()) {
+                        addSnapPoint(pos + oldState.duration());
+                    }
+                }
             }
             int row = getRowfromId(mid);
             Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
@@ -564,9 +593,18 @@ Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration
             mid = getIdFromPos(pos);
             Q_ASSERT(mid != -1);
             int row = getRowfromId(mid);
+            GenTime previousDuration = m_markerList.at(mid).duration();
             m_markerList[mid].setComment(comment);
             m_markerList[mid].setMarkerType(type);
             m_markerList[mid].setDuration(duration);
+            if (previousDuration != duration) {
+                if (previousDuration > GenTime()) {
+                    removeSnapPoint(pos + previousDuration);
+                }
+                if (duration > GenTime()) {
+                    addSnapPoint(pos + duration);
+                }
+            }
             Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole});
         } else {
             mid = TimelineModel::getNextId();
@@ -576,6 +614,9 @@ Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration
             m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
             endInsertRows();
             addSnapPoint(pos);
+            if (duration > GenTime()) {
+                addSnapPoint(pos + duration);
+            }
         }
         return true;
     };
@@ -589,10 +630,14 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
         int mid = getIdFromPos(pos);
         int row = getRowfromId(mid);
         beginRemoveRows(QModelIndex(), row, row);
+        GenTime previousDuration = m_markerList.at(mid).duration();
         m_markerList.erase(mid);
         m_markerPositions.remove(pos.frames(pCore->getCurrentFps()));
         endRemoveRows();
         removeSnapPoint(pos);
+        if (previousDuration > GenTime()) {
+            removeSnapPoint(pos + previousDuration);
+        }
         return true;
     };
 }
@@ -772,8 +817,15 @@ QVector<int> MarkerListModel::getMarkersIdInRange(int start, int end) const
 std::vector<int> MarkerListModel::getSnapPoints() const
 {
     READ_LOCK();
-    const QList<int> positions = m_markerPositions.keys();
-    std::vector<int> markers(positions.cbegin(), positions.cend());
+    std::vector<int> markers;
+    QMap<int, int>::const_iterator i = m_markerPositions.constBegin();
+    while (i != m_markerPositions.constEnd()) {
+        markers.push_back(i.key());
+        if (m_markerList.at(i.value()).hasRange()) {
+            markers.push_back(i.key() + m_markerList.at(i.value()).duration().frames((pCore->getCurrentFps())));
+        }
+        ++i;
+    }
     return markers;
 }
 
@@ -795,6 +847,9 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
         QMap<int, int>::const_iterator i = m_markerPositions.constBegin();
         while (i != m_markerPositions.constEnd()) {
             ptr->addPoint(i.key());
+            if (m_markerList.at(i.value()).hasRange()) {
+                ptr->addPoint(i.key() + m_markerList.at(i.value()).duration().frames((pCore->getCurrentFps())));
+            }
             ++i;
         }
     } else {
