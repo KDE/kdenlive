@@ -35,7 +35,7 @@ public:
     double value() const;
     /** @brief set position
      */
-    void setValue(double value);
+    void setValue(double value, bool emitSignal = true);
     /** @brief get min
      */
     double min() const;
@@ -53,6 +53,7 @@ private:
     QDoubleValidator m_validator;
     QString m_suffix;
     bool m_sendEmptyValue = false;
+    bool m_stepEmitted = false;
 
 private Q_SLOTS:
     void textChanged(const QString &text);
