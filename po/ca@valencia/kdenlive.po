@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 02:34+0000\n"
-"PO-Revision-Date: 2026-03-13 08:57+0100\n"
+"POT-Creation-Date: 2026-03-30 02:38+0000\n"
+"PO-Revision-Date: 2026-03-29 16:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4812,7 +4812,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
 msgid "Interleave - Deinterleave"
-msgstr "Entrellaçat - desentrellaçat"
+msgstr "Entrellaçat – desentrellaçat"
 
 #: data/effects/avfilter/avfilter_il.xml:5
 #, kde-format
@@ -6568,7 +6568,7 @@ msgstr ""
 "Esquerre/Dret,Esquerre/Dret a Esquerre/Esquerre,Esquerre/Dret a Dret/Dret,"
 "Esquerre/Dret a Esquerre + Dret,Esquerre/Dret a Dret/Esquerre,Mig/Lateral a "
 "Esquerre/Esquerre,Mig/Lateral a Dret/Dret,Mig/Lateral a Dret/Dret,Mig/"
-"Lateral a Dret/Dret,Mig/Lateral a Dret/Esquerre,Esquerre/Dret a Esquerre - "
+"Lateral a Dret/Dret,Mig/Lateral a Dret/Esquerre,Esquerre/Dret a Esquerre – "
 "Dret"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
@@ -7434,7 +7434,7 @@ msgstr "Y"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -9321,7 +9321,7 @@ msgid ""
 "that the sensor response has been corrected."
 msgstr ""
 "Paràmetres de resposta del sensor.<br>\n"
-"    \tEls paràmetres EMoR h(x) són els mateixos  Ra - Re de Hugin en els "
+"    \tEls paràmetres EMoR h(x) són els mateixos  Ra – Re de Hugin en els "
 "paràmetres de la lent. Si utilitzeu valors derivats de Hugin per a la "
 "correcció del vinyetatge també haureu d'utilitzar estos paràmetres, ja que "
 "la correcció del vinyetatge de Hugin assumix que la resposta del sensor s'ha "
@@ -11802,7 +11802,7 @@ msgstr "Mesura"
 #: data/effects/frei0r/frei0r_pr0be.xml:10
 #, kde-format
 msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
-msgstr "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
+msgstr "RGB,Y'PbPr – Rec.601,Y'PbPr – Rec.709,HSV,HSL"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:12
 #: data/effects/frei0r/frei0r_pr0be.xml:13
@@ -13382,7 +13382,7 @@ msgid ""
 msgstr ""
 "El <b>velocímetre</b> està disponible per a totes les fonts de dades, però "
 "es recomana només per a la velocitat; per al tipus mapa representa el "
-"«percentatge fet» des de l'inici - final retallats).<br>\n"
+"«percentatge fet» des de l'inici – final retallats).<br>\n"
 "Nota: per al tipus 1 (zoom i centre, o «seguix el punt»):<br>\n"
 "* els valors d'escapçament només són vàlids com a percentatge i només els "
 "valors inferiors (resposta a l'esquerra)\n"
@@ -13615,7 +13615,7 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
-"Un color,Dos colors,Passat sòlid passat - futur prim,Futur sòlid - passat "
+"Un color,Dos colors,Passat sòlid passat – futur prim,Futur sòlid – passat "
 "prim,Degradat vertical,Degradat horitzontal,Color per duració,Color per "
 "altitud,Color per ritme cardíac,Color per velocitat,Color per velocitat (màx "
 "100 km/h),Color per graus (màx 90 graus),Color per graus (màx 20 graus)"
@@ -14307,16 +14307,16 @@ msgid ""
 "Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
-"AfterBurn,AfterBurn (llarg),Ambient,Ambient (dens),Ambient (dens) - HD,"
-"Catedral,Catedral - HD,Càmera de tambor,Garage,Garage (animat),Gimnàs,Gimnàs "
-"(animat),Gimnàs (animat) - HD,Sala (xicoteta),Sala (mitjana),Sala (gran),"
-"Sala (gran) - HD,Plat (xicotet),Plat (mitjà),Plat (gran),Plat (gran) - HD,"
+"AfterBurn,AfterBurn (llarg),Ambient,Ambient (dens),Ambient (dens) – HD,"
+"Catedral,Catedral – HD,Càmera de tambor,Garage,Garage (animat),Gimnàs,Gimnàs "
+"(animat),Gimnàs (animat) – HD,Sala (xicoteta),Sala (mitjana),Sala (gran),"
+"Sala (gran) – HD,Plat (xicotet),Plat (mitjà),Plat (gran),Plat (gran) – HD,"
 "Càmera de polsos,Càmera de polsos (inversa),Ressonador (96 ms),Ressonador "
 "(152 ms),Ressonador (208 ms),Habitació (xicoteta),Habitació (mitjana),"
-"Habitació (gran),Habitació (gran) - HD,Cambra de manotades - HD,Cambra de "
-"manotades (animada),Cambra de manotades (animada) - HD,Sala suau (xicoteta),"
-"Sala suau (mitjana),Sala suau (gran),Sala suau (gran) - HD,Plat vocal,Plat "
-"vocal - HD,Cambra de refilets,Magatzem,Magatzem - HD"
+"Habitació (gran),Habitació (gran) – HD,Cambra de manotades – HD,Cambra de "
+"manotades (animada),Cambra de manotades (animada) – HD,Sala suau (xicoteta),"
+"Sala suau (mitjana),Sala suau (gran),Sala suau (gran) – HD,Plat vocal,Plat "
+"vocal – HD,Cambra de refilets,Magatzem,Magatzem – HD"
 
 #: data/effects/ladspa/ladspa_2143.xml:4
 #, kde-format
@@ -15304,7 +15304,7 @@ msgstr "Vinil"
 #: data/effects/ladspa/ladspa_vinyl.xml:5
 #, kde-format
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Simula un reproductor d'àudio de vinils - Efecte d'àudio del LADSPA"
+msgstr "Simula un reproductor d'àudio de vinils – Efecte d'àudio del LADSPA"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:8
 #, kde-format
@@ -15481,8 +15481,8 @@ msgid ""
 msgstr ""
 "Establix l'amplària de la<br>\n"
 "      transició del valor de luma prenivell al de postnivell. El punt "
-"d'inici de la transició en el valor de l'opacitat és llindar - pendent i el "
-"punt final és llindar + pendent, els valors es forçaran en l'interval 0 - "
+"d'inici de la transició en el valor de l'opacitat és llindar – pendent i el "
+"punt final és llindar + pendent, els valors es forçaran en l'interval 0 – "
 "255."
 
 #: data/effects/lumakey.xml:19
@@ -16970,7 +16970,7 @@ msgstr "Zoom òptim"
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
-"Determina automàticament el zoom òptim. 1 - zoom estàtic, 2 - zoom adaptatiu"
+"Determina automàticament el zoom òptim. 1 – zoom estàtic, 2 – zoom adaptatiu"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
@@ -17574,7 +17574,7 @@ msgid ""
 msgstr ""
 "Efectua una operació d'esvaïment RGB[A] entre les fonts de píxels, "
 "utilitzant l'algorisme generalitzat: D = saturació de 255 o empobriment de "
-"0, de ((255 - A) * 256) / (B + 1)"
+"0, de ((255 – A) * 256) / (B + 1)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
@@ -17713,7 +17713,7 @@ msgid ""
 msgstr ""
 "Efectua una operació d'esvaïment RGB[A] entre les fonts de píxels, "
 "utilitzant l'algorisme generalitzat: D = saturació de 255 o (A * 256) / (256 "
-"- B)"
+"– B)"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
 #, kde-format
@@ -17807,7 +17807,7 @@ msgid ""
 "generalised algorithm: D = A * (B + (2 * B) * (255 - A))"
 msgstr ""
 "Efectua una operació de superposició RGB[A] entre les fonts de píxels, "
-"utilitzant l'algorisme generalitzat: D = A * (B + (2 * B) * (255 - A))"
+"utilitzant l'algorisme generalitzat: D = A * (B + (2 * B) * (255 – A))"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
 #, kde-format
@@ -17878,7 +17878,7 @@ msgid ""
 "generalised algorithm: D = 255 - (255 - A) * (255 - B)"
 msgstr ""
 "Efectua una operació de pantalla RGB[A] entre les fonts de píxels, "
-"utilitzant l'algorisme generalitzat: D = 255 - (255 - A) * (255 - B)"
+"utilitzant l'algorisme generalitzat: D = 255 – (255 – A) * (255 – B)"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, kde-format
@@ -20794,7 +20794,7 @@ msgid "Cut clip"
 msgstr "Retalla el clip"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4167
+#: src/timeline2/model/timelinemodel.cpp:4160
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensiona els subtítols"
@@ -24186,8 +24186,8 @@ msgid ""
 "frame."
 msgstr ""
 "Crea un subtítol nou de la duració predeterminada (definida a "
-"<interface>Configuració -> Configura Kdenlive… -> Miscel·lània</interface>) "
-"a la posició/fotograma actual del capçal de reproducció."
+"<interface>Configuració → Configura Kdenlive… → Miscel·lània</interface>) a "
+"la posició/fotograma actual del capçal de reproducció."
 
 #: src/dialogs/subtitleedit.cpp:286
 #, kde-format
@@ -24535,7 +24535,7 @@ msgstr "Suprimix el text seleccionat"
 #: src/dialogs/textbasededit.cpp:778
 #, kde-format
 msgid "Add marker for current selection"
-msgstr "Afig un marcador en la selecció actual"
+msgstr "Afig un marcador a la selecció actual"
 
 #: src/dialogs/textbasededit.cpp:782
 #, kde-format
@@ -25576,7 +25576,7 @@ msgstr "Plantilles"
 #: src/effects/effectlist/model/effecttreemodel.cpp:103
 #, kde-format
 msgid " - deprecated"
-msgstr " - obsolet"
+msgstr " – obsolet"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:287
 #, kde-format
@@ -25651,7 +25651,7 @@ msgstr "No es pot afegir l'efecte %1 dues vegades."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:229
-#: src/timeline2/model/timelinemodel.cpp:5290
+#: src/timeline2/model/timelinemodel.cpp:5283
 #, kde-format
 msgid "Add effect %1"
 msgstr "Afig l'efecte %1"
@@ -27888,7 +27888,7 @@ msgstr ""
 #: src/mainwindow.cpp:1574
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
-msgstr "S'ha activat el procés experimental de la GPU - no per a producció"
+msgstr "S'ha activat el procés experimental de la GPU – no per a producció"
 
 #: src/mainwindow.cpp:1584 src/mainwindow.cpp:3796
 #, kde-format
@@ -29625,7 +29625,7 @@ msgstr "%1%"
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
-"Resolució de la vista prèvia - una resolució més baixa vol dir una vista "
+"Resolució de la vista prèvia – una resolució més baixa vol dir una vista "
 "prèvia més ràpida"
 
 #: src/monitor/monitor.cpp:237
@@ -30016,7 +30016,7 @@ msgstr "Desentrellaçador"
 #: src/monitor/monitormanager.cpp:629
 #, kde-format
 msgid "YADIF - temporal + spatial (best)"
-msgstr "YADIF - temporal + espacial (millor)"
+msgstr "YADIF – temporal + espacial (millor)"
 
 #: src/monitor/monitormanager.cpp:644
 #, kde-format
@@ -30228,7 +30228,7 @@ msgstr "Genera la màscara"
 #: src/monitor/view/MaskToolBar.qml:81
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr "Canvia l'opacitat (0% - 25% - 50% - 100%)"
+msgstr "Canvia l'opacitat (0% – 25% – 50% – 100%)"
 
 #: src/monitor/view/MaskToolBar.qml:95
 #, kde-format
@@ -30289,6 +30289,7 @@ msgstr ""
 msgid "Previewing video mask"
 msgstr "S'està previsualitzant la màscara de vídeo"
 
+# skip-rule: common-time_zone
 #: src/monitor/view/MonitorAutomask.qml:405
 #, kde-format
 msgid ""
@@ -31349,7 +31350,7 @@ msgstr[1] "Crea marcadors"
 #: src/project/dialogs/noteswidget.cpp:51
 #, kde-format
 msgid "Assign timestamps to current Bin Clip"
-msgstr "Assigna marques horàries als clips de la safata actuals"
+msgstr "Assigna marques de temps als clips de la safata actuals"
 
 #: src/project/dialogs/noteswidget.cpp:163
 #, kde-format
@@ -33851,7 +33852,7 @@ msgid "Delete clips on track"
 msgstr "Suprimix els clips en la pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:4867
+#: src/timeline2/model/timelinemodel.cpp:4860
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -34008,47 +34009,47 @@ msgstr "Mou el grup"
 msgid "Resize group"
 msgstr "Redimensiona el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3682
+#: src/timeline2/model/timelinemodel.cpp:3675
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Redimensiona la velocitat del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3841
+#: src/timeline2/model/timelinemodel.cpp:3834
 #, kde-format
 msgid "Remove mix"
 msgstr "Elimina la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:3843
+#: src/timeline2/model/timelinemodel.cpp:3836
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Ha fallat mentre s'eliminava la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:4163
+#: src/timeline2/model/timelinemodel.cpp:4156
 #, kde-format
 msgid "Resize clip"
 msgstr "Redimensiona el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4165
+#: src/timeline2/model/timelinemodel.cpp:4158
 #, kde-format
 msgid "Resize composition"
 msgstr "Redimensiona la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:4493
+#: src/timeline2/model/timelinemodel.cpp:4486
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Redimensiona en onada el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4495
+#: src/timeline2/model/timelinemodel.cpp:4488
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Redimensiona en onada la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:4497
+#: src/timeline2/model/timelinemodel.cpp:4490
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Redimensiona en onada els subtítols"
 
-#: src/timeline2/model/timelinemodel.cpp:4640
+#: src/timeline2/model/timelinemodel.cpp:4633
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -34056,136 +34057,136 @@ msgid_plural "Slip clips"
 msgstr[0] "Desplaça el clip"
 msgstr[1] "Desplaça els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4675
+#: src/timeline2/model/timelinemodel.cpp:4668
 #, kde-format
 msgid "Slip clip"
 msgstr "Desplaça el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4710
+#: src/timeline2/model/timelinemodel.cpp:4703
 #, kde-format
 msgid "Group clips"
 msgstr "Agrupa els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4795
-#: src/timeline2/model/timelinemodel.cpp:4811
+#: src/timeline2/model/timelinemodel.cpp:4788
+#: src/timeline2/model/timelinemodel.cpp:4804
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Desagrupa els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4976
+#: src/timeline2/model/timelinemodel.cpp:4969
 #: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "Suprimix la pista"
 
-#: src/timeline2/model/timelinemodel.cpp:4986
+#: src/timeline2/model/timelinemodel.cpp:4979
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "No es pot suprimir l'última pista en la línia de temps"
 
-#: src/timeline2/model/timelinemodel.cpp:5211
+#: src/timeline2/model/timelinemodel.cpp:5204
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "No s'ha pogut afegir l'efecte %1 a la pista mestre"
 
-#: src/timeline2/model/timelinemodel.cpp:5218
+#: src/timeline2/model/timelinemodel.cpp:5211
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "No s'ha pogut afegir l'efecte %1 a la pista seleccionada"
 
-#: src/timeline2/model/timelinemodel.cpp:5239
+#: src/timeline2/model/timelinemodel.cpp:5232
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "No s'ha pogut apegar l'efecte a la pista mestre"
 
-#: src/timeline2/model/timelinemodel.cpp:5245
+#: src/timeline2/model/timelinemodel.cpp:5238
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "No s'ha pogut apegar l'efecte a la pista seleccionada"
 
-#: src/timeline2/model/timelinemodel.cpp:5293
+#: src/timeline2/model/timelinemodel.cpp:5286
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "No s'ha pogut afegir l'efecte %1 al clip seleccionat"
 
-#: src/timeline2/model/timelinemodel.cpp:5317
+#: src/timeline2/model/timelinemodel.cpp:5310
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Ajusta l'esvaïment"
 
-#: src/timeline2/model/timelinemodel.cpp:5682
+#: src/timeline2/model/timelinemodel.cpp:5675
 #, kde-format
 msgid "Insert Composition"
 msgstr "Inserix una composició"
 
-#: src/timeline2/model/timelinemodel.cpp:5910
+#: src/timeline2/model/timelinemodel.cpp:5903
 #, kde-format
 msgid "Move composition"
 msgstr "Mou la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:6664
+#: src/timeline2/model/timelinemodel.cpp:6657
 #, kde-format
 msgid "Enable time remap"
 msgstr "Activa la reassignació del temps"
 
-#: src/timeline2/model/timelinemodel.cpp:6738
+#: src/timeline2/model/timelinemodel.cpp:6731
 #, kde-format
 msgid "Change speed failed"
 msgstr "El canvi de velocitat ha fallat"
 
-#: src/timeline2/model/timelinemodel.cpp:6748
+#: src/timeline2/model/timelinemodel.cpp:6741
 #: src/timeline2/view/timelinecontroller.cpp:3151
 #, kde-format
 msgid "Change clip speed"
 msgstr "Canvia la velocitat del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:7196
+#: src/timeline2/model/timelinemodel.cpp:7189
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Bloqueja la pista"
 
-#: src/timeline2/model/timelinemodel.cpp:7201
+#: src/timeline2/model/timelinemodel.cpp:7194
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Desbloqueja la pista"
 
-#: src/timeline2/model/timelinemodel.cpp:7235
-#: src/timeline2/model/timelinemodel.cpp:7297
+#: src/timeline2/model/timelinemodel.cpp:7228
+#: src/timeline2/model/timelinemodel.cpp:7290
 #, kde-format
 msgid "Change composition"
 msgstr "Canvia la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:7249
+#: src/timeline2/model/timelinemodel.cpp:7242
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "No es pot operar amb una composició agrupada, desagrupeu-la"
 
-#: src/timeline2/model/timelinemodel.cpp:7447
-#: src/timeline2/model/timelinemodel.cpp:7486
-#: src/timeline2/model/timelinemodel.cpp:7521
-#: src/timeline2/model/timelinemodel.cpp:7602
+#: src/timeline2/model/timelinemodel.cpp:7440
+#: src/timeline2/model/timelinemodel.cpp:7479
+#: src/timeline2/model/timelinemodel.cpp:7514
+#: src/timeline2/model/timelinemodel.cpp:7595
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "No s'ha pogut redimensionar la mescla a menys d'1 fotograma"
 
-#: src/timeline2/model/timelinemodel.cpp:7458
-#: src/timeline2/model/timelinemodel.cpp:7494
-#: src/timeline2/model/timelinemodel.cpp:7538
-#: src/timeline2/model/timelinemodel.cpp:7626
+#: src/timeline2/model/timelinemodel.cpp:7451
+#: src/timeline2/model/timelinemodel.cpp:7487
+#: src/timeline2/model/timelinemodel.cpp:7531
+#: src/timeline2/model/timelinemodel.cpp:7619
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "No s'ha pogut redimensionar la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:7642
+#: src/timeline2/model/timelinemodel.cpp:7635
 #, kde-format
 msgid "Resize mix"
 msgstr "Redimensiona la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:7762
+#: src/timeline2/model/timelinemodel.cpp:7755
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr ""
@@ -34230,12 +34231,12 @@ msgstr ""
 "L'efecte de velocitat es renderitzarà millor si s'utilitza en clips "
 "individuals amb FPS alt"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "La velocitat mínima és %1"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "La velocitat màxima és %1"
@@ -37206,7 +37207,7 @@ msgstr "Processament de la GPU (biblioteca Movit):"
 #: src/ui/configsdl_ui.ui:72
 #, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr "Activa - reinicia Kdenlive per a fer-ho servir"
+msgstr "Activa – reinicia Kdenlive per a fer-ho servir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:86
@@ -37421,7 +37422,7 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
-"La detecció d'objectes depén de SAM2 - <a href=\"https://github.com/"
+"La detecció d'objectes depén de SAM2 – <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
