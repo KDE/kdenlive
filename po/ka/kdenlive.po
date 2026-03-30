@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 00:42+0000\n"
-"PO-Revision-Date: 2026-03-26 08:09+0100\n"
+"POT-Creation-Date: 2026-03-30 00:42+0000\n"
+"PO-Revision-Date: 2026-03-29 14:36+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7095,7 +7095,7 @@ msgstr "ი"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -19566,7 +19566,7 @@ msgstr "მარკერის დასამატებელი კლი�
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #: src/timeline2/view/timelinecontroller.cpp:1661
@@ -19884,85 +19884,85 @@ msgstr "მარკერის დამატება"
 msgid "Delete marker"
 msgstr "მარკერის წაშლა"
 
-#: src/bin/model/markerlistmodel.cpp:408
+#: src/bin/model/markerlistmodel.cpp:437
 #, kde-format
 msgid "Move marker"
 msgstr "მარკერის გადატანა"
 
-#: src/bin/model/markerlistmodel.cpp:410
+#: src/bin/model/markerlistmodel.cpp:439
 #, kde-format
 msgid "Resize marker"
 msgstr "მარკერის ზომის შეცვლა"
 
-#: src/bin/model/markerlistmodel.cpp:412
+#: src/bin/model/markerlistmodel.cpp:441
 #, kde-format
 msgid "Edit marker"
 msgstr "მარკერის ჩასწორება"
 
-#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:881
 #, kde-format
 msgid "Import markers"
 msgstr "მარკერების შემოტანა"
 
-#: src/bin/model/markerlistmodel.cpp:863
+#: src/bin/model/markerlistmodel.cpp:918
 #, kde-format
 msgid "Recovered %1"
 msgstr "%1 აღდგენილია"
 
-#: src/bin/model/markerlistmodel.cpp:1012
+#: src/bin/model/markerlistmodel.cpp:1067
 #, kde-format
 msgid "Delete all markers"
 msgstr "ყველა მარკერის წაშლა"
 
-#: src/bin/model/markerlistmodel.cpp:1021
-#: src/bin/model/markerlistmodel.cpp:1063
-#: src/bin/model/markerlistmodel.cpp:1093
+#: src/bin/model/markerlistmodel.cpp:1076
+#: src/bin/model/markerlistmodel.cpp:1118
+#: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1651
 #, kde-format
 msgid "No marker found at current position"
 msgstr "მიმდინარე მდებარეობაზე მარკერი აღმოჩენილი არაა"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1079
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "მარკერის კატეგორიის ჩასწორება"
 
-#: src/bin/model/markerlistmodel.cpp:1030
+#: src/bin/model/markerlistmodel.cpp:1085
 #, kde-format
 msgid "Markers Category"
 msgstr "მარკერების კატეგორია"
 
-#: src/bin/model/markerlistmodel.cpp:1052
+#: src/bin/model/markerlistmodel.cpp:1107
 #, kde-format
 msgid "Edit markers"
 msgstr "მარკერების ჩასწორება"
 
-#: src/bin/model/markerlistmodel.cpp:1070
+#: src/bin/model/markerlistmodel.cpp:1125
 #, kde-format
 msgid "Edit Marker"
 msgstr "მარკერის ჩასწორება"
 
-#: src/bin/model/markerlistmodel.cpp:1100
+#: src/bin/model/markerlistmodel.cpp:1155
 #, kde-format
 msgid "Add Markers"
 msgstr "მარკერების დამატება"
 
-#: src/bin/model/markerlistmodel.cpp:1120
+#: src/bin/model/markerlistmodel.cpp:1175
 #, kde-format
 msgid "Add markers"
 msgstr "მარკერების დამატება"
 
-#: src/bin/model/markerlistmodel.cpp:1139
+#: src/bin/model/markerlistmodel.cpp:1194
 #, kde-format
 msgid "Update range marker"
 msgstr "შუალედის მარკერის განახლება"
 
-#: src/bin/model/markerlistmodel.cpp:1141
+#: src/bin/model/markerlistmodel.cpp:1196
 #, kde-format
 msgid "Convert to range marker"
 msgstr "გადაყვანა შუალედის მარკერში"
 
-#: src/bin/model/markerlistmodel.cpp:1143
+#: src/bin/model/markerlistmodel.cpp:1198
 #, kde-format
 msgid "Add range marker"
 msgstr "შუალედის მარკერის დამატება"
@@ -33072,10 +33072,9 @@ msgid "Resize group"
 msgstr "ჯგუფის ზომის შეცვლა"
 
 #: src/timeline2/model/timelinemodel.cpp:3687
-#, fuzzy, kde-format
-#| msgid "Cannot resize mix"
+#, kde-format
 msgid "Cannot resize this clip"
-msgstr "შერევის ზომის შეცვლა შეუძლებელია"
+msgstr "ამ კლიპის ზომის შეცვლა შეუძლებელია"
 
 #: src/timeline2/model/timelinemodel.cpp:3690
 #, kde-format
@@ -33313,12 +33312,12 @@ msgstr ""
 "სიჩქარის ეფექტი უფრო კარგად დარენდერდება, თუ ტოლი კადრების სიხშირის მქონე "
 "კლიპებზე გამოიყენებთ"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "მინიმალური სიჩქარეა %1"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "მაქსიმალური სიჩქარეა %1"

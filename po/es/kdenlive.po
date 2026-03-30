@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 00:42+0000\n"
-"PO-Revision-Date: 2026-03-21 01:33+0100\n"
+"POT-Creation-Date: 2026-03-30 00:42+0000\n"
+"PO-Revision-Date: 2026-03-29 21:11+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7466,7 +7466,7 @@ msgstr "Y"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -20518,7 +20518,7 @@ msgstr "No se encuentra medio al cual agregar un marcador"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #: src/timeline2/view/timelinecontroller.cpp:1661
@@ -20840,85 +20840,85 @@ msgstr "Agregar marcador"
 msgid "Delete marker"
 msgstr "Borrar marcador"
 
-#: src/bin/model/markerlistmodel.cpp:408
+#: src/bin/model/markerlistmodel.cpp:437
 #, kde-format
 msgid "Move marker"
 msgstr "Mover marcador"
 
-#: src/bin/model/markerlistmodel.cpp:410
+#: src/bin/model/markerlistmodel.cpp:439
 #, kde-format
 msgid "Resize marker"
 msgstr "Redimensionar marcador"
 
-#: src/bin/model/markerlistmodel.cpp:412
+#: src/bin/model/markerlistmodel.cpp:441
 #, kde-format
 msgid "Edit marker"
 msgstr "Editar marcador"
 
-#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:881
 #, kde-format
 msgid "Import markers"
 msgstr "Importar marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:863
+#: src/bin/model/markerlistmodel.cpp:918
 #, kde-format
 msgid "Recovered %1"
 msgstr "Se recuperaron %1"
 
-#: src/bin/model/markerlistmodel.cpp:1012
+#: src/bin/model/markerlistmodel.cpp:1067
 #, kde-format
 msgid "Delete all markers"
 msgstr "Borrar todos los marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1021
-#: src/bin/model/markerlistmodel.cpp:1063
-#: src/bin/model/markerlistmodel.cpp:1093
+#: src/bin/model/markerlistmodel.cpp:1076
+#: src/bin/model/markerlistmodel.cpp:1118
+#: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1651
 #, kde-format
 msgid "No marker found at current position"
 msgstr "No se encontró un marcador en la posición actual"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1079
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Editar categoría de marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1030
+#: src/bin/model/markerlistmodel.cpp:1085
 #, kde-format
 msgid "Markers Category"
 msgstr "Categoría de marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1052
+#: src/bin/model/markerlistmodel.cpp:1107
 #, kde-format
 msgid "Edit markers"
 msgstr "Editar marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1070
+#: src/bin/model/markerlistmodel.cpp:1125
 #, kde-format
 msgid "Edit Marker"
 msgstr "Editar marcador"
 
-#: src/bin/model/markerlistmodel.cpp:1100
+#: src/bin/model/markerlistmodel.cpp:1155
 #, kde-format
 msgid "Add Markers"
 msgstr "Agregar marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1120
+#: src/bin/model/markerlistmodel.cpp:1175
 #, kde-format
 msgid "Add markers"
 msgstr "Agregar marcador"
 
-#: src/bin/model/markerlistmodel.cpp:1139
+#: src/bin/model/markerlistmodel.cpp:1194
 #, kde-format
 msgid "Update range marker"
 msgstr "Actualizar marcador de rango"
 
-#: src/bin/model/markerlistmodel.cpp:1141
+#: src/bin/model/markerlistmodel.cpp:1196
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Convertir a marcador de rango"
 
-#: src/bin/model/markerlistmodel.cpp:1143
+#: src/bin/model/markerlistmodel.cpp:1198
 #, kde-format
 msgid "Add range marker"
 msgstr "Agregar marcador de rango"
@@ -28699,16 +28699,14 @@ msgid "Delete Track…"
 msgstr "Borrar pista…"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgid "Move clip"
+#, kde-format
 msgid "Move Track Up"
-msgstr "Mover clip"
+msgstr "Subir pista"
 
 #: src/mainwindow.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Move effect down"
+#, kde-format
 msgid "Move Track Down"
-msgstr "Bajar efecto"
+msgstr "Bajar pista"
 
 #: src/mainwindow.cpp:2145
 #, kde-format
@@ -34157,20 +34155,19 @@ msgid "Resize group"
 msgstr "Redimensionar grupo"
 
 #: src/timeline2/model/timelinemodel.cpp:3687
-#, fuzzy, kde-format
-#| msgid "Cannot resize mix"
+#, kde-format
 msgid "Cannot resize this clip"
-msgstr "No es posible redimensionar la mezcla"
+msgstr "No es posible redimensionar este clip"
 
 #: src/timeline2/model/timelinemodel.cpp:3690
 #, kde-format
 msgid "Cannot resize the corresponding split clip"
-msgstr ""
+msgstr "No es posible redimensionar la otra parte del clip"
 
 #: src/timeline2/model/timelinemodel.cpp:3693
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
-msgstr ""
+msgstr "No es posible redimensionar uno o más clips seleccionados"
 
 #: src/timeline2/model/timelinemodel.cpp:3697
 #, kde-format
@@ -34248,10 +34245,9 @@ msgid "Cannot delete last track in timeline"
 msgstr "No es posible borrar la última pista de la línea de tiempo"
 
 #: src/timeline2/model/timelinemodel.cpp:5114
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Move Track"
-msgstr "Ocultar pista"
+msgstr "Mover pista"
 
 #: src/timeline2/model/timelinemodel.cpp:5439
 #, kde-format
@@ -34399,12 +34395,12 @@ msgstr ""
 "El efecto de velocidad se procesará mejor al ser usado en clips individuales "
 "con altos valores de fps"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "La velocidad mínima es %1\\"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "La velocidad máxima es %1\\"
@@ -35386,22 +35382,18 @@ msgid "Unselect all"
 msgstr "Deseleccionar todo"
 
 #: src/titler/titlewidget.cpp:417
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
-#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
-#| "center resize, Ctrl+Drag to pan."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
 "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
-"Clic para seleccionar un elemento, Alt+Clic seleccionar cíclicamente. Mayús"
-"+arrastrar mover verticalmente, Alt+Mayús+arrastrar mover horizontalmente, "
-"Mayús+arrastrar borde redimensionar desde el centro, Ctrl+arrastrar "
-"desplazar."
+"Clic: seleccionar elemento, Alt+clic: seleccionar elementos superpuestos "
+"cíclicamente. Mayús+arrastrar: mover verticalmente, Alt+Mayús+arrastrar: "
+"mover horizontalmente, Mayús+arrastrar borde: redimensionar centrado, Ctrl"
+"+arrastrar: desplazar lienzo. Ctrl mientras se mueve un elemento: "
+"deshabilitar adherencia."
 
 #: src/titler/titlewidget.cpp:426
 #, kde-format
@@ -36676,49 +36668,43 @@ msgstr "Fondo del monitor:"
 #: src/ui/configcolors_ui.ui:58
 #, kde-format
 msgid "Monitor grid"
-msgstr "Cuadrícula del monitor"
+msgstr "Cuadrícula del monitor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_color)
 #: src/ui/configcolors_ui.ui:112
-#, fuzzy, kde-format
-#| msgid "Video clip"
+#, kde-format
 msgid "Video clip color:"
-msgstr "Medio de video"
+msgstr "Video:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_color)
 #: src/ui/configcolors_ui.ui:126
-#, fuzzy, kde-format
-#| msgid "Audio clips"
+#, kde-format
 msgid "Audio clip color:"
-msgstr "Medios de audio"
+msgstr "Audio:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_title_color)
 #: src/ui/configcolors_ui.ui:140
-#, fuzzy, kde-format
-#| msgid "Title clips:"
+#, kde-format
 msgid "Title clip color:"
-msgstr "Medios de título:"
+msgstr "Título:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_image_color)
 #: src/ui/configcolors_ui.ui:154
-#, fuzzy, kde-format
-#| msgid "Image clips:"
+#, kde-format
 msgid "Image clip color:"
-msgstr "Medios de imagen:"
+msgstr "Imagen:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
 #: src/ui/configcolors_ui.ui:168
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Slideshow clip color:"
-msgstr "Medio de presentación"
+msgstr "Presentación:"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
 #: src/ui/configcolors_ui.ui:182
-#, fuzzy, kde-format
-#| msgid "Turn clip colors to sepia"
+#, kde-format
 msgid "Reset clip colors to default"
-msgstr "Permite convertir los colores en la imagen de un clip en tonos sepia"
+msgstr "Restablecer colores de clips"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:202
@@ -40331,11 +40317,9 @@ msgstr "Contorno "
 
 #. i18n: ectx: property (text), widget (QLabel, label_cornerRadius)
 #: src/ui/titlewidget_ui.ui:1433
-#, fuzzy, kde-format
-#| msgctxt "Corners Effect Name"
-#| msgid "Corners"
+#, kde-format
 msgid "Corner radius"
-msgstr "Esquinas"
+msgstr "Radio de esquinas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
 #: src/ui/titlewidget_ui.ui:1481

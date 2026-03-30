@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 00:42+0000\n"
+"POT-Creation-Date: 2026-03-30 00:42+0000\n"
 "PO-Revision-Date: 2025-10-26 20:50+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -7687,7 +7687,7 @@ msgstr "Y"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -21133,7 +21133,7 @@ msgstr "Kan inte hitta klipp för att lägga till markör"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #: src/timeline2/view/timelinecontroller.cpp:1661
@@ -21451,85 +21451,85 @@ msgstr "Lägg till markör"
 msgid "Delete marker"
 msgstr "Ta bort markör"
 
-#: src/bin/model/markerlistmodel.cpp:408
+#: src/bin/model/markerlistmodel.cpp:437
 #, kde-format
 msgid "Move marker"
 msgstr "Flytta markör"
 
-#: src/bin/model/markerlistmodel.cpp:410
+#: src/bin/model/markerlistmodel.cpp:439
 #, kde-format
 msgid "Resize marker"
 msgstr "Ändra storlek på markör"
 
-#: src/bin/model/markerlistmodel.cpp:412
+#: src/bin/model/markerlistmodel.cpp:441
 #, kde-format
 msgid "Edit marker"
 msgstr "Redigera markör"
 
-#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:881
 #, kde-format
 msgid "Import markers"
 msgstr "Importera markörer"
 
-#: src/bin/model/markerlistmodel.cpp:863
+#: src/bin/model/markerlistmodel.cpp:918
 #, kde-format
 msgid "Recovered %1"
 msgstr "Återställde %1"
 
-#: src/bin/model/markerlistmodel.cpp:1012
+#: src/bin/model/markerlistmodel.cpp:1067
 #, kde-format
 msgid "Delete all markers"
 msgstr "Ta bort alla markörer"
 
-#: src/bin/model/markerlistmodel.cpp:1021
-#: src/bin/model/markerlistmodel.cpp:1063
-#: src/bin/model/markerlistmodel.cpp:1093
+#: src/bin/model/markerlistmodel.cpp:1076
+#: src/bin/model/markerlistmodel.cpp:1118
+#: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1651
 #, kde-format
 msgid "No marker found at current position"
 msgstr "Ingen markör hittades på aktuell position"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1079
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Redigera markörkategori"
 
-#: src/bin/model/markerlistmodel.cpp:1030
+#: src/bin/model/markerlistmodel.cpp:1085
 #, kde-format
 msgid "Markers Category"
 msgstr "Markörkategori"
 
-#: src/bin/model/markerlistmodel.cpp:1052
+#: src/bin/model/markerlistmodel.cpp:1107
 #, kde-format
 msgid "Edit markers"
 msgstr "Redigera markörer"
 
-#: src/bin/model/markerlistmodel.cpp:1070
+#: src/bin/model/markerlistmodel.cpp:1125
 #, kde-format
 msgid "Edit Marker"
 msgstr "Redigera markör"
 
-#: src/bin/model/markerlistmodel.cpp:1100
+#: src/bin/model/markerlistmodel.cpp:1155
 #, kde-format
 msgid "Add Markers"
 msgstr "Lägg till markörer"
 
-#: src/bin/model/markerlistmodel.cpp:1120
+#: src/bin/model/markerlistmodel.cpp:1175
 #, kde-format
 msgid "Add markers"
 msgstr "Lägg till markörer"
 
-#: src/bin/model/markerlistmodel.cpp:1139
+#: src/bin/model/markerlistmodel.cpp:1194
 #, kde-format
 msgid "Update range marker"
 msgstr "Uppdatera intervallmarkör"
 
-#: src/bin/model/markerlistmodel.cpp:1141
+#: src/bin/model/markerlistmodel.cpp:1196
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Konvertera till intervallmarkör"
 
-#: src/bin/model/markerlistmodel.cpp:1143
+#: src/bin/model/markerlistmodel.cpp:1198
 #, kde-format
 msgid "Add range marker"
 msgstr "Lägg till intervallmarkör"
@@ -34975,12 +34975,12 @@ msgstr ""
 "Hastighetseffekten återges bättre när den används på ett enda klipp med högt "
 "antal bilder/s"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "Minimal hastighet är %1"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "Maximal hastighet är %1"

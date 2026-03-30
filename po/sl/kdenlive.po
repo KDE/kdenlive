@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 00:42+0000\n"
-"PO-Revision-Date: 2026-03-26 20:03+0100\n"
+"POT-Creation-Date: 2026-03-30 00:42+0000\n"
+"PO-Revision-Date: 2026-03-29 18:03+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7345,7 +7345,7 @@ msgstr "Y"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -20183,7 +20183,7 @@ msgstr "Posnetka, ki bi mu radi dodali označevalnik, ni možno najti"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #: src/timeline2/view/timelinecontroller.cpp:1661
@@ -20505,85 +20505,85 @@ msgstr "Dodaj označevalnik"
 msgid "Delete marker"
 msgstr "Izbriši označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:408
+#: src/bin/model/markerlistmodel.cpp:437
 #, kde-format
 msgid "Move marker"
 msgstr "Premakni označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:410
+#: src/bin/model/markerlistmodel.cpp:439
 #, kde-format
 msgid "Resize marker"
 msgstr "Spremeni velikost označevalnika"
 
-#: src/bin/model/markerlistmodel.cpp:412
+#: src/bin/model/markerlistmodel.cpp:441
 #, kde-format
 msgid "Edit marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:881
 #, kde-format
 msgid "Import markers"
 msgstr "Uvozi označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:863
+#: src/bin/model/markerlistmodel.cpp:918
 #, kde-format
 msgid "Recovered %1"
 msgstr "Obnovljeno: %1"
 
-#: src/bin/model/markerlistmodel.cpp:1012
+#: src/bin/model/markerlistmodel.cpp:1067
 #, kde-format
 msgid "Delete all markers"
 msgstr "Izbriši vse označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1021
-#: src/bin/model/markerlistmodel.cpp:1063
-#: src/bin/model/markerlistmodel.cpp:1093
+#: src/bin/model/markerlistmodel.cpp:1076
+#: src/bin/model/markerlistmodel.cpp:1118
+#: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1651
 #, kde-format
 msgid "No marker found at current position"
 msgstr "Na trenutnem položaju ni označevalnika"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1079
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Uredi kategorijo označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:1030
+#: src/bin/model/markerlistmodel.cpp:1085
 #, kde-format
 msgid "Markers Category"
 msgstr "Kategorija označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:1052
+#: src/bin/model/markerlistmodel.cpp:1107
 #, kde-format
 msgid "Edit markers"
 msgstr "Uredite označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1070
+#: src/bin/model/markerlistmodel.cpp:1125
 #, kde-format
 msgid "Edit Marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:1100
+#: src/bin/model/markerlistmodel.cpp:1155
 #, kde-format
 msgid "Add Markers"
 msgstr "Dodaj označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1120
+#: src/bin/model/markerlistmodel.cpp:1175
 #, kde-format
 msgid "Add markers"
 msgstr "Dodaj označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1139
+#: src/bin/model/markerlistmodel.cpp:1194
 #, kde-format
 msgid "Update range marker"
 msgstr "Posodobi označevalnik obsega"
 
-#: src/bin/model/markerlistmodel.cpp:1141
+#: src/bin/model/markerlistmodel.cpp:1196
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Pretvori v označevalnik obsega"
 
-#: src/bin/model/markerlistmodel.cpp:1143
+#: src/bin/model/markerlistmodel.cpp:1198
 #, kde-format
 msgid "Add range marker"
 msgstr "Dodaj označevalnik obsega"
@@ -33776,20 +33776,19 @@ msgid "Resize group"
 msgstr "Spremeni velikost skupine"
 
 #: src/timeline2/model/timelinemodel.cpp:3687
-#, fuzzy, kde-format
-#| msgid "Cannot resize mix"
+#, kde-format
 msgid "Cannot resize this clip"
-msgstr "Ni možno spremeniti dolžine mešanega zvoka"
+msgstr "Ni možno spremeniti velikosti tega posnetka"
 
 #: src/timeline2/model/timelinemodel.cpp:3690
 #, kde-format
 msgid "Cannot resize the corresponding split clip"
-msgstr ""
+msgstr "Ni možno spremeniti velikosti ustreznega deljenega posnetka"
 
 #: src/timeline2/model/timelinemodel.cpp:3693
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
-msgstr ""
+msgstr "Ni možno spremeniti velikosti enega ali več posnetkov v izboru"
 
 #: src/timeline2/model/timelinemodel.cpp:3697
 #, kde-format
@@ -34018,12 +34017,12 @@ msgstr ""
 "Hitrostni učinek bo bolje izrisan, če ga uporabite na posameznih posnetkih z "
 "visoko hitrostjo sličic"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "Najmanjša hitrost je %1"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "Največja hitrost je %1"

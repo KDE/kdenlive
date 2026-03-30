@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 00:42+0000\n"
+"POT-Creation-Date: 2026-03-30 00:42+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -7383,7 +7383,7 @@ msgstr "Y"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -20313,7 +20313,7 @@ msgstr "Ní féidir gearrthóg a aimsiú chun marcóir a chur leis"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #: src/timeline2/view/timelinecontroller.cpp:1661
@@ -20641,85 +20641,85 @@ msgstr "Cuir marcóir leis"
 msgid "Delete marker"
 msgstr "Scrios marcóir"
 
-#: src/bin/model/markerlistmodel.cpp:408
+#: src/bin/model/markerlistmodel.cpp:437
 #, kde-format
 msgid "Move marker"
 msgstr "Bog marcóir"
 
-#: src/bin/model/markerlistmodel.cpp:410
+#: src/bin/model/markerlistmodel.cpp:439
 #, kde-format
 msgid "Resize marker"
 msgstr "Athraigh méid an mharcóra"
 
-#: src/bin/model/markerlistmodel.cpp:412
+#: src/bin/model/markerlistmodel.cpp:441
 #, kde-format
 msgid "Edit marker"
 msgstr "Cuir marcóir in eagar"
 
-#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:881
 #, kde-format
 msgid "Import markers"
 msgstr "Marcóirí allmhairithe"
 
-#: src/bin/model/markerlistmodel.cpp:863
+#: src/bin/model/markerlistmodel.cpp:918
 #, kde-format
 msgid "Recovered %1"
 msgstr "Aisghafa %1"
 
-#: src/bin/model/markerlistmodel.cpp:1012
+#: src/bin/model/markerlistmodel.cpp:1067
 #, kde-format
 msgid "Delete all markers"
 msgstr "Scrios na marcóirí go léir"
 
-#: src/bin/model/markerlistmodel.cpp:1021
-#: src/bin/model/markerlistmodel.cpp:1063
-#: src/bin/model/markerlistmodel.cpp:1093
+#: src/bin/model/markerlistmodel.cpp:1076
+#: src/bin/model/markerlistmodel.cpp:1118
+#: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1651
 #, kde-format
 msgid "No marker found at current position"
 msgstr "Níor aimsíodh aon mharcóir ag an suíomh reatha"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1079
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Cuir Catagóir Marcóirí in Eagar"
 
-#: src/bin/model/markerlistmodel.cpp:1030
+#: src/bin/model/markerlistmodel.cpp:1085
 #, kde-format
 msgid "Markers Category"
 msgstr "Catagóir Marcóirí"
 
-#: src/bin/model/markerlistmodel.cpp:1052
+#: src/bin/model/markerlistmodel.cpp:1107
 #, kde-format
 msgid "Edit markers"
 msgstr "Cuir marcóirí in eagar"
 
-#: src/bin/model/markerlistmodel.cpp:1070
+#: src/bin/model/markerlistmodel.cpp:1125
 #, kde-format
 msgid "Edit Marker"
 msgstr "Cuir Marcóir in Eagar"
 
-#: src/bin/model/markerlistmodel.cpp:1100
+#: src/bin/model/markerlistmodel.cpp:1155
 #, kde-format
 msgid "Add Markers"
 msgstr "Cuir Marcóirí Leis"
 
-#: src/bin/model/markerlistmodel.cpp:1120
+#: src/bin/model/markerlistmodel.cpp:1175
 #, kde-format
 msgid "Add markers"
 msgstr "Cuir marcóirí leis"
 
-#: src/bin/model/markerlistmodel.cpp:1139
+#: src/bin/model/markerlistmodel.cpp:1194
 #, kde-format
 msgid "Update range marker"
 msgstr "Nuashonraigh marcóir raoin"
 
-#: src/bin/model/markerlistmodel.cpp:1141
+#: src/bin/model/markerlistmodel.cpp:1196
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Tiontaigh go marcóir raoin"
 
-#: src/bin/model/markerlistmodel.cpp:1143
+#: src/bin/model/markerlistmodel.cpp:1198
 #, kde-format
 msgid "Add range marker"
 msgstr "Cuir marcóir raoin leis"
@@ -34317,12 +34317,12 @@ msgstr ""
 "Déanfar éifeacht luais a rindreáil níos fearr nuair a úsáidtear í ar "
 "ghearrthóga aonair ard-fps"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "Is é %1 an luas íosta"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "Is é %1 an luas uasta"

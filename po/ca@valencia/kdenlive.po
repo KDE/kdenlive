@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 00:42+0000\n"
-"PO-Revision-Date: 2026-03-26 11:29+0100\n"
+"POT-Creation-Date: 2026-03-30 00:42+0000\n"
+"PO-Revision-Date: 2026-03-29 12:53+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -4812,7 +4812,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
 msgid "Interleave - Deinterleave"
-msgstr "Entrellaçat - desentrellaçat"
+msgstr "Entrellaçat – desentrellaçat"
 
 #: data/effects/avfilter/avfilter_il.xml:5
 #, kde-format
@@ -6568,7 +6568,7 @@ msgstr ""
 "Esquerre/Dret,Esquerre/Dret a Esquerre/Esquerre,Esquerre/Dret a Dret/Dret,"
 "Esquerre/Dret a Esquerre + Dret,Esquerre/Dret a Dret/Esquerre,Mig/Lateral a "
 "Esquerre/Esquerre,Mig/Lateral a Dret/Dret,Mig/Lateral a Dret/Dret,Mig/"
-"Lateral a Dret/Dret,Mig/Lateral a Dret/Esquerre,Esquerre/Dret a Esquerre - "
+"Lateral a Dret/Dret,Mig/Lateral a Dret/Esquerre,Esquerre/Dret a Esquerre – "
 "Dret"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
@@ -7434,7 +7434,7 @@ msgstr "Y"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -9321,7 +9321,7 @@ msgid ""
 "that the sensor response has been corrected."
 msgstr ""
 "Paràmetres de resposta del sensor.<br>\n"
-"    \tEls paràmetres EMoR h(x) són els mateixos  Ra - Re de Hugin en els "
+"    \tEls paràmetres EMoR h(x) són els mateixos  Ra – Re de Hugin en els "
 "paràmetres de la lent. Si utilitzeu valors derivats de Hugin per a la "
 "correcció del vinyetatge també haureu d'utilitzar estos paràmetres, ja que "
 "la correcció del vinyetatge de Hugin assumix que la resposta del sensor s'ha "
@@ -11802,7 +11802,7 @@ msgstr "Mesura"
 #: data/effects/frei0r/frei0r_pr0be.xml:10
 #, kde-format
 msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
-msgstr "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
+msgstr "RGB,Y'PbPr – Rec.601,Y'PbPr – Rec.709,HSV,HSL"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:12
 #: data/effects/frei0r/frei0r_pr0be.xml:13
@@ -13382,7 +13382,7 @@ msgid ""
 msgstr ""
 "El <b>velocímetre</b> està disponible per a totes les fonts de dades, però "
 "es recomana només per a la velocitat; per al tipus mapa representa el "
-"«percentatge fet» des de l'inici - final retallats).<br>\n"
+"«percentatge fet» des de l'inici – final retallats).<br>\n"
 "Nota: per al tipus 1 (zoom i centre, o «seguix el punt»):<br>\n"
 "* els valors d'escapçament només són vàlids com a percentatge i només els "
 "valors inferiors (resposta a l'esquerra)\n"
@@ -13615,7 +13615,7 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
-"Un color,Dos colors,Passat sòlid passat - futur prim,Futur sòlid - passat "
+"Un color,Dos colors,Passat sòlid passat – futur prim,Futur sòlid – passat "
 "prim,Degradat vertical,Degradat horitzontal,Color per duració,Color per "
 "altitud,Color per ritme cardíac,Color per velocitat,Color per velocitat (màx "
 "100 km/h),Color per graus (màx 90 graus),Color per graus (màx 20 graus)"
@@ -14307,16 +14307,16 @@ msgid ""
 "Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
-"AfterBurn,AfterBurn (llarg),Ambient,Ambient (dens),Ambient (dens) - HD,"
-"Catedral,Catedral - HD,Càmera de tambor,Garage,Garage (animat),Gimnàs,Gimnàs "
-"(animat),Gimnàs (animat) - HD,Sala (xicoteta),Sala (mitjana),Sala (gran),"
-"Sala (gran) - HD,Plat (xicotet),Plat (mitjà),Plat (gran),Plat (gran) - HD,"
+"AfterBurn,AfterBurn (llarg),Ambient,Ambient (dens),Ambient (dens) – HD,"
+"Catedral,Catedral – HD,Càmera de tambor,Garage,Garage (animat),Gimnàs,Gimnàs "
+"(animat),Gimnàs (animat) – HD,Sala (xicoteta),Sala (mitjana),Sala (gran),"
+"Sala (gran) – HD,Plat (xicotet),Plat (mitjà),Plat (gran),Plat (gran) – HD,"
 "Càmera de polsos,Càmera de polsos (inversa),Ressonador (96 ms),Ressonador "
 "(152 ms),Ressonador (208 ms),Habitació (xicoteta),Habitació (mitjana),"
-"Habitació (gran),Habitació (gran) - HD,Cambra de manotades - HD,Cambra de "
-"manotades (animada),Cambra de manotades (animada) - HD,Sala suau (xicoteta),"
-"Sala suau (mitjana),Sala suau (gran),Sala suau (gran) - HD,Plat vocal,Plat "
-"vocal - HD,Cambra de refilets,Magatzem,Magatzem - HD"
+"Habitació (gran),Habitació (gran) – HD,Cambra de manotades – HD,Cambra de "
+"manotades (animada),Cambra de manotades (animada) – HD,Sala suau (xicoteta),"
+"Sala suau (mitjana),Sala suau (gran),Sala suau (gran) – HD,Plat vocal,Plat "
+"vocal – HD,Cambra de refilets,Magatzem,Magatzem – HD"
 
 #: data/effects/ladspa/ladspa_2143.xml:4
 #, kde-format
@@ -15304,7 +15304,7 @@ msgstr "Vinil"
 #: data/effects/ladspa/ladspa_vinyl.xml:5
 #, kde-format
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Simula un reproductor d'àudio de vinils - Efecte d'àudio del LADSPA"
+msgstr "Simula un reproductor d'àudio de vinils – Efecte d'àudio del LADSPA"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:8
 #, kde-format
@@ -15481,8 +15481,8 @@ msgid ""
 msgstr ""
 "Establix l'amplària de la<br>\n"
 "      transició del valor de luma prenivell al de postnivell. El punt "
-"d'inici de la transició en el valor de l'opacitat és llindar - pendent i el "
-"punt final és llindar + pendent, els valors es forçaran en l'interval 0 - "
+"d'inici de la transició en el valor de l'opacitat és llindar – pendent i el "
+"punt final és llindar + pendent, els valors es forçaran en l'interval 0 – "
 "255."
 
 #: data/effects/lumakey.xml:19
@@ -16970,7 +16970,7 @@ msgstr "Zoom òptim"
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
-"Determina automàticament el zoom òptim. 1 - zoom estàtic, 2 - zoom adaptatiu"
+"Determina automàticament el zoom òptim. 1 – zoom estàtic, 2 – zoom adaptatiu"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
@@ -17574,7 +17574,7 @@ msgid ""
 msgstr ""
 "Efectua una operació d'esvaïment RGB[A] entre les fonts de píxels, "
 "utilitzant l'algorisme generalitzat: D = saturació de 255 o empobriment de "
-"0, de ((255 - A) * 256) / (B + 1)"
+"0, de ((255 – A) * 256) / (B + 1)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
@@ -17713,7 +17713,7 @@ msgid ""
 msgstr ""
 "Efectua una operació d'esvaïment RGB[A] entre les fonts de píxels, "
 "utilitzant l'algorisme generalitzat: D = saturació de 255 o (A * 256) / (256 "
-"- B)"
+"– B)"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
 #, kde-format
@@ -17807,7 +17807,7 @@ msgid ""
 "generalised algorithm: D = A * (B + (2 * B) * (255 - A))"
 msgstr ""
 "Efectua una operació de superposició RGB[A] entre les fonts de píxels, "
-"utilitzant l'algorisme generalitzat: D = A * (B + (2 * B) * (255 - A))"
+"utilitzant l'algorisme generalitzat: D = A * (B + (2 * B) * (255 – A))"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
 #, kde-format
@@ -17878,7 +17878,7 @@ msgid ""
 "generalised algorithm: D = 255 - (255 - A) * (255 - B)"
 msgstr ""
 "Efectua una operació de pantalla RGB[A] entre les fonts de píxels, "
-"utilitzant l'algorisme generalitzat: D = 255 - (255 - A) * (255 - B)"
+"utilitzant l'algorisme generalitzat: D = 255 – (255 – A) * (255 – B)"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, kde-format
@@ -20368,7 +20368,7 @@ msgstr "No s'ha trobat cap clip per a afegir el marcador"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #: src/timeline2/view/timelinecontroller.cpp:1661
@@ -20690,85 +20690,85 @@ msgstr "Afig un marcador"
 msgid "Delete marker"
 msgstr "Suprimix el marcador"
 
-#: src/bin/model/markerlistmodel.cpp:408
+#: src/bin/model/markerlistmodel.cpp:437
 #, kde-format
 msgid "Move marker"
 msgstr "Mou el marcador"
 
-#: src/bin/model/markerlistmodel.cpp:410
+#: src/bin/model/markerlistmodel.cpp:439
 #, kde-format
 msgid "Resize marker"
 msgstr "Canvia la mida del marcador"
 
-#: src/bin/model/markerlistmodel.cpp:412
+#: src/bin/model/markerlistmodel.cpp:441
 #, kde-format
 msgid "Edit marker"
 msgstr "Edita un marcador"
 
-#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:881
 #, kde-format
 msgid "Import markers"
 msgstr "Importa marcadors"
 
-#: src/bin/model/markerlistmodel.cpp:863
+#: src/bin/model/markerlistmodel.cpp:918
 #, kde-format
 msgid "Recovered %1"
 msgstr "S'ha recuperat %1"
 
-#: src/bin/model/markerlistmodel.cpp:1012
+#: src/bin/model/markerlistmodel.cpp:1067
 #, kde-format
 msgid "Delete all markers"
 msgstr "Suprimix tots els marcadors"
 
-#: src/bin/model/markerlistmodel.cpp:1021
-#: src/bin/model/markerlistmodel.cpp:1063
-#: src/bin/model/markerlistmodel.cpp:1093
+#: src/bin/model/markerlistmodel.cpp:1076
+#: src/bin/model/markerlistmodel.cpp:1118
+#: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1651
 #, kde-format
 msgid "No marker found at current position"
 msgstr "No hi ha cap marcador a la posició actual"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1079
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Editeu la categoria dels marcadors"
 
-#: src/bin/model/markerlistmodel.cpp:1030
+#: src/bin/model/markerlistmodel.cpp:1085
 #, kde-format
 msgid "Markers Category"
 msgstr "Categoria dels marcadors"
 
-#: src/bin/model/markerlistmodel.cpp:1052
+#: src/bin/model/markerlistmodel.cpp:1107
 #, kde-format
 msgid "Edit markers"
 msgstr "Edita els marcadors"
 
-#: src/bin/model/markerlistmodel.cpp:1070
+#: src/bin/model/markerlistmodel.cpp:1125
 #, kde-format
 msgid "Edit Marker"
 msgstr "Edita un marcador"
 
-#: src/bin/model/markerlistmodel.cpp:1100
+#: src/bin/model/markerlistmodel.cpp:1155
 #, kde-format
 msgid "Add Markers"
 msgstr "Afig marcadors"
 
-#: src/bin/model/markerlistmodel.cpp:1120
+#: src/bin/model/markerlistmodel.cpp:1175
 #, kde-format
 msgid "Add markers"
 msgstr "Afig marcadors"
 
-#: src/bin/model/markerlistmodel.cpp:1139
+#: src/bin/model/markerlistmodel.cpp:1194
 #, kde-format
 msgid "Update range marker"
 msgstr "Actualitza el marcador d'interval"
 
-#: src/bin/model/markerlistmodel.cpp:1141
+#: src/bin/model/markerlistmodel.cpp:1196
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Convertix a marcador d'interval"
 
-#: src/bin/model/markerlistmodel.cpp:1143
+#: src/bin/model/markerlistmodel.cpp:1198
 #, kde-format
 msgid "Add range marker"
 msgstr "Afig un marcador d'interval"
@@ -24186,8 +24186,8 @@ msgid ""
 "frame."
 msgstr ""
 "Crea un subtítol nou de la duració predeterminada (definida a "
-"<interface>Configuració -> Configura Kdenlive… -> Miscel·lània</interface>) "
-"a la posició/fotograma actual del capçal de reproducció."
+"<interface>Configuració → Configura Kdenlive… → Miscel·lània</interface>) a "
+"la posició/fotograma actual del capçal de reproducció."
 
 #: src/dialogs/subtitleedit.cpp:286
 #, kde-format
@@ -25576,7 +25576,7 @@ msgstr "Plantilles"
 #: src/effects/effectlist/model/effecttreemodel.cpp:103
 #, kde-format
 msgid " - deprecated"
-msgstr " - obsolet"
+msgstr " – obsolet"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:287
 #, kde-format
@@ -27888,7 +27888,7 @@ msgstr ""
 #: src/mainwindow.cpp:1596
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
-msgstr "S'ha activat el procés experimental de la GPU - no per a producció"
+msgstr "S'ha activat el procés experimental de la GPU – no per a producció"
 
 #: src/mainwindow.cpp:1606 src/mainwindow.cpp:3838
 #, kde-format
@@ -29640,7 +29640,7 @@ msgstr "%1%"
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
-"Resolució de la vista prèvia - una resolució més baixa vol dir una vista "
+"Resolució de la vista prèvia – una resolució més baixa vol dir una vista "
 "prèvia més ràpida"
 
 #: src/monitor/monitor.cpp:237
@@ -30031,7 +30031,7 @@ msgstr "Desentrellaçador"
 #: src/monitor/monitormanager.cpp:629
 #, kde-format
 msgid "YADIF - temporal + spatial (best)"
-msgstr "YADIF - temporal + espacial (millor)"
+msgstr "YADIF – temporal + espacial (millor)"
 
 #: src/monitor/monitormanager.cpp:644
 #, kde-format
@@ -30243,7 +30243,7 @@ msgstr "Genera la màscara"
 #: src/monitor/view/MaskToolBar.qml:81
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr "Canvia l'opacitat (0% - 25% - 50% - 100%)"
+msgstr "Canvia l'opacitat (0% – 25% – 50% – 100%)"
 
 #: src/monitor/view/MaskToolBar.qml:95
 #, kde-format
@@ -30304,6 +30304,7 @@ msgstr ""
 msgid "Previewing video mask"
 msgstr "S'està previsualitzant la màscara de vídeo"
 
+# skip-rule: common-time_zone
 #: src/monitor/view/MonitorAutomask.qml:405
 #, kde-format
 msgid ""
@@ -34024,20 +34025,19 @@ msgid "Resize group"
 msgstr "Redimensiona el clip"
 
 #: src/timeline2/model/timelinemodel.cpp:3687
-#, fuzzy, kde-format
-#| msgid "Cannot resize mix"
+#, kde-format
 msgid "Cannot resize this clip"
-msgstr "No s'ha pogut redimensionar la mescla"
+msgstr "No s'ha pogut redimensionar este clip"
 
 #: src/timeline2/model/timelinemodel.cpp:3690
 #, kde-format
 msgid "Cannot resize the corresponding split clip"
-msgstr ""
+msgstr "No s'ha pogut redimensionar el clip dividit corresponent"
 
 #: src/timeline2/model/timelinemodel.cpp:3693
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
-msgstr ""
+msgstr "No s'ha pogut redimensionar un o més clip de la selecció"
 
 #: src/timeline2/model/timelinemodel.cpp:3697
 #, kde-format
@@ -34266,12 +34266,12 @@ msgstr ""
 "L'efecte de velocitat es renderitzarà millor si s'utilitza en clips "
 "individuals amb FPS alt"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "La velocitat mínima és %1"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "La velocitat màxima és %1"
@@ -37280,7 +37280,7 @@ msgstr "Processament de la GPU (biblioteca Movit):"
 #: src/ui/configsdl_ui.ui:72
 #, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr "Activa - reinicia Kdenlive per a fer-ho servir"
+msgstr "Activa – reinicia Kdenlive per a fer-ho servir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:86
@@ -37495,7 +37495,7 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
-"La detecció d'objectes depén de SAM2 - <a href=\"https://github.com/"
+"La detecció d'objectes depén de SAM2 – <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)

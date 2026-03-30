@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-29 00:42+0000\n"
+"POT-Creation-Date: 2026-03-30 00:42+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -7298,7 +7298,7 @@ msgstr "Y"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1551 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:64
+#: src/timeline2/view/dialogs/speeddialog.cpp:65
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
@@ -20208,7 +20208,7 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5908 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #: src/timeline2/view/timelinecontroller.cpp:1661
@@ -20542,98 +20542,98 @@ msgstr ""
 msgid "Delete marker"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:408
+#: src/bin/model/markerlistmodel.cpp:437
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Move marker"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/bin/model/markerlistmodel.cpp:410
+#: src/bin/model/markerlistmodel.cpp:439
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Resize marker"
 msgstr "قىسقۇچ قۇر"
 
-#: src/bin/model/markerlistmodel.cpp:412
+#: src/bin/model/markerlistmodel.cpp:441
 #, kde-format
 msgid "Edit marker"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:881
 #, fuzzy, kde-format
 #| msgid "Import"
 msgid "Import markers"
 msgstr "ئىمپورت قىل"
 
-#: src/bin/model/markerlistmodel.cpp:863
+#: src/bin/model/markerlistmodel.cpp:918
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Recovered %1"
 msgstr "تاللانغان تۈرلەرنى ئۆچۈر"
 
-#: src/bin/model/markerlistmodel.cpp:1012
+#: src/bin/model/markerlistmodel.cpp:1067
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Delete all markers"
 msgstr "قىسقۇچ ئۆچۈر"
 
-#: src/bin/model/markerlistmodel.cpp:1021
-#: src/bin/model/markerlistmodel.cpp:1063
-#: src/bin/model/markerlistmodel.cpp:1093
+#: src/bin/model/markerlistmodel.cpp:1076
+#: src/bin/model/markerlistmodel.cpp:1118
+#: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1651
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "No marker found at current position"
 msgstr "ئۈنسىز"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1079
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Edit Markers Category"
 msgstr "بەلگە قەلىمى"
 
-#: src/bin/model/markerlistmodel.cpp:1030
+#: src/bin/model/markerlistmodel.cpp:1085
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Category"
 msgstr "كاتېگورىيە"
 
-#: src/bin/model/markerlistmodel.cpp:1052
+#: src/bin/model/markerlistmodel.cpp:1107
 #, fuzzy, kde-format
 #| msgid "Export metadata"
 msgid "Edit markers"
 msgstr "مېتا سانلىق-مەلۇماتنى ئېكسپورت قىلىدۇ"
 
-#: src/bin/model/markerlistmodel.cpp:1070
+#: src/bin/model/markerlistmodel.cpp:1125
 #, kde-format
 msgid "Edit Marker"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:1100
+#: src/bin/model/markerlistmodel.cpp:1155
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Markers"
 msgstr "سۈرەت قوش"
 
-#: src/bin/model/markerlistmodel.cpp:1120
+#: src/bin/model/markerlistmodel.cpp:1175
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add markers"
 msgstr "سۈرەت قوش"
 
-#: src/bin/model/markerlistmodel.cpp:1139
+#: src/bin/model/markerlistmodel.cpp:1194
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update range marker"
 msgstr " كاندۇك"
 
-#: src/bin/model/markerlistmodel.cpp:1141
+#: src/bin/model/markerlistmodel.cpp:1196
 #, fuzzy, kde-format
 #| msgid "Border color"
 msgid "Convert to range marker"
 msgstr "يان رامكا رەڭگى"
 
-#: src/bin/model/markerlistmodel.cpp:1143
+#: src/bin/model/markerlistmodel.cpp:1198
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add range marker"
@@ -34304,12 +34304,12 @@ msgstr ""
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr ""
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:115
+#: src/timeline2/view/dialogs/speeddialog.cpp:116
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr ""
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:116
+#: src/timeline2/view/dialogs/speeddialog.cpp:117
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr ""
