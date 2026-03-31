@@ -1160,4 +1160,18 @@ protected:
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
+
+private:
+
+    /** @brief Auto-create missing audio tracks for clip insertion
+     *  Creates the required number of audio tracks at the appropriate position
+     *  and integrates with undo/redo
+     *  @param missingCount Number of audio tracks to create
+     *  @param trackId The target video track for insertion
+     *  @param undo Undo lambda to update
+     *  @param redo Redo lambda to update
+     *  @return true if tracks were created successfully (or none needed), false on failure
+     */
+   bool ensureAudioTracksForClip(int missingCount, int trackId, Fun &undo, Fun &redo);
+
 };
