@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-30 00:42+0000\n"
-"PO-Revision-Date: 2026-03-27 00:46+0300\n"
+"PO-Revision-Date: 2026-03-30 19:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -33704,20 +33704,19 @@ msgid "Resize group"
 msgstr "Grubu yeniden boyutlandır"
 
 #: src/timeline2/model/timelinemodel.cpp:3687
-#, fuzzy, kde-format
-#| msgid "Cannot resize mix"
+#, kde-format
 msgid "Cannot resize this clip"
-msgstr "Karışım yeniden boyutlandırılamıyor"
+msgstr "Bu klip yeniden boyutlandırılamıyor"
 
 #: src/timeline2/model/timelinemodel.cpp:3690
 #, kde-format
 msgid "Cannot resize the corresponding split clip"
-msgstr ""
+msgstr "Karşılık gelen bölünmüş klip yeniden boyutlandırılamıyor"
 
 #: src/timeline2/model/timelinemodel.cpp:3693
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
-msgstr ""
+msgstr "Seçimdeki bir veya daha çok klip yeniden boyutlandırılamıyor"
 
 #: src/timeline2/model/timelinemodel.cpp:3697
 #, kde-format
