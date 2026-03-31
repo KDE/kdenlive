@@ -1075,8 +1075,10 @@ function getTrackColor(audio, header) {
         onDropped: {
             lastYPos = -1
             upMove = 0
-            processDrop()
-            timeline.keepAudioTargets(false)
+            Qt.callLater(function() {
+                processDrop()
+                timeline.keepAudioTargets(false)
+            })
         }
     }
     DropArea { //Drop area for urls (direct drop from file manager)

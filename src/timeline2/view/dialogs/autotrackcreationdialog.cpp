@@ -17,8 +17,8 @@ AutoTrackCreationDialog::AutoTrackCreationDialog(QWidget *parent, int missingTra
     ui->infoLabel->setText(i18np("The selected clip needs %1 additional audio track for %2 audio stream.",
                                  "The selected clip needs %1 additional audio tracks for %2 audio streams.", missingTracks, streamCount));
     ui->createAllRadio->setText(i18n("Create all required tracks (%1)", missingTracks));
-    ui->tracksSpinBox->setRange(1, qMax(1, missingTracks));
-    ui->tracksSpinBox->setValue(qMax(1, missingTracks));
+    ui->tracksSpinBox->setRange(0, qMax(1, missingTracks));
+    ui->tracksSpinBox->setValue(0);
     ui->tracksSpinBox->setEnabled(false);
     connect(ui->createCustomRadio, &QRadioButton::toggled, this, [this](bool checked) {
         ui->tracksSpinBox->setEnabled(checked);

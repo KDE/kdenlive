@@ -2101,7 +2101,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 }
                 // Dropping video, ensure we have enough audio tracks for its streams
                 int mirror = getMirrorTrackId(trackId);
-                qCWarning(KDENLIVE_LOG) << "Mirror track for" << trackId << "is" << mirror;
                 QList<int> audioTids = {};
                 if (mirror > -1) {
                     if (!allowedTracks.isEmpty() && !allowedTracks.contains(mirror)) {
@@ -2122,7 +2121,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                         keys = keys.mid(0, qMax(0, availableStreamSlots));
                     } else {
                         int createdTracks = promptAudioTrackCreation(missingTracks, keys.count());
-                        qCWarning(KDENLIVE_LOG) << "Tracks to create:" << missingTracks << "Created tracks:" << createdTracks;
                         if (createdTracks < 0) {
                             return false;
                         }
