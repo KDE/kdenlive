@@ -500,7 +500,7 @@ public:
                        bool useTargets = true, int finalMove = -1);
     /* Same function, but accumulates undo and redo*/
    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
-                       Fun &redo, const QVector<int> &allowedTracks = QVector<int>(), int finalMove = -1);
+                       Fun &redo, QVector<int> allowedTracks = QVector<int>(), int finalMove = -1);
 
     /** @brief Switch current composition type
      *  @param cid the id of the composition we want to change
@@ -1168,10 +1168,11 @@ private:
      *  and integrates with undo/redo
      *  @param missingCount Number of audio tracks to create
      *  @param trackId The target video track for insertion
+     *  @param useTargets Whether to use audio targets for the new tracks
      *  @param undo Undo lambda to update
      *  @param redo Redo lambda to update
      *  @return true if tracks were created successfully (or none needed), false on failure
      */
-   bool ensureAudioTracksForClip(int missingCount, int trackId, Fun &undo, Fun &redo);
+   bool ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo);
 
 };

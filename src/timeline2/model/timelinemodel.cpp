@@ -1923,7 +1923,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 }
 
 bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets,
-                                         Fun &undo, Fun &redo, const QVector<int> &allowedTracks, int finalMove)
+                                         Fun &undo, Fun &redo, QVector<int> allowedTracks, int finalMove)
 {
     id = -1;
     Fun local_undo = []() { return true; };
@@ -1990,13 +1990,42 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
     }
-    auto promptAudioTrackCreation = [this, &trackId, &local_undo, &local_redo, effectiveFinalMove](int missingTracks, int streamCount) {
+    auto promptAudioTrackCreation = [this, &trackId, &local_undo, &local_redo, &allowedTracks, useTargets, effectiveFinalMove](int missingTracks, int streamCount) {
         if (!effectiveFinalMove) {
             return 0;
+        }
+        if (!isAudioTrack(trackId)) {
+            int mirrorAudioId = getMirrorAudioTrackId(trackId);
+            if (mirrorAudioId == -1) {
+                // No mirror audio track, insert more audio tracks at the end so that we get the mirror track.
+                // example if we have V3, V2, V1, A1 and we want to insert clip on V3, then we need A3 to be created which will be the mirror for V3.
+                // In that case we want to insert 2 audio tracks at the end of the stack, after A1
+                auto it = m_iteratorTable.at(trackId);
+                int audioTracks = 0;
+                int lowerVideoTracks = 0;
+                while (it != m_allTracks.cbegin()) {
+                    if ((*it)->isAudioTrack()) {
+                        audioTracks++;
+                    }
+                    else {
+                        lowerVideoTracks++;
+                    }
+                    --it;
+                }
+                if ((*it)->isAudioTrack()) {
+                    audioTracks++;
+                } else {
+                    lowerVideoTracks++;
+                }
+                int lastTrack = (*it)->getId();
+                int tracksToInsertBeforeMirror = lowerVideoTracks - audioTracks - 1;
+                missingTracks += tracksToInsertBeforeMirror;
+            }
         }
         if (missingTracks <= 0) {
             return 0;
         }
+        
         int tracksToCreate = AutoTrackCreationDialog::getTracksToCreate(qApp->activeWindow(), missingTracks, streamCount);
         if (tracksToCreate < 0) {
             return -1;
@@ -2006,7 +2035,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
             return -1;
         }
-        if (!ensureAudioTracksForClip(tracksToCreate, trackId, local_undo, local_redo)) {
+        if (!ensureAudioTracksForClip(tracksToCreate, trackId, useTargets, allowedTracks, local_undo, local_redo)) {
             pCore->displayMessage(i18n("Failed to create audio tracks"), ErrorMessage);
             return -1;
         }
@@ -2345,7 +2374,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return true;
 }
 
-bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, Fun &undo, Fun &redo)
+bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo)
 {
     if (missingCount <= 0) {
         return true;
@@ -2368,32 +2397,9 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, Fun 
             }
         }
         else {
-            // No mirror audio track, insert more audio tracks at the end so that we get the mirror track.
-            // example if we have V3, V2, V1, A1 and we want to insert clip on V3, then we need A3 to be created which will be the mirror for V3.
-            // In that case we want to insert 2 audio tracks at the end of the stack, after A1
-            auto it = m_iteratorTable.at(trackId);
-            int audioTracks = 0;
-            int lastTrack = -1;
-            int lowerVideoTracks = 0;
-            while (it != m_allTracks.cbegin()) {
-                if ((*it)->isAudioTrack()) {
-                    audioTracks++;
-                    lastTrack = (*it)->getId();
-                }
-                else {
-                    lowerVideoTracks++;
-                }
-                --it;
-            }
-            if ((*it)->isAudioTrack()) {
-                audioTracks++;
-                lastTrack = (*it)->getId();
-            } else {
-                lowerVideoTracks++;
-            }
+            // No mirror audio track, insert at the end of the stack
+            int lastTrack = m_allTracks.front()->getId();
             insertPos = getTrackMltIndex(lastTrack) - 1;
-            int tracksToInsertBeforeMirror = lowerVideoTracks - audioTracks - 1;
-            missingCount += tracksToInsertBeforeMirror;
         }
     }
 
@@ -2415,6 +2421,13 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, Fun 
         int newTid;
         // Insert audio track at position, no compositing rebuild per track (we'll do it once at the end)
         result = requestTrackInsertion(insertPos, newTid, QString(), true, undo, redo, false);
+        if (result && useTargets) {
+            // If we are using targets, set the new track as audio target so that if we need to insert several tracks, they will be correctly assigned to the clip streams
+            m_audioTarget.insert(newTid, -1);
+            if (!allowedTracks.contains(newTid)) {
+                allowedTracks.append(newTid);
+            }
+        }
     }
 
     // Rebuild compositing after all tracks are added
