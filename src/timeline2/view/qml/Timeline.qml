@@ -382,6 +382,7 @@ function getTrackColor(audio, header) {
         clipBeingDroppedId = -1
         droppedPosition = -1
         droppedTrack = -1
+        lastDropTrack = -1
         clipDropArea.lastDragUuid = ""
         scrollTimer.running = false
         scrollTimer.stop()
@@ -544,6 +545,7 @@ function getTrackColor(audio, header) {
     property string clipBeingDroppedData
     property int droppedPosition: -1
     property int droppedTrack: -1
+    property int lastDropTrack: -1
     property int clipBeingMovedId: -1
     property int consumerPosition: proxy ? proxy.position : -1
     property int spacerGroup: -1
@@ -872,6 +874,20 @@ function getTrackColor(audio, header) {
                 if (track >= 0  && track < tracksRepeater.count) {
                     var targetTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
+                    // If the target track changed, recreate the preview clips so that audio mirrors
+                    // are correctly assigned for the new target track (e.g. when the new track has
+                    // no existing mirror audio track and one would need to be created on drop).
+                    if (controller.normalEdit() && targetTrack !== root.lastDropTrack) {
+                        controller.requestItemDeletion(clipBeingDroppedId, false)
+                        clipBeingDroppedId = -1
+                        timeline.activeTrack = targetTrack
+                        clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, clipBeingDroppedData)
+                        root.lastDropTrack = targetTrack
+                        if (clipBeingDroppedId == -1) {
+                            continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
+                            return
+                        }
+                    }
                     var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
                     fakeFrame = moveData[0]
                     fakeTrack = moveData[1]
@@ -949,6 +965,7 @@ function getTrackColor(audio, header) {
                     var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                     droppedPosition = frame
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
+                    root.lastDropTrack = timeline.activeTrack
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
