@@ -1990,7 +1990,9 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
     }
-    auto promptAudioTrackCreation = [this, &trackId, &local_undo, &local_redo, &allowedTracks, useTargets, effectiveFinalMove](int missingTracks, int streamCount) {
+    auto promptAudioTrackCreation =
+        [this, &trackId, &local_undo, &local_redo, &allowedTracks, useTargets, effectiveFinalMove](int missingTracks, int streamCount,
+                                                                                                     const QList<int> &streamsToCreate = QList<int>()) {
         if (!effectiveFinalMove) {
             return 0;
         }
@@ -2035,7 +2037,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
             return -1;
         }
-        if (!ensureAudioTracksForClip(tracksToCreate, trackId, useTargets, allowedTracks, local_undo, local_redo)) {
+        if (!ensureAudioTracksForClip(tracksToCreate, trackId, useTargets, allowedTracks, local_undo, local_redo, streamsToCreate)) {
             pCore->displayMessage(i18n("Failed to create audio tracks"), ErrorMessage);
             return -1;
         }
@@ -2141,6 +2143,16 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 }
                 // Check if we don't have enough audio tracks below (remove the mirror track from count)
                 if ((keys.count() > 1 && audioTids.count() < keys.count() - 1) || (allowedTracks.isEmpty() && mirror == -1 && !keys.isEmpty())) {
+                    if (mirror > -1 && getTrackById_const(mirror)->isLocked()) {
+                        pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                        return false;
+                    }
+                    for(auto &t : audioTids.mid(0, keys.count() - 1)) {
+                        if (getTrackById_const(t)->isLocked() || (!allowedTracks.isEmpty() && !allowedTracks.contains(t))) {
+                            pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                            return false;
+                        }
+                    }
                     int availableStreamSlots = 0;
                     if (mirror > -1) {
                         availableStreamSlots = 1 + audioTids.count();
@@ -2200,32 +2212,70 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             audioStream = m_audioTarget.first();
         } else {
             // Using target tracks
-            if (keys.count() > 1) {
-                int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
-                if (tracksBelow < keys.count() - 1) {
-                    // We don't have enough audio tracks below, check above
-                    QList<int> audioTrackIds = getTracksIds(true);
-                    if (audioTrackIds.count() < keys.count()) {
-                        int missingTracks = keys.count() - audioTrackIds.count();
-                        if (!effectiveFinalMove && missingTracks > 0) {
-                            keys = keys.mid(0, qMax(1, audioTrackIds.count()));
-                        } else {
-                            int createdTracks = promptAudioTrackCreation(missingTracks, keys.count());
-                            if (createdTracks < 0) {
-                                return false;
-                            }
-                            int maxStreams = audioTrackIds.count() + createdTracks;
-                            if (maxStreams < keys.count()) {
-                                keys = keys.mid(0, maxStreams);
-                            }
-                            audioTrackIds = getTracksIds(true);
-                            if (audioTrackIds.count() < keys.count()) {
-                                pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", keys.count()), ErrorMessage);
-                                return false;
-                            }
+            if (!keys.isEmpty()) {
+                QList<int> missingStreams;
+                {
+                    const QList<int> assignedStreams = m_audioTarget.values();
+                    for (int stream : std::as_const(keys)) {
+                        if (!assignedStreams.contains(stream)) {
+                            missingStreams << stream;
                         }
                     }
-                    trackId = audioTrackIds.at(audioTrackIds.count() - keys.count());
+                }
+                if (!missingStreams.isEmpty()) {
+                    if (!effectiveFinalMove) {
+                        // In preview mode, keep only streams that already have a target assignment.
+                        const QList<int> assignedStreams = m_audioTarget.values();
+                        QList<int> filteredKeys;
+                        for (int stream : std::as_const(keys)) {
+                            if (assignedStreams.contains(stream)) {
+                                filteredKeys << stream;
+                            }
+                        }
+                        keys = filteredKeys;
+                    } else {
+                        int allAudioTracks = getTracksIds(true).count();
+                        const QMap<int, int> existingTargets = m_audioTarget;
+                        const int neededTracks = missingStreams.count() - (allAudioTracks - existingTargets.count());
+                        const int createdTracks = promptAudioTrackCreation(neededTracks, keys.count(), missingStreams);
+                        if (createdTracks < 0) {
+                            return false;
+                        }
+                        // Only assign streams to target tracks created by the prompt in this insertion flow.
+                        QList<int> createdTargetTracks;
+                        createdTargetTracks.reserve(createdTracks);
+                        for (auto it = m_audioTarget.cbegin(); it != m_audioTarget.cend(); ++it) {
+                            const int tid = it.key();
+                            if (!existingTargets.contains(tid)) {
+                                createdTargetTracks << tid;
+                            }
+                        }
+
+                        QList<int> streamsToAssign = missingStreams;
+                        for (int tid : std::as_const(createdTargetTracks)) {
+                            if (streamsToAssign.isEmpty()) {
+                                break;
+                            }
+                            // These checks are probably redundant given the tracks were just created, 
+                            //but we want to be sure we don't assign streams to tracks that would be invalid targets for this clip.
+                            if ((!allowedTracks.isEmpty() && !allowedTracks.contains(tid)) || getTrackById_const(tid)->isLocked()) {
+                                continue;
+                            }
+                            auto targetIt = m_audioTarget.find(tid);
+                            if (targetIt != m_audioTarget.end() && targetIt.value() < 0) {
+                                targetIt.value() = streamsToAssign.takeFirst();
+                            }
+                        }
+                        // update final keys list to only contain assigned streams
+                        QList<int> assignedStreams = m_audioTarget.values();
+                        QList<int> filteredKeys;
+                        for (int stream : std::as_const(keys)) {
+                            if (assignedStreams.contains(stream)) {
+                                filteredKeys << stream;
+                            }
+                        }
+                        keys = filteredKeys;
+                    }
                 }
             }
             if (m_audioTarget.contains(trackId)) {
@@ -2374,7 +2424,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return true;
 }
 
-bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo)
+bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo,
+                                             const QList<int> &streamsToCreate)
 {
     if (missingCount <= 0) {
         return true;
@@ -2384,22 +2435,22 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool
         return false;
     }
 
-    // Find the insertion position for new audio tracks
+    // Find the default insertion position for new audio tracks
     // Audio tracks should be inserted below the mirror audio track of the target video track
-    int insertPos = 0;
+    int defaultInsertPos = 0;
     if (!isAudioTrack(trackId)) {
         int mirrorAudioId = getMirrorAudioTrackId(trackId);
         if (mirrorAudioId > -1) {
             // Insert below the mirror audio track (at its position, pushing it up)
-            insertPos = getTrackMltIndex(mirrorAudioId) - 1;
-            if (insertPos < 0) {
-                insertPos = 0;
+            defaultInsertPos = getTrackMltIndex(mirrorAudioId) - 1;
+            if (defaultInsertPos < 0) {
+                defaultInsertPos = 0;
             }
         }
         else {
             // No mirror audio track, insert at the end of the stack
             int lastTrack = m_allTracks.front()->getId();
-            insertPos = getTrackMltIndex(lastTrack) - 1;
+            defaultInsertPos = getTrackMltIndex(lastTrack) - 1;
         }
     }
 
@@ -2417,10 +2468,42 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool
     clean_compositing();
 
     bool result = true;
-    for (int i = 0; i < missingCount && result; i++) {
+    int createdCount = 0;
+    if (useTargets && !streamsToCreate.isEmpty()) {
+        for (int stream : std::as_const(streamsToCreate)) {
+            if (!result || createdCount >= missingCount) {
+                break;
+            }
+            int insertPos = defaultInsertPos;
+            int nextTrackId = -1;
+            int nextStream = -1;
+            for (auto it = m_audioTarget.cbegin(); it != m_audioTarget.cend(); ++it) {
+                const int mappedStream = it.value();
+                if (mappedStream < stream && (nextTrackId == -1 || mappedStream > nextStream)) {
+                    nextTrackId = it.key();
+                    nextStream = mappedStream;
+                }
+            }
+            if (nextTrackId > -1 && isTrack(nextTrackId)) {
+                insertPos = qMax(0, getTrackMltIndex(nextTrackId) - 1);
+            }
+
+            int newTid;
+            result = requestTrackInsertion(insertPos, newTid, QString(), true, undo, redo, false);
+            if (result) {
+                m_audioTarget.insert(newTid, stream);
+                if (!allowedTracks.contains(newTid)) {
+                    allowedTracks.append(newTid);
+                }
+                createdCount++;
+            }
+        }
+    }
+
+    for (int i = createdCount; i < missingCount && result; i++) {
         int newTid;
-        // Insert audio track at position, no compositing rebuild per track (we'll do it once at the end)
-        result = requestTrackInsertion(insertPos, newTid, QString(), true, undo, redo, false);
+        // Insert audio track at default position, no compositing rebuild per track (we'll do it once at the end)
+        result = requestTrackInsertion(defaultInsertPos, newTid, QString(), true, undo, redo, false);
         if (result && useTargets) {
             // If we are using targets, set the new track as audio target so that if we need to insert several tracks, they will be correctly assigned to the clip streams
             m_audioTarget.insert(newTid, -1);
@@ -2438,6 +2521,7 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool
         PUSH_FRONT_LAMBDA(clean_compositing, undo);
         PUSH_LAMBDA(rebuild_compositing, redo);
         PUSH_LAMBDA(rebuild_compositing, undo);
+        Q_EMIT audioTargetChanged();
     } else {
         // Failed, rebuild compositing anyway
         rebuild_compositing();

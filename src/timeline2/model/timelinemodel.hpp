@@ -1065,6 +1065,8 @@ Q_SIGNALS:
     /** @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated(const QUuid &uuid);
 
+    /** @brief Signal sent whenever the audio target changes */
+    void audioTargetChanged();
     /** @brief Signal sent whenever the selection changes */
     void selectionChanged();
     /** @brief Signal sent whenever the selected mix changes */
@@ -1173,6 +1175,7 @@ private:
      *  @param redo Redo lambda to update
      *  @return true if tracks were created successfully (or none needed), false on failure
      */
-   bool ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo);
+   bool ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo,
+                                 const QList<int> &streamsToCreate = QList<int>());
 
 };
