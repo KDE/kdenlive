@@ -884,9 +884,11 @@ function getTrackColor(audio, header) {
                         clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, clipBeingDroppedData)
                         root.lastDropTrack = targetTrack
                         if (clipBeingDroppedId == -1) {
+                            drag.accepted=false
                             continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                             return
                         }
+                        drag.accepted=true
                     }
                     var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
                     fakeFrame = moveData[0]
@@ -900,6 +902,9 @@ function getTrackColor(audio, header) {
                 if (offset != 0) {
                     timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                 }
+            }
+            else {
+                drag.accepted=false
             }
         }
         function processDrop()
@@ -968,6 +973,12 @@ function getTrackColor(audio, header) {
                     root.lastDropTrack = timeline.activeTrack
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
+                        if (clipBeingDroppedId > -1) {
+                            drag.accepted=true
+                        }
+                        else {
+                            drag.accepted=false
+                        }
                     } else {
                         // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
@@ -975,7 +986,9 @@ function getTrackColor(audio, header) {
                             var moveData = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                             fakeFrame = moveData[0]
                             fakeTrack = moveData[1]
+                            drag.accepted=true
                         } else {
+                            drag.accepted=false
                             console.log('FAILED CLIP INSERT AND GROUP')
                         }
                     }
@@ -1015,6 +1028,7 @@ function getTrackColor(audio, header) {
             root.updateTimelineMousePos(frame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId > -1) {
+                    drag.accepted=true
                     moveDrop(0, 0)
                 } else {
                     var yOffset = 0
@@ -1043,6 +1057,12 @@ function getTrackColor(audio, header) {
                                 }
                             }
                             lastCheckedFrame = frame
+                        }
+                        if (clipBeingDroppedId > -1) {
+                            drag.accepted=true
+                        }
+                        else {
+                            drag.accepted=false
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                     } else {
