@@ -966,6 +966,7 @@ function getTrackColor(audio, header) {
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 clipBeingDroppedData = drag.getDataAsString('text/producerslist')
                 lastDragUuid = drag.getDataAsString('text/dragid')
+
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                     droppedPosition = frame
