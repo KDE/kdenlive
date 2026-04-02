@@ -1255,8 +1255,8 @@ void Monitor::createFullscreenMirror()
     m_monitorMirror->setClearColor(KdenliveSettings::window_background());
     m_monitorMirror->refreshZoom = true;
 
-    // Mirror frames: listen to MonitorManager::frameDisplayed and forward to the fullscreen widget
-    connect(m_monitorManager, &MonitorManager::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
+    // Mirror frames: listen to VideoWidget::frameDisplayed and forward to the fullscreen widget
+    connect(m_glMonitor, &VideoWidget::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
 
     // Show it full screen
     const QScreen *screen = getScreenForFullscreen();
