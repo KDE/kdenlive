@@ -347,14 +347,14 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
 
     m_viewSplitter = new QSplitter(Qt::Vertical, this);
     m_viewSplitter->addWidget(m_effectsView);
-    QTextBrowser *textEdit = new QTextBrowser(this);
-    textEdit->setReadOnly(true);
-    textEdit->setAcceptRichText(true);
-    textEdit->setOpenLinks(false);
-    connect(textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
+    m_textEdit = new QTextBrowser(this);
+    m_textEdit->setReadOnly(true);
+    m_textEdit->setAcceptRichText(true);
+    m_textEdit->setOpenLinks(false);
+    connect(m_textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
     m_infoDocument = new QTextDocument(this);
-    textEdit->setDocument(m_infoDocument);
-    m_viewSplitter->addWidget(textEdit);
+    m_textEdit->setDocument(m_infoDocument);
+    m_viewSplitter->addWidget(m_textEdit);
     m_lay->addWidget(m_viewSplitter);
 
     m_infoBar = new KMessageWidget(this);
