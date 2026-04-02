@@ -598,6 +598,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 Monitor::~Monitor()
 {
+    destroyFullscreenMirror();
     m_markerModel.reset();
     delete m_audioMeterWidget;
     delete m_glMonitor;
@@ -1254,8 +1255,8 @@ void Monitor::createFullscreenMirror()
     m_monitorMirror->setClearColor(KdenliveSettings::window_background());
     m_monitorMirror->refreshZoom = true;
 
-    // Mirror frames: listen to MonitorManager::frameDisplayed and forward to the fullscreen widget
-    connect(m_monitorManager, &MonitorManager::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
+    // Mirror frames: listen to VideoWidget::frameDisplayed and forward to the fullscreen widget
+    connect(m_glMonitor, &VideoWidget::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
 
     // Show it full screen
     const QScreen *screen = getScreenForFullscreen();
@@ -1274,16 +1275,13 @@ void Monitor::createFullscreenMirror()
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     m_glMonitor->refreshZoom = true;
-
     if (!monitorIsFullScreen() && !minimizeOnly) {
+        // Make monitor fullscreen
         const QScreen *screen = getScreenForFullscreen();
-
         if (KdenliveSettings::mirrorMonitorOnFullscreen()) {
             createFullscreenMirror();
         } else {
             m_glWidget->setParent(nullptr);
-
-            // const QScreen *screen = getScreenForFullscreen();
             if (screen) {
                 m_glWidget->move(screen->geometry().topLeft());
                 m_glWidget->resize(screen->geometry().size());
@@ -1293,6 +1291,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         }
         setFocus();
     } else {
+        // Restore normal size
         if (m_glWidget->isFullScreen()) {
             m_glWidget->showNormal();
             m_glMonitor->enableMouseTimer(false);
@@ -1301,15 +1300,13 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
             // With some Qt versions, focus was lost after switching back from fullscreen,
             // QApplication::setActiveWindow restores focus to the correct window
             activateWindow(); // TODO is this still needed?
-
-            if (m_id == Kdenlive::ProjectMonitor) {
-                KdenliveSettings::setProject_monitor_fullscreen(QString());
-            } else {
-                KdenliveSettings::setClip_monitor_fullscreen(QString());
-            }
         }
         destroyFullscreenMirror();
-
+        if (m_id == Kdenlive::ProjectMonitor) {
+            KdenliveSettings::setProject_monitor_fullscreen(QString());
+        } else {
+            KdenliveSettings::setClip_monitor_fullscreen(QString());
+        }
         setFocus();
     }
 }
