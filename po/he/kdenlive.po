@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-03-30 00:42+0000\n"
-"PO-Revision-Date: 2026-03-23 16:34+0200\n"
+"PO-Revision-Date: 2026-04-01 17:42+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -13413,43 +13413,43 @@ msgstr "תדירות <u><b>רצועה 1</b></u>"
 #: data/effects/ladspa/ladspa_2151.xml:18
 #, kde-format
 msgid "<u><b>Band 2</b></u> Freq"
-msgstr "תדירות <u><b>רצועה 2</b></u"
+msgstr "תדירות <u><b>רצועה 2</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
 #, kde-format
 msgid "<u><b>Band 3</b></u> Freq"
-msgstr "תדירות <u><b>רצועה 3</b></u"
+msgstr "תדירות <u><b>רצועה 3</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
 #, kde-format
 msgid "<u><b>Band 4</b></u> Freq"
-msgstr "תדירות <u><b>רצועה 4</b></u"
+msgstr "תדירות <u><b>רצועה 4</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
 #, kde-format
 msgid "<u><b>Band 5</b></u> Freq"
-msgstr "תדירות <u><b>רצועה 5</b></u"
+msgstr "תדירות <u><b>רצועה 5</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
 #, kde-format
 msgid "<u><b>Band 6</b></u> Freq"
-msgstr "תדירות <u><b>רצועה 6</b></u"
+msgstr "תדירות <u><b>רצועה 6</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
 #, kde-format
 msgid "<u><b>Band 7</b></u> Freq"
-msgstr "תדירות <u><b>רצועה 7</b></u"
+msgstr "תדירות <u><b>רצועה 7</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
 #, kde-format
 msgid "<u><b>Band 8</b></u> Freq"
-msgstr "תדירות <u><b>רצועה 8</b></u"
+msgstr "תדירות <u><b>רצועה 8</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:57
 #: data/effects/ladspa/ladspa_2142.xml:36
