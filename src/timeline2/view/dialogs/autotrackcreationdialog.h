@@ -16,11 +16,11 @@ class AutoTrackCreationDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AutoTrackCreationDialog(QWidget *parent, int missingTracks, int streamCount);
+    explicit AutoTrackCreationDialog(QWidget *parent, int missingTracks, int missingTracksBeforeMirror, int streamCount);
     ~AutoTrackCreationDialog() override;
 
     int tracksToCreate() const;
-    static int getTracksToCreate(QWidget *parent, int missingTracks, int streamCount);
+    static int getTracksToCreate(QWidget *parent, int missingTracks, int missingTracksBeforeMirror, int streamCount);
 
 private:
     Ui::AutoTrackCreationDialog_UI *ui;

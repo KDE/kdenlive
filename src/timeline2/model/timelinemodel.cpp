@@ -1996,6 +1996,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (!effectiveFinalMove) {
             return 0;
         }
+        int tracksToInsertBeforeMirror = 0;
         if (!isAudioTrack(trackId)) {
             int mirrorAudioId = getMirrorAudioTrackId(trackId);
             if (mirrorAudioId == -1) {
@@ -2020,15 +2021,14 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     lowerVideoTracks++;
                 }
                 int lastTrack = (*it)->getId();
-                int tracksToInsertBeforeMirror = lowerVideoTracks - audioTracks - 1;
-                missingTracks += tracksToInsertBeforeMirror;
+                tracksToInsertBeforeMirror = lowerVideoTracks - audioTracks - 1;
             }
         }
         if (missingTracks <= 0) {
             return 0;
         }
         
-        int tracksToCreate = AutoTrackCreationDialog::getTracksToCreate(qApp->activeWindow(), missingTracks, streamCount);
+        int tracksToCreate = AutoTrackCreationDialog::getTracksToCreate(qApp->activeWindow(), missingTracks, tracksToInsertBeforeMirror, streamCount);
         if (tracksToCreate < 0) {
             return -1;
         }
@@ -2041,7 +2041,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             pCore->displayMessage(i18n("Failed to create audio tracks"), ErrorMessage);
             return -1;
         }
-        return tracksToCreate;
+        return tracksToCreate - tracksToInsertBeforeMirror;
     };
     if (((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) &&
          (type == ClipType::AV || type == ClipType::Playlist || type == ClipType::Timeline || m_audioTarget.keys().size() > 1))) {

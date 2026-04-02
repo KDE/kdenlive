@@ -18,6 +18,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <string>Missing Audio Tracks</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+  <item>
+    <widget class="QLabel" name="mirrorInfoLabel">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>This video track has missing audio tracks before creating mirror track.</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QLabel" name="infoLabel">
      <property name="wordWrap">
