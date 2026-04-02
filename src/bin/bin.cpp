@@ -1006,7 +1006,6 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
         } else {
             event->ignore();
         }
-        QListView::mouseMoveEvent(event);
         return;
     }
 
@@ -1158,7 +1157,6 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         } else {
             event->ignore();
         }
-        QTreeView::mouseMoveEvent(event);
         return;
     } else {
         QModelIndex index = indexAt(event->pos());
@@ -3262,7 +3260,7 @@ void Bin::slotInitView(QAction *action)
         m_showDesc->setEnabled(false);
         m_showRating->setEnabled(false);
         m_upAction->setVisible(true);
-        connect(lv, &MyListView::performDrag, this, &Bin::performDrag);
+        connect(lv, &MyListView::performDrag, this, &Bin::performDrag, Qt::QueuedConnection);
         break;
     }
     default: {
@@ -3273,7 +3271,7 @@ void Bin::slotInitView(QAction *action)
         m_showDesc->setEnabled(true);
         m_showRating->setEnabled(true);
         m_upAction->setVisible(false);
-        connect(tv, &MyTreeView::performDrag, this, &Bin::performDrag);
+        connect(tv, &MyTreeView::performDrag, this, &Bin::performDrag, Qt::QueuedConnection);
         break;
     }
     }
@@ -6954,7 +6952,6 @@ bool Bin::performDrag(const QModelIndexList indexes)
     }
     p.end();
     drag->setPixmap(QPixmap::fromImage(image));
-
     drag->exec();
     drag->deleteLater();
     Q_EMIT pCore->processDragEnd();
