@@ -664,8 +664,8 @@ void KdenliveSettingsDialog::initSdlPage(bool gpuAllowed)
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
-#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
-    // TODO: This feature does not work on Windows and macOS yet, it shows only a white screen
+#if defined(Q_OS_MACOS)
+    // TODO: This feature is untested on macOS yet
     m_configSdl.kcfg_mirrorMonitorOnFullscreen->setEnabled(false);
 #endif
 }

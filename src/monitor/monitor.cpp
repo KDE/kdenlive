@@ -1099,16 +1099,18 @@ void Monitor::setZoom(float zoomRatio)
     }
 }
 
-bool Monitor::monitorIsFullScreen() const
+bool Monitor::monitorIsFullScreen(bool considerMirror) const
 {
-    return m_glWidget->isFullScreen() || m_monitorMirror || m_fullscreenWindow;
+    return m_glWidget->isFullScreen() || (considerMirror && (m_monitorMirror || m_fullscreenWindow));
 }
 
-const QScreen *Monitor::getScreenForFullscreen()
+const QScreen *Monitor::getScreenForFullscreen(bool *multipleScreens)
 {
     if (qApp->screens().count() == 1) {
+        *multipleScreens = false;
         return qApp->screens().first();
     }
+    *multipleScreens = true;
     QString requestedMonitor = KdenliveSettings::fullscreen_monitor();
     if (m_id == Kdenlive::ProjectMonitor) {
         if (!KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
@@ -1190,16 +1192,18 @@ void Monitor::destroyFullscreenMirror()
         return;
     }
     if (m_monitorMirror) {
+        disconnect(m_monitorMirror, &VideoWidget::reconnectWindow, this, nullptr);
         disconnect(m_monitorManager, &MonitorManager::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed);
         if (m_monitorMirror->quickWindow()) {
             QObject::disconnect(m_monitorMirror->quickWindow(), nullptr, m_monitorMirror, nullptr);
+            QObject::disconnect(m_monitorMirror->quickWindow(), &QQuickWindow::destroyed, this, nullptr);
         }
-        m_monitorMirror->deleteLater();
+        delete m_monitorMirror;
         m_monitorMirror = nullptr;
     }
     if (m_fullscreenWindow) {
         m_fullscreenWindow->close();
-        m_fullscreenWindow->deleteLater();
+        delete m_fullscreenWindow;
         m_fullscreenWindow = nullptr;
     }
 }
@@ -1213,7 +1217,6 @@ void Monitor::createFullscreenMirror()
     // Create top-level window
     m_fullscreenWindow = new QWidget(this);
     m_fullscreenWindow->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    // m_fullscreenWindow->setAttribute(Qt::WA_DeleteOnClose);
     m_fullscreenWindow->setContentsMargins(0, 0, 0, 0);
 
     auto *lay = new QVBoxLayout(m_fullscreenWindow);
@@ -1237,7 +1240,35 @@ void Monitor::createFullscreenMirror()
 
     connect(m_monitorMirror, &VideoWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
     connect(m_monitorMirror, &VideoWidget::monitorPlay, m_playAction, &QAction::trigger);
-    connect(m_monitorMirror, &VideoWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
+    connect(m_monitorMirror, &VideoWidget::passKeyEvent, this, [this](QKeyEvent *event) {
+        if (m_fullscreenWindow) {
+            event->ignore();
+            Q_EMIT passKeyPress(event);
+            return;
+        }
+        QWidget::keyPressEvent(event);
+    });
+
+    auto rebuildViewConnection = [this]() {
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_monitorMirror, &VideoWidget::initialize, Qt::DirectConnection);
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::beforeRendering, m_monitorMirror, &VideoWidget::beforeRendering, Qt::DirectConnection);
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_monitorMirror, &VideoWidget::renderVideo, Qt::DirectConnection);
+        m_monitorMirror->setClearColor(KdenliveSettings::window_background());
+        // Enforce geometry recalculation
+        m_monitorMirror->refreshZoom = true;
+        m_glMonitor->requestRefresh();
+        Q_EMIT m_monitorMirror->reconnectWindow();
+    };
+
+    connect(m_monitorMirror, &VideoWidget::reconnectWindow, this, [this, rebuildViewConnection]() {
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::destroyed, this, [rebuildViewConnection]() {
+            if (!pCore->closing) {
+                rebuildViewConnection();
+            }
+        });
+    });
+
+    rebuildViewConnection();
 
     // Ensure the view fills the window
     QWidget *widget = qobject_cast<QWidget *>(m_monitorMirror);
@@ -1245,21 +1276,14 @@ void Monitor::createFullscreenMirror()
     lay->addWidget(m_monitorMirror);
     m_fullscreenWindow->setLayout(lay);
 
-    // Setup scene graph initialization connections (so the VideoWidget can initialize GL/shaders)
-    connect(m_monitorMirror->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_monitorMirror, &VideoWidget::initialize, Qt::DirectConnection);
-    connect(m_monitorMirror->quickWindow(), &QQuickWindow::beforeRendering, m_monitorMirror, &VideoWidget::beforeRendering, Qt::DirectConnection);
-    connect(m_monitorMirror->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_monitorMirror, &VideoWidget::renderVideo, Qt::DirectConnection);
-    m_glMonitor->requestRefresh();
-
     // Match clear color and zoom refresh behaviour
-    m_monitorMirror->setClearColor(KdenliveSettings::window_background());
-    m_monitorMirror->refreshZoom = true;
 
     // Mirror frames: listen to VideoWidget::frameDisplayed and forward to the fullscreen widget
     connect(m_glMonitor, &VideoWidget::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
 
     // Show it full screen
-    const QScreen *screen = getScreenForFullscreen();
+    bool ok;
+    const QScreen *screen = getScreenForFullscreen(&ok);
     if (screen) {
         m_fullscreenWindow->setParent(nullptr);
         qDebug() << "Got screen" << screen;
@@ -1269,7 +1293,6 @@ void Monitor::createFullscreenMirror()
     m_monitorMirror->switchRuler(false);
     m_monitorMirror->enableMouseTimer(true);
     m_fullscreenWindow->showFullScreen();
-
 }
 
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
@@ -1277,8 +1300,10 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
     m_glMonitor->refreshZoom = true;
     if (!monitorIsFullScreen() && !minimizeOnly) {
         // Make monitor fullscreen
-        const QScreen *screen = getScreenForFullscreen();
-        if (KdenliveSettings::mirrorMonitorOnFullscreen()) {
+        bool multipleScreen = false;
+        const QScreen *screen = getScreenForFullscreen(&multipleScreen);
+
+        if (KdenliveSettings::mirrorMonitorOnFullscreen() && multipleScreen) {
             createFullscreenMirror();
         } else {
             m_glWidget->setParent(nullptr);
@@ -2935,6 +2960,7 @@ void Monitor::slotSwitchTrimming(bool enable)
 
 void Monitor::doKeyPressEvent(QKeyEvent *ev)
 {
+    qDebug() << "/// PASSING KEY EVENT: " << ev->key();
     keyPressEvent(ev);
 }
 

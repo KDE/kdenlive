@@ -152,7 +152,7 @@ public:
     /** @brief Update active track in multitrack view */
     void updateMultiTrackView(int tid);
     /** @brief Returns true if monitor is currently fullscreen */
-    bool monitorIsFullScreen() const;
+    bool monitorIsFullScreen(bool considerMirror = true) const;
     void reloadActiveStream();
     /** @brief Returns true if monitor is playing */
     bool isPlaying() const;
@@ -212,7 +212,7 @@ protected:
     void updateBgColor();
 
 private:
-    const QScreen *getScreenForFullscreen();
+    const QScreen *getScreenForFullscreen(bool *multipleScreens);
 
     // Fullscreen mirror helpers
     void createFullscreenMirror();
