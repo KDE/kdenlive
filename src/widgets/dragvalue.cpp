@@ -257,8 +257,15 @@ double validateAndInterpret(const QString text, const QWidget *const spinBox, co
 void spinBoxSetToolTip(QWidget &self)
 {
     DragValue *parent = qobject_cast<DragValue *>(self.parent());
+    QString initialToolTip;
+    if (parent && parent->parentWidget()) {
+        initialToolTip = parent->parentWidget()->toolTip();
+        if (!initialToolTip.isEmpty()) {
+            initialToolTip.append(QStringLiteral("\n"));
+        }
+    }
     if (!parent || !parent->hasDataProviderCallback())
-        self.setToolTip(i18n("Support basic math expression"));
+        self.setToolTip(initialToolTip + i18n("Support basic math expression"));
     else {
         QMap<int, QPair<QString, double>> map = parent->runDataProviderCallback();
         QString str;
@@ -266,7 +273,7 @@ void spinBoxSetToolTip(QWidget &self)
             if (str != "") str += ", ";
             str += it.value().first;
         }
-        self.setToolTip(i18nc("", "Support basic math expression\nuse \"%1\" to reference other spinbox's value", str));
+        self.setToolTip(initialToolTip + i18nc("", "Support basic math expression\nuse \"%1\" to reference other spinbox's value", str));
     }
 }
 } // namespace
