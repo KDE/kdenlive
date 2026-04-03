@@ -345,14 +345,49 @@ void GeometryWidget::slotResize(double value)
     QSignalBlocker bkw(m_spinWidth);
     QSignalBlocker bkx(m_spinX);
     QSignalBlocker bky(m_spinY);
-    int w = (m_originalSize->isChecked() ? m_sourceSize.width() : m_defaultSize.width()) * value / 100.0;
-    int h = (m_originalSize->isChecked() ? m_sourceSize.height() : m_defaultSize.height()) * value / 100.0;
-    int delta_x = (m_spinWidth->value() - w) / 2;
-    int delta_y = (m_spinHeight->value() - h) / 2;
-    m_spinWidth->setValue(w);
-    m_spinHeight->setValue(h);
-    m_spinX->setValue(m_spinX->value() + delta_x);
-    m_spinY->setValue(m_spinY->value() + delta_y);
+    // Get current center
+    const QPointF center(m_spinX->value() + (m_spinWidth->value() / 2.), m_spinY->value() + (m_spinHeight->value() / 2.));
+    double w = (m_originalSize->isChecked() ? m_sourceSize.width() : m_defaultSize.width()) * value / 100.0;
+    double h = (m_originalSize->isChecked() ? m_sourceSize.height() : m_defaultSize.height()) * value / 100.0;
+    // To ensure the center does not move, if the width or height was uneven, we must keep it this way
+    if (int(m_spinWidth->value()) % 2 == 1) {
+        if (qRound(w) % 2 == 0) {
+            if (w > m_spinWidth->value()) {
+                w = qRound(w) + 1;
+            } else {
+                w = qMax(1, qRound(w) - 1);
+            }
+        }
+    } else {
+        if (qRound(w) % 2 == 1) {
+            if (w > m_spinWidth->value()) {
+                w = qRound(w) + 1;
+            } else {
+                w = qMax(0, qRound(w) - 1);
+            }
+        }
+    }
+    if (int(m_spinHeight->value()) % 2 == 1) {
+        if (qRound(h) % 2 == 0) {
+            if (h > m_spinHeight->value()) {
+                h = qRound(h) + 1;
+            } else {
+                h = qMax(1, qRound(h) - 1);
+            }
+        }
+    } else {
+        if (qRound(h) % 2 == 1) {
+            if (h > m_spinHeight->value()) {
+                h = qRound(h) + 1;
+            } else {
+                h = qMax(0, qRound(h) - 1);
+            }
+        }
+    }
+    m_spinX->setValue(qRound(center.x() - w / 2.));
+    m_spinY->setValue(qRound(center.y() - h / 2.));
+    m_spinWidth->setValue(qRound(w));
+    m_spinHeight->setValue(qRound(h));
     slotAdjustRectKeyframeValue();
 }
 
