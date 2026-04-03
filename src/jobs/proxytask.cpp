@@ -251,8 +251,10 @@ void ProxyTask::run()
             return;
         }
         // Only output error data, make sure we don't block when proxy file already exists
-        QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"),
-                                  QStringLiteral("error")};
+        QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"),    QStringLiteral("-stats"),
+                                  QStringLiteral("-v"),           QStringLiteral("error"), QStringLiteral("-protocol_whitelist"),
+                                  QStringLiteral("file,pipe")};
+
         m_jobDuration = int(binClip->duration().seconds());
         if (binClip->hasProducerProperty(QStringLiteral("kdenlive:camcorderproxy"))) {
             // ffmpeg -an -i proxy.mp4 -vn -i original.MXF -map 0:v -map 1:a -c:v copy out.MP4
@@ -286,13 +288,8 @@ void ProxyTask::run()
                     proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                 } else {
                     // Sanitize parameters
-                    const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
-                    for (auto &f : forbiddenArgs) {
-                        if (proxyParams.contains(f)) {
-                            // Unwanted param found, discard parameters
-                            proxyParams = pCore->currentDoc()->getAutoProxyProfile();
-                            break;
-                        }
+                    if (proxyParams.contains(QLatin1String("-attach")) || proxyParams.contains(QLatin1String("-metadata"))) {
+                        proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                     }
                 }
             }
