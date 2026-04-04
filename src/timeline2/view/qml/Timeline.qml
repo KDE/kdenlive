@@ -877,11 +877,16 @@ function getTrackColor(audio, header) {
                     // If the target track changed, recreate the preview clips so that audio mirrors
                     // are correctly assigned for the new target track (e.g. when the new track has
                     // no existing mirror audio track and one would need to be created on drop).
-                    if (controller.normalEdit() && targetTrack !== root.lastDropTrack) {
+                    if (targetTrack !== root.lastDropTrack) {
                         controller.requestItemDeletion(clipBeingDroppedId, false)
                         clipBeingDroppedId = -1
                         timeline.activeTrack = targetTrack
-                        clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, clipBeingDroppedData)
+                        if (controller.normalEdit()) {
+                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, clipBeingDroppedData)
+                        } else {
+                            // insert/overwrite mode: insert at end of timeline, then let suggestClipMove position it
+                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, timeline.fullDuration, clipBeingDroppedData)
+                        }
                         root.lastDropTrack = targetTrack
                         if (clipBeingDroppedId == -1) {
                             drag.accepted=false
