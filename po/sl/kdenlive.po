@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-03 00:42+0000\n"
+"POT-Creation-Date: 2026-04-04 00:44+0000\n"
 "PO-Revision-Date: 2026-03-29 18:03+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -304,8 +304,6 @@ msgstr "Prilagodi širjenje kanala levo/desno"
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_curves.xml:64
 #: data/effects/frei0r/frei0r_levels.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:40
-#: data/effects/frei0r/frei0r_levels.xml:71
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
@@ -3659,9 +3657,7 @@ msgid "Adjust Brightness, contrast, gamma, saturation"
 msgstr "Prilagodite svetlost, kontrast, gamo, nasičenost"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
-#: data/effects/frei0r/frei0r_levels.xml:19
-#: data/effects/frei0r/frei0r_levels.xml:50
-#: data/effects/frei0r/frei0r_levels.xml:92 data/effects/gamma.xml:8
+#: data/effects/frei0r/frei0r_levels.xml:18 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #, kde-format
@@ -9928,9 +9924,7 @@ msgid "Curves"
 msgstr "Krivulje"
 
 #: data/effects/frei0r/frei0r_curves.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:41
-#: data/effects/frei0r/frei0r_levels.xml:72
+#: data/effects/frei0r/frei0r_levels.xml:8
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr "Rdeča,Zelena,Modra,Luma"
@@ -10015,9 +10009,7 @@ msgstr "Položaj grafikona"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
-#: data/effects/frei0r/frei0r_levels.xml:32
-#: data/effects/frei0r/frei0r_levels.xml:63
-#: data/effects/frei0r/frei0r_levels.xml:79
+#: data/effects/frei0r/frei0r_levels.xml:30
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
 msgstr "Levo zgoraj,Desno zgoraj,Levo spodaj,Desno spodaj"
@@ -10073,7 +10065,7 @@ msgstr "Enaka oddaljenost,Enakokotno,Enaka površina,Stereografsko"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:710
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:717
 #, kde-format
 msgid "Scaling"
 msgstr "Umerjanje"
@@ -10233,8 +10225,6 @@ msgid "Dithers the image and reduces the number of available colors"
 msgstr "Razprši sliko in zmanjša število razpoložljivih barv"
 
 #: data/effects/frei0r/frei0r_dither.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:36
-#: data/effects/frei0r/frei0r_levels.xml:67
 #: data/effects/frei0r/frei0r_ndvi.xml:12
 #: data/effects/frei0r/frei0r_posterize.xml:8
 #, kde-format
@@ -11249,111 +11239,46 @@ msgstr ""
 msgid "Transparency"
 msgstr "Prosojnost"
 
-#: data/effects/frei0r/frei0r_levels.xml:5
+#: data/effects/frei0r/frei0r_levels.xml:4
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
 msgstr "Ravni"
 
-#: data/effects/frei0r/frei0r_levels.xml:6
-#: data/effects/frei0r/frei0r_levels.xml:37
-#: data/effects/frei0r/frei0r_levels.xml:68
+#: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgid "Adjust levels"
 msgstr "Prilagodi ravni"
 
-#: data/effects/frei0r/frei0r_levels.xml:13
-#: data/effects/frei0r/frei0r_levels.xml:44
-#: data/effects/frei0r/frei0r_levels.xml:82
+#: data/effects/frei0r/frei0r_levels.xml:12
 #, kde-format
 msgid "Input black level"
 msgstr "Vhodna raven črnine"
 
-#: data/effects/frei0r/frei0r_levels.xml:16
-#: data/effects/frei0r/frei0r_levels.xml:47
-#: data/effects/frei0r/frei0r_levels.xml:87
+#: data/effects/frei0r/frei0r_levels.xml:15
 #, kde-format
 msgid "Input white level"
 msgstr "Vhodna raven beline"
 
-#: data/effects/frei0r/frei0r_levels.xml:22
-#: data/effects/frei0r/frei0r_levels.xml:53
-#: data/effects/frei0r/frei0r_levels.xml:97
+#: data/effects/frei0r/frei0r_levels.xml:21
 #, kde-format
 msgid "Black output"
 msgstr "Črni izhod"
 
-#: data/effects/frei0r/frei0r_levels.xml:25
-#: data/effects/frei0r/frei0r_levels.xml:56
-#: data/effects/frei0r/frei0r_levels.xml:101
+#: data/effects/frei0r/frei0r_levels.xml:24
 #, kde-format
 msgid "White output"
 msgstr "Beli izhod"
 
-#: data/effects/frei0r/frei0r_levels.xml:28
-#: data/effects/frei0r/frei0r_levels.xml:59
-#: data/effects/frei0r/frei0r_levels.xml:75
+#: data/effects/frei0r/frei0r_levels.xml:27
 #, kde-format
 msgid "Show histogram"
 msgstr "Pokaži histogram"
 
 #: data/effects/frei0r/frei0r_levels.xml:31
-#: data/effects/frei0r/frei0r_levels.xml:62
-#: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Histogram position"
 msgstr "Položaj histograma"
-
-#: data/effects/frei0r/frei0r_levels.xml:84
-#, kde-format
-msgid ""
-"Moves the black point to the right: all pixels with that value or less will "
-"be black.<br>\n"
-"                This makes the dark areas even darker, influences the mid-"
-"tones a little and the highlights not at all. Increases contrast."
-msgstr ""
-"Premakne črno točko v desno: vse slikovne točke s to vrednostjo ali manj "
-"bodo črne.<br>\n"
-"                S tem postanejo temna območja še temnejša, malo vplivajo na "
-"srednje tone, na svetle pa sploh ne. Poveča kontrast."
-
-#: data/effects/frei0r/frei0r_levels.xml:89
-#, kde-format
-msgid ""
-"Moves the white point to the left: all pixels with that value or higher will "
-"be white.<br>\n"
-"                This makes bright areas even brighter, influences the mid-"
-"tones a little and the dark areas not at all. Increases contrast."
-msgstr ""
-"Premakne belo točko v levo: vse slikovne točke s to ali višjo vrednostjo "
-"bodo bele.<br>\n"
-"                S tem postanejo svetla območja še svetlejša, malo vplivajo "
-"na srednje tone, na temna območja pa sploh ne. Poveča kontrast."
-
-#: data/effects/frei0r/frei0r_levels.xml:94
-#, no-c-format, kde-format
-msgid ""
-"Changes the overall brightness of the image.<br>\n"
-"                Affects only the mid-tones, black and white are not "
-"influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving "
-"the bar to the left) make the image darker, higher values (moving the bar to "
-"the right) make it brighter."
-msgstr ""
-"Spremeni splošno svetlost slike.<br>\n"
-"                Vpliva samo na srednje tone, na črno in belo ne vpliva. "
-"Privzeta vrednost je 25 %, kar ustreza vrednosti game 1,0). Nižje vrednosti "
-"(premikanje vrstice v levo) naredijo sliko temnejšo, višje vrednosti "
-"(premikanje vrstice v desno) pa svetlejšo."
-
-#: data/effects/frei0r/frei0r_levels.xml:98
-#, kde-format
-msgid "Opposite of Input black level"
-msgstr "Nasprotje vhodne ravni črnine"
-
-#: data/effects/frei0r/frei0r_levels.xml:102
-#, kde-format
-msgid "Opposite of Input white level"
-msgstr "Nasprotje vhodne ravni beline"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -22379,7 +22304,7 @@ msgstr "Zvok brez video steze"
 msgid "Rendering %1 started"
 msgstr "Izrisovanje %1 se je pričelo"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1527
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
 #, kde-format
 msgid "untitled"
 msgstr "neimenovano"
@@ -26090,7 +26015,7 @@ msgstr "Slika je premajhna, da bi lahko izdelali posredni posnetek."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg ni bil najden. Nastavite pot v nastavitvah okolja Kdenlive"
 
-#: src/jobs/proxytask.cpp:410 src/jobs/proxytask.cpp:424
+#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Ni možno ustvariti posrednega posnetka."
@@ -29192,7 +29117,7 @@ msgid "Audio streams"
 msgstr "Tokovi zvoka"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2212
+#: src/monitor/monitor.cpp:2237
 #, kde-format
 msgid "Merge all streams"
 msgstr "Zlij vse tokove"
@@ -29608,29 +29533,29 @@ msgstr "Območja ni mogoče spremeniti pri ustvarjanju maske"
 msgid "Set Zone"
 msgstr "Nastavi območje"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Shrani sliko v projekt"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Shrani sliko"
 
-#: src/monitor/monitor.cpp:1547
+#: src/monitor/monitor.cpp:1572
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Izvozi sliko v izvorni ločljivosti"
 
-#: src/monitor/monitor.cpp:2087
+#: src/monitor/monitor.cpp:2112
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Ali želite izstopiti iz načina maske?"
 
-#: src/monitor/monitor.cpp:2197 src/monitor/monitor.cpp:2326
+#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -29639,12 +29564,12 @@ msgstr[1] "%1 tok zvoka"
 msgstr[2] "%1 tokova zvoka"
 msgstr[3] "%1 tokovi zvoka"
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2673
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Ni možno začeti upravljalnika GLSL za Movit. Onemogočite Movit"
 
-#: src/monitor/monitor.cpp:2690 src/monitor/monitor.cpp:2747
+#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29653,17 +29578,17 @@ msgstr ""
 "Za to zmožnost je zahtevan filter alphagrad. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2710
+#: src/monitor/monitor.cpp:2735
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Posnetek nima učinkov"
 
-#: src/monitor/monitor.cpp:2712
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Izberite posnetek v posodi projekta, če želite primerjati učinek"
 
-#: src/monitor/monitor.cpp:2754
+#: src/monitor/monitor.cpp:2779
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29672,40 +29597,40 @@ msgstr ""
 "Za to zmožnost je zahtevan prehod cairoblend. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2834
+#: src/monitor/monitor.cpp:2859
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Omogoči urejanje in nadzoruj učinke urejanja"
 
-#: src/monitor/monitor.cpp:3337
+#: src/monitor/monitor.cpp:3363
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "V ogledu posnetka ni izbran noben posnetek"
 
-#: src/monitor/monitor.cpp:3358
+#: src/monitor/monitor.cpp:3384
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Ni mogoče pridobiti ustvarjalnika za ogled posnetka"
 
-#: src/monitor/monitor.cpp:3440 src/monitor/monitor.cpp:3471
+#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
 #: src/timeline2/view/timelinecontroller.cpp:6099
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "Veljavno območje ni opredeljeno. Najprej določite vhodne/izhodne točke."
 
-#: src/monitor/monitor.cpp:3450
+#: src/monitor/monitor.cpp:3476
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Ustvari označevalnik obsega iz območja"
 
-#: src/monitor/monitor.cpp:3456 src/monitor/monitor.cpp:3477
+#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
 #: src/timeline2/view/timelinecontroller.cpp:6114
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Označevalnik obsega je ustvarjen iz območja"
 
-#: src/monitor/monitor.cpp:3458 src/monitor/monitor.cpp:3479
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:6117
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -40074,12 +39999,12 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Zasukaj v korakih po 90°"
 
-#: src/widgets/dragvalue.cpp:261
+#: src/widgets/dragvalue.cpp:268
 #, kde-format
 msgid "Support basic math expression"
 msgstr "Podpiraj osnovne matematične enačbe"
 
-#: src/widgets/dragvalue.cpp:269
+#: src/widgets/dragvalue.cpp:276
 #, kde-format
 msgctxt ""
 msgid ""
@@ -40089,37 +40014,37 @@ msgstr ""
 "Podpora za osnovne matematične izraze\n"
 "Uporabite »%1« za sklice na vrednost drugega vrtilnega polja"
 
-#: src/widgets/dragvalue.cpp:711
+#: src/widgets/dragvalue.cpp:718
 #, kde-format
 msgid "Normal scale"
 msgstr "Običajno merilo"
 
-#: src/widgets/dragvalue.cpp:712
+#: src/widgets/dragvalue.cpp:719
 #, kde-format
 msgid "Pixel scale"
 msgstr "Merilo slikovnih točk"
 
-#: src/widgets/dragvalue.cpp:713
+#: src/widgets/dragvalue.cpp:720
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Nelinearno merilo"
 
-#: src/widgets/dragvalue.cpp:717
+#: src/widgets/dragvalue.cpp:724
 #, kde-format
 msgid "Direct update"
 msgstr "Neposredna posodobitev"
 
-#: src/widgets/dragvalue.cpp:722
+#: src/widgets/dragvalue.cpp:729
 #, kde-format
 msgid "Reset value"
 msgstr "Ponastavi vrednost"
 
-#: src/widgets/dragvalue.cpp:727
+#: src/widgets/dragvalue.cpp:734
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Pokaži %1 na časovnici"
 
-#: src/widgets/dragvalue.cpp:1070
+#: src/widgets/dragvalue.cpp:1077
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Dvigalka + povlek za prilagoditev vrednosti eno za drugo."
@@ -40222,3 +40147,44 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid ""
+#~ "Moves the black point to the right: all pixels with that value or less "
+#~ "will be black.<br>\n"
+#~ "                This makes the dark areas even darker, influences the mid-"
+#~ "tones a little and the highlights not at all. Increases contrast."
+#~ msgstr ""
+#~ "Premakne črno točko v desno: vse slikovne točke s to vrednostjo ali manj "
+#~ "bodo črne.<br>\n"
+#~ "                S tem postanejo temna območja še temnejša, malo vplivajo "
+#~ "na srednje tone, na svetle pa sploh ne. Poveča kontrast."
+
+#~ msgid ""
+#~ "Moves the white point to the left: all pixels with that value or higher "
+#~ "will be white.<br>\n"
+#~ "                This makes bright areas even brighter, influences the mid-"
+#~ "tones a little and the dark areas not at all. Increases contrast."
+#~ msgstr ""
+#~ "Premakne belo točko v levo: vse slikovne točke s to ali višjo vrednostjo "
+#~ "bodo bele.<br>\n"
+#~ "                S tem postanejo svetla območja še svetlejša, malo "
+#~ "vplivajo na srednje tone, na temna območja pa sploh ne. Poveča kontrast."
+
+#~ msgid ""
+#~ "Changes the overall brightness of the image.<br>\n"
+#~ "                Affects only the mid-tones, black and white are not "
+#~ "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
+#~ "(moving the bar to the left) make the image darker, higher values (moving "
+#~ "the bar to the right) make it brighter."
+#~ msgstr ""
+#~ "Spremeni splošno svetlost slike.<br>\n"
+#~ "                Vpliva samo na srednje tone, na črno in belo ne vpliva. "
+#~ "Privzeta vrednost je 25 %, kar ustreza vrednosti game 1,0). Nižje "
+#~ "vrednosti (premikanje vrstice v levo) naredijo sliko temnejšo, višje "
+#~ "vrednosti (premikanje vrstice v desno) pa svetlejšo."
+
+#~ msgid "Opposite of Input black level"
+#~ msgstr "Nasprotje vhodne ravni črnine"
+
+#~ msgid "Opposite of Input white level"
+#~ msgstr "Nasprotje vhodne ravni beline"

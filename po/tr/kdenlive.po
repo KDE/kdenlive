@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-03 00:42+0000\n"
+"POT-Creation-Date: 2026-04-04 00:44+0000\n"
 "PO-Revision-Date: 2026-03-30 19:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -300,8 +300,6 @@ msgstr "Kanalın sol/sağ yayılımını ayarlayın."
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_curves.xml:64
 #: data/effects/frei0r/frei0r_levels.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:40
-#: data/effects/frei0r/frei0r_levels.xml:71
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
@@ -3650,9 +3648,7 @@ msgid "Adjust Brightness, contrast, gamma, saturation"
 msgstr "Parlaklığı, karşıtlığı, gamayı, doygunluğu ayarlayın."
 
 #: data/effects/avfilter/avfilter_eq.xml:17
-#: data/effects/frei0r/frei0r_levels.xml:19
-#: data/effects/frei0r/frei0r_levels.xml:50
-#: data/effects/frei0r/frei0r_levels.xml:92 data/effects/gamma.xml:8
+#: data/effects/frei0r/frei0r_levels.xml:18 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #, kde-format
@@ -9930,9 +9926,7 @@ msgid "Curves"
 msgstr "Eğriler"
 
 #: data/effects/frei0r/frei0r_curves.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:41
-#: data/effects/frei0r/frei0r_levels.xml:72
+#: data/effects/frei0r/frei0r_levels.xml:8
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr "Kırmızı,Yeşil,Mavi,Luma"
@@ -10017,9 +10011,7 @@ msgstr "Grafik konumu"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
-#: data/effects/frei0r/frei0r_levels.xml:32
-#: data/effects/frei0r/frei0r_levels.xml:63
-#: data/effects/frei0r/frei0r_levels.xml:79
+#: data/effects/frei0r/frei0r_levels.xml:30
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
 msgstr "Sol üst,Sağ üst,Sol alt,Sağ alt"
@@ -10075,7 +10067,7 @@ msgstr "Eşit uzaklıklı,Ortografik,Eşit alanlı,Stereografik"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:710
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:717
 #, kde-format
 msgid "Scaling"
 msgstr "Ölçeklendirme"
@@ -10234,8 +10226,6 @@ msgid "Dithers the image and reduces the number of available colors"
 msgstr "Görseli titretir ve kullanılabilir renklerin sayısını azaltır."
 
 #: data/effects/frei0r/frei0r_dither.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:36
-#: data/effects/frei0r/frei0r_levels.xml:67
 #: data/effects/frei0r/frei0r_ndvi.xml:12
 #: data/effects/frei0r/frei0r_posterize.xml:8
 #, kde-format
@@ -11251,111 +11241,46 @@ msgstr ""
 msgid "Transparency"
 msgstr "Saydamlık"
 
-#: data/effects/frei0r/frei0r_levels.xml:5
+#: data/effects/frei0r/frei0r_levels.xml:4
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
 msgstr "Düzeyler"
 
-#: data/effects/frei0r/frei0r_levels.xml:6
-#: data/effects/frei0r/frei0r_levels.xml:37
-#: data/effects/frei0r/frei0r_levels.xml:68
+#: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgid "Adjust levels"
 msgstr "Düzeyleri ayarla"
 
-#: data/effects/frei0r/frei0r_levels.xml:13
-#: data/effects/frei0r/frei0r_levels.xml:44
-#: data/effects/frei0r/frei0r_levels.xml:82
+#: data/effects/frei0r/frei0r_levels.xml:12
 #, kde-format
 msgid "Input black level"
 msgstr "Siyah giriş düzeyi"
 
-#: data/effects/frei0r/frei0r_levels.xml:16
-#: data/effects/frei0r/frei0r_levels.xml:47
-#: data/effects/frei0r/frei0r_levels.xml:87
+#: data/effects/frei0r/frei0r_levels.xml:15
 #, kde-format
 msgid "Input white level"
 msgstr "Beyaz giriş düzeyi"
 
-#: data/effects/frei0r/frei0r_levels.xml:22
-#: data/effects/frei0r/frei0r_levels.xml:53
-#: data/effects/frei0r/frei0r_levels.xml:97
+#: data/effects/frei0r/frei0r_levels.xml:21
 #, kde-format
 msgid "Black output"
 msgstr "Siyah çıktısı"
 
-#: data/effects/frei0r/frei0r_levels.xml:25
-#: data/effects/frei0r/frei0r_levels.xml:56
-#: data/effects/frei0r/frei0r_levels.xml:101
+#: data/effects/frei0r/frei0r_levels.xml:24
 #, kde-format
 msgid "White output"
 msgstr "Beyaz çıktısı"
 
-#: data/effects/frei0r/frei0r_levels.xml:28
-#: data/effects/frei0r/frei0r_levels.xml:59
-#: data/effects/frei0r/frei0r_levels.xml:75
+#: data/effects/frei0r/frei0r_levels.xml:27
 #, kde-format
 msgid "Show histogram"
 msgstr "Histogramı göster"
 
 #: data/effects/frei0r/frei0r_levels.xml:31
-#: data/effects/frei0r/frei0r_levels.xml:62
-#: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Histogram position"
 msgstr "Histogram konumu"
-
-#: data/effects/frei0r/frei0r_levels.xml:84
-#, kde-format
-msgid ""
-"Moves the black point to the right: all pixels with that value or less will "
-"be black.<br>\n"
-"                This makes the dark areas even darker, influences the mid-"
-"tones a little and the highlights not at all. Increases contrast."
-msgstr ""
-"Siyah noktayı sağa taşır: bu değere veya daha düşük değere sahip tüm "
-"pikseller siyah olur.<br>\n"
-"                Bu, koyu alanları daha da koyulaştırır, orta tonları biraz "
-"etkiler, vurguları ise hiç etkilemez. Karşıtlığı artırır."
-
-#: data/effects/frei0r/frei0r_levels.xml:89
-#, kde-format
-msgid ""
-"Moves the white point to the left: all pixels with that value or higher will "
-"be white.<br>\n"
-"                This makes bright areas even brighter, influences the mid-"
-"tones a little and the dark areas not at all. Increases contrast."
-msgstr ""
-"Beyaz noktayı sola taşır: bu değere veya daha düşük değere sahip tüm "
-"pikseller beyaz olur.<br>\n"
-"                Bu, açık alanları daha da açıklaştırır, orta tonları biraz "
-"etkiler, koyu alanları ise hiç etkilemez. Karşıtlığı artırır."
-
-#: data/effects/frei0r/frei0r_levels.xml:94
-#, no-c-format, kde-format
-msgid ""
-"Changes the overall brightness of the image.<br>\n"
-"                Affects only the mid-tones, black and white are not "
-"influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving "
-"the bar to the left) make the image darker, higher values (moving the bar to "
-"the right) make it brighter."
-msgstr ""
-"Görselin genel parlaklığını değiştirir.<br>\n"
-"                Yalnızca orta tonları etkiler, siyah ve beyaz etkilenmez. "
-"Öntanımlı değer %​25’tir, gama 1,0’a eşdeğerdir. Daha düşük değerler (çubuğu "
-"sola kaydırmak) görseli daha koyu, daha yüksek değerler (çubuğu sağa "
-"kaydırmak) görseli daha parlak hale getirir."
-
-#: data/effects/frei0r/frei0r_levels.xml:98
-#, kde-format
-msgid "Opposite of Input black level"
-msgstr "Siyah giriş düzeyinin karşıtı"
-
-#: data/effects/frei0r/frei0r_levels.xml:102
-#, kde-format
-msgid "Opposite of Input white level"
-msgstr "Beyaz giriş düzeyinin karşıtı"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -22372,7 +22297,7 @@ msgstr "Video izi olmayan ses"
 msgid "Rendering %1 started"
 msgstr "%1 sunumu başladı"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1527
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
 #, kde-format
 msgid "untitled"
 msgstr "başlıksız"
@@ -26061,7 +25986,7 @@ msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg bulunamadı; lütfen Kdenlive’ın çevresel ayarlarına yolunu ekleyin"
 
-#: src/jobs/proxytask.cpp:410 src/jobs/proxytask.cpp:424
+#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Vekil klip oluşturma başarısız."
@@ -29156,7 +29081,7 @@ msgid "Audio streams"
 msgstr "Ses akışları"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2212
+#: src/monitor/monitor.cpp:2237
 #, kde-format
 msgid "Merge all streams"
 msgstr "Tüm akışları Birleştir"
@@ -29576,42 +29501,42 @@ msgstr "Bir maske oluştururken bölge değiştirilemiyor"
 msgid "Set Zone"
 msgstr "Bölge Ayarla"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Görseli Projeye Kaydet"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Görseli Kaydet"
 
-#: src/monitor/monitor.cpp:1547
+#: src/monitor/monitor.cpp:1572
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Kaynak çözünürlüğünü kullanarak görüntüyü dışa aktar"
 
-#: src/monitor/monitor.cpp:2087
+#: src/monitor/monitor.cpp:2112
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Maske Kipinden Çık?"
 
-#: src/monitor/monitor.cpp:2197 src/monitor/monitor.cpp:2326
+#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 ses akışı"
 msgstr[1] "%1 ses akışı"
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2673
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit’in GLSL yöneticisi başlatılamıyor, lütfen Movit’i devre dışı bırakın"
 
-#: src/monitor/monitor.cpp:2690 src/monitor/monitor.cpp:2747
+#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29620,17 +29545,17 @@ msgstr ""
 "Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2710
+#: src/monitor/monitor.cpp:2735
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip bir efekt içermiyor"
 
-#: src/monitor/monitor.cpp:2712
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Efekti uygulamak için proje kovasından bir klip seçin"
 
-#: src/monitor/monitor.cpp:2754
+#: src/monitor/monitor.cpp:2779
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29639,40 +29564,40 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2834
+#: src/monitor/monitor.cpp:2859
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
 
-#: src/monitor/monitor.cpp:3337
+#: src/monitor/monitor.cpp:3363
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Klip monitöründe seçili klip yok"
 
-#: src/monitor/monitor.cpp:3358
+#: src/monitor/monitor.cpp:3384
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Klip monitörü için olan üreteç alınamıyor"
 
-#: src/monitor/monitor.cpp:3440 src/monitor/monitor.cpp:3471
+#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
 #: src/timeline2/view/timelinecontroller.cpp:6099
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "Tanımlanmış geçerli bölge yok. Lütfen önce giriş/çıkış noktalarını ayarlayın."
 
-#: src/monitor/monitor.cpp:3450
+#: src/monitor/monitor.cpp:3476
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Bölgeden Erim İmleyicisi Oluştur"
 
-#: src/monitor/monitor.cpp:3456 src/monitor/monitor.cpp:3477
+#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
 #: src/timeline2/view/timelinecontroller.cpp:6114
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Bölgeden oluşturulmuş erim imleyicisi"
 
-#: src/monitor/monitor.cpp:3458 src/monitor/monitor.cpp:3479
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:6117
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -40008,12 +39933,12 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "90° adımlarla döndür"
 
-#: src/widgets/dragvalue.cpp:261
+#: src/widgets/dragvalue.cpp:268
 #, kde-format
 msgid "Support basic math expression"
 msgstr "Temel matematik ifadeleri desteği"
 
-#: src/widgets/dragvalue.cpp:269
+#: src/widgets/dragvalue.cpp:276
 #, kde-format
 msgctxt ""
 msgid ""
@@ -40023,37 +39948,37 @@ msgstr ""
 "Temel matematik ifadeleri desteği\n"
 "Diğer döndürme kutusunun değerine başvurmak için “%1” kullanın"
 
-#: src/widgets/dragvalue.cpp:711
+#: src/widgets/dragvalue.cpp:718
 #, kde-format
 msgid "Normal scale"
 msgstr "Normal ölçek"
 
-#: src/widgets/dragvalue.cpp:712
+#: src/widgets/dragvalue.cpp:719
 #, kde-format
 msgid "Pixel scale"
 msgstr "Piksel ölçeği"
 
-#: src/widgets/dragvalue.cpp:713
+#: src/widgets/dragvalue.cpp:720
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Doğrusal olmayan ölçek"
 
-#: src/widgets/dragvalue.cpp:717
+#: src/widgets/dragvalue.cpp:724
 #, kde-format
 msgid "Direct update"
 msgstr "Doğrudan güncelleme"
 
-#: src/widgets/dragvalue.cpp:722
+#: src/widgets/dragvalue.cpp:729
 #, kde-format
 msgid "Reset value"
 msgstr "Değeri sıfırla"
 
-#: src/widgets/dragvalue.cpp:727
+#: src/widgets/dragvalue.cpp:734
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "%1 ögesini zaman akışında göster"
 
-#: src/widgets/dragvalue.cpp:1070
+#: src/widgets/dragvalue.cpp:1077
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
@@ -40158,6 +40083,47 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid ""
+#~ "Moves the black point to the right: all pixels with that value or less "
+#~ "will be black.<br>\n"
+#~ "                This makes the dark areas even darker, influences the mid-"
+#~ "tones a little and the highlights not at all. Increases contrast."
+#~ msgstr ""
+#~ "Siyah noktayı sağa taşır: bu değere veya daha düşük değere sahip tüm "
+#~ "pikseller siyah olur.<br>\n"
+#~ "                Bu, koyu alanları daha da koyulaştırır, orta tonları "
+#~ "biraz etkiler, vurguları ise hiç etkilemez. Karşıtlığı artırır."
+
+#~ msgid ""
+#~ "Moves the white point to the left: all pixels with that value or higher "
+#~ "will be white.<br>\n"
+#~ "                This makes bright areas even brighter, influences the mid-"
+#~ "tones a little and the dark areas not at all. Increases contrast."
+#~ msgstr ""
+#~ "Beyaz noktayı sola taşır: bu değere veya daha düşük değere sahip tüm "
+#~ "pikseller beyaz olur.<br>\n"
+#~ "                Bu, açık alanları daha da açıklaştırır, orta tonları "
+#~ "biraz etkiler, koyu alanları ise hiç etkilemez. Karşıtlığı artırır."
+
+#~ msgid ""
+#~ "Changes the overall brightness of the image.<br>\n"
+#~ "                Affects only the mid-tones, black and white are not "
+#~ "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
+#~ "(moving the bar to the left) make the image darker, higher values (moving "
+#~ "the bar to the right) make it brighter."
+#~ msgstr ""
+#~ "Görselin genel parlaklığını değiştirir.<br>\n"
+#~ "                Yalnızca orta tonları etkiler, siyah ve beyaz etkilenmez. "
+#~ "Öntanımlı değer %​25’tir, gama 1,0’a eşdeğerdir. Daha düşük değerler "
+#~ "(çubuğu sola kaydırmak) görseli daha koyu, daha yüksek değerler (çubuğu "
+#~ "sağa kaydırmak) görseli daha parlak hale getirir."
+
+#~ msgid "Opposite of Input black level"
+#~ msgstr "Siyah giriş düzeyinin karşıtı"
+
+#~ msgid "Opposite of Input white level"
+#~ msgstr "Beyaz giriş düzeyinin karşıtı"
 
 #~ msgid "Timeline Markers Locked"
 #~ msgstr "Zaman Akışı İmleyicileri Kilitli"

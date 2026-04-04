@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-03 00:42+0000\n"
+"POT-Creation-Date: 2026-04-04 00:44+0000\n"
 "PO-Revision-Date: 2026-04-01 17:42+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -301,8 +301,6 @@ msgstr "התאמת פריסת שמאל/ימין של ערוץ"
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_curves.xml:64
 #: data/effects/frei0r/frei0r_levels.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:40
-#: data/effects/frei0r/frei0r_levels.xml:71
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
@@ -3529,9 +3527,7 @@ msgid "Adjust Brightness, contrast, gamma, saturation"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_eq.xml:17
-#: data/effects/frei0r/frei0r_levels.xml:19
-#: data/effects/frei0r/frei0r_levels.xml:50
-#: data/effects/frei0r/frei0r_levels.xml:92 data/effects/gamma.xml:8
+#: data/effects/frei0r/frei0r_levels.xml:18 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #, kde-format
@@ -9495,9 +9491,7 @@ msgid "Curves"
 msgstr "עקומות"
 
 #: data/effects/frei0r/frei0r_curves.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:41
-#: data/effects/frei0r/frei0r_levels.xml:72
+#: data/effects/frei0r/frei0r_levels.xml:8
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr "אדום,ירוק,כחול,לומה"
@@ -9582,9 +9576,7 @@ msgstr "מיקום גרף"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
-#: data/effects/frei0r/frei0r_levels.xml:32
-#: data/effects/frei0r/frei0r_levels.xml:63
-#: data/effects/frei0r/frei0r_levels.xml:79
+#: data/effects/frei0r/frei0r_levels.xml:30
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
 msgstr "שמאל למעלה,ימין למעלה,שמאל למטה,ימין למטה"
@@ -9634,7 +9626,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:710
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:717
 #, kde-format
 msgid "Scaling"
 msgstr "שינוי קנה־מידה"
@@ -9790,8 +9782,6 @@ msgid "Dithers the image and reduces the number of available colors"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_dither.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:36
-#: data/effects/frei0r/frei0r_levels.xml:67
 #: data/effects/frei0r/frei0r_ndvi.xml:12
 #: data/effects/frei0r/frei0r_posterize.xml:8
 #, kde-format
@@ -10761,98 +10751,46 @@ msgstr ""
 msgid "Transparency"
 msgstr "שקיפות"
 
-#: data/effects/frei0r/frei0r_levels.xml:5
+#: data/effects/frei0r/frei0r_levels.xml:4
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
 msgstr "רמות"
 
-#: data/effects/frei0r/frei0r_levels.xml:6
-#: data/effects/frei0r/frei0r_levels.xml:37
-#: data/effects/frei0r/frei0r_levels.xml:68
+#: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgid "Adjust levels"
 msgstr "כוון רמות"
 
-#: data/effects/frei0r/frei0r_levels.xml:13
-#: data/effects/frei0r/frei0r_levels.xml:44
-#: data/effects/frei0r/frei0r_levels.xml:82
+#: data/effects/frei0r/frei0r_levels.xml:12
 #, kde-format
 msgid "Input black level"
 msgstr "הכנס רמת שחור"
 
-#: data/effects/frei0r/frei0r_levels.xml:16
-#: data/effects/frei0r/frei0r_levels.xml:47
-#: data/effects/frei0r/frei0r_levels.xml:87
+#: data/effects/frei0r/frei0r_levels.xml:15
 #, kde-format
 msgid "Input white level"
 msgstr "הכנס רמת לבן"
 
-#: data/effects/frei0r/frei0r_levels.xml:22
-#: data/effects/frei0r/frei0r_levels.xml:53
-#: data/effects/frei0r/frei0r_levels.xml:97
+#: data/effects/frei0r/frei0r_levels.xml:21
 #, kde-format
 msgid "Black output"
 msgstr "יציאת שחור"
 
-#: data/effects/frei0r/frei0r_levels.xml:25
-#: data/effects/frei0r/frei0r_levels.xml:56
-#: data/effects/frei0r/frei0r_levels.xml:101
+#: data/effects/frei0r/frei0r_levels.xml:24
 #, kde-format
 msgid "White output"
 msgstr "יציאת לבן"
 
-#: data/effects/frei0r/frei0r_levels.xml:28
-#: data/effects/frei0r/frei0r_levels.xml:59
-#: data/effects/frei0r/frei0r_levels.xml:75
+#: data/effects/frei0r/frei0r_levels.xml:27
 #, kde-format
 msgid "Show histogram"
 msgstr "הראה היסטוגרמה"
 
 #: data/effects/frei0r/frei0r_levels.xml:31
-#: data/effects/frei0r/frei0r_levels.xml:62
-#: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Histogram position"
 msgstr "מיקום היסטורגרמה"
-
-#: data/effects/frei0r/frei0r_levels.xml:84
-#, kde-format
-msgid ""
-"Moves the black point to the right: all pixels with that value or less will "
-"be black.<br>\n"
-"                This makes the dark areas even darker, influences the mid-"
-"tones a little and the highlights not at all. Increases contrast."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_levels.xml:89
-#, kde-format
-msgid ""
-"Moves the white point to the left: all pixels with that value or higher will "
-"be white.<br>\n"
-"                This makes bright areas even brighter, influences the mid-"
-"tones a little and the dark areas not at all. Increases contrast."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_levels.xml:94
-#, no-c-format, kde-format
-msgid ""
-"Changes the overall brightness of the image.<br>\n"
-"                Affects only the mid-tones, black and white are not "
-"influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving "
-"the bar to the left) make the image darker, higher values (moving the bar to "
-"the right) make it brighter."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_levels.xml:98
-#, kde-format
-msgid "Opposite of Input black level"
-msgstr "ההפך של רמת שחור קלט"
-
-#: data/effects/frei0r/frei0r_levels.xml:102
-#, kde-format
-msgid "Opposite of Input white level"
-msgstr "ההפך של רמת לבן קלט"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -21588,7 +21526,7 @@ msgstr "שמע ללא רצועת וידאו"
 msgid "Rendering %1 started"
 msgstr "התיצוג של %1 התחיל"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1527
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
 #, kde-format
 msgid "untitled"
 msgstr "ללא כותרת"
@@ -25247,7 +25185,7 @@ msgstr "התמונה קטנה לתיווך."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg לא נמצא, נא להגדיר נתיב בסביבת ההגדרות של Kdenlive"
 
-#: src/jobs/proxytask.cpp:410 src/jobs/proxytask.cpp:424
+#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "יצירת סרטון תיווך נכשלה."
@@ -28312,7 +28250,7 @@ msgid "Audio streams"
 msgstr "תזרימי שמע"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2212
+#: src/monitor/monitor.cpp:2237
 #, kde-format
 msgid "Merge all streams"
 msgstr "מיזוג כל התזרימים"
@@ -28726,29 +28664,29 @@ msgstr "לא ניתן לשנות את אזור בעת יצירת מסכה"
 msgid "Set Zone"
 msgstr "הגדרת קטע"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "שמירת תמונה למיזם"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "שמירת תמונה"
 
-#: src/monitor/monitor.cpp:1547
+#: src/monitor/monitor.cpp:1572
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "ייצוא תמונה באמצעות רזולוציית המקור"
 
-#: src/monitor/monitor.cpp:2087
+#: src/monitor/monitor.cpp:2112
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "לצאת ממצב מסכה?"
 
-#: src/monitor/monitor.cpp:2197 src/monitor/monitor.cpp:2326
+#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -28757,12 +28695,12 @@ msgstr[1] "שני תזרימי שמע"
 msgstr[2] "%1 תזרימי שמע"
 msgstr[3] "%1 תזרימי שמע"
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2673
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "לא ניתן להפעיל את מנהל ה־GLSL של Movit, נא להשבית את Movit"
 
-#: src/monitor/monitor.cpp:2690 src/monitor/monitor.cpp:2747
+#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28770,17 +28708,17 @@ msgid ""
 msgstr ""
 "מסנן alphagrad נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive מחדש"
 
-#: src/monitor/monitor.cpp:2710
+#: src/monitor/monitor.cpp:2735
 #, kde-format
 msgid "Clip has no effects"
 msgstr "אין אפקטים על הסרטון"
 
-#: src/monitor/monitor.cpp:2712
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "נא לבחור סרטון מסל המיזם כדי להשוות אפקטים"
 
-#: src/monitor/monitor.cpp:2754
+#: src/monitor/monitor.cpp:2779
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -28789,39 +28727,39 @@ msgstr ""
 "מעברון cairoblend נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive "
 "מחדש"
 
-#: src/monitor/monitor.cpp:2834
+#: src/monitor/monitor.cpp:2859
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "יש להפעיל מצב עריכה בצג כדי לערוך אפקט"
 
-#: src/monitor/monitor.cpp:3337
+#: src/monitor/monitor.cpp:3363
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "לא נבחר אף סרטון בצג הסרטונים"
 
-#: src/monitor/monitor.cpp:3358
+#: src/monitor/monitor.cpp:3384
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "לא ניתן לקבל את המפיק לצד הסרטונים"
 
-#: src/monitor/monitor.cpp:3440 src/monitor/monitor.cpp:3471
+#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
 #: src/timeline2/view/timelinecontroller.cpp:6099
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "לא הוגדר אזור תקף. נא להגדיר נקודות כניסה/יציאה קודם."
 
-#: src/monitor/monitor.cpp:3450
+#: src/monitor/monitor.cpp:3476
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "יצירת סמן טווח מאזור"
 
-#: src/monitor/monitor.cpp:3456 src/monitor/monitor.cpp:3477
+#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
 #: src/timeline2/view/timelinecontroller.cpp:6114
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "נוצר סמן טווח מאזור"
 
-#: src/monitor/monitor.cpp:3458 src/monitor/monitor.cpp:3479
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:6117
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -39092,12 +39030,12 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "הטיה בצעדים של ‎90 °‎"
 
-#: src/widgets/dragvalue.cpp:261
+#: src/widgets/dragvalue.cpp:268
 #, kde-format
 msgid "Support basic math expression"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:269
+#: src/widgets/dragvalue.cpp:276
 #, kde-format
 msgctxt ""
 msgid ""
@@ -39105,37 +39043,37 @@ msgid ""
 "use \"%1\" to reference other spinbox's value"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:711
+#: src/widgets/dragvalue.cpp:718
 #, kde-format
 msgid "Normal scale"
 msgstr "קנה־מידה רגיל"
 
-#: src/widgets/dragvalue.cpp:712
+#: src/widgets/dragvalue.cpp:719
 #, kde-format
 msgid "Pixel scale"
 msgstr "קנה־מידה פיקסלים"
 
-#: src/widgets/dragvalue.cpp:713
+#: src/widgets/dragvalue.cpp:720
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "קנה־מידה א־ליניארי"
 
-#: src/widgets/dragvalue.cpp:717
+#: src/widgets/dragvalue.cpp:724
 #, kde-format
 msgid "Direct update"
 msgstr "עדכון ישיר"
 
-#: src/widgets/dragvalue.cpp:722
+#: src/widgets/dragvalue.cpp:729
 #, kde-format
 msgid "Reset value"
 msgstr "איפוס הערך"
 
-#: src/widgets/dragvalue.cpp:727
+#: src/widgets/dragvalue.cpp:734
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "הצגת %1 בציר הזמן"
 
-#: src/widgets/dragvalue.cpp:1070
+#: src/widgets/dragvalue.cpp:1077
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + גרירה כדי להתאים את הערך אחד אחד."
@@ -39238,6 +39176,12 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgid "Opposite of Input black level"
+#~ msgstr "ההפך של רמת שחור קלט"
+
+#~ msgid "Opposite of Input white level"
+#~ msgstr "ההפך של רמת לבן קלט"
 
 #~ msgid "Timeline Markers Locked"
 #~ msgstr "סמני ציר הזמן ננעלנו"

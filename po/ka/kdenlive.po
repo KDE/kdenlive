@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-03 00:42+0000\n"
-"PO-Revision-Date: 2026-03-29 14:36+0200\n"
+"POT-Creation-Date: 2026-04-04 00:44+0000\n"
+"PO-Revision-Date: 2026-04-03 05:22+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -298,8 +298,6 @@ msgstr "ხმის გადანაწილების მართვა 
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_curves.xml:64
 #: data/effects/frei0r/frei0r_levels.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:40
-#: data/effects/frei0r/frei0r_levels.xml:71
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
@@ -3520,9 +3518,7 @@ msgid "Adjust Brightness, contrast, gamma, saturation"
 msgstr "გაასწორეთ სიკაშკაშე, კონტრასტი, გამა და გაჯერებულობა"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
-#: data/effects/frei0r/frei0r_levels.xml:19
-#: data/effects/frei0r/frei0r_levels.xml:50
-#: data/effects/frei0r/frei0r_levels.xml:92 data/effects/gamma.xml:8
+#: data/effects/frei0r/frei0r_levels.xml:18 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #, kde-format
@@ -9594,9 +9590,7 @@ msgid "Curves"
 msgstr "მრუდები"
 
 #: data/effects/frei0r/frei0r_curves.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:41
-#: data/effects/frei0r/frei0r_levels.xml:72
+#: data/effects/frei0r/frei0r_levels.xml:8
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr "წითელი,მწვანე,ლურჯი,განათებულობა"
@@ -9681,9 +9675,7 @@ msgstr "გრაფიკის მდებარეობა"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
-#: data/effects/frei0r/frei0r_levels.xml:32
-#: data/effects/frei0r/frei0r_levels.xml:63
-#: data/effects/frei0r/frei0r_levels.xml:79
+#: data/effects/frei0r/frei0r_levels.xml:30
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
 msgstr "ზედა მარცხენა,ზედა მარჯვენა,ქვედა მარცხენა,ქვედა მარჯვენა"
@@ -9733,7 +9725,7 @@ msgstr "ტოლადდაშორებული,ორთოგრაფ�
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:710
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:717
 #, kde-format
 msgid "Scaling"
 msgstr "მასშტაბირება"
@@ -9893,8 +9885,6 @@ msgstr ""
 "ახდენს გამოსახულების დიზერინგს და ამცირებს ხელმისაწვდომი ფერების რაოდენობას"
 
 #: data/effects/frei0r/frei0r_dither.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:36
-#: data/effects/frei0r/frei0r_levels.xml:67
 #: data/effects/frei0r/frei0r_ndvi.xml:12
 #: data/effects/frei0r/frei0r_posterize.xml:8
 #, kde-format
@@ -10881,98 +10871,46 @@ msgstr ""
 msgid "Transparency"
 msgstr "გამჭვირვალობა"
 
-#: data/effects/frei0r/frei0r_levels.xml:5
+#: data/effects/frei0r/frei0r_levels.xml:4
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
 msgstr "დონეები"
 
-#: data/effects/frei0r/frei0r_levels.xml:6
-#: data/effects/frei0r/frei0r_levels.xml:37
-#: data/effects/frei0r/frei0r_levels.xml:68
+#: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgid "Adjust levels"
 msgstr "დონეების მორგება"
 
-#: data/effects/frei0r/frei0r_levels.xml:13
-#: data/effects/frei0r/frei0r_levels.xml:44
-#: data/effects/frei0r/frei0r_levels.xml:82
+#: data/effects/frei0r/frei0r_levels.xml:12
 #, kde-format
 msgid "Input black level"
 msgstr "შეყვანის შავის დონე"
 
-#: data/effects/frei0r/frei0r_levels.xml:16
-#: data/effects/frei0r/frei0r_levels.xml:47
-#: data/effects/frei0r/frei0r_levels.xml:87
+#: data/effects/frei0r/frei0r_levels.xml:15
 #, kde-format
 msgid "Input white level"
 msgstr "შეყვანის თეთრის დონე"
 
-#: data/effects/frei0r/frei0r_levels.xml:22
-#: data/effects/frei0r/frei0r_levels.xml:53
-#: data/effects/frei0r/frei0r_levels.xml:97
+#: data/effects/frei0r/frei0r_levels.xml:21
 #, kde-format
 msgid "Black output"
 msgstr "შავის გამოტანა"
 
-#: data/effects/frei0r/frei0r_levels.xml:25
-#: data/effects/frei0r/frei0r_levels.xml:56
-#: data/effects/frei0r/frei0r_levels.xml:101
+#: data/effects/frei0r/frei0r_levels.xml:24
 #, kde-format
 msgid "White output"
 msgstr "თეთრის გამოტანა"
 
-#: data/effects/frei0r/frei0r_levels.xml:28
-#: data/effects/frei0r/frei0r_levels.xml:59
-#: data/effects/frei0r/frei0r_levels.xml:75
+#: data/effects/frei0r/frei0r_levels.xml:27
 #, kde-format
 msgid "Show histogram"
 msgstr "ჰისტოგრამის ჩვენება"
 
 #: data/effects/frei0r/frei0r_levels.xml:31
-#: data/effects/frei0r/frei0r_levels.xml:62
-#: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Histogram position"
 msgstr "ჰისტოგრამის მდებარეობა"
-
-#: data/effects/frei0r/frei0r_levels.xml:84
-#, kde-format
-msgid ""
-"Moves the black point to the right: all pixels with that value or less will "
-"be black.<br>\n"
-"                This makes the dark areas even darker, influences the mid-"
-"tones a little and the highlights not at all. Increases contrast."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_levels.xml:89
-#, kde-format
-msgid ""
-"Moves the white point to the left: all pixels with that value or higher will "
-"be white.<br>\n"
-"                This makes bright areas even brighter, influences the mid-"
-"tones a little and the dark areas not at all. Increases contrast."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_levels.xml:94
-#, no-c-format, kde-format
-msgid ""
-"Changes the overall brightness of the image.<br>\n"
-"                Affects only the mid-tones, black and white are not "
-"influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving "
-"the bar to the left) make the image darker, higher values (moving the bar to "
-"the right) make it brighter."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_levels.xml:98
-#, kde-format
-msgid "Opposite of Input black level"
-msgstr "შეყვანის შავის დონის საპირისპირო"
-
-#: data/effects/frei0r/frei0r_levels.xml:102
-#, kde-format
-msgid "Opposite of Input white level"
-msgstr "შეყვანის თეთრის დონის საპირისპირო"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -14771,6 +14709,8 @@ msgid ""
 "Opacity value before the<br>\n"
 "      transition in opacity value begins."
 msgstr ""
+"გაუმჭვირვალობის მნიშვნელობა<br>\n"
+"         გაუმჭვირვალობის მნიშვნელობაზე გადაყვანა დაიწყება."
 
 #: data/effects/lumakey.xml:24
 #, kde-format
@@ -14783,6 +14723,8 @@ msgid ""
 "Opacity value after the<br>\n"
 "      transition in opacity value ends."
 msgstr ""
+"გაუმჭვირვალობის მნიშვნელობა<br>\n"
+"         გაუმჭვირვალობის მნიშვნელობაზე გადაყვანის დასრულების შემდეგ."
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -21751,7 +21693,7 @@ msgstr "აუდიო ვიდეოს გარეშე"
 msgid "Rendering %1 started"
 msgstr "%1-ის რენდერი დაიწყო"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1527
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
 #, kde-format
 msgid "untitled"
 msgstr "უსახელო"
@@ -25440,7 +25382,7 @@ msgstr "პროქსის შესაქმნელად გამოს�
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg ვერ ვპოვე. დააყენეთ ბილიკი Kdenlive-ის პარამეტრებში 'გარემო'"
 
-#: src/jobs/proxytask.cpp:410 src/jobs/proxytask.cpp:424
+#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "პროქსი კლიპის შექმნა ჩავარდა."
@@ -28522,7 +28464,7 @@ msgid "Audio streams"
 msgstr "აუდიო ნაკადები"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2212
+#: src/monitor/monitor.cpp:2237
 #, kde-format
 msgid "Merge all streams"
 msgstr "ყველა ნაკადის შერწყმა"
@@ -28937,42 +28879,42 @@ msgstr "ნიღბის შექმნისას ზონის შეც
 msgid "Set Zone"
 msgstr "ზონის დაყენება"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "გამოსახულების შენახვა პროექტში"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "გამოსახულების შენახვა"
 
-#: src/monitor/monitor.cpp:1547
+#: src/monitor/monitor.cpp:1572
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "გამოსახულების გატანა წყაროს გაფართოებით"
 
-#: src/monitor/monitor.cpp:2087
+#: src/monitor/monitor.cpp:2112
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "გავიდე ნიღბის შექმნიდან?"
 
-#: src/monitor/monitor.cpp:2197 src/monitor/monitor.cpp:2326
+#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 აუდიო ნაკადი"
 msgstr[1] "%1 აუდიო ნაკადი"
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2673
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit-ის GLSL მმართველის ინიციალიზაცია შეუძლებელია. გამორთეთ Movit, გეთაყვა"
 
-#: src/monitor/monitor.cpp:2690 src/monitor/monitor.cpp:2747
+#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28981,17 +28923,17 @@ msgstr ""
 "ამ თვისებისთვის alphagrad ფილტრი დაგჭირდებათ. დააყენეთ frei0r და გადატვირთეთ "
 "Kdenlive"
 
-#: src/monitor/monitor.cpp:2710
+#: src/monitor/monitor.cpp:2735
 #, kde-format
 msgid "Clip has no effects"
 msgstr "კლიპს ეფექტები არ აქვს"
 
-#: src/monitor/monitor.cpp:2712
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "აირჩიეთ კლიპი პროექტის კალათაში ეფექტის შესადარებლად"
 
-#: src/monitor/monitor.cpp:2754
+#: src/monitor/monitor.cpp:2779
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29000,40 +28942,40 @@ msgstr ""
 "ამ თვისებისთვის cairoblend გადასვლა დაგჭირდებათ. დააყენეთ frei0r და "
 "გადატვირთეთ Kdenlive"
 
-#: src/monitor/monitor.cpp:2834
+#: src/monitor/monitor.cpp:2859
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "ეფექტის შესაცვლელად მონიტორში ჩასწორების რეჟიმი ჩართეთ"
 
-#: src/monitor/monitor.cpp:3337
+#: src/monitor/monitor.cpp:3363
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "კლიპის მონიტორისთვის კლიპი არჩეული არაა"
 
-#: src/monitor/monitor.cpp:3358
+#: src/monitor/monitor.cpp:3384
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "კლიპის მონიტორისთვის შემქმნელის მიღება შეუძლებელია"
 
-#: src/monitor/monitor.cpp:3440 src/monitor/monitor.cpp:3471
+#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
 #: src/timeline2/view/timelinecontroller.cpp:6099
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "სწორი ზონა ჯერ აღწერილი არაა. ჯერ დააყენეთ გამომავალი/შემავალი წერტილები."
 
-#: src/monitor/monitor.cpp:3450
+#: src/monitor/monitor.cpp:3476
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "შუალედის მარკერის შექმნა ზონიდან"
 
-#: src/monitor/monitor.cpp:3456 src/monitor/monitor.cpp:3477
+#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
 #: src/timeline2/view/timelinecontroller.cpp:6114
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "შუალედის მარკერი შეიქმნა ზონიდან"
 
-#: src/monitor/monitor.cpp:3458 src/monitor/monitor.cpp:3479
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:6117
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -39382,12 +39324,12 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "შებრუნება 90 ° ნაბიჯებით"
 
-#: src/widgets/dragvalue.cpp:261
+#: src/widgets/dragvalue.cpp:268
 #, kde-format
 msgid "Support basic math expression"
 msgstr "საბაზისო მათემატიკური გამოსახულების მხარდაჭერა"
 
-#: src/widgets/dragvalue.cpp:269
+#: src/widgets/dragvalue.cpp:276
 #, kde-format
 msgctxt ""
 msgid ""
@@ -39397,37 +39339,37 @@ msgstr ""
 "აქვს საბაზისო მათემატიკური გამოსახულებების მხარდაჭერა.\n"
 "სხვა ველის მნიშვნელობასთან მიმართვისტვის გამოიყენეტ \"%1\""
 
-#: src/widgets/dragvalue.cpp:711
+#: src/widgets/dragvalue.cpp:718
 #, kde-format
 msgid "Normal scale"
 msgstr "ნორმალური მასშტაბი"
 
-#: src/widgets/dragvalue.cpp:712
+#: src/widgets/dragvalue.cpp:719
 #, kde-format
 msgid "Pixel scale"
 msgstr "პიქსელის მასშტაბი"
 
-#: src/widgets/dragvalue.cpp:713
+#: src/widgets/dragvalue.cpp:720
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "არახაზოვანი მასშტაბი"
 
-#: src/widgets/dragvalue.cpp:717
+#: src/widgets/dragvalue.cpp:724
 #, kde-format
 msgid "Direct update"
 msgstr "პირდაპირი განახლება"
 
-#: src/widgets/dragvalue.cpp:722
+#: src/widgets/dragvalue.cpp:729
 #, kde-format
 msgid "Reset value"
 msgstr "მნიშვნელობის ჩამოყრა"
 
-#: src/widgets/dragvalue.cpp:727
+#: src/widgets/dragvalue.cpp:734
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "%1-ის ჩვენება დროის ხაზში"
 
-#: src/widgets/dragvalue.cpp:1070
+#: src/widgets/dragvalue.cpp:1077
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + გაადთრევა მნიშვნელობის ერთით გასასწორებლად."
@@ -39530,6 +39472,12 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "Opposite of Input black level"
+#~ msgstr "შეყვანის შავის დონის საპირისპირო"
+
+#~ msgid "Opposite of Input white level"
+#~ msgstr "შეყვანის თეთრის დონის საპირისპირო"
 
 #~ msgid "Timeline Markers Locked"
 #~ msgstr "დროის ხაზის მარკერები ჩაკეტილია"
