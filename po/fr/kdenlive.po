@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-03 02:39+0000\n"
-"PO-Revision-Date: 2026-03-22 16:21+0100\n"
+"POT-Creation-Date: 2026-04-04 02:43+0000\n"
+"PO-Revision-Date: 2026-03-31 20:39+0200\n"
 "Last-Translator: Alexandre Bento <alexandre.bento@nightrain.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -10234,7 +10234,7 @@ msgstr "Équidistant, Orthographique, Equi-surfacique, Stéréographique"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:710
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:717
 #, kde-format
 msgid "Scaling"
 msgstr "Redimensionnement"
@@ -22727,7 +22727,7 @@ msgstr "Audio sans piste vidéo"
 msgid "Rendering %1 started"
 msgstr "Le rendu de %1 a débuté."
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1527
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
 #, kde-format
 msgid "untitled"
 msgstr "Sans titre"
@@ -26488,7 +26488,7 @@ msgstr ""
 "Impossible de trouver FFMpeg, veuillez définir l'emplacement dans les "
 "paramètres d'environnement de Kdenlive"
 
-#: src/jobs/proxytask.cpp:410 src/jobs/proxytask.cpp:424
+#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Impossible de créer le clip intermédiaire."
@@ -29619,7 +29619,7 @@ msgid "Audio streams"
 msgstr "Flux audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2212
+#: src/monitor/monitor.cpp:2237
 #, kde-format
 msgid "Merge all streams"
 msgstr "Fusionner tous les flux"
@@ -30040,43 +30040,43 @@ msgstr "Impossible de modifier une zone lors de la création d'un masque"
 msgid "Set Zone"
 msgstr "Définir la zone"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Enregistrer une image dans un projet"
 
-#: src/monitor/monitor.cpp:1540
+#: src/monitor/monitor.cpp:1565
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Enregistrer une image"
 
-#: src/monitor/monitor.cpp:1547
+#: src/monitor/monitor.cpp:1572
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Exporter l'image en utilisant la résolution d'origine"
 
-#: src/monitor/monitor.cpp:2087
+#: src/monitor/monitor.cpp:2112
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Sortir du mode « Masque » ?"
 
-#: src/monitor/monitor.cpp:2197 src/monitor/monitor.cpp:2326
+#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 flux audio"
 msgstr[1] "%1 flux audio"
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2673
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Impossible d'initialiser le gestionnaire GLSL de Movit, veuillez désactiver "
 "Movit"
 
-#: src/monitor/monitor.cpp:2690 src/monitor/monitor.cpp:2747
+#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -30085,17 +30085,17 @@ msgstr ""
 "Le filtre alphagrad est nécessaire à cette fonction, veuillez installer les "
 "modules frei0r et redémarrer Kdenlive"
 
-#: src/monitor/monitor.cpp:2710
+#: src/monitor/monitor.cpp:2735
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Le clip n'a aucun effet"
 
-#: src/monitor/monitor.cpp:2712
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Sélectionner un clip dans les sources du projet pour comparer l'effet"
 
-#: src/monitor/monitor.cpp:2754
+#: src/monitor/monitor.cpp:2779
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -30104,24 +30104,24 @@ msgstr ""
 "La transition cairoblend est nécessaire à cette fonction, veuillez installer "
 "les modules frei0r et redémarrer Kdenlive"
 
-#: src/monitor/monitor.cpp:2834
+#: src/monitor/monitor.cpp:2859
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Activer le mode d'édition dans le moniteur pour ajuster l'effet"
 
-#: src/monitor/monitor.cpp:3337
+#: src/monitor/monitor.cpp:3363
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Aucun séquence sélectionnée dans le projet des séquences"
 
-#: src/monitor/monitor.cpp:3358
+#: src/monitor/monitor.cpp:3384
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 "Impossible d'obtenir la personne en charge de la production dans l'écran de "
 "séquences"
 
-#: src/monitor/monitor.cpp:3440 src/monitor/monitor.cpp:3471
+#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
 #: src/timeline2/view/timelinecontroller.cpp:5963
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
@@ -30129,18 +30129,18 @@ msgstr ""
 "Aucune zone valable définie. Veuillez d'abord définir les points d'entrée / "
 "sortie."
 
-#: src/monitor/monitor.cpp:3450
+#: src/monitor/monitor.cpp:3476
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Créer un repère d'intervalle à partir d'une zone"
 
-#: src/monitor/monitor.cpp:3456 src/monitor/monitor.cpp:3477
+#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
 #: src/timeline2/view/timelinecontroller.cpp:5978
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Repère d'intervalle créé à partir d'une zone"
 
-#: src/monitor/monitor.cpp:3458 src/monitor/monitor.cpp:3479
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:5981
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -35463,11 +35463,11 @@ msgid ""
 "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
 "resize, Ctrl+Drag to pan."
 msgstr ""
-"Veuillez cliquer pour sélectionner un élément, « Alt » + clic pour effectuer "
-"une sélection, « Maj » + Glisser pour se déplacer verticalement, « Alt » + "
-"« Maj » + Glisser pour se déplacer horizontalement, « Maj »+ Glisser pour "
-"redimensionner du bord vers centre, « Ctrl » + Glisser pour effectuer un "
-"panoramique."
+"Cliquer pour sélectionner un élément, faire « Alt » + Clic pour naviguer au "
+"sein d'une sélection. Faire « Maj » + Glisser pour déplacer verticalement, "
+"« Alt » + « Maj » + Glisser pour déplacer horizontalement, « Maj »+ Glisser "
+"pour redimensionner du bord vers le centre, « Ctrl » + Glisser pour "
+"effectuer un panoramique."
 
 #: src/titler/titlewidget.cpp:417
 #, kde-format
@@ -40551,12 +40551,12 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Faire une rotation par pas de 90 °"
 
-#: src/widgets/dragvalue.cpp:261
+#: src/widgets/dragvalue.cpp:268
 #, kde-format
 msgid "Support basic math expression"
 msgstr "Prendre en charge les expressions mathématiques standards"
 
-#: src/widgets/dragvalue.cpp:269
+#: src/widgets/dragvalue.cpp:276
 #, kde-format
 msgctxt ""
 msgid ""
@@ -40567,37 +40567,37 @@ msgstr ""
 "Veuillez utiliser « %1 » pour faire référence à la valeur d'une autre zone "
 "de sélection"
 
-#: src/widgets/dragvalue.cpp:711
+#: src/widgets/dragvalue.cpp:718
 #, kde-format
 msgid "Normal scale"
 msgstr "Échelle normale"
 
-#: src/widgets/dragvalue.cpp:712
+#: src/widgets/dragvalue.cpp:719
 #, kde-format
 msgid "Pixel scale"
 msgstr "Échelle de pixel"
 
-#: src/widgets/dragvalue.cpp:713
+#: src/widgets/dragvalue.cpp:720
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Échelle non-linéaire"
 
-#: src/widgets/dragvalue.cpp:717
+#: src/widgets/dragvalue.cpp:724
 #, kde-format
 msgid "Direct update"
 msgstr "Mise à jour directe"
 
-#: src/widgets/dragvalue.cpp:722
+#: src/widgets/dragvalue.cpp:729
 #, kde-format
 msgid "Reset value"
 msgstr "Réinitialiser la valeur"
 
-#: src/widgets/dragvalue.cpp:727
+#: src/widgets/dragvalue.cpp:734
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Afficher %1 dans le montage"
 
-#: src/widgets/dragvalue.cpp:1070
+#: src/widgets/dragvalue.cpp:1077
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
