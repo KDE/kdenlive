@@ -854,6 +854,7 @@ function getTrackColor(audio, header) {
         property int fakeFrame: -1
         property int fakeTrack: -1
         property int lastCheckedFrame: -1
+        property int dragPixmapHeight: 0  // logical height of the bin drag thumbnail pixmap
         width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
@@ -881,6 +882,7 @@ function getTrackColor(audio, header) {
                         controller.requestItemDeletion(clipBeingDroppedId, false)
                         clipBeingDroppedId = -1
                         timeline.activeTrack = targetTrack
+
                         if (controller.normalEdit()) {
                             clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, clipBeingDroppedData)
                         } else {
@@ -890,10 +892,34 @@ function getTrackColor(audio, header) {
                         root.lastDropTrack = targetTrack
                         if (clipBeingDroppedId == -1) {
                             drag.accepted=false
+                            bubbleHelp.hide()
                             continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                             return
                         }
                         drag.accepted=true
+                        var _audioInfo = controller.clipAudioStreamInfo(clipBeingDroppedData, targetTrack)
+                        if (_audioInfo[1] < _audioInfo[0]) {
+                            bubbleHelp.text = i18np("Audio: %1 track for %2 streams", "Audio: %1 tracks for %2 streams", _audioInfo[1], _audioInfo[0])
+                            if (bubbleHelp.state !== 'visible') bubbleHelp.state = 'visible'
+                        }
+                        else {
+                            bubbleHelp.hide()
+                        }
+                    }
+                    if (clipBeingDroppedId != -1) {
+                        var _audioInfo = controller.clipAudioStreamInfo(clipBeingDroppedData, targetTrack)
+                        if (_audioInfo[1] < _audioInfo[0]) {
+                            bubbleHelp.text = i18np("Audio: %1 track for %2 streams", "Audio: %1 tracks for %2 streams", _audioInfo[1], _audioInfo[0])
+                            if (bubbleHelp.state !== 'visible') bubbleHelp.state = 'visible'
+                        }
+                        else {
+                            bubbleHelp.hide()
+                        }
+                        bubbleHelp.x = drag.x + root.headerWidth + 8
+                        bubbleHelp.y = drag.y + ruler.height + dragPixmapHeight + 6
+                    }
+                    else {
+                        bubbleHelp.hide()
                     }
                     var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
                     fakeFrame = moveData[0]
@@ -971,6 +997,7 @@ function getTrackColor(audio, header) {
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 clipBeingDroppedData = drag.getDataAsString('text/producerslist')
                 lastDragUuid = drag.getDataAsString('text/dragid')
+                dragPixmapHeight = parseInt(drag.getDataAsString('text/dragpixmapheight')) || 0
 
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
@@ -1006,6 +1033,7 @@ function getTrackColor(audio, header) {
         onExited: {
             lastYPos = -1
             upMove = 0
+            bubbleHelp.hide()
             timeline.keepAudioTargets(false)
             if (clipBeingDroppedId != -1 && (lastDragPos.y < lastDragPos.x || (clipDropArea.height - lastDragPos.y < lastDragPos.x))) {
                 // If we exit on top or bottom, remove clip
@@ -1080,6 +1108,7 @@ function getTrackColor(audio, header) {
         onDropped: {
             lastYPos = -1
             upMove = 0
+            bubbleHelp.hide()
             Qt.callLater(function() {
                 processDrop()
                 timeline.keepAudioTargets(false)

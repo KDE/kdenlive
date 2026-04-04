@@ -6980,6 +6980,10 @@ bool Bin::performDrag(const QModelIndexList indexes)
     }
     p.end();
     drag->setPixmap(QPixmap::fromImage(image));
+    // Store the logical height of the drag thumbnail so QML can position bubbleHelp below it.
+    // iconSize() is in logical pixels; the drag pixmap is rendered at half that size.
+    mData->setData(QStringLiteral("text/dragpixmapheight"),
+                   QByteArray::number(m_itemView->iconSize().height() / 2));
     drag->exec();
     drag->deleteLater();
     Q_EMIT pCore->processDragEnd();

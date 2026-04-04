@@ -5672,6 +5672,11 @@ void TimelineController::showToolTip(const QString &info) const
     pCore->displayMessage(info, TooltipMessage);
 }
 
+QVariantList TimelineController::clipAudioStreamInfo(const QString &binClipId, int trackId) const
+{
+    return m_model->clipAudioStreamInfo(binClipId, trackId);
+}
+
 void TimelineController::showKeyBinding(const QString &info) const
 {
     pCore->window()->showKeyBinding(info);

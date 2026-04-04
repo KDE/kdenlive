@@ -408,6 +408,9 @@ public:
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
+    /** @brief Returns [streamCount, availableAudioTrackSlots] for a bin clip dragged onto trackId.
+     *  Called from QML (controller.clipAudioStreamInfo) to populate the drag-drop info bubble. */
+    Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId) const;
     /** @brief Returns true if a clip cid is on an audio track */
     bool clipIsAudio(int cid) const;
 

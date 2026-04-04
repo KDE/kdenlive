@@ -597,6 +597,53 @@ QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
     return results;
 }
 
+QVariantList TimelineModel::clipAudioStreamInfo(const QString &binClipId, int trackId) const
+{
+    // Only used for drag and drop to show in the tooltip.
+    // No top-level lock here: each sub-call (getLowerTracksId, etc.) handles its own locking,
+    // matching the same pattern used in requestClipInsertion.
+    // no need to check for track validity here since tooltip will be hidden in that case.
+    if (!isTrack(trackId)) {
+        return {0, 0};
+    }
+    // Strip mandatory A/V prefix and optional /in/out suffix to get the raw bin id.
+    QString bid = binClipId.section(QLatin1Char('/'), 0, 0);
+    if (bid.startsWith(QLatin1Char('A')) || bid.startsWith(QLatin1Char('V'))) {
+        bid.remove(0, 1);
+    }
+    auto master = pCore->projectItemModel()->getClipByBinID(bid);
+    if (!master) {
+        return {0, 0};
+    }
+    const int streamCount = master->activeStreams().count();
+    int availableTracks = 0;
+    if (isAudioTrack(trackId)) {
+        // Mirror requestClipInsertion audio drop path:
+        // 1. First check if tracks below the target are sufficient.
+        // 2. If not, fall back to the total audio track count (insertion re-anchors to the
+        //    topmost audio track that still fits all streams).
+        const int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
+        if (tracksBelow >= streamCount - 1) {
+            // Enough tracks below: available = target track + those below it.
+            availableTracks = tracksBelow + 1;
+        } else {
+            // Not enough below: use all audio tracks in the timeline.
+            availableTracks = static_cast<int>(getTracksIds(true).count());
+        }
+        availableTracks = qMin(availableTracks, streamCount);
+    } else {
+        // Video drop path: available slots = mirror audio track + audio tracks below it.
+        // requestClipInsertion does not re-anchor in this path; it uses availableStreamSlots
+        // = 1 + getLowerTracksId(mirror, AudioTrack).count() directly.
+        const int mirror = getMirrorTrackId(trackId);
+        if (mirror > -1) {
+            availableTracks = 1 + getLowerTracksId(mirror, TrackType::AudioTrack).count();
+            availableTracks = qMin(availableTracks, streamCount);
+        }
+    }
+    return {streamCount, availableTracks};
+}
+
 int TimelineModel::getPreviousVideoTrackIndex(int trackId) const
 {
     READ_LOCK();
@@ -2082,8 +2129,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             if (audioDrop) {
                 if (keys.count() > 1) {
                     // Dropping a clip with several audio streams
-                    int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
-                    if (tracksBelow < keys.count() - 1) {
+                    QList<int> tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack);
+                    if (tracksBelow.count() < keys.count() - 1) {
                         // We don't have enough audio tracks below, check above
                         QList<int> audioTrackIds = getTracksIds(true);
                         if (audioTrackIds.count() < keys.count()) {
@@ -2106,11 +2153,37 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                                 }
                             }
                         }
-                        tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
-                        if (tracksBelow < keys.count() - 1) {
+                        // We have enough tracks, but are they locked or unavailable in normal mode?
+                        for (int i = 0; i < keys.count() - 1; i++) {
+                            if ((!getTrackById_const(audioTrackIds.at(audioTrackIds.count() - 1 - i))->isAvailable(position, duration, -1) && m_editMode == TimelineMode::NormalEdit)
+                                || getTrackById_const(audioTrackIds.at(audioTrackIds.count() - 1 - i))->isLocked() || (!allowedTracks.isEmpty() && !allowedTracks.contains(audioTrackIds.at(audioTrackIds.count() - 1 - i)))) {
+                                pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                                return false;
+                            }
+                        }
+                        QList<int> tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack);
+                        if (tracksBelow.count() < keys.count() - 1) {
                             audioTrackIds = getTracksIds(true);
                         }
                         trackId = audioTrackIds.at(audioTrackIds.count() - keys.count());
+                    }
+                    else {
+                        // check if the tracks are not locked
+                        for (int i = 0; i < keys.count() - 1; i++) {
+                            if ((!getTrackById_const(tracksBelow.at(i))->isAvailable(position, duration, -1) && m_editMode == TimelineMode::NormalEdit)
+                                || getTrackById_const(tracksBelow.at(i))->isLocked() || (!allowedTracks.isEmpty() && !allowedTracks.contains(tracksBelow.at(i)))) {
+                                pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else if (keys.count()==1) {
+                    // current track is an audio track and this is the only stream, we can drop it here if not locked
+                    if ((!getTrackById_const(trackId)->isAvailable(position, duration, -1) && m_editMode == TimelineMode::NormalEdit)
+                        || getTrackById_const(trackId)->isLocked() || (!allowedTracks.isEmpty() && !allowedTracks.contains(trackId))) {
+                        pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                        return false;
                     }
                 }
                 if (keys.isEmpty()) {
@@ -2194,19 +2267,22 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                         keys.clear();
                     }
                 }
-                if (m_editMode == TimelineMode::NormalEdit) {
-                    // Check we have space in all requested tracks
-                    if (mirror > -1) {
-                        if (!getTrackById_const(mirror)->isAvailable(position, duration, -1)) {
-                            qDebug() << ":::: ABORTING INSERT BECAUSE OF TRACK: " << mirror << "\n\n########################";
-                            return false;
-                        }
+                audioTids = audioTids.mid(0, keys.count() - 1);
+                // Check we have space in all requested tracks
+                if (mirror > -1) {
+                    if ((!getTrackById_const(mirror)->isAvailable(position, duration, -1) && m_editMode == TimelineMode::NormalEdit) 
+                    || (!allowedTracks.isEmpty() && !allowedTracks.contains(mirror)) 
+                    || getTrackById_const(mirror)->isLocked()) {
+                        pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                        return false;
                     }
-                    for (auto &t : audioTids) {
-                        if (!getTrackById_const(t)->isAvailable(position, duration, -1)) {
-                            qDebug() << ":::: ABORTING INSERT BECAUSE OF TRACK: " << t << "\n\n########################";
-                            return false;
-                        }
+                }
+                for (auto &t : audioTids) {
+                    if ((!getTrackById_const(t)->isAvailable(position, duration, -1) && m_editMode == TimelineMode::NormalEdit) 
+                    || (!allowedTracks.isEmpty() && !allowedTracks.contains(t)) 
+                    || getTrackById_const(t)->isLocked()) {
+                        pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                        return false;
                     }
                 }
             }
