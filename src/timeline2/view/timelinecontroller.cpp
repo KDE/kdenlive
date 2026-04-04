@@ -3435,13 +3435,15 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
             vTrack = tid;
             if (clip->hasAudioAndVideo()) {
                 int firstAudio = m_model->getMirrorAudioTrackId(vTrack);
-                audioTracks << firstAudio;
-                if (audioStreams.size() > 1) {
-                    // insert the other audio streams
-                    QList<int> lower = m_model->getLowerTracksId(firstAudio, TrackType::AudioTrack);
-                    while (audioStreams.size() > 1 && !lower.isEmpty()) {
-                        audioTracks << lower.takeFirst();
-                        audioStreams.takeFirst();
+                if (firstAudio != -1) {
+                    audioTracks << firstAudio;
+                    if (audioStreams.size() > 1) {
+                        // insert the other audio streams
+                        QList<int> lower = m_model->getLowerTracksId(firstAudio, TrackType::AudioTrack);
+                        while (audioStreams.size() > 1 && !lower.isEmpty()) {
+                            audioTracks << lower.takeFirst();
+                            audioStreams.takeFirst();
+                        }
                     }
                 }
             }

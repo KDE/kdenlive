@@ -991,8 +991,11 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
     ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1,
                                                            allowedClipMixes);
     if (ok) {
-        if (old_trackId == -1 && m_editMode != TimelineMode::NormalEdit) {
-            // First insertion of a clip in insert/overwrite mode...
+        if (old_trackId == -1 && m_editMode != TimelineMode::NormalEdit && !finalMove) {
+            // First insertion of a clip in insert/overwrite mode (preview/drag only, not final placement)...
+            // Setting fakeTid/fakePosition causes the QML clip to be reparented to the drag overlay container.
+            // This is correct during drag preview, but must NOT happen for final insertions where the clip
+            // should render in its real track at its real position.
             m_allClips[clipId]->setFakeTrackId(trackId);
             m_allClips[clipId]->setFakePosition(position);
             QModelIndex modelIndex = makeClipIndexFromID(clipId);
@@ -2142,7 +2145,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     }
                 }
                 // Check if we don't have enough audio tracks below (remove the mirror track from count)
-                if ((keys.count() > 1 && audioTids.count() < keys.count() - 1) || (allowedTracks.isEmpty() && mirror == -1 && !keys.isEmpty())) {
+                if ((keys.count() > 1 && audioTids.count() < keys.count() - 1) || (mirror == -1 && !keys.isEmpty())) {
                     if (mirror > -1 && getTrackById_const(mirror)->isLocked()) {
                         pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
                         return false;
@@ -2214,12 +2217,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             // Using target tracks
             if (!keys.isEmpty()) {
                 QList<int> missingStreams;
-                {
-                    const QList<int> assignedStreams = m_audioTarget.values();
-                    for (int stream : std::as_const(keys)) {
-                        if (!assignedStreams.contains(stream)) {
-                            missingStreams << stream;
-                        }
+                const QList<int> assignedStreams = m_audioTarget.values();
+                for (int stream : std::as_const(keys)) {
+                    if (!assignedStreams.contains(stream)) {
+                        missingStreams << stream;
                     }
                 }
                 if (!missingStreams.isEmpty()) {
@@ -2504,10 +2505,13 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool
         int newTid;
         // Insert audio track at default position, no compositing rebuild per track (we'll do it once at the end)
         result = requestTrackInsertion(defaultInsertPos, newTid, QString(), true, undo, redo, false);
-        if (result && useTargets) {
-            // If we are using targets, set the new track as audio target so that if we need to insert several tracks, they will be correctly assigned to the clip streams
-            m_audioTarget.insert(newTid, -1);
-            if (!allowedTracks.contains(newTid)) {
+        if (result) {
+            if (useTargets) {
+                // If we are using targets, set the new track as audio target so that if we need to insert several tracks, they will be correctly assigned to the clip streams
+                m_audioTarget.insert(newTid, -1);
+            }
+            // if allowed tracks is not empty or if useTargets is true, only then insert the new track to allowed tracks.
+            if ((!allowedTracks.isEmpty() || useTargets) && !allowedTracks.contains(newTid)) {
                 allowedTracks.append(newTid);
             }
         }
