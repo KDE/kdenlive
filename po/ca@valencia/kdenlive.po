@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-04 00:44+0000\n"
+"POT-Creation-Date: 2026-04-05 00:44+0000\n"
 "PO-Revision-Date: 2026-03-29 12:53+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -301,6 +301,9 @@ msgstr "Ajusta la difusió esquerra/dreta d'un canal"
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_curves.xml:64
 #: data/effects/frei0r/frei0r_levels.xml:9
+#: data/effects/frei0r/frei0r_levels.xml:40
+#: data/effects/frei0r/frei0r_levels.xml:71
+#: data/effects/frei0r/frei0r_levels.xml:110
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
@@ -3697,7 +3700,10 @@ msgid "Adjust Brightness, contrast, gamma, saturation"
 msgstr "Ajusta la brillantor, contrast, gamma, saturació"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
-#: data/effects/frei0r/frei0r_levels.xml:18 data/effects/gamma.xml:8
+#: data/effects/frei0r/frei0r_levels.xml:19
+#: data/effects/frei0r/frei0r_levels.xml:50
+#: data/effects/frei0r/frei0r_levels.xml:92
+#: data/effects/frei0r/frei0r_levels.xml:131 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #, kde-format
@@ -10029,7 +10035,10 @@ msgid "Curves"
 msgstr "Corbes"
 
 #: data/effects/frei0r/frei0r_curves.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:8
+#: data/effects/frei0r/frei0r_levels.xml:10
+#: data/effects/frei0r/frei0r_levels.xml:41
+#: data/effects/frei0r/frei0r_levels.xml:72
+#: data/effects/frei0r/frei0r_levels.xml:111
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr "Roig,Verd,Blau,Luma"
@@ -10114,7 +10123,10 @@ msgstr "Posició del gràfic"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
-#: data/effects/frei0r/frei0r_levels.xml:30
+#: data/effects/frei0r/frei0r_levels.xml:32
+#: data/effects/frei0r/frei0r_levels.xml:63
+#: data/effects/frei0r/frei0r_levels.xml:79
+#: data/effects/frei0r/frei0r_levels.xml:118
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
 msgstr "Superior esquerra,Superior dreta,Inferior esquerra,Inferior dreta"
@@ -10329,6 +10341,9 @@ msgid "Dithers the image and reduces the number of available colors"
 msgstr "Trama la imatge i reduïx el nombre dels colors disponibles"
 
 #: data/effects/frei0r/frei0r_dither.xml:9
+#: data/effects/frei0r/frei0r_levels.xml:36
+#: data/effects/frei0r/frei0r_levels.xml:67
+#: data/effects/frei0r/frei0r_levels.xml:106
 #: data/effects/frei0r/frei0r_ndvi.xml:12
 #: data/effects/frei0r/frei0r_posterize.xml:8
 #, kde-format
@@ -11354,46 +11369,125 @@ msgstr ""
 msgid "Transparency"
 msgstr "Transparència"
 
-#: data/effects/frei0r/frei0r_levels.xml:4
+#: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
 msgstr "Nivells"
 
-#: data/effects/frei0r/frei0r_levels.xml:5
+#: data/effects/frei0r/frei0r_levels.xml:6
+#: data/effects/frei0r/frei0r_levels.xml:37
+#: data/effects/frei0r/frei0r_levels.xml:68
+#: data/effects/frei0r/frei0r_levels.xml:107
 #, kde-format
 msgid "Adjust levels"
 msgstr "Ajust dels nivells"
 
-#: data/effects/frei0r/frei0r_levels.xml:12
+#: data/effects/frei0r/frei0r_levels.xml:13
+#: data/effects/frei0r/frei0r_levels.xml:44
+#: data/effects/frei0r/frei0r_levels.xml:82
+#: data/effects/frei0r/frei0r_levels.xml:121
 #, kde-format
 msgid "Input black level"
 msgstr "Nivell de negre d'entrada"
 
-#: data/effects/frei0r/frei0r_levels.xml:15
+#: data/effects/frei0r/frei0r_levels.xml:16
+#: data/effects/frei0r/frei0r_levels.xml:47
+#: data/effects/frei0r/frei0r_levels.xml:87
+#: data/effects/frei0r/frei0r_levels.xml:126
 #, kde-format
 msgid "Input white level"
 msgstr "Nivell de blanc d'entrada"
 
-#: data/effects/frei0r/frei0r_levels.xml:21
+#: data/effects/frei0r/frei0r_levels.xml:22
+#: data/effects/frei0r/frei0r_levels.xml:53
+#: data/effects/frei0r/frei0r_levels.xml:97
+#: data/effects/frei0r/frei0r_levels.xml:136
 #, kde-format
 msgid "Black output"
 msgstr "Eixida de negre"
 
-#: data/effects/frei0r/frei0r_levels.xml:24
+#: data/effects/frei0r/frei0r_levels.xml:25
+#: data/effects/frei0r/frei0r_levels.xml:56
+#: data/effects/frei0r/frei0r_levels.xml:101
+#: data/effects/frei0r/frei0r_levels.xml:140
 #, kde-format
 msgid "White output"
 msgstr "Eixida de blanc"
 
-#: data/effects/frei0r/frei0r_levels.xml:27
+#: data/effects/frei0r/frei0r_levels.xml:28
+#: data/effects/frei0r/frei0r_levels.xml:59
+#: data/effects/frei0r/frei0r_levels.xml:75
+#: data/effects/frei0r/frei0r_levels.xml:114
 #, kde-format
 msgid "Show histogram"
 msgstr "Mostra l'histograma"
 
 #: data/effects/frei0r/frei0r_levels.xml:31
+#: data/effects/frei0r/frei0r_levels.xml:62
+#: data/effects/frei0r/frei0r_levels.xml:78
+#: data/effects/frei0r/frei0r_levels.xml:117
 #, kde-format
 msgid "Histogram position"
 msgstr "Posició de l'histograma"
+
+#: data/effects/frei0r/frei0r_levels.xml:84
+#: data/effects/frei0r/frei0r_levels.xml:123
+#, kde-format
+msgid ""
+"Moves the black point to the right: all pixels with that value or less will "
+"be black.<br>\n"
+"                This makes the dark areas even darker, influences the mid-"
+"tones a little and the highlights not at all. Increases contrast."
+msgstr ""
+"Mou el punt negre cap a la dreta: tots els píxels amb este valor o superior "
+"seran negres.<br>\n"
+"                Açò fa que les zones fosques siguen encara més fosques, "
+"influïx una mica en els tons mitjans i res en absolut en les àrees de llums "
+"intenses. Augmenta el contrast."
+
+#: data/effects/frei0r/frei0r_levels.xml:89
+#: data/effects/frei0r/frei0r_levels.xml:128
+#, kde-format
+msgid ""
+"Moves the white point to the left: all pixels with that value or higher will "
+"be white.<br>\n"
+"                This makes bright areas even brighter, influences the mid-"
+"tones a little and the dark areas not at all. Increases contrast."
+msgstr ""
+"Mou el punt blanc cap a l'esquerra: tots els píxels amb este valor o "
+"superior seran blancs.<br>\n"
+"                Açò fa que les zones brillants siguen encara més lluminoses, "
+"influïx una mica en els tons mitjans i res en absolut en les àrees fosques. "
+"Augmenta el contrast."
+
+#: data/effects/frei0r/frei0r_levels.xml:94
+#: data/effects/frei0r/frei0r_levels.xml:133
+#, no-c-format, kde-format
+msgid ""
+"Changes the overall brightness of the image.<br>\n"
+"                Affects only the mid-tones, black and white are not "
+"influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving "
+"the bar to the left) make the image darker, higher values (moving the bar to "
+"the right) make it brighter."
+msgstr ""
+"Canvia la brillantor general de la imatge.<br>\n"
+"                Afecta només els tons mitjans, el blanc i el negre no estan "
+"influenciats. El valor predeterminat és 25%, equivalent a gamma 1,0. Els "
+"valors més baixos (moure la barra cap a l'esquerra) fan la imatge més fosca, "
+"els valors més alts (moure la barra cap a la dreta) la fan més lluminosa."
+
+#: data/effects/frei0r/frei0r_levels.xml:98
+#: data/effects/frei0r/frei0r_levels.xml:137
+#, kde-format
+msgid "Opposite of Input black level"
+msgstr "Contrari del nivell d'entrada negre"
+
+#: data/effects/frei0r/frei0r_levels.xml:102
+#: data/effects/frei0r/frei0r_levels.xml:141
+#, kde-format
+msgid "Opposite of Input white level"
+msgstr "Contrari del nivell d'entrada blanc"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -40420,47 +40514,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "Moves the black point to the right: all pixels with that value or less "
-#~ "will be black.<br>\n"
-#~ "                This makes the dark areas even darker, influences the mid-"
-#~ "tones a little and the highlights not at all. Increases contrast."
-#~ msgstr ""
-#~ "Mou el punt negre cap a la dreta: tots els píxels amb este valor o "
-#~ "superior seran negres.<br>\n"
-#~ "                Açò fa que les zones fosques siguen encara més fosques, "
-#~ "influïx una mica en els tons mitjans i res en absolut en les àrees de "
-#~ "llums intenses. Augmenta el contrast."
-
-#~ msgid ""
-#~ "Moves the white point to the left: all pixels with that value or higher "
-#~ "will be white.<br>\n"
-#~ "                This makes bright areas even brighter, influences the mid-"
-#~ "tones a little and the dark areas not at all. Increases contrast."
-#~ msgstr ""
-#~ "Mou el punt blanc cap a l'esquerra: tots els píxels amb este valor o "
-#~ "superior seran blancs.<br>\n"
-#~ "                Açò fa que les zones brillants siguen encara més "
-#~ "lluminoses, influïx una mica en els tons mitjans i res en absolut en les "
-#~ "àrees fosques. Augmenta el contrast."
-
-#~ msgid ""
-#~ "Changes the overall brightness of the image.<br>\n"
-#~ "                Affects only the mid-tones, black and white are not "
-#~ "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
-#~ "(moving the bar to the left) make the image darker, higher values (moving "
-#~ "the bar to the right) make it brighter."
-#~ msgstr ""
-#~ "Canvia la brillantor general de la imatge.<br>\n"
-#~ "                Afecta només els tons mitjans, el blanc i el negre no "
-#~ "estan influenciats. El valor predeterminat és 25%, equivalent a gamma "
-#~ "1,0. Els valors més baixos (moure la barra cap a l'esquerra) fan la "
-#~ "imatge més fosca, els valors més alts (moure la barra cap a la dreta) la "
-#~ "fan més lluminosa."
-
-#~ msgid "Opposite of Input black level"
-#~ msgstr "Contrari del nivell d'entrada negre"
-
-#~ msgid "Opposite of Input white level"
-#~ msgstr "Contrari del nivell d'entrada blanc"
