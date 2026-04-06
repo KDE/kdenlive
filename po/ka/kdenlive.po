@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-05 02:40+0000\n"
-"PO-Revision-Date: 2026-03-31 06:26+0200\n"
+"PO-Revision-Date: 2026-04-06 01:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -14771,6 +14771,8 @@ msgid ""
 "Opacity value before the<br>\n"
 "      transition in opacity value begins."
 msgstr ""
+"გაუმჭვირვალობის მნიშვნელობა<br>\n"
+"         გაუმჭვირვალობის მნიშვნელობაზე გადაყვანა დაიწყება."
 
 #: data/effects/lumakey.xml:24
 #, kde-format
@@ -14783,6 +14785,8 @@ msgid ""
 "Opacity value after the<br>\n"
 "      transition in opacity value ends."
 msgstr ""
+"გაუმჭვირვალობის მნიშვნელობა<br>\n"
+"         გაუმჭვირვალობის მნიშვნელობაზე გადაყვანის დასრულების შემდეგ."
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
