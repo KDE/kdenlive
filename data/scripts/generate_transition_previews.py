@@ -96,14 +96,14 @@ class TransitionPreviewGenerator:
 
     def create_luma_preview(self, luma_id):
         """
-        Create a preview GIF for a specific luma
+        Create a preview webp for a specific luma
 
         Args:
         luma_id (str): The MLT luma file
         """
         file_path = Path(luma_id).stem
         logger.error(f"Processing luma: {luma_id}")
-        output_path = self.output_dir / f"{file_path}.gif"
+        output_path = self.output_dir / f"{file_path}.webp"
 
         # Skip if preview already exists
         if output_path.exists():
@@ -139,7 +139,9 @@ class TransitionPreviewGenerator:
                 '-consumer', f'avformat:{output_path}',
                 f'width={self.width}',
                 f'height={self.height}',
-                'fps=15'
+                'fps=10',
+                'quality=50',
+                'loop=0'
             ])
 
             logger.info(f"Generating preview for {luma_id}...")
@@ -185,7 +187,7 @@ class TransitionPreviewGenerator:
         except:
             logger.error(f"No preview param for transition {mlt_tag}")
 
-        output_path = self.output_dir / f"{transition_id}.gif"
+        output_path = self.output_dir / f"{transition_id}.webp"
         
         # Skip if preview already exists
         if output_path.exists():
@@ -223,7 +225,9 @@ class TransitionPreviewGenerator:
                 '-consumer', f'avformat:{output_path}',
                 f'width={self.width}',
                 f'height={self.height}',
-                'fps=15'
+                'fps=10',
+                'quality=50',
+                'loop=0'
             ])
             
             logger.info(f"Generating preview for {transition_id}...")
