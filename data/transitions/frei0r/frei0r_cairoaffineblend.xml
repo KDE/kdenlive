@@ -32,4 +32,12 @@
     <parameter type="constant" name="8" max="1000" min="0" default="0" factor="1000">
         <name>Rotation Y center</name>
     </parameter>
+    <preview>
+        <parameter name="0">0=0.4;-1=0.491</parameter>
+        <parameter name="1">0=0.4;-1=0.4</parameter>
+        <parameter name="2">0=0.2;-1=0.096</parameter>
+        <parameter name="3">0=0.2;-1=0.134</parameter>
+        <parameter name="4">0=0;-1=0.0861111</parameter>
+        <parameter name="5">0=100;-1=100</parameter>
+    </preview>
 </transition>

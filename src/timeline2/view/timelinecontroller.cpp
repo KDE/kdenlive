@@ -566,7 +566,7 @@ int TimelineController::insertNewCompositionAtPos(int tid, int position, const Q
     }
 }
 
-int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
+int TimelineController::insertNewComposition(int tid, int clipId, int offset, QString transitionId, bool logUndo)
 {
     int id;
     int minimumPos = clipId > -1 ? m_model->getClipPosition(clipId) : offset;
@@ -629,6 +629,11 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     duration = finalPos.second;
 
     std::unique_ptr<Mlt::Properties> props(nullptr);
+    if (TransitionsRepository::get()->isLuma(transitionId)) {
+        props = std::make_unique<Mlt::Properties>();
+        props->set("resource", transitionId.toUtf8().constData());
+        transitionId = QStringLiteral("dissolve");
+    }
     if (revert) {
         props = std::make_unique<Mlt::Properties>();
         if (transitionId == QLatin1String("dissolve")) {

@@ -54,13 +54,6 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     m_effectsIcon->setIconSize(iconSize);
     m_iconDelegate = new TransitionIconDelegate(iconSize, this);
 
-    // Set the preview directory
-    QString previewDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
-    // Ensure the directory exists
-    QDir().mkpath(previewDir);
-    qDebug() << "Setting transition preview directory to:" << previewDir;
-    m_iconDelegate->setPreviewDirectory(previewDir);
-
     m_effectsIcon->setViewMode(QListView::IconMode);
     m_effectsIcon->setItemDelegate(m_iconDelegate);
     m_effectsIcon->setMouseTracking(true);
@@ -242,8 +235,8 @@ void TransitionListWidget::generatePreviews()
     QStringList args;
     args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
     args << QStringLiteral("--output-dir") << outputDir;
-    args << QStringLiteral("--width") << QStringLiteral("320");
-    args << QStringLiteral("--height") << QStringLiteral("180");
+    args << QStringLiteral("--width") << QStringLiteral("176");
+    args << QStringLiteral("--height") << QStringLiteral("99");
 
     const QStringList lumaFolders = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     QStringList encodedLumas;
@@ -282,10 +275,6 @@ void TransitionListWidget::previewDone(int exitCode, QProcess::ExitStatus exitSt
 {
     m_generatePreviewAction->setEnabled(true);
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-        // Update the delegate's preview directory
-        const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
-        m_iconDelegate->setPreviewDirectory(outputDir);
-
         // Force refresh of the view
         if (isIconView()) {
             m_effectsIcon->reset();
