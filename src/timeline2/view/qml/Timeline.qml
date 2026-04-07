@@ -898,7 +898,7 @@ function getTrackColor(audio, header) {
                         }
                         drag.accepted=true
                         var _audioInfo = controller.clipAudioStreamInfo(clipBeingDroppedData, targetTrack)
-                        if (_audioInfo[1] < _audioInfo[0]) {
+                        if (_audioInfo[1] >=0 && _audioInfo[0] >=0 && !_audioInfo[2]) {
                             bubbleHelp.text = i18np("Audio: %1 track for %2 streams", "Audio: %1 tracks for %2 streams", _audioInfo[1], _audioInfo[0])
                             if (bubbleHelp.state !== 'visible') bubbleHelp.state = 'visible'
                         }
@@ -908,7 +908,7 @@ function getTrackColor(audio, header) {
                     }
                     if (clipBeingDroppedId != -1) {
                         var _audioInfo = controller.clipAudioStreamInfo(clipBeingDroppedData, targetTrack)
-                        if (_audioInfo[1] < _audioInfo[0]) {
+                        if (_audioInfo[1] >=0 && _audioInfo[0] >=0 && !_audioInfo[2]) {
                             bubbleHelp.text = i18np("Audio: %1 track for %2 streams", "Audio: %1 tracks for %2 streams", _audioInfo[1], _audioInfo[0])
                             if (bubbleHelp.state !== 'visible') bubbleHelp.state = 'visible'
                         }

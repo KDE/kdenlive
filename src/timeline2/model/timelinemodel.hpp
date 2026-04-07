@@ -410,7 +410,10 @@ public:
     int getMirrorTrackId(int trackId) const;
     /** @brief Returns [streamCount, availableAudioTrackSlots] for a bin clip dragged onto trackId.
      *  Called from QML (controller.clipAudioStreamInfo) to populate the drag-drop info bubble. */
-    Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId) const;
+    Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTrack=false) const;
+    /** @brief Returns [streamCount, availableAudioTrackSlots] for a bin clip dragged onto trackId.
+     *  This overload accepts undo/redo stacks so that any track creation can be undone. */
+    QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTrack, Fun &undo, Fun &redo);
     /** @brief Returns true if a clip cid is on an audio track */
     bool clipIsAudio(int cid) const;
 
@@ -1180,5 +1183,22 @@ private:
      */
    bool ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo,
                                  const QList<int> &streamsToCreate = QList<int>());
+
+   /**
+    * @brief Prompt the user to create missing audio tracks and create them.
+    * @param missingTracks Number of audio tracks that need to be created
+    * @param streamCount Total number of audio streams in the clip
+    * @param trackId The target track id for insertion (may be modified)
+    * @param useTargets Whether to use audio targets for the new tracks
+    * @param effectiveFinalMove Whether this is a final (committed) move
+    * @param allowedTracks List of tracks allowed for insertion
+    * @param undo Undo lambda to update
+    * @param redo Redo lambda to update
+    * @param streamsToCreate Optional list of specific stream indices to create tracks for
+    * @return Number of tracks created for the mirror/below positions (>=0), or -1 on failure/cancel
+    */
+   int promptAudioTrackCreation(int missingTracks, int streamCount, int &trackId, bool useTargets, bool effectiveFinalMove,
+                                QVector<int> &allowedTracks, Fun &undo, Fun &redo,
+                                const QList<int> &streamsToCreate = QList<int>());
 
 };

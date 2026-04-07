@@ -116,6 +116,18 @@ bool TimelineFunctions::requestMultipleClipsInsertion(const std::shared_ptr<Time
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    if (logUndo) {
+        QString binIdsString;
+        for (const QString &binId : binIds) {
+            binIdsString += (binId + ";");
+        }
+        QVariantList result = timeline->clipAudioStreamInfo(binIdsString, trackId, true, undo, redo); // This will prompt track creation if needed and log undo/redo for it
+        if(result[0].toInt() == -1) {
+            // User cancelled track creation or failed
+            undo();
+            return false;
+        }
+    }
     for (const QString &binId : binIds) {
         int clipId;
         if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, false, undo, redo)) {
@@ -872,6 +884,23 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
                 binClipId = QStringLiteral("%1/%2/%3").arg(binId.section(QLatin1Char('/'), 0, 0)).arg(zone.x()).arg(zone.y() - 1);
             } else {
                 binClipId = QStringLiteral("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
+            }
+            if (!useTargets) {
+                // Save current audio track list before potential track creation
+                const QList<int> audioTracksBefore = timeline->getTracksIds(true);
+                // prompt user to insert audio stream if needed.
+                QVariantList streamInfo = timeline->clipAudioStreamInfo(binClipId, trackIds.first(), true, undo, redo);
+                if(streamInfo[0].toInt() == -1) {
+                    // User cancelled track creation
+                    return false;
+                }
+                // Any audio tracks created by the prompt are not yet in affectedTracks, add them now so that they are considered for insertion.
+                const QList<int> audioTracksAfter = timeline->getTracksIds(true);
+                for (int tid : audioTracksAfter) {
+                    if (!audioTracksBefore.contains(tid) && !affectedTracks.contains(tid)) {
+                        affectedTracks << tid;
+                    }
+                }
             }
             result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo, affectedTracks);
         }

@@ -986,8 +986,12 @@ void MyListView::mousePressEvent(QMouseEvent *event)
                 selection = {clickedIndex};
             }
             m_clickedIndexes.clear();
+            // Ensure the clicked item is first in the list
+            if (clickedIndex.column() == 0) {
+                m_clickedIndexes << clickedIndex;
+            }
             for (auto &s : selection) {
-                if (s.column() == 0) {
+                if (s.column() == 0 && s != clickedIndex) {
                     m_clickedIndexes << s;
                 }
             }
@@ -1100,8 +1104,12 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
                 selection = {clickedIndex};
             }
             m_clickedIndexes.clear();
+            // Ensure the clicked item is first in the list
+            if (clickedIndex.column() == 0) {
+                m_clickedIndexes << clickedIndex;
+            }
             for (auto &s : selection) {
-                if (s.column() == 0) {
+                if (s.column() == 0 && s != clickedIndex) {
                     m_clickedIndexes << s;
                 }
             }
