@@ -3378,10 +3378,9 @@ void TimelineController::insertAtTimecode(const QString &binId)
     }
 
     int vIndex = qMax(0, clip->getProducerIntProperty(QStringLiteral("video_index")));
-    QString tcString = clip->getProducerProperty(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(vIndex));
-    if (tcString.isEmpty()) tcString = clip->getProducerProperty(QStringLiteral("meta.attr.timecode.markup"));
-    if (tcString.isEmpty()) tcString = clip->getProducerProperty(QStringLiteral("meta.media.%1.codec.timecode").arg(vIndex));
-    if (tcString.isEmpty()) {
+    int startFrame = clip->getStartTimecode(vIndex);
+
+    if (startFrame < 0) {
         pCore->displayMessage(i18n("No timecode metadata found in clip"), ErrorMessage);
         return;
     }
@@ -3395,7 +3394,6 @@ void TimelineController::insertAtTimecode(const QString &binId)
         return;
     }
 
-    int startFrame = pCore->timecode().getFrameCount(tcString);
     int newClipId = -1;
     m_model->requestClipInsertion(binId, trackId, startFrame, newClipId, true, true, false);
     Q_EMIT seeked(startFrame);

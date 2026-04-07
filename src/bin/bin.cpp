@@ -2211,17 +2211,9 @@ bool Bin::hasTimecode()
     if (!clip) {
         return false;
     }
+
     int vIndex = qMax(0, clip->getProducerIntProperty(QStringLiteral("video_index")));
-    if (!clip->getProducerProperty(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(vIndex)).isEmpty()) {
-        return true;
-    }
-    if (!clip->getProducerProperty(QStringLiteral("meta.attr.timecode.markup")).isEmpty()) {
-        return true;
-    }
-    if (!clip->getProducerProperty(QStringLiteral("meta.media.%1.codec.timecode").arg(vIndex)).isEmpty()) {
-        return true;
-    }
-    return false;
+    return clip->getStartTimecode(vIndex) >= 0;
 }
 
 void Bin::slotReplaceClipInTimeline()

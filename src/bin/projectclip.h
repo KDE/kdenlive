@@ -284,7 +284,7 @@ public:
     /** @brief Get the timecode of the first frame (record time)
      * @return timecode in frames.
      */
-    virtual int getStartTimecode();
+    virtual int getStartTimecode(int streamIndex = -1);
     /** @brief Return maximum audio level for a stream. */
     int16_t getAudioMax(int streamIdx) const;
     /** @brief A timeline clip was modified, reload its other timeline instances. */
@@ -417,7 +417,7 @@ public Q_SLOTS:
     /** @brief Get the timecode of the first frame from the ffmpeg/mlt properties
      * @return timecode in frames or -1 if not found
      */
-    int getStartTCFromProperties();
+    int getStartTCFromProperties(int streamIndex = -1);
     /**
      * @brief Returns an image created from a frame of the producer.
      * @param position frame position

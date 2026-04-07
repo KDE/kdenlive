@@ -878,33 +878,37 @@ void ProjectClip::createDisabledMasterProducer()
     }
 }
 
-int ProjectClip::getStartTimecode()
+int ProjectClip::getStartTimecode(int streamIndex)
 {
     bool isAVClip = m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio;
     if (!m_masterProducer || !isAVClip) {
         return 0;
     }
 
-    int recTime = m_masterProducer->get_int("kdenlive:record_start_frame");
+    QString cacheKey = streamIndex > 0 ? QStringLiteral("kdenlive:record_start_frame_%1").arg(streamIndex) : QStringLiteral("kdenlive:record_start_frame");
+
+    int recTime = m_masterProducer->get_int(cacheKey.toUtf8().constData());
     if (recTime > 0) {
         // the value was cached, just use it
         return recTime;
     }
 
-    recTime = getStartTCFromProperties();
+    recTime = getStartTCFromProperties(streamIndex);
 
     // cache the value in a kdenlive property
-    m_masterProducer->set("kdenlive:record_start_frame", recTime);
+    m_masterProducer->set(cacheKey.toUtf8().constData(), recTime);
 
     return recTime;
 }
 
-int ProjectClip::getStartTCFromProperties()
+int ProjectClip::getStartTCFromProperties(int streamIndex)
 {
     int64_t timecode_ms = m_masterProducer->get_int64("timecode");
     if (timecode_ms > 0) {
         return timecode_ms;
     }
+
+    int sIndex = streamIndex >= 0 ? streamIndex : 0;
 
     // Check for a "time_reference" in the metadata, which is the timecode
     // counted in audio samples. Convert that to milliseconds.
@@ -912,21 +916,33 @@ int ProjectClip::getStartTCFromProperties()
     int64_t audio_samples = m_masterProducer->get_int64("meta.attr.time_reference.markup");
 
     if (audio_samples > 0) {
-        int64_t sample_rate = m_masterProducer->get_int64("meta.media.0.codec.sample_rate");
+        QString sampleRateKey = QStringLiteral("meta.media.%1.codec.sample_rate").arg(sIndex);
+        int64_t sample_rate = m_masterProducer->get_int64(sampleRateKey.toUtf8().constData());
 
         if (audio_samples > 0) {
             return (audio_samples * 1000) / sample_rate;
         }
     }
 
-    QString timecode = m_masterProducer->get("meta.attr.timecode.markup");
+    QString timecode;
+
+    QString streamKey = QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(sIndex);
+    timecode = m_masterProducer->get(streamKey.toUtf8().constData());
+
     if (timecode.isEmpty()) {
+        timecode = m_masterProducer->get("meta.attr.timecode.markup");
+    }
+
+    if (timecode.isEmpty()) {
+        QString codecKey = QStringLiteral("meta.media.%1.codec.timecode").arg(sIndex);
+        timecode = m_masterProducer->get(codecKey.toUtf8().constData());
+    }
+
+    if (timecode.isEmpty() && sIndex != 0) {
         timecode = m_masterProducer->get("meta.attr.0.stream.timecode.markup");
     }
 
-    // First try to get timecode from MLT metadata
     if (!timecode.isEmpty()) {
-        // Timecode Format HH:MM:SS:FF
         timecode = Timecode::scaleTimecode(timecode, originalFps(), pCore->getCurrentFps());
         return pCore->timecode().getFrameCount(timecode);
     }

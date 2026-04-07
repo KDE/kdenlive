@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clippropertiescontroller.h"
+#include "bin/projectclip.h"
 #include "clipcontroller.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
@@ -1428,13 +1429,13 @@ QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
     propertyMap.append({i18n("B frames:"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
 
     // Timecode
-    QString timecode = m_sourceProperties->get(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(streamIndex).toUtf8().constData());
-    if (timecode.isEmpty()) {
-        timecode = m_sourceProperties->get("meta.attr.timecode.markup");
-    }
-
-    if (!timecode.isEmpty()) {
-        propertyMap.append({i18n("Timecode:"), timecode});
+    auto *projectClip = dynamic_cast<ProjectClip *>(m_controller);
+    if (projectClip) {
+        int startFrame = projectClip->getStartTimecode(streamIndex);
+        if (startFrame > 0) {
+            QString timecode = pCore->timecode().getTimecode(GenTime(startFrame, pCore->getCurrentFps()));
+            propertyMap.append({i18n("Timecode"), timecode});
+        }
     }
 
     return propertyMap;
@@ -1470,13 +1471,13 @@ QList<QStringList> ClipPropertiesController::getAudioProperties(int streamIndex)
     }
 
     // Timecode
-    QString timecode = m_sourceProperties->get(QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(streamIndex).toUtf8().constData());
-    if (timecode.isEmpty()) {
-        timecode = m_sourceProperties->get("meta.attr.timecode.markup");
-    }
-
-    if (!timecode.isEmpty()) {
-        propertyMap.append({i18n("Timecode:"), timecode});
+    auto *projectClip = dynamic_cast<ProjectClip *>(m_controller);
+    if (projectClip) {
+        int startFrame = projectClip->getStartTimecode(streamIndex);
+        if (startFrame > 0) {
+            QString timecode = pCore->timecode().getTimecode(GenTime(startFrame, pCore->getCurrentFps()));
+            propertyMap.append({i18n("Timecode"), timecode});
+        }
     }
 
     return propertyMap;
