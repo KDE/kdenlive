@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-05 02:40+0000\n"
+"POT-Creation-Date: 2026-04-07 02:41+0000\n"
 "PO-Revision-Date: 2025-12-15 08:42+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -35546,41 +35546,41 @@ msgstr "<small>Brak dodatkowych informacji dla tego znaku.</small>"
 msgid "Lumas"
 msgstr "Luminacja"
 
-#: src/transitions/transitionlist/view/transitionicondelegate.cpp:33
+#: src/transitions/transitionlist/view/transitionicondelegate.cpp:32
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "No Preview"
 msgstr "Podgląd"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:71
 #, fuzzy, kde-format
 #| msgid "Delete Previews"
 msgid "Generate Previews"
 msgstr "Usuń podglądy"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:214
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:207
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:269
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:262
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:277
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:270
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:294
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:283
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:299
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:288
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "

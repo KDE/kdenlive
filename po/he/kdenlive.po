@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-05 02:40+0000\n"
-"PO-Revision-Date: 2026-04-01 17:39+0300\n"
+"POT-Creation-Date: 2026-04-07 02:41+0000\n"
+"PO-Revision-Date: 2026-04-06 09:00+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11488,10 +11488,9 @@ msgid "This filter creates a false image from a visible + infrared source"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_ndvi.xml:8
-#, fuzzy, kde-format
-#| msgid "Color Matrix"
+#, kde-format
 msgid "Color Map"
-msgstr "רשת צבע"
+msgstr "מפת צבעים"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:9
 #, kde-format
@@ -11548,10 +11547,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_ndvi.xml:34
-#, fuzzy, kde-format
-#| msgid "4 Channels"
+#, kde-format
 msgid "Visible Channel"
-msgstr "4 ערוצים"
+msgstr "הערוץ הגלוי"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:35
 #, kde-format
@@ -11560,10 +11558,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_ndvi.xml:36
 #: data/effects/frei0r/frei0r_ndvi.xml:41
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue,Luma"
+#, kde-format
 msgid "Red,Green,Blue"
-msgstr "אדום,ירוק,כחול,לומה"
+msgstr "אדום,ירוק,כחול"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:39
 #, fuzzy, kde-format
@@ -11593,10 +11590,9 @@ msgid "NDVI,VI"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_ndvi.xml:49
-#, fuzzy, kde-format
-#| msgid "Legend unit"
+#, kde-format
 msgid "Legend"
-msgstr "יחידת מקרא"
+msgstr "מקרא"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:50
 #, kde-format
@@ -12369,32 +12365,27 @@ msgid "Interval"
 msgstr "הפרש"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
-#, fuzzy, kde-format
-#| msgid "3 point balance"
+#, kde-format
 msgid "3-Point Balance"
-msgstr "איזון 3 נקודות"
+msgstr "איזון ב־3 נקודות"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
-#, fuzzy, kde-format
-#| msgid "Balances colors along with 3 points"
+#, kde-format
 msgid "Adjust color balance with 3 color points"
-msgstr "מאזן צבעים לאורך בעזרת 3 נקודות"
+msgstr "כוונון איזון הצבעים עם 3 נקודות צבע"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
-#| msgid "Black color"
+#, kde-format
 msgid "Black Color"
 msgstr "צבע שחור"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
-#| msgid "Gray color"
+#, kde-format
 msgid "Gray Color"
 msgstr "צבע אפור"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
-#, fuzzy, kde-format
-#| msgid "White color"
+#, kde-format
 msgid "White Color"
 msgstr "צבע לבן"
 
@@ -13244,10 +13235,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/greyedge.xml:8
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Differentiation Order"
-msgstr "תיקיית יעד"
+msgstr "צבע שינוי"
 
 #: data/effects/greyedge.xml:12
 #, kde-format
@@ -13349,10 +13339,9 @@ msgid "The width of the hue range"
 msgstr "עובי טווח הגוון"
 
 #: data/effects/hsl_range.xml:17
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to blend the edges of the hue range"
-msgstr "הכמות בפיקסלים לטשטוש קצה הצל"
+msgstr "הכמות לטשטוש הקצוות של טווח הגוון"
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
@@ -13375,10 +13364,9 @@ msgid "Lightness Scale"
 msgstr "קנה מידה לבהירות"
 
 #: data/effects/hsl_range.xml:29
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to scale the lightness in the hue range"
-msgstr "הכמות בפיקסלים לטשטוש קצה הצל"
+msgstr "הכמות להתאמת הבהירות בטווח הגוון"
 
 #: data/effects/invert.xml:4
 #, kde-format
@@ -13392,10 +13380,9 @@ msgid "Invert colors"
 msgstr "היפוך צבעים"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer"
-msgstr "אקולייזר"
+msgstr "אקוולייזר TAP"
 
 #: data/effects/ladspa/ladspa_2141.xml:6
 #, kde-format
@@ -26781,12 +26768,10 @@ msgid "Mouse Zoom on Playhead"
 msgstr ""
 
 #: src/mainwindow.cpp:1535
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the mouse zoom on playhead feature (default is Off)."
-msgstr "מחליף מצב הצגת תגיות סרטונים בציר הזמן (ברירת המחדל היא פעיל)."
+msgstr "החלפת מצב תקריב עם העכבר ביכולת ראש הנגינה (ברירת המחדל היא כבויה)."
 
 #: src/mainwindow.cpp:1541
 #, kde-format
@@ -34405,39 +34390,39 @@ msgstr "<small>אין מידע נוסף לתו זה.</small>"
 msgid "Lumas"
 msgstr "לומות"
 
-#: src/transitions/transitionlist/view/transitionicondelegate.cpp:33
+#: src/transitions/transitionlist/view/transitionicondelegate.cpp:32
 #, kde-format
 msgid "No Preview"
 msgstr "אין תצוגה מקדימה"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:71
 #, kde-format
 msgid "Generate Previews"
 msgstr "יצירת תצוגות מקדימות"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:214
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:207
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:269
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:262
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:277
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:270
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:294
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:283
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:299
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:288
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "
@@ -35991,10 +35976,9 @@ msgstr "התקן פלט:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configsdl_ui.ui:196
-#, fuzzy, kde-format
-#| msgid "Monitor for fullscreen output:"
+#, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "צג לפלט מסך מלא:"
+msgstr "היפוך הצג במסך מלא:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31

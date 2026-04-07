@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-05 02:40+0000\n"
+"POT-Creation-Date: 2026-04-07 02:41+0000\n"
 "PO-Revision-Date: 2026-04-06 01:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -34678,17 +34678,17 @@ msgstr ""
 msgid "Lumas"
 msgstr "ლუმა"
 
-#: src/transitions/transitionlist/view/transitionicondelegate.cpp:33
+#: src/transitions/transitionlist/view/transitionicondelegate.cpp:32
 #, kde-format
 msgid "No Preview"
 msgstr "მინიატურის გარეშე"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:71
 #, kde-format
 msgid "Generate Previews"
 msgstr "მინიატურების გენერაცია"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:214
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:207
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
@@ -34697,25 +34697,25 @@ msgstr ""
 "მინიატურის გენერაციის სკრიპტის აღმოჩენა შეუძლებელია. დარწმუნდით, რომ ის "
 "სწორადაა დაყენებული."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:269
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:262
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 "Python-ის ინტერპრეტატორი დაყენებული არაა. დარწმუნდით, რომ Python დაყენებულია."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:277
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:270
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 "მიმდინარეობს გადასვლის მინიატურების გენერაცია. ამას შეიძლება, რამდენიმე წუთი "
 "დასჭირდეს..."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:294
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:283
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr "გადასვლის მინიატურების გენერაცია წარმატებით დასრულდა."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:299
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:288
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "

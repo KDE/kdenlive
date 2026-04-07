@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-05 02:40+0000\n"
+"POT-Creation-Date: 2026-04-07 02:41+0000\n"
 "PO-Revision-Date: 2026-03-13 09:55+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -35477,17 +35477,17 @@ msgstr "<small>Geen extra informatie beschikbaar voor dit teken.</small>"
 msgid "Lumas"
 msgstr "Luma's"
 
-#: src/transitions/transitionlist/view/transitionicondelegate.cpp:33
+#: src/transitions/transitionlist/view/transitionicondelegate.cpp:32
 #, kde-format
 msgid "No Preview"
 msgstr "Geen voorbeeld"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:71
 #, kde-format
 msgid "Generate Previews"
 msgstr "Voorbeelden genereren"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:214
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:207
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
@@ -35496,24 +35496,24 @@ msgstr ""
 "Het script voor het genereren van het voorbeeld kon niet worden gevonden. "
 "Zorg ervoor dat het correct is geïnstalleerd."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:269
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:262
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 "Het Python-programma is niet gevonden. Zorg ervoor dat Python is "
 "geïnstalleerd."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:277
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:270
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr "Overgangsvoorbeelden genereren. Dit kan een paar minuten duren..."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:294
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:283
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr "De overgangsvoorbeelden zijn met succes gegenereerd."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:299
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:288
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "
