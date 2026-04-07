@@ -258,7 +258,7 @@ void VideoWidget::resizeVideo(int width, int height)
         QSize s = pCore->getCurrentFrameSize();
         double scalex = m_rect.width() * m_zoom / s.width();
         double scaley = m_rect.height() * m_zoom / s.height();
-        rootQml->setProperty("center", m_rect.center());
+        rootQml->setProperty("center", m_rect.center() + m_monitorOffset);
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
         if (rootQml->objectName() == QLatin1String("rootsplit")) {
@@ -1031,7 +1031,6 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 void VideoWidget::setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth)
 {
     m_offset.setX(horizontalScrollValue);
-
     if (rootObject()) {
         double adjustedOffset = 0.0;
         if (m_zoom > 1.0) {
