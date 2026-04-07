@@ -33,7 +33,6 @@ public:
     QMovie *getMovie(QString transitionId, bool animate = false) const;
 
 private:
-    QString m_previewDirectory;
     mutable std::unique_ptr<QMovie> m_movie;
     mutable std::unique_ptr<QMovie> m_animatedMovie;
     mutable QString m_currentTransitionId;
