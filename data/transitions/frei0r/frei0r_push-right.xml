@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<transition tag="frei0r.sleid0r_push-right" id="frei0r.sleid0r_push-right">
+<transition tag="frei0r.sleid0r_push-right" id="frei0r.sleid0r_push-right" type="videotransition">
     <name>Push Right</name>
     <description>Push from left to right.</description>
     <author>Vadim Druzhin</author>

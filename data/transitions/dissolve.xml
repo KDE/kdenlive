@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<transition tag="luma" id="dissolve" type="short">
+<transition tag="luma" id="dissolve" type="videotransition">
     <name context="Dissolve Transition Name">Dissolve</name>
     <description>Fade out one video while fading in the other video.</description>
     <parameter type="urllist" name="resource" paramlist="%lumaPaths" filter="Luma files (*.png *.pgm)" newstuff=":data/kdenlive_wipes.knsrc" optional="1">
