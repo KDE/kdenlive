@@ -467,4 +467,5 @@ Q_SIGNALS:
     void disablePreviewMask();
     void sceneChanged(MonitorSceneType sceneType);
     void effectRotationChanged(double rotation);
+    void profileUpdated();
 };

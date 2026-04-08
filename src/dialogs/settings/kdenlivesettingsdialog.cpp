@@ -681,10 +681,6 @@ void KdenliveSettingsDialog::initSdlPage(bool gpuAllowed)
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
-#if defined(Q_OS_MACOS)
-    // TODO: This feature is untested on macOS yet
-    m_configSdl.kcfg_mirrorMonitorOnFullscreen->setEnabled(false);
-#endif
 }
 
 bool KdenliveSettingsDialog::getBlackMagicOutputDeviceList(QComboBox *devicelist, bool force)

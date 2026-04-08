@@ -250,7 +250,7 @@ void VideoWidget::resizeVideo(int width, int height)
     x = (width - w) / 2.0;
     y = (height - h) / 2.0;
     m_rect = QRectF(x, y, w, h);
-    const QSize parentSize = parentWidget()->size();
+    const QSize parentSize = parentWidget() ? parentWidget()->size() : size();
     m_monitorOffset = QPointF((parentSize.width() - width) / 2., (parentSize.height() - m_displayRulerHeight - height) / 2.);
 
     QQuickItem *rootQml = rootObject();
@@ -935,6 +935,13 @@ int VideoWidget::reconfigure()
 float VideoWidget::zoom() const
 {
     return m_zoom;
+}
+
+void VideoWidget::resetAspect()
+{
+    m_colorSpace = pCore->getCurrentProfile()->colorspace();
+    m_dar = pCore->getCurrentDar();
+    refreshRect();
 }
 
 void VideoWidget::reloadProfile()

@@ -1194,6 +1194,7 @@ void Monitor::destroyFullscreenMirror()
     if (m_monitorMirror) {
         disconnect(m_monitorMirror, &VideoWidget::reconnectWindow, this, nullptr);
         disconnect(m_monitorManager, &MonitorManager::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed);
+        disconnect(this, &Monitor::profileUpdated, m_monitorMirror, &VideoWidget::resetAspect);
         if (m_monitorMirror->quickWindow()) {
             QObject::disconnect(m_monitorMirror->quickWindow(), nullptr, m_monitorMirror, nullptr);
             QObject::disconnect(m_monitorMirror->quickWindow(), &QQuickWindow::destroyed, this, nullptr);
@@ -1240,6 +1241,8 @@ void Monitor::createFullscreenMirror()
 
     connect(m_monitorMirror, &VideoWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
     connect(m_monitorMirror, &VideoWidget::monitorPlay, m_playAction, &QAction::trigger);
+    connect(this, &Monitor::profileUpdated, m_monitorMirror, &VideoWidget::resetAspect, Qt::QueuedConnection);
+
     connect(m_monitorMirror, &VideoWidget::passKeyEvent, this, [this](QKeyEvent *event) {
         if (m_fullscreenWindow) {
             event->ignore();
@@ -1256,6 +1259,7 @@ void Monitor::createFullscreenMirror()
         m_monitorMirror->setClearColor(KdenliveSettings::window_background());
         // Enforce geometry recalculation
         m_monitorMirror->refreshZoom = true;
+        m_monitorMirror->resetAspect();
         m_glMonitor->requestRefresh();
         Q_EMIT m_monitorMirror->reconnectWindow();
     };
@@ -2408,6 +2412,7 @@ void Monitor::resetProfile()
 {
     m_glMonitor->reloadProfile();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
+    Q_EMIT profileUpdated();
     // Update drop frame info
     m_qmlManager->setProperty(QStringLiteral("dropped"), false);
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
