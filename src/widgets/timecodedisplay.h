@@ -125,7 +125,7 @@ public:
      * @param offset the offset in msecs */
     void setMsOffset(int offset);
     /** @brief  Set offset in frames */
-    void setFrameOffset(int offset);
+    void setFrameOffset(int offset, bool update = true);
 
     /** @brief Select all timecode text */
     void selectAll();

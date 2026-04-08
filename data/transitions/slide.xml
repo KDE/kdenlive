@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<transition tag="affine" id="slide" type="short">
+<transition tag="affine" id="slide" type="videotransition">
     <name context="Slide Transition Name">Slide</name>
     <description>Slide image from one side to another.</description>
     <author>Dan Dennedy</author>

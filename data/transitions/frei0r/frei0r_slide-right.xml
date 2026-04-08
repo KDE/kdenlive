@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<transition tag="frei0r.sleid0r_slide-up" id="frei0r.sleid0r_slide-up">
+<transition tag="frei0r.sleid0r_slide-up" id="frei0r.sleid0r_slide-up" type="videotransition">
     <name>Slide Up</name>
     <description>Slide from bottom to top.</description>
     <author>Vadim Druzhin</author>
