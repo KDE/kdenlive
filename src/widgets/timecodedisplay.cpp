@@ -347,11 +347,11 @@ void TimecodeDisplay::setMsOffset(int offset)
     }
 }
 
-void TimecodeDisplay::setFrameOffset(int offset)
+void TimecodeDisplay::setFrameOffset(int offset, bool update)
 {
     m_offset = offset;
     // Update timecode display
-    if (!m_frametimecode) {
+    if (!m_frametimecode && update) {
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));
         Q_EMIT timeCodeUpdated();
     }
