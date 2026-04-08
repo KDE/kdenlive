@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -30422,19 +30422,19 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Ηχητικό φάσμα"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Εργαλείο επιλογής"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Εργαλείο επιλογής"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

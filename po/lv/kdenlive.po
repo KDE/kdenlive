@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -30818,17 +30818,17 @@ msgstr "Lai ieslēgtu Audio spektru, MLT ir jābūt kompilētam ar „libfftw3�
 msgid "Enable Audio Spectrum"
 msgstr "Ieslēgt audio spektru"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Atlasīt atskaņojamo apgabalu"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Atlasīt atskaņojamo klipu"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
-"PO-Revision-Date: 2026-03-29 08:05-0300\n"
-"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
+"PO-Revision-Date: 2026-04-07 01:08-0300\n"
+"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -11414,13 +11414,7 @@ msgid "Opposite of Input white level"
 msgstr "oposto do nível de branco de entrada"
 
 #: data/effects/frei0r/frei0r_levels.xml:133
-#, fuzzy, kde-format
-#| msgid ""
-#| "Changes the overall brightness of the image.<br>\n"
-#| "                Affects only the mid-tones, black and white are not "
-#| "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
-#| "(moving the bar to the left) make the image darker, higher values (moving "
-#| "the bar to the right) make it brighter."
+#, kde-format
 msgid ""
 "Changes the overall brightness of the image.<br>\n"
 "                Affects only the mid-tones, black and white are not "
@@ -11429,9 +11423,9 @@ msgid ""
 msgstr ""
 "Altera o brilho geral da imagem.<br>\n"
 "                Afeta apenas os tons médios, o preto e o branco não são "
-"influenciados. O padrão é 25%, equivalente a Gama 1.0). Valores mais baixos "
-"(movendo a barra para a esquerda) tornam a imagem mais escura, valores mais "
-"altos (movendo a barra para a direita) a tornam mais clara."
+"influenciados. O padrão é 1. Valores mais baixos (movendo a barra para a "
+"esquerda) tornam a imagem mais escura, valores mais altos (movendo a barra "
+"para a direita) a tornam mais clara."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -30054,17 +30048,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Ativar o espectro de áudio"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Selecione uma área para reproduzir"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Selecione um clipe para reproduzir"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

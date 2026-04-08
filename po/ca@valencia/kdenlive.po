@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
-"PO-Revision-Date: 2026-03-29 12:53+0200\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
+"PO-Revision-Date: 2026-04-07 08:28+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -11489,13 +11489,7 @@ msgid "Opposite of Input white level"
 msgstr "Contrari del nivell d'entrada blanc"
 
 #: data/effects/frei0r/frei0r_levels.xml:133
-#, fuzzy, kde-format
-#| msgid ""
-#| "Changes the overall brightness of the image.<br>\n"
-#| "                Affects only the mid-tones, black and white are not "
-#| "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
-#| "(moving the bar to the left) make the image darker, higher values (moving "
-#| "the bar to the right) make it brighter."
+#, kde-format
 msgid ""
 "Changes the overall brightness of the image.<br>\n"
 "                Affects only the mid-tones, black and white are not "
@@ -11504,9 +11498,9 @@ msgid ""
 msgstr ""
 "Canvia la brillantor general de la imatge.<br>\n"
 "                Afecta només els tons mitjans, el blanc i el negre no estan "
-"influenciats. El valor predeterminat és 25%, equivalent a gamma 1,0. Els "
-"valors més baixos (moure la barra cap a l'esquerra) fan la imatge més fosca, "
-"els valors més alts (moure la barra cap a la dreta) la fan més lluminosa."
+"influenciats. El valor predeterminat és 1. Els valors més baixos (moure la "
+"barra cap a l'esquerra) fan la imatge més fosca, els valors més alts (moure "
+"la barra cap a la dreta) la fan més lluminosa."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -15881,7 +15875,7 @@ msgstr "Determina el percentatge de fotogrames amb moviment vertical"
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr "Augmenta la brillantor"
+msgstr "Augmenta la lluminositat"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
@@ -22570,7 +22564,7 @@ msgid ""
 "The directory %1, could not be created.\n"
 "Please make sure you have the required permissions."
 msgstr ""
-"No s'ha pogut crear el directori %1.\n"
+"No s'ha pogut crear la carpeta %1.\n"
 "Assegureu-vos que teniu els permisos requerits."
 
 #: src/dialogs/renderwidget.cpp:1046
@@ -30176,17 +30170,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Activa l'espectre d'àudio"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Trieu una zona per a reproduir"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Trieu un clip que s'ha de reproduir"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -31112,7 +31106,7 @@ msgstr "S'està arxivant…"
 #: src/project/dialogs/archivewidget.cpp:1214
 #, kde-format
 msgid "Cannot create directory %1"
-msgstr "No s'ha pogut crear el directori %1"
+msgstr "No s'ha pogut crear la carpeta %1"
 
 #: src/project/dialogs/archivewidget.cpp:685
 #: src/project/dialogs/archivewidget.cpp:764

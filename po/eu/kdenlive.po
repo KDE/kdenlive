@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
 "PO-Revision-Date: 2025-12-11 23:38+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -30537,17 +30537,17 @@ msgstr "MLT-k libfftw3-rekin konpilatu behar da Audio-espektroa gaitzeko"
 msgid "Enable Audio Spectrum"
 msgstr "Gaitu Audio-espektroa"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Hautatu eskualdea erreprodukziorako"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Hautatu klipa erreprodukziorako"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -11058,23 +11058,13 @@ msgid "Opposite of Input white level"
 msgstr "输入白电平的相反值"
 
 #: data/effects/frei0r/frei0r_levels.xml:133
-#, fuzzy, kde-format
-#| msgid ""
-#| "Changes the overall brightness of the image.<br>\n"
-#| "                Affects only the mid-tones, black and white are not "
-#| "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
-#| "(moving the bar to the left) make the image darker, higher values (moving "
-#| "the bar to the right) make it brighter."
+#, kde-format
 msgid ""
 "Changes the overall brightness of the image.<br>\n"
 "                Affects only the mid-tones, black and white are not "
 "influenced. Default is 1. Lower values (moving the bar to the left) make the "
 "image darker, higher values (moving the bar to the right) make it brighter."
 msgstr ""
-"调整图像的整体亮度。<br>\n"
-"                仅影响中间色调，黑色和白色不受影响。默认值为 25% (相当于 "
-"Gamma 1.0) 。降低该值 (向左拖动滑块) 会使图像变暗，提高该值 (向右拖动滑块) 会"
-"使图像变亮。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -29159,17 +29149,17 @@ msgstr "MLT 必须使用 libfftw3 构建才能启用音频频谱图"
 msgid "Enable Audio Spectrum"
 msgstr "启用音频频谱图"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "选择要播放的区段"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "选择要播放的片段"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

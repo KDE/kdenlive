@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
-"PO-Revision-Date: 2026-03-30 19:57+0300\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
+"PO-Revision-Date: 2026-04-07 13:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -11374,13 +11374,7 @@ msgid "Opposite of Input white level"
 msgstr "Beyaz giriş düzeyinin karşıtı"
 
 #: data/effects/frei0r/frei0r_levels.xml:133
-#, fuzzy, kde-format
-#| msgid ""
-#| "Changes the overall brightness of the image.<br>\n"
-#| "                Affects only the mid-tones, black and white are not "
-#| "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
-#| "(moving the bar to the left) make the image darker, higher values (moving "
-#| "the bar to the right) make it brighter."
+#, kde-format
 msgid ""
 "Changes the overall brightness of the image.<br>\n"
 "                Affects only the mid-tones, black and white are not "
@@ -11389,9 +11383,9 @@ msgid ""
 msgstr ""
 "Görselin genel parlaklığını değiştirir.<br>\n"
 "                Yalnızca orta tonları etkiler, siyah ve beyaz etkilenmez. "
-"Öntanımlı değer %​25’tir, gama 1,0’a eşdeğerdir. Daha düşük değerler (çubuğu "
-"sola kaydırmak) görseli daha koyu, daha yüksek değerler (çubuğu sağa "
-"kaydırmak) görseli daha parlak hale getirir."
+"Öntanımlı değer 1’dir. Daha düşük değerler (çubuğu sola kaydırmak) görseli "
+"daha koyu, daha yüksek değerler (çubuğu sağa kaydırmak) görseli daha parlak "
+"hale getirir."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -29920,17 +29914,17 @@ msgstr "Ses tayfını etkinleştirmek için MLT libfftw3 ile derlenmesi zorunlud
 msgid "Enable Audio Spectrum"
 msgstr "Ses Tayfını Etkinleştir"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Oynanacak bir bölge seçin"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Oynatılacak bir klip seçin"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

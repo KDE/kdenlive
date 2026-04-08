@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-07 00:43+0000\n"
-"PO-Revision-Date: 2026-03-29 18:03+0200\n"
+"POT-Creation-Date: 2026-04-08 00:45+0000\n"
+"PO-Revision-Date: 2026-04-07 20:58+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11372,13 +11372,7 @@ msgid "Opposite of Input white level"
 msgstr "Nasprotje vhodne ravni beline"
 
 #: data/effects/frei0r/frei0r_levels.xml:133
-#, fuzzy, kde-format
-#| msgid ""
-#| "Changes the overall brightness of the image.<br>\n"
-#| "                Affects only the mid-tones, black and white are not "
-#| "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
-#| "(moving the bar to the left) make the image darker, higher values (moving "
-#| "the bar to the right) make it brighter."
+#, kde-format
 msgid ""
 "Changes the overall brightness of the image.<br>\n"
 "                Affects only the mid-tones, black and white are not "
@@ -11387,9 +11381,8 @@ msgid ""
 msgstr ""
 "Spremeni splošno svetlost slike.<br>\n"
 "                Vpliva samo na srednje tone, na črno in belo ne vpliva. "
-"Privzeta vrednost je 25 %, kar ustreza vrednosti game 1,0). Nižje vrednosti "
-"(premikanje vrstice v levo) naredijo sliko temnejšo, višje vrednosti "
-"(premikanje vrstice v desno) pa svetlejšo."
+"Privzeta vrednost je 1. Nižje vrednosti (premikanje vrstice v levo) naredijo "
+"sliko temnejšo, višje vrednosti (premikanje vrstice v desno) pa svetlejšo."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -29952,17 +29945,17 @@ msgstr "Za omogočitev zvočnega spektra mora biti MLT preveden z libfftw3"
 msgid "Enable Audio Spectrum"
 msgstr "Omogoči zvočni spekter"
 
-#: src/monitor/videowidget.cpp:1235
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Izberite območje predvajanja"
 
-#: src/monitor/videowidget.cpp:1244
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Izberite posnetek za predvajanje"
 
-#: src/monitor/videowidget.cpp:1349
+#: src/monitor/videowidget.cpp:1348
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
