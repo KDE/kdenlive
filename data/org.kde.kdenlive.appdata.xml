@@ -76,6 +76,7 @@
   <summary xml:lang="pt-BR">Editor de Vídeo</summary>
   <summary xml:lang="ru">Видеоредактор</summary>
   <summary xml:lang="sa">विडियो सम्पादक</summary>
+  <summary xml:lang="sk">Editor videa</summary>
   <summary xml:lang="sl">Program za videomontažo</summary>
   <summary xml:lang="sv">Videoeditor</summary>
   <summary xml:lang="tr">Video düzenleyicisi</summary>
@@ -107,6 +108,7 @@
     <p xml:lang="pt-BR">Kdenlive é um aplicativo de edição de vídeo com suporte para vários formatos de áudio e vídeo. Ele oferece recursos avançados de edição, uma variedade de efeitos e transições, correção de cores, pós-produção de áudio e ferramentas de legenda. Além disso, fornece a flexibilidade para renderizar em praticamente qualquer formato que você escolher.</p>
     <p xml:lang="ru">Kdenlive — видеоредактор, поддерживающий различные форматы аудио- и видеозаписей. Программа предоставляет расширенные возможности редактирования, широкий ряд эффектов и переходов, инструменты цветокоррекции, окончательного монтажа аудио и наложения субтитров. Кроме того, гибкость настройки программы позволяет получить на выходе файл практически любого формата.</p>
     <p xml:lang="sa">Kdenlive इति एकः विडियो सम्पादन-अनुप्रयोगः अस्ति यस्य समर्थनं बहुषु श्रव्य-वीडियो-स्वरूपेषु भवति । अस्मिन् उन्नतसम्पादनविशेषताः, विविधाः प्रभावाः संक्रमणाः च, वर्णशुद्धिः, श्रव्य-उत्तरनिर्माणं, उपशीर्षकसाधनं च प्राप्यते । तदतिरिक्तं, भवतः पसन्दस्य व्यावहारिकरूपेण कस्मिन् अपि प्रारूपे प्रतिपादयितुं लचीलापनं प्रदाति ।</p>
+    <p xml:lang="sk">Kdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.</p>
     <p xml:lang="sl">Kdenlive je program za montažo videoposnetkov s podporo za številne zvokovne in video zapise. Ponuja napredne funkcije montaže, urejanja, različne učinke in prehode, korekcijo barv, poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru.</p>
     <p xml:lang="sv">Kdenlive är ett videoredigeringsprogram med stöd för många ljud- och videoformat. Det erbjuder avancerade redigeringsfunktioner, en mängd olika effekter och övergångar, färgkorrigering, efterproduktion av ljud och textningsverktyg. Dessutom ger det flexibiliteten att återge till praktiskt taget vilket format som helst.</p>
     <p xml:lang="tr">Kdenlive, birçok ses ve video biçimini destekleyen bir video düzenleme uygulamasıdır. Gelişmiş düzenleme özellikleri, çeşitli efektler ve geçişler, renk düzeltme, ses post prodüksiyon ve altyazı araçları sunar. Ek olarak, neredeyse seçtiğiniz herhangi bir biçime dönüştürme esnekliği de sağlar.</p>
@@ -179,6 +181,7 @@
       <li xml:lang="pt-BR">Sequências aninhadas</li>
       <li xml:lang="ru">Вложенные последовательности</li>
       <li xml:lang="sa">नेस्टेड अनुक्रम</li>
+      <li xml:lang="sk">Nested Sequences</li>
       <li xml:lang="sl">Ugnezdena zaporedja</li>
       <li xml:lang="sv">Nästlade sekvenser</li>
       <li xml:lang="tr">İç içe geçmiş sekanslar</li>
@@ -209,6 +212,7 @@
       <li xml:lang="pt-BR">Interface e atalhos configuráveis</li>
       <li xml:lang="ru">Настраиваемые интерфейс и комбинации клавиш</li>
       <li xml:lang="sa">विन्यासयोग्यं अन्तरफलकं शॉर्टकट् च</li>
+      <li xml:lang="sk">Configurable interface and shortcuts</li>
       <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
       <li xml:lang="sv">Anpassningsbart gränssnitt och genvägar</li>
       <li xml:lang="tr">Yapılandırılabilir arayüz ve kısayollar</li>
@@ -238,6 +242,7 @@
       <li xml:lang="pt-BR">Escopos: Histograma, Vetorescópio, Desfile RGB, Forma de onda e Medidor de áudio</li>
       <li xml:lang="ru">Отображение: гистограмма, вектороскоп, парад RGB, звуковой спектр и уровень звука</li>
       <li xml:lang="sa">व्याप्तिः : हिस्टोग्राम, वेक्टरस्कोप, आरजीबी परेड, तरङ्गरूप तथा ऑडियो मीटर्</li>
+      <li xml:lang="sk">Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meter</li>
       <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
       <li xml:lang="sv">Oscilloskop: Histogram, vektoroscilloskop, RGB-parad, vågform och ljudmätare</li>
       <li xml:lang="tr">Kapsamlar: Histogram, Vektörskop, RGB Geçidi, Dalga Biçimi ve Ses Ölçeri</li>
@@ -268,6 +273,7 @@
       <li xml:lang="pt-BR">Edição com proxy</li>
       <li xml:lang="ru">Редактирование с промежуточными клипами</li>
       <li xml:lang="sa">प्रॉक्सी सम्पादनम्</li>
+      <li xml:lang="sk">Proxy editing</li>
       <li xml:lang="sl">Montaža posrednih posnetkov</li>
       <li xml:lang="sv">Ersättningsredigering</li>
       <li xml:lang="tr">Vekilli düzenleme</li>
@@ -297,6 +303,7 @@
       <li xml:lang="pt-BR">Recursos e modelos online gratuitos</li>
       <li xml:lang="ru">Бесплатные ресурсы и шаблоны в Интернете</li>
       <li xml:lang="sa">निःशुल्क ऑनलाइन सम्पत्तिः टेम्पलेट् च</li>
+      <li xml:lang="sk">Free online assets and templates</li>
       <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
       <li xml:lang="sv">Fria tillgångar och mallar på nätet</li>
       <li xml:lang="tr">Ücretsiz çevrim içi kaynaklar ve şablonlar</li>
@@ -327,6 +334,7 @@
       <li xml:lang="pt-BR">Rastreamento de movimento</li>
       <li xml:lang="ru">Отслеживание движения</li>
       <li xml:lang="sa">गतिनिरीक्षणम्</li>
+      <li xml:lang="sk">Motion tracking</li>
       <li xml:lang="sl">Sledenje gibanju</li>
       <li xml:lang="sv">Rörelseföljning</li>
       <li xml:lang="tr">Hareket izlemesi</li>
@@ -357,6 +365,7 @@
       <li xml:lang="pt-BR">Ferramentas com IA</li>
       <li xml:lang="ru">Инструменты на основе ИИ</li>
       <li xml:lang="sa">एआइ-सञ्चालित-उपकरणम्</li>
+      <li xml:lang="sk">AI powered tools</li>
       <li xml:lang="sl">Orodja, ki jih poganja umetna inteligenca</li>
       <li xml:lang="sv">AI-drivna verktyg</li>
       <li xml:lang="tr">Yapay Zeka destekli araçlar</li>
@@ -446,6 +455,7 @@
         <p xml:lang="nl">Dit is de eerste uitgave met reparaties van bugs voor versie 24.02. Enkele van de meest opvallende oplossingen:</p>
         <p xml:lang="pt-BR">Esta é a primeira versão de correção de bugs para a versão 24.02. Algumas das correções mais notáveis:</p>
         <p xml:lang="ru">Это первый выпуск с исправлениями для версии 24.02. Наиболее значимые исправления:</p>
+        <p xml:lang="sk">Toto je the first bugfix release for the 24.02 version. Niektoré z the most noteworthy fixes:</p>
         <p xml:lang="sl">To je prva izdaja s popravki za različico 24.02. Nekaj najbolj omembe vrednih popravkov:</p>
         <p xml:lang="tr">Bu, 24.02 sürümü için ilk hata düzeltme yayımıdır. En dikkat çekici düzeltmelerden bazıları şunlardır:</p>
         <p xml:lang="uk">Це перший випуск з виправленнями вад у версії 24.02. Деякі з найбільш вартих уваги виправлень:</p>
@@ -462,6 +472,7 @@
           <li xml:lang="nl">Vervormde lettertypen in sommige delen van de gebruikersinterface corrigeren</li>
           <li xml:lang="pt-BR">Corrigido problema de distorção de fonte em algumas partes da interface do usuário</li>
           <li xml:lang="ru">Исправлено искажение шрифта в некоторых элементах интерфейса;</li>
+          <li xml:lang="sk">Fix distorted font in some parts of the UI</li>
           <li xml:lang="sl">popravljena deformirana pisava v nekaterih delih vmesnika;</li>
           <li xml:lang="tr">Kullanıcı arayüzünün bazı bölümlerindeki bozuk yazıtipi düzeltildi.</li>
           <li xml:lang="uk">Виправлено викривлення шрифту у певних частинах інтерфейсу</li>
@@ -477,6 +488,7 @@
           <li xml:lang="nl">Los het probleem op dat het bewerken van kleurverlopen in de titelpagina vastloopt</li>
           <li xml:lang="pt-BR">Corrigido o problema de travamento ao editar gradientes no editor de títulos</li>
           <li xml:lang="ru">Исправлено аварийное завершение при редактировании градиентов в титрах;</li>
+          <li xml:lang="sk">Fix crash editing gradients in titler</li>
           <li xml:lang="sl">odpravljeno sesutje pri urejanju prelivov v urejevalniku naslovov;</li>
           <li xml:lang="tr">Başlık düzenleyicisinde gradyanları düzenlerken oluşan çökme sorunu düzeltildi.</li>
           <li xml:lang="uk">Усунено аварійне завершення роботи при редагування градієнтів у засобі титрування</li>
@@ -492,6 +504,7 @@
           <li xml:lang="nl">Het probleem is opgelost dat het toevoegen van een mix aan een gegroepeerde clip de bestaande knipsel kon verschuiven.</li>
           <li xml:lang="pt-BR">Corrigido o problema em que adicionar uma mixagem a um clipe agrupado podia mover um corte existente</li>
           <li xml:lang="ru">Исправлено перемещение существующего разреза при добавлении микшера к сгруппированному клипу;</li>
+          <li xml:lang="sk">Fix adding a mix to a grouped clip could move existing cut</li>
           <li xml:lang="sl">popravljeno premikanje obstoječega reza ob dodajanju mešanice združenemu posnetku;</li>
           <li xml:lang="tr">Gruplandırılmış bir klibe karışım eklemenin, var olan klibin hareket etmesine neden olma sorunu düzeltildi.</li>
           <li xml:lang="uk">Виправлено проблему, пов'язану із тим, що додавання міксу до згрупованого кліпу могло призвести до пересування наявного розрізу</li>
@@ -507,6 +520,7 @@
           <li xml:lang="nl">Het probleem met het verplaatsen en verwijderen van een enkel item in een groep is verholpen</li>
           <li xml:lang="pt-BR">Corrigido problema ao mover e excluir um único item em um grupo</li>
           <li xml:lang="ru">Исправлено перемещение и удаление одного элемента в группе;</li>
+          <li xml:lang="sk">Fix moving and deleting a single item in a group</li>
           <li xml:lang="sl">popravljeno premikanje in brisanje posameznega elementa v skupini;</li>
           <li xml:lang="tr">Grup içindeki tek bir ögeyi taşıma ve silme sorunu düzeltildi.</li>
           <li xml:lang="uk">Виправлено пересування і вилучення окремого запису у групі</li>
@@ -522,6 +536,7 @@
           <li xml:lang="nl">Verhelp een crash in het hulpmiddel spacer bij het gebruik van gegroepeerde ondertitels</li>
           <li xml:lang="pt-BR">Corrigido problema que causava o fechamento inesperado do programa na ferramenta de espaçamento com legendas agrupadas</li>
           <li xml:lang="ru">Исправлено аварийное завершение при использовании инструмента «Интервал» с группированными субтитрами;</li>
+          <li xml:lang="sk">Fix crash in spacer tool with grouped subtitles</li>
           <li xml:lang="sl">odpravljeno sesutje orodja praznine s podnapisi v skupini;</li>
           <li xml:lang="tr">Gruplandırılmış altyazılarla ilgili olarak ara parça aracında meydana gelen çökme düzeltildi.</li>
           <li xml:lang="uk">Усунено аварійне завершення роботи у розпірці зі згрупованими субтитрами</li>
@@ -537,6 +552,7 @@
           <li xml:lang="nl">Diverse problemen met sequentieclips opgelost (wijzigingen werden onjuist opgeslagen, ondertitels werden niet gedupliceerd)</li>
           <li xml:lang="pt-BR">Corrigidos diversos problemas em clipes de sequência (salvamento incorreto de alterações, legendas não duplicadas)</li>
           <li xml:lang="ru">Исправлены проблемы с клипами последовательности: некорректное сохранение изменений и недублируемые субтитры;</li>
+          <li xml:lang="sk">Fix multiple issues on sequence clips (incorrectly saving changes, subtitles not duplicated)</li>
           <li xml:lang="sl">popravljenih več težav s posnetki zaporedja (nepravilno shranjevanje sprememb, podnaslovi se ne podvojijo);</li>
           <li xml:lang="tr">Sıralı kliplerdeki birden fazla sorunu düzeltildi (değişikliklerin yanlış kaydedilmesi, altyazıların çoğaltılmaması).</li>
           <li xml:lang="uk">Виправлено декілька вад у кліпах-послідовностях (неправильне збереження змін, не було дублювання субтитрів)</li>
@@ -552,6 +568,7 @@
           <li xml:lang="nl">Diverse problemen met ondertitels opgelost (meerdere ondertitelsporen werden niet correct opgeslagen of weergegeven).</li>
           <li xml:lang="pt-BR">Corrigidos diversos problemas com legendas (várias faixas de legendas não salvas ou exibidas corretamente)</li>
           <li xml:lang="ru">Исправлены различные проблемы с субтитрами:</li>
+          <li xml:lang="sk">Fix multiple issues with subtitles (multiple subtitles tracks not correctly saved or displayed)</li>
           <li xml:lang="sl">popravljenih več težav s podnaslovi (več stez podnaslovov se ne shrani ali prikaže pravilno).</li>
           <li xml:lang="tr">Altyazılarla ilgili birden fazla sorun düzeltildi (birden fazla altyazı parçası doğru kaydedilmiyor veya görüntülenmiyor).</li>
           <li xml:lang="uk">Виправлено кілька проблем із субтитрами (кілька доріжок субтитрів неправильно зберігалися або показувалися)</li>
@@ -602,6 +619,7 @@
       <caption xml:lang="pt-BR">Tema escuro</caption>
       <caption xml:lang="ru">Тёмная тема</caption>
       <caption xml:lang="sa">अन्धकारमयः विषयः</caption>
+      <caption xml:lang="sk">Dark theme</caption>
       <caption xml:lang="sl">Temna tema</caption>
       <caption xml:lang="sv">Mörkt tema</caption>
       <caption xml:lang="tr">Koyu tema</caption>
@@ -635,6 +653,7 @@
       <caption xml:lang="pt-BR">Interface padrão</caption>
       <caption xml:lang="ru">Интерфейс по умолчанию</caption>
       <caption xml:lang="sa">पूर्वनिर्धारित अन्तरफलक</caption>
+      <caption xml:lang="sk">Default interface</caption>
       <caption xml:lang="sl">Privzeti vmesnik</caption>
       <caption xml:lang="sv">Standardgränssnitt</caption>
       <caption xml:lang="tr">Öntanımlı arayüz</caption>
@@ -669,6 +688,7 @@
       <caption xml:lang="pt-BR">Correção de cores</caption>
       <caption xml:lang="ru">Цветокоррекция</caption>
       <caption xml:lang="sa">वर्णशुद्धिकरणम्</caption>
+      <caption xml:lang="sk">Farebné rozsahy</caption>
       <caption xml:lang="sl">Korekcija barv</caption>
       <caption xml:lang="sv">Färgkorrektion</caption>
       <caption xml:lang="tr">Renk düzeltmesi</caption>
@@ -702,6 +722,7 @@
       <caption xml:lang="pt-BR">Interface configurável</caption>
       <caption xml:lang="ru">Настраиваемый интерфейс</caption>
       <caption xml:lang="sa">विन्यासयोग्यं अन्तरफलकं</caption>
+      <caption xml:lang="sk">Configurable interface</caption>
       <caption xml:lang="sl">Nastavljiv vmesnik</caption>
       <caption xml:lang="sv">Anpassningsbart gränssnitt</caption>
       <caption xml:lang="tr">Yapılandırılabilir arayüz</caption>
@@ -735,6 +756,7 @@
       <caption xml:lang="pt-BR">Gerador de caracteres</caption>
       <caption xml:lang="ru">Наложение субтитров</caption>
       <caption xml:lang="sa">उपाधिकरणम्</caption>
+      <caption xml:lang="sk">Titling</caption>
       <caption xml:lang="sl">Naslavljanje</caption>
       <caption xml:lang="sv">Textning</caption>
       <caption xml:lang="tr">Başlıklandırma</caption>
@@ -767,6 +789,7 @@
       <caption xml:lang="pt-BR">Remapeamento de tempo e transições na mesma trilha</caption>
       <caption xml:lang="ru">Переназначение времени и переходы в одной и той же дорожке</caption>
       <caption xml:lang="sa">समयस्य पुनः मानचित्रणं तथा समान-पट्टिका-संक्रमणम्</caption>
+      <caption xml:lang="sk">Time remapping and same-track transitions</caption>
       <caption xml:lang="sl">Preslikava časa in prehodi na isti stezi</caption>
       <caption xml:lang="sv">Tidsomvandling och övergångar i samma spår</caption>
       <caption xml:lang="tr">Zaman eşlemlemesi ve aynı izde geçişler</caption>

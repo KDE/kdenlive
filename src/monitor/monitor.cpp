@@ -817,15 +817,12 @@ void Monitor::slotForceSize(QAction *a)
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         m_glMonitor->setFixedImageSize(QSize(profileWidth, profileHeight));
         profileHeight += m_glMonitor->m_displayRulerHeight;
-        m_glMonitor->setFixedSize(profileWidth, profileHeight);
         profileHeight += m_toolbar->height();
         setMinimumSize(QSize(profileWidth, profileHeight));
         break;
     default:
         // Free resize
         m_glMonitor->setFixedImageSize(QSize());
-        m_glMonitor->setMinimumSize(profileWidth, profileHeight);
-        m_glMonitor->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->getControllerProxy()->rulerHeight()));
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
         break;
