@@ -668,7 +668,14 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_sequence_marker")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_sequence_marker")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_markers_at_gaps")));
+    QMenu *identifyGapsTimelineMenu = new QMenu(i18n("Identify Gaps"), this);
+    QAction *gapsAllTracksTimeline = new QAction(i18n("All Tracks"), this);
+    connect(gapsAllTracksTimeline, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGaps);
+    identifyGapsTimelineMenu->addAction(gapsAllTracksTimeline);
+    QAction *gapsActiveTrackTimeline = new QAction(i18n("Selected Track"), this);
+    connect(gapsActiveTrackTimeline, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGapsOnTrack);
+    identifyGapsTimelineMenu->addAction(gapsActiveTrackTimeline);
+    timelineMenu->addMenu(identifyGapsTimelineMenu);
     QMenu *guideMenu = new QMenu(i18n("Go to Marker…"), this);
     timelineMenu->addMenu(guideMenu);
 
