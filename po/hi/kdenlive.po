@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-08 02:41+0000\n"
+"POT-Creation-Date: 2026-04-09 03:29+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -18808,7 +18808,7 @@ msgstr "चिकना (बहिष्कृत)"
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
-#: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
+#: src/dialogs/timeremap.cpp:1602 src/dialogs/timeremap.cpp:1627
 #, kde-format
 msgid "Add keyframe"
 msgstr "मुख्यफ़्रेम जोड़ें"
@@ -18823,7 +18823,7 @@ msgstr "मुख्यफ़्रेम प्रकार बदलें"
 #: src/assets/keyframes/model/keyframemodel.cpp:291
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
-#: src/dialogs/timeremap.cpp:1633
+#: src/dialogs/timeremap.cpp:1623
 #, kde-format
 msgid "Delete keyframe"
 msgstr "मुख्यफ़्रेम हटाएं"
@@ -18964,7 +18964,7 @@ msgid "Failed to load preset %1"
 msgstr "प्रीसेट %1 लोड करने में विफल"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Reset Effect"
 msgstr "प्रभाव रीसेट करें"
@@ -19033,19 +19033,19 @@ msgid "Switch to curve editor view"
 msgstr "वक्र संपादक दृश्य पर स्विच करें"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:158
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2076
+#: src/dialogs/timeremap.cpp:1608 src/mainwindow.cpp:2076
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "पिछले कीफ़्रेम पर जाएँ"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:162
-#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2074
+#: src/dialogs/timeremap.cpp:1605 src/mainwindow.cpp:2074
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "अगले कीफ़्रेम पर जाएँ"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:167
-#: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
+#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1615
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "चयनित कीफ़्रेम को कर्सर पर ले जाएँ"
@@ -20766,7 +20766,7 @@ msgstr "पूर्वावलोकन दिखाएँ >>>"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:690
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -20962,7 +20962,7 @@ msgid "Move subtitle"
 msgstr "उपशीर्षक ले जाएँ"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -22011,7 +22011,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:813
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:189
@@ -22735,7 +22735,7 @@ msgstr "वीडियो ट्रैक के बिना ऑडियो"
 msgid "Rendering %1 started"
 msgstr "रेंडरिंग <i>%1</i> शुरू हुआ"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1556
 #, kde-format
 msgid "untitled"
 msgstr "शीर्षकहीन"
@@ -22933,7 +22933,7 @@ msgstr "विविध"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:223
+#: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
 msgstr "ऑटो"
@@ -23075,7 +23075,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
-#: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:81
+#: src/dialogs/timeremap.cpp:1570 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:810
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
 #, kde-format
@@ -23169,7 +23169,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "इस सेटिंग को बदलने के लिए Kdenlive को पुनः प्रारंभ करना होगा"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:697
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "उस नाम से एक प्रोफ़ाइल पहले से मौजूद है"
@@ -24821,42 +24821,42 @@ msgstr "अंतिम स्रोत कीफ़्रेम को क्�
 msgid "Cannot move first source keyframe before clip start"
 msgstr "क्लिप शुरू होने से पहले पहले स्रोत कीफ़्रेम को स्थानांतरित नहीं किया जा सकता"
 
-#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1638
+#: src/dialogs/timeremap.cpp:1603 src/dialogs/timeremap.cpp:1628
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr "वर्तमान प्लेहेड स्थिति/फ़्रेम पर एक मुख्यफ़्रेम सम्मिलित करता है।"
 
-#: src/dialogs/timeremap.cpp:1616
+#: src/dialogs/timeremap.cpp:1606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr "प्लेहेड को दाईं ओर अगले कीफ़्रेम पर ले जाता है."
 
-#: src/dialogs/timeremap.cpp:1619
+#: src/dialogs/timeremap.cpp:1609
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr "प्लेहेड को बाईं ओर अगले कीफ़्रेम पर ले जाता है."
 
-#: src/dialogs/timeremap.cpp:1624 src/dialogs/timeremap.cpp:1626
+#: src/dialogs/timeremap.cpp:1614 src/dialogs/timeremap.cpp:1616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
 msgstr "चयनित कीफ़्रेम को वर्तमान प्लेहेड स्थिति/फ़्रेम पर ले जाता है।"
 
-#: src/dialogs/timeremap.cpp:1634
+#: src/dialogs/timeremap.cpp:1624
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr "प्लेहेड की वर्तमान स्थिति पर मुख्यफ़्रेम को हटाता है."
 
-#: src/dialogs/timeremap.cpp:1739
+#: src/dialogs/timeremap.cpp:1732
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "टाइम रीमैप B फ्रेम वाले क्लिप पर काम नहीं करता है।"
 
-#: src/dialogs/timeremap.cpp:2077
+#: src/dialogs/timeremap.cpp:2072
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "टाइमरीमैप कीफ़्रेम संपादित करें"
@@ -25913,49 +25913,49 @@ msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "प्रभाव को सक्षम करता है। सेटिंग से पहले और बाद की तुलना करने के लिए उपयोगी।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Create Group"
 msgstr "समूह बनाना"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "In:"
 msgstr "में:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Set zone in"
 msgstr "क्षेत्र निर्धारित करें"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "वर्तमान फ्रेम/प्लेहेड स्थिति को ज़ोन के प्रारंभ के रूप में सेट करता है।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Out:"
 msgstr "बाहर:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:203
 #, kde-format
 msgid "Set zone out"
 msgstr "क्षेत्र निर्धारित करें"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "वर्तमान फ्रेम/प्लेहेड स्थिति को ज़ोन के अंत के रूप में सेट करता है।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:250
 #, kde-format
 msgid "Use effect zone"
 msgstr "प्रभाव क्षेत्र का उपयोग करें"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:251
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -25963,35 +25963,35 @@ msgstr "प्रभाव क्षेत्र के प्रदर्शन
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:317
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "प्रीसेट"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:318
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "प्रभाव के लिए प्रीसेट प्रबंधित करने हेतु उन्नत विकल्पों की सूची खोलता है।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:346
 #, kde-format
 msgid "Delete effect"
 msgstr "प्रभाव हटाएं"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:347
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "प्रभाव स्टैक से प्रभाव को हटाता है."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:407
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "समूह में इस प्रभाव के %1 उदाहरण"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:626
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -26001,28 +26001,28 @@ msgstr ""
 "प्रभाव को कॉपी करने के लिए उसे किसी अन्य टाइमलाइन क्लिप, ट्रैक या प्रोजेक्ट क्लिप पर "
 "<b>खींचें</b> । <b>Alt समूह में किसी एकल आइटम पर कॉपी करने के लिए खींचें</b> ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 अक्षम करें"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Enable %1"
 msgstr "%1सक्षम करें"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:686
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "प्रभाव सहेजें"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:691
 #, kde-format
 msgid "Comments:"
 msgstr "टिप्पणियाँ:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:723
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "कोई नाम नहीं दिया गया, प्रभाव सहेजा नहीं गया."
@@ -29595,7 +29595,7 @@ msgid "Audio streams"
 msgstr "ऑडियो स्ट्रीम"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2237
+#: src/monitor/monitor.cpp:2241
 #, kde-format
 msgid "Merge all streams"
 msgstr "सभी स्ट्रीम्स को मर्ज करें"
@@ -30020,42 +30020,42 @@ msgstr ""
 msgid "Set Zone"
 msgstr "क्षेत्र निर्धारित करें"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "छवि को प्रोजेक्ट में सहेजें"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "चित्र को सेव करें"
 
-#: src/monitor/monitor.cpp:1572
+#: src/monitor/monitor.cpp:1576
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "स्रोत रिज़ॉल्यूशन का उपयोग करके छवि निर्यात करें"
 
-#: src/monitor/monitor.cpp:2112
+#: src/monitor/monitor.cpp:2116
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "अवधि संपादित करें"
 
-#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
+#: src/monitor/monitor.cpp:2226 src/monitor/monitor.cpp:2355
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 ऑडियो स्ट्रीम"
 msgstr[1] "%1 ऑडियो स्ट्रीम"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2678
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit के GLSL प्रबंधक को आरंभ नहीं किया जा सकता, कृपया Movit को अक्षम करें"
 
-#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
+#: src/monitor/monitor.cpp:2720 src/monitor/monitor.cpp:2777
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -30064,17 +30064,17 @@ msgstr ""
 "उस सुविधा के लिए अल्फाग्रेड फ़िल्टर आवश्यक है, कृपया frei0r स्थापित करें और Kdenlive को "
 "पुनः आरंभ करें"
 
-#: src/monitor/monitor.cpp:2735
+#: src/monitor/monitor.cpp:2740
 #, kde-format
 msgid "Clip has no effects"
 msgstr "क्लिप का कोई प्रभाव नहीं है"
 
-#: src/monitor/monitor.cpp:2737
+#: src/monitor/monitor.cpp:2742
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "प्रभाव की तुलना करने के लिए प्रोजेक्ट बिन में एक क्लिप का चयन करें"
 
-#: src/monitor/monitor.cpp:2779
+#: src/monitor/monitor.cpp:2784
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -30083,40 +30083,40 @@ msgstr ""
 "उस सुविधा के लिए कैरोब्लेंड संक्रमण आवश्यक है, कृपया frei0r स्थापित करें और Kdenlive को "
 "पुनः आरंभ करें"
 
-#: src/monitor/monitor.cpp:2859
+#: src/monitor/monitor.cpp:2864
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभाव संपादित करने के लिए मॉनिटर में संपादन मोड सक्षम करें"
 
-#: src/monitor/monitor.cpp:3363
+#: src/monitor/monitor.cpp:3368
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "प्रोजेक्ट बिन में कोई क्लिप चयनित नहीं है"
 
-#: src/monitor/monitor.cpp:3384
+#: src/monitor/monitor.cpp:3389
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
+#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3502
 #: src/timeline2/view/timelinecontroller.cpp:5968
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3476
+#: src/monitor/monitor.cpp:3481
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
+#: src/monitor/monitor.cpp:3487 src/monitor/monitor.cpp:3508
 #: src/timeline2/view/timelinecontroller.cpp:5983
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
+#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -30332,17 +30332,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "ऑडियो स्पेक्ट्रम सक्षम करें"
 
-#: src/monitor/videowidget.cpp:1234
+#: src/monitor/videowidget.cpp:1241
 #, kde-format
 msgid "Select a zone to play"
 msgstr "खेलने के लिए एक क्षेत्र का चयन करें"
 
-#: src/monitor/videowidget.cpp:1243
+#: src/monitor/videowidget.cpp:1250
 #, kde-format
 msgid "Select a clip to play"
 msgstr "चलाने के लिए कोई क्लिप चुनें"
 
-#: src/monitor/videowidget.cpp:1348
+#: src/monitor/videowidget.cpp:1355
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

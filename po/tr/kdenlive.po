@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-08 02:41+0000\n"
+"POT-Creation-Date: 2026-04-09 03:29+0000\n"
 "PO-Revision-Date: 2026-03-20 13:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -18494,7 +18494,7 @@ msgstr "Pürüzsüz (Kullanılmıyor)"
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
-#: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
+#: src/dialogs/timeremap.cpp:1602 src/dialogs/timeremap.cpp:1627
 #, kde-format
 msgid "Add keyframe"
 msgstr "Anahtar kare ekle"
@@ -18509,7 +18509,7 @@ msgstr "Anahtar kare türünü değiştir"
 #: src/assets/keyframes/model/keyframemodel.cpp:291
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
-#: src/dialogs/timeremap.cpp:1633
+#: src/dialogs/timeremap.cpp:1623
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Anahtar kare sil"
@@ -18651,7 +18651,7 @@ msgid "Failed to load preset %1"
 msgstr "%1 önayarı yüklenemedi"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Reset Effect"
 msgstr "Efekti Sıfırla"
@@ -18720,19 +18720,19 @@ msgid "Switch to curve editor view"
 msgstr "Eğri Düzenleyicisi Görünümüne Geç"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:158
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2076
+#: src/dialogs/timeremap.cpp:1608 src/mainwindow.cpp:2076
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Önceki anahtar kareye git"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:162
-#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2074
+#: src/dialogs/timeremap.cpp:1605 src/mainwindow.cpp:2074
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Sonraki anahtar kareye git"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:167
-#: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
+#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1615
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Seçili anahtar kareyi imlece taşı"
@@ -20433,7 +20433,7 @@ msgstr "Önizleme Panelini Göster"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:690
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -20622,7 +20622,7 @@ msgid "Move subtitle"
 msgstr "Altyazıyı taşı"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -21654,7 +21654,7 @@ msgstr "İmleyiciler Verisini Dışa Aktar"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:813
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:189
@@ -22372,7 +22372,7 @@ msgstr "Video izi olmayan ses"
 msgid "Rendering %1 started"
 msgstr "%1 sunumu başladı"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1556
 #, kde-format
 msgid "untitled"
 msgstr "başlıksız"
@@ -22563,7 +22563,7 @@ msgstr "Çeşitli"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:223
+#: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
 msgstr "Kendiliğinden"
@@ -22699,7 +22699,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
-#: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:81
+#: src/dialogs/timeremap.cpp:1570 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:810
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
 #, kde-format
@@ -22792,7 +22792,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "Bu ayarı değiştirmek için Kdenlive yeniden başlatılmalıdır"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:697
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Bu profil adı zaten var"
@@ -24434,44 +24434,44 @@ msgstr "Kaynak anahtar kare klip sonu ötesine taşınamıyor"
 msgid "Cannot move first source keyframe before clip start"
 msgstr "Klip başlangıcından önce ilk kaynak anahtar kare taşınamıyor"
 
-#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1638
+#: src/dialogs/timeremap.cpp:1603 src/dialogs/timeremap.cpp:1628
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
 "Geçerli oynatma kafası konumunda/karesinde bir anahtar kare yerleştirir."
 
-#: src/dialogs/timeremap.cpp:1616
+#: src/dialogs/timeremap.cpp:1606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr "Oynatma kafasını sağdaki bir sonraki anahtar kareye taşır."
 
-#: src/dialogs/timeremap.cpp:1619
+#: src/dialogs/timeremap.cpp:1609
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr "Oynatma kafasını soldaki bir sonraki anahtar kareye taşır."
 
-#: src/dialogs/timeremap.cpp:1624 src/dialogs/timeremap.cpp:1626
+#: src/dialogs/timeremap.cpp:1614 src/dialogs/timeremap.cpp:1616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
 msgstr ""
 "Seçili anahtar kareleri geçerli oynatma kafası konumuna/karesine taşır."
 
-#: src/dialogs/timeremap.cpp:1634
+#: src/dialogs/timeremap.cpp:1624
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr "Oynatma kafasının geçerli konumundaki anahtar kareyi siler."
 
-#: src/dialogs/timeremap.cpp:1739
+#: src/dialogs/timeremap.cpp:1732
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "B kareli bir klip üzerinde zaman yeniden eşlemleme çalışmıyor."
 
-#: src/dialogs/timeremap.cpp:2077
+#: src/dialogs/timeremap.cpp:2072
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Zaman yeniden eşlemleme anahtar karelerini düzenle"
@@ -25533,50 +25533,50 @@ msgstr ""
 "Efekti etkinleştirir. Öncesi ve sonrası ayarlarını karşılaştırırken "
 "yararlıdır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Create Group"
 msgstr "Grup Oluştur"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "In:"
 msgstr "Şurada:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Set zone in"
 msgstr "Bölge girişini ayarla"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Geçerli kare/oynatma kafası konumunu bölgenin başlangıcı olarak ayarlar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Out:"
 msgstr "Çıkış:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:203
 #, kde-format
 msgid "Set zone out"
 msgstr "Bölge çıkışını ayarla"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Geçerli kare/oynatma kafası konumunu bölgenin bitişi olarak ayarlar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:250
 #, kde-format
 msgid "Use effect zone"
 msgstr "Efekt bölgesini kullan"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:251
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -25584,13 +25584,13 @@ msgstr "Efekt bölgelerinin görüntülenmesini açar/kapatır."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:317
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Önayarlar"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:318
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -25598,23 +25598,23 @@ msgstr ""
 "Efekt için olan önayarları yönetmek için bir gelişmiş seçenekler listesi "
 "açar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:346
 #, kde-format
 msgid "Delete effect"
 msgstr "Efekti sil"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:347
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Efekti, efekt yığınından siler."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:407
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "Grupta bu efektin %1 örneği var"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:626
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -25625,28 +25625,28 @@ msgstr ""
 "proje klibine <b>sürükleyin</b>. Onu gruptaki tek bir ögeye kopyalamak için "
 "<b>Seçenek</b> düğmesini basılıp tutup sürükleyin."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Disable %1"
 msgstr "Devre Dışı Bırak: %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Enable %1"
 msgstr "Etkinleştir: %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:686
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Efekti Kaydet"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:691
 #, kde-format
 msgid "Comments:"
 msgstr "Açıklamalar:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:723
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Ad verilmediğinden efekt kaydedilmedi."
@@ -29141,7 +29141,7 @@ msgid "Audio streams"
 msgstr "Ses akışları"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2237
+#: src/monitor/monitor.cpp:2241
 #, kde-format
 msgid "Merge all streams"
 msgstr "Tüm akışları Birleştir"
@@ -29561,42 +29561,42 @@ msgstr "Bir maske oluştururken bölge değiştirilemiyor"
 msgid "Set Zone"
 msgstr "Bölge Ayarla"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Görseli Projeye Kaydet"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Görseli Kaydet"
 
-#: src/monitor/monitor.cpp:1572
+#: src/monitor/monitor.cpp:1576
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Kaynak çözünürlüğünü kullanarak görüntüyü dışa aktar"
 
-#: src/monitor/monitor.cpp:2112
+#: src/monitor/monitor.cpp:2116
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Maske Kipinden Çık?"
 
-#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
+#: src/monitor/monitor.cpp:2226 src/monitor/monitor.cpp:2355
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 ses akışı"
 msgstr[1] "%1 ses akışı"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2678
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit’in GLSL yöneticisi başlatılamıyor, lütfen Movit’i devre dışı bırakın"
 
-#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
+#: src/monitor/monitor.cpp:2720 src/monitor/monitor.cpp:2777
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29605,17 +29605,17 @@ msgstr ""
 "Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2735
+#: src/monitor/monitor.cpp:2740
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip bir efekt içermiyor"
 
-#: src/monitor/monitor.cpp:2737
+#: src/monitor/monitor.cpp:2742
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Efekti uygulamak için proje kovasından bir klip seçin"
 
-#: src/monitor/monitor.cpp:2779
+#: src/monitor/monitor.cpp:2784
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29624,40 +29624,40 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2859
+#: src/monitor/monitor.cpp:2864
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
 
-#: src/monitor/monitor.cpp:3363
+#: src/monitor/monitor.cpp:3368
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Klip monitöründe seçili klip yok"
 
-#: src/monitor/monitor.cpp:3384
+#: src/monitor/monitor.cpp:3389
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Klip monitörü için olan üreteç alınamıyor"
 
-#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
+#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3502
 #: src/timeline2/view/timelinecontroller.cpp:5968
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "Tanımlanmış geçerli bölge yok. Lütfen önce giriş/çıkış noktalarını ayarlayın."
 
-#: src/monitor/monitor.cpp:3476
+#: src/monitor/monitor.cpp:3481
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Bölgeden Erim İmleyicisi Oluştur"
 
-#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
+#: src/monitor/monitor.cpp:3487 src/monitor/monitor.cpp:3508
 #: src/timeline2/view/timelinecontroller.cpp:5983
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Bölgeden oluşturulmuş erim imleyicisi"
 
-#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
+#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -29869,17 +29869,17 @@ msgstr "Ses tayfını etkinleştirmek için MLT libfftw3 ile derlenmesi zorunlud
 msgid "Enable Audio Spectrum"
 msgstr "Ses Tayfını Etkinleştir"
 
-#: src/monitor/videowidget.cpp:1234
+#: src/monitor/videowidget.cpp:1241
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Oynanacak bir bölge seçin"
 
-#: src/monitor/videowidget.cpp:1243
+#: src/monitor/videowidget.cpp:1250
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Oynatılacak bir klip seçin"
 
-#: src/monitor/videowidget.cpp:1348
+#: src/monitor/videowidget.cpp:1355
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

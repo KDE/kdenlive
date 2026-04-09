@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-08 02:41+0000\n"
+"POT-Creation-Date: 2026-04-09 03:29+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -19208,7 +19208,7 @@ msgstr "Līdzens (novecojis)"
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
-#: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
+#: src/dialogs/timeremap.cpp:1602 src/dialogs/timeremap.cpp:1627
 #, kde-format
 msgid "Add keyframe"
 msgstr "Pievienot atslēgkadru"
@@ -19223,7 +19223,7 @@ msgstr "Mainīt atslēgkadra tipu"
 #: src/assets/keyframes/model/keyframemodel.cpp:291
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
-#: src/dialogs/timeremap.cpp:1633
+#: src/dialogs/timeremap.cpp:1623
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Dzēst atslēgkadru"
@@ -19365,7 +19365,7 @@ msgid "Failed to load preset %1"
 msgstr "Neizdevās ielādēt priekšiestatījumu „%1“"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Reset Effect"
 msgstr "Atiestatīt efektu"
@@ -19434,19 +19434,19 @@ msgid "Switch to curve editor view"
 msgstr "Pārslēgties uz līknes redaktora skatu"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:158
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2076
+#: src/dialogs/timeremap.cpp:1608 src/mainwindow.cpp:2076
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Iet uz iepriekšējo atslēgkadru"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:162
-#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2074
+#: src/dialogs/timeremap.cpp:1605 src/mainwindow.cpp:2074
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Iet uz nākamo atslēgkadru"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:167
-#: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
+#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1615
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Pārvietot atlasīto atslēgkadru uz kursoru"
@@ -21167,7 +21167,7 @@ msgstr "Rādīt priekšskatījumu >>>"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:690
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -21363,7 +21363,7 @@ msgid "Move subtitle"
 msgstr "Pārvietot subtitru"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -22418,7 +22418,7 @@ msgstr "Eksportēt palīgnorāžu datus"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:813
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:189
@@ -23142,7 +23142,7 @@ msgstr "Audio bez video celiņa"
 msgid "Rendering %1 started"
 msgstr "Sākusies „%1“ renderēšana"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1556
 #, kde-format
 msgid "untitled"
 msgstr "nenosaukts"
@@ -23342,7 +23342,7 @@ msgstr "Dažādi"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:223
+#: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
 msgstr "automātiski"
@@ -23486,7 +23486,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
-#: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:81
+#: src/dialogs/timeremap.cpp:1570 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:810
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
 #, kde-format
@@ -23580,7 +23580,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "„Kdenlive“ ir jāpārstartē, lai nomainītu šo iestatījumu"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:697
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Jau pastāv profils ar šādu nosaukumu"
@@ -25240,43 +25240,43 @@ msgstr "Nevar pārvietot pēdējo avota atslēgkadru aiz klipa beigām"
 msgid "Cannot move first source keyframe before clip start"
 msgstr "Nevar pārvietot pirmo avota atslēgkadru pirms klipa sākuma"
 
-#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1638
+#: src/dialogs/timeremap.cpp:1603 src/dialogs/timeremap.cpp:1628
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr "Ievieto atslēgkadru pašreizējā atskaņošana pozīcijā/kadrā"
 
-#: src/dialogs/timeremap.cpp:1616
+#: src/dialogs/timeremap.cpp:1606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr "Pārvieto atskaņošanas pozīciju uz nākamo atslēgkadru (pa labi)."
 
-#: src/dialogs/timeremap.cpp:1619
+#: src/dialogs/timeremap.cpp:1609
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr "Pārvieto atskaņošanas vietu uz iepriekšējo atslēgkadru (pa kreisi)."
 
-#: src/dialogs/timeremap.cpp:1624 src/dialogs/timeremap.cpp:1626
+#: src/dialogs/timeremap.cpp:1614 src/dialogs/timeremap.cpp:1616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
 msgstr ""
 "Pārvieto atlasītos atslēgkadrus uz pašreizējo atskaņošanas pozīciju/kadru."
 
-#: src/dialogs/timeremap.cpp:1634
+#: src/dialogs/timeremap.cpp:1624
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr "Dzēš atslēgkadru pašreizējā atskaņošanas pozīcijā."
 
-#: src/dialogs/timeremap.cpp:1739
+#: src/dialogs/timeremap.cpp:1732
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "Laika pārkartēšana nestrādā ar klipiem, kas satur B kadrus."
 
-#: src/dialogs/timeremap.cpp:2077
+#: src/dialogs/timeremap.cpp:2072
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Rediģēt taimera kartes atslēgkadrus"
@@ -26356,49 +26356,49 @@ msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Ieslēdz šo efektu. Noderīgi, lai salīdzinātu „pirms un pēc“ stāvokli."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Create Group"
 msgstr "Izveidot grupu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "In:"
 msgstr "Iekšā:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Set zone in"
 msgstr "Noteikt apgabalu iekšā"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "Pašreizējo kadru/atskaņošanas pozīciju iestata uz apgabala sākumu."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Out:"
 msgstr "Ārā:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:203
 #, kde-format
 msgid "Set zone out"
 msgstr "Noteikt apgabalu ārā"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Pašreizējo kadru/atskaņošanas pozīciju iestata uz apgabala beigām."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:250
 #, kde-format
 msgid "Use effect zone"
 msgstr "Izmantot efekta apgabalu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:251
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -26406,36 +26406,36 @@ msgstr "Ieslēdz un izslēdz efekta apgabala parādīšanu."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:317
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Priekšiestatījumi"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:318
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 "Atver sarakstu ar papildu opcijām, lai pārvaldītu efekta priekšiestatījumus."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:346
 #, kde-format
 msgid "Delete effect"
 msgstr "Dzēst efektu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:347
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Dzēš efektu no efektu rindas."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:407
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 šīs efekta instances grupā"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:626
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -26446,28 +26446,28 @@ msgstr ""
 "lai to nokopētu. <b>„Alt“ taustiņš un vilkšana</b> to nokopēs uz atsevišķu "
 "vienumu grupā."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Disable %1"
 msgstr "Izslēgt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Enable %1"
 msgstr "Ieslēgt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:686
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Saglabāt efektu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:691
 #, kde-format
 msgid "Comments:"
 msgstr "Komentāri:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:723
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Nav norādīts nosaukums, efekts nav saglabāts."
@@ -30042,7 +30042,7 @@ msgid "Audio streams"
 msgstr "Audio straumes"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2237
+#: src/monitor/monitor.cpp:2241
 #, kde-format
 msgid "Merge all streams"
 msgstr "Apvienot visas straumes"
@@ -30466,29 +30466,29 @@ msgstr "Maskas izveides laikā nevar mainīt apgabalu"
 msgid "Set Zone"
 msgstr "Noteikt apgabalu"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Saglabāt attēlu projektā"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Saglabāt attēlu"
 
-#: src/monitor/monitor.cpp:1572
+#: src/monitor/monitor.cpp:1576
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Eksportēt attēlu ar avotu izšķirtspēju"
 
-#: src/monitor/monitor.cpp:2112
+#: src/monitor/monitor.cpp:2116
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Vai iziet no maskas režīma?"
 
-#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
+#: src/monitor/monitor.cpp:2226 src/monitor/monitor.cpp:2355
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -30496,12 +30496,12 @@ msgstr[0] "%1 audio straume"
 msgstr[1] "%1 audio straumes"
 msgstr[2] "%1 audio straumju"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2678
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Nevar palaist „Movit“ GLSL pārvaldnieku. Izslēdziet „Movit“."
 
-#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
+#: src/monitor/monitor.cpp:2720 src/monitor/monitor.cpp:2777
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -30510,17 +30510,17 @@ msgstr ""
 "Lai šī iespēja darbotos, ierīcē ir jābūt „alphagrad“ filtram. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2735
+#: src/monitor/monitor.cpp:2740
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipam nav efektu"
 
-#: src/monitor/monitor.cpp:2737
+#: src/monitor/monitor.cpp:2742
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Atlasiet klipu projekta lādē, lai salīdzinātu efektu"
 
-#: src/monitor/monitor.cpp:2779
+#: src/monitor/monitor.cpp:2784
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -30529,39 +30529,39 @@ msgstr ""
 "Lai šī iespēja darbotos, ir nepieciešama „cairoblend“ iespēja. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2859
+#: src/monitor/monitor.cpp:2864
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ieslēdziet rediģēšanas režīmu un pārskatiet rediģēšanas efektu"
 
-#: src/monitor/monitor.cpp:3363
+#: src/monitor/monitor.cpp:3368
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Klipu monitorā nav atlasīts klips"
 
-#: src/monitor/monitor.cpp:3384
+#: src/monitor/monitor.cpp:3389
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Nevar iegūt ražotāju klipu monitoram"
 
-#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
+#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3502
 #: src/timeline2/view/timelinecontroller.cpp:5968
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3476
+#: src/monitor/monitor.cpp:3481
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
+#: src/monitor/monitor.cpp:3487 src/monitor/monitor.cpp:3508
 #: src/timeline2/view/timelinecontroller.cpp:5983
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
+#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -30776,17 +30776,17 @@ msgstr "Lai ieslēgtu Audio spektru, MLT ir jābūt kompilētam ar „libfftw3�
 msgid "Enable Audio Spectrum"
 msgstr "Ieslēgt audio spektru"
 
-#: src/monitor/videowidget.cpp:1234
+#: src/monitor/videowidget.cpp:1241
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Atlasīt atskaņojamo apgabalu"
 
-#: src/monitor/videowidget.cpp:1243
+#: src/monitor/videowidget.cpp:1250
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Atlasīt atskaņojamo klipu"
 
-#: src/monitor/videowidget.cpp:1348
+#: src/monitor/videowidget.cpp:1355
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

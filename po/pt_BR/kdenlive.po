@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-08 02:41+0000\n"
+"POT-Creation-Date: 2026-04-09 03:29+0000\n"
 "PO-Revision-Date: 2026-03-13 08:50-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -18568,7 +18568,7 @@ msgstr "Suave (obsoleto)"
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
-#: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
+#: src/dialogs/timeremap.cpp:1602 src/dialogs/timeremap.cpp:1627
 #, kde-format
 msgid "Add keyframe"
 msgstr "Adicionar quadro-chave"
@@ -18583,7 +18583,7 @@ msgstr "Mudar tipo de quadro-chave"
 #: src/assets/keyframes/model/keyframemodel.cpp:291
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
-#: src/dialogs/timeremap.cpp:1633
+#: src/dialogs/timeremap.cpp:1623
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Excluir quadro-chave"
@@ -18724,7 +18724,7 @@ msgid "Failed to load preset %1"
 msgstr "Falha ao carregar a predefinição %1"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Reset Effect"
 msgstr "Restaurar efeito"
@@ -18793,19 +18793,19 @@ msgid "Switch to curve editor view"
 msgstr "Alternar para vista do editor de curvas"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:158
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2076
+#: src/dialogs/timeremap.cpp:1608 src/mainwindow.cpp:2076
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Ir para quadro-chave anterior"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:162
-#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2074
+#: src/dialogs/timeremap.cpp:1605 src/mainwindow.cpp:2074
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Ir para próximo quadro-chave"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:167
-#: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
+#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1615
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Mover quadro-chave selecionado para o cursor"
@@ -20513,7 +20513,7 @@ msgstr "Mostrar painel de prévia"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:690
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -20702,7 +20702,7 @@ msgid "Move subtitle"
 msgstr "Mover legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -21743,7 +21743,7 @@ msgstr "Exportar dados dos marcadores"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:813
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:189
@@ -22466,7 +22466,7 @@ msgstr "Áudio sem trilha de vídeo"
 msgid "Rendering %1 started"
 msgstr "Renderização %1 iniciada"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1552
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1556
 #, kde-format
 msgid "untitled"
 msgstr "sem título"
@@ -22657,7 +22657,7 @@ msgstr "Geral"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:223
+#: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
 msgstr "automático"
@@ -22793,7 +22793,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
-#: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:81
+#: src/dialogs/timeremap.cpp:1570 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:810
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
 #, kde-format
@@ -22887,7 +22887,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "O Kdenlive deve ser reiniciado para alterar esta definição"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:697
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Já existe um perfil com esse nome"
@@ -24540,26 +24540,26 @@ msgstr ""
 "Não é possível mover o primeiro quadro-chave de origem antes do início do "
 "clipe"
 
-#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1638
+#: src/dialogs/timeremap.cpp:1603 src/dialogs/timeremap.cpp:1628
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
 "Insere um quadro-chave na posição/quadro do indicador de reprodução atual."
 
-#: src/dialogs/timeremap.cpp:1616
+#: src/dialogs/timeremap.cpp:1606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr "Move a reprodução para o próximo quadro-chave à direita."
 
-#: src/dialogs/timeremap.cpp:1619
+#: src/dialogs/timeremap.cpp:1609
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr "Move a reprodução para o próximo quadro-chave à esquerda."
 
-#: src/dialogs/timeremap.cpp:1624 src/dialogs/timeremap.cpp:1626
+#: src/dialogs/timeremap.cpp:1614 src/dialogs/timeremap.cpp:1616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
@@ -24567,18 +24567,18 @@ msgstr ""
 "Move os quadros-chave selecionados para o quadro/posição atual do indicador "
 "de reprodução."
 
-#: src/dialogs/timeremap.cpp:1634
+#: src/dialogs/timeremap.cpp:1624
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr "Exclui o quadro-chave na posição atual do indicador de reprodução."
 
-#: src/dialogs/timeremap.cpp:1739
+#: src/dialogs/timeremap.cpp:1732
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "O remapeamento de tempo não funciona com clipes que contém quadros B."
 
-#: src/dialogs/timeremap.cpp:2077
+#: src/dialogs/timeremap.cpp:2072
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Editar quadros-chave da reconfiguração do tempo"
@@ -25643,51 +25643,51 @@ msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Ativa o efeito. Útil para comparar antes e depois das configurações."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Create Group"
 msgstr "Criar grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "In:"
 msgstr "Entrada:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Set zone in"
 msgstr "Definir área de entrada"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Define a posição atual do quadro/indicador de reprodução como início da zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Out:"
 msgstr "Saída:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:203
 #, kde-format
 msgid "Set zone out"
 msgstr "Definir área de saída"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 "Define a posição atual do quadro/indicador de reprodução como final da zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:250
 #, kde-format
 msgid "Use effect zone"
 msgstr "Usar zona de efeitos"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:251
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -25695,13 +25695,13 @@ msgstr "Alterna a exibição da zona do efeito."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:317
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Predefinições"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:318
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -25709,23 +25709,23 @@ msgstr ""
 "Abre uma lista de opções avançadas para gerenciar predefinições para o "
 "efeito."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:346
 #, kde-format
 msgid "Delete effect"
 msgstr "Excluir efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:347
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Exclui o efeito da pilha de efeitos."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:407
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instâncias deste efeito no grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:626
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -25736,28 +25736,28 @@ msgstr ""
 "projeto para copiar. <b>Pressione Alt e arraste</b> para copiar para um "
 "único item no grupo."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Disable %1"
 msgstr "Desativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:650
 #, kde-format
 msgid "Enable %1"
 msgstr "Ativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:686
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Salvar efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:691
 #, kde-format
 msgid "Comments:"
 msgstr "Comentários:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:723
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Nenhum nome fornecido, efeito não foi salvo."
@@ -29277,7 +29277,7 @@ msgid "Audio streams"
 msgstr "Transmissões de áudio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2237
+#: src/monitor/monitor.cpp:2241
 #, kde-format
 msgid "Merge all streams"
 msgstr "Unir todas as transmissões"
@@ -29694,42 +29694,42 @@ msgstr "Não é possível alterar a zona ao criar uma máscara"
 msgid "Set Zone"
 msgstr "Definir área"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Salvar imagem no projeto"
 
-#: src/monitor/monitor.cpp:1565
+#: src/monitor/monitor.cpp:1569
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Salvar imagem"
 
-#: src/monitor/monitor.cpp:1572
+#: src/monitor/monitor.cpp:1576
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Exportar imagem usando resolução de origem"
 
-#: src/monitor/monitor.cpp:2112
+#: src/monitor/monitor.cpp:2116
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Sair da criação da máscara ?"
 
-#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2351
+#: src/monitor/monitor.cpp:2226 src/monitor/monitor.cpp:2355
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 fluxo de áudio"
 msgstr[1] "%1 fluxos de áudio"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2678
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Não é possível iniciar o gerenciador de GLSL do Movit - desative o Movit"
 
-#: src/monitor/monitor.cpp:2715 src/monitor/monitor.cpp:2772
+#: src/monitor/monitor.cpp:2720 src/monitor/monitor.cpp:2777
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29738,18 +29738,18 @@ msgstr ""
 "O filtro alphagrad é necessário para esse recurso, instale o frei0r e "
 "reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2735
+#: src/monitor/monitor.cpp:2740
 #, kde-format
 msgid "Clip has no effects"
 msgstr "O clipe não tem efeitos"
 
-#: src/monitor/monitor.cpp:2737
+#: src/monitor/monitor.cpp:2742
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 "Selecione um clipe na biblioteca multimídia do projeto para comparar o efeito"
 
-#: src/monitor/monitor.cpp:2779
+#: src/monitor/monitor.cpp:2784
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29758,40 +29758,40 @@ msgstr ""
 "A transição 'cairoblend' é necessária para este recurso; instale o 'frei0r' "
 "e reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2859
+#: src/monitor/monitor.cpp:2864
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ative o modo de edição no monitor para editar o efeito"
 
-#: src/monitor/monitor.cpp:3363
+#: src/monitor/monitor.cpp:3368
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Nenhum clipe selecionado no monitor de clipe"
 
-#: src/monitor/monitor.cpp:3384
+#: src/monitor/monitor.cpp:3389
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Não foi possível obter o produtor para o monitor de clipe"
 
-#: src/monitor/monitor.cpp:3466 src/monitor/monitor.cpp:3497
+#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3502
 #: src/timeline2/view/timelinecontroller.cpp:5968
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "Nenhuma zona válida definida. Defina primeiro os pontos de entrada/saída."
 
-#: src/monitor/monitor.cpp:3476
+#: src/monitor/monitor.cpp:3481
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Criar marcador de intervalo a partir da zona"
 
-#: src/monitor/monitor.cpp:3482 src/monitor/monitor.cpp:3503
+#: src/monitor/monitor.cpp:3487 src/monitor/monitor.cpp:3508
 #: src/timeline2/view/timelinecontroller.cpp:5983
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Marcador de intervalo criado a partir da zona"
 
-#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
+#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -30003,17 +30003,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Ativar o espectro de áudio"
 
-#: src/monitor/videowidget.cpp:1234
+#: src/monitor/videowidget.cpp:1241
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Selecione uma área para reproduzir"
 
-#: src/monitor/videowidget.cpp:1243
+#: src/monitor/videowidget.cpp:1250
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Selecione um clipe para reproduzir"
 
-#: src/monitor/videowidget.cpp:1348
+#: src/monitor/videowidget.cpp:1355
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
