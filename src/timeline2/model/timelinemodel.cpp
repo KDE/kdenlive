@@ -611,7 +611,7 @@ QVariantList TimelineModel::clipAudioStreamInfo(const QString &binClipId, int tr
     // matching the same pattern used in requestClipInsertion.
     // no need to check for track validity here since tooltip will be hidden in that case.
     if (!isTrack(trackId)) {
-        return {0, 0};
+        return {0, 0, false};
     }
     // binClipId may be a semicolon-separated list of clip ids (as produced by the bin drag).
     // Sum the total audio stream counts across all clips.
@@ -631,7 +631,7 @@ QVariantList TimelineModel::clipAudioStreamInfo(const QString &binClipId, int tr
         }
     }
     if (totalStreamCount == 0) {
-        return {0, 0};
+        return {0, 0, true};
     }
     int availableTracks = 0;
     if (isAudioTrack(trackId)) {
