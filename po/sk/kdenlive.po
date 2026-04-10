@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-09 00:43+0000\n"
+"POT-Creation-Date: 2026-04-10 00:46+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -11313,6 +11313,10 @@ msgid ""
 "influenced. Default is 1. Lower values (moving the bar to the left) make the "
 "image darker, higher values (moving the bar to the right) make it brighter."
 msgstr ""
+"Changes the overall brightness of the image.<br>\n"
+"                Affects only the mid-tones, black and white are not "
+"influenced. Default is 1. Lower values (moving the bar to the left) make the "
+"image darker, higher values (moving the bar to the right) make it brighter."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -22313,7 +22317,7 @@ msgstr "Video bez zvukovej stopy"
 msgid "Rendering %1 started"
 msgstr "Renderovanie <i>%1</i> spustené"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1556
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1553
 #, kde-format
 msgid "untitled"
 msgstr "nepomenovaný"
@@ -29085,7 +29089,7 @@ msgid "Audio streams"
 msgstr "Zvukové prúdy"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2241
+#: src/monitor/monitor.cpp:2238
 #, kde-format
 msgid "Merge all streams"
 msgstr "Zlúčiť všetky prúdy"
@@ -29488,41 +29492,41 @@ msgstr "Zobraziť ovládanie nahrávania"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Vaše rozlíšenie obrazovky nie je dostatočné na túto akciu"
 
-#: src/monitor/monitor.cpp:947 src/monitor/monitor.cpp:983
-#: src/monitor/monitor.cpp:1019
+#: src/monitor/monitor.cpp:944 src/monitor/monitor.cpp:980
+#: src/monitor/monitor.cpp:1016
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "Nie je možné rozdeliť zoskupené klipy"
 
-#: src/monitor/monitor.cpp:976 src/monitor/monitor.cpp:1012
+#: src/monitor/monitor.cpp:973 src/monitor/monitor.cpp:1009
 #: src/timeline2/view/timelinecontroller.cpp:1982
 #, kde-format
 msgid "Set Zone"
 msgstr "Nastaviť zónu"
 
-#: src/monitor/monitor.cpp:1569
+#: src/monitor/monitor.cpp:1566
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Uložiť obrázok do projektu"
 
-#: src/monitor/monitor.cpp:1569
+#: src/monitor/monitor.cpp:1566
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Uložiť obrázok"
 
-#: src/monitor/monitor.cpp:1576
+#: src/monitor/monitor.cpp:1573
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Export image using source resolution"
 
-#: src/monitor/monitor.cpp:2116
+#: src/monitor/monitor.cpp:2113
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Upraviť dĺžku trvania"
 
-#: src/monitor/monitor.cpp:2226 src/monitor/monitor.cpp:2355
+#: src/monitor/monitor.cpp:2223 src/monitor/monitor.cpp:2352
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -29530,12 +29534,12 @@ msgstr[0] "%1 zvuk prúd"
 msgstr[1] "%1 zvuk prúdy"
 msgstr[2] "%1 zvuk prúdy"
 
-#: src/monitor/monitor.cpp:2678
+#: src/monitor/monitor.cpp:2675
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Nemôžem inicializovať správcu GLSL od Movit, prosím zakážte Movit"
 
-#: src/monitor/monitor.cpp:2720 src/monitor/monitor.cpp:2777
+#: src/monitor/monitor.cpp:2717 src/monitor/monitor.cpp:2774
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29544,17 +29548,17 @@ msgstr ""
 "Na túto funkciu je potrebný filter alphagrad filter, prosím nainštalujte "
 "frei0r a reštartujte Kdenlive"
 
-#: src/monitor/monitor.cpp:2740
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip nemá žiadne efekty"
 
-#: src/monitor/monitor.cpp:2742
+#: src/monitor/monitor.cpp:2739
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Vyberte klip v projektovom koši na efekt porovnania"
 
-#: src/monitor/monitor.cpp:2784
+#: src/monitor/monitor.cpp:2781
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29563,39 +29567,39 @@ msgstr ""
 "Na túto funkciu je potrebný prechod cairoblend, prosím nainštalujte frei0r a "
 "reštartujte Kdenlive"
 
-#: src/monitor/monitor.cpp:2864
+#: src/monitor/monitor.cpp:2861
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Enable edit mode in monitor to edit effect"
 
-#: src/monitor/monitor.cpp:3368
+#: src/monitor/monitor.cpp:3365
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Nie je vybraný klip"
 
-#: src/monitor/monitor.cpp:3389
+#: src/monitor/monitor.cpp:3386
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Cannot get producer for Clip Monitor"
 
-#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3502
+#: src/monitor/monitor.cpp:3468 src/monitor/monitor.cpp:3499
 #: src/timeline2/view/timelinecontroller.cpp:6104
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "No valid zone defined. Please set in/out points first."
 
-#: src/monitor/monitor.cpp:3481
+#: src/monitor/monitor.cpp:3478
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Create Range Marker from Zone"
 
-#: src/monitor/monitor.cpp:3487 src/monitor/monitor.cpp:3508
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:6119
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Range marker created from zone"
 
-#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
+#: src/monitor/monitor.cpp:3486 src/monitor/monitor.cpp:3507
 #: src/timeline2/view/timelinecontroller.cpp:6122
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -34823,6 +34827,9 @@ msgid ""
 "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
+"Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
+"vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
+"resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 
 #: src/titler/titlewidget.cpp:426
 #, kde-format
