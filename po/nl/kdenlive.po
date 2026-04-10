@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-09 03:29+0000\n"
+"POT-Creation-Date: 2026-04-10 03:11+0000\n"
 "PO-Revision-Date: 2026-03-13 09:55+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -22497,7 +22497,7 @@ msgstr "Audio zonder videotrack"
 msgid "Rendering %1 started"
 msgstr "Renderen %1 gestart"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1556
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1553
 #, kde-format
 msgid "untitled"
 msgstr "naamloos"
@@ -29293,7 +29293,7 @@ msgid "Audio streams"
 msgstr "Audiostreams"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2241
+#: src/monitor/monitor.cpp:2238
 #, kde-format
 msgid "Merge all streams"
 msgstr "Alle streams samenvoegen"
@@ -29700,53 +29700,53 @@ msgstr "Tijdcode van bron tonen"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Uw schermresolutie is niet voldoende voor deze actie"
 
-#: src/monitor/monitor.cpp:947 src/monitor/monitor.cpp:983
-#: src/monitor/monitor.cpp:1019
+#: src/monitor/monitor.cpp:944 src/monitor/monitor.cpp:980
+#: src/monitor/monitor.cpp:1016
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "Kan zone niet veranderen bij aanmaken van een masker"
 
-#: src/monitor/monitor.cpp:976 src/monitor/monitor.cpp:1012
+#: src/monitor/monitor.cpp:973 src/monitor/monitor.cpp:1009
 #: src/timeline2/view/timelinecontroller.cpp:1930
 #, kde-format
 msgid "Set Zone"
 msgstr "Zone instellen"
 
-#: src/monitor/monitor.cpp:1569
+#: src/monitor/monitor.cpp:1566
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Image naar project opslaan"
 
-#: src/monitor/monitor.cpp:1569
+#: src/monitor/monitor.cpp:1566
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: src/monitor/monitor.cpp:1576
+#: src/monitor/monitor.cpp:1573
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Afbeelding exporteren met resolutie van bron"
 
-#: src/monitor/monitor.cpp:2116
+#: src/monitor/monitor.cpp:2113
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Modus Masker verlaten ?"
 
-#: src/monitor/monitor.cpp:2226 src/monitor/monitor.cpp:2355
+#: src/monitor/monitor.cpp:2223 src/monitor/monitor.cpp:2352
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "Audiostream"
 msgstr[1] "%1 audiostreams"
 
-#: src/monitor/monitor.cpp:2678
+#: src/monitor/monitor.cpp:2675
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Initialiseren van GLSL-manager van Movit kan niet, schakel Movit uit"
 
-#: src/monitor/monitor.cpp:2720 src/monitor/monitor.cpp:2777
+#: src/monitor/monitor.cpp:2717 src/monitor/monitor.cpp:2774
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29755,17 +29755,17 @@ msgstr ""
 "Het filter alphagrad is vereist voor die functie, installeer frei0r en start "
 "Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2740
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Clip heeft geen effecten"
 
-#: src/monitor/monitor.cpp:2742
+#: src/monitor/monitor.cpp:2739
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Selecteer een clip in de projectmap om effect te vergelijken"
 
-#: src/monitor/monitor.cpp:2784
+#: src/monitor/monitor.cpp:2781
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29774,39 +29774,39 @@ msgstr ""
 "De transitie cairoblend is vereist voor die functie, installeer frei0r en "
 "start Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2864
+#: src/monitor/monitor.cpp:2861
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Modus Bewerken in monitor inschakelen om effect te bewerken"
 
-#: src/monitor/monitor.cpp:3368
+#: src/monitor/monitor.cpp:3365
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Geen clip geselecteerd in Clipmonitor"
 
-#: src/monitor/monitor.cpp:3389
+#: src/monitor/monitor.cpp:3386
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Kan geen produceerder krijgen voor Clipmonitor"
 
-#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3502
+#: src/monitor/monitor.cpp:3468 src/monitor/monitor.cpp:3499
 #: src/timeline2/view/timelinecontroller.cpp:5968
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "Geen geldige zone gedefinieerd. Zet eerst in/uitpunten."
 
-#: src/monitor/monitor.cpp:3481
+#: src/monitor/monitor.cpp:3478
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Reeksmarkering uit zone aanmaken"
 
-#: src/monitor/monitor.cpp:3487 src/monitor/monitor.cpp:3508
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:5983
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Reeksmarkering aangemaakt uit zone"
 
-#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
+#: src/monitor/monitor.cpp:3486 src/monitor/monitor.cpp:3507
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Failed to create range marker from zone"

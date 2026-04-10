@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-09 03:29+0000\n"
+"POT-Creation-Date: 2026-04-10 03:11+0000\n"
 "PO-Revision-Date: 2026-04-06 01:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -21755,7 +21755,7 @@ msgstr "აუდიო ვიდეოს გარეშე"
 msgid "Rendering %1 started"
 msgstr "%1-ის რენდერი დაიწყო"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1556
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1553
 #, kde-format
 msgid "untitled"
 msgstr "უსახელო"
@@ -28511,7 +28511,7 @@ msgid "Audio streams"
 msgstr "აუდიო ნაკადები"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2241
+#: src/monitor/monitor.cpp:2238
 #, kde-format
 msgid "Merge all streams"
 msgstr "ყველა ნაკადის შერწყმა"
@@ -28914,54 +28914,54 @@ msgstr "წყარის დროის კოდის ჩვენება
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "ამ ქმედებისთვის თქვენი ეკრანის გაფართოება საკმარისი არაა"
 
-#: src/monitor/monitor.cpp:947 src/monitor/monitor.cpp:983
-#: src/monitor/monitor.cpp:1019
+#: src/monitor/monitor.cpp:944 src/monitor/monitor.cpp:980
+#: src/monitor/monitor.cpp:1016
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "ნიღბის შექმნისას ზონის შეცვლა შეუძლებელია"
 
-#: src/monitor/monitor.cpp:976 src/monitor/monitor.cpp:1012
+#: src/monitor/monitor.cpp:973 src/monitor/monitor.cpp:1009
 #: src/timeline2/view/timelinecontroller.cpp:1930
 #, kde-format
 msgid "Set Zone"
 msgstr "ზონის დაყენება"
 
-#: src/monitor/monitor.cpp:1569
+#: src/monitor/monitor.cpp:1566
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "გამოსახულების შენახვა პროექტში"
 
-#: src/monitor/monitor.cpp:1569
+#: src/monitor/monitor.cpp:1566
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "გამოსახულების შენახვა"
 
-#: src/monitor/monitor.cpp:1576
+#: src/monitor/monitor.cpp:1573
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "გამოსახულების გატანა წყაროს გაფართოებით"
 
-#: src/monitor/monitor.cpp:2116
+#: src/monitor/monitor.cpp:2113
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "გავიდე ნიღბის შექმნიდან?"
 
-#: src/monitor/monitor.cpp:2226 src/monitor/monitor.cpp:2355
+#: src/monitor/monitor.cpp:2223 src/monitor/monitor.cpp:2352
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 აუდიო ნაკადი"
 msgstr[1] "%1 აუდიო ნაკადი"
 
-#: src/monitor/monitor.cpp:2678
+#: src/monitor/monitor.cpp:2675
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit-ის GLSL მმართველის ინიციალიზაცია შეუძლებელია. გამორთეთ Movit, გეთაყვა"
 
-#: src/monitor/monitor.cpp:2720 src/monitor/monitor.cpp:2777
+#: src/monitor/monitor.cpp:2717 src/monitor/monitor.cpp:2774
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28970,17 +28970,17 @@ msgstr ""
 "ამ თვისებისთვის alphagrad ფილტრი დაგჭირდებათ. დააყენეთ frei0r და გადატვირთეთ "
 "Kdenlive"
 
-#: src/monitor/monitor.cpp:2740
+#: src/monitor/monitor.cpp:2737
 #, kde-format
 msgid "Clip has no effects"
 msgstr "კლიპს ეფექტები არ აქვს"
 
-#: src/monitor/monitor.cpp:2742
+#: src/monitor/monitor.cpp:2739
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "აირჩიეთ კლიპი პროექტის კალათაში ეფექტის შესადარებლად"
 
-#: src/monitor/monitor.cpp:2784
+#: src/monitor/monitor.cpp:2781
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -28989,40 +28989,40 @@ msgstr ""
 "ამ თვისებისთვის cairoblend გადასვლა დაგჭირდებათ. დააყენეთ frei0r და "
 "გადატვირთეთ Kdenlive"
 
-#: src/monitor/monitor.cpp:2864
+#: src/monitor/monitor.cpp:2861
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "ეფექტის შესაცვლელად მონიტორში ჩასწორების რეჟიმი ჩართეთ"
 
-#: src/monitor/monitor.cpp:3368
+#: src/monitor/monitor.cpp:3365
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "კლიპის მონიტორისთვის კლიპი არჩეული არაა"
 
-#: src/monitor/monitor.cpp:3389
+#: src/monitor/monitor.cpp:3386
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "კლიპის მონიტორისთვის შემქმნელის მიღება შეუძლებელია"
 
-#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3502
+#: src/monitor/monitor.cpp:3468 src/monitor/monitor.cpp:3499
 #: src/timeline2/view/timelinecontroller.cpp:5968
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "სწორი ზონა ჯერ აღწერილი არაა. ჯერ დააყენეთ გამომავალი/შემავალი წერტილები."
 
-#: src/monitor/monitor.cpp:3481
+#: src/monitor/monitor.cpp:3478
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "შუალედის მარკერის შექმნა ზონიდან"
 
-#: src/monitor/monitor.cpp:3487 src/monitor/monitor.cpp:3508
+#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
 #: src/timeline2/view/timelinecontroller.cpp:5983
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "შუალედის მარკერი შეიქმნა ზონიდან"
 
-#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
+#: src/monitor/monitor.cpp:3486 src/monitor/monitor.cpp:3507
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Failed to create range marker from zone"
