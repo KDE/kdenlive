@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-10 00:46+0000\n"
-"PO-Revision-Date: 2026-03-29 21:11+0100\n"
+"PO-Revision-Date: 2026-04-11 02:02+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11560,13 +11560,7 @@ msgid "Opposite of Input white level"
 msgstr "Opuesto del nivel de blanco de entrada"
 
 #: data/effects/frei0r/frei0r_levels.xml:133
-#, fuzzy, kde-format
-#| msgid ""
-#| "Changes the overall brightness of the image.<br>\n"
-#| "                Affects only the mid-tones, black and white are not "
-#| "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values "
-#| "(moving the bar to the left) make the image darker, higher values (moving "
-#| "the bar to the right) make it brighter."
+#, kde-format
 msgid ""
 "Changes the overall brightness of the image.<br>\n"
 "                Affects only the mid-tones, black and white are not "
@@ -11575,9 +11569,9 @@ msgid ""
 msgstr ""
 "Cambia el brillo general de la imagen.<br>\n"
 "                Afectará solo a los medios tonos, los extremos blancos y "
-"negros no serán afectados. Predeterminado: 25 %, equivalente a un Gama de "
-"1.0). Valores menores (deslizador hacia la izquierda) oscurecerán la imagen, "
-"valores mayores (deslizador hacia la derecha) la aclararán."
+"negros no serán afectados. Predeterminado: 1. Valores menores (deslizador "
+"hacia la izquierda) oscurecerán la imagen, valores mayores (deslizador hacia "
+"la derecha) la aclararán."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77

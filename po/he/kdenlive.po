@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-10 00:46+0000\n"
-"PO-Revision-Date: 2026-04-06 09:00+0300\n"
+"PO-Revision-Date: 2026-04-10 11:32+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -752,10 +752,9 @@ msgid "Sample reduction"
 msgstr "הפחתת דגימה"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable LFO"
-msgstr "הפעלה"
+msgstr "הפעלת LFO"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
@@ -763,10 +762,9 @@ msgid "LFO depth"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
-#, fuzzy, kde-format
-#| msgid "Frame rate"
+#, kde-format
 msgid "LFO rate"
-msgstr "קצב מסגרות"
+msgstr "קצב LDO"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
@@ -956,10 +954,9 @@ msgstr "סוג מאפנן"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
 #: data/effects/avfilter/avfilter_flanger.xml:30
-#, fuzzy, kde-format
-#| msgid "Triangular window"
+#, kde-format
 msgid "Triangular,Sinusoidal"
-msgstr "חלון משולש"
+msgstr "משולש,סינוסואידי"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
 #, fuzzy, kde-format
@@ -1119,10 +1116,9 @@ msgid "Alpha,Y,U,V,Red,Green,Blue,All"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:4
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background Key"
-msgstr "רקע"
+msgstr "מפתח רקע"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:5
 #, kde-format
@@ -1145,10 +1141,9 @@ msgid "Similarity"
 msgstr "דמיון"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:13
-#, fuzzy, kde-format
-#| msgid "Similarity"
+#, kde-format
 msgid "Set the similarity"
-msgstr "דמיון"
+msgstr "הגדרת הדמיון"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:16
 #: data/effects/avfilter/avfilter_chromahold.xml:17
@@ -1160,10 +1155,9 @@ msgid "Blend"
 msgstr "מיזוג"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:17
-#, fuzzy, kde-format
-#| msgid "Set the envelope mode"
+#, kde-format
 msgid "Set the blend value"
-msgstr "הגדרת מצב המעטפה"
+msgstr "הגדרת ערך הערבול"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, fuzzy, kde-format
@@ -1421,10 +1415,9 @@ msgid "Parity"
 msgstr "זוגיות"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:13
-#, fuzzy, kde-format
-#| msgid "Bottom field first"
+#, kde-format
 msgid "Top field first,Bottomfield first,Auto"
-msgstr "השדה התחתון ראשון"
+msgstr "שדה עליון קודם,שדה תחתון קודם,אוטומטי"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:16
 #: data/effects/avfilter/avfilter_yadif.xml:16
@@ -1465,8 +1458,7 @@ msgid "Strength"
 msgstr "עוצמה"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
-#, fuzzy, kde-format
-#| msgid "Set the sharpening strength."
+#, kde-format
 msgid "Set the sharpening strength."
 msgstr "הגדרת עוצמת החדות."
 
@@ -1573,42 +1565,34 @@ msgid "Manhattan,Euclidean"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
-#, fuzzy, kde-format
-#| msgid "Chroma shift"
+#, kde-format
 msgid "Chroma Shift"
-msgstr "הסטת כרומה"
+msgstr "הזחת כרומה"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
-#, fuzzy, kde-format
-#| msgid "Box blur (separate horizontal and vertical blur)"
+#, kde-format
 msgid "Shift chroma pixels horizontally and/or vertically. "
-msgstr "טשטוש בתיבה (הפרדת טשטוש אופקי ואנכי)"
+msgstr "הזחת פיקסלים של כרומה אופקית ו/או אנכית. "
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
+#, kde-format
 msgid "Blue horizontal shift"
-msgstr "עמודה אופקית"
+msgstr "הזחת כחול אופקית"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
+#, kde-format
 msgid "Blue vertical shift"
-msgstr "עמודה אנכית"
+msgstr "הזחת כחול אנכית"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
-#, fuzzy, kde-format
-#| msgid "Horizontal Flip"
+#, kde-format
 msgid "Red horizontal shift"
-msgstr "היפוך אופקי"
+msgstr "הזחת אדום אופקית"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Red vertical shift"
-msgstr "פיזור אנכי"
+msgstr "הזחת אדום אנכית"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/frei0r/frei0r_select0r.xml:32
@@ -1640,10 +1624,9 @@ msgid "Color System"
 msgstr "מערכת צבע"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the color system]]>"
+#, kde-format
 msgid "Select the color system"
-msgstr "נא לבחור את מערכת הצבע"
+msgstr "בחירת מערכת הצבעים"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #: data/effects/avfilter/avfilter_ciescope.xml:20
@@ -1661,10 +1644,9 @@ msgid "CIE System"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the components to be traced]]>"
+#, kde-format
 msgid "Select the CIE color space"
-msgstr "<![CDATA[נא לבחור את הרכיבים למעקב]]>"
+msgstr "בחירת מרחב צבעי ה־CIE"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:15
 #, kde-format
@@ -1677,10 +1659,9 @@ msgid "Gamuts to Draw"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "Set what gamuts to draw"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "הגדרה אילו מנעדים לצייר"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -35412,7 +35393,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:135
 #, kde-format
 msgid "This will apply to all KDE applications using the Breeze style."
-msgstr ""
+msgstr "זה יחול על כל יישומי KDE שמשתמשים בסגנון בריזה."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:161
@@ -39089,7 +39070,7 @@ msgstr "הטיה בצעדים של ‎90 °‎"
 #: src/widgets/dragvalue.cpp:268
 #, kde-format
 msgid "Support basic math expression"
-msgstr ""
+msgstr "תמיכה בביטוי מתמטי בסיסי"
 
 #: src/widgets/dragvalue.cpp:276
 #, kde-format
