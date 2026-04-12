@@ -191,6 +191,9 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode, bo
         }
         m_self->buildSplash(firstRun, showWelcome && KdenliveSettings::showWelcome() && !KdenliveSettings::openlastproject(), showRecovery, wasUpgraded);
     }
+    if (m_self->closing) {
+        return true;
+    }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
     m_self->m_projectManager = new ProjectManager(m_self.get());
@@ -275,6 +278,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
             }
         });
         connect(m_splash, &Splash::closeApp, this, [this]() {
+            closing = true;
             if (m_splash->hasEventLoop() || !m_guiConstructed) {
                 QMetaObject::invokeMethod(this, "cleanRestart", Qt::QueuedConnection, Q_ARG(bool, false));
             } else {
@@ -385,11 +389,11 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
         // Last startup crashed, so stop here until we have a change to reset the config file
         connect(m_splash, &Splash::releaseLock, this, [&]() {
             qDebug() << "::::::: EVENT LOOP RELEASED!!!\n\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
-            m_loop.exit();
+            m_loop.quit();
             disconnect(m_splash, &Splash::releaseLock, this, nullptr);
         });
         m_loop.exec();
-        if (m_abortInitAndRestart) {
+        if (m_abortInitAndRestart || closing) {
             // We want to restart, no need to continue
             return;
         }
@@ -409,6 +413,9 @@ void Core::initHeadless(const QUrl &url)
 
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &clipsToLoad)
 {
+    if (closing) {
+        return;
+    }
     KDDockWidgets::Config::self().setDragAboutToStartFunc([](KDDockWidgets::Core::Draggable *) -> bool {
         if (!KdenliveSettings::showtitlebars()) {
             pCore->updateHideBarsTimer(true);
@@ -527,12 +534,16 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
 
 void Core::cleanRestart(bool cleanAndRestart)
 {
-    qDebug() << "::: STARTING CLEAN RESTART...";
+    qDebug() << "::: STARTING CLEAN RESTART: " << cleanAndRestart;
     delete m_splash;
-    m_loop.exit();
+    m_loop.quit();
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
-    QTimer::singleShot(1000, this, [&, cleanAndRestart]() {
+    int timeout = 0;
+    if (cleanAndRestart) {
+        timeout = 1000;
+    }
+    QTimer::singleShot(timeout, this, [&, cleanAndRestart]() {
         QApplication::closeAllWindows();
         qApp->exit(cleanAndRestart ? EXIT_CLEAN_RESTART : 1);
     });
