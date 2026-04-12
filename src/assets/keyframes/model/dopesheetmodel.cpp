@@ -163,6 +163,10 @@ void DopeSheetModel::registerAsset(int i, std::shared_ptr<EffectItemModel> effec
     qDebug() << ":::: REGISTERING DOPE EFFECT: " << effectModel->dataColumn(0);
     auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString(), i}, shared_from_this(), false);
     std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
+    if (!keyframes) {
+        // EFfect has no keyframes, abort
+        return;
+    }
     QStringList blockedParams = effectModel->data(QModelIndex(), AssetParameterModel::BlockedKeyframesRole).toStringList();
     getRoot()->appendChild(effectItem);
     // Recap line for the effect
