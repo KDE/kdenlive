@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-10 00:46+0000\n"
-"PO-Revision-Date: 2025-12-15 08:42+0100\n"
+"PO-Revision-Date: 2026-04-11 09:56+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -30,16 +30,12 @@ msgstr "lukasz.wojnilowicz@gmail.com"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Edytowanie"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "Rejestracja"
 
@@ -10204,7 +10200,7 @@ msgstr "Opóźnienie"
 #: data/effects/frei0r/frei0r_delaygrab.xml:4
 #, kde-format
 msgid "Delay grab"
-msgstr "Opóźnij przechwytywanie"
+msgstr "Opóźnij nagrywanie"
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:5
 #, kde-format
@@ -17374,7 +17370,7 @@ msgstr "Sposób składania"
 #: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
-msgstr "Wymuś składanie bez przeplotu"
+msgstr "Wymuś montowanie bez przeplotu"
 
 #: data/transitions/dissolve.xml:4
 #, kde-format
@@ -21016,7 +21012,7 @@ msgstr ""
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
-msgstr "przechwytywanie"
+msgstr "nagrywanie"
 
 #: src/core.cpp:166
 #, kde-format
@@ -21625,7 +21621,7 @@ msgstr "Nagrywanie ekranu"
 #: src/dialogs/encodingprofilesdialog.cpp:60
 #, kde-format
 msgid "Decklink Capture"
-msgstr "Przechwytywanie Decklink"
+msgstr "Nagrywanie Decklink"
 
 #: src/dialogs/encodingprofilesdialog.cpp:128
 #: src/dialogs/encodingprofilesdialog.cpp:160
@@ -22240,7 +22236,7 @@ msgstr "Uruchamianie…"
 #: src/dialogs/renderwidget.cpp:258
 #, kde-format
 msgid "Rendering finished"
-msgstr "Ukończono składanie filmu w całość"
+msgstr "Ukończono montowanie filmu w całość"
 
 #: src/dialogs/renderwidget.cpp:263
 #, kde-format
@@ -22250,7 +22246,7 @@ msgstr "Usterka składania filmu w całość"
 #: src/dialogs/renderwidget.cpp:268
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Przerwano składanie filmu w całość"
+msgstr "Przerwano montowanie filmu w całość"
 
 #: src/dialogs/renderwidget.cpp:373
 #, kde-format
@@ -22347,7 +22343,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:414
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "Składanie filmu w całość przy użyciu niskiej jakości pośredników"
+msgstr "Montowanie filmu w całość przy użyciu niskiej jakości pośredników"
 
 #: src/dialogs/renderwidget.cpp:507
 #, kde-format
@@ -22540,18 +22536,17 @@ msgstr "Pozostało mniej niż %1 MB dostępnej pamięci."
 #: src/dialogs/renderwidget.cpp:1771
 #, kde-format
 msgid "Rendering finished in %1"
-msgstr "Ukończono składanie filmu w całość w czasie %1"
+msgstr "Ukończono montowanie filmu w całość w czasie %1"
 
 #: src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "Rendering of %1 finished in %2"
-msgstr "Ukończono składanie %1 w całość w czasie %2"
+msgstr "Ukończono montowanie %1 w całość w czasie %2"
 
 #: src/dialogs/renderwidget.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "Ukończono składanie %1 w całość w czasie %2"
+msgstr "Ukończono pierwszy przebieg montowania %1"
 
 #: src/dialogs/renderwidget.cpp:1808
 #, fuzzy, kde-format
@@ -22674,7 +22669,7 @@ msgstr "Odtwarzanie"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:127
 #, kde-format
 msgid "Capture"
-msgstr "Przechwytywanie"
+msgstr "Nagrywanie"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:204
 #: src/effects/effectlist/model/effecttreemodel.cpp:64
@@ -22744,7 +22739,7 @@ msgstr "Środowisko"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:434
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
-msgstr "Przechwytywanie nie jest jeszcze dostępne na Mac OS X."
+msgstr "Nagrywanie nie jest jeszcze dostępne na Mac OS X."
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
@@ -24001,7 +23996,7 @@ msgstr "<b>Witaj w szybkim ustawianiu Kdenlive</b>"
 #: src/dialogs/Splash.qml:774
 #, kde-format
 msgid "Always Use Dark Color Theme"
-msgstr "Zawsze używaj ciemnego trybu"
+msgstr "Zawsze używaj trybu ciemnego"
 
 #: src/dialogs/Splash.qml:786
 #, kde-format
@@ -27190,7 +27185,7 @@ msgstr "Ustawienia nagrywania"
 #: src/monitor/recmanager.cpp:91 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "Screen Grab"
-msgstr "Przechwytywanie z ekranu"
+msgstr "Nagrywanie z ekranu"
 
 #: src/mainwindow.cpp:331
 #, kde-format
@@ -27326,7 +27321,7 @@ msgstr ""
 #: src/mainwindow.cpp:613 src/mainwindow.cpp:1690
 #, kde-format
 msgid "Render…"
-msgstr "Złóż film..."
+msgstr "Zmontuj film…"
 
 #: src/mainwindow.cpp:618
 #, kde-format
@@ -27856,7 +27851,7 @@ msgstr "Ustawienia projektu…"
 #: src/mainwindow.cpp:1693
 #, kde-format
 msgid "Stop Render"
-msgstr "Zatrzymaj składanie"
+msgstr "Zatrzymaj montowanie"
 
 #: src/mainwindow.cpp:1698
 #, kde-format
@@ -30034,7 +30029,7 @@ msgstr "Obraz"
 #: src/monitor/recmanager.cpp:69 src/monitor/recmanager.cpp:75
 #, kde-format
 msgid "Audio Capture Volume"
-msgstr "Głośność przechwytywania dźwięku"
+msgstr "Głośność nagrywania dźwięku"
 
 #. i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
 #: src/monitor/recmanager.cpp:90
@@ -30059,7 +30054,7 @@ msgstr ""
 #: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
 #, kde-format
 msgid "Capture crashed, please check your parameters"
-msgstr "Przechwytywanie nie powiodło się, sprawdź parametry"
+msgstr "Nagrywanie nie powiodło się, sprawdź parametry"
 
 #: src/monitor/scopes/audiographspectrum.cpp:339
 #, kde-format
@@ -32336,7 +32331,7 @@ msgstr "Rozważ uaktualnienie swoich ustawień."
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "brakuje (dodatkowo)"
+msgstr "brakuje (niekonieczne)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:695
 #, kde-format
@@ -32816,7 +32811,7 @@ msgstr "eksportuj"
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
-msgstr "Opóźniono składanie filmu w całość"
+msgstr "Opóźniono montowanie filmu w całość"
 
 #: src/render/renderrequest.cpp:372
 #, kde-format
@@ -34785,8 +34780,8 @@ msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
-"Nie można przechwycić tutaj: przechwytywanie mogłoby zastąpić wycinki. Usuń "
-"wycinki po bieżącym miejscu i wybierz inną ścieżkę"
+"Nie można nagrać tutaj: nagrywanie mogłoby zastąpić wycinki. Usuń wycinki po "
+"bieżącym miejscu i wybierz inną ścieżkę"
 
 #: src/timeline2/view/timelinecontroller.cpp:5274
 #, kde-format
@@ -36324,13 +36319,13 @@ msgstr "Nazwa pliku"
 #: src/ui/configcapture_ui.ui:24
 #, kde-format
 msgid "Default capture device"
-msgstr "Domyśle urządzenie przechwytywania"
+msgstr "Domyśle urządzenie nagrywania"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #: src/ui/configcapture_ui.ui:43
 #, kde-format
 msgid "Screen grab"
-msgstr "Przechwytywanie z ekranu"
+msgstr "Nagrywanie z ekranu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:67
@@ -39262,7 +39257,7 @@ msgstr "&Usuń"
 #: src/ui/renderwidget_ui.ui:335
 #, kde-format
 msgid "Render to File"
-msgstr "Złóż film do pliku"
+msgstr "Zmontuj film do pliku"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
 #: src/ui/renderwidget_ui.ui:342
