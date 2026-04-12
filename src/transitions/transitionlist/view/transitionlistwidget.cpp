@@ -233,7 +233,8 @@ void TransitionListWidget::generatePreviews()
     }
     // Start the process
     QStringList args;
-    args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
+    // Don't generate previews for default transitions
+    // args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
     args << QStringLiteral("--output-dir") << outputDir;
     args << QStringLiteral("--width") << QStringLiteral("176");
     args << QStringLiteral("--height") << QStringLiteral("99");
