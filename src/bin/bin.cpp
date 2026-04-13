@@ -3480,40 +3480,42 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint modifiers)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-    if (m_listType == BinIconView) {
-        if (item->childCount() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
-            m_itemView->setRootIndex(ix);
-            parentWidget()->setWindowTitle(item->name());
-            m_upAction->setVisible(true);
-            m_upAction->setEnabled(true);
-            return;
-        }
-    } else {
-        if (!m_isMainBin && item->itemType() == AbstractProjectItem::FolderItem) {
-            // Double click a folder in secondary bin will set it as bin root
-            m_itemView->setRootIndex(ix);
-            parentWidget()->setWindowTitle(item->name());
-            m_upAction->setVisible(true);
-            m_upAction->setEnabled(true);
-            return;
-        }
-        if (ix.column() == 0 && item->childCount() > 0) {
-            QRect IconRect = m_itemView->visualRect(ix);
-            IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
-            if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
-                auto *view = static_cast<QTreeView *>(m_itemView);
-                bool expand = !view->isExpanded(ix);
-                // Expand all items on shift + double click
-                if (modifiers & Qt::ShiftModifier) {
-                    if (expand) {
-                        view->expandAll();
-                    } else {
-                        view->collapseAll();
-                    }
-                } else {
-                    view->setExpanded(ix, expand);
-                }
+    if (item && item->clipType() != ClipType::Timeline) {
+        if (m_listType == BinIconView) {
+            if (item->childCount() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
+                m_itemView->setRootIndex(ix);
+                parentWidget()->setWindowTitle(item->name());
+                m_upAction->setVisible(true);
+                m_upAction->setEnabled(true);
                 return;
+            }
+        } else {
+            if (!m_isMainBin && item->itemType() == AbstractProjectItem::FolderItem) {
+                // Double click a folder in secondary bin will set it as bin root
+                m_itemView->setRootIndex(ix);
+                parentWidget()->setWindowTitle(item->name());
+                m_upAction->setVisible(true);
+                m_upAction->setEnabled(true);
+                return;
+            }
+            if (ix.column() == 0 && item->childCount() > 0) {
+                QRect IconRect = m_itemView->visualRect(ix);
+                IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
+                if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
+                    auto *view = static_cast<QTreeView *>(m_itemView);
+                    bool expand = !view->isExpanded(ix);
+                    // Expand all items on shift + double click
+                    if (modifiers & Qt::ShiftModifier) {
+                        if (expand) {
+                            view->expandAll();
+                        } else {
+                            view->collapseAll();
+                        }
+                    } else {
+                        view->setExpanded(ix, expand);
+                    }
+                    return;
+                }
             }
         }
     }
