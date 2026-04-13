@@ -85,7 +85,11 @@ class TransitionPreviewGenerator:
 
     def get_available_transitions(self):
         transitionsXml = []
-        xml_folders = self.xml_dir.split()
+        if self.xml_dir is None:
+            xml_folders = ''
+        else:
+            xml_folders =  self.xml_dir.split()
+
         for l in xml_folders:
             directory_path = Path(urllib.parse.unquote(l))
             logger.error(f"Checking transitions path: {directory_path}")
@@ -254,7 +258,6 @@ class TransitionPreviewGenerator:
         
         if not transitions:
             logger.error("No transitions found. Make sure MLT is properly installed.")
-            return
         
         logger.info(f"Starting preview generation for {len(transitions)} transitions...")
         

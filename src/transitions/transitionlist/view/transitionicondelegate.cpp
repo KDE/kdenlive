@@ -140,9 +140,6 @@ QMovie *TransitionIconDelegate::getMovie(QString transitionId, bool animate) con
     if (m_currentTransitionId == transitionId && m_animatedMovie) {
         return m_animatedMovie.get();
     }
-    if (animate) {
-        m_currentTransitionId = transitionId;
-    }
 
     // Try to load the movie
     const QString filePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("transitions/previews/%1.webp").arg(transitionId));
@@ -152,6 +149,7 @@ QMovie *TransitionIconDelegate::getMovie(QString transitionId, bool animate) con
         return nullptr;
     }
     if (animate) {
+        m_currentTransitionId = transitionId;
         m_animatedMovie.reset(new QMovie(filePath));
         return m_animatedMovie.get();
     }
