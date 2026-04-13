@@ -101,6 +101,7 @@ static QImage m_audioIcon;
 static QImage m_audioUsedIcon;
 static QImage m_videoUsedIcon;
 static QImage m_effectIcon;
+static QImage m_subClipIcon;
 static QSize m_iconSize;
 static QIcon m_folderIcon;
 static QIcon m_sequenceFolderIcon;
@@ -769,11 +770,22 @@ public:
                 }
                 painter->restore();
             }
+            // Add child items indicator
+            int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
+            if (index.model()->hasChildren(index)) {
+                QRect thumbRect = m_thumbRect;
+                thumbRect.translate(1, 1);
+                thumbRect.setSize(QSize(logicalIconSize + 4, logicalIconSize + 4));
+                QColor bgColor = option.palette.window().color();
+                bgColor.setAlphaF(.7);
+                painter->fillRect(thumbRect, bgColor);
+                thumbRect.translate(2, 2);
+                painter->drawImage(thumbRect.topLeft(), m_subClipIcon);
+            }
 
             // Add audio/video icons for selective drag
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-            int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
             if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline) &&
                 m_thumbRect.height() > 2.5 * logicalIconSize) {
                 QRect thumbRect = m_thumbRect;
@@ -1798,6 +1810,14 @@ void Bin::slotUpdatePalette()
         QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-high"));
         QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
         QIcon effectIcon = QIcon::fromTheme(QStringLiteral("tools-wizard"));
+        QIcon folderIcon = QIcon::fromTheme(QStringLiteral("folder"));
+
+        m_subClipIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_subClipIcon.setDevicePixelRatio(dpr);
+        m_subClipIcon.fill(Qt::transparent);
+        QPainter p(&m_subClipIcon);
+        folderIcon.paint(&p, 0, 0, iconSize, iconSize);
+        p.end();
         m_audioIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
         m_audioIcon.setDevicePixelRatio(dpr);
         m_videoIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
@@ -1810,24 +1830,24 @@ void Bin::slotUpdatePalette()
         m_effectIcon.fill(QColor(QStringLiteral("#fdbc4b")));
         m_audioIcon.fill(Qt::transparent);
         m_videoIcon.fill(Qt::transparent);
-        QPainter p(&m_audioIcon);
+        p.begin(&m_audioIcon);
         audioIcon.paint(&p, 0, 0, iconSize, iconSize);
         p.end();
-        QPainter p2(&m_videoIcon);
-        videoIcon.paint(&p2, 0, 0, iconSize, iconSize);
-        p2.end();
-        QPainter p3(&effectIconFg);
-        effectIcon.paint(&p3, 0, 0, iconSize, iconSize);
-        p3.end();
+        p.begin(&m_videoIcon);
+        videoIcon.paint(&p, 0, 0, iconSize, iconSize);
+        p.end();
+        p.begin(&effectIconFg);
+        effectIcon.paint(&p, 0, 0, iconSize, iconSize);
+        p.end();
         m_audioUsedIcon = m_audioIcon;
         QColor highlightColor = qApp->palette().highlight().color();
         KIconEffect::toMonochrome(m_audioUsedIcon, highlightColor, highlightColor, 1);
         m_videoUsedIcon = m_videoIcon;
         KIconEffect::toMonochrome(m_videoUsedIcon, highlightColor, highlightColor, 1);
         KIconEffect::toMonochrome(effectIconFg, Qt::black, Qt::black, 1);
-        QPainter p4(&m_effectIcon);
-        p4.drawImage(0, 0, effectIconFg);
-        p4.end();
+        p.begin(&m_effectIcon);
+        p.drawImage(0, 0, effectIconFg);
+        p.end();
     }
 }
 
@@ -3479,65 +3499,73 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 
 void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint modifiers)
 {
+    if (!ix.isValid()) {
+        return;
+    }
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+    if (!item) {
+        return;
+    }
     if (m_listType == BinIconView) {
         if (item->childCount() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
             m_itemView->setRootIndex(ix);
             parentWidget()->setWindowTitle(item->name());
             m_upAction->setVisible(true);
             m_upAction->setEnabled(true);
-            return;
-        }
-    } else {
-        if (!m_isMainBin && item->itemType() == AbstractProjectItem::FolderItem) {
-            // Double click a folder in secondary bin will set it as bin root
-            m_itemView->setRootIndex(ix);
-            parentWidget()->setWindowTitle(item->name());
-            m_upAction->setVisible(true);
-            m_upAction->setEnabled(true);
-            return;
-        }
-        if (ix.column() == 0 && item->childCount() > 0) {
-            QRect IconRect = m_itemView->visualRect(ix);
-            IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
-            if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
-                auto *view = static_cast<QTreeView *>(m_itemView);
-                bool expand = !view->isExpanded(ix);
-                // Expand all items on shift + double click
-                if (modifiers & Qt::ShiftModifier) {
-                    if (expand) {
-                        view->expandAll();
-                    } else {
-                        view->collapseAll();
-                    }
-                } else {
-                    view->setExpanded(ix, expand);
-                }
+            // If item is a sequence, we still want to trigger the open sequence action
+            if (item->clipType() != ClipType::Timeline) {
                 return;
+            }
+        } else {
+            if (!m_isMainBin && item->itemType() == AbstractProjectItem::FolderItem) {
+                // Double click a folder in secondary bin will set it as bin root
+                m_itemView->setRootIndex(ix);
+                parentWidget()->setWindowTitle(item->name());
+                m_upAction->setVisible(true);
+                m_upAction->setEnabled(true);
+                return;
+            }
+            if (ix.column() == 0 && item->childCount() > 0) {
+                QRect IconRect = m_itemView->visualRect(ix);
+                IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
+                if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
+                    auto *view = static_cast<QTreeView *>(m_itemView);
+                    bool expand = !view->isExpanded(ix);
+                    // Expand all items on shift + double click
+                    if (modifiers & Qt::ShiftModifier) {
+                        if (expand) {
+                            view->expandAll();
+                        } else {
+                            view->collapseAll();
+                        }
+                    } else {
+                        view->setExpanded(ix, expand);
+                    }
+                    return;
+                }
             }
         }
     }
-    if (ix.isValid()) {
-        QRect IconRect = m_itemView->visualRect(ix);
-        IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
-        if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) ||
-                              (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height() / 2)))) {
-            // User clicked outside icon, trigger rename
-            m_itemView->edit(ix);
-            return;
-        }
-        if (item->itemType() == AbstractProjectItem::ClipItem) {
-            std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
-            if (clip) {
-                if (clip->clipType() == ClipType::Timeline) {
-                    const QUuid uuid = clip->getSequenceUuid();
-                    pCore->projectManager()->openTimeline(clip->binId(), -1, uuid);
-                } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
-                    // m_propertiesPanel->setEnabled(false);
-                    showTitleWidget(clip);
-                } else {
-                    slotSwitchClipProperties(clip);
-                }
+
+    QRect IconRect = m_itemView->visualRect(ix);
+    IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
+    if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) ||
+                          (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height() / 2)))) {
+        // User clicked outside icon, trigger rename
+        m_itemView->edit(ix);
+        return;
+    }
+    if (item->itemType() == AbstractProjectItem::ClipItem) {
+        std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
+        if (clip) {
+            if (clip->clipType() == ClipType::Timeline) {
+                const QUuid uuid = clip->getSequenceUuid();
+                pCore->projectManager()->openTimeline(clip->binId(), -1, uuid);
+            } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
+                // m_propertiesPanel->setEnabled(false);
+                showTitleWidget(clip);
+            } else {
+                slotSwitchClipProperties(clip);
             }
         }
     }

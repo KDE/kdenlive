@@ -48,7 +48,7 @@ private:
     QVector<double> m_peakDecibels;
     QVector<int> m_valuePrimaryAxisPositions;
     QVector<int> m_peakPrimaryAxisPositions;
-    int m_maxDb;
+    int m_maxDb{0};
     int m_borderOffset;
     int m_borderOffsetWithLabels;
     bool m_displayToolTip;
