@@ -173,8 +173,6 @@ void AudioLevelRenderer::drawBackground(QPainter &painter, const RenderData &dat
         return;
     }
 
-    const QVector<int> dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
-
     // Draw channel borders (background rectangle and separators)
     drawChannelBorders(painter, data, true);
     // Draw dB scale (labels and lines)
