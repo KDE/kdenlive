@@ -125,15 +125,17 @@ public:
         modelView.scale(2.0f / width, 2.0f / height);
 
         // Set model-view
+        if (!monitorOffset.isNull()) {
+            modelView.translate(monitorOffset.x() * devicePixelRatio, -monitorOffset.y() * devicePixelRatio);
+        }
+
         if (videoRect.width() > 0.0 && zoom > 0.0) {
             if (offset.x() || offset.y())
                 modelView.translate(-offset.x() * devicePixelRatio,
                                     offset.y() * devicePixelRatio);
             modelView.scale(zoom, zoom);
         }
-        if (!monitorOffset.isNull()) {
-            modelView.translate(monitorOffset.x() * devicePixelRatio, -monitorOffset.y() * devicePixelRatio);
-        }
+
         for (int i = 0; i < 4; i++) {
             vertexData[4 * i] *= modelView(0, 0);
             vertexData[4 * i] += modelView(0, 3);
