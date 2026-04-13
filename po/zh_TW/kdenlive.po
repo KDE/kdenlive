@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-10 03:11+0000\n"
+"POT-Creation-Date: 2026-04-13 02:38+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -7109,7 +7109,7 @@ msgstr "持續時間"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1109 src/kdenliveui.rc:192 src/mainwindow.cpp:270
+#: src/core.cpp:1120 src/kdenliveui.rc:192 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -19494,7 +19494,7 @@ msgstr "輸入您的音訊編輯應用程式的路徑"
 msgid "Please set a default application to open video files"
 msgstr "請設定用於開啟音訊檔案的應用程式"
 
-#: src/bin/bin.cpp:5141 src/core.cpp:672 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5141 src/core.cpp:683 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
@@ -20348,32 +20348,32 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "關閉 GPU 處理"
 
-#: src/core.cpp:262 src/core.cpp:345 src/core.cpp:516
+#: src/core.cpp:265 src/core.cpp:349 src/core.cpp:523
 #: src/project/projectmanager.cpp:869
 #, kde-format
 msgid "Loading project…"
 msgstr "載入專案中…"
 
-#: src/core.cpp:476
+#: src/core.cpp:483
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr "預設的 Kdenlive 設定檔未設定或無效，請點擊確認來為它設定一個正確的值。"
 
-#: src/core.cpp:488
+#: src/core.cpp:495
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "選擇預設編碼方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:488 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:495 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "編碼方案："
 
-#: src/core.cpp:501
+#: src/core.cpp:508
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20382,262 +20382,262 @@ msgstr ""
 "指定的設定檔是無效的。已使用預設設定檔「dv_pal」，但您還是可以從 Kdenlive 的"
 "設定面板變更此選項"
 
-#: src/core.cpp:724
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "方形 2 條狀"
 
-#: src/core.cpp:725
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "棋盤狀（小）"
 
-#: src/core.cpp:726
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "水平窗簾"
 
-#: src/core.cpp:727
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "圓形"
 
-#: src/core.cpp:728
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "線性 X"
 
-#: src/core.cpp:729
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "雙線性 X"
 
-#: src/core.cpp:730
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "線性 Y"
 
-#: src/core.cpp:731
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "雙線性 Y"
 
-#: src/core.cpp:732
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "方形"
 
-#: src/core.cpp:733
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "方形 2"
 
-#: src/core.cpp:734
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "雲朵"
 
-#: src/core.cpp:735
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "時鐘（對稱）"
 
-#: src/core.cpp:736
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "放射條狀"
 
-#: src/core.cpp:737
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "螺旋"
 
-#: src/core.cpp:738
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "螺旋 2"
 
-#: src/core.cpp:739
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "布幕"
 
-#: src/core.cpp:740
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "撕裂"
 
-#: src/core.cpp:741
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "時鐘"
 
-#: src/core.cpp:743
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "長條水平"
 
-#: src/core.cpp:744
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "長條垂直"
 
-#: src/core.cpp:745
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "兩側長條水平"
 
-#: src/core.cpp:746
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "兩側長條垂直"
 
-#: src/core.cpp:747
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "兩側長條斜角（左下/右上）"
 
-#: src/core.cpp:748
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "兩側長條斜角（左上/右下）"
 
-#: src/core.cpp:749
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "對角線左上"
 
-#: src/core.cpp:750
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "對角線右上"
 
-#: src/core.cpp:751
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "矩陣瀑布水平"
 
-#: src/core.cpp:752
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "矩陣瀑布垂直"
 
-#: src/core.cpp:753
+#: src/core.cpp:764
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "矩陣蛇行水平"
 
-#: src/core.cpp:754
+#: src/core.cpp:765
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "矩陣蛇行同步水平"
 
-#: src/core.cpp:755
+#: src/core.cpp:766
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "矩陣蛇行垂直"
 
-#: src/core.cpp:756
+#: src/core.cpp:767
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "矩陣蛇行同步垂直"
 
-#: src/core.cpp:757
+#: src/core.cpp:768
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "兩側 V 字向上"
 
-#: src/core.cpp:758
+#: src/core.cpp:769
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "虹膜圓形"
 
-#: src/core.cpp:759
+#: src/core.cpp:770
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "雙重虹膜"
 
-#: src/core.cpp:760
+#: src/core.cpp:771
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "虹膜方框"
 
-#: src/core.cpp:761
+#: src/core.cpp:772
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "方塊右下"
 
-#: src/core.cpp:762
+#: src/core.cpp:773
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "方塊左下"
 
-#: src/core.cpp:763
+#: src/core.cpp:774
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "方塊中右"
 
-#: src/core.cpp:764
+#: src/core.cpp:775
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "時鐘頂部"
 
-#: src/core.cpp:1055
+#: src/core.cpp:1066
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的專案編碼方案是無效的，算繪可能會失敗。"
 
-#: src/core.cpp:1419
+#: src/core.cpp:1430
 #, kde-format
 msgid "Loading clips"
 msgstr "載入素材中"
 
-#: src/core.cpp:1914
+#: src/core.cpp:1925
 #, kde-format
 msgid "Marker %1"
 msgstr "標記 %1"
 
-#: src/core.cpp:2276
+#: src/core.cpp:2287
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20647,12 +20647,12 @@ msgstr ""
 "這會開啟瀏覽器來在以下網址查看 Kdenlive 的線上說明文件：\n"
 " %1"
 
-#: src/core.cpp:2277 src/core.cpp:2288
+#: src/core.cpp:2288 src/core.cpp:2299
 #, kde-format
 msgid "Open Browser"
 msgstr "開啟瀏覽器"
 
-#: src/core.cpp:2287
+#: src/core.cpp:2298
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will open a browser to display Kdenlive's online documentation at "
@@ -34517,22 +34517,22 @@ msgid ""
 "installed correctly."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:262
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:263
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:270
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:283
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:288
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:289
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "

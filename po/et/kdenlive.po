@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-10 03:11+0000\n"
+"POT-Creation-Date: 2026-04-13 02:38+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -7423,7 +7423,7 @@ msgstr "Kestus"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1109 src/kdenliveui.rc:192 src/mainwindow.cpp:270
+#: src/core.cpp:1120 src/kdenliveui.rc:192 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:434
 #, fuzzy, kde-format
@@ -20362,7 +20362,7 @@ msgstr "Kirjuta videoteegi klipi nimi"
 msgid "Please set a default application to open video files"
 msgstr "Palun määra seadistustedialoogis helifailide avamise vaikerakendus"
 
-#: src/bin/bin.cpp:5141 src/core.cpp:672 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5141 src/core.cpp:683 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
@@ -21306,14 +21306,14 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Asendusklippide keelamine"
 
-#: src/core.cpp:262 src/core.cpp:345 src/core.cpp:516
+#: src/core.cpp:265 src/core.cpp:349 src/core.cpp:523
 #: src/project/projectmanager.cpp:869
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
 msgstr "Projekti laadimine"
 
-#: src/core.cpp:476
+#: src/core.cpp:483
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -21322,7 +21322,7 @@ msgstr ""
 "Kdenlive'i vaikeprofiili pole määratud või on see vigane. Palun klõpsa õige "
 "väärtuse määramiseks nupule OK."
 
-#: src/core.cpp:488
+#: src/core.cpp:495
 #, fuzzy, kde-format
 #| msgid "Select Default Profile"
 msgctxt "@title:window"
@@ -21330,12 +21330,12 @@ msgid "Select Default Profile"
 msgstr "Vaikeprofiili valimine"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:488 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:495 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profiil:"
 
-#: src/core.cpp:501
+#: src/core.cpp:508
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -21344,281 +21344,281 @@ msgstr ""
 "Määratud profiil on vigane. Me võtame vaikimisi kasutusele profiili \"dv_pal"
 "\", kuid sa võid seda muuta Kdenlive seadistustedialoogis."
 
-#: src/core.cpp:724
+#: src/core.cpp:735
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Ruut-hägustamine"
 
-#: src/core.cpp:725
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:726
+#: src/core.cpp:737
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horisontaalne"
 
-#: src/core.cpp:727
+#: src/core.cpp:738
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Raadius"
 
-#: src/core.cpp:728
+#: src/core.cpp:739
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineaarne"
 
-#: src/core.cpp:729
+#: src/core.cpp:740
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Lineaarne"
 
-#: src/core.cpp:730
+#: src/core.cpp:741
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineaarne"
 
-#: src/core.cpp:731
+#: src/core.cpp:742
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Lineaarne"
 
-#: src/core.cpp:732
+#: src/core.cpp:743
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Ruut-hägustamine"
 
-#: src/core.cpp:733
+#: src/core.cpp:744
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Ruut-hägustamine"
 
-#: src/core.cpp:734
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:735
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:736
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:737
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:738
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:739
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:740
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:741
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:743
+#: src/core.cpp:754
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Horisontaalne"
 
-#: src/core.cpp:744
+#: src/core.cpp:755
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Vertikaalne"
 
-#: src/core.cpp:745
+#: src/core.cpp:756
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Horisontaalne"
 
-#: src/core.cpp:746
+#: src/core.cpp:757
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Vertikaalne"
 
-#: src/core.cpp:747
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:748
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:749
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:750
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:751
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:752
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:753
+#: src/core.cpp:764
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Horisontaalne"
 
-#: src/core.cpp:754
+#: src/core.cpp:765
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:755
+#: src/core.cpp:766
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:756
+#: src/core.cpp:767
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:757
+#: src/core.cpp:768
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:758
+#: src/core.cpp:769
 #, fuzzy, kde-format
 #| msgid "Circle radius"
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Ringi raadius"
 
-#: src/core.cpp:759
+#: src/core.cpp:770
 #, fuzzy, kde-format
 #| msgid "Disable proxies"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Asendusklippide keelamine"
 
-#: src/core.cpp:760
+#: src/core.cpp:771
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:761
+#: src/core.cpp:772
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Alumine esimesena"
 
-#: src/core.cpp:762
+#: src/core.cpp:773
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Alumine esimesena"
 
-#: src/core.cpp:763
+#: src/core.cpp:774
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:764
+#: src/core.cpp:775
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:1055
+#: src/core.cpp:1066
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Projekti profiil on vigane, renderdamine võib nurjuda."
 
-#: src/core.cpp:1419
+#: src/core.cpp:1430
 #, kde-format
 msgid "Loading clips"
 msgstr "Klippide laadimine"
 
-#: src/core.cpp:1914
+#: src/core.cpp:1925
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "Marker 2"
 
-#: src/core.cpp:2276
+#: src/core.cpp:2287
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21626,13 +21626,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2277 src/core.cpp:2288
+#: src/core.cpp:2288 src/core.cpp:2299
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "Meediamängijad"
 
-#: src/core.cpp:2287
+#: src/core.cpp:2298
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -36322,22 +36322,22 @@ msgid ""
 "installed correctly."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:262
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:263
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:270
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:283
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:288
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:289
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "
