@@ -75,6 +75,8 @@ void ProxyTask::run()
         m_isFfmpegJob = false;
         QStringList mltParameters = {QStringLiteral("-loglevel"), QStringLiteral("error")};
         QTemporaryFile *playlist = nullptr;
+        bool hasAudio = binClip->hasAudio();
+        bool hasVideo = binClip->hasVideo();
         // set clip origin
         if (type == ClipType::Playlist) {
             // Special case: playlists use the special 'consumer' producer to support resizing
@@ -186,6 +188,15 @@ void ProxyTask::run()
 
         // Ask for progress reporting
         mltParameters << QStringLiteral("progress=1");
+        if (!hasAudio) {
+            mltParameters << QStringLiteral("audio_off=1");
+            mltParameters << QStringLiteral("an=1");
+        }
+        if (!hasVideo) {
+            mltParameters << QStringLiteral("video_off=1");
+            mltParameters << QStringLiteral("vn=1");
+        }
+        qDebug() << "::: STARTING MLT PROXY TASK:\n" << mltParameters << "\n..................................";
 
         QProcess jobProcess;
         QObject::connect(this, &ProxyTask::jobCanceled, &jobProcess, &QProcess::kill, Qt::DirectConnection);
