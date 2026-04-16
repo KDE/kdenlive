@@ -67,10 +67,18 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     connect(m_effectsIcon, &QAbstractItemView::entered, this, &TransitionListWidget::iconViewEntered);
     connect(m_effectsIcon, &AssetListView::exited, this, &TransitionListWidget::iconViewExited);
 
-    // Add "Generate Previews" action to toolbar
-    m_generatePreviewAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
-    connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
-    m_toolbar->addAction(m_generatePreviewAction);
+    // Add "Generate Previews" action to toolbar, only if python is found
+#ifdef Q_OS_WIN
+    const QString pythonName = QStringLiteral("python");
+#else
+    const QString pythonName = QStringLiteral("python3");
+#endif
+    const QString pythonExe = QStandardPaths::findExecutable(pythonName);
+    if (!pythonExe.isEmpty()) {
+        m_generatePreviewAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
+        connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
+        m_toolbar->addAction(m_generatePreviewAction);
+    }
     connect(this, &AssetListWidget::checkAssetPreview, this, &TransitionListWidget::checkPreviews);
     connect(m_model.get(), &AssetTreeModel::rowsInserted, this, [this]() { m_proxyModel->sort(0, Qt::AscendingOrder); });
 
@@ -129,7 +137,7 @@ void TransitionListWidget::checkPreviews(bool force)
 {
     const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
     QDir previewFolder(outputDir);
-    if (force || !previewFolder.exists() || previewFolder.isEmpty()) {
+    if (m_generatePreviewAction && (force || !previewFolder.exists() || previewFolder.isEmpty())) {
         generatePreviews();
     }
 }
