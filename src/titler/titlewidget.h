@@ -72,7 +72,7 @@ public:
     explicit TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
     ~TitleWidget() override;
     QDomDocument xml();
-    void setXml(const QDomDocument &doc, const QString &id = QString());
+    void setXml(const QString &path, const QDomDocument &doc, const QString &id = QString());
 
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title

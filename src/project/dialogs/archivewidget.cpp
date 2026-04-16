@@ -139,6 +139,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QMap<QString, QString> imageUrls;
     QMap<QString, QString> playlistUrls;
     QMap<QString, QString> proxyUrls;
+    QMap<QString, QString> textUrls;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
     QStringList handledUrls;
     for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
@@ -158,9 +159,9 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
         } else if (t == ClipType::QText) {
             allFonts << clip->getProducerProperty(QStringLiteral("family"));
         } else if (t == ClipType::Text) {
-            QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
+            const QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
             QStringList imagefiles = TitleWidget::extractImageList(titleData, pCore->currentDoc()->documentRoot());
-            QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            QStringList fonts = TitleWidget::extractFontList(titleData);
             extraImageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == ClipType::Playlist) {
@@ -173,9 +174,19 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
                 }
                 otherUrls << f;
             }
-        } else if (!clip->clipUrl().isEmpty()) {
+        } else if (!url.isEmpty()) {
             handledUrls << url;
-            if (t == ClipType::Audio) {
+            if (t == ClipType::TextTemplate) {
+                QFile titleFile(url);
+                if (titleFile.open(QIODevice::ReadOnly)) {
+                    const QString titleData = titleFile.readAll();
+                    QStringList imagefiles = TitleWidget::extractImageList(titleData, pCore->currentDoc()->documentRoot());
+                    QStringList fonts = TitleWidget::extractFontList(titleData);
+                    extraImageUrls << imagefiles;
+                    allFonts << fonts;
+                }
+                textUrls.insert(id, url);
+            } else if (t == ClipType::Audio) {
                 audioUrls.insert(id, url);
             } else {
                 videoUrls.insert(id, url);
@@ -199,6 +210,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     generateItems(images, extraImageUrls);
     generateItems(sounds, audioUrls);
     generateItems(videos, videoUrls);
+    generateItems(texts, textUrls);
     generateItems(images, imageUrls);
     generateItems(slideshows, slideUrls);
     generateItems(playlists, playlistUrls);
@@ -679,35 +691,21 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             }
             m_processedFiles << item->text(0);
             items++;
-            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
+            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("texts")) {
+                // Special case: kdenlive title files may contain urls that need to be replaced
+                QString filename(QUrl::fromLocalFile(item->text(0)).fileName());
+                m_infoMessage->setText(i18n("Copying %1", filename));
+                const QString playList = processTitleFile(item->text(0));
+                if (!writeTmpFile(isArchive, playList, destPath, destUrl, filename)) {
+                    return false;
+                }
+            } else if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
                 // Special case: playlists (mlt files) may contain urls that need to be replaced too
                 QString filename(QUrl::fromLocalFile(item->text(0)).fileName());
                 m_infoMessage->setText(i18n("Copying %1", filename));
                 const QString playList = processPlaylistFile(item->text(0));
-                if (isArchive) {
-                    m_temp = new QTemporaryFile();
-                    if (!m_temp->open()) {
-                        KMessageBox::error(this, i18n("Cannot create temporary file"));
-                    }
-                    m_temp->write(playList.toUtf8());
-                    m_temp->close();
-                    m_filesList.insert(m_temp->fileName(), destPath + filename);
-                } else {
-                    if (!destUrl.mkpath(QStringLiteral("."))) {
-                        KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.absolutePath()));
-                    }
-                    QFile file(destUrl.absoluteFilePath(filename));
-                    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
-                        KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
-                    }
-                    file.write(playList.toUtf8());
-                    if (file.error() != QFile::NoError) {
-                        KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
-                        file.close();
-                        return false;
-                    }
-                    file.close();
+                if (!writeTmpFile(isArchive, playList, destPath, destUrl, filename)) {
+                    return false;
                 }
             } else if (isSlideshow) {
                 // Special case: slideshows
@@ -795,6 +793,36 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     return true;
 }
 
+bool ArchiveWidget::writeTmpFile(bool isArchive, const QString &playList, const QString &destPath, const QDir destUrl, const QString &filename)
+{
+    if (isArchive) {
+        m_temp = new QTemporaryFile();
+        if (!m_temp->open()) {
+            KMessageBox::error(this, i18n("Cannot create temporary file"));
+        }
+        m_temp->write(playList.toUtf8());
+        m_temp->close();
+        m_filesList.insert(m_temp->fileName(), destPath + filename);
+    } else {
+        if (!destUrl.mkpath(QStringLiteral("."))) {
+            KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.absolutePath()));
+        }
+        QFile file(destUrl.absoluteFilePath(filename));
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
+            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+        }
+        file.write(playList.toUtf8());
+        if (file.error() != QFile::NoError) {
+            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+            file.close();
+            return false;
+        }
+        file.close();
+    }
+    return true;
+}
+
 void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
 {
     if (job == nullptr || job->error() == 0) {
@@ -837,6 +865,15 @@ void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
     } else {
         progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
     }
+}
+
+QString ArchiveWidget::processTitleFile(const QString &filename)
+{
+    QDomDocument doc;
+    if (!Xml::docContentFromFile(doc, filename, false)) {
+        return QString();
+    }
+    return processKdenliveTitleFile(doc, QStringLiteral("../"));
 }
 
 QString ArchiveWidget::processPlaylistFile(const QString &filename)
@@ -1092,6 +1129,50 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
         endString = QLatin1Char('>') + basePath;
         playList.replace(startString, endString);
     }
+    return playList;
+}
+
+QString ArchiveWidget::processKdenliveTitleFile(const QDomDocument &doc, const QString &destPrefix)
+{
+    qDebug() << "::: PROCESSING TITLE REPLACEMENT... STEP 1";
+    QTreeWidgetItem *item;
+    m_replacementList.clear();
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
+        QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
+        if (parentItem->childCount() > 0) {
+            // QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
+            bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
+            for (int j = 0; j < parentItem->childCount(); ++j) {
+                item = parentItem->child(j);
+                QUrl src = QUrl::fromLocalFile(item->text(0));
+                QUrl dest =
+                    QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
+                if (isSlideshow) {
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') +
+                                               item->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
+                } else if (item->data(0, Qt::UserRole).isNull()) {
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
+                }
+                m_replacementList.insert(src, dest);
+            }
+        }
+    }
+    QDomElement mlt = doc.documentElement();
+
+    // process title urls
+    QDomNodeList content = mlt.elementsByTagName(QStringLiteral("content"));
+    for (int i = 0; i < content.count(); ++i) {
+        QDomElement e = content.item(i).toElement();
+        if (e.hasAttribute(QStringLiteral("url"))) {
+            QUrl srcUrl = QUrl::fromLocalFile(e.attribute(QStringLiteral("url")));
+            QUrl dest = m_replacementList.value(srcUrl);
+            if (!dest.isEmpty()) {
+                e.setAttribute(QStringLiteral("url"), dest.toLocalFile());
+            }
+        }
+    }
+
+    const QString playList = doc.toString();
     return playList;
 }
 
