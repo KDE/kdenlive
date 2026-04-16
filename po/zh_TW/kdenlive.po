@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-14 00:43+0000\n"
+"POT-Creation-Date: 2026-04-16 00:43+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -25262,12 +25262,12 @@ msgstr "載入素材中"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "無法判斷檔案 <b>%1</b> 的長度。"
 
-#: src/jobs/cliploadtask.cpp:728
+#: src/jobs/cliploadtask.cpp:742
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "檔案 <b>%1</b> 是無法跳轉的。"
 
-#: src/jobs/cliploadtask.cpp:759
+#: src/jobs/cliploadtask.cpp:773
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "檔案 <b>%1</b> 使用可變幀率。"
@@ -25412,23 +25412,23 @@ msgstr "建立代理素材失敗。"
 msgid "Creating proxy"
 msgstr "正在建立代理"
 
-#: src/jobs/proxytask.cpp:210
+#: src/jobs/proxytask.cpp:221
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "無法載入圖片 %1。"
 
-#: src/jobs/proxytask.cpp:230
+#: src/jobs/proxytask.cpp:241
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "圖片大小太小而不適合代理。"
 
-#: src/jobs/proxytask.cpp:238 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:249 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "找不到 FFmpeg，請在 Kdenlive 的環境設定裡設定路徑"
 
-#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
+#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "建立代理素材失敗。"

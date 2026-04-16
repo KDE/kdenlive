@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-14 00:43+0000\n"
+"POT-Creation-Date: 2026-04-16 00:43+0000\n"
 "PO-Revision-Date: 2026-04-07 13:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -25925,12 +25925,12 @@ msgstr "Klip yükleniyor"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "<b>%1</b> dosyasının süresi algılanamadı."
 
-#: src/jobs/cliploadtask.cpp:728
+#: src/jobs/cliploadtask.cpp:742
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "<b>%1</b> dosyası içinde aranabilir değil."
 
-#: src/jobs/cliploadtask.cpp:759
+#: src/jobs/cliploadtask.cpp:773
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "<b>%1</b> dosyasının değişken bir çerçeve hızı var."
@@ -26074,24 +26074,24 @@ msgstr "Oynatma listesi işlenemedi."
 msgid "Creating proxy"
 msgstr "Vekil oluşturuluyor"
 
-#: src/jobs/proxytask.cpp:210
+#: src/jobs/proxytask.cpp:221
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "%1 görseli yüklenemedi."
 
-#: src/jobs/proxytask.cpp:230
+#: src/jobs/proxytask.cpp:241
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Görsel, vekile aktarılmak için pek küçük."
 
-#: src/jobs/proxytask.cpp:238 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:249 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg bulunamadı; lütfen Kdenlive’ın çevresel ayarlarına yolunu ekleyin"
 
-#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
+#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Vekil klip oluşturma başarısız."

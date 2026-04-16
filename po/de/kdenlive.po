@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-14 00:43+0000\n"
+"POT-Creation-Date: 2026-04-16 00:43+0000\n"
 "PO-Revision-Date: 2026-02-13 18:05+0100\n"
 "Last-Translator: anon <emil@wechler.eu>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -26435,12 +26435,12 @@ msgstr "Clip wird geladen"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Die Länge der Datei <b>%1</b> kann nicht bestimmt werden."
 
-#: src/jobs/cliploadtask.cpp:728
+#: src/jobs/cliploadtask.cpp:742
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "In der Datei <b>%1</b> kann nicht gespult werden."
 
-#: src/jobs/cliploadtask.cpp:759
+#: src/jobs/cliploadtask.cpp:773
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Die Datei <b>%1</b> hat eine variable Bildwiederholfrequenz."
@@ -26596,23 +26596,23 @@ msgstr "Proxy-Clip kann nicht erstellt werden."
 msgid "Creating proxy"
 msgstr "Proxy wird erstellt"
 
-#: src/jobs/proxytask.cpp:210
+#: src/jobs/proxytask.cpp:221
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Bild %1 kann nicht geladen werden."
 
-#: src/jobs/proxytask.cpp:230
+#: src/jobs/proxytask.cpp:241
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Bild zu klein, um als Proxy verwendet zu werden."
 
-#: src/jobs/proxytask.cpp:238 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:249 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 
-#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
+#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Proxy-Clip kann nicht erstellt werden."
