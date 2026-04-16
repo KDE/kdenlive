@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-14 02:44+0000\n"
+"POT-Creation-Date: 2026-04-16 02:34+0000\n"
 "PO-Revision-Date: 2026-03-13 09:29+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -26083,12 +26083,12 @@ msgstr "Завантажуємо кліп"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Не вдалося визначити тривалість відтворення файла <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:728
+#: src/jobs/cliploadtask.cpp:742
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Позиціювання у файлі <b>%1</b> неможливе."
 
-#: src/jobs/cliploadtask.cpp:759
+#: src/jobs/cliploadtask.cpp:773
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Частота кадрів у файлі <b>%1</b> є змінною."
@@ -26234,17 +26234,17 @@ msgstr "Не вдалося обробити список відтворення
 msgid "Creating proxy"
 msgstr "Створюємо проміжний кліп"
 
-#: src/jobs/proxytask.cpp:210
+#: src/jobs/proxytask.cpp:221
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Не вдалося завантажити зображення %1."
 
-#: src/jobs/proxytask.cpp:230
+#: src/jobs/proxytask.cpp:241
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Зображення є надто малим для створення проміжного кліпу."
 
-#: src/jobs/proxytask.cpp:238 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:249 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -26252,7 +26252,7 @@ msgstr ""
 "Не вдалося знайти FFmpeg. Будь ласка, вкажіть шлях до цієї програми у "
 "параметрах середовища Kdenlive"
 
-#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
+#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Не вдалося створити проміжний кліп."

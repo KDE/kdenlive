@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-14 02:44+0000\n"
+"POT-Creation-Date: 2026-04-16 02:34+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -26151,12 +26151,12 @@ msgstr "Gearrthóg á luchtú"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Ní féidir fad an chomhaid <b>%1</b> a chinneadh."
 
-#: src/jobs/cliploadtask.cpp:728
+#: src/jobs/cliploadtask.cpp:742
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Ní féidir cuardach a dhéanamh ar chomhad <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:759
+#: src/jobs/cliploadtask.cpp:773
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Tá ráta fráma athraitheach ag an gcomhad <b>%1</b>."
@@ -26301,17 +26301,17 @@ msgstr "Theip ar an seinmliosta a phróiseáil."
 msgid "Creating proxy"
 msgstr "Ag cruthú seachfhreastalaí"
 
-#: src/jobs/proxytask.cpp:210
+#: src/jobs/proxytask.cpp:221
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Ní féidir íomhá %1 a luchtú."
 
-#: src/jobs/proxytask.cpp:230
+#: src/jobs/proxytask.cpp:241
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Íomhá róbheag le bheith in ionad seachfhreastalaí."
 
-#: src/jobs/proxytask.cpp:238 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:249 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -26319,7 +26319,7 @@ msgstr ""
 "Níor aimsíodh FFmpeg, socraigh an cosán i socruithe Timpeallacht Kdenlive le "
 "do thoil"
 
-#: src/jobs/proxytask.cpp:417 src/jobs/proxytask.cpp:431
+#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Theip ar ghearrthóg seachfhreastalaí a chruthú."
