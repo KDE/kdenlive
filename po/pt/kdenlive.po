@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-16 02:34+0000\n"
+"POT-Creation-Date: 2026-04-17 02:40+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -20065,7 +20065,7 @@ msgstr "Lista de Reprodução"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2802 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1667 src/project/projectmanager.cpp:1669
+#: src/project/projectmanager.cpp:1669 src/project/projectmanager.cpp:1671
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -21974,7 +21974,7 @@ msgstr "Exportar os Dados das Guias"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1979 src/project/projectmanager.cpp:1985
+#: src/project/projectmanager.cpp:1981 src/project/projectmanager.cpp:1987
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:424
 #: src/renderpresets/renderpresetrepository.cpp:480
@@ -22079,7 +22079,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se não tiver a certeza, experimente :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1868
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1870
 #: src/renderpresets/renderpresetrepository.cpp:357
 #, kde-format
 msgid "Cannot read file %1"
@@ -25528,7 +25528,7 @@ msgid "Invalid file path"
 msgstr "Localização do ficheiro inválida"
 
 #: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:898
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Não é possível recuperar um ficheiro danificado."
@@ -25610,8 +25610,8 @@ msgstr ""
 "O seu ficheiro de projecto foi actualizado para a última versão do documento "
 "do Kdenlive, mas não foi possível criar a cópia de segurança %1."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1541
-#: src/project/projectmanager.cpp:1577
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1543
+#: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Erro ao mover a pasta do projecto: %1"
@@ -32394,7 +32394,7 @@ msgstr "Abrir uma Cópia de Segurança…"
 msgid "Save changes to document?"
 msgstr "Deseja gravar as alterações no documento?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1805
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1807
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32475,29 +32475,29 @@ msgstr ""
 "%1\n"
 "Deseja abrir uma cópia de segurança?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1131
+#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1133
 #, kde-format
 msgid "Error opening file"
 msgstr "Erro ao abrir o ficheiro"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1132
+#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1134
 #, kde-format
 msgid "Open Backup"
 msgstr "Abrir a Cópia de Segurança"
 
-#: src/project/projectmanager.cpp:900
+#: src/project/projectmanager.cpp:902
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Não é possível aceder à cópia de segurança do projecto."
 
-#: src/project/projectmanager.cpp:915
+#: src/project/projectmanager.cpp:917
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "O seu projecto foi actualizado; será criada uma cópia de segurança na "
 "próxima gravação"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:919
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -32505,19 +32505,19 @@ msgstr ""
 "O seu projecto foi modificado na abertura; será criada uma cópia de "
 "segurança na próxima gravação"
 
-#: src/project/projectmanager.cpp:988
+#: src/project/projectmanager.cpp:990
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Loading timeline…"
 msgstr "A obter o modelo…"
 
-#: src/project/projectmanager.cpp:1011
+#: src/project/projectmanager.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Timeline sequence"
 msgid "Building sequences…"
 msgstr "Sequência da linha temporal"
 
-#: src/project/projectmanager.cpp:1158
+#: src/project/projectmanager.cpp:1160
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -32525,7 +32525,7 @@ msgid ""
 "%1\n"
 msgstr "Não é possível aceder ao ficheiro do projecto %1"
 
-#: src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1200
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32534,12 +32534,12 @@ msgstr ""
 "Isto irá apagar todas as alterações feitas desde que gravou o seu projecto. "
 "Tem a certeza que deseja continuar?"
 
-#: src/project/projectmanager.cpp:1199
+#: src/project/projectmanager.cpp:1201
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Voltar à última versão gravada"
 
-#: src/project/projectmanager.cpp:1298
+#: src/project/projectmanager.cpp:1300
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -32549,24 +32549,24 @@ msgstr ""
 "e reabra o seu ficheiro de projecto para recuperar a última cópia de "
 "segurança"
 
-#: src/project/projectmanager.cpp:1519
+#: src/project/projectmanager.cpp:1521
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Erro ao mover a pasta do projecto; não é possível aceder à pasta de 'cache'"
 
-#: src/project/projectmanager.cpp:1555
+#: src/project/projectmanager.cpp:1557
 #, kde-format
 msgid "Moving project folder"
 msgstr "A mover a pasta do projecto"
 
-#: src/project/projectmanager.cpp:1646 src/project/projectmanager.cpp:1701
-#: src/project/projectmanager.cpp:1705
+#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1703
+#: src/project/projectmanager.cpp:1707
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequência 1"
 
-#: src/project/projectmanager.cpp:1657
+#: src/project/projectmanager.cpp:1659
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -32574,13 +32574,13 @@ msgstr ""
 "O ficheiro do projecto está danificado  -não foi possível carregar as "
 "faixas. Tente encontrar um ficheiro com uma cópia de segurança?"
 
-#: src/project/projectmanager.cpp:1797 src/project/projectmanager.cpp:1810
-#: src/project/projectmanager.cpp:1834 src/project/projectmanager.cpp:1843
+#: src/project/projectmanager.cpp:1799 src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1845
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Mudança de perfil do projecto interrompida"
 
-#: src/project/projectmanager.cpp:1973
+#: src/project/projectmanager.cpp:1975
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -32589,12 +32589,12 @@ msgstr ""
 "O ficheiro do resultado %1 já existe.\n"
 "Deseja sobrepô-lo?"
 
-#: src/project/projectmanager.cpp:1998
+#: src/project/projectmanager.cpp:2000
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil do projecto modificada"
 
-#: src/project/projectmanager.cpp:2062
+#: src/project/projectmanager.cpp:2064
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -32603,31 +32603,31 @@ msgstr ""
 "Não é possível criar uma linha temporal a partir deste 'clip':\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2150
+#: src/project/projectmanager.cpp:2152
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "A importar um 'clip' de sequência; esta funcionalidade está num estado "
 "experimental neste momento"
 
-#: src/project/projectmanager.cpp:2395
+#: src/project/projectmanager.cpp:2397
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccione um 'clip' para criar a sequência"
 
-#: src/project/projectmanager.cpp:2405
+#: src/project/projectmanager.cpp:2407
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Sequence creation failed"
 msgstr "'Clip' da máscara"
 
-#: src/project/projectmanager.cpp:2432
+#: src/project/projectmanager.cpp:2434
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Não pode inserir uma sequência que inclui a própria"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2438
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Criar um 'Clip' de Sequência"
@@ -36109,35 +36109,35 @@ msgstr "Luma"
 msgid "No Preview"
 msgstr "Antevisão"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:71
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
 #, fuzzy, kde-format
 #| msgid "Generate Script"
 msgid "Generate Previews"
 msgstr "Gerar um Programa"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:207
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:215
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:263
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:279
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:292
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:289
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "
