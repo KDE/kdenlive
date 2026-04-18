@@ -199,7 +199,7 @@ public:
     QColor getTimelineClipColor(ClipType::ProducerType type) const;
     Q_INVOKABLE int doubleClickInterval() const { return QApplication::doubleClickInterval(); }
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
-    /** @brief Returns [streamCount, availableAudioTrackSlots] for a bin clip dragged onto trackId.
+    /** @brief Returns [streamCount, availableAudioTrackSlots, isEnoughTracks] for a bin clip dragged onto trackId.
      *  Called from QML to populate the drag-drop info bubble. */
     Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId) const;
     Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;

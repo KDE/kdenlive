@@ -408,10 +408,10 @@ public:
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
-    /** @brief Returns [streamCount, availableAudioTrackSlots] for a bin clip dragged onto trackId.
+    /** @brief Returns [streamCount, availableAudioTrackSlots, isEnoughTracks] for a bin clip dragged onto trackId.
      *  Called from QML (controller.clipAudioStreamInfo) to populate the drag-drop info bubble. */
-    Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTrack=false) const;
-    /** @brief Returns [streamCount, availableAudioTrackSlots] for a bin clip dragged onto trackId.
+    Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTrack=false);
+    /** @brief Returns [streamCount, availableAudioTrackSlots, isEnoughTracks] for a bin clip dragged onto trackId.
      *  This overload accepts undo/redo stacks so that any track creation can be undone. */
     QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTrack, Fun &undo, Fun &redo);
     /** @brief Returns true if a clip cid is on an audio track */
@@ -1177,8 +1177,10 @@ private:
      *  @param missingCount Number of audio tracks to create
      *  @param trackId The target video track for insertion
      *  @param useTargets Whether to use audio targets for the new tracks
+     *  @param allowedTracks List of tracks allowed for insertion
      *  @param undo Undo lambda to update
      *  @param redo Redo lambda to update
+     *  @param streamsToCreate Optional list of specific stream indices to create tracks for only for target insertion.
      *  @return true if tracks were created successfully (or none needed), false on failure
      */
    bool ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo,

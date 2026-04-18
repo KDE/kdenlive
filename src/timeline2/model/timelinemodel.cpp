@@ -597,11 +597,11 @@ QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
     return results;
 }
 
-QVariantList TimelineModel::clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTracks) const
+QVariantList TimelineModel::clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTracks)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    return const_cast<TimelineModel *>(this)->clipAudioStreamInfo(binClipId, trackId, createTracks, undo, redo);
+    return clipAudioStreamInfo(binClipId, trackId, createTracks, undo, redo);
 }
 
 QVariantList TimelineModel::clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTracks, Fun &undo, Fun &redo)
@@ -621,8 +621,11 @@ QVariantList TimelineModel::clipAudioStreamInfo(const QString &binClipId, int tr
     for (const QString &entry : entries) {
         // Strip mandatory A/V prefix and optional /in/out suffix to get the raw bin id.
         QString bid = entry.section(QLatin1Char('/'), 0, 0);
-        if (bid.startsWith(QLatin1Char('A')) || bid.startsWith(QLatin1Char('V'))) {
+        if (bid.startsWith(QLatin1Char('A'))) {
             bid.remove(0, 1);
+        } else if (bid.startsWith(QLatin1Char('V'))) {
+            // This operation is only relevant to audio streams, so skip it for video only clips/drops.
+            continue;
         }
         auto master = pCore->projectItemModel()->getClipByBinID(bid);
         if (master) {
