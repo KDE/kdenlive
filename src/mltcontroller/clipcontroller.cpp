@@ -143,6 +143,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         // Check if clip has multiple video streams
         QList<int> videoStreams;
         QList<int> audioStreams;
+        QList<int> subtitleStreams;
         int aStreams = m_properties->get_int("meta.media.nb_streams");
         for (int ix = 0; ix < aStreams; ++ix) {
             char property[200];
@@ -174,7 +175,12 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                 videoStreams << ix;
             } else if (type == QLatin1String("audio")) {
                 audioStreams << ix;
+            } else if (type == QLatin1String("subtitle")) {
+                subtitleStreams << ix;
             }
+        }
+        if (subtitleStreams.count() > 0) {
+            setProducerProperty(QStringLiteral("kdenlive:subtitle_streams"), (int)subtitleStreams.count());
         }
         if (videoStreams.count() > 1) {
             setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
@@ -1167,6 +1173,11 @@ int ClipController::audioStreamsCount() const
         return m_audioInfo->streams().count();
     }
     return 0;
+}
+
+int ClipController::subtitleStreamsCount() const
+{
+    return m_properties->get_int("kdenlive:subtitle_streams");
 }
 
 const QString ClipController::getOriginalUrl()
