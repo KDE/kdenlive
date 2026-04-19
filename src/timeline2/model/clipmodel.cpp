@@ -269,7 +269,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                         if (oldIn < m_position) {
                             isAudio ? Q_EMIT ptr->invalidateAudioZone(oldIn, m_position) : Q_EMIT ptr->invalidateZone(oldIn, m_position);
                         } else {
-                            isAudio ? Q_EMIT ptr->invalidateAudioZone(m_position, oldIn) : ptr->invalidateZone(m_position, oldIn);
+                            isAudio ? Q_EMIT ptr->invalidateAudioZone(m_position, oldIn) : Q_EMIT ptr->invalidateZone(m_position, oldIn);
                         }
                     }
                 }
