@@ -2080,6 +2080,13 @@ void MainWindow::setupActions()
     sentToSequence->setData('G');
     sentToSequence->setEnabled(false);
 
+    QAction *copyToSequence = addAction(QStringLiteral("copy_to_sequence"), i18n("Copy Selection to New Sequence"), this, SLOT(slotCopyAndCreateSequenceFromSelection()),
+                                        QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(), clipActionCategory);
+    copyToSequence->setWhatsThis(
+        xi18nc("@info:whatsthis", "Copy the clip(s) currently selected in the timeline to a new sequence clip that can be opened in another timeline tab."));
+    copyToSequence->setData('G');
+    copyToSequence->setEnabled(false);
+
     act = clipActionCategory->addAction(KStandardAction::Copy, this, SLOT(slotCopy()));
     act->setEnabled(false);
 
@@ -5810,6 +5817,11 @@ void MainWindow::appHelpActivated()
 void MainWindow::slotCreateSequenceFromSelection()
 {
     pCore->projectManager()->slotCreateSequenceFromSelection();
+}
+
+void MainWindow::slotCopyAndCreateSequenceFromSelection()
+{
+    pCore->projectManager()->slotCopyAndCreateSequenceFromSelection();
 }
 
 ObjectId MainWindow::effectStackOwner()

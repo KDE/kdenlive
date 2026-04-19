@@ -672,8 +672,10 @@ private Q_SLOTS:
     void slotSearchGuide();
     /** @brief Focus the bin search line */
     void slotSearchBin();
-    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
+    /** @brief Move current timeline selection to a new sequence clip / Timeline tab */
     void slotCreateSequenceFromSelection();
+    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
+    void slotCopyAndCreateSequenceFromSelection();
 
 Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

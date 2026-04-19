@@ -2436,6 +2436,44 @@ void ProjectManager::slotCreateSequenceFromSelection()
     pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
 }
 
+void ProjectManager::slotCopyAndCreateSequenceFromSelection()
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    int aTracks = -1;
+    int vTracks = -1;
+    std::pair<int, QString> copiedData = pCore->window()->getCurrentTimeline()->controller()->getCopyItemData();
+    if (copiedData.first == -1) {
+        pCore->displayMessage(i18n("Select a clip to create sequence"), InformationMessage);
+        return;
+    }
+    const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
+    const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
+    if (newSequenceId.isEmpty()) {
+        // Action canceled
+        undo();
+        pCore->displayMessage(i18n("Sequence creation failed"), ErrorMessage);
+        return;
+    }
+    const QUuid destSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    int trackId = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    Fun local_redo1 = [destSequence, copiedData]() {
+        pCore->window()->raiseTimeline(destSequence);
+        return true;
+    };
+    local_redo1();
+    bool result = TimelineFunctions::pasteClipsWithUndo(m_activeTimelineModel, copiedData.second, trackId, 0, undo, redo);
+    if (!result) {
+        pCore->window()->raiseTimeline(sourceSequence);
+        undo();
+        return;
+    }
+    PUSH_LAMBDA(local_redo1, redo);
+    m_activeTimelineModel->updateDuration();
+    pCore->pushUndo(undo, redo, i18n("Copy clips to new Sequence"));
+}
+
 void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod)
 {
     // On timeline close, update the stored sequence producer

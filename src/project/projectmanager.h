@@ -248,6 +248,8 @@ public Q_SLOTS:
     void seekTimeline(const QString &frameAndTrack);
     /** @brief Create a sequence clip from timeline selection. */
     void slotCreateSequenceFromSelection();
+    /** @brief Copy clips from timeline selection to new sequence. */
+    void slotCopyAndCreateSequenceFromSelection();
     /** @brief Show a track effect stack. */
     void showTrackEffectStack(int tid);
 
