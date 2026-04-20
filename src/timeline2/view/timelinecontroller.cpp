@@ -561,6 +561,24 @@ int TimelineController::insertNewCompositionAtPos(int tid, int position, const Q
                     int outPos = qMin(m_model->getClipEnd(lowerCid), m_model->getClipEnd(topCid));
                     return insertComposition(tid, position, transitionId, true, outPos - position);
                 }
+            } else {
+                // Check if we have clips above / below
+                topCid = m_model->getTrackById_const(tid)->getClipByPosition(position);
+                if (topCid > -1) {
+                    int lowerCid = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
+                    if (lowerCid > -1) {
+                        // Find the clip starting last
+                        if (m_model->getClipPosition(topCid) > m_model->getClipPosition(lowerCid)) {
+                            // Top clip is after bottom clip
+                            return addCompositionToClip(transitionId, topCid, 0);
+                        } else {
+                            // Bottom clip is after top clip
+                            int outPos = qMin(m_model->getClipEnd(lowerCid), m_model->getClipEnd(topCid));
+                            position = m_model->getClipPosition(lowerCid);
+                            return insertComposition(tid, position, transitionId, true, outPos - position);
+                        }
+                    }
+                }
             }
         }
         return insertComposition(tid, position, transitionId, true);
