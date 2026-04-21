@@ -12,6 +12,7 @@ The schedule of KDE Gear can be found at https://community.kde.org/Schedules
 
 - [ ] For major releases: if it was decided to change the splash screen, make sure it has been merged/committed
 - [ ] Update MLT and other dependencies [in Craft](https://invent.kde.org/packaging/craft-blueprints-kde/)
+- [ ] Update version in `.gitlab-ci.yml`
 - [ ] Run the [render test suite](https://invent.kde.org/multimedia/kdenlive-test-suite) on stable nightly
 - [ ] Open a draft merge request on the Kdenlive website [for the announcement](https://invent.kde.org/websites/kdenlive-org/-/wikis/Posts/Release-Annoucements)
 
