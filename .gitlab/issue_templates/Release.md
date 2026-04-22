@@ -12,7 +12,7 @@ The schedule of KDE Gear can be found at https://community.kde.org/Schedules
 
 - [ ] For major releases: if it was decided to change the splash screen, make sure it has been merged/committed
 - [ ] Update MLT and other dependencies [in Craft](https://invent.kde.org/packaging/craft-blueprints-kde/)
-- [ ] Update version in `.gitlab-ci.yml`
+- [ ] Update [version used](https://invent.kde.org/multimedia/kdenlive-test-suite/-/blob/master/.gitlab-ci.yml) in Render Test Suite
 - [ ] Run the [render test suite](https://invent.kde.org/multimedia/kdenlive-test-suite) on stable nightly
 - [ ] Open a draft merge request on the Kdenlive website [for the announcement](https://invent.kde.org/websites/kdenlive-org/-/wikis/Posts/Release-Annoucements)
 
@@ -21,6 +21,7 @@ The schedule of KDE Gear can be found at https://community.kde.org/Schedules
 Start with the following steps after the source tarballs have been released by the KDE release team:
 
 - [ ] Open a pull request to update Kdenlive and dependencies [on Flathub](https://github.com/flathub/org.kde.kdenlive). Check if there is already a feasible pull request by another person or the flathub-bot.
+- [ ] Ensure our [nightly Flatpak](https://invent.kde.org/multimedia/kdenlive/-/blob/master/packaging/flatpak/org.kde.kdenlive-dependencies.json) dependencies (MLT/Frei0r) are updated too.
 - [ ] Run again the [render test suite](https://invent.kde.org/multimedia/kdenlive-test-suite) on stable nightly
 - [ ] Download binaries right after the test suite succeeded from https://cdn.kde.org/ci-builds/multimedia/kdenlive/
 - [ ] Create Windows standalone version:
