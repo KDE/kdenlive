@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-17 02:40+0000\n"
+"POT-Creation-Date: 2026-04-22 02:41+0000\n"
 "PO-Revision-Date: 2026-04-11 22:07+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -19201,8 +19201,8 @@ msgstr[3] "העברת סרטונים"
 msgid "No valid clip to insert"
 msgstr "אין סרטון תקף להוספה"
 
-#: src/bin/bin.cpp:4419 src/timeline2/view/timelinecontroller.cpp:1650
-#: src/timeline2/view/timelinecontroller.cpp:3720
+#: src/bin/bin.cpp:4419 src/timeline2/view/timelinecontroller.cpp:1668
+#: src/timeline2/view/timelinecontroller.cpp:3738
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "נא לבחור סרטון כדי להחיל אפקט"
@@ -19377,8 +19377,8 @@ msgstr "לא נמצא סרטון להוספת סמן"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
 #: src/bin/bin.cpp:5934 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:1424
-#: src/timeline2/view/timelinecontroller.cpp:1614
+#: src/timeline2/view/timelinecontroller.cpp:1442
+#: src/timeline2/view/timelinecontroller.cpp:1632
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
@@ -19730,7 +19730,7 @@ msgstr "מחיקת כל הסמנים"
 #: src/bin/model/markerlistmodel.cpp:1076
 #: src/bin/model/markerlistmodel.cpp:1118
 #: src/bin/model/markerlistmodel.cpp:1148
-#: src/timeline2/view/timelinecontroller.cpp:1604
+#: src/timeline2/view/timelinecontroller.cpp:1622
 #, kde-format
 msgid "No marker found at current position"
 msgstr "לא נמצא סמן במקום הנוכחי"
@@ -20855,8 +20855,8 @@ msgstr "ייצוא נתוני סמנים"
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:424
 #: src/renderpresets/renderpresetrepository.cpp:480
-#: src/timeline2/view/timelinecontroller.cpp:5457
-#: src/timeline2/view/timelinecontroller.cpp:5462
+#: src/timeline2/view/timelinecontroller.cpp:5475
+#: src/timeline2/view/timelinecontroller.cpp:5480
 #: src/titler/titlewidget.cpp:2347
 #, kde-format
 msgid "Cannot write to file %1"
@@ -24821,13 +24821,13 @@ msgid "Exporting…"
 msgstr "מתבצע ייצוא…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3571
+#: src/timeline2/view/timelinecontroller.cpp:3589
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "הפעלת ערמת אפקטים"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3571
+#: src/timeline2/view/timelinecontroller.cpp:3589
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "השבתת ערמת אפקט"
@@ -26465,7 +26465,7 @@ msgstr "התחלתם כעת"
 msgid "Delete them"
 msgstr "מחיקתם"
 
-#: src/mainwindow.cpp:1181 src/timeline2/view/timelinecontroller.cpp:2311
+#: src/mainwindow.cpp:1181 src/timeline2/view/timelinecontroller.cpp:2329
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "בחירת סרטון להשוואת האפקט"
@@ -27412,7 +27412,7 @@ msgstr "הוספת רצועה…"
 msgid "Fit all Tracks in View"
 msgstr "התאמת כל הרצועות לתצוגה"
 
-#: src/mainwindow.cpp:2098 src/timeline2/view/timelinecontroller.cpp:5184
+#: src/mainwindow.cpp:2098 src/timeline2/view/timelinecontroller.cpp:5202
 #, kde-format
 msgid "Sequence effects"
 msgstr "אפקטים על רצפים"
@@ -27737,12 +27737,12 @@ msgstr "לא נמצא סימון בנקודת זמן הסמן"
 msgid "An error occurred while deleting markers"
 msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 
-#: src/mainwindow.cpp:3127 src/timeline2/view/timelinecontroller.cpp:1350
-#: src/timeline2/view/timelinecontroller.cpp:1358
-#: src/timeline2/view/timelinecontroller.cpp:1379
-#: src/timeline2/view/timelinecontroller.cpp:1419
-#: src/timeline2/view/timelinecontroller.cpp:1444
-#: src/timeline2/view/timelinecontroller.cpp:1464
+#: src/mainwindow.cpp:3127 src/timeline2/view/timelinecontroller.cpp:1368
+#: src/timeline2/view/timelinecontroller.cpp:1376
+#: src/timeline2/view/timelinecontroller.cpp:1397
+#: src/timeline2/view/timelinecontroller.cpp:1437
+#: src/timeline2/view/timelinecontroller.cpp:1462
+#: src/timeline2/view/timelinecontroller.cpp:1482
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "לא ניתן לאתר את הסרטון לעריכת הסמן"
@@ -27753,14 +27753,14 @@ msgid "Marker category does not exist"
 msgstr "קטגוריית הסמנים לא קיימת"
 
 #: src/mainwindow.cpp:3367 src/timeline2/model/timelinefunctions.cpp:806
-#: src/timeline2/view/timelinecontroller.cpp:3431
+#: src/timeline2/view/timelinecontroller.cpp:3449
 #, kde-format
 msgid "Overwrite zone"
 msgstr "שכתוב קטע"
 
 #: src/mainwindow.cpp:3369 src/mainwindow.cpp:3388
 #: src/timeline2/model/timelinefunctions.cpp:808
-#: src/timeline2/view/timelinecontroller.cpp:3433
+#: src/timeline2/view/timelinecontroller.cpp:3451
 #, kde-format
 msgid "Could not insert zone"
 msgstr "לא ניתן להוסיף קטע"
@@ -27771,7 +27771,7 @@ msgid "No clip selected in project bin"
 msgstr "לא נבחר אף סרטון בסל המיזם"
 
 #: src/mainwindow.cpp:3386 src/timeline2/model/timelinefunctions.cpp:806
-#: src/timeline2/view/timelinecontroller.cpp:3431
+#: src/timeline2/view/timelinecontroller.cpp:3449
 #, kde-format
 msgid "Insert zone"
 msgstr "הוספת קטע"
@@ -27995,7 +27995,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "הסתרת סרגל תפריטים"
 
-#: src/mainwindow.cpp:5152 src/timeline2/view/timelinecontroller.cpp:5415
+#: src/mainwindow.cpp:5152 src/timeline2/view/timelinecontroller.cpp:5433
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "אין כתוביות במיזם הנוכחי"
@@ -28670,7 +28670,7 @@ msgid "Cannot change zone when creating a mask"
 msgstr "לא ניתן לשנות את אזור בעת יצירת מסכה"
 
 #: src/monitor/monitor.cpp:973 src/monitor/monitor.cpp:1009
-#: src/timeline2/view/timelinecontroller.cpp:1930
+#: src/timeline2/view/timelinecontroller.cpp:1948
 #, kde-format
 msgid "Set Zone"
 msgstr "הגדרת קטע"
@@ -28754,7 +28754,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "לא ניתן לקבל את המפיק לצד הסרטונים"
 
 #: src/monitor/monitor.cpp:3468 src/monitor/monitor.cpp:3499
-#: src/timeline2/view/timelinecontroller.cpp:5968
+#: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "לא הוגדר אזור תקף. נא להגדיר נקודות כניסה/יציאה קודם."
@@ -28765,13 +28765,13 @@ msgid "Create Range Marker from Zone"
 msgstr "יצירת סמן טווח מאזור"
 
 #: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
-#: src/timeline2/view/timelinecontroller.cpp:5983
+#: src/timeline2/view/timelinecontroller.cpp:6001
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "נוצר סמן טווח מאזור"
 
 #: src/monitor/monitor.cpp:3486 src/monitor/monitor.cpp:3507
-#: src/timeline2/view/timelinecontroller.cpp:5986
+#: src/timeline2/view/timelinecontroller.cpp:6004
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "יצירת סמן טווח מאזור נכשלה"
@@ -28913,7 +28913,7 @@ msgid "Go to Zone End"
 msgstr "מעבר לסוף הקטע"
 
 #: src/monitor/monitorproxy.cpp:745
-#: src/timeline2/view/timelinecontroller.cpp:5975
+#: src/timeline2/view/timelinecontroller.cpp:5993
 #, kde-format
 msgid "Zone marker"
 msgstr "סמן אזור"
@@ -32389,27 +32389,27 @@ msgid "Cut all clips"
 msgstr "גזירת כל הסרטונים"
 
 #: src/timeline2/model/timelinefunctions.cpp:700
-#: src/timeline2/view/timelinecontroller.cpp:1575
+#: src/timeline2/view/timelinecontroller.cpp:1593
 #, kde-format
 msgid "Insert space"
 msgstr "הוספת רווח"
 
 #: src/timeline2/model/timelinefunctions.cpp:702
-#: src/timeline2/view/timelinecontroller.cpp:1577
+#: src/timeline2/view/timelinecontroller.cpp:1595
 #, kde-format
 msgid "Remove space"
 msgstr "הסרת רווח"
 
 #: src/timeline2/model/timelinefunctions.cpp:771
-#: src/timeline2/view/timelinecontroller.cpp:3238
+#: src/timeline2/view/timelinecontroller.cpp:3256
 #, kde-format
 msgid "Lift zone"
 msgstr "הגבהת קטע"
 
 #: src/timeline2/model/timelinefunctions.cpp:771
-#: src/timeline2/view/timelinecontroller.cpp:776
-#: src/timeline2/view/timelinecontroller.cpp:3238
-#: src/timeline2/view/timelinecontroller.cpp:3311
+#: src/timeline2/view/timelinecontroller.cpp:794
+#: src/timeline2/view/timelinecontroller.cpp:3256
+#: src/timeline2/view/timelinecontroller.cpp:3329
 #, kde-format
 msgid "Extract zone"
 msgstr "חילוץ קטע"
@@ -32420,31 +32420,31 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr "נא להפעיל רצועה לחיצה על תווית הרצועה"
 
 #: src/timeline2/model/timelinefunctions.cpp:968
-#: src/timeline2/view/timelinecontroller.cpp:1248
-#: src/timeline2/view/timelinecontroller.cpp:1328
-#: src/timeline2/view/timelinecontroller.cpp:1338
-#: src/timeline2/view/timelinecontroller.cpp:1367
-#: src/timeline2/view/timelinecontroller.cpp:1407
-#: src/timeline2/view/timelinecontroller.cpp:1432
-#: src/timeline2/view/timelinecontroller.cpp:1457
-#: src/timeline2/view/timelinecontroller.cpp:1513
-#: src/timeline2/view/timelinecontroller.cpp:2474
-#: src/timeline2/view/timelinecontroller.cpp:3256
-#: src/timeline2/view/timelinecontroller.cpp:3320
-#: src/timeline2/view/timelinecontroller.cpp:3533
-#: src/timeline2/view/timelinecontroller.cpp:3579
-#: src/timeline2/view/timelinecontroller.cpp:3620
-#: src/timeline2/view/timelinecontroller.cpp:3627
-#: src/timeline2/view/timelinecontroller.cpp:3655
-#: src/timeline2/view/timelinecontroller.cpp:3729
-#: src/timeline2/view/timelinecontroller.cpp:3746
-#: src/timeline2/view/timelinecontroller.cpp:4008
-#: src/timeline2/view/timelinecontroller.cpp:4023
-#: src/timeline2/view/timelinecontroller.cpp:4048
-#: src/timeline2/view/timelinecontroller.cpp:4063
-#: src/timeline2/view/timelinecontroller.cpp:4122
-#: src/timeline2/view/timelinecontroller.cpp:4175
-#: src/timeline2/view/timelinecontroller.cpp:4198
+#: src/timeline2/view/timelinecontroller.cpp:1266
+#: src/timeline2/view/timelinecontroller.cpp:1346
+#: src/timeline2/view/timelinecontroller.cpp:1356
+#: src/timeline2/view/timelinecontroller.cpp:1385
+#: src/timeline2/view/timelinecontroller.cpp:1425
+#: src/timeline2/view/timelinecontroller.cpp:1450
+#: src/timeline2/view/timelinecontroller.cpp:1475
+#: src/timeline2/view/timelinecontroller.cpp:1531
+#: src/timeline2/view/timelinecontroller.cpp:2492
+#: src/timeline2/view/timelinecontroller.cpp:3274
+#: src/timeline2/view/timelinecontroller.cpp:3338
+#: src/timeline2/view/timelinecontroller.cpp:3551
+#: src/timeline2/view/timelinecontroller.cpp:3597
+#: src/timeline2/view/timelinecontroller.cpp:3638
+#: src/timeline2/view/timelinecontroller.cpp:3645
+#: src/timeline2/view/timelinecontroller.cpp:3673
+#: src/timeline2/view/timelinecontroller.cpp:3747
+#: src/timeline2/view/timelinecontroller.cpp:3764
+#: src/timeline2/view/timelinecontroller.cpp:4026
+#: src/timeline2/view/timelinecontroller.cpp:4041
+#: src/timeline2/view/timelinecontroller.cpp:4066
+#: src/timeline2/view/timelinecontroller.cpp:4081
+#: src/timeline2/view/timelinecontroller.cpp:4140
+#: src/timeline2/view/timelinecontroller.cpp:4193
+#: src/timeline2/view/timelinecontroller.cpp:4216
 #, kde-format
 msgid "No clip selected"
 msgstr "לא נבחרו סרטונים"
@@ -32457,7 +32457,7 @@ msgstr "לא ניתן להעביר את הקבוצה הנבחרת"
 #: src/timeline2/model/timelinefunctions.cpp:1140
 #: src/timeline2/model/timelinefunctions.cpp:1144
 #: src/timeline2/model/timelinefunctions.cpp:1151
-#: src/timeline2/view/timelinecontroller.cpp:4339
+#: src/timeline2/view/timelinecontroller.cpp:4357
 #, kde-format
 msgid "Enable clip"
 msgstr "הפעלת סרטון"
@@ -32465,7 +32465,7 @@ msgstr "הפעלת סרטון"
 #: src/timeline2/model/timelinefunctions.cpp:1140
 #: src/timeline2/model/timelinefunctions.cpp:1144
 #: src/timeline2/model/timelinefunctions.cpp:1151
-#: src/timeline2/view/timelinecontroller.cpp:4339
+#: src/timeline2/view/timelinecontroller.cpp:4357
 #, kde-format
 msgid "Disable clip"
 msgstr "השבתת סרטון"
@@ -32694,7 +32694,7 @@ msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "אין מספיק תמוניות בסרטון %1 כדי להחיל את התערובת"
 
 #: src/timeline2/model/timelinemodel.cpp:1257
-#: src/timeline2/view/timelinecontroller.cpp:1807
+#: src/timeline2/view/timelinecontroller.cpp:1825
 #, kde-format
 msgid "No active track"
 msgstr "אין רצועה פעילה"
@@ -32714,7 +32714,7 @@ msgstr "העברת סרטון"
 #: src/timeline2/model/timelinemodel.cpp:2016
 #: src/timeline2/model/timelinemodel.cpp:2039
 #: src/timeline2/model/timelinemodel.cpp:2080
-#: src/timeline2/view/timelinecontroller.cpp:3605
+#: src/timeline2/view/timelinecontroller.cpp:3623
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "אין רצועה זמינה לפעולת ההוספה"
@@ -32763,7 +32763,7 @@ msgstr "מחיקת תרכובת"
 
 #: src/timeline2/model/timelinemodel.cpp:2538
 #: src/timeline2/model/timelinemodel.cpp:2839
-#: src/timeline2/view/timelinecontroller.cpp:4576
+#: src/timeline2/view/timelinecontroller.cpp:4594
 #, kde-format
 msgid "Move group"
 msgstr "העברת קבוצה"
@@ -32840,7 +32840,7 @@ msgid "Ungroup clips"
 msgstr "פירוק קיבוץ סרטונים"
 
 #: src/timeline2/model/timelinemodel.cpp:4969
-#: src/timeline2/view/timelinecontroller.cpp:987
+#: src/timeline2/view/timelinecontroller.cpp:1005
 #, kde-format
 msgid "Delete Track"
 msgstr "מחיקת רצועה"
@@ -32901,7 +32901,7 @@ msgid "Change speed failed"
 msgstr "שינוי המהירות נכשלה"
 
 #: src/timeline2/model/timelinemodel.cpp:6741
-#: src/timeline2/view/timelinecontroller.cpp:3156
+#: src/timeline2/view/timelinecontroller.cpp:3174
 #, kde-format
 msgid "Change clip speed"
 msgstr "שינוי מהירות הסרטון"
@@ -33351,212 +33351,212 @@ msgstr "הפעלת רצועה"
 msgid "No item under timeline cursor in active track"
 msgstr "אין פריט תחת סמן ציר הזמן ברצועה הפעילה"
 
-#: src/timeline2/view/timelinecontroller.cpp:651
+#: src/timeline2/view/timelinecontroller.cpp:669
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "לא ניתן להוסיף התרכובת במקום הנוכחי"
 
-#: src/timeline2/view/timelinecontroller.cpp:722
-#: src/timeline2/view/timelinecontroller.cpp:1132
-#: src/timeline2/view/timelinecontroller.cpp:1149
-#: src/timeline2/view/timelinecontroller.cpp:1173
-#: src/timeline2/view/timelinecontroller.cpp:1257
+#: src/timeline2/view/timelinecontroller.cpp:740
+#: src/timeline2/view/timelinecontroller.cpp:1150
+#: src/timeline2/view/timelinecontroller.cpp:1167
+#: src/timeline2/view/timelinecontroller.cpp:1191
+#: src/timeline2/view/timelinecontroller.cpp:1275
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "לא ניתן לבצע פעולה תוך גרירה בציר הזמן"
 
-#: src/timeline2/view/timelinecontroller.cpp:964
-#: src/timeline2/view/timelinecontroller.cpp:5345
+#: src/timeline2/view/timelinecontroller.cpp:982
+#: src/timeline2/view/timelinecontroller.cpp:5363
 #, kde-format
 msgid "Could not insert track"
 msgstr "לא ניתן להוסיף רצועה"
 
-#: src/timeline2/view/timelinecontroller.cpp:987
+#: src/timeline2/view/timelinecontroller.cpp:1005
 #, kde-format
 msgid "Delete Tracks"
 msgstr "מחיקת רצועות"
 
-#: src/timeline2/view/timelinecontroller.cpp:1000
+#: src/timeline2/view/timelinecontroller.cpp:1018
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "נא לבחור רצועת שמע להצגת פקדי הקלטה"
 
-#: src/timeline2/view/timelinecontroller.cpp:1137
+#: src/timeline2/view/timelinecontroller.cpp:1155
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "נא לבחור לפחות 2 פריטים לקיבוץ"
 
-#: src/timeline2/view/timelinecontroller.cpp:1474
+#: src/timeline2/view/timelinecontroller.cpp:1492
 #, kde-format
 msgid "No range marker found at position"
 msgstr "לא נמצא סמן טווח במקום הזה"
 
-#: src/timeline2/view/timelinecontroller.cpp:1530
+#: src/timeline2/view/timelinecontroller.cpp:1548
 #, kde-format
 msgid "No marker at frame %1"
 msgstr "אין סמן בתמונית %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:1891
+#: src/timeline2/view/timelinecontroller.cpp:1909
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "לא נבחר אף פריט בציר הזמן"
 
-#: src/timeline2/view/timelinecontroller.cpp:2029
+#: src/timeline2/view/timelinecontroller.cpp:2047
 #, kde-format
 msgid "No clip to cut"
 msgstr "אין סרטון לגזירה"
 
-#: src/timeline2/view/timelinecontroller.cpp:2393
+#: src/timeline2/view/timelinecontroller.cpp:2411
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "פנימה:%1, החוצה:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2481
+#: src/timeline2/view/timelinecontroller.cpp:2499
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr "אפשר לבצע החלקה רק על סרטוני וידאו, שמע או הנפשה"
 
-#: src/timeline2/view/timelinecontroller.cpp:2877
+#: src/timeline2/view/timelinecontroller.cpp:2895
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "לא נמצאו סרטונים למרווח להוספה"
 
-#: src/timeline2/view/timelinecontroller.cpp:2895
+#: src/timeline2/view/timelinecontroller.cpp:2913
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "לא ניתן להסיר רווח במקום הנתון"
 
-#: src/timeline2/view/timelinecontroller.cpp:2909
+#: src/timeline2/view/timelinecontroller.cpp:2927
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "לא ניתן להסיר את כל הרווחים"
 
-#: src/timeline2/view/timelinecontroller.cpp:2923
+#: src/timeline2/view/timelinecontroller.cpp:2941
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "לא ניתן להסיר את כל הסרטונים"
 
-#: src/timeline2/view/timelinecontroller.cpp:2973
-#: src/timeline2/view/timelinecontroller.cpp:2978
-#: src/timeline2/view/timelinecontroller.cpp:3004
-#: src/timeline2/view/timelinecontroller.cpp:3009
+#: src/timeline2/view/timelinecontroller.cpp:2991
+#: src/timeline2/view/timelinecontroller.cpp:2996
+#: src/timeline2/view/timelinecontroller.cpp:3022
+#: src/timeline2/view/timelinecontroller.cpp:3027
 #, kde-format
 msgid "No item to edit"
 msgstr "אין פריט לעריכה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3015
-#: src/timeline2/view/timelinecontroller.cpp:3152
+#: src/timeline2/view/timelinecontroller.cpp:3033
+#: src/timeline2/view/timelinecontroller.cpp:3170
 #, kde-format
 msgid "Cannot change speed of item(s)"
 msgstr "לא ניתן לשנות את מהירות הפריטים"
 
-#: src/timeline2/view/timelinecontroller.cpp:3212
-#: src/timeline2/view/timelinecontroller.cpp:5605
+#: src/timeline2/view/timelinecontroller.cpp:3230
+#: src/timeline2/view/timelinecontroller.cpp:5623
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "נא להפעיל את הרצועה לפעולה הזאת על ידי לחיצה על התווית שלה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3476
+#: src/timeline2/view/timelinecontroller.cpp:3494
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "נא לבחור רצועת יעד בלחיצה על קטע היעד של הרצועה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3545
+#: src/timeline2/view/timelinecontroller.cpp:3563
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "נא לבחור תרכובת מועדפת"
 
-#: src/timeline2/view/timelinecontroller.cpp:3611
+#: src/timeline2/view/timelinecontroller.cpp:3629
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "לא נמצאו סרטונים לביצוע פעולות חיתוך שמע/וידאו"
 
-#: src/timeline2/view/timelinecontroller.cpp:3639
-#: src/timeline2/view/timelinecontroller.cpp:3707
-#: src/timeline2/view/timelinecontroller.cpp:3763
+#: src/timeline2/view/timelinecontroller.cpp:3657
+#: src/timeline2/view/timelinecontroller.cpp:3725
+#: src/timeline2/view/timelinecontroller.cpp:3781
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "לא ניתן להעביר סרטון לתמונית %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3660
+#: src/timeline2/view/timelinecontroller.cpp:3678
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "הגדרת סימוכין לשמע לפני ניסיון היישור"
 
-#: src/timeline2/view/timelinecontroller.cpp:3734
-#: src/timeline2/view/timelinecontroller.cpp:3756
+#: src/timeline2/view/timelinecontroller.cpp:3752
+#: src/timeline2/view/timelinecontroller.cpp:3774
 #, kde-format
 msgid "No timecode for clip"
 msgstr "אין קוד זמן לסרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:3751
+#: src/timeline2/view/timelinecontroller.cpp:3769
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr "הגדרת סימוכין לקוד זמן לפני ניסיון היישור"
 
-#: src/timeline2/view/timelinecontroller.cpp:3872
+#: src/timeline2/view/timelinecontroller.cpp:3890
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr "כל התזרימים כבר מוקצים, יש לבטל בחירה של יעד שמע אחר קודם"
 
-#: src/timeline2/view/timelinecontroller.cpp:4031
+#: src/timeline2/view/timelinecontroller.cpp:4049
 #, kde-format
 msgid "Delete effects"
 msgstr "מחיקת אפקטים"
 
-#: src/timeline2/view/timelinecontroller.cpp:4069
-#: src/timeline2/view/timelinecontroller.cpp:4075
-#: src/timeline2/view/timelinecontroller.cpp:4081
+#: src/timeline2/view/timelinecontroller.cpp:4087
+#: src/timeline2/view/timelinecontroller.cpp:4093
+#: src/timeline2/view/timelinecontroller.cpp:4099
 #, kde-format
 msgid "No information in clipboard"
 msgstr "אין מידע בלוח הגזירים"
 
-#: src/timeline2/view/timelinecontroller.cpp:4106
+#: src/timeline2/view/timelinecontroller.cpp:4124
 #, kde-format
 msgid "Paste effects"
 msgstr "הדבקת אפקטים"
 
-#: src/timeline2/view/timelinecontroller.cpp:4108
+#: src/timeline2/view/timelinecontroller.cpp:4126
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "לא ניתן להדביק את האפקט בסרטון הנבחר"
 
-#: src/timeline2/view/timelinecontroller.cpp:4160
+#: src/timeline2/view/timelinecontroller.cpp:4178
 #, kde-format
 msgid "Open sequence"
 msgstr "פתיחת רצף"
 
-#: src/timeline2/view/timelinecontroller.cpp:4182
+#: src/timeline2/view/timelinecontroller.cpp:4200
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "הפריט אינו סרטון כותר"
 
-#: src/timeline2/view/timelinecontroller.cpp:4280
+#: src/timeline2/view/timelinecontroller.cpp:4298
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 פריטים נבחרו (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4334
+#: src/timeline2/view/timelinecontroller.cpp:4352
 #, kde-format
 msgid "Restore video"
 msgstr "שחזור וידאו"
 
-#: src/timeline2/view/timelinecontroller.cpp:4334
+#: src/timeline2/view/timelinecontroller.cpp:4352
 #, kde-format
 msgid "Restore audio"
 msgstr "שחזור שמע"
 
-#: src/timeline2/view/timelinecontroller.cpp:4555
+#: src/timeline2/view/timelinecontroller.cpp:4573
 #, kde-format
 msgid "Move item"
 msgstr "העברת פריט"
 
-#: src/timeline2/view/timelinecontroller.cpp:5036
+#: src/timeline2/view/timelinecontroller.cpp:5054
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "בלתי אפשרי ללכוד ברצועה נעולה"
 
-#: src/timeline2/view/timelinecontroller.cpp:5047
+#: src/timeline2/view/timelinecontroller.cpp:5065
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -33565,22 +33565,22 @@ msgstr ""
 "אי אפשר לצלם לכאן: הצילום עלול לדרוס סרטונים. נא להסיר את הסרטונים אחרי "
 "הנקודה הנוכחית או לבחור ברצועה אחרת"
 
-#: src/timeline2/view/timelinecontroller.cpp:5138
+#: src/timeline2/view/timelinecontroller.cpp:5156
 #, kde-format
 msgid "Record audio"
 msgstr "הקלטת שמע"
 
-#: src/timeline2/view/timelinecontroller.cpp:5285
+#: src/timeline2/view/timelinecontroller.cpp:5303
 #, kde-format
 msgid "Expand clip"
 msgstr "הרחבת סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:5288
+#: src/timeline2/view/timelinecontroller.cpp:5306
 #, kde-format
 msgid "Could not expand clip"
 msgstr "לא ניתן להרחיב סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:5343
+#: src/timeline2/view/timelinecontroller.cpp:5361
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -33589,17 +33589,17 @@ msgstr[1] "הוספת רצועות"
 msgstr[2] "הוספת רצועות"
 msgstr[3] "הוספת רצועות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5422
+#: src/timeline2/view/timelinecontroller.cpp:5440
 #, kde-format
 msgid "Export subtitle file"
 msgstr "ייצוא קובץ כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5423
+#: src/timeline2/view/timelinecontroller.cpp:5441
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "קובץ Sub Station Alpha v4.00+‎‏ (‎*.ass);;קובץ כתוביות SubRip‏ (‎*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5437
+#: src/timeline2/view/timelinecontroller.cpp:5455
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -33611,12 +33611,12 @@ msgstr ""
 "את אותו מקום ההתחלה, רק הכתובית מהשכבה הנמוכה יותר תישמר. עלול לגרום לאובדן "
 "של חלק מהכתוביות בקובץ מיוצא. להמשיך?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5442
+#: src/timeline2/view/timelinecontroller.cpp:5460
 #, kde-format
 msgid "Warning"
 msgstr "אזהרה"
 
-#: src/timeline2/view/timelinecontroller.cpp:5480
+#: src/timeline2/view/timelinecontroller.cpp:5498
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -33624,40 +33624,40 @@ msgid ""
 msgstr ""
 "המסנן avfilter.subtitles נחוץ אך לא נמצא. יכולת הכתוביות לא תעבוד כמצופה."
 
-#: src/timeline2/view/timelinecontroller.cpp:5497
+#: src/timeline2/view/timelinecontroller.cpp:5515
 #, kde-format
 msgid "Show subtitle track"
 msgstr "הצגת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5497
+#: src/timeline2/view/timelinecontroller.cpp:5515
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "הסתרת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5520
+#: src/timeline2/view/timelinecontroller.cpp:5538
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "שחרור רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5520
+#: src/timeline2/view/timelinecontroller.cpp:5538
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "נעילת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5682
-#: src/timeline2/view/timelinecontroller.cpp:5691
+#: src/timeline2/view/timelinecontroller.cpp:5700
+#: src/timeline2/view/timelinecontroller.cpp:5709
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5693
+#: src/timeline2/view/timelinecontroller.cpp:5711
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "ניהול כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5924
+#: src/timeline2/view/timelinecontroller.cpp:5942
 #, kde-format
 msgid "No range guide found at position"
 msgstr "לא נמצאה הנחיית טווח במקום הזה"
