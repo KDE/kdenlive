@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-21 00:45+0000\n"
-"PO-Revision-Date: 2026-04-07 08:28+0200\n"
+"PO-Revision-Date: 2026-04-20 11:29+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -9468,7 +9468,7 @@ msgid ""
 msgstr ""
 "Si s'establix, també s'utilitzaran sis punts de seguiment orientats cap "
 "arrere per a detectar el moviment de capcineig i guinyada.<br>\n"
-"    \tDesactiveu-la si, per exemple, voleu mostrar-vos aguantant la càmera"
+"    \tDesactiveu-ho si, per exemple, voleu mostrar-vos aguantant la càmera"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
 #, kde-format
@@ -27475,19 +27475,17 @@ msgstr "Renderitzant la vista prèvia"
 #: src/mainwindow.cpp:671 src/mainwindow.cpp:753 src/mainwindow.cpp:2206
 #, kde-format
 msgid "Identify Gaps"
-msgstr ""
+msgstr "Identificació les separacions"
 
 #: src/mainwindow.cpp:672 src/mainwindow.cpp:754
-#, fuzzy, kde-format
-#| msgid "Add Tracks"
+#, kde-format
 msgid "All Tracks"
-msgstr "Afig pistes"
+msgstr "Totes les pistes"
 
 #: src/mainwindow.cpp:675 src/mainwindow.cpp:757
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Selected Track"
-msgstr "Suprimix la pista"
+msgstr "Pista seleccionada"
 
 #: src/mainwindow.cpp:679
 #, kde-format
@@ -28536,24 +28534,18 @@ msgstr ""
 "nova de clip que es pot obrir en una altra pestanya de la línia de temps."
 
 #: src/mainwindow.cpp:2101
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Copy Selection to New Sequence"
-msgstr "Creació de seqüència nova"
+msgstr "Copia la selecció a una seqüència nova"
 
 #: src/mainwindow.cpp:2104
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Adds the clip(s) currently selected in the timeline to a new sequence "
-#| "clip that can be opened in another timeline tab."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Copy the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
-"Afig els clips seleccionats actualment en la línia de temps a una seqüència "
+"Copia els clips seleccionats actualment en la línia de temps a una seqüència "
 "nova de clip que es pot obrir en una altra pestanya de la línia de temps."
 
 #: src/mainwindow.cpp:2118
@@ -32282,10 +32274,9 @@ msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
 
 #: src/project/projectmanager.cpp:2474
-#, fuzzy, kde-format
-#| msgid "Switch to next Sequence"
+#, kde-format
 msgid "Copy clips to new Sequence"
-msgstr "Canvia a la seqüència següent"
+msgstr "Copia els clips a una seqüència nova"
 
 #: src/project/transcodeseek.cpp:48 src/project/transcodeseek.cpp:61
 #, kde-format
@@ -33941,28 +33932,25 @@ msgid "Delete clips on track"
 msgstr "Suprimix els clips en la pista"
 
 #: src/timeline2/model/timelinefunctions.cpp:3146
-#, fuzzy, kde-format
-#| msgid "No clip selected in timeline"
+#, kde-format
 msgid "No clips found in timeline"
-msgstr "No hi ha cap clip seleccionat en la línia de temps"
+msgstr "No s'ha trobat cap clip en la línia de temps"
 
 #: src/timeline2/model/timelinefunctions.cpp:3175
-#, fuzzy, kde-format
-#| msgid "No clip selected in timeline"
+#, kde-format
 msgid "No gaps found in timeline"
-msgstr "No hi ha cap clip seleccionat en la línia de temps"
+msgstr "No s'ha trobat cap separació en la línia de temps"
 
 #: src/timeline2/model/timelinefunctions.cpp:3184
 #: src/timeline2/model/timelinefunctions.cpp:3216
 #, kde-format
 msgid "Gap"
-msgstr ""
+msgstr "Separació"
 
 #: src/timeline2/model/timelinefunctions.cpp:3209
-#, fuzzy, kde-format
-#| msgid "Cannot paste effect to selected track"
+#, kde-format
 msgid "No gaps found on selected track"
-msgstr "No s'ha pogut apegar l'efecte a la pista seleccionada"
+msgstr "No s'ha trobat cap separació a la pista seleccionada"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
 #: src/timeline2/model/timelinemodel.cpp:5208
@@ -34076,10 +34064,9 @@ msgid "No available track for insert operation"
 msgstr "No hi ha cap pista disponible per a l'operació d'inserció"
 
 #: src/timeline2/model/timelinemodel.cpp:2010
-#, fuzzy, kde-format
-#| msgid "Fade out audio track"
+#, kde-format
 msgid "Failed to create audio tracks"
-msgstr "Fosa d'eixida de la pista d'àudio"
+msgstr "Ha fallat mentre es creaven les pistes d'àudio"
 
 #: src/timeline2/model/timelinemodel.cpp:2049
 #, kde-format
@@ -34343,26 +34330,28 @@ msgid "The video track needs %1 additional track before creating mirror track."
 msgid_plural ""
 "The video track needs %1 additional tracks before creating mirror track."
 msgstr[0] ""
+"La pista de vídeo necessita %1 pista addicional abans de crear la pista de "
+"rèplica."
 msgstr[1] ""
+"La pista de vídeo necessita %1 pistes addicionals abans de crear la pista de "
+"rèplica."
 
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected clips %1 and %2 don't match, cannot replace audio nor video"
+#, kde-format
 msgid "The selected clip needs %1 additional audio track for %2 audio stream."
 msgid_plural ""
 "The selected clip needs %1 additional audio tracks for %2 audio streams."
 msgstr[0] ""
-"Els clips seleccionats %1 i %2 no coincidixen, no es pot substituir ni "
-"l'àudio ni el vídeo"
+"El clip seleccionat necessita %1 pista d'àudio addicional per al flux "
+"d'àudio %2."
 msgstr[1] ""
-"Els clips seleccionats %1 i %2 no coincidixen, no es pot substituir ni "
-"l'àudio ni el vídeo"
+"El clip seleccionat necessita %1 pistes d'àudio addicionals per als fluxos "
+"d'àudio %2."
 
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:27
 #, kde-format
 msgid "Create all required tracks (%1)"
-msgstr ""
+msgstr "Crea totes les pistes requerides (%1)"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
 #, kde-format
@@ -34650,12 +34639,11 @@ msgstr "Oculta"
 
 #: src/timeline2/view/qml/Timeline.qml:902
 #: src/timeline2/view/qml/Timeline.qml:912
-#, fuzzy, kde-format
-#| msgid "Not enough audio tracks for all streams (%1)"
+#, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
-msgstr[0] "No hi ha pistes d'àudio suficients per a tots els fluxos (%1)"
-msgstr[1] "No hi ha pistes d'àudio suficients per a tots els fluxos (%1)"
+msgstr[0] "Àudio: %1 pista per a %2 fluxos"
+msgstr[1] "Àudio: %1 pistes per a %2 fluxos"
 
 #: src/timeline2/view/qml/Timeline.qml:1190
 #, kde-format
@@ -36014,37 +36002,35 @@ msgstr "Mida real de la FFT: "
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, AutoTrackCreationDialog_UI)
 #: src/ui/autotrackcreationdialog_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Audio Tracks"
+#, kde-format
 msgid "Missing Audio Tracks"
-msgstr "Pistes d'àudio"
+msgstr "Falten pistes d'àudio"
 
 #. i18n: ectx: property (text), widget (QLabel, mirrorInfoLabel)
 #: src/ui/autotrackcreationdialog_ui.ui:27
 #, kde-format
 msgid "This video track has missing audio tracks before creating mirror track."
 msgstr ""
+"Esta pista de vídeo li falten pistes d'àudio abans de crear la pista de "
+"rèplica."
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: src/ui/autotrackcreationdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "When selected mutes all other audio tracks."
+#, kde-format
 msgid "The selected clip requires additional audio tracks."
-msgstr "Quan està seleccionat silencia totes les altres pistes d'àudio."
+msgstr "El clip seleccionat requerix pistes d'àudio addicionals."
 
 #. i18n: ectx: property (text), widget (QRadioButton, createAllRadio)
 #: src/ui/autotrackcreationdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Create New Subtitle Track"
+#, kde-format
 msgid "Create all required tracks"
-msgstr "Creeu una pista nova de subtítols"
+msgstr "Crea totes les pistes requerides"
 
 #. i18n: ectx: property (text), widget (QRadioButton, createCustomRadio)
 #: src/ui/autotrackcreationdialog_ui.ui:56
 #, kde-format
 msgid "Create custom number of tracks:"
-msgstr ""
+msgstr "Crea un nombre personalitzat de pistes:"
 
 #. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
 #: src/ui/backupdialog_ui.ui:24
