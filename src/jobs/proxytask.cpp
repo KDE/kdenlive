@@ -291,8 +291,15 @@ void ProxyTask::run()
                     proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                 } else {
                     // Sanitize parameters
-                    if (proxyParams.contains(QLatin1String("-attach")) || proxyParams.contains(QLatin1String("-metadata"))) {
-                        proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+                    const QStringList blockedParams = {
+                        QStringLiteral("attach"), QStringLiteral("metadata"), QStringLiteral("null"),   QStringLiteral("dump"),
+                        QStringLiteral("concat"), QStringLiteral("safe"),     QStringLiteral("ladspa"), QStringLiteral("protocol_whitelist")};
+                    for (auto &b : blockedParams) {
+                        if (proxyParams.contains(b)) {
+                            // Unwanted param found, discard parameters
+                            proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+                            break;
+                        }
                     }
                 }
             }
