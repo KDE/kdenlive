@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
+#include "utils/uiutils.h"
 
 #include "klocalizedstring.h"
 #include <KMessageWidget>
@@ -134,8 +135,45 @@ void EncodingProfilesDialog::slotAddProfile()
     l->addWidget(new QLabel(i18n("File extension:")));
     auto *pext = new QLineEdit;
     l->addWidget(pext);
+    auto *warning = new KMessageWidget(d);
+    warning->setMessageType(KMessageWidget::Error);
+    warning->setCloseButtonVisible(false);
+    warning->setWordWrap(true);
+    l->addWidget(warning);
+    warning->hide();
+    int category = profile_type->currentData().toInt();
+    bool isProxy = category == EncodingProfilesManager::ProxyClips || category == EncodingProfilesManager::ProxyAlphaClips;
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
-    connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);
+    connect(box, &QDialogButtonBox::accepted, this, [d, pparams, warning, isProxy]() {
+        if (!isProxy) {
+            // We only check for proxy parameters
+            d->accept();
+            return;
+        }
+        QString params = pparams->toPlainText().simplified();
+        const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
+        for (auto &f : forbiddenArgs) {
+            if (params.contains(f)) {
+                warning->setText(i18n("Your proxy parameters contains forbidden keywords, please remove them: <b>%1</b>.", f));
+                warning->show();
+                return;
+            }
+        }
+        const QStringList unknownKeywords = UiUtils::checkUnknownProxyParams(params);
+        if (!unknownKeywords.isEmpty() && (!warning->isVisible() || warning->actions().isEmpty())) {
+            warning->setText(i18n("Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you want to always allow them ?",
+                                  unknownKeywords.join(QLatin1Char(','))));
+            QAction *addSafeParams = new QAction(i18n("Always Allow Parameters"));
+            connect(addSafeParams, &QAction::triggered, d, [d, unknownKeywords, warning]() {
+                UiUtils::addSafeParameters(unknownKeywords);
+                warning->hide();
+            });
+            warning->addAction(addSafeParams);
+            warning->show();
+            return;
+        }
+        d->accept();
+    });
     connect(box, &QDialogButtonBox::rejected, d.data(), &QDialog::reject);
     l->addWidget(box);
     d->setLayout(l);
@@ -166,8 +204,45 @@ void EncodingProfilesDialog::slotEditProfile()
     l->addWidget(new QLabel(i18n("File extension:")));
     auto *pext = new QLineEdit;
     l->addWidget(pext);
+    auto *warning = new KMessageWidget(d);
+    warning->setMessageType(KMessageWidget::Error);
+    warning->setCloseButtonVisible(false);
+    warning->setWordWrap(true);
+    l->addWidget(warning);
+    warning->hide();
+    int category = profile_type->currentData().toInt();
+    bool isProxy = category == EncodingProfilesManager::ProxyClips || category == EncodingProfilesManager::ProxyAlphaClips;
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
-    connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);
+    connect(box, &QDialogButtonBox::accepted, this, [d, pparams, warning, isProxy]() {
+        if (!isProxy) {
+            // We only check for proxy parameters
+            d->accept();
+            return;
+        }
+        QString params = pparams->toPlainText().simplified();
+        const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
+        for (auto &f : forbiddenArgs) {
+            if (params.contains(f)) {
+                warning->setText(i18n("Your proxy parameters contains forbidden keywords, please remove them: <b>%1</b>.", f));
+                warning->show();
+                return;
+            }
+        }
+        const QStringList unknownKeywords = UiUtils::checkUnknownProxyParams(params);
+        if (!unknownKeywords.isEmpty() && (!warning->isVisible() || warning->actions().isEmpty())) {
+            warning->setText(i18n("Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you want to always allow them ?",
+                                  unknownKeywords.join(QLatin1Char(','))));
+            QAction *addSafeParams = new QAction(i18n("Always Allow Parameters"));
+            connect(addSafeParams, &QAction::triggered, d, [d, unknownKeywords, warning]() {
+                UiUtils::addSafeParameters(unknownKeywords);
+                warning->hide();
+            });
+            warning->addAction(addSafeParams);
+            warning->show();
+            return;
+        }
+        d->accept();
+    });
     connect(box, &QDialogButtonBox::rejected, d.data(), &QDialog::reject);
     l->addWidget(box);
     d->setLayout(l);

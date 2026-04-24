@@ -19,4 +19,7 @@ public:
      */
     static QString getSaveFileName(QWidget *parent = nullptr, const QString &caption = QString(), const QString &dir = QString(),
                                    const QString &filter = QString(), const QString &extension = QString());
+    static const QStringList getProxyForbiddenParams();
+    static QStringList checkUnknownProxyParams(QString proxyData);
+    static void addSafeParameters(QStringList unknownParams);
 };

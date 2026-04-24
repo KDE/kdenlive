@@ -681,6 +681,12 @@
       <default></default>
     </entry>
 
+    <entry name="safeFFmpegParams" type="StringList">
+      <label>Safe known parameters for ffmpeg.</label>
+      <default>f,vf,af,c:v,c:a,codec:v,codec:a,g,qscale,filter_hw_device,i,vsync,ab,qp,bf,crf,preset,vendor,vb,vprofile,init_hw_device,hwaccel,hwaccel_output_format,resize,rc,pix_fmt,vcodec,acodec</default>
+    </entry>
+
+
     <entry name="ffplaypath" type="Path">
       <label>FFplay / avplay binary path.</label>
       <default></default>

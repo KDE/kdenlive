@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "utils/uiutils.h"
 
 #include <QImageReader>
 #include <QProcess>
@@ -291,12 +292,9 @@ void ProxyTask::run()
                     proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                 } else {
                     // Sanitize parameters
-                    const QStringList blockedParams = {
-                        QStringLiteral("attach"), QStringLiteral("metadata"), QStringLiteral("null"),   QStringLiteral("dump"),
-                        QStringLiteral("concat"), QStringLiteral("safe"),     QStringLiteral("ladspa"), QStringLiteral("protocol_whitelist")};
-                    for (auto &b : blockedParams) {
-                        if (proxyParams.contains(b)) {
-                            // Unwanted param found, discard parameters
+                    const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
+                    for (auto &f : forbiddenArgs) {
+                        if (proxyParams.contains(f)) {
                             proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                             break;
                         }
