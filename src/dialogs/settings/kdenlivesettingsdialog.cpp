@@ -310,6 +310,13 @@ void KdenliveSettingsDialog::initProxyPage()
     m_configProxy.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
     loadExternalProxyProfiles();
     connect(m_configProxy.button_external, &QToolButton::clicked, this, &KdenliveSettingsDialog::configureExternalProxies);
+    QString allowedParams = KdenliveSettings::safeFFmpegParams().join(QLatin1Char(','));
+    m_configProxy.allowedProxyParams->setPlainText(allowedParams);
+    connect(m_configProxy.allowedProxyParams, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotDialogModified);
+    connect(m_configProxy.resetProxyParams, &QPushButton::clicked, this, [this]() {
+        QString defaults = KdenliveSettings::defaultSafeFFmpegParamsValue().join(QLatin1Char(','));
+        m_configProxy.allowedProxyParams->setPlainText(defaults);
+    });
 }
 
 void KdenliveSettingsDialog::configureExternalProxies()
@@ -1475,6 +1482,11 @@ void KdenliveSettingsDialog::updateSettings()
         // The transcoding profiles were modified, save.
         m_modified = false;
         saveTranscodeProfiles();
+    }
+
+    const QStringList proxyParams = m_configProxy.allowedProxyParams->toPlainText().split(QLatin1Char(','));
+    if (proxyParams != KdenliveSettings::safeFFmpegParams()) {
+        KdenliveSettings::setSafeFFmpegParams(proxyParams);
     }
 
 #ifdef USE_JOGSHUTTLE
