@@ -404,7 +404,7 @@ private:
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
     /** @brief Load document properties from the xml file
-        @returns false if we shoud stop loading the document
+        @returns false if we should stop loading the document
     */
     bool loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
