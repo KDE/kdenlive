@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-22 02:41+0000\n"
+"POT-Creation-Date: 2026-04-24 02:40+0000\n"
 "PO-Revision-Date: 2026-03-14 22:47+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -20594,10 +20594,10 @@ msgid "Edit global subtitle style"
 msgstr "Uredi splošni slog podnaslovov"
 
 #: src/bin/model/subtitlemodel.cpp:420 src/bin/model/subtitlemodel.cpp:634
-#: src/bin/model/subtitlemodel.cpp:1579 src/bin/model/subtitlemodel.cpp:2154
-#: src/bin/model/subtitlemodel.cpp:2221 src/bin/model/subtitlemodel.cpp:2254
-#: src/bin/model/subtitlemodel.cpp:2287 src/bin/model/subtitlemodel.cpp:2320
-#: src/bin/model/subtitlemodel.cpp:2353
+#: src/bin/model/subtitlemodel.cpp:1579 src/bin/model/subtitlemodel.cpp:2158
+#: src/bin/model/subtitlemodel.cpp:2225 src/bin/model/subtitlemodel.cpp:2258
+#: src/bin/model/subtitlemodel.cpp:2291 src/bin/model/subtitlemodel.cpp:2324
+#: src/bin/model/subtitlemodel.cpp:2357
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Uredi podnaslov"
@@ -20664,7 +20664,14 @@ msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Podnaslov %1"
 
-#: src/bin/model/subtitlemodel.cpp:2190
+#: src/bin/model/subtitlemodel.cpp:2002
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Cannot cut overlapping subtitles"
+msgid "Cannot create more than %1 layers in subtitles."
+msgstr "Prekrivajočih se podnaslovov ni možno rezati"
+
+#: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "Dodelite novi slog podnaslovu."

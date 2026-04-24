@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-22 02:41+0000\n"
+"POT-Creation-Date: 2026-04-24 02:40+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -20935,10 +20935,10 @@ msgid "Edit global subtitle style"
 msgstr "वैश्विक उपशीर्षक शैली संपादित करें"
 
 #: src/bin/model/subtitlemodel.cpp:420 src/bin/model/subtitlemodel.cpp:634
-#: src/bin/model/subtitlemodel.cpp:1579 src/bin/model/subtitlemodel.cpp:2154
-#: src/bin/model/subtitlemodel.cpp:2221 src/bin/model/subtitlemodel.cpp:2254
-#: src/bin/model/subtitlemodel.cpp:2287 src/bin/model/subtitlemodel.cpp:2320
-#: src/bin/model/subtitlemodel.cpp:2353
+#: src/bin/model/subtitlemodel.cpp:1579 src/bin/model/subtitlemodel.cpp:2158
+#: src/bin/model/subtitlemodel.cpp:2225 src/bin/model/subtitlemodel.cpp:2258
+#: src/bin/model/subtitlemodel.cpp:2291 src/bin/model/subtitlemodel.cpp:2324
+#: src/bin/model/subtitlemodel.cpp:2357
 #, kde-format
 msgid "Edit subtitle"
 msgstr "उपशीर्षक संपादित करें"
@@ -21003,7 +21003,14 @@ msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "उपशीर्षक%1"
 
-#: src/bin/model/subtitlemodel.cpp:2190
+#: src/bin/model/subtitlemodel.cpp:2002
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Cannot cut overlapping subtitles"
+msgid "Cannot create more than %1 layers in subtitles."
+msgstr "ओवरलैपिंग उपशीर्षक नहीं काटे जा सकते"
+
+#: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "उपशीर्षक को एक नई शैली निर्दिष्ट करें."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-22 02:41+0000\n"
+"POT-Creation-Date: 2026-04-24 02:40+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -20848,10 +20848,10 @@ msgid "Edit global subtitle style"
 msgstr "자막 편집"
 
 #: src/bin/model/subtitlemodel.cpp:420 src/bin/model/subtitlemodel.cpp:634
-#: src/bin/model/subtitlemodel.cpp:1579 src/bin/model/subtitlemodel.cpp:2154
-#: src/bin/model/subtitlemodel.cpp:2221 src/bin/model/subtitlemodel.cpp:2254
-#: src/bin/model/subtitlemodel.cpp:2287 src/bin/model/subtitlemodel.cpp:2320
-#: src/bin/model/subtitlemodel.cpp:2353
+#: src/bin/model/subtitlemodel.cpp:1579 src/bin/model/subtitlemodel.cpp:2158
+#: src/bin/model/subtitlemodel.cpp:2225 src/bin/model/subtitlemodel.cpp:2258
+#: src/bin/model/subtitlemodel.cpp:2291 src/bin/model/subtitlemodel.cpp:2324
+#: src/bin/model/subtitlemodel.cpp:2357
 #, kde-format
 msgid "Edit subtitle"
 msgstr "자막 편집"
@@ -20921,7 +20921,13 @@ msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "자막"
 
-#: src/bin/model/subtitlemodel.cpp:2190
+#: src/bin/model/subtitlemodel.cpp:2002
+#, fuzzy, kde-format
+#| msgid "Cannot set rating on this item"
+msgid "Cannot create more than %1 layers in subtitles."
+msgstr "이 항목의 등급을 설정할 수 없음"
+
+#: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr ""
