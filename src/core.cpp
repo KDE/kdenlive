@@ -927,6 +927,7 @@ std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 
 std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
 {
+    // Q_ASSERT(!m_currentProfile.isEmpty());
     return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
