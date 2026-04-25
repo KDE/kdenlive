@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 02:40+0000\n"
+"POT-Creation-Date: 2026-04-25 02:43+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -26405,7 +26405,7 @@ msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg が見つかりません、Kdenlive の環境設定からパスを設定してください。"
 
-#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
+#: src/jobs/proxytask.cpp:435 src/jobs/proxytask.cpp:449
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "代用クリップの作成に失敗しました。"

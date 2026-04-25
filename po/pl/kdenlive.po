@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 02:40+0000\n"
+"POT-Creation-Date: 2026-04-25 02:43+0000\n"
 "PO-Revision-Date: 2026-04-18 14:20+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -25991,7 +25991,7 @@ msgstr "Obraz jest zbyt mały, aby można z niego zrobić pośrednika."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "Nie znaleziono FFmpeg, ustaw ścieżkę w ustawieniach otoczenia Kdenlive"
 
-#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
+#: src/jobs/proxytask.cpp:435 src/jobs/proxytask.cpp:449
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Nie udało się utworzyć wycinka pośredniego."

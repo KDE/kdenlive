@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 02:40+0000\n"
-"PO-Revision-Date: 2026-03-21 01:32+0100\n"
+"POT-Creation-Date: 2026-04-25 02:43+0000\n"
+"PO-Revision-Date: 2026-04-24 17:36+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -21000,11 +21000,9 @@ msgid "Subtitle %1"
 msgstr "Subtítulo %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Cannot cut overlapping subtitles"
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "No es posible cortar subtítulos superpuestos"
+msgstr "No es posible crear más de %1 capas de subtítulos."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
@@ -26457,7 +26455,7 @@ msgstr ""
 "No se ha encontrado FFmpeg, definir su ruta de acceso en la sección Entorno "
 "de las preferencias de Kdenlive"
 
-#: src/jobs/proxytask.cpp:428 src/jobs/proxytask.cpp:442
+#: src/jobs/proxytask.cpp:435 src/jobs/proxytask.cpp:449
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "No fue posible crear medio de reemplazo."
