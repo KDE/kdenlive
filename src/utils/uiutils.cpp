@@ -22,8 +22,10 @@ const QStringList UiUtils::getProxyForbiddenParams()
 QStringList UiUtils::checkUnknownProxyParams(QString proxyData)
 {
     // Next check if all our params are in the safe list
-    proxyData.prepend(QLatin1Char(' '));
-    const QStringList params = proxyData.simplified().split(QLatin1String(" -"), Qt::SkipEmptyParts);
+    if (!proxyData.startsWith(QLatin1Char(' '))) {
+        proxyData.prepend(QLatin1Char(' '));
+    }
+    const QStringList params = proxyData.split(QLatin1String(" -"), Qt::SkipEmptyParts);
     QStringList detectedParams;
     for (auto &p : params) {
         QString paramName = p.section(QLatin1Char(' '), 0, 0);

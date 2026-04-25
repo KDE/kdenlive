@@ -1878,6 +1878,9 @@ bool KdenliveDoc::loadDocumentProperties()
                     }
                     const QStringList unknownParams = UiUtils::checkUnknownProxyParams(proxyData);
                     if (!unknownParams.isEmpty()) {
+                        if (!proxyData.startsWith(QLatin1Char(' '))) {
+                            proxyData.prepend(QLatin1Char(' '));
+                        }
                         const QString proxyExtension = QStringLiteral("mov");
                         for (auto &u : unknownParams) {
                             int start = proxyData.indexOf(QLatin1String(" -%1").arg(u));
