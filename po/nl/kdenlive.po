@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-26 02:37+0000\n"
+"POT-Creation-Date: 2026-04-29 02:44+0000\n"
 "PO-Revision-Date: 2026-04-24 12:18+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -35492,7 +35492,7 @@ msgstr "Geen voorbeeld"
 msgid "Generate Previews"
 msgstr "Voorbeelden genereren"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:215
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
@@ -35501,24 +35501,24 @@ msgstr ""
 "Het script voor het genereren van het voorbeeld kon niet worden gevonden. "
 "Zorg ervoor dat het correct is geïnstalleerd."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 "Het Python-programma is niet gevonden. Zorg ervoor dat Python is "
 "geïnstalleerd."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:279
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr "Overgangsvoorbeelden genereren. Dit kan een paar minuten duren..."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:292
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr "De overgangsvoorbeelden zijn met succes gegenereerd."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "

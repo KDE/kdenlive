@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-26 02:37+0000\n"
+"POT-Creation-Date: 2026-04-29 02:44+0000\n"
 "PO-Revision-Date: 2026-04-06 01:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -34695,7 +34695,7 @@ msgstr "მინიატურის გარეშე"
 msgid "Generate Previews"
 msgstr "მინიატურების გენერაცია"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:215
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
@@ -34704,25 +34704,25 @@ msgstr ""
 "მინიატურის გენერაციის სკრიპტის აღმოჩენა შეუძლებელია. დარწმუნდით, რომ ის "
 "სწორადაა დაყენებული."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 "Python-ის ინტერპრეტატორი დაყენებული არაა. დარწმუნდით, რომ Python დაყენებულია."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:279
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 "მიმდინარეობს გადასვლის მინიატურების გენერაცია. ამას შეიძლება, რამდენიმე წუთი "
 "დასჭირდეს..."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:292
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr "გადასვლის მინიატურების გენერაცია წარმატებით დასრულდა."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "

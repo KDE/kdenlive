@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-26 02:37+0000\n"
-"PO-Revision-Date: 2026-03-14 22:47+0100\n"
+"POT-Creation-Date: 2026-04-29 02:44+0000\n"
+"PO-Revision-Date: 2026-04-28 08:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -20665,11 +20665,9 @@ msgid "Subtitle %1"
 msgstr "Podnaslov %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Cannot cut overlapping subtitles"
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "Prekrivajočih se podnaslovov ni možno rezati"
+msgstr "V podnapisih ni možno ustvariti več kot %1 plasti."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
@@ -35400,7 +35398,7 @@ msgstr "Brez predogleda"
 msgid "Generate Previews"
 msgstr "Tvori predoglede"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:215
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
@@ -35409,22 +35407,22 @@ msgstr ""
 "Ni možno najti skripta za tvorbo predogledov. Zagotovite, da je nameščen "
 "pravilno."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr "Tolmača za Python ni možno najti. Zagotovite, da je Python nameščen."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:279
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr "Poteka izdelava predogledov prehodov. To lahko traja več minut …"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:292
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr "Predogledi prehodov so bili uspešno izdelani."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "
