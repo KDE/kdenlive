@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-28 00:44+0000\n"
-"PO-Revision-Date: 2026-04-22 00:36+0100\n"
+"POT-Creation-Date: 2026-04-29 00:44+0000\n"
+"PO-Revision-Date: 2026-04-29 00:16+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -163,10 +163,10 @@ msgstr "El ángulo de rotación a ser aplicado a la forma de onda."
 #: data/effects/frei0r/frei0r_mask0mate.xml:8 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
 #: data/effects/qtblend.xml:9 data/effects/qtblend.xml:40
-#: data/effects/qtcrop.xml:8 data/effects/spot_remover.xml:8
-#: data/effects/tracker.xml:8 data/transitions/affine.xml:8
-#: data/transitions/composite.xml:8 data/transitions/qtblend.xml:11
-#: data/transitions/region.xml:11
+#: data/effects/qtblend.xml:64 data/effects/qtcrop.xml:8
+#: data/effects/spot_remover.xml:8 data/effects/tracker.xml:8
+#: data/transitions/affine.xml:8 data/transitions/composite.xml:8
+#: data/transitions/qtblend.xml:11 data/transitions/region.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:266
 #: src/assets/view/widgets/keyframeimport.cpp:434
 #: src/assets/view/widgets/keyframeimport.cpp:911
@@ -2701,7 +2701,7 @@ msgstr "Mostrar ejes"
 #: src/assets/view/widgets/keyframecontainer.cpp:341
 #: src/assets/view/widgets/keyframecontainer.cpp:388
 #: src/assets/view/widgets/keyframecontainer.cpp:713
-#: src/widgets/geometrywidget.cpp:172
+#: src/widgets/geometrywidget.cpp:175
 #, kde-format
 msgid "Opacity"
 msgstr "Opacidad"
@@ -4973,7 +4973,7 @@ msgstr "Permite aplicar el operador Kirsch a la imagen de un clip."
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
-#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:162
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:165
 #, kde-format
 msgid "Scale"
 msgstr "Escala"
@@ -6338,7 +6338,8 @@ msgstr "SOFA archivo"
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/avfilter/avfilter_sofalizer.xml:14
 #: data/effects/frei0r/frei0r_mirr0r.xml:17 data/effects/gpsgraphic.xml:130
-#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:43
+#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:46
+#: data/effects/qtblend.xml:70
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:20
 #: data/transitions/qtblend.xml:14
 #: src/assets/view/widgets/keyframeimport.cpp:406 src/ui/editsubstyle_ui.ui:189
@@ -16058,9 +16059,9 @@ msgid "Adjust size and position of clip"
 msgstr "Permite ajustar el tamaño y posición de un clip"
 
 #: data/effects/pan_zoom.xml:11 data/effects/qtblend.xml:19
-#: data/effects/qtblend.xml:34 data/transitions/affine.xml:20
-#: data/transitions/composite.xml:11 data/transitions/qtblend.xml:21
-#: data/transitions/region.xml:24
+#: data/effects/qtblend.xml:34 data/effects/qtblend.xml:61
+#: data/transitions/affine.xml:20 data/transitions/composite.xml:11
+#: data/transitions/qtblend.xml:21 data/transitions/region.xml:24
 #, kde-format
 msgid "Distort"
 msgstr "Estiramiento"
@@ -16103,18 +16104,19 @@ msgid "Transform"
 msgstr "Transformar"
 
 #: data/effects/qtblend.xml:6 data/effects/qtblend.xml:24
+#: data/effects/qtblend.xml:51
 #, kde-format
 msgid "Position, scale and opacity."
 msgstr "Permite ajustar la posición, escala y opacidad de un clip."
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:30
-#: data/transitions/qtblend.xml:18
+#: data/effects/qtblend.xml:57 data/transitions/qtblend.xml:18
 #, kde-format
 msgid "Compositing"
 msgstr "Componer"
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:31
-#: data/transitions/qtblend.xml:17
+#: data/effects/qtblend.xml:58 data/transitions/qtblend.xml:17
 #, kde-format
 msgid ""
 "Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
@@ -16128,7 +16130,7 @@ msgstr ""
 "bit),No Y (bit a bit),No O exclusivo (bit a bit),Destino interior,Destino "
 "exterior"
 
-#: data/effects/qtblend.xml:23
+#: data/effects/qtblend.xml:23 data/effects/qtblend.xml:50
 #, kde-format
 msgid "Transform"
 msgstr "Transformar"
@@ -16137,6 +16139,12 @@ msgstr "Transformar"
 #, kde-format
 msgid "Rotate from center"
 msgstr "Rotar desde el centro"
+
+#: data/effects/qtblend.xml:43 data/effects/qtblend.xml:67
+#, fuzzy, kde-format
+#| msgid "Rotation"
+msgid "Rotation Point"
+msgstr "Rotación"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -17595,7 +17603,7 @@ msgid "Crop to fill"
 msgstr "Rellenar con recorte"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:210
+#: src/widgets/geometrywidget.cpp:213
 #, kde-format
 msgid "Align"
 msgstr "Alinear"
@@ -19037,7 +19045,7 @@ msgstr "Borrar el preajuste seleccionado."
 msgid "Save effect"
 msgstr "Guardar efecto"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1635
 #, kde-format
@@ -19045,7 +19053,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Nuevo preajuste"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1635
 #, kde-format
@@ -19401,7 +19409,7 @@ msgstr "Insertar palabra clave…"
 msgid "None (Dissolve)"
 msgstr "Fundido"
 
-#: src/assets/view/widgets/pointparamwidget.cpp:51
+#: src/assets/view/widgets/pointparamwidget.cpp:55
 #, kde-format
 msgctxt "Position as the x,y coordinate for a point"
 msgid "Position:"
@@ -21032,11 +21040,9 @@ msgid "Subtitle %1"
 msgstr "Subtítulo %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Cannot cut overlapping subtitles"
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "No es posible cortar subtítulos superpuestos"
+msgstr "No es posible crear más de %1 capas de subtítulos."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
@@ -21935,6 +21941,8 @@ msgid ""
 "Your proxy parameters contains forbidden keywords, please remove them: <b>"
 "%1</b>."
 msgstr ""
+"Los parámetros de reemplazo contienen palabras clave prohibidas, deberán ser "
+"eliminadas: <b>%1</b>."
 
 #: src/dialogs/encodingprofilesdialog.cpp:164
 #: src/dialogs/encodingprofilesdialog.cpp:233
@@ -21943,13 +21951,14 @@ msgid ""
 "Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you "
 "want to always allow them ?"
 msgstr ""
+"Los parámetros de reemplazo contienen parámetros desconocidos: <br><b>%1</"
+"b><br>¿Permitirlos siempre?"
 
 #: src/dialogs/encodingprofilesdialog.cpp:166
 #: src/dialogs/encodingprofilesdialog.cpp:235
-#, fuzzy, kde-format
-#| msgid "Additional Parameters:"
+#, kde-format
 msgid "Always Allow Parameters"
-msgstr "Parámetros adicionales:"
+msgstr "Siempre permitir parámetros"
 
 #: src/dialogs/encodingprofilesdialog.cpp:280
 #, kde-format
@@ -25206,6 +25215,9 @@ msgid ""
 "This project want to load resources from internet.<br><b>This can be a "
 "security risk, abort loading</b> unless you fully trust the remote resources."
 msgstr ""
+"Este proyecto pretende cargar recursos desde Internet.<br><b>Esto podría "
+"representar un riesgo de seguridad, cancelar la carga</b> a menos que se "
+"confíe completamente en las fuentes remotas."
 
 #: src/doc/dcresolvedialog.cpp:202
 #, kde-format
@@ -25355,11 +25367,10 @@ msgid "Reload"
 msgstr "Recargar"
 
 #: src/doc/documentchecker.cpp:1938
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
-msgstr "Eliminar"
+msgstr "Remoto"
 
 #: src/doc/documentchecker.cpp:1940
 #, kde-format
@@ -25705,10 +25716,13 @@ msgid ""
 "\"><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>These parameters will be "
 "discarded."
 msgstr ""
+"El archivo de proyecto <b>%1</b> contiene parámetros de reemplazo "
+"sospechosos. Este comando podría ser ejecutado:<br><br><code style="
+"\"background-color:darkred;color:white\"><b>%2 -i entrada.mp4 %3 salida.%4</"
+"b></code><br><br>Estos parámetros serán descartados."
 
 #: src/doc/kdenlivedoc.cpp:1903
-#, fuzzy, kde-format
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window"
 msgid "Warning"
 msgstr "Advertencia"
@@ -25720,6 +25734,10 @@ msgid ""
 "This command might be executed:<br><br><code><b>%2 -i input.mp4 %3 out.%4</"
 "b></code><br><br>These parameters will be discarded unless you allow them."
 msgstr ""
+"El archivo de proyecto <b>%1</b> contiene parámetros inesperados para la "
+"creación de reemplazos. Este comando podría ser ejecutado:<br><br><code><b>"
+"%2 -i entrada.mp4 %3 salida.%4</b></code><br><br>Estos parámetros serán "
+"descartados a menos que se los permita expresamente."
 
 #: src/doc/kdenlivedoc.cpp:1996
 #, kde-format
@@ -30607,7 +30625,7 @@ msgstr "Ir al inicio de la máscara"
 msgid "Go to mask end"
 msgstr "Ir al fin de la máscara"
 
-#: src/monitor/view/MonitorGeometryScene.qml:343
+#: src/monitor/view/MonitorGeometryScene.qml:360
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -35423,7 +35441,7 @@ msgstr "Ancho del contorno"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:162 src/widgets/geometrywidget.cpp:172
+#: src/widgets/geometrywidget.cpp:165 src/widgets/geometrywidget.cpp:175
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -36029,7 +36047,7 @@ msgstr "Sin previs."
 msgid "Generate Previews"
 msgstr "Generar previsualizaciones"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:215
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
@@ -36038,26 +36056,26 @@ msgstr ""
 "No fue posible encontrar el script de generación de previsualizaciones. "
 "Asegurarse de que esté correctamente instalado."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 "No se encontró el intérprete de Python. Asegurarse de que Python se "
 "encuentre instalado."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:279
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 "Generando las previsualizaciones para las transiciones. Esto podría tomar "
 "algunos minutos…"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:292
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr "Se han generado exitosamente previsualizaciones para las transiciones."
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "
@@ -36078,12 +36096,12 @@ msgstr ""
 msgid "Luma file :"
 msgstr "Archivo de luma:"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:123
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:126
 #, kde-format
 msgid "Align left"
 msgstr "Alinear a la izquierda"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:127
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:130
 #, kde-format
 msgid "Align right"
 msgstr "Alinear a la derecha"
@@ -37610,7 +37628,7 @@ msgstr "Medios de reemplazo de cámara"
 #: src/ui/configproxy_ui.ui:193
 #, kde-format
 msgid "Allowed FFmpeg parameters for proxy clips"
-msgstr ""
+msgstr "Parámetros de FFmpeg permitidos para generar medios de reemplazo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:218
@@ -39564,18 +39582,15 @@ msgstr "Medios usados en el proyecto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allowOnce)
 #: src/ui/proxywarn_ui.ui:30
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Displays the parameters for the selected profile"
+#, kde-format
 msgid "Allow using these parameters for this project"
-msgstr "Mostrar los parámetros para el perfil seleccionado"
+msgstr "Permitir el uso de estos parámetros en este proyecto"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allowAlways)
 #: src/ui/proxywarn_ui.ui:88
-#, fuzzy, kde-format
-#| msgid "Use sensor response parameters"
+#, kde-format
 msgid "Always allow these parameters"
-msgstr "Usar parámetros de respuesta de sensor"
+msgstr "Siempre permitir estos parámetros"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, allowWarning)
 #: src/ui/proxywarn_ui.ui:95
@@ -39584,6 +39599,8 @@ msgid ""
 "If you are not the author of this project or don't understand the "
 "parameters, this might compromise your system's security."
 msgstr ""
+"En caso de no ser el autor de este proyecto o de no comprender bien los "
+"parámetros, esto podría llegar a comprometer la seguridad del sistema."
 
 #. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:39
@@ -40796,71 +40813,71 @@ msgstr "Mostrar %1 en la línea de tiempo"
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Mayús+arrastrar para ajustar el valor en unidades enteras."
 
-#: src/widgets/geometrywidget.cpp:53
+#: src/widgets/geometrywidget.cpp:56
 #, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "Posición X"
 
-#: src/widgets/geometrywidget.cpp:59
+#: src/widgets/geometrywidget.cpp:62
 #, kde-format
 msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
 
-#: src/widgets/geometrywidget.cpp:78
+#: src/widgets/geometrywidget.cpp:81
 #, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "Tamaño An"
 
-#: src/widgets/geometrywidget.cpp:85
+#: src/widgets/geometrywidget.cpp:88
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "Bloquear proporción de imagen"
 
-#: src/widgets/geometrywidget.cpp:95
+#: src/widgets/geometrywidget.cpp:98
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "Al"
 
-#: src/widgets/geometrywidget.cpp:113
+#: src/widgets/geometrywidget.cpp:116
 #, kde-format
 msgid "Adjust to original size"
 msgstr "Ajustar al tamaño original del medio"
 
-#: src/widgets/geometrywidget.cpp:116
+#: src/widgets/geometrywidget.cpp:119
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "Ajustar y centrar en el fotograma"
 
-#: src/widgets/geometrywidget.cpp:118
+#: src/widgets/geometrywidget.cpp:121
 #, kde-format
 msgid "Fit to width"
 msgstr "Ajustar al ancho"
 
-#: src/widgets/geometrywidget.cpp:120
+#: src/widgets/geometrywidget.cpp:123
 #, kde-format
 msgid "Fit to height"
 msgstr "Ajustar a la altura"
 
-#: src/widgets/geometrywidget.cpp:125
+#: src/widgets/geometrywidget.cpp:128
 #, kde-format
 msgid "Center horizontally"
 msgstr "Centrar horizontalmente"
 
-#: src/widgets/geometrywidget.cpp:129
+#: src/widgets/geometrywidget.cpp:132
 #, kde-format
 msgid "Align top"
 msgstr "Alinear arriba"
 
-#: src/widgets/geometrywidget.cpp:131
+#: src/widgets/geometrywidget.cpp:134
 #, kde-format
 msgid "Center vertically"
 msgstr "Centrar verticalmente"
 
-#: src/widgets/geometrywidget.cpp:133
+#: src/widgets/geometrywidget.cpp:136
 #, kde-format
 msgid "Align bottom"
 msgstr "Alinear abajo"

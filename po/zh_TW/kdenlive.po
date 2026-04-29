@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-28 00:44+0000\n"
+"POT-Creation-Date: 2026-04-29 00:44+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -159,10 +159,10 @@ msgstr "套用到波形的旋轉角度。"
 #: data/effects/frei0r/frei0r_mask0mate.xml:8 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
 #: data/effects/qtblend.xml:9 data/effects/qtblend.xml:40
-#: data/effects/qtcrop.xml:8 data/effects/spot_remover.xml:8
-#: data/effects/tracker.xml:8 data/transitions/affine.xml:8
-#: data/transitions/composite.xml:8 data/transitions/qtblend.xml:11
-#: data/transitions/region.xml:11
+#: data/effects/qtblend.xml:64 data/effects/qtcrop.xml:8
+#: data/effects/spot_remover.xml:8 data/effects/tracker.xml:8
+#: data/transitions/affine.xml:8 data/transitions/composite.xml:8
+#: data/transitions/qtblend.xml:11 data/transitions/region.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:266
 #: src/assets/view/widgets/keyframeimport.cpp:434
 #: src/assets/view/widgets/keyframeimport.cpp:911
@@ -2571,7 +2571,7 @@ msgstr "顯示軸線"
 #: src/assets/view/widgets/keyframecontainer.cpp:341
 #: src/assets/view/widgets/keyframecontainer.cpp:388
 #: src/assets/view/widgets/keyframecontainer.cpp:713
-#: src/widgets/geometrywidget.cpp:172
+#: src/widgets/geometrywidget.cpp:175
 #, kde-format
 msgid "Opacity"
 msgstr "不透明度"
@@ -4721,7 +4721,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
-#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:162
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:165
 #, kde-format
 msgid "Scale"
 msgstr "縮放"
@@ -6027,7 +6027,8 @@ msgstr "SOFA 檔案"
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/avfilter/avfilter_sofalizer.xml:14
 #: data/effects/frei0r/frei0r_mirr0r.xml:17 data/effects/gpsgraphic.xml:130
-#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:43
+#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:46
+#: data/effects/qtblend.xml:70
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:20
 #: data/transitions/qtblend.xml:14
 #: src/assets/view/widgets/keyframeimport.cpp:406 src/ui/editsubstyle_ui.ui:189
@@ -15229,9 +15230,9 @@ msgid "Adjust size and position of clip"
 msgstr "調整素材的大小和位置"
 
 #: data/effects/pan_zoom.xml:11 data/effects/qtblend.xml:19
-#: data/effects/qtblend.xml:34 data/transitions/affine.xml:20
-#: data/transitions/composite.xml:11 data/transitions/qtblend.xml:21
-#: data/transitions/region.xml:24
+#: data/effects/qtblend.xml:34 data/effects/qtblend.xml:61
+#: data/transitions/affine.xml:20 data/transitions/composite.xml:11
+#: data/transitions/qtblend.xml:21 data/transitions/region.xml:24
 #, kde-format
 msgid "Distort"
 msgstr "水波紋扭曲"
@@ -15272,18 +15273,19 @@ msgid "Transform"
 msgstr "簡易變形"
 
 #: data/effects/qtblend.xml:6 data/effects/qtblend.xml:24
+#: data/effects/qtblend.xml:51
 #, kde-format
 msgid "Position, scale and opacity."
 msgstr "位置、縮放與不透明度。"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:30
-#: data/transitions/qtblend.xml:18
+#: data/effects/qtblend.xml:57 data/transitions/qtblend.xml:18
 #, kde-format
 msgid "Compositing"
 msgstr "混合方式"
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:31
-#: data/transitions/qtblend.xml:17
+#: data/effects/qtblend.xml:58 data/transitions/qtblend.xml:17
 #, kde-format
 msgid ""
 "Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
@@ -15295,7 +15297,7 @@ msgstr ""
 "實光,柔光,差異化,排除,位元 OR,位元 AND,位元 XOR,位元 NOR,位元 NAND,位元 NOT "
 "XOR,目標輸入,目標輸出"
 
-#: data/effects/qtblend.xml:23
+#: data/effects/qtblend.xml:23 data/effects/qtblend.xml:50
 #, kde-format
 msgid "Transform"
 msgstr "簡易變形"
@@ -15304,6 +15306,12 @@ msgstr "簡易變形"
 #, kde-format
 msgid "Rotate from center"
 msgstr "從中心旋轉"
+
+#: data/effects/qtblend.xml:43 data/effects/qtblend.xml:67
+#, fuzzy, kde-format
+#| msgid "Rotation"
+msgid "Rotation Point"
+msgstr "旋轉"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -16759,7 +16767,7 @@ msgid "Crop to fill"
 msgstr "裁剪到填滿"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:210
+#: src/widgets/geometrywidget.cpp:213
 #, kde-format
 msgid "Align"
 msgstr "對齊"
@@ -18155,7 +18163,7 @@ msgstr "刪除目前選取的預設檔。"
 msgid "Save effect"
 msgstr "儲存效果"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1635
 #, kde-format
@@ -18163,7 +18171,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "輸入預設檔名稱"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1635
 #, kde-format
@@ -18513,7 +18521,7 @@ msgstr "插入空白空間…"
 msgid "None (Dissolve)"
 msgstr "無（溶解）"
 
-#: src/assets/view/widgets/pointparamwidget.cpp:51
+#: src/assets/view/widgets/pointparamwidget.cpp:55
 #, fuzzy, kde-format
 #| msgid "Position:"
 msgctxt "Position as the x,y coordinate for a point"
@@ -29488,7 +29496,7 @@ msgstr "跳到遮罩起點"
 msgid "Go to mask end"
 msgstr "跳到遮罩末尾"
 
-#: src/monitor/view/MonitorGeometryScene.qml:343
+#: src/monitor/view/MonitorGeometryScene.qml:360
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -34164,7 +34172,7 @@ msgstr "邊線方塊寬度"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:162 src/widgets/geometrywidget.cpp:172
+#: src/widgets/geometrywidget.cpp:165 src/widgets/geometrywidget.cpp:175
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -34767,29 +34775,29 @@ msgstr "預覽"
 msgid "Generate Previews"
 msgstr "產生文稿"
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:215
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
 msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:271
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:279
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:292
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
 msgstr ""
 
-#: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
+#: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
 msgid ""
 "Failed to generate transition previews. Check the application log for "
@@ -34807,12 +34815,12 @@ msgstr "某些最愛的合成方案是無效的而已被移除：%1"
 msgid "Luma file :"
 msgstr "Luma 檔案"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:123
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:126
 #, kde-format
 msgid "Align left"
 msgstr "左對齊"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:127
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:130
 #, kde-format
 msgid "Align right"
 msgstr "右對齊"
@@ -39490,71 +39498,71 @@ msgstr "在時間軸中顯示 %1"
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + 拖曳來調整各個數值。"
 
-#: src/widgets/geometrywidget.cpp:53
+#: src/widgets/geometrywidget.cpp:56
 #, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "位置 X"
 
-#: src/widgets/geometrywidget.cpp:59
+#: src/widgets/geometrywidget.cpp:62
 #, kde-format
 msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
 
-#: src/widgets/geometrywidget.cpp:78
+#: src/widgets/geometrywidget.cpp:81
 #, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "大小寬"
 
-#: src/widgets/geometrywidget.cpp:85
+#: src/widgets/geometrywidget.cpp:88
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "鎖定寬高比"
 
-#: src/widgets/geometrywidget.cpp:95
+#: src/widgets/geometrywidget.cpp:98
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "高度"
 
-#: src/widgets/geometrywidget.cpp:113
+#: src/widgets/geometrywidget.cpp:116
 #, kde-format
 msgid "Adjust to original size"
 msgstr "調整到原始大小"
 
-#: src/widgets/geometrywidget.cpp:116
+#: src/widgets/geometrywidget.cpp:119
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "調整到畫面中心"
 
-#: src/widgets/geometrywidget.cpp:118
+#: src/widgets/geometrywidget.cpp:121
 #, kde-format
 msgid "Fit to width"
 msgstr "適合寬度"
 
-#: src/widgets/geometrywidget.cpp:120
+#: src/widgets/geometrywidget.cpp:123
 #, kde-format
 msgid "Fit to height"
 msgstr "適合高度"
 
-#: src/widgets/geometrywidget.cpp:125
+#: src/widgets/geometrywidget.cpp:128
 #, kde-format
 msgid "Center horizontally"
 msgstr "水平置中"
 
-#: src/widgets/geometrywidget.cpp:129
+#: src/widgets/geometrywidget.cpp:132
 #, kde-format
 msgid "Align top"
 msgstr "對齊頂部"
 
-#: src/widgets/geometrywidget.cpp:131
+#: src/widgets/geometrywidget.cpp:134
 #, kde-format
 msgid "Center vertically"
 msgstr "垂直置中"
 
-#: src/widgets/geometrywidget.cpp:133
+#: src/widgets/geometrywidget.cpp:136
 #, kde-format
 msgid "Align bottom"
 msgstr "對齊底部"
