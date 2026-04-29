@@ -5189,7 +5189,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
     } else {
         doc.setContent(xmldata);
     }
-    dia_ui.setXml(doc, clip->clipId());
+    dia_ui.setXml(path, doc, clip->clipId());
     int res = dia_ui.exec();
     if (res == QDialog::Accepted) {
         pCore->temporaryUnplug(clips, false);

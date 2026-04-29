@@ -376,15 +376,15 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
     return Xml::docContentToFile(doc, url.toLocalFile());
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration,
-                               const QString &projectpath)
+int TitleDocument::loadFromXml(const QString &path, const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv,
+                               int *duration, const QString &projectpath)
 {
     m_projectPath = projectpath;
 
     QList<QGraphicsItem *> items;
 
     int width, height;
-    int res = loadFromXml(doc, items, width, height, scene, startv, endv, duration, m_missingElements);
+    int res = loadFromXml(path, doc, items, width, height, scene, startv, endv, duration, m_missingElements);
 
     if (m_width != width || m_height != height) {
         KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
@@ -399,8 +399,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove *s
     return res;
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &gitems, int &width, int &height, GraphicsSceneRectMove *scene,
-                               QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int &missingElements)
+int TitleDocument::loadFromXml(const QString &path, const QDomDocument &doc, QList<QGraphicsItem *> &gitems, int &width, int &height,
+                               GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int &missingElements)
 {
     for (auto *i : gitems) {
         delete i;
@@ -408,6 +408,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
     gitems.clear();
 
     missingElements = 0;
+    QDir rootDir(QFileInfo(path).absolutePath());
     QDomNodeList titles = doc.elementsByTagName(QStringLiteral("kdenlivetitle"));
     // TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
     if (doc.documentElement().hasAttribute(QStringLiteral("width")) && doc.documentElement().hasAttribute(QStringLiteral("height"))) {
@@ -597,6 +598,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                     QPixmap pix;
                     bool missing = false;
                     if (base64.isEmpty()) {
+                        if (QFileInfo(url).isRelative()) {
+                            url = QDir::cleanPath(rootDir.absoluteFilePath(url));
+                        }
                         pix.load(url);
                         if (pix.isNull()) {
                             pix = createInvalidPixmap(url, height);
@@ -622,6 +626,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
                     QGraphicsSvgItem *rec = nullptr;
                     if (base64.isEmpty()) {
+                        if (QFileInfo(url).isRelative()) {
+                            url = QDir::cleanPath(rootDir.absoluteFilePath(url));
+                        }
                         if (QFile::exists(url)) {
                             rec = new MySvgItem(url);
                         }

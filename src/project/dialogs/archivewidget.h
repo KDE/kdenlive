@@ -100,6 +100,7 @@ private:
     * @returns the files content with replaced urls
     */
     QString processPlaylistFile(const QString &filename);
+    QString processTitleFile(const QString &filename);
     /** @brief Make urls in project file relative */
     bool processProjectFile();
     /** @brief Replace urls in mlt doc.
@@ -108,6 +109,7 @@ private:
     * @returns the doc's content with replaced urls
     */
     QString processMltFile(const QDomDocument &doc, const QString &destPrefix = QString());
+    QString processKdenliveTitleFile(const QDomDocument &doc, const QString &destPrefix = QString());
     void processElement(QDomElement e, const QString root);
     /** @brief If the given element contains the property its content (url) will be converted to a relative file path
      *  @param e the dom element  that might contains the property
@@ -117,6 +119,8 @@ private:
     void propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root);
     /** @brief Calculate required size for archiving */
     void updateRequiredSize();
+    /** @brief Write a modified xml file to archive */
+    bool writeTmpFile(bool isArchive, const QString &playList, const QString &destPath, const QDir destUrl, const QString &filename);
 
 Q_SIGNALS:
     void archivingFinished(bool, const QString &);
