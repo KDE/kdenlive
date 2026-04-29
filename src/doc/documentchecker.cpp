@@ -180,6 +180,7 @@ bool DocumentChecker::hasErrorInProject()
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    const QString root = m_doc.documentElement().attribute(QStringLiteral("root"));
     QStringList timelinePreviewIds;
     QDomElement mainBinPlaylist;
     int requestedPlaylists = 2;
@@ -267,7 +268,7 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         int kid = Xml::getXmlProperty(e, "kdenlive:id").toInt();
         const QString resource = Xml::getXmlProperty(e, "resource");
-        if (!QUrl::fromUserInput(resource).isLocalFile() && !remoteResources.contains(resource)) {
+        if (!QUrl::fromUserInput(resource, root, QUrl::AssumeLocalFile).isLocalFile() && !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;
             item.type = MissingType::Clip;
@@ -303,7 +304,7 @@ bool DocumentChecker::hasErrorInProject()
         int kid = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")).toInt();
         const QString id = e.attribute(QLatin1String("id"));
         const QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
-        if (!QUrl::fromUserInput(resource).isLocalFile() && !remoteResources.contains(resource)) {
+        if (!QUrl::fromUserInput(resource, root, QUrl::AssumeLocalFile).isLocalFile() && !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;
             item.type = MissingType::Clip;
