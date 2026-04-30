@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+        <key>NSPrincipalClass</key>
+        <string>NSApplication</string>
         <key>CFBundleDevelopmentRegion</key>
         <string>English</string>
         <key>CFBundleExecutable</key>
@@ -27,17 +29,17 @@
         <key>CFBundleVersion</key>
         <string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
         <key>LSMinimumSystemVersion</key>
-        <string>10.13</string>
+        <string>13.0</string>
         <key>NSMicrophoneUsageDescription</key>
-        <string>audio recording</string>
+        <string>Kdenlive can record audio when user requests it.</string>
+        <key>LSApplicationCategoryType</key>
+        <string>public.app-category.video</string>
         <key>CSResourcesFileMapped</key>
         <true/>
         <key>NSHumanReadableCopyright</key>
         <string>${MACOSX_BUNDLE_COPYRIGHT}</string>
         <key>NSHighResolutionCapable</key>
         <string>True</string>
-        <key>com.apple.security.device.audio-input</key>
-        <true/>
         <key>LSApplicationQueriesSchemes</key>
         <array>
         <string>https</string>
