@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:44+0000\n"
-"PO-Revision-Date: 2026-04-28 09:56+0200\n"
+"POT-Creation-Date: 2026-04-30 00:43+0000\n"
+"PO-Revision-Date: 2026-04-29 10:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11759,8 +11759,8 @@ msgstr "Si l'atenuació normal no es veu prou natural, proveu aquesta."
 #. i18n: ectx: property (text), widget (QPushButton, resetProxyParams)
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:634
-#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:632
+#: src/dialogs/Splash.qml:1024 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16026,10 +16026,9 @@ msgid "Rotate from center"
 msgstr "Gira des del centre"
 
 #: data/effects/qtblend.xml:43 data/effects/qtblend.xml:67
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Point"
-msgstr "Gir"
+msgstr "Punt de gir"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -16460,7 +16459,7 @@ msgstr "SoX"
 msgid "Process audio using a SoX effect"
 msgstr "Procés d'àudio emprant un efecte SoX"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1918
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1919
 #: src/monitor/view/MonitorSplit.qml:103
 #, kde-format
 msgid "Effect"
@@ -17106,12 +17105,12 @@ msgstr "Amplitud final"
 msgid "Wave Amplitude"
 msgstr "Amplitud de l'ona"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:841
 #, kde-format
 msgid "Horizontal"
 msgstr "Horitzontal"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:888
 #, kde-format
 msgid "Vertical"
 msgstr "Vertical"
@@ -18914,7 +18913,7 @@ msgid "Enter the name of this preset:"
 msgstr "Introduïu el nom d'aquests valors predefinits:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:405
+#: src/project/dialogs/archivewidget.cpp:417
 #, kde-format
 msgid "Abort processing"
 msgstr "Interromp el processament"
@@ -20851,8 +20850,8 @@ msgstr "Mou els subtítols"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
-#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:909
+#: src/project/dialogs/archivewidget.cpp:919 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -21046,8 +21045,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "Ús"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1896
-#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1948
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1927 src/doc/documentchecker.cpp:1949
 #: src/mltcontroller/clipcontroller.cpp:537
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -21926,11 +21925,11 @@ msgstr "Exportació de les dades de marcadors"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:702
-#: src/project/dialogs/archivewidget.cpp:706
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:902
-#: src/project/dialogs/archivewidget.cpp:908
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:817
+#: src/project/dialogs/archivewidget.cpp:927
+#: src/project/dialogs/archivewidget.cpp:939
+#: src/project/dialogs/archivewidget.cpp:945
 #: src/project/projectmanager.cpp:1981 src/project/projectmanager.cpp:1987
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
@@ -22598,7 +22597,7 @@ msgid "Transcode"
 msgstr "Transcodifica"
 
 #: src/dialogs/renderwidget.cpp:966 src/dialogs/renderwidget.cpp:1995
-#: src/project/dialogs/archivewidget.cpp:896
+#: src/project/dialogs/archivewidget.cpp:933
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "El fitxer de sortida ja existeix. Voleu sobreescriure'l?"
@@ -23308,12 +23307,12 @@ msgstr ""
 "Utilitzeu aquesta opció d'instal·lació només si la vostra GPU\n"
 "no es detecta correctament o no funciona amb aquest connector."
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:191
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:189
 #, kde-format
 msgid "Made by KDE"
 msgstr "Creat per la comunitat KDE"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:602 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:600 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -23333,7 +23332,7 @@ msgstr "Reinicia la configuració"
 msgid "Start Normally"
 msgstr "Inicia normalment"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:661
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:659
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
@@ -23342,7 +23341,7 @@ msgstr ""
 "El Kdenlive s'ha actualitzat. Si us agrada, penseu en <a href="
 "\"%1\">col·laborar-hi</a> o ajudeu <a href=\"%2\">econòmicament</a>."
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:678
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:676
 #, kde-format
 msgid "What's New"
 msgstr "Què hi ha de nou"
@@ -23987,197 +23986,197 @@ msgstr "Ioruba"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "4K UHD 3840x2160"
 msgstr "4K UHD 3840x2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "4K DCI 4096x2160"
 msgstr "4K DCI 4096x2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "2.5K QHD 2560x1440"
 msgstr "2.5K QHD 2560x1440"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "Full HD 1920x1080"
 msgstr "Full HD 1920x1080"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "HD 1280x720"
 msgstr "HD 1280x720"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC Wide 720x480"
 msgstr "SD NTSC Wide 720x480"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC 720x480"
 msgstr "SD NTSC 720x480"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD PAL Wide 720x576"
 msgstr "SD PAL Wide 720x576"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD PAL 720x576"
 msgstr "SD PAL 720x576"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, kde-format
 msgid "Full HD 1080x1920"
 msgstr "Full HD 1080x1920"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, kde-format
 msgid "HD 720x1280"
 msgstr "HD 720x1280"
 
-#: src/dialogs/Splash.qml:25
+#: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "23.98 fps"
 msgstr "23,98 fps"
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "24 fps"
 msgstr "24 fps"
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "25 fps"
 msgstr "25 fps"
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "29.97 fps"
 msgstr "29,97 fps"
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "30 fps"
 msgstr "30 fps"
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "50 fps"
 msgstr "50 fps"
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "59.94 fps"
 msgstr "59,94 fps"
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "60 fps"
 msgstr "60 fps"
 
-#: src/dialogs/Splash.qml:258
+#: src/dialogs/Splash.qml:256
 #, kde-format
 msgid "Open Project…"
 msgstr "Obre un projecte…"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:283
 #, kde-format
 msgid "Open Recent"
 msgstr "Obre'n un de recent"
 
-#: src/dialogs/Splash.qml:293
+#: src/dialogs/Splash.qml:291
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "Neteja l'historial de projectes recents"
 
-#: src/dialogs/Splash.qml:399
+#: src/dialogs/Splash.qml:397
 #, kde-format
 msgid "Remove file from list"
 msgstr "Elimina un fitxer de la llista"
 
-#: src/dialogs/Splash.qml:427
+#: src/dialogs/Splash.qml:425
 #, kde-format
 msgid "New Project…"
 msgstr "Projecte nou…"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:453
 #, kde-format
 msgid "New From Profile"
 msgstr "Nou a partir del perfil"
 
-#: src/dialogs/Splash.qml:464
+#: src/dialogs/Splash.qml:462
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "Neteja l'historial de perfils recents"
 
-#: src/dialogs/Splash.qml:553
+#: src/dialogs/Splash.qml:551
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Elimina un perfil de la llista"
 
-#: src/dialogs/Splash.qml:592
+#: src/dialogs/Splash.qml:590
 #, kde-format
 msgid "Show on Startup"
 msgstr "Mostra en iniciar"
 
-#: src/dialogs/Splash.qml:625 src/dialogs/Splash.qml:1016
+#: src/dialogs/Splash.qml:623 src/dialogs/Splash.qml:1014
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "El Kdenlive va fallar en l'últim inici. Reinicialitzo la configuració i "
 "torno a iniciar?"
 
-#: src/dialogs/Splash.qml:706
+#: src/dialogs/Splash.qml:704
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "Ajudeu-nos a fer encara millor el Kdenlive"
 
-#: src/dialogs/Splash.qml:711
+#: src/dialogs/Splash.qml:709
 #, kde-format
 msgid "Contribute…"
 msgstr "Col·laboreu…"
 
-#: src/dialogs/Splash.qml:717
+#: src/dialogs/Splash.qml:715
 #, kde-format
 msgid "Donate…"
 msgstr "Donació…"
 
-#: src/dialogs/Splash.qml:768
+#: src/dialogs/Splash.qml:766
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>Us donem la benvinguda a la configuració ràpida del Kdenlive</b>"
 
-#: src/dialogs/Splash.qml:774
+#: src/dialogs/Splash.qml:772
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "Fes servir sempre el tema de color fosc"
 
-#: src/dialogs/Splash.qml:786
+#: src/dialogs/Splash.qml:784
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>Perfil predeterminat del projecte</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:901 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Resolució"
 
-#: src/dialogs/Splash.qml:930
+#: src/dialogs/Splash.qml:928
 #, kde-format
 msgid "Frame Rate"
 msgstr "Velocitat dels fotogrames"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:956
+#: src/dialogs/Splash.qml:954
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24186,27 +24185,27 @@ msgstr "Velocitat dels fotogrames"
 msgid "Interlaced"
 msgstr "Entrellaçat"
 
-#: src/dialogs/Splash.qml:975
+#: src/dialogs/Splash.qml:973
 #, kde-format
 msgid "Video Tracks"
 msgstr "Pistes de vídeo"
 
-#: src/dialogs/Splash.qml:984
+#: src/dialogs/Splash.qml:982
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Pistes d'àudio"
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:995
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Això sempre es pot canviar més tard a la configuració."
 
-#: src/dialogs/Splash.qml:1043
+#: src/dialogs/Splash.qml:1041
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Vegeu la documentació en línia"
 
-#: src/dialogs/Splash.qml:1052
+#: src/dialogs/Splash.qml:1050
 #, kde-format
 msgid "Start Editing"
 msgstr "Comenceu l'edició"
@@ -24801,8 +24800,8 @@ msgstr "Usa el MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1869
 #: src/onlineresources/resourcewidget.cpp:49 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:792
-#: src/project/dialogs/archivewidget.cpp:1217
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:790
+#: src/project/dialogs/archivewidget.cpp:1298
 #, kde-format
 msgid "Abort"
 msgstr "Interromp"
@@ -25129,131 +25128,131 @@ msgstr "Carpeta dels clips"
 msgid "Applying fixes…"
 msgstr "S'estan aplicant correccions…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:254
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:255
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "S'està comprovant si manquen elements…"
 
-#: src/doc/documentchecker.cpp:198
+#: src/doc/documentchecker.cpp:199
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "L'ID del document del projecte no era vàlid, se n'ha creat un de nou."
 
-#: src/doc/documentchecker.cpp:1886
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Video clip"
 msgstr "Clip de vídeo"
 
-#: src/doc/documentchecker.cpp:1888
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip de presentació de diapositives"
 
-#: src/doc/documentchecker.cpp:1890
+#: src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Image clip"
 msgstr "Clip d'imatge"
 
-#: src/doc/documentchecker.cpp:1892
+#: src/doc/documentchecker.cpp:1893
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip de llista de reproducció"
 
-#: src/doc/documentchecker.cpp:1894 src/doc/documentchecker.cpp:1910
+#: src/doc/documentchecker.cpp:1895 src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Title Image"
 msgstr "Imatge de títol"
 
-#: src/doc/documentchecker.cpp:1906
+#: src/doc/documentchecker.cpp:1907
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1908
+#: src/doc/documentchecker.cpp:1909
 #, kde-format
 msgid "Title Font"
 msgstr "Lletra del títol"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Luma file"
 msgstr "Fitxer de luma"
 
-#: src/doc/documentchecker.cpp:1914
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Asset file"
 msgstr "Fitxer d'actius"
 
-#: src/doc/documentchecker.cpp:1916
+#: src/doc/documentchecker.cpp:1917
 #: src/mltcontroller/clippropertiescontroller.cpp:701
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip intermediari"
 
-#: src/doc/documentchecker.cpp:1920
+#: src/doc/documentchecker.cpp:1921
 #, kde-format
 msgid "Transition"
 msgstr "Transició"
 
-#: src/doc/documentchecker.cpp:1922
+#: src/doc/documentchecker.cpp:1923
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Un clip no referenciat"
 
-#: src/doc/documentchecker.cpp:1924
+#: src/doc/documentchecker.cpp:1925
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Seqüència corrupta"
 
-#: src/doc/documentchecker.cpp:1934
+#: src/doc/documentchecker.cpp:1935
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Corregit"
 
-#: src/doc/documentchecker.cpp:1936
+#: src/doc/documentchecker.cpp:1937
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Torna a carregar"
 
-#: src/doc/documentchecker.cpp:1938
+#: src/doc/documentchecker.cpp:1939
 #, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "Remot"
 
-#: src/doc/documentchecker.cpp:1940
+#: src/doc/documentchecker.cpp:1941
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Manca"
 
-#: src/doc/documentchecker.cpp:1942
+#: src/doc/documentchecker.cpp:1943
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Manca, però hi ha disponible un intermediari"
 
-#: src/doc/documentchecker.cpp:1944
+#: src/doc/documentchecker.cpp:1945
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Marcador de posició"
 
-#: src/doc/documentchecker.cpp:1946
+#: src/doc/documentchecker.cpp:1947
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Elimina"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1958
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "El fitxer del projecte conté clips o fitxers que manquen."
 
-#: src/doc/documentchecker.cpp:1960
+#: src/doc/documentchecker.cpp:1961
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Els intermediaris que manquen es poden tornar a crear en obrir."
@@ -25480,7 +25479,7 @@ msgid "Error moving project folder: %1"
 msgstr "Error en moure la carpeta del projecte: %1"
 
 #: src/doc/kdenlivedoc.cpp:1135 src/doc/kdenlivedoc.cpp:2582
-#: src/project/dialogs/archivewidget.cpp:248
+#: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
@@ -31113,70 +31112,70 @@ msgstr "Altres clips"
 msgid "Luma Files"
 msgstr "Fitxers de luma"
 
-#: src/project/dialogs/archivewidget.cpp:220
+#: src/project/dialogs/archivewidget.cpp:232
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Manca %1 clip en el projecte."
 msgstr[1] "Manquen %1 clips en el projecte."
 
-#: src/project/dialogs/archivewidget.cpp:244
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:256
+#: src/project/dialogs/archivewidget.cpp:1436
+#: src/project/dialogs/archivewidget.cpp:1501
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 element)"
 msgstr[1] "(%1 elements)"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:1439
+#: src/project/dialogs/archivewidget.cpp:1504
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 fitxer per a arxivar, es requereix %2"
 msgstr[1] "%1 fitxers per a arxivar, es requereix %2"
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:338
+#: src/project/dialogs/archivewidget.cpp:263
+#: src/project/dialogs/archivewidget.cpp:350
 #, kde-format
 msgid "Archive"
 msgstr "Arxiu"
 
-#: src/project/dialogs/archivewidget.cpp:262
-#: src/project/dialogs/archivewidget.cpp:811
+#: src/project/dialogs/archivewidget.cpp:274
+#: src/project/dialogs/archivewidget.cpp:839
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "S'ha produït un error en processar el fitxer de projecte"
 
-#: src/project/dialogs/archivewidget.cpp:269
+#: src/project/dialogs/archivewidget.cpp:281
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Deseu el projecte abans del seu arxivat"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:317
 #, kde-format
 msgid "Extract to"
 msgstr "Extreu a"
 
-#: src/project/dialogs/archivewidget.cpp:306
+#: src/project/dialogs/archivewidget.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Obre un projecte arxivat"
 
-#: src/project/dialogs/archivewidget.cpp:308
+#: src/project/dialogs/archivewidget.cpp:320
 #, kde-format
 msgid "Extract"
 msgstr "Extreu"
 
-#: src/project/dialogs/archivewidget.cpp:343
+#: src/project/dialogs/archivewidget.cpp:355
 #, kde-format
 msgid "Opening archive…"
 msgstr "S'està obrint l'arxiu…"
 
-#: src/project/dialogs/archivewidget.cpp:353
+#: src/project/dialogs/archivewidget.cpp:365
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -31185,7 +31184,7 @@ msgstr ""
 "No s'ha pogut obrir el fitxer d'arxiu:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:370
+#: src/project/dialogs/archivewidget.cpp:382
 #, kde-format
 msgid ""
 "File %1\n"
@@ -31194,88 +31193,89 @@ msgstr ""
 "El fitxer %1\n"
 " no és un projecte arxivat del Kdenlive"
 
-#: src/project/dialogs/archivewidget.cpp:376
+#: src/project/dialogs/archivewidget.cpp:388
 #, kde-format
 msgid "Ready"
 msgstr "Preparat"
 
-#: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:412
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "S'està arxivant; voleu aturar el procés?"
 
-#: src/project/dialogs/archivewidget.cpp:400
-#: src/project/dialogs/archivewidget.cpp:401
+#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:413
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Atura l'arxivament"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:602
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Espai disponible al disc: %1"
 
-#: src/project/dialogs/archivewidget.cpp:593
+#: src/project/dialogs/archivewidget.cpp:605
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "No hi ha prou espai al disc, l'espai lliure és: %1"
 
-#: src/project/dialogs/archivewidget.cpp:608
+#: src/project/dialogs/archivewidget.cpp:620
 #, kde-format
 msgid "Starting archive job"
 msgstr "S'està iniciant el treball d'arxivat"
 
-#: src/project/dialogs/archivewidget.cpp:629
+#: src/project/dialogs/archivewidget.cpp:641
 #, kde-format
 msgid "Archiving…"
 msgstr "S'està arxivant…"
 
-#: src/project/dialogs/archivewidget.cpp:659
-#: src/project/dialogs/archivewidget.cpp:697
-#: src/project/dialogs/archivewidget.cpp:784
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/dialogs/archivewidget.cpp:671
+#: src/project/dialogs/archivewidget.cpp:782
+#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:1295
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "No s'ha pogut crear el directori %1"
 
-#: src/project/dialogs/archivewidget.cpp:685
-#: src/project/dialogs/archivewidget.cpp:764
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:762
 #, kde-format
 msgid "Copying %1"
 msgstr "S'està copiant %1"
 
-#: src/project/dialogs/archivewidget.cpp:690
-#: src/project/dialogs/archivewidget.cpp:861
+#: src/project/dialogs/archivewidget.cpp:801
+#: src/project/dialogs/archivewidget.cpp:898
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "No s'ha pogut crear el fitxer temporal"
 
-#: src/project/dialogs/archivewidget.cpp:809
+#: src/project/dialogs/archivewidget.cpp:837
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "El projecte s'ha arxivat correctament."
 
-#: src/project/dialogs/archivewidget.cpp:819
+#: src/project/dialogs/archivewidget.cpp:847
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "S'ha produït un error en copiar els fitxers: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1131
+#: src/project/dialogs/archivewidget.cpp:1212
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "No s'ha pogut obrir el fitxer d'arxiu %1"
 
-#: src/project/dialogs/archivewidget.cpp:1148
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Archiving %1"
 msgstr "S'està arxivant %1"
 
-#: src/project/dialogs/archivewidget.cpp:1154
+#: src/project/dialogs/archivewidget.cpp:1235
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "No s'ha pogut copiar el fitxer %1 a %2."
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1265
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -31284,27 +31284,27 @@ msgstr ""
 "El projecte s'ha arxivat correctament.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "Unknown Error"
 msgstr "Error desconegut"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "S'ha produït un error en arxivar el projecte: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:1297
 #, kde-format
 msgid "Extracting…"
 msgstr "S'està extraient…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "No s'ha pogut obrir el fitxer de projecte %1"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open file"
 msgstr "No s'ha pogut obrir el fitxer"
@@ -35266,7 +35266,7 @@ msgstr "Aquest clip de títol s'ha creat amb una mida de fotograma diferent."
 msgid "Title Profile"
 msgstr "Perfil del títol"
 
-#: src/titler/titledocument.cpp:463
+#: src/titler/titledocument.cpp:464
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35278,7 +35278,7 @@ msgstr ""
 "convertiran a mida en píxels, fent-los portables, però haureu d'ajustar la "
 "seva mida."
 
-#: src/titler/titledocument.cpp:466
+#: src/titler/titledocument.cpp:467
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Clips de text actualitzats"

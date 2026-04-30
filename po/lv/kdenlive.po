@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:44+0000\n"
+"POT-Creation-Date: 2026-04-30 00:43+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -12070,8 +12070,8 @@ msgstr "Ja ierasta aptumšošana neizskatās pietiekami dabiski, pamēģiniet š
 #. i18n: ectx: property (text), widget (QPushButton, resetProxyParams)
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:634
-#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:632
+#: src/dialogs/Splash.qml:1024 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16980,7 +16980,7 @@ msgstr "SoX"
 msgid "Process audio using a SoX effect"
 msgstr "Apstrādāt audio, izmantojot „SoX“ efektu"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1918
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1919
 #: src/monitor/view/MonitorSplit.qml:103
 #, kde-format
 msgid "Effect"
@@ -17640,12 +17640,12 @@ msgstr "Beigu amplitūda"
 msgid "Wave Amplitude"
 msgstr "Viļņu amplitūda"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:841
 #, kde-format
 msgid "Horizontal"
 msgstr "Horizontāli"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:888
 #, kde-format
 msgid "Vertical"
 msgstr "Vertikāli"
@@ -19448,7 +19448,7 @@ msgid "Enter the name of this preset:"
 msgstr "Ievadiet šī priekšiestatījuma nosaukumu:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:405
+#: src/project/dialogs/archivewidget.cpp:417
 #, kde-format
 msgid "Abort processing"
 msgstr "Atcelt apstrādi"
@@ -21400,8 +21400,8 @@ msgstr "Pārvietot subtitru"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
-#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:909
+#: src/project/dialogs/archivewidget.cpp:919 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -21607,8 +21607,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "Lietojums"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1896
-#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1948
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1927 src/doc/documentchecker.cpp:1949
 #: src/mltcontroller/clipcontroller.cpp:537
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -22487,11 +22487,11 @@ msgstr "Eksportēt palīgnorāžu datus"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:702
-#: src/project/dialogs/archivewidget.cpp:706
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:902
-#: src/project/dialogs/archivewidget.cpp:908
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:817
+#: src/project/dialogs/archivewidget.cpp:927
+#: src/project/dialogs/archivewidget.cpp:939
+#: src/project/dialogs/archivewidget.cpp:945
 #: src/project/projectmanager.cpp:1981 src/project/projectmanager.cpp:1987
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
@@ -23159,7 +23159,7 @@ msgid "Transcode"
 msgstr "Transkodēt"
 
 #: src/dialogs/renderwidget.cpp:966 src/dialogs/renderwidget.cpp:1995
-#: src/project/dialogs/archivewidget.cpp:896
+#: src/project/dialogs/archivewidget.cpp:933
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Izvades datne jau eksistē. Vai vēlaties to pārrakstīt?"
@@ -23881,12 +23881,12 @@ msgstr ""
 "Šo opciju izmantojiet tikai tad, ja sistēmas grafikas\n"
 "karte nav pareizi noteikta vai nestrādā ar šo spraudni."
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:191
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:189
 #, kde-format
 msgid "Made by KDE"
 msgstr "Izveidoja KDE"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:602 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:600 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -23909,14 +23909,14 @@ msgstr "Atiestatīt konfigurāciju"
 msgid "Start Normally"
 msgstr "Sākuma krāsa"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:661
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:659
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:678
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:676
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -24561,161 +24561,161 @@ msgstr "Jorubu"
 msgid "Zulu"
 msgstr "zulu"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K UHD 2160"
 msgid "4K UHD 3840x2160"
 msgstr "4K UHD 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K DCI 2160"
 msgid "4K DCI 4096x2160"
 msgstr "4K DCI 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "2.5K QHD 1440"
 msgid "2.5K QHD 2560x1440"
 msgstr "2,5K QHD 1440"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1920x1080"
 msgstr "Pilns HD 1080"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "HD 1280x720"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC Wide 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD PAL Wide 720x576"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "720x576"
 msgid "SD PAL 720x576"
 msgstr "720×576"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1080x1920"
 msgstr "Pilns HD 1080"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "HD 720"
 msgid "HD 720x1280"
 msgstr "HD 720"
 
-#: src/dialogs/Splash.qml:25
+#: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "23.98 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "24 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "25 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "29.97 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "30 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "50 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "59.94 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "60 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:258
+#: src/dialogs/Splash.qml:256
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "Arhivēt projektu…"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:283
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "Atvērt dokumentu"
 
-#: src/dialogs/Splash.qml:293
+#: src/dialogs/Splash.qml:291
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr ""
 
-#: src/dialogs/Splash.qml:399
+#: src/dialogs/Splash.qml:397
 #, fuzzy, kde-format
 #| msgid "Remove from favorites"
 msgid "Remove file from list"
 msgstr "Noņemt no iecienītajiem"
 
-#: src/dialogs/Splash.qml:427
+#: src/dialogs/Splash.qml:425
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "Arhivēt projektu…"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:453
 #, fuzzy, kde-format
 #| msgid "Test Proxy Profiles"
 msgid "New From Profile"
 msgstr "Pārbaudīt starpniekprofilus"
 
-#: src/dialogs/Splash.qml:464
+#: src/dialogs/Splash.qml:462
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:553
+#: src/dialogs/Splash.qml:551
 #, fuzzy, kde-format
 #| msgid "Request option from list"
 msgid "Remove profile from list"
 msgstr "Pieprasīt opciju no saraksta"
 
-#: src/dialogs/Splash.qml:592
+#: src/dialogs/Splash.qml:590
 #, fuzzy, kde-format
 #| msgid "Go to Zone Start"
 msgid "Show on Startup"
 msgstr "Iet uz apgabala sākumu"
 
-#: src/dialogs/Splash.qml:625 src/dialogs/Splash.qml:1016
+#: src/dialogs/Splash.qml:623 src/dialogs/Splash.qml:1014
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -24725,45 +24725,45 @@ msgstr ""
 "„Kdenlive“ avarēja iepriekšējā palaišanas reizē.\n"
 "Vai vēlaties atiestatīt konfigurācijas datnes?"
 
-#: src/dialogs/Splash.qml:706
+#: src/dialogs/Splash.qml:704
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:711
+#: src/dialogs/Splash.qml:709
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:717
+#: src/dialogs/Splash.qml:715
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:768
+#: src/dialogs/Splash.qml:766
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "Laipni lūdzam programmā „Kdenlive“ %1"
 
-#: src/dialogs/Splash.qml:774
+#: src/dialogs/Splash.qml:772
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:786
+#: src/dialogs/Splash.qml:784
 #, fuzzy, kde-format
 #| msgid "Change default project profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "Mainīt projektu noklusējuma profilu"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:901 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Izšķirtspēja"
 
-#: src/dialogs/Splash.qml:930
+#: src/dialogs/Splash.qml:928
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -24771,7 +24771,7 @@ msgstr "Kadru ātrums:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:956
+#: src/dialogs/Splash.qml:954
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24780,31 +24780,31 @@ msgstr "Kadru ātrums:"
 msgid "Interlaced"
 msgstr "Ar rindpārlēci"
 
-#: src/dialogs/Splash.qml:975
+#: src/dialogs/Splash.qml:973
 #, fuzzy, kde-format
 #| msgid "Video tracks:"
 msgid "Video Tracks"
 msgstr "Video celiņi:"
 
-#: src/dialogs/Splash.qml:984
+#: src/dialogs/Splash.qml:982
 #, fuzzy, kde-format
 #| msgid "Audio tracks:"
 msgid "Audio Tracks"
 msgstr "Audio celiņi:"
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:995
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1043
+#: src/dialogs/Splash.qml:1041
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Online documentation"
 msgid "Check Online Documentation"
 msgstr "Tiešsaistes dokumentācija"
 
-#: src/dialogs/Splash.qml:1052
+#: src/dialogs/Splash.qml:1050
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -25378,8 +25378,8 @@ msgstr "Izmanto MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1869
 #: src/onlineresources/resourcewidget.cpp:49 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:792
-#: src/project/dialogs/archivewidget.cpp:1217
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:790
+#: src/project/dialogs/archivewidget.cpp:1298
 #, kde-format
 msgid "Abort"
 msgstr "Atcelt"
@@ -25709,138 +25709,138 @@ msgstr "Klipu mape"
 msgid "Applying fixes…"
 msgstr "Pielieto labojumus…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:254
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:255
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Pārbauda trūkstošos vienumus…"
 
-#: src/doc/documentchecker.cpp:198
+#: src/doc/documentchecker.cpp:199
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Jūsu projekta dokumenta ID ir nederīgs, tāpēc ir izveidots jauns."
 
-#: src/doc/documentchecker.cpp:1886
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklips"
 
-#: src/doc/documentchecker.cpp:1888
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Slīdrādes klips"
 
-#: src/doc/documentchecker.cpp:1890
+#: src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Image clip"
 msgstr "Attēla klips"
 
-#: src/doc/documentchecker.cpp:1892
+#: src/doc/documentchecker.cpp:1893
 #, kde-format
 msgid "Playlist clip"
 msgstr "Repertuāra klips"
 
-#: src/doc/documentchecker.cpp:1894 src/doc/documentchecker.cpp:1910
+#: src/doc/documentchecker.cpp:1895 src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Title Image"
 msgstr "Titru attēls"
 
-#: src/doc/documentchecker.cpp:1906
+#: src/doc/documentchecker.cpp:1907
 #, kde-format
 msgid "Clip"
 msgstr "Klips"
 
-#: src/doc/documentchecker.cpp:1908
+#: src/doc/documentchecker.cpp:1909
 #, kde-format
 msgid "Title Font"
 msgstr "Titru fonts"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Luma file"
 msgstr "Spožuma datne"
 
-#: src/doc/documentchecker.cpp:1914
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Asset file"
 msgstr "Resursu datne"
 
-#: src/doc/documentchecker.cpp:1916
+#: src/doc/documentchecker.cpp:1917
 #: src/mltcontroller/clippropertiescontroller.cpp:701
 #, kde-format
 msgid "Proxy clip"
 msgstr "Starpniekklips"
 
-#: src/doc/documentchecker.cpp:1920
+#: src/doc/documentchecker.cpp:1921
 #, kde-format
 msgid "Transition"
 msgstr "Pāreja"
 
-#: src/doc/documentchecker.cpp:1922
+#: src/doc/documentchecker.cpp:1923
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Klips bez atsauces"
 
-#: src/doc/documentchecker.cpp:1924
+#: src/doc/documentchecker.cpp:1925
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Bojāta sekvence"
 
-#: src/doc/documentchecker.cpp:1934
+#: src/doc/documentchecker.cpp:1935
 #, fuzzy, kde-format
 #| msgid "Fixed"
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Labots"
 
-#: src/doc/documentchecker.cpp:1936
+#: src/doc/documentchecker.cpp:1937
 #, fuzzy, kde-format
 #| msgid "Reload"
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Pārlādēt"
 
-#: src/doc/documentchecker.cpp:1938
+#: src/doc/documentchecker.cpp:1939
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "Noņemt"
 
-#: src/doc/documentchecker.cpp:1940
+#: src/doc/documentchecker.cpp:1941
 #, fuzzy, kde-format
 #| msgid "Missing"
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Trūkst"
 
-#: src/doc/documentchecker.cpp:1942
+#: src/doc/documentchecker.cpp:1943
 #, fuzzy, kde-format
 #| msgid "Missing, but proxy available"
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Trūkst, bet pieejams starpniekklips"
 
-#: src/doc/documentchecker.cpp:1944
+#: src/doc/documentchecker.cpp:1945
 #, fuzzy, kde-format
 #| msgid "Placeholder"
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Vietturis"
 
-#: src/doc/documentchecker.cpp:1946
+#: src/doc/documentchecker.cpp:1947
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Noņemt"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1958
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projekta datne satur trūkstošus klipus vai datnes."
 
-#: src/doc/documentchecker.cpp:1960
+#: src/doc/documentchecker.cpp:1961
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Trūkstoši starpnieki var tikt izveidoti no jauna pēc atvēršanas."
@@ -26061,7 +26061,7 @@ msgid "Error moving project folder: %1"
 msgstr "Kļūda, pārvietojot projekta mapi: %1"
 
 #: src/doc/kdenlivedoc.cpp:1135 src/doc/kdenlivedoc.cpp:2582
-#: src/project/dialogs/archivewidget.cpp:248
+#: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "Bez nosaukuma"
@@ -31752,7 +31752,7 @@ msgstr "Citi klipi"
 msgid "Luma Files"
 msgstr "Spožuma datnes"
 
-#: src/project/dialogs/archivewidget.cpp:220
+#: src/project/dialogs/archivewidget.cpp:232
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
@@ -31760,9 +31760,9 @@ msgstr[0] "Jūsu projektā ir %1 trūkstošs klips."
 msgstr[1] "Jūsu projektā ir %1 trūkstoši klipi."
 msgstr[2] "Jūsu projektā ir %1 trūkstošu klipu."
 
-#: src/project/dialogs/archivewidget.cpp:244
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:256
+#: src/project/dialogs/archivewidget.cpp:1436
+#: src/project/dialogs/archivewidget.cpp:1501
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -31770,9 +31770,9 @@ msgstr[0] "(%1 vienums)"
 msgstr[1] "(%1 vienumi)"
 msgstr[2] "(%1 vienumu)"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:1439
+#: src/project/dialogs/archivewidget.cpp:1504
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -31780,45 +31780,45 @@ msgstr[0] "%1 datne arhivēšanai, nepieciešams %2"
 msgstr[1] "%1 datnes arhivēšanai, nepieciešams %2"
 msgstr[2] "%1 datņu arhivēšanai, nepieciešams %2"
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:338
+#: src/project/dialogs/archivewidget.cpp:263
+#: src/project/dialogs/archivewidget.cpp:350
 #, kde-format
 msgid "Archive"
 msgstr "Arhīvs"
 
-#: src/project/dialogs/archivewidget.cpp:262
-#: src/project/dialogs/archivewidget.cpp:811
+#: src/project/dialogs/archivewidget.cpp:274
+#: src/project/dialogs/archivewidget.cpp:839
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Ir kļūda, apstrādājot projekta datni"
 
-#: src/project/dialogs/archivewidget.cpp:269
+#: src/project/dialogs/archivewidget.cpp:281
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Saglabājiet projektu pirms tā arhivēšanas"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:317
 #, kde-format
 msgid "Extract to"
 msgstr "Atspiest uz"
 
-#: src/project/dialogs/archivewidget.cpp:306
+#: src/project/dialogs/archivewidget.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Atvērt arhivētu projektu"
 
-#: src/project/dialogs/archivewidget.cpp:308
+#: src/project/dialogs/archivewidget.cpp:320
 #, kde-format
 msgid "Extract"
 msgstr "Atspiest"
 
-#: src/project/dialogs/archivewidget.cpp:343
+#: src/project/dialogs/archivewidget.cpp:355
 #, kde-format
 msgid "Opening archive…"
 msgstr "Atver arhīvu…"
 
-#: src/project/dialogs/archivewidget.cpp:353
+#: src/project/dialogs/archivewidget.cpp:365
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -31827,7 +31827,7 @@ msgstr ""
 "Nevar atvērt arhīva datni:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:370
+#: src/project/dialogs/archivewidget.cpp:382
 #, kde-format
 msgid ""
 "File %1\n"
@@ -31836,88 +31836,89 @@ msgstr ""
 "Datne „%1“\n"
 " nav arhivēts „Kdenlive“ projekts"
 
-#: src/project/dialogs/archivewidget.cpp:376
+#: src/project/dialogs/archivewidget.cpp:388
 #, kde-format
 msgid "Ready"
 msgstr "Gatavs"
 
-#: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:412
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Notiek arhivēšana, vai vēlaties to apturēt?"
 
-#: src/project/dialogs/archivewidget.cpp:400
-#: src/project/dialogs/archivewidget.cpp:401
+#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:413
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Apturēt arhivēšanu"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:602
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Pieejamā vieta diskā: %1"
 
-#: src/project/dialogs/archivewidget.cpp:593
+#: src/project/dialogs/archivewidget.cpp:605
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Diskā nepietiek vietas. Brīvā vieta: %1"
 
-#: src/project/dialogs/archivewidget.cpp:608
+#: src/project/dialogs/archivewidget.cpp:620
 #, kde-format
 msgid "Starting archive job"
 msgstr "Sāk arhivēšanas darbu"
 
-#: src/project/dialogs/archivewidget.cpp:629
+#: src/project/dialogs/archivewidget.cpp:641
 #, kde-format
 msgid "Archiving…"
 msgstr "Arhivē…"
 
-#: src/project/dialogs/archivewidget.cpp:659
-#: src/project/dialogs/archivewidget.cpp:697
-#: src/project/dialogs/archivewidget.cpp:784
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/dialogs/archivewidget.cpp:671
+#: src/project/dialogs/archivewidget.cpp:782
+#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:1295
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Nevar izveidot mapi „%1“"
 
-#: src/project/dialogs/archivewidget.cpp:685
-#: src/project/dialogs/archivewidget.cpp:764
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:762
 #, kde-format
 msgid "Copying %1"
 msgstr "Kopē „%1“"
 
-#: src/project/dialogs/archivewidget.cpp:690
-#: src/project/dialogs/archivewidget.cpp:861
+#: src/project/dialogs/archivewidget.cpp:801
+#: src/project/dialogs/archivewidget.cpp:898
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Nevar izveidot pagaidu datni"
 
-#: src/project/dialogs/archivewidget.cpp:809
+#: src/project/dialogs/archivewidget.cpp:837
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Projekts ir veiksmīgi arhivēts."
 
-#: src/project/dialogs/archivewidget.cpp:819
+#: src/project/dialogs/archivewidget.cpp:847
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Kļūda, kopējot datnes: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1131
+#: src/project/dialogs/archivewidget.cpp:1212
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Nevar atvērt arhīva datni „%1“"
 
-#: src/project/dialogs/archivewidget.cpp:1148
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Archiving %1"
 msgstr "Arhivē „%1“"
 
-#: src/project/dialogs/archivewidget.cpp:1154
+#: src/project/dialogs/archivewidget.cpp:1235
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Nevar nokopēt datni „%1“ uz „%2“"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1265
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -31926,27 +31927,27 @@ msgstr ""
 "Projekts ir veiksmīgi arhivēts.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "Unknown Error"
 msgstr "Nezināma kļūda"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Arhivējot projektu, radās kļūda: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:1297
 #, kde-format
 msgid "Extracting…"
 msgstr "Atspiež…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Nevar atvērt projekta datni „%1“"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open file"
 msgstr "Nevar atvērt datni"
@@ -35913,7 +35914,7 @@ msgstr "Šis titru klips ir izveidots ar atšķirību rāmja izmēru."
 msgid "Title Profile"
 msgstr "Titru profils"
 
-#: src/titler/titledocument.cpp:463
+#: src/titler/titledocument.cpp:464
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35925,7 +35926,7 @@ msgstr ""
 "pikseļu izmērā, lai būtu pārvietojami starp ierīcēm, tomēr jums var būt "
 "nepieciešamība koriģēt to izmēru."
 
-#: src/titler/titledocument.cpp:466
+#: src/titler/titledocument.cpp:467
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Teksta klipi ir atjaunināti"

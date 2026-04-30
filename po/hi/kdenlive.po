@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:44+0000\n"
+"POT-Creation-Date: 2026-04-30 00:43+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -11682,8 +11682,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetProxyParams)
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:634
-#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:632
+#: src/dialogs/Splash.qml:1024 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16523,7 +16523,7 @@ msgstr ""
 msgid "Process audio using a SoX effect"
 msgstr ""
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1918
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1919
 #: src/monitor/view/MonitorSplit.qml:103
 #, kde-format
 msgid "Effect"
@@ -17206,12 +17206,12 @@ msgstr "अंत आयाम"
 msgid "Wave Amplitude"
 msgstr "तरंग आयाम"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:841
 #, kde-format
 msgid "Horizontal"
 msgstr "क्षैतिज"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:888
 #, kde-format
 msgid "Vertical"
 msgstr "खड़ा"
@@ -19047,7 +19047,7 @@ msgid "Enter the name of this preset:"
 msgstr "इस प्रीसेट का नाम दर्ज करें:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:405
+#: src/project/dialogs/archivewidget.cpp:417
 #, kde-format
 msgid "Abort processing"
 msgstr "प्रसंस्करण निरस्त करें"
@@ -20999,8 +20999,8 @@ msgstr "उपशीर्षक ले जाएँ"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
-#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:909
+#: src/project/dialogs/archivewidget.cpp:919 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -21204,8 +21204,8 @@ msgstr "पहचान"
 msgid "Usage"
 msgstr "प्रयोग"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1896
-#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1948
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1927 src/doc/documentchecker.cpp:1949
 #: src/mltcontroller/clipcontroller.cpp:537
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -22080,11 +22080,11 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:702
-#: src/project/dialogs/archivewidget.cpp:706
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:902
-#: src/project/dialogs/archivewidget.cpp:908
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:817
+#: src/project/dialogs/archivewidget.cpp:927
+#: src/project/dialogs/archivewidget.cpp:939
+#: src/project/dialogs/archivewidget.cpp:945
 #: src/project/projectmanager.cpp:1981 src/project/projectmanager.cpp:1987
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
@@ -22752,7 +22752,7 @@ msgid "Transcode"
 msgstr "ट्रांसकोड"
 
 #: src/dialogs/renderwidget.cpp:966 src/dialogs/renderwidget.cpp:1995
-#: src/project/dialogs/archivewidget.cpp:896
+#: src/project/dialogs/archivewidget.cpp:933
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "आउटपुट फ़ाइल पहले से मौजूद है। क्या आप इसे अधिलेखित करना चाहते हैं?"
@@ -23467,12 +23467,12 @@ msgid ""
 "is not correctly detected or not working with this plugin."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:191
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:189
 #, kde-format
 msgid "Made by KDE"
 msgstr "केडीई द्वारा निर्मित"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:602 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:600 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "केडेनलाइव"
@@ -23495,14 +23495,14 @@ msgstr "कॉन्फ़िगरेशन रीसेट करें"
 msgid "Start Normally"
 msgstr "पहला रंग"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:661
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:659
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:678
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:676
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -24146,161 +24146,161 @@ msgstr "योरूबा"
 msgid "Zulu"
 msgstr "ज़ुलु"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K UHD 2160"
 msgid "4K UHD 3840x2160"
 msgstr "4के यूएचडी 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K DCI 2160"
 msgid "4K DCI 4096x2160"
 msgstr "4K डीसीआई 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "2.5K QHD 1440"
 msgid "2.5K QHD 2560x1440"
 msgstr "2.5K क्यूएचडी 1440"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1920x1080"
 msgstr "पूर्ण HD 1080"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "HD 1280x720"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC Wide 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD PAL Wide 720x576"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "720x576"
 msgid "SD PAL 720x576"
 msgstr "720x576"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1080x1920"
 msgstr "पूर्ण HD 1080"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "HD 720"
 msgid "HD 720x1280"
 msgstr "एचडी 720"
 
-#: src/dialogs/Splash.qml:25
+#: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "23.98 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "24 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "25 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "29.97 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "30 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "50 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "59.94 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "60 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:258
+#: src/dialogs/Splash.qml:256
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "पुरालेख परियोजना…"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:283
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "दस्तावेज़ खोलें"
 
-#: src/dialogs/Splash.qml:293
+#: src/dialogs/Splash.qml:291
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr ""
 
-#: src/dialogs/Splash.qml:399
+#: src/dialogs/Splash.qml:397
 #, fuzzy, kde-format
 #| msgid "Remove from favorites"
 msgid "Remove file from list"
 msgstr "पसंदीदा से हटाएं"
 
-#: src/dialogs/Splash.qml:427
+#: src/dialogs/Splash.qml:425
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "पुरालेख परियोजना…"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:453
 #, fuzzy, kde-format
 #| msgid "Test Proxy Profiles"
 msgid "New From Profile"
 msgstr "प्रॉक्सी प्रोफाइल का परीक्षण करें"
 
-#: src/dialogs/Splash.qml:464
+#: src/dialogs/Splash.qml:462
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:553
+#: src/dialogs/Splash.qml:551
 #, fuzzy, kde-format
 #| msgid "Request option from list"
 msgid "Remove profile from list"
 msgstr "सूची से विकल्प का अनुरोध करें"
 
-#: src/dialogs/Splash.qml:592
+#: src/dialogs/Splash.qml:590
 #, fuzzy, kde-format
 #| msgid "Go to Zone Start"
 msgid "Show on Startup"
 msgstr "ज़ोन प्रारंभ पर जाएँ"
 
-#: src/dialogs/Splash.qml:625 src/dialogs/Splash.qml:1016
+#: src/dialogs/Splash.qml:623 src/dialogs/Splash.qml:1014
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -24310,45 +24310,45 @@ msgstr ""
 "Kdenlive पिछले स्टार्टअप पर क्रैश हो गया। क्या आप कॉन्फ़िगरेशन फ़ाइलों को रीसेट करना "
 "चाहते हैं?"
 
-#: src/dialogs/Splash.qml:706
+#: src/dialogs/Splash.qml:704
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:711
+#: src/dialogs/Splash.qml:709
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:717
+#: src/dialogs/Splash.qml:715
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:768
+#: src/dialogs/Splash.qml:766
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "केडेनलाइव%1 में आपका स्वागत है"
 
-#: src/dialogs/Splash.qml:774
+#: src/dialogs/Splash.qml:772
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:786
+#: src/dialogs/Splash.qml:784
 #, fuzzy, kde-format
 #| msgid "Change default project profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "डिफ़ॉल्ट प्रोजेक्ट प्रोफ़ाइल बदलें"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:901 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "संकल्प"
 
-#: src/dialogs/Splash.qml:930
+#: src/dialogs/Splash.qml:928
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -24356,7 +24356,7 @@ msgstr "फ्रेम रेट:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:956
+#: src/dialogs/Splash.qml:954
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24365,31 +24365,31 @@ msgstr "फ्रेम रेट:"
 msgid "Interlaced"
 msgstr "interlaced"
 
-#: src/dialogs/Splash.qml:975
+#: src/dialogs/Splash.qml:973
 #, fuzzy, kde-format
 #| msgid "Video tracks:"
 msgid "Video Tracks"
 msgstr "वीडियो ट्रैक:"
 
-#: src/dialogs/Splash.qml:984
+#: src/dialogs/Splash.qml:982
 #, fuzzy, kde-format
 #| msgid "Audio tracks:"
 msgid "Audio Tracks"
 msgstr "ऑडियो ट्रैक:"
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:995
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1043
+#: src/dialogs/Splash.qml:1041
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Online documentation"
 msgid "Check Online Documentation"
 msgstr "ऑनलाइन दस्तावेज़ीकरण"
 
-#: src/dialogs/Splash.qml:1052
+#: src/dialogs/Splash.qml:1050
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -24958,8 +24958,8 @@ msgstr "MLT %1 का उपयोग करना"
 
 #: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1869
 #: src/onlineresources/resourcewidget.cpp:49 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:792
-#: src/project/dialogs/archivewidget.cpp:1217
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:790
+#: src/project/dialogs/archivewidget.cpp:1298
 #, kde-format
 msgid "Abort"
 msgstr "बीच में बंद करें"
@@ -25270,138 +25270,138 @@ msgstr "क्लिप्स फ़ोल्डर"
 msgid "Applying fixes…"
 msgstr "सुधार लागू किए जा रहे हैं…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:254
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:255
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "गुम वस्तुओं की जांच की जा रही है…"
 
-#: src/doc/documentchecker.cpp:198
+#: src/doc/documentchecker.cpp:199
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "आपके प्रोजेक्ट की दस्तावेज़ आईडी अमान्य थी, एक नई आईडी बना दी गई है."
 
-#: src/doc/documentchecker.cpp:1886
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Video clip"
 msgstr "वीडियो क्लिप"
 
-#: src/doc/documentchecker.cpp:1888
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Slideshow clip"
 msgstr "स्लाइड शो क्लिप"
 
-#: src/doc/documentchecker.cpp:1890
+#: src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Image clip"
 msgstr "छवि क्लिप"
 
-#: src/doc/documentchecker.cpp:1892
+#: src/doc/documentchecker.cpp:1893
 #, kde-format
 msgid "Playlist clip"
 msgstr "प्लेलिस्ट क्लिप"
 
-#: src/doc/documentchecker.cpp:1894 src/doc/documentchecker.cpp:1910
+#: src/doc/documentchecker.cpp:1895 src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Title Image"
 msgstr "शीर्षक छवि"
 
-#: src/doc/documentchecker.cpp:1906
+#: src/doc/documentchecker.cpp:1907
 #, kde-format
 msgid "Clip"
 msgstr "क्लिप"
 
-#: src/doc/documentchecker.cpp:1908
+#: src/doc/documentchecker.cpp:1909
 #, kde-format
 msgid "Title Font"
 msgstr "टाइटल फ़ॉन्ट"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Luma file"
 msgstr "लूमा फ़ाइल"
 
-#: src/doc/documentchecker.cpp:1914
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Asset file"
 msgstr "संपत्ति फ़ाइल"
 
-#: src/doc/documentchecker.cpp:1916
+#: src/doc/documentchecker.cpp:1917
 #: src/mltcontroller/clippropertiescontroller.cpp:701
 #, kde-format
 msgid "Proxy clip"
 msgstr "प्रॉक्सी क्लिप"
 
-#: src/doc/documentchecker.cpp:1920
+#: src/doc/documentchecker.cpp:1921
 #, kde-format
 msgid "Transition"
 msgstr "संक्रमण"
 
-#: src/doc/documentchecker.cpp:1922
+#: src/doc/documentchecker.cpp:1923
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "असंबद्ध क्लिप"
 
-#: src/doc/documentchecker.cpp:1924
+#: src/doc/documentchecker.cpp:1925
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "दूषित अनुक्रम"
 
-#: src/doc/documentchecker.cpp:1934
+#: src/doc/documentchecker.cpp:1935
 #, fuzzy, kde-format
 #| msgid "Fixed"
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "तय"
 
-#: src/doc/documentchecker.cpp:1936
+#: src/doc/documentchecker.cpp:1937
 #, fuzzy, kde-format
 #| msgid "Reload"
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "पुनः लोड करें"
 
-#: src/doc/documentchecker.cpp:1938
+#: src/doc/documentchecker.cpp:1939
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "निकालना"
 
-#: src/doc/documentchecker.cpp:1940
+#: src/doc/documentchecker.cpp:1941
 #, fuzzy, kde-format
 #| msgid "Missing"
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "गुम"
 
-#: src/doc/documentchecker.cpp:1942
+#: src/doc/documentchecker.cpp:1943
 #, fuzzy, kde-format
 #| msgid "Missing, but proxy available"
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "अनुपलब्ध, लेकिन प्रॉक्सी उपलब्ध है"
 
-#: src/doc/documentchecker.cpp:1944
+#: src/doc/documentchecker.cpp:1945
 #, fuzzy, kde-format
 #| msgid "Placeholder"
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "प्लेसहोल्डर"
 
-#: src/doc/documentchecker.cpp:1946
+#: src/doc/documentchecker.cpp:1947
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "निकालना"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1958
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "प्रोजेक्ट फ़ाइल में क्लिप या फ़ाइलें गायब हैं."
 
-#: src/doc/documentchecker.cpp:1960
+#: src/doc/documentchecker.cpp:1961
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "गुम हुए प्रॉक्सी को खोलने पर पुनः बनाया जा सकता है।"
@@ -25617,7 +25617,7 @@ msgid "Error moving project folder: %1"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाते समय त्रुटि: %1"
 
 #: src/doc/kdenlivedoc.cpp:1135 src/doc/kdenlivedoc.cpp:2582
-#: src/project/dialogs/archivewidget.cpp:248
+#: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "शीर्षकहीन"
@@ -31312,70 +31312,70 @@ msgstr "अन्य क्लिप्स"
 msgid "Luma Files"
 msgstr "लूमा फ़ाइलें"
 
-#: src/project/dialogs/archivewidget.cpp:220
+#: src/project/dialogs/archivewidget.cpp:232
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "आपके प्रोजेक्ट में %1 क्लिप गायब हैं."
 msgstr[1] "आपके प्रोजेक्ट में %1 क्लिप गायब हैं."
 
-#: src/project/dialogs/archivewidget.cpp:244
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:256
+#: src/project/dialogs/archivewidget.cpp:1436
+#: src/project/dialogs/archivewidget.cpp:1501
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 आइटम)"
 msgstr[1] "(%1 आइटम)"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:1439
+#: src/project/dialogs/archivewidget.cpp:1504
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 फ़ाइलें संग्रहित करने के लिए, %2 की आवश्यकता है"
 msgstr[1] "%1 फ़ाइलें संग्रहित करने के लिए, %2 की आवश्यकता है"
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:338
+#: src/project/dialogs/archivewidget.cpp:263
+#: src/project/dialogs/archivewidget.cpp:350
 #, kde-format
 msgid "Archive"
 msgstr "पुरालेख"
 
-#: src/project/dialogs/archivewidget.cpp:262
-#: src/project/dialogs/archivewidget.cpp:811
+#: src/project/dialogs/archivewidget.cpp:274
+#: src/project/dialogs/archivewidget.cpp:839
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "प्रोजेक्ट फ़ाइल संसाधित करते समय एक त्रुटि हुई"
 
-#: src/project/dialogs/archivewidget.cpp:269
+#: src/project/dialogs/archivewidget.cpp:281
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "कृपया संग्रहित करने से पहले अपना प्रोजेक्ट सुरक्षित कर लें"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:317
 #, kde-format
 msgid "Extract to"
 msgstr "में उद्धरण करना"
 
-#: src/project/dialogs/archivewidget.cpp:306
+#: src/project/dialogs/archivewidget.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "संग्रहित परियोजना खोलें"
 
-#: src/project/dialogs/archivewidget.cpp:308
+#: src/project/dialogs/archivewidget.cpp:320
 #, kde-format
 msgid "Extract"
 msgstr "निकालना"
 
-#: src/project/dialogs/archivewidget.cpp:343
+#: src/project/dialogs/archivewidget.cpp:355
 #, kde-format
 msgid "Opening archive…"
 msgstr "पुरालेख खोला जा रहा है…"
 
-#: src/project/dialogs/archivewidget.cpp:353
+#: src/project/dialogs/archivewidget.cpp:365
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -31384,7 +31384,7 @@ msgstr ""
 "संग्रह फ़ाइल नहीं खोली जा सकती:\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:370
+#: src/project/dialogs/archivewidget.cpp:382
 #, kde-format
 msgid ""
 "File %1\n"
@@ -31393,88 +31393,89 @@ msgstr ""
 "फ़ाइल %1\n"
 "एक संग्रहीत Kdenlive प्रोजेक्ट नहीं है"
 
-#: src/project/dialogs/archivewidget.cpp:376
+#: src/project/dialogs/archivewidget.cpp:388
 #, kde-format
 msgid "Ready"
 msgstr "तैयार"
 
-#: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:412
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "संग्रहण कार्य प्रगति पर है, क्या आप इसे रोकना चाहते हैं?"
 
-#: src/project/dialogs/archivewidget.cpp:400
-#: src/project/dialogs/archivewidget.cpp:401
+#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:413
 #, kde-format
 msgid "Stop Archiving"
 msgstr "संग्रह करना रोकें"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:602
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "ड्राइव पर उपलब्ध स्थान: %1"
 
-#: src/project/dialogs/archivewidget.cpp:593
+#: src/project/dialogs/archivewidget.cpp:605
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "ड्राइव पर पर्याप्त स्थान नहीं है, रिक्त स्थान: %1"
 
-#: src/project/dialogs/archivewidget.cpp:608
+#: src/project/dialogs/archivewidget.cpp:620
 #, kde-format
 msgid "Starting archive job"
 msgstr "संग्रह कार्य प्रारंभ करना"
 
-#: src/project/dialogs/archivewidget.cpp:629
+#: src/project/dialogs/archivewidget.cpp:641
 #, kde-format
 msgid "Archiving…"
 msgstr "संग्रहित किया जा रहा है…"
 
-#: src/project/dialogs/archivewidget.cpp:659
-#: src/project/dialogs/archivewidget.cpp:697
-#: src/project/dialogs/archivewidget.cpp:784
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/dialogs/archivewidget.cpp:671
+#: src/project/dialogs/archivewidget.cpp:782
+#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:1295
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "निर्देशिका %1 नहीं बनाई जा सकती"
 
-#: src/project/dialogs/archivewidget.cpp:685
-#: src/project/dialogs/archivewidget.cpp:764
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:762
 #, kde-format
 msgid "Copying %1"
 msgstr "%1 की प्रतिलिपि बनाई जा रही है"
 
-#: src/project/dialogs/archivewidget.cpp:690
-#: src/project/dialogs/archivewidget.cpp:861
+#: src/project/dialogs/archivewidget.cpp:801
+#: src/project/dialogs/archivewidget.cpp:898
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "अस्थायी फ़ाइल नहीं बनाई जा सकती"
 
-#: src/project/dialogs/archivewidget.cpp:809
+#: src/project/dialogs/archivewidget.cpp:837
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "परियोजना सफलतापूर्वक संग्रहीत की गई."
 
-#: src/project/dialogs/archivewidget.cpp:819
+#: src/project/dialogs/archivewidget.cpp:847
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "फ़ाइलें कॉपी करते समय एक त्रुटि हुई: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1131
+#: src/project/dialogs/archivewidget.cpp:1212
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "संग्रह फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/project/dialogs/archivewidget.cpp:1148
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Archiving %1"
 msgstr "संग्रहित किया जा रहा है%1"
 
-#: src/project/dialogs/archivewidget.cpp:1154
+#: src/project/dialogs/archivewidget.cpp:1235
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "फ़ाइल %1 को %2 में कॉपी नहीं किया जा सकता."
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1265
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -31483,27 +31484,27 @@ msgstr ""
 "प्रोजेक्ट सफलतापूर्वक संग्रहीत किया गया।\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "Unknown Error"
 msgstr "अज्ञात त्रुटि"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "प्रोजेक्ट संग्रहित करते समय एक त्रुटि हुई: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:1297
 #, kde-format
 msgid "Extracting…"
 msgstr "निकाला जा रहा है…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "प्रोजेक्ट फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open file"
 msgstr "फ़ाइल नहीं खुल रही"
@@ -35437,7 +35438,7 @@ msgstr "यह शीर्षक क्लिप एक अलग फ्रे�
 msgid "Title Profile"
 msgstr "शीर्षक प्रोफ़ाइल"
 
-#: src/titler/titledocument.cpp:463
+#: src/titler/titledocument.cpp:464
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35448,7 +35449,7 @@ msgstr ""
 "पर अलग-अलग आकार। उन्हें पिक्सेल आकार में परिवर्तित किया जाएगा, जिससे वे पोर्टेबल हो "
 "जाएंगे, लेकिन आपको उनका आकार समायोजित करना पड़ सकता है।"
 
-#: src/titler/titledocument.cpp:466
+#: src/titler/titledocument.cpp:467
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "टेक्स्ट क्लिप अपडेट किए गए"

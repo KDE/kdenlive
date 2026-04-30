@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 00:44+0000\n"
+"POT-Creation-Date: 2026-04-30 00:43+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -11249,8 +11249,8 @@ msgstr "如果普通暗化不夠自然，試試看這個。"
 #. i18n: ectx: property (text), widget (QPushButton, resetProxyParams)
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:634
-#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:632
+#: src/dialogs/Splash.qml:1024 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -15741,7 +15741,7 @@ msgstr ""
 msgid "Process audio using a SoX effect"
 msgstr "Sox 低音聲訊特效"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1918
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1919
 #: src/monitor/view/MonitorSplit.qml:103
 #, kde-format
 msgid "Effect"
@@ -16394,12 +16394,12 @@ msgstr "結束振幅"
 msgid "Wave Amplitude"
 msgstr "波形振幅"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:841
 #, kde-format
 msgid "Horizontal"
 msgstr "水平"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:888
 #, kde-format
 msgid "Vertical"
 msgstr "垂直"
@@ -18179,7 +18179,7 @@ msgid "Enter the name of this preset:"
 msgstr "輸入此預設檔的名稱："
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:405
+#: src/project/dialogs/archivewidget.cpp:417
 #, kde-format
 msgid "Abort processing"
 msgstr "中止處理"
@@ -20070,8 +20070,8 @@ msgstr "移動字幕"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
-#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:909
+#: src/project/dialogs/archivewidget.cpp:919 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -20266,8 +20266,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "用量"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1896
-#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1948
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1927 src/doc/documentchecker.cpp:1949
 #: src/mltcontroller/clipcontroller.cpp:537
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -21127,11 +21127,11 @@ msgstr "匯出標記資料"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:702
-#: src/project/dialogs/archivewidget.cpp:706
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:902
-#: src/project/dialogs/archivewidget.cpp:908
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:817
+#: src/project/dialogs/archivewidget.cpp:927
+#: src/project/dialogs/archivewidget.cpp:939
+#: src/project/dialogs/archivewidget.cpp:945
 #: src/project/projectmanager.cpp:1981 src/project/projectmanager.cpp:1987
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
@@ -21781,7 +21781,7 @@ msgid "Transcode"
 msgstr "轉換編碼"
 
 #: src/dialogs/renderwidget.cpp:966 src/dialogs/renderwidget.cpp:1995
-#: src/project/dialogs/archivewidget.cpp:896
+#: src/project/dialogs/archivewidget.cpp:933
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "匯出檔案已經存在。您是否要覆寫它?"
@@ -22486,12 +22486,12 @@ msgid ""
 "is not correctly detected or not working with this plugin."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:191
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:189
 #, kde-format
 msgid "Made by KDE"
 msgstr "由 KDE 製作"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:602 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:600 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22514,14 +22514,14 @@ msgstr "重設設定"
 msgid "Start Normally"
 msgstr "開始色彩"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:661
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:659
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:678
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:676
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -23169,161 +23169,161 @@ msgstr "優魯巴語"
 msgid "Zulu"
 msgstr "祖魯語"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K UHD 2160"
 msgid "4K UHD 3840x2160"
 msgstr "4K UHD 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K DCI 2160"
 msgid "4K DCI 4096x2160"
 msgstr "4K DCI 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "2.5K QHD 1440"
 msgid "2.5K QHD 2560x1440"
 msgstr "2.5K QHD 1440"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1920x1080"
 msgstr "Full HD 1080"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "HD 1280x720"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC Wide 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD PAL Wide 720x576"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "720x576"
 msgid "SD PAL 720x576"
 msgstr "720x576"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1080x1920"
 msgstr "Full HD 1080"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "HD 720"
 msgid "HD 720x1280"
 msgstr "HD 720"
 
-#: src/dialogs/Splash.qml:25
+#: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "23.98 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "24 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "25 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "29.97 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "30 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "50 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "59.94 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, kde-format
 msgid "60 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:258
+#: src/dialogs/Splash.qml:256
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "封存專案…"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:283
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "開啟檔案"
 
-#: src/dialogs/Splash.qml:293
+#: src/dialogs/Splash.qml:291
 #, fuzzy, kde-format
 #| msgid "Render Project"
 msgid "Clear History of Recent Projects"
 msgstr "渲染(導出)設定"
 
-#: src/dialogs/Splash.qml:399
+#: src/dialogs/Splash.qml:397
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove file from list"
 msgstr "移除檔案"
 
-#: src/dialogs/Splash.qml:427
+#: src/dialogs/Splash.qml:425
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "封存專案…"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:453
 #, fuzzy, kde-format
 #| msgid "Test Proxy Profiles"
 msgid "New From Profile"
 msgstr "測試代理設定檔"
 
-#: src/dialogs/Splash.qml:464
+#: src/dialogs/Splash.qml:462
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:553
+#: src/dialogs/Splash.qml:551
 #, fuzzy, kde-format
 #| msgid "Request option from list"
 msgid "Remove profile from list"
 msgstr "從列表請求選項"
 
-#: src/dialogs/Splash.qml:592
+#: src/dialogs/Splash.qml:590
 #, fuzzy, kde-format
 msgid "Show on Startup"
 msgstr "隱藏幀"
 
-#: src/dialogs/Splash.qml:625 src/dialogs/Splash.qml:1016
+#: src/dialogs/Splash.qml:623 src/dialogs/Splash.qml:1014
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -23333,45 +23333,45 @@ msgstr ""
 "Kdenlive 上次啟動時崩潰了。\n"
 "您要重設設定檔案嗎？"
 
-#: src/dialogs/Splash.qml:706
+#: src/dialogs/Splash.qml:704
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:711
+#: src/dialogs/Splash.qml:709
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:717
+#: src/dialogs/Splash.qml:715
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:768
+#: src/dialogs/Splash.qml:766
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "歡迎來到 Kdenlive %1"
 
-#: src/dialogs/Splash.qml:774
+#: src/dialogs/Splash.qml:772
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:786
+#: src/dialogs/Splash.qml:784
 #, fuzzy, kde-format
 #| msgid "Change default project profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "變更預設專案編碼方案"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:901 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "解析度"
 
-#: src/dialogs/Splash.qml:930
+#: src/dialogs/Splash.qml:928
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -23379,7 +23379,7 @@ msgstr "幀率："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:956
+#: src/dialogs/Splash.qml:954
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23388,30 +23388,30 @@ msgstr "幀率："
 msgid "Interlaced"
 msgstr "交錯式"
 
-#: src/dialogs/Splash.qml:975
+#: src/dialogs/Splash.qml:973
 #, fuzzy, kde-format
 #| msgid "Video tracks"
 msgid "Video Tracks"
 msgstr "視訊軌"
 
-#: src/dialogs/Splash.qml:984
+#: src/dialogs/Splash.qml:982
 #, kde-format
 msgid "Audio Tracks"
 msgstr "聲訊軌"
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:995
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1043
+#: src/dialogs/Splash.qml:1041
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Online documentation"
 msgid "Check Online Documentation"
 msgstr "線上說明文件"
 
-#: src/dialogs/Splash.qml:1052
+#: src/dialogs/Splash.qml:1050
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -23970,8 +23970,8 @@ msgstr "使用 MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1869
 #: src/onlineresources/resourcewidget.cpp:49 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:792
-#: src/project/dialogs/archivewidget.cpp:1217
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:790
+#: src/project/dialogs/archivewidget.cpp:1298
 #, kde-format
 msgid "Abort"
 msgstr "中止"
@@ -24262,132 +24262,132 @@ msgstr "素材資料夾"
 msgid "Applying fixes…"
 msgstr "正在套用修正…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:254
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:255
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "正在檢查缺乏項目…"
 
-#: src/doc/documentchecker.cpp:198
+#: src/doc/documentchecker.cpp:199
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "您的專案的文件 ID 是無效的，已建立一個新的。"
 
-#: src/doc/documentchecker.cpp:1886
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Video clip"
 msgstr "視訊素材"
 
-#: src/doc/documentchecker.cpp:1888
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Slideshow clip"
 msgstr "幻燈片素材"
 
-#: src/doc/documentchecker.cpp:1890
+#: src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Image clip"
 msgstr "圖片素材"
 
-#: src/doc/documentchecker.cpp:1892
+#: src/doc/documentchecker.cpp:1893
 #, kde-format
 msgid "Playlist clip"
 msgstr "播放清單素材"
 
-#: src/doc/documentchecker.cpp:1894 src/doc/documentchecker.cpp:1910
+#: src/doc/documentchecker.cpp:1895 src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Title Image"
 msgstr "字幕 / 標題圖片"
 
-#: src/doc/documentchecker.cpp:1906
+#: src/doc/documentchecker.cpp:1907
 #, kde-format
 msgid "Clip"
 msgstr "素材"
 
-#: src/doc/documentchecker.cpp:1908
+#: src/doc/documentchecker.cpp:1909
 #, kde-format
 msgid "Title Font"
 msgstr "標題字型"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Luma file"
 msgstr "Luma 檔案"
 
-#: src/doc/documentchecker.cpp:1914
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Asset file"
 msgstr "資源檔案"
 
-#: src/doc/documentchecker.cpp:1916
+#: src/doc/documentchecker.cpp:1917
 #: src/mltcontroller/clippropertiescontroller.cpp:701
 #, kde-format
 msgid "Proxy clip"
 msgstr "代理素材"
 
-#: src/doc/documentchecker.cpp:1920
+#: src/doc/documentchecker.cpp:1921
 #, kde-format
 msgid "Transition"
 msgstr "轉場特效"
 
-#: src/doc/documentchecker.cpp:1922
+#: src/doc/documentchecker.cpp:1923
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "未參照的素材"
 
-#: src/doc/documentchecker.cpp:1924
+#: src/doc/documentchecker.cpp:1925
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "已毀損的序列"
 
-#: src/doc/documentchecker.cpp:1934
+#: src/doc/documentchecker.cpp:1935
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "已修正"
 
-#: src/doc/documentchecker.cpp:1936
+#: src/doc/documentchecker.cpp:1937
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "重新載入"
 
-#: src/doc/documentchecker.cpp:1938
+#: src/doc/documentchecker.cpp:1939
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "移除"
 
-#: src/doc/documentchecker.cpp:1940
+#: src/doc/documentchecker.cpp:1941
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "遺失"
 
-#: src/doc/documentchecker.cpp:1942
+#: src/doc/documentchecker.cpp:1943
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "遺失，但代理可用"
 
-#: src/doc/documentchecker.cpp:1944
+#: src/doc/documentchecker.cpp:1945
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "佔位"
 
-#: src/doc/documentchecker.cpp:1946
+#: src/doc/documentchecker.cpp:1947
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "移除"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1958
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "專案檔包含遺失的素材或檔案。"
 
-#: src/doc/documentchecker.cpp:1960
+#: src/doc/documentchecker.cpp:1961
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "遺失的代理可以在開啟時重新產生。"
@@ -24600,7 +24600,7 @@ msgid "Error moving project folder: %1"
 msgstr "移動專案資料夾時發生錯誤：%1"
 
 #: src/doc/kdenlivedoc.cpp:1135 src/doc/kdenlivedoc.cpp:2582
-#: src/project/dialogs/archivewidget.cpp:248
+#: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "無標題"
@@ -30107,67 +30107,67 @@ msgstr "其他素材"
 msgid "Luma Files"
 msgstr "Luma 檔案"
 
-#: src/project/dialogs/archivewidget.cpp:220
+#: src/project/dialogs/archivewidget.cpp:232
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "專案中有 %1 個遺失的素材。"
 
-#: src/project/dialogs/archivewidget.cpp:244
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:256
+#: src/project/dialogs/archivewidget.cpp:1436
+#: src/project/dialogs/archivewidget.cpp:1501
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "（%1 個項目）"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:1439
+#: src/project/dialogs/archivewidget.cpp:1504
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "要封存 %1 個檔案，需要 %2"
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:338
+#: src/project/dialogs/archivewidget.cpp:263
+#: src/project/dialogs/archivewidget.cpp:350
 #, kde-format
 msgid "Archive"
 msgstr "封存"
 
-#: src/project/dialogs/archivewidget.cpp:262
-#: src/project/dialogs/archivewidget.cpp:811
+#: src/project/dialogs/archivewidget.cpp:274
+#: src/project/dialogs/archivewidget.cpp:839
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "處理專案檔時發生錯誤"
 
-#: src/project/dialogs/archivewidget.cpp:269
+#: src/project/dialogs/archivewidget.cpp:281
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "請在封存前先儲存您的專案"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:317
 #, kde-format
 msgid "Extract to"
 msgstr "提取到"
 
-#: src/project/dialogs/archivewidget.cpp:306
+#: src/project/dialogs/archivewidget.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "開啟已封存的專案"
 
-#: src/project/dialogs/archivewidget.cpp:308
+#: src/project/dialogs/archivewidget.cpp:320
 #, kde-format
 msgid "Extract"
 msgstr "提取"
 
-#: src/project/dialogs/archivewidget.cpp:343
+#: src/project/dialogs/archivewidget.cpp:355
 #, kde-format
 msgid "Opening archive…"
 msgstr "正在開啟封存…"
 
-#: src/project/dialogs/archivewidget.cpp:353
+#: src/project/dialogs/archivewidget.cpp:365
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -30176,7 +30176,7 @@ msgstr ""
 "無法開啟封存檔：\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:370
+#: src/project/dialogs/archivewidget.cpp:382
 #, kde-format
 msgid ""
 "File %1\n"
@@ -30185,88 +30185,89 @@ msgstr ""
 "檔案 %1\n"
 "不是一個已封存的 Kdenlive 專案"
 
-#: src/project/dialogs/archivewidget.cpp:376
+#: src/project/dialogs/archivewidget.cpp:388
 #, kde-format
 msgid "Ready"
 msgstr "已就緒"
 
-#: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:412
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "封存進行中，您要中止它嗎？"
 
-#: src/project/dialogs/archivewidget.cpp:400
-#: src/project/dialogs/archivewidget.cpp:401
+#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:413
 #, kde-format
 msgid "Stop Archiving"
 msgstr "停止封存"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:602
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "磁碟上可用空間：%1"
 
-#: src/project/dialogs/archivewidget.cpp:593
+#: src/project/dialogs/archivewidget.cpp:605
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "磁碟上空間不足。可用空間：%1"
 
-#: src/project/dialogs/archivewidget.cpp:608
+#: src/project/dialogs/archivewidget.cpp:620
 #, kde-format
 msgid "Starting archive job"
 msgstr "正在開始封存工作"
 
-#: src/project/dialogs/archivewidget.cpp:629
+#: src/project/dialogs/archivewidget.cpp:641
 #, kde-format
 msgid "Archiving…"
 msgstr "封存中…"
 
-#: src/project/dialogs/archivewidget.cpp:659
-#: src/project/dialogs/archivewidget.cpp:697
-#: src/project/dialogs/archivewidget.cpp:784
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/dialogs/archivewidget.cpp:671
+#: src/project/dialogs/archivewidget.cpp:782
+#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:1295
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "無法建立目錄 %1"
 
-#: src/project/dialogs/archivewidget.cpp:685
-#: src/project/dialogs/archivewidget.cpp:764
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:762
 #, kde-format
 msgid "Copying %1"
 msgstr "正在複製 %1"
 
-#: src/project/dialogs/archivewidget.cpp:690
-#: src/project/dialogs/archivewidget.cpp:861
+#: src/project/dialogs/archivewidget.cpp:801
+#: src/project/dialogs/archivewidget.cpp:898
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "無法建立暫存檔"
 
-#: src/project/dialogs/archivewidget.cpp:809
+#: src/project/dialogs/archivewidget.cpp:837
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "專案已成功封存。"
 
-#: src/project/dialogs/archivewidget.cpp:819
+#: src/project/dialogs/archivewidget.cpp:847
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "複製檔案時發生錯誤：%1"
 
-#: src/project/dialogs/archivewidget.cpp:1131
+#: src/project/dialogs/archivewidget.cpp:1212
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "無法開啟封存檔 %1 "
 
-#: src/project/dialogs/archivewidget.cpp:1148
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Archiving %1"
 msgstr "正在封存 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1154
+#: src/project/dialogs/archivewidget.cpp:1235
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "無法將檔案 %1 複製到 %2。"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1265
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -30275,27 +30276,27 @@ msgstr ""
 "專案已成功封存。\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "Unknown Error"
 msgstr "未知的錯誤"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "封存專案時發生錯誤：%1"
 
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:1297
 #, kde-format
 msgid "Extracting…"
 msgstr "提取中…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "無法開啟專案檔案 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open file"
 msgstr "無法開啟檔案"
@@ -34123,7 +34124,7 @@ msgstr "這個標題素材是在不同大小的畫面中建立的。"
 msgid "Title Profile"
 msgstr "字幕 / 標題編碼方案"
 
-#: src/titler/titledocument.cpp:463
+#: src/titler/titledocument.cpp:464
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -34134,7 +34135,7 @@ msgstr ""
 "將被轉換為像素大小，以確保不同顯示器上大小相同，但您可能還會需要再調整它們的"
 "大小。"
 
-#: src/titler/titledocument.cpp:466
+#: src/titler/titledocument.cpp:467
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "文字素材已更新"
