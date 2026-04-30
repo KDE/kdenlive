@@ -31,7 +31,7 @@
         <key>LSMinimumSystemVersion</key>
         <string>13.0</string>
         <key>NSMicrophoneUsageDescription</key>
-        <string>Kdenlive can record audio on when user requests it.</string>
+        <string>Kdenlive can record audio when user requests it.</string>
         <key>LSApplicationCategoryType</key>
         <string>public.app-category.video</string>
         <key>CSResourcesFileMapped</key>
