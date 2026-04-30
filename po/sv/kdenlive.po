@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-29 02:44+0000\n"
+"POT-Creation-Date: 2026-04-30 02:38+0000\n"
 "PO-Revision-Date: 2025-10-26 20:50+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -12346,8 +12346,8 @@ msgstr "Om normal dämpning inte ser nog naturlig ut, prova med den här."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:634
-#: src/dialogs/Splash.qml:1026 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:632
+#: src/dialogs/Splash.qml:1024 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -17845,12 +17845,12 @@ msgstr "Slutamplitud"
 msgid "Wave Amplitude"
 msgstr "Vågamplitud"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:843
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:841
 #, kde-format
 msgid "Horizontal"
 msgstr "Horisontell"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:890
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:888
 #, kde-format
 msgid "Vertical"
 msgstr "Vertikal"
@@ -19644,7 +19644,7 @@ msgid "Enter the name of this preset:"
 msgstr "Ange namnet på förinställningen:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:405
+#: src/project/dialogs/archivewidget.cpp:417
 #, kde-format
 msgid "Abort processing"
 msgstr "Avbryt behandling"
@@ -21569,8 +21569,8 @@ msgstr "Flytta textning"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:734
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
-#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:909
+#: src/project/dialogs/archivewidget.cpp:919 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -22615,11 +22615,11 @@ msgstr "Exportera markördata"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:189
-#: src/project/dialogs/archivewidget.cpp:702
-#: src/project/dialogs/archivewidget.cpp:706
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:902
-#: src/project/dialogs/archivewidget.cpp:908
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:817
+#: src/project/dialogs/archivewidget.cpp:927
+#: src/project/dialogs/archivewidget.cpp:939
+#: src/project/dialogs/archivewidget.cpp:945
 #: src/project/projectmanager.cpp:1981 src/project/projectmanager.cpp:1987
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
@@ -23282,7 +23282,7 @@ msgid "Transcode"
 msgstr "Omkoda"
 
 #: src/dialogs/renderwidget.cpp:966 src/dialogs/renderwidget.cpp:1995
-#: src/project/dialogs/archivewidget.cpp:896
+#: src/project/dialogs/archivewidget.cpp:933
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Utdatafilen finns redan. Vill du skriva över den?"
@@ -23995,12 +23995,12 @@ msgstr ""
 "Använd endast installationsalternativet om grafikprocessorn inte "
 "identifieras korrekt eller inte fungerar med insticksprogrammet."
 
-#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:191
+#: src/dialogs/Simplesplash.qml:120 src/dialogs/Splash.qml:189
 #, kde-format
 msgid "Made by KDE"
 msgstr "Tillverkat av KDE"
 
-#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:602 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:148 src/dialogs/Splash.qml:600 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -24023,14 +24023,14 @@ msgstr "Nollställ inställning"
 msgid "Start Normally"
 msgstr "Startfärg"
 
-#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:661
+#: src/dialogs/Simplesplash.qml:227 src/dialogs/Splash.qml:659
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:678
+#: src/dialogs/Simplesplash.qml:242 src/dialogs/Splash.qml:676
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -24675,167 +24675,167 @@ msgstr "Yoruba"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K UHD 2160"
 msgid "4K UHD 3840x2160"
 msgstr "4K UHD 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "4K DCI 2160"
 msgid "4K DCI 4096x2160"
 msgstr "4K DCI 2160"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "2.5K QHD 1440"
 msgid "2.5K QHD 2560x1440"
 msgstr "2.5K QHD 1440"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1920x1080"
 msgstr "Full HD 1080"
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "HD 1280x720"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC Wide 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD NTSC 720x480"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, kde-format
 msgid "SD PAL Wide 720x576"
 msgstr ""
 
-#: src/dialogs/Splash.qml:23
+#: src/dialogs/Splash.qml:21
 #, fuzzy, kde-format
 #| msgid "720x576"
 msgid "SD PAL 720x576"
 msgstr "720 x 576"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "Full HD 1080"
 msgid "Full HD 1080x1920"
 msgstr "Full HD 1080"
 
-#: src/dialogs/Splash.qml:24
+#: src/dialogs/Splash.qml:22
 #, fuzzy, kde-format
 #| msgid "HD 720"
 msgid "HD 720x1280"
 msgstr "HD 720"
 
-#: src/dialogs/Splash.qml:25
+#: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "23.98 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, fuzzy, kde-format
 #| msgid "%1 fps"
 msgid "24 fps"
 msgstr "%1 b/s"
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, fuzzy, kde-format
 #| msgid "%1 fps"
 msgid "25 fps"
 msgstr "%1 b/s"
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "29.97 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, fuzzy, kde-format
 #| msgid "%1 fps"
 msgid "30 fps"
 msgstr "%1 b/s"
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, fuzzy, kde-format
 #| msgid "%1 fps"
 msgid "50 fps"
 msgstr "%1 b/s"
 
-#: src/dialogs/Splash.qml:26
+#: src/dialogs/Splash.qml:24
 #, kde-format
 msgid "59.94 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
+#: src/dialogs/Splash.qml:24 src/dialogs/Splash.qml:25
 #, fuzzy, kde-format
 #| msgid "%1 fps"
 msgid "60 fps"
 msgstr "%1 b/s"
 
-#: src/dialogs/Splash.qml:258
+#: src/dialogs/Splash.qml:256
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "Arkivera projekt…"
 
-#: src/dialogs/Splash.qml:285
+#: src/dialogs/Splash.qml:283
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "Öppna dokument"
 
-#: src/dialogs/Splash.qml:293
+#: src/dialogs/Splash.qml:291
 #, fuzzy, kde-format
 #| msgid "Recent Projects"
 msgid "Clear History of Recent Projects"
 msgstr "Senaste projekt"
 
-#: src/dialogs/Splash.qml:399
+#: src/dialogs/Splash.qml:397
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove file from list"
 msgstr "Ta bort fil"
 
-#: src/dialogs/Splash.qml:427
+#: src/dialogs/Splash.qml:425
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "Arkivera projekt…"
 
-#: src/dialogs/Splash.qml:455
+#: src/dialogs/Splash.qml:453
 #, fuzzy, kde-format
 #| msgid "Video Profile"
 msgid "New From Profile"
 msgstr "Videoprofil"
 
-#: src/dialogs/Splash.qml:464
+#: src/dialogs/Splash.qml:462
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:553
+#: src/dialogs/Splash.qml:551
 #, fuzzy, kde-format
 #| msgid "Request option from list"
 msgid "Remove profile from list"
 msgstr "Begärd alternativ från lista"
 
-#: src/dialogs/Splash.qml:592
+#: src/dialogs/Splash.qml:590
 #, fuzzy, kde-format
 #| msgid "Hide on startup"
 msgid "Show on Startup"
 msgstr "Dölj vid start"
 
-#: src/dialogs/Splash.qml:625 src/dialogs/Splash.qml:1016
+#: src/dialogs/Splash.qml:623 src/dialogs/Splash.qml:1014
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -24845,46 +24845,46 @@ msgstr ""
 "Kdenlive kraschade vid senaste start.\n"
 "Vill du nollställa inställningsfilerna?"
 
-#: src/dialogs/Splash.qml:706
+#: src/dialogs/Splash.qml:704
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:711
+#: src/dialogs/Splash.qml:709
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:717
+#: src/dialogs/Splash.qml:715
 #, fuzzy, kde-format
 #| msgid "Donate"
 msgid "Donate…"
 msgstr "Ge bidrag"
 
-#: src/dialogs/Splash.qml:768
+#: src/dialogs/Splash.qml:766
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "Välkommen till Kdenlive %1"
 
-#: src/dialogs/Splash.qml:774
+#: src/dialogs/Splash.qml:772
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:786
+#: src/dialogs/Splash.qml:784
 #, fuzzy, kde-format
 #| msgid "Default Profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "Förvald profil"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:903 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:901 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Upplösning"
 
-#: src/dialogs/Splash.qml:930
+#: src/dialogs/Splash.qml:928
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -24892,7 +24892,7 @@ msgstr "Bildhastighet:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:956
+#: src/dialogs/Splash.qml:954
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24901,31 +24901,31 @@ msgstr "Bildhastighet:"
 msgid "Interlaced"
 msgstr "Inflätad"
 
-#: src/dialogs/Splash.qml:975
+#: src/dialogs/Splash.qml:973
 #, fuzzy, kde-format
 #| msgid "Video tracks"
 msgid "Video Tracks"
 msgstr "Videospår"
 
-#: src/dialogs/Splash.qml:984
+#: src/dialogs/Splash.qml:982
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio Tracks"
 msgstr "Ljudspår"
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:995
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1043
+#: src/dialogs/Splash.qml:1041
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Online documentation"
 msgid "Check Online Documentation"
 msgstr "Dokumentation på nätet"
 
-#: src/dialogs/Splash.qml:1052
+#: src/dialogs/Splash.qml:1050
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -25512,8 +25512,8 @@ msgstr "Använder  MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/onlineresources/resourcewidget.cpp:49
 #: src/project/cliptranscode.cpp:192 src/project/cliptranscode.cpp:226
-#: src/project/dialogs/archivewidget.cpp:792
-#: src/project/dialogs/archivewidget.cpp:1217
+#: src/project/dialogs/archivewidget.cpp:790
+#: src/project/dialogs/archivewidget.cpp:1298
 #, kde-format
 msgid "Abort"
 msgstr "Avbryt"
@@ -26168,7 +26168,7 @@ msgid "Error moving project folder: %1"
 msgstr "Fel när projektkatalogen skulle flyttas: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2488
-#: src/project/dialogs/archivewidget.cpp:248
+#: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "Namnlös"
@@ -31698,70 +31698,70 @@ msgstr "Övriga klipp"
 msgid "Luma Files"
 msgstr "Luminansfiler"
 
-#: src/project/dialogs/archivewidget.cpp:220
+#: src/project/dialogs/archivewidget.cpp:232
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Det finns %1 saknat klipp i projektet."
 msgstr[1] "Det finns %1 saknade klipp i projektet."
 
-#: src/project/dialogs/archivewidget.cpp:244
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:256
+#: src/project/dialogs/archivewidget.cpp:1436
+#: src/project/dialogs/archivewidget.cpp:1501
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 objekt)"
 msgstr[1] "(%1 objekt)"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:1439
+#: src/project/dialogs/archivewidget.cpp:1504
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 fil att arkivera, kräver %2"
 msgstr[1] "%1 filer att arkivera, kräver %2"
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:338
+#: src/project/dialogs/archivewidget.cpp:263
+#: src/project/dialogs/archivewidget.cpp:350
 #, kde-format
 msgid "Archive"
 msgstr "Arkiv"
 
-#: src/project/dialogs/archivewidget.cpp:262
-#: src/project/dialogs/archivewidget.cpp:811
+#: src/project/dialogs/archivewidget.cpp:274
+#: src/project/dialogs/archivewidget.cpp:839
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Ett fel uppstod vid behandling av projektfil"
 
-#: src/project/dialogs/archivewidget.cpp:269
+#: src/project/dialogs/archivewidget.cpp:281
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Spara projektet innan arkivering"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:317
 #, kde-format
 msgid "Extract to"
 msgstr "Packa upp i"
 
-#: src/project/dialogs/archivewidget.cpp:306
+#: src/project/dialogs/archivewidget.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Öppna arkiverat projekt"
 
-#: src/project/dialogs/archivewidget.cpp:308
+#: src/project/dialogs/archivewidget.cpp:320
 #, kde-format
 msgid "Extract"
 msgstr "Packa upp"
 
-#: src/project/dialogs/archivewidget.cpp:343
+#: src/project/dialogs/archivewidget.cpp:355
 #, kde-format
 msgid "Opening archive…"
 msgstr "Öppnar arkiv…"
 
-#: src/project/dialogs/archivewidget.cpp:353
+#: src/project/dialogs/archivewidget.cpp:365
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -31770,7 +31770,7 @@ msgstr ""
 "Kan inte öppna arkivfil:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:370
+#: src/project/dialogs/archivewidget.cpp:382
 #, kde-format
 msgid ""
 "File %1\n"
@@ -31779,88 +31779,89 @@ msgstr ""
 "Filen %1\n"
 " är inte ett arkiverat Kdenlive-projekt"
 
-#: src/project/dialogs/archivewidget.cpp:376
+#: src/project/dialogs/archivewidget.cpp:388
 #, kde-format
 msgid "Ready"
 msgstr "Klar"
 
-#: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:412
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Arkivering pågår. Vill du stoppa den?"
 
-#: src/project/dialogs/archivewidget.cpp:400
-#: src/project/dialogs/archivewidget.cpp:401
+#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:413
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Stoppa arkivering"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:602
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Tillgängligt utrymme på enheten: %1"
 
-#: src/project/dialogs/archivewidget.cpp:593
+#: src/project/dialogs/archivewidget.cpp:605
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Inte tillräckligt med ledigt utrymme på enheten. Ledigt utrymme: %1"
 
-#: src/project/dialogs/archivewidget.cpp:608
+#: src/project/dialogs/archivewidget.cpp:620
 #, kde-format
 msgid "Starting archive job"
 msgstr "Startar arkiveringsjobb"
 
-#: src/project/dialogs/archivewidget.cpp:629
+#: src/project/dialogs/archivewidget.cpp:641
 #, kde-format
 msgid "Archiving…"
 msgstr "Arkiverar…"
 
-#: src/project/dialogs/archivewidget.cpp:659
-#: src/project/dialogs/archivewidget.cpp:697
-#: src/project/dialogs/archivewidget.cpp:784
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/dialogs/archivewidget.cpp:671
+#: src/project/dialogs/archivewidget.cpp:782
+#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:1295
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Kan inte skapa katalogen %1"
 
-#: src/project/dialogs/archivewidget.cpp:685
-#: src/project/dialogs/archivewidget.cpp:764
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:762
 #, kde-format
 msgid "Copying %1"
 msgstr "Kopierar %1"
 
-#: src/project/dialogs/archivewidget.cpp:690
-#: src/project/dialogs/archivewidget.cpp:861
+#: src/project/dialogs/archivewidget.cpp:801
+#: src/project/dialogs/archivewidget.cpp:898
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Kan inte skapa tillfällig fil"
 
-#: src/project/dialogs/archivewidget.cpp:809
+#: src/project/dialogs/archivewidget.cpp:837
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Projekt arkiverades med lyckat resultat."
 
-#: src/project/dialogs/archivewidget.cpp:819
+#: src/project/dialogs/archivewidget.cpp:847
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Ett fel uppstod vid kopiering av filerna: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1131
+#: src/project/dialogs/archivewidget.cpp:1212
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Kan inte öppna arkivfilen %1"
 
-#: src/project/dialogs/archivewidget.cpp:1148
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Archiving %1"
 msgstr "Arkiverar %1"
 
-#: src/project/dialogs/archivewidget.cpp:1154
+#: src/project/dialogs/archivewidget.cpp:1235
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Kan inte kopiera filen %1 till %2."
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1265
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -31869,27 +31870,27 @@ msgstr ""
 "Projekt arkiverades med lyckat resultat.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "Unknown Error"
 msgstr "Okänt fel"
 
-#: src/project/dialogs/archivewidget.cpp:1187
+#: src/project/dialogs/archivewidget.cpp:1268
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Ett fel uppstod vid arkivering av projektet: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:1297
 #, kde-format
 msgid "Extracting…"
 msgstr "Extraherar…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Kan inte öppna projektfil %1"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1356
 #, kde-format
 msgid "Cannot open file"
 msgstr "Kan inte öppna fil"
@@ -35703,7 +35704,7 @@ msgstr "Titelklippet skapades med en annan bildrutestorlek."
 msgid "Title Profile"
 msgstr "Titelprofil"
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35715,7 +35716,7 @@ msgstr ""
 "bildpunktsstorlek, vilket gör dem flyttbara, men du kan behöva justera deras "
 "storlek."
 
-#: src/titler/titledocument.cpp:465
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Textklipp uppdaterade"
