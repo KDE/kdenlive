@@ -2987,10 +2987,12 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
         if (clip == nullptr) {
             return;
         }
-        // We can only set zone after the clip is loaded
-        m_activateClipZoneInfo.clipId = clip->clipId();
-        m_activateClipZoneInfo.zone = zone;
-        m_activateClipZoneInfo.seekFrame = frame;
+        if (!zone.isNull()) {
+            // We can only set zone after the clip is loaded
+            m_activateClipZoneInfo.clipId = clip->clipId();
+            m_activateClipZoneInfo.zone = zone;
+            m_activateClipZoneInfo.seekFrame = frame;
+        }
         selectClip(clip);
         return;
     }
