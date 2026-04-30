@@ -14,6 +14,8 @@
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
+#include <KUrlRequester>
+#include <KUrlRequesterDialog>
 
 #include <QCryptographicHash>
 #include <QStandardPaths>
@@ -203,6 +205,20 @@ bool DocumentChecker::hasErrorInProject()
             storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
             storageFolder = ensureAbsolutePath(storageFolder);
             if (!storageFolder.isEmpty() && !QFile::exists(storageFolder)) {
+                // Storage folder not found, warn user and allow selecting a new one
+                KUrlRequesterDialog dlg(
+                    QUrl::fromLocalFile(projectDir.absolutePath()),
+                    i18n("The project's storage folder <b>%1</b> was not found. Please enter an updated location to store files for this project.",
+                         projectDir.absolutePath()),
+                    qApp->activeWindow());
+                dlg.urlRequester()->setAcceptMode(QFileDialog::AcceptOpen);
+                dlg.urlRequester()->setMode(KFile::ExistingOnly | KFile::Directory);
+                dlg.exec();
+                QUrl updatedProjectFolder = dlg.selectedUrl();
+                if (!updatedProjectFolder.isEmpty()) {
+                    projectDir = QDir(updatedProjectFolder.toLocalFile());
+                }
+
                 if (projectDir.mkpath(m_documentid)) {
                     // Move storage folder inside the document folder
                     storageFolder = projectDir.absolutePath();
@@ -1549,7 +1565,7 @@ void DocumentChecker::fixProxyClip(const QDomNodeList &items, const QString &id,
             timewarp = true;
             resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
         }
-        if (resource == oldUrl) {
+        if (ensureAbsolutePath(resource) == oldUrl) {
             if (timewarp) {
                 Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + ":" + newUrl);
                 Xml::setXmlProperty(e, QStringLiteral("warp_resource"), newUrl);

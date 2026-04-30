@@ -23,6 +23,7 @@ public:
 
     void removeItem(const QModelIndex &ix);
     void slotSearchRecursively(const QString &newpath);
+    void slotSearchProxyRecursively(const QString &newpath);
     void usePlaceholdersForMissing();
     void setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status, bool refresh = true);
     void setItemsFileHash(const QModelIndex &index, const QString &hash);

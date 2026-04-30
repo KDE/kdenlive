@@ -96,13 +96,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </layout>
     </widget>
    </item>
-   <item row="13" column="1" colspan="4">
-    <widget class="QCheckBox" name="recreateProxies">
-     <property name="text">
-      <string>Recreate missing proxies</string>
-     </property>
-    </widget>
-   </item>
    <item row="15" column="3" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
@@ -202,7 +195,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </spacer>
       </item>
+      <item>
+       <widget class="QPushButton" name="searchProxies">
+        <property name="text">
+         <string>Search Proxies</string>
+        </property>
+       </widget>
+      </item>
      </layout>
+    </widget>
+   </item>
+   <item row="14" column="2">
+    <widget class="QCheckBox" name="recreateProxies">
+     <property name="text">
+      <string>Recreate missing proxies</string>
+     </property>
     </widget>
    </item>
   </layout>

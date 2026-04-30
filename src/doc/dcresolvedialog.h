@@ -28,12 +28,10 @@ private:
     void slotEditCurrentItem();
     void checkStatus();
     void slotRecursiveSearch();
+    void slotRecursiveProxySearch();
     void setEnableChangeItems(bool enabled);
-    void initProxyPanel(const std::vector<DocumentChecker::DocumentResource> &items);
     void updateStatusLabel(int missingClips, int missingClipsWithProxy, int removedClips, int placeholderClips, int missingProxies, int recoverableProxies,
                            int remoteClips);
-
-    std::vector<DocumentChecker::DocumentResource> m_proxies;
 
 private Q_SLOTS:
     void newSelection(const QItemSelection &selected, const QItemSelection &deselected);
