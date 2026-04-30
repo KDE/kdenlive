@@ -178,8 +178,8 @@ void DCResolveDialog::updateStatusLabel(int missingClips, int missingClipsWithPr
                                         int recoverableProxies, int remoteClips)
 {
     if (remoteClips > 0) {
-        statusLabel->setText(i18n("This project want to load resources from internet.<br><b>This can be a security risk, abort loading</b> unless you fully "
-                                  "trust the remote resources."));
+        statusLabel->setText(i18n("This project is trying to load sources from the internet.<br> <b><i>This can pose a security risk</i></b>!<br> Abort "
+                                  "loading the project unless this is intentional and you fully trust the remote sources."));
         statusLabel->setMessageType(KMessageWidget::Error);
         statusLabel->show();
         return;
