@@ -67,6 +67,10 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     int duration = suggestedDuration > 0 ? qMin(suggestedDuration, defaultDuration) : defaultDuration;
     dia_ui.clip_duration->setValue(duration);
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
+    dia->setTabOrder(dia_ui.clip_name, dia_ui.clip_color);
+    dia->setTabOrder(dia_ui.clip_color, dia_ui.clip_duration);
+    dia->setTabOrder(dia_ui.clip_duration, dia_ui.buttonBox->button(QDialogButtonBox::Ok));
+    dia->setTabOrder(dia_ui.buttonBox->button(QDialogButtonBox::Ok), dia_ui.buttonBox->button(QDialogButtonBox::Cancel));
 
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
