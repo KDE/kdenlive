@@ -1094,8 +1094,7 @@ function getTrackColor(audio, header) {
                         }
                         if (clipBeingDroppedId > -1) {
                             drag.accepted=true
-                        }
-                        else {
+                        } else {
                             drag.accepted=false
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)

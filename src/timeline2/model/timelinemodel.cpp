@@ -2131,7 +2131,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                                              streamsToCreate);
     };
     if (((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) &&
-         (type == ClipType::AV || type == ClipType::Playlist || type == ClipType::Timeline || m_audioTarget.keys().size() > 1))) {
+         (type == ClipType::AV || type == ClipType::Playlist || type == ClipType::Timeline || m_audioTarget.size() > 1))) {
         bool useAudioTarget = false;
         if (useTargets && !m_audioTarget.isEmpty() && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio
@@ -2221,7 +2221,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     }
                 }
                 // Dropping video, ensure we have enough audio tracks for its streams
-                int mirror = getMirrorTrackId(trackId);
+                int mirror = hasAV ? getMirrorTrackId(trackId) : -1;
                 QList<int> audioTids = {};
                 if (mirror > -1) {
                     if (!allowedTracks.isEmpty() && !allowedTracks.contains(mirror)) {
