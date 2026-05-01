@@ -257,10 +257,11 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     int imageHeight(pCore->thumbProfile().height());
                     int imageWidth(pCore->thumbProfile().width());
                     int fullWidth(qRound(imageHeight * pCore->getCurrentDar()));
+                    const bool serializeQtRendering = KThumb::needsSerializedQtRendering(binClip->clipType());
                     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
                         return;
                     }
-                    QImage result = KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
+                    QImage result = KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth, serializeQtRendering);
                     if (result.isNull() && !m_isCanceled.loadAcquire()) {
                         qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
                         result = QImage(fullWidth, imageHeight, QImage::Format_ARGB32_Premultiplied);

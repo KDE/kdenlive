@@ -22,7 +22,8 @@ QPixmap getImage(const QUrl &url, int frame, int width, int height = -1, QMap<QS
 QPixmap getImageWithParams(const QUrl &url, QMap<QString, QString> params, int width, int height = -1);
 QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height, int displayWidth = 0);
 QImage getFrame(Mlt::Producer &producer, int framepos, int width, int height, int displayWidth = 0);
-QImage getFrame(Mlt::Frame *frame, int width = 0, int height = 0, int scaledWidth = 0);
+QImage getFrame(Mlt::Frame *frame, int width = 0, int height = 0, int scaledWidth = 0, bool serializeQtRendering = false);
+bool needsSerializedQtRendering(int clipType);
 /** @brief Calculates image variance, useful to know if a thumbnail is interesting.
  *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
  * */

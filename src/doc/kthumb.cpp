@@ -7,12 +7,35 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kthumb.h"
 #include "core.h"
+#include "definitions.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 
 #include <mlt++/Mlt.h>
 
+#include <QMutex>
+#include <QMutexLocker>
 #include <QPixmap>
+
+namespace {
+QMutex qtTitleThumbMutex;
+}
+
+bool KThumb::needsSerializedQtRendering(int clipType)
+{
+    switch (clipType) {
+    case ClipType::Text:
+    case ClipType::TextTemplate:
+    case ClipType::QText:
+    case ClipType::Qml:
+    case ClipType::Playlist:
+    case ClipType::Timeline:
+        return true;
+    default:
+        return false;
+    }
+}
+
 // static
 QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 {
@@ -99,7 +122,7 @@ QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int width, int he
 }
 
 // static
-QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidth)
+QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidth, bool serializeQtRendering)
 {
     if (frame == nullptr || !frame->is_valid()) {
         qDebug() << "* * * *INVALID FRAME";
@@ -108,7 +131,15 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidt
     int ow = width;
     int oh = height;
     mlt_image_format format = mlt_image_rgba;
-    const uchar *imagedata = frame->get_image(format, ow, oh);
+    const uchar *imagedata = nullptr;
+    if (serializeQtRendering) {
+        // Qt-backed MLT producers render through Qt graphics/font code; keep
+        // those thumbnail renders single-threaded.
+        QMutexLocker lock(&qtTitleThumbMutex);
+        imagedata = frame->get_image(format, ow, oh);
+    } else {
+        imagedata = frame->get_image(format, ow, oh);
+    }
     if (imagedata) {
         QImage temp(ow, oh, QImage::Format_ARGB32);
         memcpy(temp.scanLine(0), imagedata, unsigned(ow * oh * 4));
