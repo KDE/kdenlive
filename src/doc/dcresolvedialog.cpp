@@ -182,6 +182,7 @@ void DCResolveDialog::updateStatusLabel(int missingClips, int missingClipsWithPr
                                   "loading the project unless this is intentional and you fully trust the remote sources."));
         statusLabel->setMessageType(KMessageWidget::Error);
         statusLabel->show();
+        buttonBox->button(QDialogButtonBox::Abort)->setDefault(true);
         return;
     }
     if (missingClips + removedClips + missingClipsWithProxy + missingProxies) {
