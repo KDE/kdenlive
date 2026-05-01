@@ -3119,7 +3119,8 @@ QImage ProjectClip::fetchPixmap(int framePosition)
         frame->set("consumer.top_field_first", -1);
         frame->set("consumer.rescale", "nearest");
         int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
-        return KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
+        return KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth,
+                                KThumb::needsSerializedQtRendering(clipType()));
     }
     return QImage();
 }

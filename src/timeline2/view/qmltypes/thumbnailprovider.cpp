@@ -56,7 +56,8 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
                     prod->attach(padder);
                     prod->attach(converter);
                 }
-                result = makeThumbnail(std::move(prod), frameNumber, requestedSize);
+                result = makeThumbnail(std::move(prod), frameNumber, requestedSize,
+                                       KThumb::needsSerializedQtRendering(binClip->clipType()));
                 ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
             }
         }
@@ -65,7 +66,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     return result;
 }
 
-QImage ThumbnailProvider::makeThumbnail(std::unique_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize)
+QImage ThumbnailProvider::makeThumbnail(std::unique_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize, bool serializeQtRendering)
 {
     Q_UNUSED(requestedSize)
     producer->seek(frameNumber);
@@ -80,5 +81,5 @@ QImage ThumbnailProvider::makeThumbnail(std::unique_ptr<Mlt::Producer> producer,
     int imageHeight = pCore->thumbProfile().height();
     int imageWidth = pCore->thumbProfile().width();
     int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
-    return KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
+    return KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth, serializeQtRendering);
 }
