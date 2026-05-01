@@ -3906,6 +3906,7 @@ void Bin::openProducer(std::shared_ptr<ProjectClip> controller, const QUuid &seq
                 out = -1;
             }
             seekFrame = m_activateClipZoneInfo.seekFrame;
+            qDebug() << ":: Opening clip with zoneInfo seek: " << seekFrame;
         }
         m_activateClipZoneInfo.clipId.clear();
         Q_EMIT openClip(std::move(controller), in, out, sequenceUuid, seekFrame);
@@ -4014,6 +4015,7 @@ void Bin::openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in, int out, 
         if (clip->hasLimitedDuration()) {
             clip->refreshBounds();
         }
+        qDebug() << "OpenClipMonitor, seek frame: " << seekFrame;
         if (seekFrame > -1) {
             Monitor *monitor = pCore->getMonitor(Kdenlive::ClipMonitor);
             monitor->slotSeek(seekFrame);

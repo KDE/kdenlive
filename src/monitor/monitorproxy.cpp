@@ -174,6 +174,7 @@ bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
     if (m_position == pos) {
         return true;
     }
+    qDebug() << "::: SETTING MONIOR POSITION: " << pos;
     m_position = pos;
     Q_EMIT requestSeek(pos, noAudioScrub);
     if (m_seekFinished) {
@@ -187,6 +188,7 @@ bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
 void MonitorProxy::setCursorPosition(int pos)
 {
     m_position = pos;
+    qDebug() << "::: SETTING CURSOR POSITION: " << pos;
     Q_EMIT positionChanged(pos);
 }
 
