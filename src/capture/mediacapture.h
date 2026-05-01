@@ -80,7 +80,7 @@ public:
     void pauseRecording();
     void resumeRecording();
     /** @brief Start the real audio capture **/
-    int startCapture(bool showCountdown);
+    int startCapture(bool allowCountDown);
     void initializeAudioSetup();
 
 public Q_SLOTS:

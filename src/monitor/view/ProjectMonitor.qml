@@ -60,7 +60,7 @@ Item {
     }
 
     signal editCurrentMarker()
-    signal startRecording()
+    signal startRecording(bool showCountDown)
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
@@ -77,7 +77,7 @@ Item {
         countDownLoader.source = "Countdown.qml"
     }
     function stopCountdown() {
-        root.startRecording()
+        root.startRecording(false)
         countDownLoader.source = ""
     }
 

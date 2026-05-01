@@ -14,6 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 // TODO: fix video capture (Hint: QCameraInfo is not available in Qt6 anymore)
 //#include <QCameraInfo>
 #include <KLocalizedString>
+
+#include <QApplication>
 #include <QDir>
 #include <QtEndian>
 #include <utility>
@@ -71,7 +73,7 @@ MediaCapture::MediaCapture(QObject *parent)
     , m_audioInfo(nullptr)
     , m_audioDevice("default:")
     , m_path(QUrl())
-    , m_recordState(0)
+    , m_recordState(QMediaRecorder::StoppedState)
     , m_recOffset(0)
     , m_tid(-1)
     , m_readyForRecord(false)
@@ -126,9 +128,26 @@ void MediaCapture::switchMonitorState(bool run)
     if (m_recordStatus == RecordBusy) {
         return;
     }
+
     m_recordStatus = RecordBusy;
     if (run) {
         // Start monitoring audio
+#ifdef Q_OS_MAC
+        QMicrophonePermission microphonePermission;
+        switch (qApp->checkPermission(microphonePermission)) {
+        case Qt::PermissionStatus::Undetermined:
+            qApp->requestPermission(microphonePermission, [this](const QPermission &permission) {
+                if (permission.status() == Qt::PermissionStatus::Granted) {
+                    switchMonitorState(true);
+                }
+            });
+            return;
+        case Qt::PermissionStatus::Denied:
+            return;
+        case Qt::PermissionStatus::Granted:
+            break;
+        }
+#endif
         initializeAudioSetup();
         QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelChanged, m_audioInput.get(), [&](const QVector<qreal> &level) {
             m_levels = level;
@@ -222,6 +241,22 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
         pCore->displayMessage(i18n("Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to end."), InformationMessage, 8000);
     }
     if (!m_mediaRecorder) {
+#ifdef Q_OS_MAC
+        QMicrophonePermission microphonePermission;
+        switch (qApp->checkPermission(microphonePermission)) {
+        case Qt::PermissionStatus::Undetermined:
+            qApp->requestPermission(microphonePermission, [this, uuid, tid, record](const QPermission &permission) {
+                if (permission.status() == Qt::PermissionStatus::Granted) {
+                    recordAudio(uuid, tid, record);
+                }
+            });
+            return;
+        case Qt::PermissionStatus::Denied:
+            return;
+        case Qt::PermissionStatus::Granted:
+            break;
+        }
+#endif
         m_mediaRecorder = std::make_unique<QMediaRecorder>(this);
         connect(m_mediaRecorder.get(), &QMediaRecorder::recorderStateChanged, this, [&, tid](QMediaRecorder::RecorderState state) {
             m_recordState = state;
@@ -300,9 +335,9 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
     }
 }
 
-int MediaCapture::startCapture(bool showCountdown)
+int MediaCapture::startCapture(bool allowCountDown)
 {
-    if (showCountdown && !KdenliveSettings::disablereccountdown()) {
+    if (allowCountDown && !KdenliveSettings::disablereccountdown()) {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->startCountDown();
         m_recordStatus = RecordShowingCountDown;
         return -1;

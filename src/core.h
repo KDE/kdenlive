@@ -462,7 +462,7 @@ public Q_SLOTS:
     /** @brief Stop monitoring audio (without affecting the track header record control. */
     void setAudioMonitoring(bool);
     /** @brief Start audio recording (after countdown). */
-    void startRecording(bool showCountdown = false);
+    void startRecording(bool allowCountDown);
     /** @brief Show or hide track head audio rec controls. */
     void monitorAudio(int tid, bool monitor);
     /** @brief Open a documentation link, showing a warning box first */

@@ -1755,9 +1755,9 @@ void Core::monitorAudio(int tid, bool monitor)
     }
 }
 
-void Core::startRecording(bool showCountdown)
+void Core::startRecording(bool allowCountDown)
 {
-    int trackId = m_capture->startCapture(showCountdown);
+    int trackId = m_capture->startCapture(allowCountDown);
     if (trackId == -1) {
         return;
     }

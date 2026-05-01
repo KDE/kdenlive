@@ -2883,7 +2883,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
-            QObject::connect(root, SIGNAL(startRecording()), pCore.get(), SLOT(startRecording()), Qt::UniqueConnection);
+            QObject::connect(root, SIGNAL(startRecording(bool)), pCore.get(), SLOT(startRecording(bool)), Qt::UniqueConnection);
         }
         break;
     case MonitorSplitTrack:
