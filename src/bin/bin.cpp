@@ -6493,7 +6493,7 @@ void Bin::updateSequenceClip(const QUuid &uuid, std::pair<int, int> durations, i
     if (!binId.isEmpty() && m_doc->isModified()) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
-        clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
+        clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), durations.first);
         if (m_doc->sequenceThumbRequiresRefresh(uuid) || forceUpdate) {
             // Store general sequence properties
             QMap<QString, QString> properties;

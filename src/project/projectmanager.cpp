@@ -1682,7 +1682,8 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(mainId);
     timelineModel->setMarkerModel(mainClip->markerModel());
     if (pCore->window()) {
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration,
+                         static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         pCore->guidesList()->setModel(m_project->getGuideModel(m_project->activeUuid), m_project->getFilteredGuideModel(m_project->activeUuid));
     }
     m_project->loadSequenceGroupsAndGuides(uuid);
@@ -2118,7 +2119,8 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration,
+                         static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         timelineModel->setMarkerModel(clip->markerModel());
         m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);

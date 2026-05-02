@@ -580,6 +580,12 @@ int ClipController::getFramePlaytime() const
         return 0;
     }
     if (!hasLimitedDuration() || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
+        if (m_masterProducer->parent().property_exists("kdenlive:maxduration")) {
+            int playtime = m_masterProducer->parent().get_int("kdenlive:maxduration");
+            if (playtime > 0) {
+                return playtime;
+            }
+        }
         if (!m_masterProducer->parent().property_exists("kdenlive:duration")) {
             return m_masterProducer->get_length();
         }

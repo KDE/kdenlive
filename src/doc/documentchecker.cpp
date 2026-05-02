@@ -147,6 +147,10 @@ bool DocumentChecker::resolveProblemsWithGUI()
     int max = documentTractors.count();
     for (int i = 0; i < max; ++i) {
         QDomElement tractor = documentTractors.item(i).toElement();
+        if (Xml::hasXmlProperty(tractor, QStringLiteral("kdenlive:projectTractor"))) {
+            // This is a fake tractor to allow playing the active sequence, ignore
+            continue;
+        }
         tractorIds.append(tractor.attribute(QStringLiteral("id")));
         Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
