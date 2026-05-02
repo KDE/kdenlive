@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<mlt LC_NUMERIC="C" producer="main_bin" version="7.15.0" root="">
+<mlt LC_NUMERIC="C" producer="main_bin" version="7.15.0">
  <profile frame_rate_num="25" sample_aspect_num="1" display_aspect_den="9" colorspace="709" progressive="1" description="HD 720p 25 fps" display_aspect_num="16" frame_rate_den="1" width="1280" height="720" sample_aspect_den="1"/>
  <producer id="producer0" in="00:00:00.000" out="00:20:01.440">
   <property name="length">2147483647</property>
@@ -1657,7 +1657,6 @@
   <property name="kdenlive:documentnotes"/>
   <property name="kdenlive:docproperties.opensequences">{03fe6261-269f-416d-a412-5957996ec65b}</property>
   <property name="kdenlive:docproperties.activetimeline">{03fe6261-269f-416d-a412-5957996ec65b}</property>
-  <property name="kdenlive:docproperties.storagefolder">cachefiles/1682704089662</property>
   <property name="xml_retain">1</property>
   <entry producer="{03fe6261-269f-416d-a412-5957996ec65b}" in="00:00:00.000" out="00:00:00.000"/>
   <entry producer="chain16" in="00:00:00.000" out="00:00:00.160"/>

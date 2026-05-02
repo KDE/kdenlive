@@ -207,31 +207,33 @@ bool DocumentChecker::hasErrorInProject()
 
             // ensure the storage for temp files exists
             storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
-            storageFolder = ensureAbsolutePath(storageFolder);
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder)) {
-                // Storage folder not found, warn user and allow selecting a new one
-                KUrlRequesterDialog dlg(
-                    QUrl::fromLocalFile(projectDir.absolutePath()),
-                    i18n("The project's storage folder <b>%1</b> was not found. Please enter an updated location to store files for this project.",
-                         projectDir.absolutePath()),
-                    qApp->activeWindow());
-                dlg.urlRequester()->setAcceptMode(QFileDialog::AcceptOpen);
-                dlg.urlRequester()->setMode(KFile::ExistingOnly | KFile::Directory);
-                dlg.exec();
-                QUrl updatedProjectFolder = dlg.selectedUrl();
-                if (!updatedProjectFolder.isEmpty()) {
-                    projectDir = QDir(updatedProjectFolder.toLocalFile());
-                }
+            if (!storageFolder.isEmpty()) {
+                storageFolder = ensureAbsolutePath(storageFolder);
+                if (!QFile::exists(storageFolder)) {
+                    // Storage folder not found, warn user and allow selecting a new one
+                    KUrlRequesterDialog dlg(
+                        QUrl::fromLocalFile(projectDir.absolutePath()),
+                        i18n("The project's storage folder <b>%1</b> was not found. Please enter an updated location to store files for this project.",
+                             projectDir.absolutePath()),
+                        qApp->activeWindow());
+                    dlg.urlRequester()->setAcceptMode(QFileDialog::AcceptOpen);
+                    dlg.urlRequester()->setMode(KFile::ExistingOnly | KFile::Directory);
+                    dlg.exec();
+                    QUrl updatedProjectFolder = dlg.selectedUrl();
+                    if (!updatedProjectFolder.isEmpty()) {
+                        projectDir = QDir(updatedProjectFolder.toLocalFile());
+                    }
 
-                if (projectDir.mkpath(m_documentid)) {
-                    // Move storage folder inside the document folder
-                    storageFolder = projectDir.absolutePath();
-                    Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
-                    m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
-                } else {
-                    // Cannot create storage folder, use default location
-                    Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
-                    m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                    if (projectDir.mkpath(m_documentid)) {
+                        // Move storage folder inside the document folder
+                        storageFolder = projectDir.absolutePath();
+                        Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
+                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                    } else {
+                        // Cannot create storage folder, use default location
+                        Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                    }
                 }
             }
 
