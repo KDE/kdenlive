@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-01 02:39+0000\n"
-"PO-Revision-Date: 2026-04-28 13:15+0300\n"
+"POT-Creation-Date: 2026-05-02 02:36+0000\n"
+"PO-Revision-Date: 2026-05-01 15:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20909,12 +20909,12 @@ msgstr "Künye Ekle"
 msgid "New tag"
 msgstr "Yeni künye"
 
-#: src/capture/mediacapture.cpp:117
+#: src/capture/mediacapture.cpp:119
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Kayıt biçimi %1 kanal ve %2 Hz olarak ayarlandı."
 
-#: src/capture/mediacapture.cpp:222
+#: src/capture/mediacapture.cpp:241
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20923,7 +20923,7 @@ msgstr ""
 "Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>’a, "
 "sonlandırmak için <b>Esc</b>’ye basın."
 
-#: src/capture/mediacapture.cpp:369 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -24862,7 +24862,7 @@ msgstr "Oynatma listesi klibi"
 #: src/doc/documentchecker.cpp:1875 src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Title Image"
-msgstr "Başlık Resmi"
+msgstr "Başlık Görseli"
 
 #: src/doc/documentchecker.cpp:1887
 #, kde-format

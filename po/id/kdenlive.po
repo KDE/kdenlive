@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-01 02:39+0000\n"
+"POT-Creation-Date: 2026-05-02 02:36+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -21080,12 +21080,12 @@ msgstr "Tambahkan Tag"
 msgid "New tag"
 msgstr "Tag baru"
 
-#: src/capture/mediacapture.cpp:117
+#: src/capture/mediacapture.cpp:119
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:222
+#: src/capture/mediacapture.cpp:241
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21094,7 +21094,7 @@ msgstr ""
 "Memantau audio. Tekan <b>Space</b> untuk memulai/menjeda perekaman, <b>Esc</"
 "b> untuk membatalkan."
 
-#: src/capture/mediacapture.cpp:369 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"

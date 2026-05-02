@@ -6,13 +6,13 @@
 # amir <amir_in@netvision.net.il>, 2010.
 # Diego Iastrubni <elcuco@kde.org>, 2012.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
-# SPDX-FileCopyrightText: 2024, 2025, 2026 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2024-2026 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-01 02:39+0000\n"
-"PO-Revision-Date: 2026-04-11 22:07+0300\n"
+"POT-Creation-Date: 2026-05-02 02:36+0000\n"
+"PO-Revision-Date: 2026-05-01 11:27+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2282,9 +2282,9 @@ msgid "Compress or expand the audio’s dynamic range."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Attacks"
-msgstr "ערוץ"
+msgstr "מתקפים"
 
 #: data/effects/avfilter/avfilter_compand.xml:9
 #: data/effects/avfilter/avfilter_compand.xml:13
@@ -2596,8 +2596,7 @@ msgid "Apply directional blur filter"
 msgstr "הפעלת מסנן טשטוש מוכוון"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "Sets the angle for the direction"
 msgstr "הגדרת זווית הכיוון"
 
@@ -2611,8 +2610,7 @@ msgid "Radius"
 msgstr "רדיוס"
 
 #: data/effects/avfilter/avfilter_dblur.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the radius for the direction]]>"
+#, kde-format
 msgid "Sets the radius for the direction"
 msgstr "הגדרת הרדיוס לכיוון"
 
@@ -2624,10 +2622,9 @@ msgstr "מישורים לסינון"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #: data/effects/avfilter/avfilter_scharr.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "Sets the color space plane the effect is applied to"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "הגדרת משטח מרחב הצבע שהאפקט חל עליו"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #: data/effects/avfilter/avfilter_scharr.xml:10
@@ -4082,10 +4079,9 @@ msgid "Video Ratio"
 msgstr "יחס וידאו"
 
 #: data/effects/avfilter/avfilter_grayworld.xml:4
-#, fuzzy, kde-format
-#| msgid "Gray color"
+#, kde-format
 msgid "Grayworld"
-msgstr "צבע אפור"
+msgstr "עולם אפור"
 
 #: data/effects/avfilter/avfilter_grayworld.xml:5
 #, kde-format
@@ -4110,16 +4106,14 @@ msgstr ""
 "גורמת לכך שאותות יחידים מקבלים כיוון ותמונת הסטריאו שלהם נמתחת."
 
 #: data/effects/avfilter/avfilter_haas.xml:9
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level in"
-msgstr "רמות"
+msgstr "עוצמת שמע בכניסה"
 
 #: data/effects/avfilter/avfilter_haas.xml:12
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level out"
-msgstr "רמות"
+msgstr "עוצמת שמע ביציאה"
 
 #: data/effects/avfilter/avfilter_haas.xml:15
 #, kde-format
@@ -4390,21 +4384,23 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid ""
 "Set the hue value which<br>\n"
 "        will be used in color difference calculation"
-msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
+msgstr ""
+"הגדרת ערך הגוון שישמש<br>\n"
+"        בחישוב הבדלי צבע"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:15
 #: data/effects/avfilter/avfilter_hsvkey.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid ""
 "Set the saturation value<br>\n"
 "        which will be used in color difference calculation"
-msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
+msgstr ""
+"הגדרת ערך הרוויה שישמש<br>\n"
+"        בחישוב הבדלי צבע"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/effects/avfilter/avfilter_hsvhold.xml:18
@@ -4416,12 +4412,13 @@ msgstr "ערך"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:20
 #: data/effects/avfilter/avfilter_hsvkey.xml:20
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid ""
 "Set the value which will<br>\n"
 "        be used in color difference calculation"
-msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
+msgstr ""
+"הגדרת הערך שישמש<br>\n"
+"        בחישוב הבדלי צבע"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
@@ -4766,20 +4763,22 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
+#, kde-format
 msgid ""
 "Quadratic<br>\n"
 "        Correction Coefficient"
-msgstr "שימור יחס ממדים"
+msgstr ""
+"מקדם<br>\n"
+"        תיקון ריבועי"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
+#, kde-format
 msgid ""
 "Double Quadratic<br>\n"
 "        Correction Coefficient"
-msgstr "שימור יחס ממדים"
+msgstr ""
+"מקדם תיקון<br>\n"
+"        ריבועי כפול"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -4835,9 +4834,9 @@ msgid "Loudness range target"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximum true peak"
-msgstr "שבח אמצעי"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:17
 #, kde-format
@@ -4860,9 +4859,9 @@ msgid "Measured threshold of input file"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Offset gain"
-msgstr "הסט"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:32
 #, kde-format
@@ -5057,10 +5056,9 @@ msgid "Negate"
 msgstr "ניגוד"
 
 #: data/effects/avfilter/avfilter_negate.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Negate (invert) the input video or its alpha channel."
-msgstr "להשתמש בהיפוך של ערוץ השקיפות."
+msgstr "היפוך (תשליל) של וידאו הקלט או של ערוץ השקיפות שלו."
 
 #: data/effects/avfilter/avfilter_negate.xml:8
 #, kde-format
@@ -5922,9 +5920,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sobel with planes"
-msgstr "קובץ סרט"
+msgstr "סובַּל עם משטחים"
 
 #: data/effects/avfilter/avfilter_sobel.xml:5
 #, kde-format
@@ -5932,10 +5930,9 @@ msgid "Apply sobel operator to input video stream."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Stylize"
+#, kde-format
 msgid "SOFAlizer"
-msgstr "עיצוב"
+msgstr "עיבוד SOFA"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:5
 #, kde-format
@@ -5974,10 +5971,9 @@ msgid "Frequency,Time"
 msgstr "תדירות,זמן"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
-#, fuzzy, kde-format
-#| msgid "End Gain"
+#, kde-format
 msgid "LFE Gain"
-msgstr "שבח סופי"
+msgstr "שבח אפקטים בתדירות נמוכה"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:30
 #, kde-format
@@ -5995,15 +5991,14 @@ msgid "Interpolate"
 msgstr "ערבול"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
-#, fuzzy, kde-format
+#, kde-format
 msgid "Minphase"
-msgstr "משלב"
+msgstr "פאזה מזערית"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:43
-#, fuzzy, kde-format
-#| msgid "Angle"
+#, kde-format
 msgid "Anglestep"
-msgstr "זווית"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:44
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
@@ -6724,10 +6719,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
-#, fuzzy, kde-format
-#| msgid "Co-efficient"
+#, kde-format
 msgid "Filter coefficients"
-msgstr "גם יעיל"
+msgstr "מקדמי מסנן"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, kde-format
@@ -6838,10 +6832,9 @@ msgid "None,Green,Orange,Invert"
 msgstr "ללא,ירוק,כתום,היפוך"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "Set the opacity of the graticule"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, fuzzy, kde-format
@@ -7398,12 +7391,11 @@ msgid "Normalize"
 msgstr "נרמול"
 
 #: data/effects/dynamic_loudness.xml:5
-#, fuzzy, kde-format
-#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, kde-format
 msgid ""
 "Designed for live streams. Dynamically correct audio loudness as recommended "
 "by EBU R128"
-msgstr "תיקון עוצמת השמע דינמית לפי המלצות EBU R128"
+msgstr "מתוכנן לתזרימים בשידור חי. תיקון עוצמת השמע דינמית לפי המלצות EBU R128"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -7515,18 +7507,15 @@ msgstr ""
 "%M %D#"
 
 #: data/effects/dynamictext.xml:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,creation date,file date (GMT),file date (local),source "
-#| "frame rate,source codec,source bit rate,source width,source height,source "
-#| "comment"
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"קוד זמן,תמונית,תאריך יצירה,תאריך קובץ (GMT),תאריך קובץ (מקומי),קצב תמוניות "
-"במקור,מפענח במקור,קצב תמוניות במקור,רוחב במקור,גובה במקור,הערה במקור"
+"קוד זמן,מספר תמונית,שם קובץ,תאריך יצירה,תאריך קובץ (GMT),תאריך קובץ (מקומי),"
+"קצב תמוניות במקור,מפענח במקור,קצב תמוניות במקור,רוחב במקור, גובה במקור,הערה "
+"במקור"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -8181,6 +8170,8 @@ msgid ""
 "Degrees from the horizon<br>\n"
 "    \twhere we start to fill in"
 msgstr ""
+"מעלות מהאופק<br>\n"
+"    \tמהן להתחיל במילוי"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -8198,6 +8189,8 @@ msgid ""
 "Degrees from the horizon<br>\n"
 "    \twhere we reach maximum blur"
 msgstr ""
+"מעלות מהאופק<br>\n"
+"    \tבהן אנו מגיעים לטשטוש המרבי"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
@@ -12118,7 +12111,7 @@ msgstr "חדות ההעברה."
 #: data/effects/frei0r/frei0r_sobel.xml:4
 #, kde-format
 msgid "Sobel"
-msgstr ""
+msgstr "סובַּל"
 
 #: data/effects/frei0r/frei0r_sobel.xml:5
 #, kde-format
@@ -13440,7 +13433,7 @@ msgstr "תדירות <u><b>רצועה 8</b></u>"
 #: data/effects/ladspa/ladspa_2159.xml:44
 #, kde-format
 msgid "Dry/Wet"
-msgstr ""
+msgstr "יבש/רטוב"
 
 #: data/effects/ladspa/ladspa_2142.xml:4
 #, fuzzy, kde-format
@@ -13464,10 +13457,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2154.xml:14
 #: data/effects/ladspa/ladspa_2156.xml:19
 #: data/effects/ladspa/ladspa_2159.xml:34
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Dry Level"
-msgstr "רמת מיקרופון"
+msgstr "עוצמת שמע יבשה"
 
 #: data/effects/ladspa/ladspa_2142.xml:15
 #: data/effects/ladspa/ladspa_2148.xml:20
@@ -13475,16 +13467,14 @@ msgstr "רמת מיקרופון"
 #: data/effects/ladspa/ladspa_2154.xml:17
 #: data/effects/ladspa/ladspa_2156.xml:33
 #: data/effects/ladspa/ladspa_2159.xml:39
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Wet Level"
-msgstr "רמת מיקרופון"
+msgstr "עוצמת שמע רטובה"
 
 #: data/effects/ladspa/ladspa_2142.xml:18
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "Comb Filters"
-msgstr "מחיקת מסננים"
+msgstr "מסנני מסרקים"
 
 #: data/effects/ladspa/ladspa_2142.xml:21
 #, fuzzy, kde-format
@@ -13730,16 +13720,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2149.xml:9
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Rotor Frequency"
-msgstr "תדירות נמוכה"
+msgstr "תדירות מסובב"
 
 #: data/effects/ladspa/ladspa_2149.xml:12
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Horn Frequency"
-msgstr "תדירות נמוכה"
+msgstr "תדירות צופר"
 
 #: data/effects/ladspa/ladspa_2149.xml:15
 #, kde-format
@@ -14003,10 +13991,9 @@ msgid "Wet Left Position"
 msgstr "הגדרת מקום"
 
 #: data/effects/ladspa/ladspa_2156.xml:42
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Right Position"
-msgstr "הגדרת מקום"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
@@ -14097,9 +14084,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "L/R Phase Shift"
-msgstr "משלב"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:16
 #, kde-format
@@ -14120,7 +14107,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Determines the fixed amount of time with<br>\n"
 "      which the signal is delayed after the time-varying delay has been "
@@ -14128,7 +14115,7 @@ msgid ""
 "Flanger effects. Delays smaller than 10 ms can be labeled Flanger, delays "
 "above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a "
 "blend between Chorus and Flanger."
-msgstr "הגדרת כמות הזמן הקבועה לעיכוב האות אחרי שהמשתנה "
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:29
 #, kde-format
@@ -14663,13 +14650,7 @@ msgid "Mask Start"
 msgstr "התחלת מסכה"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14678,10 +14659,6 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"המסנן הזה יוצר צילום של התמונית לפני ציור צורות פשוטות לערוץ האלפא. אפשר "
-"להשתמש בו עם האפקט mask_apply (החלת מסכה), שמשתמש במעברון כדי להרכיב את "
-"התמונה של התמונית על הצילום. המקרה הטיפוסי לשימוש באפקט הזה הוא הוספת אפקטים "
-"ברצף הבא: האפקט הזה, אפס אפקטים או יותר, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -17402,7 +17379,7 @@ msgstr "הצגת הפריטים המועדפים"
 #: src/assets/assetlist/view/assetlistwidget.cpp:189
 #, kde-format
 msgid "Toggle between list and icon view"
-msgstr ""
+msgstr "החלפה בין תצוגות רשימה לסמלים"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:206
 #, kde-kuit-format
@@ -19857,11 +19834,9 @@ msgid "Subtitle %1"
 msgstr "כתובית %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Cannot cut overlapping subtitles"
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "לא ניתן לחתוך כתוביות חופפות"
+msgstr "לא ניתן ליצור יותר מ־%1 שכבות בכתוביות."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
@@ -20106,12 +20081,12 @@ msgstr "הוספת תגית"
 msgid "New tag"
 msgstr "תגית חדשה"
 
-#: src/capture/mediacapture.cpp:117
+#: src/capture/mediacapture.cpp:119
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "תסדיר ההקלטה כוון ל־%1 ערוצים, %2 הרץ."
 
-#: src/capture/mediacapture.cpp:222
+#: src/capture/mediacapture.cpp:241
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20119,7 +20094,7 @@ msgid ""
 msgstr ""
 "שמע במעקב. לחיצה על <b>רווח</b> תתחיל/תשהה את ההקלטה, <b>Esc</b> לסיום."
 
-#: src/capture/mediacapture.cpp:369 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -21860,22 +21835,22 @@ msgstr "96000 הרץ"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:544
 #, kde-format
 msgid "Unsigned 8 bit"
-msgstr ""
+msgstr "8 סיביות ללא סימן"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:547
 #, kde-format
 msgid "Signed 16 bit"
-msgstr ""
+msgstr "16 סיביות עם סימן"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:550
 #, kde-format
 msgid "Signed 32 bit"
-msgstr ""
+msgstr "32 סיביות עם סימן"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:553
 #, kde-format
 msgid "Float"
-msgstr ""
+msgstr "נקודה צפה"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:604
 #, kde-format
@@ -26753,7 +26728,7 @@ msgstr "הצגת/הסתרת שמות ופרטי סרטונים בציר הזמן
 #: src/mainwindow.cpp:1534
 #, kde-format
 msgid "Mouse Zoom on Playhead"
-msgstr ""
+msgstr "תקריב עכבר על ראש הנגינה"
 
 #: src/mainwindow.cpp:1535
 #, kde-kuit-format
@@ -29667,7 +29642,7 @@ msgstr "HD מלא 1080"
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD Ready 768p"
-msgstr ""
+msgstr "בשלות ל־HD‏ 768p"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, kde-format
@@ -34395,21 +34370,22 @@ msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
+"לא ניתן למצוא את סקריפט יצירת התצוגה המקדימה. נא לוודא שהוא מותקן כראוי."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
-msgstr ""
+msgstr "לא נמצא מפענח Python. נא לוודא ש־Python מותקן."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
-msgstr ""
+msgstr "נוצרים תצוגות מקדימות של מעברונים. זאת פעולה שעלולה לארוך כמה דקות…"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
-msgstr ""
+msgstr "תצוגות מקדימות של מעברונים נוצרו בהצלחה."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
@@ -34417,6 +34393,7 @@ msgid ""
 "Failed to generate transition previews. Check the application log for "
 "details."
 msgstr ""
+"יצירת תצוגות מקדימה של מעברונים נכשלה. ביומן היישום אפשר למצוא פרטים נוספים."
 
 #: src/transitions/transitionsrepository.cpp:39
 #, kde-format
@@ -35189,7 +35166,7 @@ msgstr "תבנית דגימה:"
 #: src/ui/configcapture_ui.ui:441
 #, kde-format
 msgid "Use Device Default Settings"
-msgstr ""
+msgstr "להשתמש בהגדרות ברירת מחדל של המכשיר"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
@@ -35288,7 +35265,7 @@ msgstr "למנוע שינה בעת נגינה ועיבוד"
 #: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "Drag window from titlebar only"
-msgstr ""
+msgstr "גרירה של חלונות היא משורת הכותרת בלבד"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configenv_ui.ui:135
@@ -36242,7 +36219,7 @@ msgstr "גלילה אוטומטית בזמן נגינה"
 #: src/ui/configtimeline_ui.ui:122
 #, kde-format
 msgid "Fixed centered playhead"
-msgstr ""
+msgstr "ראש נגינה ממורכז קבוע"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
 #: src/ui/configtimeline_ui.ui:129
@@ -38984,6 +38961,8 @@ msgid ""
 "Support basic math expression\n"
 "use \"%1\" to reference other spinbox's value"
 msgstr ""
+"תמיכה בביטויים מתמטיים בסיסיים\n"
+"יש להשתמש ב־„%1” כדי להפנות לערך של תיבות טווח אחרות"
 
 #: src/widgets/dragvalue.cpp:718
 #, kde-format

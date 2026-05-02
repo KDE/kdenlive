@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-01 02:39+0000\n"
-"PO-Revision-Date: 2026-04-06 01:59+0200\n"
+"POT-Creation-Date: 2026-05-02 02:36+0000\n"
+"PO-Revision-Date: 2026-05-02 01:15+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1505,6 +1505,9 @@ msgid ""
 "<br>\n"
 "        Higher values result in more preserved color."
 msgstr ""
+"შერევის პროცენტულობა. 0.0 პიქსელს ან სრულად ნაცრისფერს გახდის, ან სრულად "
+"არანაცრისფერს.<br>\n"
+"         რაც მაღალია მნიშვნელობა, მით უკეთ მოხდება ფერის შენარჩუნება."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -2244,6 +2247,8 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"ბრედფორდის თეთრი წერტილის ადაპტაცია, ფონ კრისის თეთრი წერტილის ადაპტაცია, "
+"იდენტიფიკაციის თეთრი წერტილის ადაპტაცია"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:43
 #, kde-format
@@ -3662,6 +3667,8 @@ msgid ""
 "Set the amount of denoising.<br>\n"
 "       \tBy default all detected noise is reduced."
 msgstr ""
+"დააყენეთ მოცილებული ხმაურის რაოდენობა.<br>\n"
+"       \tნაგულისხმევად ხდება ყველა მონიშნული ხმაურის შემცირება."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
 #, kde-format
@@ -4019,6 +4026,8 @@ msgid ""
 "Set sigma, the standard deviation of Gaussian blur.<br>\n"
 "        Determines the strength of the horizontal blur. Default is 10."
 msgstr ""
+"დააყენეთ სიგმა, გაუსის დაბინდვის სტანდარტული გადახრა.<br>\n"
+"           განსაზღვრავს ჰორიზონტალური დაბინდვის სიძლიერეს. ნაგულისხმევია 10."
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
@@ -4115,6 +4124,7 @@ msgstr "რუხი სამყარო"
 #, kde-format
 msgid "Adjust white balance using LAB gray world algorithm"
 msgstr ""
+"თეთრის ბალანსის გასწორება LAB-ის ნაცრისფერი სამყაროს ალგორითმის გამოყენებით"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
@@ -7906,6 +7916,8 @@ msgid ""
 "Display and manipulation of the alpha channel.<br>\n"
 "        This effect has been replaced by <em>frei0r.alphaops_alphaops</em>."
 msgstr ""
+"ალფა არხის ჩვენება და მანიპულაცია.<br>\n"
+"        ეს ეფექტი ჩანაცვლდა <em>frei0r.alphaops_alphaops</em>-ით."
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:44
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
@@ -8095,6 +8107,8 @@ msgid ""
 "Fill the alpha channel with a specified gradient.<br>\n"
 "    This effect has been replaced by frei0r.alphaops_alphagrad."
 msgstr ""
+"ალფა არხის შევსება მითითებული გრადიენტით.<br>\n"
+"    ეს ეფექტი ჩანაცვლდა frei0r.alphaops_alphagrad-ით."
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, kde-format
@@ -8107,6 +8121,8 @@ msgid ""
 "Draws simple shapes into the alpha channel.<br>\n"
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>."
 msgstr ""
+"ხატავს მარტივ ფიგურებს ალფა არხში.<br>\n"
+"    ეს ეფექტი ჩანაცვლდა <em>frei0r.alphaops_alphaspot</em>-ით."
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -11861,6 +11877,8 @@ msgid ""
 "If <em>Block height</em> is 0 (random), <br>this determines the minimum "
 "block height."
 msgstr ""
+"თუ <em>ბლოკის სიმაღლე</em> 0-ის ტოლია (შემთხვევით), <br>ეს ბლოკის მინიმალურ "
+"სიმაღლეს განსაზღვრავს."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, kde-format
@@ -11873,6 +11891,8 @@ msgid ""
 "If <em>Block height</em> is 0 (random), <br>this determines the maximum "
 "block height."
 msgstr ""
+"თუ <em>ბლოკის სიმაღლე</em> 0-ის ტოლია (შემთხვევით), <br>ეს ბლოკის მაქსიმალურ "
+"სიმაღლეს განსაზღვრავს."
 
 #: data/effects/frei0r/frei0r_posterize.xml:4
 #, kde-format
@@ -17018,7 +17038,7 @@ msgstr "გაღიავება"
 msgid ""
 "Perform a lighten operation between two sources (maximum value of both "
 "sources)."
-msgstr ""
+msgstr "განათების ოპერაცია ორ წყაროს შორის (ორივე წყაროს მაქს. მნიშვნელობა)."
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
 #, kde-format
@@ -17196,6 +17216,8 @@ msgid ""
 "Perform a conversion to value only of the source input1 using the value of "
 "input2."
 msgstr ""
+"გადაიყვანს, მხოლოდ, წყარო input1-ის მნიშვნელობის გადაყვანას input2-ის "
+"მნიშვნელობის გამოყენებით."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
 #, kde-format
@@ -20048,11 +20070,9 @@ msgid "Subtitle %1"
 msgstr "სუბტიტრი %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Cannot cut overlapping subtitles"
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "გადაფარვადი სუბტიტრების ამოჭრა შეუძლებელია"
+msgstr "სუბტიტრებში %1 ფენაზე მეტს ვერ შექმნით."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
@@ -20293,12 +20313,12 @@ msgstr "ჭდის დამატება"
 msgid "New tag"
 msgstr "ახალი ჭდე"
 
-#: src/capture/mediacapture.cpp:117
+#: src/capture/mediacapture.cpp:119
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "ჩაწერის ფორმატი გასწორდა %1 არხზე, %2 ჰც."
 
-#: src/capture/mediacapture.cpp:222
+#: src/capture/mediacapture.cpp:241
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20307,7 +20327,7 @@ msgstr ""
 "ხმის მონიტორინგი. დააწექით ღილაკს <b>Space</b> ჩაწერის გასაშვებად/"
 "შესაჩერებლად, <b>Esc</b> კი - დასასრულებლად."
 
-#: src/capture/mediacapture.cpp:369 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
