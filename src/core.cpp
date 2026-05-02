@@ -1200,7 +1200,7 @@ std::pair<PlaylistState::ClipState, ClipType::ProducerType> Core::getItemState(c
         if (!m_guiConstructed) {
             return {PlaylistState::Disabled, ClipType::Unknown};
         }
-        return m_mainWindow->getBin()->getClipState(id.itemId);
+        return projectItemModel()->getClipState(id.itemId);
     case KdenliveObjectType::TimelineTrack:
         return {currentDoc()->getTimeline(id.uuid)->isAudioTrack(id.itemId) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, ClipType::Unknown};
     case KdenliveObjectType::Master:
@@ -1755,9 +1755,9 @@ void Core::monitorAudio(int tid, bool monitor)
     }
 }
 
-void Core::startRecording(bool showCountdown)
+void Core::startRecording(bool allowCountDown)
 {
-    int trackId = m_capture->startCapture(showCountdown);
+    int trackId = m_capture->startCapture(allowCountDown);
     if (trackId == -1) {
         return;
     }
@@ -2233,7 +2233,7 @@ std::pair<bool, bool> Core::assetHasAV(ObjectId id)
         return {false, true};
     }
     case KdenliveObjectType::BinClip: {
-        PlaylistState::ClipState state = bin()->getClipState(id.itemId).first;
+        PlaylistState::ClipState state = projectItemModel()->getClipState(id.itemId).first;
         if (state == PlaylistState::Disabled) {
             return {true, true};
         } else if (state == PlaylistState::AudioOnly) {

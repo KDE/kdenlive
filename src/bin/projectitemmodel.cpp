@@ -2093,3 +2093,12 @@ const QString ProjectItemModel::getBinClipIdByUuid(const QString uuid)
     }
     return QString();
 }
+
+std::pair<PlaylistState::ClipState, ClipType::ProducerType> ProjectItemModel::getClipState(int itemId) const
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(QString::number(itemId));
+    Q_ASSERT(clip != nullptr);
+    bool audio = clip->hasAudio();
+    bool video = clip->hasVideo();
+    return {audio ? (video ? PlaylistState::Disabled : PlaylistState::AudioOnly) : PlaylistState::VideoOnly, clip->clipType()};
+}

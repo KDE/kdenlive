@@ -5675,15 +5675,6 @@ QSize Bin::getFrameSize(int itemId) const
     return clip->frameSize();
 }
 
-std::pair<PlaylistState::ClipState, ClipType::ProducerType> Bin::getClipState(int itemId) const
-{
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
-    Q_ASSERT(clip != nullptr);
-    bool audio = clip->hasAudio();
-    bool video = clip->hasVideo();
-    return {audio ? (video ? PlaylistState::Disabled : PlaylistState::AudioOnly) : PlaylistState::VideoOnly, clip->clipType()};
-}
-
 const QString Bin::getCurrentFolder()
 {
     // Check parent item
@@ -6503,7 +6494,7 @@ void Bin::updateSequenceClip(const QUuid &uuid, std::pair<int, int> durations, i
     if (!binId.isEmpty() && m_doc->isModified()) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
-        clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
+        clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), durations.first);
         if (m_doc->sequenceThumbRequiresRefresh(uuid) || forceUpdate) {
             // Store general sequence properties
             QMap<QString, QString> properties;
