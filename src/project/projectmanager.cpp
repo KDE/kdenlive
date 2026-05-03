@@ -398,9 +398,13 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
         return false;
     }
 
-    file.write(scene.toUtf8());
+    if (file.write(scene.toUtf8()) == -1) {
+        qDebug() << "Failed to write to file" << file.fileName() << ":" << file.errorString();
+        return false;
+    }
+
     if (!file.commit()) {
-        qDebug() << "Cannot write to file %1";
+        qDebug() << "Failed to commit to file" << file.fileName() << ":" << file.errorString();
         return false;
     }
     qDebug() << "------------\nSAVED FILE AS: " << outputFileName << "\n==============";
