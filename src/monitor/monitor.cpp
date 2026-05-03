@@ -2270,7 +2270,6 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             if (in == out && in == -1) {
                 // Only apply on bin clip, not sub clips
                 int lastPosition = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:monitorPosition"));
-                qDebug() << "::: Opening clip on last position: " << lastPosition;
                 if (lastPosition > 0 && lastPosition != m_controller->originalProducer()->position()) {
                     m_controller->originalProducer()->seek(lastPosition);
                 }
