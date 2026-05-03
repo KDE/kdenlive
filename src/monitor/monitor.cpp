@@ -859,6 +859,8 @@ void Monitor::buildBackgroundedProducer(int pos)
     } else {
         // Add background compositing
         Mlt::Tractor trac(pCore->getProjectProfile());
+        // Pass the clipId that is used to check identity in some places
+        trac.set("kdenlive:id", m_controller->clipId().toLatin1().constData());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
         bg->set("length", maxDuration + 1);
@@ -2266,11 +2268,13 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setFrameOffset(qMax(0, m_controller->getStartTimecode()));
         }
         if (m_controller->statusReady()) {
+            int seekPos = in;
             double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
             if (in == out && in == -1) {
                 // Only apply on bin clip, not sub clips
                 int lastPosition = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:monitorPosition"));
                 if (lastPosition > 0 && lastPosition != m_controller->originalProducer()->position()) {
+                    seekPos = lastPosition;
                     m_controller->originalProducer()->seek(lastPosition);
                 }
                 if (audioScale > 0. && audioScale != 1.) {
@@ -2318,7 +2322,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
                 }
             }
-            buildBackgroundedProducer(in);
+            buildBackgroundedProducer(seekPos);
             m_activeControllerId = m_controller->binId();
             if (monitorVisible() && !m_monitorManager->projectMonitor()->isPlaying()) {
                 slotActivateMonitor();
