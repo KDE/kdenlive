@@ -44,4 +44,5 @@ Options:
   require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6']
   cppcheck-arguments: ['--suppress=*:tests/fakeit.hpp', '--suppress=*:tests/catch.hpp', '--suppress=*:fuzzer/fakeit_standalone.hpp']
   require-cppcheck-clean: True
+  enable-lsan: True
 
