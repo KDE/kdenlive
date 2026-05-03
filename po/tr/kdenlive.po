@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-02 00:43+0000\n"
-"PO-Revision-Date: 2026-05-01 15:03+0300\n"
+"POT-Creation-Date: 2026-05-03 00:43+0000\n"
+"PO-Revision-Date: 2026-05-02 19:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -22,7 +22,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Serdar Soytetir, Anıl Özbek, Volkan Gezer, Hasan Yıldız, Emir SARI"
+msgstr "Serdar SOYTETİR, Anıl Özbek, Volkan GEZER, Hasan Yıldız, Emir SARI"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -16300,7 +16300,7 @@ msgstr "Ses Değişimi"
 msgid "Process audio using a SoX effect"
 msgstr "Sesi, bir Ses Değişimi efekti kullanarak işleyin."
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1936
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1942
 #: src/monitor/view/MonitorSplit.qml:103
 #, kde-format
 msgid "Effect"
@@ -19706,7 +19706,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Zaman akışında değiştir"
 
-#: src/bin/bin.cpp:2453 src/bin/bin.cpp:6280 src/bin/clipcreator.cpp:344
+#: src/bin/bin.cpp:2453 src/bin/bin.cpp:6271 src/bin/clipcreator.cpp:344
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -20184,30 +20184,30 @@ msgstr "Vekilleri kapat"
 msgid "Rebuild proxies"
 msgstr "Vekilleri yeniden oluştur"
 
-#: src/bin/bin.cpp:5879
+#: src/bin/bin.cpp:5870
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:5895
+#: src/bin/bin.cpp:5886
 #, kde-format
 msgid "Add Tracks"
 msgstr "İzler Ekle"
 
-#: src/bin/bin.cpp:5897
+#: src/bin/bin.cpp:5888
 #, kde-format
 msgid "Edit Streams"
 msgstr "Akışları Düzenle"
 
-#: src/bin/bin.cpp:5916
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "Don't ask again"
 msgstr "Bir daha sorma"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5911
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -20216,7 +20216,7 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:5932 src/mainwindow.cpp:3107
+#: src/bin/bin.cpp:5923 src/mainwindow.cpp:3107
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
@@ -20224,7 +20224,7 @@ msgstr "İmleyici eklenecek klip bulunamadı"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5946 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:5937 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1495
 #: src/timeline2/view/timelinecontroller.cpp:1695
@@ -20234,34 +20234,34 @@ msgstr "İmleyici eklenecek klip bulunamadı"
 msgid "Marker"
 msgstr "İmleyici"
 
-#: src/bin/bin.cpp:6036
+#: src/bin/bin.cpp:6027
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Ana klip bulunamadı"
 
-#: src/bin/bin.cpp:6302
+#: src/bin/bin.cpp:6293
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:6304
+#: src/bin/bin.cpp:6295
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 seçili) | "
 
-#: src/bin/bin.cpp:6373 src/bin/bin.cpp:6451
+#: src/bin/bin.cpp:6364 src/bin/bin.cpp:6442
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Klip için ek akış ekle"
 msgstr[1] "Klip için ek akışlar ekle"
 
-#: src/bin/bin.cpp:6394
+#: src/bin/bin.cpp:6385
 #, kde-format
 msgid "Import selected clips"
 msgstr "Seçili klipleri içe aktar"
 
-#: src/bin/bin.cpp:6396
+#: src/bin/bin.cpp:6387
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -20270,51 +20270,51 @@ msgstr ""
 "Klip için ek akışlar\n"
 "%1"
 
-#: src/bin/bin.cpp:6410 src/mltcontroller/clippropertiescontroller.cpp:754
+#: src/bin/bin.cpp:6401 src/mltcontroller/clippropertiescontroller.cpp:754
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video akışı %1"
 
-#: src/bin/bin.cpp:6425
+#: src/bin/bin.cpp:6416
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Ses akışı %1"
 
-#: src/bin/bin.cpp:6478
+#: src/bin/bin.cpp:6469
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Klip imleyicilerini kaldır"
 
-#: src/bin/bin.cpp:6675
+#: src/bin/bin.cpp:6666
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Arakodlama işlemi öncesi projenizi kaydetmenizi öneririz"
 
-#: src/bin/bin.cpp:6676
+#: src/bin/bin.cpp:6667
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Projeyi Kaydet"
 
-#: src/bin/bin.cpp:6677
+#: src/bin/bin.cpp:6668
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Kaydetmeden Arakodla"
 
-#: src/bin/bin.cpp:6835 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6826 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1128
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 Efektini Sil"
 
-#: src/bin/bin.cpp:6901 src/mainwindow.cpp:265
+#: src/bin/bin.cpp:6892 src/mainwindow.cpp:265
 #, kde-format
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:6904 src/bin/bin.cpp:6907 src/mainwindow.cpp:5373
+#: src/bin/bin.cpp:6895 src/bin/bin.cpp:6898 src/mainwindow.cpp:5373
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
@@ -20378,7 +20378,7 @@ msgid ""
 "The following clips are already inserted in the project. Do you want to "
 "duplicate them?"
 msgstr ""
-"Aşağıdaki klipler halihazırda projeye yerleştirilmiş. Yinelemek istiyor "
+"Aşağıdaki klipler hâlihazırda projeye yerleştirilmiş. Yinelemek istiyor "
 "musunuz?"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
@@ -20670,7 +20670,7 @@ msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
-"%1 dosyası halihazırda var.\n"
+"%1 dosyası hâlihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
 #: src/bin/model/subtitlemodel.cpp:1610 src/titler/titlewidget.cpp:421
@@ -20808,7 +20808,7 @@ msgstr "Geçersiz"
 #: src/timeline2/model/timelinefunctions.cpp:1566
 #, kde-format
 msgid "File already exists"
-msgstr "Dosya halihazırda var"
+msgstr "Dosya hâlihazırda var"
 
 #: src/bin/projectclip.cpp:2614 src/bin/projectclip.cpp:2653
 #, kde-format
@@ -20857,8 +20857,8 @@ msgstr "Kimlik"
 msgid "Usage"
 msgstr "Kullanım"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1914
-#: src/doc/documentchecker.cpp:1944 src/doc/documentchecker.cpp:1966
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1920
+#: src/doc/documentchecker.cpp:1950 src/doc/documentchecker.cpp:1972
 #: src/mltcontroller/clipcontroller.cpp:543
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -20936,7 +20936,7 @@ msgstr "Künyeyi Düzenle"
 #: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:286
 #, kde-format
 msgid "This color is already used in another tag"
-msgstr "Bu renk başka bir künyede halihazırda kullanılıyor"
+msgstr "Bu renk başka bir künyede hâlihazırda kullanılıyor"
 
 #: src/bin/tagwidget.cpp:274
 #, kde-format
@@ -20948,12 +20948,12 @@ msgstr "Künye Ekle"
 msgid "New tag"
 msgstr "Yeni künye"
 
-#: src/capture/mediacapture.cpp:117
+#: src/capture/mediacapture.cpp:119
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Kayıt biçimi %1 kanal ve %2 Hz olarak ayarlandı."
 
-#: src/capture/mediacapture.cpp:222
+#: src/capture/mediacapture.cpp:241
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20962,7 +20962,7 @@ msgstr ""
 "Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>’a, "
 "sonlandırmak için <b>Esc</b>’ye basın."
 
-#: src/capture/mediacapture.cpp:369 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -21399,7 +21399,7 @@ msgid ""
 msgstr ""
 "Çıktı dosyası adı, değiştirilmiş uzantıyla birlikte kaynak kova klibi dosya "
 "adıyla aynı olacaktır. Argümanların sonuna iliştirilir veya bulunursa "
-"<b>{output}</b> yerine yerleştirilir. Çıktı dosyası adı halihazırda varsa "
+"<b>{output}</b> yerine yerleştirilir. Çıktı dosyası adı hâlihazırda varsa "
 "bir -0001 dizgisi iliştirilir."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
@@ -21506,7 +21506,7 @@ msgstr "Noktalı virgülle ayırarak birden çok profil girebilirsiniz"
 #: src/dialogs/customcamcorderdialog.cpp:132
 #, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "Önayar halihazırda var, yeni bir ad girin:"
+msgstr "Önayar hâlihazırda var, yeni bir ad girin:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -21733,7 +21733,7 @@ msgstr "İmleyiciler Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:927
 #: src/project/dialogs/archivewidget.cpp:939
 #: src/project/dialogs/archivewidget.cpp:945
-#: src/project/projectmanager.cpp:1981 src/project/projectmanager.cpp:1987
+#: src/project/projectmanager.cpp:1982 src/project/projectmanager.cpp:1988
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21826,7 +21826,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1870
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1871
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -22042,7 +22042,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"MLT’nin öntanımlı profilleri arasında aynı adlı bir profil halihazırda var; "
+"MLT’nin öntanımlı profilleri arasında aynı adlı bir profil hâlihazırda var; "
 "profiliniz için başka bir tanımlama seçin."
 
 #: src/dialogs/profilesdialog.cpp:344
@@ -22397,7 +22397,7 @@ msgstr "Arakodla"
 #: src/project/dialogs/archivewidget.cpp:933
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
-msgstr "Çıktı dosyası halihazırda var. Üzerine yazmak istiyor musunuz?"
+msgstr "Çıktı dosyası hâlihazırda var. Üzerine yazmak istiyor musunuz?"
 
 #: src/dialogs/renderwidget.cpp:974 src/monitor/recmanager.cpp:181
 #, kde-format
@@ -22419,13 +22419,13 @@ msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
-"Bir dosyaya yazan bir iş halihazırda var:<br /><b>%1</b><br />Üzerine yazmak "
+"Bir dosyaya yazan bir iş hâlihazırda var:<br /><b>%1</b><br />Üzerine yazmak "
 "istiyorsanız işi iptal edin…"
 
 #: src/dialogs/renderwidget.cpp:1087 src/dialogs/renderwidget.cpp:2009
 #, kde-format
 msgid "Already running"
-msgstr "Halihazırda çalışıyor"
+msgstr "Hâlihazırda çalışıyor"
 
 #: src/dialogs/renderwidget.cpp:1116
 #, kde-format
@@ -22983,7 +22983,7 @@ msgstr "İndirilecek modeli seç"
 #: src/dialogs/settings/pluginssettings.cpp:610
 #, kde-format
 msgid "All models are already installed"
-msgstr "Tüm modeller halihazırda kurulu"
+msgstr "Tüm modeller hâlihazırda kurulu"
 
 #: src/dialogs/settings/pluginssettings.cpp:630
 #, kde-format
@@ -24316,7 +24316,7 @@ msgstr "Hata"
 #: src/dialogs/subtitlestyleedit.cpp:174
 #, kde-format
 msgid "Style name already exists."
-msgstr "Biçem adı halihazırda var."
+msgstr "Biçem adı hâlihazırda var."
 
 #: src/dialogs/subtitlestyleedit.cpp:179
 #, kde-format
@@ -24418,7 +24418,7 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
-"Başka bir tanıma işi halihazırda çalışıyor. Bu iş, yeni işten dolayı iptal "
+"Başka bir tanıma işi hâlihazırda çalışıyor. Bu iş, yeni işten dolayı iptal "
 "edilecek. Sürdürmek istiyor musunuz?"
 
 #: src/dialogs/textbasededit.cpp:1105
@@ -24915,18 +24915,18 @@ msgstr "Vekil Klipler Klasörü"
 msgid "Applying fixes…"
 msgstr "Düzeltmeler uygulanıyor…"
 
-#: src/doc/documentchecker.cpp:179 src/doc/documentchecker.cpp:271
+#: src/doc/documentchecker.cpp:183 src/doc/documentchecker.cpp:277
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Eksik ögeler denetleniyor…"
 
-#: src/doc/documentchecker.cpp:201
+#: src/doc/documentchecker.cpp:205
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Projenizin belge kimliği geçersizdi; yeni bir tane oluşturuldu."
 
-#: src/doc/documentchecker.cpp:211
+#: src/doc/documentchecker.cpp:216
 #, kde-format
 msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
@@ -24935,120 +24935,120 @@ msgstr ""
 "Projenin depolama klasörü <b>%1</b> bulunamadı. Lütfen bu proje için "
 "güncellenmiş bir depolama konumu belirtin."
 
-#: src/doc/documentchecker.cpp:1904
+#: src/doc/documentchecker.cpp:1910
 #, kde-format
 msgid "Video clip"
 msgstr "Video klibi"
 
-#: src/doc/documentchecker.cpp:1906
+#: src/doc/documentchecker.cpp:1912
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Sunu klibi"
 
-#: src/doc/documentchecker.cpp:1908
+#: src/doc/documentchecker.cpp:1914
 #, kde-format
 msgid "Image clip"
 msgstr "Görsel klibi"
 
-#: src/doc/documentchecker.cpp:1910
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Playlist clip"
 msgstr "Oynatma listesi klibi"
 
-#: src/doc/documentchecker.cpp:1912 src/doc/documentchecker.cpp:1928
+#: src/doc/documentchecker.cpp:1918 src/doc/documentchecker.cpp:1934
 #, kde-format
 msgid "Title Image"
 msgstr "Başlık Görseli"
 
-#: src/doc/documentchecker.cpp:1924
+#: src/doc/documentchecker.cpp:1930
 #, kde-format
 msgid "Clip"
 msgstr "Klip"
 
-#: src/doc/documentchecker.cpp:1926
+#: src/doc/documentchecker.cpp:1932
 #, kde-format
 msgid "Title Font"
 msgstr "Başlık Yazıtipi"
 
-#: src/doc/documentchecker.cpp:1930
+#: src/doc/documentchecker.cpp:1936
 #, kde-format
 msgid "Luma file"
 msgstr "Luma dosyası"
 
-#: src/doc/documentchecker.cpp:1932
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Asset file"
 msgstr "Varlık dosyası"
 
-#: src/doc/documentchecker.cpp:1934
+#: src/doc/documentchecker.cpp:1940
 #: src/mltcontroller/clippropertiescontroller.cpp:701
 #, kde-format
 msgid "Proxy clip"
 msgstr "Vekil klip"
 
-#: src/doc/documentchecker.cpp:1938
+#: src/doc/documentchecker.cpp:1944
 #, kde-format
 msgid "Transition"
 msgstr "Geçiş"
 
-#: src/doc/documentchecker.cpp:1940
+#: src/doc/documentchecker.cpp:1946
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Başvurulmamış klip"
 
-#: src/doc/documentchecker.cpp:1942
+#: src/doc/documentchecker.cpp:1948
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Hasarlı sekans"
 
-#: src/doc/documentchecker.cpp:1952
+#: src/doc/documentchecker.cpp:1958
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Sabit"
 
-#: src/doc/documentchecker.cpp:1954
+#: src/doc/documentchecker.cpp:1960
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Yeniden Yükle"
 
-#: src/doc/documentchecker.cpp:1956
+#: src/doc/documentchecker.cpp:1962
 #, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "Uzak"
 
-#: src/doc/documentchecker.cpp:1958
+#: src/doc/documentchecker.cpp:1964
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Eksik"
 
-#: src/doc/documentchecker.cpp:1960
+#: src/doc/documentchecker.cpp:1966
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Eksik; ancak vekil kullanılabilir"
 
-#: src/doc/documentchecker.cpp:1962
+#: src/doc/documentchecker.cpp:1968
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Yer tutucu"
 
-#: src/doc/documentchecker.cpp:1964
+#: src/doc/documentchecker.cpp:1970
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Kaldır"
 
-#: src/doc/documentchecker.cpp:1975
+#: src/doc/documentchecker.cpp:1981
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Proje dosyası eksik klipler veya dosyalar içeriyor."
 
-#: src/doc/documentchecker.cpp:1978
+#: src/doc/documentchecker.cpp:1984
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Eksik vekiller program açılırken yeniden oluşturulabilir."
@@ -25147,7 +25147,7 @@ msgstr "ek ses"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
-"Altyazı dosyası:<br/>%1<br/>halihazırda var. Üzerine yazmak istiyor musunuz?"
+"Altyazı dosyası:<br/>%1<br/>hâlihazırda var. Üzerine yazmak istiyor musunuz?"
 
 #: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3892
 #, kde-format
@@ -25495,7 +25495,7 @@ msgid ""
 "Effect name %1 already exists.\n"
 " Try another name?"
 msgstr ""
-"Efekt adı %1 halihazırda var.\n"
+"Efekt adı %1 hâlihazırda var.\n"
 " Başka bir ad denemek ister misiniz?"
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:150
@@ -26561,7 +26561,7 @@ msgstr "Yerleşim adı:"
 #: src/layouts/layoutmanagement.cpp:305 src/layouts/layoutmanagerdialog.cpp:246
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
-msgstr "%1 yerleşimi halihazırda var. Başkasıyla değiştirmek istiyor musunuz?"
+msgstr "%1 yerleşimi hâlihazırda var. Başkasıyla değiştirmek istiyor musunuz?"
 
 #: src/layouts/layoutmanagement.cpp:342
 #, kde-format
@@ -26639,7 +26639,7 @@ msgstr "%1 yerleşimler klasörüne yazılamadı."
 #: src/layouts/layoutmanagerdialog.cpp:235
 #, kde-format
 msgid "Selected layout is already imported"
-msgstr "Seçili yerleşim halihazırda içe aktarılmış."
+msgstr "Seçili yerleşim hâlihazırda içe aktarılmış."
 
 #: src/layouts/layoutmanagerdialog.cpp:242
 #, kde-format
@@ -26856,7 +26856,7 @@ msgstr "Klasör adı girin"
 #: src/library/librarywidget.cpp:397
 #, kde-format
 msgid "Folder %1 already exists"
-msgstr "%1 klasörü halihazırda var"
+msgstr "%1 klasörü hâlihazırda var"
 
 #: src/library/librarywidget.cpp:401
 #, kde-format
@@ -26912,7 +26912,7 @@ msgstr "Nicolas Carion"
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
-"Kod mimarisin yeniden düzenlenmesi ve zaman akışının yeniden yazılması (2019)"
+"Kod mimarîsin yeniden düzenlenmesi ve zaman akışının yeniden yazılması (2019)"
 
 #: src/main.cpp:280
 #, kde-format
@@ -27027,7 +27027,7 @@ msgstr "Uzman görüşü, sınama"
 #: src/main.cpp:295
 #, kde-format
 msgid "NAME OF TRANSLATORS"
-msgstr "Anıl Özbek, Serdar Soytetir, Volkan Gezer, Emir SARI"
+msgstr "Anıl Özbek, Serdar SOYTETİR, Volkan GEZER, Emir SARI"
 
 #: src/main.cpp:295
 #, kde-format
@@ -28736,7 +28736,7 @@ msgstr "Bu işlem gerçekleştirilemez, geçersiz belge kimliği: %1"
 #: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
-msgstr "Bu işlem gerçekleştirilemez, hedef dizin halihazırda var: %1"
+msgstr "Bu işlem gerçekleştirilemez, hedef dizin hâlihazırda var: %1"
 
 #: src/mainwindow.cpp:2717
 #, kde-format
@@ -31081,7 +31081,7 @@ msgstr "İmleyici Kategorisini Düzenle"
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
 msgid "This color is already used in another category"
-msgstr "Bu renk, başka bir kılavuzda halihazırda kullanılıyor"
+msgstr "Bu renk, başka bir kılavuzda hâlihazırda kullanılıyor"
 
 #: src/project/dialogs/guidecategories.cpp:133
 #, kde-format
@@ -31872,7 +31872,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1807
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1808
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32030,8 +32030,8 @@ msgstr "Proje klasörü taşınırken hata, önbellek klasörüne erişilemiyor"
 msgid "Moving project folder"
 msgstr "Proje klasörü taşınıyor"
 
-#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1703
-#: src/project/projectmanager.cpp:1707
+#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1704
+#: src/project/projectmanager.cpp:1708
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekans 1"
@@ -32042,27 +32042,27 @@ msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk — izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1799 src/project/projectmanager.cpp:1812
-#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1845
+#: src/project/projectmanager.cpp:1800 src/project/projectmanager.cpp:1813
+#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1846
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:1975
+#: src/project/projectmanager.cpp:1976
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
-"Çıktı dosyası %1 halihazırda var.\n"
+"Çıktı dosyası %1 hâlihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:2000
+#: src/project/projectmanager.cpp:2001
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:2064
+#: src/project/projectmanager.cpp:2065
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -32071,33 +32071,33 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2152
+#: src/project/projectmanager.cpp:2154
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
-#: src/project/projectmanager.cpp:2397 src/project/projectmanager.cpp:2449
+#: src/project/projectmanager.cpp:2399 src/project/projectmanager.cpp:2451
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:2407 src/project/projectmanager.cpp:2458
+#: src/project/projectmanager.cpp:2409 src/project/projectmanager.cpp:2460
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Sekans oluşturma başarısız"
 
-#: src/project/projectmanager.cpp:2434
+#: src/project/projectmanager.cpp:2436
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Geçerli zaman akışına sekans eklenemiyor"
 
-#: src/project/projectmanager.cpp:2438
+#: src/project/projectmanager.cpp:2440
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/project/projectmanager.cpp:2476
+#: src/project/projectmanager.cpp:2478
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "Klipleri Yeni Sekansa Kopyala"
@@ -32872,7 +32872,7 @@ msgstr "10 bit"
 #: src/renderpresets/renderpresetrepository.cpp:390
 #, kde-format
 msgid "Preset already exists"
-msgstr "Önayar halihazırda var"
+msgstr "Önayar hâlihazırda var"
 
 #: src/renderpresets/renderpresetrepository.cpp:391
 #, kde-format
@@ -32880,7 +32880,7 @@ msgid ""
 "This preset name already exists. Change the name if you do not want to "
 "overwrite it."
 msgstr ""
-"Bu önayar adı halihazırda var. Üzerine yazmak istemiyorsanız adını "
+"Bu önayar adı hâlihazırda var. Üzerine yazmak istemiyorsanız adını "
 "değiştirin."
 
 #: src/scopes/abstractscopewidget.cpp:66
@@ -34694,7 +34694,7 @@ msgstr "Hizalamaya çalışmadan önce zaman kodu başvurusunu ayarlayın"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
-"Tüm akışlar halihazırda atandı, başka bir ses hedefinin seçimini kaldır"
+"Tüm akışlar hâlihazırda atandı, başka bir ses hedefinin seçimini kaldır"
 
 #: src/timeline2/view/timelinecontroller.cpp:4114
 #, kde-format
