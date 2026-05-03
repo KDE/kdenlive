@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "utils/uiutils.h"
 
 #include <QImageReader>
 #include <QProcess>
@@ -275,6 +276,16 @@ void ProxyTask::run()
                 if (proxyParams.isEmpty()) {
                     // Automatic setting, decide based on hw support
                     proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+                } else {
+                    // Sanitize parameters
+                    const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
+                    for (auto &f : forbiddenArgs) {
+                        if (proxyParams.contains(f)) {
+                            // Unwanted param found, discard parameters
+                            proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+                            break;
+                        }
+                    }
                 }
             }
             int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
