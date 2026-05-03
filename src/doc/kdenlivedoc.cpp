@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "titler/titlewidget.h"
 #include "transitions/transitionsrepository.hpp"
+#include "utils/uiutils.h"
 #include <config-kdenlive.h>
 
 #include <KBookmark>
@@ -1846,6 +1847,7 @@ void KdenliveDoc::loadDocumentProperties()
                 e.firstChild().clear();
                 continue;
             }
+
             if (name == QLatin1String("storagefolder")) {
                 // Make sure we have an absolute path
                 QString value = e.firstChild().nodeValue();
@@ -1866,6 +1868,33 @@ void KdenliveDoc::loadDocumentProperties()
             m_documentMetadata.insert(name, e.firstChild().nodeValue());
         }
     }
+
+    const QString proxyparams = m_documentProperties.value(QStringLiteral("proxyparams"));
+    if (!proxyparams.isEmpty()) {
+        // Sanitize parameters. First check for forbidden params
+        const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
+        bool discard = false;
+        const QString proxyExtension = m_documentProperties.value(QStringLiteral("proxyextension"));
+        if (proxyExtension.length() > 8) {
+            discard = true;
+        } else
+            for (auto &f : forbiddenArgs) {
+                if (proxyparams.contains(f)) {
+                    discard = true;
+                    break;
+                }
+            }
+        if (discard) {
+            // Suspicious proxy parameters
+            QString messageData = i18n("Invalid preset");
+            messageData.append(
+                QStringLiteral(":<br><br><code style=\"background-color:darkred;color:white\"><b>%1 proxy.%2</b></code><br>").arg(proxyparams, proxyExtension));
+            KMessageBox::error(pCore->window(), messageData);
+            m_documentProperties.remove(QStringLiteral("proxyparams"));
+            m_documentProperties.remove(QStringLiteral("proxyextension"));
+        }
+    }
+
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
     if (!path.isEmpty()) {
         QDir dir(path);

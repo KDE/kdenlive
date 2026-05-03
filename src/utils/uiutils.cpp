@@ -10,6 +10,14 @@
 #include <QIcon>
 #include <QPixmap>
 
+static QStringList forbiddenParams = {QStringLiteral("attach"), QStringLiteral("metadata"), QStringLiteral("null"),   QStringLiteral("dump"),
+                                      QStringLiteral("concat"), QStringLiteral("safe"),     QStringLiteral("ladspa"), QStringLiteral("protocol_whitelist")};
+
+const QStringList UiUtils::getProxyForbiddenParams()
+{
+    return forbiddenParams;
+}
+
 QIcon UiUtils::rotatedIcon(const QString &iconName, const QSize iconSize, qreal rotation)
 {
     QIcon icon = QIcon::fromTheme(iconName);
