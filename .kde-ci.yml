@@ -43,3 +43,4 @@ Options:
   require-cppcheck-clean: True
   run-qmllint: True
   core-usage-limit: 8
+  enable-lsan: True
