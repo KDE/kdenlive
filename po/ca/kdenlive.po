@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-03 03:04+0000\n"
+"POT-Creation-Date: 2026-05-04 02:42+0000\n"
 "PO-Revision-Date: 2026-05-02 10:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -9911,7 +9911,7 @@ msgstr "Ajust RGB"
 msgid "Simple color adjustment"
 msgstr "Ajust de color senzill"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2527
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2556
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -9920,7 +9920,7 @@ msgstr "Vermell"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2528
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2557
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -9931,7 +9931,7 @@ msgstr "Verd"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2529
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2558
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -14035,14 +14035,14 @@ msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "<b><u>Desplaçament del to</u></b> vermell"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2530
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2559
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Groc"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2531
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2560
 #, kde-format
 msgid "Cyan"
 msgstr "Cian"
@@ -19700,7 +19700,7 @@ msgstr "Manca clip d'origen"
 msgid "Unable to write to file %1"
 msgstr "No és possible escriure al fitxer %1"
 
-#: src/bin/bin.cpp:2189 src/bin/bin.cpp:2885 src/doc/kdenlivedoc.cpp:750
+#: src/bin/bin.cpp:2189 src/bin/bin.cpp:2885 src/doc/kdenlivedoc.cpp:751
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -20262,7 +20262,7 @@ msgstr "Introduïu el camí a l'aplicació d'edició de vídeo"
 msgid "Please set a default application to open video files"
 msgstr "Establiu l'aplicació predeterminada per a obrir fitxers de vídeo"
 
-#: src/bin/bin.cpp:5171 src/core.cpp:683 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5171 src/core.cpp:683 src/doc/kdenlivedoc.cpp:170
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
@@ -21504,7 +21504,7 @@ msgstr "Clip de text"
 msgid "Create Text clip"
 msgstr "Crea un clip de text"
 
-#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1204
+#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1205
 #, kde-format
 msgid "Template title clip"
 msgstr "Plantilla de clip de títol"
@@ -21851,8 +21851,8 @@ msgid "Export Markers Data"
 msgstr "Exportació de les dades de marcadors"
 
 #: src/dialogs/exportguidesdialog.cpp:92 src/dialogs/renderwidget.cpp:2200
-#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:767
-#: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
+#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:768
+#: src/doc/kdenlivedoc.cpp:776 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
@@ -22580,7 +22580,7 @@ msgstr "Àudio sense pista de vídeo"
 msgid "Rendering %1 started"
 msgstr "Ha començat la renderització de %1"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1553
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1555
 #, kde-format
 msgid "untitled"
 msgstr "sense títol"
@@ -22595,7 +22595,7 @@ msgstr "No s'ha seleccionat cap valor predefinit"
 msgid "No matching preset"
 msgstr "No concorda amb cap valor predefinit"
 
-#: src/dialogs/renderwidget.cpp:1318
+#: src/dialogs/renderwidget.cpp:1318 src/doc/kdenlivedoc.cpp:1889
 #, kde-format
 msgid "Invalid preset"
 msgstr "El valor predefinit no és vàlid"
@@ -25304,18 +25304,18 @@ msgstr "Els filtres/transicions següents s'han convertit a versions sense GPU:"
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Els filtres/transicions següents s'han suprimit del projecte:"
 
-#: src/doc/kdenlivedoc.cpp:161
+#: src/doc/kdenlivedoc.cpp:162
 #, kde-format
 msgid "Invalid file path"
 msgstr "Camí de fitxer no vàlid"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:846
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:846
 #: src/project/projectmanager.cpp:898
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "No s'ha pogut recuperar un fitxer corrupte."
 
-#: src/doc/kdenlivedoc.cpp:215
+#: src/doc/kdenlivedoc.cpp:216
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -25324,17 +25324,17 @@ msgstr ""
 "No s'ha pogut obrir el fitxer %1\n"
 "%2 (línia %3, col. %4)"
 
-#: src/doc/kdenlivedoc.cpp:227
+#: src/doc/kdenlivedoc.cpp:228
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "El fitxer %1 no és cap fitxer de projecte del Kdenlive"
 
-#: src/doc/kdenlivedoc.cpp:234
+#: src/doc/kdenlivedoc.cpp:235
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "El fitxer %1 no és un fitxer vàlid de projecte del Kdenlive."
 
-#: src/doc/kdenlivedoc.cpp:247
+#: src/doc/kdenlivedoc.cpp:248
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -25343,7 +25343,7 @@ msgstr ""
 "L'acceleració de la GPU està apagada en la configuració del Kdenlive, però "
 "els filtres Movit d'aquest projecte la requereixen."
 
-#: src/doc/kdenlivedoc.cpp:290
+#: src/doc/kdenlivedoc.cpp:291
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -25354,24 +25354,24 @@ msgstr ""
 "Assegureu-vos que teniu els permisos requerits.\n"
 "Es predeterminen les carpetes del sistema"
 
-#: src/doc/kdenlivedoc.cpp:293
+#: src/doc/kdenlivedoc.cpp:294
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "La carpeta de documents del projecte no és vàlida, s'usen les carpetes "
 "predeterminades del sistema"
 
-#: src/doc/kdenlivedoc.cpp:586 src/doc/kdenlivedoc.cpp:596
+#: src/doc/kdenlivedoc.cpp:587 src/doc/kdenlivedoc.cpp:597
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "No s'ha pogut crear el fitxer %1 de desament automàtic"
 
-#: src/doc/kdenlivedoc.cpp:591 src/doc/kdenlivedoc.cpp:728
+#: src/doc/kdenlivedoc.cpp:592 src/doc/kdenlivedoc.cpp:729
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "No es pot escriure al fitxer %1, la llista d'escenes és defectuosa."
 
-#: src/doc/kdenlivedoc.cpp:746
+#: src/doc/kdenlivedoc.cpp:747
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -25382,7 +25382,7 @@ msgstr ""
 "Per tal d'assegurar que no es perden dades, s'ha creat una còpia de "
 "seguretat anomenada %1."
 
-#: src/doc/kdenlivedoc.cpp:760
+#: src/doc/kdenlivedoc.cpp:761
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -25391,35 +25391,35 @@ msgstr ""
 "El fitxer del projecte s'ha actualitzat a la darrera versió de document del "
 "Kdenlive, però no ha estat possible crear la còpia de seguretat %1."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1543
+#: src/doc/kdenlivedoc.cpp:938 src/project/projectmanager.cpp:1543
 #: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error en moure la carpeta del projecte: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2488
+#: src/doc/kdenlivedoc.cpp:1131 src/doc/kdenlivedoc.cpp:2517
 #: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: src/doc/kdenlivedoc.cpp:1190
+#: src/doc/kdenlivedoc.cpp:1191
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Introducció del camí de les plantilles"
 
-#: src/doc/kdenlivedoc.cpp:1351
+#: src/doc/kdenlivedoc.cpp:1352
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Els efectes següents s'han importat des del projecte:"
 
-#: src/doc/kdenlivedoc.cpp:1384 src/doc/kdenlivedoc.cpp:1398
+#: src/doc/kdenlivedoc.cpp:1385 src/doc/kdenlivedoc.cpp:1399
 #, kde-format
 msgid "Project Folder"
 msgstr "Carpeta del projecte"
 
-#: src/doc/kdenlivedoc.cpp:1442 src/doc/kdenlivedoc.cpp:1459
+#: src/doc/kdenlivedoc.cpp:1443 src/doc/kdenlivedoc.cpp:1460
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -25428,56 +25428,56 @@ msgstr ""
 "No s'ha pogut crear la còpia de seguretat:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1617
+#: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
 "Els clips intermediaris no estan destinats a la composició o l'etalonatge."
 
-#: src/doc/kdenlivedoc.cpp:1619
+#: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "El clip té un canal alfa. "
 msgstr[1] "Els clips tenen un canal alfa. "
 
-#: src/doc/kdenlivedoc.cpp:1625
+#: src/doc/kdenlivedoc.cpp:1626
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "Teniu un clip amb un canal alfa. "
 msgstr[1] "Teniu %1 clips amb un canal alfa. "
 
-#: src/doc/kdenlivedoc.cpp:1627
+#: src/doc/kdenlivedoc.cpp:1628
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Fes intermediaris tots els clips"
 
-#: src/doc/kdenlivedoc.cpp:1628
+#: src/doc/kdenlivedoc.cpp:1629
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "Només fes intermediaris els clips sense canal alfa"
 
-#: src/doc/kdenlivedoc.cpp:1644
+#: src/doc/kdenlivedoc.cpp:1645
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Afegeix un clip intermediari"
 msgstr[1] "Afegeix un clip"
 
-#: src/doc/kdenlivedoc.cpp:1646
+#: src/doc/kdenlivedoc.cpp:1647
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Elimina el clip intermediari"
 msgstr[1] "Elimina els clips intermediaris"
 
-#: src/doc/kdenlivedoc.cpp:1692 src/doc/kdenlivedoc.cpp:1752
+#: src/doc/kdenlivedoc.cpp:1693 src/doc/kdenlivedoc.cpp:1753
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "El tipus del clip no admet intermediaris"
 
-#: src/doc/kdenlivedoc.cpp:1903
+#: src/doc/kdenlivedoc.cpp:1932
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -25487,12 +25487,12 @@ msgstr ""
 "El projecte utilitza una velocitat de fotograma no estàndard (%1), això "
 "donarà com a resultat clips i desplaçaments de fotogrames erronis."
 
-#: src/doc/kdenlivedoc.cpp:2021
+#: src/doc/kdenlivedoc.cpp:2050
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Avís: fps no estàndard, s'ajusta a l'enter més pròxim. "
 
-#: src/doc/kdenlivedoc.cpp:2039
+#: src/doc/kdenlivedoc.cpp:2068
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -25502,43 +25502,43 @@ msgstr ""
 "és %3.\n"
 "Voleu canviar el perfil predeterminat per als projectes futurs?"
 
-#: src/doc/kdenlivedoc.cpp:2041
+#: src/doc/kdenlivedoc.cpp:2070
 #, kde-format
 msgid "Change default project profile"
 msgstr "Canvia el perfil predeterminat del projecte"
 
-#: src/doc/kdenlivedoc.cpp:2041
+#: src/doc/kdenlivedoc.cpp:2070
 #, kde-format
 msgid "Change default to %1"
 msgstr "Canvia el predeterminat a %1"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2071
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Mantén el predeterminat actual %1"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2071
 #, kde-format
 msgid "Ask me later"
 msgstr "Pregunta-ho més tard"
 
-#: src/doc/kdenlivedoc.cpp:2062
+#: src/doc/kdenlivedoc.cpp:2091
 #, kde-format
 msgid "Switch"
 msgstr "Canvia"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2064 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2093 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/doc/kdenlivedoc.cpp:2066
+#: src/doc/kdenlivedoc.cpp:2095
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Canvio al perfil %2 del clip (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:2071
+#: src/doc/kdenlivedoc.cpp:2100
 #, kde-format
 msgid ""
 "\n"
@@ -25547,7 +25547,7 @@ msgstr ""
 "\n"
 "FPS del perfil ajustat a partir de l'original %1"
 
-#: src/doc/kdenlivedoc.cpp:2075
+#: src/doc/kdenlivedoc.cpp:2104
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -25557,7 +25557,7 @@ msgstr ""
 "El creo i canvio al perfil nou (%2x%3, %4fps)?%5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2885 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:2914 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -26283,22 +26283,22 @@ msgstr "Ha fallat en renderitzar la màscara %1"
 msgid "Failed to process playlist."
 msgstr "Ha fallat en processar la llista de reproducció."
 
-#: src/jobs/proxytask.cpp:29
+#: src/jobs/proxytask.cpp:30
 #, kde-format
 msgid "Creating proxy"
 msgstr "S'està creant l'intermediari"
 
-#: src/jobs/proxytask.cpp:221
+#: src/jobs/proxytask.cpp:222
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "No s'ha pogut carregar la imatge %1."
 
-#: src/jobs/proxytask.cpp:241
+#: src/jobs/proxytask.cpp:242
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "La imatge és massa petita perquè sigui intermediària."
 
-#: src/jobs/proxytask.cpp:249 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -26306,7 +26306,7 @@ msgstr ""
 "No s'ha trobat el FFmpeg. Cal definir el camí a la configuració de l'entorn "
 "del Kdenlive"
 
-#: src/jobs/proxytask.cpp:435 src/jobs/proxytask.cpp:449
+#: src/jobs/proxytask.cpp:434 src/jobs/proxytask.cpp:448
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "No s'ha pogut crear el clip intermediari."
@@ -29409,7 +29409,7 @@ msgid "Audio streams"
 msgstr "Fluxos d'àudio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2238
+#: src/monitor/monitor.cpp:2240
 #, kde-format
 msgid "Merge all streams"
 msgstr "Fusiona tots els fluxos"
@@ -29818,55 +29818,55 @@ msgstr "Mostra el codi de temps de l'original"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "La resolució de la pantalla no és suficient per a aquesta acció"
 
-#: src/monitor/monitor.cpp:944 src/monitor/monitor.cpp:980
-#: src/monitor/monitor.cpp:1016
+#: src/monitor/monitor.cpp:946 src/monitor/monitor.cpp:982
+#: src/monitor/monitor.cpp:1018
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "No es pot canviar la zona en crear una màscara"
 
-#: src/monitor/monitor.cpp:973 src/monitor/monitor.cpp:1009
+#: src/monitor/monitor.cpp:975 src/monitor/monitor.cpp:1011
 #: src/timeline2/view/timelinecontroller.cpp:1948
 #, kde-format
 msgid "Set Zone"
 msgstr "Estableix una zona"
 
-#: src/monitor/monitor.cpp:1566
+#: src/monitor/monitor.cpp:1568
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Desa la imatge al projecte"
 
-#: src/monitor/monitor.cpp:1566
+#: src/monitor/monitor.cpp:1568
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Desa la imatge"
 
-#: src/monitor/monitor.cpp:1573
+#: src/monitor/monitor.cpp:1575
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Exporta una imatge usant la resolució de l'origen"
 
-#: src/monitor/monitor.cpp:2113
+#: src/monitor/monitor.cpp:2115
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Surto del mode de màscara?"
 
-#: src/monitor/monitor.cpp:2223 src/monitor/monitor.cpp:2352
+#: src/monitor/monitor.cpp:2225 src/monitor/monitor.cpp:2356
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 flux d'àudio"
 msgstr[1] "%1 fluxos d'àudio"
 
-#: src/monitor/monitor.cpp:2675
+#: src/monitor/monitor.cpp:2679
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "No s'ha pogut inicialitzar el gestor GLSL del Movit. Si us plau, desactiveu "
 "el Movit"
 
-#: src/monitor/monitor.cpp:2717 src/monitor/monitor.cpp:2774
+#: src/monitor/monitor.cpp:2721 src/monitor/monitor.cpp:2778
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29875,17 +29875,17 @@ msgstr ""
 "Es requereix el filtre «alphagrad» per a aquesta característica. Si us plau, "
 "instal·leu l'«alphagrad» i reinicieu el Kdenlive"
 
-#: src/monitor/monitor.cpp:2737
+#: src/monitor/monitor.cpp:2741
 #, kde-format
 msgid "Clip has no effects"
 msgstr "El clip no té cap efecte"
 
-#: src/monitor/monitor.cpp:2739
+#: src/monitor/monitor.cpp:2743
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Seleccioneu un clip a la safata del projecte per a comparar l'efecte"
 
-#: src/monitor/monitor.cpp:2781
+#: src/monitor/monitor.cpp:2785
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29894,40 +29894,40 @@ msgstr ""
 "Es requereix la transició «cairoblend» per a aquesta característica. Si us "
 "plau, instal·leu el «frei0r» i reinicieu el Kdenlive"
 
-#: src/monitor/monitor.cpp:2861
+#: src/monitor/monitor.cpp:2865
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Activa el mode d'edició al monitor per a editar un efecte"
 
-#: src/monitor/monitor.cpp:3365
+#: src/monitor/monitor.cpp:3369
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "No s'ha seleccionat cap clip al monitor de clips"
 
-#: src/monitor/monitor.cpp:3386
+#: src/monitor/monitor.cpp:3390
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "No s'ha pogut aconseguir el productor per al monitor de clips"
 
-#: src/monitor/monitor.cpp:3468 src/monitor/monitor.cpp:3499
+#: src/monitor/monitor.cpp:3472 src/monitor/monitor.cpp:3503
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "No s'ha definit cap zona vàlida. Primer definiu els punts d'entrada/sortida."
 
-#: src/monitor/monitor.cpp:3478
+#: src/monitor/monitor.cpp:3482
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Crea un marcador d'interval a partir d'una zona"
 
-#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
+#: src/monitor/monitor.cpp:3488 src/monitor/monitor.cpp:3509
 #: src/timeline2/view/timelinecontroller.cpp:6001
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Marcador d'interval creat a partir d'una zona"
 
-#: src/monitor/monitor.cpp:3486 src/monitor/monitor.cpp:3507
+#: src/monitor/monitor.cpp:3490 src/monitor/monitor.cpp:3511
 #: src/timeline2/view/timelinecontroller.cpp:6004
 #, kde-format
 msgid "Failed to create range marker from zone"

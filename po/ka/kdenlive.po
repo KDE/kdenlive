@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-03 03:04+0000\n"
+"POT-Creation-Date: 2026-05-04 02:42+0000\n"
 "PO-Revision-Date: 2026-05-02 01:15+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -9483,7 +9483,7 @@ msgstr "RGB-ის გასწორება"
 msgid "Simple color adjustment"
 msgstr "მარტივი ფერის გასწორება"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2527
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2556
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -9492,7 +9492,7 @@ msgstr "წითელი"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2528
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2557
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -9503,7 +9503,7 @@ msgstr "მწვანე"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2529
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2558
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -13450,14 +13450,14 @@ msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "<b><u>ტონის წანაცვლება</u></b> წითელი"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2530
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2559
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "ყვითელი"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2531
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2560
 #, kde-format
 msgid "Cyan"
 msgstr "ცისფერი"
@@ -18928,7 +18928,7 @@ msgstr "ნაკლული საწყისი კლიპი"
 msgid "Unable to write to file %1"
 msgstr "%1 ფაილში ჩაწერის შეცდომა"
 
-#: src/bin/bin.cpp:2189 src/bin/bin.cpp:2885 src/doc/kdenlivedoc.cpp:750
+#: src/bin/bin.cpp:2189 src/bin/bin.cpp:2885 src/doc/kdenlivedoc.cpp:751
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -19483,7 +19483,7 @@ msgstr "შეიყვანეთ ბილიკი თქვენს ვი
 msgid "Please set a default application to open video files"
 msgstr "დააყენეთ ნაგულისხმევი აპლიკაცია ვიდეოფაილების გასახსნელად"
 
-#: src/bin/bin.cpp:5171 src/core.cpp:683 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5171 src/core.cpp:683 src/doc/kdenlivedoc.cpp:170
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
@@ -20720,7 +20720,7 @@ msgstr "ტექსტური კლიპი"
 msgid "Create Text clip"
 msgstr "ტექსტური კლიპის შექმნა"
 
-#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1204
+#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1205
 #, kde-format
 msgid "Template title clip"
 msgstr "ტიტრის კლიპის ნიმუში"
@@ -21058,8 +21058,8 @@ msgid "Export Markers Data"
 msgstr "მარკერის მონაცემების გატანა"
 
 #: src/dialogs/exportguidesdialog.cpp:92 src/dialogs/renderwidget.cpp:2200
-#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:767
-#: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
+#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:768
+#: src/doc/kdenlivedoc.cpp:776 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
@@ -21782,7 +21782,7 @@ msgstr "აუდიო ვიდეოს გარეშე"
 msgid "Rendering %1 started"
 msgstr "%1-ის რენდერი დაიწყო"
 
-#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1553
+#: src/dialogs/renderwidget.cpp:1265 src/monitor/monitor.cpp:1555
 #, kde-format
 msgid "untitled"
 msgstr "უსახელო"
@@ -21797,7 +21797,7 @@ msgstr "პრესეტი არჩეული არაა"
 msgid "No matching preset"
 msgstr "ასეთი პრესეტი არ არსებობს"
 
-#: src/dialogs/renderwidget.cpp:1318
+#: src/dialogs/renderwidget.cpp:1318 src/doc/kdenlivedoc.cpp:1889
 #, kde-format
 msgid "Invalid preset"
 msgstr "არასწორი პრესეტი"
@@ -24483,18 +24483,18 @@ msgstr "შემდეგი ფილტრი/გადასვლა გა
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "პროექტიდან წაიშალა შემდეგი ფილტრები/გადასვლები:"
 
-#: src/doc/kdenlivedoc.cpp:161
+#: src/doc/kdenlivedoc.cpp:162
 #, kde-format
 msgid "Invalid file path"
 msgstr "ფაილის არასწორი ბილიკი"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:846
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:846
 #: src/project/projectmanager.cpp:898
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "დაზიანებული ფაილი ვერ აღვადგინე."
 
-#: src/doc/kdenlivedoc.cpp:215
+#: src/doc/kdenlivedoc.cpp:216
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -24503,17 +24503,17 @@ msgstr ""
 "ვერ გავხსენი ფაილი %1:\n"
 "%2 (ხაზი %3, სვეტი %4)"
 
-#: src/doc/kdenlivedoc.cpp:227
+#: src/doc/kdenlivedoc.cpp:228
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "ფაილი %1 Kdenlive-ის პროექტის ფაილი არაა"
 
-#: src/doc/kdenlivedoc.cpp:234
+#: src/doc/kdenlivedoc.cpp:235
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "ფაილი %1 სწორი Kdenlive-ის პროექტის ფაილი არაა."
 
-#: src/doc/kdenlivedoc.cpp:247
+#: src/doc/kdenlivedoc.cpp:248
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -24522,7 +24522,7 @@ msgstr ""
 "GPU-ით აჩქარება გამორთულია Kdenlive-ის პარამეტრებში, მაგრამ აუცილებელია ამ "
 "პროექტის Movit-ის ფილტრებისთვის."
 
-#: src/doc/kdenlivedoc.cpp:290
+#: src/doc/kdenlivedoc.cpp:291
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -24533,24 +24533,24 @@ msgstr ""
 "დარწმუნდით, რომ გაქვთ საჭირო უფლებები.\n"
 "გამოყენებული იქნება ნაგულისხმევი, სისტემური საქაღალდეები"
 
-#: src/doc/kdenlivedoc.cpp:293
+#: src/doc/kdenlivedoc.cpp:294
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "დოკუმენტის პროექტის საქაღალდე არასწორია. გამოვიყენებ ნაგულისხმევ, სისტემურ "
 "საქაღალდეებს"
 
-#: src/doc/kdenlivedoc.cpp:586 src/doc/kdenlivedoc.cpp:596
+#: src/doc/kdenlivedoc.cpp:587 src/doc/kdenlivedoc.cpp:597
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "ვერ შევქმენი ავტოშენახვის ფაილი %1"
 
-#: src/doc/kdenlivedoc.cpp:591 src/doc/kdenlivedoc.cpp:728
+#: src/doc/kdenlivedoc.cpp:592 src/doc/kdenlivedoc.cpp:729
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "ვერ ჩავწერე ფაილი %1. სცენების სია დაზიანებულია."
 
-#: src/doc/kdenlivedoc.cpp:746
+#: src/doc/kdenlivedoc.cpp:747
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -24560,7 +24560,7 @@ msgstr ""
 "აიწია.\n"
 "იმისათვის, რომ მონაცემები არ დაგეკარგოთ, შეიქმნა მარქაფი, სახელად %1."
 
-#: src/doc/kdenlivedoc.cpp:760
+#: src/doc/kdenlivedoc.cpp:761
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -24569,35 +24569,35 @@ msgstr ""
 "თქვენი პროექტის ფაილი განახლდა უკანასკნელ Kdenlive-ის დოკუმენტის ვერსიამდე, "
 "მაგრამ მარქაფის ასლის, %1, შექმნა ვერ მოხერხდა."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1543
+#: src/doc/kdenlivedoc.cpp:938 src/project/projectmanager.cpp:1543
 #: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "პროექტის ბილიკის გადატანის შეცდომა: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2488
+#: src/doc/kdenlivedoc.cpp:1131 src/doc/kdenlivedoc.cpp:2517
 #: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "უსახელო"
 
-#: src/doc/kdenlivedoc.cpp:1190
+#: src/doc/kdenlivedoc.cpp:1191
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "შეიყვანეთ ნიმუშის ბილიკი"
 
-#: src/doc/kdenlivedoc.cpp:1351
+#: src/doc/kdenlivedoc.cpp:1352
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "პროექტიდან შემოტანილია შემდეგი ეფექტები:"
 
-#: src/doc/kdenlivedoc.cpp:1384 src/doc/kdenlivedoc.cpp:1398
+#: src/doc/kdenlivedoc.cpp:1385 src/doc/kdenlivedoc.cpp:1399
 #, kde-format
 msgid "Project Folder"
 msgstr "პროექტის საქაღალდე"
 
-#: src/doc/kdenlivedoc.cpp:1442 src/doc/kdenlivedoc.cpp:1459
+#: src/doc/kdenlivedoc.cpp:1443 src/doc/kdenlivedoc.cpp:1460
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -24606,56 +24606,56 @@ msgstr ""
 "მარქაფის ასლის შექმნა შეუძლებელია:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1617
+#: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
 "პროქსი კლიპები არ არის განკუთვნილი კომპოზიციისთვის ან ფერის შეფასებისთვის."
 
-#: src/doc/kdenlivedoc.cpp:1619
+#: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "ამ კლიპს აქვს ალფა არხი. "
 msgstr[1] "ამ კლიპებს აქვთ ალფა არხი. "
 
-#: src/doc/kdenlivedoc.cpp:1625
+#: src/doc/kdenlivedoc.cpp:1626
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "გაქვთ კლიპი ალფა არხით. "
 msgstr[1] "გაქვთ %1 კლიპი ალფა არხით. "
 
-#: src/doc/kdenlivedoc.cpp:1627
+#: src/doc/kdenlivedoc.cpp:1628
 #, kde-format
 msgid "Proxy all clips"
 msgstr "ყველა კლიპის დაპროქსვა"
 
-#: src/doc/kdenlivedoc.cpp:1628
+#: src/doc/kdenlivedoc.cpp:1629
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "მხოლოდ, ალფა არხის არმქონე კლიპების დაპროქსვა"
 
-#: src/doc/kdenlivedoc.cpp:1644
+#: src/doc/kdenlivedoc.cpp:1645
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "პროქსი კლიპის დამატება"
 msgstr[1] "პროქსი კლიპების დამატება"
 
-#: src/doc/kdenlivedoc.cpp:1646
+#: src/doc/kdenlivedoc.cpp:1647
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "პროქსი კლიპის წაშლა"
 msgstr[1] "პროქსი კლიპების წაშლა"
 
-#: src/doc/kdenlivedoc.cpp:1692 src/doc/kdenlivedoc.cpp:1752
+#: src/doc/kdenlivedoc.cpp:1693 src/doc/kdenlivedoc.cpp:1753
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "კლიპის ტიპს პროქსიების მხარდაჭერა არ აქვს"
 
-#: src/doc/kdenlivedoc.cpp:1903
+#: src/doc/kdenlivedoc.cpp:1932
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -24665,14 +24665,14 @@ msgstr ""
 "პროექტი იყენებს არასტანდარტულ კადრების სიხშირეს (%1). ეს არასწორად დალაგებულ "
 "კლიპებს და კადრის წანაცვლებებს გამოიწვევს."
 
-#: src/doc/kdenlivedoc.cpp:2021
+#: src/doc/kdenlivedoc.cpp:2050
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "გაფრთხილება: არასტანდარტული კადრი/წმ სიხშირე. დამრგვალება უახლოეს მთელ "
 "რიცხვამდე. "
 
-#: src/doc/kdenlivedoc.cpp:2039
+#: src/doc/kdenlivedoc.cpp:2068
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -24681,43 +24681,43 @@ msgstr ""
 "თქვენი ნაგულისხმევი პროექტის პროფილია %1, თქვენი კლიპის პროფილი (%2) კი %3.\n"
 "გნებავთ შეცვალოთ ნაგულისხმევი პროფილი მომავალი პროექტებისთვის?"
 
-#: src/doc/kdenlivedoc.cpp:2041
+#: src/doc/kdenlivedoc.cpp:2070
 #, kde-format
 msgid "Change default project profile"
 msgstr "ნაგულისხმევი პროექტის პროფილის შეცვლა"
 
-#: src/doc/kdenlivedoc.cpp:2041
+#: src/doc/kdenlivedoc.cpp:2070
 #, kde-format
 msgid "Change default to %1"
 msgstr "ნაგულისხმევის შეცვლა %1-ზე"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2071
 #, kde-format
 msgid "Keep current default %1"
 msgstr "მიმდინარე ნაგულისხმევის %1-ზე დატოვება"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2071
 #, kde-format
 msgid "Ask me later"
 msgstr "მოგვიანებით მკითხე"
 
-#: src/doc/kdenlivedoc.cpp:2062
+#: src/doc/kdenlivedoc.cpp:2091
 #, kde-format
 msgid "Switch"
 msgstr "გადართვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2064 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2093 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "გაუქმენა"
 
-#: src/doc/kdenlivedoc.cpp:2066
+#: src/doc/kdenlivedoc.cpp:2095
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "გადავრთო კლიპის (%1) პროფილზე %2?"
 
-#: src/doc/kdenlivedoc.cpp:2071
+#: src/doc/kdenlivedoc.cpp:2100
 #, kde-format
 msgid ""
 "\n"
@@ -24726,7 +24726,7 @@ msgstr ""
 "\n"
 "პროფილის კადრი/წმ გასწორდა ორიგინალიდან %1"
 
-#: src/doc/kdenlivedoc.cpp:2075
+#: src/doc/kdenlivedoc.cpp:2104
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -24736,7 +24736,7 @@ msgstr ""
 "შევქმნა და გადავერთო ახალ პროფილზე (%2x%3,%4კადრი/წმ)?%5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2885 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:2914 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -25450,28 +25450,28 @@ msgstr "ჩავარდა რენდერი ნიღბისთვი�
 msgid "Failed to process playlist."
 msgstr "დასაკრავი სიის დამუშავება ჩავარდა."
 
-#: src/jobs/proxytask.cpp:29
+#: src/jobs/proxytask.cpp:30
 #, kde-format
 msgid "Creating proxy"
 msgstr "პროქსის შექმნა"
 
-#: src/jobs/proxytask.cpp:221
+#: src/jobs/proxytask.cpp:222
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "%1 გამოსახულების ჩატვირთვა შეუძლებელია."
 
-#: src/jobs/proxytask.cpp:241
+#: src/jobs/proxytask.cpp:242
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "პროქსის შესაქმნელად გამოსახულება მეტისმეტად პატარაა."
 
-#: src/jobs/proxytask.cpp:249 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg ვერ ვპოვე. დააყენეთ ბილიკი Kdenlive-ის პარამეტრებში 'გარემო'"
 
-#: src/jobs/proxytask.cpp:435 src/jobs/proxytask.cpp:449
+#: src/jobs/proxytask.cpp:434 src/jobs/proxytask.cpp:448
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "პროქსი კლიპის შექმნა ჩავარდა."
@@ -28538,7 +28538,7 @@ msgid "Audio streams"
 msgstr "აუდიო ნაკადები"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2238
+#: src/monitor/monitor.cpp:2240
 #, kde-format
 msgid "Merge all streams"
 msgstr "ყველა ნაკადის შერწყმა"
@@ -28941,54 +28941,54 @@ msgstr "წყარის დროის კოდის ჩვენება
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "ამ ქმედებისთვის თქვენი ეკრანის გაფართოება საკმარისი არაა"
 
-#: src/monitor/monitor.cpp:944 src/monitor/monitor.cpp:980
-#: src/monitor/monitor.cpp:1016
+#: src/monitor/monitor.cpp:946 src/monitor/monitor.cpp:982
+#: src/monitor/monitor.cpp:1018
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "ნიღბის შექმნისას ზონის შეცვლა შეუძლებელია"
 
-#: src/monitor/monitor.cpp:973 src/monitor/monitor.cpp:1009
+#: src/monitor/monitor.cpp:975 src/monitor/monitor.cpp:1011
 #: src/timeline2/view/timelinecontroller.cpp:1948
 #, kde-format
 msgid "Set Zone"
 msgstr "ზონის დაყენება"
 
-#: src/monitor/monitor.cpp:1566
+#: src/monitor/monitor.cpp:1568
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "გამოსახულების შენახვა პროექტში"
 
-#: src/monitor/monitor.cpp:1566
+#: src/monitor/monitor.cpp:1568
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "გამოსახულების შენახვა"
 
-#: src/monitor/monitor.cpp:1573
+#: src/monitor/monitor.cpp:1575
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "გამოსახულების გატანა წყაროს გაფართოებით"
 
-#: src/monitor/monitor.cpp:2113
+#: src/monitor/monitor.cpp:2115
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "გავიდე ნიღბის შექმნიდან?"
 
-#: src/monitor/monitor.cpp:2223 src/monitor/monitor.cpp:2352
+#: src/monitor/monitor.cpp:2225 src/monitor/monitor.cpp:2356
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 აუდიო ნაკადი"
 msgstr[1] "%1 აუდიო ნაკადი"
 
-#: src/monitor/monitor.cpp:2675
+#: src/monitor/monitor.cpp:2679
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit-ის GLSL მმართველის ინიციალიზაცია შეუძლებელია. გამორთეთ Movit, გეთაყვა"
 
-#: src/monitor/monitor.cpp:2717 src/monitor/monitor.cpp:2774
+#: src/monitor/monitor.cpp:2721 src/monitor/monitor.cpp:2778
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28997,17 +28997,17 @@ msgstr ""
 "ამ თვისებისთვის alphagrad ფილტრი დაგჭირდებათ. დააყენეთ frei0r და გადატვირთეთ "
 "Kdenlive"
 
-#: src/monitor/monitor.cpp:2737
+#: src/monitor/monitor.cpp:2741
 #, kde-format
 msgid "Clip has no effects"
 msgstr "კლიპს ეფექტები არ აქვს"
 
-#: src/monitor/monitor.cpp:2739
+#: src/monitor/monitor.cpp:2743
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "აირჩიეთ კლიპი პროექტის კალათაში ეფექტის შესადარებლად"
 
-#: src/monitor/monitor.cpp:2781
+#: src/monitor/monitor.cpp:2785
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29016,40 +29016,40 @@ msgstr ""
 "ამ თვისებისთვის cairoblend გადასვლა დაგჭირდებათ. დააყენეთ frei0r და "
 "გადატვირთეთ Kdenlive"
 
-#: src/monitor/monitor.cpp:2861
+#: src/monitor/monitor.cpp:2865
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "ეფექტის შესაცვლელად მონიტორში ჩასწორების რეჟიმი ჩართეთ"
 
-#: src/monitor/monitor.cpp:3365
+#: src/monitor/monitor.cpp:3369
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "კლიპის მონიტორისთვის კლიპი არჩეული არაა"
 
-#: src/monitor/monitor.cpp:3386
+#: src/monitor/monitor.cpp:3390
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "კლიპის მონიტორისთვის შემქმნელის მიღება შეუძლებელია"
 
-#: src/monitor/monitor.cpp:3468 src/monitor/monitor.cpp:3499
+#: src/monitor/monitor.cpp:3472 src/monitor/monitor.cpp:3503
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "სწორი ზონა ჯერ აღწერილი არაა. ჯერ დააყენეთ გამომავალი/შემავალი წერტილები."
 
-#: src/monitor/monitor.cpp:3478
+#: src/monitor/monitor.cpp:3482
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "შუალედის მარკერის შექმნა ზონიდან"
 
-#: src/monitor/monitor.cpp:3484 src/monitor/monitor.cpp:3505
+#: src/monitor/monitor.cpp:3488 src/monitor/monitor.cpp:3509
 #: src/timeline2/view/timelinecontroller.cpp:6001
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "შუალედის მარკერი შეიქმნა ზონიდან"
 
-#: src/monitor/monitor.cpp:3486 src/monitor/monitor.cpp:3507
+#: src/monitor/monitor.cpp:3490 src/monitor/monitor.cpp:3511
 #: src/timeline2/view/timelinecontroller.cpp:6004
 #, kde-format
 msgid "Failed to create range marker from zone"
