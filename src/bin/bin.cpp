@@ -5117,7 +5117,7 @@ void Bin::slotOpenClipExtern()
         showTitleWidget(clip);
         break;
     case ClipType::Image: {
-        if (KdenliveSettings::defaultimageapp().isEmpty()) {
+        if (pCore->packageType() != LinuxPackageType::Flatpak && KdenliveSettings::defaultimageapp().isEmpty()) {
             QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path for your image editing application"));
             if (!url.isEmpty()) {
                 KdenliveSettings::setDefaultimageapp(url.toLocalFile());
@@ -5127,14 +5127,14 @@ void Bin::slotOpenClipExtern()
                 }
             }
         }
-        if (!KdenliveSettings::defaultimageapp().isEmpty()) {
-            errorString = pCore->openExternalApp(KdenliveSettings::defaultimageapp(), {clip->url()});
+        if (pCore->packageType() == LinuxPackageType::Flatpak || !KdenliveSettings::defaultimageapp().isEmpty()) {
+            errorString = pCore->openExternalApp(KdenliveSettings::defaultimageapp(), {clip->url()}, ClipType::Image);
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open image files"));
         }
     } break;
     case ClipType::Audio: {
-        if (KdenliveSettings::defaultaudioapp().isEmpty()) {
+        if (pCore->packageType() != LinuxPackageType::Flatpak && KdenliveSettings::defaultaudioapp().isEmpty()) {
             QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path for your audio editing application"));
             if (!url.isEmpty()) {
                 KdenliveSettings::setDefaultaudioapp(url.toLocalFile());
@@ -5144,8 +5144,8 @@ void Bin::slotOpenClipExtern()
                 }
             }
         }
-        if (!KdenliveSettings::defaultaudioapp().isEmpty()) {
-            errorString = pCore->openExternalApp(KdenliveSettings::defaultaudioapp(), {clip->url()});
+        if (pCore->packageType() == LinuxPackageType::Flatpak || !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            errorString = pCore->openExternalApp(KdenliveSettings::defaultaudioapp(), {clip->url()}, ClipType::Audio);
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
         }
@@ -5164,7 +5164,7 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::defaultvideoapp().isEmpty()) {
-            errorString = pCore->openExternalApp(KdenliveSettings::defaultvideoapp(), {clip->url()});
+            errorString = pCore->openExternalApp(KdenliveSettings::defaultvideoapp(), {clip->url()}, ClipType::Video);
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open video files"));
         }

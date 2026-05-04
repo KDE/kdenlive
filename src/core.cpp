@@ -674,9 +674,36 @@ void Core::buildLumaThumbs(const QStringList &values)
     }
 }
 
-QString Core::openExternalApp(QString appPath, QStringList args)
+QString Core::openExternalApp(QString appPath, QStringList args, ClipType::ProducerType clipType)
 {
     QProcess process;
+    if (pCore->packageType() == LinuxPackageType::Flatpak) {
+        const QString appName = QStringLiteral("flatpak-spawn");
+        if (QStandardPaths::findExecutable(appName).isEmpty()) {
+            return i18n("Cannot open file %1", appName);
+        }
+        process.setProgram(appName);
+        switch (clipType) {
+        case ClipType::Animation:
+            args.prepend(QStringLiteral("org.kde.glaxnimate"));
+            break;
+        case ClipType::Image:
+            args.prepend(QStringLiteral("org.gimp.GIMP"));
+            break;
+        case ClipType::Audio:
+            args.prepend(QStringLiteral("org.audacityteam.Audacity"));
+            break;
+        default:
+            qDebug() << "::: Unhandled clip type";
+            return QString();
+        }
+        args.prepend(QStringLiteral("--host"));
+        qCInfo(KDENLIVE_LOG) << "Starting external Flatpak" << args;
+        if (!process.startDetached()) {
+            return process.errorString();
+        }
+        return QString();
+    }
     if (QFileInfo(appPath).isRelative()) {
         QString updatedPath = QStandardPaths::findExecutable(appPath);
         if (updatedPath.isEmpty()) {
