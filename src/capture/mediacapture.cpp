@@ -436,6 +436,9 @@ void MediaCapture::setAudioCaptureDevice()
 
 void MediaCapture::setAudioVolume()
 {
+    if (m_recordStatus != RecordMonitoring && m_recordStatus != RecordRecording) {
+        return;
+    }
 #if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
 #else
