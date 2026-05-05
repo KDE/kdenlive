@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="248" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="249" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -141,6 +141,7 @@
       <Action name="save_selection"/>
       <Action name="send_library"/>
       <Action name="send_sequence"/>
+      <Action name="copy_to_sequence"/>
       <Separator/>
       <Menu name="keyboard_insert">
         <text>Insertion</text>

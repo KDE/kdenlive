@@ -137,6 +137,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
     connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->refreshProjectMonitorOnce(true); });
+    connect(m_model.get(), &TimelineModel::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
@@ -561,13 +562,31 @@ int TimelineController::insertNewCompositionAtPos(int tid, int position, const Q
                     int outPos = qMin(m_model->getClipEnd(lowerCid), m_model->getClipEnd(topCid));
                     return insertComposition(tid, position, transitionId, true, outPos - position);
                 }
+            } else {
+                // Check if we have clips above / below
+                topCid = m_model->getTrackById_const(tid)->getClipByPosition(position);
+                if (topCid > -1) {
+                    int lowerCid = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
+                    if (lowerCid > -1) {
+                        // Find the clip starting last
+                        if (m_model->getClipPosition(topCid) > m_model->getClipPosition(lowerCid)) {
+                            // Top clip is after bottom clip
+                            return addCompositionToClip(transitionId, topCid, 0);
+                        } else {
+                            // Bottom clip is after top clip
+                            int outPos = qMin(m_model->getClipEnd(lowerCid), m_model->getClipEnd(topCid));
+                            position = m_model->getClipPosition(lowerCid);
+                            return insertComposition(tid, position, transitionId, true, outPos - position);
+                        }
+                    }
+                }
             }
         }
         return insertComposition(tid, position, transitionId, true);
     }
 }
 
-int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
+int TimelineController::insertNewComposition(int tid, int clipId, int offset, QString transitionId, bool logUndo)
 {
     int id;
     int minimumPos = clipId > -1 ? m_model->getClipPosition(clipId) : offset;
@@ -630,6 +649,11 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     duration = finalPos.second;
 
     std::unique_ptr<Mlt::Properties> props(nullptr);
+    if (TransitionsRepository::get()->isLuma(transitionId)) {
+        props = std::make_unique<Mlt::Properties>();
+        props->set("resource", transitionId.toUtf8().constData());
+        transitionId = QStringLiteral("dissolve");
+    }
     if (revert) {
         props = std::make_unique<Mlt::Properties>();
         if (transitionId == QLatin1String("dissolve")) {
@@ -985,6 +1009,58 @@ void TimelineController::deleteMultipleTracks(int tid)
             undo();
         }
     }
+}
+
+bool TimelineController::canMoveTrackUp(int tid) const
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!m_model->isTrack(tid) || m_model->isSubtitleTrack(tid)) {
+        return false;
+    }
+    return m_model->getNextTrackId(tid) != tid;
+}
+
+bool TimelineController::canMoveTrackDown(int tid) const
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!m_model->isTrack(tid) || m_model->isSubtitleTrack(tid)) {
+        return false;
+    }
+    return m_model->getPreviousTrackId(tid) != tid;
+}
+
+bool TimelineController::moveTrackUp(int tid)
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!canMoveTrackUp(tid)) {
+        return false;
+    }
+    bool result = m_model->requestTrackMove(m_model, tid, true, true);
+    if (result) {
+        pCore->refreshProjectMonitorOnce();
+    }
+    return result;
+}
+
+bool TimelineController::moveTrackDown(int tid)
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!canMoveTrackDown(tid)) {
+        return false;
+    }
+    bool result = m_model->requestTrackMove(m_model, tid, false, true);
+    if (result) {
+        pCore->refreshProjectMonitorOnce();
+    }
+    return result;
 }
 
 void TimelineController::switchTrackRecord(int tid, bool monitor)
@@ -1418,6 +1494,16 @@ void TimelineController::addQuickMarker(int cid, int position)
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     GenTime pos(position, pCore->getCurrentFps());
     clip->getMarkerModel()->addMarker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
+}
+
+void TimelineController::addMarkersAtGaps()
+{
+    TimelineFunctions::addMarkersAtGaps(m_model);
+}
+
+void TimelineController::addMarkersAtGapsOnTrack()
+{
+    TimelineFunctions::addMarkersAtGapsOnTrack(m_model, m_activeTrack);
 }
 
 void TimelineController::deleteMarker(int cid, int position)
@@ -3378,13 +3464,15 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
             vTrack = tid;
             if (clip->hasAudioAndVideo()) {
                 int firstAudio = m_model->getMirrorAudioTrackId(vTrack);
-                audioTracks << firstAudio;
-                if (audioStreams.size() > 1) {
-                    // insert the other audio streams
-                    QList<int> lower = m_model->getLowerTracksId(firstAudio, TrackType::AudioTrack);
-                    while (audioStreams.size() > 1 && !lower.isEmpty()) {
-                        audioTracks << lower.takeFirst();
-                        audioStreams.takeFirst();
+                if (firstAudio != -1) {
+                    audioTracks << firstAudio;
+                    if (audioStreams.size() > 1) {
+                        // insert the other audio streams
+                        QList<int> lower = m_model->getLowerTracksId(firstAudio, TrackType::AudioTrack);
+                        while (audioStreams.size() > 1 && !lower.isEmpty()) {
+                            audioTracks << lower.takeFirst();
+                            audioStreams.takeFirst();
+                        }
                     }
                 }
             }
@@ -4942,6 +5030,9 @@ bool TimelineController::hasKeyframeAt(int cid, int frame)
 
 QColor TimelineController::videoColor() const
 {
+    if (KdenliveSettings::videoColor().alpha() > 0) {
+        return KdenliveSettings::videoColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     return scheme.foreground(KColorScheme::LinkText).color();
 }
@@ -4965,11 +5056,17 @@ QColor TimelineController::targetTextColor() const
 
 QColor TimelineController::audioColor() const
 {
+    if (KdenliveSettings::audioColor().alpha() > 0) {
+        return KdenliveSettings::audioColor();
+    }
     return KdenliveSettings::thumbColor1().darker(150);
 }
 
 QColor TimelineController::titleColor() const
 {
+    if (KdenliveSettings::titleColor().alpha() > 0) {
+        return KdenliveSettings::titleColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     QColor base = scheme.foreground(KColorScheme::LinkText).color();
     QColor high = scheme.foreground(KColorScheme::NegativeText).color();
@@ -4980,12 +5077,18 @@ QColor TimelineController::titleColor() const
 
 QColor TimelineController::imageColor() const
 {
+    if (KdenliveSettings::imageColor().alpha() > 0) {
+        return KdenliveSettings::imageColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     return scheme.foreground(KColorScheme::NeutralText).color();
 }
 
 QColor TimelineController::slideshowColor() const
 {
+    if (KdenliveSettings::slideshowColor().alpha() > 0) {
+        return KdenliveSettings::slideshowColor();
+    }
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     QColor base = scheme.foreground(KColorScheme::LinkText).color();
     QColor high = scheme.foreground(KColorScheme::NeutralText).color();
@@ -5004,6 +5107,71 @@ QColor TimelineController::groupColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     return scheme.foreground(KColorScheme::ActiveText).color().darker(150);
+}
+
+QColor TimelineController::getDefaultClipColor(ClipType::ProducerType type) const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    switch (type) {
+    case ClipType::Video:
+    case ClipType::AV:
+        return scheme.foreground(KColorScheme::LinkText).color();
+    case ClipType::Audio:
+        return KdenliveSettings::thumbColor1().darker(150);
+    case ClipType::Text:
+    case ClipType::TextTemplate: {
+        QColor base = scheme.foreground(KColorScheme::LinkText).color();
+        QColor high = scheme.foreground(KColorScheme::NegativeText).color();
+        return QColor(qBound(0, base.red() + int(high.red() - 128), 255), qBound(0, base.green() + int(high.green() - 128), 255),
+                      qBound(0, base.blue() + int(high.blue() - 128), 255), 255);
+    }
+    case ClipType::Image:
+        return scheme.foreground(KColorScheme::NeutralText).color();
+    case ClipType::SlideShow: {
+        QColor base = scheme.foreground(KColorScheme::LinkText).color();
+        QColor high = scheme.foreground(KColorScheme::NeutralText).color();
+        return QColor(qBound(0, base.red() + int(high.red() - 128), 255), qBound(0, base.green() + int(high.green() - 128), 255),
+                      qBound(0, base.blue() + int(high.blue() - 128), 255), 255);
+    }
+    default:
+        return scheme.foreground(KColorScheme::LinkText).color();
+    }
+}
+
+QColor TimelineController::getTimelineClipColor(ClipType::ProducerType type) const
+{
+    switch (type) {
+    case ClipType::Video:
+    case ClipType::AV:
+        if (KdenliveSettings::videoColor().alpha() > 0) {
+            return KdenliveSettings::videoColor();
+        }
+        break;
+    case ClipType::Audio:
+        if (KdenliveSettings::audioColor().alpha() > 0) {
+            return KdenliveSettings::audioColor();
+        }
+        break;
+    case ClipType::Text:
+    case ClipType::TextTemplate:
+        if (KdenliveSettings::titleColor().alpha() > 0) {
+            return KdenliveSettings::titleColor();
+        }
+        break;
+    case ClipType::Image:
+        if (KdenliveSettings::imageColor().alpha() > 0) {
+            return KdenliveSettings::imageColor();
+        }
+        break;
+    case ClipType::SlideShow:
+        if (KdenliveSettings::slideshowColor().alpha() > 0) {
+            return KdenliveSettings::slideshowColor();
+        }
+        break;
+    default:
+        break;
+    }
+    return getDefaultClipColor(type);
 }
 
 QColor TimelineController::selectionColor() const
@@ -5527,6 +5695,11 @@ bool TimelineController::subtitlesLocked() const
 void TimelineController::showToolTip(const QString &info) const
 {
     pCore->displayMessage(info, TooltipMessage);
+}
+
+QVariantList TimelineController::clipAudioStreamInfo(const QString &binClipId, int trackId) const
+{
+    return m_model->clipAudioStreamInfo(binClipId, trackId);
 }
 
 void TimelineController::showKeyBinding(const QString &info) const

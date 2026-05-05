@@ -610,7 +610,7 @@ Item {
     RulerZone {
         id: zone
         visible: !ruler.hideZone
-        z: 2
+        z: 3
         Binding {
             target: zone
             property: "frameIn"
@@ -647,6 +647,7 @@ Item {
     // Effect zone
     RulerZone {
         id: effectZone
+        z: 2
         Binding {
             target: effectZone
             property: "frameIn"

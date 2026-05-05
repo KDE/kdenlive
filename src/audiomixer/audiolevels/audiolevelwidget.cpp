@@ -58,6 +58,8 @@ AudioLevelWidget::AudioLevelWidget(QWidget *parent, Qt::Orientation orientation,
     , m_renderer(new AudioLevelRenderer(this))
     , m_showClippingIndicator(showClippingIndicator)
 {
+    // dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
+    m_maxDb = 0;
     QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     ft.setPointSizeF(ft.pointSize() * 0.6);
     setFont(ft);
@@ -272,8 +274,6 @@ void AudioLevelWidget::drawBackground()
     if (m_backgroundCache.isNull()) {
         return;
     }
-    const QVector<int> dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
-    m_maxDb = dbscale.first();
     m_backgroundCache.fill(Qt::transparent);
     QPainter p(&m_backgroundCache);
 

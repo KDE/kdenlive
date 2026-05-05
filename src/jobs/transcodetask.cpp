@@ -164,6 +164,8 @@ void TranscodeTask::run()
         mltParameters.prepend(m_transcodeInfo.url);
         mltParameters.prepend(QStringLiteral("error"));
         mltParameters.prepend(QStringLiteral("-loglevel"));
+        mltParameters.prepend(QStringLiteral("file,pipe"));
+        mltParameters.prepend(QStringLiteral("-protocol_whitelist"));
         m_jobProcess = new QProcess();
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);

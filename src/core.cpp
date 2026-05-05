@@ -192,6 +192,9 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode, bo
         }
         m_self->buildSplash(firstRun, showWelcome && KdenliveSettings::showWelcome() && !KdenliveSettings::openlastproject(), showRecovery, wasUpgraded);
     }
+    if (m_self->closing) {
+        return true;
+    }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
     m_self->m_projectManager = new ProjectManager(m_self.get());
@@ -261,6 +264,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
         connect(m_splash, &Splash::openFile, this, [this](QString url) {
             // Ensure this can only be called once
             disconnect(m_splash, &Splash::openFile, this, nullptr);
+            Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
             if (m_splash->hasEventLoop() || !m_guiConstructed) {
                 connect(this, &Core::mainWindowReady, this,
                         [&, url]() { QMetaObject::invokeMethod(m_projectManager, "openFile", Qt::QueuedConnection, Q_ARG(QUrl, QUrl::fromLocalFile(url))); });
@@ -276,6 +280,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
             }
         });
         connect(m_splash, &Splash::closeApp, this, [this]() {
+            closing = true;
             if (m_splash->hasEventLoop() || !m_guiConstructed) {
                 QMetaObject::invokeMethod(this, "cleanRestart", Qt::QueuedConnection, Q_ARG(bool, false));
             } else {
@@ -343,6 +348,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
                     m_projectManager->newFile(true);
                 }
             } else {
+                Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
                 if (m_splash->hasEventLoop() || !m_guiConstructed) {
                     connect(this, &Core::mainWindowReady, this, [&, url]() {
                         m_mainWindow->show();
@@ -375,20 +381,21 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
     } else {
         // Simple splash
         connect(this, &Core::closeSplash, m_splash, &Splash::fadeOutAndDelete, Qt::QueuedConnection);
-        connect(this, &Core::loadingMessageNewStage, m_splash, &Splash::showProgressMessage, Qt::DirectConnection);
+
         /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);*/
     }
+    connect(this, &Core::loadingMessageNewStage, m_splash, &Splash::showProgressMessage, Qt::DirectConnection);
     if (m_splash->hasEventLoop()) {
         // Last startup crashed, so stop here until we have a change to reset the config file
         connect(m_splash, &Splash::releaseLock, this, [&]() {
             qDebug() << "::::::: EVENT LOOP RELEASED!!!\n\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
-            m_loop.exit();
+            m_loop.quit();
             disconnect(m_splash, &Splash::releaseLock, this, nullptr);
         });
         m_loop.exec();
-        if (m_abortInitAndRestart) {
+        if (m_abortInitAndRestart || closing) {
             // We want to restart, no need to continue
             return;
         }
@@ -407,6 +414,9 @@ void Core::initHeadless(const QUrl &url)
 
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &clipsToLoad)
 {
+    if (closing) {
+        return;
+    }
     KDDockWidgets::Config::self().setDragAboutToStartFunc([](KDDockWidgets::Core::Draggable *) -> bool {
         if (!KdenliveSettings::showtitlebars()) {
             pCore->updateHideBarsTimer(true);
@@ -525,12 +535,16 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
 
 void Core::cleanRestart(bool cleanAndRestart)
 {
-    qDebug() << "::: STARTING CLEAN RESTART...";
+    qDebug() << "::: STARTING CLEAN RESTART: " << cleanAndRestart;
     delete m_splash;
-    m_loop.exit();
+    m_loop.quit();
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
-    QTimer::singleShot(1000, this, [&, cleanAndRestart]() {
+    int timeout = 0;
+    if (cleanAndRestart) {
+        timeout = 1000;
+    }
+    QTimer::singleShot(timeout, this, [&, cleanAndRestart]() {
         QApplication::closeAllWindows();
         qApp->exit(cleanAndRestart ? EXIT_CLEAN_RESTART : 1);
     });
@@ -661,9 +675,37 @@ void Core::buildLumaThumbs(const QStringList &values)
     }
 }
 
-QString Core::openExternalApp(QString appPath, QStringList args)
+QString Core::openExternalApp(QString appPath, QStringList args, ClipType::ProducerType clipType)
 {
     QProcess process;
+    if (pCore->packageType() == LinuxPackageType::Flatpak) {
+        const QString appName = QStringLiteral("flatpak-spawn");
+        if (QStandardPaths::findExecutable(appName).isEmpty()) {
+            return i18n("Cannot open file %1", appName);
+        }
+        process.setProgram(appName);
+        switch (clipType) {
+        case ClipType::Animation:
+            args.prepend(QStringLiteral("org.kde.glaxnimate"));
+            break;
+        case ClipType::Image:
+            args.prepend(QStringLiteral("org.gimp.GIMP"));
+            break;
+        case ClipType::Audio:
+            args.prepend(QStringLiteral("org.audacityteam.Audacity"));
+            break;
+        default:
+            qDebug() << "::: Unhandled clip type";
+            return QString();
+        }
+        args.prepend(QStringLiteral("--host"));
+        process.setArguments(args);
+        qCInfo(KDENLIVE_LOG) << "Starting external Flatpak" << args;
+        if (!process.startDetached()) {
+            return process.errorString();
+        }
+        return QString();
+    }
     if (QFileInfo(appPath).isRelative()) {
         QString updatedPath = QStandardPaths::findExecutable(appPath);
         if (updatedPath.isEmpty()) {
@@ -931,6 +973,7 @@ std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 
 std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
 {
+    // Q_ASSERT(!m_currentProfile.isEmpty());
     return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
@@ -1203,7 +1246,7 @@ std::pair<PlaylistState::ClipState, ClipType::ProducerType> Core::getItemState(c
         if (!m_guiConstructed) {
             return {PlaylistState::Disabled, ClipType::Unknown};
         }
-        return m_mainWindow->getBin()->getClipState(id.itemId);
+        return projectItemModel()->getClipState(id.itemId);
     case KdenliveObjectType::TimelineTrack:
         return {currentDoc()->getTimeline(id.uuid)->isAudioTrack(id.itemId) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, ClipType::Unknown};
     case KdenliveObjectType::Master:
@@ -1758,9 +1801,9 @@ void Core::monitorAudio(int tid, bool monitor)
     }
 }
 
-void Core::startRecording(bool showCountdown)
+void Core::startRecording(bool allowCountDown)
 {
-    int trackId = m_capture->startCapture(showCountdown);
+    int trackId = m_capture->startCapture(allowCountDown);
     if (trackId == -1) {
         return;
     }
@@ -2236,7 +2279,7 @@ std::pair<bool, bool> Core::assetHasAV(ObjectId id)
         return {false, true};
     }
     case KdenliveObjectType::BinClip: {
-        PlaylistState::ClipState state = bin()->getClipState(id.itemId).first;
+        PlaylistState::ClipState state = projectItemModel()->getClipState(id.itemId).first;
         if (state == PlaylistState::Disabled) {
             return {true, true};
         } else if (state == PlaylistState::AudioOnly) {

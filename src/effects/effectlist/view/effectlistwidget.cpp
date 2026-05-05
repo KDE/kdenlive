@@ -7,6 +7,7 @@
 #include "../model/effectfilter.hpp"
 #include "../model/effecttreemodel.hpp"
 #include "assets/assetlist/view/asseticonprovider.hpp"
+#include "utils/uiutils.h"
 
 #include <KActionCategory>
 #include <KIO/FileCopyJob>
@@ -174,7 +175,7 @@ void EffectListWidget::exportCustomEffect(const QModelIndex &index)
     QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(assetId));
     startFolder.append(source.fileName());
 
-    QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Custom Effect"), startFolder, filter);
+    QString filename = UiUtils::getSaveFileName(this, i18nc("@title:window", "Export Custom Effect"), startFolder, filter, QStringLiteral(".xml"));
     QUrl target = QUrl::fromLocalFile(filename);
 
     if (source.isValid() && target.isValid()) {

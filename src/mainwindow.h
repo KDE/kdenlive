@@ -537,6 +537,8 @@ private Q_SLOTS:
     void slotRemoveSpaceInAllTracks();
     void slotRemoveAllSpacesInTrack();
     void slotRemoveAllClipsInTrack();
+    void slotAddMarkersAtGaps();
+    void slotAddMarkersAtGapsOnTrack();
     void slotAddGuide();
     void slotEditGuide();
     void slotExportGuides();
@@ -556,6 +558,8 @@ private Q_SLOTS:
     void slotAutoTrackHeight(bool enable);
     void slotInsertTrack();
     void slotDeleteTrack();
+    void slotMoveTrackUp();
+    void slotMoveTrackDown();
     /** @brief Show context menu to switch current track target audio stream. */
     void slotSwitchTrackAudioStream();
     void slotShowTrackRec(bool checked);
@@ -673,8 +677,10 @@ private Q_SLOTS:
     void slotSearchGuide();
     /** @brief Focus the bin search line */
     void slotSearchBin();
-    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
+    /** @brief Move current timeline selection to a new sequence clip / Timeline tab */
     void slotCreateSequenceFromSelection();
+    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
+    void slotCopyAndCreateSequenceFromSelection();
 
 Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

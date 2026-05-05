@@ -18,8 +18,6 @@ Window {
     property var fileDates: []
     property var profileIds: []
     property var profileNames: []
-    property var templates: ["atsc_1080p_25", "dv_pal"]
-    property var templateNames: ["HD 25 fps", "DV Pal"]
     property var horizontalModel: [{value: "3840x2160x709x1x1x16x9", text: i18n("4K UHD 3840x2160")}, {value: "4096x2160x709x1x1x256x135", text: i18n("4K DCI 4096x2160")}, {value: "2560x1440x709x1x1x16x9", text: i18n("2.5K QHD 2560x1440")}, {value: "1920x1080x709x1x1x16x9", text: i18n("Full HD 1920x1080")}, {value: "1280x720x709x1x1x16x9", text: i18n("HD 1280x720")}, {value: "720x480x601x32x27x16x9", text: i18n("SD NTSC Wide 720x480")}, {value: "720x480x601x8x9x4x3", text: i18n("SD NTSC 720x480")}, {value: "720x576x601x64x45x16x9", text: i18n("SD PAL Wide 720x576")}, {value: "720x576x601x16x15x4x3", text: i18n("SD PAL 720x576")}]
     property var verticalModel: [{value: "1080x1920x709x1x1x9x16", text: i18n("Full HD 1080x1920")}, {value: "720x1280x709x1x1x9x16", text: i18n("HD 720x1280")}]
     property var horizontalFpsModel: [{value: "24000/1001", text: i18n("23.98 fps")},
@@ -65,6 +63,14 @@ Window {
     function enableActions()
     {
         actionsEnabled = true
+    }
+
+    function displayProgress(message)
+    {
+        loadingLabel.text = message
+        loadingBox.visible = message.length > 0
+        recentProjects.enabled = false
+        donateBar.visible = false
     }
 
     Component.onCompleted: {
@@ -132,8 +138,8 @@ Window {
                 }
 
             } else if (tlistView.activeFocus) {
-                if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.templates.length)
-                    openTemplate(splash.templates[tlistView.currentIndex]);
+                if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.profileIds.length)
+                    openTemplate(splash.profileIds[tlistView.currentIndex]);
             }
         }
         Keys.onEnterPressed: {
@@ -145,8 +151,8 @@ Window {
                 }
 
             } else if (tlistView.activeFocus) {
-                if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.templates.length)
-                    openTemplate(splash.templates[tlistView.currentIndex]);
+                if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.profileIds.length)
+                    openTemplate(splash.profileIds[tlistView.currentIndex]);
 
             }
         }
@@ -341,6 +347,7 @@ Window {
                                         text: splash.fileNames[model.index]
                                         elide: Text.ElideRight
                                         color: labelArea.containsMouse || listButton.hovered ? activePalette.highlight : activePalette.text
+                                        opacity: recentProjects.enabled ? 1 : 0.5
                                     }
                                     Label {
                                         id: datesLabel
@@ -349,7 +356,7 @@ Window {
                                         anchors.rightMargin: 4
                                         text: splash.fileDates[model.index]
                                         color: activePalette.text
-                                        opacity: 0.7
+                                        opacity: recentProjects.enabled ? 0.7 : 0.4
                                     }
 
                                     MouseArea {
@@ -508,6 +515,7 @@ Window {
                                         text: splash.profileNames[model.index]
                                         color: templatesArea.containsMouse || tlistButton.hovered ? activePalette.highlight : activePalette.text
                                         elide: Text.ElideMiddle
+                                        opacity: recentProjects.enabled ? 1 : 0.5
                                     }
 
                                     MouseArea {
@@ -674,7 +682,6 @@ Window {
 
             Rectangle {
                 id: donateBar
-
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: buttonBar.top
@@ -714,6 +721,26 @@ Window {
 
                 }
 
+            }
+            // Loading progress info
+            Rectangle {
+                id: loadingBox
+                visible: false
+                color: activePalette.highlight
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: buttonBar.top
+                radius: 5
+                height: Math.max(loadingLabel.height, notesButton.height) + 10
+                opacity: 0.5
+            }
+            Label {
+                id: loadingLabel
+                anchors.verticalCenter: loadingBox.verticalCenter
+                anchors.left: loadingBox.left
+                anchors.margins: 5
+                wrapMode: Text.Wrap
+                color: activePalette.highlightedText
             }
 
         }

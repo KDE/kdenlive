@@ -18,6 +18,7 @@
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "utils/uiutils.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -56,8 +57,8 @@ void OtioExport::exportFile(const QString &fileName)
 
 void OtioExport::slotExport()
 {
-    QString fileName = QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(),
-                                                    QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
+    QString fileName = UiUtils::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(),
+                                                QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")), QStringLiteral(".otio"));
     if (fileName.isNull()) {
         return;
     }

@@ -667,6 +667,20 @@ void ClipLoadTask::run()
             producer->set("length", fixedLength);
             producer->set("out", fixedLength - 1);
         }
+
+        // Ensure audio / video status is passed from original producer
+        std::unique_ptr<Mlt::Frame> frame(tmpProd->get_frame());
+        bool hasAudio = frame->get_int("test_audio") == 0;
+        bool hasVideo = frame->get_int("test_video") == 0;
+        if (hasAudio) {
+            if (hasVideo) {
+                producer->set("kdenlive:clip_type", 0);
+            } else {
+                producer->set("kdenlive:clip_type", 1);
+            }
+        } else if (hasVideo) {
+            producer->set("kdenlive:clip_type", 2);
+        }
     } else if (mltService.startsWith(QLatin1String("avformat"))) {
         // Start probe to init properties
         int vindex = producer->get_int("video_index");

@@ -98,9 +98,11 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
-        }
-
-        if (getSingleTrackTransitions().contains(result.id)) {
+        } else if (type == QLatin1String("videotransition")) {
+            result.type = AssetListType::AssetType::VideoTransition;
+        } else if (type == QLatin1String("audiotransition")) {
+            result.type = AssetListType::AssetType::AudioTransition;
+        } else if (getSingleTrackTransitions().contains(result.id)) {
             if (type == QLatin1String("audio")) {
                 result.type = AssetListType::AssetType::AudioTransition;
             } else {

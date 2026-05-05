@@ -54,13 +54,6 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     m_effectsIcon->setIconSize(iconSize);
     m_iconDelegate = new TransitionIconDelegate(iconSize, this);
 
-    // Set the preview directory
-    QString previewDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
-    // Ensure the directory exists
-    QDir().mkpath(previewDir);
-    qDebug() << "Setting transition preview directory to:" << previewDir;
-    m_iconDelegate->setPreviewDirectory(previewDir);
-
     m_effectsIcon->setViewMode(QListView::IconMode);
     m_effectsIcon->setItemDelegate(m_iconDelegate);
     m_effectsIcon->setMouseTracking(true);
@@ -74,10 +67,18 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     connect(m_effectsIcon, &QAbstractItemView::entered, this, &TransitionListWidget::iconViewEntered);
     connect(m_effectsIcon, &AssetListView::exited, this, &TransitionListWidget::iconViewExited);
 
-    // Add "Generate Previews" action to toolbar
-    m_generatePreviewAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
-    connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
-    m_toolbar->addAction(m_generatePreviewAction);
+    // Add "Generate Previews" action to toolbar, only if python is found
+#ifdef Q_OS_WIN
+    const QString pythonName = QStringLiteral("python");
+#else
+    const QString pythonName = QStringLiteral("python3");
+#endif
+    const QString pythonExe = QStandardPaths::findExecutable(pythonName);
+    if (!pythonExe.isEmpty()) {
+        m_generatePreviewAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
+        connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
+        m_toolbar->addAction(m_generatePreviewAction);
+    }
     connect(this, &AssetListWidget::checkAssetPreview, this, &TransitionListWidget::checkPreviews);
     connect(m_model.get(), &AssetTreeModel::rowsInserted, this, [this]() { m_proxyModel->sort(0, Qt::AscendingOrder); });
 
@@ -136,7 +137,7 @@ void TransitionListWidget::checkPreviews(bool force)
 {
     const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
     QDir previewFolder(outputDir);
-    if (force || !previewFolder.exists() || previewFolder.isEmpty()) {
+    if (m_generatePreviewAction && (force || !previewFolder.exists() || previewFolder.isEmpty())) {
         generatePreviews();
     }
 }
@@ -183,6 +184,10 @@ void TransitionListWidget::exportCustomEffect(const QModelIndex &) {}
 
 void TransitionListWidget::generatePreviews()
 {
+    if (m_previewProcess) {
+        // Already running, abort
+        return;
+    }
     // Find the script in the standard install location
     QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/generate_transition_previews.py"));
 
@@ -240,10 +245,12 @@ void TransitionListWidget::generatePreviews()
     }
     // Start the process
     QStringList args;
-    args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
+    // Don't generate previews for default transitions
+    // args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
     args << QStringLiteral("--output-dir") << outputDir;
-    args << QStringLiteral("--width") << QStringLiteral("320");
-    args << QStringLiteral("--height") << QStringLiteral("180");
+    args << QStringLiteral("--width") << QStringLiteral("176");
+    args << QStringLiteral("--height") << QStringLiteral("99");
+    args << QStringLiteral("--file-format") << QStringLiteral("gif");
 
     const QStringList lumaFolders = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     QStringList encodedLumas;
@@ -282,10 +289,6 @@ void TransitionListWidget::previewDone(int exitCode, QProcess::ExitStatus exitSt
 {
     m_generatePreviewAction->setEnabled(true);
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-        // Update the delegate's preview directory
-        const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
-        m_iconDelegate->setPreviewDirectory(outputDir);
-
         // Force refresh of the view
         if (isIconView()) {
             m_effectsIcon->reset();

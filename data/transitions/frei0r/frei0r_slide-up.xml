@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<transition tag="frei0r.sleid0r_slide-right" id="frei0r.sleid0r_slide-right">
+<transition tag="frei0r.sleid0r_slide-right" id="frei0r.sleid0r_slide-right" type="videotransition">
     <name>Slide Right</name>
     <description>Slide from left to right.</description>
     <author>Vadim Druzhin</author>

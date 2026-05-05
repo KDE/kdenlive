@@ -14,10 +14,11 @@
 #pragma once
 
 #include "graphicsscenerectmove.h"
-#include "utils/timecode.h"
 #include "titler/titledocument.h"
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"
+#include "utils/timecode.h"
+#include "widgets/dragvalue.h"
 
 #include <KNSWidgets/Action>
 #include <QMap>
@@ -72,7 +73,7 @@ public:
     explicit TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
     ~TitleWidget() override;
     QDomDocument xml();
-    void setXml(const QDomDocument &doc, const QString &id = QString());
+    void setXml(const QString &path, const QDomDocument &doc, const QString &id = QString());
 
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
@@ -161,6 +162,8 @@ private:
     QAction *m_createTitleAction;
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
+
+    MySpinBox *rectCornerRadius;
 
     PatternsModel *m_patternsModel;
 

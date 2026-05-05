@@ -26,12 +26,6 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
     /**
-     * @brief Set the directory where transition preview GIFs are stored
-     * @param path The path to the directory
-     */
-    void setPreviewDirectory(const QString &path);
-
-    /**
      * @brief Get a movie for a transition
      * @param transitionId The ID of the transition
      * @return A pointer to the QMovie, or nullptr if not found
@@ -39,7 +33,6 @@ public:
     QMovie *getMovie(QString transitionId, bool animate = false) const;
 
 private:
-    QString m_previewDirectory;
     mutable std::unique_ptr<QMovie> m_movie;
     mutable std::unique_ptr<QMovie> m_animatedMovie;
     mutable QString m_currentTransitionId;

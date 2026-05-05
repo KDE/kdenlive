@@ -196,8 +196,13 @@ public:
     Q_INVOKABLE QColor lockedColor() const;
     Q_INVOKABLE QColor selectionColor() const;
     Q_INVOKABLE QColor groupColor() const;
+    QColor getDefaultClipColor(ClipType::ProducerType type) const;
+    QColor getTimelineClipColor(ClipType::ProducerType type) const;
     Q_INVOKABLE int doubleClickInterval() const { return QApplication::doubleClickInterval(); }
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
+    /** @brief Returns [streamCount, availableAudioTrackSlots, isEnoughTracks] for a bin clip dragged onto trackId.
+     *  Called from QML to populate the drag-drop info bubble. */
+    Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId) const;
     Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;
     Q_INVOKABLE void showTimelineToolInfo(bool show) const;
     /** @brief The model list for this timeline's subtitles */
@@ -274,7 +279,7 @@ public:
        @return the id of the inserted composition
     */
     Q_INVOKABLE int insertNewCompositionAtPos(int tid, int position, const QString &transitionId);
-    Q_INVOKABLE int insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo);
+    Q_INVOKABLE int insertNewComposition(int tid, int clipId, int offset, QString transitionId, bool logUndo);
 
     /** @brief Request deletion of the currently selected clips
      */
@@ -300,6 +305,10 @@ public:
     /** @brief Remove multiple(or single) timeline tracks
      */
     Q_INVOKABLE void deleteMultipleTracks(int tid);
+    Q_INVOKABLE bool moveTrackUp(int tid = -1);
+    Q_INVOKABLE bool moveTrackDown(int tid = -1);
+    Q_INVOKABLE bool canMoveTrackUp(int tid = -1) const;
+    Q_INVOKABLE bool canMoveTrackDown(int tid = -1) const;
     /** @brief Show / hide audio rec controls in active track
      */
     void switchTrackRecord(int tid = -1, bool monitor = false);
@@ -318,6 +327,12 @@ public:
     /** @brief Ask for quick marker add (without dialog)
      */
     Q_INVOKABLE void addQuickMarker(int cid = -1, int position = -1);
+    /** @brief Add ranged markers at every gap between clips on all video tracks
+     */
+    Q_INVOKABLE void addMarkersAtGaps();
+    /** @brief Add ranged markers at every gap between clips on a specific track
+     */
+    Q_INVOKABLE void addMarkersAtGapsOnTrack();
     /** @brief Ask for marker delete
      */
     Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);

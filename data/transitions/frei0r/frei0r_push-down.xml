@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<transition tag="frei0r.sleid0r_push-down" id="frei0r.sleid0r_push-down">
+<transition tag="frei0r.sleid0r_push-down" id="frei0r.sleid0r_push-down" type="videotransition">
     <name>Push Down</name>
     <description>Push from top to bottom.</description>
     <author>Vadim Druzhin</author>

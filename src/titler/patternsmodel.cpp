@@ -56,7 +56,7 @@ QPixmap PatternsModel::paintScene(const QString &pattern)
 
     QList<QGraphicsItem *> items;
     int width, height, duration, missing;
-    TitleDocument::loadFromXml(doc, items, width, height, nullptr, nullptr, nullptr, &duration, missing);
+    TitleDocument::loadFromXml(QString(), doc, items, width, height, nullptr, nullptr, nullptr, &duration, missing);
 
     QGraphicsScene scene(0, 0, width, height);
 

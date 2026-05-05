@@ -20,7 +20,7 @@ PointParamWidget::PointParamWidget(std::shared_ptr<AssetParameterModel> model, Q
     QPointF min;
     QPointF max;
     QPointF defaultValue;
-    QPointF factor;
+    QPointF factor(1., 1.);
     auto paramType = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
     const QString stringValue = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     if (paramType == ParamType::FakePoint || paramType == ParamType::AnimatedFakePoint) {
@@ -34,6 +34,10 @@ PointParamWidget::PointParamWidget(std::shared_ptr<AssetParameterModel> model, Q
         max = dataToPoint(m_model->data(m_index, AssetParameterModel::MaxRole));
         defaultValue = dataToPoint(m_model->data(m_index, AssetParameterModel::DefaultRole));
         factor = dataToPoint(m_model->data(m_index, AssetParameterModel::FactorRole), QPointF(1, 1));
+        min.setX(min.x() * factor.x());
+        min.setY(min.y() * factor.y());
+        max.setX(max.x() * factor.x());
+        max.setY(max.y() * factor.y());
     }
     QPointF value = currentValue;
 
@@ -47,8 +51,9 @@ PointParamWidget::PointParamWidget(std::shared_ptr<AssetParameterModel> model, Q
     qDebug() << ":::::::\n\nUPDATED fake POINT with default value: " << defaultValue << "=" << factor << ", REAL VALUE:" << value << "\n\nGGGGGGGGGGGGGGGGG";
     int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
     const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    m_pointWidget =
-        new PointWidget(i18nc("Position as the x,y coordinate for a point", "Position:"), value, min, max, factor, defaultValue, decimals, comment, -1, this);
+    const QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
+    m_pointWidget = new PointWidget(i18nc("Position as the x,y coordinate for a point", "Position:"), value, min, max, factor, defaultValue, decimals, comment,
+                                    -1, suffix, this);
     lay->addWidget(m_pointWidget);
 
     // Q_EMIT the signal of the base class when appropriate

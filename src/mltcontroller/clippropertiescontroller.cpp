@@ -1537,6 +1537,12 @@ void ClipPropertiesController::fillProperties()
         // Audio streams
         propertyMap.append({i18n("Audio streams:"), QString::number(m_controller->audioStreamsCount())});
 
+        // Subtitle streams
+        int subtitleCount = m_controller->subtitleStreamsCount();
+        if (subtitleCount > 0) {
+            propertyMap.append({i18n("Subtitle streams:"), QString::number(subtitleCount)});
+        }
+
         if (default_audio > -1) {
             propertyMap << getAudioProperties(default_audio);
         }
@@ -1791,8 +1797,8 @@ void ClipPropertiesController::slotDeleteAnalysis()
 
 void ClipPropertiesController::slotSaveAnalysis()
 {
-    const QString url = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(),
-                                                     i18n("Text File (*.txt)"));
+    const QString url = UiUtils::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(),
+                                                 i18n("Text File (*.txt)"), QStringLiteral(".txt"));
     if (url.isEmpty()) {
         return;
     }

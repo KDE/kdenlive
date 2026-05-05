@@ -199,6 +199,8 @@ public:
     QVector<int> activeFfmpegStreams() const;
     /** @brief Returns the count of audio streams for this clip */
     int audioStreamsCount() const;
+    /** @brief Returns the count of subtitle streams for this clip */
+    int subtitleStreamsCount() const;
     /** @brief Get the path to the original clip url (in case it is proxied) */
     const QString getOriginalUrl();
     /** @brief Returns true if this clip supports creating a proxy for it. */

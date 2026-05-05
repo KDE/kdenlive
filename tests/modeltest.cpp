@@ -59,6 +59,38 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     REQUIRE(timeline->getTrackPosition(id3) == 3);
     RESET(timMock);
 
+    // Test move
+    REQUIRE(timeline->requestTrackMove(timeline, id4, true));
+    REQUIRE(timeline->checkConsistency());
+    REQUIRE(timeline->getTracksCount() == 4);
+    REQUIRE(timeline->getTrackPosition(id1) == 0);
+    REQUIRE(timeline->getTrackPosition(id2) == 1);
+    REQUIRE(timeline->getTrackPosition(id4) == 2);
+    REQUIRE(timeline->getTrackPosition(id3) == 3);
+    RESET(timMock);
+
+    undoStack->undo();
+    REQUIRE(timeline->checkConsistency());
+    REQUIRE(timeline->getTrackPosition(id1) == 0);
+    REQUIRE(timeline->getTrackPosition(id4) == 1);
+    REQUIRE(timeline->getTrackPosition(id2) == 2);
+    REQUIRE(timeline->getTrackPosition(id3) == 3);
+    undoStack->redo();
+    REQUIRE(timeline->checkConsistency());
+    REQUIRE(timeline->getTrackPosition(id1) == 0);
+    REQUIRE(timeline->getTrackPosition(id2) == 1);
+    REQUIRE(timeline->getTrackPosition(id4) == 2);
+    REQUIRE(timeline->getTrackPosition(id3) == 3);
+
+    // Move should fail on boundaries and unknown track ids
+    REQUIRE_FALSE(timeline->requestTrackMove(timeline, id3, true));
+    REQUIRE(timeline->checkConsistency());
+    REQUIRE_FALSE(timeline->requestTrackMove(timeline, id1, false));
+    REQUIRE(timeline->checkConsistency());
+    REQUIRE_FALSE(timeline->requestTrackMove(timeline, -1, true));
+    REQUIRE(timeline->checkConsistency());
+    RESET(timMock);
+
     // Test deletion
     REQUIRE(timeline->requestTrackDeletion(id3));
     REQUIRE(timeline->checkConsistency());
@@ -187,6 +219,103 @@ TEST_CASE("Adding multiple A/V tracks", "[TrackModel]")
         // tracks before it)
         REQUIRE(timeline->getTrackIndexFromPosition(5) == v1);
     }
+    pCore->projectManager()->closeCurrentDocument(false, false);
+}
+
+TEST_CASE("Track move constraints and compositions", "[TrackModel]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
+    KdenliveDoc document(undoStack);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+
+    Fake(Method(timMock, adjustAssetRange));
+
+    int a1, a2, v1, v2;
+    REQUIRE(timeline->requestTrackInsertion(0, a1, QString(), true));
+    REQUIRE(timeline->requestTrackInsertion(1, a2, QString(), true));
+    REQUIRE(timeline->requestTrackInsertion(2, v1, QString(), false));
+    REQUIRE(timeline->requestTrackInsertion(3, v2, QString(), false));
+    REQUIRE(timeline->checkConsistency());
+    REQUIRE(timeline->isAudioTrack(a1));
+    REQUIRE(timeline->isAudioTrack(a2));
+    REQUIRE_FALSE(timeline->isAudioTrack(v1));
+    REQUIRE_FALSE(timeline->isAudioTrack(v2));
+
+    SECTION("Cannot move track across AV boundary")
+    {
+        // a2 and v1 are adjacent but different types, move should fail in both directions
+        REQUIRE(timeline->getTrackPosition(a2) == 1);
+        REQUIRE(timeline->getTrackPosition(v1) == 2);
+        REQUIRE_FALSE(timeline->requestTrackMove(timeline, a2, true));
+        REQUIRE_FALSE(timeline->requestTrackMove(timeline, v1, false));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackPosition(a2) == 1);
+        REQUIRE(timeline->getTrackPosition(v1) == 2);
+    }
+
+    SECTION("Move with composition keeps composition attachment")
+    {
+        QString aCompo;
+        QVector<QPair<QString, QString>> transitions = TransitionsRepository::get()->getNames();
+        for (const auto &trans : std::as_const(transitions)) {
+            if (TransitionsRepository::get()->isComposition(trans.first)) {
+                aCompo = trans.first;
+                break;
+            }
+        }
+        REQUIRE(!aCompo.isEmpty());
+
+        int compo = CompositionModel::construct(timeline, aCompo, QString());
+        REQUIRE(timeline->requestCompositionMove(compo, v1, 10));
+        REQUIRE(timeline->requestItemResize(compo, 12, true) > -1);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackCompositionsCount(v1) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(v2) == 0);
+        REQUIRE(timeline->getCompositionTrackId(compo) == v1);
+        REQUIRE(timeline->getCompositionPosition(compo) == 10);
+        REQUIRE(timeline->getCompositionPlaytime(compo) == 12);
+        REQUIRE(timeline->getTrackPosition(v1) == 2);
+        REQUIRE(timeline->getTrackPosition(v2) == 3);
+
+        REQUIRE(timeline->requestTrackMove(timeline, v1, true));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackPosition(v1) == 3);
+        REQUIRE(timeline->getTrackPosition(v2) == 2);
+        REQUIRE(timeline->getTrackCompositionsCount(v1) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(v2) == 0);
+        REQUIRE(timeline->getCompositionTrackId(compo) == v1);
+        REQUIRE(timeline->getCompositionPosition(compo) == 10);
+        REQUIRE(timeline->getCompositionPlaytime(compo) == 12);
+
+        undoStack->undo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackPosition(v1) == 2);
+        REQUIRE(timeline->getTrackPosition(v2) == 3);
+        REQUIRE(timeline->getTrackCompositionsCount(v1) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(v2) == 0);
+        REQUIRE(timeline->getCompositionTrackId(compo) == v1);
+        REQUIRE(timeline->getCompositionPosition(compo) == 10);
+        REQUIRE(timeline->getCompositionPlaytime(compo) == 12);
+
+        undoStack->redo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackPosition(v1) == 3);
+        REQUIRE(timeline->getTrackPosition(v2) == 2);
+        REQUIRE(timeline->getTrackCompositionsCount(v1) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(v2) == 0);
+        REQUIRE(timeline->getCompositionTrackId(compo) == v1);
+        REQUIRE(timeline->getCompositionPosition(compo) == 10);
+        REQUIRE(timeline->getCompositionPlaytime(compo) == 12);
+    }
+
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
 

@@ -266,7 +266,7 @@ Window {
             Label {
                 id: loadingLabel
                 anchors.fill: parent
-                anchors.margins: 10
+                anchors.margins: 5
                 wrapMode: Text.Wrap
             }
         }

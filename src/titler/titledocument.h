@@ -39,7 +39,8 @@ public:
     QDomDocument xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed_images = false);
     /** @brief Load XML for this title. It calls static version for the function.
      */
-    int loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath = QString());
+    int loadFromXml(const QString &path, const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv,
+                    int *duration, const QString &projectpath = QString());
     /** \brief Get the background color (incl. alpha) from the document, if possibly
      * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
     QColor getBackgroundColor() const;
@@ -62,7 +63,8 @@ public:
     /**
      * @brief General static function to load items into list from a xml file.
      */
-    static int loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> & gitems, int & width, int & height, GraphicsSceneRectMove * scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int & missingElements);
+    static int loadFromXml(const QString &path, const QDomDocument &doc, QList<QGraphicsItem *> &gitems, int &width, int &height, GraphicsSceneRectMove *scene,
+                           QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int &missingElements);
 
 private:
     QGraphicsScene *m_scene;

@@ -174,5 +174,5 @@ private:
     QMetaObject::Connection m_seekConnection1;
     QMetaObject::Connection m_seekConnection2;
     QMetaObject::Connection m_seekConnection3;
-
+    bool m_isUpdatingKeyframes = false;
 };

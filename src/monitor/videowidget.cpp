@@ -250,7 +250,7 @@ void VideoWidget::resizeVideo(int width, int height)
     x = (width - w) / 2.0;
     y = (height - h) / 2.0;
     m_rect = QRectF(x, y, w, h);
-    const QSize parentSize = parentWidget()->size();
+    const QSize parentSize = !m_fixedSize.isValid() && parentWidget() ? parentWidget()->size() : size();
     m_monitorOffset = QPointF((parentSize.width() - width) / 2., (parentSize.height() - m_displayRulerHeight - height) / 2.);
 
     QQuickItem *rootQml = rootObject();
@@ -258,7 +258,7 @@ void VideoWidget::resizeVideo(int width, int height)
         QSize s = pCore->getCurrentFrameSize();
         double scalex = m_rect.width() * m_zoom / s.width();
         double scaley = m_rect.height() * m_zoom / s.height();
-        rootQml->setProperty("center", m_rect.center());
+        rootQml->setProperty("center", m_rect.center() + m_monitorOffset);
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
         if (rootQml->objectName() == QLatin1String("rootsplit")) {
@@ -515,9 +515,11 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
     if (m_fullScreen) {
         m_mouseTimer.start();
     }
-    bool qmlClick = rootObject()->property("captureRightClick").toBool();
+    bool qmlClick = rootObject() ? rootObject()->property("captureRightClick").toBool() : false;
     QQuickWidget::mouseReleaseEvent(event);
-    rootObject()->setProperty("captureRightClick", false);
+    if (rootObject()) {
+        rootObject()->setProperty("captureRightClick", false);
+    }
     bool playMonitor = KdenliveSettings::play_monitor_on_click() &&
                        (m_dragStart.isNull() || (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) && m_panStart.isNull();
 
@@ -935,6 +937,13 @@ float VideoWidget::zoom() const
     return m_zoom;
 }
 
+void VideoWidget::resetAspect()
+{
+    m_colorSpace = pCore->getCurrentProfile()->colorspace();
+    m_dar = pCore->getCurrentDar();
+    refreshRect();
+}
+
 void VideoWidget::reloadProfile()
 {
     // The profile display aspect ratio may have changed.
@@ -1029,7 +1038,6 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 void VideoWidget::setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth)
 {
     m_offset.setX(horizontalScrollValue);
-
     if (rootObject()) {
         double adjustedOffset = 0.0;
         if (m_zoom > 1.0) {

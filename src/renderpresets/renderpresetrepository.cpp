@@ -321,16 +321,13 @@ std::unique_ptr<RenderPresetModel> &RenderPresetRepository::getPreset(const QStr
     QReadLocker locker(&m_mutex);
     if (!presetExists(name)) {
         // TODO
-        // qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: " << path << ". Returning default profile instead.";
-        /*QString default_profile = KdenliveSettings::default_profile();
-        if (default_profile.isEmpty()) {
-            default_profile = QStringLiteral("dv_pal");
-        }
+        qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: " << name << ". Returning default h264 profile instead.";
+        QString default_profile = QStringLiteral("MP4-H264/AAC");
         if (m_profiles.count(default_profile) == 0) {
             qCWarning(KDENLIVE_LOG) << "//// WARNING: default profile not found: " << default_profile << ". Returning random profile instead.";
             return (*(m_profiles.begin())).second;
         }
-        return m_profiles.at(default_profile);*/
+        return m_profiles.at(default_profile);
     }
     return m_profiles.at(name);
 }

@@ -883,7 +883,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
                 i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
             if (answer == KMessageBox::PrimaryAction) { // Open Backup
-                slotOpenBackup(url);
+                if (!slotOpenBackup(url)) {
+                    newFile(false);
+                }
                 return;
             } else if (answer == KMessageBox::SecondaryAction) { // Recover
                 // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
@@ -1680,7 +1682,8 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(mainId);
     timelineModel->setMarkerModel(mainClip->markerModel());
     if (pCore->window()) {
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration,
+                         static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         pCore->guidesList()->setModel(m_project->getGuideModel(m_project->activeUuid), m_project->getFilteredGuideModel(m_project->activeUuid));
     }
     m_project->loadSequenceGroupsAndGuides(uuid);
@@ -2116,7 +2119,8 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration,
+                         static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         timelineModel->setMarkerModel(clip->markerModel());
         m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);
@@ -2434,6 +2438,44 @@ void ProjectManager::slotCreateSequenceFromSelection()
     }
     m_activeTimelineModel->updateDuration();
     pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
+}
+
+void ProjectManager::slotCopyAndCreateSequenceFromSelection()
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    int aTracks = -1;
+    int vTracks = -1;
+    std::pair<int, QString> copiedData = pCore->window()->getCurrentTimeline()->controller()->getCopyItemData();
+    if (copiedData.first == -1) {
+        pCore->displayMessage(i18n("Select a clip to create sequence"), InformationMessage);
+        return;
+    }
+    const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
+    const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
+    if (newSequenceId.isEmpty()) {
+        // Action canceled
+        undo();
+        pCore->displayMessage(i18n("Sequence creation failed"), ErrorMessage);
+        return;
+    }
+    const QUuid destSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    int trackId = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    Fun local_redo1 = [destSequence, copiedData]() {
+        pCore->window()->raiseTimeline(destSequence);
+        return true;
+    };
+    local_redo1();
+    bool result = TimelineFunctions::pasteClipsWithUndo(m_activeTimelineModel, copiedData.second, trackId, 0, undo, redo);
+    if (!result) {
+        pCore->window()->raiseTimeline(sourceSequence);
+        undo();
+        return;
+    }
+    PUSH_LAMBDA(local_redo1, redo);
+    m_activeTimelineModel->updateDuration();
+    pCore->pushUndo(undo, redo, i18n("Copy clips to new Sequence"));
 }
 
 void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod)

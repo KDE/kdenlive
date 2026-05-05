@@ -680,7 +680,7 @@ int SubtitleModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
     GenTime pos(position, pCore->getCurrentFps());
     GenTime start = GenTime(-1);
     for (const auto &subtitles : m_subtitleList) {
-        if (subtitles.first.second <= pos && subtitles.second.endTime() > pos) {
+        if (subtitles.first.second <= pos && subtitles.second.endTime() > pos && subtitles.first.first == layer) {
             start = subtitles.first.second;
             break;
         }
@@ -1998,6 +1998,10 @@ void SubtitleModel::activateSubtitle(int ix)
 
 void SubtitleModel::setMaxLayer(int layer)
 {
+    if (layer > 50) {
+        pCore->displayMessage(i18n("Cannot create more than %1 layers in subtitles.", layer), ErrorMessage);
+        layer = 50;
+    }
     m_maxLayer = layer;
     for (int i = m_defaultStyles.size(); i < m_maxLayer + 1; i++) {
         m_defaultStyles << "Default";

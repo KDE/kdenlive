@@ -22,7 +22,6 @@
 
 TransitionIconDelegate::TransitionIconDelegate(const QSize &iconSize, QObject *parent)
     : QStyledItemDelegate(parent)
-    , m_previewDirectory(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews"))
     , m_iconSize(iconSize)
 {
     // Create default pixmap
@@ -33,8 +32,9 @@ TransitionIconDelegate::TransitionIconDelegate(const QSize &iconSize, QObject *p
     p.drawText(m_defaultPixmap.rect(), Qt::AlignCenter, i18n("No Preview"));
 
     // Ensure the preview directory exists
-    QDir().mkpath(m_previewDirectory);
-    qDebug() << "TransitionIconDelegate initialized with preview directory:" << m_previewDirectory;
+    QDir previewDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews"));
+    previewDir.mkpath(".");
+    qDebug() << "TransitionIconDelegate initialized with preview directory:" << previewDir.absolutePath();
 }
 
 TransitionIconDelegate::~TransitionIconDelegate() {}
@@ -134,32 +134,26 @@ QSize TransitionIconDelegate::sizeHint(const QStyleOptionViewItem &option, const
     return QSize(m_iconSize.width(), m_iconSize.height() + option.fontMetrics.lineSpacing() + 4);
 }
 
-void TransitionIconDelegate::setPreviewDirectory(const QString &path)
-{
-    if (m_previewDirectory != path) {
-        // Clean up existing movies
-        m_previewDirectory = path;
-    }
-}
-
 QMovie *TransitionIconDelegate::getMovie(QString transitionId, bool animate) const
 {
     // Check if we already have this movie
     if (m_currentTransitionId == transitionId && m_animatedMovie) {
         return m_animatedMovie.get();
     }
-    if (animate) {
-        m_currentTransitionId = transitionId;
-    }
 
     // Try to load the movie
-    QString filePath = QDir(m_previewDirectory).filePath(transitionId + QStringLiteral(".gif"));
+    QString filePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("transitions/previews/%1.webp").arg(transitionId));
 
-    if (!QFileInfo::exists(filePath)) {
-        qDebug() << "No preview found for transition:" << transitionId;
-        return nullptr;
+    if (filePath.isEmpty()) {
+        // Custom user generated transition preview are gif since webp not widely available in our binaries
+        filePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("transitions/previews/%1.gif").arg(transitionId));
+        if (filePath.isEmpty()) {
+            qDebug() << "No preview found for transition:" << transitionId;
+            return nullptr;
+        }
     }
     if (animate) {
+        m_currentTransitionId = transitionId;
         m_animatedMovie.reset(new QMovie(filePath));
         return m_animatedMovie.get();
     }

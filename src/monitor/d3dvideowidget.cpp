@@ -114,13 +114,14 @@ void D3DVideoWidget::beforeRendering()
     height = this->height() * devicePixelRatioF();
     modelView.scale(2.0f / width, 2.0f / height);
 
+    if (!m_monitorOffset.isNull()) {
+        modelView.translate(m_monitorOffset.x() * devicePixelRatioF(), -m_monitorOffset.y() * devicePixelRatioF());
+    }
+
     // Set model-view
     if (rect().width() > 0.0 && zoom() > 0.0) {
         if (offset().x() || offset().y()) modelView.translate(-offset().x() * devicePixelRatioF(), offset().y() * devicePixelRatioF());
         modelView.scale(zoom(), zoom());
-    }
-    if (!m_monitorOffset.isNull()) {
-        modelView.translate(m_monitorOffset.x() * devicePixelRatioF(), -m_monitorOffset.y() * devicePixelRatioF());
     }
     for (int i = 0; i < 4; i++) {
         vertexData[4 * i] *= modelView(0, 0);

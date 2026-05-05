@@ -1942,7 +1942,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
 void DocumentValidator::convertSubtitles()
 {
-    const QSize frameSize = pCore->getCurrentFrameDisplaySize();
+    QSize frameSize;
 
     // Subtitles: use .ass format store subtitles instead of .srt
     QDomNodeList tractors = m_doc.firstChildElement("mlt").elementsByTagName("tractor");
@@ -1953,6 +1953,16 @@ void DocumentValidator::convertSubtitles()
         oldSubData = Xml::getXmlProperty(tractors.at(i).toElement(), QStringLiteral("kdenlive:sequenceproperties.subtitlesList"));
         if (oldSubData.isEmpty() || processedSubtitleFiles.contains(oldSubData)) {
             continue;
+        }
+        if (frameSize.isNull()) {
+            QDomElement profile = m_doc.firstChildElement("mlt").firstChildElement("profile");
+            if (!profile.isNull()) {
+                frameSize = QSize(profile.attribute(QStringLiteral("width")).toInt(), profile.attribute(QStringLiteral("height")).toInt());
+            }
+            if (!frameSize.isValid() || frameSize.width() <= 10 || frameSize.width() > 8000 || frameSize.height() <= 10 || frameSize.height() > 8000) {
+                // Invalid profile, reset to pal
+                frameSize = QSize(720, 576);
+            }
         }
         processedSubtitleFiles << oldSubData;
         tractor = tractors.at(i).toElement();

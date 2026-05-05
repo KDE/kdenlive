@@ -55,7 +55,10 @@ void ModelDownloadWidget::processDownload()
 
     connect(this, &ModelDownloadWidget::abortScript, &scriptJob, &QProcess::kill, Qt::DirectConnection);
     scriptJob.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&scriptJob, &QProcess::readyReadStandardOutput, this, [this, &scriptJob]() {
+    QMetaObject::Connection readConnection = connect(&scriptJob, &QProcess::readyReadStandardOutput, this, [this, &scriptJob]() {
+        if (scriptJob.state() == QProcess::NotRunning) {
+            return;
+        }
         const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
         Q_EMIT installFeedback(processData);
         if (processData.contains(QLatin1Char('%'))) {
@@ -74,9 +77,11 @@ void ModelDownloadWidget::processDownload()
     scriptJob.start(m_engine->venvPythonExecs().python, m_args);
     // Don't timeout
     scriptJob.waitForFinished(-1);
+    // Disconnect read
+    QObject::disconnect(readConnection);
     QMetaObject::invokeMethod(m_pb, "setVisible", Q_ARG(bool, false));
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
-        const QString errorMessage = scriptJob.readAllStandardError();
+        const QString errorMessage = scriptJob.readAllStandardOutput();
         Q_EMIT installFeedback(i18n("Error downloading model:\n %1\n%2", m_scriptPath, errorMessage));
         Q_EMIT jobDone(false);
         return;

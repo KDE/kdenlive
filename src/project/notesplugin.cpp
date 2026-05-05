@@ -66,6 +66,7 @@ NotesPlugin::NotesPlugin(KDDockWidgets::QtWidgets::DockWidget *tabbedDock, QObje
     m_widget->setPlaceholderText(i18n("Enter your project notes here …"));
     m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container, KDDockWidgets::Location_None, tabbedDock);
     m_notesDock->close();
+    m_notesDock->setFocusProxy(m_widget);
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &searchText) {
         QPalette palette = m_searchLine->palette();
         QColor bgColor = palette.color(QPalette::Base);

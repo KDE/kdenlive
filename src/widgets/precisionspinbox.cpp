@@ -6,6 +6,7 @@
 
 #include "precisionspinbox.h"
 #include <QLineEdit>
+#include <cmath>
 
 PrecisionSpinBox::PrecisionSpinBox(QWidget *parent, double min, double max, int precision, double val)
     : QAbstractSpinBox(parent)
@@ -17,16 +18,26 @@ PrecisionSpinBox::PrecisionSpinBox(QWidget *parent, double min, double max, int 
     // dblVal->setLocale(QLocale::C);
     line->setValidator(&m_validator);
     setLineEdit(line);
-    setValue(val);
+    setValue(val, false);
     connect(lineEdit(), &QLineEdit::textChanged, this, &PrecisionSpinBox::textChanged);
-    connect(lineEdit(), &QLineEdit::editingFinished, this, [this]() {
+    connect(this, &QAbstractSpinBox::editingFinished, this, [this]() {
         QString finalText = text();
         if (finalText.endsWith(m_suffix)) {
             finalText.chop(1);
         }
         if (finalText.isEmpty()) {
-            textChanged(QStringLiteral("100"));
+            const double fallbackValue = qBound(m_validator.bottom(), 100., m_validator.top());
+            QSignalBlocker blocker(lineEdit());
+            setValue(fallbackValue, false);
+            finalText = text();
+            if (finalText.endsWith(m_suffix)) {
+                finalText.chop(1);
+            }
+            Q_EMIT valueChanged(QLocale().toDouble(finalText));
+        } else if (!keyboardTracking() && !m_stepEmitted) {
+            Q_EMIT valueChanged(QLocale().toDouble(finalText));
         }
+        m_stepEmitted = false;
     });
     int charSize = QFontMetrics(lineEdit()->font()).averageCharWidth();
     int charCount = QLocale().toString(max).length();
@@ -72,15 +83,26 @@ double PrecisionSpinBox::max() const
 
 void PrecisionSpinBox::stepBy(int steps)
 {
-    double val = value();
-    val += steps;
-    val = qBound(m_validator.bottom(), val, m_validator.top());
-    setValue(val);
+    // stepBy always emits valueChanged immediately (via scroll/arrows),
+    // independent of keyboardTracking() setting, to provide immediate feedback
+    m_stepEmitted = true;
+    double val = value() + steps;
+    setValue(val, true);
 }
 
-void PrecisionSpinBox::setValue(double value)
+void PrecisionSpinBox::setValue(double value, bool emitSignal)
 {
-    lineEdit()->setText(QLocale().toString(value) + m_suffix);
+    value = qBound(m_validator.bottom(), value, m_validator.top());
+    QSignalBlocker blocker(lineEdit());
+    // 'g' uses significant digits, so compute: digits-before-decimal + desired decimals
+    int intPartDigits = (value != 0.0) ? qMax(1, (int)std::floor(std::log10(std::abs(value))) + 1) : 1;
+    int sigDigits = qMax(1, intPartDigits + m_validator.decimals());
+    QString finalText = QLocale().toString(value, 'g', sigDigits);
+    lineEdit()->setText(finalText + m_suffix);
+    if (emitSignal) {
+        value = QLocale().toDouble(finalText);
+        Q_EMIT valueChanged(value);
+    }
 }
 
 void PrecisionSpinBox::textChanged(const QString &text)
@@ -94,20 +116,24 @@ void PrecisionSpinBox::textChanged(const QString &text)
     if (tmp.isEmpty()) {
         blockUpdate = true;
     }
-    val = QLocale().toDouble(tmp);
     QSignalBlocker bk(lineEdit());
     QString finalString;
     for (int i = 0; i < tmp.length(); i++) {
-        if (lineEdit()->validator()->validate(tmp, i) != QValidator::Invalid) {
+        // Since QDoubleValidator does not use the pos parameter, we need to create the substring first.
+        QString sub = tmp.left(i + 1);
+        if (lineEdit()->validator()->validate(sub, i) != QValidator::Invalid) {
             finalString.append(tmp.at(i));
         }
     }
+    val = QLocale().toDouble(finalString);
     lineEdit()->setText(finalString + m_suffix);
     int cursorPos = lineEdit()->cursorPosition();
     if (cursorPos == lineEdit()->text().length()) {
         lineEdit()->setCursorPosition(cursorPos - 1);
     }
-    if (!blockUpdate) {
+    // Clear stale step suppression when user starts normal text editing.
+    m_stepEmitted = false;
+    if (keyboardTracking() && (m_sendEmptyValue || !blockUpdate)) {
         Q_EMIT valueChanged(val);
     }
 }

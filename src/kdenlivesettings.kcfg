@@ -685,6 +685,12 @@
       <default></default>
     </entry>
 
+    <entry name="safeFFmpegParams" type="StringList">
+      <label>Safe known parameters for ffmpeg.</label>
+      <default>f,vf,af,c:v,c:a,codec:v,codec:a,g,qscale,filter_hw_device,i,vsync,ab,qp,bf,crf,preset,vendor,vb,vprofile,init_hw_device,hwaccel,hwaccel_output_format,resize,rc,pix_fmt,vcodec,acodec</default>
+    </entry>
+
+
     <entry name="ffplaypath" type="Path">
       <label>FFplay / avplay binary path.</label>
       <default></default>
@@ -1268,6 +1274,31 @@
     <entry name="thumbColor2" type="Color">
       <label>Color to draw odd audio channels.</label>
       <default>#2ed172</default>
+    </entry>
+
+    <entry name="videoColor" type="Color">
+      <label>Color for video clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="audioColor" type="Color">
+      <label>Color for audio clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="titleColor" type="Color">
+      <label>Color for title clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="imageColor" type="Color">
+      <label>Color to draw image clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+    
+    <entry name="slideshowColor" type="Color">
+      <label>Color for slideshow clips in the timeline.</label>
+      <default>#00000000</default>
     </entry>
 
     <entry name="overlayColor" type="Color">

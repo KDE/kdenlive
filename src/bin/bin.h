@@ -231,8 +231,6 @@ public:
     size_t getClipDuration(int itemId) const;
     /** @brief Returns the frame size of a given clip. */
     QSize getFrameSize(int itemId) const;
-    /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
-    std::pair<PlaylistState::ClipState, ClipType::ProducerType> getClipState(int itemId) const;
 
     /** @brief Add markers on clip \@param binId at \@param markersData with @comments text if given */
     void addClipMarker(const QString &binId, const QMap<int, QString> &markersData);

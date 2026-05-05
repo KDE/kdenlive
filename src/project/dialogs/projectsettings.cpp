@@ -23,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/profilewidget.h"
 #include "project/dialogs/temporarydata.h"
 #include "titler/titlewidget.h"
+#include "utils/uiutils.h"
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
@@ -808,7 +809,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 
 void ProjectSettings::slotExportToText()
 {
-    const QString savePath = QFileDialog::getSaveFileName(this, i18n("Save As"), QString(), i18n("Text File (*.txt)"));
+    const QString savePath = UiUtils::getSaveFileName(this, i18n("Save As"), QString(), i18n("Text File (*.txt)"), QStringLiteral(".txt"));
     if (savePath.isEmpty()) {
         return;
     }

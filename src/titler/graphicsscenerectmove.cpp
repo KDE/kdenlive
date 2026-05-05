@@ -522,6 +522,7 @@ MyRectItem::MyRectItem(QGraphicsItem *parent)
     // Disabled because cache makes text cursor invisible and borders ugly
     // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    m_cornerRadius = 0;
 }
 
 void MyRectItem::setRect(const QRectF &rectangle)
@@ -556,6 +557,49 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);
+}
+
+void MyRectItem::setCornerRadius(int cornerRadius)
+{
+    m_cornerRadius = cornerRadius;
+    update(boundingRect());
+}
+
+int MyRectItem::cornerRadius()
+{
+    return m_cornerRadius;
+}
+
+int MyRectItem::normalizedCornerRadius()
+{
+    return qMin(m_cornerRadius, (int)qMin(rect().width(), rect().height()) / 2);
+}
+
+void MyRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(widget);
+    int radius = normalizedCornerRadius();
+
+    painter->setBrush(brush());
+    painter->setPen(pen());
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->drawRoundedRect(rect(), radius, radius);
+
+    if (option->state & QStyle::State_Selected) {
+        qreal itemPenWidth = pen().widthF();
+        const qreal pad = itemPenWidth / 2;
+
+        painter->setPen(QPen(option->palette.windowText(), 0, Qt::DashLine));
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRect(boundingRect().adjusted(pad, pad, -pad, -pad));
+
+        if (radius > 0) {
+            painter->setBrush(QColor(128, 128, 128, 200));
+            painter->setPen(QPen(QColor(255, 255, 255, 200), 5));
+            int ellipseSize = 24;
+            painter->drawEllipse(radius - ellipseSize / 2, ellipseSize / -2, ellipseSize, ellipseSize);
+        }
+    }
 }
 
 MyEllipseItem::MyEllipseItem(QGraphicsItem *parent)
@@ -667,7 +711,7 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
     }
     return QGraphicsItem::itemChange(change, value);
 }
-GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, QObject *parent)
+GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, int frameWidth, int frameHeight, QObject *parent)
     : QGraphicsScene(parent)
 
 {
@@ -676,6 +720,8 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, QObject *parent)
     m_zoom = 1.0;
     setBackgroundBrush(QBrush(Qt::transparent));
     m_fontSize = 0;
+    m_frameWidth = frameWidth;
+    m_frameHeight = frameHeight;
 }
 
 void GraphicsSceneRectMove::contextMenuEvent(QGraphicsSceneContextMenuEvent *)
@@ -808,6 +854,10 @@ GraphicsSceneRectMove::resizeModes GraphicsSceneRectMove::resizeMode() const
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     m_pan = false;
+
+    qDeleteAll(m_lastSnapPreviews);
+    m_lastSnapPreviews.clear();
+
     if (m_selectedItem && (m_tool == TITLE_RECTANGLE || m_tool == TITLE_ELLIPSE)) {
         setSelectedItem(m_selectedItem);
     }
@@ -1036,6 +1086,208 @@ void GraphicsSceneRectMove::clearTextSelection(bool reset)
     }
 }
 
+QPointF GraphicsSceneRectMove::getSnappedGraphicsItem(QGraphicsItem *moveItem, QPointF moveDestination)
+{
+    QRectF rect = moveItem->sceneBoundingRect();
+    rect.moveTopLeft(moveDestination);
+
+    qreal edgeDistance = 16;
+
+    // For snapping
+    qreal bestX = 0;
+    qreal bestXDistance = INFINITY;
+    qreal bestY = 0;
+    qreal bestYDistance = INFINITY;
+
+    // For visualization
+    QGraphicsItem *bestXItem = nullptr;
+    qreal bestXHappened = 0;
+    QGraphicsItem *bestYItem = nullptr;
+    qreal bestYHappened = 0;
+
+    // Scene edge snapping
+
+    QRectF frameRects[] = {
+        QRectF(0, 0, m_frameWidth, m_frameHeight),
+        QRectF(m_frameWidth * 0.05, m_frameHeight * 0.05, m_frameWidth * 0.9, m_frameHeight * 0.9),
+        QRectF(m_frameWidth * 0.1, m_frameHeight * 0.1, m_frameWidth * 0.8, m_frameHeight * 0.8),
+    };
+
+    for (auto frameRect : frameRects) {
+        qreal edgeStartHDist = qAbs(rect.left() - frameRect.left());
+        qreal edgeStartVDist = qAbs(rect.top() - frameRect.top());
+        qreal edgeEndHDist = qAbs(rect.right() - frameRect.right());
+        qreal edgeEndVDist = qAbs(rect.bottom() - frameRect.bottom());
+
+        if (edgeStartHDist < bestXDistance) {
+            bestX = frameRect.left();
+            bestXDistance = edgeStartHDist;
+            bestXHappened = frameRect.left();
+        }
+
+        if (edgeStartVDist < bestYDistance) {
+            bestY = frameRect.top();
+            bestYDistance = edgeStartVDist;
+            bestYHappened = frameRect.top();
+        }
+
+        if (edgeEndHDist < bestXDistance) {
+            bestX = frameRect.right() - rect.width();
+            bestXDistance = edgeEndHDist;
+            bestXHappened = frameRect.right();
+        }
+
+        if (edgeEndVDist < bestYDistance) {
+            bestY = frameRect.bottom() - rect.height();
+            bestYDistance = edgeEndVDist;
+            bestYHappened = frameRect.bottom();
+        }
+    }
+
+    // Center snapping
+
+    qreal centerX = m_frameWidth / 2.0;
+    qreal centerY = m_frameHeight / 2.0;
+
+    qreal centerHDist = qAbs(rect.center().x() - centerX);
+    qreal centerVDist = qAbs(rect.center().y() - centerY);
+
+    if (centerHDist < bestXDistance) {
+        bestX = centerX - rect.width() / 2;
+        bestXDistance = centerHDist;
+        bestXHappened = centerX;
+    }
+
+    if (centerVDist < bestYDistance) {
+        bestY = centerY - rect.height() / 2;
+        bestYDistance = centerVDist;
+        bestYHappened = centerY;
+    }
+
+    // Item snapping
+
+    for (auto item : items()) {
+        if (!(item->flags() & QGraphicsItem::ItemIsSelectable)) continue;
+        if (item == moveItem) continue;
+        QRectF itemRect = item->sceneBoundingRect();
+
+        // Make sure the element is vertically aligned for horizontal snapping
+        if (rect.bottom() >= itemRect.top() && rect.top() <= itemRect.bottom()) {
+            qreal outerRightDist = qAbs(itemRect.right() - rect.left());
+            qreal outerLeftDist = qAbs(itemRect.left() - rect.right());
+            qreal innerLeftDist = qAbs(itemRect.left() - rect.left());
+            qreal innerRightDist = qAbs(itemRect.right() - rect.right());
+            qreal centerDist = qAbs(itemRect.center().x() - rect.center().x());
+
+            if (centerDist < bestXDistance) {
+                bestX = itemRect.center().x() - rect.width() / 2;
+                bestXDistance = centerDist;
+                bestXItem = item;
+                bestXHappened = itemRect.center().x();
+            }
+            if (outerRightDist < bestXDistance) {
+                bestX = itemRect.right();
+                bestXDistance = outerRightDist;
+                bestXItem = item;
+                bestXHappened = itemRect.right();
+            }
+            if (outerLeftDist < bestXDistance) {
+                bestX = itemRect.left() - rect.width();
+                bestXDistance = outerLeftDist;
+                bestXItem = item;
+                bestXHappened = itemRect.left();
+            }
+            if (innerLeftDist < bestXDistance) {
+                bestX = itemRect.left();
+                bestXDistance = innerLeftDist;
+                bestXItem = item;
+                bestXHappened = itemRect.left();
+            }
+            if (innerRightDist < bestXDistance) {
+                bestX = itemRect.right() - rect.width();
+                bestXDistance = innerRightDist;
+                bestXItem = item;
+                bestXHappened = itemRect.right();
+            }
+        }
+        // Make sure the element is horizontally aligned for vertical snapping
+        if (rect.right() >= itemRect.left() && rect.left() <= itemRect.right()) {
+            qreal outerBottomDist = qAbs(itemRect.bottom() - rect.top());
+            qreal outerTopDist = qAbs(itemRect.top() - rect.bottom());
+            qreal innerTopDist = qAbs(itemRect.top() - rect.top());
+            qreal innerBottomDist = qAbs(itemRect.bottom() - rect.bottom());
+            qreal centerDist = qAbs(itemRect.center().y() - rect.center().y());
+
+            if (centerDist < bestYDistance) {
+                bestY = itemRect.center().y() - rect.height() / 2;
+                bestYDistance = centerDist;
+                bestYItem = item;
+                bestYHappened = itemRect.center().y();
+            }
+            if (outerBottomDist < bestYDistance) {
+                bestY = itemRect.bottom();
+                bestYDistance = outerBottomDist;
+                bestYItem = item;
+                bestYHappened = itemRect.bottom();
+            }
+            if (outerTopDist < bestYDistance) {
+                bestY = itemRect.top() - rect.height();
+                bestYDistance = outerTopDist;
+                bestYItem = item;
+                bestYHappened = itemRect.top();
+            }
+            if (innerTopDist < bestYDistance) {
+                bestY = itemRect.top();
+                bestYDistance = innerTopDist;
+                bestYItem = item;
+                bestYHappened = itemRect.top();
+            }
+            if (innerBottomDist < bestYDistance) {
+                bestY = itemRect.bottom() - rect.height();
+                bestYDistance = innerBottomDist;
+                bestYItem = item;
+                bestYHappened = itemRect.bottom();
+            }
+        }
+    }
+
+    if (bestXDistance <= edgeDistance) {
+        moveDestination.setX(bestX);
+
+        int start = 0;
+        int end = m_frameHeight;
+
+        if (bestXItem != nullptr) {
+            start = bestXItem->y() - 100;
+            end = bestXItem->y() + bestXItem->boundingRect().height() + 100;
+        }
+
+        auto line =
+            addLine(bestXHappened, start, bestXHappened, end, bestXItem != nullptr ? QPen(Qt::yellow, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
+        line->setZValue(10000);
+        m_lastSnapPreviews.append(line);
+    }
+
+    if (bestYDistance <= edgeDistance) {
+        moveDestination.setY(bestY);
+
+        int start = 0;
+        int end = m_frameWidth;
+
+        if (bestYItem != nullptr) {
+            start = bestYItem->x() - 100;
+            end = bestYItem->x() + bestYItem->boundingRect().width() + 100;
+        }
+
+        auto line =
+            addLine(start, bestYHappened, end, bestYHappened, bestYItem != nullptr ? QPen(Qt::yellow, 3, Qt::DotLine) : QPen(Qt::yellow, 2, Qt::SolidLine));
+        line->setZValue(10000);
+        m_lastSnapPreviews.append(line);
+    }
+
+    return moveDestination;
+}
+
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
     QList<QGraphicsView *> viewlist = views();
@@ -1061,6 +1313,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     }
 
     if ((m_selectedItem != nullptr) && ((e->buttons() & Qt::LeftButton) != 0u)) {
+        qDeleteAll(m_lastSnapPreviews);
+        m_lastSnapPreviews.clear();
+
         int objectType = m_selectedItem->type();
         if (objectType == QGraphicsRectItem::Type || objectType == QGraphicsEllipseItem::Type || objectType == QGraphicsSvgItem::Type ||
             objectType == QGraphicsPixmapItem::Type) {
@@ -1084,6 +1339,15 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 case Left:
                     m_dragPoint = QPointF(newpoint.x(), m_dragPoint.y());
                     break;
+                case RadiusAdjust: {
+                    int newRadius = m_dragStartRadius + (newpoint.x() - m_clickPoint.x());
+                    if (newRadius < 0) newRadius = 0;
+                    int maxRadius = qMin(m_selectedItem->boundingRect().width(), m_selectedItem->boundingRect().height()) / 2;
+                    if (newRadius > maxRadius) newRadius = maxRadius;
+                    auto rectItem = static_cast<MyRectItem *>(m_selectedItem);
+                    rectItem->setCornerRadius(newRadius);
+                    return;
+                }
                 default:
                     break;
                 }
@@ -1158,6 +1422,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
             int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
+            if (!(e->modifiers() & Qt::ControlModifier)) {
+                newpoint = getSnappedGraphicsItem(m_selectedItem, newpoint);
+            }
             m_selectedItem->setPos(newpoint);
         } else if (objectType == QGraphicsTextItem::Type) {
             qDebug() << "///// MOVING AN ITEM WITH TEXT\nXXXXXXXXXXXXXXXXXXXXXX";
@@ -1172,6 +1439,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
             int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
+            if (!(e->modifiers() & Qt::ControlModifier)) {
+                newpoint = getSnappedGraphicsItem(m_selectedItem, newpoint);
+            }
             m_selectedItem->setPos(newpoint);
         }
         Q_EMIT itemMoved();
@@ -1231,6 +1501,19 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 m_possibleAction = Left;
                 setCursor(Qt::SizeHorCursor);
                 itemFound = true;
+            }
+
+            if (TITLERVERSION >= 600 && m_selectedItem->type() == QGraphicsRectItem::Type) {
+                int radius = static_cast<MyRectItem *>(m_selectedItem)->normalizedCornerRadius();
+                qreal ellipseSize = 24;
+                QRectF radiusAdjustRect(m_selectedItem->sceneBoundingRect().left() + radius - ellipseSize / 2,
+                                        m_selectedItem->sceneBoundingRect().top() + ellipseSize / -2, ellipseSize, ellipseSize);
+                if (mouseArea.intersects(radiusAdjustRect)) {
+                    setCursor(Qt::PointingHandCursor);
+                    m_possibleAction = RadiusAdjust;
+                    itemFound = true;
+                    m_dragStartRadius = radius;
+                }
             }
         }
         if (!itemFound) {

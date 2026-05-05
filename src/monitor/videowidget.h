@@ -163,6 +163,8 @@ public Q_SLOTS:
      *  @returns true is scaling was changed
      */
     bool updateScaling();
+    /** @brief Update aspect ration and colorspace from current project, to be used for mirror monitor */
+    void resetAspect();
 
 Q_SIGNALS:
     void frameDisplayed(const SharedFrame &frame);

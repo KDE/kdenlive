@@ -685,6 +685,14 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_sequence_marker")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_sequence_marker")));
+    QMenu *identifyGapsTimelineMenu = new QMenu(i18n("Identify Gaps"), this);
+    QAction *gapsAllTracksTimeline = new QAction(i18n("All Tracks"), this);
+    connect(gapsAllTracksTimeline, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGaps);
+    identifyGapsTimelineMenu->addAction(gapsAllTracksTimeline);
+    QAction *gapsActiveTrackTimeline = new QAction(i18n("Selected Track"), this);
+    connect(gapsActiveTrackTimeline, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGapsOnTrack);
+    identifyGapsTimelineMenu->addAction(gapsActiveTrackTimeline);
+    timelineMenu->addMenu(identifyGapsTimelineMenu);
     QMenu *guideMenu = new QMenu(i18n("Go to Marker…"), this);
     timelineMenu->addMenu(guideMenu);
 
@@ -719,8 +727,30 @@ void MainWindow::init()
     auto *timelineHeadersMenu = new QMenu(this);
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("move_track_up")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("move_track_down")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("fit_all_tracks")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
+    connect(timelineHeadersMenu, &QMenu::aboutToShow, this, [this]() {
+        auto moveUp = actionCollection()->action(QStringLiteral("move_track_up"));
+        auto moveDown = actionCollection()->action(QStringLiteral("move_track_down"));
+        auto timeline = getCurrentTimeline();
+        if (!timeline || !timeline->controller()) {
+            if (moveUp) {
+                moveUp->setEnabled(false);
+            }
+            if (moveDown) {
+                moveDown->setEnabled(false);
+            }
+            return;
+        }
+        if (moveUp) {
+            moveUp->setEnabled(timeline->controller()->canMoveTrackUp());
+        }
+        if (moveDown) {
+            moveDown->setEnabled(timeline->controller()->canMoveTrackDown());
+        }
+    });
 
     QAction *separate_channels = new QAction(QIcon(), i18n("Separate Channels"), this);
     separate_channels->setCheckable(true);
@@ -735,6 +765,16 @@ void MainWindow::init()
     normalize_channels->setData("normalize_channels");
     connect(normalize_channels, &QAction::triggered, this, &MainWindow::slotNormalizeAudioChannel);
     timelineHeadersMenu->addAction(normalize_channels);
+
+    // Identify Gaps submenu
+    QMenu *identifyGapsMenu = new QMenu(i18n("Identify Gaps"), this);
+    QAction *gapsAllTracks = new QAction(i18n("All Tracks"), this);
+    connect(gapsAllTracks, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGaps);
+    identifyGapsMenu->addAction(gapsAllTracks);
+    QAction *gapsSelectedTrack = new QAction(i18n("Selected Track"), this);
+    connect(gapsSelectedTrack, &QAction::triggered, this, &MainWindow::slotAddMarkersAtGapsOnTrack);
+    identifyGapsMenu->addAction(gapsSelectedTrack);
+    timelineHeadersMenu->addMenu(identifyGapsMenu);
 
     QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
     auto *thumbGroup = new QActionGroup(this);
@@ -2075,6 +2115,14 @@ void MainWindow::setupActions()
     sentToSequence->setData('G');
     sentToSequence->setEnabled(false);
 
+    QAction *copyToSequence =
+        addAction(QStringLiteral("copy_to_sequence"), i18n("Copy Selection to New Sequence"), this, SLOT(slotCopyAndCreateSequenceFromSelection()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(), clipActionCategory);
+    copyToSequence->setWhatsThis(
+        xi18nc("@info:whatsthis", "Copy the clip(s) currently selected in the timeline to a new sequence clip that can be opened in another timeline tab."));
+    copyToSequence->setData('G');
+    copyToSequence->setEnabled(false);
+
     act = clipActionCategory->addAction(KStandardAction::Copy, this, SLOT(slotCopy()));
     act->setEnabled(false);
 
@@ -2129,6 +2177,14 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
     deleteTrack->setData("delete_track");
 
+    QAction *moveTrackUp = new QAction(QIcon::fromTheme(QStringLiteral("go-up")), i18n("Move Track Up"), this);
+    connect(moveTrackUp, &QAction::triggered, this, &MainWindow::slotMoveTrackUp);
+    timelineActions->addAction(QStringLiteral("move_track_up"), moveTrackUp);
+
+    QAction *moveTrackDown = new QAction(QIcon::fromTheme(QStringLiteral("go-down")), i18n("Move Track Down"), this);
+    connect(moveTrackDown, &QAction::triggered, this, &MainWindow::slotMoveTrackDown);
+    timelineActions->addAction(QStringLiteral("move_track_down"), moveTrackDown);
+
     QAction *showAudio = new QAction(QIcon(), i18n("Show Record Controls"), this);
     connect(showAudio, &QAction::triggered, this, &MainWindow::slotShowTrackRec);
     timelineActions->addAction(QStringLiteral("show_track_record"), showAudio);
@@ -2165,6 +2221,8 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("bookmark-remove")));
     addAction(QStringLiteral("delete_all_sequence_markers"), i18n("Delete All Timeline Markers"), this, SLOT(slotDeleteAllSequenceMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("add_markers_at_gaps"), i18n("Identify Gaps"), this, SLOT(slotAddMarkersAtGaps()),
+              QIcon::fromTheme(QStringLiteral("bookmark-new")));
     addAction(QStringLiteral("edit_sequence_marker"), i18n("Edit Timeline Marker…"), this, SLOT(slotEditGuide()),
               QIcon::fromTheme(QStringLiteral("bookmark-edit")));
 
@@ -3224,6 +3282,16 @@ void MainWindow::slotAddMarkerWithCategory()
     KdenliveSettings::setDefault_marker_type(currentCategory);
 }
 
+void MainWindow::slotAddMarkersAtGaps()
+{
+    getCurrentTimeline()->controller()->addMarkersAtGaps();
+}
+
+void MainWindow::slotAddMarkersAtGapsOnTrack()
+{
+    getCurrentTimeline()->controller()->addMarkersAtGapsOnTrack();
+}
+
 void MainWindow::slotAddGuide()
 {
     getCurrentTimeline()->controller()->switchGuide(-1, false, true);
@@ -3280,6 +3348,18 @@ void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     getCurrentTimeline()->controller()->deleteMultipleTracks(-1);
+}
+
+void MainWindow::slotMoveTrackUp()
+{
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    getCurrentTimeline()->controller()->moveTrackUp();
+}
+
+void MainWindow::slotMoveTrackDown()
+{
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    getCurrentTimeline()->controller()->moveTrackDown();
 }
 
 void MainWindow::slotSwitchTrackAudioStream()
@@ -4317,7 +4397,6 @@ void MainWindow::updateDockMenu()
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
     QList<QAction *> existing;
-    const QString raise("_raise");
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
         guiActions = kdenliveCategoryMap.value(QStringLiteral("interface"));
         existing = guiActions->actions();
@@ -4663,6 +4742,15 @@ KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, 
         }
     });
     guiActions->addAction(objectName, dockAction);
+    const QString actionText = KLocalizedString::removeAcceleratorMarker(dockAction->text());
+    QAction *action = new QAction(i18n("Raise %1", actionText), this);
+    action->setData(QStringLiteral("_raise"));
+    connect(action, &QAction::triggered, this, [dock]() {
+        dock->open();
+        dock->setAsCurrentTab();
+        dock->setFocus(Qt::OtherFocusReason);
+    });
+    guiActions->addAction("raise_" + dock->objectName(), action);
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
     return dock;
 }
@@ -5790,6 +5878,11 @@ void MainWindow::appHelpActivated()
 void MainWindow::slotCreateSequenceFromSelection()
 {
     pCore->projectManager()->slotCreateSequenceFromSelection();
+}
+
+void MainWindow::slotCopyAndCreateSequenceFromSelection()
+{
+    pCore->projectManager()->slotCopyAndCreateSequenceFromSelection();
 }
 
 ObjectId MainWindow::effectStackOwner()

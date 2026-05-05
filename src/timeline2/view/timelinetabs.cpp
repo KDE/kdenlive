@@ -375,6 +375,7 @@ void TimelineTabs::buildClipMenu()
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("extract_clip")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("save_to_bin")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("send_sequence")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("copy_to_sequence")));
 
     QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("markers"), pCore->window()));
     if (markerMenu) {

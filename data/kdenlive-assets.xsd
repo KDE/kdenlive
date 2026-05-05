@@ -42,12 +42,26 @@ SPDX-License-Identifier: CC0-1.0
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="pointValueType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="-?\d+(\.\d+)?\s-?\d+(\.\d+)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="valueType">
         <xs:union memberTypes="xs:decimal sizePlaceholder filterName"/>
     </xs:simpleType>
 
+    <xs:simpleType name="valueTypeOrPoint">
+        <xs:union memberTypes="valueType pointValueType"/>
+    </xs:simpleType>
+
     <xs:simpleType name="keyframedValueType">
         <xs:union memberTypes="valueType keyframedType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="keyframedValueTypeOrPoint">
+        <xs:union memberTypes="keyframedValueType pointValueType"/>
     </xs:simpleType>
 
     <xs:simpleType name="curvePoints">
@@ -184,11 +198,11 @@ SPDX-License-Identifier: CC0-1.0
         <xs:attribute name="paramlist" type="xs:string"/>
         <xs:attribute name="alpha" type="xs:boolean"/>
         <xs:attribute name="value" type="valueType"/>
-        <xs:attribute name="min" type="keyframedValueType"/>
-        <xs:attribute name="max" type="keyframedValueType"/>
+        <xs:attribute name="min" type="keyframedValueTypeOrPoint"/>
+        <xs:attribute name="max" type="keyframedValueTypeOrPoint"/>
         <xs:attribute name="visualmin" type="xs:decimal"/>
         <xs:attribute name="visualmax" type="xs:decimal"/>
-        <xs:attribute name="factor" type="valueType"/>
+        <xs:attribute name="factor" type="valueTypeOrPoint"/>
         <xs:attribute name="scale" type="xs:decimal"/>
         <xs:attribute name="suffix" type="xs:string"/>
         <xs:attribute name="decimals" type="xs:integer"/>

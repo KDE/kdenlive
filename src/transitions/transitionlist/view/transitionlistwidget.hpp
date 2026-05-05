@@ -59,5 +59,5 @@ private:
     QMetaObject::Connection m_hoverAnimationConnection;
     QString m_hoveredTransition;
     std::unique_ptr<QProcess> m_previewProcess;
-    QAction *m_generatePreviewAction;
+    QAction *m_generatePreviewAction{nullptr};
 };

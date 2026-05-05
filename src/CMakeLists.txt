@@ -207,8 +207,22 @@ set(ICON_FILES
 )
 ecm_add_app_icon(kdenlive ICONS ${ICON_FILES})
 
+if (APPLE)
+# Apple app package
+set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/Info.plist)
+set_target_properties(kdenlive PROPERTIES
+    MACOSX_BUNDLE_DISPLAY_NAME "Kdenlive"
+    MACOSX_BUNDLE_BUNDLE_NAME "Kdenlive"
+    MACOSX_BUNDLE_LONG_VERSION_STRING "Kdenlive ${RELEASE_SERVICE_VERSION}"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}"
+    MACOSX_BUNDLE_BUNDLE_VERSION "${RELEASE_SERVICE_VERSION}"
+    MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.Kdenlive"
+    MACOSX_BUNDLE_COPYRIGHT "2000-2022 The Kdenlive Authors")
+#set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE ON)
+endif()
+
 ## Kdenlive Executable
-add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
+add_executable(kdenlive MACOSX_BUNDLE main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
     )
@@ -328,11 +342,6 @@ if(HAVE_LINUX_INPUT_H)
     target_compile_definitions(kdenliveLib PRIVATE -DUSE_JOGSHUTTLE)
     target_link_libraries(kdenliveLib PUBLIC media_ctrl)
 endif()
-
-if(APPLE)
-    set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE ON)
-endif()
-
 
 if(NOT USE_DBUS)
     target_compile_definitions(kdenliveLib PRIVATE -DNODBUS)

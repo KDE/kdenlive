@@ -46,6 +46,7 @@ Item {
     property int mouseRulerPos: 0
     property bool rotatable: false
     property double rect_rotation: _rotation
+    property point rect_anchor: Qt.point(0.5, 0.5)
     // private property used to prevent circular updates when frame is transformed via Monitor, the change is signaled to cpp, 
     // it updates its model and calls us back to update the Monitor
     property double _rotation: 0
@@ -60,6 +61,11 @@ Item {
             canvas.requestPaint()
         }
     }
+    onRect_anchorChanged: {
+        console.log('RECT ANCHOR CHANGED TO: ', rect_anchor)
+        updateRotationAnchor()
+    }
+
     onFramesizeChanged: {
         if (!(transformedFrame.isResizing || transformedFrame.isMoving)) _framesize = framesize
     }
@@ -68,6 +74,8 @@ Item {
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
+    enum RotationAnchorModes { Center, TopLeft }
+    property string rotationAnchorMode: MonitorGeometryScene.RotationAnchorModes.Center
     signal effectChanged(rect frame)
     signal centersChanged()
     signal effectRotationChanged(double rotation)
@@ -135,6 +143,15 @@ Item {
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
     }
+
+    function updateRotationAnchor()
+    {
+        transformedFrame.rotationAnchorX = transformedFrame.width * root.rect_anchor.x;
+        transformedFrame.rotationAnchorY = transformedFrame.height * root.rect_anchor.y;
+        console.log("updated rotation anchor to", transformedFrame.rotationAnchorX, transformedFrame.rotationAnchorY, "mode", root.rotationAnchorMode, "MonitorGeometryScene.RotationAnchorModes.TopLeft", MonitorGeometryScene.RotationAnchorModes.TopLeft);
+    }
+
+    onRotationAnchorModeChanged: updateRotationAnchor()
 
     FontMetrics {
         id: fontMetrics
@@ -363,8 +380,8 @@ Item {
         x: frame.x + root.pendingFramesize.x * root.scalex
         y: frame.y + root.pendingFramesize.y * root.scaley
         transform: Rotation {
-            origin.x: pendingFrame.width/2
-            origin.y: pendingFrame.height/2
+            origin.x: pendingFrame.width * root.rect_anchor.x
+            origin.y: pendingFrame.height * root.rect_anchor.y
             angle: root.pendingRotation
         }
         antialiasing: true
@@ -422,6 +439,8 @@ Item {
         property double handlesRightMargin: root.width - transformedFrame.x - transformedFrame.width < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
         property double handlesTopMargin: transformedFrame.y < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
         property double handlesLeftMargin: transformedFrame.x < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double rotationAnchorX: width / 2
+        property double rotationAnchorY: height / 2
 
         x: frame.x + root._framesize.x * root.scalex
         y: frame.y + root._framesize.y * root.scaley
@@ -431,9 +450,12 @@ Item {
         color: "transparent"
         border.color: root.disableHandles ? 'transparent' : "#ff0000"
         opacity: (isMoving || isResizing || isRotating) ? 0 : 1
+        onWidthChanged: root.updateRotationAnchor()
+        onHeightChanged: root.updateRotationAnchor()
+
         transform: Rotation {
-            origin.x: transformedFrame.width/2
-            origin.y: transformedFrame.height/2
+            origin.x: transformedFrame.rotationAnchorX
+            origin.y: transformedFrame.rotationAnchorY
             angle: root._rotation
         }
         antialiasing: true
@@ -469,6 +491,48 @@ Item {
                 }
             }
         }
+        // Rotation anchor indicator
+        Shape {
+            anchors.fill: parent
+            //visible: transformedFrame.isRotating
+            ShapePath {
+                strokeColor: "red"
+                strokeWidth: 2
+                fillColor: "transparent"
+                // Circle using PathAngleArc
+                PathMove {
+                    x: transformedFrame.rotationAnchorX + 8
+                    y: transformedFrame.rotationAnchorY
+                }
+                PathAngleArc {
+                    centerX: transformedFrame.rotationAnchorX
+                    centerY: transformedFrame.rotationAnchorY
+                    radiusX: 8
+                    radiusY: 8
+                    startAngle: 0
+                    sweepAngle: 360
+                }
+                // Horizontal line of the cross
+                PathMove {
+                    x: transformedFrame.rotationAnchorX - 10
+                    y: transformedFrame.rotationAnchorY
+                }
+                PathLine {
+                    x: transformedFrame.rotationAnchorX + 10
+                    y: transformedFrame.rotationAnchorY
+                }
+                // Vertical line of the cross
+                PathMove {
+                    x: transformedFrame.rotationAnchorX
+                    y: transformedFrame.rotationAnchorY - 10
+                }
+                PathLine {
+                    x: transformedFrame.rotationAnchorX
+                    y: transformedFrame.rotationAnchorY + 10
+                }
+            }
+        }
+
         MouseArea {
           id: moveArea
           anchors.fill: parent
