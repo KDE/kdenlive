@@ -698,6 +698,7 @@ QString Core::openExternalApp(QString appPath, QStringList args, ClipType::Produ
             return QString();
         }
         args.prepend(QStringLiteral("--host"));
+        process.setArguments(args);
         qCInfo(KDENLIVE_LOG) << "Starting external Flatpak" << args;
         if (!process.startDetached()) {
             return process.errorString();
