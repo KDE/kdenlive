@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-04 00:43+0000\n"
-"PO-Revision-Date: 2026-04-29 00:16+0100\n"
+"POT-Creation-Date: 2026-05-05 00:43+0000\n"
+"PO-Revision-Date: 2026-05-04 23:24+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7479,7 +7479,7 @@ msgstr "Duración"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1121 src/kdenliveui.rc:193 src/mainwindow.cpp:270
+#: src/core.cpp:1148 src/kdenliveui.rc:193 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -16141,10 +16141,9 @@ msgid "Rotate from center"
 msgstr "Rotar desde el centro"
 
 #: data/effects/qtblend.xml:43 data/effects/qtblend.xml:67
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Point"
-msgstr "Rotación"
+msgstr "Pivote de rotación"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -20449,10 +20448,10 @@ msgid "Please set a default application to open video files"
 msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de video"
 
-#: src/bin/bin.cpp:5179 src/core.cpp:683 src/doc/kdenlivedoc.cpp:171
-#: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
-#: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
-#: src/layouts/layoutmanagerdialog.cpp:212
+#: src/bin/bin.cpp:5179 src/core.cpp:683 src/core.cpp:710
+#: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:487
+#: src/jobs/cliploadtask.cpp:499 src/jobs/filtertask.cpp:98
+#: src/jobs/filtertask.cpp:139 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
 #: src/renderpresets/renderpresetrepository.cpp:415
 #, kde-format
@@ -21354,262 +21353,262 @@ msgstr ""
 "predeterminado, pero es posible cambiarlo desde el panel de Preferencias de "
 "Kdenlive"
 
-#: src/core.cpp:735
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Persiana rectangular"
 
-#: src/core.cpp:736
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Damero pequeño"
 
-#: src/core.cpp:737
+#: src/core.cpp:764
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Persiana horizontal"
 
-#: src/core.cpp:738
+#: src/core.cpp:765
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial"
 
-#: src/core.cpp:739
+#: src/core.cpp:766
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineal X"
 
-#: src/core.cpp:740
+#: src/core.cpp:767
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilineal X"
 
-#: src/core.cpp:741
+#: src/core.cpp:768
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineal Y"
 
-#: src/core.cpp:742
+#: src/core.cpp:769
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilineal Y"
 
-#: src/core.cpp:743
+#: src/core.cpp:770
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Cuadrado"
 
-#: src/core.cpp:744
+#: src/core.cpp:771
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Rectángulo"
 
-#: src/core.cpp:745
+#: src/core.cpp:772
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Nube"
 
-#: src/core.cpp:746
+#: src/core.cpp:773
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Reloj simétrico"
 
-#: src/core.cpp:747
+#: src/core.cpp:774
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Persiana radial"
 
-#: src/core.cpp:748
+#: src/core.cpp:775
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Espiral"
 
-#: src/core.cpp:749
+#: src/core.cpp:776
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Espiral 2"
 
-#: src/core.cpp:750
+#: src/core.cpp:777
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Telón"
 
-#: src/core.cpp:751
+#: src/core.cpp:778
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Explosión"
 
-#: src/core.cpp:752
+#: src/core.cpp:779
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Reloj"
 
-#: src/core.cpp:754
+#: src/core.cpp:781
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barrido horizontal"
 
-#: src/core.cpp:755
+#: src/core.cpp:782
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barrido vertical"
 
-#: src/core.cpp:756
+#: src/core.cpp:783
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Aletas verticales"
 
-#: src/core.cpp:757
+#: src/core.cpp:784
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Aletas horizontales"
 
-#: src/core.cpp:758
+#: src/core.cpp:785
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Aletas diagonales sup. izq."
 
-#: src/core.cpp:759
+#: src/core.cpp:786
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Aletas diagonales sup. der."
 
-#: src/core.cpp:760
+#: src/core.cpp:787
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal superior izquierda"
 
-#: src/core.cpp:761
+#: src/core.cpp:788
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal superior derecha"
 
-#: src/core.cpp:762
+#: src/core.cpp:789
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matriz cascada horizontal"
 
-#: src/core.cpp:763
+#: src/core.cpp:790
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matriz cascada vertical"
 
-#: src/core.cpp:764
+#: src/core.cpp:791
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matriz serpiente horizontal"
 
-#: src/core.cpp:765
+#: src/core.cpp:792
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matriz serpiente horizontal paralela"
 
-#: src/core.cpp:766
+#: src/core.cpp:793
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matriz serpiente vertical"
 
-#: src/core.cpp:767
+#: src/core.cpp:794
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matriz serpiente vertical paralela"
 
-#: src/core.cpp:768
+#: src/core.cpp:795
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Aletas en V invertida"
 
-#: src/core.cpp:769
+#: src/core.cpp:796
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris circular"
 
-#: src/core.cpp:770
+#: src/core.cpp:797
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Iris doble"
 
-#: src/core.cpp:771
+#: src/core.cpp:798
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris rectangular"
 
-#: src/core.cpp:772
+#: src/core.cpp:799
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Rectángulo inferior derecha"
 
-#: src/core.cpp:773
+#: src/core.cpp:800
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Rectángulo inferior izquierda"
 
-#: src/core.cpp:774
+#: src/core.cpp:801
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Rectángulo centro derecha"
 
-#: src/core.cpp:775
+#: src/core.cpp:802
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Reloj superior"
 
-#: src/core.cpp:1067
+#: src/core.cpp:1094
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "El perfil del proyecto no es válido, el procesamiento podría fallar."
 
-#: src/core.cpp:1431
+#: src/core.cpp:1458
 #, kde-format
 msgid "Loading clips"
 msgstr "Cargando medios"
 
-#: src/core.cpp:1926
+#: src/core.cpp:1953
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcador %1"
 
-#: src/core.cpp:2288
+#: src/core.cpp:2315
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21620,12 +21619,12 @@ msgstr ""
 "en la siguiente url:\n"
 " %1"
 
-#: src/core.cpp:2289 src/core.cpp:2300
+#: src/core.cpp:2316 src/core.cpp:2327
 #, kde-format
 msgid "Open Browser"
 msgstr "Abrir navegador"
 
-#: src/core.cpp:2299
+#: src/core.cpp:2326
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -25210,19 +25209,15 @@ msgid "Enter new location for file"
 msgstr "Introducir nueva ubicación para el archivo"
 
 #: src/doc/dcresolvedialog.cpp:181
-#, fuzzy, kde-format
-#| msgid ""
-#| "This project want to load resources from internet.<br><b>This can be a "
-#| "security risk, abort loading</b> unless you fully trust the remote "
-#| "resources."
+#, kde-format
 msgid ""
 "This project is trying to load sources from the internet.<br> <b><i>This can "
 "pose a security risk</i></b>!<br> Abort loading the project unless this is "
 "intentional and you fully trust the remote sources."
 msgstr ""
-"Este proyecto pretende cargar recursos desde Internet.<br><b>Esto podría "
-"representar un riesgo de seguridad, cancelar la carga</b> a menos que se "
-"confíe completamente en las fuentes remotas."
+"Este proyecto pretende cargar recursos desde Internet.<br> <b><i>Esto podría "
+"representar un riesgo de seguridad</i></b>!<br> Cancelar la carga, a menos "
+"que se confíe completamente en las fuentes remotas."
 
 #: src/doc/dcresolvedialog.cpp:195
 #, kde-format
@@ -25265,20 +25260,16 @@ msgstr[0] "Un reemplazo faltante"
 msgstr[1] "%1 reemplazos faltantes"
 
 #: src/doc/dcresolvedialog.cpp:222
-#, fuzzy, kde-format
-#| msgid "One proxy can be recovered"
-#| msgid_plural "%1 proxies can be recovered"
+#, kde-format
 msgid "Proxy clips can be recreated."
-msgstr "Un reemplazo puede ser recuperado"
+msgstr "Los medios de reemplazo pueden ser recreados."
 
 #: src/doc/dcresolvedialog.cpp:224
-#, fuzzy, kde-format
-#| msgid "One proxy can be recovered"
-#| msgid_plural "%1 proxies can be recovered"
+#, kde-format
 msgid "One proxy can be recreated"
 msgid_plural "%1 proxies can be recreated"
-msgstr[0] "Un reemplazo puede ser recuperado"
-msgstr[1] "%1 reemplazos pueden ser recuperados"
+msgstr[0] "Un reemplazo puede ser recreado"
+msgstr[1] "%1 reemplazos pueden ser recreados"
 
 #: src/doc/dcresolvedialog.cpp:244
 #, kde-format
@@ -25287,12 +25278,10 @@ msgid "Clips Folder"
 msgstr "Carpeta de medios"
 
 #: src/doc/dcresolvedialog.cpp:256
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Clips Folder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Proxy Clips Folder"
-msgstr "Carpeta de medios"
+msgstr "Carpeta de medios de reemplazo"
 
 #: src/doc/documentchecker.cpp:140
 #, kde-format
@@ -25316,6 +25305,9 @@ msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
 "updated location to store files for this project."
 msgstr ""
+"No se encontró la carpeta de almacenamiento del proyecto <b>%1</b>. "
+"Introducir una ubicación actualizada de almacenamiento de archivos para este "
+"proyecto."
 
 #: src/doc/documentchecker.cpp:1910
 #, kde-format
@@ -29926,10 +29918,9 @@ msgid "Audio streams:"
 msgstr "Fuentes de audio:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1543
-#, fuzzy, kde-format
-#| msgid "Subtitles:"
+#, kde-format
 msgid "Subtitle streams:"
-msgstr "Subtítulos:"
+msgstr "Fuentes de subtítulos:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1732
 #, kde-format
@@ -39359,10 +39350,9 @@ msgstr "Usar marcadores de posición"
 
 #. i18n: ectx: property (text), widget (QPushButton, searchProxies)
 #: src/ui/missingclips_ui.ui:201
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Proxies"
-msgstr "Buscar marcadores"
+msgstr "Buscar reemplazos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:211
