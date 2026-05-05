@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-04 02:42+0000\n"
+"POT-Creation-Date: 2026-05-05 02:45+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -21069,7 +21069,7 @@ msgstr "Clib nua"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Formáid taifeadta coigeartaithe go %1 cainéal, %2Hz."
 
-#: src/capture/mediacapture.cpp:241
+#: src/capture/mediacapture.cpp:245
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21078,7 +21078,7 @@ msgstr ""
 "Ag faire ar fhuaim. Brúigh <b>Spás</b> chun an taifeadadh a thosú/sosú, "
 "<b>Esc</b> chun deireadh a chur leis."
 
-#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:417 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"

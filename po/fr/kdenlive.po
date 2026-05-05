@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-04 02:42+0000\n"
-"PO-Revision-Date: 2026-04-25 07:51+0200\n"
+"POT-Creation-Date: 2026-05-05 02:45+0000\n"
+"PO-Revision-Date: 2026-05-03 12:09+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -15702,13 +15702,13 @@ msgid ""
 "case is to add effects in the following sequence: this effect, zero or more "
 "effects, mask_apply."
 msgstr ""
-"Ce filtre réalise une copie d'écran instantanée de la trame avant la "
+"Ce filtre réalise une capture d'écran instantanée de la trame avant la "
 "sélection de clés chromatiques avec paramétrage de trames avec des options "
-"plus avancées (par exemple, différents modèles de couleurs). Utilisez-le "
-"conjointement avec l'effet « mask_apply », utilisant une transition pour "
-"composer l'image de la trame actuelle au dessus de la copie d'écran. Le cas "
-"typique d'utilisation est l'ajout d'effets dans la séquence suivante : cet "
-"effet, zéro ou plusieurs effets, « mask_apply »."
+"plus avancées (par exemple, différents modèles de couleurs). Veuillez "
+"l'utiliser conjointement avec l'effet « mask_apply », utilisant une "
+"transition pour composer l'image de la trame actuelle au dessus de la "
+"capture d'écran. Le cas typique d'utilisation est l'ajout d'effets dans la "
+"séquence suivante : cet effet, zéro ou plusieurs effets, « mask_apply »."
 
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
@@ -21242,7 +21242,7 @@ msgstr "Nouvelle étiquette"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Format d'enregistrement ajusté à %1 canaux, %2 Hz."
 
-#: src/capture/mediacapture.cpp:241
+#: src/capture/mediacapture.cpp:245
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21251,7 +21251,7 @@ msgstr ""
 "Surveillance de l'audio. Appuyez sur <b>Espace</b> pour démarrer / arrêter "
 "l'enregistrement, <b>Échap</b> pour arrêter."
 
-#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:417 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"

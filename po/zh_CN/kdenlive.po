@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-04 02:42+0000\n"
+"POT-Creation-Date: 2026-05-05 02:45+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -20335,7 +20335,7 @@ msgstr "新标签"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "录制格式已调整为 %1 声道，%2 Hz。"
 
-#: src/capture/mediacapture.cpp:241
+#: src/capture/mediacapture.cpp:245
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20343,7 +20343,7 @@ msgid ""
 msgstr ""
 "正在监听音频。按<b>空格键</b>以开始/暂停录制，按 <b>Esc</b> 键结束监听。"
 
-#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:417 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-04 02:42+0000\n"
+"POT-Creation-Date: 2026-05-05 02:45+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -9997,10 +9997,10 @@ msgid ""
 "        "
 msgstr ""
 "Odstráni artefakty tvorenia schodov zo 720p videí z Nikon D90.\n"
-"        <full><![CDATA[Ostré čiary vo videách z Nikon D90 ukazujú schody "
-"každý 8. alebo 9. riadok pravdepodobne\n"
+"        Ostré čiary vo videách z Nikon D90 ukazujú schody každý 8. alebo 9. "
+"riadok pravdepodobne\n"
 "        kvôli zlému prevzorkovaniu. Môžu sa vyhladiť s týmto filtrom v "
-"prípade, že je to príliš nepríjemné.]]></full>\n"
+"prípade, že je to príliš nepríjemné.\n"
 "        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
@@ -11320,9 +11320,9 @@ msgid ""
 "        opened for a while), but for video."
 msgstr ""
 "Efekt Svetelné Graffiti.\n"
-"        <full><![CDATA[Tento efekt umožňuje robiť svetelné maľovanie (t.j. "
-"maľovanie so svetelnými zdrojmi na fotografiu podržaním uzávierky\n"
-"        otvorenej na chvíľu), ale nie pre video.]]></full>"
+"        Tento efekt umožňuje robiť svetelné maľovanie (t.j. maľovanie so "
+"svetelnými zdrojmi na fotografiu podržaním uzávierky\n"
+"        otvorenej na chvíľu), ale nie pre video."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:11
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:83
@@ -11587,9 +11587,9 @@ msgid ""
 "        opened for a while), but for video."
 msgstr ""
 "Efekt Svetelné Graffiti.\n"
-"        <full><![CDATA[Tento efekt umožňuje robiť svetelné maľovanie (t.j. "
-"maľovanie so svetelnými zdrojmi na fotografiu podržaním uzávierky\n"
-"        otvorenej na chvíľu), ale nie pre video.]]></full>"
+"        Tento efekt umožňuje robiť svetelné maľovanie (t.j. maľovanie so "
+"svetelnými zdrojmi na fotografiu podržaním uzávierky\n"
+"        otvorenej na chvíľu), ale nie pre video."
 
 #: data/effects/frei0r/frei0r_luminance.xml:4
 #, kde-format
@@ -20842,7 +20842,7 @@ msgstr "Nový štítok"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Formát nahrávania upravený na %1 kanálov, %2 Hz."
 
-#: src/capture/mediacapture.cpp:241
+#: src/capture/mediacapture.cpp:245
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20851,7 +20851,7 @@ msgstr ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 
-#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:417 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -31065,7 +31065,7 @@ msgstr "<h5>Nastavenie videa</h5>"
 #: src/project/dialogs/profilewidget.cpp:214
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
-msgstr "<p style='font-size:small'>Veľkosť snímky: %1 x %2 (%3:%4)<br/>"
+msgstr "Veľkosť snímky: %1 x %2 (%3:%4)<br/>"
 
 #: src/project/dialogs/profilewidget.cpp:215
 #, kde-format
@@ -31095,7 +31095,7 @@ msgstr "áno"
 #: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "Interlaced: %1"
-msgstr "Prekladané: %1</p>"
+msgstr "Prekladané: %1"
 
 #: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
