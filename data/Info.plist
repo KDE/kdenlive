@@ -29,7 +29,7 @@
         <key>CFBundleVersion</key>
         <string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
         <key>LSMinimumSystemVersion</key>
-        <string>13.0</string>
+        <string>13.0.0</string>
         <key>NSMicrophoneUsageDescription</key>
         <string>Kdenlive can record audio when user requests it.</string>
         <key>LSApplicationCategoryType</key>

@@ -16,20 +16,6 @@ add_subdirectory(resourceproviders)
 add_subdirectory(shortcuts)
 add_subdirectory(luts)
 
-if (APPLE)
-# Apple app package
-set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
-set_target_properties(kdenlive PROPERTIES
-    MACOSX_BUNDLE_DISPLAY_NAME "Kdenlive"
-    MACOSX_BUNDLE_BUNDLE_NAME "Kdenlive"
-    MACOSX_BUNDLE_LONG_VERSION_STRING "Kdenlive ${RELEASE_SERVICE_VERSION}"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}"
-    MACOSX_BUNDLE_BUNDLE_VERSION "${RELEASE_SERVICE_VERSION}"
-    MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.Kdenlive"
-    MACOSX_BUNDLE_COPYRIGHT "2000-2022 The Kdenlive Authors")
-
-endif()
-
 install(FILES
   meta_magiclantern.png
   encodingprofiles.rc

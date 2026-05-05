@@ -31,6 +31,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titler/titlewidget.h"
 #include "transitions/transitionsrepository.hpp"
 #include "ui_proxywarn_ui.h"
+
 #include "utils/uiutils.h"
 #include <config-kdenlive.h>
 
@@ -1851,94 +1852,6 @@ bool KdenliveDoc::loadDocumentProperties()
                 e.firstChild().clear();
                 continue;
             }
-            if (name == QLatin1String("proxyparams")) {
-                QString proxyData = e.firstChild().nodeValue();
-                if (!proxyData.isEmpty()) {
-                    // Sanitize parameters. First check for forbidden params
-                    const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
-                    bool abortProxy = false;
-                    for (auto &f : forbiddenArgs) {
-                        if (proxyData.contains(f)) {
-                            // Suspicious proxy parameters
-                            const QString proxyExtension = QStringLiteral("mov");
-                            if (KMessageBox::warningContinueCancel(pCore->window(),
-                                                                   i18n("Project file <b>%1</b> contains suspicious proxy parameters. This command might be "
-                                                                        "executed:<br><br><code style=\"background-color:darkred;color:white\"><b>%2 -i "
-                                                                        "input.mp4 %3 out.%4</b></code><br><br>These parameters will be discarded.",
-                                                                        m_url.fileName(), KdenliveSettings::ffmpegpath(), proxyData, proxyExtension),
-                                                                   QString(), KStandardGuiItem::cont(), KGuiItem(i18n("Abort"))) != KMessageBox::Continue) {
-                                return false;
-                            }
-                            abortProxy = true;
-                            break;
-                        }
-                    }
-                    if (abortProxy) {
-                        continue;
-                    }
-                    const QStringList unknownParams = UiUtils::checkUnknownProxyParams(proxyData);
-                    if (!unknownParams.isEmpty()) {
-                        if (!proxyData.startsWith(QLatin1Char(' '))) {
-                            proxyData.prepend(QLatin1Char(' '));
-                        }
-                        const QString proxyExtension = QStringLiteral("mov");
-                        for (auto &u : unknownParams) {
-                            int start = proxyData.indexOf(QLatin1String(" -%1").arg(u));
-                            if (start >= 0) {
-                                int end = proxyData.indexOf(QLatin1String(" -"), start + 1);
-                                if (end < 0) {
-                                    proxyData.append("</span>");
-                                } else {
-                                    proxyData.insert(end, "</span>");
-                                }
-                                proxyData.insert(start, "<span style=\"background-color:darkred;color:white\">");
-                            }
-                        }
-                        QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
-                        Ui::ProxyWarn_UI dia_ui;
-                        dia_ui.setupUi(dia.data());
-                        QIcon icon = QIcon::fromTheme(QStringLiteral("dialog-warning"));
-                        int iconSize = QFontMetrics(dia->font()).lineSpacing() * 3.5;
-                        dia_ui.iconLabel->setPixmap(icon.pixmap(iconSize, iconSize));
-                        dia->setWindowTitle(i18nc("@title:window", "Warning"));
-                        dia_ui.description->setText(
-                            i18n("Project file <b>%1</b> contains unexpected parameters for proxy creation. This command might be executed:<br><br><code><b>%2 "
-                                 "-i input.mp4 %3 out.%4</b></code><br><br>These parameters will be discarded unless you allow them.",
-                                 m_url.fileName(), KdenliveSettings::ffmpegpath(), proxyData, proxyExtension));
-
-                        dia->show();
-                        // Showing the passive popup causes some unwanted dialog resize, so enforce fixed size
-                        QSize size = dia_ui.description->document()->size().toSize();
-                        dia_ui.description->setFixedHeight(size.height());
-                        int currentHeight = dia->sizeHint().height() + dia->layout()->spacing();
-                        dia_ui.allowWarning->hide();
-                        dia->setFixedHeight(currentHeight);
-                        connect(dia_ui.allowOnce, &QCheckBox::toggled, dia_ui.allowAlways, &QCheckBox::setEnabled);
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-                        connect(dia_ui.allowOnce, &QCheckBox::checkStateChanged, this,
-                                [d = dia.data(), dia_ui](Qt::CheckState state) { dia_ui.allowWarning->setVisible(state == Qt::Checked); });
-#else
-                        connect(dia_ui.allowOnce, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this,
-                                [this](int state) { dia_ui.allowWarning->setVisible(state == 1); });
-#endif
-
-                        if (dia->exec() != QDialog::Accepted) {
-                            // Abort project loading
-                            return false;
-                        }
-                        if (!dia_ui.allowOnce->isChecked()) {
-                            // Discard project file proxy parameters
-                            continue;
-                        }
-
-                        if (!dia_ui.allowAlways->isChecked()) {
-                            // update safe params list
-                            UiUtils::addSafeParameters(unknownParams);
-                        }
-                    }
-                }
-            }
             if (name == QLatin1String("storagefolder")) {
                 // Make sure we have an absolute path
                 QString value = e.firstChild().nodeValue();
@@ -1959,6 +1872,101 @@ bool KdenliveDoc::loadDocumentProperties()
             m_documentMetadata.insert(name, e.firstChild().nodeValue());
         }
     }
+
+    QString proxyparams = m_documentProperties.value(QStringLiteral("proxyparams"));
+    if (!proxyparams.isEmpty()) {
+        bool discard = false;
+        const QString proxyExtension = m_documentProperties.value(QStringLiteral("proxyextension"));
+        if (proxyExtension.length() > 8) {
+            discard = true;
+        } else {
+            // Sanitize parameters. First check for forbidden params
+            const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
+            for (auto &f : forbiddenArgs) {
+                if (proxyparams.contains(f)) {
+                    // Suspicious proxy parameters
+                    discard = true;
+                    break;
+                }
+            }
+        }
+        if (discard) {
+            // Discard proxy settings
+            m_documentProperties.remove(QStringLiteral("proxyparams"));
+            m_documentProperties.remove(QStringLiteral("proxyextension"));
+            if (KMessageBox::warningContinueCancel(pCore->window(),
+                                                   i18n("Project file <b>%1</b> contains suspicious proxy parameters. This command might be "
+                                                        "executed:<br><br><code style=\"background-color:darkred;color:white\"><b>%2 -i "
+                                                        "input.mp4 %3 out.%4</b></code><br><br>These parameters will be discarded.",
+                                                        m_url.fileName(), KdenliveSettings::ffmpegpath(), proxyparams, proxyExtension),
+                                                   QString(), KStandardGuiItem::cont(), KGuiItem(i18n("Abort"))) != KMessageBox::Continue) {
+                return false;
+            }
+        } else {
+            const QStringList unknownParams = UiUtils::checkUnknownProxyParams(proxyparams);
+            if (!unknownParams.isEmpty()) {
+                if (!proxyparams.startsWith(QLatin1Char(' '))) {
+                    proxyparams.prepend(QLatin1Char(' '));
+                }
+                for (auto &u : unknownParams) {
+                    int start = proxyparams.indexOf(QLatin1String(" -%1").arg(u));
+                    if (start >= 0) {
+                        int end = proxyparams.indexOf(QLatin1String(" -"), start + 1);
+                        if (end < 0) {
+                            proxyparams.append("</span>");
+                        } else {
+                            proxyparams.insert(end, "</span>");
+                        }
+                        proxyparams.insert(start, "<span style=\"background-color:darkred;color:white\">");
+                    }
+                }
+                QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
+                Ui::ProxyWarn_UI dia_ui;
+                dia_ui.setupUi(dia.data());
+                QIcon icon = QIcon::fromTheme(QStringLiteral("dialog-warning"));
+                int iconSize = QFontMetrics(dia->font()).lineSpacing() * 3.5;
+                dia_ui.iconLabel->setPixmap(icon.pixmap(iconSize, iconSize));
+                dia->setWindowTitle(i18nc("@title:window", "Warning"));
+                dia_ui.description->setText(
+                    i18n("Project file <b>%1</b> contains unexpected parameters for proxy creation. This command might be executed:<br><br><code><b>%2 "
+                         "-i input.mp4 %3 out.%4</b></code><br><br>These parameters will be discarded unless you allow them.",
+                         m_url.fileName(), KdenliveSettings::ffmpegpath(), proxyparams, proxyExtension));
+
+                dia->show();
+                // Showing the passive popup causes some unwanted dialog resize, so enforce fixed size
+                QSize size = dia_ui.description->document()->size().toSize();
+                dia_ui.description->setFixedHeight(size.height());
+                int currentHeight = dia->sizeHint().height() + dia->layout()->spacing();
+                dia_ui.allowWarning->hide();
+                dia->setFixedHeight(currentHeight);
+                connect(dia_ui.allowOnce, &QCheckBox::toggled, dia_ui.allowAlways, &QCheckBox::setEnabled);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+                connect(dia_ui.allowOnce, &QCheckBox::checkStateChanged, this,
+                        [d = dia.data(), dia_ui](Qt::CheckState state) { dia_ui.allowWarning->setVisible(state == Qt::Checked); });
+#else
+                connect(dia_ui.allowOnce, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this,
+                        [this](int state) { dia_ui.allowWarning->setVisible(state == 1); });
+#endif
+
+                if (dia->exec() != QDialog::Accepted) {
+                    // Abort project loading
+                    return false;
+                }
+                if (!dia_ui.allowOnce->isChecked()) {
+                    // Discard project file proxy parameters
+                    m_documentProperties.remove(QStringLiteral("proxyparams"));
+                    m_documentProperties.remove(QStringLiteral("proxyextension"));
+                }
+
+                if (!dia_ui.allowAlways->isChecked()) {
+                    // update safe params list
+                    UiUtils::addSafeParameters(unknownParams);
+                }
+            }
+        }
+    }
+
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
     if (!path.isEmpty()) {
         QDir dir(path);

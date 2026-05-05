@@ -295,6 +295,7 @@ void ProxyTask::run()
                     const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
                     for (auto &f : forbiddenArgs) {
                         if (proxyParams.contains(f)) {
+                            // Unwanted param found, discard parameters
                             proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                             break;
                         }
