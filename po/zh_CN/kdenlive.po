@@ -20091,7 +20091,7 @@ msgstr "字幕 %1"
 #: src/bin/model/subtitlemodel.cpp:2002
 #, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr ""
+msgstr "无法创建超过 %1 个字幕图层。"
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
