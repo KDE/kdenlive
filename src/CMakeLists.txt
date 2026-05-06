@@ -206,6 +206,12 @@ set(ICON_FILES
 )
 ecm_add_app_icon(kdenlive ICONS ${ICON_FILES})
 
+## Kdenlive Executable
+add_executable(kdenlive MACOSX_BUNDLE main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
+target_include_directories(kdenlive
+    PRIVATE ${CMAKE_BINARY_DIR}
+    )
+
 if (APPLE)
 # Apple app package
 set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/Info.plist)
@@ -219,12 +225,6 @@ set_target_properties(kdenlive PROPERTIES
     MACOSX_BUNDLE_COPYRIGHT "2000-2022 The Kdenlive Authors")
 #set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE ON)
 endif()
-
-## Kdenlive Executable
-add_executable(kdenlive MACOSX_BUNDLE main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
-target_include_directories(kdenlive
-    PRIVATE ${CMAKE_BINARY_DIR}
-    )
 
 target_link_libraries(kdenlive kdenliveLib kdenliveLibplugin)
 install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
