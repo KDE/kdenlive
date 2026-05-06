@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-05 00:43+0000\n"
+"POT-Creation-Date: 2026-05-06 00:44+0000\n"
 "PO-Revision-Date: 2026-05-02 16:29+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -7358,7 +7358,7 @@ msgstr "Trajanje"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1148 src/kdenliveui.rc:193 src/mainwindow.cpp:270
+#: src/core.cpp:1149 src/kdenliveui.rc:193 src/mainwindow.cpp:270
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -9804,7 +9804,7 @@ msgstr "Prilagoditev RGB"
 msgid "Simple color adjustment"
 msgstr "Enostavna prilagoditev barv"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2621
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2629
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -9813,7 +9813,7 @@ msgstr "Rdeča"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2622
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2630
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -9824,7 +9824,7 @@ msgstr "Zelena"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2623
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2631
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -13913,14 +13913,14 @@ msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "<b><u>Sprememba obarvanosti</u></b> - rdeča"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2624
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2632
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Rumena"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2625
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2633
 #, kde-format
 msgid "Cyan"
 msgstr "Sinja"
@@ -19551,7 +19551,7 @@ msgstr "Manjkajoči izvorni posnetek"
 msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni možno pisati"
 
-#: src/bin/bin.cpp:2197 src/bin/bin.cpp:2893 src/doc/kdenlivedoc.cpp:755
+#: src/bin/bin.cpp:2197 src/bin/bin.cpp:2893 src/doc/kdenlivedoc.cpp:756
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -20112,8 +20112,8 @@ msgstr "Vnesite pot svojega programa za montažo videoposnetkov"
 msgid "Please set a default application to open video files"
 msgstr "Nastavite privzeti program za odpiranje video datotek"
 
-#: src/bin/bin.cpp:5179 src/core.cpp:683 src/core.cpp:710
-#: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:487
+#: src/bin/bin.cpp:5179 src/core.cpp:683 src/core.cpp:711
+#: src/doc/kdenlivedoc.cpp:172 src/jobs/cliploadtask.cpp:487
 #: src/jobs/cliploadtask.cpp:499 src/jobs/filtertask.cpp:98
 #: src/jobs/filtertask.cpp:139 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
@@ -20955,7 +20955,7 @@ msgstr "Nova značka"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Snemalni zapis prilagojen na %1 kanalov, %2 Hz."
 
-#: src/capture/mediacapture.cpp:241
+#: src/capture/mediacapture.cpp:245
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20964,7 +20964,7 @@ msgstr ""
 "Nadzor zvoka. Pritisnite <b>preslednico</b> za začetek/premor snemanja, "
 "<b>ubežnico</b> za zaključek."
 
-#: src/capture/mediacapture.cpp:404 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:417 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -21020,262 +21020,262 @@ msgstr ""
 "Podan profil ni veljaven. Privzeti profil je »dv_pal«, ki ga lahko "
 "spremenite znotraj pulta z nastavitvami Kdenlive"
 
-#: src/core.cpp:762
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Kvadrat, dva stolpca"
 
-#: src/core.cpp:763
+#: src/core.cpp:764
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Majhna šahovnica"
 
-#: src/core.cpp:764
+#: src/core.cpp:765
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Vodoravne žaluzije"
 
-#: src/core.cpp:765
+#: src/core.cpp:766
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radialno"
 
-#: src/core.cpp:766
+#: src/core.cpp:767
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linearno X"
 
-#: src/core.cpp:767
+#: src/core.cpp:768
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilinearno X"
 
-#: src/core.cpp:768
+#: src/core.cpp:769
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linearno Y"
 
-#: src/core.cpp:769
+#: src/core.cpp:770
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilinearno Y"
 
-#: src/core.cpp:770
+#: src/core.cpp:771
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Kvadrat"
 
-#: src/core.cpp:771
+#: src/core.cpp:772
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Kvadrat 2"
 
-#: src/core.cpp:772
+#: src/core.cpp:773
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Oblaček"
 
-#: src/core.cpp:773
+#: src/core.cpp:774
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Simetrična ura"
 
-#: src/core.cpp:774
+#: src/core.cpp:775
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radialni stolpci"
 
-#: src/core.cpp:775
+#: src/core.cpp:776
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spirala"
 
-#: src/core.cpp:776
+#: src/core.cpp:777
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spirala 2"
 
-#: src/core.cpp:777
+#: src/core.cpp:778
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Zavesa"
 
-#: src/core.cpp:778
+#: src/core.cpp:779
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Razpočenost"
 
-#: src/core.cpp:779
+#: src/core.cpp:780
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Ura"
 
-#: src/core.cpp:781
+#: src/core.cpp:782
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Stolpec, vodoravno"
 
-#: src/core.cpp:782
+#: src/core.cpp:783
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Stolpec, navpično"
 
-#: src/core.cpp:783
+#: src/core.cpp:784
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Klapa, vodoravno"
 
-#: src/core.cpp:784
+#: src/core.cpp:785
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Klapa, navpično"
 
-#: src/core.cpp:785
+#: src/core.cpp:786
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Diagonalna klapa JZ-SV"
 
-#: src/core.cpp:786
+#: src/core.cpp:787
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Diagonalna klapa SZ-JV"
 
-#: src/core.cpp:787
+#: src/core.cpp:788
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonalno levo zgoraj"
 
-#: src/core.cpp:788
+#: src/core.cpp:789
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonalno desno zgoraj"
 
-#: src/core.cpp:789
+#: src/core.cpp:790
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrica slapa, vodoravno"
 
-#: src/core.cpp:790
+#: src/core.cpp:791
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrica slapa, navpično"
 
-#: src/core.cpp:791
+#: src/core.cpp:792
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrica kače, vodoravno"
 
-#: src/core.cpp:792
+#: src/core.cpp:793
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrica kače, vzporedno, vodoravno"
 
-#: src/core.cpp:793
+#: src/core.cpp:794
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrica kače, navpično"
 
-#: src/core.cpp:794
+#: src/core.cpp:795
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrica kače, vzporedno, navpično"
 
-#: src/core.cpp:795
+#: src/core.cpp:796
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Klapa, navpično navzgor"
 
-#: src/core.cpp:796
+#: src/core.cpp:797
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Krog zaslonke"
 
-#: src/core.cpp:797
+#: src/core.cpp:798
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Dvojna zaslonka"
 
-#: src/core.cpp:798
+#: src/core.cpp:799
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Okvir zaslonke"
 
-#: src/core.cpp:799
+#: src/core.cpp:800
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Okvir desno spodaj"
 
-#: src/core.cpp:800
+#: src/core.cpp:801
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Okvir levo spodaj"
 
-#: src/core.cpp:801
+#: src/core.cpp:802
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Okvir sredinsko spodaj"
 
-#: src/core.cpp:802
+#: src/core.cpp:803
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Ura, zgoraj"
 
-#: src/core.cpp:1094
+#: src/core.cpp:1095
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Vaš profil projekta ni veljaven, izrisovanje morda ne bo uspelo."
 
-#: src/core.cpp:1458
+#: src/core.cpp:1459
 #, kde-format
 msgid "Loading clips"
 msgstr "Nalaganje posnetkov"
 
-#: src/core.cpp:1953
+#: src/core.cpp:1954
 #, kde-format
 msgid "Marker %1"
 msgstr "Označevalnik %1"
 
-#: src/core.cpp:2315
+#: src/core.cpp:2316
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21286,12 +21286,12 @@ msgstr ""
 "naslednjem URL-ju:\n"
 " %1"
 
-#: src/core.cpp:2316 src/core.cpp:2327
+#: src/core.cpp:2317 src/core.cpp:2328
 #, kde-format
 msgid "Open Browser"
 msgstr "Odpri brskalnik"
 
-#: src/core.cpp:2326
+#: src/core.cpp:2327
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21357,7 +21357,7 @@ msgstr "Posnetek iz besedila"
 msgid "Create Text clip"
 msgstr "Ustvari besedilni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1209
+#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1210
 #, kde-format
 msgid "Template title clip"
 msgstr "Predloga posnetka naslova"
@@ -21723,8 +21723,8 @@ msgid "Export Markers Data"
 msgstr "Izvozi podatke označevalnikov"
 
 #: src/dialogs/exportguidesdialog.cpp:92 src/dialogs/renderwidget.cpp:2200
-#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:772
-#: src/doc/kdenlivedoc.cpp:780 src/doc/kdenlivedoc.cpp:1349
+#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:773
+#: src/doc/kdenlivedoc.cpp:781 src/doc/kdenlivedoc.cpp:1350
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
@@ -24585,7 +24585,7 @@ msgstr "Dobrodošli v Kdenlive %1"
 msgid "Using MLT %1"
 msgstr "Uporablja se MLT %1"
 
-#: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1869
+#: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1902
 #: src/onlineresources/resourcewidget.cpp:49 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:790
 #: src/project/dialogs/archivewidget.cpp:1298
@@ -25200,18 +25200,18 @@ msgstr ""
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Naslednji filtri/prehodi so bili izbrisani iz projekta:"
 
-#: src/doc/kdenlivedoc.cpp:163
+#: src/doc/kdenlivedoc.cpp:164
 #, kde-format
 msgid "Invalid file path"
 msgstr "Neveljavna pot datoteke"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:846
+#: src/doc/kdenlivedoc.cpp:210 src/project/projectmanager.cpp:846
 #: src/project/projectmanager.cpp:898
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Poškodovane datoteke ni bilo možno obnoviti."
 
-#: src/doc/kdenlivedoc.cpp:217
+#: src/doc/kdenlivedoc.cpp:218
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -25220,17 +25220,17 @@ msgstr ""
 "Datoteke %1 ni možno odpreti:\n"
 "%2 (vrstica %3, stolpec %4)"
 
-#: src/doc/kdenlivedoc.cpp:229
+#: src/doc/kdenlivedoc.cpp:230
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "Datoteka %1 ni projektna datoteka Kdenlive"
 
-#: src/doc/kdenlivedoc.cpp:236
+#: src/doc/kdenlivedoc.cpp:237
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "Datoteka %1 ni veljavna projektna datoteka Kdenlive."
 
-#: src/doc/kdenlivedoc.cpp:249
+#: src/doc/kdenlivedoc.cpp:250
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -25239,7 +25239,7 @@ msgstr ""
 "Pospeševanje GPE je v nastavitvah Kdenlive izklopljeno, vendar je potrebno "
 "za filtre Movit tega projekta."
 
-#: src/doc/kdenlivedoc.cpp:295
+#: src/doc/kdenlivedoc.cpp:296
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -25250,23 +25250,23 @@ msgstr ""
 "Prepričajte se, da imate zahtevana dovoljenja.\n"
 "Uporabljene bodo privzete sistemske mape"
 
-#: src/doc/kdenlivedoc.cpp:298
+#: src/doc/kdenlivedoc.cpp:299
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Mapa dokumenta projekta ni veljavna, uporabljene bodo privzete sistemske mape"
 
-#: src/doc/kdenlivedoc.cpp:591 src/doc/kdenlivedoc.cpp:601
+#: src/doc/kdenlivedoc.cpp:592 src/doc/kdenlivedoc.cpp:602
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ni možno ustvariti samoshranjevalne datoteke %1"
 
-#: src/doc/kdenlivedoc.cpp:596 src/doc/kdenlivedoc.cpp:733
+#: src/doc/kdenlivedoc.cpp:597 src/doc/kdenlivedoc.cpp:734
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "V datoteko %1 ni možno pisati. Seznam prizorov je okvarjen."
 
-#: src/doc/kdenlivedoc.cpp:751
+#: src/doc/kdenlivedoc.cpp:752
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -25277,7 +25277,7 @@ msgstr ""
 "Da se izognete izgubi podatkov, je bila ustvarjena varnostna kopija "
 "imenovana %1."
 
-#: src/doc/kdenlivedoc.cpp:765
+#: src/doc/kdenlivedoc.cpp:766
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -25286,35 +25286,35 @@ msgstr ""
 "Vaša projektna datoteka je bila nadgrajena na najnovejšo različico "
 "dokumentov Kdenlive, ni pa bilo možno ustvariti varnostne kopije %1."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1543
+#: src/doc/kdenlivedoc.cpp:943 src/project/projectmanager.cpp:1543
 #: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Napaka med premikanjem mape projekta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1135 src/doc/kdenlivedoc.cpp:2582
+#: src/doc/kdenlivedoc.cpp:1136 src/doc/kdenlivedoc.cpp:2590
 #: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: src/doc/kdenlivedoc.cpp:1195
+#: src/doc/kdenlivedoc.cpp:1196
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Vnesite pot do predloge"
 
-#: src/doc/kdenlivedoc.cpp:1356
+#: src/doc/kdenlivedoc.cpp:1357
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Naslednji učinki so bili uvoženi iz projekta:"
 
-#: src/doc/kdenlivedoc.cpp:1389 src/doc/kdenlivedoc.cpp:1403
+#: src/doc/kdenlivedoc.cpp:1390 src/doc/kdenlivedoc.cpp:1404
 #, kde-format
 msgid "Project Folder"
 msgstr "Mapa projekta"
 
-#: src/doc/kdenlivedoc.cpp:1447 src/doc/kdenlivedoc.cpp:1464
+#: src/doc/kdenlivedoc.cpp:1448 src/doc/kdenlivedoc.cpp:1465
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -25323,12 +25323,12 @@ msgstr ""
 "Ni možno ustvariti varnostne kopije:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1622
+#: src/doc/kdenlivedoc.cpp:1623
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr "Posredni posnetki niso namenjeni sestavljanju ali barvni korekciji."
 
-#: src/doc/kdenlivedoc.cpp:1624
+#: src/doc/kdenlivedoc.cpp:1625
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
@@ -25337,7 +25337,7 @@ msgstr[1] "Posnetek ima kanal alfa. "
 msgstr[2] "Posnetka imata kanal alfa. "
 msgstr[3] "Posnetki imajo kanal alfa. "
 
-#: src/doc/kdenlivedoc.cpp:1630
+#: src/doc/kdenlivedoc.cpp:1631
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
@@ -25346,17 +25346,17 @@ msgstr[1] "Imate %1 posnetek s kanalom alfa. "
 msgstr[2] "Imate %1 posnetka s kanalom alfa. "
 msgstr[3] "Imate %1 posnetke s kanalom alfa. "
 
-#: src/doc/kdenlivedoc.cpp:1632
+#: src/doc/kdenlivedoc.cpp:1633
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Posredni posnetki za vse posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1633
+#: src/doc/kdenlivedoc.cpp:1634
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "Samo posredni posnetki brez alfe"
 
-#: src/doc/kdenlivedoc.cpp:1649
+#: src/doc/kdenlivedoc.cpp:1650
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -25365,7 +25365,7 @@ msgstr[1] "Dodaj posredni posnetek"
 msgstr[2] "Dodaj posredna posnetka"
 msgstr[3] "Dodaj posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1651
+#: src/doc/kdenlivedoc.cpp:1652
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -25374,12 +25374,12 @@ msgstr[1] "Odstrani posredni posnetek"
 msgstr[2] "Odstrani posredna posnetka"
 msgstr[3] "Odstrani posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1697 src/doc/kdenlivedoc.cpp:1757
+#: src/doc/kdenlivedoc.cpp:1698 src/doc/kdenlivedoc.cpp:1758
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Vrsta posnetka ne podpira posrednih posnetkov"
 
-#: src/doc/kdenlivedoc.cpp:1865
+#: src/doc/kdenlivedoc.cpp:1898
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains suspicious proxy parameters. This command "
@@ -25392,13 +25392,13 @@ msgstr ""
 "color:darkred;color:white\"><b>%2 -i vhod.mp4 %3 izhod.%4</b></"
 "code><br><br>Ti parametri bodo opuščeni."
 
-#: src/doc/kdenlivedoc.cpp:1903
+#: src/doc/kdenlivedoc.cpp:1929
 #, kde-format
 msgctxt "@title:window"
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: src/doc/kdenlivedoc.cpp:1905
+#: src/doc/kdenlivedoc.cpp:1931
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains unexpected parameters for proxy creation. "
@@ -25410,7 +25410,7 @@ msgstr ""
 "mp4 %3 izhod.%4</b></code><br><br>Ti parametri bodo opuščeni, razen če jih "
 "dovolite."
 
-#: src/doc/kdenlivedoc.cpp:1996
+#: src/doc/kdenlivedoc.cpp:2004
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -25420,14 +25420,14 @@ msgstr ""
 "Projekt uporablja nestandardno hitrost (%1), kar bo povzročilo napačno "
 "umeščene posnetke in zamik v sličicah."
 
-#: src/doc/kdenlivedoc.cpp:2115
+#: src/doc/kdenlivedoc.cpp:2123
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Opozorilo: nestandardna hitrost (sl/s), prilagoditev na najbližje celo "
 "število. "
 
-#: src/doc/kdenlivedoc.cpp:2133
+#: src/doc/kdenlivedoc.cpp:2141
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -25436,43 +25436,43 @@ msgstr ""
 "Privzeti profil za vaš projekt je %1, za vaše posnetke (%2) pa %3.\n"
 "Ali želite spremeniti privzeti profil za prihodnje projekte?"
 
-#: src/doc/kdenlivedoc.cpp:2135
+#: src/doc/kdenlivedoc.cpp:2143
 #, kde-format
 msgid "Change default project profile"
 msgstr "Spremeni privzeti profil projekta"
 
-#: src/doc/kdenlivedoc.cpp:2135
+#: src/doc/kdenlivedoc.cpp:2143
 #, kde-format
 msgid "Change default to %1"
 msgstr "Spremeni privzeti profil v %1"
 
-#: src/doc/kdenlivedoc.cpp:2136
+#: src/doc/kdenlivedoc.cpp:2144
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Ohrani trenutno privzetega %1"
 
-#: src/doc/kdenlivedoc.cpp:2136
+#: src/doc/kdenlivedoc.cpp:2144
 #, kde-format
 msgid "Ask me later"
 msgstr "Vprašaj kasneje"
 
-#: src/doc/kdenlivedoc.cpp:2156
+#: src/doc/kdenlivedoc.cpp:2164
 #, kde-format
 msgid "Switch"
 msgstr "Preklopi"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2158 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2166 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/doc/kdenlivedoc.cpp:2160
+#: src/doc/kdenlivedoc.cpp:2168
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Ali želite preklopiti na posnetkov (%1) profil %2?"
 
-#: src/doc/kdenlivedoc.cpp:2165
+#: src/doc/kdenlivedoc.cpp:2173
 #, kde-format
 msgid ""
 "\n"
@@ -25481,7 +25481,7 @@ msgstr ""
 "\n"
 "Sličice na sekundo profila prilagojene iz izvornega %1"
 
-#: src/doc/kdenlivedoc.cpp:2169
+#: src/doc/kdenlivedoc.cpp:2177
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -25491,7 +25491,7 @@ msgstr ""
 "Ali želite ustvariti nov profil (%2x%3, %4 sl/s) in preklopiti nanj?%5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2979 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:2987 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -26227,7 +26227,7 @@ msgstr "Slika je premajhna, da bi lahko izdelali posredni posnetek."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg ni bil najden. Nastavite pot v nastavitvah okolja Kdenlive"
 
-#: src/jobs/proxytask.cpp:433 src/jobs/proxytask.cpp:447
+#: src/jobs/proxytask.cpp:434 src/jobs/proxytask.cpp:448
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Ni možno ustvariti posrednega posnetka."
