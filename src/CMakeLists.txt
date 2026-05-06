@@ -278,6 +278,7 @@ if(KF6_VERSION VERSION_GREATER_EQUAL "6.8.0")
 endif()
 
 target_link_libraries(kdenliveLib PUBLIC
+    Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::Svg
     Qt${QT_MAJOR_VERSION}::Quick
     Qt${QT_MAJOR_VERSION}::QuickControls2
