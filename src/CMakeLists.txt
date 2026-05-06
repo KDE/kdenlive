@@ -214,7 +214,7 @@ target_include_directories(kdenlive
 
 if (APPLE)
 # Apple app package
-set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/Info.plist)
+set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/../data/Info.plist)
 set_target_properties(kdenlive PROPERTIES
     MACOSX_BUNDLE_DISPLAY_NAME "Kdenlive"
     MACOSX_BUNDLE_BUNDLE_NAME "Kdenlive"
