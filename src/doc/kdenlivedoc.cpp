@@ -69,6 +69,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 // the file format changes and requires manual processing in the document validator.
 // Increasing the document version means that older Kdenlive versions won't be able to open the project files
 const double DOCUMENTVERSION = 1.1;
+// Patch version allows to make minor corrections to the project file that do not break opening it with previous versions. Reset to zero when updating the
+// DOCUMENTVERSION.
+const int DOCUMENTPATCHVERSION = 1;
 
 // The index for all timeline objects
 int KdenliveDoc::next_id = 0;
@@ -231,7 +234,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         return result;
     }
 
-    auto validationResult = validator.validate(DOCUMENTVERSION);
+    auto validationResult = validator.validate(DOCUMENTVERSION, DOCUMENTPATCHVERSION);
     success = validationResult.first;
     if (!success) {
         result.setError(i18n("File %1 is not a valid Kdenlive project file.", url.toLocalFile()));
@@ -1776,6 +1779,7 @@ double KdenliveDoc::getDocumentVersion() const
 QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
+    m_documentProperties.insert(QStringLiteral("patchversion"), QString::number(DOCUMENTPATCHVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
     m_documentProperties.insert(QStringLiteral("sessionid"), pCore->sessionId);
     if (!m_projectFolder.isEmpty()) {
