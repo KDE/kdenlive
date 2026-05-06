@@ -207,7 +207,7 @@ set(ICON_FILES
 ecm_add_app_icon(kdenlive ICONS ${ICON_FILES})
 
 ## Kdenlive Executable
-add_executable(kdenlive MACOSX_BUNDLE main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
+qt_add_executable(kdenlive MACOSX_BUNDLE main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
     )
@@ -226,7 +226,7 @@ set_target_properties(kdenlive PROPERTIES
 #set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE ON)
 endif()
 
-target_link_libraries(kdenlive kdenliveLib kdenliveLibplugin)
+target_link_libraries(kdenlive PUBLIC kdenliveLib kdenliveLibplugin)
 install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
 ## Kdenlive Lib
@@ -321,10 +321,10 @@ endif()
 if(DRMINGW_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DUSE_DRMINGW)
     target_include_directories(kdenlive SYSTEM PRIVATE ${DRMINGW_INCLUDE_DIR})
-    target_link_libraries(kdenlive ${DRMINGW_LIBRARY})
+    target_link_libraries(kdenlive PUBLIC ${DRMINGW_LIBRARY})
 elseif(KF${KF_MAJOR}Crash_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DKF5_USE_CRASH)
-    target_link_libraries(kdenlive KF${KF_MAJOR}::Crash)
+    target_link_libraries(kdenlive PUBLIC KF${KF_MAJOR}::Crash)
 endif()
 
 if(Q_WS_X11)
