@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-06 00:44+0000\n"
+"POT-Creation-Date: 2026-05-07 00:43+0000\n"
 "PO-Revision-Date: 2026-02-09 16:55+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -9946,7 +9946,7 @@ msgstr "RGB-säätö"
 msgid "Simple color adjustment"
 msgstr "Yksinkertainen värinsäätö"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2629
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2633
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -9955,7 +9955,7 @@ msgstr "Punainen"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2630
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2634
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -9966,7 +9966,7 @@ msgstr "Vihreä"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2631
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2635
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -14156,14 +14156,14 @@ msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "Sävysiirtymä"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2632
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2636
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Keltainen"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2633
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2637
 #, kde-format
 msgid "Cyan"
 msgstr "Syaani"
@@ -17414,7 +17414,7 @@ msgstr "Tyyli"
 msgid "Motion"
 msgstr "Liike"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2512
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2546
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU-tehosteet"
@@ -19949,7 +19949,7 @@ msgstr "Lähdeleike puuttuu"
 msgid "Unable to write to file %1"
 msgstr "Tiedostoa %1 ei voitu kirjoittaa"
 
-#: src/bin/bin.cpp:2197 src/bin/bin.cpp:2893 src/doc/kdenlivedoc.cpp:756
+#: src/bin/bin.cpp:2197 src/bin/bin.cpp:2893 src/doc/kdenlivedoc.cpp:759
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -20508,7 +20508,7 @@ msgid "Please set a default application to open video files"
 msgstr "Aseta oletussovellus äänitiedostojen avaamiseen"
 
 #: src/bin/bin.cpp:5179 src/core.cpp:683 src/core.cpp:711
-#: src/doc/kdenlivedoc.cpp:172 src/jobs/cliploadtask.cpp:487
+#: src/doc/kdenlivedoc.cpp:175 src/jobs/cliploadtask.cpp:487
 #: src/jobs/cliploadtask.cpp:499 src/jobs/filtertask.cpp:98
 #: src/jobs/filtertask.cpp:139 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
@@ -21308,7 +21308,7 @@ msgstr "Luetaan projektin leikkeitä…"
 msgid "Loading project clips…"
 msgstr "Ladataan projektin leikkeitä…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2409
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2443
 #, kde-format
 msgid "Zone %1"
 msgstr "Vyöhyke %1"
@@ -21761,7 +21761,7 @@ msgstr "Tekstileike"
 msgid "Create Text clip"
 msgstr "Luo tekstileike"
 
-#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1210
+#: src/dialogs/clipcreationdialog.cpp:371 src/doc/kdenlivedoc.cpp:1213
 #, kde-format
 msgid "Template title clip"
 msgstr "Tekstileikkeen mallipohja"
@@ -22129,8 +22129,8 @@ msgid "Export Markers Data"
 msgstr "Vie opastetiedot"
 
 #: src/dialogs/exportguidesdialog.cpp:92 src/dialogs/renderwidget.cpp:2200
-#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:773
-#: src/doc/kdenlivedoc.cpp:781 src/doc/kdenlivedoc.cpp:1350
+#: src/dialogs/renderwidget.cpp:2224 src/doc/kdenlivedoc.cpp:776
+#: src/doc/kdenlivedoc.cpp:784 src/doc/kdenlivedoc.cpp:1353
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:433
@@ -23049,7 +23049,7 @@ msgstr "Sekalaiset"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:927
-#: src/doc/documentvalidator.cpp:2521
+#: src/doc/documentvalidator.cpp:2555
 #: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
@@ -24990,7 +24990,7 @@ msgstr "Tervetuloa Kdenliven versioon %1"
 msgid "Using MLT %1"
 msgstr "Käytössä MTS %1"
 
-#: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1902
+#: src/dialogs/wizard.cpp:82 src/doc/kdenlivedoc.cpp:1906
 #: src/onlineresources/resourcewidget.cpp:49 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:790
 #: src/project/dialogs/archivewidget.cpp:1298
@@ -25486,7 +25486,7 @@ msgstr ""
 "Asenna tämä kielipaketti. Siihen asti Kdenlive ei ehkä pysty avaamaan "
 "asiakirjaa oikein."
 
-#: src/doc/documentvalidator.cpp:127
+#: src/doc/documentvalidator.cpp:129
 #, kde-format
 msgid ""
 "Version of the project file cannot be read.\n"
@@ -25495,17 +25495,17 @@ msgstr ""
 "Versiota projektista ei voi lukea.\n"
 "Yritetään kuitenkin avata."
 
-#: src/doc/documentvalidator.cpp:128
+#: src/doc/documentvalidator.cpp:130
 #, kde-format
 msgid "Incorrect project file"
 msgstr "Väärä projektitiedosto"
 
-#: src/doc/documentvalidator.cpp:187
+#: src/doc/documentvalidator.cpp:219
 #, kde-format
 msgid "Upgrading project version…"
 msgstr "Projektiversiota päivitetään…"
 
-#: src/doc/documentvalidator.cpp:193
+#: src/doc/documentvalidator.cpp:225
 #, fuzzy, kde-format
 #| msgid ""
 #| "This project type is unsupported (version %1) and cannot be loaded.\n"
@@ -25518,17 +25518,17 @@ msgstr ""
 "Projektin tyyppiä ei tueta (versio %1), eikä sitä ei voi ladata.\n"
 "Harkitse Kdenlive-version päivittämistä."
 
-#: src/doc/documentvalidator.cpp:196 src/doc/documentvalidator.cpp:205
+#: src/doc/documentvalidator.cpp:228 src/doc/documentvalidator.cpp:237
 #, kde-format
 msgid "Unable to open project"
 msgstr "Projektia ei voitu avata"
 
-#: src/doc/documentvalidator.cpp:204
+#: src/doc/documentvalidator.cpp:236
 #, kde-format
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr "Projektin tyyppiä ei tueta (versio %1), eikä sitä ei voida ladata."
 
-#: src/doc/documentvalidator.cpp:719
+#: src/doc/documentvalidator.cpp:751
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -25541,38 +25541,38 @@ msgstr ""
 "suositellaan tehtävän koneella, jolla ne alun perin luotiin, tai niiden "
 "kokoa voi joutua säätämään."
 
-#: src/doc/documentvalidator.cpp:722
+#: src/doc/documentvalidator.cpp:754
 #, kde-format
 msgid "Update Text Clips"
 msgstr "Päivitä tekstileikkeet"
 
-#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2512
+#: src/doc/documentvalidator.cpp:754 src/doc/documentvalidator.cpp:2546
 #, kde-format
 msgid "Convert"
 msgstr "Muunna"
 
-#: src/doc/documentvalidator.cpp:1292
+#: src/doc/documentvalidator.cpp:1324
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "Tätä projektitia ei voida palauttaa"
 
-#: src/doc/documentvalidator.cpp:1610
+#: src/doc/documentvalidator.cpp:1642
 #, kde-format
 msgid "extra audio"
 msgstr "lisä-ääni"
 
-#: src/doc/documentvalidator.cpp:2209
+#: src/doc/documentvalidator.cpp:2243
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Tekstitystiedosto<br/>%1<br/>on jo olemassa. Haluatko korvata sen?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3892
+#: src/doc/documentvalidator.cpp:2244 src/mainwindow.cpp:3892
 #, kde-format
 msgid "Overwrite"
 msgstr "Korvaa"
 
-#: src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:2544
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -25585,28 +25585,28 @@ msgstr ""
 "Haluatko muuntaa projektin versioksi ilman GPU:ta?\n"
 "Tämä voi johtaa tietojen katoamiseen."
 
-#: src/doc/documentvalidator.cpp:2605
+#: src/doc/documentvalidator.cpp:2639
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Seuraavat suodattimet/siirtymät muutettiin versioksi ilman GPU:ta:"
 
-#: src/doc/documentvalidator.cpp:2608
+#: src/doc/documentvalidator.cpp:2642
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Seuraavat suodattimet/siirtymät poistettiin projektista:"
 
-#: src/doc/kdenlivedoc.cpp:164
+#: src/doc/kdenlivedoc.cpp:167
 #, kde-format
 msgid "Invalid file path"
 msgstr "Virheellinen tiedoston sijainti"
 
-#: src/doc/kdenlivedoc.cpp:210 src/project/projectmanager.cpp:846
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:846
 #: src/project/projectmanager.cpp:898
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Vioittunutta tiedostoa ei voitu palauttaa."
 
-#: src/doc/kdenlivedoc.cpp:218
+#: src/doc/kdenlivedoc.cpp:221
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -25615,17 +25615,17 @@ msgstr ""
 "Ei voida avata tiedostoa %1:\n"
 "%2 (rivi %3, sar %4)"
 
-#: src/doc/kdenlivedoc.cpp:230
+#: src/doc/kdenlivedoc.cpp:233
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "Tiedosto %1 ei ole Kdenlive projekti"
 
-#: src/doc/kdenlivedoc.cpp:237
+#: src/doc/kdenlivedoc.cpp:240
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "Tiedosto %1 ei ole Kdenliven projekti."
 
-#: src/doc/kdenlivedoc.cpp:250
+#: src/doc/kdenlivedoc.cpp:253
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -25634,7 +25634,7 @@ msgstr ""
 "Grafiikkakiihdytys ei ole Kdenliven asetuksissa käytössä, mutta projektin "
 "Movit-suodattimet vaativat sitä."
 
-#: src/doc/kdenlivedoc.cpp:296
+#: src/doc/kdenlivedoc.cpp:299
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -25645,23 +25645,23 @@ msgstr ""
 "Varmista, että sinulla on vaadittavat oikeudet.\n"
 "Oletuksena järjestelmän kansiot"
 
-#: src/doc/kdenlivedoc.cpp:299
+#: src/doc/kdenlivedoc.cpp:302
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Asiakirjan projektikansio on virheellinen, käytetään järjestelmän oletusta"
 
-#: src/doc/kdenlivedoc.cpp:592 src/doc/kdenlivedoc.cpp:602
+#: src/doc/kdenlivedoc.cpp:595 src/doc/kdenlivedoc.cpp:605
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ei voida luoda automaattista tallennusta %1"
 
-#: src/doc/kdenlivedoc.cpp:597 src/doc/kdenlivedoc.cpp:734
+#: src/doc/kdenlivedoc.cpp:600 src/doc/kdenlivedoc.cpp:737
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Tiedostoon %1 ei voi kirjoittaa, kohtausluettelo on vioittunut."
 
-#: src/doc/kdenlivedoc.cpp:752
+#: src/doc/kdenlivedoc.cpp:755
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -25671,7 +25671,7 @@ msgstr ""
 "Jotta varmistettaisiin, ettei tietoja menetetä, luotiin varmuuskopio nimelle "
 "%1."
 
-#: src/doc/kdenlivedoc.cpp:766
+#: src/doc/kdenlivedoc.cpp:769
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -25680,35 +25680,35 @@ msgstr ""
 "Projekti päivitettiin Kdenliven uusimpaan versioon, mutta varmuuskopiota %1 "
 "ei ollut mahdollista luoda."
 
-#: src/doc/kdenlivedoc.cpp:943 src/project/projectmanager.cpp:1543
+#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1543
 #: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Virhe siirrettäessä projektin kansiota: %1"
 
-#: src/doc/kdenlivedoc.cpp:1136 src/doc/kdenlivedoc.cpp:2590
+#: src/doc/kdenlivedoc.cpp:1139 src/doc/kdenlivedoc.cpp:2594
 #: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: src/doc/kdenlivedoc.cpp:1196
+#: src/doc/kdenlivedoc.cpp:1199
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Anna mallipohjan sijainti"
 
-#: src/doc/kdenlivedoc.cpp:1357
+#: src/doc/kdenlivedoc.cpp:1360
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Seuraavat tehosteet tuotiin projektista:"
 
-#: src/doc/kdenlivedoc.cpp:1390 src/doc/kdenlivedoc.cpp:1404
+#: src/doc/kdenlivedoc.cpp:1393 src/doc/kdenlivedoc.cpp:1407
 #, kde-format
 msgid "Project Folder"
 msgstr "Projektin kansio"
 
-#: src/doc/kdenlivedoc.cpp:1448 src/doc/kdenlivedoc.cpp:1465
+#: src/doc/kdenlivedoc.cpp:1451 src/doc/kdenlivedoc.cpp:1468
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -25717,55 +25717,55 @@ msgstr ""
 "Varmuuskopiota ei voi luoda:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1623
+#: src/doc/kdenlivedoc.cpp:1626
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr "Puskuroitu leike ei ole tarkoitettu koostamiseen tai väriluokitukseen."
 
-#: src/doc/kdenlivedoc.cpp:1625
+#: src/doc/kdenlivedoc.cpp:1628
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "Leike sisältää alfakanavan. "
 msgstr[1] "Leikkeet sisältää alfakanavan. "
 
-#: src/doc/kdenlivedoc.cpp:1631
+#: src/doc/kdenlivedoc.cpp:1634
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "Sinulla on leike alfa-kanavalla. "
 msgstr[1] "Sinulla on %1 leikettä alfa-kanavalla. "
 
-#: src/doc/kdenlivedoc.cpp:1633
+#: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Puskuroi kaikki leikkeet"
 
-#: src/doc/kdenlivedoc.cpp:1634
+#: src/doc/kdenlivedoc.cpp:1637
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "Puskuroi leikkeet ilman alfaa"
 
-#: src/doc/kdenlivedoc.cpp:1650
+#: src/doc/kdenlivedoc.cpp:1653
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Lisää leike puskuriin"
 msgstr[1] "Lisää leikkeet puskuriin"
 
-#: src/doc/kdenlivedoc.cpp:1652
+#: src/doc/kdenlivedoc.cpp:1655
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Poista leike puskurista"
 msgstr[1] "Poista leikkeet puskurista"
 
-#: src/doc/kdenlivedoc.cpp:1698 src/doc/kdenlivedoc.cpp:1758
+#: src/doc/kdenlivedoc.cpp:1701 src/doc/kdenlivedoc.cpp:1761
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Leikkeen tyyppi ei tue puskuria"
 
-#: src/doc/kdenlivedoc.cpp:1898
+#: src/doc/kdenlivedoc.cpp:1902
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains suspicious proxy parameters. This command "
@@ -25774,14 +25774,14 @@ msgid ""
 "discarded."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1929
+#: src/doc/kdenlivedoc.cpp:1933
 #, fuzzy, kde-format
 #| msgid "Warning"
 msgctxt "@title:window"
 msgid "Warning"
 msgstr "Varoitus"
 
-#: src/doc/kdenlivedoc.cpp:1931
+#: src/doc/kdenlivedoc.cpp:1935
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains unexpected parameters for proxy creation. "
@@ -25789,7 +25789,7 @@ msgid ""
 "b></code><br><br>These parameters will be discarded unless you allow them."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2004
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -25799,12 +25799,12 @@ msgstr ""
 "Projekti käyttää poikkeavaa kehysnopeutta (%1), mikä johtaa väärin "
 "sijoittuviin leikkeisiin ja kehyksen siirtymiin."
 
-#: src/doc/kdenlivedoc.cpp:2123
+#: src/doc/kdenlivedoc.cpp:2127
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Varoitus: ei-standardi fps, säädetään lähimpään kokonaislukuun."
 
-#: src/doc/kdenlivedoc.cpp:2141
+#: src/doc/kdenlivedoc.cpp:2145
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -25813,43 +25813,43 @@ msgstr ""
 "Projektin oletusprofiili on %1 mutta leikkeen profiili (%2) on %3.\n"
 "Haluatko vaihtaa tulevien projektien oletusprofiilia?"
 
-#: src/doc/kdenlivedoc.cpp:2143
+#: src/doc/kdenlivedoc.cpp:2147
 #, kde-format
 msgid "Change default project profile"
 msgstr "Vaihda profiilin oletusta"
 
-#: src/doc/kdenlivedoc.cpp:2143
+#: src/doc/kdenlivedoc.cpp:2147
 #, kde-format
 msgid "Change default to %1"
 msgstr "Muuta oletukseksi %1"
 
-#: src/doc/kdenlivedoc.cpp:2144
+#: src/doc/kdenlivedoc.cpp:2148
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Säilytä nykyinen oletus %1"
 
-#: src/doc/kdenlivedoc.cpp:2144
+#: src/doc/kdenlivedoc.cpp:2148
 #, kde-format
 msgid "Ask me later"
 msgstr "Kysy myöhemmin"
 
-#: src/doc/kdenlivedoc.cpp:2164
+#: src/doc/kdenlivedoc.cpp:2168
 #, kde-format
 msgid "Switch"
 msgstr "Vaihda"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2166 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2170 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Peru"
 
-#: src/doc/kdenlivedoc.cpp:2168
+#: src/doc/kdenlivedoc.cpp:2172
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Vaihdetaanko leikkeen (%1) profiiliksi %2?"
 
-#: src/doc/kdenlivedoc.cpp:2173
+#: src/doc/kdenlivedoc.cpp:2177
 #, kde-format
 msgid ""
 "\n"
@@ -25858,7 +25858,7 @@ msgstr ""
 "\n"
 "Profiilin fps säädetty alkuperäisestä %1"
 
-#: src/doc/kdenlivedoc.cpp:2177
+#: src/doc/kdenlivedoc.cpp:2181
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -25868,7 +25868,7 @@ msgstr ""
 "Luodaanko ja vaihdetaanko uuteen profiiliin (%2×%3, %4 fps)?%5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2987 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:2991 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
