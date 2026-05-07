@@ -126,9 +126,9 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     ;
     guides_list->addAction(a);
-    connect(guides_list, &QListWidget::itemDoubleClicked, this, [=]() { editItem(); });
-    connect(guide_edit, &QPushButton::clicked, this, [=]() { editItem(); });
-    connect(guide_add, &QPushButton::clicked, this, [=]() {
+    connect(guides_list, &QListWidget::itemDoubleClicked, this, [editItem]() { editItem(); });
+    connect(guide_edit, &QPushButton::clicked, this, [editItem]() { editItem(); });
+    connect(guide_add, &QPushButton::clicked, this, [this, editItem]() {
         QIcon ic = buildIcon(Qt::white);
         auto *item = new QListWidgetItem(ic, i18n("Category %1", guides_list->count() + 1));
         item->setData(Qt::UserRole + 1, m_categoryIndex++);
@@ -139,7 +139,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         }
         guide_delete->setEnabled(guides_list->count() > 1);
     });
-    connect(guide_delete, &QPushButton::clicked, this, [=]() {
+    connect(guide_delete, &QPushButton::clicked, this, [this]() {
         auto *item = guides_list->currentItem();
         if (!item || guides_list->count() == 1) {
             return;

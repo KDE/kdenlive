@@ -51,7 +51,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     pb->setToolTip(i18n("Add Timeline Sequence"));
     pb->setWhatsThis(
         i18n("Add Timeline Sequence. This will create a new timeline for editing. Each timeline corresponds to a Sequence Clip in the Project Bin"));
-    connect(pb, &QToolButton::clicked, [=]() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
+    connect(pb, &QToolButton::clicked, [this]() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
     setCornerWidget(pb);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);

@@ -86,7 +86,7 @@ void TrackDialog::buildCombo()
     }
     if (m_deleteMode) {
         deleteTracks->setMinimumWidth(deleteTracks->sizeHintForColumn(0));
-        connect(deleteTracks, &QListWidget::itemChanged, this, [=]() {
+        connect(deleteTracks, &QListWidget::itemChanged, this, [this]() {
             // Ensure we cannot check all tracks
             int count = deleteTracks->count();
             for (int i = 0; i < count; i++) {
