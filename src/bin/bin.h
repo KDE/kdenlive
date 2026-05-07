@@ -652,7 +652,7 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    std::function<void(const QString &)> m_readyCallBack;
+    std::function<void(const QString &)> m_readyCallBack = [](const QString &) {};
     int m_suggestedDuration{-1};
     QAction *addBinAction(const QString &name, const QString &text, const QIcon &icon, const QString &category = {});
     void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
