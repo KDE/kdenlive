@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-05 02:45+0000\n"
-"PO-Revision-Date: 2026-05-05 09:37+0300\n"
+"PO-Revision-Date: 2026-05-05 18:41+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16723,7 +16723,7 @@ msgstr "צבע בלבד"
 msgid ""
 "Perform a conversion to color only of the source input1 using the hue and "
 "saturation values of input2."
-msgstr ""
+msgstr "ביצוע המרה של צבע רק של המקור קלט1 באמצעות ערכי הגוון והרוויה של פלט2."
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
 #, kde-format
@@ -16735,7 +16735,7 @@ msgstr "החשכה"
 msgid ""
 "Perform a darken operation between two sources (minimum value of both "
 "sources)."
-msgstr ""
+msgstr "ביצוע פעולת הכהיה בין שני מקורות (הערך המזערי של שני המקורות)."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, kde-format
