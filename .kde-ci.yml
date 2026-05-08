@@ -32,9 +32,6 @@ Dependencies:
     'frameworks/purpose' : '@latest-kf6'
     'third-party/kddockwidgets': '@stable-kf6'
 
-#- 'on': ['Linux', 'FreeBSD']
-  #'require':
-    #'plasma/drkonqi' : '@stable'
 RuntimeDependencies:
 - 'on': ['Linux']
   'require':
