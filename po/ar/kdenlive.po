@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-07 00:43+0000\n"
-"PO-Revision-Date: 2026-04-30 17:12+0400\n"
+"PO-Revision-Date: 2026-05-07 13:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -24613,11 +24613,9 @@ msgstr[4] "%1 وسيطًا ناقصًا"
 msgstr[5] "%1 وسيط ناقص"
 
 #: src/doc/dcresolvedialog.cpp:222
-#, fuzzy, kde-format
-#| msgid "One proxy can be recovered"
-#| msgid_plural "%1 proxies can be recovered"
+#, kde-format
 msgid "Proxy clips can be recreated."
-msgstr "لا يوجد"
+msgstr "لا يمكن إعادة إنشاء المقاطع الوسطاء"
 
 #: src/doc/dcresolvedialog.cpp:224
 #, fuzzy, kde-format
@@ -24639,12 +24637,10 @@ msgid "Clips Folder"
 msgstr "مجلد المقاطع"
 
 #: src/doc/dcresolvedialog.cpp:256
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Clips Folder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Proxy Clips Folder"
-msgstr "مجلد المقاطع"
+msgstr "مجلد مقاطع الوسطاء"
 
 #: src/doc/documentchecker.cpp:140
 #, kde-format
@@ -38549,10 +38545,9 @@ msgstr "استعمل عنصر نائب"
 
 #. i18n: ectx: property (text), widget (QPushButton, searchProxies)
 #: src/ui/missingclips_ui.ui:201
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Proxies"
-msgstr "ابحث عن علامات"
+msgstr "ابحث الوسائط"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:211
