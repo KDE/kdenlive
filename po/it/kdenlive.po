@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-07 00:43+0000\n"
-"PO-Revision-Date: 2026-04-23 16:53+0200\n"
+"PO-Revision-Date: 2026-05-04 08:44+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -15837,10 +15837,9 @@ msgid "Rotate from center"
 msgstr "Ruota dal centro"
 
 #: data/effects/qtblend.xml:43 data/effects/qtblend.xml:67
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Point"
-msgstr "Rotazione"
+msgstr "Punto di rotazione"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -20688,11 +20687,9 @@ msgid "Subtitle %1"
 msgstr "Sottotitolo %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Cannot cut overlapping subtitles"
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "Impossibile tagliare dei sottotitoli sovrapposti"
+msgstr "Impossibile creare più di %1 livelli nei sottotitoli."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
@@ -21587,6 +21584,8 @@ msgid ""
 "Your proxy parameters contains forbidden keywords, please remove them: <b>"
 "%1</b>."
 msgstr ""
+"I parametri delle clip rappresentative contengono delle parola chiave "
+"proibite, rimuovile: <b>%1</b>."
 
 #: src/dialogs/encodingprofilesdialog.cpp:164
 #: src/dialogs/encodingprofilesdialog.cpp:233
@@ -21595,13 +21594,14 @@ msgid ""
 "Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you "
 "want to always allow them ?"
 msgstr ""
+"I parametri delle clip rappresentative ne contengono alcuni sconosciuti: "
+"<br><b>%1</b><br>Vuoi sempre permetterli?"
 
 #: src/dialogs/encodingprofilesdialog.cpp:166
 #: src/dialogs/encodingprofilesdialog.cpp:235
-#, fuzzy, kde-format
-#| msgid "Additional Parameters:"
+#, kde-format
 msgid "Always Allow Parameters"
-msgstr "Parametri aggiuntivi:"
+msgstr "Permetti sempre questi parametri"
 
 #: src/dialogs/encodingprofilesdialog.cpp:280
 #, kde-format
@@ -24873,6 +24873,10 @@ msgid ""
 "pose a security risk</i></b>!<br> Abort loading the project unless this is "
 "intentional and you fully trust the remote sources."
 msgstr ""
+"Questo progetto sta cercando di scaricare delle sorgenti da Internet.<br> "
+"<b><i>Ciò può rappresentare un rischio per la sicurezza</i></b>!<br> Annulla "
+"il caricamento del progetto, a meno che ciò non sia intenzionale e che ti "
+"fidi completamente delle sorgenti remote."
 
 #: src/doc/dcresolvedialog.cpp:195
 #, kde-format
@@ -24915,20 +24919,16 @@ msgstr[0] "Una clip rappresentativa mancante"
 msgstr[1] "%1 clip rappresentative mancanti"
 
 #: src/doc/dcresolvedialog.cpp:222
-#, fuzzy, kde-format
-#| msgid "One proxy can be recovered"
-#| msgid_plural "%1 proxies can be recovered"
+#, kde-format
 msgid "Proxy clips can be recreated."
-msgstr "Una clip rappresentativa può essere recuperata"
+msgstr "Le clip rappresentative possono essere ricreate"
 
 #: src/doc/dcresolvedialog.cpp:224
-#, fuzzy, kde-format
-#| msgid "One proxy can be recovered"
-#| msgid_plural "%1 proxies can be recovered"
+#, kde-format
 msgid "One proxy can be recreated"
 msgid_plural "%1 proxies can be recreated"
-msgstr[0] "Una clip rappresentativa può essere recuperata"
-msgstr[1] "%1 clip rappresentative possono essere recuperate"
+msgstr[0] "Una clip rappresentativa può essere ricreata"
+msgstr[1] "%1 clip rappresentative possono essere ricreate"
 
 #: src/doc/dcresolvedialog.cpp:244
 #, kde-format
@@ -24937,12 +24937,10 @@ msgid "Clips Folder"
 msgstr "Cartella di clip"
 
 #: src/doc/dcresolvedialog.cpp:256
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Clips Folder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Proxy Clips Folder"
-msgstr "Cartella di clip"
+msgstr "Cartella delle clip rappresentative"
 
 #: src/doc/documentchecker.cpp:140
 #, kde-format
@@ -24968,6 +24966,8 @@ msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
 "updated location to store files for this project."
 msgstr ""
+"La cartella di salvataggio di questo progetto <b>%1</b> non è stata trovata. "
+"Inserisci una posizione aggiornata per salvare i file di questo progetto."
 
 #: src/doc/documentchecker.cpp:1910
 #, kde-format
@@ -25048,11 +25048,10 @@ msgid "Reload"
 msgstr "Ricarica"
 
 #: src/doc/documentchecker.cpp:1962
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
-msgstr "Rimuovi"
+msgstr "Remota"
 
 #: src/doc/documentchecker.cpp:1964
 #, kde-format
@@ -25398,10 +25397,13 @@ msgid ""
 "\"><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>These parameters will be "
 "discarded."
 msgstr ""
+"Il file del progetto <b>%1</b> contiene dei parametri per le clip "
+"rappresentative sospetti. Potrebbe essere eseguito questo comando:"
+"<br><br><code style=\"background-color:darkred;color:white\"><b>%2 -i input."
+"mp4 %3 out.%4</b></code><br><br>Questi parametri verranno ignorati."
 
 #: src/doc/kdenlivedoc.cpp:1933
-#, fuzzy, kde-format
-#| msgid "Warning"
+#, kde-format
 msgctxt "@title:window"
 msgid "Warning"
 msgstr "Avviso"
@@ -25413,6 +25415,10 @@ msgid ""
 "This command might be executed:<br><br><code><b>%2 -i input.mp4 %3 out.%4</"
 "b></code><br><br>These parameters will be discarded unless you allow them."
 msgstr ""
+"Il file del progetto <b>%1</b> contiene dei parametri per le clip "
+"rappresentative inattesi. Potrebbe essere eseguito questo comando:"
+"<br><br><code><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>Questi "
+"parametri verranno ignorati, a meno che non li permetti."
 
 #: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
@@ -29590,10 +29596,9 @@ msgid "Audio streams:"
 msgstr "Flussi audio:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1543
-#, fuzzy, kde-format
-#| msgid "Subtitles:"
+#, kde-format
 msgid "Subtitle streams:"
-msgstr "Sottotitoli:"
+msgstr "Flussi di sottotitoli"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1732
 #, kde-format
@@ -34299,7 +34304,7 @@ msgstr[1] ""
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:27
 #, kde-format
 msgid "Create all required tracks (%1)"
-msgstr ""
+msgstr "Crea tutte le tracce audio richieste (%1)"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
 #, kde-format
@@ -35972,6 +35977,8 @@ msgstr "Tracce audio mancanti"
 #, kde-format
 msgid "This video track has missing audio tracks before creating mirror track."
 msgstr ""
+"In questa traccia video mancano alcune tracce audio prima della creazione "
+"della traccia speculare."
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: src/ui/autotrackcreationdialog_ui.ui:37
@@ -37360,7 +37367,7 @@ msgstr "Clip rappresentative della videocamera:"
 #: src/ui/configproxy_ui.ui:193
 #, kde-format
 msgid "Allowed FFmpeg parameters for proxy clips"
-msgstr ""
+msgstr "Parametri di FFmpeg permessi per le clip rappresentative"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:218
@@ -39061,10 +39068,9 @@ msgstr "Usa segnaposti"
 
 #. i18n: ectx: property (text), widget (QPushButton, searchProxies)
 #: src/ui/missingclips_ui.ui:201
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Proxies"
-msgstr "Cerca marcatori"
+msgstr "Mostra le clip rappresentative"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:211
@@ -39327,18 +39333,15 @@ msgstr "Clip usate nel progetto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allowOnce)
 #: src/ui/proxywarn_ui.ui:30
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Displays the parameters for the selected profile"
+#, kde-format
 msgid "Allow using these parameters for this project"
-msgstr "Visualizza i parametri del profilo selezionato"
+msgstr "Permetti l'uso di questi parametri per questo progetto"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allowAlways)
 #: src/ui/proxywarn_ui.ui:88
-#, fuzzy, kde-format
-#| msgid "Use sensor response parameters"
+#, kde-format
 msgid "Always allow these parameters"
-msgstr "Utilizza i parametri di risposta del sensore"
+msgstr "Permetti sempre questi parametri"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, allowWarning)
 #: src/ui/proxywarn_ui.ui:95
@@ -39347,6 +39350,8 @@ msgid ""
 "If you are not the author of this project or don't understand the "
 "parameters, this might compromise your system's security."
 msgstr ""
+"Se non sei l'autore di questo progetto, oppure non comprendi i parametri, "
+"ciò potrebbe compromettere la sicurezza del tuo sistema."
 
 #. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:39

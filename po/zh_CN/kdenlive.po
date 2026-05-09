@@ -11066,6 +11066,9 @@ msgid ""
 "influenced. Default is 1. Lower values (moving the bar to the left) make the "
 "image darker, higher values (moving the bar to the right) make it brighter."
 msgstr ""
+"调整图像的整体亮度。<br>\n"
+"                仅影响中间色调，黑色和白色不受影响。默认值为 1  。降低该值 "
+"(向左拖动滑块) 会使图像变暗，提高该值 (向右拖动滑块) 会使图像变亮。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -15398,7 +15401,7 @@ msgstr "旋转 (从中心)"
 #: data/effects/qtblend.xml:43 data/effects/qtblend.xml:67
 #, kde-format
 msgid "Rotation Point"
-msgstr ""
+msgstr "旋转点"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -20998,7 +21001,7 @@ msgstr "文件扩展名："
 msgid ""
 "Your proxy parameters contains forbidden keywords, please remove them: <b>"
 "%1</b>."
-msgstr ""
+msgstr "您的代理参数不能包含关键词：<b>%1</b>。"
 
 #: src/dialogs/encodingprofilesdialog.cpp:164
 #: src/dialogs/encodingprofilesdialog.cpp:233
@@ -21006,13 +21009,13 @@ msgstr ""
 msgid ""
 "Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you "
 "want to always allow them ?"
-msgstr ""
+msgstr "您的代理参数包含未知选项：<br><b>%1</b><br>是否始终允许这些参数？"
 
 #: src/dialogs/encodingprofilesdialog.cpp:166
 #: src/dialogs/encodingprofilesdialog.cpp:235
 #, kde-format
 msgid "Always Allow Parameters"
-msgstr ""
+msgstr "始终允许参数"
 
 #: src/dialogs/encodingprofilesdialog.cpp:280
 #, kde-format
@@ -24183,6 +24186,8 @@ msgid ""
 "pose a security risk</i></b>!<br> Abort loading the project unless this is "
 "intentional and you fully trust the remote sources."
 msgstr ""
+"此项目正在尝试从互联网加载资源。<br><b><i>这可能存在安全风险</i></b>！<br>除"
+"非您明确知晓并完全信任该远程来源，否则请中止加载此项目。"
 
 #: src/doc/dcresolvedialog.cpp:195
 #, kde-format
@@ -24222,13 +24227,13 @@ msgstr[0] "%1 个缺少的代理片段"
 #: src/doc/dcresolvedialog.cpp:222
 #, kde-format
 msgid "Proxy clips can be recreated."
-msgstr ""
+msgstr "代理片段可供重新创建。"
 
 #: src/doc/dcresolvedialog.cpp:224
 #, kde-format
 msgid "One proxy can be recreated"
 msgid_plural "%1 proxies can be recreated"
-msgstr[0] ""
+msgstr[0] "%1 个可供重新创建的代理片段"
 
 #: src/doc/dcresolvedialog.cpp:244
 #, kde-format
@@ -24240,7 +24245,7 @@ msgstr "片段文件夹"
 #, kde-format
 msgctxt "@title:window"
 msgid "Proxy Clips Folder"
-msgstr ""
+msgstr "代理片段文件夹"
 
 #: src/doc/documentchecker.cpp:140
 #, kde-format
@@ -24264,6 +24269,7 @@ msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
 "updated location to store files for this project."
 msgstr ""
+"存储该项目的文件夹 <b>%1</b> 不存在。请重新指定一个位置，用于存放该项目。"
 
 #: src/doc/documentchecker.cpp:1910
 #, kde-format
@@ -24347,7 +24353,7 @@ msgstr "重新加载"
 #, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
-msgstr ""
+msgstr "远程位置"
 
 #: src/doc/documentchecker.cpp:1964
 #, kde-format
@@ -24673,12 +24679,15 @@ msgid ""
 "\"><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>These parameters will be "
 "discarded."
 msgstr ""
+"项目文件 <b>%1</b> 包含可疑的代理参数。应用该参数可能执行以下命令："
+"<br><br><code style=\"background-color:darkred;color:white\"><b>%2 -i input."
+"mp4 %3 out.%4</b></code><br><br>这些参数将被丢弃。"
 
 #: src/doc/kdenlivedoc.cpp:1933
 #, kde-format
 msgctxt "@title:window"
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: src/doc/kdenlivedoc.cpp:1935
 #, kde-format
@@ -24687,6 +24696,9 @@ msgid ""
 "This command might be executed:<br><br><code><b>%2 -i input.mp4 %3 out.%4</"
 "b></code><br><br>These parameters will be discarded unless you allow them."
 msgstr ""
+"项目文件 <b>%1</b> 包含代理意外创建的参数。应用该参数可能执行以下命令："
+"<br><br><code><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>除非您明确允许，"
+"否则将丢弃这些参数。"
 
 #: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
@@ -26620,17 +26632,17 @@ msgstr "导出预览"
 #: src/mainwindow.cpp:671 src/mainwindow.cpp:753 src/mainwindow.cpp:2206
 #, kde-format
 msgid "Identify Gaps"
-msgstr ""
+msgstr "识别间隙"
 
 #: src/mainwindow.cpp:672 src/mainwindow.cpp:754
 #, kde-format
 msgid "All Tracks"
-msgstr ""
+msgstr "所有轨道"
 
 #: src/mainwindow.cpp:675 src/mainwindow.cpp:757
 #, kde-format
 msgid "Selected Track"
-msgstr ""
+msgstr "选中的轨道"
 
 #: src/mainwindow.cpp:679
 #, kde-format
@@ -27643,7 +27655,7 @@ msgstr ""
 #: src/mainwindow.cpp:2101
 #, kde-format
 msgid "Copy Selection to New Sequence"
-msgstr ""
+msgstr "复制选区至新序列"
 
 #: src/mainwindow.cpp:2104
 #, kde-kuit-format
@@ -27652,6 +27664,8 @@ msgid ""
 "Copy the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
+"将当前在时间轴中选中的片段复制到一个可以在另一个时间轴标签页中打开的新的序列"
+"片段。"
 
 #: src/mainwindow.cpp:2118
 #, kde-format
@@ -27717,12 +27731,12 @@ msgstr "删除轨道…"
 #: src/mainwindow.cpp:2162
 #, kde-format
 msgid "Move Track Up"
-msgstr ""
+msgstr "上移轨道"
 
 #: src/mainwindow.cpp:2166
 #, kde-format
 msgid "Move Track Down"
-msgstr ""
+msgstr "下移轨道"
 
 #: src/mainwindow.cpp:2170
 #, kde-format
@@ -27757,7 +27771,7 @@ msgstr "删除时间线标记"
 #: src/mainwindow.cpp:2204
 #, kde-format
 msgid "Delete All Timeline Markers"
-msgstr "删除所有时间线标记"
+msgstr "删除所有时间轴标记"
 
 #: src/mainwindow.cpp:2208
 #, kde-format
@@ -28247,7 +28261,7 @@ msgstr "正在压缩项目"
 #: src/mainwindow.cpp:4721
 #, kde-format
 msgid "Raise %1"
-msgstr ""
+msgstr "提升 %1"
 
 #: src/mainwindow.cpp:4782
 #, kde-format
@@ -28745,7 +28759,7 @@ msgstr "音频流："
 #: src/mltcontroller/clippropertiescontroller.cpp:1543
 #, kde-format
 msgid "Subtitle streams:"
-msgstr ""
+msgstr "字幕流："
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1732
 #, kde-format
@@ -31276,7 +31290,7 @@ msgstr "创建序列片段"
 #: src/project/projectmanager.cpp:2478
 #, kde-format
 msgid "Copy clips to new Sequence"
-msgstr ""
+msgstr "复制片段至新序列"
 
 #: src/project/transcodeseek.cpp:48 src/project/transcodeseek.cpp:61
 #, kde-format
@@ -32877,23 +32891,23 @@ msgstr "删除轨道中的片段"
 #: src/timeline2/model/timelinefunctions.cpp:3146
 #, kde-format
 msgid "No clips found in timeline"
-msgstr ""
+msgstr "时间轴中未找到片段"
 
 #: src/timeline2/model/timelinefunctions.cpp:3175
 #, kde-format
 msgid "No gaps found in timeline"
-msgstr ""
+msgstr "时间轴中未发现间隙"
 
 #: src/timeline2/model/timelinefunctions.cpp:3184
 #: src/timeline2/model/timelinefunctions.cpp:3216
 #, kde-format
 msgid "Gap"
-msgstr ""
+msgstr "间隙"
 
 #: src/timeline2/model/timelinefunctions.cpp:3209
 #, kde-format
 msgid "No gaps found on selected track"
-msgstr ""
+msgstr "所选轨道中未发现间隙"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
 #: src/timeline2/model/timelinemodel.cpp:5208
@@ -33007,7 +33021,7 @@ msgstr "没有可用于插入操作的轨道"
 #: src/timeline2/model/timelinemodel.cpp:2010
 #, kde-format
 msgid "Failed to create audio tracks"
-msgstr ""
+msgstr "创建音频轨道失败"
 
 #: src/timeline2/model/timelinemodel.cpp:2049
 #, kde-format
@@ -33064,17 +33078,17 @@ msgstr "调整组合大小"
 #: src/timeline2/model/timelinemodel.cpp:4013
 #, kde-format
 msgid "Cannot resize this clip"
-msgstr ""
+msgstr "无法调整此片段的大小"
 
 #: src/timeline2/model/timelinemodel.cpp:4016
 #, kde-format
 msgid "Cannot resize the corresponding split clip"
-msgstr ""
+msgstr "无法调整对应分割片段的大小"
 
 #: src/timeline2/model/timelinemodel.cpp:4019
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
-msgstr ""
+msgstr "无法调整所选片段中一个或多个片段的大小"
 
 #: src/timeline2/model/timelinemodel.cpp:4023
 #, kde-format
@@ -33153,7 +33167,7 @@ msgstr "无法删除时间轴中的最后一条轨道"
 #: src/timeline2/model/timelinemodel.cpp:5440
 #, kde-format
 msgid "Move Track"
-msgstr ""
+msgstr "移动轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:5765
 #, kde-format
@@ -33267,19 +33281,19 @@ msgstr "初始化时间轴预览出错"
 msgid "The video track needs %1 additional track before creating mirror track."
 msgid_plural ""
 "The video track needs %1 additional tracks before creating mirror track."
-msgstr[0] ""
+msgstr[0] "视频轨道需要额外增加 %1 条轨道以容纳新创建的镜像轨道。"
 
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:25
 #, kde-format
 msgid "The selected clip needs %1 additional audio track for %2 audio stream."
 msgid_plural ""
 "The selected clip needs %1 additional audio tracks for %2 audio streams."
-msgstr[0] ""
+msgstr[0] "所选片段需要 %1 条额外的音频轨道以容纳 %2 个音频流。"
 
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:27
 #, kde-format
 msgid "Create all required tracks (%1)"
-msgstr ""
+msgstr "创建所有必需轨道 (%1) "
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
 #, kde-format
@@ -33557,7 +33571,7 @@ msgstr "隐藏"
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
-msgstr[0] ""
+msgstr[0] "音频：%2 个流，使用 %1 条轨道"
 
 #: src/timeline2/view/qml/Timeline.qml:1189
 #, kde-format
@@ -34278,6 +34292,9 @@ msgid ""
 "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
+"单击以选择对象，Alt+点击进行循环选择。Shift+拖动进行垂直移动，Alt+Shift+拖动"
+"进行水平移动，Shift+拖拉边缘可中心缩放，Ctrl+拖动进行平移。移动时按住 Ctrl 以"
+"禁用吸附功能。"
 
 #: src/titler/titlewidget.cpp:426
 #, kde-format
@@ -34871,31 +34888,31 @@ msgstr "实际 FFT 大小："
 #: src/ui/autotrackcreationdialog_ui.ui:18
 #, kde-format
 msgid "Missing Audio Tracks"
-msgstr ""
+msgstr "缺失音频轨道"
 
 #. i18n: ectx: property (text), widget (QLabel, mirrorInfoLabel)
 #: src/ui/autotrackcreationdialog_ui.ui:27
 #, kde-format
 msgid "This video track has missing audio tracks before creating mirror track."
-msgstr ""
+msgstr "此视频轨道在创建镜像轨道前缺失对应的音频轨道。"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: src/ui/autotrackcreationdialog_ui.ui:37
 #, kde-format
 msgid "The selected clip requires additional audio tracks."
-msgstr ""
+msgstr "所选片段需要额外的音频轨道。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, createAllRadio)
 #: src/ui/autotrackcreationdialog_ui.ui:44
 #, kde-format
 msgid "Create all required tracks"
-msgstr ""
+msgstr "创建所有必需轨道"
 
 #. i18n: ectx: property (text), widget (QRadioButton, createCustomRadio)
 #: src/ui/autotrackcreationdialog_ui.ui:56
 #, kde-format
 msgid "Create custom number of tracks:"
-msgstr ""
+msgstr "创建自定义数量的轨道："
 
 #. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
 #: src/ui/backupdialog_ui.ui:24
@@ -35560,37 +35577,37 @@ msgstr "监视器网格"
 #: src/ui/configcolors_ui.ui:112
 #, kde-format
 msgid "Video clip color:"
-msgstr ""
+msgstr "视频片段颜色："
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_color)
 #: src/ui/configcolors_ui.ui:126
 #, kde-format
 msgid "Audio clip color:"
-msgstr ""
+msgstr "音频片段颜色："
 
 #. i18n: ectx: property (text), widget (QLabel, label_title_color)
 #: src/ui/configcolors_ui.ui:140
 #, kde-format
 msgid "Title clip color:"
-msgstr ""
+msgstr "字幕片段颜色："
 
 #. i18n: ectx: property (text), widget (QLabel, label_image_color)
 #: src/ui/configcolors_ui.ui:154
 #, kde-format
 msgid "Image clip color:"
-msgstr ""
+msgstr "图像片段颜色："
 
 #. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
 #: src/ui/configcolors_ui.ui:168
 #, kde-format
 msgid "Slideshow clip color:"
-msgstr ""
+msgstr "幻灯片片段颜色："
 
 #. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
 #: src/ui/configcolors_ui.ui:182
 #, kde-format
 msgid "Reset clip colors to default"
-msgstr ""
+msgstr "将片段颜色重置为默认值"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:202
@@ -36250,7 +36267,7 @@ msgstr "摄像机代理片段："
 #: src/ui/configproxy_ui.ui:193
 #, kde-format
 msgid "Allowed FFmpeg parameters for proxy clips"
-msgstr ""
+msgstr "代理片段允许使用的 FFmpeg 参数"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:218
@@ -37932,7 +37949,7 @@ msgstr "使用占位符"
 #: src/ui/missingclips_ui.ui:201
 #, kde-format
 msgid "Search Proxies"
-msgstr ""
+msgstr "搜索代理"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:211
@@ -38193,13 +38210,13 @@ msgstr "已使用素材："
 #: src/ui/proxywarn_ui.ui:30
 #, kde-format
 msgid "Allow using these parameters for this project"
-msgstr ""
+msgstr "允许此项目使用这些参数"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allowAlways)
 #: src/ui/proxywarn_ui.ui:88
 #, kde-format
 msgid "Always allow these parameters"
-msgstr ""
+msgstr "始终允许这些参数"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, allowWarning)
 #: src/ui/proxywarn_ui.ui:95
@@ -38208,6 +38225,7 @@ msgid ""
 "If you are not the author of this project or don't understand the "
 "parameters, this might compromise your system's security."
 msgstr ""
+"如果您不是此项目的作者或不理解这些参数，使用这些参数可能会危及您系统的安全。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:39
@@ -39205,7 +39223,7 @@ msgstr "边框"
 #: src/ui/titlewidget_ui.ui:1433
 #, kde-format
 msgid "Corner radius"
-msgstr ""
+msgstr "圆角半径"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
 #: src/ui/titlewidget_ui.ui:1481
