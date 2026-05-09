@@ -27608,7 +27608,7 @@ msgstr "删除时间线标记"
 #: src/mainwindow.cpp:2149
 #, kde-format
 msgid "Delete All Timeline Markers"
-msgstr "删除所有时间线标记"
+msgstr "删除所有时间轴标记"
 
 #: src/mainwindow.cpp:2151
 #, kde-format

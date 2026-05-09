@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-05 02:45+0000\n"
-"PO-Revision-Date: 2026-04-07 16:07+0200\n"
+"PO-Revision-Date: 2026-05-04 08:44+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -20648,11 +20648,9 @@ msgid "Subtitle %1"
 msgstr "Sottotitolo %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Cannot cut overlapping subtitles"
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "Impossibile tagliare dei sottotitoli sovrapposti"
+msgstr "Impossibile creare più di %1 livelli nei sottotitoli."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
