@@ -612,7 +612,6 @@ private Q_SLOTS:
     /** @brief Move playhead to mouse cursor position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
-    void slotThemeChanged(const QString &name);
     void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);

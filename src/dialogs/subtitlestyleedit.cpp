@@ -53,10 +53,10 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
     buttonSelectFont->setWhatsThis(xi18nc("@info:whatsthis", "Open a font dialog to select a font and set its properties."));
 
     connect(spinFontSize, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &SubtitleStyleEdit::updateProperties);
-    connect(checkBold, &QCheckBox::stateChanged, this, &SubtitleStyleEdit::updateProperties);
-    connect(checkItalic, &QCheckBox::stateChanged, this, &SubtitleStyleEdit::updateProperties);
-    connect(checkUnderline, &QCheckBox::stateChanged, this, &SubtitleStyleEdit::updateProperties);
-    connect(checkStrikeOut, &QCheckBox::stateChanged, this, &SubtitleStyleEdit::updateProperties);
+    connect(checkBold, &QCheckBox::checkStateChanged, this, &SubtitleStyleEdit::updateProperties);
+    connect(checkItalic, &QCheckBox::checkStateChanged, this, &SubtitleStyleEdit::updateProperties);
+    connect(checkUnderline, &QCheckBox::checkStateChanged, this, &SubtitleStyleEdit::updateProperties);
+    connect(checkStrikeOut, &QCheckBox::checkStateChanged, this, &SubtitleStyleEdit::updateProperties);
 
     connect(buttonPrimaryColor, &QPushButton::clicked, this, [this]() {
         QColor color = QColorDialog::getColor(m_style.primaryColour(), this, tr("Select primary color"), QColorDialog::ShowAlphaChannel);

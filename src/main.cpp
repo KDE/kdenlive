@@ -514,12 +514,6 @@ int main(int argc, char *argv[])
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
-    KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup uicg(config, "UiSettings");
-    if (!uicg.exists()) {
-        uicg.writeEntry("ColorSchemePath", "BreezeDark.colors");
-        uicg.sync();
-    }
     if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
         qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
         QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);

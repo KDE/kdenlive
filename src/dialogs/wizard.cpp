@@ -12,7 +12,6 @@
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 
-#include "utils/thememanager.h"
 #include "core.h"
 #include <config-kdenlive.h>
 

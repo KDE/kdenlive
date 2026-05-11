@@ -1945,13 +1945,8 @@ bool KdenliveDoc::loadDocumentProperties()
                 dia->setFixedHeight(currentHeight);
                 connect(dia_ui.allowOnce, &QCheckBox::toggled, dia_ui.allowAlways, &QCheckBox::setEnabled);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
                 connect(dia_ui.allowOnce, &QCheckBox::checkStateChanged, this,
                         [d = dia.data(), dia_ui](Qt::CheckState state) { dia_ui.allowWarning->setVisible(state == Qt::Checked); });
-#else
-                connect(dia_ui.allowOnce, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this,
-                        [this](int state) { dia_ui.allowWarning->setVisible(state == 1); });
-#endif
 
                 if (dia->exec() != QDialog::Accepted) {
                     // Abort project loading

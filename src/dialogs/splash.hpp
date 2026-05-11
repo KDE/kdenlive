@@ -36,6 +36,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void updateWelcomeDisplay(bool show);
+    void switchPallete(bool dark);
 
 Q_SIGNALS:
     void openBlank();

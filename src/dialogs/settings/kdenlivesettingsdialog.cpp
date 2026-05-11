@@ -589,11 +589,7 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     QWidget *p6 = new QWidget;
     m_configShuttle.setupUi(p6);
 #ifdef USE_JOGSHUTTLE
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
-#else
-    connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
-#endif
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
 
@@ -658,11 +654,7 @@ void KdenliveSettingsDialog::initTranscodePage()
     connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_configTranscode.profile_audioonly, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-#else
-    connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-#endif
 
     connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
 

@@ -71,7 +71,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/thememanager.h"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
 
@@ -86,6 +85,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KColorScheme>
+#include <KColorSchemeMenu>
 #include <KConfigDialog>
 #include <KCoreAddons>
 #include <KDualAction>
@@ -156,10 +156,8 @@ MainWindow::MainWindow(QWidget *parent)
     auto flags = KDDockWidgets::Config::self().flags();
     flags |= KDDockWidgets::Config::Flag_HideTitleBarWhenTabsVisible;
     flags |= KDDockWidgets::Config::Flag_AllowReorderTabs;
-#if (KDDOCKWIDGETS_VERSION > QT_VERSION_CHECK(2, 3, 0))
-    // The Flag_TitleBarShowAutoHide was added in 2.4.0
     flags |= KDDockWidgets::Config::Flag_TitleBarShowAutoHide;
-#endif
+
     KDDockWidgets::Config::self().setFlags(flags);
     KDDockWidgets::Core::FloatingWindow::s_windowFlagsOverride = Qt::Tool;
 
@@ -177,10 +175,9 @@ void MainWindow::init()
 {
     QString desktopStyle = QApplication::style()->objectName();
     // Load themes
-    auto themeManager = new ThemeManager(actionCollection());
-    actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
-    connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged, Qt::QueuedConnection);
-    connect(pCore.get(), &Core::switchDarkPalette, themeManager, &ThemeManager::switchDarkPalette);
+    auto themeManager = KColorSchemeManager::instance();
+    KActionMenu *colorSelectionMenu = KColorSchemeMenu::createMenu(themeManager, this);
+    actionCollection()->addAction(QStringLiteral("themes_menu"), colorSelectionMenu);
 
     // Handle communication with the renderer app
     new RenderServer(this);
@@ -1030,38 +1027,6 @@ void MainWindow::loadContainerActions()
     QMenu *addMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("generators"), this));
     Generators::getGenerators(KdenliveSettings::producerslist(), addMenu);
     connect(addMenu, &QMenu::triggered, this, &MainWindow::buildGenerator);
-}
-
-void MainWindow::slotThemeChanged(const QString &name)
-{
-    KSharedConfigPtr config = KSharedConfig::openConfig(name);
-    QPalette plt = KColorScheme::createApplicationPalette(config);
-    // qApp->setPalette(plt);
-    // Required for qml palette change
-    QGuiApplication::setPalette(plt);
-
-    // QColor background = plt.window().color();
-    // bool useDarkIcons = background.value() < 100;
-
-    if (m_assetPanel) {
-        m_assetPanel->clear();
-    }
-    if (m_clipMonitor) {
-        m_clipMonitor->setPalette(plt);
-    }
-    if (m_projectMonitor) {
-        m_projectMonitor->setPalette(plt);
-    }
-    if (m_timelineTabs) {
-        m_timelineTabs->setPalette(plt);
-        if (getCurrentTimeline() && getCurrentTimeline()->controller()) {
-            getCurrentTimeline()->controller()->resetView();
-        }
-    }
-    applyToolMessageStyling();
-    applyZoomLevelButtonStyling();
-
-    Q_EMIT pCore->updatePalette();
 }
 
 MainWindow::~MainWindow()
@@ -2105,10 +2070,10 @@ void MainWindow::setupActions()
     copyToSequence->setData('G');
     copyToSequence->setEnabled(false);
 
-    act = clipActionCategory->addAction(KStandardAction::Copy, this, SLOT(slotCopy()));
+    act = clipActionCategory->addAction(KStandardActions::Copy, this, &MainWindow::slotCopy);
     act->setEnabled(false);
 
-    act = clipActionCategory->addAction(KStandardAction::Cut, this, SLOT(slotCut()));
+    act = clipActionCategory->addAction(KStandardActions::Cut, this, &MainWindow::slotCut);
     act->setEnabled(false);
 
     KStandardAction::paste(this, SLOT(slotPaste()), actionCollection());
@@ -4504,7 +4469,7 @@ void MainWindow::applyToolMessageStyling()
     default:
         // Use normal window background color for normal edit mode
         m_trimLabel->setStyleSheet(
-            QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
+            QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(QApplication::palette().window().color().name()));
         break;
     }
 }
@@ -5317,6 +5282,27 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
             }
         }
         break;
+    case QEvent::ApplicationPaletteChange:
+        if (m_assetPanel) {
+            m_assetPanel->clear();
+        }
+        if (m_clipMonitor) {
+            m_clipMonitor->setPalette(qApp->palette());
+        }
+        if (m_projectMonitor) {
+            m_projectMonitor->setPalette(qApp->palette());
+        }
+        if (m_timelineTabs) {
+            m_timelineTabs->setPalette(qApp->palette());
+            if (getCurrentTimeline() && getCurrentTimeline()->controller()) {
+                getCurrentTimeline()->controller()->resetView();
+            }
+        }
+        applyToolMessageStyling();
+        applyZoomLevelButtonStyling();
+
+        Q_EMIT pCore->updatePalette();
+        break;
     default:
         break;
     }
@@ -5894,18 +5880,10 @@ KIO::filesize_t MainWindow::fetchFolderSize(const QString path)
 {
     // KIO::DirectorySizeJob doesn't work on Windows, so use Qt only
     KIO::filesize_t totalSize = 0;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
     for (const auto &dirEntry : QDirListing(path, flags)) {
         totalSize += dirEntry.size();
     }
-#else
-    QDirIterator it(path, QDir::NoFilter, QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-        QFileInfo f(it.next());
-        totalSize += f.size();
-    }
-#endif
     return totalSize;
 }
 

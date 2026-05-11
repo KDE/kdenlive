@@ -289,8 +289,6 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
                 qApp->quit();
             }
         });
-        // Switch palette is disabled in crash recovery
-        connect(m_splash, &Splash::switchPalette, this, &Core::switchDarkPalette);
 
         // History
         connect(m_splash, &Splash::clearHistory, this, [&]() {

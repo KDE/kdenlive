@@ -485,29 +485,13 @@ void MixerWidget::setupConnections()
         });
     }
     connect(pCore.get(), &Core::updatePalette, this, [this]() {
+        qDebug() << ":::: UPDATE PALETTE: " << getMixerBackgroundColor();
+
         // Update all widgets were we customizing the palette or stylesheet
-        QPalette mixerPalette = palette();
+        QPalette mixerPalette = qApp->palette();
         mixerPalette.setColor(QPalette::Window, getMixerBackgroundColor());
         setPalette(mixerPalette);
 
-        qDebug() << ":::: UPDATE PALETTE: " << getMixerBackgroundColor();
-
-        QPalette pal = qApp->palette();
-        if (m_dbLabel) {
-            m_dbLabel->setPalette(pal);
-        }
-        if (m_balanceLabelLeft) {
-            m_balanceLabelLeft->setPalette(pal);
-        }
-        if (m_balanceLabelRight) {
-            m_balanceLabelRight->setPalette(pal);
-        }
-        if (m_volumeSpin) {
-            m_volumeSpin->setPalette(pal);
-        }
-        if (m_balanceSpin) {
-            m_balanceSpin->setPalette(pal);
-        }
         updateTrackLabelStyle();
         update();
     });
