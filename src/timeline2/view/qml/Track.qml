@@ -8,6 +8,8 @@
 import QtQuick 2.15
 import QtQml.Models 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 Item{
@@ -50,9 +52,9 @@ Item{
             speedController.resizeRight = right
             // var delta = newDuration - clip.originalDuration
             // var s = timeline.simplifiedTC(Math.abs(delta))
-            let s = '%1:%2\%, %3:%4'.arg(i18n("Speed"))
+            let s = '%1:%2\%, %3:%4'.arg(KI18n.i18n("Speed"))
                 .arg(Math.round(speedController.updatedSpeed))
-                .arg(i18n("Duration"))
+                .arg(KI18n.i18n("Duration"))
                 .arg(timeline.simplifiedTC(newDuration))
             timeline.showToolTip(s)
             return
@@ -78,15 +80,15 @@ Item{
                 let delta = clip.originalDuration - new_duration
                 s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
                     .arg(delta)
-                    .arg(i18n("Duration"))
+                    .arg(KI18n.i18n("Duration"))
                     .arg(timeline.simplifiedTC(new_duration))
             } else {
                 let delta = new_duration - clip.originalDuration
                 s = '%1%2, %3:%4, %5:%6'.arg((delta <= 0)? '+' : '-')
                     .arg(delta)
-                    .arg(i18n("In"))
+                    .arg(KI18n.i18n("In"))
                     .arg(timeline.simplifiedTC(clip.inPoint))
-                    .arg(i18n("Duration"))
+                    .arg(KI18n.i18n("Duration"))
                     .arg(timeline.simplifiedTC(new_duration))
             }
             timeline.showToolTip(s);
@@ -471,7 +473,7 @@ Item{
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = clip.originalDuration - new_duration
                     var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
+                    s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
                         , s, timeline.simplifiedTC(new_duration))
                     timeline.showToolTip(s)
                 }
@@ -489,7 +491,7 @@ Item{
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = clip.originalDuration - new_duration
                     var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
+                    s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
                         , s, timeline.simplifiedTC(new_duration))
                     timeline.showToolTip(s)
                 }
@@ -515,7 +517,7 @@ Item{
         property bool resizeRight: true
         Text {
             id: speedLabel
-            text: i18n("%1% | Adjusting speed", speedController.updatedSpeed)
+            text: KI18n.i18n("%1% | Adjusting speed", speedController.updatedSpeed)
             font: miniFont
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter

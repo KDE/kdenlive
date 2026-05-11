@@ -10,6 +10,8 @@ import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 import QtQuick.Window 2.15
 
+import org.kde.ki18n
+
 import 'TimelineLogic.js' as Logic
 import org.kde.kdenlive as K
 
@@ -262,7 +264,7 @@ Item {
             }
             onEntered: {
                 updateDrag()
-                var s = i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(timeline.simplifiedTC(compositionRoot.modelStart)).arg(timeline.simplifiedTC(compositionRoot.clipDuration)))
+                var s = KI18n.i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(timeline.simplifiedTC(compositionRoot.modelStart)).arg(timeline.simplifiedTC(compositionRoot.clipDuration)))
                 timeline.showToolTip(s)
             }
             onExited: {
@@ -333,7 +335,7 @@ Item {
                 onEntered: {
                     if (!pressed) {
                         trimIn.opacity = 1
-                        timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                        timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                     }
                 }
                 onExited: {
@@ -401,7 +403,7 @@ Item {
                 onEntered: {
                     if (!pressed) {
                         trimOut.opacity = 1
-                        timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                        timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                     }
                 }
                 onExited: {

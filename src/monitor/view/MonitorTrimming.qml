@@ -7,6 +7,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import QtQuick 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 Item {
@@ -72,7 +74,7 @@ Item {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         /*onEntered: {
-            controller.setWidgetKeyBinding(i18n("TODO: This is the wonderful new trimming monitor overlay!"));
+            controller.setWidgetKeyBinding(KI18n.i18n("TODO: This is the wonderful new trimming monitor overlay!"));
         }*/
         onExited: {
             controller.setWidgetKeyBinding();
@@ -107,7 +109,7 @@ Item {
                 //border.color: "#ff0000"
                 //border.width: 2
                 Label {
-                    text: i18n("In")
+                    text: KI18n.i18n("In")
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {
@@ -141,7 +143,7 @@ Item {
                 //border.color: "#ff0000"
                 //border.width: 2
                 Label {
-                    text: i18n("Out")
+                    text: KI18n.i18n("Out")
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {

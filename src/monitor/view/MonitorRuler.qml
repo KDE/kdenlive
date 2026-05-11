@@ -5,6 +5,9 @@
 
 import QtQuick.Controls 2.15
 import QtQuick 2.15
+
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 // Monitor ruler
@@ -234,7 +237,7 @@ Rectangle {
             }
         }
         onEntered: {
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek 1 frame, <shortcut>Shift</shortcut> to seek 1 second, <shortcut>Alt</shortcut> to seek to marker, <shortcut>Home</shortcut> / <shortcut>End</shortcut> to go to first / last frame"));
+            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis", "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek 1 frame, <shortcut>Shift</shortcut> to seek 1 second, <shortcut>Alt</shortcut> to seek to marker, <shortcut>Home</shortcut> / <shortcut>End</shortcut> to go to first / last frame"));
         }
         onExited: {
             controller.setWidgetKeyBinding();
@@ -306,7 +309,7 @@ Rectangle {
             }
         }
         onEntered: {
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</shortcut> to seek while adjusting zone in"));
+            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis", "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</shortcut> to seek while adjusting zone in"));
         }
         onExited: {
             controller.setWidgetKeyBinding();
@@ -355,7 +358,7 @@ Rectangle {
             }
         }
         onEntered: {
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</shortcut> to seek while adjusting zone out"));
+            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis", "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</shortcut> to seek while adjusting zone out"));
         }
         onExited: {
             controller.setWidgetKeyBinding();

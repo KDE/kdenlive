@@ -7,6 +7,8 @@
 import QtQuick.Controls
 import QtQuick
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 Item {
@@ -323,7 +325,7 @@ Item {
             id: audioRefresh
             hoverEnabled: true
             iconName: "view-refresh"
-            toolTipText: i18n("Click to refresh audio waveform")
+            toolTipText: KI18n.i18n("Click to refresh audio waveform")
             onClicked: controller.refreshAudio()
         }
     }

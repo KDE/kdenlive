@@ -7,6 +7,8 @@
 import QtQuick 2.15
 import QtQuick.Controls
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 Item {
@@ -67,9 +69,9 @@ Item {
     property var topRight: []
     property var bottomLeft: []
     property bool showToolbar: false
-    property string emptyCanvasKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> to close shape.")
-    property string defaultKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Double click</shortcut> on center to resize, <shortcut>Double click</shortcut> on line segment to add new point, <shortcut>Double click</shortcut> point to delete it, <shortcut>Double click</shortcut> background to create new keyframe, <shortcut>Hover right</shortcut> for toolbar");
-    property string resizeKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Shift drag handle</shortcut> for center-based resize")
+    property string emptyCanvasKeyBindInfo: KI18n.xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> to close shape.")
+    property string defaultKeyBindInfo: KI18n.xi18nc("@info:whatsthis", "<shortcut>Double click</shortcut> on center to resize, <shortcut>Double click</shortcut> on line segment to add new point, <shortcut>Double click</shortcut> point to delete it, <shortcut>Double click</shortcut> background to create new keyframe, <shortcut>Hover right</shortcut> for toolbar");
+    property string resizeKeyBindInfo: KI18n.xi18nc("@info:whatsthis", "<shortcut>Shift drag handle</shortcut> for center-based resize")
     onCenterPointsTypesChanged: checkDefined()
     signal effectPolygonChanged(var points, var centers)
     focus: true
@@ -432,7 +434,7 @@ Item {
         opacity: 0.8
         Text {
             id: label
-            text: i18n("Click to add points,\nright click or press enter to close shape.")
+            text: KI18n.i18n("Click to add points,\nright click or press enter to close shape.")
             font: fixedFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter

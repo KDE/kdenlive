@@ -7,11 +7,13 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 Kdenlive.MonitorToolButton {
     iconName: "zoom"
-    toolTipText: i18n("Zoom")
+    toolTipText: KI18n.i18n("Zoom")
     property bool menuVisible: zoomContextMenu.visible
     onClicked: {
         if (zoomContextMenu.visible) {
@@ -36,7 +38,7 @@ Kdenlive.MonitorToolButton {
             anchors.fill: parent
             Kdenlive.MonitorToolButton {
                 iconName: "zoom-in"
-                toolTipText: i18n("Zoom In")
+                toolTipText: KI18n.i18n("Zoom In")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
                     controller.triggerAction('monitor_zoomin')
@@ -44,7 +46,7 @@ Kdenlive.MonitorToolButton {
             }
             Kdenlive.MonitorToolButton {
                 iconName: "zoom-out"
-                toolTipText: i18n("Zoom Out")
+                toolTipText: KI18n.i18n("Zoom Out")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
                     controller.triggerAction('monitor_zoomout')
@@ -52,7 +54,7 @@ Kdenlive.MonitorToolButton {
             }
             Kdenlive.MonitorToolButton {
                 iconName: "zoom-original"
-                toolTipText: i18n("Reset Zoom")
+                toolTipText: KI18n.i18n("Reset Zoom")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
                     controller.triggerAction('monitor_zoomreset')

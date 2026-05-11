@@ -6,6 +6,8 @@
 import QtQuick.Controls 2.15
 import QtQuick 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 MouseArea {
@@ -56,7 +58,7 @@ MouseArea {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
-                toolTipText: i18n("Switch Full Screen")
+                toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
                     controller.triggerAction('monitor_fullscreen')
@@ -68,7 +70,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
-                toolTipText: i18n("Move Toolbar")
+                toolTipText: KI18n.i18n("Move Toolbar")
                 onClicked: {
                     if (barZone.rightSide) {
                         barZone.anchors.right = undefined

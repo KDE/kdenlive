@@ -7,6 +7,8 @@
 import QtQuick.Controls 2.15
 import QtQuick 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 MouseArea {
@@ -59,13 +61,13 @@ MouseArea {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
-                toolTipText: i18n("Switch Full Screen")
+                toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: controller.triggerAction('monitor_fullscreen')
             }
             K.MonitorToolButton {
                 objectName: "switchGrid"
                 iconName: "snap"
-                toolTipText: i18n("Show Grid")
+                toolTipText: KI18n.i18n("Show Grid")
                 checkable: true
                 checked: K.KdenliveSettings.showMonitorGrid
                 onClicked: {
@@ -75,7 +77,7 @@ MouseArea {
             K.MonitorToolButton {
                 objectName: "showSafeZone"
                 iconName: "select-rectangular"
-                toolTipText: i18n("Show Safe Areas")
+                toolTipText: KI18n.i18n("Show Safe Areas")
                 checkable: true
                 checked: false
                 onCheckedChanged: {
@@ -88,7 +90,7 @@ MouseArea {
             K.MonitorToolButton {
                 objectName: "switchOverlay"
                 iconName: "view-grid"
-                toolTipText: i18n("Composition Guides")
+                toolTipText: KI18n.i18n("Composition Guides")
                 onClicked: {
                     if (controller.overlayType >= 5) {
                         controller.overlayType = 0
@@ -101,24 +103,24 @@ MouseArea {
             K.MonitorToolButton {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
-                toolTipText: i18n("Go to Next Keyframe")
+                toolTipText: KI18n.i18n("Go to Next Keyframe")
                 onClicked: controller.seekToKeyframe(-1, 1);
             }
             K.MonitorToolButton {
                 objectName: "prevKeyframe"
                 iconName: "keyframe-previous"
-                toolTipText: i18n("Go to Previous Keyframe")
+                toolTipText: KI18n.i18n("Go to Previous Keyframe")
                 onClicked: controller.seekToKeyframe(-1, -1);
             }
             K.MonitorToolButton {
                 objectName: "addKeyframe"
                 iconName: "keyframe-add"
-                toolTipText: i18n("Add/Remove Keyframe")
+                toolTipText: KI18n.i18n("Add/Remove Keyframe")
                 onClicked: controller.addRemoveKeyframe()
             }
             K.MonitorToolButton {
                 iconName: "keyframe-record"
-                toolTipText: i18n("Automatic Keyframes")
+                toolTipText: KI18n.i18n("Automatic Keyframes")
                 onClicked: () => { K.KdenliveSettings.autoKeyframe = K.KdenliveSettings.autoKeyframe }
                 checkable: true
                 checked: K.KdenliveSettings.autoKeyframe
@@ -130,7 +132,7 @@ MouseArea {
             K.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
-                toolTipText: i18n("Move Toolbar")
+                toolTipText: KI18n.i18n("Move Toolbar")
                 onClicked: {
                     if (barZone.rightSide) {
                         barZone.anchors.right = undefined

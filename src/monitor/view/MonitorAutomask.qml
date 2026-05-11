@@ -9,6 +9,8 @@ import QtQuick.Window 2.15
 import QtQuick.Effects
 import QtQuick 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 Item {
@@ -278,7 +280,7 @@ Item {
                         controller.setWidgetKeyBinding();
                         return
                     }
-                    controller.setWidgetKeyBinding(xi18nc("@info:whatsthis","<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a mask, <shortcut>Shift+click</shortcut> to include another zone, <shortcut>Ctrl+click</shortcut> to exclude a zone."));
+                    controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a mask, <shortcut>Shift+click</shortcut> to include another zone, <shortcut>Ctrl+click</shortcut> to exclude a zone."));
                 }
                 onExited: {
                     controller.setWidgetKeyBinding();
@@ -380,7 +382,7 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: keyframes.length == 0 ? i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: keyframes.length == 0 ? KI18n.i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Generating image mask") : KI18n.i18n("Generating video mask")
         visible: false
         background: Rectangle {
             color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -391,7 +393,7 @@ Item {
         id: infoLabel
         anchors.centerIn: parent
         padding: 5
-        text: root.maskMode != K.MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
+        text: root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : KI18n.i18n("Previewing video mask")
         visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && keyframes.length == 0
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -402,7 +404,7 @@ Item {
         id: outsideLabel
         anchors.centerIn: parent
         padding: 5
-        text: i18n("You are outside of the time zone defined\nfor the mask and cannot add keyframes.\n\n\n")
+        text: KI18n.i18n("You are outside of the time zone defined\nfor the mask and cannot add keyframes.\n\n\n")
         visible: false
         color: 'white'
         background: Rectangle {
@@ -412,7 +414,7 @@ Item {
         ToolButton {
             anchors.bottom: outsideLabel.bottom
             anchors.left: outsideLabel.left
-            text: i18n("Go to mask start")
+            text: KI18n.i18n("Go to mask start")
             onPressed: () =>{
                 root.captureRightClick = true
             }
@@ -424,7 +426,7 @@ Item {
         ToolButton {
             anchors.bottom: outsideLabel.bottom
             anchors.right: outsideLabel.right
-            text: i18n("Go to mask end")
+            text: KI18n.i18n("Go to mask end")
             onPressed: () =>{
                 root.captureRightClick = true
             }
@@ -456,7 +458,7 @@ Item {
         border.color: 'darkred'
         Label {
             anchors.horizontalCenter: monitoredge.horizontalCenter
-            text: i18n('Mask Mode')
+            text: KI18n.i18n('Mask Mode')
             padding: 5
             background: Rectangle {
                 color: 'darkred'

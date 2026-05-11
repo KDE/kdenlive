@@ -9,6 +9,8 @@ import QtQuick.Controls
 import QtQuick.Window
 import QtQuick.Layouts
 
+import org.kde.ki18n
+
 Window {
     id: splash
     visible: true
@@ -117,7 +119,7 @@ Window {
                     id: kdelabel
                     anchors.verticalCenter: kdelogo.verticalCenter
                     anchors.left: kdelogo.right
-                    text: i18n("Made by KDE")
+                    text: KI18n.i18n("Made by KDE")
                     color: "#ffffff"
                 }
             }
@@ -145,7 +147,7 @@ Window {
             anchors.right: buttonBar.right
             anchors.rightMargin: 10
             anchors.verticalCenter: buttonBar.verticalCenter
-            text: i18n("Kdenlive") + " " + splash.version
+            text: KI18n.i18n("Kdenlive") + " " + splash.version
         }
         MouseArea {
             anchors.fill: parent
@@ -176,7 +178,7 @@ Window {
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: restartButton.left
-                text: i18n("Kdenlive crashed on last start.")
+                text: KI18n.i18n("Kdenlive crashed on last start.")
                 Layout.alignment: Qt.AlignVCenter
                 wrapMode: Text.Wrap
             }
@@ -185,7 +187,7 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: normalStartButton.left
                 anchors.rightMargin: 10
-                text: i18n("Reset Configuration")
+                text: KI18n.i18n("Reset Configuration")
                 icon.name: "view-refresh"
                 onClicked: resetConfig()
             }
@@ -194,10 +196,10 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                text: i18n("Start Normally")
+                text: KI18n.i18n("Start Normally")
                 icon.name: "go-next"
                 onClicked: {
-                    normalStartButton.text = i18n("Starting…")
+                    normalStartButton.text = KI18n.i18n("Starting…")
                     openBlank()
                 }
             }
@@ -224,7 +226,7 @@ Window {
                 anchors.leftMargin: 10
                 anchors.right: notesButton.left
                 textFormat: Text.RichText
-                text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
+                text: KI18n.i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
                            "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
                            "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
                 wrapMode: Text.Wrap
@@ -239,7 +241,7 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: notesStartButton.left
                 anchors.rightMargin: 10
-                text: i18n("What's New")
+                text: KI18n.i18n("What's New")
                 icon.name: "help-contents"
                 onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes")
             }
@@ -248,7 +250,7 @@ Window {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.rightMargin: 10
-                text: i18n("Continue")
+                text: KI18n.i18n("Continue")
                 icon.name: "go-next"
                 onClicked: openBlank()
             }

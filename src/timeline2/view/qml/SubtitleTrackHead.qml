@@ -8,6 +8,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
 Rectangle {
     id: trackHeader
     border.color: frameColor
@@ -86,7 +88,7 @@ Rectangle {
                 }
                 contentItem: Label {
                     color: activePalette.text
-                    text: i18n("Click to see details")
+                    text: KI18n.i18n("Click to see details")
                 }
             }
         }
@@ -100,7 +102,7 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: i18n("Speech recognition")
+            ToolTip.text: KI18n.i18n("Speech recognition")
         }
         ToolButton {
             id: muteButton
@@ -112,7 +114,7 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: trackHeader.isDisabled ? i18n("Show") : i18n("Hide")
+            ToolTip.text: trackHeader.isDisabled ? KI18n.i18n("Show") : KI18n.i18n("Hide")
         }
 
         ToolButton {
@@ -125,7 +127,7 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: trackHeader.isLocked ? i18n("Unlock track") : i18n("Lock track")
+            ToolTip.text: trackHeader.isLocked ? KI18n.i18n("Unlock track") : KI18n.i18n("Lock track")
             SequentialAnimation {
                 id: flashLock
                 loops: 3

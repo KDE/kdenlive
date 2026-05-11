@@ -7,6 +7,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 Item {
@@ -114,7 +116,7 @@ Item {
             onEntered: {
                 if (root.isPanning) return
                 console.log('ENTERED SUBTITLE MOUSE AREA')
-                timeline.showKeyBinding(i18n("<b>Double click</b> to edit text"))
+                timeline.showKeyBinding(KI18n.i18n("<b>Double click</b> to edit text"))
             }
             onExited: {
                 if (root.isPanning) return
@@ -214,13 +216,13 @@ Item {
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
                 if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true, true)) {
-                    timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
+                    timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             Keys.onRightPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
                 if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true, true)) {
-                    timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
+                    timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             /*Keys.onUpPressed: {
@@ -352,7 +354,7 @@ Item {
             onEntered: {
                 if (!pressed) {
                     trimIn.opacity = 1
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                 }
             }
             onExited: {
@@ -459,7 +461,7 @@ Item {
                 console.log('ENTER MOUSE END AREA')
                 if (!pressed) {
                     trimOut.opacity = 1
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                 }
             }
             onExited: {

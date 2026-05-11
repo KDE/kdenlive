@@ -6,6 +6,8 @@
 import QtQuick.Controls
 import QtQuick
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 MouseArea {
@@ -56,13 +58,13 @@ MouseArea {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
-                toolTipText: i18n("Switch Full Screen")
+                toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: controller.triggerAction('monitor_fullscreen')
             }
             Kdenlive.MonitorToolButton {
                 objectName: "generateFrames"
                 iconName: "media-record"
-                toolTipText: i18n("Generate Mask")
+                toolTipText: KI18n.i18n("Generate Mask")
                 checkable: false
                 visible: root.maskMode != MaskModeType.MaskPreview
                 onClicked: {
@@ -78,7 +80,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "switchOpacity"
                 iconName: "edit-opacity"
-                toolTipText: i18n("Change Opacity (0% - 25% - 50% - 100%)")
+                toolTipText: KI18n.i18n("Change Opacity (0% - 25% - 50% - 100%)")
                 onClicked: {
                     if (controller.maskOpacity == 0) {
                         controller.maskOpacity = 25;
@@ -92,7 +94,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "invertMask"
                 iconName: "edit-select-invert"
-                toolTipText: i18n("Invert Mask")
+                toolTipText: KI18n.i18n("Invert Mask")
                 onClicked: {
                     controller.maskInverted = !controller.maskInverted
                 }
@@ -100,7 +102,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "abortMask"
                 iconName: "dialog-close"
-                toolTipText: root.maskMode != MaskModeType.MaskPreview ? i18n("Exit Mask Creation") : i18n("Exit Preview Mode")
+                toolTipText: root.maskMode != MaskModeType.MaskPreview ? KI18n.i18n("Exit Mask Creation") : KI18n.i18n("Exit Preview Mode")
                 checkable: false
                 onClicked: {
                     root.exitMaskPreview()
@@ -113,7 +115,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
-                toolTipText: i18n("Move Toolbar")
+                toolTipText: KI18n.i18n("Move Toolbar")
                 onClicked: {
                     if (barZone.rightSide) {
                         barZone.anchors.right = undefined

@@ -6,6 +6,8 @@
 import QtQuick 2.15
 import QtQuick.Shapes 1.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 import "ResizeLogic.js" as ResizeLogic
 import "SnappingLogic.js" as SnappingLogic
@@ -357,7 +359,7 @@ Item {
             isMoving = false;
         }
         onEntered: {
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis","<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for center-based rescale, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Click</shortcut> on a center to seek to its keyframe"));
+            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for center-based rescale, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Click</shortcut> on a center to seek to its keyframe"));
         }
         onExited: {
             controller.setWidgetKeyBinding();

@@ -6,6 +6,8 @@
 import QtQuick 2.15
 import QtQuick.Controls
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 MouseArea {
@@ -56,7 +58,7 @@ MouseArea {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
-                toolTipText: i18n("Switch Full Screen")
+                toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
                     controller.triggerAction('monitor_fullscreen')
@@ -65,7 +67,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "showSafeZone"
                 iconName: "select-rectangular"
-                toolTipText: i18n("Show Safe Areas")
+                toolTipText: KI18n.i18n("Show Safe Areas")
                 checkable: true
                 checked: false
                 onCheckedChanged: {
@@ -78,7 +80,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 id: switchOverlay
                 iconName: "view-grid"
-                toolTipText: i18n("Composition Guides")
+                toolTipText: KI18n.i18n("Composition Guides")
                 onClicked: {
                     if (controller.overlayType >= 5) {
                         controller.overlayType = 0
@@ -94,7 +96,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "addMarker"
                 iconName: "bookmark-new"
-                toolTipText: i18n("Add/Remove Marker")
+                toolTipText: KI18n.i18n("Add/Remove Marker")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
                     controller.triggerAction('add_marker_guide_quickly')
@@ -103,7 +105,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
-                toolTipText: i18n("Move Toolbar")
+                toolTipText: KI18n.i18n("Move Toolbar")
                 onClicked: {
                     if (barZone.rightSide) {
                         barZone.anchors.right = undefined

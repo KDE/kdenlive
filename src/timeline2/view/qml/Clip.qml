@@ -11,6 +11,8 @@ import QtQuick.Window 2.15
 import QtQml.Models 2.15
 import QtQml 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 import 'TimelineLogic.js' as Logic
@@ -224,7 +226,7 @@ Rectangle {
     }
     
     function showClipInfo() {
-        var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+        var text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
                         .arg(timeline.simplifiedTC(clipRoot.inPoint))
                         .arg(timeline.simplifiedTC(clipRoot.outPoint))
                         .arg(timeline.simplifiedTC(clipRoot.modelStart))
@@ -326,7 +328,7 @@ Rectangle {
                 offset = clipRoot.modelStart - offset
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
-            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
@@ -340,7 +342,7 @@ Rectangle {
                 offset -= clipRoot.modelStart
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
-            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onUpPressed: {
             var nextTrack = controller.getNextTrackId(clipRoot.trackId);
@@ -541,7 +543,7 @@ Rectangle {
                             }
                         }
                         onEntered: {
-                            var text = i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
+                            var text = KI18n.i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
                             .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
                             timeline.showToolTip(text)
                         }
@@ -599,12 +601,12 @@ Rectangle {
                                 parent.width = currentFrame * clipRoot.timeScale
                                 sizeChanged = true
                                 if (currentFrame > previousMix) {
-                                    timeline.showToolTip(i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
+                                    timeline.showToolTip(KI18n.i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
                                 } else {
-                                    timeline.showToolTip(i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
+                                    timeline.showToolTip(KI18n.i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
                                 }
                             } else {
-                                timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
+                                timeline.showToolTip(KI18n.i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
                             }
                             if (x < mixCutPos.x) {
                                 // This will delete the mix
@@ -619,7 +621,7 @@ Rectangle {
                                 return
                             }
                             mixOut.color = 'red'
-                            timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
+                            timeline.showToolTip(KI18n.i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
                         }
                         onExited: {
                             if (pressed) {
@@ -1076,12 +1078,12 @@ Rectangle {
                         trimIn.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
-                        var s = i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+                        var s = KI18n.i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
                         timeline.showToolTip(s)
                         if (clipRoot.mixDuration == 0) {
-                            timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                            timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                         } else {
-                            timeline.showKeyBinding(i18n("<b>Drag</b> to change mix duration"))
+                            timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to change mix duration"))
                         }
                     }
                 }
@@ -1178,10 +1180,10 @@ Rectangle {
                         trimOut.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
-                        var s = i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
+                        var s = KI18n.i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
                         timeline.showToolTip(s)
                         if (!fadeOutMouseArea.containsMouse) {
-                            timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                            timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                         }
                     }
                 }
@@ -1191,7 +1193,7 @@ Rectangle {
                          if (!mouseArea.containsMouse) {
                             timeline.showToolTip()
                          } else {
-                             var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+                             var text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
                         .arg(timeline.simplifiedTC(clipRoot.inPoint))
                         .arg(timeline.simplifiedTC(clipRoot.outPoint))
                         .arg(timeline.simplifiedTC(clipRoot.modelStart))
@@ -1317,8 +1319,8 @@ Rectangle {
                             clearAndMove(positionOffset)
                         }
                         onEntered: {
-                            var text = positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
-                            text += i18n(" <b>Click</b> to align clips")
+                            var text = positionOffset < 0 ? KI18n.i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : KI18n.i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
+                            text += KI18n.i18n(" <b>Click</b> to align clips")
                             timeline.showToolTip(text)
                         }
                         onExited: {
@@ -1409,7 +1411,7 @@ Rectangle {
                     Text {
                         // Proxy P
                         id: proxyLabel
-                        text: i18nc("@label The first letter of Proxy, used as abbreviation", "P")
+                        text: KI18n.i18nc("@label The first letter of Proxy, used as abbreviation", "P")
                         font.pointSize: root.fontUnit +1
                         visible: proxyRect.visible
                         anchors {
@@ -1566,7 +1568,7 @@ Rectangle {
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
             onEntered: {
-                timeline.showKeyBinding(i18n("<b>Click</b> to add composition"))
+                timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
             }
             onExited: {
                 timeline.showKeyBinding()
@@ -1607,7 +1609,7 @@ Rectangle {
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             onEntered: {
-                timeline.showKeyBinding(i18n("<b>Click</b> to add composition"))
+                timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
             }
             onExited: {
                 timeline.showKeyBinding()
@@ -1688,18 +1690,18 @@ Rectangle {
                         lastDuration = duration
                         timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(i18n("Fade out: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeOut > 0) {
-                        timeline.showToolTip(i18n("Fade out: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
@@ -1799,18 +1801,18 @@ Rectangle {
                     if (duration != clipRoot.fadeIn) {
                         timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(i18n("Fade in: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeIn > 0) {
-                        timeline.showToolTip(i18n("Fade in: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
@@ -1894,7 +1896,7 @@ Rectangle {
         }
         Text {
             id: slipLabel
-            text: i18n("Slip Clip")
+            text: KI18n.i18n("Slip Clip")
             font: miniFont
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter

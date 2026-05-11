@@ -13,6 +13,8 @@ import QtQml.Models 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 import 'TimelineLogic.js' as Logic
 import 'Utils.js' as Utils
@@ -1186,13 +1188,13 @@ function getTrackColor(audio, header) {
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: i18n("Show sequence effects")
+                    ToolTip.text: KI18n.i18n("Show sequence effects")
                     TextMetrics {
                         id: metrics
                         font: miniFont
                         elide: Text.ElideRight
                         elideWidth: root.headerWidth * 0.8
-                        text: root.addedSequenceName.length == 0 ? i18n("Sequence") : root.addedSequenceName
+                        text: root.addedSequenceName.length == 0 ? KI18n.i18n("Sequence") : root.addedSequenceName
                     }
                     onClicked: {
                         timeline.showMasterEffects()
@@ -1917,7 +1919,7 @@ function getTrackColor(audio, header) {
                                 onWheel: wheel => zoomByWheel(wheel)
                                 onEntered: {
                                     if (root.activeTool === K.ToolType.SelectTool) {
-                                        timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
+                                        timeline.showKeyBinding(KI18n.i18n("<b>Double click</b> to add a subtitle"))
                                     }
                                 }
                                 onPositionChanged: mouse => {
@@ -2111,7 +2113,7 @@ function getTrackColor(audio, header) {
                                             var delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
                                                 var s = timeline.simplifiedTC(Math.abs(delta))
-                                                s = i18n("Offset: %1, Position: %2", (delta < 0 ? '-' : '+') + s, timeline.simplifiedTC(dragProxyArea.dragFrame))
+                                                s = KI18n.i18n("Offset: %1, Position: %2", (delta < 0 ? '-' : '+') + s, timeline.simplifiedTC(dragProxyArea.dragFrame))
                                                 timeline.showToolTip(s);
                                             } else {
                                                 timeline.showToolTip()
@@ -2280,7 +2282,7 @@ function getTrackColor(audio, header) {
                             }
                             Text {
                                 property int recState: audiorec.recordState
-                                text: i18n("Recording")
+                                text: KI18n.i18n("Recording")
                                 anchors.right: parent.right
                                 anchors.rightMargin: 2
                                 anchors.top: parent.top
@@ -2289,9 +2291,9 @@ function getTrackColor(audio, header) {
                                 onRecStateChanged: {
                                     if (recState == 1) {
                                         // Recording
-                                        text = i18n("Recording")
+                                        text = KI18n.i18n("Recording")
                                     } else if (recState == 2) {
-                                        text = i18n("Paused")
+                                        text = KI18n.i18n("Paused")
                                     }
                                 }
                             }
@@ -2383,7 +2385,7 @@ function getTrackColor(audio, header) {
                     }
                     Text {
                         id: multilabel
-                        text: i18n("Multicam In")
+                        text: KI18n.i18n("Multicam In")
                         bottomPadding: 2
                         leftPadding: 2
                         rightPadding: 2

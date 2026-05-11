@@ -8,6 +8,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
 Rectangle {
     id: trackHeadRoot
     property string trackName
@@ -163,7 +165,7 @@ Rectangle {
         ToolTip {
             visible: targetArea.containsMouse && !targetMouse.hovered
             font: miniFont
-            text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
+            text: KI18n.i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
         }
     state:  'normalTarget'
     states: [
@@ -241,7 +243,7 @@ Rectangle {
                     mouse.accepted = false
                 }
                 onEntered: {
-                    timeline.showKeyBinding(i18n("<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"))
                 }
                 onExited: {
                     timeline.showKeyBinding()
@@ -253,7 +255,7 @@ Rectangle {
             ToolTip {
                 visible: expandButton.hovered
                 font: miniFont
-                text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
+                text: trackLabel.visible? KI18n.i18n("Minimize") : KI18n.i18n("Expand")
             }
         }
         Label {
@@ -283,7 +285,7 @@ Rectangle {
             ToolTip {
                 visible: tagMouseArea.containsMouse
                 font: miniFont
-                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
+                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? KI18n.i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
             }
         state:  'normalled'
             states: [
@@ -373,7 +375,7 @@ Rectangle {
                 ToolTip {
                     visible: effectButton.hovered
                     font: miniFont
-                    text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
+                    text: enabled ? (isStackEnabled ? KI18n.i18n("Disable track effects") : KI18n.i18n("Enable track effects")) : KI18n.i18n("Toggle track effects");
                 }
             }
             ToolButton {
@@ -394,7 +396,7 @@ Rectangle {
                         mouse.accepted = false
                     }
                     onEntered: {
-                        timeline.showKeyBinding(i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
+                        timeline.showKeyBinding(KI18n.i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
                     }
                     onExited: {
                         timeline.showKeyBinding()
@@ -403,7 +405,7 @@ Rectangle {
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
-                    text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
+                    text: isAudio ? (isDisabled? KI18n.i18n("Unmute") : KI18n.i18n("Mute")) : (isDisabled? KI18n.i18n("Show") : KI18n.i18n("Hide"))
                 }
             }
 
@@ -417,7 +419,7 @@ Rectangle {
                 ToolTip {
                     visible: lockButton.hovered
                     font: miniFont
-                    text: isLocked? i18n("Unlock track") : i18n("Lock track")
+                    text: isLocked? KI18n.i18n("Unlock track") : KI18n.i18n("Lock track")
                 }
                 SequentialAnimation {
                     id: flashLock
@@ -488,7 +490,7 @@ Rectangle {
                     id: placeHolder
                     visible: trackName == '' && (trackNameMouseArea.containsMouse || headerMouseArea.containsMouse)
                     enabled: false
-                    text: i18n("Edit track name")
+                    text: KI18n.i18n("Edit track name")
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 4

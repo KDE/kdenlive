@@ -6,6 +6,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import org.kde.ki18n
+
 Item {
     id: root
     objectName: "rootsplit"
@@ -100,7 +102,7 @@ Item {
         color: "red"
         visible: false
         Text {
-            text: i18n("Effect")
+            text: KI18n.i18n("Effect")
             color: "red"
             anchors {
                 right: parent.left

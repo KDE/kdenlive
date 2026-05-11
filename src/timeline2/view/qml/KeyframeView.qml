@@ -7,6 +7,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as Kdenlive
 
 Rectangle
@@ -168,7 +170,7 @@ Rectangle
                         }
                     }
                     onEntered: {
-                        timeline.showKeyBinding(i18n("<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move all keyframes after this one."))
+                        timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move all keyframes after this one."))
                     }
                     onExited: {
                         timeline.showKeyBinding()
@@ -281,7 +283,7 @@ Rectangle
                             timeline.removeEffectKeyframe(clipId, frame);
                         }
                         onEntered: {
-                            timeline.showKeyBinding(i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
+                            timeline.showKeyBinding(KI18n.i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
                         }
                         onExited: {
                             timeline.showKeyBinding()

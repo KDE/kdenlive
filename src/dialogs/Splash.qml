@@ -10,6 +10,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
 
+import org.kde.ki18n
+
 Window {
     id: splash
     property string version
@@ -18,11 +20,11 @@ Window {
     property var fileDates: []
     property var profileIds: []
     property var profileNames: []
-    property var horizontalModel: [{value: "3840x2160x709x1x1x16x9", text: i18n("4K UHD 3840x2160")}, {value: "4096x2160x709x1x1x256x135", text: i18n("4K DCI 4096x2160")}, {value: "2560x1440x709x1x1x16x9", text: i18n("2.5K QHD 2560x1440")}, {value: "1920x1080x709x1x1x16x9", text: i18n("Full HD 1920x1080")}, {value: "1280x720x709x1x1x16x9", text: i18n("HD 1280x720")}, {value: "720x480x601x32x27x16x9", text: i18n("SD NTSC Wide 720x480")}, {value: "720x480x601x8x9x4x3", text: i18n("SD NTSC 720x480")}, {value: "720x576x601x64x45x16x9", text: i18n("SD PAL Wide 720x576")}, {value: "720x576x601x16x15x4x3", text: i18n("SD PAL 720x576")}]
-    property var verticalModel: [{value: "1080x1920x709x1x1x9x16", text: i18n("Full HD 1080x1920")}, {value: "720x1280x709x1x1x9x16", text: i18n("HD 720x1280")}]
-    property var horizontalFpsModel: [{value: "24000/1001", text: i18n("23.98 fps")},
-        {value: "24", text: i18n("24 fps")}, {value: "25", text: i18n("25 fps")}, {value: "30000/1001", text: i18n("29.97 fps")}, {value: "30", text: i18n("30 fps")}, {value: "50", text: i18n("50 fps")}, {value: "60000/1001", text: i18n("59.94 fps")}, {value: "60", text: i18n("60 fps")}]
-    property var verticalFpsModel: [{value: "25", text: i18n("25 fps")}, {value: "30", text: i18n("30 fps")}, {value: "60", text: i18n("60 fps")}]
+    property var horizontalModel: [{value: "3840x2160x709x1x1x16x9", text: KI18n.i18n("4K UHD 3840x2160")}, {value: "4096x2160x709x1x1x256x135", text: KI18n.i18n("4K DCI 4096x2160")}, {value: "2560x1440x709x1x1x16x9", text: KI18n.i18n("2.5K QHD 2560x1440")}, {value: "1920x1080x709x1x1x16x9", text: KI18n.i18n("Full HD 1920x1080")}, {value: "1280x720x709x1x1x16x9", text: KI18n.i18n("HD 1280x720")}, {value: "720x480x601x32x27x16x9", text: KI18n.i18n("SD NTSC Wide 720x480")}, {value: "720x480x601x8x9x4x3", text: KI18n.i18n("SD NTSC 720x480")}, {value: "720x576x601x64x45x16x9", text: KI18n.i18n("SD PAL Wide 720x576")}, {value: "720x576x601x16x15x4x3", text: KI18n.i18n("SD PAL 720x576")}]
+    property var verticalModel: [{value: "1080x1920x709x1x1x9x16", text: KI18n.i18n("Full HD 1080x1920")}, {value: "720x1280x709x1x1x9x16", text: KI18n.i18n("HD 720x1280")}]
+    property var horizontalFpsModel: [{value: "24000/1001", text: KI18n.i18n("23.98 fps")},
+        {value: "24", text: KI18n.i18n("24 fps")}, {value: "25", text: KI18n.i18n("25 fps")}, {value: "30000/1001", text: KI18n.i18n("29.97 fps")}, {value: "30", text: KI18n.i18n("30 fps")}, {value: "50", text: KI18n.i18n("50 fps")}, {value: "60000/1001", text: KI18n.i18n("59.94 fps")}, {value: "60", text: KI18n.i18n("60 fps")}]
+    property var verticalFpsModel: [{value: "25", text: KI18n.i18n("25 fps")}, {value: "30", text: KI18n.i18n("30 fps")}, {value: "60", text: KI18n.i18n("60 fps")}]
     property bool firstRun: true
     property bool crashRecovery: false
     property bool actionsEnabled: false
@@ -202,7 +204,7 @@ Window {
                     anchors.right: parent.right
                     anchors.margins: 10
                     color: "#FFFFFF"
-                    text: i18n("Made by KDE")
+                    text: KI18n.i18n("Made by KDE")
                 }
 
                 // Made By KDE
@@ -269,7 +271,7 @@ Window {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         icon.name: "document-open"
-                        text: i18n("Open Project…")
+                        text: KI18n.i18n("Open Project…")
                         onClicked: splash.openOtherFile()
                         KeyNavigation.tab: newProjectButton
                     }
@@ -296,7 +298,7 @@ Window {
                                 id: recentLabel
                                 anchors.verticalCenter: parent.verticalCenter
                                 leftPadding: 10
-                                text: i18n("Open Recent")
+                                text: KI18n.i18n("Open Recent")
                             }
                             ToolButton {
                                 id: clearHistoryButton
@@ -304,7 +306,7 @@ Window {
                                 anchors.verticalCenter: parent.verticalCenter
                                 icon.name: "edit-clear-history"
                                 hoverEnabled: true
-                                ToolTip.text: i18n("Clear History of Recent Projects")
+                                ToolTip.text: KI18n.i18n("Clear History of Recent Projects")
                                 ToolTip.delay: 1000
                                 ToolTip.visible: hovered
                                 KeyNavigation.tab: templatesClearButton
@@ -410,7 +412,7 @@ Window {
                                         icon.name: "list-remove"
                                         enabled: splash.actionsEnabled
                                         hoverEnabled: true
-                                        ToolTip.text: i18n("Remove file from list")
+                                        ToolTip.text: KI18n.i18n("Remove file from list")
                                         ToolTip.delay: 1000
                                         ToolTip.visible: hovered
                                         visible: labelArea.containsMouse || hovered
@@ -438,7 +440,7 @@ Window {
 
                     Button {
                         id: newProjectButton
-                        text: i18n("New Project…")
+                        text: KI18n.i18n("New Project…")
                         enabled: splash.actionsEnabled
                         icon.name: "document-new"
                         onClicked: splash.openTemplate("")
@@ -466,7 +468,7 @@ Window {
                                 id: templatesLabel
                                 anchors.verticalCenter: parent.verticalCenter
                                 leftPadding: 10
-                                text: i18n("New From Profile")
+                                text: KI18n.i18n("New From Profile")
                             }
                             ToolButton {
                                 id: templatesClearButton
@@ -475,7 +477,7 @@ Window {
                                 icon.name: "edit-clear-history"
                                 enabled: splash.actionsEnabled
                                 hoverEnabled: true
-                                ToolTip.text: i18n("Clear History of Recent Profiles")
+                                ToolTip.text: KI18n.i18n("Clear History of Recent Profiles")
                                 ToolTip.delay: 1000
                                 ToolTip.visible: hovered
                                 KeyNavigation.tab: showBox
@@ -564,7 +566,7 @@ Window {
                                         width: height
                                         enabled: splash.actionsEnabled
                                         icon.name: "list-remove"
-                                        ToolTip.text: i18n("Remove profile from list")
+                                        ToolTip.text: KI18n.i18n("Remove profile from list")
                                         ToolTip.delay: 1000
                                         ToolTip.visible: hovered
                                         hoverEnabled: true
@@ -603,7 +605,7 @@ Window {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     checked: true
-                    text: i18n("Show on Startup")
+                    text: KI18n.i18n("Show on Startup")
                     onCheckStateChanged: {
                         showWelcome(checked)
                     }
@@ -613,7 +615,7 @@ Window {
                     id: kdenliveid
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    text: i18n("Kdenlive") + " " + splash.version
+                    text: KI18n.i18n("Kdenlive") + " " + splash.version
                 }
 
             }
@@ -636,7 +638,7 @@ Window {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     anchors.right: restartButton.left
-                    text: i18n("Kdenlive crashed on last start. Reset config and restart?")
+                    text: KI18n.i18n("Kdenlive crashed on last start. Reset config and restart?")
                     Layout.alignment: Qt.AlignVCenter
                     wrapMode: Text.Wrap
                 }
@@ -645,7 +647,7 @@ Window {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 10
-                    text: i18n("Reset")
+                    text: KI18n.i18n("Reset")
                     icon.name: "view-refresh"
                     enabled: splash.actionsEnabled
                     onClicked: resetConfig()
@@ -672,7 +674,7 @@ Window {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     anchors.right: notesButton.left
-                    text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
+                    text: KI18n.i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
                                "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
                                "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
                     wrapMode: Text.Wrap
@@ -689,7 +691,7 @@ Window {
                     anchors.right: parent.right
                     anchors.rightMargin: 10
                     enabled: splash.actionsEnabled
-                    text: i18n("What's New")
+                    text: KI18n.i18n("What's New")
                     icon.name: "help-contents"
                     onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
                     KeyNavigation.tab: listView
@@ -717,18 +719,18 @@ Window {
                         id: donateText
                         Layout.fillWidth: true
                         leftPadding: 10
-                        text: i18n("Help us make Kdenlive even better")
+                        text: KI18n.i18n("Help us make Kdenlive even better")
                         wrapMode: Text.WordWrap
                     }
                     ToolButton {
                         icon.name: "user-group-new"
-                        text: i18n("Contribute…")
+                        text: KI18n.i18n("Contribute…")
                         enabled: splash.actionsEnabled
                         onClicked: splash.openLink("https://kdenlive.org/get-involved?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_contribute&mtm_content=" + splash.version)
                     }
 
                     ToolButton {
-                        text: i18n("Donate…")
+                        text: KI18n.i18n("Donate…")
                         icon.name: "donate"
                         enabled: splash.actionsEnabled
                         onClicked: splash.openLink("https://kdenlive.org/fund?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_donate&mtm_content=" + splash.version)
@@ -781,13 +783,13 @@ Window {
                         Layout.fillWidth: true
                         textFormat: Text.StyledText
                         horizontalAlignment: Text.AlignJustify
-                        text: i18n("<h3>Welcome to Kdenlive Quick Setup</h3>")
+                        text: KI18n.i18n("<h3>Welcome to Kdenlive Quick Setup</h3>")
                     }
 
                     Switch {
                         id: themeSwitch
                         enabled: !splash.crashRecovery
-                        text: i18n("Always Use Dark Color Theme")
+                        text: KI18n.i18n("Always Use Dark Color Theme")
                         checked: true
                         onCheckedChanged: {
                             switchPalette(checked);
@@ -799,7 +801,7 @@ Window {
                         textFormat: Text.StyledText
                         horizontalAlignment: Text.AlignJustify
                         wrapMode: Text.WordWrap
-                        text: i18n("<b>Default Project Profile</b>")
+                        text: KI18n.i18n("<b>Default Project Profile</b>")
                     }
 
                     Rectangle {
@@ -856,7 +858,7 @@ Window {
 
                                 Label {
                                     id: horizontalLabel
-                                    text: i18n("Horizontal")
+                                    text: KI18n.i18n("Horizontal")
                                     Layout.alignment: Qt.AlignHCenter
                                     font.bold: horizontalFrame.checked
                                 }
@@ -903,7 +905,7 @@ Window {
 
                                 Label {
                                     id: vLabel
-                                    text: i18n("Vertical")
+                                    text: KI18n.i18n("Vertical")
                                     Layout.alignment: Qt.AlignHCenter
                                     font.bold: verticalFrame.checked
                                 }
@@ -915,7 +917,7 @@ Window {
                                 Row {
                                     spacing: 10
                                     Label {
-                                        text: i18n("Resolution")
+                                        text: KI18n.i18n("Resolution")
                                         verticalAlignment: Qt.AlignVCenter
                                         Layout.alignment: Qt.AlignVCenter
                                         height: profileCombo.height
@@ -942,7 +944,7 @@ Window {
                                     spacing: 10
 
                                     Label {
-                                        text: i18n("Frame Rate")
+                                        text: KI18n.i18n("Frame Rate")
                                         verticalAlignment: Qt.AlignVCenter
                                         Layout.alignment: Qt.AlignVCenter
                                         height: profileCombo.height
@@ -968,7 +970,7 @@ Window {
                                     spacing: 10
                                     Switch {
                                         id: interlacedSwitch
-                                        text: i18n("Interlaced")
+                                        text: KI18n.i18n("Interlaced")
                                         enabled: !profileCombo.sdProfile && horizontalFrame.checked
                                     }
 
@@ -987,7 +989,7 @@ Window {
                             spacing: 10
                             height: vTracks.height
                             Label {
-                                text: i18n("Video Tracks")
+                                text: KI18n.i18n("Video Tracks")
                                 Layout.alignment: Qt.AlignVCenter
                             }
                             SpinBox {
@@ -996,7 +998,7 @@ Window {
 
                             }
                             Label {
-                                text: i18n("Audio Tracks")
+                                text: KI18n.i18n("Audio Tracks")
                                 Layout.alignment: Qt.AlignVCenter
                             }
                             SpinBox {
@@ -1009,7 +1011,7 @@ Window {
                     Label {
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
-                        text: i18n("This can always be changed later in the Settings.")
+                        text: KI18n.i18n("This can always be changed later in the Settings.")
                         font.italic: true
                     }
                     Item {
@@ -1028,7 +1030,7 @@ Window {
                             anchors.left: parent.left
                             anchors.leftMargin: 10
                             anchors.right: restartWelcomeButton.left
-                            text: i18n("Kdenlive crashed on last start. Reset config and restart?")
+                            text: KI18n.i18n("Kdenlive crashed on last start. Reset config and restart?")
                             Layout.alignment: Qt.AlignVCenter
                             wrapMode: Text.Wrap
                         }
@@ -1038,7 +1040,7 @@ Window {
                             anchors.right: parent.right
                             anchors.rightMargin: 10
                             enabled: splash.actionsEnabled
-                            text: i18n("Reset")
+                            text: KI18n.i18n("Reset")
                             icon.name: "view-refresh"
                             onClicked: resetConfig()
                         }
@@ -1050,7 +1052,7 @@ Window {
                     Button {
                         id: buttonHelp
                         icon.name: "help-browser"
-                        text: i18n("Check Online Documentation")
+                        text: KI18n.i18n("Check Online Documentation")
                         enabled: splash.actionsEnabled
                         Layout.alignment: Qt.AlignLeft
                         onClicked: openLink("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_dcumentation")
@@ -1059,7 +1061,7 @@ Window {
                     Button {
                         id: buttonNext
                         icon.name: "go-next"
-                        text: i18n("Start Editing")
+                        text: KI18n.i18n("Start Editing")
                         enabled: splash.actionsEnabled
                         onClicked: {
                             firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)

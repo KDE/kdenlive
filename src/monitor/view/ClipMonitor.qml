@@ -8,6 +8,8 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 import 'Utils.js' as Utils
 
@@ -363,7 +365,7 @@ Item {
                 background: Rectangle {
                     color: root.dropped ? "#99ff0000" : "#66004400"
                 }
-                text: i18n("%1fps", root.fps)
+                text: KI18n.i18n("%1fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
@@ -402,7 +404,7 @@ Item {
                     bottomMargin: overlayMargin
                 }
                 visible: root.showMarkers && controller.position == controller.zoneIn && root.duration > 0
-                text: controller.zoneIn == controller.zoneOut ? i18n("In/Out Point") : i18n("In Point")
+                text: controller.zoneIn == controller.zoneOut ? KI18n.i18n("In/Out Point") : KI18n.i18n("In Point")
                 color: "white"
                 background: Rectangle {
                     color: "#228b22"
@@ -425,7 +427,7 @@ Item {
                     bottomMargin: overlayMargin
                 }
                 visible: root.showMarkers && controller.position == controller.zoneOut && controller.zoneOut > controller.zoneIn
-                text: i18n("Out Point")
+                text: KI18n.i18n("Out Point")
                 color: "white"
                 background: Rectangle {
                     color: "#770000"
@@ -552,7 +554,7 @@ Item {
             ToolTip {
                 visible: cursorArea.containsMouse && !cursorArea.drag.active
                 delay: 1000
-                text: cursorArea.leftSide ? i18n("Drag to add only video to timeline") : i18n("Drag to add only audio to timeline")
+                text: cursorArea.leftSide ? KI18n.i18n("Drag to add only video to timeline") : KI18n.i18n("Drag to add only audio to timeline")
             }
         }
     }
@@ -576,7 +578,7 @@ Item {
                     showAnimate.restart()
                 }
             }
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
+            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
         }
         onExited: {
             controller.setWidgetKeyBinding();
@@ -613,7 +615,7 @@ Item {
                             anchors.leftMargin: 4
                             height: jobLabel.height
                             width: height
-                            toolTipText: i18n("Terminate Job")
+                            toolTipText: KI18n.i18n("Terminate Job")
                             onClicked: controller.terminateJob(uuid)
                         }
                         Text {

@@ -7,6 +7,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtMultimedia
 
+import org.kde.ki18n
+
 Rectangle {
     id: recbutton
     width: root.baseUnit * 1.5
@@ -145,7 +147,7 @@ Rectangle {
         visible: hoverArea.containsMouse
         delay: 1000
         timeout: 5000
-        text: isLocked ? i18n("Track is locked. Cannot start Recording.") : (i18n("Record") + timeline.getActionShortcut("audio_record"))
+        text: isLocked ? KI18n.i18n("Track is locked. Cannot start Recording.") : (KI18n.i18n("Record") + timeline.getActionShortcut("audio_record"))
     }
     
     // Recording Button
@@ -250,15 +252,15 @@ Rectangle {
         
         if (recState == MediaRecorder.RecordingState) {
             buttonFill.color = buttonFillColorStoppedRecording
-            ToolTip.text = i18n("Stop")
+            ToolTip.text = KI18n.i18n("Stop")
         } else if (recState == MediaRecorder.PausedState) {
             buttonFill.color = buttonFillColorPaused
             buttonFill.opacity = 1.0
-            ToolTip.text = i18n("Paused")
+            ToolTip.text = KI18n.i18n("Paused")
         } else {
             buttonFill.color = buttonFillColorStoppedRecording
             buttonFill.opacity = 1.0
-            ToolTip.text = isLocked ? i18n("Track is locked. Cannot start Recording.") : (i18n("Record") + timeline.getActionShortcut("audio_record"))
+            ToolTip.text = isLocked ? KI18n.i18n("Track is locked. Cannot start Recording.") : (KI18n.i18n("Record") + timeline.getActionShortcut("audio_record"))
         }
     }
 }

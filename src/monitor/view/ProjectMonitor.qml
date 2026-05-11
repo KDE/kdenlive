@@ -7,6 +7,8 @@ import QtQuick.Controls
 import QtQuick.Window
 import QtQuick
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 Item {
@@ -98,7 +100,7 @@ Item {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onEntered: {
-            controller.setWidgetKeyBinding(i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
+            controller.setWidgetKeyBinding(KI18n.i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
         }
         onExited: {
             controller.setWidgetKeyBinding();
@@ -192,7 +194,7 @@ Item {
                 background: Rectangle {
                     color: root.dropped ? "#99ff0000" : "#66004400"
                 }
-                text: i18n("%1fps", root.fps)
+                text: KI18n.i18n("%1fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
@@ -225,7 +227,7 @@ Item {
                     bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && controller.position == controller.zoneIn
-                text: i18n("In Point")
+                text: KI18n.i18n("In Point")
                 color: "white"
                 background: Rectangle {
                     color: "#228b22"
@@ -242,7 +244,7 @@ Item {
                     bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && controller.position == controller.zoneOut
-                text: i18n("Out Point")
+                text: KI18n.i18n("Out Point")
                 color: "white"
                 background: Rectangle {
                     color: "#770000"
@@ -296,7 +298,7 @@ Item {
                 anchors.fill: transformcontainer
                 hoverEnabled: true
                 iconName: "transform-crop"
-                toolTipText: i18nc("@tooltip Transform, a tool to resize", "Enable Transform")
+                toolTipText: KI18n.i18nc("@tooltip Transform, a tool to resize", "Enable Transform")
                 checkable: false
                 onClicked: {
                     controller.enableTransform()
