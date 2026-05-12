@@ -117,15 +117,62 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
     connect(pCore.get(), &Core::updateMixerLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, mixer.get(), &MixerWidget::clear);
     connect(mixer.get(), &MixerWidget::toggleSolo, this, [&](int trid, bool solo) {
+        bool additive = qApp->keyboardModifiers().testFlag(Qt::ShiftModifier);
+        bool preserveOtherSolos = !additive && m_soloTracks.size() > 1 && m_soloTracks.contains(trid);
         if (!solo) {
             // unmute
-            for (int id : std::as_const(m_soloMuted)) {
-                if (m_mixers.count(id) > 0) {
-                    m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
+            if (!additive && !preserveOtherSolos) {
+                for (int id : std::as_const(m_soloMuted)) {
+                    if (m_mixers.count(id) > 0) {
+                        m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
+                    }
+                }
+                if (m_mixers.count(trid) > 0 && m_mixers[trid]->isMute()) {
+                    m_model->setTrackProperty(trid, "hide", QStringLiteral("3"));
+                }
+                m_soloMuted.clear();
+                m_soloTracks.clear();
+            } else {
+                m_soloTracks.removeAll(trid);
+                if (m_soloTracks.isEmpty()) {
+                    for (int id : std::as_const(m_soloMuted)) {
+                        if (m_mixers.count(id) > 0) {
+                            m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
+                        }
+                    }
+                    if (m_mixers.count(trid) > 0 && m_mixers[trid]->isMute()) {
+                        m_model->setTrackProperty(trid, "hide", QStringLiteral("3"));
+                    }
+                    m_soloMuted.clear();
+                } else if (m_mixers.count(trid) > 0 && !m_mixers[trid]->isMute()) {
+                    m_model->setTrackProperty(trid, "hide", QStringLiteral("3"));
+                    if (!m_soloMuted.contains(trid)) {
+                        m_soloMuted << trid;
+                    }
+                } else if (m_mixers.count(trid) > 0) {
+                    m_model->setTrackProperty(trid, "hide", QStringLiteral("3"));
                 }
             }
-            m_soloMuted.clear();
-        } else {
+        } else if (additive) {
+            // solo on top of another solo
+            if (!m_soloTracks.contains(trid)) {
+                m_soloTracks << trid;
+            }
+            m_soloMuted.removeAll(trid);
+            m_model->setTrackProperty(trid, "hide", QStringLiteral("1"));
+            for (const auto &item : m_mixers) {
+                if (!m_soloTracks.contains(item.first)) {
+                        bool wasMuted = item.second->isMute();
+                        m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
+                        if (!m_soloMuted.contains(item.first) && !wasMuted) {
+                        m_soloMuted << item.first;
+                    }
+                    item.second->unSolo();
+                }
+            }
+        }
+        else {
+            m_soloTracks.clear(); // placed outside the if to avoid not clearing the old solo tracks if every other track was manually muted
             if (!m_soloMuted.isEmpty()) {
                 // Another track was solo, discard first
                 for (int id : std::as_const(m_soloMuted)) {
@@ -135,6 +182,9 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
                 }
                 m_soloMuted.clear();
             }
+            if (m_mixers.count(trid) > 0) {
+                m_model->setTrackProperty(trid, "hide", QStringLiteral("1"));
+            }
             for (const auto &item : m_mixers) {
                 if (item.first != trid && !item.second->isMute()) {
                     m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
@@ -142,6 +192,7 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
                     item.second->unSolo();
                 }
             }
+            m_soloTracks << trid;
         }
     });
 
@@ -176,6 +227,8 @@ void MixerManager::deregisterTrack(int tid)
         m_separators.erase(tid);
     }
 
+    m_soloTracks.removeAll(tid);
+    m_soloMuted.removeAll(tid);
     m_mixers.erase(tid);
 
     // Update background colors of remaining tracks to maintain alternating pattern
@@ -198,6 +251,8 @@ void MixerManager::cleanup()
     m_channelsLayout->addStretch(10);
     m_mixers.clear();
     m_separators.clear();
+    m_soloTracks.clear();
+    m_soloMuted.clear();
     m_monitorTrack = -1;
     if (m_masterMixer) {
         m_masterMixer->reset();

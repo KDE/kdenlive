@@ -262,7 +262,7 @@ void MixerWidget::buildControlButtons()
         m_solo->setCheckable(true);
         m_solo->setIcon(QIcon::fromTheme("headphones"));
         m_solo->setToolTip(i18n("Solo mode"));
-        m_solo->setWhatsThis(xi18nc("@info:whatsthis", "When selected mutes all other audio tracks."));
+        m_solo->setWhatsThis(xi18nc("@info:whatsthis", "When selected mutes all other audio tracks.\nUse Shift+Click to select multiple tracks to play at the same time."));
         m_solo->setAutoRaise(true);
 
         m_monitor = new QToolButton(this);
