@@ -781,7 +781,7 @@ Window {
                         Layout.fillWidth: true
                         textFormat: Text.StyledText
                         horizontalAlignment: Text.AlignJustify
-                        text: i18n("<b>Welcome to Kdenlive Quick Setup</b>")
+                        text: i18n("<h3>Welcome to Kdenlive Quick Setup</h3>")
                     }
 
                     Switch {
