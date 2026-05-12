@@ -168,6 +168,19 @@ Window {
             }
         }
 
+        Shortcut {
+            sequence: StandardKey.Quit
+            context: Qt.ApplicationShortcut
+            onActivated: splash.closeApp()
+        }
+
+        Shortcut {
+            sequence: StandardKey.Open
+            context: Qt.ApplicationShortcut
+            enabled: !splash.firstRun
+            onActivated: splash.openOtherFile()
+        }
+
         Item {
             id: header
             height: splashContent.height / 3
@@ -761,6 +774,9 @@ Window {
                 spacing: 10
 
                 ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignTop
                     Label {
                         Layout.fillWidth: true
                         textFormat: Text.StyledText
@@ -898,7 +914,6 @@ Window {
                                 Layout.fillWidth: true
                                 Row {
                                     spacing: 10
-
                                     Label {
                                         text: i18n("Resolution")
                                         verticalAlignment: Qt.AlignVCenter
