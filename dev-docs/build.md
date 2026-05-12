@@ -9,7 +9,7 @@ Currently supported GNU/Linux distributions are:
 * Ubuntu 26.04 (Resolute Raccoon) and derivatives, or later.
 * Arch Linux
 
-But it should work on any platforms fulfilling the requirements described below
+But it should work on any platform fulfilling the requirements described below.
 
 The minimum required dependencies are:
 - [Qt](https://doc.qt.io/) >= 6.10.0 (Kdenlive dropped Qt5 support with version 24.12)
@@ -20,6 +20,12 @@ The minimum required dependencies are:
 
 Kdenlive usually requires the latest version of MLT, in which go several API updates, bugfixes and optimizations.
 So, except if your distribution ships a very recent version of MLT, you'll have to build MLT alongside kdenlive.
+
+You can check your installed MLT version with:
+
+```bash
+melt --version
+```
 
 It is recommended to uninstall the official kdenlive packages to avoid potential conflicts.
 
@@ -213,7 +219,9 @@ kdenlive
 
 ## <a name="build-craft">Build with KDE Craft (Linux, Windows, macOS)</a>
 
-[Craft](https://community.kde.org/Craft) is a tool to build the sources and its third-party requirements. It is an easy way to build software, but however not ideal if you want to build Kdenlive for development purposes.
+[Craft](https://community.kde.org/Craft) is a convenient tool for building and packaging Kdenlive and its third-party dependencies across Linux, Windows and macOS.
+
+It is well suited for quickly setting up a working build environment or creating distributable packages. However, manual builds are generally preferred for active development workflows, debugging and dependency customization.
 
 1. Set up Craft as described [here](https://community.kde.org/Craft#Setting_up_Craft). (On Windows choose MinGW as compiler!)
 2. Start building kdenlive. You can simply run `craft --option kdenlive.version=master kdenlive`
@@ -225,9 +233,9 @@ kdenlive
 * If you want to compile the stable version instead of the master branch with that last changes, remove `--option kdenlive.version=master` from the craft command: `craft kdenlive`
 * If you want to compile a specific branch from the kdenlive repository use `craft --option kdenlive.version=master --option kdenlive.branch=BRANCHNAME kdenlive` where `BRANCHNAME` is the name of the branch.
 * With Craft you can also easily package Kdenlive as `.dmg`, `.exe` or `.appimage` (depending on your platform): `craft --target=master --package kdenlive` The output can be found in `CraftRoot/tmp`
-* For more instructions and tipps on Craft see https://community.kde.org/Craft
+* For more instructions and tips on Craft see https://community.kde.org/Craft
 
-## Various development tricks
+## Optional advanced development tools
 
 ### Debugging
 
