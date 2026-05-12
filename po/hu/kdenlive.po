@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 00:43+0000\n"
+"POT-Creation-Date: 2026-05-12 00:44+0000\n"
 "PO-Revision-Date: 2026-01-29 22:59+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -20189,7 +20189,7 @@ msgstr "Lejátszólista klip"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2810 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1669 src/project/projectmanager.cpp:1671
+#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1675
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
@@ -21487,7 +21487,7 @@ msgid "Disable GPU processing"
 msgstr "Proxyk törlése"
 
 #: src/core.cpp:265 src/core.cpp:349 src/core.cpp:523
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:873
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -22260,7 +22260,7 @@ msgstr "Jelölők betöltése"
 #: src/project/dialogs/archivewidget.cpp:927
 #: src/project/dialogs/archivewidget.cpp:939
 #: src/project/dialogs/archivewidget.cpp:945
-#: src/project/projectmanager.cpp:1982 src/project/projectmanager.cpp:1988
+#: src/project/projectmanager.cpp:1986 src/project/projectmanager.cpp:1992
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -22360,7 +22360,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1871
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1875
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -25876,8 +25876,8 @@ msgstr "A következő effektusok kerültek importálásra a projektből:"
 msgid "Invalid file path"
 msgstr "Érvénytelen klip"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:850
+#: src/project/projectmanager.cpp:902
 #, fuzzy, kde-format
 msgid "Could not recover corrupted file."
 msgstr "A súgófájl nem nyitható meg – %s nem található."
@@ -25964,8 +25964,8 @@ msgstr ""
 "A projektfájl a legújabb Kdenlive dokumentum verzióra lett frissítve, de nem "
 "volt lehetséges a(z) %1 biztonsági mentés létrehozása."
 
-#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1543
-#: src/project/projectmanager.cpp:1579
+#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1583
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -29684,13 +29684,13 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:603
+#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:607
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Üres hely eszköz nem használható zárolt sávokon"
 
-#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:613
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, target directory already exists: %1"
@@ -32979,12 +32979,12 @@ msgstr "Csoport mentése"
 msgid "Open Backup File…"
 msgstr "Biztonsági mentés fájl megnyitása"
 
-#: src/project/projectmanager.cpp:423
+#: src/project/projectmanager.cpp:427
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Menti a dokumentum változásait?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1808
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1812
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32992,18 +32992,18 @@ msgid ""
 msgstr ""
 "A(z)  <b>„%1”</b> projekt megváltozott. El kívánja menteni a változásokat? "
 
-#: src/project/projectmanager.cpp:544
+#: src/project/projectmanager.cpp:548
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:578
+#: src/project/projectmanager.cpp:582
 #, fuzzy, kde-format
 #| msgid "Waiting to process clip"
 msgid "Saving successful"
 msgstr "Várakozás a klip feldolgozására"
 
-#: src/project/projectmanager.cpp:591
+#: src/project/projectmanager.cpp:595
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -33011,48 +33011,48 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:632
+#: src/project/projectmanager.cpp:636
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Mentés ide"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:751
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr ""
 "Automatikusan mentett fájlok is léteznek. Vissza kívánja álltani a fájlokat?"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "File Recovery"
 msgstr "Fájl helyreállítás"
 
-#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:888
 #, kde-format
 msgid "Recover"
 msgstr "Helyreállítás"
 
-#: src/project/projectmanager.cpp:748
+#: src/project/projectmanager.cpp:752
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "Ne állítsa helyre"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:795
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "File %1 does not exist"
 msgstr "Kategória"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:827
 #, kde-format
 msgid "Opening file %1"
 msgstr "A(z) %1 fájl megnyitása"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:887
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open the project file, error is:\n"
@@ -33067,46 +33067,46 @@ msgstr ""
 "%1\n"
 "Szeretné megnyitni a biztonsági másolat fájlt?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1137
 #, kde-format
 msgid "Error opening file"
 msgstr "Hiba történt a fájl megnyitásakor"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1134
+#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1138
 #, kde-format
 msgid "Open Backup"
 msgstr "Biztonsági mentés megnyitása"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:906
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Nem lehet megnyitni a(z) %1 projektfájlt"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:923
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:994
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Loading timeline…"
 msgstr "Új átmenetek letöltése…"
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1017
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Building sequences…"
 msgstr "Sorozat előnézete"
 
-#: src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:1164
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -33114,7 +33114,7 @@ msgid ""
 "%1\n"
 msgstr "Nem lehet megnyitni a(z) %1 projektfájlt"
 
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1204
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -33123,51 +33123,51 @@ msgstr ""
 "Ez a művelet eltávolítja az összes módosítást, amelyet a projekt legutóbbi "
 "mentése óta végzett. Biztosan végre kívánja hajtani a műveletet?"
 
-#: src/project/projectmanager.cpp:1201
+#: src/project/projectmanager.cpp:1205
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Visszatérés a dokumentum legutóbb mentett változatához"
 
-#: src/project/projectmanager.cpp:1300
+#: src/project/projectmanager.cpp:1304
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1521
+#: src/project/projectmanager.cpp:1525
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Projektmappa: %1"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1561
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Projekt mappa használata"
 
-#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1704
-#: src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1652 src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1712
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Sorozatnév"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1663
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1800 src/project/projectmanager.cpp:1813
-#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1846
+#: src/project/projectmanager.cpp:1804 src/project/projectmanager.cpp:1817
+#: src/project/projectmanager.cpp:1841 src/project/projectmanager.cpp:1850
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:1976
+#: src/project/projectmanager.cpp:1980
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -33175,13 +33175,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/project/projectmanager.cpp:2001
+#: src/project/projectmanager.cpp:2005
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:2065
+#: src/project/projectmanager.cpp:2069
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -33189,36 +33189,36 @@ msgid ""
 "%1"
 msgstr "%1 fogyasztó nem hozható létre."
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2158
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2399 src/project/projectmanager.cpp:2451
+#: src/project/projectmanager.cpp:2403 src/project/projectmanager.cpp:2455
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/project/projectmanager.cpp:2409 src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2464
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Sequence creation failed"
 msgstr "Átmenet kiválasztása"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2440
 #, fuzzy, kde-format
 #| msgid "You cannot include the current Kdenlive document in itself."
 msgid "Cannot insert sequence in current timeline"
 msgstr "Nem lehet beszúrni az aktuális Kdenlive dokumentumot saját magába."
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2444
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
 msgstr "Új szekvencia készítése"
 
-#: src/project/projectmanager.cpp:2478
+#: src/project/projectmanager.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Copy clips to new Sequence"

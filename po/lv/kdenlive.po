@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 00:43+0000\n"
+"POT-Creation-Date: 2026-05-12 00:44+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -20555,7 +20555,7 @@ msgstr "Repertuārs"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2810 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1669 src/project/projectmanager.cpp:1671
+#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1675
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -21735,7 +21735,7 @@ msgid "Disable GPU processing"
 msgstr "Izslēgt GPU apstrādi"
 
 #: src/core.cpp:265 src/core.cpp:349 src/core.cpp:523
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:873
 #, kde-format
 msgid "Loading project…"
 msgstr "Ielādē projektu…"
@@ -22492,7 +22492,7 @@ msgstr "Eksportēt palīgnorāžu datus"
 #: src/project/dialogs/archivewidget.cpp:927
 #: src/project/dialogs/archivewidget.cpp:939
 #: src/project/dialogs/archivewidget.cpp:945
-#: src/project/projectmanager.cpp:1982 src/project/projectmanager.cpp:1988
+#: src/project/projectmanager.cpp:1986 src/project/projectmanager.cpp:1992
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -22597,7 +22597,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Ja nezināt, mēģiniet:<br/><b>unikods (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1871
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1875
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -25999,8 +25999,8 @@ msgstr "Šie filtri/pārejas projektā ir dzēstas:"
 msgid "Invalid file path"
 msgstr "Nederīgs datnes ceļš"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:850
+#: src/project/projectmanager.cpp:902
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Nevar atgūt bojātu datni."
@@ -26079,8 +26079,8 @@ msgstr ""
 "Projekta datne ir atjaunināta uz pēdējo „Kdenlive“ dokumenta versiju, bet "
 "nebija iespējams izveidot dublējumu „%1“."
 
-#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1543
-#: src/project/projectmanager.cpp:1579
+#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1583
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Kļūda, pārvietojot projekta mapi: %1"
@@ -29628,12 +29628,12 @@ msgstr ""
 "Šī darbība pārvietos visas pagaidu datnes no<br/><b>%1</b> uz <b>%2</b>,<br/"
 ">bet projekta datne tiks pārlādēta"
 
-#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:603
+#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:607
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Nevar izpildīt darbību, nederīgs dokumenta ID: %1"
 
-#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:613
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Nevar veikt darbību, mērķa mape jau pastāv: %1"
@@ -32837,12 +32837,12 @@ msgstr "Saglabāt kopiju…"
 msgid "Open Backup File…"
 msgstr "Atvērt dublējuma datni…"
 
-#: src/project/projectmanager.cpp:423
+#: src/project/projectmanager.cpp:427
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Vai saglabāt dokumenta izmaiņas?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1808
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1812
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32851,17 +32851,17 @@ msgstr ""
 "Projekts <b>„%1“</b> ir izmainīts.\n"
 "Vai vēlaties izmaiņas saglabāt?"
 
-#: src/project/projectmanager.cpp:544
+#: src/project/projectmanager.cpp:548
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Projekta datnes <br><b>„%1“</B> saglabāšana neizdevās"
 
-#: src/project/projectmanager.cpp:578
+#: src/project/projectmanager.cpp:582
 #, kde-format
 msgid "Saving successful"
 msgstr "Saglabāšana izdevās"
 
-#: src/project/projectmanager.cpp:591
+#: src/project/projectmanager.cpp:595
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -32873,44 +32873,44 @@ msgstr ""
 "pārvietos visas pagaidu datnes no  <b>%1</b> uz <b>%2</b>, pēc tam projekta "
 "datne tiks pārlādēta"
 
-#: src/project/projectmanager.cpp:632
+#: src/project/projectmanager.cpp:636
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Saglabāt kopiju"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Pastāv automātiski saglabāta datne. Vai vēlaties atgūt no tās?"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "File Recovery"
 msgstr "Datnes atgūšana"
 
-#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:888
 #, kde-format
 msgid "Recover"
 msgstr "Atgūt"
 
-#: src/project/projectmanager.cpp:748
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Do not recover"
 msgstr "Neatgūt"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:795
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "Marķieru kategorija nepastāv"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:827
 #, kde-format
 msgid "Opening file %1"
 msgstr "Atver datni „%1“"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32921,29 +32921,29 @@ msgstr ""
 "%1\n"
 "Vai vēlaties atvērt dublējuma datni?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1137
 #, kde-format
 msgid "Error opening file"
 msgstr "Kļūda, atverot datni"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1134
+#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1138
 #, kde-format
 msgid "Open Backup"
 msgstr "Atvērt dublējumu"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:906
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Neizdevās atvērt projekta datnes dublējumu."
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Jūsu projekts ir atjaunināts, nākamās saglabāšanas laikā tiks izveidots "
 "dublējums"
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:923
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -32951,17 +32951,17 @@ msgstr ""
 "Jūsu projekts ir izmainīts pēc atvēršanas, nākamās saglabāšanas laikā tiks "
 "izveidots dublējums."
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:994
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Ielādē laika joslu…"
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1017
 #, kde-format
 msgid "Building sequences…"
 msgstr "Būvē sekvences…"
 
-#: src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:1164
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32970,7 +32970,7 @@ msgstr ""
 "Nevar atvērt projekta datni. Kļūda:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1204
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32979,12 +32979,12 @@ msgstr ""
 "Šī darbība dzēsīs visas izmaiņas, ko veicāt pēc pēdējās projekta "
 "saglabāšanas. Vai tiešām vēlaties turpināt?"
 
-#: src/project/projectmanager.cpp:1201
+#: src/project/projectmanager.cpp:1205
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Atgriezties pie pēdējās saglabātās versijas"
 
-#: src/project/projectmanager.cpp:1300
+#: src/project/projectmanager.cpp:1304
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -32993,23 +32993,23 @@ msgstr ""
 "Projekts ir bojāts, to nevar dublēt. Aizveriet un no jauna atveriet projekta "
 "datni, lai atgūtu no pēdējā dublējuma."
 
-#: src/project/projectmanager.cpp:1521
+#: src/project/projectmanager.cpp:1525
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Kļūda, pārvietojot projekta mapi, nevar piekļūt kešatmiņas mapei"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1561
 #, kde-format
 msgid "Moving project folder"
 msgstr "Pārvieto projekta mapi"
 
-#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1704
-#: src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1652 src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1712
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvence 1"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1663
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -33017,13 +33017,13 @@ msgstr ""
 "Projekta datne ir bojāta — neizdevās ielādēt celiņus. Vai mēģināt atrast "
 "dublējuma datni?"
 
-#: src/project/projectmanager.cpp:1800 src/project/projectmanager.cpp:1813
-#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1846
+#: src/project/projectmanager.cpp:1804 src/project/projectmanager.cpp:1817
+#: src/project/projectmanager.cpp:1841 src/project/projectmanager.cpp:1850
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projekta profila izmaiņas ir atceltas"
 
-#: src/project/projectmanager.cpp:1976
+#: src/project/projectmanager.cpp:1980
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -33032,12 +33032,12 @@ msgstr ""
 "Izvades datne „%1“ jau pastāv.\n"
 "Vai vēlaties to pārrakstīt?"
 
-#: src/project/projectmanager.cpp:2001
+#: src/project/projectmanager.cpp:2005
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projekta profils ir nomainīts"
 
-#: src/project/projectmanager.cpp:2065
+#: src/project/projectmanager.cpp:2069
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -33046,34 +33046,34 @@ msgstr ""
 "Nevar izveidot laika joslu no šī klipa:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2158
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Importē sekvences klipu. Šī darbība šobrīd ir eksperimentālā stadijā"
 
-#: src/project/projectmanager.cpp:2399 src/project/projectmanager.cpp:2451
+#: src/project/projectmanager.cpp:2403 src/project/projectmanager.cpp:2455
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Atlasīt klipu, lai izveidotu sekvenci"
 
-#: src/project/projectmanager.cpp:2409 src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2464
 #, fuzzy, kde-format
 #| msgid "Mask creation"
 msgid "Sequence creation failed"
 msgstr "Maskas izveide"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2440
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Nevarat ievietot sekvenci, kas satur pati sevi"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2444
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Izveidot sekvences klipu"
 
-#: src/project/projectmanager.cpp:2478
+#: src/project/projectmanager.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"

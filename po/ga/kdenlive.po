@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 00:43+0000\n"
+"POT-Creation-Date: 2026-05-12 00:44+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -19958,7 +19958,7 @@ msgstr "Seinmliosta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2810 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1669 src/project/projectmanager.cpp:1671
+#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1675
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -21134,7 +21134,7 @@ msgid "Disable GPU processing"
 msgstr "Díchumasaigh próiseáil GPU"
 
 #: src/core.cpp:265 src/core.cpp:349 src/core.cpp:523
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:873
 #, kde-format
 msgid "Loading project…"
 msgstr "Ag lódáil an tionscadail…"
@@ -21892,7 +21892,7 @@ msgstr "Easpórtáil Sonraí Marcóirí"
 #: src/project/dialogs/archivewidget.cpp:927
 #: src/project/dialogs/archivewidget.cpp:939
 #: src/project/dialogs/archivewidget.cpp:945
-#: src/project/projectmanager.cpp:1982 src/project/projectmanager.cpp:1988
+#: src/project/projectmanager.cpp:1986 src/project/projectmanager.cpp:1992
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21985,7 +21985,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Mura bhfuil tú cinnte, bain triail as:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1871
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1875
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -25406,8 +25406,8 @@ msgstr "Scriosadh na scagairí/aistrithe seo a leanas ón tionscadal:"
 msgid "Invalid file path"
 msgstr "Cosán comhaid neamhbhailí"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:850
+#: src/project/projectmanager.cpp:902
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Níorbh fhéidir an comhad truaillithe a aisghabháil."
@@ -25489,8 +25489,8 @@ msgstr ""
 "Uasghrádaíodh do chomhad tionscadail go dtí an leagan is déanaí de "
 "dhoiciméad Kdenlive, ach níorbh fhéidir an chóip chúltaca %1 a chruthú."
 
-#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1543
-#: src/project/projectmanager.cpp:1579
+#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1583
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Earráid ag bogadh fillteán tionscadail: %1"
@@ -29020,13 +29020,13 @@ msgstr ""
 "Bogfaidh sé seo na comhaid shealadacha go léir ó<br/><b>%1</b> go <b>%2</b>,"
 "<br/>athlódálfar an comhad tionscadail ansin"
 
-#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:603
+#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:607
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Ní féidir an oibríocht a dhéanamh, aitheantas doiciméad neamhbhailí: %1"
 
-#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:613
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -32219,12 +32219,12 @@ msgstr "Sábháil Cóip…"
 msgid "Open Backup File…"
 msgstr "Oscail Comhad Cúltaca…"
 
-#: src/project/projectmanager.cpp:423
+#: src/project/projectmanager.cpp:427
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Sábháil athruithe ar an doiciméad?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1808
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1812
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32233,17 +32233,17 @@ msgstr ""
 "Tá an tionscadal <b>\"%1\"</b> athraithe.\n"
 "Ar mhaith leat do chuid athruithe a shábháil?"
 
-#: src/project/projectmanager.cpp:544
+#: src/project/projectmanager.cpp:548
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Theip ar chomhad tionscadail <b>%1</B> a shábháil"
 
-#: src/project/projectmanager.cpp:578
+#: src/project/projectmanager.cpp:582
 #, kde-format
 msgid "Saving successful"
 msgstr "Sábháil rathúil"
 
-#: src/project/projectmanager.cpp:591
+#: src/project/projectmanager.cpp:595
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -32255,43 +32255,43 @@ msgstr ""
 "comhaid shealadacha go léir ó <b>%1</b> go <b>%2</b>, agus athlódálfar an "
 "comhad tionscadail ansin"
 
-#: src/project/projectmanager.cpp:632
+#: src/project/projectmanager.cpp:636
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Sábháil Cóip"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Tá comhad uath-shábháilte ann. Ar mhaith leat é a aisghabháil anois?"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "File Recovery"
 msgstr "Athshlánú Comhaid"
 
-#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:888
 #, kde-format
 msgid "Recover"
 msgstr "Aisghabháil"
 
-#: src/project/projectmanager.cpp:748
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Do not recover"
 msgstr "Ná téarnamh"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:795
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "Níl comhad %1 ann"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:827
 #, kde-format
 msgid "Opening file %1"
 msgstr "Ag oscailt comhaid %1"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32302,29 +32302,29 @@ msgstr ""
 "%1\n"
 "Ar mhaith leat comhad cúltaca a oscailt?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1137
 #, kde-format
 msgid "Error opening file"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1134
+#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1138
 #, kde-format
 msgid "Open Backup"
 msgstr "Oscail Cúltaca"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:906
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Níorbh fhéidir an comhad tionscadail cúltaca a oscailt."
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Rinneadh uasghrádú ar do thionscadal, cruthófar cúltaca an chéad uair eile a "
 "shábhálfar é"
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:923
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -32332,17 +32332,17 @@ msgstr ""
 "Rinneadh do thionscadal a mhodhnú nuair a osclaíodh é, cruthófar cúltaca an "
 "chéad uair eile a shábhálfar é"
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:994
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Ag lódáil an amlíne…"
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1017
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sraitheanna tógála…"
 
-#: src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:1164
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32351,7 +32351,7 @@ msgstr ""
 "Ní féidir an comhad tionscadail a oscailt. Earráid:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1204
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32360,12 +32360,12 @@ msgstr ""
 "Scriosfaidh sé seo gach athrú a rinneadh ó shábháil tú do thionscadal go "
 "deireanach. An bhfuil tú cinnte gur mian leat leanúint ar aghaidh?"
 
-#: src/project/projectmanager.cpp:1201
+#: src/project/projectmanager.cpp:1205
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Fill ar an leagan sábháilte deireanach"
 
-#: src/project/projectmanager.cpp:1300
+#: src/project/projectmanager.cpp:1304
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -32375,25 +32375,25 @@ msgstr ""
 "athoscail do chomhad tionscadail le do thoil chun an cúltaca deireanach a "
 "aisghabháil"
 
-#: src/project/projectmanager.cpp:1521
+#: src/project/projectmanager.cpp:1525
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Earráid ag bogadh fillteán tionscadail, ní féidir rochtain a fháil ar an "
 "bhfillteán taisce"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1561
 #, kde-format
 msgid "Moving project folder"
 msgstr "Ag bogadh fillteán tionscadail"
 
-#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1704
-#: src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1652 src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1712
 #, kde-format
 msgid "Sequence 1"
 msgstr "Seicheamh 1"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1663
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -32401,13 +32401,13 @@ msgstr ""
 "Tá an comhad tionscadail truaillithe - theip ar na rianta a luchtú. Déan "
 "iarracht comhad cúltaca a aimsiú?"
 
-#: src/project/projectmanager.cpp:1800 src/project/projectmanager.cpp:1813
-#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1846
+#: src/project/projectmanager.cpp:1804 src/project/projectmanager.cpp:1817
+#: src/project/projectmanager.cpp:1841 src/project/projectmanager.cpp:1850
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Cuireadh deireadh le hathrú próifíl an tionscadail"
 
-#: src/project/projectmanager.cpp:1976
+#: src/project/projectmanager.cpp:1980
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -32416,12 +32416,12 @@ msgstr ""
 "Tá comhad aschuir %1 ann cheana féin.\n"
 "Ar mhaith leat é a athscríobh?"
 
-#: src/project/projectmanager.cpp:2001
+#: src/project/projectmanager.cpp:2005
 #, kde-format
 msgid "Project profile changed"
 msgstr "Athraíodh próifíl an tionscadail"
 
-#: src/project/projectmanager.cpp:2065
+#: src/project/projectmanager.cpp:2069
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -32430,34 +32430,34 @@ msgstr ""
 "Ní féidir amlíne a chruthú ón ngearrthóg seo:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2158
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Ag allmhairiú gearrthóg seicheamhach, tá sé seo i riocht turgnamhach faoi "
 "láthair"
 
-#: src/project/projectmanager.cpp:2399 src/project/projectmanager.cpp:2451
+#: src/project/projectmanager.cpp:2403 src/project/projectmanager.cpp:2455
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Roghnaigh gearrthóg chun seicheamh a chruthú"
 
-#: src/project/projectmanager.cpp:2409 src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2464
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Theip ar chruthú seicheamh"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2440
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Ní féidir seicheamh a chur isteach san amlíne reatha"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2444
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Cruthaigh Gearrthóg Seicheamh"
 
-#: src/project/projectmanager.cpp:2478
+#: src/project/projectmanager.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
