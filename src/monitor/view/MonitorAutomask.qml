@@ -301,7 +301,7 @@ Item {
                 visible: root.maskMode != K.MaskModeType.MaskPreview
                 onSourceChanged: {
                     generateLabel.visible = false
-                    if (opacity == 0 && source != '') {
+                    if (opacity === 0 && source.toString() !== '') {
                         // Update opacity to ensure we see something
                         controller.maskOpacity = 50
                     }
