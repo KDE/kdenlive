@@ -14,7 +14,7 @@ But it should work on any platforms fulfilling the requirements described below
 The minimum required dependencies are:
 - [Qt](https://doc.qt.io/) >= 6.10.0 (Kdenlive dropped Qt5 support with version 24.12)
 - [KDE frameworks 6 (KF6)](https://develop.kde.org/products/frameworks/) >= 6.21,
-- [MLT](https://www.mltframework.org/) >= 7.28.0.
+- [MLT](https://www.mltframework.org/) >= 7.38.0.
 
 ## Building on Linux
 
