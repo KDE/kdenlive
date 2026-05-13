@@ -365,6 +365,14 @@ public:
      * @return The suggested snap position
      */
     Q_INVOKABLE int suggestSnapPoint(int position, int snapDistance);
+    /** @brief Snap a playhead position to the closest snap point within snapDistance
+     *  Unlike suggestSnapPoint, this does not treat the current playhead position as
+     *  a snap point, so the playhead will not snap to itself while being dragged.
+     *  @param position The candidate position
+     *  @param snapDistance The maximum distance to snap to (or -1 to disable snapping)
+     *  @return The suggested snap position
+     */
+    Q_INVOKABLE int suggestPlayheadSnapPoint(int position, int snapDistance);
     /** @brief Create a range marker from the current timeline zone
      * @param comment Optional comment for the marker
      * @param type Marker type

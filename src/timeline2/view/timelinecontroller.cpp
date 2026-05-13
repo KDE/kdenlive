@@ -6221,6 +6221,14 @@ int TimelineController::suggestSnapPoint(int position, int snapDistance)
     return m_model->suggestSnapPoint(position, snapDistance);
 }
 
+int TimelineController::suggestPlayheadSnapPoint(int position, int snapDistance)
+{
+    if (snapDistance <= 0) {
+        return position;
+    }
+    return m_model->suggestPlayheadSnapPoint(position, snapDistance);
+}
+
 bool TimelineController::createRangeMarkerFromZone(const QString &comment, int type)
 {
     if (m_zone.isNull() || m_zone.x() >= m_zone.y()) {

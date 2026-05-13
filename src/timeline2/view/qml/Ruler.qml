@@ -573,6 +573,9 @@ Item {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
                 var frame = Math.round(pos / timeline.scaleFactor)
+                if (mouse.modifiers & Qt.AltModifier) {
+                    frame = controller.suggestPlayheadSnapPoint(frame, root.snapping)
+                }
                 proxy.position = frame
                 mouse.accepted = true
             }
@@ -581,6 +584,9 @@ Item {
             if (mouse.buttons === Qt.LeftButton && pressed) {
                 var pos = Math.max(mouseX, 0)
                 var frame = Math.round(pos / timeline.scaleFactor)
+                if (mouse.modifiers & Qt.AltModifier) {
+                    frame = controller.suggestPlayheadSnapPoint(frame, root.snapping)
+                }
                 proxy.position = frame
             }
         }

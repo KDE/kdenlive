@@ -6065,6 +6065,15 @@ int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
     return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
 }
 
+int TimelineModel::suggestPlayheadSnapPoint(int pos, int snapDistance)
+{
+    int snapped = m_snaps->getClosestPoint(pos);
+    if (snapped < 0) {
+        return pos;
+    }
+    return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
+}
+
 int TimelineModel::getBestSnapPos(int referencePos, int diff, std::vector<int> pts, int cursorPosition, int snapDistance, bool fakeMove)
 {
     if (!pts.empty()) {
