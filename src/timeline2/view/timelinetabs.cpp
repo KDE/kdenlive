@@ -393,6 +393,7 @@ void TimelineTabs::buildClipMenu()
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_remap")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_in_project_tree")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("cut_timeline_clip")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("replace_timeline_clip")));
 }
 
 void TimelineTabs::setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,

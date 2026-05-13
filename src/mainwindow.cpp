@@ -2017,6 +2017,10 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
               Qt::SHIFT | Qt::Key_R);
 
+    addAction(QStringLiteral("replace_timeline_clip"), i18n("Replace Timeline Clip"), this, SLOT(slotReplaceTimelineClip()),
+              QIcon::fromTheme(QStringLiteral("edit-find-replace")), QKeySequence());
+    act->setData('C');
+
     addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()),
               QIcon::fromTheme(QStringLiteral("edit-cut")), Qt::CTRL | Qt::SHIFT | Qt::Key_R);
 
@@ -3390,6 +3394,11 @@ void MainWindow::slotDeleteAllGuides()
 void MainWindow::slotCutTimelineClip()
 {
     getCurrentTimeline()->controller()->cutClipUnderCursor();
+}
+
+void MainWindow::slotReplaceTimelineClip()
+{
+    getCurrentTimeline()->controller()->replaceClip();
 }
 
 void MainWindow::slotCutTimelineAllClips()

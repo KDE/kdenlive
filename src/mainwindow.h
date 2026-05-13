@@ -493,6 +493,7 @@ private Q_SLOTS:
     void slotAddMarkerGuideQuickly();
     void slotAddMarkerWithCategory();
     void slotCutTimelineClip();
+    void slotReplaceTimelineClip();
     void slotCutTimelineAllClips();
     void slotInsertClipOverwrite();
     void slotInsertClipInsert();

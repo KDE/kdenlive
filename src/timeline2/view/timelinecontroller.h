@@ -747,6 +747,7 @@ public:
 
 public Q_SLOTS:
     void updateClipActions();
+    void replaceClip();
     void resetView();
     void setAudioTarget(const QMap<int, int> &tracks);
     Q_INVOKABLE void switchAudioTarget(int trackId);
