@@ -39,7 +39,7 @@ Rectangle {
     property int trimmingClickFrame: -1
 
     function screenForGlobalPos(globalPos) {
-        const screens = Qt.application.screens
+        const screens = Application.screens
         if (!screens || screens.length === 0) {
             return null
         }
@@ -1604,7 +1604,7 @@ function getTrackColor(audio, header) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
                     var dy = rubberSelect.originY - (mouseY - ruler.height + scrollView.contentY)
-                    if ((Math.abs(dx) + Math.abs(dy)) > Qt.styleHints.startDragDistance) {
+                    if ((Math.abs(dx) + Math.abs(dy)) > Application.styleHints.startDragDistance) {
                         rubberSelect.visible = true
                     }
                 }

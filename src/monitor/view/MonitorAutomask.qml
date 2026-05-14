@@ -206,7 +206,7 @@ Item {
                     handleEvent = mouse.button == Qt.LeftButton
                 }
                 onPositionChanged: mouse => {
-                    if (pressed && !isPanEvent && root.maskMode < 2 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                    if (pressed && !isPanEvent && root.maskMode < 2 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Application.styleHints.startDragDistance)) {
                         isPanEvent = true
                         mouse.accepted = true;
                     } else if (!isPanEvent) {
@@ -219,7 +219,7 @@ Item {
                             if (mouseY < clickPointY) {
                                 selectionRect.y = mouseY
                             }
-                        } else if (pressed && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                        } else if (pressed && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Application.styleHints.startDragDistance)) {
                             isRectEvent = true
                             selectionRect.visible = true
                             if (mouseX < selectionRect.x) {
