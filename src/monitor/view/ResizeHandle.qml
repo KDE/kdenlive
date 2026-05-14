@@ -48,32 +48,152 @@ Rectangle {
     signal addRemoveKeyframe()
 
     // Conditional anchoring based on handle type
-    anchors.top: (handleType === ResizeLogic.HandleTypes.TOP_LEFT || 
-                  handleType === ResizeLogic.HandleTypes.TOP || 
-                  handleType === ResizeLogic.HandleTypes.TOP_RIGHT) ? parent.top : undefined
-    anchors.topMargin: anchors.top ? handlesTopMargin : 0
-    
-    anchors.bottom: (handleType === ResizeLogic.HandleTypes.BOTTOM_LEFT || 
-                     handleType === ResizeLogic.HandleTypes.BOTTOM || 
-                     handleType === ResizeLogic.HandleTypes.BOTTOM_RIGHT) ? parent.bottom : undefined
-    anchors.bottomMargin: anchors.bottom ? handlesBottomMargin : 0
-    
-    anchors.left: (handleType === ResizeLogic.HandleTypes.TOP_LEFT || 
-                   handleType === ResizeLogic.HandleTypes.LEFT || 
-                   handleType === ResizeLogic.HandleTypes.BOTTOM_LEFT) ? parent.left : undefined
-    anchors.leftMargin: anchors.left ? handlesLeftMargin : 0
-    
-    anchors.right: (handleType === ResizeLogic.HandleTypes.TOP_RIGHT || 
-                    handleType === ResizeLogic.HandleTypes.RIGHT || 
-                    handleType === ResizeLogic.HandleTypes.BOTTOM_RIGHT) ? parent.right : undefined
-    anchors.rightMargin: anchors.right ? handlesRightMargin : 0
-    
-    anchors.horizontalCenter: (handleType === ResizeLogic.HandleTypes.TOP || 
-                               handleType === ResizeLogic.HandleTypes.BOTTOM) ? parent.horizontalCenter : undefined
-    
-    anchors.verticalCenter: (handleType === ResizeLogic.HandleTypes.LEFT || 
-                             handleType === ResizeLogic.HandleTypes.RIGHT) ? parent.verticalCenter : undefined
-    
+    states: [
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.TOP_LEFT
+            AnchorChanges {
+                target: handle
+                anchors.top: parent.top
+                anchors.verticalCenter: undefined
+                anchors.bottom: undefined
+                anchors.left: parent.left
+                anchors.horizontalCenter: undefined
+                anchors.right: undefined
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: handlesTopMargin
+                handle.anchors.bottomMargin: 0
+                handle.anchors.rightMargin: 0
+                handle.anchors.leftMargin: handlesLeftMargin
+            }
+        },
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.TOP
+            AnchorChanges {
+                target: handle
+                anchors.top: parent.top
+                anchors.verticalCenter: undefined
+                anchors.bottom: undefined
+                anchors.left: undefined
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.right: undefined
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: handlesTopMargin
+                handle.anchors.bottomMargin: 0
+                handle.anchors.rightMargin: 0
+                handle.anchors.leftMargin: 0
+            }
+        },
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.TOP_RIGHT
+            AnchorChanges {
+                target: handle
+                anchors.top: parent.top
+                anchors.verticalCenter: undefined
+                anchors.bottom: undefined
+                anchors.left: undefined
+                anchors.horizontalCenter: undefined
+                anchors.right: parent.right
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: handlesTopMargin
+                handle.anchors.bottomMargin: 0
+                handle.anchors.rightMargin: handlesRightMargin
+                handle.anchors.leftMargin: 0
+            }
+        },
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.RIGHT
+            AnchorChanges {
+                target: handle
+                anchors.top: undefined
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: undefined
+                anchors.left: undefined
+                anchors.horizontalCenter: undefined
+                anchors.right: parent.right
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: 0
+                handle.anchors.bottomMargin: 0
+                handle.anchors.rightMargin: handlesRightMargin
+                handle.anchors.leftMargin: 0
+            }
+        },
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.BOTTOM_RIGHT
+            AnchorChanges {
+                target: handle
+                anchors.top: undefined
+                anchors.verticalCenter: undefined
+                anchors.bottom: parent.bottom
+                anchors.left: undefined
+                anchors.horizontalCenter: undefined
+                anchors.right: parent.right
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: 0
+                handle.anchors.bottomMargin: handlesBottomMargin
+                handle.anchors.rightMargin: handlesRightMargin
+                handle.anchors.leftMargin: 0
+            }
+        },
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.BOTTOM
+            AnchorChanges {
+                target: handle
+                anchors.top: undefined
+                anchors.verticalCenter: undefined
+                anchors.bottom: parent.bottom
+                anchors.left: undefined
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.right: undefined
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: 0
+                handle.anchors.bottomMargin: handlesBottomMargin
+                handle.anchors.rightMargin: 0
+                handle.anchors.leftMargin: 0
+            }
+        },
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.BOTTOM_LEFT
+            AnchorChanges {
+                target: handle
+                anchors.top: undefined
+                anchors.verticalCenter: undefined
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.horizontalCenter: undefined
+                anchors.right: undefined
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: 0
+                handle.anchors.bottomMargin: handlesBottomMargin
+                handle.anchors.rightMargin: 0
+                handle.anchors.leftMargin: handlesLeftMargin
+            }
+        },
+        State {
+            when: handle.handleType === ResizeLogic.HandleTypes.LEFT
+            AnchorChanges {
+                target: handle
+                anchors.top: undefined
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: undefined
+                anchors.left: parent.left
+                anchors.horizontalCenter: undefined
+                anchors.right: undefined
+            }
+            PropertyChanges {
+                handle.anchors.topMargin: 0
+                handle.anchors.bottomMargin: 0
+                handle.anchors.rightMargin: 0
+                handle.anchors.leftMargin: handlesLeftMargin
+            }
+        }
+    ]
 
     MouseArea {
         id: mouseArea
