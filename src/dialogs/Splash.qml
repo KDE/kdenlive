@@ -263,7 +263,7 @@ Window {
 
                 Item {
                     Layout.fillWidth: true
-                    height: childrenRect.height
+                    Layout.preferredHeight: childrenRect.height
 
                     Button {
                         id: openButton
@@ -435,8 +435,8 @@ Window {
                 }
 
                 Item {
-                    height: childrenRect.height
-                    width: templateSeparator.width
+                    Layout.preferredHeight: childrenRect.height
+                    Layout.preferredWidth: templateSeparator.width
 
                     Button {
                         id: newProjectButton
@@ -806,7 +806,7 @@ Window {
 
                     Rectangle {
                         Layout.fillWidth: true
-                        height: childrenRect.height + 2 * 14
+                        Layout.minimumHeight: childrenRect.height + 2 * 14
                         radius: 5
                         color: Qt.darker(splashContent.color, 1.4)
 
@@ -820,11 +820,12 @@ Window {
 
                             ColumnLayout {
                                 Layout.fillWidth: false
+                                // Layout.preferredWidth: horizontalFrame.implicitWidth
 
                                 Rectangle {
                                     id: horizontalFrame
-                                    height: buttonNext.height * 1.4
-                                    width: height * 16 / 9
+                                    implicitHeight: buttonNext.height * 1.4
+                                    implicitWidth: horizontalFrame.implicitHeight * 16 / 9
                                     Layout.alignment: Qt.AlignHCenter
                                     radius: 5
                                     property bool checked: true
@@ -870,8 +871,8 @@ Window {
 
                                 Rectangle {
                                     id: verticalFrame
-                                    height: horizontalFrame.height
-                                    width: height * 9 / 16
+                                    implicitHeight: horizontalFrame.implicitHeight
+                                    implicitWidth: verticalFrame.implicitHeight * 9 / 16
                                     Layout.alignment: Qt.AlignHCenter
                                     radius: 5
                                     property bool checked: false
@@ -981,30 +982,26 @@ Window {
                         }
 
                     }
-                    Item {
-                        Layout.fillWidth: true
-                        height: vTracks.height
-                        RowLayout {
-                            anchors.left: parent.left
-                            spacing: 10
-                            height: vTracks.height
-                            Label {
-                                text: KI18n.i18n("Video Tracks")
-                                Layout.alignment: Qt.AlignVCenter
-                            }
-                            SpinBox {
-                                id: vTracks
-                                value: 2
 
-                            }
-                            Label {
-                                text: KI18n.i18n("Audio Tracks")
-                                Layout.alignment: Qt.AlignVCenter
-                            }
-                            SpinBox {
-                                id: aTracks
-                                value: 2
-                            }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 10
+                        Label {
+                            text: KI18n.i18n("Video Tracks")
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+                        SpinBox {
+                            id: vTracks
+                            value: 2
+
+                        }
+                        Label {
+                            text: KI18n.i18n("Audio Tracks")
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+                        SpinBox {
+                            id: aTracks
+                            value: 2
                         }
                     }
 
@@ -1014,35 +1011,34 @@ Window {
                         text: KI18n.i18n("This can always be changed later in the Settings.")
                         font.italic: true
                     }
-                    Item {
+                    Rectangle {
                         // Crash recovery
                         visible: splash.crashRecovery
                         Layout.fillWidth: true
-                        height: Math.max(restartWelcomeButton.height, restartWelcomeLabel.height) + 10
-                        Rectangle {
+                        Layout.minimumHeight: crashRecoveryLayout.implicitHeight + radius * 2
+
+                        color: "#22FF0000"
+                        radius: 5
+
+                        RowLayout {
+                            id: crashRecoveryLayout
                             anchors.fill: parent
-                            color: "#22FF0000"
-                            radius: 5
-                        }
-                        Label {
-                            id: restartWelcomeLabel
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.left: parent.left
-                            anchors.leftMargin: 10
-                            anchors.right: restartWelcomeButton.left
-                            text: KI18n.i18n("Kdenlive crashed on last start. Reset config and restart?")
-                            Layout.alignment: Qt.AlignVCenter
-                            wrapMode: Text.Wrap
-                        }
-                        Button {
-                            id: restartWelcomeButton
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.right: parent.right
-                            anchors.rightMargin: 10
-                            enabled: splash.actionsEnabled
-                            text: KI18n.i18n("Reset")
-                            icon.name: "view-refresh"
-                            onClicked: resetConfig()
+                            anchors.leftMargin: parent.radius * 2
+                            anchors.rightMargin: parent.radius * 2
+                            Label {
+                                id: restartWelcomeLabel
+                                text: KI18n.i18n("Kdenlive crashed on last start. Reset config and restart?")
+                                Layout.alignment: Qt.AlignVCenter
+                                wrapMode: Text.Wrap
+                            }
+                            Button {
+                                id: restartWelcomeButton
+                                enabled: splash.actionsEnabled
+                                text: KI18n.i18n("Reset")
+                                icon.name: "view-refresh"
+                                Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+                                onClicked: resetConfig()
+                            }
                         }
                     }
 

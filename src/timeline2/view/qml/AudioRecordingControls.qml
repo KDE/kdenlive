@@ -16,7 +16,7 @@ Item {
     
     RowLayout {
         spacing: 12
-        Layout.fillWidth: true
+        anchors.fill: parent
         
         AudioRecordButton {
             recState: recContainer.recState
@@ -25,8 +25,10 @@ Item {
         }
         
         AudioLevels {
-            width: recContainer.width - parent.children[0].width - 16
-            height: parent.children[0].height - 1
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.rightMargin: 5
+            Layout.bottomMargin: 1
             audioLevels: audiorec.levels !== undefined ? audiorec.levels : []
         }
     }
