@@ -56,16 +56,14 @@ Rectangle {
             name: 'current'
             when: trackHeadRoot.current
             PropertyChanges {
-                target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
+                trackHeadRoot.color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
             }
         },
         State {
             when: !trackHeadRoot.current
             name: 'normal'
             PropertyChanges {
-                target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : getTrackColor(isAudio, true)
+                trackHeadRoot.color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : getTrackColor(isAudio, true)
             }
         }
     ]
@@ -173,28 +171,25 @@ Rectangle {
             name: 'target'
             when: (trackHeadRoot.isAudio && timeline.audioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId === timeline.videoTarget)
             PropertyChanges {
-                target: trackTarget
-                bgColor: timeline.targetColor
-                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+                trackTarget.bgColor: timeline.targetColor
+                trackTarget.text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
             }
         },
         State {
             name: 'inactiveTarget'
             when: (trackHeadRoot.isAudio && timeline.lastAudioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastVideoTarget)
             PropertyChanges {
-                target: trackTarget
-                opacity: 0.3
-                bgColor: activePalette.text
-                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+                trackTarget.opacity: 0.3
+                trackTarget.bgColor: activePalette.text
+                trackTarget.text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
             }
         },
         State {
             name: 'noTarget'
             when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
             PropertyChanges {
-                target: trackTarget
-                bgColor: activePalette.base
-                text: ''
+                trackTarget.bgColor: activePalette.base
+                trackTarget.text: ''
             }
         }
     ]
@@ -293,25 +288,22 @@ Rectangle {
                     name: 'locked'
                     when: trackHeadRoot.isLocked
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: 'red'
+                        trackLed.bgColor: 'red'
                     }
                 },
                 State {
                     name: 'active'
                     when: trackHeadRoot.isActive
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: timeline.targetColor
-                        color: timeline.targetTextColor
+                        trackLed.bgColor: timeline.targetColor
+                        trackLed.color: timeline.targetTextColor
                     }
                 },
                 State {
                     name: 'inactive'
                     when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: Qt.darker(trackHeadRoot.color, 0.55)
+                        trackLed.bgColor: Qt.darker(trackHeadRoot.color, 0.55)
                     }
                 }
             ]

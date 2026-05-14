@@ -196,22 +196,19 @@ Item {
                 name: 'normal'
                 when: !compositionRoot.selected
                 PropertyChanges {
-                    target: compositionRoot
-                    z: 0
+                    compositionRoot.z: 0
                 }
             },
             State {
                 name: 'selected'
                 when: compositionRoot.selected
                 PropertyChanges {
-                    target: compositionRoot
-                    z: 1
+                    compositionRoot.z: 1
                 }
                 PropertyChanges {
-                    target: displayRect
-                    height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, root.baseUnit)
-                    color: 'mediumpurple'
-                    border.color: root.selectionColor
+                    displayRect.height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, root.baseUnit)
+                    displayRect.color: 'mediumpurple'
+                    displayRect.border.color: root.selectionColor
                 }
             }
         ]
@@ -481,10 +478,10 @@ Item {
                 }
                 states: [
                     State { when: !compositionRoot.hideDecorations
-                        PropertyChanges { target: labelRect; opacity: 1.0 }
+                        PropertyChanges { labelRect.opacity: 1.0 }
                     },
                     State { when: compositionRoot.hideDecorations
-                        PropertyChanges { target: labelRect; opacity: 0.0 }
+                        PropertyChanges { labelRect.opacity: 0.0 }
                     }
                 ]
                 transitions: Transition {

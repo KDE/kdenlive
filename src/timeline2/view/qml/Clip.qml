@@ -1245,10 +1245,10 @@ Rectangle {
                 clip: true
                 states: [
                     State { when: !clipRoot.hideDecorations
-                        PropertyChanges { target: nameContainer; opacity: 1.0 }
+                        PropertyChanges { nameContainer.opacity: 1.0 }
                     },
                     State { when: clipRoot.hideDecorations
-                        PropertyChanges { target: nameContainer; opacity: 0.0 }
+                        PropertyChanges { nameContainer.opacity: 0.0 }
                     }
                 ]
                 transitions: Transition {
@@ -1524,28 +1524,25 @@ Rectangle {
                 name: 'locked'
                 when: clipRoot.isLocked === true
                 PropertyChanges {
-                    target: clipRoot
-                    color: root.lockedColor
-                    opacity: 0.8
-                    z: 0
+                    clipRoot.color: root.lockedColor
+                    clipRoot.opacity: 0.8
+                    clipRoot.z: 0
                 }
             },
             State {
                 name: 'normal'
                 when: clipRoot.selected === false
                 PropertyChanges {
-                    target: clipRoot
-                    color: Qt.darker(getColor(), 1.5)
-                    z: 0
+                    clipRoot.color: Qt.darker(getColor(), 1.5)
+                    clipRoot.z: 0
                 }
             },
             State {
                 name: 'selectedClip'
                 when: clipRoot.selected === true
                 PropertyChanges {
-                    target: clipRoot
-                    color: getColor()
-                    z: 3
+                    clipRoot.color: getColor()
+                    clipRoot.z: 3
                 }
             }
         ]
