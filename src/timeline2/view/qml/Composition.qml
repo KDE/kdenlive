@@ -75,8 +75,9 @@ Item {
         }
         updateLabelOffset()
         if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -131,7 +132,7 @@ Item {
 
     function resetSelection() {
         if (effectRow.visible) {
-            effectRow.item.resetSelection()
+            (effectRow.item as KeyframeView).resetSelection()
         }
     }
 
@@ -152,8 +153,9 @@ Item {
         if (compositionRoot.visible) {
             updateLabelOffset()
             if (!compositionRoot.hideClipViews) {
-                if (effectRow.item && effectRow.item.kfrCanvas) {
-                    effectRow.item.kfrCanvas.requestPaint()
+                let kfrView = effectRow.item as KeyframeView
+                if (kfrView && kfrView.kfrCanvas) {
+                    kfrView.kfrCanvas.requestPaint()
                 }
             }
         }

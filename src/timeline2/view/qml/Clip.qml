@@ -105,11 +105,12 @@ Rectangle {
         //console.log('SCROLL START: ', clipRoot.scrollStart, '; VISIBLE: ', clipRoot.visible)
         updateLabelOffset()
         if (isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload(1)
+            (thumbsLoader.item as ClipAudioThumbs).reload(1)
         }
         if (!clipRoot.hideClipViews && clipRoot.width > scrollView.width) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -139,7 +140,7 @@ Rectangle {
 
     function resetSelection() {
         if (effectRow.visible) {
-            effectRow.item.resetSelection()
+            (effectRow.item as KeyframeView).resetSelection()
         }
     }
 
@@ -163,7 +164,7 @@ Rectangle {
         width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
-            thumbsLoader.item.reload(1)
+            (thumbsLoader.item as ClipAudioThumbs).reload(1)
         }
     }
 
@@ -199,7 +200,7 @@ Rectangle {
             return;
         }
         if (thumbsLoader.item) {
-            thumbsLoader.item.reload(0)
+            (thumbsLoader.item as ClipAudioThumbs).reload(0)
         }
     }
 
@@ -209,8 +210,9 @@ Rectangle {
         width = clipDuration * clipRoot.timeScale;
         if (clipRoot.visible) {
             if (!clipRoot.hideClipViews) {
-                if (effectRow.item && effectRow.item.kfrCanvas) {
-                    effectRow.item.kfrCanvas.requestPaint()
+                let kfrView = effectRow.item as KeyframeView
+                if (kfrView && kfrView.kfrCanvas) {
+                    kfrView.kfrCanvas.requestPaint()
                 }
             }
         }
