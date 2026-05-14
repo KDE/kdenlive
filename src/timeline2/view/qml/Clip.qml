@@ -261,11 +261,11 @@ Rectangle {
     }
 
     property bool noThumbs: (isAudio || itemType === K.ClipType.Color || mltService === '')
-    property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
+    property url baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot
-        keys: 'kdenlive/effect'
+        keys: ['kdenlive/effect']
         property string dropData
         property string dropSource
         onEntered: drag => {

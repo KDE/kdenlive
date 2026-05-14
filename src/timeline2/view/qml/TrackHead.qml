@@ -592,7 +592,7 @@ Rectangle {
     DropArea { //Drop area for tracks
         anchors.fill: trackHeadRoot
         anchors.bottomMargin: resizer.height
-        keys: 'kdenlive/effect'
+        keys: ['kdenlive/effect']
         property string dropData
         property string dropSource
         onEntered: drag => {
