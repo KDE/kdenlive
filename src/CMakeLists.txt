@@ -177,6 +177,7 @@ ecm_target_qml_sources(kdenliveLib
     timeline2/view/qml/ClipThumbs.qml
     timeline2/view/qml/ClipAudioThumbs.qml
     timeline2/view/qml/KeyframeView.qml
+    timeline2/view/qml/KeyframeDelegate.qml
     timeline2/view/qml/Composition.qml
     timeline2/view/qml/PulsingAnimation.qml
     timeline2/view/qml/CornerSelectionShadow.qml
