@@ -74,7 +74,7 @@ Item {
             return
         }
         updateLabelOffset()
-        if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
+        if (compositionRoot.width > scrollView.width) {
             let kfrView = effectRow.item as KeyframeView
             if (kfrView && kfrView.kfrCanvas) {
                 kfrView.kfrCanvas.requestPaint()
@@ -152,11 +152,9 @@ Item {
         width = clipDuration * timeScale;
         if (compositionRoot.visible) {
             updateLabelOffset()
-            if (!compositionRoot.hideClipViews) {
-                let kfrView = effectRow.item as KeyframeView
-                if (kfrView && kfrView.kfrCanvas) {
-                    kfrView.kfrCanvas.requestPaint()
-                }
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -503,11 +501,11 @@ Item {
             active: compositionRoot.visible
             asynchronous: true
             visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
-            source: compositionRoot.hideClipViews || compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
+            source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {
                     target: effectRow.item
                     property: "kfrModel"
-                    value: compositionRoot.hideClipViews ? undefined : compositionRoot.keyframeModel
+                    value: compositionRoot.keyframeModel
                     when: effectRow.status == Loader.Ready && effectRow.item
                 }
                 Binding {
