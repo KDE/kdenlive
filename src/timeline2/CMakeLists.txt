@@ -10,6 +10,7 @@ set(kdenlive_SRCS
   timeline2/model/snapmodel.cpp
   timeline2/model/clipsnapmodel.cpp
   timeline2/model/timelinefunctions.cpp
+  timeline2/model/timelinemixmanager.cpp
   timeline2/model/timelineitemmodel.cpp
   timeline2/model/timelinemodel.cpp
   timeline2/model/trackmodel.cpp

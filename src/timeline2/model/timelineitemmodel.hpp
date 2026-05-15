@@ -111,6 +111,7 @@ public:
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false) override;
     void removeTrackCompositing() override;
+    TimelineMixManager *mixManager();
     /** @brief Register all tracks in the mixer */
     void rebuildMixer();
     int getEndMixDuration(int cid) const;

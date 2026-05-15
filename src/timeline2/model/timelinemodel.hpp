@@ -28,6 +28,7 @@ class GroupsModel;
 class SnapModel;
 class SubtitleModel;
 class TimelineItemModel;
+class TimelineMixManager;
 class TrackModel;
 class ProfileModel;
 class MarkerListModel;
@@ -107,6 +108,7 @@ public:
     friend class MarkerListModel;
     friend class TimeRemap;
     friend struct TimelineFunctions;
+    friend class TimelineMixManager;
     friend class KdenliveTests;
     friend class OtioExport;
     friend class OtioImport;
@@ -241,8 +243,6 @@ public:
     int getSubtitleLayer(int subId) const;
     int getCompositionPlaytime(int compoId) const;
     int getCompositionEnd(int compoId) const;
-    std::pair<int, int> getMixInOut(int cid) const;
-    int getMixDuration(int cid) const;
 
     /** @brief Returns an item position, item can be clip, subtitle or composition */
     Q_INVOKABLE int getItemPosition(int itemId) const;
@@ -519,9 +519,7 @@ public:
      *  @param compoId the name of the new composition we want to insert
      */
     void switchComposition(int cid, const QString &compoId);
-    /**  @brief Plant a same track composition in track tid
-     */
-    bool plantMix(int tid, Mlt::Transition *t);
+
     bool removeMixWithUndo(int cid, Fun &undo, Fun &redo);
     bool removeMix(int cid);
     /**  @brief Returns a list of the master effects zones
@@ -953,11 +951,6 @@ public:
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
     /** @brief Create a mix selection with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
     bool mixClip(int idToMove = -1, const QString &mixId = QStringLiteral("luma"), int delta = 0);
-    Q_INVOKABLE bool resizeStartMix(int cid, int duration, bool singleResize);
-    void requestResizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
-    /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
-    int getMixCutPos(int cid) const;
-    MixAlignment getMixAlign(int cid) const;
     bool hasSubtitleModel();
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
@@ -1123,6 +1116,7 @@ protected:
     std::unordered_set<int> m_allGroups; /// ids of all the groups
 
     std::weak_ptr<DocUndoStack> m_undoStack;
+    std::unique_ptr<TimelineMixManager> m_mixManager{nullptr};
 
     // The black track producer. Its length / out should always be adjusted to the projects's length
     std::unique_ptr<Mlt::Producer> m_blackClip;

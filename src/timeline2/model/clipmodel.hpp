@@ -183,6 +183,7 @@ public:
     friend class TimelineItemModel;
     friend class TimelineController;
     friend struct TimelineFunctions;
+    friend class TimelineMixManager;
     friend class OtioExport;
     friend class OtioImport;
 

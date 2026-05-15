@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/guideslist.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "timeline2/model/timelinemixmanager.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include <mlt++/MltRepository.h>
@@ -1167,7 +1168,7 @@ int Core::getItemPosition(const ObjectId &id)
         break;
     case KdenliveObjectType::TimelineMix:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
-            return currentDoc()->getTimeline(id.uuid)->getMixInOut(id.itemId).first;
+            return currentDoc()->getTimeline(id.uuid)->mixManager()->getMixInOut(id.itemId).first;
         } else {
             qWarning() << "querying non clip properties";
         }
@@ -1261,7 +1262,7 @@ int Core::getItemDuration(const ObjectId &id)
         return currentDoc()->getTimeline(id.uuid)->duration();
     case KdenliveObjectType::TimelineMix:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
-            return currentDoc()->getTimeline(id.uuid)->getMixDuration(id.itemId);
+            return currentDoc()->getTimeline(id.uuid)->mixManager()->getMixDuration(id.itemId);
         } else {
             qWarning() << "querying non clip properties";
         }

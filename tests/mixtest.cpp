@@ -7,6 +7,7 @@
 // test specific headers
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "timeline2/model/timelinemixmanager.hpp"
 #include <QString>
 #include <cmath>
 #include <iostream>
@@ -145,7 +146,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid1) == 100);
         REQUIRE(timeline->getClipPlaytime(cid2) > 30);
         REQUIRE(timeline->getClipPosition(cid2) < 130);
-        REQUIRE(timeline->getMixDuration(cid2) == mixDuration);
+        REQUIRE(timeline->mixManager()->getMixDuration(cid2) == mixDuration);
         REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
         REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
     };

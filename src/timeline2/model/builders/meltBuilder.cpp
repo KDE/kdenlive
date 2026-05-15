@@ -6,6 +6,7 @@
 #include "meltBuilder.hpp"
 #include "../clipmodel.hpp"
 #include "../timelineitemmodel.hpp"
+#include "../timelinemixmanager.hpp"
 #include "../timelinemodel.hpp"
 #include "../trackmodel.hpp"
 #include "../undohelper.hpp"
@@ -689,7 +690,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
     // Load same track mixes
     for (auto compo : std::as_const(compositions)) {
-        if (!timeline->plantMix(tid, compo)) {
+        if (!timeline->mixManager()->plantMix(tid, compo)) {
             // There is an error with a mix, we have overlapping clips
             int in = compo->get_in();
             int out = compo->get_out() - 1;

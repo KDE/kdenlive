@@ -20,6 +20,7 @@
 #include "macros.hpp"
 #include "snapmodel.hpp"
 #include "timeline2/view/previewmanager.h"
+#include "timelinemixmanager.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <QDebug>
@@ -1211,4 +1212,12 @@ int TimelineItemModel::getEndMixDuration(int cid) const
         }
     }
     return 0;
+}
+
+TimelineMixManager *TimelineItemModel::mixManager()
+{
+    if (!m_mixManager) {
+        m_mixManager.reset(new TimelineMixManager(std::static_pointer_cast<TimelineItemModel>(shared_from_this()), this));
+    }
+    return m_mixManager.get();
 }

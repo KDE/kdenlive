@@ -54,6 +54,7 @@ public:
     friend class CompositionModel;
     friend class TimelineController;
     friend struct TimelineFunctions;
+    friend class TimelineMixManager;
     friend class TimelineItemModel;
     friend class TimelineModel;
     friend class OtioExport;

@@ -33,8 +33,8 @@
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
-#include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/timelinefunctions.hpp"
+#include "timeline2/model/timelinemixmanager.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/spacerdialog.h"
@@ -414,7 +414,7 @@ bool TimelineController::selectCurrentItem(KdenliveObjectType type, bool select,
             if (m_model->hasClipEndMix(currentClip)) {
                 int mixPartner = m_model->getTrackById_const(m_activeTrack)->getSecondMixPartner(currentClip);
                 int clipEnd = m_model->getClipPosition(currentClip) + m_model->getClipPlaytime(currentClip);
-                int mixStart = clipEnd - m_model->getMixDuration(mixPartner);
+                int mixStart = clipEnd - m_model->mixManager()->getMixDuration(mixPartner);
                 if (mixStart < pCore->getMonitorPosition() && pCore->getMonitorPosition() < clipEnd) {
                     if (select) {
                         m_model->requestMixSelection(mixPartner);
@@ -426,7 +426,7 @@ bool TimelineController::selectCurrentItem(KdenliveObjectType type, bool select,
                 }
             }
             int delta = pCore->getMonitorPosition() - m_model->getClipPosition(currentClip);
-            if (m_model->getMixDuration(currentClip) >= delta) {
+            if (m_model->mixManager()->getMixDuration(currentClip) >= delta) {
                 if (select) {
                     m_model->requestMixSelection(currentClip);
                     return true;
@@ -5829,18 +5829,18 @@ int TimelineController::clipMaxDuration(int cid)
 void TimelineController::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
     if (cid > -1) {
-        m_model->requestResizeMix(cid, duration, align, leftFrames);
+        m_model->mixManager()->requestResizeMix(cid, duration, align, leftFrames);
     }
 }
 
 int TimelineController::getMixCutPos(int cid) const
 {
-    return m_model->getMixCutPos(cid);
+    return m_model->mixManager()->getMixCutPos(cid);
 }
 
 MixAlignment TimelineController::getMixAlign(int cid) const
 {
-    return m_model->getMixAlign(cid);
+    return m_model->mixManager()->getMixAlign(cid);
 }
 
 void TimelineController::processMultitrackOperation(int tid, int in)
