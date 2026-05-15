@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-14 00:42+0000\n"
-"PO-Revision-Date: 2026-05-13 08:50+0300\n"
+"POT-Creation-Date: 2026-05-15 00:44+0000\n"
+"PO-Revision-Date: 2026-05-14 08:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -9921,63 +9921,54 @@ msgid "Source Color"
 msgstr "Вихідний колір"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color balance"
+#, kde-format
 msgid "Color Enhance"
-msgstr "Баланс кольорів"
+msgstr "Підсилення кольорів"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:5
 #, kde-format
 msgid "Enhances the color contrast for vivid images"
-msgstr ""
+msgstr "Покращує контрастність кольорів для яскравих зображень"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:8
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel A Base"
-msgstr "Канали"
+msgstr "Основа каналу A"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:9
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for A channel."
-msgstr "Яскравість зображення. Середня точка сигмоїди"
+msgstr "Середня точка сигмоїди для каналу A."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:12
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel B Base"
-msgstr "Канали"
+msgstr "Основа каналу B"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:13
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for B channel."
-msgstr "Яскравість зображення. Середня точка сигмоїди"
+msgstr "Середня точка сигмоїди для каналу B."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:16
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel A Slope"
-msgstr "Зміна швидкості"
+msgstr "Нахил каналу A"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:17
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for A channel."
-msgstr "Встановити рівень вхідного сигналу початкового каналу."
+msgstr "Крутизна сигмоїди для каналу A."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:20
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel B Slope"
-msgstr "Зміна швидкості"
+msgstr "Нахил каналу B"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:21
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for B channel."
-msgstr "Встановити рівень вхідного сигналу початкового каналу."
+msgstr "Крутизна сигмоїди для каналу B."
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
@@ -11756,7 +11747,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:650
-#: src/dialogs/Splash.qml:1043 src/layouts/layoutmanagerdialog.cpp:99
+#: src/dialogs/Splash.qml:1037 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -17094,12 +17085,12 @@ msgstr "Кінцева амплітуда"
 msgid "Wave Amplitude"
 msgstr "Амплітуда хвилі"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:861
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:862
 #, kde-format
 msgid "Horizontal"
 msgstr "Горизонтально"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:908
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:909
 #, kde-format
 msgid "Vertical"
 msgstr "Вертикально"
@@ -19489,7 +19480,7 @@ msgstr "Перетягніть, щоб додати на монтажний ст
 msgid "Drag to add only video to timeline"
 msgstr "Перетягніть, щоб додати на монтажний стіл лише відеодані"
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1414
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1416
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -20907,12 +20898,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Відтворити мультимедіа"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Unmute"
 msgstr "Увімкнути звук"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Mute"
 msgstr "Вимкнути звук"
@@ -24130,7 +24121,7 @@ msgstr "Вилучити профіль зі списку"
 msgid "Show on Startup"
 msgstr "Показувати при запуску"
 
-#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1033
+#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1030
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
@@ -24168,19 +24159,19 @@ msgid "<b>Default Project Profile</b>"
 msgstr "<b>Типовий профіль проєкту</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:920 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:921 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Роздільна здатність"
 
-#: src/dialogs/Splash.qml:947
+#: src/dialogs/Splash.qml:948
 #, kde-format
 msgid "Frame Rate"
 msgstr "Частота кадрів"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:973
+#: src/dialogs/Splash.qml:974
 #: src/mltcontroller/clippropertiescontroller.cpp:687
 #: src/mltcontroller/clippropertiescontroller.cpp:1369
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24189,27 +24180,27 @@ msgstr "Частота кадрів"
 msgid "Interlaced"
 msgstr "Черезрядкове"
 
-#: src/dialogs/Splash.qml:992
+#: src/dialogs/Splash.qml:990
 #, kde-format
 msgid "Video Tracks"
 msgstr "Відеодоріжки"
 
-#: src/dialogs/Splash.qml:1001
+#: src/dialogs/Splash.qml:999
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Звукові доріжки"
 
-#: src/dialogs/Splash.qml:1014
+#: src/dialogs/Splash.qml:1011
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Це завжди можна потім змінити у параметрах роботи програми."
 
-#: src/dialogs/Splash.qml:1055
+#: src/dialogs/Splash.qml:1051
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Ознайомитися із документацією в інтернеті"
 
-#: src/dialogs/Splash.qml:1064
+#: src/dialogs/Splash.qml:1060
 #, kde-format
 msgid "Start Editing"
 msgstr "Почати редагування"
@@ -28622,10 +28613,9 @@ msgid "Cut Clip"
 msgstr "Розрізати кліп"
 
 #: src/mainwindow.cpp:2020
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace Timeline Clip"
-msgstr "Замінити на монтажному столі"
+msgstr "Заміна кліпу на монтажному столі"
 
 #: src/mainwindow.cpp:2024
 #, kde-format
@@ -34440,14 +34430,14 @@ msgstr "Змінити швидкість кліпу"
 
 #: src/timeline2/model/timelinemodel.cpp:7759
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокувати доріжку"
 
 #: src/timeline2/model/timelinemodel.cpp:7764
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Unlock track"
 msgstr "Розблокувати доріжку"
@@ -34580,22 +34570,22 @@ msgstr "Мінімальна швидкість — %1"
 msgid "Maximum speed is %1"
 msgstr "Максимальна швидкість — %1"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, kde-format
 msgid "Delete Track(s)"
 msgstr "Вилучення доріжок"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, kde-format
 msgid "Add Track"
 msgstr "Додати доріжку"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:39
+#: src/timeline2/view/dialogs/trackdialog.cpp:41
 #, kde-format
 msgid "Select tracks to be deleted :"
 msgstr "Виберіть доріжки для вилучення:"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:48
+#: src/timeline2/view/dialogs/trackdialog.cpp:50
 #, kde-format
 msgctxt "Spinbox suffix"
 msgid " track"
@@ -34604,6 +34594,15 @@ msgstr[0] " доріжка"
 msgstr[1] " доріжки"
 msgstr[2] " доріжок"
 msgstr[3] " доріжка"
+
+#: src/timeline2/view/dialogs/trackdialog.cpp:108
+#, kde-format
+msgid "Warning: %1 clip will be deleted."
+msgid_plural "Warning: %1 clips will be deleted."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format
@@ -34655,49 +34654,49 @@ msgid "Stop"
 msgstr "Зупинити"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:259
-#: src/timeline2/view/qml/Timeline.qml:2296
+#: src/timeline2/view/qml/Timeline.qml:2304
 #, kde-format
 msgid "Paused"
 msgstr "Призупинено"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1196
+#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:1198
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2–%3), позиція: %4, тривалість: %5"
 
-#: src/timeline2/view/qml/Clip.qml:331 src/timeline2/view/qml/Clip.qml:345
+#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:347
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "Позиція: %1"
 
-#: src/timeline2/view/qml/Clip.qml:546
+#: src/timeline2/view/qml/Clip.qml:548
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Тривалість мікшування: %1, обрізано на: %2"
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:606
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, тривалість мікшування: %2"
 
-#: src/timeline2/view/qml/Clip.qml:606
+#: src/timeline2/view/qml/Clip.qml:608
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, тривалість мікшування: %2"
 
-#: src/timeline2/view/qml/Clip.qml:609 src/timeline2/view/qml/Clip.qml:624
+#: src/timeline2/view/qml/Clip.qml:611 src/timeline2/view/qml/Clip.qml:626
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Тривалість мікшування: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1081
+#: src/timeline2/view/qml/Clip.qml:1083
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Вхід: %1, позиція: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1084 src/timeline2/view/qml/Clip.qml:1186
+#: src/timeline2/view/qml/Clip.qml:1086 src/timeline2/view/qml/Clip.qml:1188
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34706,72 +34705,72 @@ msgstr ""
 "<b>Ctrl + перетягування</b> — змінити швидкість, <b>подвійне клацання</b> — "
 "мікшувати із сусіднім кліпом"
 
-#: src/timeline2/view/qml/Clip.qml:1086
+#: src/timeline2/view/qml/Clip.qml:1088
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Перетягніть</b>, щоб змінити тривалість мікшування"
 
-#: src/timeline2/view/qml/Clip.qml:1183
+#: src/timeline2/view/qml/Clip.qml:1185
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Вихід: %1, позиція: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Зміщення: –%1"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, kde-format
 msgid "Offset: %1"
 msgstr "Зміщення: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1325
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Клацніть</b>, щоб вирівняти кліпи"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1570 src/timeline2/view/qml/Clip.qml:1611
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Клацніть</b>, щоб додати композицію"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1692 src/timeline2/view/qml/Clip.qml:1699
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Зменшення гучності: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1814
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Перетягування</b> — коригування згасання, <b>клацання</b> — додавання "
 "згасання із типовою тривалістю"
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1803 src/timeline2/view/qml/Clip.qml:1810
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Збільшення гучності: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1898
 #, kde-format
 msgid "Slip Clip"
 msgstr "Зсунути кліп"
 
-#: src/timeline2/view/qml/Composition.qml:267
+#: src/timeline2/view/qml/Composition.qml:264
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, позиція: %2, тривалість: %3"
 
-#: src/timeline2/view/qml/Composition.qml:338
-#: src/timeline2/view/qml/Composition.qml:406
+#: src/timeline2/view/qml/Composition.qml:335
+#: src/timeline2/view/qml/Composition.qml:403
 #: src/timeline2/view/qml/SubTitle.qml:357
 #: src/timeline2/view/qml/SubTitle.qml:464
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Перетягніть</b>, щоб змінити розмір"
 
-#: src/timeline2/view/qml/KeyframeView.qml:173
+#: src/timeline2/view/qml/KeyframeDelegate.qml:82
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -34780,7 +34779,7 @@ msgstr ""
 "<b>Перетягніть</b>, щоб пересунути позначені ключові кадри. <b>Перетягніть "
 "із утриманням Shift</b> для пересування усіх ключових кадрів після цього."
 
-#: src/timeline2/view/qml/KeyframeView.qml:286
+#: src/timeline2/view/qml/KeyframeDelegate.qml:195
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -34806,14 +34805,14 @@ msgid "Speech recognition"
 msgstr "Розпізнавання мовлення"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408
+#: src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Show"
 msgstr "Показати"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/TrackHead.qml:400 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Приховати"
@@ -34833,23 +34832,23 @@ msgstr[3] "Звук: %1 доріжка для %2 потоків"
 msgid "Show sequence effects"
 msgstr "Показати ефекти послідовності"
 
-#: src/timeline2/view/qml/Timeline.qml:1922
+#: src/timeline2/view/qml/Timeline.qml:1930
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Подвійне клацання</b> — додати субтитри"
 
-#: src/timeline2/view/qml/Timeline.qml:2116
+#: src/timeline2/view/qml/Timeline.qml:2124
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Зсув: %1, позиція: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2285
-#: src/timeline2/view/qml/Timeline.qml:2294
+#: src/timeline2/view/qml/Timeline.qml:2293
+#: src/timeline2/view/qml/Timeline.qml:2302
 #, kde-format
 msgid "Recording"
 msgstr "Записування"
 
-#: src/timeline2/view/qml/Timeline.qml:2388
+#: src/timeline2/view/qml/Timeline.qml:2396
 #, kde-format
 msgid "Multicam In"
 msgstr "Вхід мультикаму"
@@ -34864,7 +34863,7 @@ msgstr "%1%2, тривалість = %3"
 msgid "%1% | Adjusting speed"
 msgstr "%1 | Коригуємо швидкість"
 
-#: src/timeline2/view/qml/TrackHead.qml:168
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -34873,24 +34872,24 @@ msgstr ""
 "Клацніть, щоб перемкнути доріжку як ціль. Вставлені кліпи розміщуватимуться "
 "на доріжках призначення."
 
-#: src/timeline2/view/qml/TrackHead.qml:246
+#: src/timeline2/view/qml/TrackHead.qml:241
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Shift</b> — згорнути/розгорнути усі доріжки одного типу (звук/відео)"
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, kde-format
 msgid "Minimize"
 msgstr "Мінімізувати"
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, kde-format
 msgid "Expand"
 msgstr "Розгорнути"
 
-#: src/timeline2/view/qml/TrackHead.qml:288
+#: src/timeline2/view/qml/TrackHead.qml:283
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -34899,27 +34898,27 @@ msgstr ""
 "Клацніть, щоб зробити доріжку активною або неактивною. Активні доріжки "
 "реагуватимуть на дії з редагування."
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Disable track effects"
 msgstr "Вимкнути ефекти доріжки"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Enable track effects"
 msgstr "Увімкнути ефекти доріжки"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Увімкнути/Вимкнути ефекти доріжки"
 
-#: src/timeline2/view/qml/TrackHead.qml:399
+#: src/timeline2/view/qml/TrackHead.qml:391
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b> — показати/сховати усі доріжки одного типу (звук/відео)"
 
-#: src/timeline2/view/qml/TrackHead.qml:493
+#: src/timeline2/view/qml/TrackHead.qml:485
 #, kde-format
 msgid "Edit track name"
 msgstr "Змінити назву доріжки"
@@ -35147,7 +35146,7 @@ msgstr "Відновити звук"
 #: src/timeline2/view/timelinecontroller.cpp:4503
 #, kde-format
 msgid "Incompatible clip types for replacement"
-msgstr ""
+msgstr "Несумісні типи кліпів для заміни"
 
 #: src/timeline2/view/timelinecontroller.cpp:4725
 #, kde-format
@@ -36089,58 +36088,58 @@ msgid "Composition track:"
 msgstr "Доріжка композиції:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:22
+#: src/ui/addtrack_ui.ui:28
 #, kde-format
 msgid "Above"
 msgstr "Вище"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:27
+#: src/ui/addtrack_ui.ui:33
 #, kde-format
 msgid "Under"
 msgstr "Нижче"
 
 #. i18n: ectx: property (text), widget (QLabel, name_label)
-#: src/ui/addtrack_ui.ui:50
+#: src/ui/addtrack_ui.ui:43
 #, kde-format
 msgid "Track name:"
 msgstr "Назва доріжки:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
-#: src/ui/addtrack_ui.ui:62
+#: src/ui/addtrack_ui.ui:75
 #, kde-format
 msgid " track"
 msgstr " доріжка"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/addtrack_ui.ui:75
-#, kde-format
-msgid "Insert:"
-msgstr "Вставити:"
-
 #. i18n: ectx: property (text), widget (QRadioButton, video_track)
-#: src/ui/addtrack_ui.ui:97
+#: src/ui/addtrack_ui.ui:90
 #, kde-format
 msgid "Video &track"
 msgstr "Відео&доріжка"
 
 #. i18n: ectx: property (text), widget (QRadioButton, audio_track)
-#: src/ui/addtrack_ui.ui:107
+#: src/ui/addtrack_ui.ui:100
 #, kde-format
 msgid "A&udio track"
 msgstr "Зв&укова доріжка"
 
 #. i18n: ectx: property (text), widget (QRadioButton, av_track)
-#: src/ui/addtrack_ui.ui:114
+#: src/ui/addtrack_ui.ui:107
 #, kde-format
 msgid "AV track"
 msgstr "Доріжка А-В"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
-#: src/ui/addtrack_ui.ui:121
+#: src/ui/addtrack_ui.ui:114
 #, kde-format
 msgid "Au&dio record track"
 msgstr "Доріжка зв&укового запису"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/addtrack_ui.ui:136
+#, kde-format
+msgid "Insert:"
+msgstr "Вставити:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33

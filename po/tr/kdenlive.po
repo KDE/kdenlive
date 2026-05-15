@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-14 00:42+0000\n"
-"PO-Revision-Date: 2026-05-13 12:49+0300\n"
+"POT-Creation-Date: 2026-05-15 00:44+0000\n"
+"PO-Revision-Date: 2026-05-14 13:12+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -9876,63 +9876,54 @@ msgid "Source Color"
 msgstr "Kaynak Renk"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color balance"
+#, kde-format
 msgid "Color Enhance"
-msgstr "Renk Dengesi"
+msgstr "Renk Geliştir"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:5
 #, kde-format
 msgid "Enhances the color contrast for vivid images"
-msgstr ""
+msgstr "Canlı görseller için renk karşıtlığını geliştirir."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:8
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel A Base"
-msgstr "Kanallar"
+msgstr "A Kanalı Tabanı"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:9
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for A channel."
-msgstr "Görselin parlaklığı. C şekilli eğrinin orta noktası."
+msgstr "A kanalı için C şekilli eğrinin orta noktası"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:12
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel B Base"
-msgstr "Kanallar"
+msgstr "B Kanalı Tabanı"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:13
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for B channel."
-msgstr "Görselin parlaklığı. C şekilli eğrinin orta noktası."
+msgstr "B kanalı için C şekilli eğrinin orta noktası"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:16
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel A Slope"
-msgstr "Hızı Değiştir"
+msgstr "A Kanalı Eğimi"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:17
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for A channel."
-msgstr "Özgün kanalın giriş sinyalinin düzeyini ayarlayın."
+msgstr "A kanalı için C şekilli eğrinin dikliği"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:20
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel B Slope"
-msgstr "Hızı Değiştir"
+msgstr "B Kanalı Eğimi"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:21
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for B channel."
-msgstr "Özgün kanalın giriş sinyalinin düzeyini ayarlayın."
+msgstr "B kanalı için C şekilli eğrinin dikliği"
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
@@ -11699,7 +11690,7 @@ msgstr "Eğer normal karartma yeterince doğal görünmüyorsa bunu deneyin."
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:650
-#: src/dialogs/Splash.qml:1043 src/layouts/layoutmanagerdialog.cpp:99
+#: src/dialogs/Splash.qml:1037 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16999,12 +16990,12 @@ msgstr "Bitiş Genliği"
 msgid "Wave Amplitude"
 msgstr "Dalga Genliği"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:861
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:862
 #, kde-format
 msgid "Horizontal"
 msgstr "Yatay"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:908
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:909
 #, kde-format
 msgid "Vertical"
 msgstr "Dikey"
@@ -19395,7 +19386,7 @@ msgstr "Zaman akışına yalnızca ses eklemek için sürükleyin"
 msgid "Drag to add only video to timeline"
 msgstr "Zaman akışına yalnızca video eklemek için sürükleyin"
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1414
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1416
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -20795,12 +20786,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Ortamı oynat"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Unmute"
 msgstr "Sesini aç"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Mute"
 msgstr "Sesi kapat"
@@ -23984,7 +23975,7 @@ msgstr "Profili listeden kaldır"
 msgid "Show on Startup"
 msgstr "Başlangıçta göster"
 
-#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1033
+#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1030
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
@@ -24022,19 +24013,19 @@ msgid "<b>Default Project Profile</b>"
 msgstr "<b>Öntanımlı proje profili</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:920 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:921 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Çözünürlük"
 
-#: src/dialogs/Splash.qml:947
+#: src/dialogs/Splash.qml:948
 #, kde-format
 msgid "Frame Rate"
 msgstr "Kare hızı"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:973
+#: src/dialogs/Splash.qml:974
 #: src/mltcontroller/clippropertiescontroller.cpp:687
 #: src/mltcontroller/clippropertiescontroller.cpp:1369
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24043,27 +24034,27 @@ msgstr "Kare hızı"
 msgid "Interlaced"
 msgstr "Geçmeli"
 
-#: src/dialogs/Splash.qml:992
+#: src/dialogs/Splash.qml:990
 #, kde-format
 msgid "Video Tracks"
 msgstr "Video izleri"
 
-#: src/dialogs/Splash.qml:1001
+#: src/dialogs/Splash.qml:999
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Ses izleri"
 
-#: src/dialogs/Splash.qml:1014
+#: src/dialogs/Splash.qml:1011
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Bu, daha sonra ayarlardan değiştirilebilir."
 
-#: src/dialogs/Splash.qml:1055
+#: src/dialogs/Splash.qml:1051
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Çevrim İçi Belgelendirmeye Bak"
 
-#: src/dialogs/Splash.qml:1064
+#: src/dialogs/Splash.qml:1060
 #, kde-format
 msgid "Start Editing"
 msgstr "Düzenlemeye Başla"
@@ -28404,10 +28395,9 @@ msgid "Cut Clip"
 msgstr "Klibi Kes"
 
 #: src/mainwindow.cpp:2020
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace Timeline Clip"
-msgstr "Zaman akışında değiştir"
+msgstr "Zaman Akışı Klibini Başkasıyla Değiştir"
 
 #: src/mainwindow.cpp:2024
 #, kde-format
@@ -34141,14 +34131,14 @@ msgstr "Klip hızını değiştir"
 
 #: src/timeline2/model/timelinemodel.cpp:7759
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
 #: src/timeline2/model/timelinemodel.cpp:7764
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Unlock track"
 msgstr "İzin kilidini aç"
@@ -34262,28 +34252,35 @@ msgstr "en düşük  hız %1"
 msgid "Maximum speed is %1"
 msgstr "Azami hız %1"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, kde-format
 msgid "Delete Track(s)"
 msgstr "İz(ler)i Sil"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, kde-format
 msgid "Add Track"
 msgstr "İz Ekle"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:39
+#: src/timeline2/view/dialogs/trackdialog.cpp:41
 #, kde-format
 msgid "Select tracks to be deleted :"
 msgstr "Silinecek izleri seçin:"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:48
+#: src/timeline2/view/dialogs/trackdialog.cpp:50
 #, kde-format
 msgctxt "Spinbox suffix"
 msgid " track"
 msgid_plural " tracks"
 msgstr[0] " iz"
 msgstr[1] " iz"
+
+#: src/timeline2/view/dialogs/trackdialog.cpp:108
+#, kde-format
+msgid "Warning: %1 clip will be deleted."
+msgid_plural "Warning: %1 clips will be deleted."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format
@@ -34335,49 +34332,49 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:259
-#: src/timeline2/view/qml/Timeline.qml:2296
+#: src/timeline2/view/qml/Timeline.qml:2304
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1196
+#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:1198
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2–%3), Konum: %4, Süre: %5"
 
-#: src/timeline2/view/qml/Clip.qml:331 src/timeline2/view/qml/Clip.qml:345
+#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:347
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "Konum: %1"
 
-#: src/timeline2/view/qml/Clip.qml:546
+#: src/timeline2/view/qml/Clip.qml:548
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Karışım süresi: %1, Kesme konumu: %2"
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:606
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Karışım süresi: %2"
 
-#: src/timeline2/view/qml/Clip.qml:606
+#: src/timeline2/view/qml/Clip.qml:608
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "−%1, Karışım süresi: %2"
 
-#: src/timeline2/view/qml/Clip.qml:609 src/timeline2/view/qml/Clip.qml:624
+#: src/timeline2/view/qml/Clip.qml:611 src/timeline2/view/qml/Clip.qml:626
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Karışım süresi: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1081
+#: src/timeline2/view/qml/Clip.qml:1083
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Giriş: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1084 src/timeline2/view/qml/Clip.qml:1186
+#: src/timeline2/view/qml/Clip.qml:1086 src/timeline2/view/qml/Clip.qml:1188
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34386,72 +34383,72 @@ msgstr ""
 "Hızı değiştirmek için <b> Kontrol ile sürükleyin </b>, bitişik kliple "
 "karıştırmak için <b> çift tıklayın </b>"
 
-#: src/timeline2/view/qml/Clip.qml:1086
+#: src/timeline2/view/qml/Clip.qml:1088
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "Karışım süresini değiştirmek için <b>sürükle</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1183
+#: src/timeline2/view/qml/Clip.qml:1185
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Çıkış: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Ofset: −%1"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, kde-format
 msgid "Offset: %1"
 msgstr "Ofset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1325
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " Klipleri hizalamak için <b>tıkla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1570 src/timeline2/view/qml/Clip.qml:1611
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Bileşikleştirme eklemek için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1692 src/timeline2/view/qml/Clip.qml:1699
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Solarak çık: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1814
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Solmayı ayarlamak için <b>sürükleyin</b>, varsayılan süre soldurmayı eklemek "
 "için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1803 src/timeline2/view/qml/Clip.qml:1810
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Solarak gir: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1898
 #, kde-format
 msgid "Slip Clip"
 msgstr "Klibi Taşı"
 
-#: src/timeline2/view/qml/Composition.qml:267
+#: src/timeline2/view/qml/Composition.qml:264
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Konum: %2, Süre: %3"
 
-#: src/timeline2/view/qml/Composition.qml:338
-#: src/timeline2/view/qml/Composition.qml:406
+#: src/timeline2/view/qml/Composition.qml:335
+#: src/timeline2/view/qml/Composition.qml:403
 #: src/timeline2/view/qml/SubTitle.qml:357
 #: src/timeline2/view/qml/SubTitle.qml:464
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "Yeniden boyutlandırmak için <b>sürükle</b>"
 
-#: src/timeline2/view/qml/KeyframeView.qml:173
+#: src/timeline2/view/qml/KeyframeDelegate.qml:82
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -34460,7 +34457,7 @@ msgstr ""
 "Seçili anahtar karelerin konumlarını taşımak için <b>sürükleyin</b>. Bundan "
 "sonraki tüm anahtar kareleri taşımak için <b>Üst Karakter ile</b> sürükleyin."
 
-#: src/timeline2/view/qml/KeyframeView.qml:286
+#: src/timeline2/view/qml/KeyframeDelegate.qml:195
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -34485,14 +34482,14 @@ msgid "Speech recognition"
 msgstr "Konuşma tanıma"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408
+#: src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Show"
 msgstr "Göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/TrackHead.qml:400 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Gizle"
@@ -34510,23 +34507,23 @@ msgstr[1] "Ses: %2 akış için %1 iz"
 msgid "Show sequence effects"
 msgstr "Sekans efektlerini göster"
 
-#: src/timeline2/view/qml/Timeline.qml:1922
+#: src/timeline2/view/qml/Timeline.qml:1930
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2116
+#: src/timeline2/view/qml/Timeline.qml:2124
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2285
-#: src/timeline2/view/qml/Timeline.qml:2294
+#: src/timeline2/view/qml/Timeline.qml:2293
+#: src/timeline2/view/qml/Timeline.qml:2302
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/Timeline.qml:2388
+#: src/timeline2/view/qml/Timeline.qml:2396
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
@@ -34541,7 +34538,7 @@ msgstr "%1%2, Süre = %3"
 msgid "%1% | Adjusting speed"
 msgstr "%​%1 | Hız ayarlanıyor"
 
-#: src/timeline2/view/qml/TrackHead.qml:168
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -34550,24 +34547,24 @@ msgstr ""
 "İzi hedef olarak ayarlamak için tıklayın. Hedef izler yerleştirilen klipleri "
 "alacaklardır."
 
-#: src/timeline2/view/qml/TrackHead.qml:246
+#: src/timeline2/view/qml/TrackHead.qml:241
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Üst Karakter</b>, aynı türdeki tüm izleri genişletir/daraltır (ses/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, kde-format
 msgid "Minimize"
 msgstr "Küçült"
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, kde-format
 msgid "Expand"
 msgstr "Genişlet"
 
-#: src/timeline2/view/qml/TrackHead.qml:288
+#: src/timeline2/view/qml/TrackHead.qml:283
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -34576,28 +34573,28 @@ msgstr ""
 "İzi etkin/devre dışı yapmak için tıklayın. Etkin izler, düzenleme "
 "işlemlerine yanıt verecektir"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Disable track effects"
 msgstr "İz efektlerini devre dışı bırak"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Enable track effects"
 msgstr "İz efektlerini etkinleştir"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Toggle track effects"
 msgstr "İz efektlerini aç/kapat"
 
-#: src/timeline2/view/qml/TrackHead.qml:399
+#: src/timeline2/view/qml/TrackHead.qml:391
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Üst Karakter</b>, aynı türdeki tüm izleri gösterir/gizler (ses/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:493
+#: src/timeline2/view/qml/TrackHead.qml:485
 #, kde-format
 msgid "Edit track name"
 msgstr "İz adını düzenle"
@@ -34823,7 +34820,7 @@ msgstr "Sesi geri yükle"
 #: src/timeline2/view/timelinecontroller.cpp:4503
 #, kde-format
 msgid "Incompatible clip types for replacement"
-msgstr ""
+msgstr "Değiştirme için uyumsuz klip türleri"
 
 #: src/timeline2/view/timelinecontroller.cpp:4725
 #, kde-format
@@ -35754,58 +35751,58 @@ msgid "Composition track:"
 msgstr "Bileşikleştirme izi:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:22
+#: src/ui/addtrack_ui.ui:28
 #, kde-format
 msgid "Above"
 msgstr "Yukarı"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:27
+#: src/ui/addtrack_ui.ui:33
 #, kde-format
 msgid "Under"
 msgstr "Aşağı"
 
 #. i18n: ectx: property (text), widget (QLabel, name_label)
-#: src/ui/addtrack_ui.ui:50
+#: src/ui/addtrack_ui.ui:43
 #, kde-format
 msgid "Track name:"
 msgstr "İz adı:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
-#: src/ui/addtrack_ui.ui:62
+#: src/ui/addtrack_ui.ui:75
 #, kde-format
 msgid " track"
 msgstr " iz"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/addtrack_ui.ui:75
-#, kde-format
-msgid "Insert:"
-msgstr "Yerleştir:"
-
 #. i18n: ectx: property (text), widget (QRadioButton, video_track)
-#: src/ui/addtrack_ui.ui:97
+#: src/ui/addtrack_ui.ui:90
 #, kde-format
 msgid "Video &track"
 msgstr "Video &izi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, audio_track)
-#: src/ui/addtrack_ui.ui:107
+#: src/ui/addtrack_ui.ui:100
 #, kde-format
 msgid "A&udio track"
 msgstr "Ses i&zi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, av_track)
-#: src/ui/addtrack_ui.ui:114
+#: src/ui/addtrack_ui.ui:107
 #, kde-format
 msgid "AV track"
 msgstr "Ses–video izi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
-#: src/ui/addtrack_ui.ui:121
+#: src/ui/addtrack_ui.ui:114
 #, kde-format
 msgid "Au&dio record track"
 msgstr "Se&s kayıt izi"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/addtrack_ui.ui:136
+#, kde-format
+msgid "Insert:"
+msgstr "Yerleştir:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33

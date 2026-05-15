@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-14 00:42+0000\n"
+"POT-Creation-Date: 2026-05-15 00:44+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -11647,7 +11647,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:650
-#: src/dialogs/Splash.qml:1043 src/layouts/layoutmanagerdialog.cpp:99
+#: src/dialogs/Splash.qml:1037 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16895,12 +16895,12 @@ msgstr "Amplitudė"
 msgid "Wave Amplitude"
 msgstr "Amplitudė"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:861
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:862
 #, kde-format
 msgid "Horizontal"
 msgstr "Horizontaliai"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:908
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:909
 #, kde-format
 msgid "Vertical"
 msgstr "Vertikaliai"
@@ -19424,7 +19424,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1414
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1416
 #, fuzzy, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -20905,13 +20905,13 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Pašalinti pažymėtus elementus"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, fuzzy, kde-format
 #| msgid "Switch monitor"
 msgid "Unmute"
 msgstr "Perjungti monitorių"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Mute"
 msgstr "Nutildyti"
@@ -24194,7 +24194,7 @@ msgstr "Pašalinti failą"
 msgid "Show on Startup"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1033
+#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1030
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
@@ -24231,12 +24231,12 @@ msgid "<b>Default Project Profile</b>"
 msgstr "Numatytas profilis"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:920 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:921 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Skiriamoji geba"
 
-#: src/dialogs/Splash.qml:947
+#: src/dialogs/Splash.qml:948
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Frame Rate"
@@ -24244,7 +24244,7 @@ msgstr "Kadrų dažnis"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:973
+#: src/dialogs/Splash.qml:974
 #: src/mltcontroller/clippropertiescontroller.cpp:687
 #: src/mltcontroller/clippropertiescontroller.cpp:1369
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24253,30 +24253,30 @@ msgstr "Kadrų dažnis"
 msgid "Interlaced"
 msgstr "Sumaišytas"
 
-#: src/dialogs/Splash.qml:992
+#: src/dialogs/Splash.qml:990
 #, fuzzy, kde-format
 #| msgid "Video tracks"
 msgid "Video Tracks"
 msgstr "Video takeliai"
 
-#: src/dialogs/Splash.qml:1001
+#: src/dialogs/Splash.qml:999
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio Tracks"
 msgstr "Garso takeliai"
 
-#: src/dialogs/Splash.qml:1014
+#: src/dialogs/Splash.qml:1011
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1055
+#: src/dialogs/Splash.qml:1051
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Check Online Documentation"
 msgstr "Atvertinas dokumentas"
 
-#: src/dialogs/Splash.qml:1064
+#: src/dialogs/Splash.qml:1060
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Start Editing"
@@ -34676,7 +34676,7 @@ msgstr "Tikslas"
 
 #: src/timeline2/model/timelinemodel.cpp:7759
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Lock track"
@@ -34684,7 +34684,7 @@ msgstr "Takelis"
 
 #: src/timeline2/model/timelinemodel.cpp:7764
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Unlock track"
@@ -34805,23 +34805,23 @@ msgstr ""
 msgid "Maximum speed is %1"
 msgstr ""
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, fuzzy, kde-format
 #| msgid "Delete Frame"
 msgid "Delete Track(s)"
 msgstr "Ištrinti kadrą"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, kde-format
 msgid "Add Track"
 msgstr ""
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:39
+#: src/timeline2/view/dialogs/trackdialog.cpp:41
 #, kde-format
 msgid "Select tracks to be deleted :"
 msgstr ""
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:48
+#: src/timeline2/view/dialogs/trackdialog.cpp:50
 #, fuzzy, kde-format
 #| msgid "Track"
 msgctxt "Spinbox suffix"
@@ -34831,6 +34831,15 @@ msgstr[0] "Takelis"
 msgstr[1] "Takelis"
 msgstr[2] "Takelis"
 msgstr[3] "Takelis"
+
+#: src/timeline2/view/dialogs/trackdialog.cpp:108
+#, kde-format
+msgid "Warning: %1 clip will be deleted."
+msgid_plural "Warning: %1 clips will be deleted."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, fuzzy, kde-format
@@ -34884,18 +34893,18 @@ msgid "Stop"
 msgstr "Stabdyti"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:259
-#: src/timeline2/view/qml/Timeline.qml:2296
+#: src/timeline2/view/qml/Timeline.qml:2304
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
 msgstr "Pristabdyti"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1196
+#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:1198
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:331 src/timeline2/view/qml/Clip.qml:345
+#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:347
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, fuzzy, kde-format
@@ -34903,122 +34912,122 @@ msgstr ""
 msgid "Position: %1"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Clip.qml:546
+#: src/timeline2/view/qml/Clip.qml:548
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:606
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "+%1, Mix duration: %2"
 msgstr " Trukmė:"
 
-#: src/timeline2/view/qml/Clip.qml:606
+#: src/timeline2/view/qml/Clip.qml:608
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "-%1, Mix duration: %2"
 msgstr " Trukmė:"
 
-#: src/timeline2/view/qml/Clip.qml:609 src/timeline2/view/qml/Clip.qml:624
+#: src/timeline2/view/qml/Clip.qml:611 src/timeline2/view/qml/Clip.qml:626
 #, fuzzy, kde-format
 #| msgid "Duration: "
 msgid "Mix duration: %1"
 msgstr "Trukmė: "
 
-#: src/timeline2/view/qml/Clip.qml:1081
+#: src/timeline2/view/qml/Clip.qml:1083
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "In:%1, Position:%2"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1084 src/timeline2/view/qml/Clip.qml:1186
+#: src/timeline2/view/qml/Clip.qml:1086 src/timeline2/view/qml/Clip.qml:1188
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1086
+#: src/timeline2/view/qml/Clip.qml:1088
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1183
+#: src/timeline2/view/qml/Clip.qml:1185
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Out:%1, Position:%2"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: -%1"
 msgstr "Poslinkis:"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: %1"
 msgstr "Poslinkis:"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1325
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid " <b>Click</b> to align clips"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1570 src/timeline2/view/qml/Clip.qml:1611
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "<b>Click</b> to add composition"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1692 src/timeline2/view/qml/Clip.qml:1699
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "Laipsniškas išnykimas"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1814
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1803 src/timeline2/view/qml/Clip.qml:1810
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "Laipsniškas stiprėjimas"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1898
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Slip Clip"
 msgstr "Iškarpa"
 
-#: src/timeline2/view/qml/Composition.qml:267
+#: src/timeline2/view/qml/Composition.qml:264
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "%1, Position: %2, Duration: %3"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Composition.qml:338
-#: src/timeline2/view/qml/Composition.qml:406
+#: src/timeline2/view/qml/Composition.qml:335
+#: src/timeline2/view/qml/Composition.qml:403
 #: src/timeline2/view/qml/SubTitle.qml:357
 #: src/timeline2/view/qml/SubTitle.qml:464
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:173
+#: src/timeline2/view/qml/KeyframeDelegate.qml:82
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:286
+#: src/timeline2/view/qml/KeyframeDelegate.qml:195
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -35042,7 +35051,7 @@ msgid "Speech recognition"
 msgstr "Rodyti/slėpti pasirinktis"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408
+#: src/timeline2/view/qml/TrackHead.qml:400
 #, fuzzy, kde-format
 #| msgid "Show All"
 msgid "Show"
@@ -35050,7 +35059,7 @@ msgstr "Rodyti viską"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/TrackHead.qml:400 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr ""
@@ -35072,26 +35081,26 @@ msgstr[3] "Garso srautas %1"
 msgid "Show sequence effects"
 msgstr "efektas"
 
-#: src/timeline2/view/qml/Timeline.qml:1922
+#: src/timeline2/view/qml/Timeline.qml:1930
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/timeline2/view/qml/Timeline.qml:2116
+#: src/timeline2/view/qml/Timeline.qml:2124
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Timeline.qml:2285
-#: src/timeline2/view/qml/Timeline.qml:2294
+#: src/timeline2/view/qml/Timeline.qml:2293
+#: src/timeline2/view/qml/Timeline.qml:2302
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Įrašas"
 
-#: src/timeline2/view/qml/Timeline.qml:2388
+#: src/timeline2/view/qml/Timeline.qml:2396
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -35108,61 +35117,61 @@ msgstr " Trukmė:"
 msgid "%1% | Adjusting speed"
 msgstr "Nutildyti video iškarpą"
 
-#: src/timeline2/view/qml/TrackHead.qml:168
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:246
+#: src/timeline2/view/qml/TrackHead.qml:241
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, kde-format
 msgid "Minimize"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Expand"
 msgstr "Gairės perkėlimas"
 
-#: src/timeline2/view/qml/TrackHead.qml:288
+#: src/timeline2/view/qml/TrackHead.qml:283
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable track effects"
 msgstr "Be efektų"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable track effects"
 msgstr "Be efektų"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Toggle track effects"
 msgstr "Pašalinti failą"
 
-#: src/timeline2/view/qml/TrackHead.qml:399
+#: src/timeline2/view/qml/TrackHead.qml:391
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:493
+#: src/timeline2/view/qml/TrackHead.qml:485
 #, fuzzy, kde-format
 #| msgid "Track mouse"
 msgid "Edit track name"
@@ -36301,66 +36310,66 @@ msgid "Composition track:"
 msgstr "Mišinys"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:22
+#: src/ui/addtrack_ui.ui:28
 #, kde-format
 msgid "Above"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:27
+#: src/ui/addtrack_ui.ui:33
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Under"
 msgstr "Generavimas"
 
 #. i18n: ectx: property (text), widget (QLabel, name_label)
-#: src/ui/addtrack_ui.ui:50
+#: src/ui/addtrack_ui.ui:43
 #, fuzzy, kde-format
 #| msgid "Track mouse"
 msgid "Track name:"
 msgstr "Pelės sekimas"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
-#: src/ui/addtrack_ui.ui:62
+#: src/ui/addtrack_ui.ui:75
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid " track"
 msgstr "Takelis"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/addtrack_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Insertion"
-msgid "Insert:"
-msgstr "Įterpimas"
-
 #. i18n: ectx: property (text), widget (QRadioButton, video_track)
-#: src/ui/addtrack_ui.ui:97
+#: src/ui/addtrack_ui.ui:90
 #, fuzzy, kde-format
 #| msgid "Video track"
 msgid "Video &track"
 msgstr "Video takelis"
 
 #. i18n: ectx: property (text), widget (QRadioButton, audio_track)
-#: src/ui/addtrack_ui.ui:107
+#: src/ui/addtrack_ui.ui:100
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "A&udio track"
 msgstr "Garso takelis"
 
 #. i18n: ectx: property (text), widget (QRadioButton, av_track)
-#: src/ui/addtrack_ui.ui:114
+#: src/ui/addtrack_ui.ui:107
 #, fuzzy, kde-format
 #| msgid "All tracks"
 msgid "AV track"
 msgstr "Visos dainos"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
-#: src/ui/addtrack_ui.ui:121
+#: src/ui/addtrack_ui.ui:114
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "Au&dio record track"
 msgstr "Garso takelis"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/addtrack_ui.ui:136
+#, fuzzy, kde-format
+#| msgid "Insertion"
+msgid "Insert:"
+msgstr "Įterpimas"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33

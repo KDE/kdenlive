@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-14 00:42+0000\n"
+"POT-Creation-Date: 2026-05-15 00:44+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -11738,7 +11738,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:650
-#: src/dialogs/Splash.qml:1043 src/layouts/layoutmanagerdialog.cpp:99
+#: src/dialogs/Splash.qml:1037 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -17261,12 +17261,12 @@ msgstr "अंत आयाम"
 msgid "Wave Amplitude"
 msgstr "तरंग आयाम"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:861
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:862
 #, kde-format
 msgid "Horizontal"
 msgstr "क्षैतिज"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:908
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:909
 #, kde-format
 msgid "Vertical"
 msgstr "खड़ा"
@@ -19716,7 +19716,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1414
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1416
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -21124,12 +21124,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "खेलने का क्षेत्र"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Unmute"
 msgstr "अप्रसन्नता"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:408
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Mute"
 msgstr "आवाज़ बंद करना"
@@ -24357,7 +24357,7 @@ msgstr "सूची से विकल्प का अनुरोध कर�
 msgid "Show on Startup"
 msgstr "ज़ोन प्रारंभ पर जाएँ"
 
-#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1033
+#: src/dialogs/Splash.qml:641 src/dialogs/Splash.qml:1030
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -24400,12 +24400,12 @@ msgid "<b>Default Project Profile</b>"
 msgstr "डिफ़ॉल्ट प्रोजेक्ट प्रोफ़ाइल बदलें"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:920 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:921 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "संकल्प"
 
-#: src/dialogs/Splash.qml:947
+#: src/dialogs/Splash.qml:948
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -24413,7 +24413,7 @@ msgstr "फ्रेम रेट:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:973
+#: src/dialogs/Splash.qml:974
 #: src/mltcontroller/clippropertiescontroller.cpp:687
 #: src/mltcontroller/clippropertiescontroller.cpp:1369
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -24422,31 +24422,31 @@ msgstr "फ्रेम रेट:"
 msgid "Interlaced"
 msgstr "interlaced"
 
-#: src/dialogs/Splash.qml:992
+#: src/dialogs/Splash.qml:990
 #, fuzzy, kde-format
 #| msgid "Video tracks:"
 msgid "Video Tracks"
 msgstr "वीडियो ट्रैक:"
 
-#: src/dialogs/Splash.qml:1001
+#: src/dialogs/Splash.qml:999
 #, fuzzy, kde-format
 #| msgid "Audio tracks:"
 msgid "Audio Tracks"
 msgstr "ऑडियो ट्रैक:"
 
-#: src/dialogs/Splash.qml:1014
+#: src/dialogs/Splash.qml:1011
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1055
+#: src/dialogs/Splash.qml:1051
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Online documentation"
 msgid "Check Online Documentation"
 msgstr "ऑनलाइन दस्तावेज़ीकरण"
 
-#: src/dialogs/Splash.qml:1064
+#: src/dialogs/Splash.qml:1060
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -34654,14 +34654,14 @@ msgstr "क्लिप की गति बदलें"
 
 #: src/timeline2/model/timelinemodel.cpp:7759
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Lock track"
 msgstr "ट्रैक लॉक करें"
 
 #: src/timeline2/model/timelinemodel.cpp:7764
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:422
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Unlock track"
 msgstr "ट्रैक अनलॉक करें"
@@ -34773,28 +34773,35 @@ msgstr "न्यूनतम गति %1 है"
 msgid "Maximum speed is %1"
 msgstr "अधिकतम गति %1 है"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, kde-format
 msgid "Delete Track(s)"
 msgstr "ट्रैक हटाएं"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:22
+#: src/timeline2/view/dialogs/trackdialog.cpp:24
 #, kde-format
 msgid "Add Track"
 msgstr "ट्रैक जोड़ें"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:39
+#: src/timeline2/view/dialogs/trackdialog.cpp:41
 #, kde-format
 msgid "Select tracks to be deleted :"
 msgstr "हटाए जाने वाले ट्रैक चुनें:"
 
-#: src/timeline2/view/dialogs/trackdialog.cpp:48
+#: src/timeline2/view/dialogs/trackdialog.cpp:50
 #, kde-format
 msgctxt "Spinbox suffix"
 msgid " track"
 msgid_plural " tracks"
 msgstr[0] "ट्रैक"
 msgstr[1] "ट्रैक"
+
+#: src/timeline2/view/dialogs/trackdialog.cpp:108
+#, kde-format
+msgid "Warning: %1 clip will be deleted."
+msgid_plural "Warning: %1 clips will be deleted."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format
@@ -34844,49 +34851,49 @@ msgid "Stop"
 msgstr "रुकना"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:259
-#: src/timeline2/view/qml/Timeline.qml:2296
+#: src/timeline2/view/qml/Timeline.qml:2304
 #, kde-format
 msgid "Paused"
 msgstr "रोका गया"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1196
+#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:1198
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), स्थिति: %4, अवधि: %5"
 
-#: src/timeline2/view/qml/Clip.qml:331 src/timeline2/view/qml/Clip.qml:345
+#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:347
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "स्थिति: %1"
 
-#: src/timeline2/view/qml/Clip.qml:546
+#: src/timeline2/view/qml/Clip.qml:548
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "मिक्स अवधि: %1, कट समय: %2"
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:606
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, मिक्स अवधि: %2"
 
-#: src/timeline2/view/qml/Clip.qml:606
+#: src/timeline2/view/qml/Clip.qml:608
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, मिक्स अवधि: %2"
 
-#: src/timeline2/view/qml/Clip.qml:609 src/timeline2/view/qml/Clip.qml:624
+#: src/timeline2/view/qml/Clip.qml:611 src/timeline2/view/qml/Clip.qml:626
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "मिक्स अवधि: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1081
+#: src/timeline2/view/qml/Clip.qml:1083
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "में:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1084 src/timeline2/view/qml/Clip.qml:1186
+#: src/timeline2/view/qml/Clip.qml:1086 src/timeline2/view/qml/Clip.qml:1188
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34895,72 +34902,72 @@ msgstr ""
 "गति बदलने के लिए <b>Ctrl खींचें</b> , आसन्न क्लिप के साथ मिश्रण करने के लिए <b>डबल क्लिक "
 "करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1086
+#: src/timeline2/view/qml/Clip.qml:1088
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "मिश्रण अवधि बदलने के लिए <b>खींचें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1183
+#: src/timeline2/view/qml/Clip.qml:1185
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "आउट:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, kde-format
 msgid "Offset: -%1"
 msgstr "ऑफसेट: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1322
+#: src/timeline2/view/qml/Clip.qml:1324
 #, kde-format
 msgid "Offset: %1"
 msgstr "ऑफसेट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1325
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " क्लिप संरेखित करने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1570 src/timeline2/view/qml/Clip.qml:1611
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "रचना जोड़ने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1692 src/timeline2/view/qml/Clip.qml:1699
 #, kde-format
 msgid "Fade out: %1"
 msgstr "फीका आउट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1814
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "फीका समायोजित करने के लिए <b>खींचें</b> , डिफ़ॉल्ट अवधि फीका जोड़ने के लिए <b>क्लिक करें</"
 "b>"
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1803 src/timeline2/view/qml/Clip.qml:1810
 #, kde-format
 msgid "Fade in: %1"
 msgstr "फीका इन: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1898
 #, kde-format
 msgid "Slip Clip"
 msgstr "स्लिप क्लिप"
 
-#: src/timeline2/view/qml/Composition.qml:267
+#: src/timeline2/view/qml/Composition.qml:264
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, स्थिति: %2, अवधि: %3"
 
-#: src/timeline2/view/qml/Composition.qml:338
-#: src/timeline2/view/qml/Composition.qml:406
+#: src/timeline2/view/qml/Composition.qml:335
+#: src/timeline2/view/qml/Composition.qml:403
 #: src/timeline2/view/qml/SubTitle.qml:357
 #: src/timeline2/view/qml/SubTitle.qml:464
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "आकार बदलने के लिए <b>खींचें</b>"
 
-#: src/timeline2/view/qml/KeyframeView.qml:173
+#: src/timeline2/view/qml/KeyframeDelegate.qml:82
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -34969,7 +34976,7 @@ msgstr ""
 "चयनित कीफ़्रेम की स्थिति को स्थानांतरित करने के लिए <b>खींचें</b> । इसके बाद सभी कीफ़्रेम "
 "को स्थानांतरित करने के लिए <b>Shift खींचें</b> ।"
 
-#: src/timeline2/view/qml/KeyframeView.qml:286
+#: src/timeline2/view/qml/KeyframeDelegate.qml:195
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -34994,14 +35001,14 @@ msgid "Speech recognition"
 msgstr "वाक् पहचान"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408
+#: src/timeline2/view/qml/TrackHead.qml:400
 #, kde-format
 msgid "Show"
 msgstr "दिखाओ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:408 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/TrackHead.qml:400 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "छिपाना"
@@ -35021,23 +35028,23 @@ msgstr[1] "सभी स्ट्रीम के लिए पर्याप�
 msgid "Show sequence effects"
 msgstr "मास्टर प्रभाव दिखाएं"
 
-#: src/timeline2/view/qml/Timeline.qml:1922
+#: src/timeline2/view/qml/Timeline.qml:1930
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "उपशीर्षक जोड़ने के लिए <b>डबल क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2116
+#: src/timeline2/view/qml/Timeline.qml:2124
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "ऑफसेट: %1, स्थिति: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2285
-#: src/timeline2/view/qml/Timeline.qml:2294
+#: src/timeline2/view/qml/Timeline.qml:2293
+#: src/timeline2/view/qml/Timeline.qml:2302
 #, kde-format
 msgid "Recording"
 msgstr "रिकॉर्डिंग"
 
-#: src/timeline2/view/qml/Timeline.qml:2388
+#: src/timeline2/view/qml/Timeline.qml:2396
 #, kde-format
 msgid "Multicam In"
 msgstr "मल्टीकैम इन"
@@ -35053,7 +35060,7 @@ msgstr "%1%2, अवधि = %3"
 msgid "%1% | Adjusting speed"
 msgstr "गति समायोजन"
 
-#: src/timeline2/view/qml/TrackHead.qml:168
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -35061,7 +35068,7 @@ msgid ""
 msgstr ""
 "ट्रैक को लक्ष्य के रूप में टॉगल करने के लिए क्लिक करें। लक्ष्य ट्रैक सम्मिलित क्लिप प्राप्त करेंगे"
 
-#: src/timeline2/view/qml/TrackHead.qml:246
+#: src/timeline2/view/qml/TrackHead.qml:241
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -35069,17 +35076,17 @@ msgstr ""
 "समान प्रकार के सभी ट्रैक (ऑडियो/वीडियो) को संक्षिप्त/विस्तारित करने के लिए <b>Shift "
 "दबाएं</b>"
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, kde-format
 msgid "Minimize"
 msgstr "छोटा करना"
 
-#: src/timeline2/view/qml/TrackHead.qml:258
+#: src/timeline2/view/qml/TrackHead.qml:253
 #, kde-format
 msgid "Expand"
 msgstr "बढ़ाना"
 
-#: src/timeline2/view/qml/TrackHead.qml:288
+#: src/timeline2/view/qml/TrackHead.qml:283
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -35088,22 +35095,22 @@ msgstr ""
 "ट्रैक को सक्रिय/निष्क्रिय करने के लिए क्लिक करें। सक्रिय ट्रैक संपादन कार्यों पर प्रतिक्रिया "
 "करेंगे"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Disable track effects"
 msgstr "ट्रैक प्रभाव अक्षम करें"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Enable track effects"
 msgstr "ट्रैक प्रभाव सक्षम करें"
 
-#: src/timeline2/view/qml/TrackHead.qml:378
+#: src/timeline2/view/qml/TrackHead.qml:370
 #, kde-format
 msgid "Toggle track effects"
 msgstr "ट्रैक प्रभाव टॉगल करें"
 
-#: src/timeline2/view/qml/TrackHead.qml:399
+#: src/timeline2/view/qml/TrackHead.qml:391
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -35112,7 +35119,7 @@ msgstr ""
 "समान प्रकार के सभी ट्रैक (ऑडियो/वीडियो) को संक्षिप्त/विस्तारित करने के लिए <b>Shift "
 "दबाएं</b>"
 
-#: src/timeline2/view/qml/TrackHead.qml:493
+#: src/timeline2/view/qml/TrackHead.qml:485
 #, kde-format
 msgid "Edit track name"
 msgstr "ट्रैक नाम संपादित करें"
@@ -36254,58 +36261,58 @@ msgid "Composition track:"
 msgstr "रचना ट्रैक:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:22
+#: src/ui/addtrack_ui.ui:28
 #, kde-format
 msgid "Above"
 msgstr "ऊपर"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
-#: src/ui/addtrack_ui.ui:27
+#: src/ui/addtrack_ui.ui:33
 #, kde-format
 msgid "Under"
 msgstr "अंतर्गत"
 
 #. i18n: ectx: property (text), widget (QLabel, name_label)
-#: src/ui/addtrack_ui.ui:50
+#: src/ui/addtrack_ui.ui:43
 #, kde-format
 msgid "Track name:"
 msgstr "ट्रैक का नाम:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
-#: src/ui/addtrack_ui.ui:62
+#: src/ui/addtrack_ui.ui:75
 #, kde-format
 msgid " track"
 msgstr " रास्ता"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/addtrack_ui.ui:75
-#, kde-format
-msgid "Insert:"
-msgstr "डालना:"
-
 #. i18n: ectx: property (text), widget (QRadioButton, video_track)
-#: src/ui/addtrack_ui.ui:97
+#: src/ui/addtrack_ui.ui:90
 #, kde-format
 msgid "Video &track"
 msgstr "वीडियो ट्रैक"
 
 #. i18n: ectx: property (text), widget (QRadioButton, audio_track)
-#: src/ui/addtrack_ui.ui:107
+#: src/ui/addtrack_ui.ui:100
 #, kde-format
 msgid "A&udio track"
 msgstr "ऑडियो ट्रैक"
 
 #. i18n: ectx: property (text), widget (QRadioButton, av_track)
-#: src/ui/addtrack_ui.ui:114
+#: src/ui/addtrack_ui.ui:107
 #, kde-format
 msgid "AV track"
 msgstr "एवी ट्रैक"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
-#: src/ui/addtrack_ui.ui:121
+#: src/ui/addtrack_ui.ui:114
 #, kde-format
 msgid "Au&dio record track"
 msgstr "ऑडियो रिकॉर्ड ट्रैक"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/addtrack_ui.ui:136
+#, kde-format
+msgid "Insert:"
+msgstr "डालना:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33
