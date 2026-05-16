@@ -36,7 +36,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void updateWelcomeDisplay(bool show);
-    void switchPallete(bool dark);
+    void switchPalette(bool dark);
 
 Q_SIGNALS:
     void openBlank();
@@ -45,7 +45,6 @@ Q_SIGNALS:
     void openFile(QString);
     void openLink(QString);
     void openTemplate(QString);
-    void switchPalette(bool);
     void firstStart(QString resolution, QString fps, bool interlaced, int vTracks, int aTracks);
     void resetConfig();
     void releaseLock();
