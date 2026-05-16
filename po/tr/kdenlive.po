@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-15 00:44+0000\n"
-"PO-Revision-Date: 2026-05-14 13:12+0300\n"
+"PO-Revision-Date: 2026-05-15 13:22+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -22,7 +22,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Serdar SOYTETİR, Anıl Özbek, Volkan GEZER, Hasan YILDIZ, Emir SARI"
+msgstr "Serdar SOYTETİR, Anıl ÖZBEK, Volkan GEZER, Hasan YILDIZ, Emir SARI"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -34279,8 +34279,8 @@ msgstr[1] " iz"
 #, kde-format
 msgid "Warning: %1 clip will be deleted."
 msgid_plural "Warning: %1 clips will be deleted."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Uyarı: %1 klip silinecek."
+msgstr[1] "Uyarı: %1 klip silinecek."
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format

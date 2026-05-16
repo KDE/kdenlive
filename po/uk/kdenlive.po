@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-15 00:44+0000\n"
-"PO-Revision-Date: 2026-05-14 08:43+0300\n"
+"PO-Revision-Date: 2026-05-15 09:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -34599,10 +34599,10 @@ msgstr[3] " доріжка"
 #, kde-format
 msgid "Warning: %1 clip will be deleted."
 msgid_plural "Warning: %1 clips will be deleted."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Увага! Буде вилучено %1 кліп."
+msgstr[1] "Увага! Буде вилучено %1 кліпи."
+msgstr[2] "Увага! Буде вилучено %1 кліпів."
+msgstr[3] "Увага! Буде вилучено %1 кліп."
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format

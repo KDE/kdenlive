@@ -9591,10 +9591,9 @@ msgid "Source Color"
 msgstr "源色彩"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color balance"
+#, kde-format
 msgid "Color Enhance"
-msgstr "色彩平衡"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:5
 #, kde-format
@@ -9602,52 +9601,44 @@ msgid "Enhances the color contrast for vivid images"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:8
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel A Base"
-msgstr "声道"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:9
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for A channel."
-msgstr "图像亮度. S型曲线中点"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:12
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel B Base"
-msgstr "声道"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:13
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for B channel."
-msgstr "图像亮度. S型曲线中点"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:16
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel A Slope"
-msgstr "更改速度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:17
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for A channel."
-msgstr "设置原始通道输入信号的电平。"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:20
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel B Slope"
-msgstr "更改速度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:21
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for B channel."
-msgstr "设置原始通道输入信号的电平。"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
@@ -27662,10 +27653,9 @@ msgid "Cut Clip"
 msgstr "分割片段"
 
 #: src/mainwindow.cpp:2020
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace Timeline Clip"
-msgstr "替换时间轴中的片段"
+msgstr ""
 
 #: src/mainwindow.cpp:2024
 #, kde-format

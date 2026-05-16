@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-15 00:44+0000\n"
-"PO-Revision-Date: 2026-05-14 11:13+0200\n"
+"PO-Revision-Date: 2026-05-15 09:25+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -34615,8 +34615,8 @@ msgstr[1] " pistes"
 #, kde-format
 msgid "Warning: %1 clip will be deleted."
 msgid_plural "Warning: %1 clips will be deleted."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Avís: se suprimirà %1 clip."
+msgstr[1] "Avís: se suprimiran %1 clips."
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format

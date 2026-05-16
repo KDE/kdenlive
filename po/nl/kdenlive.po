@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-15 00:44+0000\n"
-"PO-Revision-Date: 2026-05-14 17:27+0200\n"
+"PO-Revision-Date: 2026-05-15 14:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -34456,8 +34456,8 @@ msgstr[1] " tracks"
 #, kde-format
 msgid "Warning: %1 clip will be deleted."
 msgid_plural "Warning: %1 clips will be deleted."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Waarschuwing: %1 clip zal verwijderd worden."
+msgstr[1] "Waarschuwing: %1 clips zullen verwijderd worden."
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format
