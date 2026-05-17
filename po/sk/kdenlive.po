@@ -9827,63 +9827,54 @@ msgid "Source Color"
 msgstr "Farba zdroja"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color balance"
+#, kde-format
 msgid "Color Enhance"
-msgstr "Vyváženie farieb"
+msgstr "Vylepšenie farby"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:5
 #, kde-format
 msgid "Enhances the color contrast for vivid images"
-msgstr ""
+msgstr "Vylepšuje kontrast farieb pre živé obrázky"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:8
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel A Base"
-msgstr "Kanály"
+msgstr "Základňa kanála A"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:9
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for A channel."
-msgstr "Jas obrazu. Stredový bod sigmoidálnej krivky"
+msgstr "Stredový bod sigmoidálnej krivky pre kanál A."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:12
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channel B Base"
-msgstr "Kanály"
+msgstr "Základňa kanála B"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:13
-#, fuzzy, kde-format
-#| msgid "Brightness of image. Midpoint of sigmoidal curve"
+#, kde-format
 msgid "Midpoint of sigmoidal curve for B channel."
-msgstr "Jas obrazu. Stredový bod sigmoidálnej krivky"
+msgstr "Stredový bod sigmoidálnej krivky pre kanál B."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:16
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel A Slope"
-msgstr "Zmeniť rýchlosť"
+msgstr "Sklon kanála A"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:17
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for A channel."
-msgstr "Nastaviť úroveň vstupného signálu pôvodného kanála."
+msgstr "Strmosť sigmoidálnej krivky pre kanál A."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:20
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Channel B Slope"
-msgstr "Zmeniť rýchlosť"
+msgstr "Sklon kanála B"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:21
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for B channel."
-msgstr "Nastaviť úroveň vstupného signálu pôvodného kanála."
+msgstr "Strmosť sigmoidálnej krivky pre kanál B."
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
@@ -28327,10 +28318,9 @@ msgid "Cut Clip"
 msgstr "Strihať klip"
 
 #: src/mainwindow.cpp:2020
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace Timeline Clip"
-msgstr "Hlavná časová os"
+msgstr "Nahradiť klip v časovej osi"
 
 #: src/mainwindow.cpp:2024
 #, kde-format
@@ -34214,9 +34204,9 @@ msgstr[2] " stôp"
 #, kde-format
 msgid "Warning: %1 clip will be deleted."
 msgid_plural "Warning: %1 clips will be deleted."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Upozornenie: %1 klip bude odstránený."
+msgstr[1] "Upozornenie: %1 klipy budú odstránené."
+msgstr[2] "Upozornenie: %1 klipov bude odstránených."
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format
@@ -34750,7 +34740,7 @@ msgstr "Obnoviť zvuk"
 #: src/timeline2/view/timelinecontroller.cpp:4503
 #, kde-format
 msgid "Incompatible clip types for replacement"
-msgstr ""
+msgstr "Nekompatibilné typy klipov pre nahradenie"
 
 #: src/timeline2/view/timelinecontroller.cpp:4725
 #, kde-format
