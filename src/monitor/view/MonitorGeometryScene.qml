@@ -44,7 +44,6 @@ Item {
     property double timeScale: 1
     property double frameSize: 10
     property int duration: 300
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int mouseRulerPos: 0
     property bool rotatable: false
     property double rect_rotation: _rotation
@@ -155,11 +154,6 @@ Item {
 
     onRotationAnchorModeChanged: updateRotationAnchor()
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
-    }
-
     Canvas {
       id: canvas
       property double handleSize
@@ -167,7 +161,7 @@ Item {
       height: root.height
       anchors.centerIn: root
       contextType: "2d";
-      handleSize: root.baseUnit / 2
+      handleSize: K.UiUtils.baseSizeMedium / 2
       renderStrategy: Canvas.Threaded;
       onPaint:
       {
@@ -408,8 +402,8 @@ Item {
             anchors {
                 top: pendingFrame.top
                 left: pendingFrame.left
-                topMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * pendingFramesize.height / pendingFramesize.width)
-                leftMargin: 2 * root.baseUnit
+                topMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * pendingFramesize.height / pendingFramesize.width)
+                leftMargin: 2 * K.UiUtils.baseSizeMedium
             }
             text: pendingFramesize.x.toFixed(0) + " x " + pendingFramesize.y.toFixed(0)
             flipText: shouldFlipText(root.pendingRotation)
@@ -422,8 +416,8 @@ Item {
             anchors {
                 bottom: pendingFrame.bottom
                 right: pendingFrame.right
-                bottomMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * pendingFramesize.height / pendingFramesize.width)
-                rightMargin: 2 * root.baseUnit
+                bottomMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * pendingFramesize.height / pendingFramesize.width)
+                rightMargin: 2 * K.UiUtils.baseSizeMedium
             }
             text: pendingFramesize.width.toFixed(0) + " x " + pendingFramesize.height.toFixed(0)
             flipText: shouldFlipText(root.pendingRotation)
@@ -436,11 +430,11 @@ Item {
         property bool isMoving: false
         property bool isResizing: false
         property bool isRotating: false
-        property int smallRectMargin: transformedFrame.width < 2 * root.baseUnit || transformedFrame.height < 2 * root.baseUnit ? root.baseUnit : 0
-        property double handlesBottomMargin: root.height - clipMonitorRuler.height - transformedFrame.y - transformedFrame.height < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
-        property double handlesRightMargin: root.width - transformedFrame.x - transformedFrame.width < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
-        property double handlesTopMargin: transformedFrame.y < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
-        property double handlesLeftMargin: transformedFrame.x < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property int smallRectMargin: transformedFrame.width < 2 * K.UiUtils.baseSizeMedium || transformedFrame.height < 2 * K.UiUtils.baseSizeMedium ? K.UiUtils.baseSizeMedium : 0
+        property double handlesBottomMargin: root.height - clipMonitorRuler.height - transformedFrame.y - transformedFrame.height < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
+        property double handlesRightMargin: root.width - transformedFrame.x - transformedFrame.width < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
+        property double handlesTopMargin: transformedFrame.y < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
+        property double handlesLeftMargin: transformedFrame.x < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
         property double rotationAnchorX: width / 2
         property double rotationAnchorY: height / 2
 
@@ -611,7 +605,6 @@ Item {
 
         RotationHandle {
             id: rotationHandle
-            baseUnit: root.baseUnit
             rotatable: root.rotatable
             showHandle: root.showHandles
             smallRectMargin: transformedFrame.smallRectMargin
@@ -660,7 +653,6 @@ Item {
             ResizeHandle {
                 // Configuration
                 handleType: modelData
-                baseUnit: root.baseUnit
                 showHandle: root.showHandles
                 otherResizeHandleInUse: transformedFrame.isResizing
                 

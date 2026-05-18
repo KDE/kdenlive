@@ -35,7 +35,6 @@ Item {
     property int activeTrack: 0
     onSourcedarChanged: refreshdar()
     property int requestedKeyFrame
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -55,10 +54,6 @@ Item {
         clipMonitorRuler.updateRuler()
     }
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
-    }
     MouseArea {
         id: barOverArea
         hoverEnabled: true

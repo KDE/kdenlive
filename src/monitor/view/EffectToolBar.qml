@@ -17,7 +17,7 @@ MouseArea {
     property bool rightSide: true
     property bool showAutoKeyframe: true
     acceptedButtons: Qt.NoButton
-    width: 2.4 * fontMetrics.font.pixelSize
+    width: 2.4 * K.UiUtils.baseSizeMedium
     height: parent.height
     onEntered: {
         animator.stop()

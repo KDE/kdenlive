@@ -9,7 +9,7 @@ import QtQuick.Controls 2.15
 
 import org.kde.ki18n
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Item {
     id: subtitleRoot
@@ -27,7 +27,7 @@ Item {
     property bool isGrabbed: false
     property int subLayer
     height: subtitleTrack.height / (root.maxSubLayer + 1)
-    property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
+    property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
     y: height * subLayer
 
     function editText()
@@ -107,7 +107,7 @@ Item {
             property double delta: -1
             property double oldDelta: 0
             property bool startMove: false
-            visible: root.activeTool === Kdenlive.ToolType.SelectTool
+            visible: root.activeTool === K.ToolType.SelectTool
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
             drag.axis: Drag.XAxis | Drag.YAxis
@@ -123,7 +123,7 @@ Item {
                 timeline.showKeyBinding()
             }
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -285,7 +285,7 @@ Item {
     Item {
         // start position resize handle
         id: leftstart
-        width: root.baseUnit
+        width: K.UiUtils.baseSizeMedium
         height: subtitleBase.height
         anchors.top: subtitleBase.top
         anchors.left: subtitleBase.left
@@ -296,7 +296,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: !root.isPanning
             enabled: !root.isPanning
-            visible: root.activeTool === Kdenlive.ToolType.SelectTool
+            visible: root.activeTool === K.ToolType.SelectTool
             property int newStart: subtitleRoot.startFrame
             property int newDuration: subtitleRoot.duration
             property int originalDuration: subtitleRoot.duration
@@ -309,7 +309,7 @@ Item {
             cursorShape: containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor;
             drag.target: leftstart
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -341,7 +341,7 @@ Item {
                 root.autoScrolling = timeline.autoScroll
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
-                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === K.ToolType.RippleTool)) {
                         controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
                         controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true, -1, shiftTrim);
                     } else {
@@ -383,7 +383,7 @@ Item {
     Item {
         // end position resize handle
         id: rightend
-        width: root.baseUnit
+        width: K.UiUtils.baseSizeMedium
         height: subtitleBase.height
         //x: subtitleRoot.endFrame * timeScale
         anchors.right: subtitleBase.right
@@ -397,7 +397,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: !root.isPanning
             enabled: !root.isPanning
-            visible: root.activeTool === Kdenlive.ToolType.SelectTool
+            visible: root.activeTool === K.ToolType.SelectTool
             property bool sizeChanged: false
             property int oldMouseX
             acceptedButtons: Qt.LeftButton
@@ -410,7 +410,7 @@ Item {
             drag.smoothed: false
 
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -444,7 +444,7 @@ Item {
                 rightend.anchors.right = subtitleBase.right
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
-                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === K.ToolType.RippleTool)) {
                         // Restore original size
                         controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
                         // Perform real resize

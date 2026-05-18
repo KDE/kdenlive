@@ -9,7 +9,7 @@ import QtQuick 2.15
 
 import org.kde.ki18n
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Item {
     id: root
@@ -37,7 +37,6 @@ Item {
     property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -52,7 +51,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font: K.UiUtils.fixedFont
     }
 
     signal editCurrentMarker()
@@ -80,7 +79,7 @@ Item {
             controller.setWidgetKeyBinding();
         }
     }
-    Kdenlive.SceneToolBar {
+    K.SceneToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right

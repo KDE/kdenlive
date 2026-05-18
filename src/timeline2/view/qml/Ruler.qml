@@ -24,7 +24,7 @@ Item {
     property int timecodeOffset : timeline.timecodeOffset
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
-    property int zoneHeight: Math.ceil(root.baseUnit / 2) + 1
+    property int zoneHeight: Math.ceil(K.UiUtils.baseSizeMedium / 2) + 1
     property bool showZoneLabels: false
     property bool resizeActive: false // Used to decide which mouse cursor we should display
     property bool hoverGuide: false
@@ -43,10 +43,10 @@ Item {
             // labelSpacing cannot be smaller than 1 frame
             rulerRoot.labelSpacing = timeline.scaleFactor > rulerRoot.labelSize * 1.3 ? timeline.scaleFactor : Math.floor(rulerRoot.labelSize/timeline.scaleFactor) * timeline.scaleFactor
         } else {
-            rulerRoot.tickSpacing = Math.floor(3 * root.baseUnit / timeline.scaleFactor) * timeline.scaleFactor
+            rulerRoot.tickSpacing = Math.floor(3 * K.UiUtils.baseSizeMedium / timeline.scaleFactor) * timeline.scaleFactor
             rulerRoot.labelSpacing = (Math.floor(rulerRoot.labelSize/rulerRoot.tickSpacing) + 1) * rulerRoot.tickSpacing
         }
-        rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + root.baseUnit) / rulerRoot.tickSpacing))
+        rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + K.UiUtils.baseSizeMedium) / rulerRoot.tickSpacing))
         //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing)))
         tickRepeater.model = Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
     }
@@ -548,7 +548,7 @@ Item {
             property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
             Rectangle {
                 anchors.bottom: parent.bottom
-                height: parent.showText ? root.baseUnit * 0.8 : 4
+                height: parent.showText ? K.UiUtils.baseSizeMedium * 0.8 : 4
                 width: 1
                 color: rulerRoot.dimmedColor2
             }

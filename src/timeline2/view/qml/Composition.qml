@@ -185,7 +185,7 @@ Item {
         anchors.left: compositionRoot.left
         anchors.topMargin: displayHeight - compositionRoot.trackOffset
         height: parentTrack.height - displayHeight
-        property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
+        property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
         color: Qt.darker('mediumpurple')
         border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
         border.width: isGrabbed ? 8 : 2
@@ -206,7 +206,7 @@ Item {
                     compositionRoot.z: 1
                 }
                 PropertyChanges {
-                    displayRect.height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, root.baseUnit)
+                    displayRect.height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, K.UiUtils.baseSizeMedium)
                     displayRect.color: 'mediumpurple'
                     displayRect.border.color: root.selectionColor
                 }
@@ -290,7 +290,7 @@ Item {
                 id: trimInMouseArea
                 x: enabled ? -displayRect.border.width : 0
                 height: mouseArea.height
-                width: root.baseUnit
+                width: K.UiUtils.baseSizeMedium
                 visible: enabled && root.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
                 hoverEnabled: true
@@ -364,7 +364,7 @@ Item {
                 anchors.right: mouseArea.right
                 anchors.rightMargin: enabled ? -displayRect.border.width : 0
                 height: displayRect.height
-                width: root.baseUnit
+                width: K.UiUtils.baseSizeMedium
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 drag.target: trimOutMouseArea
@@ -461,7 +461,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: compositionRoot.scrollStart > 0 ? (labelRect.width > compositionRoot.width ? 0 : compositionRoot.scrollStart) : 0
                 color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
-                visible: compositionRoot.width > root.baseUnit
+                visible: compositionRoot.width > K.UiUtils.baseSizeMedium
                 width: label.width + 2
                 height: label.height
                 Text {
@@ -497,7 +497,7 @@ Item {
             anchors.fill: parent
             active: compositionRoot.visible
             asynchronous: true
-            visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
+            visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * K.UiUtils.baseSizeMedium
             source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {
                     target: effectRow.item

@@ -425,7 +425,7 @@ Rectangle {
             // Border rectangle
             color: 'transparent'
             id: itemBorder
-            property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
+            property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
             anchors.fill: parent
             border.color: {
                 let placeholder = (clipStatus === K.FileStatus.StatusMissing || clipStatus === K.FileStatus.StatusWaiting || clipStatus === K.FileStatus.StatusDeleting)
@@ -481,8 +481,8 @@ Rectangle {
             anchors.margins: itemBorder.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
-            property bool handleMini: width < 2 * root.baseUnit
-            property bool handleVisible: width > root.baseUnit * 1.2
+            property bool handleMini: width < 2 * K.UiUtils.baseSizeMedium
+            property bool handleVisible: width > K.UiUtils.baseSizeMedium * 1.2
             
             Item {
                 // Mix indicator
@@ -507,7 +507,7 @@ Rectangle {
                     Loader {
                         active: mixBackground.visible
                         asynchronous: true
-                        source: container.handleVisible && mixContainer.width > 2 * root.baseUnit ? "MixShape.qml" : ""
+                        source: container.handleVisible && mixContainer.width > 2 * K.UiUtils.baseSizeMedium ? "MixShape.qml" : ""
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
@@ -530,7 +530,7 @@ Rectangle {
                         hoverEnabled: !root.isPanning
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton | Qt.LeftButton
-                        enabled: !root.isPanning && container.handleVisible && width > root.baseUnit * 0.8
+                        enabled: !root.isPanning && container.handleVisible && width > K.UiUtils.baseSizeMedium * 0.8
                         onPressed: mouse => {
                             if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                                 mouse.accepted = false
@@ -556,7 +556,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
                         height: parent.height
-                        width: root.baseUnit / 2
+                        width: K.UiUtils.baseSizeMedium / 2
                         visible: root.activeTool === K.ToolType.SelectTool
                         property int previousMix
                         enabled: !root.isPanning && !isLocked && mixArea.enabled && (pressed || container.handleVisible)
@@ -707,7 +707,7 @@ Rectangle {
                         color: markerBase.hasRange ? "transparent" : markerBase.markerColor
                         radius: 2
                         opacity: 0.7
-                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
+                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > K.UiUtils.baseSizeMedium && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
 
                         anchors {
                             top: parent.top
@@ -921,7 +921,7 @@ Rectangle {
                 Repeater {
                     // Clip markers
                     id: markersContainer
-                    model: container.width > 3 * root.baseUnit ? markers : 0
+                    model: container.width > 3 * K.UiUtils.baseSizeMedium ? markers : 0
                     anchors.fill: parent
                     delegate: Loader {
                         id: loader
@@ -976,7 +976,7 @@ Rectangle {
                 x: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
+                width: container.handleMini ? K.UiUtils.baseSizeMedium / 2 : K.UiUtils.baseSizeMedium
                 visible: {
                     if (!enabled) {
                         return false
@@ -1111,7 +1111,7 @@ Rectangle {
                 anchors.rightMargin: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
+                width: container.handleMini ? K.UiUtils.baseSizeMedium / 2 : K.UiUtils.baseSizeMedium
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === K.ToolType.SelectTool
                                      || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
@@ -1282,7 +1282,7 @@ Rectangle {
                     color: clipRoot.selected ? (root.mainItemId == clipRoot.clipId ? '#FFCC0000' : '#FF800000') : '#66000000'
                     width: label.width + (2 * itemBorder.border.width)
                     height: label.height
-                    visible: clipRoot.width > root.baseUnit
+                    visible: clipRoot.width > K.UiUtils.baseSizeMedium
                     anchors.left: debugCidRect.visible ? debugCidRect.right : parent.left
                     anchors.leftMargin: clipRoot.timeremap ? labelRect.height : 0
                     Text {
@@ -1461,7 +1461,7 @@ Rectangle {
                 asynchronous: true
                 property bool hasKeyframes: false
                 active: clipRoot.visible
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * root.baseUnit
+                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item
@@ -1552,7 +1552,7 @@ Rectangle {
             id: compInArea
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
@@ -1593,7 +1593,7 @@ Rectangle {
             id: compOutArea
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
@@ -1635,7 +1635,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: clipRoot.fadeOut <= 0 ? 0 : fadeOutCanvas.width - width / 2
             anchors.top: parent.top
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -1748,7 +1748,7 @@ Rectangle {
             anchors.left: container.left
             anchors.leftMargin: clipRoot.fadeIn <= 0 ? 0 : (fadeInTriangle.width - width / 3)
             anchors.top: parent.top
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

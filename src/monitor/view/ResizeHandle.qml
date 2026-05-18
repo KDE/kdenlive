@@ -15,7 +15,6 @@ Rectangle {
     property string handleType: "TOP_LEFT"
     property alias cursorShape: mouseArea.cursorShape
     property bool showHandle: true
-    property real baseUnit: 10
     property bool otherResizeHandleInUse: false
     
     // Frame properties passed from parent
@@ -33,7 +32,7 @@ Rectangle {
     property real handlesRightMargin: 0
     
     // Styling
-    width: baseUnit
+    width: K.UiUtils.baseSizeMedium
     height: width
     color: "#99ffffff"
     border.color: "#ff0000"

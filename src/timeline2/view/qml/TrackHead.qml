@@ -10,6 +10,9 @@ import QtQuick.Controls 2.15
 
 import org.kde.ki18n
 
+import org.kde.kdenlive as K
+
+
 Rectangle {
     id: trackHeadRoot
     property string trackName
@@ -40,9 +43,9 @@ Rectangle {
     }
     
     onShowAudioRecordChanged: {
-        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3)) {
+        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3)) {
             // Ensure trackheight is large enough to have the vu-meter visible
-            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
+            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
         }
     }
 
@@ -103,7 +106,7 @@ Rectangle {
         background: Rectangle {
             color: trackTarget.bgColor
         }
-        width: 1.5 * root.baseUnit
+        width: 1.5 * K.UiUtils.baseSizeMedium
         height: trackHeadRoot.height
         verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignHCenter
@@ -436,7 +439,7 @@ Rectangle {
                 id: audioVuMeter
                 asynchronous: true 
                 anchors.fill: parent
-                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
+                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
                 source: isAudio && showAudioRecord ? "AudioRecordingControls.qml" : ""
                 onLoaded: item.trackId = trackId
             }
@@ -522,7 +525,7 @@ Rectangle {
     }
     Rectangle {
             id: resizer
-            height: Math.round(root.baseUnit/3)
+            height: Math.round(K.UiUtils.baseSizeMedium/3)
             color: 'red'
             opacity: 0
             Drag.active: trimInMouseArea.drag.active

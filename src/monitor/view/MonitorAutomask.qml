@@ -51,7 +51,6 @@ Item {
     property bool showClipJobs: false
     property bool showToolbar: false
     property string clipName: controller.clipName
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -104,11 +103,6 @@ Item {
 
     function updateClickCapture() {
         root.captureRightClick = false
-    }
-    
-    FontMetrics {
-        id: fontMetrics
-        font: fixedFont
     }
 
     Timer {
@@ -319,7 +313,7 @@ Item {
                         x: root.centerPoints[index].x * frame.width - width / 2
                         y: root.centerPoints[index].y * frame.height - height / 2
                         color: isNegative ? "#FF990000" : "#FF006600"
-                        height: baseUnit * 1.5
+                        height: K.UiUtils.baseSizeMedium * 1.5
                         width: height
                         radius: 180
                         border.width: 2

@@ -10,7 +10,6 @@ Rectangle {
     id: rotationHandle
     
     // Configuration properties
-    property real baseUnit: 10
     property bool rotatable: true
     property bool showHandle: true
     property int smallRectMargin: 0
@@ -34,7 +33,7 @@ Rectangle {
         topMargin: parent.height / 4
     }
     
-    width: baseUnit
+    width: K.UiUtils.baseSizeMedium
     height: width
     radius: width / 2
     color: "#99ffffff"
