@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-15 00:44+0000\n"
+"POT-Creation-Date: 2026-05-18 00:43+0000\n"
 "PO-Revision-Date: 2026-05-14 20:37+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -19078,7 +19078,7 @@ msgstr "רשימת נגינה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2810 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1675
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1678
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20234,7 +20234,7 @@ msgid "Disable GPU processing"
 msgstr "השבתת עיבוד במעבד גרפי"
 
 #: src/core.cpp:265 src/core.cpp:347 src/core.cpp:521
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid "Loading project…"
 msgstr "המיזם נטען…"
@@ -20975,7 +20975,7 @@ msgstr "ייצוא נתוני סמנים"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:1986 src/project/projectmanager.cpp:1992
+#: src/project/projectmanager.cpp:1989 src/project/projectmanager.cpp:1995
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21068,7 +21068,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "במקרה של ספק, עדיף לנסות :<br/><b>יוניקוד (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1875
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1878
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -24395,8 +24395,8 @@ msgstr "המסננים/מעברונים הבאים נמחקו מהמיזם הז�
 msgid "Invalid file path"
 msgstr "נתיב שגוי לקובץ"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:850
-#: src/project/projectmanager.cpp:902
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:853
+#: src/project/projectmanager.cpp:905
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "לא ניתן לשחזר קובץ פגום."
@@ -24473,8 +24473,8 @@ msgstr ""
 "קובץ המיזם שלך שודרג לגרסת המסמך העדכנית ביותר של Kdenlive, אבל יצירת עותק "
 "הגיבוי %1 לא מצליחה."
 
-#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1547
-#: src/project/projectmanager.cpp:1583
+#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1550
+#: src/project/projectmanager.cpp:1586
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
@@ -31040,7 +31040,7 @@ msgstr "פתיחת קובץ גיבוי…"
 msgid "Save changes to document?"
 msgstr "לשמור שינויים למסמך‫?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1815
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31076,37 +31076,37 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "שמירת עותק"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "קובץ השמירה האוטומטית קיים. לשחזר ממנו עכשיו?"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "File Recovery"
 msgstr "שחזור קובץ"
 
-#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:888
+#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:891
 #, kde-format
 msgid "Recover"
 msgstr "שחזור"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Do not recover"
 msgstr "לא לשחזר"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "הקובץ %1 לא קיים"
 
-#: src/project/projectmanager.cpp:827
+#: src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Opening file %1"
 msgstr "הקובץ %1 נפתח"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:890
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31117,43 +31117,43 @@ msgstr ""
 "%1\n"
 "לפתוח את קובץ הגיבוי?"
 
-#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1137
+#: src/project/projectmanager.cpp:891 src/project/projectmanager.cpp:1140
 #, kde-format
 msgid "Error opening file"
 msgstr "שגיאה בפתיחת קובץ"
 
-#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:891 src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Open Backup"
 msgstr "פתיחת גיבוי"
 
-#: src/project/projectmanager.cpp:906
+#: src/project/projectmanager.cpp:909
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "לא ניתן לפתוח את קובץ גיבוי המיזם."
 
-#: src/project/projectmanager.cpp:921
+#: src/project/projectmanager.cpp:924
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "המיזם שלך שודרג, ייווצר גיבוי עם השמירה הבאה"
 
-#: src/project/projectmanager.cpp:923
+#: src/project/projectmanager.cpp:926
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "המיזם שלך נערך עם פתיחתו, ייווצר גיבוי עם השמירה הבאה"
 
-#: src/project/projectmanager.cpp:994
+#: src/project/projectmanager.cpp:997
 #, kde-format
 msgid "Loading timeline…"
 msgstr "ציר הזמן נטען…"
 
-#: src/project/projectmanager.cpp:1017
+#: src/project/projectmanager.cpp:1020
 #, kde-format
 msgid "Building sequences…"
 msgstr "הרצפים נבנים…"
 
-#: src/project/projectmanager.cpp:1164
+#: src/project/projectmanager.cpp:1167
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31162,7 +31162,7 @@ msgstr ""
 "לא ניתן לפתוח את קובץ המיזם. שגיאה:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1204
+#: src/project/projectmanager.cpp:1207
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31170,12 +31170,12 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את השינויים שערכת מאז השמירה האחרונה של המיזם שלך. להמשיך?"
 
-#: src/project/projectmanager.cpp:1205
+#: src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "חזרה לגרסה השמורה האחרונה"
 
-#: src/project/projectmanager.cpp:1304
+#: src/project/projectmanager.cpp:1307
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31184,35 +31184,35 @@ msgstr ""
 "המיזם נפגם, אי אפשר לגבות. נא לסגור את המיזם שלך ולפתוח אותו מחדש כדי לשחזר "
 "מהגיבוי האחרון"
 
-#: src/project/projectmanager.cpp:1525
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "שגיאה בהעברת תיקיית המיזם, אי אפשר לגשת לתיקיית המטמון"
 
-#: src/project/projectmanager.cpp:1561
+#: src/project/projectmanager.cpp:1564
 #, kde-format
 msgid "Moving project folder"
 msgstr "תיקיית המיזם מועברת"
 
-#: src/project/projectmanager.cpp:1652 src/project/projectmanager.cpp:1708
-#: src/project/projectmanager.cpp:1712
+#: src/project/projectmanager.cpp:1655 src/project/projectmanager.cpp:1711
+#: src/project/projectmanager.cpp:1715
 #, kde-format
 msgid "Sequence 1"
 msgstr "רצף 1"
 
-#: src/project/projectmanager.cpp:1663
+#: src/project/projectmanager.cpp:1666
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "קובץ המיזם פגום - טעינת הרצועות נכשלה. לנסות למצוא קובץ גיבוי?"
 
-#: src/project/projectmanager.cpp:1804 src/project/projectmanager.cpp:1817
-#: src/project/projectmanager.cpp:1841 src/project/projectmanager.cpp:1850
+#: src/project/projectmanager.cpp:1807 src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1844 src/project/projectmanager.cpp:1853
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "השינוי לפרופיל המיזם בוטל"
 
-#: src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1983
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31221,12 +31221,12 @@ msgstr ""
 "קובץ הפלט %1 כבר קיים.\n"
 "לשכתב אותו?"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2008
 #, kde-format
 msgid "Project profile changed"
 msgstr "פרופיל המיזם השתנה"
 
-#: src/project/projectmanager.cpp:2069
+#: src/project/projectmanager.cpp:2072
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31235,32 +31235,32 @@ msgstr ""
 "לא ניתן ליצור ציר זמן מהסרטון הזה:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2158
+#: src/project/projectmanager.cpp:2161
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "מתבצע ייבוא של סרטון רצף, זה כרגע במצב ניסיוני"
 
-#: src/project/projectmanager.cpp:2403 src/project/projectmanager.cpp:2455
+#: src/project/projectmanager.cpp:2406 src/project/projectmanager.cpp:2458
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "בחירת סרטון ליצירת רצף"
 
-#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2416 src/project/projectmanager.cpp:2467
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "יצירת רצף נכשלה"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2443
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "לא ניתן להוסיף רצף בציר הזמן הנוכחי"
 
-#: src/project/projectmanager.cpp:2444
+#: src/project/projectmanager.cpp:2447
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "יצירת סרטון רצף"
 
-#: src/project/projectmanager.cpp:2482
+#: src/project/projectmanager.cpp:2485
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "העתקת סרטונים לרצף חדש"

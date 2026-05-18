@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-15 00:44+0000\n"
+"POT-Creation-Date: 2026-05-18 00:43+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -19909,7 +19909,7 @@ msgstr "プレイリスト"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2810 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1675
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1678
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -21133,7 +21133,7 @@ msgid "Disable GPU processing"
 msgstr "代用情報の削除"
 
 #: src/core.cpp:265 src/core.cpp:347 src/core.cpp:521
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:876
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -21906,7 +21906,7 @@ msgstr "マーカーの編集(E)"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:1986 src/project/projectmanager.cpp:1992
+#: src/project/projectmanager.cpp:1989 src/project/projectmanager.cpp:1995
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -22006,7 +22006,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1875
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1878
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -25523,8 +25523,8 @@ msgstr "下記の効果をプロジェクトからインポートしました:"
 msgid "Invalid file path"
 msgstr "無効なプロファイル"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:850
-#: src/project/projectmanager.cpp:902
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:853
+#: src/project/projectmanager.cpp:905
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr ""
@@ -25608,8 +25608,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1547
-#: src/project/projectmanager.cpp:1583
+#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1550
+#: src/project/projectmanager.cpp:1586
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -32546,7 +32546,7 @@ msgstr "バックアップファイルを開く"
 msgid "Save changes to document?"
 msgstr "ドキュメントに変更点を保存しますか？"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1815
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32583,40 +32583,40 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "コピーを保存"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:754
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "自動保存されたファイルが存在します。これらを今すぐ復元しますか？"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "File Recovery"
 msgstr "ファイルの復元"
 
-#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:888
+#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:891
 #, kde-format
 msgid "Recover"
 msgstr "復元"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:755
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "復元しない"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "File %1 does not exist"
 msgstr "カテゴリ"
 
-#: src/project/projectmanager.cpp:827
+#: src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Opening file %1"
 msgstr "ファイル %1 を開いています"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:890
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 is not a valid project file.\n"
@@ -32629,47 +32629,47 @@ msgstr ""
 "ファイル %1 は正しいプロジェクトファイルではありません。\n"
 "バックアップファイルを開きますか？"
 
-#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1137
+#: src/project/projectmanager.cpp:891 src/project/projectmanager.cpp:1140
 #, kde-format
 msgid "Error opening file"
 msgstr "ファイルを開く際にエラーが発生しました"
 
-#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:891 src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Open Backup"
 msgstr "バックアップを開く"
 
-#: src/project/projectmanager.cpp:906
+#: src/project/projectmanager.cpp:909
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "プロジェクトファイル %1 を開くことができません"
 
-#: src/project/projectmanager.cpp:921
+#: src/project/projectmanager.cpp:924
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "プロジェクトが更新されました、次回保存時にバックアップが作成されます"
 
-#: src/project/projectmanager.cpp:923
+#: src/project/projectmanager.cpp:926
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "プロジェクトを開いた際に編集しました、次回保存時にバックアップが作成されます"
 
-#: src/project/projectmanager.cpp:994
+#: src/project/projectmanager.cpp:997
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Loading timeline…"
 msgstr "新しいワイプのダウンロード(D)..."
 
-#: src/project/projectmanager.cpp:1017
+#: src/project/projectmanager.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Building sequences…"
 msgstr "イメージ・シーケンス"
 
-#: src/project/projectmanager.cpp:1164
+#: src/project/projectmanager.cpp:1167
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -32677,7 +32677,7 @@ msgid ""
 "%1\n"
 msgstr "プロジェクトファイル %1 を開くことができません"
 
-#: src/project/projectmanager.cpp:1204
+#: src/project/projectmanager.cpp:1207
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32686,12 +32686,12 @@ msgstr ""
 "最後にプロジェクト保存以降に行なわれた、すべての変更点が削除されます。続行し"
 "てもよろしいですか？"
 
-#: src/project/projectmanager.cpp:1205
+#: src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "最後に保存した版に戻す"
 
-#: src/project/projectmanager.cpp:1304
+#: src/project/projectmanager.cpp:1307
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -32700,26 +32700,26 @@ msgstr ""
 "プロジェクトが破損し、バックアップできません。最後のバックアップを復元するた"
 "めにプロジェクトを閉じて開きなおしてください。"
 
-#: src/project/projectmanager.cpp:1525
+#: src/project/projectmanager.cpp:1528
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "プロジェクトのフォルダ: %1"
 
-#: src/project/projectmanager.cpp:1561
+#: src/project/projectmanager.cpp:1564
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "プロジェクトフォルダの使用"
 
-#: src/project/projectmanager.cpp:1652 src/project/projectmanager.cpp:1708
-#: src/project/projectmanager.cpp:1712
+#: src/project/projectmanager.cpp:1655 src/project/projectmanager.cpp:1711
+#: src/project/projectmanager.cpp:1715
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Sequence 1"
 msgstr "イメージ・シーケンス"
 
-#: src/project/projectmanager.cpp:1663
+#: src/project/projectmanager.cpp:1666
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
@@ -32728,14 +32728,14 @@ msgstr ""
 "プロジェクトファイルが破損しています (トラックがありません)。バックアップファ"
 "イルを探しますか？"
 
-#: src/project/projectmanager.cpp:1804 src/project/projectmanager.cpp:1817
-#: src/project/projectmanager.cpp:1841 src/project/projectmanager.cpp:1850
+#: src/project/projectmanager.cpp:1807 src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1844 src/project/projectmanager.cpp:1853
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "プロジェクトのプロファイル: %1"
 
-#: src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1983
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -32743,13 +32743,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "出力先のファイルは既に存在しています。上書きしてよろしいですか？"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2008
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "プロジェクトのプロファイル: %1"
 
-#: src/project/projectmanager.cpp:2069
+#: src/project/projectmanager.cpp:2072
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -32757,36 +32757,36 @@ msgid ""
 "%1"
 msgstr "コンシューマ %1 を作成できません。"
 
-#: src/project/projectmanager.cpp:2158
+#: src/project/projectmanager.cpp:2161
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2403 src/project/projectmanager.cpp:2455
+#: src/project/projectmanager.cpp:2406 src/project/projectmanager.cpp:2458
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "効果を適用したい場合は、クリップを選択してください"
 
-#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2416 src/project/projectmanager.cpp:2467
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Sequence creation failed"
 msgstr "遷移効果の選択(E)"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2443
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot insert sequence in current timeline"
 msgstr "施錠されたトラック内では領域を削除できません"
 
-#: src/project/projectmanager.cpp:2444
+#: src/project/projectmanager.cpp:2447
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
 msgstr "イメージ・シーケンス"
 
-#: src/project/projectmanager.cpp:2482
+#: src/project/projectmanager.cpp:2485
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
