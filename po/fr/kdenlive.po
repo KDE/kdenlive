@@ -1,6 +1,6 @@
 # translation of kdenlive.po to français
 # translation of fr.po to
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025, 2026 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020-2026 Xavier Besnard <xavier.besnard@kde.org>
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006.
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006.
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-13 02:37+0000\n"
-"PO-Revision-Date: 2026-05-03 12:09+0200\n"
+"PO-Revision-Date: 2026-04-15 22:57+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.1\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -12560,7 +12560,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_premultiply.xml:4
 #, kde-format
 msgid "Premultiply or Unpremultiply"
-msgstr "Prémultiplier ou dé-prémultiplier"
+msgstr "Pré-multiplier ou dé-pré-multiplier"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:5
 #: data/effects/frei0r/frei0r_spillsupress.xml:5
@@ -12573,12 +12573,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_premultiply.xml:8
 #, kde-format
 msgid "Unpremultiply"
-msgstr "Dé-prémultiplier"
+msgstr "Dé-pré-multiplier"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:9
 #, kde-format
 msgid "Whether to unpremultiply instead"
-msgstr "Dé-prémultiplier à la place"
+msgstr "Dé-multiplier à la place"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -15542,7 +15542,7 @@ msgid ""
 msgstr ""
 "Conçu pour analyser et appliquer la normalisation sur la totalité d'un "
 "fichier audio ou d'une piste. Corrige le niveau sonore audio conformément "
-"aux recommandations de l'EBU R128."
+"aux recommandations « EBU R128 »."
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, kde-format
@@ -18336,7 +18336,7 @@ msgstr "Transition par balayage"
 #: data/transitions/wipe.xml:17
 #, kde-format
 msgid "Revert"
-msgstr "Inverser"
+msgstr "Rétablir"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CountDown_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, QTextClip_UI)
