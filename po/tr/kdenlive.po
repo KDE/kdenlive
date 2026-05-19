@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-15 00:44+0000\n"
+"POT-Creation-Date: 2026-05-19 00:44+0000\n"
 "PO-Revision-Date: 2026-05-15 13:22+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -7874,7 +7874,7 @@ msgstr "Siyahtan videoya geçiş"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:169
-#: src/monitor/view/MonitorTrimming.qml:112 src/timeline2/view/qml/Track.qml:89
+#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:89
 #, kde-format
 msgid "In"
 msgstr "Giriş"
@@ -7896,7 +7896,7 @@ msgid "Fade video to black"
 msgstr "Videodan siyaha geçiş"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:146
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
 #, kde-format
 msgid "Out"
 msgstr "Çıkış"
@@ -16352,7 +16352,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Sesi, bir Ses Değişimi efekti kullanarak işleyin."
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1942
-#: src/monitor/view/MonitorSplit.qml:105
+#: src/monitor/view/MonitorSplit.qml:99
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
@@ -19376,12 +19376,12 @@ msgstr ""
 "Ortam içe aktarmak için fareyle çift\n"
 "tıklayın veya %1 simgesine tıklayın"
 
-#: src/bin/bin.cpp:324 src/bin/bin.cpp:698 src/monitor/view/ClipMonitor.qml:557
+#: src/bin/bin.cpp:324 src/bin/bin.cpp:698 src/monitor/view/ClipMonitor.qml:552
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Zaman akışına yalnızca ses eklemek için sürükleyin"
 
-#: src/bin/bin.cpp:328 src/bin/bin.cpp:702 src/monitor/view/ClipMonitor.qml:557
+#: src/bin/bin.cpp:328 src/bin/bin.cpp:702 src/monitor/view/ClipMonitor.qml:552
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Zaman akışına yalnızca video eklemek için sürükleyin"
@@ -19885,7 +19885,7 @@ msgstr "Oynatma Listesi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2810 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1675
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1678
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20786,12 +20786,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Ortamı oynat"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "Unmute"
 msgstr "Sesini aç"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "Mute"
 msgstr "Sesi kapat"
@@ -21039,7 +21039,7 @@ msgid "Disable GPU processing"
 msgstr "GPU işlemeyi devre dışı bırak"
 
 #: src/core.cpp:265 src/core.cpp:347 src/core.cpp:521
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid "Loading project…"
 msgstr "Proje yükleniyor…"
@@ -21789,7 +21789,7 @@ msgstr "İmleyiciler Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:1986 src/project/projectmanager.cpp:1992
+#: src/project/projectmanager.cpp:1989 src/project/projectmanager.cpp:1995
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21882,7 +21882,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1875
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1878
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -25238,8 +25238,8 @@ msgstr "Aşağıdaki süzgeçler/geçişler projeden silindi:"
 msgid "Invalid file path"
 msgstr "Geçersiz dosya yolu"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:850
-#: src/project/projectmanager.cpp:902
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:853
+#: src/project/projectmanager.cpp:905
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Hasarlı dosya kurtarılamadı."
@@ -25316,8 +25316,8 @@ msgstr ""
 "Proje dosyanız en son Kdenlive belge sürümüne yükseltildi, fakat bir yedek "
 "kopyası %1 oluşturmak mümkün olmadı."
 
-#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1547
-#: src/project/projectmanager.cpp:1583
+#: src/doc/kdenlivedoc.cpp:946 src/project/projectmanager.cpp:1550
+#: src/project/projectmanager.cpp:1586
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Proje klasörü taşınırken hata: %1"
@@ -26407,7 +26407,7 @@ msgid "Clip in Timeline"
 msgstr "Zaman Akışındaki Klip"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1197
+#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1196
 #, kde-format
 msgid "Sequence"
 msgstr "Sekans"
@@ -27218,8 +27218,8 @@ msgstr "Konuşma Düzenleyicisi"
 msgid "Time Remapping"
 msgstr "Zaman Yeniden Eşlemlemesi"
 
-#: src/mainwindow.cpp:307 src/timeline2/view/qml/AudioRecordButton.qml:150
-#: src/timeline2/view/qml/AudioRecordButton.qml:263
+#: src/mainwindow.cpp:307 src/timeline2/view/qml/AudioRecordButton.qml:152
+#: src/timeline2/view/qml/AudioRecordButton.qml:265
 #, kde-format
 msgid "Record"
 msgstr "Kayıt"
@@ -30142,32 +30142,32 @@ msgstr ""
 "Kdenlive kurulumunuzla veya sürücü ayarlarınızla ilgili ters bir şeyler var, "
 "lütfen bunları giderin."
 
-#: src/monitor/view/AudioView.qml:328
+#: src/monitor/view/AudioView.qml:341
 #, kde-format
 msgid "Click to refresh audio waveform"
 msgstr "Ses dalga biçimini yenilemek için tıklayın"
 
-#: src/monitor/view/ClipMonitor.qml:368 src/monitor/view/ProjectMonitor.qml:197
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:196
 #, kde-format
 msgid "%1fps"
 msgstr "%1 FPS"
 
-#: src/monitor/view/ClipMonitor.qml:407 src/monitor/view/ProjectMonitor.qml:230
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:229
 #, kde-format
 msgid "In Point"
 msgstr "Giriş noktası"
 
-#: src/monitor/view/ClipMonitor.qml:407
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "Giriş/çıkış noktası"
 
-#: src/monitor/view/ClipMonitor.qml:430 src/monitor/view/ProjectMonitor.qml:247
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:246
 #, kde-format
 msgid "Out Point"
 msgstr "Çıkış noktası"
 
-#: src/monitor/view/ClipMonitor.qml:618
+#: src/monitor/view/ClipMonitor.qml:613
 #, kde-format
 msgid "Terminate Job"
 msgstr "İşi sonlandır"
@@ -30241,7 +30241,7 @@ msgstr "Maske oluşturmadan çık"
 msgid "Exit Preview Mode"
 msgstr "Önizleme kipinden çık"
 
-#: src/monitor/view/MonitorAutomask.qml:283
+#: src/monitor/view/MonitorAutomask.qml:277
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30254,22 +30254,22 @@ msgstr ""
 "Karakter+Tık</shortcut> yapın; bir bölgeyi dışlamak için <shortcut>Kontrol"
 "+Tık</shortcut> yapın."
 
-#: src/monitor/view/MonitorAutomask.qml:385
+#: src/monitor/view/MonitorAutomask.qml:379
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Önce görseldeki bir nesneyi seçin"
 
-#: src/monitor/view/MonitorAutomask.qml:385
+#: src/monitor/view/MonitorAutomask.qml:379
 #, kde-format
 msgid "Generating image mask"
 msgstr "Görsel maskesi üretiliyor"
 
-#: src/monitor/view/MonitorAutomask.qml:385
+#: src/monitor/view/MonitorAutomask.qml:379
 #, kde-format
 msgid "Generating video mask"
 msgstr "Video maskesi üretiliyor"
 
-#: src/monitor/view/MonitorAutomask.qml:396
+#: src/monitor/view/MonitorAutomask.qml:390
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -30280,12 +30280,12 @@ msgstr ""
 "Başka bir bölgeyi içermek için Üst Karakter düğmesi ile tıklayın.\n"
 "Bir bölgeyi dışlamak için Kontrol düğmesi ile tıklayın."
 
-#: src/monitor/view/MonitorAutomask.qml:396
+#: src/monitor/view/MonitorAutomask.qml:390
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Video maskesi önizleniyor"
 
-#: src/monitor/view/MonitorAutomask.qml:407
+#: src/monitor/view/MonitorAutomask.qml:401
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -30298,17 +30298,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:417
+#: src/monitor/view/MonitorAutomask.qml:411
 #, kde-format
 msgid "Go to mask start"
 msgstr "Maske Başlangıcına Git"
 
-#: src/monitor/view/MonitorAutomask.qml:429
+#: src/monitor/view/MonitorAutomask.qml:423
 #, kde-format
 msgid "Go to mask end"
 msgstr "Maske Sonuna Git"
 
-#: src/monitor/view/MonitorGeometryScene.qml:362
+#: src/monitor/view/MonitorGeometryScene.qml:356
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30323,7 +30323,7 @@ msgstr ""
 "için <shortcut>sağa gelin</shortcut>, bir merkezin anahtar karesine gitmek "
 "için <shortcut>tıklayın</shortcut>"
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30333,7 +30333,7 @@ msgstr ""
 "Puan eklemek için <shortcut>tıklayın</shortcut>, şekli kapatmak için "
 "<shortcut>sağ tıklayın</shortcut>."
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30348,7 +30348,7 @@ msgstr ""
 "anahtar kare oluşturmak için arka plana <shortcut>çift tıklayın</shortcut>, "
 "araç çubuğu için <shortcut>fareyi sağa getirin</shortcut>"
 
-#: src/monitor/view/MonitorRotoScene.qml:74
+#: src/monitor/view/MonitorRotoScene.qml:73
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -30356,7 +30356,7 @@ msgstr ""
 "Merkez tabanlı yeniden boyutlandırma için tutacı <shortcut>Üst Karakter ile "
 "sürükle</shortcut>"
 
-#: src/monitor/view/MonitorRotoScene.qml:437
+#: src/monitor/view/MonitorRotoScene.qml:431
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -30405,7 +30405,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Yakınlaştırmayı sıfırla"
 
-#: src/monitor/view/ProjectMonitor.qml:103
+#: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -30415,7 +30415,7 @@ msgstr ""
 "Sağa gelin </b>araç çubuğu için aramak için <b> Tekerlek </b> veya <b> oklar "
 "</b>, yakınlaştırmak için <b> Kontrol tekerleği </b>"
 
-#: src/monitor/view/ProjectMonitor.qml:301
+#: src/monitor/view/ProjectMonitor.qml:300
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
@@ -31939,7 +31939,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1815
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31975,37 +31975,37 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Kopyayı Kaydet"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Kendiliğinden kayıt dosyası var. Şimdi kurtarmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "File Recovery"
 msgstr "Dosya Kurtarma"
 
-#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:888
+#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:891
 #, kde-format
 msgid "Recover"
 msgstr "Kurtar"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Do not recover"
 msgstr "Kurtarma"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "%1 dosyası yok"
 
-#: src/project/projectmanager.cpp:827
+#: src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Opening file %1"
 msgstr "%1 dosyası açılıyor…"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:890
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32016,28 +32016,28 @@ msgstr ""
 "%1\n"
 "Önceden aldığınız bir yedeği açmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1137
+#: src/project/projectmanager.cpp:891 src/project/projectmanager.cpp:1140
 #, kde-format
 msgid "Error opening file"
 msgstr "Dosya açılamadı"
 
-#: src/project/projectmanager.cpp:888 src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:891 src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Open Backup"
 msgstr "Yedeği Aç"
 
-#: src/project/projectmanager.cpp:906
+#: src/project/projectmanager.cpp:909
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Yedek proje dosyası açılamadı."
 
-#: src/project/projectmanager.cpp:921
+#: src/project/projectmanager.cpp:924
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projeniz yükseltildi, bir sonraki kaydetmede bir yedekleme oluşturulacak"
 
-#: src/project/projectmanager.cpp:923
+#: src/project/projectmanager.cpp:926
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -32045,17 +32045,17 @@ msgstr ""
 "Projeniz açıldığında değiştirildi ve bir sonraki kaydetmede bir yedekleme "
 "oluşturulacak"
 
-#: src/project/projectmanager.cpp:994
+#: src/project/projectmanager.cpp:997
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Zaman akışı yükleniyor…"
 
-#: src/project/projectmanager.cpp:1017
+#: src/project/projectmanager.cpp:1020
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sekanslar yapılıyor…"
 
-#: src/project/projectmanager.cpp:1164
+#: src/project/projectmanager.cpp:1167
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32064,7 +32064,7 @@ msgstr ""
 "Proje dosyası açılamıyor. Hata:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1204
+#: src/project/projectmanager.cpp:1207
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32073,12 +32073,12 @@ msgstr ""
 "Bu, projenizi en son kaydettiğinizden bu yana olan değişiklikleri silecek. "
 "Hâlâ sürdürmek istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:1205
+#: src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Son kaydedilen sürüme geri dön"
 
-#: src/project/projectmanager.cpp:1304
+#: src/project/projectmanager.cpp:1307
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -32087,35 +32087,35 @@ msgstr ""
 "Proje bozulmuş, yedeklenemiyor. Lütfen projenizi kapatın ve yeniden açınson "
 "yedeği kurtarmak için dosya"
 
-#: src/project/projectmanager.cpp:1525
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Proje klasörü taşınırken hata, önbellek klasörüne erişilemiyor"
 
-#: src/project/projectmanager.cpp:1561
+#: src/project/projectmanager.cpp:1564
 #, kde-format
 msgid "Moving project folder"
 msgstr "Proje klasörü taşınıyor"
 
-#: src/project/projectmanager.cpp:1652 src/project/projectmanager.cpp:1708
-#: src/project/projectmanager.cpp:1712
+#: src/project/projectmanager.cpp:1655 src/project/projectmanager.cpp:1711
+#: src/project/projectmanager.cpp:1715
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekans 1"
 
-#: src/project/projectmanager.cpp:1663
+#: src/project/projectmanager.cpp:1666
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk — izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1804 src/project/projectmanager.cpp:1817
-#: src/project/projectmanager.cpp:1841 src/project/projectmanager.cpp:1850
+#: src/project/projectmanager.cpp:1807 src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1844 src/project/projectmanager.cpp:1853
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1983
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -32124,12 +32124,12 @@ msgstr ""
 "Çıktı dosyası %1 hâlihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2008
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:2069
+#: src/project/projectmanager.cpp:2072
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -32138,33 +32138,33 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2158
+#: src/project/projectmanager.cpp:2161
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
-#: src/project/projectmanager.cpp:2403 src/project/projectmanager.cpp:2455
+#: src/project/projectmanager.cpp:2406 src/project/projectmanager.cpp:2458
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2416 src/project/projectmanager.cpp:2467
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Sekans oluşturma başarısız"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2443
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Geçerli zaman akışına sekans eklenemiyor"
 
-#: src/project/projectmanager.cpp:2444
+#: src/project/projectmanager.cpp:2447
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/project/projectmanager.cpp:2482
+#: src/project/projectmanager.cpp:2485
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "Klipleri Yeni Sekansa Kopyala"
@@ -34130,15 +34130,15 @@ msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
 
 #: src/timeline2/model/timelinemodel.cpp:7759
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:414
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
+#: src/timeline2/view/qml/TrackHead.qml:417
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
 #: src/timeline2/model/timelinemodel.cpp:7764
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:414
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
+#: src/timeline2/view/qml/TrackHead.qml:417
 #, kde-format
 msgid "Unlock track"
 msgstr "İzin kilidini aç"
@@ -34320,19 +34320,19 @@ msgstr ""
 msgid "Mic level"
 msgstr "Mikrofon düzeyi"
 
-#: src/timeline2/view/qml/AudioRecordButton.qml:150
-#: src/timeline2/view/qml/AudioRecordButton.qml:263
+#: src/timeline2/view/qml/AudioRecordButton.qml:152
+#: src/timeline2/view/qml/AudioRecordButton.qml:265
 #, kde-format
 msgid "Track is locked. Cannot start Recording."
 msgstr "İz kilitli. Kayıt yapmaya başlanamıyor."
 
-#: src/timeline2/view/qml/AudioRecordButton.qml:255
+#: src/timeline2/view/qml/AudioRecordButton.qml:257
 #, kde-format
 msgid "Stop"
 msgstr "Durdur"
 
-#: src/timeline2/view/qml/AudioRecordButton.qml:259
-#: src/timeline2/view/qml/Timeline.qml:2304
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
+#: src/timeline2/view/qml/Timeline.qml:2303
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
@@ -34471,59 +34471,59 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "Metni düzenlemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:91
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:94
 #, kde-format
 msgid "Click to see details"
 msgstr "Ayrıntıları görmek için tıklayın"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:105
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:108
 #, kde-format
 msgid "Speech recognition"
 msgstr "Konuşma tanıma"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:400
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
+#: src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "Show"
 msgstr "Göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:400 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
+#: src/timeline2/view/qml/TrackHead.qml:403 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/timeline2/view/qml/Timeline.qml:904
-#: src/timeline2/view/qml/Timeline.qml:914
+#: src/timeline2/view/qml/Timeline.qml:903
+#: src/timeline2/view/qml/Timeline.qml:913
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Ses: %2 akış için %1 iz"
 msgstr[1] "Ses: %2 akış için %1 iz"
 
-#: src/timeline2/view/qml/Timeline.qml:1191
+#: src/timeline2/view/qml/Timeline.qml:1190
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Sekans efektlerini göster"
 
-#: src/timeline2/view/qml/Timeline.qml:1930
+#: src/timeline2/view/qml/Timeline.qml:1929
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2124
+#: src/timeline2/view/qml/Timeline.qml:2123
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2293
-#: src/timeline2/view/qml/Timeline.qml:2302
+#: src/timeline2/view/qml/Timeline.qml:2292
+#: src/timeline2/view/qml/Timeline.qml:2301
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/Timeline.qml:2396
+#: src/timeline2/view/qml/Timeline.qml:2395
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
@@ -34538,7 +34538,7 @@ msgstr "%1%2, Süre = %3"
 msgid "%1% | Adjusting speed"
 msgstr "%​%1 | Hız ayarlanıyor"
 
-#: src/timeline2/view/qml/TrackHead.qml:166
+#: src/timeline2/view/qml/TrackHead.qml:169
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -34547,24 +34547,24 @@ msgstr ""
 "İzi hedef olarak ayarlamak için tıklayın. Hedef izler yerleştirilen klipleri "
 "alacaklardır."
 
-#: src/timeline2/view/qml/TrackHead.qml:241
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Üst Karakter</b>, aynı türdeki tüm izleri genişletir/daraltır (ses/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:253
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr "Küçült"
 
-#: src/timeline2/view/qml/TrackHead.qml:253
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Expand"
 msgstr "Genişlet"
 
-#: src/timeline2/view/qml/TrackHead.qml:283
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -34573,28 +34573,28 @@ msgstr ""
 "İzi etkin/devre dışı yapmak için tıklayın. Etkin izler, düzenleme "
 "işlemlerine yanıt verecektir"
 
-#: src/timeline2/view/qml/TrackHead.qml:370
+#: src/timeline2/view/qml/TrackHead.qml:373
 #, kde-format
 msgid "Disable track effects"
 msgstr "İz efektlerini devre dışı bırak"
 
-#: src/timeline2/view/qml/TrackHead.qml:370
+#: src/timeline2/view/qml/TrackHead.qml:373
 #, kde-format
 msgid "Enable track effects"
 msgstr "İz efektlerini etkinleştir"
 
-#: src/timeline2/view/qml/TrackHead.qml:370
+#: src/timeline2/view/qml/TrackHead.qml:373
 #, kde-format
 msgid "Toggle track effects"
 msgstr "İz efektlerini aç/kapat"
 
-#: src/timeline2/view/qml/TrackHead.qml:391
+#: src/timeline2/view/qml/TrackHead.qml:394
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Üst Karakter</b>, aynı türdeki tüm izleri gösterir/gizler (ses/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:485
+#: src/timeline2/view/qml/TrackHead.qml:488
 #, kde-format
 msgid "Edit track name"
 msgstr "İz adını düzenle"

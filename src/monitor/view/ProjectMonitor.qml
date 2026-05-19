@@ -40,7 +40,6 @@ Item {
     property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -58,7 +57,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font: K.UiUtils.fixedFont
     }
 
     signal editCurrentMarker()
@@ -204,7 +203,7 @@ Item {
             }
             Label {
                 id: labelSpeed
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     top: parent.top
@@ -220,7 +219,7 @@ Item {
             }
             Label {
                 id: inPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -237,7 +236,7 @@ Item {
             }
             Label {
                 id: outPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
@@ -254,7 +253,7 @@ Item {
             }
             TextField {
                 id: marker
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
                 onEditingFinished: {

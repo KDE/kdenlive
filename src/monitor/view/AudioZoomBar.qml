@@ -11,7 +11,7 @@ import org.kde.kdenlive as K
 
 Rectangle {
     id: audioSeekZone
-    property int zoomZoneBorder: root.baseUnit * 0.24
+    property int zoomZoneBorder: K.UiUtils.baseSizeMedium * 0.24
     property bool containsMouse: containerArea.containsMouse || mainHandleArea.containsMouse || leftHandle.containsMouse || mainHandleArea.pressed || leftHandle.pressed || rightHandle.pressed || rightHandle.containsMouse
     color: activePalette.midlight
     width: parent.width
@@ -203,12 +203,12 @@ Rectangle {
     MouseArea {
         // Left handle
         id: leftHandle
-        width: root.baseUnit * 2
+        width: K.UiUtils.baseSizeMedium * 2
         height: zoomRef.height
         acceptedButtons: Qt.LeftButton
         anchors {
             left: pressed ? undefined : zoomRef.left
-            leftMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit
+            leftMargin: zoomRef.width > 2 * K.UiUtils.baseSizeMedium ? -K.UiUtils.baseSizeMedium : -2 * K.UiUtils.baseSizeMedium
         }
         cursorShape: Qt.SizeHorCursor
         onPressed: {
@@ -231,12 +231,12 @@ Rectangle {
     MouseArea {
         // Right handle
         id: rightHandle
-        width: root.baseUnit * 2
+        width: K.UiUtils.baseSizeMedium * 2
         height: zoomRef.height
         acceptedButtons: Qt.LeftButton
         anchors {
             right: pressed ? undefined : zoomRef.right
-            rightMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit
+            rightMargin: zoomRef.width > 2 * K.UiUtils.baseSizeMedium ? -K.UiUtils.baseSizeMedium : -2 * K.UiUtils.baseSizeMedium
         }
         cursorShape: Qt.SizeHorCursor
         onPressed: {

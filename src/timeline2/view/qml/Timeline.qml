@@ -155,7 +155,7 @@ Rectangle {
         if (subtitleTrack.height > root.collapsedHeight) {
             subtitleTrack.height = root.collapsedHeight
         } else {
-            subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
+            subtitleTrack.height = K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
         }
     }
 
@@ -295,26 +295,26 @@ Rectangle {
         var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
         y += ruler.height
-        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
-            scrollTimer.horizontal = root.baseUnit
+        if (x > scrollView.contentX + scrollView.width - K.UiUtils.baseSizeMedium * 3) {
+            scrollTimer.horizontal = K.UiUtils.baseSizeMedium
             scrollTimer.interval = 80
             scrollTimer.start()
         } else if (x < 50) {
             scrollView.contentX = 0;
             scrollTimer.horizontal = 0
             scrollTimer.stop()
-        } else if (x < scrollView.contentX + root.baseUnit * 3) {
-            scrollTimer.horizontal = -root.baseUnit
+        } else if (x < scrollView.contentX + K.UiUtils.baseSizeMedium * 3) {
+            scrollTimer.horizontal = -K.UiUtils.baseSizeMedium
             scrollTimer.interval = 80
             scrollTimer.start()
         } else {
-            if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit) {
-                scrollTimer.vertical = root.baseUnit
+            if (y > scrollView.contentY + scrollView.height + ruler.height - K.UiUtils.baseSizeMedium) {
+                scrollTimer.vertical = K.UiUtils.baseSizeMedium
                 scrollTimer.horizontal = 0
                 scrollTimer.interval = 200
                 scrollTimer.start()
-            } else if (upMove > 6 && scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < root.baseUnit)) {
-                scrollTimer.vertical = -root.baseUnit
+            } else if (upMove > 6 && scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < K.UiUtils.baseSizeMedium)) {
+                scrollTimer.vertical = -K.UiUtils.baseSizeMedium
                 scrollTimer.horizontal = 0
                 scrollTimer.interval = 200
                 scrollTimer.start()
@@ -520,10 +520,9 @@ function getTrackColor(audio, header) {
     }
 
     property int activeTool: K.ToolType.SelectTool
-    property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
-    property int minClipWidthForViews: 1.5 * baseUnit
+    property int minClipWidthForViews: 1.5 * K.UiUtils.baseSizeMedium
     property real fontUnit: fontMetrics.font.pointSize
-    property int collapsedHeight: Math.max(28, baseUnit * 1.8)
+    property int collapsedHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
     property int minHeaderWidth: 6 * collapsedHeight
     property int headerWidth: Math.max(minHeaderWidth, timeline.headerWidth())
     property bool autoTrackHeight: timeline.autotrackHeight
@@ -557,7 +556,7 @@ function getTrackColor(audio, header) {
     property int spacerClickFrame: -1
     property bool spacerGuides: false
     property real timeScale: timeline.scaleFactor
-    property int snapping: (K.KdenliveSettings.snaptopoints && (root.timeScale < 2 * baseUnit)) ? Math.floor(baseUnit / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
+    property int snapping: (K.KdenliveSettings.snaptopoints && (root.timeScale < 2 * K.UiUtils.baseSizeMedium)) ? Math.floor(K.UiUtils.baseSizeMedium / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
     property var selectedGuides: []
@@ -574,7 +573,7 @@ function getTrackColor(audio, header) {
     property int scrollMax: scrollMin + scrollView.contentItem.width / root.timeScale
     property double dar: 16/9
     property bool paletteUnchanged: true
-    property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
+    property int maxLabelWidth: 20 * K.UiUtils.baseSizeMedium * Math.sqrt(root.timeScale)
     property bool showSubtitles: false
     property bool subtitlesWarning: timeline.subtitlesWarning
     property bool subtitlesLocked: timeline.subtitlesLocked
@@ -585,7 +584,7 @@ function getTrackColor(audio, header) {
     property int spacerMaxPos: -1
 
     onMaxSubLayerChanged: {
-        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
+        subtitleTrack.height = showSubtitles? K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
     }
 
     onAutoTrackHeightChanged: {
@@ -600,7 +599,7 @@ function getTrackColor(audio, header) {
     }
 
     onShowSubtitlesChanged: {
-        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
+        subtitleTrack.height = showSubtitles? K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
         if (root.autoTrackHeight) {
             timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
         }
@@ -1294,7 +1293,7 @@ function getTrackColor(audio, header) {
                 Column {
                     id: trackHeadersResizer
                     spacing: 0
-                    width: Math.round(root.baseUnit/3)
+                    width: Math.round(K.UiUtils.baseSizeMedium / 3)
                     Rectangle {
                         id: resizer
                         height: trackHeaders.height + subtitleTrackHeader.height
@@ -1796,7 +1795,7 @@ function getTrackColor(audio, header) {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
                     width: root.width - root.headerWidth
-                    height: Math.round(root.baseUnit * 2.5) + ruler.guideLabelHeight
+                    height: Math.round(K.UiUtils.baseSizeMedium * 2.5) + ruler.guideLabelHeight
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
@@ -1810,8 +1809,8 @@ function getTrackColor(audio, header) {
                         height: parent.height
                         K.TimelinePlayhead {
                             id: playhead
-                            height: Math.round(root.baseUnit * .8)
-                            width: Math.round(root.baseUnit * 1.2)
+                            height: Math.round(K.UiUtils.baseSizeMedium * .8)
+                            width: Math.round(K.UiUtils.baseSizeMedium * 1.2)
                             fillColor: activePalette.windowText
                             visible: cursor.visible
                             anchors.bottom: parent.bottom
@@ -2222,7 +2221,7 @@ function getTrackColor(audio, header) {
                                 radius: 2
                                 color: Qt.rgba(1, 1, 1, 0.3)
                                 visible: false
-                                width: root.baseUnit
+                                width: K.UiUtils.baseSizeMedium
                                 height: width
                                 onVisibleChanged: {
                                     if (clipBeingDroppedId > -1) {
@@ -2328,8 +2327,8 @@ function getTrackColor(audio, header) {
                             right: parent.right
                             top: scrollView.bottom
                         }
-                        height: Math.round(root.baseUnit * 0.7)
-                        barMinWidth: root.baseUnit
+                        height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
+                        barMinWidth: K.UiUtils.baseSizeMedium
                         fitsZoom: timeline.scaleFactor === root.fitZoom() && root.scrollPos() === 0
                         zoomFactor: scrollView.visibleArea.widthRatio
                         onProposeZoomFactor: (proposedValue) => {

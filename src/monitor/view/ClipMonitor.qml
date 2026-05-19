@@ -53,7 +53,6 @@ Item {
     // Always display audio thumbs under video
     property bool showToolbar: false
     property string clipName: controller.clipName
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300 // last selectable frame of the timecode display
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -62,20 +61,15 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property bool alwaysShowAudio: K.KdenliveSettings.alwaysShowMonitorAudio
     property bool inLowerThird: (audioView.containsMyMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
     property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
-    }
-
-    onAlwaysShowAudioChanged: {
-        audioView.refreshView()
     }
 
     function updateClickCapture() {
@@ -84,7 +78,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font: K.UiUtils.fixedFont
     }
 
     Timer {
@@ -109,7 +103,7 @@ Item {
         }
 
         // adjust monitor image size if audio thumb is displayed
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -117,7 +111,7 @@ Item {
     }
 
     onZoomOffsetChanged: {
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -125,7 +119,7 @@ Item {
     }
 
     onHeightChanged: {
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = (audioView.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -227,6 +221,7 @@ Item {
             anchors.fill: parent
             AudioView {
                 id: audioView
+                clipController: controller
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -237,7 +232,7 @@ Item {
                 enabled: !cursorArea.containsMouse
                 dragButtonsVisible: root.inLowerThird
                 dirty: !controller.audioSynced
-                visible: isAudioClip || ((alwaysShowAudio || root.showAudiothumb) && (controller.clipType === K.ClipType.AV || controller.clipHasAV))
+                visible: isAudioClip || ((K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (controller.clipType === K.ClipType.AV || controller.clipHasAV))
             }
             Menu {
                 id: contextMenu
@@ -245,7 +240,7 @@ Item {
                     model: controller.lastClips
                     MenuItem {
                         text: modelData
-                        font: fixedFont
+                        font: K.UiUtils.fixedFont
                         onTriggered: {
                             controller.selectClip(index)
                             //showAnimate.restart()
@@ -381,7 +376,7 @@ Item {
             }
             Label {
                 id: labelSpeed
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     top: parent.top
@@ -397,7 +392,7 @@ Item {
             }
             Label {
                 id: inPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -420,7 +415,7 @@ Item {
             }
             Label {
                 id: outPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
@@ -443,7 +438,7 @@ Item {
             }
             TextField {
                 id: marker
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
                 text: controller.markerComment
@@ -477,7 +472,7 @@ Item {
             x: 2
             y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
             property bool showVideoDrag: controller.clipHasAV || !audioView.isAudioClip
-            height: root.baseUnit * 3
+            height: K.UiUtils.baseSizeMedium * 3
             width: showVideoDrag ? height * 2 : height
             color: Qt.rgba(activePalette.base.r, activePalette.base.g, activePalette.base.b, 0.5)
             radius: 4

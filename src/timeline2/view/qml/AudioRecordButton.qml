@@ -9,11 +9,13 @@ import QtMultimedia
 
 import org.kde.ki18n
 
+import org.kde.kdenlive as K
+
 Rectangle {
     id: recbutton
-    width: root.baseUnit * 1.5
-    height: root.baseUnit * 1.5
-    radius: recState == MediaRecorder.PausedState ? root.baseUnit * 0.2 : root.baseUnit * .75
+    width: K.UiUtils.baseSizeMedium * 1.5
+    height: K.UiUtils.baseSizeMedium * 1.5
+    radius: recState == MediaRecorder.PausedState ? K.UiUtils.baseSizeMedium * 0.2 : K.UiUtils.baseSizeMedium * .75
     color: activePalette.text
     border.width: 0
     

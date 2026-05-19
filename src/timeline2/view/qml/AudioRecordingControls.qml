@@ -7,12 +7,14 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import org.kde.kdenlive as K
+
 Item {
     id: recContainer
     property int trackId: -1
     property int recState: audiorec.recordState
     width: parent.width
-    implicitHeight: root.baseUnit * 1.5 + 4  // +4 for tick marks below levels
+    implicitHeight: K.UiUtils.baseSizeMedium * 1.5 + 4  // +4 for tick marks below levels
     
     RowLayout {
         spacing: 12

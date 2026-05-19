@@ -5,6 +5,8 @@
 
 import QtQuick 2.15
 
+import org.kde.kdenlive as K
+
 Rectangle
 {
     id: keyframeContainer
@@ -98,7 +100,7 @@ Rectangle
         // Keyframes container
         anchors.fill: parent
         z: 5
-        visible: keyframeContainer.selected && keyframeContainer.width > root.baseUnit * 3 && (kfrCount < (keyframeContainer.width / root.baseUnit)) && kfrCount > 1
+        visible: keyframeContainer.selected && keyframeContainer.width > K.UiUtils.baseSizeMedium * 3 && (kfrCount < (keyframeContainer.width / K.UiUtils.baseSizeMedium)) && kfrCount > 1
         Repeater {
             id: keyframes
             model: kfrModel

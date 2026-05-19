@@ -20,7 +20,6 @@ Item {
     property int mouseRulerPos: 0
     property int splitterPos
     property rect framesize
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     // percentage holds splitter pos relative to the scene percentage
     property double percentage
     property point profile: controller.profile
@@ -45,11 +44,6 @@ Item {
 
     function updateClickCapture() {
         root.captureRightClick = false
-    }
-
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
     }
 
     percentage: 0.5

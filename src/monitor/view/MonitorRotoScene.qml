@@ -22,7 +22,6 @@ Item {
     property string framenum
     property point profile: controller.profile
     property point center
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int overlayType: controller.overlayType
     property double scalex : 1
     property double scaley : 1
@@ -126,11 +125,6 @@ Item {
         canvas.requestPaint()
     }
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
-    }
-
     function closeShape() {
         // close shape, define control points
         var p0; var p1; var p2
@@ -187,7 +181,7 @@ Item {
 
     Canvas {
       id: canvas
-      property double handleSize: root.baseUnit * 0.5
+      property double handleSize: K.UiUtils.baseSizeMedium * 0.5
       property double darOffset : 0
       property color fillColor: Qt.rgba(1, 1, 1, 0.5)
       anchors.fill: parent
@@ -304,10 +298,10 @@ Item {
                 // Calculate and draw center
                 centerCross.x = bottomLeft.x + (topRight.x - bottomLeft.x)/2
                 centerCross.y = topRight.y + (bottomLeft.y - topRight.y)/2
-                ctx.moveTo(centerCross.x - root.baseUnit/2, centerCross.y - root.baseUnit/2)
-                ctx.lineTo(centerCross.x + root.baseUnit/2, centerCross.y + root.baseUnit/2)
-                ctx.moveTo(centerCross.x + root.baseUnit/2, centerCross.y - root.baseUnit/2)
-                ctx.lineTo(centerCross.x - root.baseUnit/2, centerCross.y + root.baseUnit/2)
+                ctx.moveTo(centerCross.x - K.UiUtils.baseSizeMedium/2, centerCross.y - K.UiUtils.baseSizeMedium/2)
+                ctx.lineTo(centerCross.x + K.UiUtils.baseSizeMedium/2, centerCross.y + K.UiUtils.baseSizeMedium/2)
+                ctx.moveTo(centerCross.x + K.UiUtils.baseSizeMedium/2, centerCross.y - K.UiUtils.baseSizeMedium/2)
+                ctx.lineTo(centerCross.x - K.UiUtils.baseSizeMedium/2, centerCross.y + K.UiUtils.baseSizeMedium/2)
             }
             ctx.stroke()
             if (root.addedPointIndex > -1 && !root.displayResize) {
@@ -435,7 +429,7 @@ Item {
         Text {
             id: label
             text: KI18n.i18n("Click to add points,\nright click or press enter to close shape.")
-            font: fixedFont
+            font: K.UiUtils.fixedFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors {

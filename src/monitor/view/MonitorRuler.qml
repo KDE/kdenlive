@@ -8,7 +8,7 @@ import QtQuick 2.15
 
 import org.kde.ki18n
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 // Monitor ruler
 Rectangle {
@@ -21,7 +21,7 @@ Rectangle {
     // The pixel offset
     property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
     // The scroll factor on seek
-    property int seekOffset: root.baseUnit * 0.7
+    property int seekOffset: K.UiUtils.baseSizeMedium * 0.7
     
     property int playheadPosition: controller.position
     Rectangle {
@@ -46,7 +46,7 @@ Rectangle {
             return
         }
         var scaledPosition = ruler.playheadPosition * root.timeScale - ruler.rulerZoomOffset
-        if (scaledPosition < root.baseUnit) {
+        if (scaledPosition < K.UiUtils.baseSizeMedium) {
             if (scaledPosition < 0) {
                 root.zoomStart = Math.max(0, (rulerZoomOffset - seekOffset + scaledPosition) * root.zoomFactor) / ruler.width
             } else {
@@ -55,7 +55,7 @@ Rectangle {
             if (root.zoomStart > 0) {
                 scrollTimer.start()
             }
-        } else if (scaledPosition > ruler.width - root.baseUnit) {
+        } else if (scaledPosition > ruler.width - K.UiUtils.baseSizeMedium) {
             if (scaledPosition > ruler.width) {
                 root.zoomStart = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + seekOffset + scaledPosition - ruler.width) * root.zoomFactor) / ruler.width
             } else {
@@ -75,9 +75,9 @@ Rectangle {
         
         // Adjust zoom factor
         root.zoomFactor = Math.min(1, root.zoomFactor / 1.2)
-        if (root.zoomFactor * ruler.width < root.baseUnit / 2) {
+        if (root.zoomFactor * ruler.width < K.UiUtils.baseSizeMedium / 2) {
             // Don't allow too large zoom
-            root.zoomFactor = root.baseUnit / 2 / ruler.width
+            root.zoomFactor = K.UiUtils.baseSizeMedium / 2 / ruler.width
         }
         // Always try to have cursor pos centered in zoom
         var cursorPos = Math.max(0, controller.position / root.duration - root.zoomFactor / 2)
@@ -258,11 +258,11 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
             text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn) + '<' + controller.toTimecode(controller.zoneOut - 1) : controller.toTimecode(controller.zoneOut - controller.zoneIn)
-            font: fixedFont
+            font: K.UiUtils.fixedFont
             color: activePalette.text
         }
     }
-    Kdenlive.TimelinePlayhead {
+    K.TimelinePlayhead {
         id: playhead
         visible: controller.position > -1
         height: ruler.height * 0.5
@@ -275,10 +275,10 @@ Rectangle {
     }
     MouseArea {
         id: trimInMouseArea
-        x: zone.x - root.baseUnit * 0.4
+        x: zone.x - K.UiUtils.baseSizeMedium * 0.4
         y: zone.y
         height: zone.height
-        width: root.baseUnit * .8
+        width: K.UiUtils.baseSizeMedium * .8
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         drag {
@@ -297,12 +297,12 @@ Rectangle {
         }
         onReleased: {
             root.updateClickCapture()
-            x = Qt.binding(function() { return zone.x - root.baseUnit * .4 })
+            x = Qt.binding(function() { return zone.x - K.UiUtils.baseSizeMedium * .4 })
             controller.endZoneMove()
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                controller.zoneIn = Math.max(0, Math.round((x + (root.baseUnit * .4) + ruler.rulerZoomOffset) / root.timeScale))
+                controller.zoneIn = Math.max(0, Math.round((x + (K.UiUtils.baseSizeMedium * .4) + ruler.rulerZoomOffset) / root.timeScale))
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     controller.position = controller.zoneIn
                 }
@@ -317,16 +317,16 @@ Rectangle {
         Rectangle {
             id: trimIn
             anchors.fill: parent
-            anchors.leftMargin: root.baseUnit * .4
+            anchors.leftMargin: K.UiUtils.baseSizeMedium * .4
             color: 'white'
             opacity: zone.zoneHovered || trimInMouseArea.containsMouse || trimInMouseArea.drag.active ? 0.6 : 0
         }
     }
     MouseArea {
         id: trimOutMouseArea
-        x: zone.x + zone.width - (root.baseUnit * .4)
+        x: zone.x + zone.width - (K.UiUtils.baseSizeMedium * .4)
         y: zone.y
-        width: root.baseUnit * .8
+        width: K.UiUtils.baseSizeMedium * .8
         height: zone.height
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
@@ -346,12 +346,12 @@ Rectangle {
         }
         onReleased: {
             root.updateClickCapture()
-            x = Qt.binding(function() { return zone.x + zone.width - (root.baseUnit * .4) })
+            x = Qt.binding(function() { return zone.x + zone.width - (K.UiUtils.baseSizeMedium * .4) })
             controller.endZoneMove()
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                controller.zoneOut = Math.round((x + (root.baseUnit * .4) + ruler.rulerZoomOffset) / root.timeScale)
+                controller.zoneOut = Math.round((x + (K.UiUtils.baseSizeMedium * .4) + ruler.rulerZoomOffset) / root.timeScale)
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     controller.position = controller.zoneOut
                 }
@@ -366,7 +366,7 @@ Rectangle {
         Rectangle {
             id: trimOut
             anchors.fill: parent
-            anchors.rightMargin: root.baseUnit * .4
+            anchors.rightMargin: K.UiUtils.baseSizeMedium * .4
             color: 'white'
             opacity: zone.zoneHovered || trimOutMouseArea.containsMouse || trimOutMouseArea.drag.active ? 0.6 : 0
         }
@@ -436,7 +436,7 @@ Rectangle {
                 Text {
                     id: mlabel
                     text: model.comment + (guideRoot.isRangeMarker ? " (" + controller.toTimecode(guideRoot.markerDuration) + ")" : "")
-                    font: fixedFont
+                    font: K.UiUtils.fixedFont
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     anchors {

@@ -40,7 +40,6 @@ Item {
     onSourcedarChanged: refreshdar()
     property bool cursorOutsideEffect: controller.cursorOutsideEffect
     property int requestedKeyFrame
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -86,14 +85,9 @@ Item {
         canvas.requestPaint()
     }
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
-    }
-
     Canvas {
       id: canvas
-      property double handleSize: root.baseUnit * 0.5
+      property double handleSize: K.UiUtils.baseSizeMedium * 0.5
       property double darOffset : 0
       property color fillColor: Qt.rgba(1, 1, 1, 0.5)
       property color selectedColor: activePalette.highlight

@@ -8,19 +8,19 @@ import QtQuick.Controls 2.15
 
 import org.kde.ki18n
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Rectangle {
     id: keyframe
-    visible: root.activeTool === Kdenlive.ToolType.SelectTool
+    visible: root.activeTool === K.ToolType.SelectTool
     property int frame : model.frame
     property int frameType : model.type
     property string realValue: model.value
     x: (model.frame - keyframeContainer.inPoint) * timeScale
     height: parent.height
     property int value: parent.height * model.normalizedValue
-    property int tmpVal : keyframeVal.y + root.baseUnit / 2
-    property int tmpPos : x + keyframeVal.x + root.baseUnit / 2
+    property int tmpVal : keyframeVal.y + K.UiUtils.baseSizeMedium / 2
+    property int tmpPos : x + keyframeVal.x + K.UiUtils.baseSizeMedium / 2
     property int dragPos : -1
     anchors.bottom: parent.bottom
     onFrameTypeChanged: {
@@ -37,11 +37,11 @@ Rectangle {
     MouseArea {
         id: kfMouseArea
         anchors.fill: parent
-        anchors.leftMargin: - root.baseUnit/3
-        anchors.rightMargin: - root.baseUnit/3
+        anchors.leftMargin: - K.UiUtils.baseSizeMedium / 3
+        anchors.rightMargin: - K.UiUtils.baseSizeMedium / 3
         hoverEnabled: !root.isPanning
         cursorShape: Qt.SizeHorCursor
-        enabled: !root.isPanning && parent.x > root.baseUnit / 2 && parent.x < keyframeContainer.width - root.baseUnit / 2
+        enabled: !root.isPanning && parent.x > K.UiUtils.baseSizeMedium / 2 && parent.x < keyframeContainer.width - K.UiUtils.baseSizeMedium / 2
         drag.target: parent
         drag.smoothed: false
         drag.axis: Drag.XAxis
@@ -87,9 +87,9 @@ Rectangle {
     }
     Rectangle {
         id: keyframeVal
-        x: - root.baseUnit / 2
-        y: keyframeContainer.height - keyframe.value - root.baseUnit / 2
-        width: root.baseUnit
+        x: - K.UiUtils.baseSizeMedium / 2
+        y: keyframeContainer.height - keyframe.value - K.UiUtils.baseSizeMedium / 2
+        width: K.UiUtils.baseSizeMedium
         height: width
         radius: width / 2
         color: model.active ? 'red' : model.selected ? 'orange' : kf1MouseArea.containsMouse || kf1MouseArea.pressed ? root.textColor : root.videoColor
@@ -131,8 +131,8 @@ Rectangle {
                     return
                 }
                 root.autoScrolling = timeline.autoScroll
-                var newPos = frame == keyframeContainer.inPoint ? keyframeContainer.inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + keyframeContainer.inPoint
-                if (newPos === frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
+                var newPos = frame == keyframeContainer.inPoint ? keyframeContainer.inPoint : Math.round((keyframe.x + parent.x + K.UiUtils.baseSizeMedium / 2) / timeScale) + keyframeContainer.inPoint
+                if (newPos === frame && keyframe.value == keyframe.height - parent.y - K.UiUtils.baseSizeMedium / 2) {
                     var pos = keyframeContainer.modelStart + frame - keyframeContainer.inPoint
                     if (proxy.position != pos) {
                         seek(pos)
@@ -168,18 +168,18 @@ Rectangle {
                 shiftPressed = (mouse.modifiers & Qt.ShiftModifier)
                 if (mouse.buttons === Qt.LeftButton) {
                     if (frame == keyframeContainer.inPoint) {
-                        parent.x = - root.baseUnit / 2
+                        parent.x = - K.UiUtils.baseSizeMedium / 2
                     } else {
-                        var newPos = Math.min(Math.round((parent.x + root.baseUnit / 2) / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + keyframeContainer.inPoint - 1)
+                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + keyframeContainer.inPoint - 1)
                         if (frame + newPos <= keyframeContainer.inPoint) {
                             newPos = keyframeContainer.inPoint + 1 - frame
                         }
                         if (newPos != dragPos && (newPos == 0 || !timeline.hasKeyframeAt(clipId, frame + newPos))) {
                             dragPos = newPos
-                            parent.x = newPos * timeScale - root.baseUnit / 2
+                            parent.x = newPos * timeScale - K.UiUtils.baseSizeMedium / 2
                             keyframecanvas.requestPaint()
                         } else {
-                            parent.x = dragPos * timeScale - root.baseUnit / 2
+                            parent.x = dragPos * timeScale - K.UiUtils.baseSizeMedium / 2
                         }
                     }
                     keyframecanvas.requestPaint()

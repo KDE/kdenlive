@@ -6,11 +6,28 @@
 #pragma once
 
 #include <QIcon>
+#include <QObject>
+#include <QQmlEngine>
 #include <QString>
+#include <QtQmlIntegration>
 
-class UiUtils
+class UiUtils : public QObject
 {
+    Q_OBJECT
+    QML_SINGLETON
+    QML_ELEMENT
+
+    Q_PROPERTY(QFont fixedFont READ getFixedFont CONSTANT)
+    Q_PROPERTY(qreal baseSizeMedium READ getBaseSizeMedium CONSTANT)
+
 public:
+    static UiUtils *instance();
+    static UiUtils *create(QQmlEngine *, QJSEngine *);
+
+    [[nodiscard]] QFont getFixedFont();
+    [[nodiscard]] qreal getBaseSizeMedium();
+
+public: // STATIC
     /** @returns a rotated version of the icon associated with @param iconName.
      *  It will be of size @param iconSize and @param rotation.
      */

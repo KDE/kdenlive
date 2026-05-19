@@ -10,6 +10,9 @@ import QtQuick.Controls 2.15
 
 import org.kde.ki18n
 
+import org.kde.kdenlive as K
+
+
 Rectangle {
     id: trackHeader
     border.color: frameColor
@@ -35,7 +38,7 @@ Rectangle {
         id: expandSubButton
         focusPolicy: Qt.NoFocus
         anchors.left: parent.left
-        anchors.leftMargin: 1.5 * root.baseUnit
+        anchors.leftMargin: 1.5 * K.UiUtils.baseSizeMedium
         width: trackHeader.collapsedHeight
         height: trackHeader.collapsedHeight
         icon.name: trackHeader.collapsed ? "go-next" : "go-down"
@@ -43,7 +46,7 @@ Rectangle {
             if (subtitleTrack.height > trackHeader.collapsedHeight) {
                 subtitleTrack.height = trackHeader.collapsedHeight
             } else {
-                subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
+                subtitleTrack.height = K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
             }
         }
     }
