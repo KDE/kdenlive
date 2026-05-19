@@ -78,7 +78,6 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
         int imageHeight = pCore->thumbProfile().height();
         int imageWidth = pCore->thumbProfile().width();
         int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
-        const bool serializeQtRendering = KThumb::needsSerializedQtRendering(binClip->clipType());
         const QString clipId = QString::number(m_owner.itemId);
         for (int i : m_frames) {
             int val = qMax(1, 100 * count / size);
@@ -102,6 +101,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
                 frame->set("consumer.deinterlacer", "onefield");
                 frame->set("consumer.top_field_first", -1);
                 frame->set("consumer.rescale", "nearest");
+                const bool serializeQtRendering = KThumb::frameNeedsSerializedQtRendering(frame.get(), binClip->clipType());
                 const QImage result = KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth, serializeQtRendering);
                 if (!result.isNull() && !m_isCanceled) {
                     ThumbnailCache::get()->storeThumbnail(clipId, i, result, true);

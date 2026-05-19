@@ -24,6 +24,7 @@ QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height, in
 QImage getFrame(Mlt::Producer &producer, int framepos, int width, int height, int displayWidth = 0);
 QImage getFrame(Mlt::Frame *frame, int width = 0, int height = 0, int scaledWidth = 0, bool serializeQtRendering = false);
 bool needsSerializedQtRendering(int clipType);
+bool frameNeedsSerializedQtRendering(Mlt::Frame *frame, int clipType);
 /** @brief Calculates image variance, useful to know if a thumbnail is interesting.
  *  @return an integer between 0 and 100. 0 means no variance, eg. black image while bigger values mean contrasted image
  * */

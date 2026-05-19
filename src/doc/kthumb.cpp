@@ -16,9 +16,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMutex>
 #include <QMutexLocker>
 #include <QPixmap>
+#include <QString>
 
 namespace {
 QMutex qtTitleThumbMutex;
+
+bool serviceNeedsSerializedQtRendering(const QString &service)
+{
+    return service == QLatin1String("kdenlivetitle") || service == QLatin1String("qtext") || service == QLatin1String("qml");
+}
 }
 
 bool KThumb::needsSerializedQtRendering(int clipType)
@@ -28,12 +34,29 @@ bool KThumb::needsSerializedQtRendering(int clipType)
     case ClipType::TextTemplate:
     case ClipType::QText:
     case ClipType::Qml:
-    case ClipType::Playlist:
-    case ClipType::Timeline:
         return true;
     default:
         return false;
     }
+}
+
+bool KThumb::frameNeedsSerializedQtRendering(Mlt::Frame *frame, int clipType)
+{
+    if (needsSerializedQtRendering(clipType)) {
+        return true;
+    }
+    if (frame == nullptr || !frame->is_valid()) {
+        return false;
+    }
+    std::unique_ptr<Mlt::Producer> originalProducer(frame->get_original_producer());
+    if (!originalProducer || !originalProducer->is_valid()) {
+        return false;
+    }
+    if (serviceNeedsSerializedQtRendering(QString::fromUtf8(originalProducer->get("mlt_service")))) {
+        return true;
+    }
+    Mlt::Producer &parent = originalProducer->parent();
+    return serviceNeedsSerializedQtRendering(QString::fromUtf8(parent.get("mlt_service")));
 }
 
 // static

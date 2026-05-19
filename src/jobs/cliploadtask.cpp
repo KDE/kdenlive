@@ -257,7 +257,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     int imageHeight(pCore->thumbProfile().height());
                     int imageWidth(pCore->thumbProfile().width());
                     int fullWidth(qRound(imageHeight * pCore->getCurrentDar()));
-                    const bool serializeQtRendering = KThumb::needsSerializedQtRendering(binClip->clipType());
+                    const bool serializeQtRendering = KThumb::frameNeedsSerializedQtRendering(frame.get(), binClip->clipType());
                     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
                         return;
                     }
