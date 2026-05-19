@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-18 00:43+0000\n"
+"POT-Creation-Date: 2026-05-19 00:44+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -7969,7 +7969,7 @@ msgstr "Video alustamine musta kaadriga"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:169
-#: src/monitor/view/MonitorTrimming.qml:112 src/timeline2/view/qml/Track.qml:89
+#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:89
 #, kde-format
 msgid "In"
 msgstr "Sees"
@@ -7992,7 +7992,7 @@ msgid "Fade video to black"
 msgstr "Video lõpetamine musta kaadriga"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:146
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
 #, kde-format
 msgid "Out"
 msgstr "Välja"
@@ -16493,7 +16493,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Probleem efekti muutmisega"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1942
-#: src/monitor/view/MonitorSplit.qml:105
+#: src/monitor/view/MonitorSplit.qml:99
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
@@ -19618,13 +19618,13 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:324 src/bin/bin.cpp:698 src/monitor/view/ClipMonitor.qml:557
+#: src/bin/bin.cpp:324 src/bin/bin.cpp:698 src/monitor/view/ClipMonitor.qml:552
 #, fuzzy, kde-format
 #| msgid "Cannot add an audio effect to this clip"
 msgid "Drag to add only audio to timeline"
 msgstr "Sellele klipile ei saa heliefekti lisada"
 
-#: src/bin/bin.cpp:328 src/bin/bin.cpp:702 src/monitor/view/ClipMonitor.qml:557
+#: src/bin/bin.cpp:328 src/bin/bin.cpp:702 src/monitor/view/ClipMonitor.qml:552
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -21132,12 +21132,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Esita tsoon"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "Unmute"
 msgstr "Heli tagasi"
 
-#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:400
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "Mute"
 msgstr "Vaigistamine"
@@ -27059,7 +27059,7 @@ msgid "Clip in Timeline"
 msgstr "Klipp ajateljel"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1197
+#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1196
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence"
@@ -27916,8 +27916,8 @@ msgstr "Kiirusevalikud"
 msgid "Time Remapping"
 msgstr ""
 
-#: src/mainwindow.cpp:307 src/timeline2/view/qml/AudioRecordButton.qml:150
-#: src/timeline2/view/qml/AudioRecordButton.qml:263
+#: src/mainwindow.cpp:307 src/timeline2/view/qml/AudioRecordButton.qml:152
+#: src/timeline2/view/qml/AudioRecordButton.qml:265
 #, kde-format
 msgid "Record"
 msgstr "Salvesta"
@@ -30975,34 +30975,34 @@ msgstr ""
 "Kdenlive'i paigalduse või draiverite seadistusega on midagi valesti, palun "
 "tee korda."
 
-#: src/monitor/view/AudioView.qml:328
+#: src/monitor/view/AudioView.qml:341
 #, fuzzy, kde-format
 #| msgid "Audio Waveform Filter"
 msgid "Click to refresh audio waveform"
 msgstr "Helilaine filter"
 
-#: src/monitor/view/ClipMonitor.qml:368 src/monitor/view/ProjectMonitor.qml:197
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:196
 #, kde-format
 msgid "%1fps"
 msgstr ""
 
-#: src/monitor/view/ClipMonitor.qml:407 src/monitor/view/ProjectMonitor.qml:230
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:229
 #, kde-format
 msgid "In Point"
 msgstr "Alguspunkt"
 
-#: src/monitor/view/ClipMonitor.qml:407
+#: src/monitor/view/ClipMonitor.qml:402
 #, fuzzy, kde-format
 #| msgid "Out Point"
 msgid "In/Out Point"
 msgstr "Lõpp-punkt"
 
-#: src/monitor/view/ClipMonitor.qml:430 src/monitor/view/ProjectMonitor.qml:247
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:246
 #, kde-format
 msgid "Out Point"
 msgstr "Lõpp-punkt"
 
-#: src/monitor/view/ClipMonitor.qml:618
+#: src/monitor/view/ClipMonitor.qml:613
 #, fuzzy, kde-format
 #| msgid "Remove Job"
 msgid "Terminate Job"
@@ -31087,7 +31087,7 @@ msgstr "Muuda kestust"
 msgid "Exit Preview Mode"
 msgstr "Lisa eelvaatluse tsoon"
 
-#: src/monitor/view/MonitorAutomask.qml:283
+#: src/monitor/view/MonitorAutomask.qml:277
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31096,24 +31096,24 @@ msgid ""
 "<shortcut>Ctrl+click</shortcut> to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:385
+#: src/monitor/view/MonitorAutomask.qml:379
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select an object in the image first"
 msgstr "Klipi valimine efekti võrdlemiseks"
 
-#: src/monitor/view/MonitorAutomask.qml:385
+#: src/monitor/view/MonitorAutomask.qml:379
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating image mask"
 msgstr "Menüüpiltide loomine"
 
-#: src/monitor/view/MonitorAutomask.qml:385
+#: src/monitor/view/MonitorAutomask.qml:379
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:396
+#: src/monitor/view/MonitorAutomask.qml:390
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -31121,13 +31121,13 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:396
+#: src/monitor/view/MonitorAutomask.qml:390
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Previewing video mask"
 msgstr "Eelvaatluse helitugevus:"
 
-#: src/monitor/view/MonitorAutomask.qml:407
+#: src/monitor/view/MonitorAutomask.qml:401
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -31136,19 +31136,19 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:417
+#: src/monitor/view/MonitorAutomask.qml:411
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "Klipi algusesse"
 
-#: src/monitor/view/MonitorAutomask.qml:429
+#: src/monitor/view/MonitorAutomask.qml:423
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
 msgstr "Klipi lõppu"
 
-#: src/monitor/view/MonitorGeometryScene.qml:362
+#: src/monitor/view/MonitorGeometryScene.qml:356
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31158,7 +31158,7 @@ msgid ""
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31166,7 +31166,7 @@ msgid ""
 "to close shape."
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31176,13 +31176,13 @@ msgid ""
 "to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:74
+#: src/monitor/view/MonitorRotoScene.qml:73
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:437
+#: src/monitor/view/MonitorRotoScene.qml:431
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -31222,14 +31222,14 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Lähtesta %1"
 
-#: src/monitor/view/ProjectMonitor.qml:103
+#: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/ProjectMonitor.qml:301
+#: src/monitor/view/ProjectMonitor.qml:300
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
@@ -35085,15 +35085,15 @@ msgid "Change clip speed"
 msgstr "Muuda klipi kiirust"
 
 #: src/timeline2/model/timelinemodel.cpp:7759
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:414
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
+#: src/timeline2/view/qml/TrackHead.qml:417
 #, kde-format
 msgid "Lock track"
 msgstr "Raja lukustamine"
 
 #: src/timeline2/model/timelinemodel.cpp:7764
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
-#: src/timeline2/view/qml/TrackHead.qml:414
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
+#: src/timeline2/view/qml/TrackHead.qml:417
 #, kde-format
 msgid "Unlock track"
 msgstr "Raja lukustuse eemaldamine"
@@ -35283,19 +35283,19 @@ msgstr ""
 msgid "Mic level"
 msgstr "Helitasemete näitamine"
 
-#: src/timeline2/view/qml/AudioRecordButton.qml:150
-#: src/timeline2/view/qml/AudioRecordButton.qml:263
+#: src/timeline2/view/qml/AudioRecordButton.qml:152
+#: src/timeline2/view/qml/AudioRecordButton.qml:265
 #, kde-format
 msgid "Track is locked. Cannot start Recording."
 msgstr ""
 
-#: src/timeline2/view/qml/AudioRecordButton.qml:255
+#: src/timeline2/view/qml/AudioRecordButton.qml:257
 #, kde-format
 msgid "Stop"
 msgstr "Peata"
 
-#: src/timeline2/view/qml/AudioRecordButton.qml:259
-#: src/timeline2/view/qml/Timeline.qml:2304
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
+#: src/timeline2/view/qml/Timeline.qml:2303
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -35442,33 +35442,33 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:91
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:94
 #, fuzzy, kde-format
 #| msgid "Click to open cache folder"
 msgid "Click to see details"
 msgstr "Klõpsa puhvrikataloogi avamiseks"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:105
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:108
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Vali üleminek"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:400
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
+#: src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "Show"
 msgstr "Näita"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:117
-#: src/timeline2/view/qml/TrackHead.qml:400 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
+#: src/timeline2/view/qml/TrackHead.qml:403 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Peida"
 
-#: src/timeline2/view/qml/Timeline.qml:904
-#: src/timeline2/view/qml/Timeline.qml:914
+#: src/timeline2/view/qml/Timeline.qml:903
+#: src/timeline2/view/qml/Timeline.qml:913
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -35476,30 +35476,30 @@ msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Kõigile voogudele (%1) ei jagu radu"
 msgstr[1] "Kõigile voogudele (%1) ei jagu radu"
 
-#: src/timeline2/view/qml/Timeline.qml:1191
+#: src/timeline2/view/qml/Timeline.qml:1190
 #, fuzzy, kde-format
 #| msgid "Show sequence thumbnails"
 msgid "Show sequence effects"
 msgstr "Seeria pisipiltide näitamine"
 
-#: src/timeline2/view/qml/Timeline.qml:1930
+#: src/timeline2/view/qml/Timeline.qml:1929
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:2124
+#: src/timeline2/view/qml/Timeline.qml:2123
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:2293
-#: src/timeline2/view/qml/Timeline.qml:2302
+#: src/timeline2/view/qml/Timeline.qml:2292
+#: src/timeline2/view/qml/Timeline.qml:2301
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Salvesta"
 
-#: src/timeline2/view/qml/Timeline.qml:2396
+#: src/timeline2/view/qml/Timeline.qml:2395
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -35516,30 +35516,30 @@ msgstr " Kestus:"
 msgid "%1% | Adjusting speed"
 msgstr "Kiiruse kohandamine"
 
-#: src/timeline2/view/qml/TrackHead.qml:166
+#: src/timeline2/view/qml/TrackHead.qml:169
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:241
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:253
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr "Minimeeri"
 
-#: src/timeline2/view/qml/TrackHead.qml:253
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Expand"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:283
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -35548,31 +35548,31 @@ msgstr ""
 "Klõpsa raja muutmiseks aktiivseks või mitteaktiivseks. Ainult aktiivsed "
 "rajad reageerivad muutmistoimingutele"
 
-#: src/timeline2/view/qml/TrackHead.qml:370
+#: src/timeline2/view/qml/TrackHead.qml:373
 #, fuzzy, kde-format
 #| msgid "Disable Bin Effects"
 msgid "Disable track effects"
 msgstr "Puuefektide keelamine"
 
-#: src/timeline2/view/qml/TrackHead.qml:370
+#: src/timeline2/view/qml/TrackHead.qml:373
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable track effects"
 msgstr "Luba efekt"
 
-#: src/timeline2/view/qml/TrackHead.qml:370
+#: src/timeline2/view/qml/TrackHead.qml:373
 #, fuzzy, kde-format
 #| msgid "Track %1 effects"
 msgid "Toggle track effects"
 msgstr "Raja %1 efektid"
 
-#: src/timeline2/view/qml/TrackHead.qml:391
+#: src/timeline2/view/qml/TrackHead.qml:394
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:485
+#: src/timeline2/view/qml/TrackHead.qml:488
 #, kde-format
 msgid "Edit track name"
 msgstr "Muuda raja nime"
