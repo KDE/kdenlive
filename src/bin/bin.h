@@ -696,7 +696,6 @@ Q_SIGNALS:
     void requestBinClose();
     /** @brief Update a timeline tab name on clip rename. */
     void updateTabName(const QUuid &, const QString &);
-    void requestAddClipReset();
     /** @brief Some timeline sequence producers have been updated, refresh their occurrences. */
     void requestUpdateSequences(QMap<QUuid, std::pair<int, int>> seqs);
 };
