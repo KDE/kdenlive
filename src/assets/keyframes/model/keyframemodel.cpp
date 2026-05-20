@@ -77,6 +77,7 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     if (auto ptr = m_model.lock()) {
         m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
         if (m_paramType == ParamType::AnimatedFakePoint) {
+            // TODO: move elsewhere
             QString animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
             if (animData.isEmpty()) {
                 // Build default value
