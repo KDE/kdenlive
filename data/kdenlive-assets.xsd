@@ -129,6 +129,8 @@ SPDX-License-Identifier: CC0-1.0
             <xs:enumeration value="top"/>
             <xs:enumeration value="right"/>
             <xs:enumeration value="bottom"/>
+            <xs:enumeration value="width"/>
+            <xs:enumeration value="height"/>
         </xs:restriction>
     </xs:simpleType>
 
