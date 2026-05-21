@@ -78,21 +78,12 @@ Window {
                 activate()
             }
         }
-        Keys.onReturnPressed: {
-            if (splash.wasUpgraded || splash.crashRecovery) {
-                openBlank()
-            }
-        }
-
-        Keys.onEnterPressed: {
-            if (splash.wasUpgraded || splash.crashRecovery) {
-                openBlank()
-            }
-        }
         Keys.onEscapePressed: {
             console.log('ESC PRESSED!!!')
-            if (splash.wasUpgraded || splash.crashRecovery) {
-                openBlank()
+            if (splash.wasUpgraded) {
+                notesStartButton.animateClick()
+            } else if (splash.crashRecovery) {
+                normalStartButton.animateClick()
             }
         }
 
@@ -211,11 +202,24 @@ Window {
                 anchors.rightMargin: 10
                 text: i18n("Reset Configuration")
                 icon.name: "view-refresh"
+                property bool buttonPressed: false
                 onClicked: {
-                    loadingLabel.text = KI18n.i18n("Starting…")
+                    loadingLabel.text = i18n("Starting…")
                     resetBox.visible = false
                     loadingBox.visible = true
+                    console.log('--------resetting config--.------')
                     resetConfig()
+                }
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
                 }
             }
             Button {
@@ -223,14 +227,27 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
+                property bool buttonPressed: false
                 text: i18n("Start Normally")
                 icon.name: "go-next"
                 focus: true
                 onClicked: {
+                    console.log('--------normal start--.------')
                     resetBox.visible = false
                     loadingBox.visible = true
-                    loadingLabel.text = KI18n.i18n("Starting…")
+                    loadingLabel.text = i18n("Starting…")
                     openBlank()
+                }
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
                 }
             }
         }
@@ -271,22 +288,47 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: notesStartButton.left
                 anchors.rightMargin: 10
+                property bool buttonPressed: false
                 text: i18n("What's New")
                 icon.name: "help-contents"
                 onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes")
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
+                }
+
             }
             Button {
                 id: notesStartButton
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.rightMargin: 10
+                property bool buttonPressed: false
                 text: i18n("Continue")
                 icon.name: "go-next"
                 onClicked: {
-                    loadingLabel.text = KI18n.i18n("Starting…")
+                    loadingLabel.text = i18n("Starting…")
                     upgradeBox.visible = false
                     loadingBox.visible = true
                     openBlank()
+                }
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
                 }
             }
         }
