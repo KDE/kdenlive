@@ -9,11 +9,13 @@ import QtQuick.Layouts
 
 import org.kde.ki18n
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
-Kdenlive.MonitorToolButton {
+K.MonitorToolButton {
+    id: zoomButton
     iconName: "zoom"
     toolTipText: KI18n.i18n("Zoom")
+    required property K.MonitorProxy monitorController
     property bool menuVisible: zoomContextMenu.visible
     onClicked: {
         if (zoomContextMenu.visible) {
@@ -36,28 +38,28 @@ Kdenlive.MonitorToolButton {
         ColumnLayout {
             spacing: 0
             anchors.fill: parent
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 iconName: "zoom-in"
                 toolTipText: KI18n.i18n("Zoom In")
                 onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_zoomin')
+                    zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
+                    zoomButton.monitorController.triggerAction('monitor_zoomin')
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 iconName: "zoom-out"
                 toolTipText: KI18n.i18n("Zoom Out")
                 onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_zoomout')
+                    zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
+                    zoomButton.monitorController.triggerAction('monitor_zoomout')
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 iconName: "zoom-original"
                 toolTipText: KI18n.i18n("Reset Zoom")
                 onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_zoomreset')
+                    zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
+                    zoomButton.monitorController.triggerAction('monitor_zoomreset')
                 }
             }
         }

@@ -9,7 +9,7 @@ import QtQuick 2.15
 
 Item {
     id: overlay
-    property color color
+    required property color color
     property double diagonalLength: Math.sqrt(Math.pow(parent.height, 2) + Math.pow(parent.width, 2))
 
     function degreesRotation(width, height) {

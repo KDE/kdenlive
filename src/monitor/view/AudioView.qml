@@ -13,7 +13,7 @@ import org.kde.kdenlive as K
 
 Item {
     id: audioThumb
-    required property var clipController
+    required property K.MonitorProxy monitorController
     property bool isAudioClip: false
     property bool stateVisible: false
     property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
@@ -21,7 +21,7 @@ Item {
     property bool dragButtonsVisible: false
     property bool dirty: false
     property bool containsMyMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse || clipMonitorRuler.containsMouse || thumbMouseArea.pressed
-    property int clipId: clipController.clipId
+    property int clipId: monitorController.clipId
     property bool alwaysShowMonitorAudio: K.KdenliveSettings.alwaysShowMonitorAudio
     state: stateVisible ? "showAudio" : "hideAudio"
     onDragButtonsVisibleChanged: {
@@ -29,7 +29,7 @@ Item {
             if (dragButtonsVisible) {
                 zoomCollapseTimer.stop()
                 audioThumb.state = "showAudio"
-            } else if (clipController.clipHasAV) {
+            } else if (monitorController.clipHasAV) {
                 zoomCollapseTimer.start()
             }
         }
@@ -56,20 +56,20 @@ Item {
 
     function refreshView()
     {
-        audioThumb.isAudioClip = clipController.clipType === K.ClipType.Audio
-        audioThumb.stateVisible = (K.KdenliveSettings.alwaysShowMonitorAudio && clipController.clipHasAV) || audioThumb.isAudioClip
+        audioThumb.isAudioClip = monitorController.clipType === K.ClipType.Audio
+        audioThumb.stateVisible = (K.KdenliveSettings.alwaysShowMonitorAudio && monitorController.clipHasAV) || audioThumb.isAudioClip
         checkAudioThumbState()
     }
 
     onContainsMyMouseChanged: {
         if (containsMyMouse) {
-            clipController.dragType = '-'
+            monitorController.dragType = '-'
         }
         if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
             if (containsMyMouse) {
                 zoomCollapseTimer.stop()
                 state = "showAudio"
-            } else if (clipController.clipHasAV) {
+            } else if (monitorController.clipHasAV) {
                 zoomCollapseTimer.start()
             }
         }
@@ -79,7 +79,7 @@ Item {
     {
         if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
             zoomCollapseTimer.stop()
-            clipController.rulerHeight = root.zoomOffset
+            monitorController.rulerHeight = root.zoomOffset
             if (audioThumb.stateVisible) {
                 audioThumb.state = "showAudio"
             } else {
@@ -88,9 +88,9 @@ Item {
         } else {
             // adjust monitor image size
             if (audioThumb.stateVisible) {
-                clipController.rulerHeight = audioThumb.height + root.zoomOffset
+                monitorController.rulerHeight = audioThumb.height + root.zoomOffset
             } else {
-                clipController.rulerHeight = root.zoomOffset
+                monitorController.rulerHeight = root.zoomOffset
             }
             audioThumb.state = "showAudio"
         }
@@ -104,7 +104,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
         color: "white"
-        text: audioThumb.clipController.clipStream
+        text: audioThumb.monitorController.clipStream
         background: Rectangle {
             color: "#222277"
         }
@@ -142,7 +142,8 @@ Item {
     }]
     K.AudioZoomBar {
         id: audioZoom
-        visible: audioThumb.isAudioClip || audioThumb.clipController.clipHasAV
+        monitorController: audioThumb.monitorController
+        visible: audioThumb.isAudioClip || audioThumb.monitorController.clipHasAV
         opacity: audioThumb.dirty ? 0.5 : 1
         anchors.top: parent.top
         height: audioThumb.audioZoomHeightRef
@@ -161,7 +162,7 @@ Item {
         }
         Repeater {
             id: streamThumb
-            model: audioThumb.clipController.audioStreams.length
+            model: audioThumb.monitorController.audioStreams.length
             onCountChanged: {
                 thumbTimer.start()
             }
@@ -171,7 +172,7 @@ Item {
                 required property int index
                 anchors.left: parent.left
                 anchors.right: parent.right
-                property int channelsInStream: audioThumb.clipController.audioChannels[streamContainer.index]
+                property int channelsInStream: audioThumb.monitorController.audioChannels[streamContainer.index]
                 property double channelHeight: streamThumb.streamHeight / channelsInStream
                 y: streamContainer.index * streamThumb.streamHeight
                 height: streamThumb.streamHeight
@@ -190,11 +191,11 @@ Item {
                 }
                 // Highlight color for the selected wave part
                 Rectangle {
-                    x: audioThumb.clipController.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
-                    width: (audioThumb.clipController.zoneOut - clipController.zoneIn) * timeScale
+                    x: audioThumb.monitorController.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+                    width: (audioThumb.monitorController.zoneOut - monitorController.zoneIn) * timeScale
                     height: streamThumb.streamHeight - 2
                     color:  Utils.mixColors(K.KdenliveSettings.thumbColor1, activePalette.highlight, 0.6)
-                    visible: audioThumb.clipController.zoneOut > audioThumb.clipController.zoneIn
+                    visible: audioThumb.monitorController.zoneOut > audioThumb.monitorController.zoneIn
                 }
                 K.TimelineWaveform {
                     id: waveform
@@ -203,8 +204,8 @@ Item {
                     isOpaque: false
                     height: streamThumb.streamHeight
                     channels: streamContainer.channelsInStream
-                    binId: audioThumb.clipController.clipId
-                    audioStream: audioThumb.clipController.audioStreams[streamContainer.index]
+                    binId: audioThumb.monitorController.clipId
+                    audioStream: audioThumb.monitorController.audioStreams[streamContainer.index]
                     format: K.KdenliveSettings.displayallchannels
                     normalize: K.KdenliveSettings.normalizechannels
                     property int aClipDuration: root.duration + 1
@@ -256,7 +257,7 @@ Item {
             color: "red"
             width: 2
             height: streamThumb.streamHeight * streamThumb.count
-            x: audioThumb.clipController.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+            x: audioThumb.monitorController.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
         }
     }
     MouseArea {
@@ -286,7 +287,7 @@ Item {
             var pos = Math.max(mouseX, 0)
             root.mouseRulerPos = mouseX
             pos += audioThumb.width / root.zoomFactor * root.zoomStart
-            audioThumb.clipController.setPosition(Math.min(pos / root.timeScale, root.duration));
+            audioThumb.monitorController.setPosition(Math.min(pos / root.timeScale, root.duration));
         }
         onPositionChanged: mouse => {
             if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioZoom.height) {
@@ -297,7 +298,7 @@ Item {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = mouseX
                 pos += audioThumb.width / root.zoomFactor * root.zoomStart
-                audioThumb.clipController.setPosition(Math.min(pos / root.timeScale, root.duration));
+                audioThumb.monitorController.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
         onReleased: {
@@ -339,7 +340,7 @@ Item {
             hoverEnabled: true
             iconName: "view-refresh"
             toolTipText: KI18n.i18n("Click to refresh audio waveform")
-            onClicked: audioThumb.clipController.refreshAudio()
+            onClicked: audioThumb.monitorController.refreshAudio()
         }
     }
 }

@@ -147,7 +147,7 @@ Item {
 
     Item {
         id: monitorframe
-        height: root.height - controller.rulerHeight
+        height: root.height - root.controller.rulerHeight
         width: root.width
         Item {
             id: frame
@@ -166,7 +166,8 @@ Item {
                 id: safeZone
                 anchors.fill: frame
                 color: K.KdenliveSettings.safeColor
-                showSafeZone: controller.showSafezone
+                showSafeZone: root.controller.showSafezone
+                profile: root.controller.profile
             }
 
             MouseArea {
@@ -246,13 +247,13 @@ Item {
                             // Rect selection
                             xPos = selectionRect.x / frame.width
                             yPos = selectionRect.y / frame.height
-                            addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick)
+                            root.addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick)
                             generateLabel.visible = true
                         } else if (!isPanEvent) {
                             // Single point selection
                             xPos = mouse.x / frame.width
                             yPos = mouse.y / frame.height
-                            addControlPoint(xPos, yPos, shiftClick, ctrlClick)
+                            root.addControlPoint(xPos, yPos, shiftClick, ctrlClick)
                             generateLabel.visible = true
                         }
                     }
@@ -272,13 +273,13 @@ Item {
                 }*/
                 onEntered: {
                     if (root.maskMode === K.MaskModeType.MaskPreview) {
-                        controller.setWidgetKeyBinding();
+                        root.controller.setWidgetKeyBinding();
                         return
                     }
-                    controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a mask, <shortcut>Shift+click</shortcut> to include another zone, <shortcut>Ctrl+click</shortcut> to exclude a zone."));
+                    root.controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a mask, <shortcut>Shift+click</shortcut> to include another zone, <shortcut>Ctrl+click</shortcut> to exclude a zone."));
                 }
                 onExited: {
-                    controller.setWidgetKeyBinding();
+                    root.controller.setWidgetKeyBinding();
                 }
                 Rectangle {
                     id: selectionRect
@@ -290,15 +291,15 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: root.maskMode != K.MaskModeType.MaskPreview ? controller.previewOverlay : ''
+                source: root.maskMode != K.MaskModeType.MaskPreview ? root.controller.previewOverlay : ''
                 asynchronous: true
-                opacity: controller.maskOpacity / 100
+                opacity: root.controller.maskOpacity / 100
                 visible: root.maskMode != K.MaskModeType.MaskPreview
                 onSourceChanged: {
                     generateLabel.visible = false
                     if (opacity === 0 && source.toString() !== '') {
                         // Update opacity to ensure we see something
-                        controller.maskOpacity = 50
+                        root.controller.maskOpacity = 50
                     }
                 }
             }
@@ -380,7 +381,7 @@ Item {
         text: keyframes.length == 0 ? KI18n.i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Generating image mask") : KI18n.i18n("Generating video mask")
         visible: false
         background: Rectangle {
-            color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
+            color: root.keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
             radius: 5
         }
     }
@@ -389,7 +390,7 @@ Item {
         anchors.centerIn: parent
         padding: 5
         text: root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : KI18n.i18n("Previewing video mask")
-        visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && keyframes.length == 0
+        visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && root.keyframes.length == 0
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
             radius: 5
@@ -416,7 +417,7 @@ Item {
             onReleased: () => {
                 root.updateClickCapture()
             }
-            onClicked: controller.position = root.maskStart
+            onClicked: root.controller.position = root.maskStart
         }
         ToolButton {
             anchors.bottom: outsideLabel.bottom
@@ -428,7 +429,7 @@ Item {
             onReleased: () => {
                 root.updateClickCapture()
             }
-            onClicked: controller.position = root.maskEnd
+            onClicked: root.controller.position = root.maskEnd
         }
     }
     MaskToolBar {
@@ -440,6 +441,7 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
     Timer {
         id: firstTimer
@@ -469,7 +471,8 @@ Item {
             bottom: root.bottom
         }
         visible: root.duration > 0
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
         Repeater {
             model:root.keyframes
             anchors.fill: parent

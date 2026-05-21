@@ -14,6 +14,7 @@ import org.kde.kdenlive as K
 MouseArea {
     id: barZone
     hoverEnabled: true
+    required property K.MonitorProxy monitorController
     property bool rightSide: true
     property bool showAutoKeyframe: true
     acceptedButtons: Qt.NoButton
@@ -28,6 +29,8 @@ MouseArea {
             effecttoolbar.opacity = 0
         }
     }
+
+    SystemPalette { id: activePalette }
 
     Rectangle {
         id: effecttoolbar
@@ -62,7 +65,7 @@ MouseArea {
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
                 toolTipText: KI18n.i18n("Switch Full Screen")
-                onClicked: controller.triggerAction('monitor_fullscreen')
+                onClicked: barZone.monitorController.triggerAction('monitor_fullscreen')
             }
             K.MonitorToolButton {
                 objectName: "switchGrid"
@@ -71,7 +74,7 @@ MouseArea {
                 checkable: true
                 checked: K.KdenliveSettings.showMonitorGrid
                 onClicked: {
-                    controller.switchGrid()
+                    barZone.monitorController.switchGrid()
                 }
             }
             K.MonitorToolButton {
@@ -81,10 +84,10 @@ MouseArea {
                 checkable: true
                 checked: false
                 onCheckedChanged: {
-                    controller.showSafezone = checked
+                    barZone.monitorController.showSafezone = checked
                 }
                 Component.onCompleted: {
-                    checked = controller.showSafezone
+                    checked = barZone.monitorController.showSafezone
                 }
             }
             K.MonitorToolButton {
@@ -92,31 +95,31 @@ MouseArea {
                 iconName: "view-grid"
                 toolTipText: KI18n.i18n("Composition Guides")
                 onClicked: {
-                    if (controller.overlayType >= 5) {
-                        controller.overlayType = 0
+                    if (barZone.monitorController.overlayType >= 5) {
+                        barZone.monitorController.overlayType = 0
                     } else {
-                        controller.overlayType = controller.overlayType + 1;
+                        barZone.monitorController.overlayType = barZone.monitorController.overlayType + 1;
                     }
-                    root.overlayType = controller.overlayType
+                    root.overlayType = barZone.monitorController.overlayType
                 }
             }
             K.MonitorToolButton {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
                 toolTipText: KI18n.i18n("Go to Next Keyframe")
-                onClicked: controller.seekToKeyframe(-1, 1);
+                onClicked: barZone.monitorController.seekToKeyframe(-1, 1);
             }
             K.MonitorToolButton {
                 objectName: "prevKeyframe"
                 iconName: "keyframe-previous"
                 toolTipText: KI18n.i18n("Go to Previous Keyframe")
-                onClicked: controller.seekToKeyframe(-1, -1);
+                onClicked: barZone.monitorController.seekToKeyframe(-1, -1);
             }
             K.MonitorToolButton {
                 objectName: "addKeyframe"
                 iconName: "keyframe-add"
                 toolTipText: KI18n.i18n("Add/Remove Keyframe")
-                onClicked: controller.addRemoveKeyframe()
+                onClicked: barZone.monitorController.addRemoveKeyframe()
             }
             K.MonitorToolButton {
                 iconName: "keyframe-record"

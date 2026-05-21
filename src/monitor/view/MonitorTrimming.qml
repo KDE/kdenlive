@@ -71,13 +71,13 @@ Item {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         /*onEntered: {
             controller.setWidgetKeyBinding(KI18n.i18n("TODO: This is the wonderful new trimming monitor overlay!"));
         }*/
         onExited: {
-            controller.setWidgetKeyBinding();
+            root.controller.setWidgetKeyBinding();
         }
     }
     K.SceneToolBar {
@@ -89,10 +89,11 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
 
     Item {
-        height: root.height - controller.rulerHeight
+        height: root.height - root.controller.rulerHeight
         width: root.width
         Item {
             id: frame
@@ -120,7 +121,7 @@ Item {
                     id: trimmingTC1
                     font.family: fontMetrics.font.family
                     objectName: "trimmingTC1"
-                    text: controller.trimmingTC1
+                    text: root.controller.trimmingTC1
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {
@@ -154,7 +155,7 @@ Item {
                     id: trimmingTC2
                     font.family: fontMetrics.font.family
                     objectName: "trimmingTC2"
-                    text: controller.trimmingTC2
+                    text: root.controller.trimmingTC2
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {

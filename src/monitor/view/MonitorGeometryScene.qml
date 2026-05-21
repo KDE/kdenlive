@@ -265,7 +265,8 @@ Item {
             id: safeZone
             anchors.fill: frame
             color: K.KdenliveSettings.safeColor
-            showSafeZone: controller.showSafezone
+            showSafeZone: root.controller.showSafezone
+            profile: root.controller.profile
         }
 
         Repeater {
@@ -307,7 +308,7 @@ Item {
                   root.requestedKeyFrame = -1
                   return false
               }
-              var idx = getHandleIndexAtMouse(mouseX, mouseY, global)
+              var idx = root.getHandleIndexAtMouse(mouseX, mouseY, global)
               root.requestedKeyFrame = idx
               return idx !== -1
         }
@@ -325,7 +326,7 @@ Item {
                   } else {
                     var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                     var logicalPosition = Qt.point(positionInFrame.x / root.scalex, positionInFrame.y / root.scaley)
-                    var adjustedMouse = getSnappedPoint(logicalPosition)
+                    var adjustedMouse = root.getSnappedPoint(logicalPosition)
                     root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
                     root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                   }
@@ -338,15 +339,15 @@ Item {
             root.captureRightClick = true
             if (mouse.button & Qt.LeftButton) {
                 if (mouse.modifiers & Qt.AltModifier) {
-                    controller.switchFocusClip()
+                    root.controller.switchFocusClip()
                 } else if (root.requestedKeyFrame >= 0 && !isMoving) {
-                    controller.seekToKeyframe(root.requestedKeyFrame, 0);
+                    root.controller.seekToKeyframe(root.requestedKeyFrame, 0);
                 }
             }
             isMoving = false
         }
         onDoubleClicked: {
-            controller.addRemoveKeyframe()
+            root.controller.addRemoveKeyframe()
         }
         onReleased: {
             root.captureRightClick = false
@@ -354,13 +355,13 @@ Item {
             isMoving = false;
         }
         onEntered: {
-            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for center-based rescale, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Click</shortcut> on a center to seek to its keyframe"));
+            root.controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for center-based rescale, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Click</shortcut> on a center to seek to its keyframe"));
         }
         onExited: {
-            controller.setWidgetKeyBinding();
+            root.controller.setWidgetKeyBinding();
         }
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
     }
 
@@ -393,7 +394,7 @@ Item {
                 horizontalCenter: pendingFrame.horizontalCenter
             }
             text: Math.round(root.pendingRotation) + "°"
-            flipText: shouldFlipText(root.pendingRotation)
+            flipText: root.shouldFlipText(root.pendingRotation)
         }
         
         // Position label
@@ -403,11 +404,11 @@ Item {
             anchors {
                 top: pendingFrame.top
                 left: pendingFrame.left
-                topMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * pendingFramesize.height / pendingFramesize.width)
+                topMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * root.pendingFramesize.height / root.pendingFramesize.width)
                 leftMargin: 2 * K.UiUtils.baseSizeMedium
             }
-            text: pendingFramesize.x.toFixed(0) + " x " + pendingFramesize.y.toFixed(0)
-            flipText: shouldFlipText(root.pendingRotation)
+            text: root.pendingFramesize.x.toFixed(0) + " x " + root.pendingFramesize.y.toFixed(0)
+            flipText: root.shouldFlipText(root.pendingRotation)
         }
 
         // Size label
@@ -417,11 +418,11 @@ Item {
             anchors {
                 bottom: pendingFrame.bottom
                 right: pendingFrame.right
-                bottomMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * pendingFramesize.height / pendingFramesize.width)
+                bottomMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * root.pendingFramesize.height / root.pendingFramesize.width)
                 rightMargin: 2 * K.UiUtils.baseSizeMedium
             }
-            text: pendingFramesize.width.toFixed(0) + " x " + pendingFramesize.height.toFixed(0)
-            flipText: shouldFlipText(root.pendingRotation)
+            text: root.pendingFramesize.width.toFixed(0) + " x " + root.pendingFramesize.height.toFixed(0)
+            flipText: root.shouldFlipText(root.pendingRotation)
         }
     }
 
@@ -443,7 +444,7 @@ Item {
         y: frame.y + root._framesize.y * root.scaley
         width: root._framesize.width * root.scalex
         height: root._framesize.height * root.scaley
-        enabled: controller.isKeyframe || K.KdenliveSettings.autoKeyframe
+        enabled: root.controller.isKeyframe || K.KdenliveSettings.autoKeyframe
         color: "transparent"
         border.color: root.disableHandles ? 'transparent' : "#ff0000"
         opacity: (isMoving || isResizing || isRotating) ? 0 : 1
@@ -547,7 +548,7 @@ Item {
                   root.requestedKeyFrame = -1
                   return false
               }
-              var idx = getHandleIndexAtMouse(mouseX, mouseY, moveArea)
+              var idx = root.getHandleIndexAtMouse(mouseX, mouseY, moveArea)
               root.requestedKeyFrame = idx
               return idx !== -1
           }
@@ -556,7 +557,7 @@ Item {
                 if (mouse.modifiers & Qt.AltModifier) {
                     mouse.accepted = true
                     root.captureRightClick = true
-                    controller.switchFocusClip()
+                    root.controller.switchFocusClip()
                     return;
                 } else if (handleContainsMouse) {
                     // Moving to another keyframe
@@ -564,11 +565,11 @@ Item {
                     return
                 } else {
                     // Ok, get ready for the move
-                    root.pendingFramesize = _framesize
+                    root.pendingFramesize = root._framesize
                     root.pendingRotation = root._rotation
-                    mouseClickPos = mapToItem(frame, mouse.x, mouse.y)
-                    frameClicksize.x = _framesize.x * root.scalex
-                    frameClicksize.y = _framesize.y * root.scaley
+                    moveArea.mouseClickPos = mapToItem(frame, mouse.x, mouse.y)
+                    moveArea.frameClicksize.x = root._framesize.x * root.scalex
+                    moveArea.frameClicksize.y = root._framesize.y * root.scaley
                 }
                 mouse.accepted = true
                 root.captureRightClick = true
@@ -590,13 +591,13 @@ Item {
                 delta.x += - mouseClickPos.x + frameClicksize.x
                 delta.y += - mouseClickPos.y + frameClicksize.y
 
-                var logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, _framesize.width, _framesize.height)
-                var snappedRect = getSnappedRect(logicalFrameRect, root._rotation)
+                var logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, root._framesize.width, root._framesize.height)
+                var snappedRect = root.getSnappedRect(logicalFrameRect, root._rotation)
                 root.pendingFramesize.x = snappedRect.x;
                 root.pendingFramesize.y = snappedRect.y;
                 
-                if (controller.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                  controller.addRemoveKeyframe();
+                if (root.controller.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
+                    root.controller.addRemoveKeyframe();
                 }
                 root.effectChanged(root.pendingFramesize)
                 mouse.accepted = true
@@ -609,7 +610,7 @@ Item {
             rotatable: root.rotatable
             showHandle: root.showHandles
             smallRectMargin: transformedFrame.smallRectMargin
-            isKeyframe: controller.isKeyframe
+            isKeyframe: root.controller.isKeyframe
             rotationAngle: root._rotation
             
             onRotationStart: {
@@ -634,7 +635,7 @@ Item {
             }
             
             onAddRemoveKeyframe: {
-                controller.addRemoveKeyframe()
+                root.controller.addRemoveKeyframe()
             }
         }
         
@@ -652,6 +653,7 @@ Item {
             ]
             
             ResizeHandle {
+                required property string modelData
                 // Configuration
                 handleType: modelData
                 showHandle: root.showHandles
@@ -695,7 +697,7 @@ Item {
                 }
                 
                 onAddRemoveKeyframe: () => {
-                    controller.addRemoveKeyframe()
+                    root.controller.addRemoveKeyframe()
                 }
             }
         }
@@ -703,6 +705,7 @@ Item {
 
     EffectToolBar {
         id: effectToolBar
+        monitorController: root.controller
         anchors {
             right: parent.right
             top: parent.top
@@ -718,6 +721,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 }

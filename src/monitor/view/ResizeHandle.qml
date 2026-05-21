@@ -223,23 +223,23 @@ Rectangle {
             var deltaY = mouseY - initialMouseY
             
             var adjustedFrame = ResizeLogic.calculateResize(
-                handleType,
-                deltaX / scalex,
-                deltaY / scaley,
+                handle.handleType,
+                deltaX / handle.scalex,
+                deltaY / handle.scaley,
                 initialFrame,
-                lockRatio,
+                handle.lockRatio,
                 mouse.modifiers,
-                rotationAngle
+                handle.rotationAngle
             )
 
             // Apply snapping to the resized frame (similar to how move operations works)
             var snappedFrame = K.KdenliveSettings.showMonitorGrid ? 
-                SnappingLogic.getSnappedResizeRect(adjustedFrame, rotationAngle, handleType, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV) :
+                SnappingLogic.getSnappedResizeRect(adjustedFrame, handle.rotationAngle, handle.handleType, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV) :
                 adjustedFrame
 
             handle.resize(snappedFrame)
             
-            if (!isKeyframe && K.KdenliveSettings.autoKeyframe) {
+            if (!handle.isKeyframe && K.KdenliveSettings.autoKeyframe) {
                 handle.addRemoveKeyframe()
             }
         }

@@ -8,14 +8,15 @@ import QtQuick
 
 import org.kde.ki18n
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 MouseArea {
     id: barZone
     hoverEnabled: true
+    required property K.MonitorProxy monitorController
     property bool rightSide: true
     acceptedButtons: Qt.NoButton
-    width: 2.4 * fontMetrics.font.pixelSize
+    width: 2.4 * K.UiUtils.baseSizeMedium
     height: parent.height
     Timer {
         id: hideTimer
@@ -26,6 +27,7 @@ MouseArea {
             generateLabel.visible = false
         }
     }
+    SystemPalette { id: activePalette }
 
     Rectangle {
         id: effecttoolbar
@@ -54,14 +56,14 @@ MouseArea {
 
         Column {
             width: parent.width
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
                 toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: controller.triggerAction('monitor_fullscreen')
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "generateFrames"
                 iconName: "media-record"
                 toolTipText: KI18n.i18n("Generate Mask")
@@ -77,29 +79,29 @@ MouseArea {
                     }
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "switchOpacity"
                 iconName: "edit-opacity"
                 toolTipText: KI18n.i18n("Change Opacity (0% - 25% - 50% - 100%)")
                 onClicked: {
-                    if (controller.maskOpacity == 0) {
-                        controller.maskOpacity = 25;
-                    } else if (controller.maskOpacity == 100) {
-                        controller.maskOpacity = 0;
+                    if (barZone.monitorController.maskOpacity == 0) {
+                        barZone.monitorController.maskOpacity = 25;
+                    } else if (barZone.monitorController.maskOpacity == 100) {
+                        barZone.monitorController.maskOpacity = 0;
                     } else {
-                        controller.maskOpacity = controller.maskOpacity * 2;
+                        barZone.monitorController.maskOpacity = barZone.monitorController.maskOpacity * 2;
                     }
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "invertMask"
                 iconName: "edit-select-invert"
                 toolTipText: KI18n.i18n("Invert Mask")
                 onClicked: {
-                    controller.maskInverted = !controller.maskInverted
+                    barZone.monitorController.maskInverted = !barZone.monitorController.maskInverted
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "abortMask"
                 iconName: "dialog-close"
                 toolTipText: root.maskMode != MaskModeType.MaskPreview ? KI18n.i18n("Exit Mask Creation") : KI18n.i18n("Exit Preview Mode")
@@ -108,11 +110,11 @@ MouseArea {
                     root.exitMaskPreview()
                 }
             }
-            Kdenlive.MonitorZoomButton {
+            K.MonitorZoomButton {
                 id: zoomButton
             }
 
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
                 toolTipText: KI18n.i18n("Move Toolbar")

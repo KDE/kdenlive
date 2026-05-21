@@ -8,6 +8,8 @@ import QtQuick.Controls
 
 import org.kde.ki18n
 
+import org.kde.kdenlive as K
+
 Item {
     id: root
     objectName: "rootsplit"
@@ -15,6 +17,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property double timeScale: 1
     property int duration: 300
     property int mouseRulerPos: 0
@@ -63,7 +66,7 @@ Item {
         cursorShape: Qt.SizeHorCursor
         acceptedButtons: Qt.LeftButton
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onPressed: {
             root.captureRightClick = true
@@ -106,14 +109,15 @@ Item {
             }
         }
     }
-    MonitorRuler {
+    K.MonitorRuler {
         id: clipMonitorRuler
         anchors {
             left: root.left
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 
     Timer {

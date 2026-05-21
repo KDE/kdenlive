@@ -63,7 +63,7 @@ Item {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
     }
 
@@ -76,10 +76,13 @@ Item {
         y: root.center.y - height / 2 - root.offsety
         Repeater {
             id: trackSeparators
-            model: tracks
+            model: root.tracks
             property int rows: trackSeparators.count < 2 ? 1 : trackSeparators.count < 5 ? 2 : 3
             property int columns: trackSeparators.count < 2 ? 1 : trackSeparators.count < 3 ? 1 : trackSeparators.count < 7 ? 2 : 3
             Rectangle {
+                id: trackSeperatorFrame
+                required property int index
+                required property string modelData
                 width: parent.width / trackSeparators.rows
                 height: parent.height / trackSeparators.columns
                 x: width * (index % trackSeparators.rows)
@@ -88,11 +91,11 @@ Item {
                 border.color: index == root.activeTrack ? "#ff0000" : "#00000000"
                 border.width: 2
                 Label {
-                    text: modelData
+                    text: trackSeperatorFrame.modelData
                     color: "#ffffff"
                     padding :4
                     background: Rectangle {
-                        color: index == root.activeTrack ? "#990000" : "#000066"
+                        color: trackSeperatorFrame.index == root.activeTrack ? "#990000" : "#000066"
                     }
                 }
                 MouseArea {
@@ -100,8 +103,8 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onClicked: {
-                        root.activateTrack(index)
-                        controller.triggerAction('perform_multitrack_mode')
+                        root.activateTrack(trackSeperatorFrame.index)
+                        root.controller.triggerAction('perform_multitrack_mode')
                     }
                 }
             }
@@ -124,6 +127,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 }

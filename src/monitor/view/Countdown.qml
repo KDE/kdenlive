@@ -43,6 +43,7 @@ Rectangle {
         model: 4
         anchors.fill: parent
         delegate: Label {
+            required property int index
             anchors.centerIn: parent
             visible: counter.countdown <= index
             opacity: counter.countdown == index ? 1 : 0.4

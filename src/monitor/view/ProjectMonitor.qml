@@ -21,7 +21,7 @@ Item {
     height: 300; width: 400
     required property K.MonitorProxy controller
     property string markerText
-    property point profile: controller.profile
+    property point profile: root.controller.profile
     property double zoom
     property point center
     property double scalex
@@ -45,11 +45,11 @@ Item {
     property int mouseRulerPos: 0
     property double frameSize: 10
     property double timeScale: 1
-    property int overlayType: controller.overlayType
+    property int overlayType: root.controller.overlayType
     property bool isClipMonitor: false
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        root.controller.rulerHeight = root.zoomOffset
     }
 
     function updateClickCapture() {
@@ -97,13 +97,13 @@ Item {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onEntered: {
-            controller.setWidgetKeyBinding(KI18n.i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
+            root.controller.setWidgetKeyBinding(KI18n.i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
         }
         onExited: {
-            controller.setWidgetKeyBinding();
+            root.controller.setWidgetKeyBinding();
         }
     }
     DropArea { //Drop area for effects
@@ -118,7 +118,7 @@ Item {
             droppedDataSource = drag.getDataAsString('kdenlive/effectsource')
         }
         onDropped: {
-            controller.addEffect(droppedData, droppedDataSource)
+            root.controller.addEffect(droppedData, droppedDataSource)
             droppedData = ""
             droppedDataSource = ""
         }
@@ -132,10 +132,11 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
 
     Item {
-        height: root.height - controller.rulerHeight
+        height: root.height - root.controller.rulerHeight
         width: root.width
         id: monitorArea
         Item {
@@ -154,7 +155,8 @@ Item {
 
             K.MonitorSafeZone {
                 anchors.fill: frame
-                showSafeZone: controller.showSafezone
+                showSafeZone: root.controller.showSafezone
+                profile: root.controller.profile
             }
 
             Loader {
@@ -174,9 +176,9 @@ Item {
                 color: "#ffffff"
                 padding: 2
                 background: Rectangle {
-                    color: controller.monitorIsActive ? "#DD006600": "#66000000"
+                    color: root.controller.monitorIsActive ? "#DD006600": "#66000000"
                 }
-                text: controller.timecode
+                text: root.controller.timecode
                 visible: root.showTimecode
                 anchors {
                     right: monitorOverlay.right
@@ -209,8 +211,8 @@ Item {
                     left: parent.left
                     top: parent.top
                 }
-                visible: Math.abs(controller.speed) > 1
-                text: "x" + controller.speed
+                visible: Math.abs(root.controller.speed) > 1
+                text: "x" + root.controller.speed
                 color: "white"
                 background: Rectangle {
                     color: "darkgreen"
@@ -226,7 +228,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: root.zoomOffset
                 }
-                visible: root.showMarkers && controller.position == controller.zoneIn
+                visible: root.showMarkers && root.controller.position == root.controller.zoneIn
                 text: KI18n.i18n("In Point")
                 color: "white"
                 background: Rectangle {
@@ -243,7 +245,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: root.zoomOffset
                 }
-                visible: root.showMarkers && controller.position == controller.zoneOut
+                visible: root.showMarkers && root.controller.position == root.controller.zoneOut
                 text: KI18n.i18n("Out Point")
                 color: "white"
                 background: Rectangle {
@@ -268,12 +270,12 @@ Item {
                     bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && text != ""
-                text: controller.markerComment
+                text: root.controller.markerComment
                 height: inPoint.height
                 width: fontMetrics.boundingRect(displayText).width + 10
                 horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
                 background: Rectangle {
-                    color: controller.markerColor
+                    color: root.controller.markerColor
                 }
                 color: "#000"
                 padding: 0
@@ -289,7 +291,7 @@ Item {
             anchors.topMargin: 10
             anchors.leftMargin: 10
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.5)
-            visible: K.KdenliveSettings.enableBuiltInEffects && controller.speed == 0 && (barOverArea.containsMouse || transformbutton.hovered)
+            visible: K.KdenliveSettings.enableBuiltInEffects && root.controller.speed == 0 && (barOverArea.containsMouse || transformbutton.hovered)
             radius: 4
             border.color : Qt.rgba(0, 0, 0, 0.3)
             border.width: 1
@@ -301,7 +303,7 @@ Item {
                 toolTipText: KI18n.i18nc("@tooltip Transform, a tool to resize", "Enable Transform")
                 checkable: false
                 onClicked: {
-                    controller.enableTransform()
+                    root.controller.enableTransform()
                 }
             }
         }
@@ -313,6 +315,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 }
