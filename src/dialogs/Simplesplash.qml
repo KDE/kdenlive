@@ -43,7 +43,13 @@ Window {
     {
         // Hack to ensure the qml Window stays on top of our QWidget MainWindow while loading
         splash.requestActivate()
-        splashContent.forceActiveFocus()
+        if (splash.crashRecovery) {
+            normalStartButton.forceActiveFocus();
+        } else if (splash.wasUpgraded) {
+            notesStartButton.forceActiveFocus();
+        } else {
+            splashContent.forceActiveFocus()
+        }
     }
 
     function displayProgress(message)
@@ -61,7 +67,6 @@ Window {
         border.color: "#d7566e"
         color: activePalette.window
         clip: true
-        focus: true
         NumberAnimation on opacity {
             id: fadeAnimation
             running: false
@@ -158,19 +163,38 @@ Window {
             }
         }
         Rectangle {
+            id: loadingBox
+            visible: false
+            color: activePalette.window
+            opacity: 0.85
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: splashContent.border.width + 5
+            anchors.rightMargin: splashContent.border.width + 5
+            anchors.bottom: buttonBar.top
+            height: Math.max(loadingLabel.height, restartButton.height + 15)
+            Label {
+                id: loadingLabel
+                anchors.fill: parent
+                anchors.margins: 10
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.Wrap
+            }
+        }
+        Rectangle {
             // Crash recovery
             id: resetBox
             visible: splash.crashRecovery
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: buttonBar.top
-            anchors.leftMargin: splashContent.border.width + 5
-            anchors.rightMargin: splashContent.border.width + 5
-            height: restartButton.height + 10
+            anchors.leftMargin: splashContent.border.width
+            anchors.rightMargin: splashContent.border.width
+            height: restartButton.height + 15
             color: activePalette.window
             Rectangle {
                 anchors.fill: parent
-                color: "#22FF0000"
+                color: "#11FF0000"
             }
             Label {
                 id: restartLabel
@@ -189,7 +213,12 @@ Window {
                 anchors.rightMargin: 10
                 text: KI18n.i18n("Reset Configuration")
                 icon.name: "view-refresh"
-                onClicked: resetConfig()
+                onClicked: {
+                    loadingLabel.text = KI18n.i18n("Starting…")
+                    resetBox.visible = false
+                    loadingBox.visible = true
+                    resetConfig()
+                }
             }
             Button {
                 id: normalStartButton
@@ -198,8 +227,11 @@ Window {
                 anchors.rightMargin: 10
                 text: KI18n.i18n("Start Normally")
                 icon.name: "go-next"
+                focus: true
                 onClicked: {
-                    normalStartButton.text = KI18n.i18n("Starting…")
+                    resetBox.visible = false
+                    loadingBox.visible = true
+                    loadingLabel.text = KI18n.i18n("Starting…")
                     openBlank()
                 }
             }
@@ -213,7 +245,7 @@ Window {
             anchors.leftMargin: splashContent.border.width + 5
             anchors.rightMargin: splashContent.border.width + 5
             anchors.bottom: buttonBar.top
-            height: Math.max(upgradedLabel.height, notesButton.height) + 10
+            height: Math.max(upgradedLabel.height, notesButton.height) + 15
             color: activePalette.window
             Rectangle {
                 anchors.fill: parent
@@ -252,35 +284,23 @@ Window {
                 anchors.rightMargin: 10
                 text: KI18n.i18n("Continue")
                 icon.name: "go-next"
-                onClicked: openBlank()
-            }
-        }
-        Rectangle {
-            id: loadingBox
-            visible: false
-            color: activePalette.window
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.leftMargin: splashContent.border.width + 5
-            anchors.rightMargin: splashContent.border.width + 5
-            anchors.bottom: buttonBar.top
-            height: Math.max(loadingLabel.height, notesButton.height) + 10
-            Label {
-                id: loadingLabel
-                anchors.fill: parent
-                anchors.margins: 5
-                wrapMode: Text.Wrap
+                onClicked: {
+                    loadingLabel.text = KI18n.i18n("Starting…")
+                    upgradeBox.visible = false
+                    loadingBox.visible = true
+                    openBlank()
+                }
             }
         }
     }
     Component.onCompleted: {
-        if (splash.crashRecovery)
+        visible = true;
+        if (splash.crashRecovery) {
             normalStartButton.forceActiveFocus();
-        else if (splash.wasUpgraded) {
+        } else if (splash.wasUpgraded) {
             notesStartButton.forceActiveFocus();
         } else {
             splashContent.forceActiveFocus()
         }
-        visible = true;
     }
 }
