@@ -93,6 +93,7 @@ MouseArea {
             }
             K.MonitorZoomButton {
                 id: zoomButton
+                monitorController: barZone.monitorController
             }
             K.MonitorToolButton {
                 objectName: "addMarker"

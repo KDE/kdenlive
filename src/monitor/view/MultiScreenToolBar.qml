@@ -8,11 +8,12 @@ import QtQuick 2.15
 
 import org.kde.ki18n
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 MouseArea {
     id: barZone
     hoverEnabled: true
+    required property K.MonitorProxy monitorController
     property bool rightSide: true
     acceptedButtons: Qt.NoButton
     width: 2.4 * fontMetrics.font.pixelSize
@@ -54,7 +55,7 @@ MouseArea {
 
         Column {
             width: parent.width
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
@@ -64,10 +65,11 @@ MouseArea {
                     controller.triggerAction('monitor_fullscreen')
                 }
             }
-            Kdenlive.MonitorZoomButton {
+            K.MonitorZoomButton {
                 id: zoomButton
+                monitorController: barZone.monitorController
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
                 toolTipText: KI18n.i18n("Move Toolbar")
