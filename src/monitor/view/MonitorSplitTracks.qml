@@ -119,6 +119,7 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
     MonitorRuler {
         id: clipMonitorRuler
