@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-19 00:44+0000\n"
+"POT-Creation-Date: 2026-05-21 00:43+0000\n"
 "PO-Revision-Date: 2026-05-15 09:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -160,6 +160,7 @@ msgstr "Кут обертання форми хвилі."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
 #: data/effects/audiowaveform.xml:20
+#: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/avfilter/avfilter_fillborders.xml:15
 #: data/effects/frei0r/frei0r_mask0mate.xml:8 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
@@ -3137,32 +3138,17 @@ msgstr "Делого"
 msgid "Remove logo from input video"
 msgstr "Вилучення логотипа з вхідного відео"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:291
 #, kde-format
-msgid "Logo X Position"
-msgstr "Розташування логотипа за X"
+msgid "Logo"
+msgstr "Логотип"
 
-#: data/effects/avfilter/avfilter_delogo.xml:11
-#, kde-format
-msgid "Logo Y Position"
-msgstr "Розташування логотипа за Y"
-
-#: data/effects/avfilter/avfilter_delogo.xml:14
-#, kde-format
-msgid "Logo Width"
-msgstr "Ширина логотипа"
-
-#: data/effects/avfilter/avfilter_delogo.xml:17
-#, kde-format
-msgid "Logo Height"
-msgstr "Висота логотипа"
-
-#: data/effects/avfilter/avfilter_delogo.xml:20
+#: data/effects/avfilter/avfilter_delogo.xml:15
 #, kde-format
 msgid "Show borders"
 msgstr "Показувати межі"
 
-#: data/effects/avfilter/avfilter_delogo.xml:21
+#: data/effects/avfilter/avfilter_delogo.xml:16
 #, kde-format
 msgid "Off,On"
 msgstr "Увімкнено,Вимкнено"
@@ -3367,58 +3353,8 @@ msgstr "Малювання рамки"
 msgid "Draw a colored box on the input video"
 msgstr "Намалювати кольорову панель на вхідному відео"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:8
-#: data/effects/frei0r/frei0r_c0rners.xml:8
-#, kde-format
-msgid "Top-left X"
-msgstr "Верхня ліва координата за X"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:9
-#, kde-format
-msgid "X coordinate of top-left corner"
-msgstr "Координата за X верхнього лівого кута"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:12
-#: data/effects/frei0r/frei0r_c0rners.xml:11
-#, kde-format
-msgid "Top-left Y"
-msgstr "Верхня ліва координата за Y"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:13
-#, kde-format
-msgid "Y coordinate of top-left corner"
-msgstr "Координата за Y верхнього лівого кута"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:16
-#, kde-format
-msgid "Width (px)"
-msgstr "Ширина (пк)"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:18
-#, kde-format
-msgid ""
-"Width of the box in pixel.<br>\n"
-"    \tA width of <em>1</em> does not draw a line"
-msgstr ""
-"Ширина рамки у пікселях.<br>\n"
-"    \tШирина у <em>1</em> усуває малювання лінії"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:21
-#, kde-format
-msgid "Height (px)"
-msgstr "Висота (пк)"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:23
-#, kde-format
-msgid ""
-"Height of the box in pixel.<br>\n"
-"    \tA height of <em>1</em> does not draw a line"
-msgstr ""
-"Висота рамки у пікселях.<br>\n"
-"    \tВисота у <em>1</em> усуває малювання лінії"
-
 #. i18n: file: data/layouts/color.json
-#: data/effects/avfilter/avfilter_drawbox.xml:26
+#: data/effects/avfilter/avfilter_drawbox.xml:15
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
@@ -3428,7 +3364,7 @@ msgstr ""
 msgid "Color"
 msgstr "Колір"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:28
+#: data/effects/avfilter/avfilter_drawbox.xml:17
 #, kde-format
 msgid ""
 "Select a color for the line.<br>\n"
@@ -3437,24 +3373,24 @@ msgstr ""
 "Вибрати колір лінії.<br>\n"
 "    \tВиберіть значення <em>Альфа</em>, щоб зробити рамку напівпрозорою."
 
-#: data/effects/avfilter/avfilter_drawbox.xml:31
+#: data/effects/avfilter/avfilter_drawbox.xml:20
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
 #, kde-format
 msgid "Thickness (px)"
 msgstr "Товщина (пк)"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:32
+#: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
 msgid "Sets the thickness for the line in pixels"
 msgstr "Встановлює товщину лінії графіка у пікселях."
 
-#: data/effects/avfilter/avfilter_drawbox.xml:35
+#: data/effects/avfilter/avfilter_drawbox.xml:24
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
 #, kde-format
 msgid "Replace color and alpha"
 msgstr "Замінити колір і прозорість"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:38
+#: data/effects/avfilter/avfilter_drawbox.xml:27
 #, kde-format
 msgid ""
 "If the input has alpha, checking this<br>\n"
@@ -9578,6 +9514,16 @@ msgstr "Кути"
 #, kde-format
 msgid "Four corners geometry engine"
 msgstr "Чотириточковий рушій зміни геометрії"
+
+#: data/effects/frei0r/frei0r_c0rners.xml:8
+#, kde-format
+msgid "Top-left X"
+msgstr "Верхня ліва координата за X"
+
+#: data/effects/frei0r/frei0r_c0rners.xml:11
+#, kde-format
+msgid "Top-left Y"
+msgstr "Верхня ліва координата за Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
 #, kde-format
@@ -17049,7 +16995,7 @@ msgid "Use cos instead of linear"
 msgstr "Використовувати косинус замість лінійної"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "Згладжування"
@@ -18603,73 +18549,73 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr "Вам слід визначити точки включення у першому відеокадрі послідовності."
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Лінійна"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "Дискретна"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr "Застрибування"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr "Вистрибування"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr "Куб на вході"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr "Куб на виході"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr "Експоненційний вхід"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr "Експоненційний вихід"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr "Круговий вхід"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr "Круговий вихід"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr "Пружний вхід"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Elastic Out"
 msgstr "Пружний вихід"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "Згладжений (застарілий)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -18678,14 +18624,14 @@ msgstr "Згладжений (застарілий)"
 msgid "Add keyframe"
 msgstr "Додати ключовий кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Змінити тип ключового кадру"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1623
@@ -18693,13 +18639,13 @@ msgstr "Змінити тип ключового кадру"
 msgid "Delete keyframe"
 msgstr "Вилучити ключовий кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Пересунути ключові кадри"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -18708,29 +18654,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Пересунути ключовий кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "Оновити ключовий кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Вилучити усі ключові кадри"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "ефект"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "Скинути %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "Відновити параметри ефекту"
@@ -18741,7 +18687,7 @@ msgid "Delete keyframes"
 msgstr "Вилучити ключові кадри"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1784
+#: src/assets/model/assetparametermodel.cpp:1779
 #, kde-format
 msgid "Update effect"
 msgstr "Оновити ефект"
@@ -18819,13 +18765,13 @@ msgstr "Зміна ключового кадру %1"
 msgid "Update %1"
 msgstr "Оновити %1"
 
-#: src/assets/model/assetparametermodel.cpp:1621
-#: src/assets/model/assetparametermodel.cpp:1668
+#: src/assets/model/assetparametermodel.cpp:1616
+#: src/assets/model/assetparametermodel.cpp:1663
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не вдалося відкрити файл шаблона %1"
 
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1753
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -25780,17 +25726,17 @@ msgstr "Експортувати нетиповий ефект"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Деякі з ваших улюблених ефектів є некоректними, їх буде вилучено: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Приховати ключові кадри"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "Показати ключові кадри"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Оновити ділянку для %1"
@@ -27254,11 +27200,6 @@ msgstr "Робота з вадами, тестування, супровід д�
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
-
-#: src/main.cpp:291
-#, kde-format
-msgid "Logo"
-msgstr "Логотип"
 
 #: src/main.cpp:292
 #, kde-format
@@ -35331,7 +35272,7 @@ msgstr "Вставити ефект…"
 msgid "Insert a composition..."
 msgstr "Вставити композицію…"
 
-#: src/timeline2/view/timelinewidget.cpp:324
+#: src/timeline2/view/timelinewidget.cpp:323
 #, kde-format
 msgid "No available stream"
 msgstr "Немає доступних потоків"
@@ -40889,6 +40830,44 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Logo X Position"
+#~ msgstr "Розташування логотипа за X"
+
+#~ msgid "Logo Y Position"
+#~ msgstr "Розташування логотипа за Y"
+
+#~ msgid "Logo Width"
+#~ msgstr "Ширина логотипа"
+
+#~ msgid "Logo Height"
+#~ msgstr "Висота логотипа"
+
+#~ msgid "X coordinate of top-left corner"
+#~ msgstr "Координата за X верхнього лівого кута"
+
+#~ msgid "Y coordinate of top-left corner"
+#~ msgstr "Координата за Y верхнього лівого кута"
+
+#~ msgid "Width (px)"
+#~ msgstr "Ширина (пк)"
+
+#~ msgid ""
+#~ "Width of the box in pixel.<br>\n"
+#~ "    \tA width of <em>1</em> does not draw a line"
+#~ msgstr ""
+#~ "Ширина рамки у пікселях.<br>\n"
+#~ "    \tШирина у <em>1</em> усуває малювання лінії"
+
+#~ msgid "Height (px)"
+#~ msgstr "Висота (пк)"
+
+#~ msgid ""
+#~ "Height of the box in pixel.<br>\n"
+#~ "    \tA height of <em>1</em> does not draw a line"
+#~ msgstr ""
+#~ "Висота рамки у пікселях.<br>\n"
+#~ "    \tВисота у <em>1</em> усуває малювання лінії"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid "When selected mutes all other audio tracks."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-19 00:44+0000\n"
+"POT-Creation-Date: 2026-05-21 00:43+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -159,6 +159,7 @@ msgstr "तरंगरूप पर लागू किया जाने व�
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
 #: data/effects/audiowaveform.xml:20
+#: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/avfilter/avfilter_fillborders.xml:15
 #: data/effects/frei0r/frei0r_mask0mate.xml:8 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
@@ -3137,37 +3138,18 @@ msgstr "प्रतीक चिन्ह"
 msgid "Remove logo from input video"
 msgstr "पसंदीदा से हटाएं"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8
-#, fuzzy, kde-format
-#| msgid "X position"
-msgid "Logo X Position"
-msgstr "एक्स स्थिति"
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:291
+#, kde-format
+msgid "Logo"
+msgstr "प्रतीक चिन्ह"
 
-#: data/effects/avfilter/avfilter_delogo.xml:11
-#, fuzzy, kde-format
-#| msgid "Y position"
-msgid "Logo Y Position"
-msgstr "वाई स्थिति"
-
-#: data/effects/avfilter/avfilter_delogo.xml:14
-#, fuzzy, kde-format
-#| msgid "Width"
-msgid "Logo Width"
-msgstr "चौड़ाई"
-
-#: data/effects/avfilter/avfilter_delogo.xml:17
-#, fuzzy, kde-format
-#| msgid "Height"
-msgid "Logo Height"
-msgstr "ऊंचाई"
-
-#: data/effects/avfilter/avfilter_delogo.xml:20
+#: data/effects/avfilter/avfilter_delogo.xml:15
 #, fuzzy, kde-format
 #| msgid "Show Grid"
 msgid "Show borders"
 msgstr "ग्रिड दिखाएं"
 
-#: data/effects/avfilter/avfilter_delogo.xml:21
+#: data/effects/avfilter/avfilter_delogo.xml:16
 #, kde-format
 msgid "Off,On"
 msgstr ""
@@ -3372,60 +3354,8 @@ msgstr "अक्ष बनाएं"
 msgid "Draw a colored box on the input video"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_drawbox.xml:8
-#: data/effects/frei0r/frei0r_c0rners.xml:8
-#, fuzzy, kde-format
-#| msgid "Top left"
-msgid "Top-left X"
-msgstr "बाएं से बाएं"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:9
-#, fuzzy, kde-format
-#| msgid "Create  new profile"
-msgid "X coordinate of top-left corner"
-msgstr "नया प्रोफ़ाइल बनाएं"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:12
-#: data/effects/frei0r/frei0r_c0rners.xml:11
-#, fuzzy, kde-format
-#| msgid "Top left"
-msgid "Top-left Y"
-msgstr "बाएं से बाएं"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:13
-#, fuzzy, kde-format
-#| msgid "Create  new profile"
-msgid "Y coordinate of top-left corner"
-msgstr "नया प्रोफ़ाइल बनाएं"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:16
-#, fuzzy, kde-format
-#| msgid "Width"
-msgid "Width (px)"
-msgstr "चौड़ाई"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:18
-#, kde-format
-msgid ""
-"Width of the box in pixel.<br>\n"
-"    \tA width of <em>1</em> does not draw a line"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_drawbox.xml:21
-#, fuzzy, kde-format
-#| msgid "Height"
-msgid "Height (px)"
-msgstr "ऊंचाई"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:23
-#, kde-format
-msgid ""
-"Height of the box in pixel.<br>\n"
-"    \tA height of <em>1</em> does not draw a line"
-msgstr ""
-
 #. i18n: file: data/layouts/color.json
-#: data/effects/avfilter/avfilter_drawbox.xml:26
+#: data/effects/avfilter/avfilter_drawbox.xml:15
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
@@ -3435,34 +3365,34 @@ msgstr ""
 msgid "Color"
 msgstr "रंग"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:28
+#: data/effects/avfilter/avfilter_drawbox.xml:17
 #, kde-format
 msgid ""
 "Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_drawbox.xml:31
+#: data/effects/avfilter/avfilter_drawbox.xml:20
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
 #, fuzzy, kde-format
 #| msgid "Line Thickness (px)"
 msgid "Thickness (px)"
 msgstr "रेखा की मोटाई (px)"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:32
+#: data/effects/avfilter/avfilter_drawbox.xml:21
 #, fuzzy, kde-format
 #| msgid "Sets the thickness of the line graph in pixels."
 msgid "Sets the thickness for the line in pixels"
 msgstr "रेखा ग्राफ की मोटाई पिक्सेल में सेट करता है."
 
-#: data/effects/avfilter/avfilter_drawbox.xml:35
+#: data/effects/avfilter/avfilter_drawbox.xml:24
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
 #, fuzzy, kde-format
 #| msgid "Replace clip"
 msgid "Replace color and alpha"
 msgstr "क्लिप बदलें"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:38
+#: data/effects/avfilter/avfilter_drawbox.xml:27
 #, kde-format
 msgid ""
 "If the input has alpha, checking this<br>\n"
@@ -9554,6 +9484,18 @@ msgstr ""
 #, kde-format
 msgid "Four corners geometry engine"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_c0rners.xml:8
+#, fuzzy, kde-format
+#| msgid "Top left"
+msgid "Top-left X"
+msgstr "बाएं से बाएं"
+
+#: data/effects/frei0r/frei0r_c0rners.xml:11
+#, fuzzy, kde-format
+#| msgid "Top left"
+msgid "Top-left Y"
+msgstr "बाएं से बाएं"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
 #, fuzzy, kde-format
@@ -17225,7 +17167,7 @@ msgid "Use cos instead of linear"
 msgstr "रैखिक के बजाय cos का उपयोग करें"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "चिकना"
@@ -18828,73 +18770,73 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "रेखीय"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "अलग"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr "बाउंस इन"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr "बाउंस आउट"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr "घन इंच"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr "क्यूबिक आउट"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr "घातांकीय में"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr "घातांकीय आउट"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr "परिपत्र में"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr "परिपत्र आउट"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr "लोचदार में"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Elastic Out"
 msgstr "इलास्टिक आउट"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "चिकना (बहिष्कृत)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -18903,14 +18845,14 @@ msgstr "चिकना (बहिष्कृत)"
 msgid "Add keyframe"
 msgstr "मुख्यफ़्रेम जोड़ें"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "मुख्यफ़्रेम प्रकार बदलें"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1623
@@ -18918,13 +18860,13 @@ msgstr "मुख्यफ़्रेम प्रकार बदलें"
 msgid "Delete keyframe"
 msgstr "मुख्यफ़्रेम हटाएं"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "मुख्य-फ़्रेम ले जाएँ"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -18933,29 +18875,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "मुख्यफ़्रेम ले जाएँ"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "मुख्यफ़्रेम अपडेट करें"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "सभी मुख्यफ़्रेम हटाएँ"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "प्रभाव"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "रीसेट करें%1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "प्रभाव रीसेट करें"
@@ -18966,7 +18908,7 @@ msgid "Delete keyframes"
 msgstr "मुख्य फ़्रेम हटाएं"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1784
+#: src/assets/model/assetparametermodel.cpp:1779
 #, kde-format
 msgid "Update effect"
 msgstr "अद्यतन प्रभाव"
@@ -19041,13 +18983,13 @@ msgstr "%1कीफ़्रेम संपादित करें"
 msgid "Update %1"
 msgstr "अपडेट करें %1"
 
-#: src/assets/model/assetparametermodel.cpp:1621
-#: src/assets/model/assetparametermodel.cpp:1668
+#: src/assets/model/assetparametermodel.cpp:1616
+#: src/assets/model/assetparametermodel.cpp:1663
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "प्रीसेट फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1753
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -25963,17 +25905,17 @@ msgstr "कस्टम प्रभाव निर्यात करें"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "आपके कुछ पसंदीदा प्रभाव अमान्य हैं और उन्हें हटा दिया गया है: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "मुख्य फ़्रेम छिपाएँ"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "मुख्य फ़्रेम दिखाएं"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1 के लिए ज़ोन अपडेट करें"
@@ -27463,11 +27405,6 @@ msgstr "बग ट्राइएज, परीक्षण, दस्ताव�
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "नारा ओलिविरा"
-
-#: src/main.cpp:291
-#, kde-format
-msgid "Logo"
-msgstr "प्रतीक चिन्ह"
 
 #: src/main.cpp:292
 #, kde-format
@@ -35529,7 +35466,7 @@ msgstr "एक प्रभाव डालें..."
 msgid "Insert a composition..."
 msgstr "एक रचना डालें..."
 
-#: src/timeline2/view/timelinewidget.cpp:324
+#: src/timeline2/view/timelinewidget.cpp:323
 #, kde-format
 msgid "No available stream"
 msgstr "कोई स्ट्रीम उपलब्ध नहीं है"
@@ -41089,6 +41026,46 @@ msgstr "%1मि"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1घंटा"
+
+#, fuzzy
+#~| msgid "X position"
+#~ msgid "Logo X Position"
+#~ msgstr "एक्स स्थिति"
+
+#, fuzzy
+#~| msgid "Y position"
+#~ msgid "Logo Y Position"
+#~ msgstr "वाई स्थिति"
+
+#, fuzzy
+#~| msgid "Width"
+#~ msgid "Logo Width"
+#~ msgstr "चौड़ाई"
+
+#, fuzzy
+#~| msgid "Height"
+#~ msgid "Logo Height"
+#~ msgstr "ऊंचाई"
+
+#, fuzzy
+#~| msgid "Create  new profile"
+#~ msgid "X coordinate of top-left corner"
+#~ msgstr "नया प्रोफ़ाइल बनाएं"
+
+#, fuzzy
+#~| msgid "Create  new profile"
+#~ msgid "Y coordinate of top-left corner"
+#~ msgstr "नया प्रोफ़ाइल बनाएं"
+
+#, fuzzy
+#~| msgid "Width"
+#~ msgid "Width (px)"
+#~ msgstr "चौड़ाई"
+
+#, fuzzy
+#~| msgid "Height"
+#~ msgid "Height (px)"
+#~ msgstr "ऊंचाई"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid "When selected mutes all other audio tracks."

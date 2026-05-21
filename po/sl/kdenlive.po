@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-19 00:44+0000\n"
+"POT-Creation-Date: 2026-05-21 00:43+0000\n"
 "PO-Revision-Date: 2026-05-18 22:07+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -164,6 +164,7 @@ msgstr "Kota zasuka za valovno obliko."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
 #: data/effects/audiowaveform.xml:20
+#: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/avfilter/avfilter_fillborders.xml:15
 #: data/effects/frei0r/frei0r_mask0mate.xml:8 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
@@ -3127,32 +3128,17 @@ msgstr "Odstrani logotipe"
 msgid "Remove logo from input video"
 msgstr "Odstrani logotip z vhodnega videoposnetka"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:291
 #, kde-format
-msgid "Logo X Position"
-msgstr "Položaj logotipa X"
+msgid "Logo"
+msgstr "Logotip"
 
-#: data/effects/avfilter/avfilter_delogo.xml:11
-#, kde-format
-msgid "Logo Y Position"
-msgstr "Položaj logotipa Y"
-
-#: data/effects/avfilter/avfilter_delogo.xml:14
-#, kde-format
-msgid "Logo Width"
-msgstr "Širina logotipa"
-
-#: data/effects/avfilter/avfilter_delogo.xml:17
-#, kde-format
-msgid "Logo Height"
-msgstr "Višina logotipa"
-
-#: data/effects/avfilter/avfilter_delogo.xml:20
+#: data/effects/avfilter/avfilter_delogo.xml:15
 #, kde-format
 msgid "Show borders"
 msgstr "Pokaži obrobe"
 
-#: data/effects/avfilter/avfilter_delogo.xml:21
+#: data/effects/avfilter/avfilter_delogo.xml:16
 #, kde-format
 msgid "Off,On"
 msgstr "Izklopljeno,Vklopljeno"
@@ -3357,58 +3343,8 @@ msgstr "Nariši pravokotnik"
 msgid "Draw a colored box on the input video"
 msgstr "Nariše barvni pravokotnik na vhodni videoposnetek"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:8
-#: data/effects/frei0r/frei0r_c0rners.xml:8
-#, kde-format
-msgid "Top-left X"
-msgstr "X levo zgoraj"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:9
-#, kde-format
-msgid "X coordinate of top-left corner"
-msgstr "X-koordinata levega zgornjega kota."
-
-#: data/effects/avfilter/avfilter_drawbox.xml:12
-#: data/effects/frei0r/frei0r_c0rners.xml:11
-#, kde-format
-msgid "Top-left Y"
-msgstr "Y levo zgoraj"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:13
-#, kde-format
-msgid "Y coordinate of top-left corner"
-msgstr "Y-koordinata levega zgornjega kota."
-
-#: data/effects/avfilter/avfilter_drawbox.xml:16
-#, kde-format
-msgid "Width (px)"
-msgstr "Širina (sl. t.)"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:18
-#, kde-format
-msgid ""
-"Width of the box in pixel.<br>\n"
-"    \tA width of <em>1</em> does not draw a line"
-msgstr ""
-"Širina polja v slikovnih točkah.<br>\n"
-"    \tŠirina <em>1</em> ne nariše črte."
-
-#: data/effects/avfilter/avfilter_drawbox.xml:21
-#, kde-format
-msgid "Height (px)"
-msgstr "Višina (sl. t.)"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:23
-#, kde-format
-msgid ""
-"Height of the box in pixel.<br>\n"
-"    \tA height of <em>1</em> does not draw a line"
-msgstr ""
-"Višina polja v slikovnih točkah.<br>\n"
-"    \tVišina <em>1</em> ne nariše črte."
-
 #. i18n: file: data/layouts/color.json
-#: data/effects/avfilter/avfilter_drawbox.xml:26
+#: data/effects/avfilter/avfilter_drawbox.xml:15
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
@@ -3418,7 +3354,7 @@ msgstr ""
 msgid "Color"
 msgstr "Barva"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:28
+#: data/effects/avfilter/avfilter_drawbox.xml:17
 #, kde-format
 msgid ""
 "Select a color for the line.<br>\n"
@@ -3427,24 +3363,24 @@ msgstr ""
 "Izberite barvo črte.<br>\n"
 "    \tUporabite vrednost <em>alfa</em>, da bo črta polprosojna."
 
-#: data/effects/avfilter/avfilter_drawbox.xml:31
+#: data/effects/avfilter/avfilter_drawbox.xml:20
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
 #, kde-format
 msgid "Thickness (px)"
 msgstr "Debelina (sl. točke)"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:32
+#: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
 msgid "Sets the thickness for the line in pixels"
 msgstr "Nastavi debelino črte v slikovnih točkah."
 
-#: data/effects/avfilter/avfilter_drawbox.xml:35
+#: data/effects/avfilter/avfilter_drawbox.xml:24
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
 #, kde-format
 msgid "Replace color and alpha"
 msgstr "Zamenjava barve in alfo"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:38
+#: data/effects/avfilter/avfilter_drawbox.xml:27
 #, kde-format
 msgid ""
 "If the input has alpha, checking this<br>\n"
@@ -9529,6 +9465,16 @@ msgstr "Oglišča"
 #, kde-format
 msgid "Four corners geometry engine"
 msgstr "Mehanizem za geometrijo štirih kotov"
+
+#: data/effects/frei0r/frei0r_c0rners.xml:8
+#, kde-format
+msgid "Top-left X"
+msgstr "X levo zgoraj"
+
+#: data/effects/frei0r/frei0r_c0rners.xml:11
+#, kde-format
+msgid "Top-left Y"
+msgstr "Y levo zgoraj"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
 #, kde-format
@@ -16946,7 +16892,7 @@ msgid "Use cos instead of linear"
 msgstr "Uporabi kosinus namesto linearnega"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "Gladko"
@@ -18500,73 +18446,73 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr "V prvi video sličici zaporedja morate določiti točke vključenega."
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Linearno"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "Diskretno"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr "Odbojni vhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr "Odbojni izhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr "Kubični vhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr "Kubični izhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr "Eksponentni vhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr "Eksponentni izhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr "Krožni vhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr "Krožni izhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr "Elastični vhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Elastic Out"
 msgstr "Elastični izhod"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "Gladko (opuščeno)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -18575,14 +18521,14 @@ msgstr "Gladko (opuščeno)"
 msgid "Add keyframe"
 msgstr "Dodaj ključno sličico"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Spremeni vrsto ključne sličice"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1623
@@ -18590,13 +18536,13 @@ msgstr "Spremeni vrsto ključne sličice"
 msgid "Delete keyframe"
 msgstr "Izbriši ključno sličico"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Prenesi ključne sličice"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -18605,29 +18551,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Prenesi ključno sličico"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "Posodobi ključno sličico"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Izbriši vse ključne sličice"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "učinek"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "Ponastavi %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "Ponastavi učinek"
@@ -18638,7 +18584,7 @@ msgid "Delete keyframes"
 msgstr "Izbriši ključne sličice"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1784
+#: src/assets/model/assetparametermodel.cpp:1779
 #, kde-format
 msgid "Update effect"
 msgstr "Osveži učinek"
@@ -18715,13 +18661,13 @@ msgstr "Uredi ključno sličico %1"
 msgid "Update %1"
 msgstr "Posodobi %1"
 
-#: src/assets/model/assetparametermodel.cpp:1621
-#: src/assets/model/assetparametermodel.cpp:1668
+#: src/assets/model/assetparametermodel.cpp:1616
+#: src/assets/model/assetparametermodel.cpp:1663
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Ni možno odpreti datoteke prednastavitev %1"
 
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1753
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -25622,17 +25568,17 @@ msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 "Nekateri vaši najljubši učinki so neveljavni in so bili odstranjeni: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Skrij ključne sličice"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "Pokaži ključne sličice"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Posodobi območje za %1"
@@ -27080,11 +27026,6 @@ msgstr "Triaža napak, preizkušanje, vzdrževanje dokumentacije"
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
-
-#: src/main.cpp:291
-#, kde-format
-msgid "Logo"
-msgstr "Logotip"
 
 #: src/main.cpp:292
 #, kde-format
@@ -35093,7 +35034,7 @@ msgstr "Vstavi učinek …"
 msgid "Insert a composition..."
 msgstr "Vstavi sestavo …"
 
-#: src/timeline2/view/timelinewidget.cpp:324
+#: src/timeline2/view/timelinewidget.cpp:323
 #, kde-format
 msgid "No available stream"
 msgstr "Ni razpoložljivega toka"
@@ -40619,3 +40560,41 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Logo X Position"
+#~ msgstr "Položaj logotipa X"
+
+#~ msgid "Logo Y Position"
+#~ msgstr "Položaj logotipa Y"
+
+#~ msgid "Logo Width"
+#~ msgstr "Širina logotipa"
+
+#~ msgid "Logo Height"
+#~ msgstr "Višina logotipa"
+
+#~ msgid "X coordinate of top-left corner"
+#~ msgstr "X-koordinata levega zgornjega kota."
+
+#~ msgid "Y coordinate of top-left corner"
+#~ msgstr "Y-koordinata levega zgornjega kota."
+
+#~ msgid "Width (px)"
+#~ msgstr "Širina (sl. t.)"
+
+#~ msgid ""
+#~ "Width of the box in pixel.<br>\n"
+#~ "    \tA width of <em>1</em> does not draw a line"
+#~ msgstr ""
+#~ "Širina polja v slikovnih točkah.<br>\n"
+#~ "    \tŠirina <em>1</em> ne nariše črte."
+
+#~ msgid "Height (px)"
+#~ msgstr "Višina (sl. t.)"
+
+#~ msgid ""
+#~ "Height of the box in pixel.<br>\n"
+#~ "    \tA height of <em>1</em> does not draw a line"
+#~ msgstr ""
+#~ "Višina polja v slikovnih točkah.<br>\n"
+#~ "    \tVišina <em>1</em> ne nariše črte."

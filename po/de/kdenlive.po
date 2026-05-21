@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-19 00:44+0000\n"
+"POT-Creation-Date: 2026-05-21 00:43+0000\n"
 "PO-Revision-Date: 2026-02-13 18:05+0100\n"
 "Last-Translator: anon <emil@wechler.eu>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -174,6 +174,7 @@ msgstr "Der Drehwinkel für die Wellenform."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
 #: data/effects/audiowaveform.xml:20
+#: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/avfilter/avfilter_fillborders.xml:15
 #: data/effects/frei0r/frei0r_mask0mate.xml:8 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
@@ -3176,36 +3177,18 @@ msgstr "Logo"
 msgid "Remove logo from input video"
 msgstr "Clip aus der Zeitleiste entfernen"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8
-#, fuzzy, kde-format
-#| msgid "X position"
-msgid "Logo X Position"
-msgstr "X-Position"
-
-#: data/effects/avfilter/avfilter_delogo.xml:11
-#, fuzzy, kde-format
-#| msgid "Y position"
-msgid "Logo Y Position"
-msgstr "Y-Position"
-
-#: data/effects/avfilter/avfilter_delogo.xml:14
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:291
 #, kde-format
-msgid "Logo Width"
-msgstr "Logobreite"
+msgid "Logo"
+msgstr "Logo"
 
-#: data/effects/avfilter/avfilter_delogo.xml:17
-#, fuzzy, kde-format
-#| msgid "Height"
-msgid "Logo Height"
-msgstr "Höhe"
-
-#: data/effects/avfilter/avfilter_delogo.xml:20
+#: data/effects/avfilter/avfilter_delogo.xml:15
 #, fuzzy, kde-format
 #| msgid "Show fields"
 msgid "Show borders"
 msgstr "Felder anzeigen"
 
-#: data/effects/avfilter/avfilter_delogo.xml:21
+#: data/effects/avfilter/avfilter_delogo.xml:16
 #, kde-format
 msgid "Off,On"
 msgstr "Aus,An"
@@ -3421,60 +3404,8 @@ msgstr "Achse zeichnen"
 msgid "Draw a colored box on the input video"
 msgstr "Einen farbigen Kasten auf das Eingangsvideo zeichnen"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:8
-#: data/effects/frei0r/frei0r_c0rners.xml:8
-#, fuzzy, kde-format
-msgid "Top-left X"
-msgstr "Links"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:9
-#, fuzzy, kde-format
-#| msgid "Create  new profile"
-msgid "X coordinate of top-left corner"
-msgstr "Neues Profil erstellen"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:12
-#: data/effects/frei0r/frei0r_c0rners.xml:11
-#, fuzzy, kde-format
-msgid "Top-left Y"
-msgstr "Links"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:13
-#, fuzzy, kde-format
-#| msgid "Create  new profile"
-msgid "Y coordinate of top-left corner"
-msgstr "Neues Profil erstellen"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:16
-#, kde-format
-msgid "Width (px)"
-msgstr "Breite (px)"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:18
-#, kde-format
-msgid ""
-"Width of the box in pixel.<br>\n"
-"    \tA width of <em>1</em> does not draw a line"
-msgstr ""
-"Breite des Kastens in Pixeln.<br>\n"
-"    \tBei einer Breite von <em>1</em> wird keine Linie gezeichnet"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:21
-#, kde-format
-msgid "Height (px)"
-msgstr "Höhe (px)"
-
-#: data/effects/avfilter/avfilter_drawbox.xml:23
-#, kde-format
-msgid ""
-"Height of the box in pixel.<br>\n"
-"    \tA height of <em>1</em> does not draw a line"
-msgstr ""
-"Höhe des Kastens in Pixeln.<br>\n"
-"    \tBei einer Höhe von <em>1</em> wird keine Linie gezeichnet"
-
 #. i18n: file: data/layouts/color.json
-#: data/effects/avfilter/avfilter_drawbox.xml:26
+#: data/effects/avfilter/avfilter_drawbox.xml:15
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
@@ -3484,7 +3415,7 @@ msgstr ""
 msgid "Color"
 msgstr "Farbe"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:28
+#: data/effects/avfilter/avfilter_drawbox.xml:17
 #, kde-format
 msgid ""
 "Select a color for the line.<br>\n"
@@ -3494,26 +3425,26 @@ msgstr ""
 "    \tVerwenden Sie den <em>Alpha</em>-Wert, um die Linie halbtransparent zu "
 "machen."
 
-#: data/effects/avfilter/avfilter_drawbox.xml:31
+#: data/effects/avfilter/avfilter_drawbox.xml:20
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
 #, kde-format
 msgid "Thickness (px)"
 msgstr "Dicke (px)"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:32
+#: data/effects/avfilter/avfilter_drawbox.xml:21
 #, fuzzy, kde-format
 #| msgid "Change the opacity of the image"
 msgid "Sets the thickness for the line in pixels"
 msgstr "Ändert die Deckkraft des Bilds"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:35
+#: data/effects/avfilter/avfilter_drawbox.xml:24
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
 #, fuzzy, kde-format
 #| msgid "Replace clip"
 msgid "Replace color and alpha"
 msgstr "Clip ersetzen"
 
-#: data/effects/avfilter/avfilter_drawbox.xml:38
+#: data/effects/avfilter/avfilter_drawbox.xml:27
 #, kde-format
 msgid ""
 "If the input has alpha, checking this<br>\n"
@@ -9738,6 +9669,16 @@ msgstr "Ecken"
 #, kde-format
 msgid "Four corners geometry engine"
 msgstr "Vierecken-Geometrietreiber"
+
+#: data/effects/frei0r/frei0r_c0rners.xml:8
+#, fuzzy, kde-format
+msgid "Top-left X"
+msgstr "Links"
+
+#: data/effects/frei0r/frei0r_c0rners.xml:11
+#, fuzzy, kde-format
+msgid "Top-left Y"
+msgstr "Links"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
 #, fuzzy, kde-format
@@ -17180,7 +17121,7 @@ msgid "Use cos instead of linear"
 msgstr "Kosinus anstatt Linear verwenden"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "Glättung"
@@ -18789,78 +18730,78 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Linear"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, fuzzy, kde-format
 #| msgid "Zone In"
 msgid "Bounce In"
 msgstr "Bereichs-Anfangspunkt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, fuzzy, kde-format
 #| msgid "Zone Out"
 msgid "Bounce Out"
 msgstr "Bereichs-Endpunkt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, fuzzy, kde-format
 #| msgid "Zone Out"
 msgid "Exponential Out"
 msgstr "Bereichs-Endpunkt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, fuzzy, kde-format
 #| msgid "Gain Out"
 msgid "Elastic Out"
 msgstr "Ausgangsverstärkung"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, fuzzy, kde-format
 #| msgid " - deprecated"
 msgid "Smooth (deprecated)"
 msgstr " - veraltet"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -18869,14 +18810,14 @@ msgstr " - veraltet"
 msgid "Add keyframe"
 msgstr "Keyframe hinzufügen"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Keyframe-Typ ändern"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1623
@@ -18884,13 +18825,13 @@ msgstr "Keyframe-Typ ändern"
 msgid "Delete keyframe"
 msgstr "Keyframe löschen"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Keyframes verschieben"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -18899,29 +18840,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Keyframe verschieben"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "Keyframe aktualisieren"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Alle Keyframes löschen"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "Effekt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "%1 Zurücksetzen"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "Effekt zurücksetzen"
@@ -18932,7 +18873,7 @@ msgid "Delete keyframes"
 msgstr "Keyframes löschen"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1784
+#: src/assets/model/assetparametermodel.cpp:1779
 #, fuzzy, kde-format
 #| msgid "Paste effect"
 msgid "Update effect"
@@ -19009,14 +18950,14 @@ msgstr "%1 Keyframe bearbeiten"
 msgid "Update %1"
 msgstr "%1 aktualisieren "
 
-#: src/assets/model/assetparametermodel.cpp:1621
-#: src/assets/model/assetparametermodel.cpp:1668
+#: src/assets/model/assetparametermodel.cpp:1616
+#: src/assets/model/assetparametermodel.cpp:1663
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
 msgstr "Projektdatei %1 kann nicht geöffnet werden"
 
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1753
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -26077,17 +26018,17 @@ msgstr "Benutzerdefinierten Effekt exportieren"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Einige Ihrer bevorzugten Effekte sind ungültig und werden entfernt: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Keyframes ausblenden"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "Keyframes anzeigen"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, fuzzy, kde-format
 #| msgid "Update %1"
 msgid "Update zone for %1"
@@ -27613,11 +27554,6 @@ msgstr ""
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
-
-#: src/main.cpp:291
-#, kde-format
-msgid "Logo"
-msgstr "Logo"
 
 #: src/main.cpp:292
 #, kde-format
@@ -35701,7 +35637,7 @@ msgstr "Einen Effekt einfügen ..."
 msgid "Insert a composition..."
 msgstr "Einen Übergang einfügen ..."
 
-#: src/timeline2/view/timelinewidget.cpp:324
+#: src/timeline2/view/timelinewidget.cpp:323
 #, kde-format
 msgid "No available stream"
 msgstr "Kein verfügbarer Stream"
@@ -41274,6 +41210,54 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 h"
+
+#, fuzzy
+#~| msgid "X position"
+#~ msgid "Logo X Position"
+#~ msgstr "X-Position"
+
+#, fuzzy
+#~| msgid "Y position"
+#~ msgid "Logo Y Position"
+#~ msgstr "Y-Position"
+
+#~ msgid "Logo Width"
+#~ msgstr "Logobreite"
+
+#, fuzzy
+#~| msgid "Height"
+#~ msgid "Logo Height"
+#~ msgstr "Höhe"
+
+#, fuzzy
+#~| msgid "Create  new profile"
+#~ msgid "X coordinate of top-left corner"
+#~ msgstr "Neues Profil erstellen"
+
+#, fuzzy
+#~| msgid "Create  new profile"
+#~ msgid "Y coordinate of top-left corner"
+#~ msgstr "Neues Profil erstellen"
+
+#~ msgid "Width (px)"
+#~ msgstr "Breite (px)"
+
+#~ msgid ""
+#~ "Width of the box in pixel.<br>\n"
+#~ "    \tA width of <em>1</em> does not draw a line"
+#~ msgstr ""
+#~ "Breite des Kastens in Pixeln.<br>\n"
+#~ "    \tBei einer Breite von <em>1</em> wird keine Linie gezeichnet"
+
+#~ msgid "Height (px)"
+#~ msgstr "Höhe (px)"
+
+#~ msgid ""
+#~ "Height of the box in pixel.<br>\n"
+#~ "    \tA height of <em>1</em> does not draw a line"
+#~ msgstr ""
+#~ "Höhe des Kastens in Pixeln.<br>\n"
+#~ "    \tBei einer Höhe von <em>1</em> wird keine Linie gezeichnet"
 
 #, fuzzy
 #~| msgid "Timeline Preview"
