@@ -21,7 +21,6 @@ Item {
     property rect framesize
     property point profile: controller.profile
     property int overlayType: 0
-    property color overlayColor: controller.overlayColor
     property point center
     property double scalex
     property double scaley
