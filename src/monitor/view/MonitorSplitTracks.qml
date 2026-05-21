@@ -6,6 +6,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.kdenlive as K
+
 Item {
     id: root
     objectName: "root"
@@ -13,6 +15,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string comment
     property string framenum
     property rect framesize

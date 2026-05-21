@@ -124,7 +124,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     connect(pCore.get(), &Core::switchTimelineRecord, this, &VideoWidget::switchRecordState);
 
     m_proxy = new MonitorProxy(this);
-    rootContext()->setContextProperty("controller", m_proxy);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
     engine()->addImageProvider(QStringLiteral("icon"), new QmlIconProvider(QSize(iconSize, iconSize), this));

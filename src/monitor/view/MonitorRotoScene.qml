@@ -18,6 +18,7 @@ Item {
     SystemPalette { id: activePalette }
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string comment
     property string framenum
     property point profile: controller.profile

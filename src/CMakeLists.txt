@@ -236,6 +236,7 @@ target_include_directories(kdenliveLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/monitor
     ${CMAKE_CURRENT_SOURCE_DIR}/utils
     ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view/qml
     )

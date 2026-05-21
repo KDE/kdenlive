@@ -7,13 +7,15 @@
 
 #include "qmlmanager.h"
 #include "monitor.h"
+#include "monitorproxy.h"
+#include "videowidget.h"
 
 #include <QFontDatabase>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQuickWidget>
 
-QmlManager::QmlManager(QQuickWidget *view, Monitor *monitor)
+QmlManager::QmlManager(VideoWidget *view, Monitor *monitor)
     : QObject(monitor)
     , m_view(view)
     , m_monitor(monitor)
@@ -49,6 +51,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     }
     m_sceneType = type;
     QQuickItem *root = nullptr;
+    m_view->setInitialProperties({{QStringLiteral("controller"), QVariant::fromValue(m_view->getControllerProxy())}});
     switch (type) {
     case MonitorSceneGeometry:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorGeometryScene.qml")));
