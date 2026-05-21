@@ -18,12 +18,13 @@ EffectFilter::EffectFilter(QObject *parent)
 
 void EffectFilter::setFilterType(bool enabled, AssetListType::AssetType type)
 {
+    beginFilterChange();
     m_type_enabled = enabled;
     m_type_value = type;
     if (!m_deprecatedCategory.isValid()) {
         getDeprecatedCategory();
     }
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 bool EffectFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
