@@ -631,6 +631,16 @@ void MainWindow::init()
     // Since not all widgets are added yet, don't use the Save flag now
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Create);
 
+    // Remove secondary cut shortcut conflicting with extract action
+    QAction *officialCut = actionCollection()->action(KStandardAction::name(KStandardAction::Cut));
+    QList<QKeySequence> cutShortcuts = officialCut->shortcuts();
+    if (cutShortcuts.size() > 1) {
+        if (cutShortcuts.at(1) == QKeySequence(Qt::SHIFT | Qt::Key_Delete)) {
+            cutShortcuts.takeLast();
+            officialCut->setShortcuts(cutShortcuts);
+        }
+    }
+
     // Only start saving config once all GUI setup is done.
     connect(pCore.get(), &Core::GUISetupDone, this, &MainWindow::finishUiSetup, Qt::DirectConnection);
 
@@ -2074,13 +2084,14 @@ void MainWindow::setupActions()
     copyToSequence->setData('G');
     copyToSequence->setEnabled(false);
 
-    act = clipActionCategory->addAction(KStandardActions::Copy, this, &MainWindow::slotCopy);
-    act->setEnabled(false);
-
     act = clipActionCategory->addAction(KStandardActions::Cut, this, &MainWindow::slotCut);
     act->setEnabled(false);
 
-    KStandardAction::paste(this, SLOT(slotPaste()), actionCollection());
+    act = clipActionCategory->addAction(KStandardActions::Copy, this, &MainWindow::slotCopy);
+    act->setEnabled(false);
+
+    act = clipActionCategory->addAction(KStandardActions::Paste, this, &MainWindow::slotPaste);
+    act->setEnabled(false);
 
     // Keyframe actions
     m_assetPanel = new AssetPanel(this);
