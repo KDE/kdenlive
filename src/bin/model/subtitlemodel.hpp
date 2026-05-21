@@ -31,6 +31,8 @@ class TimelineItemModel;
 class SubtitleModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("SubtitleModel is owned by TimelineItemModel; obtained via setInitialProperties()")
 
 public:
     static const int RAZOR_MODE_DUPLICATE = 0;

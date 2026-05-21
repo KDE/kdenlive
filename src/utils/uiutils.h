@@ -18,6 +18,7 @@ class UiUtils : public QObject
     QML_ELEMENT
 
     Q_PROPERTY(QFont fixedFont READ getFixedFont CONSTANT)
+    Q_PROPERTY(QFont smallestReadableFont READ getSmallestReadableFont CONSTANT)
     Q_PROPERTY(qreal baseSizeMedium READ getBaseSizeMedium CONSTANT)
 
 public:
@@ -25,6 +26,7 @@ public:
     static UiUtils *create(QQmlEngine *, QJSEngine *);
 
     [[nodiscard]] QFont getFixedFont();
+    [[nodiscard]] QFont getSmallestReadableFont();
     [[nodiscard]] qreal getBaseSizeMedium();
 
 public: // STATIC

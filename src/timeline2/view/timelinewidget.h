@@ -114,7 +114,6 @@ private:
     QPoint m_clickPos;
     QMetaObject::Connection m_addMenuConnection;
     QUuid m_uuid;
-    std::shared_ptr<MediaCapture> m_audioRec;
 
 Q_SIGNALS:
     void focusProjectMonitor();

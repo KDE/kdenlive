@@ -20,6 +20,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
+#include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/guideslist.h"
 #include "qmltypes/thumbnailprovider.h"
@@ -64,10 +65,6 @@ TimelineWidget::~TimelineWidget()
 {
     rootObject()->blockSignals(true);
     timelineController.prepareClose();
-    QList<QQmlContext::PropertyPair> propertyList = {{QStringLiteral("multitrack"), QVariant()},  {QStringLiteral("timeline"), QVariant()},
-                                                     {QStringLiteral("guidesModel"), QVariant()}, {QStringLiteral("subtitleModel"), QVariant()},
-                                                     {QStringLiteral("controller"), QVariant()},  {QStringLiteral("audiorec"), QVariant()}};
-    rootContext()->setContextProperties(propertyList);
     setSource(QUrl());
 }
 
@@ -177,22 +174,14 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
     timelineController.setModel(model);
-    m_audioRec = pCore->getAudioDevice();
-    QList<QQmlContext::PropertyPair> propertyList = {{"controller", QVariant::fromValue(model.get())},
-                                                     {"multitrack", QVariant::fromValue(m_sortModel.get())},
-                                                     {"timeline", QVariant::fromValue(&timelineController)},
-                                                     {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
-                                                     {"documentId", QVariant::fromValue(model->uuid())},
-                                                     {"audiorec", QVariant::fromValue(m_audioRec.get())},
-                                                     {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
-                                                     {"proxy", QVariant()}};
-    if (model->getSubtitleModel()) {
-        propertyList.append({"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())});
-    } else {
-        propertyList.append({"subtitleModel", QVariant()});
-    }
-    rootContext()->setContextProperties(propertyList);
-    setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Timeline.qml")));
+    setInitialProperties({{"audiorec", QVariant::fromValue(pCore->getAudioDevice().get())},
+                          {"controller", QVariant::fromValue(model.get())},
+                          {"timeline", QVariant::fromValue(&timelineController)},
+                          {"multitrack", QVariant::fromValue(m_sortModel.get())},
+                          {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
+                          {"proxy", QVariant::fromValue(pCore->monitorManager()->projectMonitor()->getControllerProxy())},
+                          {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())}});
+    loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("Timeline"));
 
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
@@ -582,7 +571,7 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
 
     rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
     if (firstConnect) {
-        rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
+        rootObject()->setProperty("subtitleModel", QVariant::fromValue(model()->getSubtitleModel().get()));
         QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
     }
 }
