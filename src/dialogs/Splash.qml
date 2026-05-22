@@ -5,6 +5,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -139,12 +141,12 @@ Window {
                 if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
                     splashContent.enabled = false
                     splash.fade()
-                    openFile(splash.urls[listView.currentIndex]);
+                    splash.openFile(splash.urls[listView.currentIndex]);
                 }
 
             } else if (tlistView.activeFocus) {
                 if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.profileIds.length)
-                    openTemplate(splash.profileIds[tlistView.currentIndex]);
+                    splash.openTemplate(splash.profileIds[tlistView.currentIndex]);
             }
         }
         Keys.onEnterPressed: {
@@ -152,21 +154,21 @@ Window {
                 if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
                     splashContent.enabled = false
                     splash.fade()
-                    openFile(splash.urls[listView.currentIndex]);
+                    splash.openFile(splash.urls[listView.currentIndex]);
                 }
 
             } else if (tlistView.activeFocus) {
                 if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.profileIds.length)
-                    openTemplate(splash.profileIds[tlistView.currentIndex]);
+                    splash.openTemplate(splash.profileIds[tlistView.currentIndex]);
 
             }
         }
         Keys.onEscapePressed: {
-            if (firstRun) {
-                firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+            if (splash.firstRun) {
+                splash.firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
                 splash.hide()
             } else {
-                openBlank()
+                splash.openBlank()
             }
         }
 
@@ -311,7 +313,7 @@ Window {
                                 ToolTip.visible: hovered
                                 KeyNavigation.tab: templatesClearButton
                                 onClicked: {
-                                    clearHistory()
+                                    splash.clearHistory()
                                     splash.urls = []
                                     splash.fileNames = []
                                     splash.fileDates = []
@@ -344,6 +346,9 @@ Window {
                                     id: fileItem
                                     width: parent.width
                                     height: listView.itemHeight
+                                    required property url modelData
+                                    required property int index
+
                                     ToolTip.text: modelData
                                     ToolTip.visible: index == listView.hoveredIndex
                                     ToolTip.delay: Application.styleHints.mousePressAndHoldInterval
@@ -351,7 +356,7 @@ Window {
                                         anchors.fill: parent
                                         radius: 4
                                         color: activePalette.highlight
-                                        visible: index == listView.currentIndex && listView.activeFocus
+                                        visible: fileItem.index == listView.currentIndex && listView.activeFocus
                                         opacity: 0.5
                                     }
 
@@ -362,7 +367,7 @@ Window {
                                         anchors.leftMargin: 4
                                         anchors.right: datesLabel.left
                                         leftPadding: 4
-                                        text: splash.fileNames[model.index]
+                                        text: splash.fileNames[fileItem.index]
                                         elide: Text.ElideRight
                                         color: labelArea.containsMouse || listButton.hovered ? activePalette.highlight : activePalette.text
                                         opacity: recentProjects.enabled ? 1 : 0.5
@@ -372,7 +377,7 @@ Window {
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.right: parent.right
                                         anchors.rightMargin: 4
-                                        text: splash.fileDates[model.index]
+                                        text: splash.fileDates[fileItem.index]
                                         color: activePalette.text
                                         opacity: recentProjects.enabled ? 0.7 : 0.4
                                     }
@@ -384,8 +389,8 @@ Window {
                                         enabled: splash.actionsEnabled
                                         cursorShape: Qt.PointingHandCursor
                                         onPositionChanged: {
-                                            if (index != listView.hoveredIndex)
-                                                listView.hoveredIndex = index;
+                                            if (fileItem.index != listView.hoveredIndex)
+                                                listView.hoveredIndex = fileItem.index;
                                         }
                                         onExited: {
                                             listView.hoveredIndex = -1;
@@ -393,7 +398,7 @@ Window {
                                         onClicked: {
                                             splashContent.enabled = false
                                             splash.fade()
-                                            splash.openFile(modelData);
+                                            splash.openFile(fileItem.modelData);
                                         }
                                     }
                                     Rectangle {
@@ -417,9 +422,9 @@ Window {
                                         ToolTip.visible: hovered
                                         visible: labelArea.containsMouse || hovered
                                         onClicked: {
-                                            splash.forgetFile(modelData)
-                                            splash.fileNames.splice(index, 1)
-                                            splash.urls.splice(index, 1)
+                                            splash.forgetFile(fileItem.modelData)
+                                            splash.fileNames.splice(fileItem.index, 1)
+                                            splash.urls.splice(fileItem.index, 1)
                                             listView.model = splash.urls
                                         }
                                     }
@@ -482,7 +487,7 @@ Window {
                                 ToolTip.visible: hovered
                                 KeyNavigation.tab: showBox
                                 onClicked: {
-                                    clearProfiles()
+                                    splash.clearProfiles()
                                     splash.profileIds = []
                                     splash.profileNames = []
                                     tlistView.model = splash.profileIds
@@ -513,6 +518,8 @@ Window {
                                     id: templateItem
                                     width: parent.width
                                     height: listView.itemHeight
+                                    required property string modelData
+                                    required property int index
                                     ToolTip.text: modelData
                                     ToolTip.visible: index == tlistView.hoveredIndex
                                     ToolTip.delay: Application.styleHints.mousePressAndHoldInterval
@@ -520,7 +527,7 @@ Window {
                                         anchors.fill: parent
                                         radius: 4
                                         color: activePalette.highlight
-                                        visible: index == tlistView.currentIndex && tlistView.activeFocus
+                                        visible: templateItem.index == tlistView.currentIndex && tlistView.activeFocus
                                         opacity: 0.5
                                     }
 
@@ -530,7 +537,7 @@ Window {
                                         anchors.left: parent.left
                                         anchors.leftMargin: 4
                                         leftPadding: 4
-                                        text: splash.profileNames[model.index]
+                                        text: splash.profileNames[templateItem.index]
                                         color: templatesArea.containsMouse || tlistButton.hovered ? activePalette.highlight : activePalette.text
                                         elide: Text.ElideMiddle
                                         opacity: recentProjects.enabled ? 1 : 0.5
@@ -544,14 +551,14 @@ Window {
                                         enabled: splash.actionsEnabled
                                         cursorShape: Qt.PointingHandCursor
                                         onClicked: {
-                                            tlistView.currentIndex = index;
+                                            tlistView.currentIndex = templateItem.index;
                                             tlistView.forceActiveFocus();
-                                            splash.openTemplate(modelData);
+                                            splash.openTemplate(templateItem.modelData);
 
                                         }
                                         onPositionChanged: {
-                                            if (index != tlistView.hoveredIndex)
-                                                tlistView.hoveredIndex = index;
+                                            if (templateItem.index != tlistView.hoveredIndex)
+                                                tlistView.hoveredIndex = templateItem.index;
 
                                         }
                                         onExited: {
@@ -572,9 +579,9 @@ Window {
                                         hoverEnabled: true
                                         visible: templatesArea.containsMouse || hovered
                                         onClicked: {
-                                            splash.forgetProfile(modelData)
-                                            splash.profileNames.splice(index, 1)
-                                            splash.profileIds.splice(index, 1)
+                                            splash.forgetProfile(templateItem.modelData)
+                                            splash.profileNames.splice(templateItem.index, 1)
+                                            splash.profileIds.splice(templateItem.index, 1)
                                             tlistView.model = splash.profileIds
                                         }
                                     }
@@ -607,7 +614,7 @@ Window {
                     checked: true
                     text: KI18n.i18n("Show on Startup")
                     onCheckStateChanged: {
-                        showWelcome(checked)
+                        splash.showWelcome(checked)
                     }
                 }
 
@@ -650,7 +657,7 @@ Window {
                     text: KI18n.i18n("Reset")
                     icon.name: "view-refresh"
                     enabled: splash.actionsEnabled
-                    onClicked: resetConfig()
+                    onClicked: splash.resetConfig()
                     KeyNavigation.tab: listView
                 }
             }
@@ -678,7 +685,7 @@ Window {
                                "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
                                "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
                     wrapMode: Text.Wrap
-                    onLinkActivated: (link)=> openLink(link)
+                    onLinkActivated: (link)=> splash.openLink(link)
                     textFormat: Text.RichText
                     HoverHandler {
                         enabled: upgradedLabel.hoveredLink
@@ -693,7 +700,7 @@ Window {
                     enabled: splash.actionsEnabled
                     text: KI18n.i18n("What's New")
                     icon.name: "help-contents"
-                    onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
+                    onClicked: splash.openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
                     KeyNavigation.tab: listView
                 }
             }
@@ -792,7 +799,7 @@ Window {
                         text: KI18n.i18n("Always Use Dark Color Theme")
                         checked: true
                         onCheckedChanged: {
-                            switchPalette(checked);
+                            splash.switchPalette(checked);
                         }
                     }
 
@@ -927,7 +934,7 @@ Window {
                                     ComboBox {
                                         id: profileCombo
                                         // profile value is: width x height x colorspace x sarNum x sarDen x darNum x darDen
-                                        model: horizontalFrame.checked ? horizontalModel : verticalModel
+                                        model: horizontalFrame.checked ? splash.horizontalModel : splash.verticalModel
                                         textRole: "text"
                                         valueRole: "value"
                                         property bool sdProfile: horizontalFrame.checked && (currentValue.startsWith("720x480x") || currentValue.startsWith("720x576x"))
@@ -954,11 +961,11 @@ Window {
 
                                     ComboBox {
                                         id: fpsCombo
-                                        model: horizontalFrame.checked ? horizontalFpsModel : verticalFpsModel
+                                        model: horizontalFrame.checked ? splash.horizontalFpsModel : splash.verticalFpsModel
                                         textRole: "text"
                                         valueRole: "value"
                                         Component.onCompleted: {
-                                            let index = indexOfValue(palFps ? "25" : horizontalFrame.checked ? "24000/1001" : "30");
+                                            let index = indexOfValue(splash.palFps ? "25" : horizontalFrame.checked ? "24000/1001" : "30");
                                             if (index >= 0) {
                                                 currentIndex = index
                                             }
@@ -1037,7 +1044,7 @@ Window {
                                 text: KI18n.i18n("Reset")
                                 icon.name: "view-refresh"
                                 Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-                                onClicked: resetConfig()
+                                onClicked: splash.resetConfig()
                             }
                         }
                     }
@@ -1051,7 +1058,7 @@ Window {
                         text: KI18n.i18n("Check Online Documentation")
                         enabled: splash.actionsEnabled
                         Layout.alignment: Qt.AlignLeft
-                        onClicked: openLink("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_dcumentation")
+                        onClicked: splash.openLink("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_dcumentation")
                     }
 
                     Button {
@@ -1060,7 +1067,7 @@ Window {
                         text: KI18n.i18n("Start Editing")
                         enabled: splash.actionsEnabled
                         onClicked: {
-                            firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+                            splash.firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
                             splash.hide()
                         }
                         Layout.alignment: Qt.AlignRight

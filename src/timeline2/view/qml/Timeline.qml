@@ -1448,7 +1448,7 @@ function getTrackColor(audio, header) {
                     }
                     if (root.activeTool === K.ToolType.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
-                        var y = mouse.y - ruler.height + scrollView.contentY
+                        var y = mouse.y - ruler.height + scrollView.contentY;
                         var frame = (scrollView.contentX + mouse.x) / root.timeScale
                         // Default to all tracks
                         root.spacerTrack = -1
