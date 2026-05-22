@@ -38,6 +38,7 @@ Rectangle {
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
+    property int mouseFrame: 0
 
     function screenForGlobalPos(globalPos) {
         const screens = Application.screens
@@ -763,8 +764,8 @@ function getTrackColor(audio, header) {
             }
         }
         onPositionChanged: drag => {
-            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
-            root.updateTimelineMousePos(frame, timeline.duration)
+            root.mouseFrame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.updateTimelineMousePos(root.mouseFrame, timeline.duration)
             if (lastYPos == -1) {
                 lastYPos = drag.y
             } else if (drag.y <= lastYPos) {
@@ -785,7 +786,7 @@ function getTrackColor(audio, header) {
                     }
                     var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track !== -1 && controller.isAudioTrack(track) == isAudioDrag) {
-                        frame = controller.suggestSnapPoint(frame, root.snapping)
+                        var frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, lastPos, upMove)
@@ -1051,7 +1052,7 @@ function getTrackColor(audio, header) {
         }
         onPositionChanged: drag => {
             lastDragPos = Qt.point(drag.x, drag.y)
-            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.mouseFrame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             if (lastYPos == -1) {
                 lastYPos = drag.y
             } else if (drag.y <= lastYPos) {
@@ -1061,7 +1062,7 @@ function getTrackColor(audio, header) {
                 lastYPos = drag.y
                 upMove = 0
             }
-            root.updateTimelineMousePos(frame, timeline.duration)
+            root.updateTimelineMousePos(root.mouseFrame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId > -1) {
                     drag.accepted=true
@@ -1074,7 +1075,7 @@ function getTrackColor(audio, header) {
                     var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track >= 0  && track < tracksRepeater.count) {
                         var targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
-                        frame = controller.suggestSnapPoint(frame, root.snapping)
+                        var frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (lastCheckedFrame != frame) {
                             timeline.activeTrack = targetTrack
                             if (controller.normalEdit()) {
@@ -1144,8 +1145,8 @@ function getTrackColor(audio, header) {
             clearDropData()
         }
         onPositionChanged: drag => {
-            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
-            root.updateTimelineMousePos(frame, timeline.duration)
+            root.mouseFrame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.updateTimelineMousePos(root.mouseFrame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 var yOffset = 0
                 if (root.showSubtitles) {
@@ -1545,6 +1546,8 @@ function getTrackColor(audio, header) {
             }
             onPositionChanged: mouse => {
                 let selectLikeTool = root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+                root.mouseFrame = Math.floor((mouse.x + scrollView.contentX) / root.timeScale)
+                root.updateTimelineMousePos(root.mouseFrame, timeline.duration)
                 if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     if (!isCursorHidden) {
@@ -1802,7 +1805,7 @@ function getTrackColor(audio, header) {
                     id: rulercontainer
                     anchors.top: parent.top
                     width: root.width - root.headerWidth
-                    height: Math.round(K.UiUtils.baseSizeMedium * 2.5) + ruler.guideLabelHeight
+                    height: Math.round(K.UiUtils.baseSizeMedium * 2.3) + ruler.guideLabelHeight
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
@@ -1842,6 +1845,26 @@ function getTrackColor(audio, header) {
                                 visible: width > playhead.width
                             }
                         }
+                    }
+                    Rectangle {
+                        anchors.fill: mouseLabel
+                        visible: mouseLabel.visible
+                        radius: 4
+                        color: Utils.mixColors(activePalette.base, activePalette.highlight, 0.2)
+                    }
+                    Label {
+                        id: mouseLabel
+                        anchors.top: ruler.top
+                        anchors.topMargin: ruler.guideLabelHeight
+                        visible: true //backgroundArea.containsMouse
+                        font: miniFont
+                        x: root.mouseFrame * root.timeScale - width / 2
+                        text: timeline.timecode(root.mouseFrame + timeline.timecodeOffset)
+                        color: ruler.dimmedColor
+                        leftPadding: 4
+                        rightPadding: 4
+                        topPadding: 0
+                        bottomPadding: 0
                     }
                 }
                 MouseArea {
