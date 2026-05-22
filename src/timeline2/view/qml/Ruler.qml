@@ -5,6 +5,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
@@ -71,34 +73,35 @@ Item {
         model: rulerRoot.timeline.dirtyChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: modelData * timeline.scaleFactor
+            required property var modelData
+            x: modelData * rulerRoot.timeline.scaleFactor
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: zoneHeight
-            width: 25 * timeline.scaleFactor
-            height: previewHeight
+            anchors.bottomMargin: rulerRoot.zoneHeight
+            width: 25 * rulerRoot.timeline.scaleFactor
+            height: rulerRoot.previewHeight
             color: 'darkred'
         }
     }
 
     Repeater {
-        model: timeline.renderedChunks
+        model: rulerRoot.timeline.renderedChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: modelData * timeline.scaleFactor
+            x: modelData * rulerRoot.timeline.scaleFactor
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: zoneHeight
-            width: 25 * timeline.scaleFactor
-            height: previewHeight
+            anchors.bottomMargin: rulerRoot.zoneHeight
+            width: 25 * rulerRoot.timeline.scaleFactor
+            height: rulerRoot.previewHeight
             color: 'darkgreen'
         }
     }
     Rectangle {
         id: working
-        x: rulerRoot.workingPreview * timeline.scaleFactor
+        x: rulerRoot.workingPreview * rulerRoot.timeline.scaleFactor
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: zoneHeight
-        width: 25 * timeline.scaleFactor
-        height: previewHeight
+        anchors.bottomMargin: rulerRoot.zoneHeight
+        width: 25 * rulerRoot.timeline.scaleFactor
+        height: rulerRoot.previewHeight
         color: 'orange'
         visible: rulerRoot.workingPreview > -1
     }
@@ -107,7 +110,7 @@ Item {
     Repeater {
         id: guidesRepeater
         model: guidesModel
-        property int radiusSize: K.KdenliveSettings.lockedGuides ? 0 : guideLabelHeight / 2
+        property int radiusSize: K.KdenliveSettings.lockedGuides ? 0 : rulerRoot.guideLabelHeight / 2
         delegate:
         Item {
             id: guideRoot

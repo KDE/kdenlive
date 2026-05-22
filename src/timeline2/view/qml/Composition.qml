@@ -24,7 +24,7 @@ Item {
     required property string clipName
     required property string mltService
     required property int modelStart
-    required property var parentTrack
+    required property Track parentTrack
     required property int inPoint
     required property int outPoint
     required property int clipDuration

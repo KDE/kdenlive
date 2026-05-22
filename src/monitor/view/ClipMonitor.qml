@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
