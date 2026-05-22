@@ -504,6 +504,7 @@ void MainWindow::init()
     m_dopeWidget = new DopeWidget(this);
     addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
     connect(this, &MainWindow::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
+    connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);

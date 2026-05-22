@@ -393,8 +393,8 @@ Item {
                 // In the header zone, ignore
                 return
             }
-            console.log('MOUSE FRAME TO: ', root.mouseFramePos, ', NEW: ', mousePos)
             root.mouseFramePos = viewToFrame(mousePos)
+            console.log('MOUSE FRAME TO: ', root.mouseFramePos, ', NEW: ', mousePos)
         }
     }
 
@@ -623,6 +623,7 @@ Item {
                         clickPoint = Qt.point(mouseX, mouseY)
                         rubberTopLeft = mapToItem(root, mouseX, mouseY)
                         mouse.accepted = true
+                        console.log('    - - -- DOPE CLICK - - - ')
                         if (mouse.modifiers & Qt.ShiftModifier) {
                             shiftClick = true
                         } else {

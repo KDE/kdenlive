@@ -16,6 +16,7 @@ public:
     DopeWidget(QWidget *parent = nullptr);
     void deleteItem();
     void doKeyPressEvent(QKeyEvent *ev);
+    void clear();
 
 public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);

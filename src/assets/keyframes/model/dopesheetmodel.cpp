@@ -37,6 +37,21 @@ std::shared_ptr<DopeSheetModel> DopeSheetModel::construct(QObject *parent)
     return self;
 }
 
+DopeSheetModel::~DopeSheetModel()
+{
+    clear();
+}
+
+void DopeSheetModel::clear()
+{
+    m_paramsList.clear();
+    for (auto &c : m_connectionList) {
+        QObject::disconnect(c);
+    }
+    m_connectionList.clear();
+    m_model.reset();
+}
+
 QHash<int, QByteArray> DopeSheetModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

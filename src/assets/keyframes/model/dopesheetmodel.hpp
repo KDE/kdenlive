@@ -43,6 +43,7 @@ protected:
 
 public:
     friend class KdenliveTests;
+    ~DopeSheetModel() override;
 
     Q_PROPERTY(int dopeDuration READ dopeDuration NOTIFY dopeDurationChanged)
     Q_PROPERTY(int dopePosition READ dopePosition NOTIFY dopePositionChanged)
@@ -58,7 +59,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     void registerItem(QPersistentModelIndex ix, const QString &name, ParamType type, std::shared_ptr<KeyframeModel> model);
     void deregisterItem(QPersistentModelIndex ix);
-    // void clear();
+    void clear();
     /** @brief Register all keyframable params for an effect */
     void registerAsset(int i, std::shared_ptr<EffectItemModel> effectModel);
     void registerStack(std::shared_ptr<EffectStackModel> model);

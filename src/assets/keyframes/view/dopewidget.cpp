@@ -59,3 +59,8 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     }
     QMetaObject::invokeMethod(rootObject(), "updateOwner");
 }
+
+void DopeWidget::clear()
+{
+    pCore->dopeSheetModel()->clear();
+}

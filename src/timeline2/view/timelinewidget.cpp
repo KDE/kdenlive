@@ -218,8 +218,8 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 
 void TimelineWidget::emitMousePos(int offset)
 {
-    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / timelineController.scaleFactor()),
-                                             timelineController.duration());
+    /*pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / timelineController.scaleFactor()),
+                                             timelineController.duration());*/
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
