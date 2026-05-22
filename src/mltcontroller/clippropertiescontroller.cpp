@@ -310,11 +310,7 @@ QHBoxLayout *ClipPropertiesController::comboboxProperty(const QString &label, co
     } else if (!defaultValue.isEmpty()) {
         combo->setCurrentIndex(combo->findData(defaultValue));
     }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
     connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
     box->setChecked(!propertyValue.isEmpty());
     combo->setEnabled(!propertyValue.isEmpty());
@@ -353,11 +349,7 @@ QHBoxLayout *ClipPropertiesController::doubleSpinboxProperty(const QString &labe
     } else if (defaultValue > 0) {
         spin->setValue(defaultValue);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
     connect(box, &QAbstractButton::toggled, spin, &QWidget::setEnabled);
     box->setChecked(!propertyValue.isEmpty());
     spin->setEnabled(!propertyValue.isEmpty());
@@ -404,11 +396,7 @@ QHBoxLayout *ClipPropertiesController::proxyProperty(const QString &label, const
         pbox->setCheckState(Qt::Unchecked);
     }
     pbox->setEnabled(pCore->projectManager()->current()->useProxy());
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(pbox, &QCheckBox::checkStateChanged, this, [this, pbox](Qt::CheckState state) {
-#else
-    connect(pbox, &QCheckBox::stateChanged, this, [this, pbox](int state) {
-#endif
         Q_EMIT requestProxy(state == Qt::PartiallyChecked);
         if (state == Qt::Checked) {
             QSignalBlocker bk(pbox);
@@ -497,11 +485,7 @@ QHBoxLayout *ClipPropertiesController::durationProperty(const QString &label, co
     }
 
     connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
     connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
     connect(this, SIGNAL(durationModified(int)), timePos, SLOT(setValue(int)));
 
@@ -549,11 +533,7 @@ QHBoxLayout *ClipPropertiesController::aspectRatioProperty(const QString &label)
     QCheckBox *box = new QCheckBox(label, this);
     box->setObjectName(QStringLiteral("force_ar"));
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
 
     auto *numSpin = new QSpinBox(this);
     numSpin->setMaximum(8000);
@@ -655,11 +635,7 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
             m_originalProperties.insert(QStringLiteral("disable_exif"), QString::number(autorotate));
             hlay = new QHBoxLayout;
             auto box = new QCheckBox(i18n("Disable autorotate"), this);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
             connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-            connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
             box->setObjectName(QStringLiteral("disable_exif"));
             box->setChecked(autorotate == 1);
             hlay->addWidget(box);
@@ -987,11 +963,7 @@ QWidget *ClipPropertiesController::constructAudioPropertiesPage()
         auto *vbox = new QVBoxLayout;
         // Normalize
         m_normalize = new QCheckBox(i18n("Normalize"), this);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
         connect(m_normalize, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
-#else
-        connect(m_normalize, &QCheckBox::stateChanged, this, [this](int state) {
-#endif
             if (m_activeAudioStreams == -1) {
                 // No stream selected, abort
                 return;
@@ -1009,11 +981,7 @@ QWidget *ClipPropertiesController::constructAudioPropertiesPage()
 
         // Swap channels
         m_swapChannels = new QCheckBox(i18n("Swap channels"), this);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
         connect(m_swapChannels, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
-#else
-        connect(m_swapChannels, &QCheckBox::stateChanged, this, [this](int state) {
-#endif
             if (m_activeAudioStreams == -1) {
                 // No stream selected, abort
                 return;

@@ -57,13 +57,7 @@ PointParamWidget::PointParamWidget(std::shared_ptr<AssetParameterModel> model, Q
     lay->addWidget(m_pointWidget);
 
     // Q_EMIT the signal of the base class when appropriate
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-    connect(m_pointWidget, &PointWidget::valueChanged, this, [this](QString point, bool createUndo) {
-#else
-    connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](QString point, bool createUndo) {
-#endif
-        Q_EMIT valueChanged(m_index, point, createUndo);
-    });
+    connect(m_pointWidget, &PointWidget::valueChanged, this, [this](QString point, bool createUndo) { Q_EMIT valueChanged(m_index, point, createUndo); });
 }
 
 QPointF PointParamWidget::dataToPoint(QVariant data, QPointF defaultVal)

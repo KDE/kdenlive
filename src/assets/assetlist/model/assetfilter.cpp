@@ -24,9 +24,10 @@ AssetFilter::AssetFilter(QObject *parent)
 
 void AssetFilter::setFilterName(bool enabled, const QString &pattern)
 {
+    beginFilterChange();
     m_name_enabled = enabled;
     m_name_value = pattern;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
     if (rowCount() > 1) {
         sort(0);
     }
@@ -34,8 +35,9 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
 
 void AssetFilter::updateIncludeList()
 {
+    beginFilterChange();
     m_includeListEnabled = KdenliveSettings::effectsFilter() && KdenliveSettings::enableAssetsIncludeList();
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 bool AssetFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const

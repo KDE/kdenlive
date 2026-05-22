@@ -2039,7 +2039,7 @@ void Bin::slotAddClip()
     // Check if we are in a folder
     const QString parentFolder = getCurrentFolder();
     ClipCreationDialog::createClipsCommand(m_doc, parentFolder, m_itemModel, m_readyCallBack, m_suggestedDuration);
-    m_readyCallBack = nullptr;
+    m_readyCallBack = [](const QString &) {};
     m_suggestedDuration = -1;
     pCore->window()->raiseBin();
 }
@@ -3486,7 +3486,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     }
 
     // Show menu
-    m_readyCallBack = nullptr;
+    m_readyCallBack = [](const QString &) {};
     event->setAccepted(true);
     if (enableClipActions) {
         if (isFolder) {
@@ -4294,7 +4294,7 @@ void Bin::slotCreateProjectClip()
     default:
         break;
     }
-    m_readyCallBack = nullptr;
+    m_readyCallBack = [](const QString &) {};
     m_suggestedDuration = -1;
     pCore->window()->raiseBin();
 }
@@ -4890,7 +4890,7 @@ const QString Bin::slotUrlsDropped(const QList<QUrl> urls, const QModelIndex par
         }
     }
     const QString id = ClipCreator::createClipsFromList(urls, true, parentFolder, m_itemModel, m_readyCallBack);
-    m_readyCallBack = nullptr;
+    m_readyCallBack = [](const QString &) {};
     if (!id.isEmpty()) {
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
         if (item) {

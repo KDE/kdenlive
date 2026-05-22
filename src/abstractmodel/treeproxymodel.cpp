@@ -75,6 +75,7 @@ bool TreeProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex &sourc
 
 void TreeProxyModel::slotSetSearchString(const QString &str)
 {
+    beginFilterChange();
     m_searchString = str;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }

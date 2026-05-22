@@ -7,7 +7,7 @@ import QtQuick 2.15
 
 Item {
     id: overlay
-    property color color
+    required property color color
 
     // Vertical segments
     Rectangle {

@@ -14,6 +14,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import QtQuick.Layouts
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 import 'TimelineLogic.js' as Logic
 import 'Utils.js' as Utils
@@ -38,7 +40,7 @@ Rectangle {
     property int trimmingClickFrame: -1
 
     function screenForGlobalPos(globalPos) {
-        const screens = Qt.application.screens
+        const screens = Application.screens
         if (!screens || screens.length === 0) {
             return null
         }
@@ -154,12 +156,12 @@ Rectangle {
         if (subtitleTrack.height > root.collapsedHeight) {
             subtitleTrack.height = root.collapsedHeight
         } else {
-            subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
+            subtitleTrack.height = K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
         }
     }
 
     function highlightSub(ix) {
-        var currentSub = subtitlesRepeater.itemAt(ix)
+        var currentSub = subtitlesRepeater.itemAt(ix) as SubTitle
         currentSub.editText()
     }
 
@@ -218,7 +220,7 @@ Rectangle {
             }
             newTrack = 0;
         }
-        timeline.activeTrack = tracksRepeater.itemAt(newTrack).trackInternalId
+        timeline.activeTrack = (tracksRepeater.itemAt(newTrack) as Track).trackInternalId
     }
 
     function zoomByWheel(wheel) {
@@ -294,26 +296,26 @@ Rectangle {
         var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
         y += ruler.height
-        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
-            scrollTimer.horizontal = root.baseUnit
+        if (x > scrollView.contentX + scrollView.width - K.UiUtils.baseSizeMedium * 3) {
+            scrollTimer.horizontal = K.UiUtils.baseSizeMedium
             scrollTimer.interval = 80
             scrollTimer.start()
         } else if (x < 50) {
             scrollView.contentX = 0;
             scrollTimer.horizontal = 0
             scrollTimer.stop()
-        } else if (x < scrollView.contentX + root.baseUnit * 3) {
-            scrollTimer.horizontal = -root.baseUnit
+        } else if (x < scrollView.contentX + K.UiUtils.baseSizeMedium * 3) {
+            scrollTimer.horizontal = -K.UiUtils.baseSizeMedium
             scrollTimer.interval = 80
             scrollTimer.start()
         } else {
-            if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit) {
-                scrollTimer.vertical = root.baseUnit
+            if (y > scrollView.contentY + scrollView.height + ruler.height - K.UiUtils.baseSizeMedium) {
+                scrollTimer.vertical = K.UiUtils.baseSizeMedium
                 scrollTimer.horizontal = 0
                 scrollTimer.interval = 200
                 scrollTimer.start()
-            } else if (upMove > 6 && scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < root.baseUnit)) {
-                scrollTimer.vertical = -root.baseUnit
+            } else if (upMove > 6 && scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < K.UiUtils.baseSizeMedium)) {
+                scrollTimer.vertical = -K.UiUtils.baseSizeMedium
                 scrollTimer.horizontal = 0
                 scrollTimer.interval = 200
                 scrollTimer.start()
@@ -470,7 +472,7 @@ function getTrackColor(audio, header) {
     function getAudioTracksCount(){
         var audioCount = 0;
         for (var i = 0; i < trackHeaderRepeater.count; i++) {
-            if(trackHeaderRepeater.itemAt(i).isAudio) {
+            if((trackHeaderRepeater.itemAt(i) as TrackHead).isAudio) {
                 audioCount++;
             }
         }
@@ -519,10 +521,9 @@ function getTrackColor(audio, header) {
     }
 
     property int activeTool: K.ToolType.SelectTool
-    property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
-    property int minClipWidthForViews: 1.5 * baseUnit
+    property int minClipWidthForViews: 1.5 * K.UiUtils.baseSizeMedium
     property real fontUnit: fontMetrics.font.pointSize
-    property int collapsedHeight: Math.max(28, baseUnit * 1.8)
+    property int collapsedHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
     property int minHeaderWidth: 6 * collapsedHeight
     property int headerWidth: Math.max(minHeaderWidth, timeline.headerWidth())
     property bool autoTrackHeight: timeline.autotrackHeight
@@ -556,7 +557,7 @@ function getTrackColor(audio, header) {
     property int spacerClickFrame: -1
     property bool spacerGuides: false
     property real timeScale: timeline.scaleFactor
-    property int snapping: (K.KdenliveSettings.snaptopoints && (root.timeScale < 2 * baseUnit)) ? Math.floor(baseUnit / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
+    property int snapping: (K.KdenliveSettings.snaptopoints && (root.timeScale < 2 * K.UiUtils.baseSizeMedium)) ? Math.floor(K.UiUtils.baseSizeMedium / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
     property var selectedGuides: []
@@ -573,7 +574,7 @@ function getTrackColor(audio, header) {
     property int scrollMax: scrollMin + scrollView.contentItem.width / root.timeScale
     property double dar: 16/9
     property bool paletteUnchanged: true
-    property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
+    property int maxLabelWidth: 20 * K.UiUtils.baseSizeMedium * Math.sqrt(root.timeScale)
     property bool showSubtitles: false
     property bool subtitlesWarning: timeline.subtitlesWarning
     property bool subtitlesLocked: timeline.subtitlesLocked
@@ -584,7 +585,7 @@ function getTrackColor(audio, header) {
     property int spacerMaxPos: -1
 
     onMaxSubLayerChanged: {
-        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
+        subtitleTrack.height = showSubtitles? K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
     }
 
     onAutoTrackHeightChanged: {
@@ -599,7 +600,7 @@ function getTrackColor(audio, header) {
     }
 
     onShowSubtitlesChanged: {
-        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
+        subtitleTrack.height = showSubtitles? K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
         if (root.autoTrackHeight) {
             timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
         }
@@ -874,7 +875,7 @@ function getTrackColor(audio, header) {
                 }
                 var track = Logic.getTrackIndexFromPos(drag.y + voffset + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    var targetTrack = tracksRepeater.itemAt(track).trackInternalId
+                    var targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
                     var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
                     // If the target track changed, recreate the preview clips so that audio mirrors
                     // are correctly assigned for the new target track (e.g. when the new track has
@@ -1003,7 +1004,7 @@ function getTrackColor(audio, header) {
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                     droppedPosition = frame
-                    timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
+                    timeline.activeTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
                     root.lastDropTrack = timeline.activeTrack
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
@@ -1072,7 +1073,7 @@ function getTrackColor(audio, header) {
                     }
                     var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track >= 0  && track < tracksRepeater.count) {
-                        var targetTrack = tracksRepeater.itemAt(track).trackInternalId
+                        var targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (lastCheckedFrame != frame) {
                             timeline.activeTrack = targetTrack
@@ -1152,7 +1153,7 @@ function getTrackColor(audio, header) {
                 }
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
+                    timeline.activeTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
             }
@@ -1187,13 +1188,13 @@ function getTrackColor(audio, header) {
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: i18n("Show sequence effects")
+                    ToolTip.text: KI18n.i18n("Show sequence effects")
                     TextMetrics {
                         id: metrics
                         font: miniFont
                         elide: Text.ElideRight
                         elideWidth: root.headerWidth * 0.8
-                        text: root.addedSequenceName.length == 0 ? i18n("Sequence") : root.addedSequenceName
+                        text: root.addedSequenceName.length == 0 ? KI18n.i18n("Sequence") : root.addedSequenceName
                     }
                     onClicked: {
                         timeline.showMasterEffects()
@@ -1297,7 +1298,7 @@ function getTrackColor(audio, header) {
                 Column {
                     id: trackHeadersResizer
                     spacing: 0
-                    width: Math.round(root.baseUnit/3)
+                    width: Math.round(K.UiUtils.baseSizeMedium / 3)
                     Rectangle {
                         id: resizer
                         height: trackHeaders.height + subtitleTrackHeader.height
@@ -1411,7 +1412,8 @@ function getTrackColor(audio, header) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
-                            timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
+                            let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as Track
+                            timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, track.trackInternalId)
                         } else if (subtitleTrack.height > 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
                         }
@@ -1451,10 +1453,12 @@ function getTrackColor(audio, header) {
                                     // Activate spacer on subtitle track only
                                     spacerTrack = -2
                                 } else {
-                                    spacerTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y - subtitleTrack.height)).trackInternalId
+                                    let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y - subtitleTrack.height)) as Track
+                                    spacerTrack = track.trackInternalId
                                 }
                             } else {
-                                spacerTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId
+                                let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as Track
+                                spacerTrack = track.trackInternalId
                             }
                         }
 
@@ -1496,7 +1500,9 @@ function getTrackColor(audio, header) {
                 } else if (mouse.button & Qt.RightButton) {
                     if (mouse.y > ruler.height) {
                         if (mouse.y > ruler.height + subtitleTrack.height) {
-                            timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
+                            let trackPos = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
+                            let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(trackPos)) as Track
+                            timeline.activeTrack = track.trackInternalId
                         } else {
                             timeline.activeTrack = -2
                             timeline.activeSubLayer = (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1))
@@ -1529,7 +1535,9 @@ function getTrackColor(audio, header) {
                         timeline.activeTrack = -2
                         timeline.activeSubLayer = (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1))
                     } else {
-                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
+                        let trackPos = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
+                        let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(trackPos)) as Track
+                        timeline.activeTrack = track.trackInternalId
                     }
                 } else if (mouse.y < ruler.guideLabelHeight) {
                     timeline.switchGuide((scrollView.contentX + mouseX) / root.timeScale, false)
@@ -1607,7 +1615,7 @@ function getTrackColor(audio, header) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
                     var dy = rubberSelect.originY - (mouseY - ruler.height + scrollView.contentY)
-                    if ((Math.abs(dx) + Math.abs(dy)) > Qt.styleHints.startDragDistance) {
+                    if ((Math.abs(dx) + Math.abs(dy)) > Application.styleHints.startDragDistance) {
                         rubberSelect.visible = true
                     }
                 }
@@ -1703,16 +1711,17 @@ function getTrackColor(audio, header) {
                             selectOnlySubs = true
                         }
                     }
-                    var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
-                    var bottomTrack = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
+                    var topTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y))
+                    var bottomTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
+                    var bottomTrack = tracksRepeater.itemAt(bottomTrackIx) as Track
                     // Check if bottom of rubber selection covers the last track compositions
-                    console.log('Got rubber bottom: ', y, ' - height: ', selectionHeight, ', TK y: ', Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId), ', SCROLLVIEWY: ', scrollView.contentY)
-                    var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId)) > (Logic.getTrackHeightByPos(bottomTrack) * 0.6)
-                    if (bottomTrack >= topTrack) {
+                    console.log('Got rubber bottom: ', y, ' - height: ', selectionHeight, ', TK y: ', Logic.getTrackYFromId(bottomTrack.trackInternalId), ', SCROLLVIEWY: ', scrollView.contentY)
+                    var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(bottomTrack.trackInternalId)) > (Logic.getTrackHeightByPos(bottomTrackIx) * 0.6)
+                    if (bottomTrackIx >= topTrackIx) {
                         var t = []
                         if (!selectOnlySubs) {
-                            for (var i = topTrack; i <= bottomTrack; i++) {
-                                t.push(tracksRepeater.itemAt(i).trackInternalId)
+                            for (var i = topTrackIx; i <= bottomTrackIx; i++) {
+                                t.push((tracksRepeater.itemAt(i) as Track).trackInternalId)
                             }
                         }
                         var startFrame = Math.round(rubberSelect.x / root.timeScale)
@@ -1793,7 +1802,7 @@ function getTrackColor(audio, header) {
                     id: rulercontainer
                     anchors.top: parent.top
                     width: root.width - root.headerWidth
-                    height: Math.round(root.baseUnit * 2.5) + ruler.guideLabelHeight
+                    height: Math.round(K.UiUtils.baseSizeMedium * 2.5) + ruler.guideLabelHeight
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
@@ -1808,8 +1817,8 @@ function getTrackColor(audio, header) {
                         scalingFactor: timeline.scaleFactor
                         K.TimelinePlayhead {
                             id: playhead
-                            height: Math.round(root.baseUnit * .8)
-                            width: Math.round(root.baseUnit * 1.2)
+                            height: Math.round(K.UiUtils.baseSizeMedium * .8)
+                            width: Math.round(K.UiUtils.baseSizeMedium * 1.2)
                             fillColor: activePalette.windowText
                             visible: cursor.visible
                             anchors.bottom: parent.bottom
@@ -1933,7 +1942,7 @@ function getTrackColor(audio, header) {
                                 onWheel: wheel => zoomByWheel(wheel)
                                 onEntered: {
                                     if (root.activeTool === K.ToolType.SelectTool) {
-                                        timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
+                                        timeline.showKeyBinding(KI18n.i18n("<b>Double click</b> to add a subtitle"))
                                     }
                                 }
                                 onPositionChanged: mouse => {
@@ -2127,7 +2136,7 @@ function getTrackColor(audio, header) {
                                             var delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
                                                 var s = timeline.simplifiedTC(Math.abs(delta))
-                                                s = i18n("Offset: %1, Position: %2", (delta < 0 ? '-' : '+') + s, timeline.simplifiedTC(dragProxyArea.dragFrame))
+                                                s = KI18n.i18n("Offset: %1, Position: %2", (delta < 0 ? '-' : '+') + s, timeline.simplifiedTC(dragProxyArea.dragFrame))
                                                 timeline.showToolTip(s);
                                             } else {
                                                 timeline.showToolTip()
@@ -2228,7 +2237,7 @@ function getTrackColor(audio, header) {
                                 radius: 2
                                 color: Qt.rgba(1, 1, 1, 0.3)
                                 visible: false
-                                width: root.baseUnit
+                                width: K.UiUtils.baseSizeMedium
                                 height: width
                                 onVisibleChanged: {
                                     if (clipBeingDroppedId > -1) {
@@ -2296,7 +2305,7 @@ function getTrackColor(audio, header) {
                             }
                             Text {
                                 property int recState: audiorec.recordState
-                                text: i18n("Recording")
+                                text: KI18n.i18n("Recording")
                                 anchors.right: parent.right
                                 anchors.rightMargin: 2
                                 anchors.top: parent.top
@@ -2305,9 +2314,9 @@ function getTrackColor(audio, header) {
                                 onRecStateChanged: {
                                     if (recState == 1) {
                                         // Recording
-                                        text = i18n("Recording")
+                                        text = KI18n.i18n("Recording")
                                     } else if (recState == 2) {
-                                        text = i18n("Paused")
+                                        text = KI18n.i18n("Paused")
                                     }
                                 }
                             }
@@ -2334,8 +2343,8 @@ function getTrackColor(audio, header) {
                             right: parent.right
                             top: scrollView.bottom
                         }
-                        height: Math.round(root.baseUnit * 0.7)
-                        barMinWidth: root.baseUnit
+                        height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
+                        barMinWidth: K.UiUtils.baseSizeMedium
                         fitsZoom: timeline.scaleFactor === root.fitZoom() && root.scrollPos() === 0
                         zoomFactor: scrollView.visibleArea.widthRatio
                         onProposeZoomFactor: (proposedValue) => {
@@ -2399,7 +2408,7 @@ function getTrackColor(audio, header) {
                     }
                     Text {
                         id: multilabel
-                        text: i18n("Multicam In")
+                        text: KI18n.i18n("Multicam In")
                         bottomPadding: 2
                         leftPadding: 2
                         rightPadding: 2

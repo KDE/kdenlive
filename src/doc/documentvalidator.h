@@ -21,12 +21,12 @@ public:
     bool isProject() const;
     /** @brief Check if the document is a valid Kdenlive project
      * @param currentVersion The version of the document, with the current
-     * version defined as DOCUMENTVERSION in kdenlivedoc.cpp.
+     * version defined as DOCUMENTVERSION and DOCUMENTPATCHVERSION in kdenlivedoc.cpp.
      * @return A QPair with the first value true if the document is valid, and
      * the second value the original decimal point string only if upgradeTo100
      * changed the decimal point.
      */
-    QPair<bool, QString> validate(const double currentVersion);
+    QPair<bool, QString> validate(const double currentVersion, const int currentPatchVersion);
     bool isModified() const;
     /** @brief Check if the project contains references to Movit stuff (GLSL), and try to convert if wanted. */
     bool checkMovit();
@@ -36,7 +36,8 @@ private:
     QUrl m_url;
     bool m_modified;
     /** @brief Upgrade from a previous Kdenlive document version. */
-    bool upgrade(double version, const double currentVersion);
+    bool upgrade(double version, int patchVersion, const double currentVersion, int currentPatchVersion);
+    bool upgradePatchVersion(double version, int patchVersion);
 
     /**
      * Changes the decimal separator to . if it is something else.

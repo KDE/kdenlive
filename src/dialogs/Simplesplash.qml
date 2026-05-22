@@ -9,6 +9,8 @@ import QtQuick.Controls
 import QtQuick.Window
 import QtQuick.Layouts
 
+import org.kde.ki18n
+
 Window {
     id: splash
     visible: true
@@ -41,7 +43,13 @@ Window {
     {
         // Hack to ensure the qml Window stays on top of our QWidget MainWindow while loading
         splash.requestActivate()
-        splashContent.forceActiveFocus()
+        if (splash.crashRecovery) {
+            normalStartButton.forceActiveFocus();
+        } else if (splash.wasUpgraded) {
+            notesStartButton.forceActiveFocus();
+        } else {
+            splashContent.forceActiveFocus()
+        }
     }
 
     function displayProgress(message)
@@ -59,7 +67,6 @@ Window {
         border.color: "#d7566e"
         color: activePalette.window
         clip: true
-        focus: true
         NumberAnimation on opacity {
             id: fadeAnimation
             running: false
@@ -73,21 +80,12 @@ Window {
                 activate()
             }
         }
-        Keys.onReturnPressed: {
-            if (splash.wasUpgraded || splash.crashRecovery) {
-                openBlank()
-            }
-        }
-
-        Keys.onEnterPressed: {
-            if (splash.wasUpgraded || splash.crashRecovery) {
-                openBlank()
-            }
-        }
         Keys.onEscapePressed: {
             console.log('ESC PRESSED!!!')
-            if (splash.wasUpgraded || splash.crashRecovery) {
-                openBlank()
+            if (splash.wasUpgraded) {
+                notesStartButton.animateClick()
+            } else if (splash.crashRecovery) {
+                normalStartButton.animateClick()
             }
         }
 
@@ -117,7 +115,7 @@ Window {
                     id: kdelabel
                     anchors.verticalCenter: kdelogo.verticalCenter
                     anchors.left: kdelogo.right
-                    text: i18n("Made by KDE")
+                    text: KI18n.i18n("Made by KDE")
                     color: "#ffffff"
                 }
             }
@@ -145,7 +143,7 @@ Window {
             anchors.right: buttonBar.right
             anchors.rightMargin: 10
             anchors.verticalCenter: buttonBar.verticalCenter
-            text: i18n("Kdenlive") + " " + splash.version
+            text: KI18n.i18n("Kdenlive") + " " + splash.version
         }
         MouseArea {
             anchors.fill: parent
@@ -156,19 +154,38 @@ Window {
             }
         }
         Rectangle {
+            id: loadingBox
+            visible: false
+            color: activePalette.window
+            opacity: 0.85
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: splashContent.border.width + 5
+            anchors.rightMargin: splashContent.border.width + 5
+            anchors.bottom: buttonBar.top
+            height: Math.max(loadingLabel.height, restartButton.height + 15)
+            Label {
+                id: loadingLabel
+                anchors.fill: parent
+                anchors.margins: 10
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.Wrap
+            }
+        }
+        Rectangle {
             // Crash recovery
             id: resetBox
             visible: splash.crashRecovery
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: buttonBar.top
-            anchors.leftMargin: splashContent.border.width + 5
-            anchors.rightMargin: splashContent.border.width + 5
-            height: restartButton.height + 10
+            anchors.leftMargin: splashContent.border.width
+            anchors.rightMargin: splashContent.border.width
+            height: restartButton.height + 15
             color: activePalette.window
             Rectangle {
                 anchors.fill: parent
-                color: "#22FF0000"
+                color: "#11FF0000"
             }
             Label {
                 id: restartLabel
@@ -176,7 +193,7 @@ Window {
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: restartButton.left
-                text: i18n("Kdenlive crashed on last start.")
+                text: KI18n.i18n("Kdenlive crashed on last start.")
                 Layout.alignment: Qt.AlignVCenter
                 wrapMode: Text.Wrap
             }
@@ -185,20 +202,54 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: normalStartButton.left
                 anchors.rightMargin: 10
-                text: i18n("Reset Configuration")
+                text: KI18n.i18n("Reset Configuration")
                 icon.name: "view-refresh"
-                onClicked: resetConfig()
+                property bool buttonPressed: false
+                onClicked: {
+                    loadingLabel.text = KI18n.i18n("Starting…")
+                    resetBox.visible = false
+                    loadingBox.visible = true
+                    console.log('--------resetting config--.------')
+                    resetConfig()
+                }
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
+                }
             }
             Button {
                 id: normalStartButton
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                text: i18n("Start Normally")
+                property bool buttonPressed: false
+                text: KI18n.i18n("Start Normally")
                 icon.name: "go-next"
+                focus: true
                 onClicked: {
-                    normalStartButton.text = i18n("Starting…")
+                    console.log('--------normal start--.------')
+                    resetBox.visible = false
+                    loadingBox.visible = true
+                    loadingLabel.text = KI18n.i18n("Starting…")
                     openBlank()
+                }
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
                 }
             }
         }
@@ -211,7 +262,7 @@ Window {
             anchors.leftMargin: splashContent.border.width + 5
             anchors.rightMargin: splashContent.border.width + 5
             anchors.bottom: buttonBar.top
-            height: Math.max(upgradedLabel.height, notesButton.height) + 10
+            height: Math.max(upgradedLabel.height, notesButton.height) + 15
             color: activePalette.window
             Rectangle {
                 anchors.fill: parent
@@ -224,7 +275,7 @@ Window {
                 anchors.leftMargin: 10
                 anchors.right: notesButton.left
                 textFormat: Text.RichText
-                text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
+                text: KI18n.i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
                            "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
                            "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
                 wrapMode: Text.Wrap
@@ -239,46 +290,59 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: notesStartButton.left
                 anchors.rightMargin: 10
-                text: i18n("What's New")
+                property bool buttonPressed: false
+                text: KI18n.i18n("What's New")
                 icon.name: "help-contents"
                 onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes")
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
+                }
+
             }
             Button {
                 id: notesStartButton
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.rightMargin: 10
-                text: i18n("Continue")
+                property bool buttonPressed: false
+                text: KI18n.i18n("Continue")
                 icon.name: "go-next"
-                onClicked: openBlank()
-            }
-        }
-        Rectangle {
-            id: loadingBox
-            visible: false
-            color: activePalette.window
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.leftMargin: splashContent.border.width + 5
-            anchors.rightMargin: splashContent.border.width + 5
-            anchors.bottom: buttonBar.top
-            height: Math.max(loadingLabel.height, notesButton.height) + 10
-            Label {
-                id: loadingLabel
-                anchors.fill: parent
-                anchors.margins: 5
-                wrapMode: Text.Wrap
+                onClicked: {
+                    loadingLabel.text = KI18n.i18n("Starting…")
+                    upgradeBox.visible = false
+                    loadingBox.visible = true
+                    openBlank()
+                }
+                Keys.onPressed: (event)=> {
+                    if (event.key === Qt.Key_Return) {
+                        buttonPressed = true
+                    }
+                }
+                Keys.onReleased: {
+                    if (buttonPressed) {
+                        animateClick()
+                    }
+                    buttonPressed = false
+                }
             }
         }
     }
     Component.onCompleted: {
-        if (splash.crashRecovery)
+        visible = true;
+        if (splash.crashRecovery) {
             normalStartButton.forceActiveFocus();
-        else if (splash.wasUpgraded) {
+        } else if (splash.wasUpgraded) {
             notesStartButton.forceActiveFocus();
         } else {
             splashContent.forceActiveFocus()
         }
-        visible = true;
     }
 }

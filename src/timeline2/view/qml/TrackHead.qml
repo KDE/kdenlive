@@ -8,6 +8,11 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
+
+
 Rectangle {
     id: trackHeadRoot
     property string trackName
@@ -38,9 +43,9 @@ Rectangle {
     }
     
     onShowAudioRecordChanged: {
-        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3)) {
+        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3)) {
             // Ensure trackheight is large enough to have the vu-meter visible
-            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
+            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
         }
     }
 
@@ -54,16 +59,14 @@ Rectangle {
             name: 'current'
             when: trackHeadRoot.current
             PropertyChanges {
-                target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
+                trackHeadRoot.color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
             }
         },
         State {
             when: !trackHeadRoot.current
             name: 'normal'
             PropertyChanges {
-                target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : getTrackColor(isAudio, true)
+                trackHeadRoot.color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : getTrackColor(isAudio, true)
             }
         }
     ]
@@ -103,7 +106,7 @@ Rectangle {
         background: Rectangle {
             color: trackTarget.bgColor
         }
-        width: 1.5 * root.baseUnit
+        width: 1.5 * K.UiUtils.baseSizeMedium
         height: trackHeadRoot.height
         verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignHCenter
@@ -163,7 +166,7 @@ Rectangle {
         ToolTip {
             visible: targetArea.containsMouse && !targetMouse.hovered
             font: miniFont
-            text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
+            text: KI18n.i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
         }
     state:  'normalTarget'
     states: [
@@ -171,28 +174,25 @@ Rectangle {
             name: 'target'
             when: (trackHeadRoot.isAudio && timeline.audioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId === timeline.videoTarget)
             PropertyChanges {
-                target: trackTarget
-                bgColor: timeline.targetColor
-                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+                trackTarget.bgColor: timeline.targetColor
+                trackTarget.text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
             }
         },
         State {
             name: 'inactiveTarget'
             when: (trackHeadRoot.isAudio && timeline.lastAudioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastVideoTarget)
             PropertyChanges {
-                target: trackTarget
-                opacity: 0.3
-                bgColor: activePalette.text
-                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+                trackTarget.opacity: 0.3
+                trackTarget.bgColor: activePalette.text
+                trackTarget.text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
             }
         },
         State {
             name: 'noTarget'
             when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
             PropertyChanges {
-                target: trackTarget
-                bgColor: activePalette.base
-                text: ''
+                trackTarget.bgColor: activePalette.base
+                trackTarget.text: ''
             }
         }
     ]
@@ -241,7 +241,7 @@ Rectangle {
                     mouse.accepted = false
                 }
                 onEntered: {
-                    timeline.showKeyBinding(i18n("<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"))
                 }
                 onExited: {
                     timeline.showKeyBinding()
@@ -253,7 +253,7 @@ Rectangle {
             ToolTip {
                 visible: expandButton.hovered
                 font: miniFont
-                text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
+                text: trackLabel.visible? KI18n.i18n("Minimize") : KI18n.i18n("Expand")
             }
         }
         Label {
@@ -283,7 +283,7 @@ Rectangle {
             ToolTip {
                 visible: tagMouseArea.containsMouse
                 font: miniFont
-                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
+                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? KI18n.i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
             }
         state:  'normalled'
             states: [
@@ -291,25 +291,22 @@ Rectangle {
                     name: 'locked'
                     when: trackHeadRoot.isLocked
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: 'red'
+                        trackLed.bgColor: 'red'
                     }
                 },
                 State {
                     name: 'active'
                     when: trackHeadRoot.isActive
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: timeline.targetColor
-                        color: timeline.targetTextColor
+                        trackLed.bgColor: timeline.targetColor
+                        trackLed.color: timeline.targetTextColor
                     }
                 },
                 State {
                     name: 'inactive'
                     when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: Qt.darker(trackHeadRoot.color, 0.55)
+                        trackLed.bgColor: Qt.darker(trackHeadRoot.color, 0.55)
                     }
                 }
             ]
@@ -373,7 +370,7 @@ Rectangle {
                 ToolTip {
                     visible: effectButton.hovered
                     font: miniFont
-                    text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
+                    text: enabled ? (isStackEnabled ? KI18n.i18n("Disable track effects") : KI18n.i18n("Enable track effects")) : KI18n.i18n("Toggle track effects");
                 }
             }
             ToolButton {
@@ -394,7 +391,7 @@ Rectangle {
                         mouse.accepted = false
                     }
                     onEntered: {
-                        timeline.showKeyBinding(i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
+                        timeline.showKeyBinding(KI18n.i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
                     }
                     onExited: {
                         timeline.showKeyBinding()
@@ -403,7 +400,7 @@ Rectangle {
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
-                    text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
+                    text: isAudio ? (isDisabled? KI18n.i18n("Unmute") : KI18n.i18n("Mute")) : (isDisabled? KI18n.i18n("Show") : KI18n.i18n("Hide"))
                 }
             }
 
@@ -417,7 +414,7 @@ Rectangle {
                 ToolTip {
                     visible: lockButton.hovered
                     font: miniFont
-                    text: isLocked? i18n("Unlock track") : i18n("Lock track")
+                    text: isLocked? KI18n.i18n("Unlock track") : KI18n.i18n("Lock track")
                 }
                 SequentialAnimation {
                     id: flashLock
@@ -442,7 +439,7 @@ Rectangle {
                 id: audioVuMeter
                 asynchronous: true 
                 anchors.fill: parent
-                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
+                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
                 source: isAudio && showAudioRecord ? "AudioRecordingControls.qml" : ""
                 onLoaded: item.trackId = trackId
             }
@@ -488,7 +485,7 @@ Rectangle {
                     id: placeHolder
                     visible: trackName == '' && (trackNameMouseArea.containsMouse || headerMouseArea.containsMouse)
                     enabled: false
-                    text: i18n("Edit track name")
+                    text: KI18n.i18n("Edit track name")
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 4
@@ -528,7 +525,7 @@ Rectangle {
     }
     Rectangle {
             id: resizer
-            height: Math.round(root.baseUnit/3)
+            height: Math.round(K.UiUtils.baseSizeMedium/3)
             color: 'red'
             opacity: 0
             Drag.active: trimInMouseArea.drag.active
@@ -590,7 +587,7 @@ Rectangle {
     DropArea { //Drop area for tracks
         anchors.fill: trackHeadRoot
         anchors.bottomMargin: resizer.height
-        keys: 'kdenlive/effect'
+        keys: ['kdenlive/effect']
         property string dropData
         property string dropSource
         onEntered: drag => {

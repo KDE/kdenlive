@@ -7,7 +7,9 @@ import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import QtQuick 2.15
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
 
 Item {
     id: root
@@ -17,6 +19,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string markerText
     property point profile: controller.profile
     property double zoom
@@ -35,7 +38,6 @@ Item {
     property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -50,7 +52,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font: K.UiUtils.fixedFont
     }
 
     signal editCurrentMarker()
@@ -69,16 +71,16 @@ Item {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         /*onEntered: {
-            controller.setWidgetKeyBinding(i18n("TODO: This is the wonderful new trimming monitor overlay!"));
+            controller.setWidgetKeyBinding(KI18n.i18n("TODO: This is the wonderful new trimming monitor overlay!"));
         }*/
         onExited: {
-            controller.setWidgetKeyBinding();
+            root.controller.setWidgetKeyBinding();
         }
     }
-    Kdenlive.SceneToolBar {
+    K.SceneToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right
@@ -87,10 +89,11 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
 
     Item {
-        height: root.height - controller.rulerHeight
+        height: root.height - root.controller.rulerHeight
         width: root.width
         Item {
             id: frame
@@ -107,7 +110,7 @@ Item {
                 //border.color: "#ff0000"
                 //border.width: 2
                 Label {
-                    text: i18n("In")
+                    text: KI18n.i18n("In")
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {
@@ -118,7 +121,7 @@ Item {
                     id: trimmingTC1
                     font.family: fontMetrics.font.family
                     objectName: "trimmingTC1"
-                    text: controller.trimmingTC1
+                    text: root.controller.trimmingTC1
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {
@@ -141,7 +144,7 @@ Item {
                 //border.color: "#ff0000"
                 //border.width: 2
                 Label {
-                    text: i18n("Out")
+                    text: KI18n.i18n("Out")
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {
@@ -152,7 +155,7 @@ Item {
                     id: trimmingTC2
                     font.family: fontMetrics.font.family
                     objectName: "trimmingTC2"
-                    text: controller.trimmingTC2
+                    text: root.controller.trimmingTC2
                     color: "#ffffff"
                     padding: 4
                     background: Rectangle {

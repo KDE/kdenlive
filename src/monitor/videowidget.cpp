@@ -31,11 +31,7 @@
 
 #include <ki18n_version.h>
 
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
 #include <KLocalizedQmlContext>
-#else
-#include <KLocalizedContext>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -97,11 +93,7 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_loopIn(0)
     , m_offset(QPoint(0, 0))
 {
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     KLocalization::setupLocalizedContext(engine());
-#else
-    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
-#endif
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
     setAcceptDrops(true);
@@ -132,7 +124,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     connect(pCore.get(), &Core::switchTimelineRecord, this, &VideoWidget::switchRecordState);
 
     m_proxy = new MonitorProxy(this);
-    rootContext()->setContextProperty("controller", m_proxy);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
     engine()->addImageProvider(QStringLiteral("icon"), new QmlIconProvider(QSize(iconSize, iconSize), this));

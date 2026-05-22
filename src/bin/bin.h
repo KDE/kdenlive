@@ -652,7 +652,7 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    std::function<void(const QString &)> m_readyCallBack;
+    std::function<void(const QString &)> m_readyCallBack = [](const QString &) {};
     int m_suggestedDuration{-1};
     QAction *addBinAction(const QString &name, const QString &text, const QIcon &icon, const QString &category = {});
     void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
@@ -696,7 +696,6 @@ Q_SIGNALS:
     void requestBinClose();
     /** @brief Update a timeline tab name on clip rename. */
     void updateTabName(const QUuid &, const QString &);
-    void requestAddClipReset();
     /** @brief Some timeline sequence producers have been updated, refresh their occurrences. */
     void requestUpdateSequences(QMap<QUuid, std::pair<int, int>> seqs);
 };

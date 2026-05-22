@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.colorenhance" id="frei0r.colorenhance">
+    <name>Color Enhance</name>
+    <description>Enhances the color contrast for vivid images</description>
+    <author>Cynthia</author>
+    <parameter type="animated" name="a_base" default="0.55" min="0" max="1" decimals="2">
+        <name>Channel A Base</name>
+        <comment>Midpoint of sigmoidal curve for A channel.</comment>
+    </parameter>
+    <parameter type="animated" name="b_base" default="0.5" min="0" max="1" decimals="2">
+        <name>Channel B Base</name>
+        <comment>Midpoint of sigmoidal curve for B channel.</comment>
+    </parameter>
+    <parameter type="animated" name="a_slope" default="0.4" min="0" max="1" decimals="2">
+        <name>Channel A Slope</name>
+        <comment>Steepness of the sigmoidal curve for A channel.</comment>
+    </parameter>
+    <parameter type="animated" name="b_slope" default="0.4" min="0" max="1" decimals="2">
+        <name>Channel B Slope</name>
+        <comment>Steepness of the sigmoidal curve for B channel.</comment>
+    </parameter>
+</effect>
+

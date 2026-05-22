@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="249" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="250" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -135,6 +135,7 @@
         <Action name="extract_clip"/>
         <Action name="save_to_bin"/>
         <Action name="expand_timeline_clip"/>
+        <Action name="replace_timeline_clip"/>
       </Menu>
       <Action name="group_clip"/>
       <Action name="ungroup_clip"/>

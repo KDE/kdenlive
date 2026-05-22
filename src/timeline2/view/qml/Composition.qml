@@ -10,6 +10,8 @@ import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 import QtQuick.Window 2.15
 
+import org.kde.ki18n
+
 import 'TimelineLogic.js' as Logic
 import org.kde.kdenlive as K
 
@@ -72,9 +74,10 @@ Item {
             return
         }
         updateLabelOffset()
-        if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+        if (compositionRoot.width > scrollView.width) {
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -129,7 +132,7 @@ Item {
 
     function resetSelection() {
         if (effectRow.visible) {
-            effectRow.item.resetSelection()
+            (effectRow.item as KeyframeView).resetSelection()
         }
     }
 
@@ -149,10 +152,9 @@ Item {
         width = clipDuration * timeScale;
         if (compositionRoot.visible) {
             updateLabelOffset()
-            if (!compositionRoot.hideClipViews) {
-                if (effectRow.item && effectRow.item.kfrCanvas) {
-                    effectRow.item.kfrCanvas.requestPaint()
-                }
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -183,7 +185,7 @@ Item {
         anchors.left: compositionRoot.left
         anchors.topMargin: displayHeight - compositionRoot.trackOffset
         height: parentTrack.height - displayHeight
-        property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
+        property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
         color: Qt.darker('mediumpurple')
         border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
         border.width: isGrabbed ? 8 : 2
@@ -194,22 +196,19 @@ Item {
                 name: 'normal'
                 when: !compositionRoot.selected
                 PropertyChanges {
-                    target: compositionRoot
-                    z: 0
+                    compositionRoot.z: 0
                 }
             },
             State {
                 name: 'selected'
                 when: compositionRoot.selected
                 PropertyChanges {
-                    target: compositionRoot
-                    z: 1
+                    compositionRoot.z: 1
                 }
                 PropertyChanges {
-                    target: displayRect
-                    height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, root.baseUnit)
-                    color: 'mediumpurple'
-                    border.color: root.selectionColor
+                    displayRect.height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, K.UiUtils.baseSizeMedium)
+                    displayRect.color: 'mediumpurple'
+                    displayRect.border.color: root.selectionColor
                 }
             }
         ]
@@ -262,7 +261,7 @@ Item {
             }
             onEntered: {
                 updateDrag()
-                var s = i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(timeline.simplifiedTC(compositionRoot.modelStart)).arg(timeline.simplifiedTC(compositionRoot.clipDuration)))
+                var s = KI18n.i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(timeline.simplifiedTC(compositionRoot.modelStart)).arg(timeline.simplifiedTC(compositionRoot.clipDuration)))
                 timeline.showToolTip(s)
             }
             onExited: {
@@ -291,7 +290,7 @@ Item {
                 id: trimInMouseArea
                 x: enabled ? -displayRect.border.width : 0
                 height: mouseArea.height
-                width: root.baseUnit
+                width: K.UiUtils.baseSizeMedium
                 visible: enabled && root.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
                 hoverEnabled: true
@@ -333,7 +332,7 @@ Item {
                 onEntered: {
                     if (!pressed) {
                         trimIn.opacity = 1
-                        timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                        timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                     }
                 }
                 onExited: {
@@ -365,7 +364,7 @@ Item {
                 anchors.right: mouseArea.right
                 anchors.rightMargin: enabled ? -displayRect.border.width : 0
                 height: displayRect.height
-                width: root.baseUnit
+                width: K.UiUtils.baseSizeMedium
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 drag.target: trimOutMouseArea
@@ -401,7 +400,7 @@ Item {
                 onEntered: {
                     if (!pressed) {
                         trimOut.opacity = 1
-                        timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                        timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                     }
                 }
                 onExited: {
@@ -462,7 +461,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: compositionRoot.scrollStart > 0 ? (labelRect.width > compositionRoot.width ? 0 : compositionRoot.scrollStart) : 0
                 color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
-                visible: compositionRoot.width > root.baseUnit
+                visible: compositionRoot.width > K.UiUtils.baseSizeMedium
                 width: label.width + 2
                 height: label.height
                 Text {
@@ -479,10 +478,10 @@ Item {
                 }
                 states: [
                     State { when: !compositionRoot.hideDecorations
-                        PropertyChanges { target: labelRect; opacity: 1.0 }
+                        PropertyChanges { labelRect.opacity: 1.0 }
                     },
                     State { when: compositionRoot.hideDecorations
-                        PropertyChanges { target: labelRect; opacity: 0.0 }
+                        PropertyChanges { labelRect.opacity: 0.0 }
                     }
                 ]
                 transitions: Transition {
@@ -498,12 +497,12 @@ Item {
             anchors.fill: parent
             active: compositionRoot.visible
             asynchronous: true
-            visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
-            source: compositionRoot.hideClipViews || compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
+            visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * K.UiUtils.baseSizeMedium
+            source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {
                     target: effectRow.item
                     property: "kfrModel"
-                    value: compositionRoot.hideClipViews ? undefined : compositionRoot.keyframeModel
+                    value: compositionRoot.keyframeModel
                     when: effectRow.status == Loader.Ready && effectRow.item
                 }
                 Binding {

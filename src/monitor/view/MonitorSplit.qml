@@ -6,6 +6,10 @@
 import QtQuick
 import QtQuick.Controls
 
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
+
 Item {
     id: root
     objectName: "rootsplit"
@@ -13,12 +17,12 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property double timeScale: 1
     property int duration: 300
     property int mouseRulerPos: 0
     property int splitterPos
     property rect framesize
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     // percentage holds splitter pos relative to the scene percentage
     property double percentage
     property point profile: controller.profile
@@ -45,11 +49,6 @@ Item {
         root.captureRightClick = false
     }
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
-    }
-
     percentage: 0.5
     splitterPos: this.width / 2
 
@@ -67,7 +66,7 @@ Item {
         cursorShape: Qt.SizeHorCursor
         acceptedButtons: Qt.LeftButton
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onPressed: {
             root.captureRightClick = true
@@ -100,7 +99,7 @@ Item {
         color: "red"
         visible: false
         Text {
-            text: i18n("Effect")
+            text: KI18n.i18n("Effect")
             color: "red"
             anchors {
                 right: parent.left
@@ -110,14 +109,15 @@ Item {
             }
         }
     }
-    MonitorRuler {
+    K.MonitorRuler {
         id: clipMonitorRuler
         anchors {
             left: root.left
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 
     Timer {

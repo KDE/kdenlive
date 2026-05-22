@@ -4443,6 +4443,93 @@ void TimelineController::updateClipActions()
     Q_EMIT timelineClipSelected(clip != nullptr);
 }
 
+void TimelineController::replaceClip()
+{
+    pCore->bin()->setReadyCallBack(nullptr);
+    int clipId = getMainSelectedClip();
+    if (clipId == -1 || !m_model->isClip(clipId)) {
+        pCore->displayMessage(i18n("No clip selected in timeline"), ErrorMessage);
+        return;
+    }
+    const QString sourceClipBinId = getClipBinId(clipId);
+    QList<std::shared_ptr<ProjectClip>> binSelection = pCore->bin()->selectedClips();
+    std::shared_ptr<ProjectClip> binReplacement = nullptr;
+    for (auto &c : binSelection) {
+        if (c && c->clipId() != sourceClipBinId) {
+            binReplacement = c;
+            break;
+        }
+    }
+    if (!binReplacement) {
+        pCore->bin()->setReadyCallBack([this](const QString &) { replaceClip(); });
+        pCore->window()->actionCollection()->action(QStringLiteral("add_clip"))->trigger();
+        return;
+    }
+    bool repHasA = binReplacement->hasAudio();
+    bool repHasV = binReplacement->hasVideo();
+    std::unordered_set<int> leavesToUngroup, finalSelection;
+    std::unordered_map<int, int> groupReplacedMask;
+    std::unordered_map<int, std::unordered_set<int>> newClipsPerGroup;
+    std::vector<std::tuple<int, int, int, QString, int>> replacements;
+    for (int currentSelectedId : m_model->getCurrentSelection()) {
+        if (!m_model->isClip(currentSelectedId)) continue;
+
+        const int trackId = m_model->getClipTrackId(currentSelectedId);
+        bool isAudio = m_model->getTrackById_const(trackId)->isAudioTrack();
+        if ((isAudio && !repHasA) || (!isAudio && !repHasV)) continue;
+
+        QString prefix;
+        if (isAudio && repHasV)
+            prefix = QStringLiteral("A");
+        else if (!isAudio && repHasA)
+            prefix = QStringLiteral("V");
+        const int position = m_model->getClipPosition(currentSelectedId);
+        const int oldDuration = m_model->getClipPlaytime(currentSelectedId);
+        const int newDuration = binReplacement->hasLimitedDuration() ? binReplacement->frameDuration() : oldDuration;
+        const int insertDuration = qMin(oldDuration, newDuration);
+        const int oldIn = m_model->getClipIn(currentSelectedId);
+        const QString fullId = prefix + binReplacement->clipId();
+        const QString binIdWithOut = (newDuration >= oldIn + insertDuration) ? QStringLiteral("%1/%2/%3").arg(fullId).arg(oldIn).arg(oldIn + insertDuration - 1)
+                                                                             : QStringLiteral("%1/0/%2").arg(fullId).arg(insertDuration - 1);
+        int oldGroupId = -1;
+        if (m_model->m_groups->isInGroup(currentSelectedId)) {
+            oldGroupId = m_model->m_groups->getRootId(currentSelectedId);
+            auto leaves = m_model->m_groups->getLeaves(oldGroupId);
+            leavesToUngroup.insert(leaves.begin(), leaves.end());
+            groupReplacedMask[oldGroupId] |= (isAudio ? 1 : 2);
+        }
+        replacements.emplace_back(currentSelectedId, trackId, position, binIdWithOut, oldGroupId);
+    }
+    if (replacements.empty()) {
+        pCore->displayMessage(i18n("Incompatible clip types for replacement"), ErrorMessage);
+        return;
+    }
+    if (!leavesToUngroup.empty()) {
+        m_model->requestClipsUngroup(leavesToUngroup);
+    }
+    for (const auto &rep : replacements) {
+        m_model->requestItemDeletion(std::get<0>(rep));
+    }
+    for (const auto &[repClipId, trackId, position, binIdWithOut, oldGroupId] : replacements) {
+        int newClipId = -1;
+        m_model->requestClipInsertion(binIdWithOut, trackId, position, newClipId, true, true, false);
+        if (newClipId != -1) {
+            finalSelection.insert(newClipId);
+            if (oldGroupId != -1) newClipsPerGroup[oldGroupId].insert(newClipId);
+        }
+    }
+    if (repHasA && repHasV) {
+        for (const auto &[groupId, newClips] : newClipsPerGroup) {
+            if (groupReplacedMask[groupId] == 3 && newClips.size() > 1) {
+                m_model->requestClipsGroup(newClips);
+            }
+        }
+    }
+    if (!finalSelection.empty()) {
+        m_model->requestSetSelection(finalSelection);
+    }
+}
+
 const QString TimelineController::getAssetName(const QString &assetId, bool isTransition)
 {
     return isTransition ? TransitionsRepository::get()->getName(assetId) : EffectsRepository::get()->getName(assetId);
@@ -6133,6 +6220,14 @@ int TimelineController::suggestSnapPoint(int position, int snapDistance)
         return position;
     }
     return m_model->suggestSnapPoint(position, snapDistance);
+}
+
+int TimelineController::suggestPlayheadSnapPoint(int position, int snapDistance)
+{
+    if (snapDistance <= 0) {
+        return position;
+    }
+    return m_model->suggestPlayheadSnapPoint(position, snapDistance);
 }
 
 bool TimelineController::createRangeMarkerFromZone(const QString &comment, int type)

@@ -9,6 +9,8 @@ import QtQuick.Window 2.15
 import QtQuick.Effects
 import QtQuick 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 Item {
@@ -19,6 +21,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string markerText
     property int itemType: 0
     property point profile: controller.profile
@@ -49,7 +52,6 @@ Item {
     property bool showClipJobs: false
     property bool showToolbar: false
     property string clipName: controller.clipName
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -103,11 +105,6 @@ Item {
     function updateClickCapture() {
         root.captureRightClick = false
     }
-    
-    FontMetrics {
-        id: fontMetrics
-        font: fixedFont
-    }
 
     Timer {
         id: thumbTimer
@@ -150,7 +147,7 @@ Item {
 
     Item {
         id: monitorframe
-        height: root.height - controller.rulerHeight
+        height: root.height - root.controller.rulerHeight
         width: root.width
         Item {
             id: frame
@@ -169,7 +166,8 @@ Item {
                 id: safeZone
                 anchors.fill: frame
                 color: K.KdenliveSettings.safeColor
-                showSafeZone: controller.showSafezone
+                showSafeZone: root.controller.showSafezone
+                profile: root.controller.profile
             }
 
             MouseArea {
@@ -204,7 +202,7 @@ Item {
                     handleEvent = mouse.button == Qt.LeftButton
                 }
                 onPositionChanged: mouse => {
-                    if (pressed && !isPanEvent && root.maskMode < 2 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                    if (pressed && !isPanEvent && root.maskMode < 2 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Application.styleHints.startDragDistance)) {
                         isPanEvent = true
                         mouse.accepted = true;
                     } else if (!isPanEvent) {
@@ -217,7 +215,7 @@ Item {
                             if (mouseY < clickPointY) {
                                 selectionRect.y = mouseY
                             }
-                        } else if (pressed && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                        } else if (pressed && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Application.styleHints.startDragDistance)) {
                             isRectEvent = true
                             selectionRect.visible = true
                             if (mouseX < selectionRect.x) {
@@ -249,13 +247,13 @@ Item {
                             // Rect selection
                             xPos = selectionRect.x / frame.width
                             yPos = selectionRect.y / frame.height
-                            addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick)
+                            root.addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick)
                             generateLabel.visible = true
                         } else if (!isPanEvent) {
                             // Single point selection
                             xPos = mouse.x / frame.width
                             yPos = mouse.y / frame.height
-                            addControlPoint(xPos, yPos, shiftClick, ctrlClick)
+                            root.addControlPoint(xPos, yPos, shiftClick, ctrlClick)
                             generateLabel.visible = true
                         }
                     }
@@ -275,13 +273,13 @@ Item {
                 }*/
                 onEntered: {
                     if (root.maskMode === K.MaskModeType.MaskPreview) {
-                        controller.setWidgetKeyBinding();
+                        root.controller.setWidgetKeyBinding();
                         return
                     }
-                    controller.setWidgetKeyBinding(xi18nc("@info:whatsthis","<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a mask, <shortcut>Shift+click</shortcut> to include another zone, <shortcut>Ctrl+click</shortcut> to exclude a zone."));
+                    root.controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a mask, <shortcut>Shift+click</shortcut> to include another zone, <shortcut>Ctrl+click</shortcut> to exclude a zone."));
                 }
                 onExited: {
-                    controller.setWidgetKeyBinding();
+                    root.controller.setWidgetKeyBinding();
                 }
                 Rectangle {
                     id: selectionRect
@@ -293,15 +291,15 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: root.maskMode != K.MaskModeType.MaskPreview ? controller.previewOverlay : ''
+                source: root.maskMode != K.MaskModeType.MaskPreview ? root.controller.previewOverlay : ''
                 asynchronous: true
-                opacity: controller.maskOpacity / 100
+                opacity: root.controller.maskOpacity / 100
                 visible: root.maskMode != K.MaskModeType.MaskPreview
                 onSourceChanged: {
                     generateLabel.visible = false
-                    if (opacity == 0 && source != '') {
+                    if (opacity === 0 && source.toString() !== '') {
                         // Update opacity to ensure we see something
-                        controller.maskOpacity = 50
+                        root.controller.maskOpacity = 50
                     }
                 }
             }
@@ -317,7 +315,7 @@ Item {
                         x: root.centerPoints[index].x * frame.width - width / 2
                         y: root.centerPoints[index].y * frame.height - height / 2
                         color: isNegative ? "#FF990000" : "#FF006600"
-                        height: baseUnit * 1.5
+                        height: K.UiUtils.baseSizeMedium * 1.5
                         width: height
                         radius: 180
                         border.width: 2
@@ -380,10 +378,10 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: keyframes.length == 0 ? i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: keyframes.length == 0 ? KI18n.i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Generating image mask") : KI18n.i18n("Generating video mask")
         visible: false
         background: Rectangle {
-            color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
+            color: root.keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
             radius: 5
         }
     }
@@ -391,8 +389,8 @@ Item {
         id: infoLabel
         anchors.centerIn: parent
         padding: 5
-        text: root.maskMode != K.MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
-        visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && keyframes.length == 0
+        text: root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : KI18n.i18n("Previewing video mask")
+        visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && root.keyframes.length == 0
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
             radius: 5
@@ -402,7 +400,7 @@ Item {
         id: outsideLabel
         anchors.centerIn: parent
         padding: 5
-        text: i18n("You are outside of the time zone defined\nfor the mask and cannot add keyframes.\n\n\n")
+        text: KI18n.i18n("You are outside of the time zone defined\nfor the mask and cannot add keyframes.\n\n\n")
         visible: false
         color: 'white'
         background: Rectangle {
@@ -412,26 +410,26 @@ Item {
         ToolButton {
             anchors.bottom: outsideLabel.bottom
             anchors.left: outsideLabel.left
-            text: i18n("Go to mask start")
+            text: KI18n.i18n("Go to mask start")
             onPressed: () =>{
                 root.captureRightClick = true
             }
             onReleased: () => {
                 root.updateClickCapture()
             }
-            onClicked: controller.position = root.maskStart
+            onClicked: root.controller.position = root.maskStart
         }
         ToolButton {
             anchors.bottom: outsideLabel.bottom
             anchors.right: outsideLabel.right
-            text: i18n("Go to mask end")
+            text: KI18n.i18n("Go to mask end")
             onPressed: () =>{
                 root.captureRightClick = true
             }
             onReleased: () => {
                 root.updateClickCapture()
             }
-            onClicked: controller.position = root.maskEnd
+            onClicked: root.controller.position = root.maskEnd
         }
     }
     MaskToolBar {
@@ -443,6 +441,7 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
     Timer {
         id: firstTimer
@@ -456,7 +455,7 @@ Item {
         border.color: 'darkred'
         Label {
             anchors.horizontalCenter: monitoredge.horizontalCenter
-            text: i18n('Mask Mode')
+            text: KI18n.i18n('Mask Mode')
             padding: 5
             background: Rectangle {
                 color: 'darkred'
@@ -472,7 +471,8 @@ Item {
             bottom: root.bottom
         }
         visible: root.duration > 0
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
         Repeater {
             model:root.keyframes
             anchors.fill: parent

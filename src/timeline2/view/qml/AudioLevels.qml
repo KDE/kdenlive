@@ -12,13 +12,15 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
 Rectangle {
     id: levelsContainer
     width: parent.width
     height: parent.height - 1
     x: 1
     y: 1
-    ToolTip.text: i18n("Mic level")
+    ToolTip.text: KI18n.i18n("Mic level")
     ToolTip.visible: levelArea.containsMouse
     ToolTip.delay: 1000
     ToolTip.timeout: 5000

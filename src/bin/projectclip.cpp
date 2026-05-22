@@ -2046,7 +2046,7 @@ const QVariant ProjectClip::getData(DataType type) const
         if (m_clipStatus == FileStatus::StatusWaiting) {
             return QVariant("view-refresh");
         }
-        if (m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
+        if ((m_clipType == ClipType::Video || m_clipType == ClipType::AV) && m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
             return QVariant("emblem-warning");
         }
         return m_effectStack && m_effectStack->hasEffects() > 0 ? QVariant("tools-wizard") : QVariant();

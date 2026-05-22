@@ -78,6 +78,7 @@ private:
     bool m_visibleMixerManager;
     int m_expandedWidth;
     QVector<int> m_soloMuted;
+    QVector<int> m_soloTracks;
     int m_recommendedWidth;
     int m_monitorTrack;
     bool m_filterIsV2;

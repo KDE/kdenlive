@@ -3,13 +3,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include <KLocalizedQmlContext>
 #include <QtVersionChecks>
 #include <ki18n_version.h>
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
-#include <KLocalizedQmlContext>
-#else
-#include <KLocalizedContext>
-#endif
 
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
@@ -47,11 +43,7 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     , timelineController(this)
     , m_uuid(uuid)
 {
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     KLocalization::setupLocalizedContext(engine());
-#else
-    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
-#endif
     setClearColor(palette().window().color());
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -185,7 +177,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
     timelineController.setModel(model);
-    connect(pCore->bin(), &Bin::requestAddClipReset, this, [&]() { m_shouldAddClip = false; });
     m_audioRec = pCore->getAudioDevice();
     QList<QQmlContext::PropertyPair> propertyList = {{"controller", QVariant::fromValue(model.get())},
                                                      {"multitrack", QVariant::fromValue(m_sortModel.get())},
@@ -399,23 +390,19 @@ void TimelineWidget::showTimelineMenu()
         }
         m_guideMenu->addAction(ac);
     }
-    m_addClipPos = m_clickPos;
-    m_shouldAddClip = true;
-
-    QPoint posInWidget = mapFromGlobal(m_clickPos);
-    m_addClipFrame = timelineController.getMousePos(posInWidget);
-    m_addClipTrack = timelineController.getMouseTrack(posInWidget);
-
-    // Calculate maximum available space on this track
-    int maxSpace = timelineController.getFreeSpace(m_addClipTrack, m_addClipFrame);
-    pCore->bin()->setSuggestedDuration(maxSpace);
-
-    qDebug() << "ADDING CLIP AT TRACK:" << m_addClipTrack << "FRAME:" << m_addClipFrame << "MAX SPACE:" << maxSpace;
-
-    pCore->bin()->setReadyCallBack([this](const QString &clipId) {
-        qDebug() << "CALLBACK TRIGGERED FOR CLIP:" << clipId;
-        // Process with insertion
-        timelineController.insertClips(m_addClipTrack, m_addClipFrame, QStringList(clipId), true, true);
+    m_addMenuConnection = connect(m_addClipMenu, &QMenu::aboutToShow, this, [this]() {
+        QPoint posInWidget = mapFromGlobal(m_clickPos);
+        int addClipFrame = timelineController.getMousePos(posInWidget);
+        int addClipTrack = timelineController.getMouseTrack(posInWidget);
+        // Calculate maximum available space on this track
+        int maxSpace = timelineController.getFreeSpace(addClipTrack, addClipFrame);
+        pCore->bin()->setSuggestedDuration(maxSpace);
+        pCore->bin()->setReadyCallBack([this, addClipTrack, addClipFrame](const QString &clipId) {
+            qDebug() << "CALLBACK TRIGGERED FOR CLIP:" << clipId;
+            // Process with insertion
+            timelineController.insertClips(addClipTrack, addClipFrame, QStringList(clipId), true, true);
+        });
+        QObject::disconnect(m_addMenuConnection);
     });
     m_timelineMenu->popup(m_clickPos);
 }
@@ -423,11 +410,6 @@ void TimelineWidget::showTimelineMenu()
 void TimelineWidget::showSubtitleClipMenu()
 {
     m_timelineSubtitleClipMenu->popup(m_clickPos);
-}
-
-void TimelineWidget::updateShouldAddClip(bool shouldAddClip)
-{
-    m_shouldAddClip = shouldAddClip;
 }
 
 void TimelineWidget::updateAddClipMenuStatus()
@@ -520,6 +502,7 @@ void TimelineWidget::slotUngrabHack()
     QTimer::singleShot(250, this, [this]() {
         // Reset menu position, necessary if user closes the menu without selecting any action
         rootObject()->setProperty("clickFrame", -1);
+        QObject::disconnect(m_addMenuConnection);
     });
     if (quickWindow()) {
         if (quickWindow()->mouseGrabberItem()) {

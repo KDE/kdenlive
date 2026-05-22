@@ -8,6 +8,7 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QFontDatabase>
 #include <QIcon>
 #include <QPixmap>
 
@@ -17,6 +18,30 @@ static QStringList forbiddenParams = {QStringLiteral("attach"), QStringLiteral("
 const QStringList UiUtils::getProxyForbiddenParams()
 {
     return forbiddenParams;
+}
+
+UiUtils *UiUtils::instance()
+{
+    static UiUtils *instance;
+    if (!instance) instance = new UiUtils;
+
+    return instance;
+}
+
+UiUtils *UiUtils::create(QQmlEngine *, QJSEngine *)
+{
+    return instance();
+}
+
+QFont UiUtils::getFixedFont()
+{
+    return QFontDatabase::systemFont(QFontDatabase::FixedFont);
+}
+
+qreal UiUtils::getBaseSizeMedium()
+{
+    QFontInfo fi(getFixedFont());
+    return fi.pixelSize();
 }
 
 QStringList UiUtils::checkUnknownProxyParams(QString proxyData)

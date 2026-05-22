@@ -480,9 +480,9 @@ protected:
 
 private:
     /** @brief extract individual components for a fake rect from its animation string **/
-    void processFakeRect(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
+    void processFakeRect(const QString &name, const QModelIndex &paramIndex);
     /** @brief extract individual components for a fake point from its animation string **/
-    void processFakePoint(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
+    void processFakePoint(const QString &name, const QModelIndex &paramIndex);
 
 Q_SIGNALS:
     void modelChanged();

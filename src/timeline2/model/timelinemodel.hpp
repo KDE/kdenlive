@@ -314,6 +314,12 @@ public:
      */
     Q_INVOKABLE int suggestSnapPoint(int pos, int snapDistance);
 
+    /** @brief Returns the closest snap point within snapDistance for the playhead
+     *  Unlike suggestSnapPoint, this does not add the current cursor position as a
+     *  snap point, so the playhead does not snap to itself when being dragged.
+     */
+    Q_INVOKABLE int suggestPlayheadSnapPoint(int pos, int snapDistance);
+
     /** @brief Return the previous track of same type as source trackId, or trackId if no track found */
     Q_INVOKABLE int getPreviousTrackId(int trackId);
     /** @brief Return the next track of same type as source trackId, or trackId if no track found */

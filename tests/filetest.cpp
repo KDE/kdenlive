@@ -261,11 +261,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     const QString emojiTestString = QString::fromUtf8("test\xF0\x9F\x8D\x99test");
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
-    QTemporaryFile saveFile(QDir::temp().filePath("kdenlive_test_XXXXXX.kdenlive"));
-    qDebug() << "Choosing temp file with template" << (QDir::temp().filePath("kdenlive_test_XXXXXX.kdenlive"));
-    REQUIRE(saveFile.open());
-    saveFile.close();
-    qDebug() << "New temporary file:" << saveFile.fileName();
+    QString saveFileName = QDir::temp().absoluteFilePath(QStringLiteral("test-nonbmp.kdenlive"));
 
     SECTION("Save title with special chars")
     {
@@ -276,7 +272,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
         pCore->projectManager()->testSetActiveTimeline(timeline);
-        QDir dir = QDir::temp();
 
         // create a simple title with the non-BMP test string
         const QString titleXml =
@@ -301,23 +296,23 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         KdenliveTests::setAudioTargets(timeline, audioInfo);
         KdenliveTests::setVideoTargets(timeline, tid1);
 
-        pCore->projectManager()->testSaveFileAs(saveFile.fileName());
+        REQUIRE(pCore->projectManager()->testSaveFileAs(saveFileName));
 
         // open the file and check that it contains emojiTestString
-        QFile file(saveFile.fileName());
+        QFile file(saveFileName);
         REQUIRE(file.open(QIODevice::ReadOnly));
         QByteArray contents = file.readAll();
         if (contents.contains(emojiTestString.toUtf8())) {
-            qDebug() << "File contains test string";
+            qDebug() << "File" << saveFileName << "contains test string";
         } else {
-            qDebug() << "File does not contain test string:" << contents;
+            qDebug() << "File" << saveFileName << "does not contain test string:" << emojiTestString.toUtf8();
         }
         REQUIRE(contents.contains(emojiTestString.toUtf8()));
 
         // try opening the file as a Kdenlivedoc and check that the title hasn't
         // lost the emoji
 
-        QUrl openURL = QUrl::fromLocalFile(saveFile.fileName());
+        QUrl openURL = QUrl::fromLocalFile(saveFileName);
         QUndoGroup *undoGroup = new QUndoGroup();
         undoGroup->addStack(undoStack.get());
         DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(),
@@ -367,17 +362,17 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         KdenliveTests::setAudioTargets(timeline, audioInfo);
         KdenliveTests::setVideoTargets(timeline, tid1);
 
-        pCore->projectManager()->testSaveFileAs(saveFile.fileName());
+        REQUIRE(pCore->projectManager()->testSaveFileAs(saveFileName));
 
         // open the file and check that it contains the correct profile info
-        QFile file(saveFile.fileName());
+        QFile file(saveFileName);
         REQUIRE(file.open(QIODevice::ReadOnly));
         QByteArray contents = file.readAll();
         QString contentCheck("<property name=\"kdenlive:docproperties.profile\">atsc_1080p_25</property>");
         if (contents.contains(contentCheck.toUtf8())) {
-            qDebug() << "File contains test string";
+            qDebug() << "File" << saveFileName << "contains test string";
         } else {
-            qDebug() << "File does not contain test string:" << contents;
+            qDebug() << "File" << saveFileName << "does not contain test string:" << contentCheck.toUtf8();
         }
         REQUIRE(contents.contains(contentCheck.toUtf8()));
         pCore->projectManager()->closeCurrentDocument(false, false);

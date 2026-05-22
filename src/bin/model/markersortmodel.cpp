@@ -57,22 +57,25 @@ bool MarkerSortModel::filterString(int sourceRow, const QModelIndex &sourceParen
 
 void MarkerSortModel::slotSetFilters(const QList<int> filters)
 {
+    beginFilterChange();
     m_filterList = filters;
     m_ignoredPositions.clear();
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 void MarkerSortModel::slotClearSearchFilters()
 {
+    beginFilterChange();
     m_filterList.clear();
     m_ignoredPositions.clear();
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 void MarkerSortModel::slotSetFilterString(const QString &filter)
 {
+    beginFilterChange();
     m_searchString = filter;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 std::vector<int> MarkerSortModel::getIgnoredSnapPoints() const

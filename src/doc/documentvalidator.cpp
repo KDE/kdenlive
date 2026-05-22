@@ -42,7 +42,7 @@ DocumentValidator::DocumentValidator(const QDomDocument &doc, QUrl documentUrl)
 {
 }
 
-QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
+QPair<bool, QString> DocumentValidator::validate(const double currentVersion, const int currentPatchVersion)
 {
     Q_EMIT pCore->loadingMessageNewStage(i18n("Validating project…"), 0);
     QDomElement mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
@@ -96,9 +96,11 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     }
 
     double version = -1;
+    int patchVersion = 0;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {
         // Newer Kdenlive document version
         version = Xml::getXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.version")).toDouble();
+        patchVersion = Xml::getXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.patchversion")).toInt();
     } else {
         bool ok;
         version = documentLocale.toDouble(kdenliveDoc.attribute(QStringLiteral("version")), &ok);
@@ -156,7 +158,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     }
 
     // Upgrade the document to the latest version
-    if (!upgrade(version, currentVersion)) {
+    if (!upgrade(version, patchVersion, currentVersion, currentPatchVersion)) {
         return QPair<bool, QString>(false, QString());
     }
 
@@ -175,12 +177,42 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     return QPair<bool, QString>(true, changedDecimalPoint);
 }
 
-bool DocumentValidator::upgrade(double version, const double currentVersion)
+bool DocumentValidator::upgradePatchVersion(double version, int patchVersion)
+{
+    if (version == 1.1) {
+        if (patchVersion < 1) {
+            // Kdenlive document 1.1 patch level 0
+            // MLT introduced an anchor_point parameter in filter_qtblend.
+            // By default, the new rotation point is at center (0.5, 0.5)
+            // That breaks compatibility with older projects not having the
+            // rotate_center property set, where top-left rotation is expected.
+            QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
+            for (int i = 0; i < filters.count(); ++i) {
+                QDomElement filter = filters.at(i).toElement();
+                if (Xml::getXmlProperty(filter, QStringLiteral("kdenlive_id")) == QLatin1String("qtblend")) {
+                    // Found a qtblend filter
+                    if (Xml::getXmlProperty(filter, QStringLiteral("rotate_center")) != QLatin1String("1") &&
+                        !Xml::hasXmlProperty(filter, QStringLiteral("rotate_anchor"))) {
+                        // Requires adjusting
+                        Xml::setXmlProperty(filter, QStringLiteral("rotate_anchor"), QStringLiteral("0 0"));
+                        m_modified = true;
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
+bool DocumentValidator::upgrade(double version, int patchVersion, const double currentVersion, int currentPatchVersion)
 {
     qCDebug(KDENLIVE_LOG) << "Opening a document with version " << version << " / " << currentVersion;
 
     // No conversion needed
     if (qFuzzyCompare(version, currentVersion)) {
+        if (patchVersion < currentPatchVersion) {
+            return upgradePatchVersion(version, patchVersion);
+        }
         return true;
     }
 
@@ -1936,6 +1968,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }*/
+
+    upgradePatchVersion(currentVersion, 0);
     m_modified = true;
     return true;
 }

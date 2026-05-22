@@ -15,9 +15,10 @@ TransitionFilter::TransitionFilter(QObject *parent)
 
 void TransitionFilter::setFilterType(bool enabled, AssetListType::AssetType type)
 {
+    beginFilterChange();
     m_type_enabled = enabled;
     m_type_value = type;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 void TransitionFilter::reloadFilterOnFavorite()

@@ -51,7 +51,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     pb->setToolTip(i18n("Add Timeline Sequence"));
     pb->setWhatsThis(
         i18n("Add Timeline Sequence. This will create a new timeline for editing. Each timeline corresponds to a Sequence Clip in the Project Bin"));
-    connect(pb, &QToolButton::clicked, [=]() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
+    connect(pb, &QToolButton::clicked, [this]() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
     setCornerWidget(pb);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
@@ -393,6 +393,7 @@ void TimelineTabs::buildClipMenu()
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_remap")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_in_project_tree")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("cut_timeline_clip")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("replace_timeline_clip")));
 }
 
 void TimelineTabs::setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,

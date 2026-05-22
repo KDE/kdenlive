@@ -344,12 +344,47 @@ int main(int argc, char *argv[])
     QCommandLineOption debugOption(QStringLiteral("debug"), i18n("Show some development specific features in the UI, disable all exclude lists for assets."));
     parser.addOption(debugOption);
 
+    QCommandLineOption saveDebugOption(QStringLiteral("setup-report"), i18n("Save a json report about components in the given path."),
+                                       QStringLiteral("reportFile"));
+    parser.addOption(saveDebugOption);
+
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
     parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
 
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
+    if (parser.isSet(saveDebugOption)) {
+        QJsonObject report, property;
+        QJsonArray properties;
+        const auto components = KAboutData::applicationData().components();
+        for (auto &component : components) {
+            property["name"] = component.name();
+            property["version"] = component.version();
+            properties.append(property);
+            qDebug() << component.name() << " = " << component.version();
+        }
+        qDebug() << "Packaging = " << packageName;
+        report["components"] = properties;
+        report["packageType"] = packageName;
+        const QString outputFilename = parser.value(saveDebugOption);
+        if (!outputFilename.isEmpty()) {
+            QFile file(outputFilename);
+            if (file.exists()) {
+                qWarning() << "Cannot overwrite existing file " << outputFilename;
+                return EXIT_FAILURE;
+            }
+            if (!file.open(QIODeviceBase::WriteOnly)) {
+                qWarning() << "Cannot write into file " << outputFilename;
+                return EXIT_FAILURE;
+            } else {
+                qCritical() << "You need to provide a valid file path to the --setup-report command line option.";
+                return EXIT_FAILURE;
+            }
+            file.write(QJsonDocument(report).toJson());
+        }
+        return EXIT_SUCCESS;
+    }
 
     QUrl renderUrl;
     QString presetName;
@@ -480,12 +515,6 @@ int main(int argc, char *argv[])
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
-    KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup uicg(config, "UiSettings");
-    if (!uicg.exists()) {
-        uicg.writeEntry("ColorSchemePath", "BreezeDark.colors");
-        uicg.sync();
-    }
     if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
         qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
         QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
@@ -517,10 +546,6 @@ int main(int argc, char *argv[])
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
-        /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });*/
         pCore->initGUI(parser.value(mltPathOption), app.url, clipsToLoad);
         result = app.exec();
     }

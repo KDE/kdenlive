@@ -262,7 +262,8 @@ void MixerWidget::buildControlButtons()
         m_solo->setCheckable(true);
         m_solo->setIcon(QIcon::fromTheme("headphones"));
         m_solo->setToolTip(i18n("Solo mode"));
-        m_solo->setWhatsThis(xi18nc("@info:whatsthis", "When selected mutes all other audio tracks."));
+        m_solo->setWhatsThis(
+            xi18nc("@info:whatsthis", "When selected mutes all other audio tracks.\nUse Shift+Click to select multiple tracks to play at the same time."));
         m_solo->setAutoRaise(true);
 
         m_monitor = new QToolButton(this);
@@ -485,29 +486,13 @@ void MixerWidget::setupConnections()
         });
     }
     connect(pCore.get(), &Core::updatePalette, this, [this]() {
+        qDebug() << ":::: UPDATE PALETTE: " << getMixerBackgroundColor();
+
         // Update all widgets were we customizing the palette or stylesheet
-        QPalette mixerPalette = palette();
+        QPalette mixerPalette = qApp->palette();
         mixerPalette.setColor(QPalette::Window, getMixerBackgroundColor());
         setPalette(mixerPalette);
 
-        qDebug() << ":::: UPDATE PALETTE: " << getMixerBackgroundColor();
-
-        QPalette pal = qApp->palette();
-        if (m_dbLabel) {
-            m_dbLabel->setPalette(pal);
-        }
-        if (m_balanceLabelLeft) {
-            m_balanceLabelLeft->setPalette(pal);
-        }
-        if (m_balanceLabelRight) {
-            m_balanceLabelRight->setPalette(pal);
-        }
-        if (m_volumeSpin) {
-            m_volumeSpin->setPalette(pal);
-        }
-        if (m_balanceSpin) {
-            m_balanceSpin->setPalette(pal);
-        }
         updateTrackLabelStyle();
         update();
     });

@@ -11,6 +11,8 @@ import QtQuick.Window 2.15
 import QtQml.Models 2.15
 import QtQml 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 import 'TimelineLogic.js' as Logic
@@ -103,11 +105,12 @@ Rectangle {
         //console.log('SCROLL START: ', clipRoot.scrollStart, '; VISIBLE: ', clipRoot.visible)
         updateLabelOffset()
         if (isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload(1)
+            (thumbsLoader.item as ClipAudioThumbs).reload(1)
         }
         if (!clipRoot.hideClipViews && clipRoot.width > scrollView.width) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -137,7 +140,7 @@ Rectangle {
 
     function resetSelection() {
         if (effectRow.visible) {
-            effectRow.item.resetSelection()
+            (effectRow.item as KeyframeView).resetSelection()
         }
     }
 
@@ -161,7 +164,7 @@ Rectangle {
         width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
-            thumbsLoader.item.reload(1)
+            (thumbsLoader.item as ClipAudioThumbs).reload(1)
         }
     }
 
@@ -197,7 +200,7 @@ Rectangle {
             return;
         }
         if (thumbsLoader.item) {
-            thumbsLoader.item.reload(0)
+            (thumbsLoader.item as ClipAudioThumbs).reload(0)
         }
     }
 
@@ -207,8 +210,9 @@ Rectangle {
         width = clipDuration * clipRoot.timeScale;
         if (clipRoot.visible) {
             if (!clipRoot.hideClipViews) {
-                if (effectRow.item && effectRow.item.kfrCanvas) {
-                    effectRow.item.kfrCanvas.requestPaint()
+                let kfrView = effectRow.item as KeyframeView
+                if (kfrView && kfrView.kfrCanvas) {
+                    kfrView.kfrCanvas.requestPaint()
                 }
             }
         }
@@ -224,7 +228,7 @@ Rectangle {
     }
     
     function showClipInfo() {
-        var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+        var text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
                         .arg(timeline.simplifiedTC(clipRoot.inPoint))
                         .arg(timeline.simplifiedTC(clipRoot.outPoint))
                         .arg(timeline.simplifiedTC(clipRoot.modelStart))
@@ -259,11 +263,11 @@ Rectangle {
     }
 
     property bool noThumbs: (isAudio || itemType === K.ClipType.Color || mltService === '')
-    property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
+    property url baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot
-        keys: 'kdenlive/effect'
+        keys: ['kdenlive/effect']
         property string dropData
         property string dropSource
         onEntered: drag => {
@@ -326,7 +330,7 @@ Rectangle {
                 offset = clipRoot.modelStart - offset
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
-            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
@@ -340,7 +344,7 @@ Rectangle {
                 offset -= clipRoot.modelStart
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
-            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onUpPressed: {
             var nextTrack = controller.getNextTrackId(clipRoot.trackId);
@@ -421,7 +425,7 @@ Rectangle {
             // Border rectangle
             color: 'transparent'
             id: itemBorder
-            property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
+            property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
             anchors.fill: parent
             border.color: {
                 let placeholder = (clipStatus === K.FileStatus.StatusMissing || clipStatus === K.FileStatus.StatusWaiting || clipStatus === K.FileStatus.StatusDeleting)
@@ -477,8 +481,8 @@ Rectangle {
             anchors.margins: itemBorder.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
-            property bool handleMini: width < 2 * root.baseUnit
-            property bool handleVisible: width > root.baseUnit * 1.2
+            property bool handleMini: width < 2 * K.UiUtils.baseSizeMedium
+            property bool handleVisible: width > K.UiUtils.baseSizeMedium * 1.2
             
             Item {
                 // Mix indicator
@@ -503,7 +507,7 @@ Rectangle {
                     Loader {
                         active: mixBackground.visible
                         asynchronous: true
-                        source: container.handleVisible && mixContainer.width > 2 * root.baseUnit ? "MixShape.qml" : ""
+                        source: container.handleVisible && mixContainer.width > 2 * K.UiUtils.baseSizeMedium ? "MixShape.qml" : ""
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
@@ -526,7 +530,7 @@ Rectangle {
                         hoverEnabled: !root.isPanning
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton | Qt.LeftButton
-                        enabled: !root.isPanning && container.handleVisible && width > root.baseUnit * 0.8
+                        enabled: !root.isPanning && container.handleVisible && width > K.UiUtils.baseSizeMedium * 0.8
                         onPressed: mouse => {
                             if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                                 mouse.accepted = false
@@ -541,7 +545,7 @@ Rectangle {
                             }
                         }
                         onEntered: {
-                            var text = i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
+                            var text = KI18n.i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
                             .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
                             timeline.showToolTip(text)
                         }
@@ -552,7 +556,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
                         height: parent.height
-                        width: root.baseUnit / 2
+                        width: K.UiUtils.baseSizeMedium / 2
                         visible: root.activeTool === K.ToolType.SelectTool
                         property int previousMix
                         enabled: !root.isPanning && !isLocked && mixArea.enabled && (pressed || container.handleVisible)
@@ -599,12 +603,12 @@ Rectangle {
                                 parent.width = currentFrame * clipRoot.timeScale
                                 sizeChanged = true
                                 if (currentFrame > previousMix) {
-                                    timeline.showToolTip(i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
+                                    timeline.showToolTip(KI18n.i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
                                 } else {
-                                    timeline.showToolTip(i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
+                                    timeline.showToolTip(KI18n.i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
                                 }
                             } else {
-                                timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
+                                timeline.showToolTip(KI18n.i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
                             }
                             if (x < mixCutPos.x) {
                                 // This will delete the mix
@@ -619,7 +623,7 @@ Rectangle {
                                 return
                             }
                             mixOut.color = 'red'
-                            timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
+                            timeline.showToolTip(KI18n.i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
                         }
                         onExited: {
                             if (pressed) {
@@ -703,7 +707,7 @@ Rectangle {
                         color: markerBase.hasRange ? "transparent" : markerBase.markerColor
                         radius: 2
                         opacity: 0.7
-                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
+                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > K.UiUtils.baseSizeMedium && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
 
                         anchors {
                             top: parent.top
@@ -917,7 +921,7 @@ Rectangle {
                 Repeater {
                     // Clip markers
                     id: markersContainer
-                    model: container.width > 3 * root.baseUnit ? markers : 0
+                    model: container.width > 3 * K.UiUtils.baseSizeMedium ? markers : 0
                     anchors.fill: parent
                     delegate: Loader {
                         id: loader
@@ -972,7 +976,7 @@ Rectangle {
                 x: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
+                width: container.handleMini ? K.UiUtils.baseSizeMedium / 2 : K.UiUtils.baseSizeMedium
                 visible: {
                     if (!enabled) {
                         return false
@@ -1076,12 +1080,12 @@ Rectangle {
                         trimIn.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
-                        var s = i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+                        var s = KI18n.i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
                         timeline.showToolTip(s)
                         if (clipRoot.mixDuration == 0) {
-                            timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                            timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                         } else {
-                            timeline.showKeyBinding(i18n("<b>Drag</b> to change mix duration"))
+                            timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to change mix duration"))
                         }
                     }
                 }
@@ -1107,7 +1111,7 @@ Rectangle {
                 anchors.rightMargin: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
+                width: container.handleMini ? K.UiUtils.baseSizeMedium / 2 : K.UiUtils.baseSizeMedium
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === K.ToolType.SelectTool
                                      || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
@@ -1178,10 +1182,10 @@ Rectangle {
                         trimOut.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
-                        var s = i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
+                        var s = KI18n.i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
                         timeline.showToolTip(s)
                         if (!fadeOutMouseArea.containsMouse) {
-                            timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                            timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                         }
                     }
                 }
@@ -1191,7 +1195,7 @@ Rectangle {
                          if (!mouseArea.containsMouse) {
                             timeline.showToolTip()
                          } else {
-                             var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+                             var text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
                         .arg(timeline.simplifiedTC(clipRoot.inPoint))
                         .arg(timeline.simplifiedTC(clipRoot.outPoint))
                         .arg(timeline.simplifiedTC(clipRoot.modelStart))
@@ -1241,10 +1245,10 @@ Rectangle {
                 clip: true
                 states: [
                     State { when: !clipRoot.hideDecorations
-                        PropertyChanges { target: nameContainer; opacity: 1.0 }
+                        PropertyChanges { nameContainer.opacity: 1.0 }
                     },
                     State { when: clipRoot.hideDecorations
-                        PropertyChanges { target: nameContainer; opacity: 0.0 }
+                        PropertyChanges { nameContainer.opacity: 0.0 }
                     }
                 ]
                 transitions: Transition {
@@ -1278,7 +1282,7 @@ Rectangle {
                     color: clipRoot.selected ? (root.mainItemId == clipRoot.clipId ? '#FFCC0000' : '#FF800000') : '#66000000'
                     width: label.width + (2 * itemBorder.border.width)
                     height: label.height
-                    visible: clipRoot.width > root.baseUnit
+                    visible: clipRoot.width > K.UiUtils.baseSizeMedium
                     anchors.left: debugCidRect.visible ? debugCidRect.right : parent.left
                     anchors.leftMargin: clipRoot.timeremap ? labelRect.height : 0
                     Text {
@@ -1317,8 +1321,8 @@ Rectangle {
                             clearAndMove(positionOffset)
                         }
                         onEntered: {
-                            var text = positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
-                            text += i18n(" <b>Click</b> to align clips")
+                            var text = positionOffset < 0 ? KI18n.i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : KI18n.i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
+                            text += KI18n.i18n(" <b>Click</b> to align clips")
                             timeline.showToolTip(text)
                         }
                         onExited: {
@@ -1409,7 +1413,7 @@ Rectangle {
                     Text {
                         // Proxy P
                         id: proxyLabel
-                        text: i18nc("@label The first letter of Proxy, used as abbreviation", "P")
+                        text: KI18n.i18nc("@label The first letter of Proxy, used as abbreviation", "P")
                         font.pointSize: root.fontUnit +1
                         visible: proxyRect.visible
                         anchors {
@@ -1457,7 +1461,7 @@ Rectangle {
                 asynchronous: true
                 property bool hasKeyframes: false
                 active: clipRoot.visible
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * root.baseUnit
+                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item
@@ -1520,28 +1524,25 @@ Rectangle {
                 name: 'locked'
                 when: clipRoot.isLocked === true
                 PropertyChanges {
-                    target: clipRoot
-                    color: root.lockedColor
-                    opacity: 0.8
-                    z: 0
+                    clipRoot.color: root.lockedColor
+                    clipRoot.opacity: 0.8
+                    clipRoot.z: 0
                 }
             },
             State {
                 name: 'normal'
                 when: clipRoot.selected === false
                 PropertyChanges {
-                    target: clipRoot
-                    color: Qt.darker(getColor(), 1.5)
-                    z: 0
+                    clipRoot.color: Qt.darker(getColor(), 1.5)
+                    clipRoot.z: 0
                 }
             },
             State {
                 name: 'selectedClip'
                 when: clipRoot.selected === true
                 PropertyChanges {
-                    target: clipRoot
-                    color: getColor()
-                    z: 3
+                    clipRoot.color: getColor()
+                    clipRoot.z: 3
                 }
             }
         ]
@@ -1551,7 +1552,7 @@ Rectangle {
             id: compInArea
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
@@ -1566,7 +1567,7 @@ Rectangle {
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
             onEntered: {
-                timeline.showKeyBinding(i18n("<b>Click</b> to add composition"))
+                timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
             }
             onExited: {
                 timeline.showKeyBinding()
@@ -1592,7 +1593,7 @@ Rectangle {
             id: compOutArea
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
@@ -1607,7 +1608,7 @@ Rectangle {
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             onEntered: {
-                timeline.showKeyBinding(i18n("<b>Click</b> to add composition"))
+                timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
             }
             onExited: {
                 timeline.showKeyBinding()
@@ -1634,7 +1635,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: clipRoot.fadeOut <= 0 ? 0 : fadeOutCanvas.width - width / 2
             anchors.top: parent.top
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -1688,18 +1689,18 @@ Rectangle {
                         lastDuration = duration
                         timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(i18n("Fade out: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeOut > 0) {
-                        timeline.showToolTip(i18n("Fade out: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
@@ -1747,7 +1748,7 @@ Rectangle {
             anchors.left: container.left
             anchors.leftMargin: clipRoot.fadeIn <= 0 ? 0 : (fadeInTriangle.width - width / 3)
             anchors.top: parent.top
-            width: Math.min(root.baseUnit, container.height / 3)
+            width: Math.min(K.UiUtils.baseSizeMedium, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -1799,18 +1800,18 @@ Rectangle {
                     if (duration != clipRoot.fadeIn) {
                         timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(i18n("Fade in: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeIn > 0) {
-                        timeline.showToolTip(i18n("Fade in: %1", fadeString))
+                        timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
+                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
@@ -1894,7 +1895,7 @@ Rectangle {
         }
         Text {
             id: slipLabel
-            text: i18n("Slip Clip")
+            text: KI18n.i18n("Slip Clip")
             font: miniFont
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter

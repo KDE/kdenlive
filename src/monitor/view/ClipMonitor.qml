@@ -8,6 +8,8 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 import 'Utils.js' as Utils
 
@@ -21,6 +23,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string markerText
     property int itemType: 0
     property point profile: controller.profile
@@ -51,7 +54,6 @@ Item {
     // Always display audio thumbs under video
     property bool showToolbar: false
     property string clipName: controller.clipName
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300 // last selectable frame of the timecode display
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -60,20 +62,15 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property bool alwaysShowAudio: K.KdenliveSettings.alwaysShowMonitorAudio
     property bool inLowerThird: (audioView.containsMyMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
     property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
-    }
-
-    onAlwaysShowAudioChanged: {
-        audioView.refreshView()
     }
 
     function updateClickCapture() {
@@ -82,7 +79,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font: K.UiUtils.fixedFont
     }
 
     Timer {
@@ -107,7 +104,7 @@ Item {
         }
 
         // adjust monitor image size if audio thumb is displayed
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -115,7 +112,7 @@ Item {
     }
 
     onZoomOffsetChanged: {
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = audioView.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -123,7 +120,7 @@ Item {
     }
 
     onHeightChanged: {
-        if (alwaysShowAudio && audioView.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
             controller.rulerHeight = (audioView.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -152,21 +149,21 @@ Item {
         onContainsMouseChanged: {
             if (containsMouse) {
                 if (!cursorArea.pressed) {
-                    controller.dragType = ''
+                    root.controller.dragType = ''
                 }
             } else {
-                controller.dragType = '-'
+                root.controller.dragType = '-'
             }
         }
         onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
                 var pos = Math.max(mouseX, 0)
                 pos += width / root.zoomFactor * root.zoomStart
-                controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+                root.controller.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
     }
 
@@ -179,10 +176,11 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
 
     Item {
-        height: root.height - controller.rulerHeight
+        height: root.height - root.controller.rulerHeight
         width: root.width
         Item {
             id: frame
@@ -200,13 +198,14 @@ Item {
             K.MonitorSafeZone {
                 id: safeZone
                 anchors.fill: frame
-                showSafeZone: controller.showSafezone
+                showSafeZone: root.controller.showSafezone
+                profile: root.controller.profile
             }
         }
         DropArea { //Drop area for effects
             id: effectArea
             anchors.fill: parent
-            keys: 'kdenlive/effect'
+            keys: ['kdenlive/effect']
             property string droppedData
             property string droppedDataSource
             onEntered: drag => {
@@ -215,7 +214,7 @@ Item {
                 droppedDataSource = drag.getDataAsString('kdenlive/effectsource')
             }
             onDropped: {
-                controller.addEffect(droppedData, droppedDataSource)
+                root.controller.addEffect(droppedData, droppedDataSource)
                 droppedData = ""
                 droppedDataSource = ""
             }
@@ -225,6 +224,7 @@ Item {
             anchors.fill: parent
             AudioView {
                 id: audioView
+                monitorController: root.controller
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -234,18 +234,18 @@ Item {
                 width: parent.width
                 enabled: !cursorArea.containsMouse
                 dragButtonsVisible: root.inLowerThird
-                dirty: !controller.audioSynced
-                visible: isAudioClip || ((alwaysShowAudio || root.showAudiothumb) && (controller.clipType === K.ClipType.AV || controller.clipHasAV))
+                dirty: !root.controller.audioSynced
+                visible: isAudioClip || ((K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (root.controller.clipType === K.ClipType.AV || root.controller.clipHasAV))
             }
             Menu {
                 id: contextMenu
                 Instantiator {
-                    model: controller.lastClips
+                    model: root.controller.lastClips
                     MenuItem {
                         text: modelData
-                        font: fixedFont
+                        font: K.UiUtils.fixedFont
                         onTriggered: {
-                            controller.selectClip(index)
+                            root.controller.selectClip(index)
                             //showAnimate.restart()
                         }
                     }
@@ -266,12 +266,12 @@ Item {
                 border.color: clipNameLabel.hovered ? "#000000" : "transparent"
                 border.width: 1
                 radius: 2
-                visible: clipName != ""
+                visible: root.controller.clipName != ""
                 ToolButton {
                     id: clipNameLabel
                     hoverEnabled: true
-                    icon.name: controller.lastClips.length > 1 ? "arrow-down" : ""
-                    text: clipName
+                    icon.name: root.controller.lastClips.length > 1 ? "arrow-down" : ""
+                    text: root.controller.clipName
                     enabled: labelContainer.opacity > 0.5
                     onTextChanged: {
                         if (thumbTimer.running) {
@@ -308,7 +308,7 @@ Item {
                         }
                     }
                     onClicked: {
-                        if (controller.lastClips.length > 1) {
+                        if (root.controller.lastClips.length > 1) {
                             if (contextMenu.visible) {
                                 contextMenu.close()
                             } else {
@@ -337,14 +337,14 @@ Item {
                 color: "#ffffff"
                 padding: 2
                 background: Rectangle {
-                    color: controller.monitorIsActive ? "#DD006600": "#66000000"
+                    color: root.controller.monitorIsActive ? "#DD006600": "#66000000"
                 }
-                text: controller.timecode
+                text: root.controller.timecode
                 visible: root.showTimecode
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
-                    bottomMargin: overlayMargin
+                    bottomMargin: root.overlayMargin
                 }
                 MouseArea {
                     id: overlayTC
@@ -363,12 +363,12 @@ Item {
                 background: Rectangle {
                     color: root.dropped ? "#99ff0000" : "#66004400"
                 }
-                text: i18n("%1fps", root.fps)
+                text: KI18n.i18n("%1fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    bottomMargin: overlayMargin
+                    bottomMargin: root.overlayMargin
                 }
                 MouseArea {
                     id: overlayFPS
@@ -379,13 +379,13 @@ Item {
             }
             Label {
                 id: labelSpeed
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     top: parent.top
                 }
-                visible: Math.abs(controller.speed) > 1
-                text: "x" + controller.speed
+                visible: Math.abs(root.controller.speed) > 1
+                text: "x" + root.controller.speed
                 color: "white"
                 background: Rectangle {
                     color: "darkgreen"
@@ -395,14 +395,14 @@ Item {
             }
             Label {
                 id: inPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
-                    bottomMargin: overlayMargin
+                    bottomMargin: root.overlayMargin
                 }
-                visible: root.showMarkers && controller.position == controller.zoneIn && root.duration > 0
-                text: controller.zoneIn == controller.zoneOut ? i18n("In/Out Point") : i18n("In Point")
+                visible: root.showMarkers && root.controller.position == root.controller.zoneIn && root.duration > 0
+                text: root.controller.zoneIn == root.controller.zoneOut ? KI18n.i18n("In/Out Point") : KI18n.i18n("In Point")
                 color: "white"
                 background: Rectangle {
                     color: "#228b22"
@@ -418,14 +418,14 @@ Item {
             }
             Label {
                 id: outPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: overlayMargin
+                    bottomMargin: root.overlayMargin
                 }
-                visible: root.showMarkers && controller.position == controller.zoneOut && controller.zoneOut > controller.zoneIn
-                text: i18n("Out Point")
+                visible: root.showMarkers && root.controller.position == root.controller.zoneOut && root.controller.zoneOut > root.controller.zoneIn
+                text: KI18n.i18n("Out Point")
                 color: "white"
                 background: Rectangle {
                     color: "#770000"
@@ -441,10 +441,10 @@ Item {
             }
             TextField {
                 id: marker
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
-                text: controller.markerComment
+                text: root.controller.markerComment
                 onEditingFinished: {
                     root.markerText = marker.displayText
                     marker.focus = false
@@ -453,14 +453,14 @@ Item {
                 anchors {
                     left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: overlayMargin
+                    bottomMargin: root.overlayMargin
                 }
                 visible: root.showMarkers && text != ""
                 height: inPoint.height
                 width: fontMetrics.boundingRect(displayText).width + 10
                 horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
                 background: Rectangle {
-                    color: controller.markerColor
+                    color: root.controller.markerColor
                 }
                 color: "#000"
                 padding: 0
@@ -473,14 +473,14 @@ Item {
             id: dragZone
             property string uuid
             x: 2
-            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
-            property bool showVideoDrag: controller.clipHasAV || !audioView.isAudioClip
-            height: root.baseUnit * 3
+            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - root.overlayMargin : parent.height - height - 2 - root.overlayMargin
+            property bool showVideoDrag: root.controller.clipHasAV || !audioView.isAudioClip
+            height: K.UiUtils.baseSizeMedium * 3
             width: showVideoDrag ? height * 2 : height
             color: Qt.rgba(activePalette.base.r, activePalette.base.g, activePalette.base.b, 0.5)
             radius: 4
             opacity: root.inLowerThird ? 1 : 0
-            visible: controller.clipHasAV || audioView.isAudioClip
+            visible: root.controller.clipHasAV || audioView.isAudioClip
             Rectangle {
                 id: videoDragArea
                 height: dragZone.height
@@ -540,11 +540,11 @@ Item {
                 }
                 onPressed: mouse => {
                     root.captureRightClick = true
-                    controller.dragType = leftSide ? 'V' : 'A'
+                    root.controller.dragType = leftSide ? 'V' : 'A'
                     mouse.accepted = false
                 }
                 onReleased: mouse => {
-                    controller.dragType = ''
+                    root.controller.dragType = ''
                     root.captureRightClick = false
                     mouse.accepted = false
                 }
@@ -552,7 +552,7 @@ Item {
             ToolTip {
                 visible: cursorArea.containsMouse && !cursorArea.drag.active
                 delay: 1000
-                text: cursorArea.leftSide ? i18n("Drag to add only video to timeline") : i18n("Drag to add only audio to timeline")
+                text: cursorArea.leftSide ? KI18n.i18n("Drag to add only video to timeline") : KI18n.i18n("Drag to add only audio to timeline")
             }
         }
     }
@@ -576,7 +576,7 @@ Item {
                     showAnimate.restart()
                 }
             }
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
+            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
         }
         onExited: {
             controller.setWidgetKeyBinding();
@@ -588,13 +588,14 @@ Item {
         y: 10
         width: parent.width - 20
         height: childrenRect.height
-        visible: root.showClipJobs && controller.clipId > 0
+        visible: root.showClipJobs && root.controller.clipId > 0
         ColumnLayout {
             Repeater {
-                model: controller.runningJobs
+                model: root.controller.runningJobs
                 delegate: Rectangle {
                     id: jobContainer
-                    property var uuid: controller.jobsUuids[model.index]
+                    required property int index
+                    property var uuid: root.controller.jobsUuids[index]
                     width: childrenRect.width + 4
                     Layout.fillWidth: true
                     height: jobLabel.height + progressBar.height + 4
@@ -613,8 +614,8 @@ Item {
                             anchors.leftMargin: 4
                             height: jobLabel.height
                             width: height
-                            toolTipText: i18n("Terminate Job")
-                            onClicked: controller.terminateJob(uuid)
+                            toolTipText: KI18n.i18n("Terminate Job")
+                            onClicked: root.controller.terminateJob(jobContainer.uuid)
                         }
                         Text {
                             id: jobLabel
@@ -645,7 +646,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: 1
                             color: 'steelblue'
-                            anchors.rightMargin: (parent.width - 2) * (100 - controller.jobsProgress[model.index]) / 100
+                            anchors.rightMargin: (parent.width - 2) * (100 - root.controller.jobsProgress[index]) / 100
                         }
                     }
                 }
@@ -660,15 +661,16 @@ Item {
             bottom: root.bottom
         }
         visible: root.duration > 0
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
         Repeater {
-            model: controller.clipBounds
+            model: root.controller.clipBounds
             anchors.fill: parent
             // Usage bar
             Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: 1
-                property point bd: controller.clipBoundary(model.index)
+                property point bd: root.controller.clipBoundary(model.index)
                 x: bd.x * root.timeScale - (clipMonitorRuler.width / root.zoomFactor * root.zoomStart)
                 width: bd.y * root.timeScale
                 height: 2

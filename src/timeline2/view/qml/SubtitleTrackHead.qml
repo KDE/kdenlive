@@ -8,6 +8,11 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
+
+
 Rectangle {
     id: trackHeader
     border.color: frameColor
@@ -33,7 +38,7 @@ Rectangle {
         id: expandSubButton
         focusPolicy: Qt.NoFocus
         anchors.left: parent.left
-        anchors.leftMargin: 1.5 * root.baseUnit
+        anchors.leftMargin: 1.5 * K.UiUtils.baseSizeMedium
         width: trackHeader.collapsedHeight
         height: width
         icon.name: trackHeader.collapsed ? "go-next" : "go-down"
@@ -41,7 +46,7 @@ Rectangle {
             if (subtitleTrack.height > trackHeader.collapsedHeight) {
                 subtitleTrack.height = trackHeader.collapsedHeight
             } else {
-                subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
+                subtitleTrack.height = K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
             }
         }
     }
@@ -86,7 +91,7 @@ Rectangle {
                 }
                 contentItem: Label {
                     color: activePalette.text
-                    text: i18n("Click to see details")
+                    text: KI18n.i18n("Click to see details")
                 }
             }
         }
@@ -100,7 +105,7 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: i18n("Speech recognition")
+            ToolTip.text: KI18n.i18n("Speech recognition")
         }
         ToolButton {
             id: muteButton
@@ -112,7 +117,7 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: trackHeader.isDisabled ? i18n("Show") : i18n("Hide")
+            ToolTip.text: trackHeader.isDisabled ? KI18n.i18n("Show") : KI18n.i18n("Hide")
         }
 
         ToolButton {
@@ -125,7 +130,7 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: trackHeader.isLocked ? i18n("Unlock track") : i18n("Lock track")
+            ToolTip.text: trackHeader.isLocked ? KI18n.i18n("Unlock track") : KI18n.i18n("Lock track")
             SequentialAnimation {
                 id: flashLock
                 loops: 3

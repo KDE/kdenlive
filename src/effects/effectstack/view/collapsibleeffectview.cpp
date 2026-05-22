@@ -157,7 +157,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
 
     frame->setMinimumHeight(collapseButton->sizeHint().height());
-    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=](ObjectId id, QPair<int, int> inOut, bool checked) {
+    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [this](ObjectId id, QPair<int, int> inOut, bool checked) {
         m_inOutButton->setChecked(checked);
         zoneFrame->setFixedHeight(checked ? frame->height() : 0);
         slotSwitch(m_collapse->isActive());
@@ -206,7 +206,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     m_outPos = new TimecodeDisplay(this);
     layZone->addWidget(m_outPos);
 
-    connect(setIn, &QToolButton::clicked, this, [=]() {
+    connect(setIn, &QToolButton::clicked, this, [this]() {
         if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
@@ -226,7 +226,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         }
         updateEffectZone();
     });
-    connect(setOut, &QToolButton::clicked, this, [=]() {
+    connect(setOut, &QToolButton::clicked, this, [this]() {
         if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {

@@ -118,7 +118,7 @@ void ProviderModel::initOAuth2()
         }
     });
 
-    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [=](QAbstractOAuth::Status status) {
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [this](QAbstractOAuth::Status status) {
         if (status == QAbstractOAuth::Status::Granted) {
             Q_EMIT authenticated(m_oauth2.token());
         } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
@@ -126,7 +126,7 @@ void ProviderModel::initOAuth2()
         }
     });
     connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::granted, this, [&]() { m_replyHandler->close(); });
-    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [=](const QString &error, const QString &errorDescription) {
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [this](const QString &error, const QString &errorDescription) {
         m_replyHandler->close();
         qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
         Q_EMIT authenticated(QString());
@@ -415,7 +415,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
         }
         QNetworkReply *reply = m_networkManager->get(request);
 
-        connect(reply, &QNetworkReply::finished, this, [=]() {
+        connect(reply, &QNetworkReply::finished, this, [this, reply]() {
             if (reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QList<ResourceItemInfo>, const int> result = parseSearchResponse(response);
@@ -428,7 +428,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
             reply->deleteLater();
         });
 
-        connect(reply, &QNetworkReply::sslErrors, this, [=]() {
+        connect(reply, &QNetworkReply::sslErrors, this, [this, reply]() {
             Q_EMIT searchError(QStringLiteral("HTTP ") + reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
             qCDebug(KDENLIVE_LOG) << reply->errorString();
         });
@@ -563,7 +563,7 @@ void ProviderModel::slotFetchFiles(const QString &id)
         }
         QNetworkReply *reply = m_networkManager->get(request);
 
-        connect(reply, &QNetworkReply::finished, this, [=]() {
+        connect(reply, &QNetworkReply::finished, this, [this, reply, id]() {
             if (reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QStringList, QStringList> result = parseFilesResponse(response, id);
@@ -575,7 +575,7 @@ void ProviderModel::slotFetchFiles(const QString &id)
             }
         });
 
-        connect(reply, &QNetworkReply::sslErrors, this, [=]() {
+        connect(reply, &QNetworkReply::sslErrors, this, [this, reply]() {
             Q_EMIT fetchedFiles(QStringList(), QStringList());
             qCDebug(KDENLIVE_LOG) << reply->errorString();
         });

@@ -163,26 +163,30 @@ QItemSelectionModel *ProjectSortProxyModel::selectionModel()
 
 void ProjectSortProxyModel::slotSetSearchString(const QString &str)
 {
+    beginFilterChange();
     m_searchString = str;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const QList<int> rateFilters, const QList<int> typeFilters, UsageFilter unusedFilter)
 {
+    beginFilterChange();
     m_searchType = typeFilters;
     m_searchRating = rateFilters;
     m_searchTag = tagFilters;
     m_usageFilter = unusedFilter;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 void ProjectSortProxyModel::slotClearSearchFilters()
 {
+    beginFilterChange();
     m_searchTag.clear();
     m_searchRating.clear();
     m_searchType.clear();
     m_usageFilter = UsageFilter::All;
     invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, const QItemSelection &previous)

@@ -15,6 +15,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string comment
     property string framenum
     property rect framesize
@@ -40,7 +41,6 @@ Item {
     onSourcedarChanged: refreshdar()
     property bool cursorOutsideEffect: controller.cursorOutsideEffect
     property int requestedKeyFrame
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -86,14 +86,9 @@ Item {
         canvas.requestPaint()
     }
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
-    }
-
     Canvas {
       id: canvas
-      property double handleSize: root.baseUnit * 0.5
+      property double handleSize: K.UiUtils.baseSizeMedium * 0.5
       property double darOffset : 0
       property color fillColor: Qt.rgba(1, 1, 1, 0.5)
       property color selectedColor: activePalette.highlight
@@ -119,7 +114,7 @@ Item {
             //console.log('paint' + p1);
 
           // Handles
-          if (controller.isKeyframe && !root.cursorOutsideEffect) {
+          if (root.controller.isKeyframe && !root.cursorOutsideEffect) {
             if (root.requestedKeyFrame == 0) {
                 ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
@@ -238,6 +233,7 @@ Item {
             anchors.fill: frame
             color: K.KdenliveSettings.safeColor
             showSafeZone: controller.showSafezone
+            profile: root.controller.profile
         }
     }
     MouseArea {
@@ -255,7 +251,7 @@ Item {
         }
 
         onPositionChanged: {
-            if (controller.isKeyframe == false) return;
+            if (root.controller.isKeyframe == false) return;
             if (pressed && root.requestedKeyFrame >= 0) {
                 var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
                 var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
@@ -297,6 +293,7 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
     MonitorRuler {
         id: clipMonitorRuler
@@ -305,6 +302,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 }

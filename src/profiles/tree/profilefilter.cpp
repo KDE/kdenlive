@@ -18,9 +18,10 @@ ProfileFilter::ProfileFilter(QObject *parent)
 
 void ProfileFilter::setFilterInterlaced(bool enabled, bool interlaced)
 {
+    beginFilterChange();
     m_interlaced_enabled = enabled;
     m_interlaced_value = interlaced;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 bool ProfileFilter::filterInterlaced(std::unique_ptr<ProfileModel> &ptr) const
@@ -30,9 +31,10 @@ bool ProfileFilter::filterInterlaced(std::unique_ptr<ProfileModel> &ptr) const
 
 void ProfileFilter::setFilterFps(bool enabled, double fps)
 {
+    beginFilterChange();
     m_fps_enabled = enabled;
     m_fps_value = fps;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 bool ProfileFilter::filterFps(std::unique_ptr<ProfileModel> &ptr) const
@@ -80,6 +82,7 @@ bool ProfileFilter::isVisible(const QModelIndex &sourceIndex)
 
 void ProfileFilter::slotSetSearchString(const QString &str)
 {
+    beginFilterChange();
     m_searchString = str;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }

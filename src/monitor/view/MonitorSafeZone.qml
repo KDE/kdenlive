@@ -8,9 +8,9 @@ import org.kde.kdenlive as K
 
 Item {
     id: safeFrame
+    required property point profile
     property color color
     property bool showSafeZone: false
-    property point profile: root.profile
     onProfileChanged: {
         if (showSafeZone) {
             // Update safe zone in case the profile changed

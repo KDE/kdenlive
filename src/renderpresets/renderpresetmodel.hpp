@@ -8,6 +8,7 @@
 
 #include <KLocalizedString>
 #include <QDomElement>
+#include <QMap>
 #include <QString>
 #include <memory>
 

@@ -99,9 +99,13 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             QStringList paramOrder;
             if (sortedParams.contains(QStringLiteral("x"))) {
                 paramOrder << QStringLiteral("x");
+            } else if (sortedParams.contains(QStringLiteral("left"))) {
+                paramOrder << QStringLiteral("left");
             }
             if (sortedParams.contains(QStringLiteral("y"))) {
                 paramOrder << QStringLiteral("y");
+            } else if (sortedParams.contains(QStringLiteral("top"))) {
+                paramOrder << QStringLiteral("top");
             }
             for (auto param = sortedParams.cbegin(), end = sortedParams.cend(); param != end; ++param) {
                 if (!paramOrder.contains(param.key())) {
@@ -138,9 +142,9 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
                     for (auto &k : keyframeMap.keys()) {
                         QRectF rect = rectValues.value(k);
                         double value = effect->anim_get_double(paramMltName.toUtf8().constData(), k);
-                        if (pName == QStringLiteral("x")) {
+                        if (pName == QStringLiteral("x") || pName == QStringLiteral("left")) {
                             rect.setX(value);
-                        } else if (pName == QStringLiteral("y")) {
+                        } else if (pName == QStringLiteral("y") || pName == QStringLiteral("top")) {
                             rect.setY(value);
                         } else if (pName == QStringLiteral("width")) {
                             rect.setWidth(value);

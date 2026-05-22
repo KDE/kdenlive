@@ -24,6 +24,8 @@ class MonitorProxy : public QObject
     friend class AutomaskHelper;
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("MonitorProxy is owned by VideoWidget; obtained via setInitialProperties()")
 
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
     Q_PROPERTY(int position MEMBER m_position WRITE setPosition NOTIFY positionChanged)
