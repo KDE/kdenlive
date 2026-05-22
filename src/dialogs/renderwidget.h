@@ -42,6 +42,7 @@ protected:
 private:
     mutable QRect m_logRect;
     mutable QRect m_playlistRect;
+    bool m_adjustSecondaryPath;
 Q_SIGNALS:
     bool hoverLink(bool hover);
 };
