@@ -77,8 +77,9 @@
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
 
-RenderViewDelegate::RenderViewDelegate(QWidget *parent)
+RenderViewDelegate::RenderViewDelegate(QWidget *parent, bool secondaryLineIsPath)
     : QStyledItemDelegate(parent)
+    , m_adjustSecondaryPath(secondaryLineIsPath)
 {
 }
 
@@ -163,11 +164,15 @@ void RenderViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         int mid = int((r1.height() / 2));
         r1.setBottom(r1.y() + mid);
         QRect bounding;
-        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, QDir::toNativeSeparators(index.data(Qt::DisplayRole).toString()), &bounding);
         r1.moveTop(r1.bottom() - textMargin);
         font.setBold(false);
         painter->setFont(font);
-        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
+        if (m_adjustSecondaryPath) {
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, QDir::toNativeSeparators(index.data(Qt::UserRole).toString()));
+        } else {
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
+        }
         int progress = index.data(RenderWidget::ProgressRole).toInt();
         if (progress > 0 && progress < 100) {
             // draw progress bar
@@ -522,7 +527,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     // ===== "Scripts" tab =====
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Stored Playlists"));
-    m_scriptsDelegate = new RenderViewDelegate(this);
+    m_scriptsDelegate = new RenderViewDelegate(this, true);
     m_view.scripts_list->setItemDelegate(m_scriptsDelegate);
     header = m_view.scripts_list->header();
     header->setSectionResizeMode(0, QHeaderView::Fixed);
@@ -1771,8 +1776,9 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString t = i18n("Rendering finished in %1", est);
         item->setData(1, Qt::UserRole, t);
 
-        m_shareMenu->model()->setInputData(QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(item->text(1)).name()},
-                                                       {QStringLiteral("urls"), QJsonArray({item->text(1)})}});
+        m_shareMenu->model()->setInputData(
+            QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(item->data(1, Qt::DisplayRole).toString()).name()},
+                        {QStringLiteral("urls"), QJsonArray({item->data(1, Qt::DisplayRole).toString()})}});
         m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
         m_shareMenu->reload();
 
@@ -1786,7 +1792,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         }
         notify->setText(notif);
         notify->sendEvent();
-        const QUrl url = QUrl::fromLocalFile(item->text(1));
+        const QUrl url = QUrl::fromLocalFile(item->data(1, Qt::DisplayRole).toString());
         bool exists = QFile(url.toLocalFile()).exists();
         if (exists && !firstPassRendering) {
             if (item->data(1, OpenBrowserRole).toBool()) {
@@ -1850,7 +1856,7 @@ void RenderWidget::slotAbortCurrentJob()
     auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if (current) {
         if (current->status() == RUNNINGJOB) {
-            Q_EMIT abortProcess(current->text(1));
+            Q_EMIT abortProcess(current->data(1, Qt::DisplayRole).toString());
         } else {
             delete current;
             slotCheckJob();
@@ -1882,8 +1888,9 @@ void RenderWidget::slotCheckJob()
         }
         activate = true;
         if (current->status() == FINISHEDJOB) {
-            m_shareMenu->model()->setInputData(QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->text(1)).name()},
-                                                           {QStringLiteral("urls"), QJsonArray({current->text(1)})}});
+            m_shareMenu->model()->setInputData(
+                QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->data(1, Qt::DisplayRole).toString()).name()},
+                            {QStringLiteral("urls"), QJsonArray({current->data(1, Qt::DisplayRole).toString()})}});
             m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
             m_shareMenu->reload();
             m_view.shareButton->setEnabled(true);
@@ -2238,7 +2245,7 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     if (renderItem->status() != FINISHEDJOB) {
         return;
     }
-    QString fileName = item->text(1);
+    QString fileName = item->data(1, Qt::DisplayRole).toString();
     if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
         fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
     }
@@ -2522,7 +2529,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     QMenu menu(this);
     QAction *newAct = new QAction(i18n("Add to Current Project"), this);
     connect(newAct, &QAction::triggered, [&, renderItem]() {
-        QString fileName = renderItem->text(1);
+        QString fileName = renderItem->data(1, Qt::DisplayRole).toString();
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
             fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
         }
@@ -2531,7 +2538,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     menu.addAction(newAct);
     QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
     connect(openContainingFolder, &QAction::triggered, [&, renderItem]() {
-        QString fileName = renderItem->text(1);
+        QString fileName = renderItem->data(1, Qt::DisplayRole).toString();
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
             fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
         }

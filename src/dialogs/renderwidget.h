@@ -32,7 +32,7 @@ class RenderViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit RenderViewDelegate(QWidget *parent);
+    explicit RenderViewDelegate(QWidget *parent, bool secondaryLineIspath = false);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
