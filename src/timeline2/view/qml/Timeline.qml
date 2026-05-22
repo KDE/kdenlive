@@ -1820,6 +1820,7 @@ function getTrackColor(audio, header) {
                         width: rulercontainer.contentWidth
                         height: parent.height
                         timeline: root.timeline
+                        activeTool: root.activeTool
                         K.TimelinePlayhead {
                             id: playhead
                             height: Math.round(K.UiUtils.baseSizeMedium * .8)
