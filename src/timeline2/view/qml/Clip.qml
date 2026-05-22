@@ -19,66 +19,67 @@ import 'TimelineLogic.js' as Logic
 
 Rectangle {
     id: clipRoot
-    property real timeScale: 1
     SystemPalette { id: activePalette }
 
     required property K.TimelineController timeline
     required property K.TimelineItemModel controller
-    property string clipName: ''
-    property string tagColor: ''
-    property string clipResource: ''
-    property string mltService: ''
-    property string effectNames
-    property bool isStackEnabled
-    property int modelStart
-    property int mixDuration: 0
-    property int mixCut: 0
-    property int mixEndDuration: 0
-    property int inPoint: 0
-    property int outPoint: 0
-    property int clipDuration: 0
-    property int maxDuration: 0
-    property bool isAudio: false
-    property bool timeremap: false
-    property int audioChannels
-    property int audioStream: -1
-    property bool multiStream: false
-    property int aStreamIndex: 0
-    property bool showKeyframes: false
-    property bool isGrabbed: false
-    property bool grouped: false
-    property var markers
-    property var keyframeModel
-    property int clipState: 0
-    property int clipStatus: 0
-    property int itemType: 0
-    property int fadeIn: 0
-    property int fadeInMethod: 0
-    property int fadeOut: 0
-    property int fadeOutMethod: 0
-    property int binId: 0
-    property int positionOffset: 0
-    property var parentTrack
-    property int trackIndex //Index in track repeater
-    property int clipId: -1     //Id of the clip in the model
-    property int trackId: -1 // Id of the parent track in the model
-    property int fakeTid: -1
-    property int fakePosition: 0
+
+    required property real timeScale
+    required property string clipName
+    required property string tagColor
+    required property string clipResource
+    required property string mltService
+    required property string effectNames
+    required property bool isStackEnabled
+    required property int modelStart
+    required property int mixDuration
+    required property int mixCut
+    required property int mixEndDuration
+    required property int inPoint
+    required property int outPoint
+    required property int clipDuration
+    required property int maxDuration
+    required property bool isAudio
+    required property bool timeremap
+    required property int audioChannels
+    required property int audioStream
+    required property bool multiStream
+    required property int aStreamIndex
+    required property bool showKeyframes
+    required property bool isGrabbed
+    required property bool grouped
+    required property var markers
+    required property var keyframeModel
+    required property int clipState
+    required property int clipStatus
+    required property int itemType
+    required property int fadeIn
+    required property int fadeInMethod
+    required property int fadeOut
+    required property int fadeOutMethod
+    required property int binId
+    required property int positionOffset
+    required property var parentTrack
+    required property int clipId // Id of the clip in the model
+    required property int trackId // Id of the parent track in the model
+    required property int fakeTid
+    required property int fakePosition
+    required property bool selected
+    required property bool hasAudio
+    required property bool canBeAudio
+    required property bool canBeVideo
+    required property double speed
+    required property string clipThumbId
+    required property bool forceReloadAudioThumb
+
     property int originalTrackId: -1
     property int originalX: x
     property int originalDuration: clipDuration
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property double xIntegerOffset: 0
-    property bool selected: false
     property bool isLocked: parentTrack && parentTrack.isLocked === true
-    property bool hasAudio
-    property bool canBeAudio
-    property bool canBeVideo
-    property double speed: 1.0
     property color borderColor: "#000000"
-    property string clipThumbId
-    property bool forceReloadAudioThumb
     property bool isComposition: false
     property int slipOffset: boundValue(outPoint - maxDuration + 1, root.trimmingOffset, inPoint)
     visible: fakeTid > -1 || (scrollView.lastVisibleFrame > clipRoot.modelStart && scrollView.firstVisibleFrame <= (clipRoot.modelStart + clipRoot.clipDuration))

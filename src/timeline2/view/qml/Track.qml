@@ -4,6 +4,7 @@
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
+pragma ComponentBehavior: Bound
 
 import QtQuick 2.15
 import QtQml.Models 2.15
@@ -141,9 +142,8 @@ Item {
     DelegateModel {
         id: trackModel
         delegate: Item {
+            id: itemOnTrack
             required property var model
-            property var itemModel : model
-            property bool clipItem: trackRoot.isClip(model.clipType)
             function calculateZIndex() {
                 // Z order indicates the items that will be drawn on top.
                 if (model.clipType == K.ClipType.Composition) {
@@ -167,284 +167,144 @@ Item {
             }
             z: calculateZIndex()
             Loader {
-                id: loader
-                Binding {
-                    target: loader.item
-                    property: "speed"
-                    value: model.speed
-                    when: loader.status == Loader.Ready && loader.item && clipItem
+                id: clipLoader
+                active: trackRoot.isClip(itemOnTrack.model.clipType)
+                sourceComponent: Clip {
+                    height: trackRoot.height
+
+                    parentTrack: trackRoot
+                    timeline: trackRoot.timeline
+                    controller: trackRoot.controller
+
+                    clipId: itemOnTrack.model.item
+                    speed: itemOnTrack.model.speed
+                    timeScale: trackRoot.timeline.scaleFactor
+                    fakeTid: itemOnTrack.model.fakeTrackId
+                    tagColor: itemOnTrack.model.tag
+                    fakePosition: itemOnTrack.model.fakePosition
+                    mixDuration: itemOnTrack.model.mixDuration
+                    mixCut: itemOnTrack.model.mixCut
+                    mixEndDuration: itemOnTrack.model.mixEndDuration
+                    selected: itemOnTrack.model.selected
+                    mltService: itemOnTrack.model.mlt_service
+                    modelStart: itemOnTrack.model.start
+                    fadeIn: itemOnTrack.model.fadeIn
+                    fadeInMethod: itemOnTrack.model.fadeInMethod
+                    positionOffset: itemOnTrack.model.positionOffset
+                    effectNames: itemOnTrack.model.effectNames
+                    isStackEnabled: itemOnTrack.model.isStackEnabled
+                    clipStatus: itemOnTrack.model.clipStatus
+                    fadeOut: itemOnTrack.model.fadeOut
+                    fadeOutMethod: itemOnTrack.model.fadeOutMethod
+                    showKeyframes: itemOnTrack.model.showKeyframes
+                    isGrabbed: itemOnTrack.model.isGrabbed
+                    keyframeModel: itemOnTrack.model.keyframeModel
+                    clipDuration: itemOnTrack.model.duration
+                    inPoint: itemOnTrack.model.in
+                    outPoint: itemOnTrack.model.out
+                    grouped: itemOnTrack.model.grouped
+                    clipName: itemOnTrack.model.name
+                    clipResource: itemOnTrack.model.resource
+                    clipState: itemOnTrack.model.clipState
+                    maxDuration: itemOnTrack.model.maxDuration
+                    clipThumbId: itemOnTrack.model.clipThumbId
+                    forceReloadAudioThumb: itemOnTrack.model.reloadAudioThumb
+                    binId: itemOnTrack.model.binId
+                    timeremap: itemOnTrack.model.timeremap
+                    audioChannels: itemOnTrack.model.audioChannels
+                    audioStream: itemOnTrack.model.audioStream
+                    multiStream: itemOnTrack.model.multiStream
+                    aStreamIndex: itemOnTrack.model.audioStreamIndex
+                    isAudio: itemOnTrack.model.audio
+                    markers: itemOnTrack.model.markers
+                    hasAudio: itemOnTrack.model.hasAudio
+                    canBeAudio: itemOnTrack.model.canBeAudio
+                    canBeVideo: itemOnTrack.model.canBeVideo
+                    itemType: itemOnTrack.model.clipType
+                    trackId: itemOnTrack.model.trackId
+
+                    onInitGroupTrim: clipId => {
+                        // We are resizing a group, remember coordinates of all elements
+                        root.groupTrimData = trackRoot.controller.getGroupData(clipId)
+                    }
+                    onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => { trackRoot.clipTrimming(clip, newDuration, shiftTrim, controlTrim, false) }
+                    onTrimmedIn: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, false) }
+                    onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => { trackRoot.clipTrimming(clip, newDuration, shiftTrim, controlTrim, true) }
+                    onTrimmedOut: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, true) }
                 }
-                Binding {
-                    target: loader.item
-                    property: "timeScale"
-                    value: trackRoot.timeline.scaleFactor
-                    when: loader.status == Loader.Ready && loader.item
+                onLoaded: {
+                    console.log('loaded clip: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', itemOnTrack.model.clipType)
+                    console.log('loaded clip with Astream: ', itemOnTrack.model.audioStream)
                 }
-                Binding {
-                    target: loader.item
-                    property: "fakeTid"
-                    value: model.fakeTrackId
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "tagColor"
-                    value: model.tag
-                    when: loader.status == Loader.Ready && loader.item && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "fakePosition"
-                    value: model.fakePosition
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "mixDuration"
-                    value: model.mixDuration
-                    when: loader.status == Loader.Ready && loader.item && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "mixCut"
-                    value: model.mixCut
-                    when: loader.status == Loader.Ready && loader.item && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "mixEndDuration"
-                    value: model.mixEndDuration
-                    when: loader.status == Loader.Ready && loader.item && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "selected"
-                    value: model.selected
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "mltService"
-                    value: model.mlt_service
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "modelStart"
-                    value: model.start
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "fadeIn"
-                    value: model.fadeIn
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "fadeInMethod"
-                    value: model.fadeInMethod
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "positionOffset"
-                    value: model.positionOffset
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "effectNames"
-                    value: model.effectNames
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "isStackEnabled"
-                    value: model.isStackEnabled
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "clipStatus"
-                    value: model.clipStatus
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "fadeOut"
-                    value: model.fadeOut
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "fadeOutMethod"
-                    value: model.fadeOutMethod
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "showKeyframes"
-                    value: model.showKeyframes
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "isGrabbed"
-                    value: model.isGrabbed
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "keyframeModel"
-                    value: model.keyframeModel
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "aTrack"
-                    value: model.a_track
-                    when: loader.status == Loader.Ready && model.clipType === K.ClipType.Composition
-                }
-                Binding {
-                    target: loader.item
-                    property: "visible"
-                    value: !model.hideItem
-                    when: loader.status == Loader.Ready && model.clipType === K.ClipType.Composition
-                }
-                Binding {
-                    target: loader.item
-                    property: "trackHeight"
-                    value: root.trackHeight
-                    when: loader.status == Loader.Ready && model.clipType == K.ClipType.Composition
-                }
-                Binding {
-                    target: loader.item
-                    property: "clipDuration"
-                    value: model.duration
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "inPoint"
-                    value: model.in
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "outPoint"
-                    value: model.out
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "grouped"
-                    value: model.grouped
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "clipName"
-                    value: model.name
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "clipResource"
-                    value: model.resource
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "clipState"
-                    value: model.clipState
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "maxDuration"
-                    value: model.maxDuration
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "clipThumbId"
-                    value: model.clipThumbId
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "forceReloadAudioThumb"
-                    value: model.reloadAudioThumb
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "binId"
-                    value: model.binId
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "timeremap"
-                    value: model.timeremap
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "audioChannels"
-                    value: model.audioChannels
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "audioStream"
-                    value: model.audioStream
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "multiStream"
-                    value: model.multiStream
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                Binding {
-                    target: loader.item
-                    property: "aStreamIndex"
-                    value: model.audioStreamIndex
-                    when: loader.status == Loader.Ready && clipItem
-                }
-                sourceComponent: {
-                    if (clipItem) {
-                        return clipDelegate
-                    } else if (model.clipType == K.ClipType.Composition) {
-                        return compositionDelegate
-                    } else {
-                        // Track
-                        return undefined
+            }
+            Loader {
+                id: compositionLoader
+                active: itemOnTrack.model.clipType == K.ClipType.Composition
+                sourceComponent: Composition {
+                    opacity: 0.8
+
+                    parentTrack: trackRoot
+                    timeScale: trackRoot.timeline.scaleFactor
+                    displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (K.UiUtils.baseSizeMedium * 2))
+
+                    clipId: itemOnTrack.model.item
+                    trackId: itemOnTrack.model.trackId
+                    fakeTid: itemOnTrack.model.fakeTrackId
+                    fakePosition: itemOnTrack.model.fakePosition
+                    mltService: itemOnTrack.model.mlt_service
+                    modelStart: itemOnTrack.model.start
+                    showKeyframes: itemOnTrack.model.showKeyframes
+                    isGrabbed: itemOnTrack.model.isGrabbed
+                    keyframeModel: itemOnTrack.model.keyframeModel
+                    aTrack: itemOnTrack.model.a_track
+                    visible: !itemOnTrack.model.hideItem
+                    clipDuration: itemOnTrack.model.duration
+                    inPoint: itemOnTrack.model.in
+                    outPoint: itemOnTrack.model.out
+                    grouped: itemOnTrack.model.grouped
+                    clipName: itemOnTrack.model.name
+                    selected: itemOnTrack.model.selected
+
+                    onTrimmingIn: (clip, newDuration) => {
+                        var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)
+                        if (new_duration > 0) {
+                            clip.lastValidDuration = newDuration
+                            clip.originalX = clip.draggedX
+                            // Show amount trimmed as a time in a "bubble" help.
+                            var delta = clip.originalDuration - new_duration
+                            var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
+                            s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
+                                , s, trackRoot.timeline.simplifiedTC(new_duration))
+                            trackRoot.timeline.showToolTip(s)
+                        }
+                    }
+                    onTrimmedIn: clip => {
+                        trackRoot.timeline.showToolTip()
+                        //bubbleHelp.hide()
+                        trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, trackRoot.snapping)
+                        trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, trackRoot.snapping)
+                    }
+                    onTrimmingOut: (clip, newDuration) => {
+                        var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, true, false, trackRoot.snapping)
+                        if (new_duration > 0) {
+                            clip.lastValidDuration = newDuration
+                            // Show amount trimmed as a time in a "bubble" help.
+                            var delta = clip.originalDuration - new_duration
+                            var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
+                            s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
+                                , s, trackRoot.timeline.simplifiedTC(new_duration))
+                            trackRoot.timeline.showToolTip(s)
+                        }
+                    }
+                    onTrimmedOut: clip => {
+                        trackRoot.timeline.showToolTip()
+                        //bubbleHelp.hide()
+                        trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, trackRoot.snapping)
+                        trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, trackRoot.snapping)
                     }
                 }
                 onLoaded: {
-                    item.clipId = model.item
-                    item.parentTrack = trackRoot
-                    if (clipItem) {
-                        console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', model.clipType)
-                        item.isAudio= model.audio
-                        item.markers= model.markers
-                        item.hasAudio = model.hasAudio
-                        item.canBeAudio = model.canBeAudio
-                        item.canBeVideo = model.canBeVideo
-                        item.itemType = model.clipType
-                        console.log('loaded clip with Astream: ', model.audioStream)                       
-                    } else if (model.clipType == K.ClipType.Composition) {
-                        console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
-                        //item.aTrack = model.a_track
-                    } else {
-                        console.log('loaded unwanted element: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
-                    }
-                    item.trackId = model.trackId
-                    //item.selected= trackRoot.selection.indexOf(item.clipId) != -1
-                    //console.log(width, height);
+                    console.log('loaded composition: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                 }
             }
         }
@@ -456,67 +316,6 @@ Item {
         Repeater { id: repeater; model: trackModel }
     }
 
-    Component {
-        id: clipDelegate
-        Clip {
-            height: trackRoot.height
-            timeline: trackRoot.timeline
-            controller: trackRoot.controller
-            onInitGroupTrim: clipId => {
-                // We are resizing a group, remember coordinates of all elements
-                root.groupTrimData = trackRoot.controller.getGroupData(clipId)
-            }
-            onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => { trackRoot.clipTrimming(clip, newDuration, shiftTrim, controlTrim, false) }
-            onTrimmedIn: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, false) }
-            onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => { trackRoot.clipTrimming(clip, newDuration, shiftTrim, controlTrim, true) }
-            onTrimmedOut: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, true) }
-        }
-    }
-    Component {
-        id: compositionDelegate
-        Composition {
-            displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (K.UiUtils.baseSizeMedium * 2))
-            opacity: 0.8
-            selected: root.timelineSelection.indexOf(clipId) != -1
-            onTrimmingIn: (clip, newDuration) => {
-                var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)
-                if (new_duration > 0) {
-                    clip.lastValidDuration = newDuration
-                    clip.originalX = clip.draggedX
-                    // Show amount trimmed as a time in a "bubble" help.
-                    var delta = clip.originalDuration - new_duration
-                    var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
-                    s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
-                        , s, trackRoot.timeline.simplifiedTC(new_duration))
-                    trackRoot.timeline.showToolTip(s)
-                }
-            }
-            onTrimmedIn: clip => {
-                trackRoot.timeline.showToolTip()
-                //bubbleHelp.hide()
-                trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, trackRoot.snapping)
-                trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, trackRoot.snapping)
-            }
-            onTrimmingOut: (clip, newDuration) => {
-                var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, true, false, trackRoot.snapping)
-                if (new_duration > 0) {
-                    clip.lastValidDuration = newDuration
-                    // Show amount trimmed as a time in a "bubble" help.
-                    var delta = clip.originalDuration - new_duration
-                    var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
-                    s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
-                        , s, trackRoot.timeline.simplifiedTC(new_duration))
-                    trackRoot.timeline.showToolTip(s)
-                }
-            }
-            onTrimmedOut: clip => {
-                trackRoot.timeline.showToolTip()
-                //bubbleHelp.hide()
-                trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, trackRoot.snapping)
-                trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, trackRoot.snapping)
-            }
-        }
-    }
     Rectangle {
         id: speedController
         anchors.bottom: parent.bottom
