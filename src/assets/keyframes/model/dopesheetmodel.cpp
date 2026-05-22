@@ -39,10 +39,10 @@ std::shared_ptr<DopeSheetModel> DopeSheetModel::construct(QObject *parent)
 
 DopeSheetModel::~DopeSheetModel()
 {
-    clear();
+    clearModel();
 }
 
-void DopeSheetModel::clear()
+void DopeSheetModel::clearModel()
 {
     m_paramsList.clear();
     for (auto &c : m_connectionList) {
@@ -50,6 +50,7 @@ void DopeSheetModel::clear()
     }
     m_connectionList.clear();
     m_model.reset();
+    clear();
 }
 
 QHash<int, QByteArray> DopeSheetModel::roleNames() const

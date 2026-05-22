@@ -57,7 +57,7 @@ void KeyframeCurveEditor::slotModelChanged()
 {
     if (m_state != State_t::DRAG) {
         int offset = pCore->getItemIn(m_model->getOwnerId());
-        Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+        Q_EMIT atKeyframe(m_position + offset, m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     }
     loadSplineFromModel();
     update();
@@ -65,7 +65,7 @@ void KeyframeCurveEditor::slotModelChanged()
 void KeyframeCurveEditor::slotModelDisplayChanged()
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    Q_EMIT atKeyframe(m_position + offset, m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     update();
 }
 void KeyframeCurveEditor::slotSetPosition(int pos, bool isInRange)
@@ -407,7 +407,7 @@ void KeyframeCurveEditor::mouseDoubleClickEvent(QMouseEvent *event)
                     m_currentPointIndex--;
                 }
                 if (keyframe.first.frames(pCore->getCurrentFps()) == m_position + offset) {
-                    Q_EMIT atKeyframe(false, m_model->singleKeyframe());
+                    Q_EMIT atKeyframe(-1, false, m_model->singleKeyframe());
                 }
             }
         } else {

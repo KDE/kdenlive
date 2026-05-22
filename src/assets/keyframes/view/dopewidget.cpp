@@ -62,5 +62,5 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
 
 void DopeWidget::clear()
 {
-    pCore->dopeSheetModel()->clear();
+    pCore->dopeSheetModel()->clearModel();
 }

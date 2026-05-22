@@ -79,7 +79,7 @@ void KeyframeView::slotLoseFocus()
 void KeyframeView::slotModelChanged()
 {
     int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
-    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    Q_EMIT atKeyframe(m_position + offset, m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     Q_EMIT modified();
     update();
 }
@@ -87,7 +87,7 @@ void KeyframeView::slotModelChanged()
 void KeyframeView::slotModelDisplayChanged()
 {
     int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
-    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    Q_EMIT atKeyframe(m_position + offset, m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     update();
 }
 
@@ -119,7 +119,7 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
 void KeyframeView::initKeyframePos()
 {
     int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
-    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    Q_EMIT atKeyframe(m_position + offset, m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
 }
 
 const QVector<int> KeyframeView::selectedKeyframesIndexes()
@@ -529,7 +529,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
                 m_model->removeKeyframe(keyframe.first);
                 m_currentKeyframeOriginal = -1;
                 if (keyframe.first.frames(pCore->getCurrentFps()) == m_position + offset) {
-                    Q_EMIT atKeyframe(false, m_model->singleKeyframe());
+                    Q_EMIT atKeyframe(-1, false, m_model->singleKeyframe());
                 }
             }
             return;

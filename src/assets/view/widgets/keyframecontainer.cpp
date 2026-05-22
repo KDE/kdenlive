@@ -580,24 +580,23 @@ int KeyframeContainer::getPosition() const
     return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
 }
 
-void KeyframeContainer::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
+void KeyframeContainer::slotAtKeyframe(int frame, bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe && getCurrentView() == 0);
 
-    int pos = pCore->getMonitorPosition(m_model->monitorId);
-    bool outside = !pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
+    bool outside = !pCore->itemContainsPos(m_keyframes->getOwnerId(), frame);
     Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, outside);
     bool enableWidgets = (m_monitorActive && atKeyframe) || singleKeyframe;
     m_selectType->setEnabled(enableWidgets);
     bool enableParameter;
     if (m_geom) {
-        enableParameter = outside ? false : m_keyframes->enableParameter(m_geometryIndex, pos);
+        enableParameter = outside ? false : m_keyframes->enableParameter(m_geometryIndex, frame);
         m_geom->setEnabled(enableParameter);
     }
     for (const auto &w : m_parameters) {
         if (w.second) {
-            enableParameter = outside ? false : m_keyframes->enableParameter(w.first, pos);
+            enableParameter = outside ? false : m_keyframes->enableParameter(w.first, frame);
             w.second->setEnabled(enableParameter);
         }
     }

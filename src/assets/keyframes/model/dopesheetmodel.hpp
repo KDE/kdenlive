@@ -59,7 +59,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     void registerItem(QPersistentModelIndex ix, const QString &name, ParamType type, std::shared_ptr<KeyframeModel> model);
     void deregisterItem(QPersistentModelIndex ix);
-    void clear();
+    void clearModel();
     /** @brief Register all keyframable params for an effect */
     void registerAsset(int i, std::shared_ptr<EffectItemModel> effectModel);
     void registerStack(std::shared_ptr<EffectStackModel> model);
