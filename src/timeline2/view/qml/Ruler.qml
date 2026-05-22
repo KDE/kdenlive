@@ -13,6 +13,9 @@ import org.kde.kdenlive as K
 
 Item {
     id: rulerRoot
+    SystemPalette { id: activePalette }
+    required property K.TimelineController timeline
+
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(timeline.timecode(36000)).width
     // The spacing between labels. Depends on labelSize
@@ -65,7 +68,7 @@ Item {
 
     // Timeline preview stuff
     Repeater {
-        model: timeline.dirtyChunks
+        model: rulerRoot.timeline.dirtyChunks
         anchors.fill: parent
         delegate: Rectangle {
             x: modelData * timeline.scaleFactor
@@ -169,7 +172,7 @@ Item {
                         topPadding: -1
                         leftPadding: 2
                         rightPadding: 2
-                        font: miniFont
+                        font: K.UiUtils.smallestReadableFont
                         color: '#000'
                     }
                 }
@@ -204,7 +207,7 @@ Item {
                         }
                         movingMarkerId = -1
                         anchors.left = parent.left
-                        timeline.pauseGuideSorting(false)
+                        rulerRoot.timeline.pauseGuideSorting(false)
                     }
                     onPositionChanged: mouse => {
                         if (pressed) {
@@ -456,7 +459,7 @@ Item {
                         topPadding: -1
                         leftPadding: 2
                         rightPadding: 2
-                        font: miniFont
+                        font: K.UiUtils.smallestReadableFont
                         color: '#000'
                     }
                     MouseArea {
@@ -556,7 +559,7 @@ Item {
                 visible: parent.showText
                 anchors.top: parent.top
                 text: timeline.timecode(parent.realPos + rulerRoot.timecodeOffset)
-                font: miniFont
+                font: K.UiUtils.smallestReadableFont
                 color: rulerRoot.dimmedColor
             }
         }
@@ -610,30 +613,31 @@ Item {
         Binding {
             target: zone
             property: "frameIn"
-            value: timeline.zoneIn
+            value: rulerRoot.timeline.zoneIn
         }
         Binding {
             target: zone
             property: "frameOut"
-            value: timeline.zoneOut
+            value: rulerRoot.timeline.zoneOut
         }
-        color: useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
+        color: rulerRoot.useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
         Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
         anchors.bottom: parent.bottom
-        height: zoneHeight
+        height: rulerRoot.zoneHeight
         function updateZone(start, end, update)
         {
-            timeline.updateZone(start, end, update)
+            rulerRoot.timeline.updateZone(start, end, update)
         }
     }
 
     // Master effect zones
     Repeater {
-        model: effectZones
+        model: rulerRoot.effectZones
         Rectangle {
-            x: effectZones[index].x * timeline.scaleFactor
-            height: zoneHeight - 1
-            width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
+            required property int index
+            x: rulerRoot.effectZones[index].x * rulerRoot.timeline.scaleFactor
+            height: rulerRoot.zoneHeight - 1
+            width: (rulerRoot.effectZones[index].y - rulerRoot.effectZones[index].x) * rulerRoot.timeline.scaleFactor
             color: "blueviolet"
             anchors.bottom: parent.bottom
             opacity: 0.4
@@ -647,20 +651,20 @@ Item {
         Binding {
             target: effectZone
             property: "frameIn"
-            value: timeline.effectZone.x
+            value: rulerRoot.timeline.effectZone.x
         }
         Binding {
             target: effectZone
             property: "frameOut"
-            value: timeline.effectZone.y
+            value: rulerRoot.timeline.effectZone.y
         }
         color: "orchid"
         anchors.bottom: parent.bottom
-        height: zoneHeight - 1
+        height: rulerRoot.zoneHeight - 1
         opacity: 0.7
         function updateZone(start, end, update)
         {
-            timeline.updateEffectZone(start, end, update)
+            rulerRoot.timeline.updateEffectZone(start, end, update)
         }
     }
 }

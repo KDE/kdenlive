@@ -179,6 +179,8 @@ public:
     int binCount() const;
     void loadBins(QStringList binInfo);
 
+    ToolType::ProjectTool activeTool();
+
     /** @brief Hide subtitle track and delete its temporary file*/
     void resetSubtitles(const QUuid &uuid);
 

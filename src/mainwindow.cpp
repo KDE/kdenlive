@@ -3798,6 +3798,11 @@ void MainWindow::disableMulticam()
     }
 }
 
+ToolType::ProjectTool MainWindow::activeTool()
+{
+    return m_activeTool;
+}
+
 void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
     if (m_activeTool == ToolType::MulticamTool) {
@@ -3806,6 +3811,7 @@ void MainWindow::slotSetTool(ToolType::ProjectTool tool)
         pCore->monitorManager()->slotStopMultiTrackMode();
     }
     m_activeTool = tool;
+    Q_EMIT pCore->activeToolChanged();
     if (pCore->currentDoc()) {
         showToolMessage();
         getCurrentTimeline()->setTool(tool);

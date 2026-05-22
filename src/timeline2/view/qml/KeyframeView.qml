@@ -44,7 +44,7 @@ Rectangle
         kfrModel.setSelectedKeyframe(-1, false)
     }
 
-    Keys.onShortcutOverride: {
+    Keys.onShortcutOverride: (event) => {
         if (event.key === Qt.Key_Left) {
             let kfr = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
             if (event.modifiers & Qt.AltModifier) {
@@ -100,10 +100,11 @@ Rectangle
         // Keyframes container
         anchors.fill: parent
         z: 5
-        visible: keyframeContainer.selected && keyframeContainer.width > K.UiUtils.baseSizeMedium * 3 && (kfrCount < (keyframeContainer.width / K.UiUtils.baseSizeMedium)) && kfrCount > 1
+        visible: keyframeContainer.selected && keyframeContainer.width > K.UiUtils.baseSizeMedium * 3
+                 && (keyframeContainer.kfrCount < (keyframeContainer.width / K.UiUtils.baseSizeMedium)) && keyframeContainer.kfrCount > 1
         Repeater {
             id: keyframes
-            model: kfrModel
+            model: keyframeContainer.kfrModel
             KeyframeDelegate { }
         }
     }
@@ -111,11 +112,11 @@ Rectangle
         id: keyframecanvas
         contextType: "2d"
         renderStrategy: Canvas.Threaded
-        property int offset: scrollStart < 0 || parent.width <= scrollView.width ? 0 : scrollStart
+        property int offset: keyframeContainer.scrollStart < 0 || parent.width <= scrollView.width ? 0 : keyframeContainer.scrollStart
         anchors.left: parent.left
         anchors.leftMargin: offset
-        width: kfrCount > 0 ? Math.min(parent.width, scrollView.width) : 0
-        height: kfrCount > 0 ? parent.height : 0
+        width: keyframeContainer.kfrCount > 0 ? Math.min(parent.width, scrollView.width) : 0
+        height: keyframeContainer.kfrCount > 0 ? parent.height : 0
         opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
             id: comp
@@ -141,7 +142,7 @@ Rectangle
         }
 
         onPaint: {
-            if (kfrCount < 1) {
+            if (keyframeContainer.kfrCount < 1) {
                 return
             }
             var ctx = getContext("2d");

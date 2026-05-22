@@ -11,7 +11,9 @@ import org.kde.kdenlive as K
 
 Item {
     id: recContainer
-    property int trackId: -1
+    required property K.TimelineController timeline
+    required property int trackId
+    required property K.MediaCapture audiorec
     property int recState: audiorec.recordState
     width: parent.width
     implicitHeight: K.UiUtils.baseSizeMedium * 1.5 + 4  // +4 for tick marks below levels
@@ -21,6 +23,7 @@ Item {
         anchors.fill: parent
         
         AudioRecordButton {
+            timeline: recContainer.timeline
             recState: recContainer.recState
             trackId: recContainer.trackId
             isLocked: trackHeadRoot.isLocked

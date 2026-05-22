@@ -22,7 +22,7 @@ Row {
     Timer {
         id: waveTimer
         interval: 50; running: false; repeat: false
-        onTriggered: processReload()
+        onTriggered: waveform.processReload()
     }
 
     onHeightChanged: {

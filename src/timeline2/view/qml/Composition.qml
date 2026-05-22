@@ -444,7 +444,7 @@ Item {
                     // Composition ID text
                     id: debugCid
                     text: compositionRoot.clipId
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     anchors {
                         top: debugCidRect.top
                         left: debugCidRect.left
@@ -467,7 +467,7 @@ Item {
                 Text {
                     id: label
                     text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     anchors {
                         top: labelRect.top
                         left: labelRect.left

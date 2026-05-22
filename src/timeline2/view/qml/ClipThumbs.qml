@@ -50,11 +50,11 @@ Row {
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, parent.width / thumbRepeater.count)
-        property int thumbStartFrame: fixedThumbs ? 0 :
+        property int thumbStartFrame: thumbRow.fixedThumbs ? 0 :
                                                     (clipRoot.speed >= 0)
                                                     ? Math.round(clipRoot.inPoint * thumbRow.initialSpeed)
                                                     : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -thumbRow.initialSpeed - 1)
-        property int thumbEndFrame: fixedThumbs ? 0 :
+        property int thumbEndFrame: thumbRow.fixedThumbs ? 0 :
                                                   (clipRoot.speed >= 0)
                                                   ? Math.round(clipRoot.outPoint * thumbRow.initialSpeed)
                                                   : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -thumbRow.initialSpeed - 1)

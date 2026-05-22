@@ -44,6 +44,7 @@ Rectangle {
         anchors.fill: parent
         delegate: Label {
             required property int index
+            required property int modelData
             anchors.centerIn: parent
             visible: counter.countdown <= index
             opacity: counter.countdown == index ? 1 : 0.4

@@ -7,6 +7,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.kdenlive as K
 
 // monitor zone
 Rectangle {
@@ -107,7 +108,7 @@ Rectangle {
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
             text: timeline.timecode(frameIn)
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             color: activePalette.highlightedText
         }
     }
@@ -123,7 +124,7 @@ Rectangle {
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
             text: timeline.timecode(frameOut)
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             color: activePalette.highlightedText
         }
     }
@@ -140,7 +141,7 @@ Rectangle {
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
             text: timeline.timecode(frameOut - frameIn)
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             color: activePalette.highlightedText
         }
     }

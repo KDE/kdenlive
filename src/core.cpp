@@ -935,7 +935,7 @@ void Core::initLocale()
 
 ToolType::ProjectTool Core::activeTool()
 {
-    return m_mainWindow->getCurrentTimeline()->activeTool();
+    return m_mainWindow->activeTool();
 }
 
 const QUuid Core::currentTimelineId() const

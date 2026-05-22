@@ -20,6 +20,10 @@ import 'TimelineLogic.js' as Logic
 Rectangle {
     id: clipRoot
     property real timeScale: 1
+    SystemPalette { id: activePalette }
+
+    required property K.TimelineController timeline
+    required property K.TimelineItemModel controller
     property string clipName: ''
     property string tagColor: ''
     property string clipResource: ''
@@ -119,7 +123,7 @@ Rectangle {
         if (clipRoot.isGrabbed) {
             grabItem()
         } else {
-            timeline.showToolTip()
+            clipRoot.timeline.showToolTip()
             mouseArea.focus = false
         }
     }
@@ -145,9 +149,9 @@ Rectangle {
     }
 
     function clearAndMove(offset) {
-        controller.requestClearSelection()
-        controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)
-        controller.requestAddToSelection(clipRoot.clipId)
+        clipRoot.controller.requestClearSelection()
+        clipRoot.controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)
+        clipRoot.controller.requestAddToSelection(clipRoot.clipId)
     }
 
     function doesContainMouse(pnt) {
@@ -229,11 +233,11 @@ Rectangle {
     
     function showClipInfo() {
         var text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
-                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
-                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
-        timeline.showToolTip(text)
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.inPoint))
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.outPoint))
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.modelStart))
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.clipDuration)))
+        clipRoot.timeline.showToolTip(text)
     }
 
     function getColor() {
@@ -279,13 +283,13 @@ Rectangle {
             console.log("Add effect: ", dropData)
             if (dropSource == '') {
                 // drop from effects list
-                controller.addClipEffect(clipRoot.clipId, dropData)
+                clipRoot.controller.addClipEffect(clipRoot.clipId, dropData)
             } else {
-                controller.copyClipEffect(clipRoot.clipId, dropSource)
+                clipRoot.controller.copyClipEffect(clipRoot.clipId, dropSource)
             }
             if (K.KdenliveSettings.seekonaddeffect && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
                 // If timeline cursor is not inside clip, seek to drop position
-                proxy.position = clipRoot.modelStart + drag.x / timeScale
+                proxy.position = clipRoot.modelStart + drag.x / clipRoot.timeScale
             }
             dropSource = ''
             drag.acceptProposedAction()
@@ -307,22 +311,22 @@ Rectangle {
             root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
             if (mouse.button == Qt.RightButton) {
-                if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
-                    controller.requestAddToSelection(clipRoot.clipId, true)
+                if (clipRoot.timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                    clipRoot.controller.requestAddToSelection(clipRoot.clipId, true)
                 }
-                root.clickFrame = Math.round(mouse.x / timeline.scaleFactor)
+                root.clickFrame = Math.round(mouse.x / clipRoot.timeline.scaleFactor)
                 root.showClipMenu(clipRoot.clipId)
-                root.autoScrolling = timeline.autoScroll
+                root.autoScrolling = clipRoot.timeline.autoScroll
             }
         }
         onReleased: {
-            root.autoScrolling = timeline.autoScroll
+            root.autoScrolling = clipRoot.timeline.autoScroll
         }
         Keys.onShortcutOverride: event => {event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
         Keys.onLeftPressed: event => {
-            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-            while((clipRoot.modelStart >= offset) && !controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
-                offset = controller.getPreviousBlank( clipRoot.trackId, clipRoot.modelStart - offset)
+            var offset = event.modifiers === Qt.ShiftModifier ? clipRoot.timeline.fps() : 1
+            while((clipRoot.modelStart >= offset) && !clipRoot.controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
+                offset = clipRoot.controller.getPreviousBlank( clipRoot.trackId, clipRoot.modelStart - offset)
                 if (offset < 0) {
                     break;
                 }
@@ -330,13 +334,13 @@ Rectangle {
                 offset = clipRoot.modelStart - offset
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
-            timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: event => {
-            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-            while(!controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
+            var offset = event.modifiers === Qt.ShiftModifier ? clipRoot.timeline.fps() : 1
+            while(!clipRoot.controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
                 console.log('insert failed at: ', (clipRoot.modelStart + offset))
-                offset = controller.getNextBlank( clipRoot.trackId, clipRoot.modelStart + clipRoot.clipDuration + offset)
+                offset = clipRoot.controller.getNextBlank( clipRoot.trackId, clipRoot.modelStart + clipRoot.clipDuration + offset)
                 console.log('Next blank is: ', offset)
                 if (offset < 0) {
                     break;
@@ -344,22 +348,22 @@ Rectangle {
                 offset -= clipRoot.modelStart
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
-            timeline.showToolTip(KI18n.i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onUpPressed: {
-            var nextTrack = controller.getNextTrackId(clipRoot.trackId);
-            while(!controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== controller.getNextTrackId(nextTrack)) {
-                nextTrack = controller.getNextTrackId(nextTrack);
+            var nextTrack = clipRoot.controller.getNextTrackId(clipRoot.trackId);
+            while(!clipRoot.controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== clipRoot.controller.getNextTrackId(nextTrack)) {
+                nextTrack = clipRoot.controller.getNextTrackId(nextTrack);
             }
         }
         Keys.onDownPressed: {
-            var previousTrack = controller.getPreviousTrackId(clipRoot.trackId);
-            while(!controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== controller.getPreviousTrackId(previousTrack)) {
-                previousTrack = controller.getPreviousTrackId(previousTrack);
+            var previousTrack = clipRoot.controller.getPreviousTrackId(clipRoot.trackId);
+            while(!clipRoot.controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== clipRoot.controller.getPreviousTrackId(previousTrack)) {
+                previousTrack = clipRoot.controller.getPreviousTrackId(previousTrack);
             }
         }
         Keys.onEscapePressed: {
-            timeline.grabCurrent()
+            clipRoot.timeline.grabCurrent()
             //focus = false
         }
         onEntered: {
@@ -382,10 +386,10 @@ Rectangle {
             }
             if (pressed) {
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
-                    timeline.showToolTip()
+                    clipRoot.timeline.showToolTip()
                 }
             }
-            timeline.showToolTip()
+            clipRoot.timeline.showToolTip()
         }
         onWheel: wheel => zoomByWheel(wheel)
 
@@ -393,8 +397,8 @@ Rectangle {
             // Thumbs container
             id: thumbsLoader
             anchors.fill: parent
-            anchors.leftMargin: parentTrack.isAudio ? xIntegerOffset : itemBorder.border.width + mixContainer.width
-            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width + clipRoot.mixEndDuration * clipRoot.timeScale
+            anchors.leftMargin: clipRoot.parentTrack.isAudio ? clipRoot.xIntegerOffset : itemBorder.border.width + mixContainer.width
+            anchors.rightMargin: clipRoot.parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width + clipRoot.mixEndDuration * clipRoot.timeScale
             anchors.topMargin: itemBorder.border.width
             anchors.bottomMargin: itemBorder.border.width
 
@@ -406,7 +410,7 @@ Rectangle {
                 if (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === K.ClipType.Color) {
                     return ""
                 }
-                if (parentTrack.isAudio) {
+                if (clipRoot.parentTrack.isAudio) {
                     return K.KdenliveSettings.audiothumbnails ? "ClipAudioThumbs.qml" : ""
                 }
                 if (K.KdenliveSettings.videothumbnails) {
@@ -415,7 +419,7 @@ Rectangle {
                 return ""
             }
             onStatusChanged: {
-                if (!parentTrack.isAudio && thumbsLoader.item) {
+                if (!clipRoot.parentTrack.isAudio && thumbsLoader.item) {
                     thumbsLoader.item.initialSpeed = clipRoot.speed
                 }
             }
@@ -428,7 +432,9 @@ Rectangle {
             property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
             anchors.fill: parent
             border.color: {
-                let placeholder = (clipStatus === K.FileStatus.StatusMissing || clipStatus === K.FileStatus.StatusWaiting || clipStatus === K.FileStatus.StatusDeleting)
+                let placeholder = (clipRoot.clipStatus === K.FileStatus.StatusMissing
+                                   || clipRoot.clipStatus === K.FileStatus.StatusWaiting
+                                   || clipRoot.clipStatus === K.FileStatus.StatusDeleting)
                 if (placeholder) {
                     return "#ff0000"
                 }
@@ -437,13 +443,13 @@ Rectangle {
                     return root.selectionColor
                 }
 
-                if (grouped) {
+                if (clipRoot.grouped) {
                     return root.groupColor
                 }
 
-                return borderColor
+                return clipRoot.borderColor
             }
-            border.width: isGrabbed ? 8 : 2
+            border.width: clipRoot.isGrabbed ? 8 : 2
             Rectangle {
                 id: trimOut
                 anchors.right: itemBorder.right
@@ -505,9 +511,10 @@ Rectangle {
                     visible: clipRoot.mixDuration > 0
                     color: mixSelected ? Qt.rgba(root.selectionColor.r, root.selectionColor.g, root.selectionColor.b, 0.5) : "transparent"
                     Loader {
-                        active: mixBackground.visible
+                        active: mixBackground.visible && container.handleVisible && mixContainer.width > 2 * K.UiUtils.baseSizeMedium
                         asynchronous: true
-                        source: container.handleVisible && mixContainer.width > 2 * K.UiUtils.baseSizeMedium ? "MixShape.qml" : ""
+                        anchors.fill: mixBackground
+                        sourceComponent: MixShape {}
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
@@ -536,18 +543,18 @@ Rectangle {
                                 mouse.accepted = false
                                 return
                             }
-                            controller.requestMixSelection(clipRoot.clipId);
+                            clipRoot.controller.requestMixSelection(clipRoot.clipId);
                             root.autoScrolling = false
                             if (mouse.button == Qt.RightButton) {
-                                root.clickFrame = Math.round(mouse.x / timeline.scaleFactor)
+                                root.clickFrame = Math.round(mouse.x / clipRoot.timeline.scaleFactor)
                                 root.showMixMenu(clipRoot.clipId)
-                                root.autoScrolling = timeline.autoScroll
+                                root.autoScrolling = clipRoot.timeline.autoScroll
                             }
                         }
                         onEntered: {
-                            var text = KI18n.i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
-                            .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
-                            timeline.showToolTip(text)
+                            var text = KI18n.i18n("Mix duration: %1, Cut at: %2".arg(clipRoot.timeline.simplifiedTC(clipRoot.mixDuration))
+                            .arg(clipRoot.timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
+                            clipRoot.timeline.showToolTip(text)
                         }
                     }
                     MouseArea {
@@ -559,7 +566,7 @@ Rectangle {
                         width: K.UiUtils.baseSizeMedium / 2
                         visible: root.activeTool === K.ToolType.SelectTool
                         property int previousMix
-                        enabled: !root.isPanning && !isLocked && mixArea.enabled && (pressed || container.handleVisible)
+                        enabled: !root.isPanning && !clipRoot.isLocked && mixArea.enabled && (pressed || container.handleVisible)
                         hoverEnabled: !root.isPanning
                         drag.target: trimInMixArea
                         drag.axis: Drag.XAxis
@@ -582,9 +589,9 @@ Rectangle {
                             mixCutPos.anchors.right = undefined
                         }
                         onReleased: mouse => {
-                            root.autoScrolling = timeline.autoScroll
+                            root.autoScrolling = clipRoot.timeline.autoScroll
                             if (sizeChanged) {
-                                controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
+                                clipRoot.controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
                                 sizeChanged = false
                             }
                             anchors.left = parent.left
@@ -603,12 +610,12 @@ Rectangle {
                                 parent.width = currentFrame * clipRoot.timeScale
                                 sizeChanged = true
                                 if (currentFrame > previousMix) {
-                                    timeline.showToolTip(KI18n.i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
+                                    clipRoot.timeline.showToolTip(KI18n.i18n("+%1, Mix duration: %2", clipRoot.timeline.simplifiedTC(currentFrame - previousMix), clipRoot.timeline.simplifiedTC(currentFrame)))
                                 } else {
-                                    timeline.showToolTip(KI18n.i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
+                                    clipRoot.timeline.showToolTip(KI18n.i18n("-%1, Mix duration: %2", clipRoot.timeline.simplifiedTC(previousMix - currentFrame), clipRoot.timeline.simplifiedTC(currentFrame)))
                                 }
                             } else {
-                                timeline.showToolTip(KI18n.i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
+                                clipRoot.timeline.showToolTip(KI18n.i18n("Mix duration: %1", clipRoot.timeline.simplifiedTC(currentFrame)))
                             }
                             if (x < mixCutPos.x) {
                                 // This will delete the mix
@@ -623,7 +630,7 @@ Rectangle {
                                 return
                             }
                             mixOut.color = 'red'
-                            timeline.showToolTip(KI18n.i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
+                            clipRoot.timeline.showToolTip(KI18n.i18n("Mix duration: %1", clipRoot.timeline.simplifiedTC(clipRoot.mixDuration)))
                         }
                         onExited: {
                             if (pressed) {
@@ -631,7 +638,7 @@ Rectangle {
                             }
                             mixOut.color = itemBorder.border.color
                             if (!mouseArea.containsMouse) {
-                                timeline.showToolTip()
+                                clipRoot.timeline.showToolTip()
                             } else {
                                 clipRoot.showClipInfo()
                             }
@@ -661,8 +668,8 @@ Rectangle {
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
                     height: hasRange ? textMetrics.height + 2 : container.height
                     x: clipRoot.speed < 0
-                    ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
-                    : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
+                       ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
+                       : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
                     y: hasRange ? Math.min(label.height, container.height - textMetrics.height) : 0
                     color: hasRange ? Qt.rgba(markerColor.r, markerColor.g, markerColor.b, 0.7) : markerColor
                     border.color: hasRange ? markerColor : "transparent"
@@ -695,7 +702,7 @@ Rectangle {
                     
                     TextMetrics {
                         id: textMetrics
-                        font: miniFont
+                        font: K.UiUtils.smallestReadableFont
                         text: markerBase.markerText
                         elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
                         elideWidth: root.maxLabelWidth
@@ -720,7 +727,7 @@ Rectangle {
                             topPadding: -1
                             leftPadding: 2
                             rightPadding: 2
-                            font: miniFont
+                            font: K.UiUtils.smallestReadableFont
                             color: '#FFF'
                         }
                         MouseArea {
@@ -736,12 +743,12 @@ Rectangle {
                             ToolTip.text: markerBase.markerText
                             ToolTip.delay: 1000
                             ToolTip.timeout: 5000
-                            onDoubleClicked: timeline.editMarker(clipRoot.clipId, markerBase.position)
+                            onDoubleClicked: clipRoot.timeline.editMarker(clipRoot.clipId, markerBase.position)
                             onPressed: mouse => {
                                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
                             }
 
-                            onClicked: {
+                            onClicked: (mouse) => {
                                 if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                                     mouse.accepted = false
                                     return
@@ -749,7 +756,7 @@ Rectangle {
                                 proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
                                 ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
                                 : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
-                                controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                                clipRoot.controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
                             }
                         }
                     }
@@ -783,7 +790,7 @@ Rectangle {
                             property real startPosition: 0
                             property real originalEndPosition: 0
                             
-                            onPressed: {
+                            onPressed: (mouse) => {
                                 if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                                     mouse.accepted = false
                                     return
@@ -815,7 +822,7 @@ Rectangle {
                             
                             onReleased: {
                                 if (isResizing) {
-                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, true, markerBase.position)
+                                    clipRoot.timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, true, markerBase.position)
                                     isResizing = false
                                     markerBase.position = Qt.binding(function() { return loader.modelData.frame })
                                     markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
@@ -862,7 +869,7 @@ Rectangle {
                             property real startDuration: 0
                             property real startPosition: 0
                             
-                            onPressed: {
+                            onPressed: (mouse) => {
                                 if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
                                     mouse.accepted = false
                                     return
@@ -892,7 +899,7 @@ Rectangle {
                             
                             onReleased: {
                                 if (isResizing) {
-                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, false)
+                                    clipRoot.timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, false)
                                     isResizing = false
                                     markerBase.position = Qt.binding(function() { return loader.modelData.frame })
                                     markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
@@ -986,7 +993,7 @@ Rectangle {
                         return true
                     }
 
-                    let hasMix = clipRoot.mixDuration > 0 || controller.hasClipEndMix(clipRoot.clipId)
+                    let hasMix = clipRoot.mixDuration > 0 || clipRoot.controller.hasClipEndMix(clipRoot.clipId)
                     if (root.activeTool === K.ToolType.RippleTool && !hasMix) {
                         return true
                     }
@@ -1006,19 +1013,19 @@ Rectangle {
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
-                    clipRoot.originalDuration = clipDuration
+                    clipRoot.originalDuration = clipRoot.clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != K.ClipType.Color && itemType != K.ClipType.Timeline && itemType != K.ClipType.Playlist && itemType != K.ClipType.Image
-                    if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
+                    if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (root.activeTool === K.ToolType.RippleTool) { //TODO
-                        timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
+                        clipRoot.timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
                     }
                 }
                 onReleased: {
                     trimIn.opacity = 0
-                    root.autoScrolling = timeline.autoScroll
+                    root.autoScrolling = clipRoot.timeline.autoScroll
                     x = -itemBorder.border.width
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
@@ -1030,11 +1037,11 @@ Rectangle {
                         }
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) { //TODO
-                            timeline.requestEndTrimmingMode();
-                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
-                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                            clipRoot.timeline.requestEndTrimmingMode();
+                        } else if (clipRoot.timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            clipRoot.controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
                         } else if (shiftTrim) {
-                            controller.requestRemoveFromSelection(clipRoot.clipId)
+                            clipRoot.controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
 
                         root.groupTrimData = undefined
@@ -1043,7 +1050,7 @@ Rectangle {
                 }
                 onDoubleClicked: {
                     if (clipRoot.mixDuration == 0) {
-                        timeline.mixClip(clipRoot.clipId, -1)
+                        clipRoot.timeline.mixClip(clipRoot.clipId, -1)
                     }
                 }
                 onPositionChanged: mouse => {
@@ -1066,9 +1073,9 @@ Rectangle {
                                 newDuration = clipRoot.originalDuration - delta
                             } else {
                                 if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
-                                    delta = -inPoint
+                                    delta = -clipRoot.inPoint
                                 }
-                                newDuration = clipDuration - delta
+                                newDuration = clipRoot.clipDuration - delta
                             }
                             sizeChanged = true
                             clipRoot.trimmingIn(clipRoot, newDuration, shiftTrim, controlTrim)
@@ -1080,12 +1087,12 @@ Rectangle {
                         trimIn.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
-                        var s = KI18n.i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
-                        timeline.showToolTip(s)
+                        var s = KI18n.i18n("In:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.inPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart))
+                        clipRoot.timeline.showToolTip(s)
                         if (clipRoot.mixDuration == 0) {
-                            timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                            clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                         } else {
-                            timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to change mix duration"))
+                            clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to change mix duration"))
                         }
                     }
                 }
@@ -1093,12 +1100,12 @@ Rectangle {
                     if (!pressed) {
                         trimIn.opacity = 0
                         if (!mouseArea.containsMouse) {
-                            timeline.showToolTip()
+                            clipRoot.timeline.showToolTip()
                         } else {
                             clipRoot.showClipInfo()
                         }
                         if (!fadeInMouseArea.containsMouse) {
-                            timeline.showKeyBinding()
+                            clipRoot.timeline.showKeyBinding()
                         }
                     }
                 }
@@ -1115,7 +1122,7 @@ Rectangle {
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === K.ToolType.SelectTool
                                      || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
-                enabled: !isLocked && (pressed || container.handleVisible) && clipRoot.clipId == dragProxy.draggedItem
+                enabled: !clipRoot.isLocked && (pressed || container.handleVisible) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
@@ -1127,20 +1134,24 @@ Rectangle {
                 onPressed: mouse => {
                     root.autoScrolling = false
                     root.trimInProgress = true;
-                    clipRoot.originalDuration = clipDuration
+                    clipRoot.originalDuration = clipRoot.clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != K.ClipType.Color && itemType != K.ClipType.Timeline && itemType != K.ClipType.Playlist && itemType != K.ClipType.Image
-                    if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
+                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                               && clipRoot.itemType != K.ClipType.Color
+                               && clipRoot.itemType != K.ClipType.Timeline
+                               && clipRoot.itemType != K.ClipType.Playlist
+                               && clipRoot.itemType != K.ClipType.Image
+                    if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (root.activeTool === K.ToolType.RippleTool) {
-                        timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
+                        clipRoot.timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
                     }
                 }
                 onReleased: {
                     trimOut.opacity = 0
-                    root.autoScrolling = timeline.autoScroll
+                    root.autoScrolling = clipRoot.timeline.autoScroll
                     anchors.right = parent.right
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
@@ -1152,26 +1163,26 @@ Rectangle {
                         }
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) {
-                            timeline.requestEndTrimmingMode();
-                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
-                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                            clipRoot.timeline.requestEndTrimmingMode();
+                        } else if (clipRoot.timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            clipRoot.controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
                         } else if (shiftTrim) {
-                            controller.requestRemoveFromSelection(clipRoot.clipId)
+                            clipRoot.controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
                         root.groupTrimData = undefined
                     }
                     root.trimInProgress = false;
                 }
                 onDoubleClicked: {
-                    timeline.mixClip(clipRoot.clipId, 1)
+                    clipRoot.timeline.mixClip(clipRoot.clipId, 1)
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         var newDuration = Math.round((x + width + itemBorder.border.width) / clipRoot.timeScale)
-                        if (maxDuration > 0 && (newDuration > maxDuration - inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
-                            newDuration = maxDuration - inPoint
+                        if (clipRoot.maxDuration > 0 && (newDuration > clipRoot.maxDuration - clipRoot.inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
+                            newDuration = clipRoot.maxDuration - clipRoot.inPoint
                         }
-                        if (newDuration != clipDuration) {
+                        if (newDuration != clipRoot.clipDuration) {
                             sizeChanged = true
                             clipRoot.trimmingOut(clipRoot, newDuration, shiftTrim, controlTrim)
                         }
@@ -1182,10 +1193,10 @@ Rectangle {
                         trimOut.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
-                        var s = KI18n.i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
-                        timeline.showToolTip(s)
+                        var s = KI18n.i18n("Out:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.outPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
+                        clipRoot.timeline.showToolTip(s)
                         if (!fadeOutMouseArea.containsMouse) {
-                            timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                            clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                         }
                     }
                 }
@@ -1193,17 +1204,17 @@ Rectangle {
                     if (!pressed) {
                         trimOut.opacity = 0
                          if (!mouseArea.containsMouse) {
-                            timeline.showToolTip()
+                            clipRoot.timeline.showToolTip()
                          } else {
                              var text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
-                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
-                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
-                             timeline.showToolTip(text)
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.inPoint))
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.outPoint))
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.modelStart))
+                        .arg(clipRoot.timeline.simplifiedTC(clipRoot.clipDuration)))
+                             clipRoot.timeline.showToolTip(text)
                          }
                          if (!fadeOutMouseArea.containsMouse) {
-                             timeline.showKeyBinding()
+                             clipRoot.timeline.showKeyBinding()
                          }
                     }
                 }
@@ -1268,7 +1279,7 @@ Rectangle {
                         // Clip ID text
                         id: debugCid
                         text: clipRoot.clipId
-                        font: miniFont
+                        font: K.UiUtils.smallestReadableFont
                         anchors {
                             left: debugCidRect.left
                             leftMargin: itemBorder.border.width
@@ -1290,7 +1301,7 @@ Rectangle {
                         id: label
                         property string clipNameString: (clipRoot.isAudio && clipRoot.multiStream) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipName ) : clipName
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
-                        font: miniFont
+                        font: K.UiUtils.smallestReadableFont
                         topPadding: -2
                         bottomPadding: -1
                         anchors {
@@ -1311,27 +1322,28 @@ Rectangle {
                     height: labelRect.height
                     radius: height/3
                     anchors.left: proxyRect.visible ? proxyRect.right : labelRect.right
-                    visible: labelRect.visible && positionOffset != 0
+                    visible: labelRect.visible && clipRoot.positionOffset != 0
                     MouseArea {
                         id: offsetArea
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         anchors.fill: parent
                         onClicked: {
-                            clearAndMove(positionOffset)
+                            clearAndMove(clipRoot.positionOffset)
                         }
                         onEntered: {
-                            var text = positionOffset < 0 ? KI18n.i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : KI18n.i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
+                            var text = clipRoot.positionOffset < 0 ? KI18n.i18n("Offset: -%1", clipRoot.timeline.simplifiedTC(-clipRoot.positionOffset))
+                                                          : KI18n.i18n("Offset: %1", clipRoot.timeline.simplifiedTC(clipRoot.positionOffset))
                             text += KI18n.i18n(" <b>Click</b> to align clips")
-                            timeline.showToolTip(text)
+                            clipRoot.timeline.showToolTip(text)
                         }
                         onExited: {
-                            timeline.showToolTip()
+                            clipRoot.timeline.showToolTip()
                         }
                         Text {
                             id: offsetLabel
-                            text: positionOffset
-                            font: miniFont
+                            text: clipRoot.positionOffset
+                            font: K.UiUtils.smallestReadableFont
                             anchors {
                                 horizontalCenter: parent.horizontalCenter
                                 topMargin: 1
@@ -1365,7 +1377,7 @@ Rectangle {
                             height: effectsRect.height
                             width: effectsRect.height
                             onClicked: {
-                                timeline.setEffectsEnabled(clipRoot.clipId, !clipRoot.isStackEnabled)
+                                clipRoot.timeline.setEffectsEnabled(clipRoot.clipId, !clipRoot.isStackEnabled)
                             }
 
                             icon {
@@ -1386,8 +1398,8 @@ Rectangle {
                         id: effectLabel
                         text: clipRoot.effectNames
                         font {
-                            family: miniFont.family
-                            pointSize: miniFont.pointSize
+                            family: K.UiUtils.smallestReadableFont.family
+                            pointSize: K.UiUtils.smallestReadableFont.pointSize
                             strikeout: !clipRoot.isStackEnabled
                         }
                         visible: effectsRect.visible
@@ -1564,13 +1576,13 @@ Rectangle {
                     return
                 }
                 root.mainItemId = -1
-                timeline.addCompositionToClip('', clipRoot.clipId, 0)
+                clipRoot.timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
             onEntered: {
-                timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
+                clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
             }
             onExited: {
-                timeline.showKeyBinding()
+                clipRoot.timeline.showKeyBinding()
             }
             Rectangle {
                 // Start composition box
@@ -1605,13 +1617,13 @@ Rectangle {
                     return
                 }
                 root.mainItemId = -1
-                timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
+                clipRoot.timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             onEntered: {
-                timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
+                clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Click</b> to add composition"))
             }
             onExited: {
-                timeline.showKeyBinding()
+                clipRoot.timeline.showKeyBinding()
             }
             Rectangle {
                 // End composition box
@@ -1648,11 +1660,11 @@ Rectangle {
             property int lastDuration: -1
             property int startMousePos
             property bool dragStarted: false
-            property string fadeString: timeline.simplifiedTC(clipRoot.fadeOut)
+            property string fadeString: clipRoot.timeline.simplifiedTC(clipRoot.fadeOut)
             drag.smoothed: false
             onClicked: {
                 if (clipRoot.fadeOut == 0) {
-                    timeline.adjustFade(clipRoot.clipId, 'fadeout', 0, -2)
+                    clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadeout', 0, -2)
                 }
             }
             onPressed: mouse => {
@@ -1669,12 +1681,12 @@ Rectangle {
             }
             onReleased: {
                 fadeOutCanvas.opacity = 0.4
-                root.autoScrolling = timeline.autoScroll
+                root.autoScrolling = clipRoot.timeline.autoScroll
                 anchors.right = parent.right
                 var duration = clipRoot.fadeOut
-                timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
+                clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
                 //bubbleHelp.hide()
-                timeline.showToolTip()
+                clipRoot.timeline.showToolTip()
             }
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
@@ -1687,29 +1699,29 @@ Rectangle {
                     duration = Math.min(duration, clipRoot.clipDuration)
                     if (lastDuration != duration) {
                         lastDuration = duration
-                        timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
+                        clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
+                        clipRoot.timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeOut > 0) {
-                        timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
+                        clipRoot.timeline.showToolTip(KI18n.i18n("Fade out: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
+                    clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
                 if (!pressed) {
-                    timeline.showKeyBinding()
+                    clipRoot.timeline.showKeyBinding()
                     if (mouseArea.containsMouse) {
                         clipRoot.showClipInfo()
                     } else {
-                        timeline.showToolTip()
+                        clipRoot.timeline.showToolTip()
                     }
                 }
             }
@@ -1724,7 +1736,7 @@ Rectangle {
                 color: 'darkred'
                 border.width: 3
                 border.color: 'red'
-                enabled: !isLocked && !dragProxy.isComposition
+                enabled: !clipRoot.isLocked && !dragProxy.isComposition
                 Drag.active: fadeOutMouseArea.drag.active
                 Behavior on width { NumberAnimation { duration: 100 } }
                 Rectangle {
@@ -1760,11 +1772,11 @@ Rectangle {
             property int startFadeIn
             property int startMousePos
             property bool dragStarted: false
-            property string fadeString: timeline.simplifiedTC(clipRoot.fadeIn)
+            property string fadeString: clipRoot.timeline.simplifiedTC(clipRoot.fadeIn)
             visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
             onClicked: {
                 if (clipRoot.fadeIn == 0) {
-                    timeline.adjustFade(clipRoot.clipId, 'fadein', 0, -2)
+                    clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadein', 0, -2)
                 }
             }
             onPressed: mouse => {
@@ -1781,11 +1793,11 @@ Rectangle {
                 // parentTrack.clipSelected(clipRoot, parentTrack) TODO
             }
             onReleased: {
-                root.autoScrolling = timeline.autoScroll
+                root.autoScrolling = clipRoot.timeline.autoScroll
                 fadeInTriangle.opacity = 0.4
-                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
+                clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 //bubbleHelp.hide()
-                timeline.showToolTip()
+                clipRoot.timeline.showToolTip()
                 anchors.left = container.left
             }
             onPositionChanged: mouse => {
@@ -1798,29 +1810,29 @@ Rectangle {
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)
                     if (duration != clipRoot.fadeIn) {
-                        timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
+                        clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
+                        clipRoot.timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeIn > 0) {
-                        timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
+                        clipRoot.timeline.showToolTip(KI18n.i18n("Fade in: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
+                    clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
                 if (!pressed) {
-                    timeline.showKeyBinding()
+                    clipRoot.timeline.showKeyBinding()
                     if (mouseArea.containsMouse) {
                         clipRoot.showClipInfo()
                     } else {
-                        timeline.showToolTip()
+                        clipRoot.timeline.showToolTip()
                     }
                 }
             }
@@ -1835,7 +1847,7 @@ Rectangle {
                 color: 'green'
                 border.width: 3
                 border.color: '#FF66FFFF'
-                enabled: !isLocked && !dragProxy.isComposition
+                enabled: !clipRoot.isLocked && !dragProxy.isComposition
                 Drag.active: fadeInMouseArea.drag.active
                 Behavior on width { NumberAnimation { duration: 100 } }
                 Rectangle {
@@ -1867,11 +1879,11 @@ Rectangle {
         }
         Item {
             id: slipControler
-            property color color: timeline.trimmingMainClip === clipId ? root.selectionColor : activePalette.highlight
+            property color color: clipRoot.timeline.trimmingMainClip === clipRoot.clipId ? root.selectionColor : activePalette.highlight
             anchors.bottom: container.bottom
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale
-            x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale
+            x: - (clipRoot.inPoint - clipRoot.slipOffset) * clipRoot.timeScale
             visible: root.activeTool === K.ToolType.SlipTool && clipRoot.selected && clipRoot.maxDuration > 0 // don't show for endless clips
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint
@@ -1896,7 +1908,7 @@ Rectangle {
         Text {
             id: slipLabel
             text: KI18n.i18n("Slip Clip")
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter

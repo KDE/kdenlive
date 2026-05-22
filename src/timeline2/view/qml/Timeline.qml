@@ -1289,6 +1289,8 @@ function getTrackColor(audio, header) {
                             trackId: model.item
                             height: model.trackHeight
                             collapsed: height <= root.collapsedHeight
+                            timeline: root.timeline
+                            controller: root.controller
                             Component.onCompleted: {
                                 root.collapsedHeight = root.collapsedHeight
                             }
@@ -1815,6 +1817,7 @@ function getTrackColor(audio, header) {
                         id: ruler
                         width: rulercontainer.contentWidth
                         height: parent.height
+                        timeline: root.timeline
                         K.TimelinePlayhead {
                             id: playhead
                             height: Math.round(K.UiUtils.baseSizeMedium * .8)
@@ -2478,11 +2481,16 @@ function getTrackColor(audio, header) {
             rootIndex: trackDelegateModel.modelIndex(index)
             width: tracksContainerArea.width
             height: model.trackHeight
+            isDisabled: model.disabled
             isAudio: model.audio
             isLocked: model.locked
             trackThumbsFormat: model.thumbsFormat
             trackInternalId: model.item
             effectZones: model.effectZones
+            timeline: root.timeline
+            controller: root.controller
+            snapping: root.snapping
+            activeTool: root.activeTool
             z: tracksRepeater.count - index
         }
     }
@@ -2490,7 +2498,7 @@ function getTrackColor(audio, header) {
 
     DelegateModel {
         id: guidesDelegateModel
-        model: guidesModel
+        model: root.guidesModel
         Item {
             id: guideRoot
             z: 20

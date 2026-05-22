@@ -245,7 +245,7 @@ Item {
         clip: true
         TextField {
             id: subtitleEdit
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             activeFocusOnPress: true
             selectByMouse: true
             onEditingFinished: {
