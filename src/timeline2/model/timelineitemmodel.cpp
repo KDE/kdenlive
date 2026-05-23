@@ -61,6 +61,8 @@ void TimelineItemModel::finishConstruct(const std::shared_ptr<TimelineItemModel>
 {
     ptr->weak_this_ = ptr;
     ptr->m_groups = std::make_unique<GroupsModel>(ptr);
+    // Initialize the subtitle model and load file if any
+    ptr->m_subtitleModel.reset(new SubtitleModel(ptr, std::static_pointer_cast<SnapInterface>(ptr->m_snaps), ptr.get()));
 }
 
 std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack)
@@ -188,7 +190,7 @@ void TimelineItemModel::subtitleChanged(int subId, const QVector<int> &roles)
     if (m_closing) {
         return;
     }
-    Q_ASSERT(m_subtitleModel != nullptr);
+    Q_ASSERT(m_subtitleModel->isInitialized());
     Q_ASSERT(m_subtitleModel->hasSubtitle(subId));
     m_subtitleModel->updateSub(subId, roles);
 }
@@ -658,10 +660,8 @@ QList<int> TimelineItemModel::getActiveAudioTrackIndexes() const
 
 std::shared_ptr<SubtitleModel> TimelineItemModel::createSubtitleModel()
 {
-    if (m_subtitleModel == nullptr) {
-        // Initialize the subtitle model and load file if any
-        m_subtitleModel.reset(
-            new SubtitleModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()), std::static_pointer_cast<SnapInterface>(m_snaps), this));
+    if (!m_subtitleModel->isInitialized()) {
+        m_subtitleModel->setInitialized();
         Q_EMIT subtitleModelInitialized();
     }
     return m_subtitleModel;

@@ -1453,14 +1453,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return res;
 }
 
-std::shared_ptr<SubtitleModel> TimelineModel::getSubtitleModel()
+std::shared_ptr<SubtitleModel> TimelineModel::getSubtitleModel(bool allowUninitialized)
 {
-    return m_subtitleModel;
+    return (allowUninitialized || m_subtitleModel->isInitialized()) ? m_subtitleModel : nullptr;
 }
 
 int TimelineModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
 {
-    if (m_subtitleModel) {
+    if (m_subtitleModel->isInitialized()) {
         return m_subtitleModel->cutSubtitle(layer, position, undo, redo);
     }
     return -1;
@@ -2830,7 +2830,7 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
     std::unordered_set<int> allClips;
     if (isSubtitleTrack(trackId) || trackId == -1) {
         // Subtitles
-        if (m_subtitleModel) {
+        if (m_subtitleModel->isInitialized()) {
             std::unordered_set<int> subs = m_subtitleModel->getItemsInRange(-1, start, end);
             allClips.insert(subs.begin(), subs.end());
         }
@@ -5964,7 +5964,7 @@ void TimelineModel::updateDuration()
         }
         duration = qMax(duration, track->trackDuration());
     }
-    if (m_subtitleModel) {
+    if (m_subtitleModel->isInitialized()) {
         duration = qMax(duration, m_subtitleModel->trackDuration());
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
@@ -6019,7 +6019,7 @@ std::pair<int, int> TimelineModel::durations() const
         duration = qMax(duration, trackDuration);
         ++it;
     }
-    if (m_subtitleModel && !m_subtitleModel->isDisabled()) {
+    if (m_subtitleModel->isInitialized() && !m_subtitleModel->isDisabled()) {
         duration = qMax(duration, m_subtitleModel->trackDuration());
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
@@ -6118,7 +6118,7 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps, std::vector<
         }
         ++it;
     }
-    bool hasSubtitles = m_subtitleModel && m_subtitleModel->count() > 0;
+    bool hasSubtitles = m_subtitleModel->isInitialized() && m_subtitleModel->count() > 0;
     bool filterOutSubtitles = false;
     if (hasSubtitles) {
         // If subtitle track is locked or hidden, don't snap to it
@@ -6170,7 +6170,7 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps, std::vec
         }
         ++it;
     }
-    bool hasSubtitles = m_subtitleModel && m_subtitleModel->count() > 0;
+    bool hasSubtitles = m_subtitleModel->isInitialized() && m_subtitleModel->count() > 0;
     bool filterOutSubtitles = false;
     if (hasSubtitles) {
         // If subtitle track is locked or hidden, don't snap to it
@@ -7493,7 +7493,7 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
         }
     }
     m_currentSelection.clear();
-    if (m_subtitleModel) {
+    if (m_subtitleModel->isInitialized()) {
         m_subtitleModel->clearGrab();
     }
     Q_EMIT selectionChanged();
@@ -7658,7 +7658,7 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
         }
         Q_ASSERT(m_currentSelection.size() > 0);
     }
-    if (m_subtitleModel) {
+    if (m_subtitleModel->isInitialized()) {
         m_subtitleModel->clearGrab();
     }
     Q_EMIT selectionChanged();
@@ -8396,7 +8396,7 @@ void TimelineModel::deletePreviewTrack()
 
 bool TimelineModel::hasSubtitleModel()
 {
-    return m_subtitleModel != nullptr;
+    return m_subtitleModel->isInitialized();
 }
 
 void TimelineModel::makeTransparentBg(bool transparent)
@@ -8494,7 +8494,7 @@ bool TimelineModel::singleSelectionMode() const
 
 std::unordered_set<int> TimelineModel::getAllSubIds()
 {
-    if (m_subtitleModel) {
+    if (m_subtitleModel->isInitialized()) {
         return m_subtitleModel->getAllSubIds();
     }
     return {};

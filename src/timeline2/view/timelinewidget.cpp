@@ -180,7 +180,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
                           {"multitrack", QVariant::fromValue(m_sortModel.get())},
                           {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
                           {"proxy", QVariant::fromValue(pCore->monitorManager()->projectMonitor()->getControllerProxy())},
-                          {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())}});
+                          {"subtitleModel", QVariant::fromValue(model->getSubtitleModel(true).get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("Timeline"));
 
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
@@ -570,8 +570,8 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
     }
 
     rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
-    if (firstConnect) {
+    /*if (firstConnect) {
         rootObject()->setProperty("subtitleModel", QVariant::fromValue(model()->getSubtitleModel().get()));
         QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
-    }
+    }*/
 }

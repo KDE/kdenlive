@@ -35,60 +35,8 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
     : QAbstractListModel(parent)
     , m_timeline(timeline)
     , m_lock(QReadWriteLock::Recursive)
-    , m_subtitleFilter(new Mlt::Filter(pCore->getProjectProfile(), "avfilter.subtitles"))
 {
-    qDebug() << "Subtitle constructor";
-    // Ensure the subtitle also covers transparent zones (useful for timeline sequences)
-    m_subtitleFilter->set("av.alpha", 1);
-    if (m_timeline->tractor() != nullptr) {
-        qDebug() << "Tractor!";
-        m_subtitleFilter->set("internal_added", 237);
-    }
-    setup();
-    connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
-
-    const QUuid timelineUuid = timeline->uuid();
-    int id = pCore->currentDoc()->getSequenceProperty(timelineUuid, QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
-    const QString subPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, true);
-    const QString workPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, false);
     registerSnap(snapModel);
-
-    // Load global subtitle styles
-    m_globalSubtitleStyles = pCore->currentDoc()->globalSubtitleStyles(timeline->uuid());
-
-    QFile subFile(subPath);
-    if (pCore->currentDoc()->m_restoreFromBackup) {
-        QString tmpWorkPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, false, true);
-        QFile prevSub(tmpWorkPath);
-        if (prevSub.exists()) {
-            if (!subFile.exists()) {
-                prevSub.copy(subPath);
-            }
-            prevSub.copy(workPath);
-        }
-    } else {
-        if (subFile.exists()) {
-            subFile.copy(workPath);
-        }
-    }
-
-    if (!QFile::exists(workPath)) {
-        QFile newSub(workPath);
-        newSub.open(QIODevice::WriteOnly);
-        newSub.close();
-        qDebug() << "MISSING SUBTITLE FILE, create tmp: " << workPath;
-    }
-
-    registerSnap(snapModel);
-
-    // Load multiple subtitle data
-    QMap<std::pair<int, QString>, QString> multiSubs = pCore->currentDoc()->multiSubtitlePath(timelineUuid);
-    m_subtitlesList = multiSubs;
-    if (m_subtitlesList.isEmpty()) {
-        m_subtitlesList.insert({0, i18n("Subtitles")}, subPath);
-    }
-
-    parseSubtitle(workPath);
 }
 
 void SubtitleModel::setForceStyle(const QString &style)
@@ -2395,4 +2343,67 @@ const QString SubtitleModel::getLayerDefaultStyle(int layer) const
     } else {
         return QStringLiteral("Default");
     }
+}
+
+bool SubtitleModel::isInitialized() const
+{
+    return m_initialized;
+}
+
+void SubtitleModel::setInitialized()
+{
+    if (m_initialized) {
+        return;
+    }
+    m_initialized = true;
+    m_subtitleFilter.reset(new Mlt::Filter(pCore->getProjectProfile(), "avfilter.subtitles"));
+    qDebug() << "Subtitle constructor";
+    // Ensure the subtitle also covers transparent zones (useful for timeline sequences)
+    m_subtitleFilter->set("av.alpha", 1);
+    if (m_timeline->tractor() != nullptr) {
+        qDebug() << "Tractor!";
+        m_subtitleFilter->set("internal_added", 237);
+    }
+    setup();
+    connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
+
+    const QUuid timelineUuid = m_timeline->uuid();
+    int id = pCore->currentDoc()->getSequenceProperty(timelineUuid, QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    const QString subPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, true);
+    const QString workPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, false);
+
+    // Load global subtitle styles
+    m_globalSubtitleStyles = pCore->currentDoc()->globalSubtitleStyles(m_timeline->uuid());
+
+    QFile subFile(subPath);
+    if (pCore->currentDoc()->m_restoreFromBackup) {
+        QString tmpWorkPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, false, true);
+        QFile prevSub(tmpWorkPath);
+        if (prevSub.exists()) {
+            if (!subFile.exists()) {
+                prevSub.copy(subPath);
+            }
+            prevSub.copy(workPath);
+        }
+    } else {
+        if (subFile.exists()) {
+            subFile.copy(workPath);
+        }
+    }
+
+    if (!QFile::exists(workPath)) {
+        QFile newSub(workPath);
+        newSub.open(QIODevice::WriteOnly);
+        newSub.close();
+        qDebug() << "MISSING SUBTITLE FILE, create tmp: " << workPath;
+    }
+
+    // Load multiple subtitle data
+    QMap<std::pair<int, QString>, QString> multiSubs = pCore->currentDoc()->multiSubtitlePath(timelineUuid);
+    m_subtitlesList = multiSubs;
+    if (m_subtitlesList.isEmpty()) {
+        m_subtitlesList.insert({0, i18n("Subtitles")}, subPath);
+    }
+
+    parseSubtitle(workPath);
 }

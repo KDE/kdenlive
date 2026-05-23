@@ -294,6 +294,8 @@ public Q_SLOTS:
     void jsontoSubtitle(const QJsonArray &data);
     /** @brief Update a subtitle text*/
     bool setText(int id, const QString &text);
+    bool isInitialized() const;
+    void setInitialized();
 
 private:
     std::shared_ptr<TimelineItemModel> m_timeline;
@@ -330,6 +332,7 @@ private:
     QVector<int> m_selected;
     QVector<int> m_grabbedIds;
     int m_activeSubLayer{0};
+    bool m_initialized{false};
 
 Q_SIGNALS:
     void modelChanged();

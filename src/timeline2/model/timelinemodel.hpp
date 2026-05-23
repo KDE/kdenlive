@@ -973,7 +973,7 @@ public:
     /** @brief returns true if the track trackId is Locked */
     bool trackIsLocked(int trackid) const;
     /** @brief returns this timeline's subtitle model */
-    std::shared_ptr<SubtitleModel> getSubtitleModel();
+    std::shared_ptr<SubtitleModel> getSubtitleModel(bool allowUninitialized = false);
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
