@@ -322,6 +322,11 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId, name);
+        if (m_ownerId.type == KdenliveObjectType::TimelineTrack) {
+            // Track length is only changed when adding or removing clips,
+            // so let the clips move do invalidatation
+            return;
+        }
         if (previousOut > -1 && value != previousOut) {
             // Only invalidate length diff
             int startPos = pCore->getItemPosition(m_ownerId) - pCore->getItemIn(m_ownerId);
