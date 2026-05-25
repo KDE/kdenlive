@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
-    <height>745</height>
+    <width>954</width>
+    <height>715</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,7 +129,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                <string>Select output destination</string>
               </property>
               <property name="mode">
-               <set>KFile::Mode::File|KFile::Mode::LocalOnly</set>
+               <set>KFile::Mode::File</set>
               </property>
               <property name="acceptMode">
                <enum>QFileDialog::AcceptMode::AcceptSave</enum>
@@ -463,8 +463,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>385</width>
-            <height>1220</height>
+            <width>365</width>
+            <height>1240</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">

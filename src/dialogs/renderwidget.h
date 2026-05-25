@@ -68,7 +68,7 @@ class RenderWidget : public QDialog
 public:
     enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning };
     enum RenderStatus { NotRendering = 0, Rendering = 1 };
-    enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3 };
+    enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3, SpaceUnknown = 4 };
     // Render job roles
     enum ItemRole {
         ParametersRole = Qt::UserRole + 1,
@@ -140,12 +140,9 @@ private Q_SLOTS:
      * Will be called when the user selects an output file via the file dialog.
      * File extension will be added automatically.
      */
-    void slotUpdateButtons(const QUrl &url);
-    /**
-     * Will be called when the user changes the output file path in the text line.
-     * File extension must NOT be added, would make editing impossible!
-     */
     void slotUpdateButtons();
+    /** @brief Ensure the selected file url has the correct extension for selected profile. */
+    void slotUpdateUrl();
     void refreshView();
 
     void slotChangeSelection(const QModelIndex &current, const QModelIndex &previous);
