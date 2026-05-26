@@ -5,10 +5,8 @@
 
 #pragma once
 
-#include "bin/bin.h"
 #include "definitions.h"
 #include "undohelper.hpp"
-#include "utils/gentime.h"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -16,13 +14,11 @@
 #include <array>
 #include <map>
 #include <memory>
-#include <mlt++/Mlt.h>
-#include <mlt++/MltProperties.h>
+#include <mlt++/MltFilter.h>
 #include <unordered_set>
 
 class DocUndoStack;
 class SnapInterface;
-class AssetParameterModel;
 class TimelineItemModel;
 
 /** @class SubtitleModel
@@ -320,10 +316,6 @@ private:
     std::map<QString, QString> m_scriptInfo;
     QString fontSection;
 
-    // To get subtitle file from effects parameter:
-    // std::unique_ptr<Mlt::Properties> m_asset;
-    // std::shared_ptr<AssetParameterModel> m_model;
-
     std::vector<std::weak_ptr<SnapInterface>> m_regSnaps;
     mutable QReadWriteLock m_lock;
     std::unique_ptr<Mlt::Filter> m_subtitleFilter;
@@ -350,4 +342,3 @@ protected:
      */
     int positionForIndex(int id) const;
 };
-Q_DECLARE_METATYPE(SubtitleModel *)

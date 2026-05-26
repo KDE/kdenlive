@@ -23,7 +23,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <qdom.h>
 
 #include <kautosavefile.h>
-#include "../bin/model/subtitlemodel.hpp"
 
 #include "definitions.h"
 #include "utils/gentime.h"
@@ -35,12 +34,13 @@ class ProjectClip;
 class MarkerListModel;
 class Render;
 class ProfileParam;
-class SubtitleModel;
 class MarkerSortModel;
+class TimelineItemModel;
 
 class QUndoGroup;
 class QUndoCommand;
 class DocUndoStack;
+class DocOpenResult;
 
 namespace Mlt {
 class Profile;
@@ -51,36 +51,6 @@ class Profile;
  * modified or upgraded, and any error message. If the doc is nullptr, then
  * errorMessage() will return an error string that can be shown to the user.
  */
-class DocOpenResult {
-public:
-    bool isSuccessful() const { return m_succeeded; }
-    bool isAborted() const { return m_aborted; }
-    /** @returns a unique_ptr to the KdenliveDoc, or an empty unique_ptr */
-    std::unique_ptr<KdenliveDoc> getDocument() { return std::move(m_doc); }
-    /** @returns an error message if the doc could not be opened. */
-    QString getError() const { return m_errorMessage; }
-    /** @return true if the doc was upgraded from an older version */
-    bool wasUpgraded() const { return m_upgraded; }
-    /** @return true if the doc was modified by the validator */
-    bool wasModified() const { return m_modified; }
-    void setDocument(std::unique_ptr<KdenliveDoc> doc) {
-        m_doc = std::move(doc);
-        m_succeeded = true;
-    }
-    void setError(const QString &error) { m_errorMessage = error; }
-    void setAborted() { m_aborted = true; }
-    void setUpgraded(bool upgraded) { m_upgraded = upgraded; }
-    void setModified(bool modified) { m_modified = modified; }
-
-private:
-    std::unique_ptr<KdenliveDoc> m_doc;
-    QString m_errorMessage = QString();
-    QString m_notification = QString();
-    bool m_upgraded = false;
-    bool m_modified = false;
-    bool m_succeeded = false;
-    bool m_aborted = false;
-};
 
 class KdenliveDoc : public QObject
 {
@@ -460,4 +430,37 @@ Q_SIGNALS:
     void removeInvalidUndo(int ix);
     /** @brief Update compositing info */
     void updateCompositionMode(bool);
+};
+
+class DocOpenResult
+{
+public:
+    bool isSuccessful() const { return m_succeeded; }
+    bool isAborted() const { return m_aborted; }
+    /** @returns a unique_ptr to the KdenliveDoc, or an empty unique_ptr */
+    std::unique_ptr<KdenliveDoc> getDocument() { return std::move(m_doc); }
+    /** @returns an error message if the doc could not be opened. */
+    QString getError() const { return m_errorMessage; }
+    /** @return true if the doc was upgraded from an older version */
+    bool wasUpgraded() const { return m_upgraded; }
+    /** @return true if the doc was modified by the validator */
+    bool wasModified() const { return m_modified; }
+    void setDocument(std::unique_ptr<KdenliveDoc> doc)
+    {
+        m_doc = std::move(doc);
+        m_succeeded = true;
+    }
+    void setError(const QString &error) { m_errorMessage = error; }
+    void setAborted() { m_aborted = true; }
+    void setUpgraded(bool upgraded) { m_upgraded = upgraded; }
+    void setModified(bool modified) { m_modified = modified; }
+
+private:
+    std::unique_ptr<KdenliveDoc> m_doc;
+    QString m_errorMessage = QString();
+    QString m_notification = QString();
+    bool m_upgraded = false;
+    bool m_modified = false;
+    bool m_succeeded = false;
+    bool m_aborted = false;
 };

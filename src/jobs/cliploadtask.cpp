@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "cliploadtask.h"
 #include "audio/audioStreamInfo.h"
+#include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"

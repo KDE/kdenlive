@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/mediabrowser.h"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectitemmodel.h"
 #include "capture/mediacapture.h"
 #include "config-kdenlive.h"

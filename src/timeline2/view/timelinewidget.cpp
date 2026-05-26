@@ -12,6 +12,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markersortmodel.h"
+#include "bin/model/subtitlemodel.hpp"
 #include "capture/mediacapture.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
