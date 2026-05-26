@@ -349,15 +349,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
     m_view.optionsGroup->setMinimumWidth(m_view.optionsGroup->width() + m_view.optionsGroup->verticalScrollBar()->width());
     connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);
-
-    connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
-    connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void (RenderWidget::*)(const QUrl &)>(&RenderWidget::slotUpdateButtons));
-    connect(m_view.out_file->lineEdit(), &KLineEdit::editingFinished, this, [this]() {
-        const QUrl url = m_view.out_file->url();
-        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
-        qDebug() << "HHHHHHHHHHHHHHH\nEDITING FINISHED; URL: " << url;
-        m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
-    });
+    connect(m_view.out_file, &KUrlRequester::urlSelected, this, &RenderWidget::slotUpdateUrl);
+    connect(m_view.out_file->lineEdit(), &KLineEdit::editingFinished, this, &RenderWidget::slotUpdateUrl);
 
     connect(m_view.guide_multi_box, &QGroupBox::toggled, this, &RenderWidget::slotRenderModeChanged);
     connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
@@ -655,11 +648,11 @@ void RenderWidget::loadConfig()
 void RenderWidget::updateDocumentPath()
 {
     m_view.out_file->setStartDir(QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder()));
-    if (m_view.out_file->url().isEmpty()) {
+    if (m_view.out_file->text().isEmpty()) {
         return;
     }
-    const QString fileName = m_view.out_file->url().fileName();
-    m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(pCore->currentDoc()->projectRenderFolder()).absoluteFilePath(fileName)));
+    const QString fileName = QFileInfo(m_view.out_file->text()).fileName();
+    m_view.out_file->setText(pCore->currentDoc()->projectRenderFolder() + "/" + fileName);
     parseScriptFiles();
 }
 
@@ -810,7 +803,7 @@ void RenderWidget::reloadGuides()
     slotRenderModeChanged();
 }
 
-void RenderWidget::slotUpdateButtons(const QUrl &url)
+void RenderWidget::slotUpdateButtons()
 {
     if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
         m_view.buttonSaveAs->setEnabled(false);
@@ -826,8 +819,14 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         m_view.buttonDelete->setEnabled(profile->editable());
         m_view.buttonEdit->setEnabled(profile->editable());
     }
+    slotUpdateUrl();
+}
+
+void RenderWidget::slotUpdateUrl()
+{
+    const QUrl url = QUrl::fromLocalFile(m_view.out_file->text());
     if (url.isValid()) {
-        QStorageInfo info(QFileInfo(url.toLocalFile()).absolutePath());
+        QStorageInfo info(m_view.out_file->text());
         if (m_lastCheckedDevice != info.device()) {
             // User selected a new device, check now if it has enough space
             checkDriveSpace();
@@ -835,11 +834,6 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
         m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
     }
-}
-
-void RenderWidget::slotUpdateButtons()
-{
-    slotUpdateButtons(QUrl());
 }
 
 void RenderWidget::slotSavePresetAs()
@@ -957,25 +951,25 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
 void RenderWidget::slotPrepareExport2(bool delayedRendering)
 {
-    if (QFile::exists(m_view.out_file->url().toLocalFile())) {
+    QFileInfo info(m_view.out_file->text());
+    if (info.exists()) {
         if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
                                            KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
-    }
-    // mantisbt 1051
-    QDir dir(m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile());
-    if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
-        KMessageBox::error(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.",
-                                      m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
-        return;
+    } else {
+        QDir dir = info.dir();
+        if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
+            KMessageBox::error(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", dir.absolutePath()));
+            return;
+        }
     }
 
     saveRenderProfile();
 
     RenderRequest request;
 
-    request.setOutputFile(m_view.out_file->url().toLocalFile());
+    request.setOutputFile(QFileInfo(m_view.out_file->text()).absoluteFilePath());
 
     request.setPresetParams(m_params);
     request.setDelayedRendering(delayedRendering);
@@ -1237,14 +1231,6 @@ void RenderWidget::refreshView()
 
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
-    if (!url.isValid()) {
-        url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
-    }
-    QDir directory(url.adjusted(QUrl::RemoveFilename).toLocalFile());
-    if (!url.isValid() || directory.isRelative()) {
-        directory = QDir(pCore->currentDoc()->projectRenderFolder());
-    }
-
     QString ext;
     if (extension.startsWith(QLatin1Char('.'))) {
         ext = extension;
@@ -1268,8 +1254,17 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
             filename = filename.left(pos) + ext;
         }
     }
+    if (!url.isValid()) {
+        qDebug() << "==== GOT INITIAL URL INVALID: " << url;
+        url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
+    }
 
-    return QUrl::fromLocalFile(directory.absoluteFilePath(filename));
+    QFileInfo info(url.adjusted(QUrl::RemoveFilename).toLocalFile());
+    if (!url.isValid() || info.isRelative()) {
+        info.setFile(pCore->currentDoc()->projectRenderFolder());
+    }
+
+    return QUrl::fromLocalFile(QFileInfo(info.absoluteFilePath() + "/" + filename).absoluteFilePath());
 }
 
 void RenderWidget::slotChangeSelection(const QModelIndex &current, const QModelIndex &previous)
@@ -2144,7 +2139,7 @@ void RenderWidget::saveRenderProfile()
     std::unique_ptr<RenderPresetModel> &preset = RenderPresetRepository::get()->getPreset(m_currentProfile);
     renderProps.insert(QStringLiteral("rendercategory"), preset->groupId());
     renderProps.insert(QStringLiteral("renderprofile"), preset->name());
-    renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->url().toLocalFile());
+    renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->text());
     int mode = 0; // 0 = full project
     if (m_view.render_zone->isChecked()) {
         mode = 1;
@@ -2289,7 +2284,18 @@ void RenderWidget::updateRenderOffset()
 
 void RenderWidget::checkDriveSpace()
 {
-    QStorageInfo info(QFileInfo(m_view.out_file->url().toLocalFile()).absolutePath());
+    if (m_view.out_file->text().isEmpty()) {
+        return;
+    }
+    QStorageInfo info(QFileInfo(m_view.out_file->text()).dir());
+    if (info.device().isEmpty()) {
+        // Unknown drive, don't check
+        if (m_freeSpaceStatus != SpaceUnknown) {
+            m_freeSpaceStatus = SpaceUnknown;
+            updateRenderInfoMessage();
+        }
+        return;
+    }
     m_lastCheckedDevice = info.device();
     DriveSpaceStatus previousState = m_freeSpaceStatus;
 #ifdef Q_OS_MAC
@@ -2325,7 +2331,7 @@ void RenderWidget::checkDriveSpace()
 
 void RenderWidget::updateRenderInfoMessage()
 {
-    if (m_freeSpaceStatus != SpaceOk) {
+    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
         m_view.infoMessage->setMessageType(m_freeSpaceStatus == SpaceNone || m_freeSpaceStatus == SpaceNotWritable ? KMessageWidget::Error
                                                                                                                    : KMessageWidget::Warning);
     } else {
@@ -2336,7 +2342,7 @@ void RenderWidget::updateRenderInfoMessage()
         m_view.infoMessage->show();
         return;
     }
-    if (m_freeSpaceStatus != SpaceOk) {
+    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
         switch (m_freeSpaceStatus) {
         case SpaceNotWritable:
             m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
@@ -2553,7 +2559,7 @@ void RenderWidget::resetRenderPath(const QString &path)
     if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
     }
-    m_view.out_file->setUrl(QUrl::fromLocalFile(url));
+    m_view.out_file->setText(url);
     QMap<QString, QString> renderProps;
     renderProps.insert(QStringLiteral("renderurl"), url);
     Q_EMIT selectedRenderProfile(renderProps);
