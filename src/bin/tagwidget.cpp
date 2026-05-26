@@ -260,7 +260,7 @@ void TagWidget::showTagsConfig()
     QAction *a = KStandardAction::renameFile(this, editItem, &d);
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     list.addAction(a);
-    d.connect(&list, &QListWidget::itemDoubleClicked, &d, [=]() { editItem(); });
+    d.connect(&list, &QListWidget::itemDoubleClicked, &d, [editItem]() { editItem(); });
     QToolButton *tb = new QToolButton(&d);
     tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     lay->addWidget(tb);

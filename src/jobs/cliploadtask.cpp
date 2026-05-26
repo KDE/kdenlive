@@ -272,7 +272,8 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                                                   Q_ARG(int, m_out), Q_ARG(bool, false));
                     } else if (binClip.get() && !m_isCanceled.loadAcquire()) {
                         // We don't follow m_isCanceled there,
-                        qDebug() << "=== GOT THUMB FOR: " << m_in << "x" << m_out << ", UUID: " << m_sequenceUuid << "\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+                        qDebug() << "=== GOT THUMB FOR: " << m_owner.itemId << "; TYPE: " << int(m_owner.type) << ", " << m_in << "x" << m_out
+                                 << ", UUID: " << m_sequenceUuid << "\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.itemId), frameNumber, result, false);
                         m_progress = 100;
                         if (m_sequenceUuid.isNull()) {
