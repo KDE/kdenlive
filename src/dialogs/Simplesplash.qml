@@ -251,17 +251,6 @@ Window {
                     }
                     buttonPressed = false
                 }
-                Keys.onPressed: (event)=> {
-                    if (event.key === Qt.Key_Return) {
-                        buttonPressed = true
-                    }
-                }
-                Keys.onReleased: {
-                    if (buttonPressed) {
-                        animateClick()
-                    }
-                    buttonPressed = false
-                }
             }
         }
         Rectangle {
