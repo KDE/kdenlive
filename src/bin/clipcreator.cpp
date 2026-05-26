@@ -67,11 +67,9 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
 
     QString id;
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
-        if (!pCore->window()) {
-            // We are in non graphical mode, abort
-            return;
+        if (pCore->window()) {
+            pCore->activeBin()->selectClipById(binId);
         }
-        pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
         }
@@ -89,11 +87,9 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 
     QString id;
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
-        if (!pCore->window()) {
-            // We are in non graphical mode, abort
-            return;
+        if (pCore->window()) {
+            pCore->activeBin()->selectClipById(binId);
         }
-        pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
         }
@@ -155,11 +151,9 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     prod->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
 
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
-        if (!pCore->window()) {
-            // We are in non graphical mode, abort
-            return;
+        if (pCore->window()) {
+            pCore->activeBin()->selectClipById(binId);
         }
-        pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
         }
@@ -370,11 +364,9 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
 
     QString id;
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
-        if (!pCore->window()) {
-            // We are in non graphical mode, abort
-            return;
+        if (pCore->window()) {
+            pCore->activeBin()->selectClipById(binId);
         }
-        pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
         }
@@ -417,11 +409,9 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
 
     QString id;
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
-        if (!pCore->window()) {
-            // We are in non graphical mode, abort
-            return;
+        if (pCore->window()) {
+            pCore->activeBin()->selectClipById(binId);
         }
-        pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
         }
