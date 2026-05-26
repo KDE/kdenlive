@@ -67,6 +67,10 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
 
     QString id;
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        if (!pCore->window()) {
+            // We are in non graphical mode, abort
+            return;
+        }
         pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
@@ -84,8 +88,17 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     auto prod = createProducer(xml, ClipType::Color, color, name, duration, QStringLiteral("color"));
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), readyCallBack ? readyCallBack : callBack);
+    std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        if (!pCore->window()) {
+            // We are in non graphical mode, abort
+            return;
+        }
+        pCore->activeBin()->selectClipById(binId);
+        if (readyCallBack) {
+            readyCallBack(binId);
+        }
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -357,6 +370,10 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
 
     QString id;
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        if (!pCore->window()) {
+            // We are in non graphical mode, abort
+            return;
+        }
         pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
@@ -400,6 +417,10 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
 
     QString id;
     std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        if (!pCore->window()) {
+            // We are in non graphical mode, abort
+            return;
+        }
         pCore->activeBin()->selectClipById(binId);
         if (readyCallBack) {
             readyCallBack(binId);
