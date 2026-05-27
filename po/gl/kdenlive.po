@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-26 02:42+0000\n"
+"POT-Creation-Date: 2026-05-27 02:40+0000\n"
 "PO-Revision-Date: 2025-06-21 12:22+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -16759,7 +16759,7 @@ msgstr ""
 msgid "Process audio using a SoX effect"
 msgstr "Houbo un problema ao editar o efecto"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1903
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1898
 #: src/monitor/view/MonitorSplit.qml:103
 #, kde-format
 msgid "Effect"
@@ -20270,7 +20270,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Substituír na cronoloxía"
 
-#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6261 src/bin/clipcreator.cpp:344
+#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6261 src/bin/clipcreator.cpp:351
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -20392,8 +20392,8 @@ msgid "Playlist"
 msgstr "Lista de reprodución"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2802 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1669 src/project/projectmanager.cpp:1671
+#: src/bin/bin.cpp:2802 src/bin/clipcreator.cpp:260 src/bin/clipcreator.cpp:262
+#: src/project/projectmanager.cpp:1671 src/project/projectmanager.cpp:1673
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20683,7 +20683,7 @@ msgid "Please set a default application to open video files"
 msgstr "Defina a aplicación predeterminada para abrir ficheiros de son"
 
 #: src/bin/bin.cpp:5171 src/core.cpp:683 src/doc/kdenlivedoc.cpp:170
-#: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
+#: src/jobs/cliploadtask.cpp:488 src/jobs/cliploadtask.cpp:500
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:172
@@ -20904,43 +20904,43 @@ msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Editar o fragmento"
 
-#: src/bin/clipcreator.cpp:75
+#: src/bin/clipcreator.cpp:77
 #, kde-format
 msgid "Create title clip"
 msgstr "Crear un fragmento de título"
 
-#: src/bin/clipcreator.cpp:88
+#: src/bin/clipcreator.cpp:97
 #, kde-format
 msgid "Create color clip"
 msgstr "Crear un fragmento de cor"
 
-#: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:264
+#: src/bin/clipcreator.cpp:175 src/bin/clipcreator.cpp:271
 #, kde-format
 msgid "Create sequence"
 msgstr "Crear unha secuencia"
 
-#: src/bin/clipcreator.cpp:274
+#: src/bin/clipcreator.cpp:281
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr "Non pode engadir un proxecto a si mesmo."
 
-#: src/bin/clipcreator.cpp:274
+#: src/bin/clipcreator.cpp:281
 #, kde-format
 msgid "Cannot create clip"
 msgstr "Non é posíbel crear o fragmento"
 
-#: src/bin/clipcreator.cpp:365
+#: src/bin/clipcreator.cpp:374
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Crear un fragmento de presentación"
 
-#: src/bin/clipcreator.cpp:408
+#: src/bin/clipcreator.cpp:419
 #, kde-format
 msgid "Create title template"
 msgstr "Crear un modelo de título"
 
 # skip-rule: trasno-insert
-#: src/bin/clipcreator.cpp:433
+#: src/bin/clipcreator.cpp:444
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -20950,13 +20950,13 @@ msgstr "Os seguintes fragmentos xa están no proxecto. Quere duplicalos?"
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:434 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:445 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplicar"
 
-#: src/bin/clipcreator.cpp:578
+#: src/bin/clipcreator.cpp:589
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -20969,17 +20969,17 @@ msgstr ""
 "distinta.\n"
 "Cómpre que o copie primeiro no disco duro. Quere engadilo de todos os xeitos?"
 
-#: src/bin/clipcreator.cpp:582
+#: src/bin/clipcreator.cpp:593
 #, kde-format
 msgid "Removable device"
 msgstr "Dispositivo extraíbel"
 
-#: src/bin/clipcreator.cpp:620
+#: src/bin/clipcreator.cpp:631
 #, kde-format
 msgid "Loading done"
 msgstr "Completouse a carga"
 
-#: src/bin/clipcreator.cpp:631 src/dialogs/clipcreationdialog.cpp:547
+#: src/bin/clipcreator.cpp:642 src/dialogs/clipcreationdialog.cpp:547
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -21445,8 +21445,8 @@ msgstr "Identificador"
 msgid "Usage"
 msgstr "Uso"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1881
-#: src/doc/documentchecker.cpp:1911 src/doc/documentchecker.cpp:1931
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1876
+#: src/doc/documentchecker.cpp:1906 src/doc/documentchecker.cpp:1926
 #: src/mltcontroller/clipcontroller.cpp:537
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
@@ -21573,7 +21573,7 @@ msgid "Disable GPU processing"
 msgstr "Desactivar o procesamento coa GPU"
 
 #: src/core.cpp:265 src/core.cpp:349 src/core.cpp:523
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:871
 #, kde-format
 msgid "Loading project…"
 msgstr "Cargando o proxecto…"
@@ -22313,7 +22313,7 @@ msgstr "Exportar os datos das guías"
 #: src/project/dialogs/archivewidget.cpp:927
 #: src/project/dialogs/archivewidget.cpp:939
 #: src/project/dialogs/archivewidget.cpp:945
-#: src/project/projectmanager.cpp:1982 src/project/projectmanager.cpp:1988
+#: src/project/projectmanager.cpp:1984 src/project/projectmanager.cpp:1990
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -22419,7 +22419,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Ante a dúbida, probe:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1871
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1873
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -25551,132 +25551,132 @@ msgstr "Cartafol dos fragmentos"
 msgid "Applying fixes…"
 msgstr "Aplicando as correccións…"
 
-#: src/doc/documentchecker.cpp:181 src/doc/documentchecker.cpp:257
+#: src/doc/documentchecker.cpp:181 src/doc/documentchecker.cpp:252
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Comprobando se faltan elementos…"
 
-#: src/doc/documentchecker.cpp:202
+#: src/doc/documentchecker.cpp:201
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 "O identificador de documento do proxecto non era válido, creouse un novo."
 
-#: src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Video clip"
 msgstr "Fragmento de vídeo"
 
-#: src/doc/documentchecker.cpp:1873
+#: src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Fragmento de pase de diapositivas"
 
-#: src/doc/documentchecker.cpp:1875
+#: src/doc/documentchecker.cpp:1870
 #, kde-format
 msgid "Image clip"
 msgstr "Fragmento de imaxe"
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1872
 #, kde-format
 msgid "Playlist clip"
 msgstr "Fragmento de lista de reprodución"
 
-#: src/doc/documentchecker.cpp:1879 src/doc/documentchecker.cpp:1895
+#: src/doc/documentchecker.cpp:1874 src/doc/documentchecker.cpp:1890
 #, kde-format
 msgid "Title Image"
 msgstr "Imaxe de título"
 
-#: src/doc/documentchecker.cpp:1891
+#: src/doc/documentchecker.cpp:1886
 #, kde-format
 msgid "Clip"
 msgstr "Fragmento"
 
-#: src/doc/documentchecker.cpp:1893
+#: src/doc/documentchecker.cpp:1888
 #, kde-format
 msgid "Title Font"
 msgstr "Fonte do título"
 
-#: src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1892
 #, kde-format
 msgid "Luma file"
 msgstr "Ficheiro de Luminancia"
 
-#: src/doc/documentchecker.cpp:1899
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "Asset file"
 msgstr "Ficheiro de activo"
 
-#: src/doc/documentchecker.cpp:1901
+#: src/doc/documentchecker.cpp:1896
 #: src/mltcontroller/clippropertiescontroller.cpp:701
 #, kde-format
 msgid "Proxy clip"
 msgstr "Fragmento proxy"
 
-#: src/doc/documentchecker.cpp:1905
+#: src/doc/documentchecker.cpp:1900
 #, kde-format
 msgid "Transition"
 msgstr "Transición"
 
-#: src/doc/documentchecker.cpp:1907
+#: src/doc/documentchecker.cpp:1902
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Fragmento non referenciado"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1904
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Secuencia corrompida"
 
-#: src/doc/documentchecker.cpp:1919
+#: src/doc/documentchecker.cpp:1914
 #, fuzzy, kde-format
 #| msgid "Fixed"
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Fixada"
 
-#: src/doc/documentchecker.cpp:1921
+#: src/doc/documentchecker.cpp:1916
 #, fuzzy, kde-format
 #| msgid "Reload"
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Recargar"
 
-#: src/doc/documentchecker.cpp:1923
+#: src/doc/documentchecker.cpp:1918
 #, fuzzy, kde-format
 #| msgid "Missing"
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Falta"
 
-#: src/doc/documentchecker.cpp:1925
+#: src/doc/documentchecker.cpp:1920
 #, fuzzy, kde-format
 #| msgid "Missing, but proxy available"
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Falta, pero hai un mandatario dispoñíbel"
 
-#: src/doc/documentchecker.cpp:1927
+#: src/doc/documentchecker.cpp:1922
 #, fuzzy, kde-format
 #| msgid "Placeholder"
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Marcador de posición"
 
-#: src/doc/documentchecker.cpp:1929
+#: src/doc/documentchecker.cpp:1924
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Retirar"
 
-#: src/doc/documentchecker.cpp:1940
+#: src/doc/documentchecker.cpp:1935
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "O ficheiro do proxecto inclúe fragmentos ou ficheiros ausentes."
 
-#: src/doc/documentchecker.cpp:1943
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Os mandatarios que faltan poden crearse de novo ao abrir."
@@ -25818,8 +25818,8 @@ msgstr "Os seguintes filtros e transicións elimináronse do proxecto:"
 msgid "Invalid file path"
 msgstr "Ruta de ficheiro non válida"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:848
+#: src/project/projectmanager.cpp:900
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Non foi posíbel recuperar o ficheiro corrompido."
@@ -25899,8 +25899,8 @@ msgstr ""
 "O ficheiro do proxecto anovouse para usar a última versión de documento de "
 "Kdenlive, pero non foi posíbel crear a salvagarda %1."
 
-#: src/doc/kdenlivedoc.cpp:938 src/project/projectmanager.cpp:1543
-#: src/project/projectmanager.cpp:1579
+#: src/doc/kdenlivedoc.cpp:938 src/project/projectmanager.cpp:1545
+#: src/project/projectmanager.cpp:1581
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Produciuse un erro ao mover o cartafol do proxecto: %1"
@@ -26643,17 +26643,17 @@ msgstr "Miniaturas de vídeo"
 msgid "Loading clip"
 msgstr "Cargando o fragmento"
 
-#: src/jobs/cliploadtask.cpp:533
+#: src/jobs/cliploadtask.cpp:534
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Non é posíbel determinar a duración do ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:742
+#: src/jobs/cliploadtask.cpp:743
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Non se pode mover o punto de reprodución no ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:773
+#: src/jobs/cliploadtask.cpp:774
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "O ficheiro <b>%1</b> ten unha taxa de fotogramas variábel."
@@ -32629,7 +32629,7 @@ msgstr "Abrir o ficheiro de salvagarda…"
 msgid "Save changes to document?"
 msgstr "Gardar os cambios no documento?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1808
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1810
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32660,44 +32660,44 @@ msgstr ""
 "Isto moverá os ficheiros temporais de <b>%1</b> a <b>%2</b>, e entón "
 "cambiarase a localización do ficheiro de proxecto"
 
-#: src/project/projectmanager.cpp:632
+#: src/project/projectmanager.cpp:634
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Gardar unha copia"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:749
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Existe un ficheiro gardado automaticamente. Quéreo recuperar agora?"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:749
 #, kde-format
 msgid "File Recovery"
 msgstr "Recuperación de ficheiro"
 
-#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:750 src/project/projectmanager.cpp:886
 #, kde-format
 msgid "Recover"
 msgstr "Recuperar"
 
-#: src/project/projectmanager.cpp:748
+#: src/project/projectmanager.cpp:750
 #, kde-format
 msgid "Do not recover"
 msgstr "Non recuperar"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:793
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "A categoría de marcadores non existe."
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:825
 #, kde-format
 msgid "Opening file %1"
 msgstr "Abrindo o ficheiro %1"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:885
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32709,27 +32709,27 @@ msgstr ""
 "%1\n"
 "Quere abrir unha salvagarda?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1135
 #, kde-format
 msgid "Error opening file"
 msgstr "Produciuse un erro ao abrir o ficheiro"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1134
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1136
 #, kde-format
 msgid "Open Backup"
 msgstr "Abrir unha salvagarda"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:904
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Non foi posíbel abrir o ficheiro de proxecto de salvagarda."
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:919
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "Anovouse o proxecto, a seguinte vez que garde crearase unha salvagarda"
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -32737,17 +32737,17 @@ msgstr ""
 "Modificouse o proxecto ao abrilo, a seguinte vez que garde crearase unha "
 "salvagarda"
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:992
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Cargando a cronoloxía…"
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1015
 #, kde-format
 msgid "Building sequences…"
 msgstr "Construíndo as secuencias…"
 
-#: src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:1162
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32756,7 +32756,7 @@ msgstr ""
 "Non é posíbel abrir o ficheiro de proxecto. Erro:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1202
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32765,12 +32765,12 @@ msgstr ""
 "Isto eliminará todos os cambios feitos desde a última vez que gardou o "
 "proxecto. Seguro que quere continuar?"
 
-#: src/project/projectmanager.cpp:1201
+#: src/project/projectmanager.cpp:1203
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Recuperar a última versión gardada"
 
-#: src/project/projectmanager.cpp:1300
+#: src/project/projectmanager.cpp:1302
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -32779,25 +32779,25 @@ msgstr ""
 "O proxecto corrompeuse, non se pode salvagardar. Peche e reabra o ficheiro "
 "de proxecto para recuperar a última salvagarda"
 
-#: src/project/projectmanager.cpp:1521
+#: src/project/projectmanager.cpp:1523
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Produciuse un erro ao mover o cartafol do proxecto, non se pode acceder ao "
 "cartafol da caché"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1559
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movendo o cartafol do proxecto"
 
-#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1704
-#: src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1650 src/project/projectmanager.cpp:1706
+#: src/project/projectmanager.cpp:1710
 #, kde-format
 msgid "Sequence 1"
 msgstr "Secuencia 1"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1661
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -32805,13 +32805,13 @@ msgstr ""
 "O ficheiro de proxecto está corrompido (non foi posíbel cargar as pistas). "
 "Quere intentar atopar un ficheiro de salvagarda?"
 
-#: src/project/projectmanager.cpp:1800 src/project/projectmanager.cpp:1813
-#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1846
+#: src/project/projectmanager.cpp:1802 src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1839 src/project/projectmanager.cpp:1848
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Interrompeuse o cambio de perfil de proxecto"
 
-#: src/project/projectmanager.cpp:1976
+#: src/project/projectmanager.cpp:1978
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -32820,12 +32820,12 @@ msgstr ""
 "O ficheiro de saída %1 xa existe.\n"
 "Quéreo substituír?"
 
-#: src/project/projectmanager.cpp:2001
+#: src/project/projectmanager.cpp:2003
 #, kde-format
 msgid "Project profile changed"
 msgstr "O perfil de proxecto cambiou"
 
-#: src/project/projectmanager.cpp:2065
+#: src/project/projectmanager.cpp:2067
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -32834,31 +32834,31 @@ msgstr ""
 "Non é posíbel crear unha cronoloxía a partir deste fragmento:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2156
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importando un fragmento de secuencia, actualmente isto está en estado "
 "experimental"
 
-#: src/project/projectmanager.cpp:2399
+#: src/project/projectmanager.cpp:2401
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccionar un fragmento para crear unha secuencia"
 
-#: src/project/projectmanager.cpp:2409
+#: src/project/projectmanager.cpp:2411
 #, fuzzy, kde-format
 #| msgid "Mask creation"
 msgid "Sequence creation failed"
 msgstr "Creación de máscara"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2438
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Non pode inserir unha secuencia que se contén a si mesma"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2442
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crear un fragmento de secuencia"

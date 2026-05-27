@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-26 02:42+0000\n"
+"POT-Creation-Date: 2026-05-27 02:40+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -16403,7 +16403,7 @@ msgstr ""
 msgid "Process audio using a SoX effect"
 msgstr "Sox bas-lydeffekt"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1903
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1898
 #: src/monitor/view/MonitorSplit.qml:103
 #, kde-format
 msgid "Effect"
@@ -19912,7 +19912,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Klip i tidslinje"
 
-#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6261 src/bin/clipcreator.cpp:344
+#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6261 src/bin/clipcreator.cpp:351
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, fuzzy, kde-format
 #| msgid "Add clip"
@@ -20048,8 +20048,8 @@ msgid "Playlist"
 msgstr "Spilleliste"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2802 src/bin/clipcreator.cpp:253 src/bin/clipcreator.cpp:255
-#: src/project/projectmanager.cpp:1669 src/project/projectmanager.cpp:1671
+#: src/bin/bin.cpp:2802 src/bin/clipcreator.cpp:260 src/bin/clipcreator.cpp:262
+#: src/project/projectmanager.cpp:1671 src/project/projectmanager.cpp:1673
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
@@ -20363,7 +20363,7 @@ msgstr ""
 "indstillingsdialogen"
 
 #: src/bin/bin.cpp:5171 src/core.cpp:683 src/doc/kdenlivedoc.cpp:170
-#: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
+#: src/jobs/cliploadtask.cpp:488 src/jobs/cliploadtask.cpp:500
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:172
@@ -20602,43 +20602,43 @@ msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Redigér klip"
 
-#: src/bin/clipcreator.cpp:75
+#: src/bin/clipcreator.cpp:77
 #, kde-format
 msgid "Create title clip"
 msgstr "Opret titelklip"
 
-#: src/bin/clipcreator.cpp:88
+#: src/bin/clipcreator.cpp:97
 #, kde-format
 msgid "Create color clip"
 msgstr "Opret farveklip"
 
-#: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:264
+#: src/bin/clipcreator.cpp:175 src/bin/clipcreator.cpp:271
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create sequence"
 msgstr "Billedsekvens"
 
-#: src/bin/clipcreator.cpp:274
+#: src/bin/clipcreator.cpp:281
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr ""
 
-#: src/bin/clipcreator.cpp:274
+#: src/bin/clipcreator.cpp:281
 #, kde-format
 msgid "Cannot create clip"
 msgstr "Kan ikke oprette klip"
 
-#: src/bin/clipcreator.cpp:365
+#: src/bin/clipcreator.cpp:374
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Opret diasshowklip"
 
-#: src/bin/clipcreator.cpp:408
+#: src/bin/clipcreator.cpp:419
 #, kde-format
 msgid "Create title template"
 msgstr "Opret titelskabelon"
 
-#: src/bin/clipcreator.cpp:433
+#: src/bin/clipcreator.cpp:444
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -20653,14 +20653,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:434 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:445 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, fuzzy, kde-format
 #| msgid "Duplicate clip"
 msgid "Duplicate"
 msgstr "Dupliker klip"
 
-#: src/bin/clipcreator.cpp:578
+#: src/bin/clipcreator.cpp:589
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -20669,18 +20669,18 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:582
+#: src/bin/clipcreator.cpp:593
 #, kde-format
 msgid "Removable device"
 msgstr "Flytbar enhed"
 
-#: src/bin/clipcreator.cpp:620
+#: src/bin/clipcreator.cpp:631
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading done"
 msgstr "Indlæser projekt"
 
-#: src/bin/clipcreator.cpp:631 src/dialogs/clipcreationdialog.cpp:547
+#: src/bin/clipcreator.cpp:642 src/dialogs/clipcreationdialog.cpp:547
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -21166,8 +21166,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1881
-#: src/doc/documentchecker.cpp:1911 src/doc/documentchecker.cpp:1931
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1876
+#: src/doc/documentchecker.cpp:1906 src/doc/documentchecker.cpp:1926
 #: src/mltcontroller/clipcontroller.cpp:537
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
@@ -21298,7 +21298,7 @@ msgid "Disable GPU processing"
 msgstr "Deaktivér proxyer"
 
 #: src/core.cpp:265 src/core.cpp:349 src/core.cpp:523
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:871
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -22046,7 +22046,7 @@ msgstr "Importér hjælpelinjer"
 #: src/project/dialogs/archivewidget.cpp:927
 #: src/project/dialogs/archivewidget.cpp:939
 #: src/project/dialogs/archivewidget.cpp:945
-#: src/project/projectmanager.cpp:1982 src/project/projectmanager.cpp:1988
+#: src/project/projectmanager.cpp:1984 src/project/projectmanager.cpp:1990
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -22146,7 +22146,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1871
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1873
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -25374,136 +25374,136 @@ msgstr "Klipmappe"
 msgid "Applying fixes…"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:181 src/doc/documentchecker.cpp:257
+#: src/doc/documentchecker.cpp:181 src/doc/documentchecker.cpp:252
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Checking for missing items…"
 msgstr "Enhedsindstilling"
 
-#: src/doc/documentchecker.cpp:202
+#: src/doc/documentchecker.cpp:201
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklip"
 
-#: src/doc/documentchecker.cpp:1873
+#: src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Diasshowklip"
 
-#: src/doc/documentchecker.cpp:1875
+#: src/doc/documentchecker.cpp:1870
 #, kde-format
 msgid "Image clip"
 msgstr "Billedeklip"
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1872
 #, kde-format
 msgid "Playlist clip"
 msgstr "Afspilningslisteklip"
 
-#: src/doc/documentchecker.cpp:1879 src/doc/documentchecker.cpp:1895
+#: src/doc/documentchecker.cpp:1874 src/doc/documentchecker.cpp:1890
 #, kde-format
 msgid "Title Image"
 msgstr "Titelbillede"
 
-#: src/doc/documentchecker.cpp:1891
+#: src/doc/documentchecker.cpp:1886
 #, fuzzy, kde-format
 #| msgid "&Clip"
 msgid "Clip"
 msgstr "&Klip"
 
-#: src/doc/documentchecker.cpp:1893
+#: src/doc/documentchecker.cpp:1888
 #, kde-format
 msgid "Title Font"
 msgstr "Titelskrifttype"
 
-#: src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1892
 #, kde-format
 msgid "Luma file"
 msgstr "Luma-fil"
 
-#: src/doc/documentchecker.cpp:1899
+#: src/doc/documentchecker.cpp:1894
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Slet filer"
 
-#: src/doc/documentchecker.cpp:1901
+#: src/doc/documentchecker.cpp:1896
 #: src/mltcontroller/clippropertiescontroller.cpp:701
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxyklip"
 
-#: src/doc/documentchecker.cpp:1905
+#: src/doc/documentchecker.cpp:1900
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "Overgange"
 
-#: src/doc/documentchecker.cpp:1907
+#: src/doc/documentchecker.cpp:1902
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Unreferenced clip"
 msgstr "Fjern klip"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1904
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Corrupted sequence"
 msgstr "Billedsekvens"
 
-#: src/doc/documentchecker.cpp:1919
+#: src/doc/documentchecker.cpp:1914
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1921
+#: src/doc/documentchecker.cpp:1916
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Genindlæs klip"
 
-#: src/doc/documentchecker.cpp:1923
+#: src/doc/documentchecker.cpp:1918
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Manglende element"
 
-#: src/doc/documentchecker.cpp:1925
+#: src/doc/documentchecker.cpp:1920
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Manglende proxy"
 
-#: src/doc/documentchecker.cpp:1927
+#: src/doc/documentchecker.cpp:1922
 #, fuzzy, kde-format
 #| msgid "Use default folder"
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Brug standardmappe"
 
-#: src/doc/documentchecker.cpp:1929
+#: src/doc/documentchecker.cpp:1924
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Fjernelse"
 
-#: src/doc/documentchecker.cpp:1940
+#: src/doc/documentchecker.cpp:1935
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projektfilen indeholder manglende klip eller filer."
 
-#: src/doc/documentchecker.cpp:1943
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Manglende proxyer kan oprettes igen ved åbning."
@@ -25644,8 +25644,8 @@ msgstr "Følgende filtre/overgange blev slettet fra projektet:"
 msgid "Invalid file path"
 msgstr "Ugyldig profil"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:848
+#: src/project/projectmanager.cpp:900
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -25724,8 +25724,8 @@ msgstr ""
 "Din projektfil blev opgraderet til den seneste version af Kdenlive-dokument, "
 "men det var ikke muligt at oprette en backupkopi %1."
 
-#: src/doc/kdenlivedoc.cpp:938 src/project/projectmanager.cpp:1543
-#: src/project/projectmanager.cpp:1579
+#: src/doc/kdenlivedoc.cpp:938 src/project/projectmanager.cpp:1545
+#: src/project/projectmanager.cpp:1581
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fejl ved flytning af projektmappe: %1"
@@ -26498,17 +26498,17 @@ msgstr "Videominiaturer"
 msgid "Loading clip"
 msgstr "Indlæser klip"
 
-#: src/jobs/cliploadtask.cpp:533
+#: src/jobs/cliploadtask.cpp:534
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:742
+#: src/jobs/cliploadtask.cpp:743
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:773
+#: src/jobs/cliploadtask.cpp:774
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -32510,7 +32510,7 @@ msgstr "Åbn backupfil"
 msgid "Save changes to document?"
 msgstr "Gem ændringer til dokument?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1808
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1810
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32545,46 +32545,46 @@ msgstr ""
 "flytte alle midlertidige filer fra <b>%1</b> til <b>%2</b>, og projektet vil "
 "blive genindlæst"
 
-#: src/project/projectmanager.cpp:632
+#: src/project/projectmanager.cpp:634
 #, fuzzy, kde-format
 #| msgid "Save Copy"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Gem kopi"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:749
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Der findes automatisk gemte filer. Vil du gendanne dem nu?"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:749
 #, kde-format
 msgid "File Recovery"
 msgstr "Filgendannelse"
 
-#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:750 src/project/projectmanager.cpp:886
 #, kde-format
 msgid "Recover"
 msgstr "Gendan"
 
-#: src/project/projectmanager.cpp:748
+#: src/project/projectmanager.cpp:750
 #, kde-format
 msgid "Do not recover"
 msgstr "Gendan ikke"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:793
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "File %1 does not exist"
 msgstr "Kategori"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:825
 #, kde-format
 msgid "Opening file %1"
 msgstr "Åbner filen %1"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:885
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open the project file,\n"
@@ -32597,46 +32597,46 @@ msgstr ""
 "Kan ikke åbne projektfilen,\n"
 "Vil du åbne en backupfil?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1135
 #, kde-format
 msgid "Error opening file"
 msgstr "Fejl ved åbning af fil"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1134
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1136
 #, kde-format
 msgid "Open Backup"
 msgstr "Åbn backup"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:904
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Kan ikke åbne projektfilen %1"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:919
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:992
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Loading timeline…"
 msgstr "Download nye vifter..."
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1015
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Building sequences…"
 msgstr "Billedsekvens"
 
-#: src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:1162
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -32644,7 +32644,7 @@ msgid ""
 "%1\n"
 msgstr "Kan ikke åbne projektfilen %1"
 
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1202
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32653,49 +32653,49 @@ msgstr ""
 "Dette vil slette alle ændringer der er foretaget, siden du sidst gemte dit "
 "projekt. Er du sikker på, at du vil fortsætte?"
 
-#: src/project/projectmanager.cpp:1201
+#: src/project/projectmanager.cpp:1203
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Rul tilbage til senest gemte version"
 
-#: src/project/projectmanager.cpp:1300
+#: src/project/projectmanager.cpp:1302
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1521
+#: src/project/projectmanager.cpp:1523
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fejl ved flytning af projektmappe: %1"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1559
 #, kde-format
 msgid "Moving project folder"
 msgstr "Flytter projektmappe"
 
-#: src/project/projectmanager.cpp:1648 src/project/projectmanager.cpp:1704
-#: src/project/projectmanager.cpp:1708
+#: src/project/projectmanager.cpp:1650 src/project/projectmanager.cpp:1706
+#: src/project/projectmanager.cpp:1710
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "Billedsekvens"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1661
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1800 src/project/projectmanager.cpp:1813
-#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1846
+#: src/project/projectmanager.cpp:1802 src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1839 src/project/projectmanager.cpp:1848
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ændring af projektprofil afbrudt"
 
-#: src/project/projectmanager.cpp:1976
+#: src/project/projectmanager.cpp:1978
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -32703,12 +32703,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Outputfilen findes allerede. Vil du overskrive den?"
 
-#: src/project/projectmanager.cpp:2001
+#: src/project/projectmanager.cpp:2003
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil ændret"
 
-#: src/project/projectmanager.cpp:2065
+#: src/project/projectmanager.cpp:2067
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -32716,30 +32716,30 @@ msgid ""
 "%1"
 msgstr "Kan ikke oprette filteret %1"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2156
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2399
+#: src/project/projectmanager.cpp:2401
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Vælg et klip for at sammenligne effekten"
 
-#: src/project/projectmanager.cpp:2409
+#: src/project/projectmanager.cpp:2411
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Sequence creation failed"
 msgstr "Markér overgang"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2438
 #, fuzzy, kde-format
 #| msgid "Cannot delete last track in timeline"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Kan ikke slette sidste spor i tidslinje"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2442
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
