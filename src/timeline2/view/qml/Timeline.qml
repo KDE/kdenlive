@@ -190,7 +190,7 @@ Rectangle {
     function updatePalette() {
         root.color = activePalette.window
         root.textColor = activePalette.text
-        playhead.fillColor = activePalette.windowText
+        playhead.color = activePalette.windowText
         ruler.dimmedColor = (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
         ruler.dimmedColor2 = (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 2.2) : Qt.lighter(activePalette.text, 2.2)
         ruler.repaintRuler()
@@ -1825,7 +1825,7 @@ function getTrackColor(audio, header) {
                             id: playhead
                             height: Math.round(K.UiUtils.baseSizeMedium * .8)
                             width: Math.round(K.UiUtils.baseSizeMedium * 1.2)
-                            fillColor: activePalette.windowText
+                            color: activePalette.windowText
                             visible: cursor.visible
                             anchors.bottom: parent.bottom
                             anchors.bottomMargin: ruler.zoneHeight - 1

@@ -1226,7 +1226,7 @@ Rectangle {
             K.TimelineTriangle {
                 // Green fade in triangle
                 id: fadeInTriangle
-                fillColor: 'green'
+                color: 'green'
                 curveType: clipRoot.fadeInMethod
                 width: Math.min(clipRoot.fadeIn * clipRoot.timeScale, container.width)
                 height: parent.height
@@ -1239,7 +1239,7 @@ Rectangle {
             K.TimelineTriangle {
                 // Red fade out triangle
                 id: fadeOutCanvas
-                fillColor: 'red'
+                color: 'red'
                 curveType: clipRoot.fadeOutMethod
                 width: Math.min(clipRoot.fadeOut * clipRoot.timeScale, container.width)
                 height: parent.height
