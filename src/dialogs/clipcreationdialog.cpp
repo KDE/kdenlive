@@ -12,8 +12,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "filefilter.h"
 #include "glaxnimatelauncher.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
@@ -22,11 +22,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titletemplatedialog.h"
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
-#include "utils/devices.hpp"
 #include "utils/qcolorutils.h"
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
-#include "filefilter.h"
 
 #include <KDirOperator>
 #include <KFileWidget>

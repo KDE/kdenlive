@@ -5,8 +5,7 @@
 
 #include "transitionicondelegate.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include "transitions/transitionsrepository.hpp"
+#include "definitions.h"
 
 #include <KLocalizedString>
 #include <QAbstractItemView>

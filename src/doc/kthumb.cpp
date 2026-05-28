@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kthumb.h"
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "profiles/profilemodel.hpp"
 
 #include <mlt++/Mlt.h>
 

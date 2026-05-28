@@ -5,8 +5,6 @@
 */
 
 #include "modeldownloadwidget.h"
-#include "core.h"
-#include "kdenlivesettings.h"
 
 #include <KLocalizedString>
 

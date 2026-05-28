@@ -8,11 +8,9 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "monitor/monitor.h"
-#include "profiles/profilemodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QDebug>
 #include <QDir>

@@ -7,7 +7,6 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "profiles/profilemodel.hpp"
 #include "xml/xml.hpp"
 
 #include <QApplication>

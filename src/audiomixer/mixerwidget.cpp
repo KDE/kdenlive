@@ -14,7 +14,6 @@
 #include "mixermanager.hpp"
 #include "mlt++/MltEvent.h"
 #include "mlt++/MltFilter.h"
-#include "mlt++/MltProfile.h"
 #include "mlt++/MltTractor.h"
 #include "utils/styledspinbox.hpp"
 

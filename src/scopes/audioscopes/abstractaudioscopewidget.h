@@ -7,12 +7,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include <QWidget>
-
-#include <cstdint>
-
-#include "../../definitions.h"
 #include "../abstractscopewidget.h"
+#include "definitions.h"
+
+#include <QWidget>
 
 class Render;
 

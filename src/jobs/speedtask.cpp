@@ -9,11 +9,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
-#include "macros.hpp"
 #include "mainwindow.h"
-#include "xml/xml.hpp"
 
 #include <KIO/RenameDialog>
 #include <KLineEdit>

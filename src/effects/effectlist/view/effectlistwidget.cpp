@@ -6,7 +6,6 @@
 #include "effectlistwidget.hpp"
 #include "../model/effectfilter.hpp"
 #include "../model/effecttreemodel.hpp"
-#include "assets/assetlist/view/asseticonprovider.hpp"
 #include "utils/uiutils.h"
 
 #include <KActionCategory>

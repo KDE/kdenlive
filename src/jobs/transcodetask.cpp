@@ -6,15 +6,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "transcodetask.h"
 #include "bin/bin.h"
-#include "bin/clipcreator.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
-#include "macros.hpp"
 #include "mainwindow.h"
 
 #include <QProcess>

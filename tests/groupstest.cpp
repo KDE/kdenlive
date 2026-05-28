@@ -11,20 +11,15 @@
 #pragma GCC diagnostic push
 #endif
 #include "bin/model/markerlistmodel.hpp"
-#include "bin/projectclip.h"
-#include "bin/projectfolder.h"
-#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "fakeit.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
-#include <iostream>
+
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 #include <unordered_set>

@@ -7,7 +7,6 @@
 
 #include "snapmodel.hpp"
 
-#include <map>
 #include <memory>
 #include <unordered_set>
 

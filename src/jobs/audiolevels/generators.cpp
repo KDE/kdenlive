@@ -6,13 +6,17 @@
 
 #include "generators.h"
 
-#include "audiolevelstask.h"
 #include "core.h"
 #include "definitions.h"
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QVector>
+
+#include <mlt++/MltFilter.h>
+#include <mlt++/MltFrame.h>
+#include <mlt++/MltProducer.h>
 
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -26,7 +30,6 @@ extern "C" {
 // The av_err2str macro in libavutil/error.h does not play nice with C++
 #ifdef av_err2str
 #undef av_err2str
-#include <string>
 av_always_inline QString av_err2string(int errnum)
 {
     char errbuf[AV_ERROR_MAX_STRING_SIZE];

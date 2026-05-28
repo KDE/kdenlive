@@ -9,7 +9,6 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/snapmodel.hpp"

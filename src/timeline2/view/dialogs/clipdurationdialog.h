@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "definitions.h"
 #include "ui_clipdurationdialog_ui.h"
-#include "widgets/timecodedisplay.h"
+
 #include <unordered_set>
 
 class TimelineItemModel;

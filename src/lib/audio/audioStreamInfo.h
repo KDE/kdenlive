@@ -5,10 +5,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include <QString>
 #include <QMap>
+#include <QString>
 #include <memory>
-#include <mlt++/Mlt.h>
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProperties.h>
 
 /** @class AudioStreamInfo
     @brief Provides easy access to properties of an audio stream.

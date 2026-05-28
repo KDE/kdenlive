@@ -13,6 +13,7 @@
 #include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
+#include <QRegularExpression>
 #include <QTemporaryFile>
 
 // TODO: remove, see generatePlaylistFile()
@@ -20,7 +21,6 @@
 #include <QInputDialog>
 
 // TODO:
-#include "doc/docundostack.hpp"
 #include <QUndoGroup>
 
 QStringList RenderRequest::argsByJob(const RenderJob &job, bool addPid)

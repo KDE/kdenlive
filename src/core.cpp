@@ -47,11 +47,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QInputDialog>
 #include <QQuickStyle>
 
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
-
 static bool m_inhibitHideBarTimer{false};
 
 std::unique_ptr<Core> Core::m_self;

@@ -6,11 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "monitoraudiolevel.h"
-#include "audiomixer/iecscale.h"
-#include "core.h"
-#include "profiles/profilemodel.hpp"
-
-#include "mlt++/Mlt.h"
 
 #include <cmath>
 

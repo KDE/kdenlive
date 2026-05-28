@@ -8,21 +8,20 @@
 #include <ki18n_version.h>
 
 #include "../model/builders/meltBuilder.hpp"
-#include "assets/keyframes/model/keyframemodel.hpp"
-#include "assets/model/assetparametermodel.hpp"
+
+// Required to pass the c++ classes to qml
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markersortmodel.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "capture/mediacapture.h"
+
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
 #include "monitormanager.h"
-#include "profiles/profilemodel.hpp"
 #include "project/dialogs/guideslist.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"

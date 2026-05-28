@@ -13,8 +13,6 @@
 #include <KLocalizedString>
 #include <QApplication>
 #include <QIcon>
-#include <array>
-#include <functional>
 #include <vector>
 
 RenderPresetTreeModel::RenderPresetTreeModel(QObject *parent)

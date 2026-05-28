@@ -11,7 +11,6 @@
 #include <QAbstractListModel>
 #include <QReadWriteLock>
 
-#include <array>
 #include <map>
 #include <memory>
 #include <mlt++/MltFilter.h>

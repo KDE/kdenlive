@@ -8,11 +8,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "ui_managecache_ui.h"
-#include "definitions.h"
 #include <KIO/DirectorySizeJob>
+#include <QDialog>
 #include <QDir>
 #include <QTreeWidgetItem>
-#include <QDialog>
 
 class KdenliveDoc;
 class QPaintEvent;

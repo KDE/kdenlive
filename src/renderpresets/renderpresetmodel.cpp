@@ -7,16 +7,17 @@
 
 #include "renderpresetmodel.hpp"
 #include "core.h"
-#include "kdenlive_debug.h"
-#include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "renderpresetrepository.hpp"
 
+#include <mlt++/MltProperties.h>
 #include <mlt++/MltRepository.h>
 
+#include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <KSharedConfig>
 #include <QDir>
 #include <QFile>
 #include <QRegularExpression>

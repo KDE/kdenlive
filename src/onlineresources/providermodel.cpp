@@ -6,10 +6,11 @@
 
 #include "providermodel.hpp"
 #include "kdenlive_debug.h"
-#include "kdenlivesettings.h"
 
+#include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KSharedConfig>
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QDir>

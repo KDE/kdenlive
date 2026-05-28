@@ -6,7 +6,6 @@
 #pragma once
 
 #include "definitions.h"
-#include "kdenlivesettings.h"
 #include "lib/audio/audioCorrelation.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 

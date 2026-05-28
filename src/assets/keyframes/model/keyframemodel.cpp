@@ -8,7 +8,6 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
-#include "profiles/profilemodel.hpp"
 #include "rotoscoping/rotohelper.hpp"
 #include "utils/qcolorutils.h"
 

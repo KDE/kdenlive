@@ -15,6 +15,8 @@
 
 #include <KPluginFactory>
 
+#include <mlt++/Mlt.h>
+
 K_PLUGIN_CLASS_WITH_JSON(MltPreview, "mltpreview.json")
 
 MltPreview::MltPreview(QObject *parent, const QVariantList &args)

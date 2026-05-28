@@ -19,7 +19,6 @@
 #include "utils/qstringutils.h"
 #include "widgets/dragvalue.h"
 
-#include "kdenlive_debug.h"
 #include <QComboBox>
 #include <QDialog>
 #include <QFileDialog>

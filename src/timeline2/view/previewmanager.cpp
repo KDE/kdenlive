@@ -12,10 +12,7 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "monitor/monitor.h"
-#include "profiles/profilemodel.hpp"
-#include "timeline2/view/timelinecontroller.h"
-#include "timeline2/view/timelinewidget.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>

@@ -5,10 +5,6 @@
 
 #pragma once
 
-#include <QPainter>
-#include <QPushButton>
-#include <QStyledItemDelegate>
-
 namespace Purpose {
 class Menu;
 }
@@ -23,6 +19,11 @@ class Menu;
 
 #include <KIO/FileJob>
 #include <KNSWidgets/Button>
+#include <QPainter>
+#include <QPushButton>
+#include <QStorageInfo>
+#include <QStyledItemDelegate>
+#include <QTimer>
 
 class QDomElement;
 class QKeyEvent;

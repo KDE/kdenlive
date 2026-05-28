@@ -28,7 +28,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QPainter>
-#include <QToolButton>
 #include <QVBoxLayout>
 
 DragButton::DragButton(int ix, const QString &tag, const QString &description, QWidget *parent)

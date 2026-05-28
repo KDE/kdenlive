@@ -30,13 +30,10 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
-#include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "effects/effectlist/model/effectfilter.hpp"
-#include "effects/effectsrepository.hpp"
-#include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "project/projectmanager.h"
 #include "src/render/renderrequest.h"
@@ -47,7 +44,6 @@
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
-#include "transitions/transitionsrepository.hpp"
 
 using namespace fakeit;
 #define RESET(mock)                                                                                                                                            \

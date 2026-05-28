@@ -12,8 +12,16 @@
     SPDX-License-Identifier: BSD-3-Clause
 */
 
+#include "videowidget.h"
+#include "bin/model/markersortmodel.h"
+#include "core.h"
+#include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/view/qmliconprovider.hpp"
+#include "monitorproxy.h"
+#include "profiles/profilemodel.hpp"
+#include "timeline2/view/qmltypes/thumbnailprovider.h"
+
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -35,13 +43,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include "bin/model/markersortmodel.h"
-#include "core.h"
-#include "monitorproxy.h"
-#include "profiles/profilemodel.hpp"
-#include "timeline2/view/qmltypes/thumbnailprovider.h"
-#include "videowidget.h"
-#include <lib/localeHandling.h>
 #include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH

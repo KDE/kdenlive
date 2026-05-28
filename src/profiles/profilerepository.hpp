@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "definitions.h" //for QString hash function
 #include "profileinfo.hpp"
 #include <QReadWriteLock>
 #include <QString>

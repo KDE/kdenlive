@@ -18,9 +18,6 @@
 #include <QThread>
 #include <QTimer>
 
-#include "bin/model/markerlistmodel.hpp"
-#include "definitions.h"
-#include "kdenlivesettings.h"
 #include "scopes/sharedframe.h"
 
 #include <mlt++/MltEvent.h>
@@ -28,7 +25,6 @@
 #include <mlt++/MltProfile.h>
 
 namespace Mlt {
-class Filter;
 class Producer;
 class Consumer;
 } // namespace Mlt

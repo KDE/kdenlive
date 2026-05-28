@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include <QWidget>
 #include <memory>

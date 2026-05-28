@@ -14,14 +14,13 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "otioutil.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
-#include "timeline2/view/timelinewidget.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <KLocalizedString>
 #include <KMessageBox>

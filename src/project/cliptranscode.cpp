@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KMessageWidget>
 
 ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringList postParams, const QString &description, QString folderInfo,
                              bool automaticMode, QWidget *parent)

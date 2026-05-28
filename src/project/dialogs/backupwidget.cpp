@@ -6,10 +6,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "backupwidget.h"
 #include "core.h"
-#include "kdenlivesettings.h"
 
 #include <QDir>
 #include <QPushButton>
+#include <QStandardPaths>
 
 BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QString &projectId, QWidget *parent)
     : QDialog(parent)

@@ -33,7 +33,6 @@
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
-#include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/timelinefunctions.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"

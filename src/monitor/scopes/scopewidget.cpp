@@ -7,7 +7,6 @@
 
 #include "scopewidget.h"
 #include "core.h"
-#include "kdenlive_debug.h"
 #include <QtConcurrent/QtConcurrentRun>
 
 ScopeWidget::ScopeWidget(QWidget *parent)

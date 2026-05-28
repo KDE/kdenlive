@@ -36,7 +36,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "macros.hpp"
 #include "mainwindow.h"
 #include "mediabrowser.h"
-#include "mlt++/Mlt.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"

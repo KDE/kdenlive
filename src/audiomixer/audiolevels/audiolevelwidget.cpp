@@ -4,10 +4,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "audiolevelwidget.hpp"
-#include "audiomixer/iecscale.h"
 #include "core.h"
-#include "mlt++/Mlt.h"
-#include "profiles/profilemodel.hpp"
 
 #include <KColorScheme>
 #include <KLocalizedString>
@@ -16,7 +13,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPaintEvent>
 #include <QPainter>
 #include <QToolTip>
-#include <array>
 
 // Drawing constants moved to AudioLevelRenderer
 constexpr int MINIMUM_SECONDARY_AXIS_LENGTH = 3;   // minimum height/width for audio level channels

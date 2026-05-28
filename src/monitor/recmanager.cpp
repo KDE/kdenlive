@@ -8,13 +8,13 @@
 #include "recmanager.h"
 //#include "capture/mltdevicecapture.h"
 #include "core.h"
-#include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "monitor.h"
 
 #include "klocalizedstring.h"
 #include <KMessageBox>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDir>

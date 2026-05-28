@@ -20,7 +20,6 @@
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "render/renderrequest.h"
-#include "utils/qstringutils.h"
 #include "utils/timecode.h"
 #include "xml/xml.hpp"
 
@@ -68,11 +67,6 @@
 
 #include <Purpose/AlternativesModel>
 #include <Purpose/Menu>
-
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
 
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };

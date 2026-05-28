@@ -5,8 +5,9 @@
 
 #include "treeitem.hpp"
 #include "abstracttreemodel.hpp"
+#include "kdenlive_debug.h"
+
 #include <QDebug>
-#include <numeric>
 #include <utility>
 
 TreeItem::TreeItem(QList<QVariant> data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id)

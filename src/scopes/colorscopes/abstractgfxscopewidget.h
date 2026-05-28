@@ -7,10 +7,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include "../abstractscopewidget.h"
+
 #include <QString>
 #include <QWidget>
-
-#include "../abstractscopewidget.h"
 
 /**
 * @brief Abstract class for scopes analyzing image frames.

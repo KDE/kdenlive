@@ -7,7 +7,6 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "doc/kdenlivedoc.h"
 #include "project/projectmanager.h"
 #include <QDir>
 #include <QMutexLocker>

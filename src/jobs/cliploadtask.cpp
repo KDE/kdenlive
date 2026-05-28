@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "cliploadtask.h"
-#include "audio/audioStreamInfo.h"
+#include "audio/audioInfo.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
@@ -15,9 +15,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
+#include "monitor/monitor.h"
 #include "project/dialogs/slideshowclip.h"
 #include "project/transcodeseek.h"
 #include "utils/thumbnailcache.hpp"
+
+#include <mlt++/MltFilter.h>
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProfile.h>
 
 #include "xml/xml.hpp"
 #include <KLocalizedString>
@@ -32,9 +37,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTime>
 #include <QUuid>
 #include <QVariantList>
-#include <audio/audioInfo.h>
-#include <monitor/monitor.h>
-#include <profiles/profilemodel.hpp>
 
 ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject *object)
     : AbstractTask(owner, thumbOnly ? AbstractTask::THUMBJOB : AbstractTask::LOADJOB, object)

@@ -13,7 +13,6 @@
 #include <QReadWriteLock>
 
 #include <QObject>
-#include <map>
 #include <memory>
 #include <unordered_map>
 

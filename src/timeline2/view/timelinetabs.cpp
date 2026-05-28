@@ -9,7 +9,6 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"

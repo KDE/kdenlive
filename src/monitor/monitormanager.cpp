@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "monitorproxy.h"
 #include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/Mlt.h>
@@ -16,7 +15,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KDualAction>
 
-#include "kdenlive_debug.h"
 #include <QObject>
 #include <dialogs/timeremap.h>
 #include <timeline2/view/timelinecontroller.h>

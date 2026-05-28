@@ -5,9 +5,6 @@
 
 #include "positioneditwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "core.h"
-#include "kdenlivesettings.h"
-#include "monitor/monitormanager.h"
 #include "widgets/timecodedisplay.h"
 
 #include <QHBoxLayout>

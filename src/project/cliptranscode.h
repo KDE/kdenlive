@@ -8,10 +8,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "ui_cliptranscode_ui.h"
 
-#include <KMessageWidget>
+#include <QProcess>
 #include <QUrl>
 
-#include <QProcess>
+class KMessageWidget;
 
 class ClipTranscode : public QDialog, public Ui::ClipTranscode_UI
 {

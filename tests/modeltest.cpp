@@ -7,6 +7,7 @@
 #include "test_utils.hpp"
 // test specific headers
 #include "doc/kdenlivedoc.h"
+#include "transitions/transitionsrepository.hpp"
 #include <QUndoGroup>
 
 using namespace fakeit;

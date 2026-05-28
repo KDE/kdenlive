@@ -6,6 +6,7 @@
 
 #include "pluginssettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "pythoninterfaces/dialogs/modeldownloadwidget.h"
 #include "pythoninterfaces/saminterface.h"

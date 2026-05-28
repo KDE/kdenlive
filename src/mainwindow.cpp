@@ -26,7 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/customjobtask.h"
 #include "jobs/scenesplittask.h"
 #include "jobs/speedtask.h"
@@ -44,16 +43,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDBusInterface>
 #endif
 
+// #include "kdenlive_debug.h"
+// #include "kdenlivecore_export.h"
+
 #include "dialogs/markerdialog.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
 #include "filefilter.h"
 #include "lib/localeHandling.h"
-#include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
-#include "monitor/monitorproxy.h"
 #include "monitor/scopes/audiographspectrum.h"
 #include "onlineresources/resourcewidget.hpp"
 #include "profiles/profilemodel.hpp"

@@ -8,15 +8,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "utils/gentime.h"
 
-#include "kdenlive_debug.h"
-#include "mlt++/Mlt.h"
+#include "mlt++/MltAnimation.h"
 #include <QColor>
 #include <QDomElement>
 #include <QHash>
 #include <QPersistentModelIndex>
 #include <QString>
 #include <QUuid>
-#include <QtQml>
+#include <QtQmlIntegration/qqmlintegration.h>
 #include <cassert>
 #include <memory>
 

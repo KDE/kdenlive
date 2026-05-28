@@ -32,7 +32,6 @@
 #include <KMessageWidget>
 #include <KRecentDirs>
 
-#include "kdenlive_debug.h"
 #include <QButtonGroup>
 #include <QCryptographicHash>
 #include <QDomDocument>
@@ -53,7 +52,6 @@
 #include <QToolBar>
 
 #include <QStandardPaths>
-#include <iostream>
 #include <mlt++/MltProfile.h>
 #include <utility>
 

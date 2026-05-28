@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "definitions.h"
 #include <QDir>
 #include <QImage>
 #include <QMutex>

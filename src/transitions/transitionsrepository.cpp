@@ -10,7 +10,6 @@
 #include <QFile>
 #include <QStandardPaths>
 
-#include "profiles/profilemodel.hpp"
 #include <mlt++/Mlt.h>
 
 std::unique_ptr<TransitionsRepository> TransitionsRepository::instance;

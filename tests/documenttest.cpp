@@ -6,6 +6,7 @@
 #include "test_utils.hpp"
 // test specific headers
 #include "doc/documentchecker.h"
+#include "xml/xml.hpp"
 
 TEST_CASE("Basic tests of the document checker parts", "[DocumentChecker]")
 {

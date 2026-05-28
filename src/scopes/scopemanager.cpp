@@ -6,9 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "scopemanager.h"
-#include "audioscopes/audiosignal.h"
-#include "audioscopes/audiospectrum.h"
-#include "audioscopes/spectrogram.h"
 #include "colorscopes/histogram.h"
 #include "colorscopes/rgbparade.h"
 #include "colorscopes/vectorscope.h"

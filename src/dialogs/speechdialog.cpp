@@ -8,7 +8,6 @@
 
 #include "bin/model/subtitlemodel.hpp"
 #include "core.h"
-#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -28,7 +27,6 @@
 #include <QProcess>
 
 #include <memory>
-#include <utility>
 
 SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, int tid, bool, bool, QWidget *parent)
     : QDialog(parent)

@@ -25,7 +25,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kautosavefile.h>
 
 #include "definitions.h"
-#include "utils/gentime.h"
 #include "utils/timecode.h"
 
 class MainWindow;
@@ -44,6 +43,7 @@ class DocOpenResult;
 
 namespace Mlt {
 class Profile;
+class Properties;
 }
 
 /** Object returned by KdenliveDoc::Open(), containing a pointer to a KdenliveDoc

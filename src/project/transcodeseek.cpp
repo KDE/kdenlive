@@ -7,7 +7,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "transcodeseek.h"
-#include "bin/projectclip.h"
 #include "core.h"
 #include "kdenlivesettings.h"
 

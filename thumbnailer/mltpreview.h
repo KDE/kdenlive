@@ -10,7 +10,10 @@
 
 #include <KIO/ThumbnailCreator>
 #include <memory>
-#include <mlt++/Mlt.h>
+
+namespace Mlt {
+class Producer;
+};
 
 #include <QObject>
 

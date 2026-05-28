@@ -26,11 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <mlt++/Mlt.h>
 
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
-
 #include <QStandardPaths>
 #include <lib/localeHandling.h>
 #include <utility>

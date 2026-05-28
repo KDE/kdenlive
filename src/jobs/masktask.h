@@ -9,8 +9,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "abstracttask.h"
 #include "definitions.h"
-#include <mlt++/MltProducer.h>
-#include <mlt++/MltProfile.h>
 
 #include <QList>
 #include <QObject>

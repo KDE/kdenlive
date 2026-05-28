@@ -6,8 +6,8 @@
 
 #include "resourcewidget.hpp"
 #include "core.h"
-#include "kdenlivesettings.h"
 
+#include <KConfigGroup>
 #include <KFileItem>
 #include <KIO/FileCopyJob>
 #include <KIO/Global>
@@ -15,6 +15,7 @@
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KSelectAction>
+#include <KSharedConfig>
 #include <KSqueezedTextLabel>
 #include <QComboBox>
 #include <QDesktopServices>

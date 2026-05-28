@@ -7,8 +7,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "abstractaudioscopewidget.h"
 
-#include "monitor/monitor.h"
-
 // Uncomment for debugging
 //#define DEBUG_AASW
 
