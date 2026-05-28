@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-27 00:44+0000\n"
+"POT-Creation-Date: 2026-05-28 00:42+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -16557,7 +16557,7 @@ msgstr "Stabilizacija"
 msgid "Motion"
 msgstr "Pokret"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2546
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2557
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "GPU Effects"
@@ -20635,7 +20635,7 @@ msgstr "Učitavam projekat"
 msgid "Loading project clips…"
 msgstr "Učitavam projekat"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2443
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2454
 #, fuzzy, kde-format
 msgid "Zone %1"
 msgstr "Kraj zone: %1"
@@ -22422,7 +22422,7 @@ msgstr "Razno"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:919
-#: src/doc/documentvalidator.cpp:2555
+#: src/doc/documentvalidator.cpp:2566
 #: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
@@ -24994,7 +24994,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Ažuriraj tekstualne snimke"
 
-#: src/doc/documentvalidator.cpp:754 src/doc/documentvalidator.cpp:2546
+#: src/doc/documentvalidator.cpp:754 src/doc/documentvalidator.cpp:2557
 #, fuzzy, kde-format
 #| msgid "Invert"
 msgid "Convert"
@@ -25011,20 +25011,20 @@ msgstr "Ne mogu obnoviti datoteku projekta"
 msgid "extra audio"
 msgstr "Raspakuj u"
 
-#: src/doc/documentvalidator.cpp:2243
+#: src/doc/documentvalidator.cpp:2252
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Izlazni dokument već postoji. Da li želite pisati preko?"
 
-#: src/doc/documentvalidator.cpp:2244 src/mainwindow.cpp:3883
+#: src/doc/documentvalidator.cpp:2253 src/mainwindow.cpp:3883
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "Režim prepisivanja preko"
 
-#: src/doc/documentvalidator.cpp:2544
+#: src/doc/documentvalidator.cpp:2555
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -25033,12 +25033,12 @@ msgid ""
 "This might result in data loss."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2639
+#: src/doc/documentvalidator.cpp:2650
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2642
+#: src/doc/documentvalidator.cpp:2653
 #, fuzzy, kde-format
 #| msgid "The following effects were imported from the project:"
 msgid "The following filters/transitions were deleted from the project:"

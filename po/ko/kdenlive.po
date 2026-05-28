@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-27 00:44+0000\n"
+"POT-Creation-Date: 2026-05-28 00:42+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -17225,7 +17225,7 @@ msgstr "스타일화"
 msgid "Motion"
 msgstr "움직임"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2546
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2557
 #, fuzzy, kde-format
 #| msgid "GPU effects"
 msgid "GPU Effects"
@@ -21176,7 +21176,7 @@ msgstr "프로젝트 클립 불러오는 중..."
 msgid "Loading project clips…"
 msgstr "프로젝트 클립 불러오는 중..."
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2443
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2454
 #, kde-format
 msgid "Zone %1"
 msgstr "영역 %1"
@@ -22952,7 +22952,7 @@ msgstr "기타"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:919
-#: src/doc/documentvalidator.cpp:2555
+#: src/doc/documentvalidator.cpp:2566
 #: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
@@ -25536,7 +25536,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "텍스트 클립 업데이트"
 
-#: src/doc/documentvalidator.cpp:754 src/doc/documentvalidator.cpp:2546
+#: src/doc/documentvalidator.cpp:754 src/doc/documentvalidator.cpp:2557
 #, fuzzy, kde-format
 #| msgid "Convert to"
 msgid "Convert"
@@ -25552,19 +25552,19 @@ msgstr "이 프로젝트 파일을 복구할 수 없음"
 msgid "extra audio"
 msgstr "추가 오디오"
 
-#: src/doc/documentvalidator.cpp:2243
+#: src/doc/documentvalidator.cpp:2252
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "출력 파일이 이미 있습니다. 덮어쓰시겠습니까?"
 
-#: src/doc/documentvalidator.cpp:2244 src/mainwindow.cpp:3883
+#: src/doc/documentvalidator.cpp:2253 src/mainwindow.cpp:3883
 #, kde-format
 msgid "Overwrite"
 msgstr "덮어쓰기"
 
-#: src/doc/documentvalidator.cpp:2544
+#: src/doc/documentvalidator.cpp:2555
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -25577,12 +25577,12 @@ msgstr ""
 "프로젝트를 GPU를 사용하지 않는 버전으로 변환하시겠습니까?\n"
 "데이터가 손실될 수 있습니다."
 
-#: src/doc/documentvalidator.cpp:2639
+#: src/doc/documentvalidator.cpp:2650
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "다음 필터/전환 효과가 GPU를 사용하지 않는 버전으로 변환됩니다:"
 
-#: src/doc/documentvalidator.cpp:2642
+#: src/doc/documentvalidator.cpp:2653
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "다음 필터/전환 효과가 프로젝트에서 삭제되었습니다:"

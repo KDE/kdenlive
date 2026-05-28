@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-27 00:44+0000\n"
+"POT-Creation-Date: 2026-05-28 00:42+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -17015,7 +17015,7 @@ msgstr "Štylizovať"
 msgid "Motion"
 msgstr "Pohyb"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2546
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2557
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU efekty"
@@ -20834,7 +20834,7 @@ msgstr "Čítanie klipov projektu…"
 msgid "Loading project clips…"
 msgstr "Načítavanie klipov projektu…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2443
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2454
 #, kde-format
 msgid "Zone %1"
 msgstr "Zóna %1"
@@ -22567,7 +22567,7 @@ msgstr "Rôzne"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:919
-#: src/doc/documentvalidator.cpp:2555
+#: src/doc/documentvalidator.cpp:2566
 #: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
@@ -25060,7 +25060,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Aktualizovať textové klipy"
 
-#: src/doc/documentvalidator.cpp:754 src/doc/documentvalidator.cpp:2546
+#: src/doc/documentvalidator.cpp:754 src/doc/documentvalidator.cpp:2557
 #, kde-format
 msgid "Convert"
 msgstr "Konvertovať"
@@ -25075,19 +25075,19 @@ msgstr "Nie je možné obnoviť tento súbor projektu"
 msgid "extra audio"
 msgstr "extra audio"
 
-#: src/doc/documentvalidator.cpp:2243
+#: src/doc/documentvalidator.cpp:2252
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 
-#: src/doc/documentvalidator.cpp:2244 src/mainwindow.cpp:3883
+#: src/doc/documentvalidator.cpp:2253 src/mainwindow.cpp:3883
 #, kde-format
 msgid "Overwrite"
 msgstr "Prepísať"
 
-#: src/doc/documentvalidator.cpp:2544
+#: src/doc/documentvalidator.cpp:2555
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -25100,12 +25100,12 @@ msgstr ""
 "Chcete previesť projekt do nie-GPU verzie?\n"
 "Môžu sa stratiť nejaké dáta."
 
-#: src/doc/documentvalidator.cpp:2639
+#: src/doc/documentvalidator.cpp:2650
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Nasledovné filtre/prechody boli prevedené do nie-GPU verzie:"
 
-#: src/doc/documentvalidator.cpp:2642
+#: src/doc/documentvalidator.cpp:2653
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Nasledovné filtre/prechody boli vymazané z projektu:"
