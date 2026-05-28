@@ -221,6 +221,9 @@ MediaCapture::~MediaCapture()
 void MediaCapture::displayErrorMessage()
 {
     qDebug() << " !!!!!!!!!!!!!!!! ERROR : QMediarecorder - Capture failed";
+    if (m_mediaRecorder) {
+        pCore->displayMessage(m_mediaRecorder->errorString(), ErrorMessage);
+    }
 }
 
 void MediaCapture::resetIfUnused()
