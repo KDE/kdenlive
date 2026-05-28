@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-27 02:40+0000\n"
+"POT-Creation-Date: 2026-05-28 02:36+0000\n"
 "PO-Revision-Date: 2026-04-24 08:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -17151,7 +17151,7 @@ msgstr "Стилізувати"
 msgid "Motion"
 msgstr "Рух"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2512
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2523
 #, kde-format
 msgid "GPU Effects"
 msgstr "Ефекти з графічним процесором"
@@ -20985,7 +20985,7 @@ msgstr "Читання кліпів проєкту…"
 msgid "Loading project clips…"
 msgstr "Завантаження кліпів проєкту…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2409
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2420
 #, kde-format
 msgid "Zone %1"
 msgstr "Ділянка %1"
@@ -22711,7 +22711,7 @@ msgstr "Інше"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
-#: src/doc/documentvalidator.cpp:2521
+#: src/doc/documentvalidator.cpp:2532
 #: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
@@ -25206,7 +25206,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Оновити текстові кліпи"
 
-#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2512
+#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2523
 #, kde-format
 msgid "Convert"
 msgstr "Перетворити"
@@ -25221,18 +25221,18 @@ msgstr "Не вдалося відновити цей файл проєкту"
 msgid "extra audio"
 msgstr "зайві звукові дані"
 
-#: src/doc/documentvalidator.cpp:2209
+#: src/doc/documentvalidator.cpp:2218
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Файл субтитрів:<br/>%1<br/>вже існує. Хочете перезаписати його?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3813
+#: src/doc/documentvalidator.cpp:2219 src/mainwindow.cpp:3813
 #, kde-format
 msgid "Overwrite"
 msgstr "Перезаписати"
 
-#: src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:2521
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -25246,14 +25246,14 @@ msgstr ""
 "Хочете перетворити проєкт на версію без використання графічного процесора?\n"
 "Перетворення може спричинити втрату даних."
 
-#: src/doc/documentvalidator.cpp:2605
+#: src/doc/documentvalidator.cpp:2616
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Наступні фільтри і переходи було перетворено на версії без використання "
 "графічного процесора:"
 
-#: src/doc/documentvalidator.cpp:2608
+#: src/doc/documentvalidator.cpp:2619
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "З проєкту було вилучено такі фільтри і переходи:"

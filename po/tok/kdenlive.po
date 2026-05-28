@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-27 02:40+0000\n"
+"POT-Creation-Date: 2026-05-28 02:36+0000\n"
 "PO-Revision-Date: 2024-02-02 12:32-0500\n"
 "Last-Translator: Janet Blackquill <uhhadd@gmail.com>\n"
 "Language-Team: Language tok\n"
@@ -15832,7 +15832,7 @@ msgstr ""
 msgid "Motion"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2512
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2523
 #, kde-format
 msgid "GPU Effects"
 msgstr ""
@@ -19510,7 +19510,7 @@ msgstr ""
 msgid "Loading project clips…"
 msgstr ""
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2409
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2420
 #, kde-format
 msgid "Zone %1"
 msgstr ""
@@ -21143,7 +21143,7 @@ msgstr ""
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
-#: src/doc/documentvalidator.cpp:2521
+#: src/doc/documentvalidator.cpp:2532
 #: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
@@ -23494,7 +23494,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2512
+#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2523
 #, kde-format
 msgid "Convert"
 msgstr ""
@@ -23509,18 +23509,18 @@ msgstr ""
 msgid "extra audio"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2209
+#: src/doc/documentvalidator.cpp:2218
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3813
+#: src/doc/documentvalidator.cpp:2219 src/mainwindow.cpp:3813
 #, kde-format
 msgid "Overwrite"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:2521
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -23529,12 +23529,12 @@ msgid ""
 "This might result in data loss."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2605
+#: src/doc/documentvalidator.cpp:2616
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2608
+#: src/doc/documentvalidator.cpp:2619
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr ""

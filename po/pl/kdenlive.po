@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-27 02:40+0000\n"
+"POT-Creation-Date: 2026-05-28 02:36+0000\n"
 "PO-Revision-Date: 2026-05-24 12:41+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -16935,7 +16935,7 @@ msgstr "Stylizacja"
 msgid "Motion"
 msgstr "Ruch"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2512
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2523
 #, kde-format
 msgid "GPU Effects"
 msgstr "Efekty GPU"
@@ -20764,7 +20764,7 @@ msgstr "Czytanie wycinków projektu…"
 msgid "Loading project clips…"
 msgstr "Wczytywanie wycinków projektu…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2409
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2420
 #, kde-format
 msgid "Zone %1"
 msgstr "Zakres %1"
@@ -22490,7 +22490,7 @@ msgstr "Różne"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:220
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
-#: src/doc/documentvalidator.cpp:2521
+#: src/doc/documentvalidator.cpp:2532
 #: src/transitions/transitionsrepository.cpp:225
 #, kde-format
 msgid "auto"
@@ -24952,7 +24952,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Uaktualnij tekst w wycinkach"
 
-#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2512
+#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2523
 #, kde-format
 msgid "Convert"
 msgstr "Przekształć"
@@ -24967,18 +24967,18 @@ msgstr "Nie można przywrócić tego pliku projektu"
 msgid "extra audio"
 msgstr "dodatkowy dźwięk"
 
-#: src/doc/documentvalidator.cpp:2209
+#: src/doc/documentvalidator.cpp:2218
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Plik napisów:<br/> %1<br/> już istnieje. Czy zastąpić go?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3813
+#: src/doc/documentvalidator.cpp:2219 src/mainwindow.cpp:3813
 #, kde-format
 msgid "Overwrite"
 msgstr "Zastąp"
 
-#: src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:2521
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -24991,12 +24991,12 @@ msgstr ""
 "Czy przekształcić projekt do wersji nie-GPU?\n"
 "Może spowodować utratę danych."
 
-#: src/doc/documentvalidator.cpp:2605
+#: src/doc/documentvalidator.cpp:2616
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Następujące filtry/przejścia zostały przekształcone do wersji nie-GPU:"
 
-#: src/doc/documentvalidator.cpp:2608
+#: src/doc/documentvalidator.cpp:2619
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Następujące filtry/przejścia zostały usunięte z projektu:"
