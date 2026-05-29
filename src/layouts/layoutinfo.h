@@ -16,7 +16,7 @@ struct LayoutInfo
     QString displayName;  // User specified name or for default layouts this we be the translated name like "Editing"
     QString path;         // The path to the json layout
     QString verticalPath; // The path to the json vertical layout
-    bool isDefault;       // Whether this is a default layout
+    bool isDefault{false}; // Whether this is a default layout
     // int sortOrder;       // Custom order for display
 
     /**
