@@ -580,7 +580,6 @@ const QMap<QModelIndex, QVariant> DopeSheetModel::sanitizeKeyframesIndexes(const
     QMap<QModelIndex, QVariant> results;
     // First list all existing indexes
     QList<QModelIndex> includedIndexes;
-    QList<QModelIndex> childrenIndexes;
     for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
         auto index = i.value().toMap();
         const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
@@ -596,11 +595,32 @@ const QMap<QModelIndex, QVariant> DopeSheetModel::sanitizeKeyframesIndexes(const
         auto tItem = getItemById(itemId);
         if (tItem && tItem->depth() == 1) {
             // match, list children
+            KeyframeModel *masterKm = data(ix, ModelRole).value<KeyframeModel *>();
+            if (!masterKm) {
+                continue;
+            }
+            const QVariantList keyframeIndexes = index.value(QStringLiteral("kfrs")).toList();
+            QList<GenTime> masterPositions;
+            for (auto &k : keyframeIndexes) {
+                masterPositions << masterKm->getPosAtIndex(k.toInt());
+            }
             for (int j = 0; j < tItem->childCount(); j++) {
                 auto current = tItem->child(j);
                 auto ix2 = getIndexFromItem(current);
                 if (!includedIndexes.contains(ix2)) {
-                    results.insert(ix2, index.value(QStringLiteral("kfrs")));
+                    KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+                    QVariantList matches;
+                    if (km) {
+                        for (auto &g : masterPositions) {
+                            int foundIndex = km->getIndexForPos(g);
+                            if (foundIndex > -1) {
+                                matches << foundIndex;
+                            }
+                        }
+                        if (!matches.isEmpty()) {
+                            results.insert(ix2, matches);
+                        }
+                    }
                 }
             }
         }
