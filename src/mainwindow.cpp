@@ -28,7 +28,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/customjobtask.h"
 #include "jobs/scenesplittask.h"
 #include "jobs/speedtask.h"
@@ -46,12 +45,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDBusInterface>
 #endif
 
+// #include "kdenlive_debug.h"
+// #include "kdenlivecore_export.h"
+
 #include "dialogs/markerdialog.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
 #include "filefilter.h"
 #include "lib/localeHandling.h"
-#include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
@@ -3824,6 +3825,11 @@ void MainWindow::disableMulticam()
     }
 }
 
+ToolType::ProjectTool MainWindow::activeTool()
+{
+    return m_activeTool;
+}
+
 void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
     if (m_activeTool == ToolType::MulticamTool) {
@@ -3832,6 +3838,7 @@ void MainWindow::slotSetTool(ToolType::ProjectTool tool)
         pCore->monitorManager()->slotStopMultiTrackMode();
     }
     m_activeTool = tool;
+    Q_EMIT pCore->activeToolChanged();
     if (pCore->currentDoc()) {
         showToolMessage();
         getCurrentTimeline()->setTool(tool);
@@ -5772,11 +5779,11 @@ void MainWindow::connectTimeline()
         slotShowSubtitles(showSubs);
     }
     // Dopesheet
-    QList<QQmlContext::PropertyPair> propertyList = {{"timeline", QVariant::fromValue(getCurrentTimeline()->controller())},
-                                                     {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())},
-                                                     {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
-                                                     {"proxy", QVariant::fromValue(m_projectMonitor->getControllerProxy())}};
-    m_dopeWidget->rootContext()->setContextProperties(propertyList);
+
+    QVariantMap propertyList = {{"timeline", QVariant::fromValue(getCurrentTimeline()->controller())},
+                                {"proxy", QVariant::fromValue(m_projectMonitor->getControllerProxy())}};
+    m_dopeWidget->setViewProperties(propertyList);
+
     // Display timeline guides in the guides list
     pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
     if (m_renderWidget) {

@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clippropertiescontroller.h"
+#include "bin/bin.h"
 #include "clipcontroller.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"

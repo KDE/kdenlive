@@ -38,6 +38,11 @@ QFont UiUtils::getFixedFont()
     return QFontDatabase::systemFont(QFontDatabase::FixedFont);
 }
 
+QFont UiUtils::getSmallestReadableFont()
+{
+    return QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+}
+
 qreal UiUtils::getBaseSizeMedium()
 {
     QFontInfo fi(getFixedFont());

@@ -7,14 +7,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettingsdialog.h"
 #include "core.h"
 #include "dialogs/customcamcorderdialog.h"
-#include "dialogs/profilesdialog.h"
 #include "dialogs/wizard.h"
 #include "doc/kdenlivedoc.h"
 #include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
-#include "monitor/monitorproxy.h"
 #include "pluginssettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
@@ -52,11 +50,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTimer>
 #include <QtConcurrent/QtConcurrentRun>
 
-#include <cstdio>
-#include <cstdlib>
 #include <fcntl.h>
 
 #ifdef USE_JOGSHUTTLE
+#include "jogshuttle/jogshuttle.h"
 #include "jogshuttle/jogshuttleconfig.h"
 #include <QStandardPaths>
 #include <linux/input.h>

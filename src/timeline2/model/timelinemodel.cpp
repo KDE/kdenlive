@@ -37,7 +37,6 @@
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltField.h>
 #include <mlt++/MltProfile.h>
-#include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
 #include <queue>
 #include <set>

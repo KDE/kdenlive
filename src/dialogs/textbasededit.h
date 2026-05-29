@@ -5,9 +5,6 @@
 
 #pragma once
 
-#include "definitions.h"
-#include "pythoninterfaces/speechtotextvosk.h"
-#include "pythoninterfaces/speechtotextwhisper.h"
 #include "ui_textbasededit_ui.h"
 
 #include <QProcess>
@@ -17,6 +14,7 @@
 #include <QTimer>
 #include <QTemporaryFile>
 
+class SpeechToText;
 class ProjectClip;
 
 /**

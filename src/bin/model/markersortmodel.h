@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QCollator>
 #include <QSortFilterProxyModel>
+#include <QtQmlIntegration>
 
 /**
  * @class MarkerSortModel
@@ -17,6 +18,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class MarkerSortModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("MarkerSortModel is owned by TimelineModel; obtained via setInitialProperties()")
 
 public:
     explicit MarkerSortModel(QObject *parent = nullptr);

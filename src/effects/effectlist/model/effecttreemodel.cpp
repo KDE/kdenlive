@@ -11,8 +11,6 @@
 #include <QApplication>
 #include <QDomDocument>
 #include <QFile>
-#include <array>
-#include <vector>
 
 #include <KActionCategory>
 #include <KLocalizedString>

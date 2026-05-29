@@ -6,7 +6,6 @@
 #include "test_utils.hpp"
 // test specific headers
 #include "core.h"
-#include "definitions.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 

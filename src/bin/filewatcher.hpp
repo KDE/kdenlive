@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "definitions.h"
 #include <KDirWatch>
 #include <QTimer>
 #include <unordered_map>

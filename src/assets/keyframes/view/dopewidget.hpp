@@ -14,6 +14,7 @@ class DopeWidget : public QQuickWidget
 {
 public:
     DopeWidget(QWidget *parent = nullptr);
+    void setViewProperties(QVariantMap properties);
     void deleteItem();
     void doKeyPressEvent(QKeyEvent *ev);
     void clear();

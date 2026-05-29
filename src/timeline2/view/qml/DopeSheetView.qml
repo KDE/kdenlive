@@ -10,7 +10,7 @@ import QtQuick.Layouts
 import org.kde.kdenlive as K
 
 Item {
-    id: root
+    id: dopeRoot
     anchors.fill: parent
     SystemPalette { id: activePalette }
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
@@ -18,6 +18,10 @@ Item {
     property int frameDuration: dopesheetmodel.dopeDuration
     property int mouseFramePos: -1
     property int hoverKeyframe: -1
+    required property var keyframeTypes
+    required property var keyframeTypeNames
+    required property K.DopeSheetModel dopesheetmodel
+    property K.MonitorProxy proxy
     property var keyframeType
     // The position in frame of the stack owner
     property int offset: dopesheetmodel.dopePosition
@@ -45,9 +49,7 @@ Item {
         id: fontMetrics
         font: miniFont
     }
-    readonly property font miniFont: ({
-        pixelSize: miniFontSize
-    })
+    readonly property font miniFont: K.UiUtils.smallestReadableFont
     onFrameDurationChanged: {
         console.log('UPDATED DOPE DURATION: ', frameDuration)
     }
@@ -56,16 +58,17 @@ Item {
     }
 
     function updateOwner() {
-        root.contentScroll = 0
-        root.timeScale = 1
+        dopeRoot.contentScroll = 0
+        dopeRoot.timeScale = 1
+        ruler.adjustStepSize()
     }
 
     function scrollByWheel(wheel) {
         var proposedPos
         if (wheel.angleDelta.y < 0) {
-            proposedPos = Math.max(0, Math.min((horZoomBar.contentPos * root.frameDuration - wheel.angleDelta.y) / root.frameDuration, 1 - 1 / root.timeScale))
+            proposedPos = Math.max(0, Math.min((horZoomBar.contentPos * dopeRoot.frameDuration - wheel.angleDelta.y) / dopeRoot.frameDuration, 1 - 1 / dopeRoot.timeScale))
         } else {
-            proposedPos = Math.max(horZoomBar.contentPos * root.frameDuration - wheel.angleDelta.y, 0) / root.frameDuration
+            proposedPos = Math.max(horZoomBar.contentPos * dopeRoot.frameDuration - wheel.angleDelta.y, 0) / dopeRoot.frameDuration
         }
         horZoomBar.contentPos = proposedPos
         horZoomBar.proposeContentPos(proposedPos)
@@ -80,15 +83,15 @@ Item {
                 timeline.triggerAction('monitor_seek_snap_forward')
             }
         } else if (wheel.modifiers & Qt.ControlModifier) {
-            root.wheelAccumulatedDelta += wheel.angleDelta.y;
+            dopeRoot.wheelAccumulatedDelta += wheel.angleDelta.y;
             // Zoom
-            if (root.wheelAccumulatedDelta >= defaultDeltasPerStep) {
-                root.zoom(1.5);
-                root.wheelAccumulatedDelta = 0;
-            } else if (root.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
+            if (dopeRoot.wheelAccumulatedDelta >= defaultDeltasPerStep) {
+                dopeRoot.zoom(1.5);
+                dopeRoot.wheelAccumulatedDelta = 0;
+            } else if (dopeRoot.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
                 var factor = 2. / 3
-                root.zoom(factor);
-                root.wheelAccumulatedDelta = 0;
+                dopeRoot.zoom(factor);
+                dopeRoot.wheelAccumulatedDelta = 0;
             }
         }/* else if (wheel.modifiers & Qt.ShiftModifier) {
             if (K.KdenliveSettings.scrollvertically || rubberSelect.visible) {
@@ -107,15 +110,15 @@ Item {
     }
 
     function zoom(factor) {
-        root.timeScale = Math.max(1, root.timeScale * factor)
+        dopeRoot.timeScale = Math.max(1, dopeRoot.timeScale * factor)
     }
 
     function deleteSelection() {
-        console.log('deleting kfs: ', root.allSelectedKeyframes)
+        console.log('deleting kfs: ', dopeRoot.allSelectedKeyframes)
         var indexList = []
         var keyframesList = []
-        while (root.allSelectedKeyframes.length > 0) {
-            var elem = root.allSelectedKeyframes.pop()
+        while (dopeRoot.allSelectedKeyframes.length > 0) {
+            var elem = dopeRoot.allSelectedKeyframes.pop()
             indexList.push(elem.index)
             // Sort keyframes in reverse order for deletion
             elem.kfrs.sort(function(a, b) {
@@ -132,14 +135,14 @@ Item {
     }
 
     function clearSelection() {
-        root.allSelectedKeyframes = []
-        root.allSelectedKeyframesChanged()
+        dopeRoot.allSelectedKeyframes = []
+        dopeRoot.allSelectedKeyframesChanged()
     }
 
     function getSelectedKeyframesForIndex(itemIndex) {
         var ix = 0
-        while (ix < root.allSelectedKeyframes.length) {
-            var elem = root.allSelectedKeyframes[ix]
+        while (ix < dopeRoot.allSelectedKeyframes.length) {
+            var elem = dopeRoot.allSelectedKeyframes[ix]
             if (elem.index === itemIndex) {
                 return elem.kfrs
             } else {
@@ -154,26 +157,26 @@ Item {
         // First delete existing
         if (!addToSelection) {
             // Clear all selection
-            root.allSelectedKeyframes = []
+            dopeRoot.allSelectedKeyframes = []
         } else {
-            while (ix < root.allSelectedKeyframes.length) {
-                var elem = root.allSelectedKeyframes[ix]
+            while (ix < dopeRoot.allSelectedKeyframes.length) {
+                var elem = dopeRoot.allSelectedKeyframes[ix]
                 if (elem.index === itemIndex) {
-                    root.allSelectedKeyframes.splice(ix, 1);
+                    dopeRoot.allSelectedKeyframes.splice(ix, 1);
                 } else {
                     ix++
                 }
             }
         }
-        root.allSelectedKeyframes.push({index: itemIndex, kfrs: itemKeyframes})
+        dopeRoot.allSelectedKeyframes.push({index: itemIndex, kfrs: itemKeyframes})
     }
 
     function frameToView(position) {
-        return position * root.maximumScaleFactor * root.timeScale - (root.contentScroll * root.timeScale * root.maximumScaleFactor)
+        return position * dopeRoot.maximumScaleFactor * dopeRoot.timeScale - (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
     }
 
     function viewToFrame(position) {
-        return Math.round(position / root.maximumScaleFactor / root.timeScale)
+        return Math.round(position / dopeRoot.maximumScaleFactor / dopeRoot.timeScale)
     }
 
     function isInView(position) {
@@ -181,19 +184,19 @@ Item {
             return false
         }
         var viewPos = frameToView(position)
-        return viewPos >= -root.baseUnit/2 && viewPos < root.keyframeContainerWidth + root.baseUnit/2
+        return viewPos >= -K.UiUtils.baseSizeMedium/2 && viewPos < dopeRoot.keyframeContainerWidth + K.UiUtils.baseSizeMedium/2
     }
 
     function selectRubber(addToSelection) {
         // Start frame
-        var startFrame = Math.min(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit + (root.contentScroll * root.timeScale * root.maximumScaleFactor)
-        var endFrame = Math.max(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit + (root.contentScroll * root.timeScale * root.maximumScaleFactor)
+        var startFrame = Math.min(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - treeView.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
+        var endFrame = Math.max(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - treeView.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         startFrame = viewToFrame(startFrame)
         endFrame = viewToFrame(endFrame)
         console.log('SELECTING FRAMES BETWEEN: ', startFrame, '-', endFrame)
-        var topPos = mapToItem(treeView, 0, Math.min(root.rubberBottomRight.y, root.rubberTopLeft.y))
+        var topPos = mapToItem(treeView, 0, Math.min(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
         topPos.y = Math.max(0, topPos.y)
-        var bottomPos = mapToItem(treeView, 0, Math.max(root.rubberBottomRight.y, root.rubberTopLeft.y))
+        var bottomPos = mapToItem(treeView, 0, Math.max(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
         bottomPos.y = Math.min(treeView.contentHeight - 1, bottomPos.y)
         var topRow = treeView.cellAtPosition(topPos)
         var bottomRow = treeView.cellAtPosition(bottomPos)
@@ -203,7 +206,7 @@ Item {
 
     function updateSelectedKeyframesFromModel(result, addToSelection) {
         if (!addToSelection) {
-            root.allSelectedKeyframes = []
+            dopeRoot.allSelectedKeyframes = []
         }
         var indexes = dopesheetmodel.selectedIndexes()
         while (indexes.length > 0) {
@@ -224,7 +227,7 @@ Item {
             }
             updateSelectedKeyframesForIndex(id, kf, true)
         }
-        root.allSelectedKeyframesChanged()
+        dopeRoot.allSelectedKeyframesChanged()
     }
 
     Menu {
@@ -259,8 +262,8 @@ Item {
                         checkable: true
                         ActionGroup.group: currTypeActions
                         onTriggered: {
-                            dopesheetmodel.changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
-                            root.keyframeType = keyframeTypes[text]
+                            dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, keyframeTypes[text])
+                            dopeRoot.keyframeType = keyframeTypes[text]
                         }
                     }
                 }
@@ -295,23 +298,22 @@ Item {
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.leftMargin: root.baseUnit + treeView.headerWidth
-        anchors.rightMargin: root.baseUnit
-        height: Math.round(root.baseUnit * 2.5)
-        contentWidth: Math.min(parent.width, root.frameDuration * root.timeScale)
-        contentX: Math.min(root.contentScroll * root.timeScale * root.maximumScaleFactor, root.frameDuration * root.timeScale - width)
+        anchors.leftMargin: K.UiUtils.baseSizeMedium + treeView.headerWidth
+        anchors.rightMargin: K.UiUtils.baseSizeMedium
+        height: Math.round(K.UiUtils.baseSizeMedium * 2.5)
+        contentWidth: Math.min(parent.width, dopeRoot.frameDuration * dopeRoot.timeScale)
+        contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale - width)
         interactive: false
         clip: true
         onWidthChanged: {
             ruler.adjustStepSize()
         }
-        Ruler {
+        DopeRuler {
             id: ruler
             width: rulercontainer.width
             height: rulercontainer.height
-            rulerOffset: root.offset
-            scalingFactor: root.timeScale * root.maximumScaleFactor
-            hideZone: true
+            rulerOffset: dopeRoot.offset
+            scalingFactor: dopeRoot.timeScale * dopeRoot.maximumScaleFactor
         }
     }
     Rectangle {
@@ -322,9 +324,9 @@ Item {
     }
     Label {
         id: playheadLabel
-        visible: root.isInView(root.consumerPosition)
+        visible: dopeRoot.isInView(dopeRoot.consumerPosition)
         anchors.horizontalCenter: rulerCursor.horizontalCenter
-        text: root.consumerPosition
+        text: dopeRoot.consumerPosition
         leftPadding: 6
         rightPadding: 6
     }
@@ -335,38 +337,38 @@ Item {
         anchors.bottom: parent.bottom
         visible: playheadLabel.visible
         z: 4
-        x: treeView.headerWidth + root.baseUnit + frameToView(root.consumerPosition)
+        x: treeView.headerWidth + K.UiUtils.baseSizeMedium + frameToView(dopeRoot.consumerPosition)
         color: activePalette.text
         width: 1
         Rectangle {
             color: ruler.dimmedColor
-            width: Math.max(1, 1 / root.timeScale)
+            width: Math.max(1, 1 / dopeRoot.timeScale)
             height: 1
-            visible: width > root.baseUnit * 1.2
+            visible: width > K.UiUtils.baseSizeMedium * 1.2
         }
     }
     Rectangle {
         anchors.fill: mouseLabel
         visible: mouseLabel.visible
         radius: 4
-        color: root.hoverKeyframe > -1 ? root.hoverColor : activePalette.highlight
+        color: dopeRoot.hoverKeyframe > -1 ? dopeRoot.hoverColor : activePalette.highlight
     }
     Label {
         id: mouseLabel
-        visible: (backgroundArea.containsMouse || treeView.hoveredParam > -1)// && root.isInView(root.mouseFramePos)
+        visible: (backgroundArea.containsMouse || treeView.hoveredParam > -1)// && dopeRoot.isInView(dopeRoot.mouseFramePos)
         anchors.horizontalCenter: mouseLine.horizontalCenter
-        text: root.mouseFramePos
+        text: dopeRoot.mouseFramePos
         leftPadding: 6
         rightPadding: 6
     }
     Rectangle {
         id: mouseLine
         anchors.top: mouseLabel.bottom
-        anchors.bottom: root.bottom
+        anchors.bottom: dopeRoot.bottom
         z: 5
         width: 1
         visible: mouseLabel.visible
-        x: treeView.headerWidth + root.baseUnit + frameToView(root.mouseFramePos)
+        x: treeView.headerWidth + K.UiUtils.baseSizeMedium + frameToView(dopeRoot.mouseFramePos)
         color: activePalette.highlight
     }
     MouseArea {
@@ -377,10 +379,10 @@ Item {
         hoverEnabled: true
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
-                root.zoomByWheel(wheel)
+                dopeRoot.zoomByWheel(wheel)
             } else {
                 // Scroll
-                root.scrollByWheel(wheel)
+                dopeRoot.scrollByWheel(wheel)
             }
         }
         onEntered: {
@@ -388,13 +390,13 @@ Item {
         }
 
         onPositionChanged: mouse => {
-            var mousePos = Math.max(0., (mouse.x - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
-            if (mousePos <= 0 && root.mouseFramePos == 0) {
+            var mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
+            if (mousePos <= 0 && dopeRoot.mouseFramePos == 0) {
                 // In the header zone, ignore
                 return
             }
-            root.mouseFramePos = viewToFrame(mousePos)
-            console.log('MOUSE FRAME TO: ', root.mouseFramePos, ', NEW: ', mousePos)
+            dopeRoot.mouseFramePos = viewToFrame(mousePos)
+            console.log('MOUSE FRAME TO: ', dopeRoot.mouseFramePos, ', NEW: ', mousePos)
         }
     }
 
@@ -412,22 +414,22 @@ Item {
         id: keyframeMenu
         MenuItem {
             text: i18n("Cut")
-            enabled: root.hoverKeyframe > -1
+            enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
             }
         }
         MenuItem {
             text: i18n("Copy")
-            enabled: root.hoverKeyframe > -1
+            enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
-                dopesheetmodel.copyKeyframes(root.allSelectedKeyframes)
+                dopesheetmodel.copyKeyframes(dopeRoot.allSelectedKeyframes)
             }
         }
         MenuItem {
             text: i18n("Move to Playhead")
-            enabled: root.hoverKeyframe > -1
+            enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
-                dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, root.mouseFramePos, root.consumerPosition, true)
+                dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, dopeRoot.mouseFramePos, dopeRoot.consumerPosition, true)
             }
         }
         Menu {
@@ -448,9 +450,9 @@ Item {
                         checkable: true
                         ActionGroup.group: typeActions
                         onTriggered: {
-                            console.log('changing kf type to: ', keyframeTypes[text], ' current: ', root.keyframeType)
-                            dopesheetmodel.changeKeyframeType(root.allSelectedKeyframes, keyframeTypes[text])
-                            root.keyframeType = keyframeTypes[text]
+                            console.log('changing kf type to: ', keyframeTypes[text], ' current: ', v.keyframeType)
+                            dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, keyframeTypes[text])
+                            dopeRoot.keyframeType = keyframeTypes[text]
                         }
                     }
                 }
@@ -465,7 +467,7 @@ Item {
                     dopesheetmodel.removeKeyframe(treeView.activeIndex, treeView.selectedKeyframe)
                     treeView.selectedKeyframe = -1
                     treeView.activeIndex = -1
-                    root.hoverKeyframe = -1
+                    dopeRoot.hoverKeyframe = -1
                 }
             }
         }
@@ -481,8 +483,8 @@ Item {
             onTriggered: {
                 if (treeView.selectedKeyframe > -1) {
                     console.log('Adding keyframe')
-                    dopesheetmodel.addKeyframe(treeView.activeIndex, root.mouseFramePos)
-                    root.hoverKeyframe = root.mouseFramePos
+                    dopesheetmodel.addKeyframe(treeView.activeIndex, dopeRoot.mouseFramePos)
+                    dopeRoot.hoverKeyframe = dopeRoot.mouseFramePos
                 }
             }
         }
@@ -506,7 +508,7 @@ Item {
         // You can set a custom delegate or use a built-in TreeViewDelegate
         delegate: Item {
             id: contentRect
-            implicitWidth: root.width
+            implicitWidth: dopeRoot.width
             implicitHeight: fontMetrics.lineSpacing * 1.3
             readonly property real indentation: 20
             readonly property real padding: 5
@@ -574,8 +576,8 @@ Item {
                 anchors.right: contentRect.right
                 anchors.top: contentRect.top
                 anchors.bottom: contentRect.bottom
-                anchors.leftMargin: root.baseUnit + treeView.headerWidth
-                anchors.rightMargin: root.baseUnit
+                anchors.leftMargin: K.UiUtils.baseSizeMedium + treeView.headerWidth
+                anchors.rightMargin: K.UiUtils.baseSizeMedium
                 Rectangle {
                     // keyframe slider
                     id: keyframeSlider
@@ -606,8 +608,8 @@ Item {
                     property bool shiftClick: false
                     property var buttonClicked
                     anchors.fill: parent
-                    anchors.leftMargin: -root.baseUnit
-                    anchors.rightMargin: -root.baseUnit
+                    anchors.leftMargin: -K.UiUtils.baseSizeMedium
+                    anchors.rightMargin: -K.UiUtils.baseSizeMedium
                     hoverEnabled: true
                     onHoveredChanged: {
                         if (containsMouse) {
@@ -621,7 +623,7 @@ Item {
                         movePosition = -1
                         dragStarted = false
                         clickPoint = Qt.point(mouseX, mouseY)
-                        rubberTopLeft = mapToItem(root, mouseX, mouseY)
+                        rubberTopLeft = mapToItem(dopeRoot, mouseX, mouseY)
                         mouse.accepted = true
                         console.log('    - - -- DOPE CLICK - - - ')
                         if (mouse.modifiers & Qt.ShiftModifier) {
@@ -636,16 +638,16 @@ Item {
 
                         if (clickIndex < 0) {
                             // Not on a keyframe
-                            root.keyframeType = -1
+                            dopeRoot.keyframeType = -1
                             if (mouse.buttons === Qt.RightButton) {
                                 treeView.activeIndex = parameterIndex
                                 otherMenu.popup()
                             } else {
-                                root.clearSelection()
+                                dopeRoot.clearSelection()
                             }
                             return
                         }
-                        root.keyframeType = dopeModel.getKeyframeTypeAtFrame(clickFrame)
+                        dopeRoot.keyframeType = dopeModel.getKeyframeTypeAtFrame(clickFrame)
                         var selectedKeyframes = getSelectedKeyframesForIndex(parameterIndex)
                         var alreadySelected = selectedKeyframes.indexOf(currentIndex) > -1
                         if (mouse.buttons === Qt.RightButton) {
@@ -655,8 +657,8 @@ Item {
                                 treeView.activeIndex = parameterIndex
                                 var actionList = typeActions.actions
                                 for (var i = 0; i < actionList.length; i++) {
-                                    console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
-                                    if (keyframeTypes[actionList[i].text] == root.keyframeType) {
+                                    console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
+                                    if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
                                         console.log('CHECK ACTION: ', i)
                                         actionList[i].checked = true
                                         break
@@ -688,7 +690,7 @@ Item {
                             }
 
                             updateSelectedKeyframesForIndex(parameterIndex, selectedKeyframes, shiftClick)
-                            root.allSelectedKeyframesChanged()
+                            dopeRoot.allSelectedKeyframesChanged()
                         }
                         if (mouse.buttons === Qt.RightButton) {
                             // Show context menu
@@ -696,8 +698,8 @@ Item {
                             treeView.activeIndex = parameterIndex
                             var actionList = typeActions.actions
                             for (var i = 0; i < actionList.length; i++) {
-                                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
-                                if (keyframeTypes[actionList[i].text] == root.keyframeType) {
+                                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
+                                if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
                                     console.log('CHECK ACTION: ', i)
                                     actionList[i].checked = true
                                     break
@@ -707,17 +709,17 @@ Item {
                         }
                     }
                     onReleased: mouse => {
-                        if (root.rubberSelect) {
+                        if (dopeRoot.rubberSelect) {
                             // Select all keyframes inside our rectangle
                             selectRubber(false)
-                            root.rubberSelect = false
+                            dopeRoot.rubberSelect = false
                             dragStarted = false
                             return
                         }
                         if (dragStarted) {
                             if (clickIndex > -1) {
-                                dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, movePosition, clickFrame, false)
-                                dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, clickFrame, movePosition, true)
+                                dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, movePosition, clickFrame, false)
+                                dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, clickFrame, movePosition, true)
                             }
                         } else if (clickIndex > -1 && buttonClicked === Qt.LeftButton && !shiftClick) {
                             dopeModel.seekToKeyframe(clickIndex)
@@ -728,20 +730,20 @@ Item {
 
                     onWheel: wheel => {
                         if (wheel.modifiers & Qt.ControlModifier) {
-                            root.zoomByWheel(wheel)
+                            dopeRoot.zoomByWheel(wheel)
                         } else {
                             // Scroll
-                            root.scrollByWheel(wheel)
+                            dopeRoot.scrollByWheel(wheel)
                         }
                     }
 
                     onPositionChanged: mouse => {
-                        var mousePos = Math.max(0., (mouse.x - root.baseUnit + root.contentScroll * root.timeScale * root.maximumScaleFactor))
-                        root.mouseFramePos = viewToFrame(mousePos)
+                        var mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
+                        dopeRoot.mouseFramePos = viewToFrame(mousePos)
                         if (!pressed) {
                             kfMoveArea.currentFrame = -1
                             kfMoveArea.currentIndex = -1
-                            root.hoverKeyframe = -1
+                            dopeRoot.hoverKeyframe = -1
                             return
                         }
                         if (!dragStarted && mouse.buttons === Qt.LeftButton) {
@@ -750,25 +752,25 @@ Item {
                                 dragStarted = true
                                 if (shiftClick) {
                                     // Start rectangle selection
-                                    root.rubberSelect = true
-                                    root.rubberBottomRight = mapToItem(root, mouseX, mouseY)
+                                    dopeRoot.rubberSelect = true
+                                    dopeRoot.rubberBottomRight = mapToItem(dopeRoot, mouseX, mouseY)
                                     return
                                 }
                             }
                         } else if (shiftClick) {
                             // Update rectangle selection
-                            root.rubberBottomRight = mapToItem(root, mouseX, mouseY)
+                            dopeRoot.rubberBottomRight = mapToItem(dopeRoot, mouseX, mouseY)
                             selectRubber(false)
                             return
                         }
                         if (mouse.buttons === Qt.LeftButton && dragStarted && clickIndex > -1) {
-                            if (movePosition == root.mouseFramePos) {
+                            if (movePosition == dopeRoot.mouseFramePos) {
                                 // No move, abort
                                 return
                             }
 
-                            dopesheetmodel.moveKeyframe(root.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, root.mouseFramePos, false)
-                            movePosition = root.mouseFramePos
+                            dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, dopeRoot.mouseFramePos, false)
+                            movePosition = dopeRoot.mouseFramePos
                         }
                     }
                     onDoubleClicked: mouse => {
@@ -783,19 +785,19 @@ Item {
                             }
                             kfMoveArea.currentFrame = -1
                             kfMoveArea.currentIndex = -1
-                            root.hoverKeyframe = -1
-                            root.keyframeType = -1
+                            dopeRoot.hoverKeyframe = -1
+                            dopeRoot.keyframeType = -1
                             return
                         }
                         if (depth == 0) {
-                            dopesheetmodel.addKeyframe(parameterIndex, root.mouseFramePos)
+                            dopesheetmodel.addKeyframe(parameterIndex, dopeRoot.mouseFramePos)
                         } else {
-                            console.log('Adding keyframe at: ', root.mouseFramePos)
-                            dopeModel.addKeyframe(root.mouseFramePos)
+                            console.log('Adding keyframe at: ', dopeRoot.mouseFramePos)
+                            dopeModel.addKeyframe(dopeRoot.mouseFramePos)
                         }
-                        kfMoveArea.currentFrame = root.mouseFramePos
-                        root.keyframeType = dopeModel.getKeyframeTypeAtFrame(kfMoveArea.currentFrame)
-                        root.hoverKeyframe = root.mouseFramePos
+                        kfMoveArea.currentFrame = dopeRoot.mouseFramePos
+                        dopeRoot.keyframeType = dopeModel.getKeyframeTypeAtFrame(kfMoveArea.currentFrame)
+                        dopeRoot.hoverKeyframe = dopeRoot.mouseFramePos
                     }
                 }
                 Repeater {
@@ -804,16 +806,16 @@ Item {
                     Rectangle {
                         id: handle
                         z: 10
-                        x: percentPosition * kfContainer.width * root.timeScale - root.contentScroll * root.timeScale * root.maximumScaleFactor - root.baseUnit/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
-                        visible : x >= -root.baseUnit/2 - 1 && x < root.keyframeContainerWidth + root.baseUnit/2
+                        x: percentPosition * kfContainer.width * dopeRoot.timeScale - dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor - K.UiUtils.baseSizeMedium/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
+                        visible : x >= -K.UiUtils.baseSizeMedium/2 - 1 && x < dopeRoot.keyframeContainerWidth + K.UiUtils.baseSizeMedium/2
                         anchors.verticalCenter: kfContainer.verticalCenter
-                        width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
+                        width: K.UiUtils.baseSizeMedium - (kfArea.containsMouse ? 0 : 2)
                         height: width
-                        property bool atMousePos: root.mouseFramePos == frame
+                        property bool atMousePos: dopeRoot.mouseFramePos == model.frame
                         color: keyframeSelected(treeView.index(contentRect.row, contentRect.column), index) > -1 ? activePalette.highlight : activePalette.light
                         radius: type == 1 ? 0 : Math.round(width/2)
                         border.width: atMousePos ? 2 : 1
-                        border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? root.hoverColor : activePalette.text
+                        border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? dopeRoot.hoverColor : activePalette.text
 
                         MouseArea {
                             id: kfArea
@@ -823,13 +825,13 @@ Item {
                             acceptedButtons: Qt.NoButton
                             onEntered: {
                                 console.log("entered kfr: ", index)
-                                kfMoveArea.currentFrame = frame
+                                kfMoveArea.currentFrame = model.frame
                                 kfMoveArea.currentIndex = index
-                                root.keyframeType = type
-                                root.hoverKeyframe = frame
-                                root.mouseFramePos = frame
+                                dopeRoot.keyframeType = type
+                                dopeRoot.hoverKeyframe = model.frame
+                                dopeRoot.mouseFramePos = model.frame
                             }
-                            ToolTip.text: description
+                            ToolTip.text: model.description
                             ToolTip.delay: 1000
                             ToolTip.visible: containsMouse
                         }
@@ -845,61 +847,61 @@ Item {
         color: "#33FFFFFF"
         border.color: activePalette.highlight
         border.width: 1
-        visible: root.rubberSelect
-        x: Math.min(root.rubberTopLeft.x, root.rubberBottomRight.x)
-        y: Math.min(root.rubberTopLeft.y, root.rubberBottomRight.y)
-        width: Math.abs(root.rubberBottomRight.x - root.rubberTopLeft.x)
-        height: Math.abs(root.rubberBottomRight.y - root.rubberTopLeft.y)
+        visible: dopeRoot.rubberSelect
+        x: Math.min(dopeRoot.rubberTopLeft.x, dopeRoot.rubberBottomRight.x)
+        y: Math.min(dopeRoot.rubberTopLeft.y, dopeRoot.rubberBottomRight.y)
+        width: Math.abs(dopeRoot.rubberBottomRight.x - dopeRoot.rubberTopLeft.x)
+        height: Math.abs(dopeRoot.rubberBottomRight.y - dopeRoot.rubberTopLeft.y)
     }
     K.ZoomBar {
         id: horZoomBar
         anchors {
             left: parent.left
             right: parent.right
-            bottom: root.bottom
+            bottom: dopeRoot.bottom
         }
-        height: Math.round(root.baseUnit * 0.7)
-        barMinWidth: root.baseUnit
-        fitsZoom: root.timeScale === 1 && root.contentScroll === 0
-        zoomFactor: 1 / root.timeScale
+        height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
+        barMinWidth: K.UiUtils.baseSizeMedium
+        fitsZoom: dopeRoot.timeScale === 1 && dopeRoot.contentScroll === 0
+        zoomFactor: 1 / dopeRoot.timeScale
         onProposeZoomFactor: (proposedValue) => {
-            root.timeScale = 1. / proposedValue
+            dopeRoot.timeScale = 1. / proposedValue
             zoomOnBar = true
         }
         contentPos: 0
         onProposeContentPos: (proposedValue) => {
             // The corresponding pixel offset
-            root.contentScroll = Math.max(0, proposedValue * root.frameDuration)
-            console.log('proposing scroll: ', proposedValue, ', CONTENT SCROLL: ', root.contentScroll, ', SCLAE: ', root.timeScale)
+            dopeRoot.contentScroll = Math.max(0, proposedValue * dopeRoot.frameDuration)
+            console.log('proposing scroll: ', proposedValue, ', CONTENT SCROLL: ', dopeRoot.contentScroll, ', SCLAE: ', dopeRoot.timeScale)
         }
-        onZoomByWheel: wheel => root.zoomByWheel(wheel)
+        onZoomByWheel: wheel => dopeRoot.zoomByWheel(wheel)
         onFitZoom: {
-            root.timeScale = 1
+            dopeRoot.timeScale = 1
             //scrollView.contentX = 0
             //zoomOnBar = true
         }
     }
     ToolButton {
         id: kfTypeButton
-        anchors.top: root.top
-        anchors.left: root.left
+        anchors.top: dopeRoot.top
+        anchors.left: dopeRoot.left
         anchors.topMargin: 2
         anchors.leftMargin: 2
         icon.name: "application-menu"
-        width: root.collapsedHeight
+        width: dopeRoot.collapsedHeight
         height: width
         onClicked: {
             // Check required kfr type
             var actionList = currTypeActions.actions
             for (var i = 0; i < actionList.length; i++) {
-                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', root.keyframeType)
-                if (keyframeTypes[actionList[i].text] == root.keyframeType) {
+                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
+                if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
                     console.log('CHECK ACTION: ', i)
                     actionList[i].checked = true
                     break
                 }
             }
-            selectionTypeMenu.enabled = root.allSelectedKeyframes.length > 0
+            selectionTypeMenu.enabled = dopeRoot.allSelectedKeyframes.length > 0
             defaultTypeMenu.popup()
         }
     }

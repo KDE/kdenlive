@@ -5,7 +5,6 @@
 */
 
 #pragma once
-#include "kdenlivesettings.h"
 
 #include <KMessageWidget>
 

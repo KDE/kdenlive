@@ -6,9 +6,6 @@
 */
 
 #include "abstracttask.h"
-#include "audio/audioStreamInfo.h"
-#include "bin/projectclip.h"
-#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlivesettings.h"
 

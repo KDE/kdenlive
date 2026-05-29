@@ -14,10 +14,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDateTime>
 #include <QDir>
 #include <QMutex>
-#include <QString>
 #include <QReadWriteLock>
+#include <QString>
 #include <memory>
-#include <mlt++/Mlt.h>
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProperties.h>
 
 class QPixmap;
 class Bin;

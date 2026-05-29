@@ -22,7 +22,7 @@ Item {
         width: parent.height
         height: parent.width
         anchors.centerIn: parent
-        rotation: mirrorGradient ? -90 : 90
+        rotation: root.mirrorGradient ? -90 : 90
         gradient: Gradient {
             GradientStop { position: 0.0; color: "transparent" }
             GradientStop { position: 1.0; color: "white" }

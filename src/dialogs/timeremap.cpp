@@ -14,15 +14,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "macros.hpp"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
-#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
-#include "timeline2/view/timelinewidget.h"
 #include "widgets/timecodedisplay.h"
 
-#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QStylePainter>
 #include <QWheelEvent>

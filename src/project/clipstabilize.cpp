@@ -13,10 +13,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "mainwindow.h"
-#include "widgets/doublewidget.h"
-#include "widgets/positionwidget.h"
-
-#include "kdenlivesettings.h"
 #include <KIO/RenameDialog>
 #include <KMessageBox>
 #include <QPushButton>

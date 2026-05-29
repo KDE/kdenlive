@@ -7,7 +7,6 @@
 #include "abstractprojectitem.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "core.h"
-#include "profiles/profilemodel.hpp"
 #include "projectclip.h"
 #include <mlt++/Mlt.h>
 

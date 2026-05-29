@@ -6,11 +6,8 @@
 #include "geometryeditwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
-#include "kdenlivesettings.h"
 #include "monitor/monitor.h"
-#include "monitor/monitormanager.h"
 #include "widgets/geometrywidget.h"
-#include "widgets/timecodedisplay.h"
 #include <QVBoxLayout>
 #include <framework/mlt_types.h>
 #include <mlt++/MltProperties.h>

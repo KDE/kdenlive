@@ -5,14 +5,12 @@
 
 #pragma once
 
-#include "definitions.h"
 #include "mlt++/MltService.h"
 
 #include <QAbstractSpinBox>
 #include <QMutex>
 #include <QWidget>
 #include <memory>
-#include <unordered_map>
 
 class KDualAction;
 class AudioLevelWidget;

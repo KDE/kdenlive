@@ -5,9 +5,9 @@
 
 #include "transitionlistwidget.hpp"
 #include "../model/transitiontreemodel.hpp"
-#include "assets/assetlist/view/asseticonprovider.hpp"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "transitionicondelegate.hpp"

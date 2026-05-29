@@ -13,7 +13,6 @@
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 
-#include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
 
 #include <KLocalizedString>

@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
@@ -242,6 +244,8 @@ Item {
                 Instantiator {
                     model: root.controller.lastClips
                     MenuItem {
+                        required property int index
+                        required property var modelData
                         text: modelData
                         font: K.UiUtils.fixedFont
                         onTriggered: {
@@ -595,6 +599,7 @@ Item {
                 delegate: Rectangle {
                     id: jobContainer
                     required property int index
+                    required property var modelData
                     property var uuid: root.controller.jobsUuids[index]
                     width: childrenRect.width + 4
                     Layout.fillWidth: true
@@ -622,7 +627,7 @@ Item {
                             horizontalAlignment: Text.AlignLeft
                             anchors.leftMargin: 4
                             padding: 2
-                            text: modelData
+                            text: jobContainer.modelData
                             font.pointSize: fontMetrics.font.pointSize
                             elide: Text.ElideMiddle
                             color: 'white'

@@ -8,8 +8,6 @@
 
 #include "definitions.h"
 
-#include <cstdint>
-
 #include <QImage>
 #include <QObject>
 #include <QWidget>

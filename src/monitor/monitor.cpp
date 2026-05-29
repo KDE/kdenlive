@@ -9,13 +9,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "capture/mediacapture.h"
 #include "core.h"
+#include "dialogs/markerdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "jobs/cuttask.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
-#include "lib/localeHandling.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/guideslist.h"
@@ -42,7 +42,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/thumbnailcache.hpp"
 
 #include "KLocalizedString"
 #include <KActionMenu>
@@ -74,8 +73,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QVBoxLayout>
 #include <QtConcurrent/QtConcurrentRun>
 #include <utility>
-
-#include "dialogs/markerdialog.h"
 
 #define SEEK_INACTIVE (-1)
 

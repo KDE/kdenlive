@@ -9,7 +9,6 @@
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "profiles/profilemodel.hpp"
 #include "rotoscoping/rotohelper.hpp"
 #include "utils/qcolorutils.h"
 

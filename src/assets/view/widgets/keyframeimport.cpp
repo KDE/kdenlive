@@ -19,8 +19,6 @@
 
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "core.h"
-#include "doc/kdenlivedoc.h"
-#include "kdenlivesettings.h"
 #include "keyframeimport.h"
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"

@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick.Controls 2.15
 import QtQuick 2.15
 
@@ -124,7 +126,7 @@ Rectangle {
         // Enforce repaint
         rulerTicks.model = 0
         rulerTicks.model = ruler.rulerZoomWidth / root.frameSize + 2
-        playhead.fillColor = activePalette.windowText
+        playhead.color = activePalette.windowText
     }
 
     function updateRuler()
@@ -274,7 +276,7 @@ Rectangle {
         opacity: 1
         anchors.top: ruler.top
         z: 2
-        fillColor: activePalette.windowText
+        color: activePalette.windowText
         x: ruler.monitorController.position * root.timeScale - ruler.rulerZoomOffset - (playhead.width / 2)
     }
     MouseArea {

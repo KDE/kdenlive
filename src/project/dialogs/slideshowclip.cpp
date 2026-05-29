@@ -14,7 +14,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <KRecentDirs>
 
-#include "kdenlive_debug.h"
 #include <QDir>
 #include <QFontDatabase>
 #include <QStandardPaths>

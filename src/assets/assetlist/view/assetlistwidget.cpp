@@ -7,6 +7,7 @@
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/view/asseticonprovider.hpp"
+#include "kdenlivesettings.h"
 #include "mltconnection.h"
 
 #include <KAboutData>

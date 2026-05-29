@@ -7,19 +7,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "definitions.h"
 #include "jobs/taskmanager.h"
-#include "kdenlivecore_export.h"
-#include "layouts/layoutinfo.h"
 #include "undohelper.hpp"
 #include "utils/timecode.h"
 
 #include <KSharedDataCache>
 
 #include <QColor>
+#include <QEventLoop>
 #include <QMutex>
 #include <QObject>
 #include <QPoint>
 #include <QTextEdit>
 #include <QThreadPool>
+#include <QTimer>
 #include <QUrl>
 
 #include <memory>
@@ -491,6 +491,8 @@ Q_SIGNALS:
     void finalizeRecording(const QUuid uuid, const QString &captureFile);
     void autoScrollChanged();
     void centeredPlayheadChanged();
+    /** @brief The currently active editing tool changed */
+    void activeToolChanged();
     /** @brief Update the message about the current loading progress */
     void loadingMessageNewStage(const QString &message, int max = -1);
     /** @brief Increase the progress of the loading message by 1 */

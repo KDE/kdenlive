@@ -10,7 +10,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "abstractprojectitem.h"
 #include "project/transcodeseek.h"
-#include "utils/timecode.h"
 
 #include <KMessageWidget>
 #include <kddockwidgets/DockWidget.h>

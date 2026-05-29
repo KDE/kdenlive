@@ -5,10 +5,8 @@
 */
 #include "test_utils.hpp"
 // test specific headers
-#include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
-#include "xml/xml.hpp"
 
 #include <QTemporaryFile>
 #include <QUndoGroup>

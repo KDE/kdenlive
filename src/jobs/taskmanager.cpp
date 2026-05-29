@@ -6,13 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "taskmanager.h"
-#include "bin/abstractprojectitem.h"
-#include "bin/projectclip.h"
-#include "bin/projectitemmodel.h"
-#include "core.h"
 #include "kdenlivesettings.h"
-#include "macros.hpp"
-#include "undohelper.hpp"
 
 #include <KMessageWidget>
 #include <QFuture>

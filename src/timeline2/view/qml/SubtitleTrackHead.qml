@@ -82,7 +82,7 @@ Rectangle {
             onClicked: timeline.subtitlesWarningDetails()
             ToolTip {
                 visible: warningButton.hovered
-                font: miniFont
+                font: K.UiUtils.smallestReadableFont
                 delay: 1500
                 timeout: 5000
                 background: Rectangle {
@@ -164,7 +164,7 @@ Rectangle {
                 border.color: root.frameColor
                 Text {
                     id: name
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     text: "S" + index
                     color: activePalette.text
                     anchors.centerIn: layerLabel

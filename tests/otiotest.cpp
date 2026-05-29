@@ -9,9 +9,8 @@
 
 #include "otio/otioexport.h"
 #include "otio/otioimport.h"
-#include "profiles/profilemodel.hpp"
-#include "profiles/profilerepository.hpp"
 
+#include <QApplication>
 #include <QTemporaryDir>
 
 #include <opentimelineio/externalReference.h>

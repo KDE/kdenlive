@@ -7,10 +7,6 @@
 #include "test_utils.hpp"
 // test specific headers
 #include <QString>
-#include <cmath>
-#include <iostream>
-#include <tuple>
-#include <unordered_set>
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"

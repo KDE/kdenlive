@@ -9,7 +9,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "audioStreamInfo.h"
 #include <QString>
-#include <cstdlib>
 
 AudioInfo::AudioInfo(const std::shared_ptr<Mlt::Producer> &producer)
     : m_list(QList<AudioStreamInfo *>())

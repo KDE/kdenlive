@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
@@ -21,7 +23,6 @@ Item {
     property rect framesize
     property point profile: controller.profile
     property int overlayType: 0
-    property color overlayColor: controller.overlayColor
     property point center
     property double scalex
     property double scaley

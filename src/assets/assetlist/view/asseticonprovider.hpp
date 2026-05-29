@@ -5,10 +5,7 @@
 
 #pragma once
 
-#include <KImageCache>
-#include <QCache>
 #include <QQuickImageProvider>
-#include <memory>
 
 /** @class AssetIconProvider
     @brief \@todo Describe class AssetIconProvider

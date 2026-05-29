@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Shapes 1.15
 
@@ -299,7 +301,7 @@ Item {
         anchors.bottomMargin: clipMonitorRuler.height
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !controller.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
+        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !root.controller.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
         readonly property bool handleContainsMouse: {
               if (isMoving) {
                   return true
@@ -664,7 +666,7 @@ Item {
                 scalex: root.scalex  
                 scaley: root.scaley
                 lockRatio: root.lockratio
-                isKeyframe: controller.isKeyframe
+                isKeyframe: root.controller.isKeyframe
                 
                 // Margin properties
                 handlesTopMargin: transformedFrame.handlesTopMargin

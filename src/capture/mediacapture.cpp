@@ -18,7 +18,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QApplication>
 #include <QDir>
 #include <QtEndian>
-#include <utility>
 
 AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
     : QIODevice(parent)
@@ -217,6 +216,9 @@ MediaCapture::~MediaCapture()
 void MediaCapture::displayErrorMessage()
 {
     qDebug() << " !!!!!!!!!!!!!!!! ERROR : QMediarecorder - Capture failed";
+    if (m_mediaRecorder) {
+        pCore->displayMessage(m_mediaRecorder->errorString(), ErrorMessage);
+    }
 }
 
 void MediaCapture::resetIfUnused()

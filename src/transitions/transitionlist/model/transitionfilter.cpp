@@ -6,6 +6,7 @@
 #include "transitionfilter.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
+#include "kdenlivesettings.h"
 
 TransitionFilter::TransitionFilter(QObject *parent)
     : AssetFilter(parent)

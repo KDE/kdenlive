@@ -11,7 +11,6 @@
 
 #include <KLocalizedString>
 #include <QPainter>
-#include <array>
 
 // Drawing constants
 constexpr int CHANNEL_BORDER_WIDTH = 1;      // px for channel border

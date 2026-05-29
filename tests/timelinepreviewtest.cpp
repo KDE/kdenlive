@@ -7,20 +7,16 @@
 #include "test_utils.hpp"
 // test specific headers
 #include <QString>
-#include <cmath>
-#include <iostream>
-#include <tuple>
-#include <unordered_set>
 
 #include <chrono>
 #include <thread>
 
-#include "bin/binplaylist.hpp"
 #include "definitions.h"
 #include "doc/kdenlivedoc.h"
-#include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/previewmanager.h"
-#include "xml/xml.hpp"
+
+#include <QApplication>
+#include <QStandardPaths>
 
 TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
 {

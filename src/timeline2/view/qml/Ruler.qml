@@ -5,6 +5,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
@@ -13,6 +15,10 @@ import org.kde.kdenlive as K
 
 Item {
     id: rulerRoot
+    SystemPalette { id: activePalette }
+    required property K.TimelineController timeline
+    required property var activeTool
+
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(timeline.timecode(36000)).width
     // The spacing between labels. Depends on labelSize
@@ -21,7 +27,6 @@ Item {
     property real scalingFactor: 1.
     property real tickSpacing: scalingFactor
     property alias rulerZone : zone
-    property bool hideZone: false
     property int workingPreview : timeline.workingPreview
     property int timecodeOffset : timeline.timecodeOffset
     property int rulerOffset: 0
@@ -68,50 +73,53 @@ Item {
 
     // Timeline preview stuff
     Repeater {
-        model: root.hideZone ? 0 : timeline.dirtyChunks
+        model: rulerRoot.timeline.dirtyChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: modelData * rulerRoot.scalingFactor
+            required property var modelData
+            x: modelData * rulerRoot.timeline.scaleFactor
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: zoneHeight
-            width: 25 * rulerRoot.scalingFactor
-            height: previewHeight
+            anchors.bottomMargin: rulerRoot.zoneHeight
+            width: 25 * rulerRoot.timeline.scaleFactor
+            height: rulerRoot.previewHeight
             color: 'darkred'
         }
     }
 
     Repeater {
-        model: root.hideZone ? 0 : timeline.renderedChunks
+        model: rulerRoot.timeline.renderedChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: modelData * rulerRoot.scalingFactor
+            required property var modelData
+            x: modelData * rulerRoot.timeline.scaleFactor
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: zoneHeight
-            width: 25 * rulerRoot.scalingFactor
-            height: previewHeight
+            anchors.bottomMargin: rulerRoot.zoneHeight
+            width: 25 * rulerRoot.timeline.scaleFactor
+            height: rulerRoot.previewHeight
             color: 'darkgreen'
         }
     }
     Rectangle {
         id: working
-        x: root.hideZone ? 0 : rulerRoot.workingPreview * rulerRoot.scalingFactor
+        x: rulerRoot.workingPreview * rulerRoot.timeline.scaleFactor
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: zoneHeight
-        width: 25 * rulerRoot.scalingFactor
-        height: previewHeight
+        anchors.bottomMargin: rulerRoot.zoneHeight
+        width: 25 * rulerRoot.timeline.scaleFactor
+        height: rulerRoot.previewHeight
         color: 'orange'
-        visible: !root.hideZone && rulerRoot.workingPreview > -1
+        visible: rulerRoot.workingPreview > -1
     }
 
     // Guides
     Repeater {
         id: guidesRepeater
-        model: root.hideZone ? 0 : guidesModel
-        property int radiusSize: K.KdenliveSettings.lockedGuides ? 0 : guideLabelHeight / 2
+        model: guidesModel
+        property int radiusSize: K.KdenliveSettings.lockedGuides ? 0 : rulerRoot.guideLabelHeight / 2
         delegate:
         Item {
             id: guideRoot
             anchors.fill: parent
+            required property var model
             property bool activated : proxy.position === model.frame
             property bool isRangeMarker: model.hasRange
             property real markerDuration: model.duration
@@ -122,13 +130,13 @@ Item {
             Rectangle {
                 id: rangeSpan
                 visible: guideRoot.isRangeMarker
-                x: Math.round(model.frame * rulerRoot.scalingFactor)
-                width: Math.max(1, Math.round(guideRoot.markerDuration * rulerRoot.scalingFactor))
+                x: Math.round(guideRoot.model.frame * rulerRoot.timeline.scaleFactor)
+                width: Math.max(1, Math.round(guideRoot.markerDuration * rulerRoot.timeline.scaleFactor))
                 height: rulerRoot.guideLabelHeight
                 anchors.top: parent.top
                 anchors.topMargin: 0
-                color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.3)
-                border.color: model.color
+                color: Qt.rgba(guideRoot.model.color.r, guideRoot.model.color.g, guideRoot.model.color.b, 0.3)
+                border.color: guideRoot.model.color
                 border.width: 1
                 
                 // Tapered end effect
@@ -137,11 +145,11 @@ Item {
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    width: Math.min(parent.width / 8, 20 * rulerRoot.scalingFactor)
+                    width: Math.min(parent.width / 8, 20 * rulerRoot.timeline.scaleFactor)
                     gradient: Gradient {
                         orientation: Gradient.Horizontal
-                        GradientStop { position: 0.0; color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.3) }
-                        GradientStop { position: 1.0; color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.1) }
+                        GradientStop { position: 0.0; color: Qt.rgba(guideRoot.model.color.r, guideRoot.model.color.g, guideRoot.model.color.b, 0.3) }
+                        GradientStop { position: 1.0; color: Qt.rgba(guideRoot.model.color.r, guideRoot.model.color.g, guideRoot.model.color.b, 0.1) }
                     }
                 }
                 
@@ -149,30 +157,30 @@ Item {
                 Rectangle {
                     visible: K.KdenliveSettings.showmarkers && width < parent.width
                     width: rangeLabel.contentWidth + 4 - guidesRepeater.radiusSize
-                    height: guideLabelHeight
-                    color: model.color
+                    height: rulerRoot.guideLabelHeight
+                    color: guideRoot.model.color
                     anchors {
                         top: parent.top
                         left: parent.left
                     }
                     ToolTip.visible: rangeArea.containsMouse
-                    ToolTip.text: model.comment
+                    ToolTip.text: guideRoot.model.comment
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     Rectangle {
                         visible: !K.KdenliveSettings.lockedGuides
-                        color: model.color
+                        color: guideRoot.model.color
                         anchors.fill: parent
                         radius: guidesRepeater.radiusSize
                         anchors.rightMargin: -guidesRepeater.radiusSize - 2
                     }
                     Text {
                         id: rangeLabel
-                        text: model.comment
+                        text: guideRoot.model.comment
                         topPadding: -1
                         leftPadding: 2
                         rightPadding: 2
-                        font: miniFont
+                        font: K.UiUtils.smallestReadableFont
                         color: '#000'
                     }
                 }
@@ -189,32 +197,32 @@ Item {
                     property int xOffset: 0
                     drag.axis: Drag.XAxis
                     onPressed: {
-                        prevFrame = model.frame
+                        prevFrame = guideRoot.model.frame
                         destFrame = prevFrame
                         xOffset = mouseX
                         anchors.left = undefined
-                        movingMarkerId = model.id
-                        timeline.pauseGuideSorting(true)
+                        movingMarkerId = guideRoot.model.id
+                        rulerRoot.timeline.pauseGuideSorting(true)
                     }
                     onReleased: {
                         if (prevFrame != destFrame) {
-                            timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
-                            timeline.moveGuideById(movingMarkerId, destFrame)
+                            rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
+                            rulerRoot.timeline.moveGuideById(movingMarkerId, destFrame)
                         } else {
-                            if (root.activeTool !== K.ToolType.SlipTool) {
-                                proxy.position = model.frame
+                            if (rulerRoot.activeTool !== K.ToolType.SlipTool) {
+                                proxy.position = guideRoot.model.frame
                             }
                         }
                         movingMarkerId = -1
                         anchors.left = parent.left
-                        timeline.pauseGuideSorting(false)
+                        rulerRoot.timeline.pauseGuideSorting(false)
                     }
                     onPositionChanged: mouse => {
                         if (pressed) {
-                            var newFrame = Math.max(0, Math.round(model.frame + (mouseX - xOffset) / rulerRoot.scalingFactor))
+                            var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
                             newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                             if (newFrame != destFrame) {
-                                var frame = timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
+                                var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                 if (frame > -1) {
                                     destFrame = frame
                                 }
@@ -225,10 +233,10 @@ Item {
                         }
                     }
                     drag.smoothed: false
-                    onDoubleClicked: timeline.editGuide(model.frame)
+                    onDoubleClicked: rulerRoot.timeline.editGuide(guideRoot.model.frame)
                     onClicked: mouse => {
-                        if (root.activeTool !== K.ToolType.SlipTool) {
-                            proxy.position = model.frame
+                        if (rulerRoot.activeTool !== K.ToolType.SlipTool) {
+                            proxy.position = guideRoot.model.frame
                         }
                         if (mouse.button == Qt.RightButton) {
                             root.showRulerMenu()
@@ -250,7 +258,7 @@ Item {
                     height: parent.height
                     x: 0
                     y: 0
-                    color: Qt.darker(model.color, 1.3)
+                    color: Qt.darker(guideRoot.model.color, 1.3)
                     opacity: leftResizeArea.containsMouse || leftResizeArea.isResizing ? 0.8 : 0.5
                     
                     MouseArea {
@@ -277,10 +285,10 @@ Item {
                             startX = mouseX
                             globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
                             startDuration = guideRoot.markerDuration
-                            startPosition = model.frame
-                            originalEndPosition = model.frame + guideRoot.markerDuration
+                            startPosition = guideRoot.model.frame
+                            originalEndPosition = guideRoot.model.frame + guideRoot.markerDuration
                             cursorShape = Qt.SizeHorCursor
-                            timeline.pauseGuideSorting(true)
+                            rulerRoot.timeline.pauseGuideSorting(true)
                         }
                         
                         onPositionChanged: mouse =>{
@@ -288,7 +296,7 @@ Item {
                                 var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
                                 var realDeltaX = globalCurrentX - globalStartX
 
-                                var deltaFrames = Math.round(realDeltaX / rulerRoot.scalingFactor)
+                                var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
                                 var newStartPosition = Math.max(0, startPosition + deltaFrames)
                                 newStartPosition = controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 var newDuration = Math.max(1, originalEndPosition - newStartPosition)
@@ -296,9 +304,9 @@ Item {
                                 currentNewStartPosition = newStartPosition
                                 currentNewDuration = newDuration
 
-                                rangeSpan.x = newStartPosition * rulerRoot.scalingFactor
-                                rangeSpan.width = Math.max(1, newDuration * rulerRoot.scalingFactor)
-                                markerBase.x = newStartPosition * rulerRoot.scalingFactor
+                                rangeSpan.x = newStartPosition * rulerRoot.timeline.scaleFactor
+                                rangeSpan.width = Math.max(1, newDuration * rulerRoot.timeline.scaleFactor)
+                                markerBase.x = newStartPosition * rulerRoot.timeline.scaleFactor
 
                                 cursorShape = Qt.SizeHorCursor
                             }
@@ -306,21 +314,22 @@ Item {
                         
                         onReleased: {
                             if (isResizing) {
-                                timeline.resizeGuide(startPosition, currentNewDuration, true, currentNewStartPosition)
+                                rulerRoot.timeline.resizeGuide(startPosition, currentNewDuration, true, currentNewStartPosition)
                                 isResizing = false
-                                rangeSpan.x = Qt.binding(function() { return model.frame * rulerRoot.scalingFactor })
-                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.scalingFactor) })
-                                markerBase.x = Qt.binding(function() { return model.frame * rulerRoot.scalingFactor })
+
+                                rangeSpan.x = Qt.binding(function() { return guideRoot.model.frame * rulerRoot.timeline.scaleFactor })
+                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.timeline.scaleFactor) })
+                                markerBase.x = Qt.binding(function() { return guideRoot.model.frame * rulerRoot.timeline.scaleFactor })
                             }
-                            timeline.pauseGuideSorting(false)
+                            rulerRoot.timeline.pauseGuideSorting(false)
                         }
                         
                         onCanceled: {
                             if (isResizing) {
                                 isResizing = false
-                                rangeSpan.x = Qt.binding(function() { return model.frame * rulerRoot.scalingFactor })
-                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.scalingFactor) })
-                                markerBase.x = Qt.binding(function() { return model.frame * rulerRoot.scalingFactor })
+                                rangeSpan.x = Qt.binding(function() { return guideRoot.model.frame * rulerRoot.timeline.scaleFactor })
+                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.timeline.scaleFactor) })
+                                markerBase.x = Qt.binding(function() { return guideRoot.model.frame * rulerRoot.timeline.scaleFactor })
                             }
                         }
                         
@@ -342,7 +351,7 @@ Item {
                     height: parent.height
                     x: rangeSpan.width - width
                     y: 0
-                    color: Qt.darker(model.color, 1.3)
+                    color: Qt.darker(guideRoot.model.color, 1.3)
                     opacity: rightResizeArea.containsMouse || rightResizeArea.isResizing ? 0.8 : 0.5
                     
                     MouseArea {
@@ -366,7 +375,7 @@ Item {
                             startX = mouseX
                             globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
                             startDuration = guideRoot.markerDuration
-                            startPosition = model.frame
+                            startPosition = guideRoot.model.frame
                             cursorShape = Qt.SizeHorCursor
                         }
                         
@@ -375,11 +384,11 @@ Item {
                                 var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
                                 var realDeltaX = globalCurrentX - globalStartX
                                 
-                                var deltaFrames = Math.round(realDeltaX / rulerRoot.scalingFactor)
+                                var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
                                 var newDuration = Math.max(1, startDuration + deltaFrames)
                                 newDuration = controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping) - startPosition
                                 
-                                rangeSpan.width = Math.max(1, newDuration * rulerRoot.scalingFactor)
+                                rangeSpan.width = Math.max(1, newDuration * rulerRoot.timeline.scaleFactor)
                                 
                                 cursorShape = Qt.SizeHorCursor
                             }
@@ -387,16 +396,16 @@ Item {
                         
                         onReleased: {
                             if (isResizing) {
-                                timeline.resizeGuide(startPosition, rangeSpan.width / rulerRoot.scalingFactor, false)
+                                rulerRoot.timeline.resizeGuide(startPosition, rangeSpan.width / rulerRoot.timeline.scaleFactor, false)
                                 isResizing = false
-                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.scalingFactor) })
+                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.timeline.scaleFactor) })
                             }
                         }
                         
                         onCanceled: {
                             if (isResizing) {
                                 isResizing = false
-                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.scalingFactor) })
+                                rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * rulerRoot.timeline.scaleFactor) })
                             }
                         }
                         
@@ -416,22 +425,22 @@ Item {
                 id: markerBase
                 width: 1
                 height: rulerRoot.height
-                x: Math.round(model.frame * rulerRoot.scalingFactor)
-                color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
-                property int markerId: model.id
+                x: Math.round(guideRoot.model.frame * rulerRoot.timeline.scaleFactor)
+                color: guideRoot.activated ? Qt.lighter(guideRoot.model.color, 1.3) : guideRoot.model.color
+                property int markerId: guideRoot.model.id
                 visible: !guideRoot.isRangeMarker || K.KdenliveSettings.showmarkers
                 
                 Rectangle {
                     visible: K.KdenliveSettings.showmarkers && !guideRoot.isRangeMarker
                     width: mlabel.contentWidth + 4 - guidesRepeater.radiusSize
-                    height: guideLabelHeight
+                    height: rulerRoot.guideLabelHeight
                     color: markerBase.color
                     anchors {
                         top: parent.top
                         left: parent.left
                     }
                     ToolTip.visible: guideArea.containsMouse
-                    ToolTip.text: model.comment
+                    ToolTip.text: guideRoot.model.comment
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     Rectangle {
@@ -444,7 +453,7 @@ Item {
                     Rectangle {
                         // Shadow delimiting marker start
                         width: 1
-                        height: guideLabelHeight
+                        height: rulerRoot.guideLabelHeight
                         color: activePalette.dark
                         anchors {
                             right: parent.left
@@ -458,11 +467,11 @@ Item {
                     }
                     Text {
                         id: mlabel
-                        text: model.comment
+                        text: guideRoot.model.comment
                         topPadding: -1
                         leftPadding: 2
                         rightPadding: 2
-                        font: miniFont
+                        font: K.UiUtils.smallestReadableFont
                         color: '#000'
                     }
                     MouseArea {
@@ -482,30 +491,30 @@ Item {
                         property int xOffset: 0
                         drag.axis: Drag.XAxis
                         onPressed: {
-                            prevFrame = model.frame
+                            prevFrame = guideRoot.model.frame
                             destFrame = prevFrame
                             xOffset = mouseX
                             movingMarkerId = markerBase.markerId
                             anchors.left = undefined
-                            timeline.pauseGuideSorting(true)
+                            rulerRoot.timeline.pauseGuideSorting(true)
                         }
                         onReleased: {
                             if (prevFrame != destFrame) {
-                                timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
-                                timeline.moveGuideById(movingMarkerId, destFrame)
+                                rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
+                                rulerRoot.timeline.moveGuideById(movingMarkerId, destFrame)
                             } else {
                                 root.markerActivated(prevFrame)
                             }
-                            timeline.pauseGuideSorting(false)
+                            rulerRoot.timeline.pauseGuideSorting(false)
                             anchors.left = parent.left
                             movingMarkerId = -1
                         }
                         onPositionChanged: mouse => {
                             if (pressed) {
-                                var newFrame = Math.max(0, Math.round(model.frame + (mouseX - xOffset) / rulerRoot.scalingFactor))
+                                var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
                                 newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 if (newFrame != destFrame) {
-                                    var frame = timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
+                                    var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                     if (frame > -1) {
                                         destFrame = frame
                                     }
@@ -513,10 +522,10 @@ Item {
                             }
                         }
                         drag.smoothed: false
-                        onDoubleClicked: timeline.editGuide(model.frame)
+                        onDoubleClicked: rulerRoot.timeline.editGuide(guideRoot.model.frame)
                         onClicked: mouse => {
-                            if (root.activeTool !== K.ToolType.SlipTool) {
-                                proxy.position = model.frame
+                            if (rulerRoot.activeTool !== K.ToolType.SlipTool) {
+                                proxy.position = guideRoot.model.frame
                             }
                             if (mouse.button == Qt.RightButton) {
                                 root.showRulerMenu()
@@ -538,9 +547,9 @@ Item {
     Item {
         id: timecodeContainer
         anchors.top: parent.top
-        anchors.topMargin: guideLabelHeight
+        anchors.topMargin: rulerRoot.guideLabelHeight
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: zoneHeight
+        anchors.bottomMargin: rulerRoot.zoneHeight
         anchors.left: parent.left
         anchors.right: parent.right
     Repeater {
@@ -548,8 +557,9 @@ Item {
         model: Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
         property int offset: Math.floor(rulercontainer.contentX /rulerRoot.tickSpacing)
         Item {
-            property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / rulerRoot.scalingFactor
-            x: Math.round(realPos * rulerRoot.scalingFactor)
+            required property int index
+            property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / rulerRoot.timeline.scaleFactor
+            x: Math.round(realPos * rulerRoot.timeline.scaleFactor)
             height: parent.height
             property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
             Rectangle {
@@ -562,8 +572,8 @@ Item {
                 visible: parent.showText
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: timeline.timecode(parent.realPos + rulerRoot.timecodeOffset)
-                font: miniFont
+                text: rulerRoot.timeline.timecode(parent.realPos + rulerRoot.timecodeOffset)
+                font: K.UiUtils.smallestReadableFont
                 color: rulerRoot.dimmedColor
             }
         }
@@ -580,7 +590,7 @@ Item {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
                 pos = Math.min(pos, width)
-                var frame = Math.round(pos / rulerRoot.scalingFactor)
+                var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = controller.suggestPlayheadSnapPoint(frame, root.snapping)
                 }
@@ -592,8 +602,8 @@ Item {
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton && pressed) {
                 var pos = Math.max(mouseX, 0)
-                var frame = Math.round(pos / rulerRoot.scalingFactor)
                 pos = Math.min(pos, width)
+                var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = controller.suggestPlayheadSnapPoint(frame, root.snapping)
                 }
@@ -601,8 +611,8 @@ Item {
             }
         }
         onDoubleClicked: mouse => {
-            if (mouse.y < guideLabelHeight && !root.hideZone) {
-                timeline.switchGuide(Math.round(mouseX / rulerRoot.scalingFactor), false)
+            if (mouse.y < rulerRoot.guideLabelHeight) {
+                rulerRoot.timeline.switchGuide(Math.round(mouseX / rulerRoot.timeline.scaleFactor), false)
             }
         }
         onWheel: wheel => {
@@ -616,35 +626,35 @@ Item {
     
     RulerZone {
         id: zone
-        visible: !ruler.hideZone
         z: 3
         Binding {
             target: zone
             property: "frameIn"
-            value: timeline.zoneIn
+            value: rulerRoot.timeline.zoneIn
         }
         Binding {
             target: zone
             property: "frameOut"
-            value: timeline.zoneOut
+            value: rulerRoot.timeline.zoneOut
         }
-        color: useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
+        color: rulerRoot.useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
         Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
         anchors.bottom: parent.bottom
-        height: zoneHeight
+        height: rulerRoot.zoneHeight
         function updateZone(start, end, update)
         {
-            timeline.updateZone(start, end, update)
+            rulerRoot.timeline.updateZone(start, end, update)
         }
     }
 
     // Master effect zones
     Repeater {
-        model: root.hideZone ? 0 : effectZones
+        model: rulerRoot.effectZones
         Rectangle {
-            x: effectZones[index].x * rulerRoot.scalingFactor
-            height: zoneHeight - 1
-            width: (effectZones[index].y - effectZones[index].x) * rulerRoot.scalingFactor
+            required property int index
+            x: rulerRoot.effectZones[index].x * rulerRoot.timeline.scaleFactor
+            height: rulerRoot.zoneHeight - 1
+            width: (rulerRoot.effectZones[index].y - rulerRoot.effectZones[index].x) * rulerRoot.timeline.scaleFactor
             color: "blueviolet"
             anchors.bottom: parent.bottom
             opacity: 0.4
@@ -658,20 +668,20 @@ Item {
         Binding {
             target: effectZone
             property: "frameIn"
-            value: timeline.effectZone.x
+            value: rulerRoot.timeline.effectZone.x
         }
         Binding {
             target: effectZone
             property: "frameOut"
-            value: timeline.effectZone.y
+            value: rulerRoot.timeline.effectZone.y
         }
         color: "orchid"
         anchors.bottom: parent.bottom
-        height: zoneHeight - 1
+        height: rulerRoot.zoneHeight - 1
         opacity: 0.7
         function updateZone(start, end, update)
         {
-            timeline.updateEffectZone(start, end, update)
+            rulerRoot.timeline.updateEffectZone(start, end, update)
         }
     }
 }

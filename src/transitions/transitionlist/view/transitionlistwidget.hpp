@@ -8,8 +8,9 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
 
+#include <QProcess>
+
 class TransitionIconDelegate;
-class QProcess;
 
 /** @class TransitionListWidget
     @brief This class is a widget that display the list of available effects

@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include "dialogs/profilesdialog.h"
 #include <memory>
 
 #include <QWidget>
@@ -18,6 +17,7 @@ class ProfileTreeModel;
 class ProfileFilter;
 class TreeView;
 class QTreeView;
+class QComboBox;
 
 /** @class ProfileWidget
     @brief Provides interface to choose and filter profiles

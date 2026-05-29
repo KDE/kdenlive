@@ -7,7 +7,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include "definitions.h"
 #include "mltcontroller/clipcontroller.h"
 #include "projectclip.h"
 #include "timeline2/model/timelinemodel.hpp"

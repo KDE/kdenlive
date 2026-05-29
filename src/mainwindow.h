@@ -39,13 +39,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/bin.h"
 #include "definitions.h"
 #include "jobs/abstracttask.h"
-#include "kdenlive_debug.h"
-#include "kdenlivecore_export.h"
 #include "otio/otioexport.h"
 #include "otio/otioimport.h"
 #include "powermanagementinterface.h"
 #include "statusbarmessagelabel.h"
-#include "utils/gentime.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -181,6 +178,8 @@ public:
     Bin *activeBin();
     int binCount() const;
     void loadBins(QStringList binInfo);
+
+    ToolType::ProjectTool activeTool();
 
     /** @brief Hide subtitle track and delete its temporary file*/
     void resetSubtitles(const QUuid &uuid);

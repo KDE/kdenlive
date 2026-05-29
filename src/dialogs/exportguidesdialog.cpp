@@ -13,7 +13,6 @@
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 
-#include "kdenlive_debug.h"
 #include <KMessageWidget>
 #include <QAction>
 #include <QButtonGroup>

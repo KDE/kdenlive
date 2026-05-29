@@ -14,10 +14,11 @@ Menu {
 
     Instantiator {
         id: itemRepeater
-        onObjectAdded: menuRoot.insertItem( index, object )
+        onObjectAdded: (index, object) => menuRoot.insertItem( index, object )
         onObjectRemoved: menuRoot.removeItem( object )
         delegate: MenuItem {
             id: menuItem
+            required property var model
             text: model.comment
             property int assetFrame: model.frame
             onTriggered: {

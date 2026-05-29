@@ -17,30 +17,29 @@ import org.kde.kdenlive as K
 
 Item {
     id: compositionRoot
-    property real timeScale: 1
-    property string clipName: ''
-    property string clipResource: ''
-    property string mltService: ''
-    property int modelStart
-    property int displayHeight: 0
-    property var parentTrack: trackRoot
-    property int inPoint: 0
-    property int outPoint: 0
-    property int clipDuration: 0
+
+    SystemPalette { id: activePalette }
+
+    required property real timeScale
+    required property string clipName
+    required property string mltService
+    required property int modelStart
+    required property var parentTrack
+    required property int inPoint
+    required property int outPoint
+    required property int clipDuration
+    required property bool showKeyframes
+    required property bool isGrabbed
+    required property var keyframeModel
+    required property bool grouped
+    required property int trackId// Id in the model
+    required property int fakeTid
+    required property int fakePosition
+    required property int aTrack
+    required property int clipId // Id of the clip in the model
+    required property int displayHeight
+
     property bool isAudio: false
-    property bool showKeyframes: false
-    property int itemType: 0
-    property bool isGrabbed: false
-    property var keyframeModel
-    property bool grouped: false
-    property int binId: 0
-    property int trackHeight
-    property int trackIndex //Index in track repeater
-    property int trackId: -42    //Id in the model
-    property int fakeTid: -1
-    property int fakePosition: 0
-    property int aTrack: -1
-    property int clipId     //Id of the clip in the model
     property int originalTrackId: trackId
     property bool isComposition: true
     property int originalX: x
@@ -58,7 +57,7 @@ Item {
 
     property int mouseXPos: mouseArea.mouseX
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
-    property int trackOffset: 5
+    property int trackOffset: 0
     y: trackOffset
     height: 5
     enabled: !compoArea.containsDrag && !clipDropArea.containsDrag
@@ -164,14 +163,6 @@ Item {
         labelRect.anchors.leftMargin = compositionRoot.scrollStart > 0 ? (labelRect.width > compositionRoot.width ? 0 : compositionRoot.scrollStart) : 0
     }
 
-/*    function reparent(track) {
-        parent = track
-        isAudio = track.isAudio
-        parentTrack = track
-        displayHeight = track.height / 2
-        compositionRoot.trackId = parentTrack.trackId
-    }
-*/
     function updateDrag() {
         console.log('XXXXXXXXXXXXXXX\n\nXXXXXXXXXXXXX \nUPDATING COMPO DRAG')
         var itemPos = mapToItem(tracksContainerArea, 0, displayRect.y, displayRect.width, displayRect.height)
@@ -183,13 +174,13 @@ Item {
         anchors.top: compositionRoot.top
         anchors.right: compositionRoot.right
         anchors.left: compositionRoot.left
-        anchors.topMargin: displayHeight - compositionRoot.trackOffset
-        height: parentTrack.height - displayHeight
+        anchors.topMargin: compositionRoot.displayHeight - compositionRoot.trackOffset
+        height: compositionRoot.parentTrack.height - compositionRoot.displayHeight
         property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
         color: Qt.darker('mediumpurple')
-        border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
-        border.width: isGrabbed ? 8 : 2
-        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
+        border.color: compositionRoot.grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : compositionRoot.borderColor
+        border.width: compositionRoot.isGrabbed ? 8 : 2
+        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == compositionRoot.clipId ? 0.5 : 1.0
 
         states: [
             State {
@@ -272,7 +263,7 @@ Item {
             }
             onDoubleClicked: mouse => {
                 if (mouse.modifiers & Qt.ShiftModifier) {
-                    if (keyframeModel && showKeyframes) {
+                    if (compositionRoot.keyframeModel && compositionRoot.showKeyframes) {
                         // Add new keyframe
                         var xPos = Math.round(mouse.x  / timeline.scaleFactor)
                         var yPos = (compositionRoot.height - mouse.y) / compositionRoot.height
@@ -444,7 +435,7 @@ Item {
                     // Composition ID text
                     id: debugCid
                     text: compositionRoot.clipId
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     anchors {
                         top: debugCidRect.top
                         left: debugCidRect.left
@@ -467,7 +458,7 @@ Item {
                 Text {
                     id: label
                     text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     anchors {
                         top: labelRect.top
                         left: labelRect.left

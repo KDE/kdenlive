@@ -17,7 +17,6 @@
 #include "titler/titledocument.h"
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"
-#include "utils/timecode.h"
 #include "widgets/dragvalue.h"
 
 #include <KNSWidgets/Action>

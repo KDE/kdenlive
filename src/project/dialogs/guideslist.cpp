@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "jobs/cachetask.h"
-#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
@@ -32,7 +31,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QKeyEvent>
 #include <QMenu>
 #include <QPainter>
-#include <cmath>
 
 GuideFilterEventEater::GuideFilterEventEater(QObject *parent)
     : QObject(parent)

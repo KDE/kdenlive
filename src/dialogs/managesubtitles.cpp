@@ -9,7 +9,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "dialogs/importsubtitle.h"
 #include "doc/kdenlivedoc.h"
-#include "kdenlive_debug.h"
 #include "klocalizedstring.h"
 #include "mainwindow.h"
 #include "subtitlestyleedit.h"

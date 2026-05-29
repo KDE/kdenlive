@@ -13,6 +13,8 @@ import org.kde.kdenlive as K
 Rectangle {
     id: keyframe
     visible: root.activeTool === K.ToolType.SelectTool
+    required property var model
+    required property int index
     property int frame : model.frame
     property int frameType : model.type
     property string realValue: model.value
@@ -47,21 +49,21 @@ Rectangle {
         drag.axis: Drag.XAxis
         onReleased: mouse => {
             root.autoScrolling = timeline.autoScroll
-            dragPos = -1
+            keyframe.dragPos = -1
             var newPos = Math.round(parent.x / timeScale) + keyframeContainer.inPoint
-            if (frame != keyframeContainer.inPoint && newPos != frame) {
+            if (keyframe.frame != keyframeContainer.inPoint && newPos != keyframe.frame) {
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     // offset all subsequent keyframes
                     // TODO: rewrite using timeline to ensure all kf parameters are updated
-                    timeline.offsetKeyframes(clipId, frame, newPos)
+                    timeline.offsetKeyframes(clipId, keyframe.frame, newPos)
                 } else {
-                    timeline.updateEffectKeyframe(clipId, frame, newPos)
+                    timeline.updateEffectKeyframe(clipId, keyframe.frame, newPos)
                 }
             }
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                if (frame == keyframeContainer.inPoint) {
+                if (keyframe.frame == keyframeContainer.inPoint) {
                     parent.x = keyframeContainer.inPoint * timeScale
                     return
                 }
@@ -74,7 +76,7 @@ Rectangle {
                     parent.x = newPos * timeScale
                     keyframecanvas.requestPaint()
                 } else {
-                    parent.x = dragPos * timeScale
+                    parent.x = keyframe.dragPos * timeScale
                 }
             }
         }
@@ -92,7 +94,7 @@ Rectangle {
         width: K.UiUtils.baseSizeMedium
         height: width
         radius: width / 2
-        color: model.active ? 'red' : model.selected ? 'orange' : kf1MouseArea.containsMouse || kf1MouseArea.pressed ? root.textColor : root.videoColor
+        color: keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? root.textColor : root.videoColor
         border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : root.textColor
 
         MouseArea {
@@ -104,22 +106,22 @@ Rectangle {
             drag.target: parent
             drag.smoothed: false
             drag.threshold: 1
-            property string movingVal: kfrModel.realValue(model.normalizedValue)
+            property string movingVal: kfrModel.realValue(keyframe.model.normalizedValue)
             property double newVal: NaN
             property bool shiftPressed: false
             onPressed: mouse => {
-                drag.axis = model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
+                drag.axis = keyframe.model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
             }
             onClicked: mouse => {
                 keyframeContainer.focus = true
-                if (mouse.modifiers & Qt.ControlModifier && model.selected) {
+                if (mouse.modifiers & Qt.ControlModifier && keyframe.model.selected) {
                     kfrModel.setActiveKeyframe(-1)
                     keyframeContainer.activeIndex = -1
-                    kfrModel.setSelectedKeyframe(index, true)
+                    kfrModel.setSelectedKeyframe(keyframe.index, true)
                 } else {
-                    kfrModel.setActiveKeyframe(index)
-                    keyframeContainer.activeIndex = index
-                    kfrModel.setSelectedKeyframe(index, mouse.modifiers & Qt.ControlModifier)
+                    kfrModel.setActiveKeyframe(keyframe.index)
+                    keyframeContainer.activeIndex = keyframe.index
+                    kfrModel.setSelectedKeyframe(keyframe.index, mouse.modifiers & Qt.ControlModifier)
                 }
                 var ix = kfrModel.activeKeyframe()
                 if (ix > -1) {
@@ -140,16 +142,16 @@ Rectangle {
                     return
                 }
                 if (newVal > 1.5 || newVal < -0.5) {
-                    if (frame != keyframeContainer.inPoint) {
+                    if (keyframe.frame != keyframeContainer.inPoint) {
                         keyframeContainer.resetSelection()
-                        timeline.removeEffectKeyframe(clipId, frame);
+                        timeline.removeEffectKeyframe(clipId, keyframe.frame);
                     } else {
                         if (newVal < 0) {
                             newVal = 0;
                         } else if (newVal > 1) {
                             newVal = 1;
                         }
-                        timeline.updateEffectKeyframe(clipId, frame, frame, newVal)
+                        timeline.updateEffectKeyframe(clipId, keyframe.frame, keyframe.frame, newVal)
                     }
                 } else {
                     if (newVal < 0) {
@@ -157,29 +159,29 @@ Rectangle {
                     } else if (newVal > 1) {
                         newVal = 1;
                     }
-                    if (model.moveOnly) {
-                        timeline.updateEffectKeyframe(clipId, frame, newPos)
+                    if (keyframe.model.moveOnly) {
+                        timeline.updateEffectKeyframe(clipId, keyframe.frame, newPos)
                     } else {
-                        timeline.updateEffectKeyframe(clipId, frame, frame == keyframeContainer.inPoint ? frame : newPos, newVal)
+                        timeline.updateEffectKeyframe(clipId, keyframe.frame, keyframe.frame == keyframeContainer.inPoint ? frame : newPos, newVal)
                     }
                 }
             }
             onPositionChanged: mouse => {
                 shiftPressed = (mouse.modifiers & Qt.ShiftModifier)
                 if (mouse.buttons === Qt.LeftButton) {
-                    if (frame == keyframeContainer.inPoint) {
+                    if (keyframe.frame == keyframeContainer.inPoint) {
                         parent.x = - K.UiUtils.baseSizeMedium / 2
                     } else {
-                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + keyframeContainer.inPoint - 1)
-                        if (frame + newPos <= keyframeContainer.inPoint) {
-                            newPos = keyframeContainer.inPoint + 1 - frame
+                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / timeScale), Math.round(keyframeContainer.width / timeScale) - keyframe.frame + keyframeContainer.inPoint - 1)
+                        if (keyframe.frame + newPos <= keyframeContainer.inPoint) {
+                            newPos = keyframeContainer.inPoint + 1 - keyframe.frame
                         }
-                        if (newPos != dragPos && (newPos == 0 || !timeline.hasKeyframeAt(clipId, frame + newPos))) {
-                            dragPos = newPos
+                        if (newPos != keyframe.dragPos && (newPos == 0 || !timeline.hasKeyframeAt(clipId, keyframe.frame + newPos))) {
+                            keyframe.dragPos = newPos
                             parent.x = newPos * timeScale - K.UiUtils.baseSizeMedium / 2
                             keyframecanvas.requestPaint()
                         } else {
-                            parent.x = dragPos * timeScale - K.UiUtils.baseSizeMedium / 2
+                            parent.x = keyframe.dragPos * timeScale - K.UiUtils.baseSizeMedium / 2
                         }
                     }
                     keyframecanvas.requestPaint()
@@ -189,7 +191,7 @@ Rectangle {
             }
             onDoubleClicked: {
                 keyframeContainer.resetSelection()
-                timeline.removeEffectKeyframe(clipId, frame);
+                timeline.removeEffectKeyframe(clipId, keyframe.frame);
             }
             onEntered: {
                 timeline.showKeyBinding(KI18n.i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))

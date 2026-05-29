@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "fftTools.h"
 
 #include <cmath>
-#include <iostream>
 
 #include <QString>
 

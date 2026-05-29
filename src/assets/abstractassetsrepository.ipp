@@ -14,11 +14,6 @@
 #include <QTextStream>
 #include <KLocalizedString>
 
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
-
 template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAssetsRepository() = default;
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()

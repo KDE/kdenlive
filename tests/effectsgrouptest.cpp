@@ -8,15 +8,10 @@
 #include "assets/model/assetcommand.hpp"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include <cmath>
-#include <iostream>
-#include <tuple>
 #include <unordered_set>
 
 #include "core.h"
-#include "definitions.h"
 #include "effects/effectsrepository.hpp"
-#include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
 QString anEffect;

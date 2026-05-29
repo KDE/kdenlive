@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "profilewidget.h"
+#include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
@@ -15,11 +16,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <QComboBox>
+#include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
+#include <QLineEdit>
 #include <QSplitter>
 #include <QTextEdit>
+#include <QToolButton>
 #include <QTreeView>
+#include <QVBoxLayout>
 
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent)

@@ -20,7 +20,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
-#include "lib/audio/audioStreamInfo.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "project/projectmanager.h"

@@ -168,6 +168,7 @@ ecm_target_qml_sources(kdenliveLib
     timeline2/view/qml/AudioRecordingControls.qml
     timeline2/view/qml/AudioRecordButton.qml
     timeline2/view/qml/AudioLevels.qml
+    timeline2/view/qml/DopeRuler.qml
     timeline2/view/qml/DopeSheetView.qml
     timeline2/view/qml/Track.qml
     timeline2/view/qml/Ruler.qml
@@ -237,8 +238,14 @@ target_include_directories(kdenliveLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/abstractmodel
+    ${CMAKE_CURRENT_SOURCE_DIR}/assets/keyframes/model
     ${CMAKE_CURRENT_SOURCE_DIR}/monitor
     ${CMAKE_CURRENT_SOURCE_DIR}/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/capture
+    ${CMAKE_CURRENT_SOURCE_DIR}/bin/model
+    ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view
+    ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view/qml
     ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view/qml
     )
 

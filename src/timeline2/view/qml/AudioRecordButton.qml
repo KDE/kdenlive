@@ -13,6 +13,8 @@ import org.kde.kdenlive as K
 
 Rectangle {
     id: recbutton
+    SystemPalette { id: activePalette }
+
     width: K.UiUtils.baseSizeMedium * 1.5
     height: K.UiUtils.baseSizeMedium * 1.5
     radius: recState == MediaRecorder.PausedState ? K.UiUtils.baseSizeMedium * 0.2 : K.UiUtils.baseSizeMedium * .75
@@ -20,9 +22,10 @@ Rectangle {
     border.width: 0
     
     // Public properties
-    property int recState: MediaRecorder.StoppedState
-    property int trackId: -1
-    property bool isLocked: false
+    required property K.TimelineController timeline
+    required property int recState
+    required property int trackId
+    required property bool isLocked
 
     // Private properties
     readonly property bool isDarkTheme: activePalette.window.hslLightness < activePalette.windowText.hslLightness
@@ -51,7 +54,7 @@ Rectangle {
     // Recording Animation 1: Pulsing scale
     SequentialAnimation {
         id: recordingPulseAnimation
-        running: recState == MediaRecorder.RecordingState
+        running: recbutton.recState == MediaRecorder.RecordingState
         loops: Animation.Infinite
         
         PropertyAnimation {
@@ -76,7 +79,7 @@ Rectangle {
     // Recording Animation 2: Expanding ripple effect - creates outward wave when button reaches peak scale
     Rectangle {
         id: recordingRippleEffect
-        visible: recState == MediaRecorder.RecordingState
+        visible: recbutton.recState == MediaRecorder.RecordingState
         width: recbutton.width
         height: recbutton.height
         radius: recbutton.radius
@@ -87,7 +90,7 @@ Rectangle {
         
         SequentialAnimation {
             id: recordingRippleExpandAnimation
-            running: recState == MediaRecorder.RecordingState
+            running: recbutton.recState == MediaRecorder.RecordingState
             loops: Animation.Infinite
             
             // Wait for button to reach max scale, then start ripple
@@ -126,19 +129,19 @@ Rectangle {
         acceptedButtons: Qt.NoButton
         propagateComposedEvents: true
         onEntered:  {
-            if (!isLocked) {
+            if (!recbutton.isLocked) {
                 buttonFill.color = Qt.lighter(buttonFill.color, 1.5)
                 recbutton.color = Qt.lighter(activePalette.text, 1.3)
             }
         }
         onExited:  {
-            if (!isLocked) {
-                if (recState == MediaRecorder.RecordingState) {
-                    buttonFill.color = buttonFillColorStoppedRecording
-                } else if (recState == MediaRecorder.PausedState) {
-                    buttonFill.color = buttonFillColorPaused
+            if (!recbutton.isLocked) {
+                if (recbutton.recState == MediaRecorder.RecordingState) {
+                    buttonFill.color = recbutton.buttonFillColorStoppedRecording
+                } else if (recbutton.recState == MediaRecorder.PausedState) {
+                    buttonFill.color = recbutton.buttonFillColorPaused
                 } else {
-                    buttonFill.color = buttonFillColorStoppedRecording
+                    buttonFill.color = recbutton.buttonFillColorStoppedRecording
                 }
                 recbutton.color = activePalette.text
             }
@@ -149,26 +152,26 @@ Rectangle {
         visible: hoverArea.containsMouse
         delay: 1000
         timeout: 5000
-        text: isLocked ? KI18n.i18n("Track is locked. Cannot start Recording.") : (KI18n.i18n("Record") + timeline.getActionShortcut("audio_record"))
+        text: recbutton.isLocked ? KI18n.i18n("Track is locked. Cannot start Recording.") : (KI18n.i18n("Record") + timeline.getActionShortcut("audio_record"))
     }
     
     // Recording Button
     Rectangle {
         anchors.fill: parent
         anchors.margins: 2  // Thicker outer border
-        radius: recState == MediaRecorder.PausedState ? parent.radius - 2 : parent.radius - 2
+        radius: recbutton.recState == MediaRecorder.PausedState ? parent.radius - 2 : parent.radius - 2
         // Inner border - narrow, inverse of theme
-        color: isDarkTheme ? 'black' : 'white'
+        color: recbutton.isDarkTheme ? 'black' : 'white'
         border.width: 0
         
         Rectangle {
             id: buttonFill
             anchors.fill: parent
             anchors.margins: 1  // Narrow inner border
-            radius: recState == MediaRecorder.PausedState ? parent.radius - 1 : parent.radius - 1
-            color: buttonFillColorStoppedRecording
+            radius: recbutton.recState == MediaRecorder.PausedState ? parent.radius - 1 : parent.radius - 1
+            color: recbutton.buttonFillColorStoppedRecording
             border.width: 0
-            opacity: isLocked ? 0.6 : 1.0
+            opacity: recbutton.isLocked ? 0.6 : 1.0
             
             // Smooth color transitions for hover effects
             Behavior on color {
@@ -186,19 +189,19 @@ Rectangle {
             
             // Pause indicator
             Row {
-                visible: recState == MediaRecorder.PausedState
+                visible: recbutton.recState == MediaRecorder.PausedState
                 anchors.centerIn: buttonFill
                 spacing: buttonFill.width * 0.1
                 
                 Rectangle {
-                    color: isDarkTheme ? 'white' : 'black'
+                    color: recbutton.isDarkTheme ? 'white' : 'black'
                     width: buttonFill.width * 0.25
                     height: buttonFill.height * 0.7
                     radius: 1
                 }
                 
                 Rectangle {
-                    color: isDarkTheme ? 'white' : 'black'
+                    color: recbutton.isDarkTheme ? 'white' : 'black'
                     width: buttonFill.width * 0.25
                     height: buttonFill.height * 0.7
                     radius: 1
@@ -211,14 +214,14 @@ Rectangle {
     MouseArea {
         id: buttonArea
         anchors.fill: parent
-        acceptedButtons: isLocked ? Qt.NoButton : Qt.LeftButton
+        acceptedButtons: recbutton.isLocked ? Qt.NoButton : Qt.LeftButton
         hoverEnabled: false
-        cursorShape: isLocked ? Qt.ArrowCursor : Qt.PointingHandCursor
+        cursorShape: recbutton.isLocked ? Qt.ArrowCursor : Qt.PointingHandCursor
         
         onClicked: {
-            if (!isLocked) {
+            if (!recbutton.isLocked) {
                 flashAnimation.start()
-                timeline.switchRecording(trackId, recState == MediaRecorder.RecordingState ? MediaRecorder.StoppedState : MediaRecorder.RecordingState)
+                recbutton.timeline.switchRecording(recbutton.trackId, recbutton.recState == MediaRecorder.RecordingState ? MediaRecorder.StoppedState : MediaRecorder.RecordingState)
             }
         }
     }

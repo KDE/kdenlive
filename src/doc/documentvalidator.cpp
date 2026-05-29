@@ -26,11 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <mlt++/Mlt.h>
 
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
-
 #include <QStandardPaths>
 #include <lib/localeHandling.h>
 #include <utility>
@@ -67,8 +62,8 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion, co
     QDomElement main_playlist;
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); i++) {
-        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") ||
-            playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin") ||
+            playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
             main_playlist = playlists.at(i).toElement();
             break;
         }
@@ -2011,7 +2006,7 @@ void DocumentValidator::convertSubtitles()
             if (effect.isNull()) {
                 continue;
             }
-            QString service = Xml::getXmlProperty(effect, QStringLiteral("mlt_service"));
+            const QString service = Xml::getXmlProperty(effect, QStringLiteral("mlt_service"));
             if (service == QLatin1String("avfilter.subtitles")) {
                 if (Xml::getXmlProperty(effect, QStringLiteral("av.filename")).endsWith(QLatin1String(".ass"))) {
                     // Already in the new format, abort
@@ -2125,6 +2120,7 @@ void DocumentValidator::convertSubtitles()
         }
 
         auto json = QJsonDocument::fromJson(oldSubData.toUtf8());
+        bool subtitlesFound = false;
         if (json.isArray()) {
             QJsonArray subtitlesList(json.array());
             QJsonArray newSubtitlesList;
@@ -2132,8 +2128,16 @@ void DocumentValidator::convertSubtitles()
             for (int i = 0; i < subtitlesList.size(); i++) {
                 QJsonObject sub = subtitlesList.at(i).toObject();
                 QString path = sub[QLatin1String("file")].toString();
-                sub.insert("file", path.replace(path.lastIndexOf(".srt"), 4, ".ass"));
-                newSubtitlesList.push_back(sub);
+                if (path.endsWith(QLatin1String(".srt"))) {
+                    sub.insert("file", path.replace(path.lastIndexOf(".srt"), 4, ".ass"));
+                    newSubtitlesList.push_back(sub);
+                    subtitlesFound = true;
+                } else {
+                    // Nothing to do
+                }
+            }
+            if (!subtitlesFound) {
+                return;
             }
             QJsonDocument newJson(newSubtitlesList);
             QString newSubData = QString::fromUtf8(newJson.toJson());
@@ -2252,7 +2256,9 @@ void DocumentValidator::convertSubtitles()
                 }
             }
         }
-        m_modified = true;
+        if (subtitlesFound) {
+            m_modified = true;
+        }
     }
 }
 

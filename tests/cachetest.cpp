@@ -8,14 +8,11 @@
 // test specific headers
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include <cmath>
-#include <iostream>
-#include <tuple>
-#include <unordered_set>
 
 #include "core.h"
-#include "definitions.h"
 #include "utils/thumbnailcache.hpp"
+
+#include <QStandardPaths>
 
 TEST_CASE("Cache insert-remove", "[Cache]")
 {

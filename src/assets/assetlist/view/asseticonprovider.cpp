@@ -5,8 +5,6 @@
 
 #include "asseticonprovider.hpp"
 #include "assetlistwidget.hpp"
-#include "effects/effectsrepository.hpp"
-#include "transitions/transitionsrepository.hpp"
 
 #include <QDebug>
 #include <QFont>

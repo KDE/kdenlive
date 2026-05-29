@@ -9,7 +9,6 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -327,7 +326,6 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(m_activeTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, m_activeTimeline->controller(),
             &TimelineController::addEffectToCurrentClip);
-    timeline->rootContext()->setContextProperty("proxy", pCore->monitorManager()->projectMonitor()->getControllerProxy());
     QQmlEngine::setObjectOwnership(pCore->monitorManager()->projectMonitor()->getControllerProxy(), QQmlEngine::CppOwnership);
     Q_EMIT timeline->controller()->selectionChanged();
     timeline->setEnabled(true);
@@ -338,7 +336,6 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 {
     timeline->setEnabled(false);
     timeline->setMouseTracking(false);
-    timeline->rootContext()->setContextProperty("proxy", QVariant());
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     disconnect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
     disconnect(this, &TimelineTabs::fitZoom, timeline, &TimelineWidget::slotFitZoom);

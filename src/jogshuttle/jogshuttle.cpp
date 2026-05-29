@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QApplication>
 #include <QDir>
 #include <cerrno>
-#include <cstring>
 #include <sys/select.h>
 #include <utility>
 // according to earlier standards

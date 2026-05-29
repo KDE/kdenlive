@@ -4,6 +4,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick.Controls
 import QtQuick
 
@@ -192,7 +194,7 @@ Item {
                 // Highlight color for the selected wave part
                 Rectangle {
                     x: audioThumb.monitorController.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
-                    width: (audioThumb.monitorController.zoneOut - monitorController.zoneIn) * timeScale
+                    width: (audioThumb.monitorController.zoneOut - audioThumb.monitorController.zoneIn) * timeScale
                     height: streamThumb.streamHeight - 2
                     color:  Utils.mixColors(K.KdenliveSettings.thumbColor1, activePalette.highlight, 0.6)
                     visible: audioThumb.monitorController.zoneOut > audioThumb.monitorController.zoneIn

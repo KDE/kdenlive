@@ -77,7 +77,7 @@ Window {
         }
         onActiveFocusChanged: {
             if (!activeFocus) {
-                activate()
+                splash.activate()
             }
         }
         Keys.onEscapePressed: {
@@ -210,7 +210,7 @@ Window {
                     resetBox.visible = false
                     loadingBox.visible = true
                     console.log('--------resetting config--.------')
-                    resetConfig()
+                    splash.resetConfig()
                 }
                 Keys.onPressed: (event)=> {
                     if (event.key === Qt.Key_Return) {
@@ -238,7 +238,7 @@ Window {
                     resetBox.visible = false
                     loadingBox.visible = true
                     loadingLabel.text = KI18n.i18n("Starting…")
-                    openBlank()
+                    splash.openBlank()
                 }
                 Keys.onPressed: (event)=> {
                     if (event.key === Qt.Key_Return) {
@@ -283,7 +283,7 @@ Window {
                     enabled: upgradedLabel.hoveredLink
                     cursorShape: Qt.PointingHandCursor
                 }
-                onLinkActivated: (link)=> openLink(link)
+                onLinkActivated: (link) => splash.openLink(link)
             }
             Button {
                 id: notesButton
@@ -319,7 +319,7 @@ Window {
                     loadingLabel.text = KI18n.i18n("Starting…")
                     upgradeBox.visible = false
                     loadingBox.visible = true
-                    openBlank()
+                    splash.openBlank()
                 }
                 Keys.onPressed: (event)=> {
                     if (event.key === Qt.Key_Return) {

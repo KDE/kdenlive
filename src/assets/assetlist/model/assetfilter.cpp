@@ -10,7 +10,6 @@
 #include "assettreemodel.hpp"
 #include "kdenlivesettings.h"
 #include <KLocalizedString>
-#include <utility>
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)

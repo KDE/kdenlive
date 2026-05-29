@@ -6,7 +6,6 @@
 #pragma once
 
 #include "definitions.h"
-#include "kdenlivesettings.h"
 #include "lib/audio/audioCorrelation.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 
@@ -22,6 +21,8 @@ class DopeSheetModel;
 class TimelineController : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("TimelineController is owned by TimelineWidget; obtained via setInitialProperties()")
     /** @brief holds a list of currently selected clips (list of clipId's)
      */
     Q_PROPERTY(QList<int> selection READ selection NOTIFY selectionChanged)
@@ -394,7 +395,7 @@ public:
      * @param undo
      * @param redo
      */
-    Q_INVOKABLE bool moveGuidesInRange(int start, int end, int offset, Fun &undo, Fun &redo);
+    bool moveGuidesInRange(int start, int end, int offset, Fun &undo, Fun &redo);
 
     /** @brief Add a timeline guide
      */

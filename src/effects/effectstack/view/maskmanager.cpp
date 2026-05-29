@@ -40,7 +40,6 @@
 
 #include <KIconEffect>
 #include <KMessageBox>
-#include <utility>
 
 MaskManager::MaskManager(QWidget *parent)
     : QWidget(parent)

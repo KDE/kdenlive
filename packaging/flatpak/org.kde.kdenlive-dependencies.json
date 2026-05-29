@@ -617,6 +617,7 @@
                 "-DMOD_QT6=ON",
                 "-DMOD_GLAXNIMATE_QT6=ON",
                 "-DMOD_MOVIT=OFF",
+                "-DMOD_RNNOISE=OFF",
                 "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
             ],
             "sources": [

@@ -6,36 +6,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "playlistclip.h"
-#include "audio/audioInfo.h"
 #include "bin.h"
 #include "clipcreator.hpp"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
-#include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
-#include "jobs/proxytask.h"
-#include "kdenlivesettings.h"
-#include "lib/audio/audioStreamInfo.h"
-#include "macros.hpp"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
-#include "model/markersortmodel.h"
 #include "playlistsubclip.h"
-#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
-#include "timeline2/model/snapmodel.hpp"
-#include "utils/thumbnailcache.hpp"
-#include "utils/timecode.h"
 #include "xml/xml.hpp"
 
-#include "kdenlive_debug.h"
 #include <KIO/RenameDialog>
 #include <KImageCache>
 #include <KLocalizedString>

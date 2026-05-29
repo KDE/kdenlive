@@ -4,7 +4,6 @@
 */
 
 #include "audioslider.hpp"
-#include "iecscale.h"
 #include "utils/painterutils.h"
 
 #include <QDebug>
@@ -15,7 +14,6 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QStyleOption>
-#include <cmath>
 
 constexpr int kNarrowKnobHeight = 7;
 constexpr int kTickLabelsGrooveMargin = 2;

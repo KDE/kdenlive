@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/model/subtitlemodel.hpp"
 #include "core.h"
 
-#include "kdenlive_debug.h"
 #include <QFontDatabase>
 
 #include "klocalizedstring.h"

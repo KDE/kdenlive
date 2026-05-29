@@ -6,8 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "customcamcorderdialog.h"
 
-#include "kdenlive_debug.h"
-
 #include <QDir>
 #include <QFontDatabase>
 #include <QInputDialog>

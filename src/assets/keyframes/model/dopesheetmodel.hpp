@@ -14,6 +14,7 @@
 #include <QAbstractListModel>
 #include <QReadWriteLock>
 #include <QtGlobal>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 #include <framework/mlt_version.h>
 #include <memory>
@@ -31,6 +32,8 @@ class EffectStackModel;
 class DopeSheetModel : public AbstractTreeModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("DopeSheetModel is owned by Core; obtained via setInitialProperties()")
 
 protected:
     explicit DopeSheetModel(QObject *parent = nullptr);

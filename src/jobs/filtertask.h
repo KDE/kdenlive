@@ -9,15 +9,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "abstracttask.h"
 #include <memory>
 #include <unordered_map>
-#include <mlt++/MltConsumer.h>
-
-namespace Mlt {
-class Profile;
-class Producer;
-class Consumer;
-class Filter;
-class Event;
-} // namespace Mlt
 
 class AssetParameterModel;
 class QProcess;

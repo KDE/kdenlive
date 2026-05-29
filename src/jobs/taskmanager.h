@@ -17,8 +17,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QReadWriteLock>
 #include <QThreadPool>
 #include <QUuid>
-#include <map>
-#include <memory>
 #include <unordered_map>
 #include <vector>
 

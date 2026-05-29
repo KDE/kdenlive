@@ -6,11 +6,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "clipjobmanager.h"
 
-#include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 
-#include "kdenlive_debug.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QButtonGroup>

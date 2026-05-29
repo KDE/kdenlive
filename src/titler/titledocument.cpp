@@ -23,7 +23,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include "kdenlive_debug.h"
 #include <QApplication>
 #include <QCryptographicHash>
 #include <QDir>
@@ -39,10 +38,6 @@
 #include <QSvgRenderer>
 #include <QTextCursor>
 #include <QTextDocument>
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
 
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>

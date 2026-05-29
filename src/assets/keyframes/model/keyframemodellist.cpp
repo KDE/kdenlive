@@ -12,7 +12,6 @@
 #include "keyframemodel.hpp"
 #include "klocalizedstring.h"
 #include "macros.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include <kdenlivesettings.h>
 
 #include <QDebug>

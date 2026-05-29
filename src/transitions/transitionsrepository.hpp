@@ -6,7 +6,6 @@
 #pragma once
 
 #include "assets/abstractassetsrepository.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
 #include <memory>
 #include <mutex>

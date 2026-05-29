@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "cropcalculator.h"
 #include "doc/kdenlivedoc.h"
 #include "filewatcher.hpp"
-#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
+#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "lib/localeHandling.h"
 #include "macros.hpp"
@@ -41,7 +41,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStorageInfo>
 #include <QTemporaryFile>
 
-#include <cmath>
 #include <mlt++/Mlt.h>
 #include <queue>
 #include <qvarlengtharray.h>

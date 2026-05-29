@@ -10,9 +10,6 @@
 #include <QDomElement>
 #include <QMap>
 #include <QString>
-#include <memory>
-
-#include <mlt++/MltProfile.h>
 
 class RenderPresetParams : public QMap<QString, QString>
 {

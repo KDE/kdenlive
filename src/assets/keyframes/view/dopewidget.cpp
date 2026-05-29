@@ -6,6 +6,7 @@
 #include "dopewidget.hpp"
 
 #include <QQmlContext>
+#include <QQmlEngine>
 #include <QQuickItem>
 #include <QVariant>
 #include <QtGlobal>
@@ -32,11 +33,11 @@ DopeWidget::DopeWidget(QWidget *parent)
 #endif
     setClearColor(palette().base().color());
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    QList<QQmlContext::PropertyPair> propertyList = {{"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
-                                                     {"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()},
-                                                     {"keyframeTypeNames", KeyframeModel::getKeyframeTypesVariant().keys()}};
-    rootContext()->setContextProperties(propertyList);
-    setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/DopeSheetView.qml")));
+
+    setInitialProperties({{"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()},
+                          {"keyframeTypeNames", KeyframeModel::getKeyframeTypesVariant().keys()},
+                          {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())}});
+    loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("DopeSheetView"));
 }
 
 void DopeWidget::deleteItem()
@@ -63,4 +64,12 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
 void DopeWidget::clear()
 {
     pCore->dopeSheetModel()->clearModel();
+}
+
+void DopeWidget::setViewProperties(QVariantMap properties)
+{
+    for (QVariantMap::const_iterator iter = properties.begin(); iter != properties.end(); ++iter) {
+        rootObject()->setProperty(iter.key().toLatin1().constData(), iter.value());
+        QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(iter.value()), QQmlEngine::CppOwnership);
+    }
 }

@@ -613,6 +613,8 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
                                            i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
+                        // KIO::move needs to have dest folder existing to keep source folder name
+                        newDir.mkpath(".");
                         moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
                     }
                 }

@@ -10,8 +10,6 @@
 #include <QString>
 #include <QStringList>
 
-#include "jogaction.h"
-
 class JogShuttleConfig : public QObject
 {
     Q_OBJECT

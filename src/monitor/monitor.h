@@ -19,7 +19,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidgetAction>
 
 #include <memory>
-#include <unordered_set>
 
 class SnapModel;
 class ProjectClip;
@@ -42,6 +41,7 @@ class MarkerSortModel;
 namespace Mlt {
 class Profile;
 class Filter;
+class Transition;
 } // namespace Mlt
 
 class VolumeAction : public QWidgetAction

@@ -7,10 +7,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include "definitions.h"
 #include "abstracttask.h"
-#include <mlt++/MltProducer.h>
-#include <mlt++/MltProfile.h>
+#include "definitions.h"
 
 #include <QRunnable>
 #include <QDomElement>
@@ -18,6 +16,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QList>
 
 class ProjectClip;
+
+namespace Mlt {
+class Producer;
+};
 
 class ClipLoadTask : public AbstractTask
 {

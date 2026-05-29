@@ -4,21 +4,15 @@
 */
 
 #include "subtitlemodel.hpp"
-#include "bin/bin.h"
 #include "config-kdenlive.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
-#include "undohelper.hpp"
-
-#include <mlt++/Mlt.h>
-#include <mlt++/MltProperties.h>
 
 #include <KEncodingProber>
 #include <KLocalizedString>

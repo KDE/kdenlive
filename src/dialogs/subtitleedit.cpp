@@ -5,7 +5,6 @@
 
 #include "subtitleedit.h"
 #include "bin/model/subtitlemodel.hpp"
-#include "doc/kdenlivedoc.h"
 #include "monitor/monitor.h"
 
 #include "core.h"

@@ -4,7 +4,6 @@
 */
 
 #include "speeddialog.h"
-#include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "ui_clipspeed_ui.h"
 #include "widgets/precisionspinbox.h"

@@ -14,7 +14,6 @@
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "monitor/monitor.h"
-#include "monitor/monitorproxy.h"
 #include "transitions/transitionsrepository.hpp"
 #include "transitions/view/mixstackview.hpp"
 #include "transitions/view/transitionstackview.hpp"

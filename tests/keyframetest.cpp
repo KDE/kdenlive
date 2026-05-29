@@ -8,6 +8,7 @@
 // test specific includes
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectstack/model/effectitemmodel.hpp"
 #include <memory>
 
 using namespace fakeit;

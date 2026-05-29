@@ -6,9 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "spacerdialog.h"
 
-#include "doc/kthumb.h"
-#include "kdenlivesettings.h"
-
 #include <QFontDatabase>
 #include <QWheelEvent>
 

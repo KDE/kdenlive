@@ -6,7 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include "definitions.h"
 #include "utils/timecode.h"
 #include "ui_slideshowclip_ui.h"
 

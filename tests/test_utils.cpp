@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
+#include "bin/projectfolder.h"
 #include "doc/documentchecker.h"
 #include "doc/kdenlivedoc.h"
 #include "src/assets/keyframes/model/keyframemodel.hpp"

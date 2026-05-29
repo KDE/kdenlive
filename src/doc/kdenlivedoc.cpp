@@ -60,10 +60,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <mlt++/Mlt.h>
 
 #include <audio/audioInfo.h>
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
 
 // The document version is the Kdenlive project file version. Only increment this on major releases if
 // the file format changes and requires manual processing in the document validator.

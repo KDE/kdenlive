@@ -6,7 +6,6 @@
 */
 
 #include "whisperdownload.h"
-#include "core.h"
 #include "kdenlivesettings.h"
 
 #include <KIO/Global>

@@ -189,7 +189,6 @@ bool DocumentChecker::hasErrorInProject()
     const QString root = m_doc.documentElement().attribute(QStringLiteral("root"));
     QStringList timelinePreviewIds;
     QDomElement mainBinPlaylist;
-    int requestedPlaylists = 2;
     for (int i = 0; i < playlists.count(); ++i) {
         QDomElement pl = playlists.at(i).toElement();
         if (pl.attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
@@ -243,7 +242,6 @@ bool DocumentChecker::hasErrorInProject()
                 QDomElement e = m_binEntries.item(i).toElement();
                 m_binIds << e.attribute(QStringLiteral("producer"));
             }
-            requestedPlaylists--;
         } else if (Xml::getXmlProperty(pl, QStringLiteral("kdenlive:playlistid")) == QLatin1String("timeline_preview")) {
             // list timeline preview producers
             QDomNodeList entries = pl.elementsByTagName(QLatin1String("entry"));
@@ -251,12 +249,9 @@ bool DocumentChecker::hasErrorInProject()
                 QDomElement e = entries.item(i).toElement();
                 timelinePreviewIds << e.attribute(QStringLiteral("producer"));
             }
-            requestedPlaylists--;
-        }
-        if (requestedPlaylists == 0) {
-            break;
         }
     }
+    Q_ASSERT(!mainBinPlaylist.isNull());
 
     QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
@@ -290,7 +285,8 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         int kid = Xml::getXmlProperty(e, "kdenlive:id").toInt();
         const QString resource = Xml::getXmlProperty(e, "resource");
-        if (!resource.isEmpty() && !QUrl::fromUserInput(resource, root, QUrl::AssumeLocalFile).isLocalFile() && !remoteResources.contains(resource)) {
+        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+            !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;
             item.type = MissingType::Clip;
@@ -327,7 +323,8 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         const QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
 
-        if (!resource.isEmpty() && !QUrl::fromUserInput(resource, root, QUrl::AssumeLocalFile).isLocalFile() && !remoteResources.contains(resource)) {
+        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+            !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;
             item.type = MissingType::Clip;
