@@ -809,7 +809,7 @@ std::unique_ptr<Core> &Core::self()
 
 Core *Core::create(QQmlEngine *, QJSEngine *)
 {
-    // Keep the ownership of the signleton in C++
+    // Keep the ownership of the singleton in C++
     // otherwise it will cause crashes when closing the app
     QQmlEngine::setObjectOwnership(self().get(), QQmlEngine::CppOwnership);
     return self().get();
