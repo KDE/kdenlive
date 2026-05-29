@@ -472,6 +472,20 @@ Item {
                 dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, dopeRoot.mouseFramePos, dopeRoot.consumerPosition, true)
             }
         }
+        MenuItem {
+            text: i18n("Align Left")
+            enabled: dopeRoot.hoverKeyframe > -1
+            onTriggered: {
+                dopesheetmodel.alignKeyframe(dopeRoot.allSelectedKeyframes, false)
+            }
+        }
+        MenuItem {
+            text: i18n("Align Right")
+            enabled: dopeRoot.hoverKeyframe > -1
+            onTriggered: {
+                dopesheetmodel.alignKeyframe(dopeRoot.allSelectedKeyframes, true)
+            }
+        }
         Menu {
             id: typeMenu
             title: i18n("Type")

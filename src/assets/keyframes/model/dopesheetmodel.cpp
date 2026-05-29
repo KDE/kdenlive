@@ -284,6 +284,63 @@ void DopeSheetModel::buildMasterSelection(const QModelIndex &ix, int index)
     }
 }
 
+void DopeSheetModel::alignKeyframe(QVariantMap kfData, bool right)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    const QMap<QModelIndex, QVariant> selection = sanitizeKeyframesIndexes(kfData);
+    GenTime alignPos;
+    for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
+        int itemId = int(i.key().internalId());
+        auto tItem = getItemById(itemId);
+        KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
+        if (km) {
+            QVariantList ixes = i.value().toList();
+            int index = right ? ixes.last().toInt() : ixes.first().toInt();
+            if (right) {
+                alignPos = qMax(alignPos, km->getPosAtIndex(index));
+            } else {
+                if (alignPos == GenTime()) {
+                    alignPos = km->getPosAtIndex(index);
+                } else {
+                    alignPos = qMin(alignPos, km->getPosAtIndex(index));
+                }
+            }
+        }
+    }
+    // Now, align all keyframes
+    qDebug() << "///// READY TO ALIGN KEYFRAMES TO: " << alignPos.frames(25);
+    bool success = true;
+    for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
+        int itemId = int(i.key().internalId());
+        auto tItem = getItemById(itemId);
+        if (tItem->depth() == 1) {
+            // Summary item, ignore
+            continue;
+        }
+        KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
+        if (km && success) {
+            km->setSelectedKeyframes({});
+            const QVariantList indexes = i.value().toList();
+            if (!indexes.isEmpty()) {
+                for (auto &k : indexes) {
+                    GenTime pos = km->getPosAtIndex(k.toInt());
+                    if (pos != alignPos) {
+                        qDebug() << "READY TO MOVE KEYFRAME: " << pos.frames(25) << " / " << alignPos.frames(25);
+                        success = success && km->moveKeyframe(pos, alignPos, QVariant(), undo, redo);
+                    }
+                }
+            }
+        }
+    }
+    if (success) {
+        pCore->pushUndo(undo, redo, i18n("Align keyframes"));
+    } else {
+        undo();
+        pCore->displayMessage(i18n("Failed to align keyframe"), InformationMessage);
+    }
+}
+
 void DopeSheetModel::moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo)
 {
     Fun undo = []() { return true; };

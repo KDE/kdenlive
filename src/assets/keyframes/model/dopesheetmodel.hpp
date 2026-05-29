@@ -74,6 +74,8 @@ public:
     Q_INVOKABLE void addKeyframe(const QModelIndex &ix, int framePosition);
     /** @brief Move keyframes in all parameters at current pos */
     Q_INVOKABLE void moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo);
+    /** @brief Align keyframes to the right or left of the selection */
+    Q_INVOKABLE void alignKeyframe(QVariantMap kfData, bool right);
     /** @brief Register all keyframes that will need to move */
     Q_INVOKABLE void buildMasterSelection(const QModelIndex &ix, int index);
     Q_INVOKABLE QVariantMap selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame);
