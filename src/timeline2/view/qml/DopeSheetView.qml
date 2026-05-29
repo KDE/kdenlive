@@ -760,6 +760,7 @@ Item {
                             if (clickIndex > -1) {
                                 dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, movePosition, clickFrame, false)
                                 dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, clickFrame, movePosition, true)
+                                kfMoveArea.currentFrame = movePosition
                             }
                         } else if (clickIndex > -1 && buttonClicked === Qt.LeftButton && !shiftClick) {
                             dopeModel.seekToKeyframe(clickIndex)
