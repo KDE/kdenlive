@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-28 02:36+0000\n"
+"POT-Creation-Date: 2026-05-29 02:41+0000\n"
 "PO-Revision-Date: 2026-04-28 08:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -20917,7 +20917,7 @@ msgstr "Nova značka"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Snemalni zapis prilagojen na %1 kanalov, %2 Hz."
 
-#: src/capture/mediacapture.cpp:245
+#: src/capture/mediacapture.cpp:248
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20926,7 +20926,7 @@ msgstr ""
 "Nadzor zvoka. Pritisnite <b>preslednico</b> za začetek/premor snemanja, "
 "<b>ubežnico</b> za zaključek."
 
-#: src/capture/mediacapture.cpp:417 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:420 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"

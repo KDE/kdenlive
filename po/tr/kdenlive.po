@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-28 02:36+0000\n"
+"POT-Creation-Date: 2026-05-29 02:41+0000\n"
 "PO-Revision-Date: 2026-05-01 15:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -20914,7 +20914,7 @@ msgstr "Yeni künye"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Kayıt biçimi %1 kanal ve %2 Hz olarak ayarlandı."
 
-#: src/capture/mediacapture.cpp:245
+#: src/capture/mediacapture.cpp:248
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20923,7 +20923,7 @@ msgstr ""
 "Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>’a, "
 "sonlandırmak için <b>Esc</b>’ye basın."
 
-#: src/capture/mediacapture.cpp:417 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:420 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
