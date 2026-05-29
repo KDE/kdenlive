@@ -469,16 +469,6 @@ void TimelineWidget::zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &ne
     timelineController.updateZone(oldZone, newZone);
 }
 
-void TimelineWidget::setTool(ToolType::ProjectTool tool)
-{
-    rootObject()->setProperty("activeTool", int(tool));
-}
-
-ToolType::ProjectTool TimelineWidget::activeTool()
-{
-    return ToolType::ProjectTool(rootObject()->property("activeTool").toInt());
-}
-
 QPair<int, int> TimelineWidget::getAvTracksCount() const
 {
     return timelineController.getAvTracksCount();

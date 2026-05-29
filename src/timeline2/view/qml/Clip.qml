@@ -305,10 +305,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: !root.isPanning && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)
+        enabled: !root.isPanning && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: !root.isPanning && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)
+        hoverEnabled: !root.isPanning && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: mouse => {
             root.autoScrolling = false
@@ -463,8 +463,8 @@ Rectangle {
                 Drag.active: trimOutMouseArea.drag.active
                 Drag.proposedAction: Qt.MoveAction
                 visible: trimOutMouseArea.pressed || (
-                    (root.activeTool === K.ToolType.SelectTool
-                    || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0)
+                    (K.Core.activeTool === K.ToolType.SelectTool
+                    || (K.Core.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0)
                     ) && !mouseArea.drag.active && parent.enabled)
             }
             Rectangle {
@@ -477,8 +477,8 @@ Rectangle {
                 Drag.active: trimInMouseArea.drag.active
                 Drag.proposedAction: Qt.MoveAction
                 visible: trimInMouseArea.pressed || (
-                    (root.activeTool === K.ToolType.SelectTool
-                    || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0)
+                    (K.Core.activeTool === K.ToolType.SelectTool
+                    || (K.Core.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0)
                     ) && !mouseArea.drag.active && parent.enabled)
             }
         }
@@ -542,7 +542,7 @@ Rectangle {
                         acceptedButtons: Qt.RightButton | Qt.LeftButton
                         enabled: !root.isPanning && container.handleVisible && width > K.UiUtils.baseSizeMedium * 0.8
                         onPressed: mouse => {
-                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                            if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                 mouse.accepted = false
                                 return
                             }
@@ -567,7 +567,7 @@ Rectangle {
                         anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
                         height: parent.height
                         width: K.UiUtils.baseSizeMedium / 2
-                        visible: root.activeTool === K.ToolType.SelectTool
+                        visible: K.Core.activeTool === K.ToolType.SelectTool
                         property int previousMix
                         enabled: !root.isPanning && !clipRoot.isLocked && mixArea.enabled && (pressed || container.handleVisible)
                         hoverEnabled: !root.isPanning
@@ -579,7 +579,7 @@ Rectangle {
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
-                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                            if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                 mouse.accepted = false
                                 return
                             }
@@ -653,7 +653,7 @@ Rectangle {
                             color: itemBorder.border.color
                             Drag.active: trimInMixArea.drag.active
                             Drag.proposedAction: Qt.MoveAction
-                            visible: trimInMixArea.pressed || (root.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && parent.enabled)
+                            visible: trimInMixArea.pressed || (K.Core.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && parent.enabled)
                         }
                     }
                 }
@@ -752,7 +752,7 @@ Rectangle {
                             }
 
                             onClicked: (mouse) => {
-                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                     mouse.accepted = false
                                     return
                                 }
@@ -794,7 +794,7 @@ Rectangle {
                             property real originalEndPosition: 0
                             
                             onPressed: (mouse) => {
-                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                     mouse.accepted = false
                                     return
                                 }
@@ -873,7 +873,7 @@ Rectangle {
                             property real startPosition: 0
                             
                             onPressed: (mouse) => {
-                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                     mouse.accepted = false
                                     return
                                 }
@@ -992,12 +992,12 @@ Rectangle {
                         return false
                     }
 
-                    if (root.activeTool === K.ToolType.SelectTool) {
+                    if (K.Core.activeTool === K.ToolType.SelectTool) {
                         return true
                     }
 
                     let hasMix = clipRoot.mixDuration > 0 || clipRoot.controller.hasClipEndMix(clipRoot.clipId)
-                    if (root.activeTool === K.ToolType.RippleTool && !hasMix) {
+                    if (K.Core.activeTool === K.ToolType.RippleTool && !hasMix) {
                         return true
                     }
 
@@ -1022,7 +1022,7 @@ Rectangle {
                     if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
-                    if (root.activeTool === K.ToolType.RippleTool) { //TODO
+                    if (K.Core.activeTool === K.ToolType.RippleTool) { //TODO
                         clipRoot.timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
                     }
                 }
@@ -1033,13 +1033,13 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim && root.activeTool !== K.ToolType.RippleTool) {
+                        if (!controlTrim && K.Core.activeTool !== K.ToolType.RippleTool) {
                             updateDrag()
                         } else {
                             root.endDrag()
                         }
                     } else {
-                        if (root.activeTool === K.ToolType.RippleTool) { //TODO
+                        if (K.Core.activeTool === K.ToolType.RippleTool) { //TODO
                             clipRoot.timeline.requestEndTrimmingMode();
                         } else if (clipRoot.timeline.selection.indexOf(clipRoot.clipId) === -1) {
                             clipRoot.controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
@@ -1072,7 +1072,7 @@ Rectangle {
                                 }
                             }
                             var newDuration = 0;
-                            if (root.activeTool === K.ToolType.RippleTool) {
+                            if (K.Core.activeTool === K.ToolType.RippleTool) {
                                 newDuration = clipRoot.originalDuration - delta
                             } else {
                                 if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
@@ -1123,8 +1123,8 @@ Rectangle {
                 height: container.height
                 width: container.handleMini ? K.UiUtils.baseSizeMedium / 2 : K.UiUtils.baseSizeMedium
                 hoverEnabled: true
-                visible: enabled && (root.activeTool === K.ToolType.SelectTool
-                                     || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
+                visible: enabled && (K.Core.activeTool === K.ToolType.SelectTool
+                                     || (K.Core.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
                 enabled: !clipRoot.isLocked && (pressed || container.handleVisible) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -1148,7 +1148,7 @@ Rectangle {
                     if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
-                    if (root.activeTool === K.ToolType.RippleTool) {
+                    if (K.Core.activeTool === K.ToolType.RippleTool) {
                         clipRoot.timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
                     }
                 }
@@ -1159,13 +1159,13 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim && root.activeTool !== K.ToolType.RippleTool) {
+                        if (!controlTrim && K.Core.activeTool !== K.ToolType.RippleTool) {
                             updateDrag()
                         } else {
                             root.endDrag()
                         }
                     } else {
-                        if (root.activeTool === K.ToolType.RippleTool) {
+                        if (K.Core.activeTool === K.ToolType.RippleTool) {
                             clipRoot.timeline.requestEndTrimmingMode();
                         } else if (clipRoot.timeline.selection.indexOf(clipRoot.clipId) === -1) {
                             clipRoot.controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
@@ -1574,7 +1574,7 @@ Rectangle {
             visible: !clipRoot.isAudio
             enabled: !root.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -1615,7 +1615,7 @@ Rectangle {
             enabled: !root.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
             visible: !clipRoot.isAudio
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -1671,7 +1671,7 @@ Rectangle {
                 }
             }
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -1783,7 +1783,7 @@ Rectangle {
                 }
             }
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -1887,7 +1887,7 @@ Rectangle {
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale
             x: - (clipRoot.inPoint - clipRoot.slipOffset) * clipRoot.timeScale
-            visible: root.activeTool === K.ToolType.SlipTool && clipRoot.selected && clipRoot.maxDuration > 0 // don't show for endless clips
+            visible: K.Core.activeTool === K.ToolType.SlipTool && clipRoot.selected && clipRoot.maxDuration > 0 // don't show for endless clips
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint
             Rectangle {

@@ -1232,7 +1232,7 @@ void TimelineController::unGroupSelection(int cid)
 
 bool TimelineController::trimmingActive()
 {
-    ToolType::ProjectTool tool = pCore->window()->getCurrentTimeline()->activeTool();
+    ToolType::ProjectTool tool = pCore->activeTool();
     return tool == ToolType::SlideTool || tool == ToolType::SlipTool || tool == ToolType::RippleTool || tool == ToolType::RollTool;
 }
 
@@ -5035,7 +5035,7 @@ void TimelineController::activateTrackAndSelect(int trackPosition, bool notesMod
     if (tid > -1) {
         m_activeTrack = tid;
         Q_EMIT activeTrackChanged();
-        if (!notesMode && pCore->window()->getCurrentTimeline()->activeTool() != ToolType::MulticamTool) {
+        if (!notesMode && pCore->activeTool() != ToolType::MulticamTool) {
             selectCurrentItem(KdenliveObjectType::TimelineClip, true);
         }
     }

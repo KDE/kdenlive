@@ -17,7 +17,6 @@ Item {
     id: rulerRoot
     SystemPalette { id: activePalette }
     required property K.TimelineController timeline
-    required property var activeTool
 
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(timeline.timecode(36000)).width
@@ -207,7 +206,7 @@ Item {
                             rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
                             rulerRoot.timeline.moveGuideById(movingMarkerId, destFrame)
                         } else {
-                            if (rulerRoot.activeTool !== K.ToolType.SlipTool) {
+                            if (K.Core.activeTool !== K.ToolType.SlipTool) {
                                 proxy.position = guideRoot.model.frame
                             }
                         }
@@ -230,7 +229,7 @@ Item {
                     drag.smoothed: false
                     onDoubleClicked: rulerRoot.timeline.editGuide(guideRoot.model.frame)
                     onClicked: mouse => {
-                        if (rulerRoot.activeTool !== K.ToolType.SlipTool) {
+                        if (K.Core.activeTool !== K.ToolType.SlipTool) {
                             proxy.position = guideRoot.model.frame
                         }
                         if (mouse.button == Qt.RightButton) {
@@ -518,7 +517,7 @@ Item {
                         drag.smoothed: false
                         onDoubleClicked: rulerRoot.timeline.editGuide(guideRoot.model.frame)
                         onClicked: mouse => {
-                            if (rulerRoot.activeTool !== K.ToolType.SlipTool) {
+                            if (K.Core.activeTool !== K.ToolType.SlipTool) {
                                 proxy.position = guideRoot.model.frame
                             }
                             if (mouse.button == Qt.RightButton) {

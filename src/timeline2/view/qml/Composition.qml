@@ -214,8 +214,8 @@ Item {
             id: mouseArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            enabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
-            hoverEnabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool
+            enabled: !root.isPanning && K.Core.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
+            hoverEnabled: !root.isPanning && K.Core.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
@@ -282,7 +282,7 @@ Item {
                 x: enabled ? -displayRect.border.width : 0
                 height: mouseArea.height
                 width: K.UiUtils.baseSizeMedium
-                visible: enabled && root.activeTool === K.ToolType.SelectTool
+                visible: enabled && K.Core.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
@@ -290,7 +290,7 @@ Item {
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
                 onPressed: mouse => {
-                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                         mouse.accepted = false
                         return
                     }
@@ -346,7 +346,7 @@ Item {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimInMouseArea.enabled)
+                    visible: trimInMouseArea.pressed || (K.Core.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimInMouseArea.enabled)
                 }
             }
 
@@ -361,11 +361,11 @@ Item {
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
-                visible: enabled && root.activeTool === K.ToolType.SelectTool
+                visible: enabled && K.Core.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
 
                 onPressed: mouse => {
-                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                         mouse.accepted = false
                         return
                     }
@@ -414,7 +414,7 @@ Item {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimOutMouseArea.enabled)
+                    visible: trimOutMouseArea.pressed || (K.Core.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimOutMouseArea.enabled)
                 }
             }
             Item {

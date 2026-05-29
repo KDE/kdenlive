@@ -3814,7 +3814,6 @@ void MainWindow::slotSetTool(ToolType::ProjectTool tool)
     Q_EMIT pCore->activeToolChanged();
     if (pCore->currentDoc()) {
         showToolMessage();
-        getCurrentTimeline()->setTool(tool);
         getCurrentTimeline()->controller()->updateTrimmingMode();
     }
     if (m_activeTool == ToolType::MulticamTool) {

@@ -454,7 +454,7 @@ function getTrackColor(audio, header) {
             tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), false)
         }
 
-        if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && root.activeTool !== K.ToolType.SpacerTool) {
+        if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && K.Core.activeTool !== K.ToolType.SpacerTool) {
             dragProxy.draggedItem = tentativeClip.clipId
             var tk = root.controller.getItemTrackId(tentativeClip.clipId)
             dragProxy.x = tentativeClip.x
@@ -528,7 +528,7 @@ function getTrackColor(audio, header) {
         }
     }
 
-    property int activeTool: K.ToolType.SelectTool
+    property int activeTool: K.Core.activeTool
     property int minClipWidthForViews: 1.5 * K.UiUtils.baseSizeMedium
     property real fontUnit: fontMetrics.font.pointSize
     property int collapsedHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
@@ -678,10 +678,10 @@ function getTrackColor(audio, header) {
     }
 
     onActiveToolChanged: {
-        if (root.activeTool === K.ToolType.SpacerTool) {
+        if (K.Core.activeTool === K.ToolType.SpacerTool) {
             // Spacer activated
             root.endDrag()
-        } else if (root.activeTool === K.ToolType.SelectTool) {
+        } else if (K.Core.activeTool === K.ToolType.SelectTool) {
             var tk = getMouseTrack()
             if (tk < 0) {
                 return
@@ -1370,7 +1370,7 @@ function getTrackColor(audio, header) {
                 if (isCursorHidden) {
                     return Qt.BlankCursor
                 }
-                switch(root.activeTool) {
+                switch(K.Core.activeTool) {
                 case K.ToolType.SelectTool:
                 case K.ToolType.RollTool:
                     return Qt.ArrowCursor;
@@ -1385,7 +1385,7 @@ function getTrackColor(audio, header) {
             onWheel: wheel => {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     root.zoomByWheel(wheel)
-                } else if (root.activeTool !== K.ToolType.SlipTool) {
+                } else if (K.Core.activeTool !== K.ToolType.SlipTool) {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? root.timeline.fps() : 1
                     root.proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, root.timeline.fullDuration - 1)
                 }
@@ -1393,7 +1393,7 @@ function getTrackColor(audio, header) {
             onPressed: mouse => {
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
-                let selectLikeTool = root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+                let selectLikeTool = K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool
                 if (mouse.buttons === Qt.MiddleButton || (selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
@@ -1415,7 +1415,7 @@ function getTrackColor(audio, header) {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
-                    if (root.activeTool === K.ToolType.RazorTool) {
+                    if (K.Core.activeTool === K.ToolType.RazorTool) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
@@ -1424,7 +1424,7 @@ function getTrackColor(audio, header) {
                         } else if (subtitleTrack.height > 0) {
                             root.timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
                         }
-                    } else if (root.activeTool === K.ToolType.SlipTool) {
+                    } else if (K.Core.activeTool === K.ToolType.SlipTool) {
                         //slip tool
                         if (mouse.y > ruler.height) {
                             var tk = root.getMouseTrack()
@@ -1448,7 +1448,7 @@ function getTrackColor(audio, header) {
                             return
                         }
                     }
-                    if (root.activeTool === K.ToolType.SpacerTool && mouse.y > ruler.height) {
+                    if (K.Core.activeTool === K.ToolType.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.contentY;
                         var frame = (scrollView.contentX + mouse.x) / root.timeScale
@@ -1536,7 +1536,7 @@ function getTrackColor(audio, header) {
                 root.timeline.showTimelineToolInfo(true)
             }
             onDoubleClicked: mouse => {
-                if (mouse.buttons === Qt.LeftButton && root.activeTool === K.ToolType.SelectTool && mouse.y > ruler.height) {
+                if (mouse.buttons === Qt.LeftButton && K.Core.activeTool === K.ToolType.SelectTool && mouse.y > ruler.height) {
                     if (root.showSubtitles && mouse.y < (ruler.height + subtitleTrack.height)) {
                         root.subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale, (mouse.y - ruler.height) / (subtitleTrack.height / (root.maxSubLayer + 1)))
                         root.timeline.activeTrack = -2
@@ -1551,7 +1551,7 @@ function getTrackColor(audio, header) {
                 }
             }
             onPositionChanged: mouse => {
-                let selectLikeTool = root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+                let selectLikeTool = K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool
                 if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     if (!isCursorHidden) {
@@ -1604,12 +1604,12 @@ function getTrackColor(audio, header) {
                     }
                     return
                 }
-                if (root.activeTool === K.ToolType.SlipTool && pressed && mouse.y > ruler.height) {
+                if (K.Core.activeTool === K.ToolType.SlipTool && pressed && mouse.y > ruler.height) {
                     var frame = root.getMouseFrame()
                     root.trimmingOffset = frame - root.trimmingClickFrame
                     root.timeline.slipPosChanged(root.trimmingOffset);
                 }
-                if (!pressed && !rubberSelect.visible && root.activeTool === K.ToolType.RazorTool) {
+                if (!pressed && !rubberSelect.visible && K.Core.activeTool === K.ToolType.RazorTool) {
                     var mouseXPos = root.getMouseFrame()
                     cutLine.x = mouseXPos * root.timeScale - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
@@ -1645,9 +1645,9 @@ function getTrackColor(audio, header) {
                     }
                     root.continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && (!shiftPress || root.spacerGuides)) {
-                    if (selectLikeTool || (mouse.y < ruler.height && root.activeTool !== K.ToolType.SlipTool && (root.activeTool !== K.ToolType.SpacerTool || root.spacerGroup == -1))) {
+                    if (selectLikeTool || (mouse.y < ruler.height && K.Core.activeTool !== K.ToolType.SlipTool && (K.Core.activeTool !== K.ToolType.SpacerTool || root.spacerGroup == -1))) {
                         root.proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / root.timeScale, root.timeline.fullDuration - 1))
-                    } else if (root.activeTool === K.ToolType.SpacerTool && root.spacerGroup > -1) {
+                    } else if (K.Core.activeTool === K.ToolType.SpacerTool && root.spacerGroup > -1) {
                         // Spacer tool, move group
                         var track = root.controller.getItemTrackId(root.spacerGroup)
                         var lastPos = 0;
@@ -1693,7 +1693,7 @@ function getTrackColor(audio, header) {
                     tracksArea.isCursorHidden = false
                     root.timeline.warpCursor(panStartGlobalPos)
                 }
-                if((mouse.button & Qt.LeftButton) && root.activeTool === K.ToolType.SlipTool) {
+                if((mouse.button & Qt.LeftButton) && K.Core.activeTool === K.ToolType.SlipTool) {
                     // slip tool
                     root.controller.requestSlipSelection(root.trimmingOffset, true)
                     root.trimmingOffset = 0;
@@ -1737,7 +1737,7 @@ function getTrackColor(audio, header) {
                     }
                     rubberSelect.y = -1
                 } else if (shiftPress && !root.spacerGuides) {
-                    if (root.activeTool === K.ToolType.RazorTool) {
+                    if (K.Core.activeTool === K.ToolType.RazorTool) {
                         // Shift click, process seek
                         root.proxy.position = Math.min((scrollView.contentX + mouse.x) / root.timeScale, root.timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1) {
@@ -1820,7 +1820,6 @@ function getTrackColor(audio, header) {
                         width: rulercontainer.contentWidth
                         height: parent.height
                         timeline: root.timeline
-                        activeTool: root.activeTool
                         K.TimelinePlayhead {
                             id: playhead
                             height: Math.round(K.UiUtils.baseSizeMedium * .8)
@@ -1940,7 +1939,7 @@ function getTrackColor(audio, header) {
                                 hoverEnabled: true
                                 onWheel: wheel => root.zoomByWheel(wheel)
                                 onEntered: {
-                                    if (root.activeTool === K.ToolType.SelectTool) {
+                                    if (K.Core.activeTool === K.ToolType.SelectTool) {
                                         root.timeline.showKeyBinding(KI18n.i18n("<b>Double click</b> to add a subtitle"))
                                     }
                                 }
@@ -1986,7 +1985,7 @@ function getTrackColor(audio, header) {
                                     property bool moveMirrorTracks: true
                                     property point dragStartGlobalPos
                                     cursorShape: {
-                                        if (root.activeTool === K.ToolType.SelectTool) {
+                                        if (K.Core.activeTool === K.ToolType.SelectTool) {
                                             return dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
                                         }
                                         if (tracksArea.isCursorHidden) {
@@ -1994,7 +1993,7 @@ function getTrackColor(audio, header) {
                                         }
                                         return tracksArea.cursorShape
                                     }
-                                    enabled: root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+                                    enabled: K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool
                                     onPressed: mouse => {
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
@@ -2364,7 +2363,7 @@ function getTrackColor(audio, header) {
             }
             Rectangle {
                 id: cutLine
-                visible: root.activeTool === K.ToolType.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
+                visible: K.Core.activeTool === K.ToolType.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
                 color: 'red'
                 width: 1
                 opacity: 1
@@ -2389,7 +2388,7 @@ function getTrackColor(audio, header) {
             }
             Rectangle {
                 id: multicamLine
-                visible: root.activeTool === K.ToolType.MulticamTool && root.timeline.multicamIn > -1
+                visible: K.Core.activeTool === K.ToolType.MulticamTool && root.timeline.multicamIn > -1
                 color: 'purple'
                 width: 3
                 opacity: 1
@@ -2493,7 +2492,6 @@ function getTrackColor(audio, header) {
             timeline: root.timeline
             controller: root.controller
             snapping: root.snapping
-            activeTool: root.activeTool
             z: tracksRepeater.count - index
         }
     }

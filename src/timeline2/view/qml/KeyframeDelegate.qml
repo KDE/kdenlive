@@ -12,7 +12,7 @@ import org.kde.kdenlive as K
 
 Rectangle {
     id: keyframe
-    visible: root.activeTool === K.ToolType.SelectTool
+    visible: K.Core.activeTool === K.ToolType.SelectTool
     required property var model
     required property int index
     property int frame : model.frame

@@ -17,7 +17,6 @@ Item {
     id: trackRoot
     required property K.TimelineController timeline
     required property K.TimelineItemModel controller
-    required property var activeTool
     required property bool snapping
     required property bool isDisabled
     required property bool isAudio
@@ -44,7 +43,7 @@ Item {
     }
 
     function clipTrimming(clip, newDuration, shiftTrim, controlTrim, right) {
-        if (trackRoot.activeTool === K.ToolType.SelectTool && controlTrim) {
+        if (K.Core.activeTool === K.ToolType.SelectTool && controlTrim) {
             if (!speedController.visible) {
                 // Store original speed
                 speedController.originalSpeed = clip.speed
@@ -71,7 +70,7 @@ Item {
             return
         }
         var new_duration = 0;
-        if (trackRoot.activeTool === K.ToolType.RippleTool) {
+        if (K.Core.activeTool === K.ToolType.RippleTool) {
             console.log("Trimming request for " + newDuration + " right: " + right)
             new_duration = trackRoot.timeline.requestItemRippleResize(clip.clipId, newDuration, right, false, trackRoot.snapping, shiftTrim)
             trackRoot.timeline.requestStartTrimmingMode(clip.clipId, false, right);
@@ -109,21 +108,21 @@ Item {
     function trimedClip(clip, shiftTrim, controlTrim, right) {
         //bubbleHelp.hide()
         trackRoot.timeline.showToolTip();
-        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || trackRoot.activeTool === K.ToolType.RippleTool /* < TODO*/) || controlTrim) {
+        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || K.Core.activeTool === K.ToolType.RippleTool /* < TODO*/) || controlTrim) {
             // We only resize one element
-            if (trackRoot.activeTool === K.ToolType.RippleTool) {
+            if (K.Core.activeTool === K.ToolType.RippleTool) {
                 trackRoot.timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
             } else {
                 trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
             }
 
-            if (trackRoot.activeTool === K.ToolType.SelectTool && controlTrim) {
+            if (K.Core.activeTool === K.ToolType.SelectTool && controlTrim) {
                 // Update speed
                 speedController.visible = false
                 trackRoot.controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, right, trackRoot.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
                 speedController.originalSpeed = 1
             } else {
-                if (trackRoot.activeTool === K.ToolType.RippleTool) {
+                if (K.Core.activeTool === K.ToolType.RippleTool) {
                     trackRoot.timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, right, true, 0, shiftTrim)
                     trackRoot.timeline.requestEndTrimmingMode();
                 } else {
@@ -156,11 +155,11 @@ Item {
                     return Math.round(model.start / 25) + 1;
                 }
 
-                if (trackRoot.activeTool === K.ToolType.SlipTool && model.selected) {
+                if (K.Core.activeTool === K.ToolType.SlipTool && model.selected) {
                     return model.item === trackRoot.timeline.trimmingMainClip ? 2 : 1;
                 }
 
-                if (trackRoot.activeTool === K.ToolType.RippleTool && model.item === trackRoot.timeline.trimmingMainClip) {
+                if (K.Core.activeTool === K.ToolType.RippleTool && model.item === trackRoot.timeline.trimmingMainClip) {
                     return 1;
                 }
                 return 0;

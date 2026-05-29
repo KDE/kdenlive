@@ -73,6 +73,8 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
+    Q_PROPERTY(ToolType::ProjectTool activeTool READ activeTool NOTIFY activeToolChanged FINAL)
+
 public:
     friend class KdenliveDoc;
     friend class ProjectManager;
