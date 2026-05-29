@@ -79,11 +79,16 @@ public:
     Q_INVOKABLE QVariantMap selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame);
     Q_INVOKABLE QVariantMap selectKeyframeAtPos(const QModelIndex &masterIndex, int frame);
     Q_INVOKABLE QVariantList selectedIndexes() const;
+    Q_INVOKABLE QVariantList grabbedIndexes() const;
     Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
     int dopeDuration() const;
     int dopePosition() const;
     void updateItemPosition(ObjectId itemId);
+    /** @brief True if we have grabbed keyframes for a move */
+    bool stateGrabbed() const;
+    /** @brief True if we have grabbed keyframes for a move */
+    void setGrabbed(bool grabbed);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
@@ -98,6 +103,7 @@ private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
     QVariantList m_selectedIndexes;
+    QVariantList m_grabbedIndexes;
     QMap<QModelIndex, int> m_relatedMove;
     QList<QMetaObject::Connection> m_connectionList;
     std::shared_ptr<EffectStackModel> m_model;
@@ -107,6 +113,7 @@ private:
     QVariantMap selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame);
     /** @brief Ensure selected keyframes contain all child parameters */
     const QMap<QModelIndex, QVariant> sanitizeKeyframesIndexes(const QVariantMap kfData);
+    bool m_hasGrabbedKeyframes{false};
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);

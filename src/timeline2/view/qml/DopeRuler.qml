@@ -14,6 +14,7 @@ import org.kde.kdenlive as K
 
 Item {
     id: rulerRoot
+    anchors.fill: parent
     SystemPalette { id: activePalette }
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(dopeRoot.proxy.toTimecode(36000)).width

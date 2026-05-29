@@ -362,6 +362,9 @@ void MonitorManager::slotForward(double speed)
 
 void MonitorManager::slotRewindOneFrame()
 {
+    if (pCore->window()->moveGrabbedDopesheet(true)) {
+        return;
+    }
     if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(-1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
@@ -378,6 +381,9 @@ void MonitorManager::slotRewindOneFrame()
 
 void MonitorManager::slotForwardOneFrame()
 {
+    if (pCore->window()->moveGrabbedDopesheet(false)) {
+        return;
+    }
     if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);

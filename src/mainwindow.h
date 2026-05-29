@@ -150,7 +150,7 @@ public:
     void closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed=false);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
-    DopeWidget *m_dopeWidget;
+    bool moveGrabbedDopesheet(bool left);
 
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;
@@ -352,6 +352,7 @@ private:
     ToolType::ProjectTool m_activeTool;
     /** @brief Store latest mouse position in timeline. */
     int m_mousePosition;
+    DopeWidget *m_dopeWidget;
 
     KHamburgerMenu *m_hamburgerMenu;
 

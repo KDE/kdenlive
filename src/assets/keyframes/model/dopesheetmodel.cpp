@@ -45,6 +45,7 @@ DopeSheetModel::~DopeSheetModel()
 void DopeSheetModel::clearModel()
 {
     m_paramsList.clear();
+    m_hasGrabbedKeyframes = false;
     for (auto &c : m_connectionList) {
         QObject::disconnect(c);
     }
@@ -137,6 +138,7 @@ void DopeSheetModel::deregisterItem(QPersistentModelIndex ix)
 void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 {
     m_model.reset();
+    m_hasGrabbedKeyframes = false;
     m_model = std::move(model);
     Q_EMIT dopeDurationChanged();
     Q_EMIT dopePositionChanged();
@@ -546,6 +548,11 @@ QVariantList DopeSheetModel::selectedIndexes() const
     return m_selectedIndexes;
 }
 
+QVariantList DopeSheetModel::grabbedIndexes() const
+{
+    return m_grabbedIndexes;
+}
+
 QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, int endFrame)
 {
     QVariantList currentKeyframeIndexes;
@@ -691,4 +698,19 @@ void DopeSheetModel::updateItemPosition(ObjectId itemId)
             Q_EMIT dopePositionChanged();
         }
     }
+}
+
+void DopeSheetModel::setGrabbed(bool grabbed)
+{
+    m_hasGrabbedKeyframes = grabbed;
+    if (grabbed) {
+        m_grabbedIndexes = m_selectedIndexes;
+    } else {
+        m_grabbedIndexes.clear();
+    }
+}
+
+bool DopeSheetModel::stateGrabbed() const
+{
+    return m_hasGrabbedKeyframes;
 }

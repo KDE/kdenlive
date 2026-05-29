@@ -47,6 +47,22 @@ void DopeWidget::deleteItem()
     }
 }
 
+void DopeWidget::grabKeyframes()
+{
+    if (rootObject()) {
+        pCore->dopeSheetModel()->setGrabbed(true);
+        QMetaObject::invokeMethod(rootObject(), "updateGrabbedKeyframesFromModel");
+    }
+}
+
+void DopeWidget::clearSelection()
+{
+    if (rootObject()) {
+        pCore->dopeSheetModel()->setGrabbed(false);
+        QMetaObject::invokeMethod(rootObject(), "clearGrabAndSelection");
+    }
+}
+
 void DopeWidget::doKeyPressEvent(QKeyEvent *ev)
 {
     keyPressEvent(ev);
@@ -72,4 +88,12 @@ void DopeWidget::setViewProperties(QVariantMap properties)
         rootObject()->setProperty(iter.key().toLatin1().constData(), iter.value());
         QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(iter.value()), QQmlEngine::CppOwnership);
     }
+}
+
+void DopeWidget::moveGrab(bool left)
+{
+    if (!rootObject()) {
+        return;
+    }
+    QMetaObject::invokeMethod(rootObject(), "moveGrab", Q_ARG(QVariant, left));
 }

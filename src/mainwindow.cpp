@@ -4991,7 +4991,11 @@ void MainWindow::slotSwitchTimelineZone(bool active)
 
 void MainWindow::slotGrabItem()
 {
-    getCurrentTimeline()->controller()->grabCurrent();
+    if (QApplication::focusWidget() != nullptr && m_dopeWidget->isAncestorOf(QApplication::focusWidget())) {
+        m_dopeWidget->grabKeyframes();
+    } else {
+        getCurrentTimeline()->controller()->grabCurrent();
+    }
 }
 
 void MainWindow::slotAudioZoomIn()
@@ -5321,7 +5325,9 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
                 slotShowTrackRec(false);
                 return true;
             }
-            if (m_commandStack && m_commandStack->activeStack()) {
+            if (QApplication::focusWidget() != nullptr && m_dopeWidget->isAncestorOf(QApplication::focusWidget())) {
+                m_dopeWidget->clearSelection();
+            } else if (m_commandStack && m_commandStack->activeStack()) {
                 if (m_commandStack->activeStack()->canUndo()) {
                     if (m_activeTool != ToolType::SelectTool) {
                         m_buttonSelectTool->trigger();
@@ -6024,4 +6030,13 @@ void MainWindow::slotEditToolbars()
     if (restorationHappened) {
         actionCollection()->writeSettings();
     }
+}
+
+bool MainWindow::moveGrabbedDopesheet(bool left)
+{
+    if (!pCore->dopeSheetModel()->stateGrabbed()) {
+        return false;
+    }
+    m_dopeWidget->moveGrab(left);
+    return true;
 }

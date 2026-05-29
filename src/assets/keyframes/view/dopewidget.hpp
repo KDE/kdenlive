@@ -18,6 +18,9 @@ public:
     void deleteItem();
     void doKeyPressEvent(QKeyEvent *ev);
     void clear();
+    void grabKeyframes();
+    void clearSelection();
+    void moveGrab(bool left);
 
 public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);

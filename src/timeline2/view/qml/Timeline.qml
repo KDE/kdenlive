@@ -1827,7 +1827,7 @@ function getTrackColor(audio, header) {
                     }
                     Ruler {
                         id: ruler
-                        width: rulercontainer.contentWidth
+                        width: rulercontainer.width
                         height: parent.height
                         timeline: root.timeline
                         activeTool: root.activeTool

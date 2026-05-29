@@ -32,6 +32,8 @@ Item {
     property real maximumScaleFactor: keyframeContainerWidth / frameDuration
     // Contains a map of item model index / index of selected keyframes
     property var allSelectedKeyframes: []
+    // Contains a map of item model index / index of grabbed keyframes, movable with keyboard
+    property var grabbedKeyframes: []
     property int collapsedHeight: Math.max(28, baseUnit * 1.8)
     // Rubber selection
     property bool rubberSelect: false
@@ -129,9 +131,24 @@ Item {
         dopesheetmodel.removeKeyframes(indexList, keyframesList)
     }
 
+    function clearGrabAndSelection() {
+        dopeRoot.grabbedKeyframes = []
+        clearSelection();
+    }
+
+    function grabKeyframes() {
+        dopeRoot.grabbedKeyframes = dopeRoot.allSelectedKeyframes
+        console.log('+++++++++++++\nGRABBING KEYFRAMES\n++++++++++++++')
+    }
+
     function keyframeSelected(itemIndex, keyframeIndex) {
         var selectedKeyframes = getSelectedKeyframesForIndex(itemIndex)
         return selectedKeyframes.indexOf(keyframeIndex)
+    }
+
+    function keyframeGrabbed(itemIndex, keyframeIndex) {
+        var grabbedKeyframes = getGrabbedKeyframesForIndex(itemIndex)
+        return grabbedKeyframes.indexOf(keyframeIndex)
     }
 
     function clearSelection() {
@@ -143,6 +160,19 @@ Item {
         var ix = 0
         while (ix < dopeRoot.allSelectedKeyframes.length) {
             var elem = dopeRoot.allSelectedKeyframes[ix]
+            if (elem.index === itemIndex) {
+                return elem.kfrs
+            } else {
+                ix++
+            }
+        }
+        return []
+    }
+
+    function getGrabbedKeyframesForIndex(itemIndex) {
+        var ix = 0
+        while (ix < dopeRoot.grabbedKeyframes.length) {
+            var elem = dopeRoot.grabbedKeyframes[ix]
             if (elem.index === itemIndex) {
                 return elem.kfrs
             } else {
@@ -230,6 +260,16 @@ Item {
         dopeRoot.allSelectedKeyframesChanged()
     }
 
+    function updateGrabbedKeyframesFromModel() {
+        dopeRoot.grabbedKeyframes = dopeRoot.allSelectedKeyframes
+        var indexes = dopesheetmodel.grabbedIndexes()
+        dopeRoot.grabbedKeyframesChanged()
+    }
+
+    function moveGrab(left) {
+        dopesheetmodel.moveKeyframe(dopeRoot.grabbedKeyframes, dopeRoot.mouseFramePos, dopeRoot.mouseFramePos + (left ? -1 : 1), true)
+    }
+
     Menu {
         id: defaultTypeMenu
         ActionGroup {
@@ -301,7 +341,7 @@ Item {
         anchors.leftMargin: K.UiUtils.baseSizeMedium + treeView.headerWidth
         anchors.rightMargin: K.UiUtils.baseSizeMedium
         height: Math.round(K.UiUtils.baseSizeMedium * 2.5)
-        contentWidth: Math.min(parent.width, dopeRoot.frameDuration * dopeRoot.timeScale)
+        contentWidth: Math.min(parent.width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale - width)
         interactive: false
         clip: true
@@ -812,7 +852,7 @@ Item {
                         width: K.UiUtils.baseSizeMedium - (kfArea.containsMouse ? 0 : 2)
                         height: width
                         property bool atMousePos: dopeRoot.mouseFramePos == model.frame
-                        color: keyframeSelected(treeView.index(contentRect.row, contentRect.column), index) > -1 ? activePalette.highlight : activePalette.light
+                        color: keyframeGrabbed(treeView.index(contentRect.row, contentRect.column), index) > -1 ? 'red' : keyframeSelected(treeView.index(contentRect.row, contentRect.column), index) > -1 ? activePalette.highlight : activePalette.light
                         radius: type == 1 ? 0 : Math.round(width/2)
                         border.width: atMousePos ? 2 : 1
                         border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? dopeRoot.hoverColor : activePalette.text
@@ -833,7 +873,7 @@ Item {
                             }
                             ToolTip.text: model.description
                             ToolTip.delay: 1000
-                            ToolTip.visible: containsMouse
+                            ToolTip.visible: containsMouse && !kfMoveArea.pressed
                         }
                     }
                 }
