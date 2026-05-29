@@ -2090,8 +2090,7 @@ void MainWindow::setupActions()
     act = clipActionCategory->addAction(KStandardActions::Copy, this, &MainWindow::slotCopy);
     act->setEnabled(false);
 
-    act = clipActionCategory->addAction(KStandardActions::Paste, this, &MainWindow::slotPaste);
-    act->setEnabled(false);
+    actionCollection()->addAction(KStandardActions::Paste, this, &MainWindow::slotPaste);
 
     // Keyframe actions
     m_assetPanel = new AssetPanel(this);
