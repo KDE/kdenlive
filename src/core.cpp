@@ -807,6 +807,14 @@ std::unique_ptr<Core> &Core::self()
     return m_self;
 }
 
+Core *Core::create(QQmlEngine *, QJSEngine *)
+{
+    // Keep the ownership of the signleton in C++
+    // otherwise it will cause crashes when closing the app
+    QQmlEngine::setObjectOwnership(self().get(), QQmlEngine::CppOwnership);
+    return self().get();
+}
+
 MainWindow *Core::window()
 {
     return m_mainWindow;

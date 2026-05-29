@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMutex>
 #include <QObject>
 #include <QPoint>
+#include <QQmlEngine>
 #include <QTextEdit>
 #include <QThreadPool>
 #include <QTimer>
@@ -69,6 +70,8 @@ class Producer;
 class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
     friend class KdenliveDoc;
@@ -77,6 +80,8 @@ public:
     Core &operator=(const Core &) = delete;
     Core(Core &&) = delete;
     Core &operator=(Core &&) = delete;
+    static Core *create(QQmlEngine *, QJSEngine *);
+
     QReadWriteLock xmlMutex;
     bool closing{false};
     QString lastActiveBin;
