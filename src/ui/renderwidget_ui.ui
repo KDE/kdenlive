@@ -529,10 +529,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <item>
                  <widget class="QSpinBox" name="rescale_width">
                   <property name="minimum">
-                   <number>1</number>
+                   <number>2</number>
                   </property>
                   <property name="maximum">
                    <number>10000</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>2</number>
                   </property>
                  </widget>
                 </item>
@@ -552,10 +555,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <item>
                  <widget class="QSpinBox" name="rescale_height">
                   <property name="minimum">
-                   <number>1</number>
+                   <number>2</number>
                   </property>
                   <property name="maximum">
                    <number>10000</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>2</number>
                   </property>
                  </widget>
                 </item>

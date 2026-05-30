@@ -675,23 +675,39 @@ void RenderWidget::slotRenderModeChanged()
 
 void RenderWidget::slotUpdateRescaleWidth(int val)
 {
+    if (val % 2 == 1) {
+        val++;
+        QSignalBlocker bk(m_view.rescale_width);
+        m_view.rescale_width->setValue(val);
+    }
     KdenliveSettings::setDefaultrescalewidth(val);
-    m_view.rescale_height->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_height->setValue(val * profile->height() / profile->width());
+    int proposedHeight = qRound(double(val) * profile->height() / profile->width());
+    if (proposedHeight % 2 == 1) {
+        proposedHeight++;
+    }
+    QSignalBlocker bk(m_view.rescale_height);
+    m_view.rescale_height->setValue(proposedHeight);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
-    m_view.rescale_height->blockSignals(false);
     refreshParams();
 }
 
 void RenderWidget::slotUpdateRescaleHeight(int val)
 {
+    if (val % 2 == 1) {
+        val++;
+        QSignalBlocker bk(m_view.rescale_height);
+        m_view.rescale_height->setValue(val);
+    }
     KdenliveSettings::setDefaultrescaleheight(val);
-    m_view.rescale_width->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_width->setValue(val * profile->width() / profile->height());
+    int proposedWidth = qRound(double(val) * profile->width() / profile->height());
+    if (proposedWidth % 2 == 1) {
+        proposedWidth++;
+    }
+    QSignalBlocker bk(m_view.rescale_width);
+    m_view.rescale_width->setValue(proposedWidth);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
-    m_view.rescale_width->blockSignals(false);
     refreshParams();
 }
 
@@ -1228,8 +1244,8 @@ int RenderWidget::runningJobsCount() const
 
 void RenderWidget::adjustViewToProfile()
 {
-    m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
-    m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
+    m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth() + KdenliveSettings::defaultrescalewidth() % 2);
+    m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight() + KdenliveSettings::defaultrescaleheight() % 2);
     refreshView();
 }
 
