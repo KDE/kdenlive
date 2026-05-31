@@ -1515,9 +1515,24 @@ void RenderWidget::refreshParams()
         }
     }
     m_params.replacePlaceholder(QStringLiteral("%quality"), QString::number(val));
-    //  TODO check if this is finally correct
-    m_params.replacePlaceholder(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultVBitrate()));
-    m_params.replacePlaceholder(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(preset->defaultVBitrate()));
+
+    val = preset->defaultVBitrate().toInt();
+    if (m_view.qualityGroup->isChecked()) {
+        QList<int> vBitrates = {val};
+        for (auto &vb : preset->videoBitrates()) {
+            if (!vBitrates.contains(vb.toInt())) {
+                vBitrates << vb.toInt();
+            }
+        }
+        std::sort(vBitrates.begin(), vBitrates.end());
+        if (vBitrates.size() > 1) {
+            int pos = qRound((vBitrates.size() - 1) * percent);
+            val = vBitrates.at(pos);
+        }
+    }
+
+    m_params.replacePlaceholder(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(val));
+    m_params.replacePlaceholder(QStringLiteral("%bitrate"), QString::number(val));
 
     val = preset->defaultABitrate().toInt() * 1000;
     if (m_view.qualityGroup->isChecked()) {
@@ -1536,8 +1551,22 @@ void RenderWidget::refreshParams()
     }
     m_params.replacePlaceholder(QStringLiteral("%audioquality"), QString::number(val));
     // TODO check if this is finally correct
-    m_params.replacePlaceholder(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultABitrate()));
-    m_params.replacePlaceholder(QStringLiteral("%audiobitrate"), QStringLiteral("%1").arg(preset->defaultABitrate()));
+    val = preset->defaultABitrate().toInt();
+    if (m_view.qualityGroup->isChecked()) {
+        QList<int> aBitrates = {val};
+        for (auto &ab : preset->audioBitrates()) {
+            if (!aBitrates.contains(ab.toInt())) {
+                aBitrates << ab.toInt();
+            }
+        }
+        std::sort(aBitrates.begin(), aBitrates.end());
+        if (aBitrates.size() > 1) {
+            int pos = qRound((aBitrates.size() - 1) * percent);
+            val = aBitrates.at(pos);
+        }
+    }
+    m_params.replacePlaceholder(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(val));
+    m_params.replacePlaceholder(QStringLiteral("%audiobitrate"), QString::number(val));
 
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
     QString dvstd;

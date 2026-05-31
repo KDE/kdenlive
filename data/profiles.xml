@@ -8,12 +8,12 @@
    args="f=webm vcodec=libvpx crf=%quality vb=8M qcomp=1 g=15 acodec=vorbis aq=%audioquality"/>
   <profile name="MP4-H264/AAC" extension="mp4"
    qualities="15,45" defaultquality="23"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=mp4 movflags=+faststart vcodec=libx264 crf=%quality g=15 acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
   <profile name="Matroska-H264/AAC" extension="mkv"
    qualities="15,45" defaultquality="23"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=matroska movflags=+faststart vcodec=libx264 crf=%quality g=15 acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
   <profile name="MPEG-2" extension="mpg"
@@ -31,11 +31,11 @@
    args="f=webm vcodec=libvpx-vp9 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tile-columns=4 frame-parallel=1 acodec=libopus compression_level=%audioquality"/>
   <profile name="WebM-AV1/Opus (libre-dav1d)" extension="webm"
            qualities="5,45" defaultquality="32"
-           audiobitrates="256,64" defaultaudiobitrate="160"
+           audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
            args="f=webm acodec=libopus ab=%audiobitrate+'k' crf=%quality vcodec=libsvtav1 vbr=off svtav1-params=scd=1:enable-dg=1:pred-struct=2:lp=0:tile-columns=1:fast-decode=0:tune=0:film-grain=0:film-grain-denoise=0:enable-overlays=1:enable-variance-boost=1:variance-boost-strength=1:variance-octile=7:enable-qm=1:qm-min=0 g=150" speeds="preset=4;preset=5;preset=6;preset=7;preset=10" />
   <profile name="MP4-H265 (HEVC)" extension="mp4"
    qualities="15,45" defaultquality="28"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="properties=x265-medium f=mp4 vcodec=libx265 crf=%quality:open-gop=0 acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
  </group>
@@ -75,37 +75,37 @@
   <name>Hardware Accelerated (experimental)</name>
   <profile name="NVENC AV1 VBR" extension="mp4"
    qualities="24,192" defaultquality="72"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=mp4 vcodec=av1_nvenc rc=constqp vqp=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=mp4 vcodec=h264_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 VBR" extension="mp4"
    qualities="15,45" defaultquality="23"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=mp4 vcodec=h264_nvenc rc=constqp vqp=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H265 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H265 ABR 10 bit" extension="mp4"
            bitrates="30000,1000" defaultbitrate="6000"
-           audiobitrates="256,64" defaultaudiobitrate="160"
+           audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
            args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k' pix_fmt=p010le"/>
   <profile name="VideoToolBox H264 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=mp4 vcodec=h264_videotoolbox pix_fmt=yuv420p vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
    <profile name="VideoToolBox H265 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
-   audiobitrates="256,64" defaultaudiobitrate="160"
+   audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
    args="f=mp4 vcodec=hevc_videotoolbox pix_fmt=yuv420p vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="Quick Sync Intel H264" extension="mp4" bitrates="30000,1000" defaultbitrate="20000"
-            audiobitrates="256,64" defaultaudiobitrate="192"
+            audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
             args="f=mp4 vcodec=h264_qsv vbr=off vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="Quick Sync Intel H265" extension="mp4" bitrates="30000,1000" defaultbitrate="20000"
-           audiobitrates="256,64" defaultaudiobitrate="192"
+           audiobitrates="64,128,192,256,384" defaultaudiobitrate="192"
            args="f=mp4 load_plugin=hevc_hw vcodec=hevc_qsv vbr=off vtag=hvc1 qscale=29 acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="VAAPI H264" extension="mp4" qualities="15,45" defaultquality="23"
    args="f=mp4 vcodec=h264_vaapi vq=%quality video_global_quality=%quality acodec=aac ab=192k"/>
@@ -114,7 +114,7 @@
  </group>
  <group renderer="avformat" type="audio" id="audio">
   <name>Audio only</name>
-  <profile name="AC3" extension="ac3" audiobitrates="192,64" defaultaudiobitrate="160" args="ab=%audiobitrate+'k' vn=1 video_off=1"/>
+  <profile name="AC3" extension="ac3" audiobitrates="64,128,192,256,384" defaultaudiobitrate="192" args="ab=%audiobitrate+'k' vn=1 video_off=1"/>
   <profile name="ALAC" extension="mov" args="f=mov acodec=alac vn=1 video_off=1"/>
   <profile name="FLAC" extension="mka" args="f=matroska acodec=flac vn=1 video_off=1"/> 
   <profile name="MP3" extension="mp3" audioqualities="3,7" defaultaudioquality="5" args="aq=%audioquality acodec=libmp3lame vn=1 video_off=1"/>
