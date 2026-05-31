@@ -34,6 +34,7 @@ private:
     Monitor *m_monitor;
     double m_fixedResRatio;
     bool m_manualPreset;
+    QStringList m_percentBasedAudioCodecs;
 
     void setPixelAspectRatio(int num, int den);
     void updateDisplayAspectRatio();
