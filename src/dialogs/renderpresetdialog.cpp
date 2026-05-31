@@ -461,19 +461,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
         double audioQuality = aQuality->value();
         if (m_percentBasedAudioCodecs.contains(aCodecCombo->currentText())) {
-            if (aCodecCombo->currentText() == QStringLiteral("aac")) {
-                // aac audio quality is between 0.1 and 2, we convert the percentage to this range.
-                audioQuality = 0.1 + 1.9 * audioQuality / 100;
-            } else if (aCodecCombo->currentText() == QStringLiteral("vorbis")) {
-                // vorbis audio quality is between 0 and 10, we convert the percentage to this range.
-                audioQuality = qRound(audioQuality / 10);
-            } else if (aCodecCombo->currentText() == QStringLiteral("opus")) {
-                // vorbis audio quality is between 0 and 500, we convert the percentage to this range.
-                audioQuality = 5 * audioQuality;
-            } else if (aCodecCombo->currentText() == QStringLiteral("libmp3lame")) {
-                // vorbis audio quality is between 9 (lowest) and 0 (best), we convert the percentage to this range.
-                audioQuality = qRound(9 - audioQuality * 0.09);
-            }
+            audioQuality = getAudioQualityForCodec(audioQuality, aCodecCombo->currentText());
         }
 
         std::unique_ptr<RenderPresetModel> newPreset(
@@ -830,19 +818,7 @@ void RenderPresetDialog::slotUpdateParams()
 
     if (aRateControlCombo->currentIndex() == RenderPresetParams::RateControl::Quality && m_percentBasedAudioCodecs.contains(aCodecCombo->currentText())) {
         double audioQuality = aQuality->value();
-        if (aCodecCombo->currentText() == QStringLiteral("aac")) {
-            // aac audio quality is between 0.1 and 2, we convert the percentage to this range.
-            audioQuality = 0.1 + 1.9 * audioQuality / 100;
-        } else if (aCodecCombo->currentText() == QStringLiteral("vorbis")) {
-            // vorbis audio quality is between 0 and 10, we convert the percentage to this range.
-            audioQuality = qRound(audioQuality / 10);
-        } else if (aCodecCombo->currentText() == QStringLiteral("opus")) {
-            // vorbis audio quality is between 0 and 500, we convert the percentage to this range.
-            audioQuality = 5 * audioQuality;
-        } else if (aCodecCombo->currentText() == QStringLiteral("libmp3lame")) {
-            // vorbis audio quality is between 9 (lowest) and 0 (best), we convert the percentage to this range.
-            audioQuality = qRound(9 - audioQuality * 0.09);
-        }
+        audioQuality = getAudioQualityForCodec(audioQuality, acodec);
         aq_label->setText(QStringLiteral("aq=%1").arg(audioQuality));
     } else {
         aq_label->clear();
@@ -938,6 +914,24 @@ void RenderPresetDialog::setPixelAspectRatio(int num, int den)
     }
     parCombo->setCurrentIndex(ix);
     parCombo->blockSignals(false);
+}
+
+double RenderPresetDialog::getAudioQualityForCodec(double audioQuality, const QString &acodec)
+{
+    if (acodec == QStringLiteral("aac")) {
+        // aac audio quality is between 0.1 and 2, we convert the percentage to this range.
+        audioQuality = 0.1 + 1.9 * audioQuality / 100;
+    } else if (acodec == QStringLiteral("vorbis")) {
+        // vorbis audio quality is between 0 and 10, we convert the percentage to this range.
+        audioQuality = qRound(audioQuality / 10);
+    } else if (acodec == QStringLiteral("opus")) {
+        // vorbis audio quality is between 0 and 500, we convert the percentage to this range.
+        audioQuality = 5 * audioQuality;
+    } else if (acodec == QStringLiteral("libmp3lame")) {
+        // vorbis audio quality is between 9 (lowest) and 0 (best), we convert the percentage to this range.
+        audioQuality = qRound(9 - audioQuality * 0.09);
+    }
+    return audioQuality;
 }
 
 void RenderPresetDialog::updateDisplayAspectRatio()

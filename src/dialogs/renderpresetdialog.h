@@ -38,6 +38,8 @@ private:
 
     void setPixelAspectRatio(int num, int den);
     void updateDisplayAspectRatio();
+    /** @brief adjust audio quality for percentage based codecs */
+    double getAudioQualityForCodec(double audioQuality, const QString &acodec);
 
 private Q_SLOTS:
     void slotUpdateParams();
