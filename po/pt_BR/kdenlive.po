@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-30 00:44+0000\n"
-"PO-Revision-Date: 2026-05-15 04:46-0300\n"
+"PO-Revision-Date: 2026-05-30 06:39-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -13787,7 +13787,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Background opacity"
-msgstr "Opacidade do Plano de Fundo"
+msgstr "Opacidade do plano de fundo"
 
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
