@@ -952,6 +952,13 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
         QAction *b = new QAction(i18nc("@action:button", "Render Anyway"), this);
         connect(b, &QAction::triggered, this, [this, delayedRendering]() {
+            // Remove message actions
+            QList<QAction *> acts = m_view.infoMessage->actions();
+            while (!acts.isEmpty()) {
+                QAction *a = acts.takeFirst();
+                m_view.infoMessage->removeAction(a);
+                delete a;
+            }
             m_view.infoMessage->animatedHide();
             slotPrepareExport2(delayedRendering);
         });
@@ -2342,7 +2349,26 @@ void RenderWidget::checkDriveSpace()
     }
     m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
 
-    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+    // Very rough estimate of h264 video size
+    int sizePerFrame = 0;
+    const QSize frameSize = pCore->getCurrentFrameSize();
+    qint32 pixels = frameSize.width() * frameSize.height();
+    if (pixels > 28000000) {
+        // Approximately 8K
+        sizePerFrame = 490000;
+    } else if (pixels > 7900000) {
+        // Approximately 4K
+        sizePerFrame = 39000;
+    } else if (pixels > 2000000) {
+        // Approximately HD
+        sizePerFrame = 26000;
+    } else {
+        // SD
+        sizePerFrame = 20000;
+    }
+
+    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * sizePerFrame));
+    qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
     if (m_lastFreeSpace < 5 * minimumSize) {
         m_freeSpaceStatus = SpaceLow;
     } else if (m_lastFreeSpace < minimumSize) {
