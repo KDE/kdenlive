@@ -1040,7 +1040,7 @@ function getTrackColor(audio, header) {
                     if (track >= 0  && track < tracksRepeater.count) {
                         var targetTrack = tracksRepeater.itemAt(track).trackInternalId
                         frame = controller.suggestSnapPoint(frame, root.snapping)
-                        if (lastCheckedFrame != frame) {
+                        if (lastCheckedFrame != frame || timeline.activeTrack != targetTrack) {
                             timeline.activeTrack = targetTrack
                             if (controller.normalEdit()) {
                                 clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame,
