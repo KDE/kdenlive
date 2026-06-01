@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-30 00:44+0000\n"
+"POT-Creation-Date: 2026-06-01 00:42+0000\n"
 "PO-Revision-Date: 2026-01-29 22:59+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -22244,8 +22244,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Jelölők betöltése"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2186
-#: src/dialogs/renderwidget.cpp:2210 src/doc/kdenlivedoc.cpp:772
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2215
+#: src/dialogs/renderwidget.cpp:2239 src/doc/kdenlivedoc.cpp:772
 #: src/doc/kdenlivedoc.cpp:780 src/doc/kdenlivedoc.cpp:1349
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -22738,7 +22738,7 @@ msgstr "Napló megjelenítése"
 msgid "Show Xml"
 msgstr "Napló megjelenítése"
 
-#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2008
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2037
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
@@ -22967,7 +22967,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Átkódolás"
 
-#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1981
+#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:2010
 #: src/project/dialogs/archivewidget.cpp:928
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -22987,7 +22987,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:1994
+#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:2023
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -22999,7 +22999,7 @@ msgstr ""
 "Már van feladat a következő fájl írásához:<br />„<b>%1</b>”<br />Szakítsa "
 "meg a feladatot, ha felül kívánja írni a fájlt…"
 
-#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1995
+#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:2024
 #, kde-format
 msgid "Already running"
 msgstr "A program már fut."
@@ -23050,13 +23050,13 @@ msgid ""
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1648
+#: src/dialogs/renderwidget.cpp:1677
 #, fuzzy, kde-format
 #| msgid "Remaining time"
 msgid "Remaining time "
 msgstr "Hátralévő idő"
 
-#: src/dialogs/renderwidget.cpp:1650 src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:1679 src/dialogs/renderwidget.cpp:1782
 #, fuzzy, kde-format
 #| msgid "%1 dB"
 msgid "%1 day "
@@ -23064,65 +23064,65 @@ msgid_plural "%1 days "
 msgstr[0] "%1 dB"
 msgstr[1] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1662
+#: src/dialogs/renderwidget.cpp:1691
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1713
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Leképezés befejeződött %1 idő alatt"
 
-#: src/dialogs/renderwidget.cpp:1767
+#: src/dialogs/renderwidget.cpp:1796
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 leképezése, hátralévő idő: %2"
 
-#: src/dialogs/renderwidget.cpp:1770
+#: src/dialogs/renderwidget.cpp:1799
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "A(z) %1 leképezésének első átfutása befejeződött"
 
-#: src/dialogs/renderwidget.cpp:1793
+#: src/dialogs/renderwidget.cpp:1822
 #, fuzzy, kde-format
 #| msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>%1 leképezése összeomlott</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1795
+#: src/dialogs/renderwidget.cpp:1824
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 leképezése összeomlott</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1862 src/ui/renderwidget_ui.ui:917
+#: src/dialogs/renderwidget.cpp:1891 src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Abort Job"
 msgstr "Feladat megszakítása"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1894
 #, kde-format
 msgid "Remove Job"
 msgstr "Feladat eltávolítása"
 
-#: src/dialogs/renderwidget.cpp:2335
+#: src/dialogs/renderwidget.cpp:2364
 #, fuzzy, kde-format
 #| msgid "Add clip to timeline"
 msgid "Add clips in timeline before rendering"
 msgstr "Klip hozzáadása az idővonalhoz"
 
-#: src/dialogs/renderwidget.cpp:2342
+#: src/dialogs/renderwidget.cpp:2371
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2345
+#: src/dialogs/renderwidget.cpp:2374
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -23131,24 +23131,24 @@ msgstr ""
 "A dokumentum projekt mappa érvénytelen. A következő alapértelmezett mappa "
 "lesz használatba véve: %1"
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2377
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2358
+#: src/dialogs/renderwidget.cpp:2387
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Leképezett fájl hossza: %1"
 
-#: src/dialogs/renderwidget.cpp:2361
+#: src/dialogs/renderwidget.cpp:2390
 #: src/mltcontroller/clippropertiescontroller.cpp:625
 #, fuzzy, kde-format
 #| msgid "Timecode overlay"
 msgid "Timecode Offset:"
 msgstr "Időkód megjelenítése"
 
-#: src/dialogs/renderwidget.cpp:2366
+#: src/dialogs/renderwidget.cpp:2395
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -23157,7 +23157,7 @@ msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "%1 hiányzó klipje van a projektben."
 msgstr[1] "%1 hiányzó klipje van a projektben."
 
-#: src/dialogs/renderwidget.cpp:2368
+#: src/dialogs/renderwidget.cpp:2397
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip (unused)."
@@ -23165,14 +23165,14 @@ msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Hiányzó klipek ellenőrzése"
 msgstr[1] "Hiányzó klipek ellenőrzése"
 
-#: src/dialogs/renderwidget.cpp:2370
+#: src/dialogs/renderwidget.cpp:2399
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 hiányzó klipje van a projektben."
 
-#: src/dialogs/renderwidget.cpp:2500
+#: src/dialogs/renderwidget.cpp:2529
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -23180,13 +23180,13 @@ msgid ""
 "%1"
 msgstr "FFmpeg paraméterek"
 
-#: src/dialogs/renderwidget.cpp:2520
+#: src/dialogs/renderwidget.cpp:2549
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to Current Project"
 msgstr "Hozzáadás a projekthez"
 
-#: src/dialogs/renderwidget.cpp:2529
+#: src/dialogs/renderwidget.cpp:2558
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, fuzzy, kde-format

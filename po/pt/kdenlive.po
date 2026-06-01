@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-30 00:44+0000\n"
+"POT-Creation-Date: 2026-06-01 00:42+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -22021,8 +22021,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Exportar os Dados das Guias"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2186
-#: src/dialogs/renderwidget.cpp:2210 src/doc/kdenlivedoc.cpp:772
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2215
+#: src/dialogs/renderwidget.cpp:2239 src/doc/kdenlivedoc.cpp:772
 #: src/doc/kdenlivedoc.cpp:780 src/doc/kdenlivedoc.cpp:1349
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -22509,7 +22509,7 @@ msgstr "Mostrar o registo"
 msgid "Show Xml"
 msgstr "Mostrar o registo"
 
-#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2008
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2037
 #, kde-format
 msgid "Waiting…"
 msgstr "À espera…"
@@ -22726,7 +22726,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Codificação"
 
-#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1981
+#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:2010
 #: src/project/dialogs/archivewidget.cpp:928
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -22747,7 +22747,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "Ocorreram os seguintes erros ao tentar gerar o ficheiro"
 
-#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:1994
+#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:2023
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -22756,7 +22756,7 @@ msgstr ""
 "Já existe uma tarefa a gravar o ficheiro:<br /><b>%1</b><br />Interrompa a "
 "tarefa se não o quiser sobrepor…"
 
-#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1995
+#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:2024
 #, kde-format
 msgid "Already running"
 msgstr "Já em execução"
@@ -22806,103 +22806,103 @@ msgstr ""
 "O desenho sem o áudio e o vídeo não funciona. Active por favor pelo menos um "
 "dos dois."
 
-#: src/dialogs/renderwidget.cpp:1648
+#: src/dialogs/renderwidget.cpp:1677
 #, kde-format
 msgid "Remaining time "
 msgstr "Tempo restante "
 
-#: src/dialogs/renderwidget.cpp:1650 src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:1679 src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dia "
 msgstr[1] "%1 dias "
 
-#: src/dialogs/renderwidget.cpp:1662
+#: src/dialogs/renderwidget.cpp:1691
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (imagem %1 @ %2 ips)"
 
-#: src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1713
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Existem menos de %1MB de memória disponível."
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Rasterização terminada em %1"
 
-#: src/dialogs/renderwidget.cpp:1767
+#: src/dialogs/renderwidget.cpp:1796
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "A rasterização de %1 terminou em %2"
 
-#: src/dialogs/renderwidget.cpp:1770
+#: src/dialogs/renderwidget.cpp:1799
 #, fuzzy, kde-format
 #| msgid "Rendering of %1 finished in %2"
 msgid "First pass rendering of %1 finished"
 msgstr "A rasterização de %1 terminou em %2"
 
-#: src/dialogs/renderwidget.cpp:1793
+#: src/dialogs/renderwidget.cpp:1822
 #, fuzzy, kde-format
 #| msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>A rasterização do %1 estoirou</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1795
+#: src/dialogs/renderwidget.cpp:1824
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>A rasterização do %1 estoirou</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1862 src/ui/renderwidget_ui.ui:917
+#: src/dialogs/renderwidget.cpp:1891 src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Abort Job"
 msgstr "Interromper a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1894
 #, kde-format
 msgid "Remove Job"
 msgstr "Remover a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:2335
+#: src/dialogs/renderwidget.cpp:2364
 #, fuzzy, kde-format
 #| msgid "Add a clip to timeline before rendering"
 msgid "Add clips in timeline before rendering"
 msgstr "Adicionar um 'clip' à linha temporal antes do desenho"
 
-#: src/dialogs/renderwidget.cpp:2342
+#: src/dialogs/renderwidget.cpp:2371
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2345
+#: src/dialogs/renderwidget.cpp:2374
 #, fuzzy, kde-format
 #| msgid "Your project profile is invalid, rendering might fail."
 msgid "Your disk is almost full, rendering might fail"
 msgstr ""
 "O perfil do seu projecto é inválido; a geração do desenho poderá falhar."
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2377
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2358
+#: src/dialogs/renderwidget.cpp:2387
 #, fuzzy, kde-format
 #| msgid "Render Duration: %1"
 msgid "Rendered File Length: %1"
 msgstr "Duração do Desenho: %1"
 
-#: src/dialogs/renderwidget.cpp:2361
+#: src/dialogs/renderwidget.cpp:2390
 #: src/mltcontroller/clippropertiescontroller.cpp:625
 #, fuzzy, kde-format
 #| msgid "Time offset:"
 msgid "Timecode Offset:"
 msgstr "Código temporal:"
 
-#: src/dialogs/renderwidget.cpp:2366
+#: src/dialogs/renderwidget.cpp:2395
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -22911,7 +22911,7 @@ msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "Falta %1 'clip' no seu projecto."
 msgstr[1] "Faltam %1 'clips' no seu projecto."
 
-#: src/dialogs/renderwidget.cpp:2368
+#: src/dialogs/renderwidget.cpp:2397
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "One missing clip (unused)."
@@ -22919,14 +22919,14 @@ msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Falta o 'clip' original"
 msgstr[1] "Falta o 'clip' original"
 
-#: src/dialogs/renderwidget.cpp:2370
+#: src/dialogs/renderwidget.cpp:2399
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Falta %1 'clip' no seu projecto."
 
-#: src/dialogs/renderwidget.cpp:2500
+#: src/dialogs/renderwidget.cpp:2529
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22935,13 +22935,13 @@ msgstr ""
 "Parâmetros de velocidade do codificador:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2520
+#: src/dialogs/renderwidget.cpp:2549
 #, fuzzy, kde-format
 #| msgid "Add to current project"
 msgid "Add to Current Project"
 msgstr "Adicionar ao projecto actual"
 
-#: src/dialogs/renderwidget.cpp:2529
+#: src/dialogs/renderwidget.cpp:2558
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, fuzzy, kde-format

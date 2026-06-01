@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-30 00:44+0000\n"
+"POT-Creation-Date: 2026-06-01 00:42+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -21888,8 +21888,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Easpórtáil Sonraí Marcóirí"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2186
-#: src/dialogs/renderwidget.cpp:2210 src/doc/kdenlivedoc.cpp:772
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2215
+#: src/dialogs/renderwidget.cpp:2239 src/doc/kdenlivedoc.cpp:772
 #: src/doc/kdenlivedoc.cpp:780 src/doc/kdenlivedoc.cpp:1349
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -22361,7 +22361,7 @@ msgstr "Taispeáin Log"
 msgid "Show Xml"
 msgstr "Taispeáin Xml"
 
-#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2008
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2037
 #, kde-format
 msgid "Waiting…"
 msgstr "Ag fanacht…"
@@ -22576,7 +22576,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Traschód"
 
-#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1981
+#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:2010
 #: src/project/dialogs/archivewidget.cpp:928
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -22596,7 +22596,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "Tharla na hearráidí seo a leanas agus iarracht á déanamh rindreáil"
 
-#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:1994
+#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:2023
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -22605,7 +22605,7 @@ msgstr ""
 "Tá comhad scríbhneoireachta poist ann cheana féin:<br /><b>%1</b><br />Cuir "
 "deireadh leis an bpost más mian leat é a athscríobh…"
 
-#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1995
+#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:2024
 #, kde-format
 msgid "Already running"
 msgstr "Ag rith cheana féin"
@@ -22654,12 +22654,12 @@ msgstr ""
 "Ní oibríonn rindreáil gan fuaim agus físeán. Cumasaigh ceann amháin ar a "
 "laghad den dá cheann."
 
-#: src/dialogs/renderwidget.cpp:1648
+#: src/dialogs/renderwidget.cpp:1677
 #, kde-format
 msgid "Remaining time "
 msgstr "Am atá fágtha "
 
-#: src/dialogs/renderwidget.cpp:1650 src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:1679 src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -22669,85 +22669,85 @@ msgstr[2] "%1 laethanta "
 msgstr[3] "%1 laethanta "
 msgstr[4] "%1 laethanta "
 
-#: src/dialogs/renderwidget.cpp:1662
+#: src/dialogs/renderwidget.cpp:1691
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (fráma %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1713
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Níos lú ná %1MB de chuimhne atá fágtha."
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Críochnaíodh an rindreáil i %1"
 
-#: src/dialogs/renderwidget.cpp:1767
+#: src/dialogs/renderwidget.cpp:1796
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Rindreáil %1 críochnaithe i %2"
 
-#: src/dialogs/renderwidget.cpp:1770
+#: src/dialogs/renderwidget.cpp:1799
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "Críochnaíodh an chéad rindreáil de %1"
 
-#: src/dialogs/renderwidget.cpp:1793
+#: src/dialogs/renderwidget.cpp:1822
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Thit an rindreáil</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1795
+#: src/dialogs/renderwidget.cpp:1824
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Thit rindreáil %1</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1862 src/ui/renderwidget_ui.ui:917
+#: src/dialogs/renderwidget.cpp:1891 src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Abort Job"
 msgstr "Toirmisc an Post"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1894
 #, kde-format
 msgid "Remove Job"
 msgstr "Bain an Post"
 
-#: src/dialogs/renderwidget.cpp:2335
+#: src/dialogs/renderwidget.cpp:2364
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Cuir gearrthóga leis an amlíne roimh an rindreáil"
 
-#: src/dialogs/renderwidget.cpp:2342
+#: src/dialogs/renderwidget.cpp:2371
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 "Ní féidir an suíomh aschuir a scríobh, roghnaigh ceann eile le do thoil"
 
-#: src/dialogs/renderwidget.cpp:2345
+#: src/dialogs/renderwidget.cpp:2374
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Tá do dhiosca beagnach lán, d'fhéadfadh teip a bheith ar an rindreáil"
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2377
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "Tá spás do dhiosca teoranta (%1)"
 
-#: src/dialogs/renderwidget.cpp:2358
+#: src/dialogs/renderwidget.cpp:2387
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Fad an Chomhaid Rindreáilte: %1"
 
-#: src/dialogs/renderwidget.cpp:2361
+#: src/dialogs/renderwidget.cpp:2390
 #: src/mltcontroller/clippropertiescontroller.cpp:625
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Fritháireamh Cód Ama:"
 
-#: src/dialogs/renderwidget.cpp:2366
+#: src/dialogs/renderwidget.cpp:2395
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -22757,7 +22757,7 @@ msgstr[2] "<b>%1 gearrthóg ar iarraidh a úsáideadh sa tionscadal.</b>"
 msgstr[3] "<b>%1 gearrthóg ar iarraidh a úsáideadh sa tionscadal.</b>"
 msgstr[4] "<b>%1 gearrthóg ar iarraidh a úsáideadh sa tionscadal.</b>"
 
-#: src/dialogs/renderwidget.cpp:2368
+#: src/dialogs/renderwidget.cpp:2397
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -22767,12 +22767,12 @@ msgstr[2] "%1 gearrthóg ar iarraidh (gan úsáid)."
 msgstr[3] "%1 gearrthóg ar iarraidh (gan úsáid)."
 msgstr[4] "%1 gearrthóg ar iarraidh (gan úsáid)."
 
-#: src/dialogs/renderwidget.cpp:2370
+#: src/dialogs/renderwidget.cpp:2399
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 gearrthóg ar iarraidh (<b>%2 in úsáid sa tionscadal</b>)."
 
-#: src/dialogs/renderwidget.cpp:2500
+#: src/dialogs/renderwidget.cpp:2529
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22781,12 +22781,12 @@ msgstr ""
 "Paraiméadair luas an chóidéic:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2520
+#: src/dialogs/renderwidget.cpp:2549
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Cuir leis an Tionscadal Reatha"
 
-#: src/dialogs/renderwidget.cpp:2529
+#: src/dialogs/renderwidget.cpp:2558
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, kde-format

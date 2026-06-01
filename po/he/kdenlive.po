@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-30 00:44+0000\n"
+"POT-Creation-Date: 2026-06-01 00:42+0000\n"
 "PO-Revision-Date: 2026-05-26 08:58+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -20903,8 +20903,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "ייצוא נתוני סמנים"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2186
-#: src/dialogs/renderwidget.cpp:2210 src/doc/kdenlivedoc.cpp:772
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2215
+#: src/dialogs/renderwidget.cpp:2239 src/doc/kdenlivedoc.cpp:772
 #: src/doc/kdenlivedoc.cpp:780 src/doc/kdenlivedoc.cpp:1349
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -21367,7 +21367,7 @@ msgstr "הצגת יומן"
 msgid "Show Xml"
 msgstr "הצגת Xml"
 
-#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2008
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2037
 #, kde-format
 msgid "Waiting…"
 msgstr "בהמתנה…"
@@ -21575,7 +21575,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "התמרה"
 
-#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1981
+#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:2010
 #: src/project/dialogs/archivewidget.cpp:928
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -21595,7 +21595,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "השגיאות הבאות התרחשו תוך ניסיון לבצע תיצוג"
 
-#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:1994
+#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:2023
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -21604,7 +21604,7 @@ msgstr ""
 "כבר יש משימה שכותבת לקובץ:<br /><b>%1</b><br />יש לבטל את העבודה כדי לשכתב "
 "את הקובץ…"
 
-#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1995
+#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:2024
 #, kde-format
 msgid "Already running"
 msgstr "כבר מתבצע"
@@ -21651,12 +21651,12 @@ msgid ""
 "of both."
 msgstr "תיצוג ללא וידאו ושמע לא עובד. נא להפעיל לפחות אחד מהם."
 
-#: src/dialogs/renderwidget.cpp:1648
+#: src/dialogs/renderwidget.cpp:1677
 #, kde-format
 msgid "Remaining time "
 msgstr "זמן שנותר "
 
-#: src/dialogs/renderwidget.cpp:1650 src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:1679 src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -21665,86 +21665,86 @@ msgstr[1] "יומיים "
 msgstr[2] "%1 ימים "
 msgstr[3] "%1 ימים "
 
-#: src/dialogs/renderwidget.cpp:1662
+#: src/dialogs/renderwidget.cpp:1691
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (תמונית %1 @ %2 תמוניות לשנייה)"
 
-#: src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1713
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "נותרו פחות מ־%1 מ״ב של זיכרון זמין."
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "התיצוג הסתיים תוך %1"
 
-#: src/dialogs/renderwidget.cpp:1767
+#: src/dialogs/renderwidget.cpp:1796
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "התיצוג של %1 הסתיים תוך %2"
 
-#: src/dialogs/renderwidget.cpp:1770
+#: src/dialogs/renderwidget.cpp:1799
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "תיצוג מעבר ראשון של %1 הסתיים"
 
 # , kde-format
-#: src/dialogs/renderwidget.cpp:1793
+#: src/dialogs/renderwidget.cpp:1822
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>התיצוג קרס</strong><br />"
 
 # , kde-format
-#: src/dialogs/renderwidget.cpp:1795
+#: src/dialogs/renderwidget.cpp:1824
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>התיצוג של %1 קרס</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1862 src/ui/renderwidget_ui.ui:917
+#: src/dialogs/renderwidget.cpp:1891 src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Abort Job"
 msgstr "ביטול משימה"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1894
 #, kde-format
 msgid "Remove Job"
 msgstr "הסרת משימה"
 
-#: src/dialogs/renderwidget.cpp:2335
+#: src/dialogs/renderwidget.cpp:2364
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "הוספת סרטונים לציר הזמן בטרם התיצוג"
 
-#: src/dialogs/renderwidget.cpp:2342
+#: src/dialogs/renderwidget.cpp:2371
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "מקום הפלט לא נגיש לכתיבה, נא לבחור מקום אחר"
 
-#: src/dialogs/renderwidget.cpp:2345
+#: src/dialogs/renderwidget.cpp:2374
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "הכונן שלך כמעט התמלא לגמרי, התיצוג עלול להיכשל"
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2377
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "המקום שלך בכונן מוגבל (%1)"
 
-#: src/dialogs/renderwidget.cpp:2358
+#: src/dialogs/renderwidget.cpp:2387
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "אורך קובץ לאחר תיצוג: %1"
 
-#: src/dialogs/renderwidget.cpp:2361
+#: src/dialogs/renderwidget.cpp:2390
 #: src/mltcontroller/clippropertiescontroller.cpp:625
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "הפרש קוד זמן:"
 
-#: src/dialogs/renderwidget.cpp:2366
+#: src/dialogs/renderwidget.cpp:2395
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -21753,7 +21753,7 @@ msgstr[1] "<b>נעשה שימוש בשני סרטונים חסרים במיזם.
 msgstr[2] "<b>נעשה שימוש ב־%1 סרטונים חסרים במיזם.</b>"
 msgstr[3] "<b>נעשה שימוש ב־%1 סרטונים חסרים במיזם.</b>"
 
-#: src/dialogs/renderwidget.cpp:2368
+#: src/dialogs/renderwidget.cpp:2397
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -21762,12 +21762,12 @@ msgstr[1] "שני סרטונים חסרים (לא בשימוש)."
 msgstr[2] "%1 סרטונים חסרים (לא בשימוש)."
 msgstr[3] "%1 סרטונים חסרים (לא בשימוש)."
 
-#: src/dialogs/renderwidget.cpp:2370
+#: src/dialogs/renderwidget.cpp:2399
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 סרטונים חסרים (<b>%2 נמצאים בשימוש במיזם</b>)."
 
-#: src/dialogs/renderwidget.cpp:2500
+#: src/dialogs/renderwidget.cpp:2529
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -21776,12 +21776,12 @@ msgstr ""
 "משתני מהירות מפענח:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2520
+#: src/dialogs/renderwidget.cpp:2549
 #, kde-format
 msgid "Add to Current Project"
 msgstr "הוספה למיזם הנוכחי"
 
-#: src/dialogs/renderwidget.cpp:2529
+#: src/dialogs/renderwidget.cpp:2558
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, kde-format

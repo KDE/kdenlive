@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-30 00:44+0000\n"
+"POT-Creation-Date: 2026-06-01 00:42+0000\n"
 "PO-Revision-Date: 2026-05-15 09:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -21848,8 +21848,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Експортування даних позначок"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2186
-#: src/dialogs/renderwidget.cpp:2210 src/doc/kdenlivedoc.cpp:772
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2215
+#: src/dialogs/renderwidget.cpp:2239 src/doc/kdenlivedoc.cpp:772
 #: src/doc/kdenlivedoc.cpp:780 src/doc/kdenlivedoc.cpp:1349
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -22315,7 +22315,7 @@ msgstr "Показати журнал"
 msgid "Show Xml"
 msgstr "Показати XML"
 
-#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2008
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2037
 #, kde-format
 msgid "Waiting…"
 msgstr "Очікування…"
@@ -22530,7 +22530,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Перекодувати"
 
-#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1981
+#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:2010
 #: src/project/dialogs/archivewidget.cpp:928
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -22550,7 +22550,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "Під час спроби обробки сталися вказані нижче помилки"
 
-#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:1994
+#: src/dialogs/renderwidget.cpp:1069 src/dialogs/renderwidget.cpp:2023
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -22559,7 +22559,7 @@ msgstr ""
 "Файл запису завдань вже створено:<br /><b>%1</b><br />Перервіть виконання "
 "завдання, якщо бажаєте перезаписати цей файл…"
 
-#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1995
+#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:2024
 #, kde-format
 msgid "Already running"
 msgstr "Вже працює"
@@ -22607,12 +22607,12 @@ msgid ""
 msgstr ""
 "Обробка неможлива без відео і звуку. Будь ласка, увімкніть хоч щось з двох."
 
-#: src/dialogs/renderwidget.cpp:1648
+#: src/dialogs/renderwidget.cpp:1677
 #, kde-format
 msgid "Remaining time "
 msgstr "Лишилося часу "
 
-#: src/dialogs/renderwidget.cpp:1650 src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:1679 src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -22621,86 +22621,86 @@ msgstr[1] "%1 дні "
 msgstr[2] "%1 днів "
 msgstr[3] "1 день"
 
-#: src/dialogs/renderwidget.cpp:1662
+#: src/dialogs/renderwidget.cpp:1691
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 при %2 кд/с)"
 
-#: src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1713
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Лишилося менше %1 МБ доступної пам'яті."
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Обробку завершено за %1"
 
-#: src/dialogs/renderwidget.cpp:1767
+#: src/dialogs/renderwidget.cpp:1796
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Обробку %1 завершено за %2"
 
-#: src/dialogs/renderwidget.cpp:1770
+#: src/dialogs/renderwidget.cpp:1799
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "Перший прохід обробки %1 завершено"
 
-#: src/dialogs/renderwidget.cpp:1793
+#: src/dialogs/renderwidget.cpp:1822
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Спроба обробки завершилася в аварійному режимі</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1795
+#: src/dialogs/renderwidget.cpp:1824
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
 "<strong>Спроба обробки %1 завершилася у аварійному режимі</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1862 src/ui/renderwidget_ui.ui:917
+#: src/dialogs/renderwidget.cpp:1891 src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Abort Job"
 msgstr "Перервати виконання"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1894
 #, kde-format
 msgid "Remove Job"
 msgstr "Вилучити завдання"
 
-#: src/dialogs/renderwidget.cpp:2335
+#: src/dialogs/renderwidget.cpp:2364
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Додати кліпи до монтажного столу до обробки"
 
-#: src/dialogs/renderwidget.cpp:2342
+#: src/dialogs/renderwidget.cpp:2371
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 "Місце для зберігання результатів є непридатним до запису — виберіть інше"
 
-#: src/dialogs/renderwidget.cpp:2345
+#: src/dialogs/renderwidget.cpp:2374
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Диск майже переповнено, обробка даних може завершитися помилкою"
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2377
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "Місце на вашому диску обмежене (%1)"
 
-#: src/dialogs/renderwidget.cpp:2358
+#: src/dialogs/renderwidget.cpp:2387
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Тривалість обробленого файла: %1"
 
-#: src/dialogs/renderwidget.cpp:2361
+#: src/dialogs/renderwidget.cpp:2390
 #: src/mltcontroller/clippropertiescontroller.cpp:625
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Зсув часу:"
 
-#: src/dialogs/renderwidget.cpp:2366
+#: src/dialogs/renderwidget.cpp:2395
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -22709,7 +22709,7 @@ msgstr[1] "<b>Не вистачає %1 використаних у проєкт�
 msgstr[2] "<b>Не вистачає %1 використаних у проєкті кліпів.</b>"
 msgstr[3] "<b>Не вистачає одного використаного у проєкті кліпу.</b>"
 
-#: src/dialogs/renderwidget.cpp:2368
+#: src/dialogs/renderwidget.cpp:2397
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -22718,12 +22718,12 @@ msgstr[1] "%1 пропущені кліпи (не використано)."
 msgstr[2] "%1 пропущених кліпів (не використано)."
 msgstr[3] "Один пропущений кліп (не використано)."
 
-#: src/dialogs/renderwidget.cpp:2370
+#: src/dialogs/renderwidget.cpp:2399
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Не вистачає %1 кліпів (<b>у проєкті використано %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:2500
+#: src/dialogs/renderwidget.cpp:2529
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22732,12 +22732,12 @@ msgstr ""
 "Параметри швидкості кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2520
+#: src/dialogs/renderwidget.cpp:2549
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Додати до поточного проєкту"
 
-#: src/dialogs/renderwidget.cpp:2529
+#: src/dialogs/renderwidget.cpp:2558
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
