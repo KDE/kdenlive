@@ -6182,6 +6182,7 @@ void Bin::requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo inf
         }
         if (info.url.isEmpty()) {
             info.url = clip->clipUrl();
+            info.fps_info = ProjectClip::fpsInfo(clip->originalProducer());
         }
         m_transcodingDialog->addUrl(id, info, suffix, message);
     }

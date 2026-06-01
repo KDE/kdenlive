@@ -808,9 +808,10 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
         if (m_properties->get_int("meta.media.variable_frame_rate")) {
             m_warningMessage->setText(i18n("File uses a variable frame rate, not recommended"));
             QAction *ac = new QAction(i18n("Transcode"));
-            QObject::connect(ac, &QAction::triggered, [id = m_id, resource = m_controller->clipUrl()]() {
-                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(int, 0),
-                                          Q_ARG(bool, false));
+            QObject::connect(ac, &QAction::triggered, [id = m_id]() {
+                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, id),
+                                          Q_ARG(TranscodeSeek::TranscodeInfo, TranscodeSeek::TranscodeInfo()), Q_ARG(bool, false), Q_ARG(QString, QString()),
+                                          Q_ARG(QString, QString()));
             });
             m_warningMessage->setMessageType(KMessageWidget::Warning);
             m_warningMessage->addAction(ac);

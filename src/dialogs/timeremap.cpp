@@ -1570,8 +1570,9 @@ TimeRemap::TimeRemap(QWidget *parent)
     QAction *ac = new QAction(i18n("Transcode"), this);
     warningMessage->addAction(ac);
     connect(ac, &QAction::triggered, this, [&]() {
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(int, 0),
-                                  Q_ARG(bool, false));
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, m_binId),
+                                  Q_ARG(TranscodeSeek::TranscodeInfo, TranscodeSeek::TranscodeInfo()), Q_ARG(bool, false), Q_ARG(QString, QString()),
+                                  Q_ARG(QString, QString()));
     });
     m_view = new RemapView(this);
     speedBefore->setKeyboardTracking(false);
