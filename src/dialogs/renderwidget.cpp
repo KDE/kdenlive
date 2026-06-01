@@ -659,23 +659,39 @@ void RenderWidget::slotRenderModeChanged()
 
 void RenderWidget::slotUpdateRescaleWidth(int val)
 {
+    if (val % 2 == 1) {
+        val++;
+        QSignalBlocker bk(m_view.rescale_width);
+        m_view.rescale_width->setValue(val);
+    }
     KdenliveSettings::setDefaultrescalewidth(val);
-    m_view.rescale_height->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_height->setValue(val * profile->height() / profile->width());
+    int proposedHeight = qRound(double(val) * profile->height() / profile->width());
+    if (proposedHeight % 2 == 1) {
+        proposedHeight++;
+    }
+    QSignalBlocker bk(m_view.rescale_height);
+    m_view.rescale_height->setValue(proposedHeight);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
-    m_view.rescale_height->blockSignals(false);
     refreshParams();
 }
 
 void RenderWidget::slotUpdateRescaleHeight(int val)
 {
+    if (val % 2 == 1) {
+        val++;
+        QSignalBlocker bk(m_view.rescale_height);
+        m_view.rescale_height->setValue(val);
+    }
     KdenliveSettings::setDefaultrescaleheight(val);
-    m_view.rescale_width->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_width->setValue(val * profile->width() / profile->height());
+    int proposedWidth = qRound(double(val) * profile->width() / profile->height());
+    if (proposedWidth % 2 == 1) {
+        proposedWidth++;
+    }
+    QSignalBlocker bk(m_view.rescale_width);
+    m_view.rescale_width->setValue(proposedWidth);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
-    m_view.rescale_width->blockSignals(false);
     refreshParams();
 }
 
@@ -920,6 +936,13 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
         QAction *b = new QAction(i18nc("@action:button", "Render Anyway"), this);
         connect(b, &QAction::triggered, this, [this, delayedRendering]() {
+            // Remove message actions
+            QList<QAction *> acts = m_view.infoMessage->actions();
+            while (!acts.isEmpty()) {
+                QAction *a = acts.takeFirst();
+                m_view.infoMessage->removeAction(a);
+                delete a;
+            }
             m_view.infoMessage->animatedHide();
             slotPrepareExport2(delayedRendering);
         });
@@ -1212,8 +1235,8 @@ int RenderWidget::runningJobsCount() const
 
 void RenderWidget::adjustViewToProfile()
 {
-    m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
-    m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
+    m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth() + KdenliveSettings::defaultrescalewidth() % 2);
+    m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight() + KdenliveSettings::defaultrescaleheight() % 2);
     refreshView();
 }
 
@@ -2339,7 +2362,26 @@ void RenderWidget::checkDriveSpace()
     }
     m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
 
-    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+    // Very rough estimate of h264 video size
+    int sizePerFrame = 0;
+    const QSize frameSize = pCore->getCurrentFrameSize();
+    qint32 pixels = frameSize.width() * frameSize.height();
+    if (pixels > 28000000) {
+        // Approximately 8K
+        sizePerFrame = 490000;
+    } else if (pixels > 7900000) {
+        // Approximately 4K
+        sizePerFrame = 39000;
+    } else if (pixels > 2000000) {
+        // Approximately HD
+        sizePerFrame = 26000;
+    } else {
+        // SD
+        sizePerFrame = 20000;
+    }
+
+    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * sizePerFrame));
+    qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
     if (m_lastFreeSpace < 5 * minimumSize) {
         m_freeSpaceStatus = SpaceLow;
     } else if (m_lastFreeSpace < minimumSize) {
