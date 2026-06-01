@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-31 02:37+0000\n"
+"POT-Creation-Date: 2026-06-01 02:35+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -20099,7 +20099,7 @@ msgstr "वीडियो म्यूट करें"
 #: src/lib/audio/audioStreamInfo.cpp:25 src/lib/audio/audioStreamInfo.cpp:31
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:684
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:331
-#: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
+#: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:833
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:633
 #, kde-format
 msgid "Audio"
@@ -22394,63 +22394,63 @@ msgstr "60 सेकंड का परीक्षण वीडियो त�
 msgid "Processing %1"
 msgstr "प्रसंस्करण %1"
 
-#: src/dialogs/renderpresetdialog.cpp:88 src/dialogs/renderpresetdialog.cpp:162
+#: src/dialogs/renderpresetdialog.cpp:89 src/dialogs/renderpresetdialog.cpp:163
 #, kde-format
 msgid "(Not set)"
 msgstr "(सेट नहीं)"
 
-#: src/dialogs/renderpresetdialog.cpp:89 src/dialogs/renderpresetdialog.cpp:163
+#: src/dialogs/renderpresetdialog.cpp:90 src/dialogs/renderpresetdialog.cpp:164
 #, kde-format
 msgid "Average Bitrate"
 msgstr "औसत बिटरेट"
 
-#: src/dialogs/renderpresetdialog.cpp:90 src/dialogs/renderpresetdialog.cpp:164
+#: src/dialogs/renderpresetdialog.cpp:91 src/dialogs/renderpresetdialog.cpp:165
 #, kde-format
 msgid "CBR – Constant Bitrate"
 msgstr "सीबीआर – निरंतर बिटरेट"
 
-#: src/dialogs/renderpresetdialog.cpp:91 src/dialogs/renderpresetdialog.cpp:165
+#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
 msgid "VBR – Variable Bitrate"
 msgstr "VBR - परिवर्तनीय बिटरेट"
 
-#: src/dialogs/renderpresetdialog.cpp:93
+#: src/dialogs/renderpresetdialog.cpp:94
 #, kde-format
 msgid "1 (mono)"
 msgstr "1 (मोनो)"
 
-#: src/dialogs/renderpresetdialog.cpp:94
+#: src/dialogs/renderpresetdialog.cpp:95
 #, kde-format
 msgid "2 (stereo)"
 msgstr "2 (स्टीरियो)"
 
-#: src/dialogs/renderpresetdialog.cpp:95
+#: src/dialogs/renderpresetdialog.cpp:96
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/renderpresetdialog.cpp:96
+#: src/dialogs/renderpresetdialog.cpp:97
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/renderpresetdialog.cpp:117
-#: src/dialogs/renderpresetdialog.cpp:430
+#: src/dialogs/renderpresetdialog.cpp:118
+#: src/dialogs/renderpresetdialog.cpp:435
 #, kde-format
 msgid "Edit Render Preset"
 msgstr "रेंडर प्रीसेट संपादित करें"
 
-#: src/dialogs/renderpresetdialog.cpp:166
+#: src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
 msgid "Constrained VBR"
 msgstr "विवश VBR"
 
-#: src/dialogs/renderpresetdialog.cpp:442
+#: src/dialogs/renderpresetdialog.cpp:447
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr "पूर्व निर्धारित नाम रिक्त नहीं हो सकता"
 
-#: src/dialogs/renderpresetdialog.cpp:870
+#: src/dialogs/renderpresetdialog.cpp:917
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -28092,8 +28092,8 @@ msgstr "सक्रिय उपकरण और संपादन मोड"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1639 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:774
+#: src/mainwindow.cpp:1639 src/ui/editrenderpreset_ui.ui:550
+#: src/ui/editrenderpreset_ui.ui:693 src/ui/renderwidget_ui.ui:774
 #, kde-format
 msgid "Auto"
 msgstr "ऑटो"
@@ -29513,7 +29513,7 @@ msgstr "प्रगतिशील"
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:712
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
-#: src/ui/editrenderpreset_ui.ui:509 src/ui/profiledialog_ui.ui:197
+#: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
 msgstr "स्कैनिंग:"
@@ -36600,7 +36600,7 @@ msgstr "कैप्चर वॉल्यूम:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QCheckBox, cChannels)
-#: src/ui/configcapture_ui.ui:379 src/ui/editrenderpreset_ui.ui:840
+#: src/ui/configcapture_ui.ui:379 src/ui/editrenderpreset_ui.ui:973
 #, kde-format
 msgid "Channels:"
 msgstr "चैनल:"
@@ -37963,7 +37963,7 @@ msgstr "कंटेनर:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/editrenderpreset_ui.ui:188 src/ui/editrenderpreset_ui.ui:860
+#: src/ui/editrenderpreset_ui.ui:188 src/ui/editrenderpreset_ui.ui:994
 #, kde-format
 msgid "Codec:"
 msgstr "कोडेक:"
@@ -38002,19 +38002,19 @@ msgstr "क्षेत्र क्रम:"
 
 #. i18n: ectx: property (text), widget (QLabel, vquality_label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: src/ui/editrenderpreset_ui.ui:388 src/ui/editrenderpreset_ui.ui:985
+#: src/ui/editrenderpreset_ui.ui:388 src/ui/editrenderpreset_ui.ui:980
 #, kde-format
 msgid "Quality:"
 msgstr "गुणवत्ता:"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:525
+#: src/ui/editrenderpreset_ui.ui:524
 #, kde-format
 msgid "Placeholder"
 msgstr "प्लेसहोल्डर"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:535
+#: src/ui/editrenderpreset_ui.ui:534
 #, kde-format
 msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
@@ -38023,173 +38023,173 @@ msgstr ""
 "निश्चित GOP का अर्थ है कि दृश्य में पाए गए परिवर्तनों पर कीफ्रेम सम्मिलित नहीं किए जाएंगे।"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:538
+#: src/ui/editrenderpreset_ui.ui:537
 #, kde-format
 msgid "Fixed"
 msgstr "तय"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
-#: src/ui/editrenderpreset_ui.ui:554 src/ui/editrenderpreset_ui.ui:697
+#: src/ui/editrenderpreset_ui.ui:553 src/ui/editrenderpreset_ui.ui:696
 #, kde-format
 msgid " frame(s)"
 msgstr "फ्रेम"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, default_vbitrate)
 #. i18n: ectx: property (suffix), widget (QSpinBox, aBitrate)
-#: src/ui/editrenderpreset_ui.ui:576 src/ui/editrenderpreset_ui.ui:975
+#: src/ui/editrenderpreset_ui.ui:575 src/ui/editrenderpreset_ui.ui:1001
 #, kde-format
 msgid "k"
 msgstr "क"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
-#: src/ui/editrenderpreset_ui.ui:592
+#: src/ui/editrenderpreset_ui.ui:591
 #, kde-format
 msgid "Frame Rate:"
 msgstr "फ्रेम रेट:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/editrenderpreset_ui.ui:599
+#: src/ui/editrenderpreset_ui.ui:598
 #, kde-format
 msgid "Fields per Second:"
 msgstr "प्रति सेकंड क्षेत्र:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/ui/editrenderpreset_ui.ui:713 src/ui/editrenderpreset_ui.ui:968
+#: src/ui/editrenderpreset_ui.ui:712 src/ui/editrenderpreset_ui.ui:966
 #, kde-format
 msgid "Bitrate:"
 msgstr "बिटरेट:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/editrenderpreset_ui.ui:720 src/ui/editrenderpreset_ui.ui:958
+#: src/ui/editrenderpreset_ui.ui:719 src/ui/editrenderpreset_ui.ui:852
 #, kde-format
 msgid "Rate Control:"
 msgstr "मूल्य नियंत्रण:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
-#: src/ui/editrenderpreset_ui.ui:746
+#: src/ui/editrenderpreset_ui.ui:745
 #, kde-format
 msgid "Resolution:"
 msgstr "संकल्प:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:753
+#: src/ui/editrenderpreset_ui.ui:752
 #, kde-format
 msgid "GOP = Group of Pictures"
 msgstr "GOP = चित्रों का समूह"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:756
+#: src/ui/editrenderpreset_ui.ui:755
 #, kde-format
 msgid "GOP:"
 msgstr "जीओपी:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/editrenderpreset_ui.ui:792
+#: src/ui/editrenderpreset_ui.ui:791
 #, kde-format
 msgid "Buffer Size:"
 msgstr "बफर आकार:"
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
-#: src/ui/editrenderpreset_ui.ui:799
+#: src/ui/editrenderpreset_ui.ui:798
 #, kde-format
 msgid "B Frames:"
 msgstr "बी फ्रेम्स:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, vBuffer)
-#: src/ui/editrenderpreset_ui.ui:815
+#: src/ui/editrenderpreset_ui.ui:814
 #, kde-format
 msgid " KiB"
 msgstr " किबा"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
-#: src/ui/editrenderpreset_ui.ui:870
+#: src/ui/editrenderpreset_ui.ui:859
 #, kde-format
 msgid "Sample Rate:"
 msgstr "नमूना दर:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:902
+#: src/ui/editrenderpreset_ui.ui:910
 #, kde-format
 msgid "8000"
 msgstr "8000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:907
+#: src/ui/editrenderpreset_ui.ui:915
 #, kde-format
 msgid "12000"
 msgstr "12000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:912
+#: src/ui/editrenderpreset_ui.ui:920
 #, kde-format
 msgid "16000"
 msgstr "16000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:917
+#: src/ui/editrenderpreset_ui.ui:925
 #, kde-format
 msgid "22050"
 msgstr "22050"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:922
+#: src/ui/editrenderpreset_ui.ui:930
 #, kde-format
 msgid "32000"
 msgstr "32000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:927
+#: src/ui/editrenderpreset_ui.ui:935
 #, kde-format
 msgid "44100"
 msgstr "44100"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:932
+#: src/ui/editrenderpreset_ui.ui:940
 #, kde-format
 msgid "48000"
 msgstr "48000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
-#: src/ui/editrenderpreset_ui.ui:937
+#: src/ui/editrenderpreset_ui.ui:945
 #, kde-format
 msgid "96000"
 msgstr "96000"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: src/ui/editrenderpreset_ui.ui:948
+#: src/ui/editrenderpreset_ui.ui:956
 #, kde-format
 msgid "Hz"
 msgstr "हर्ट्ज"
 
 #. i18n: ectx: attribute (title), widget (QWidget, other_tab)
-#: src/ui/editrenderpreset_ui.ui:1013
+#: src/ui/editrenderpreset_ui.ui:1019
 #, kde-format
 msgid "Other"
 msgstr "अन्य"
 
 #. i18n: ectx: property (text), widget (QLabel, speedsLabel)
-#: src/ui/editrenderpreset_ui.ui:1019
+#: src/ui/editrenderpreset_ui.ui:1025
 #, kde-format
 msgid "Speed options:"
 msgstr "गति विकल्प:"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, speeds_list)
-#: src/ui/editrenderpreset_ui.ui:1026
+#: src/ui/editrenderpreset_ui.ui:1032
 #, kde-format
 msgid "One line of options per speedup step, from slowest to fastest"
 msgstr "प्रत्येक गति-वृद्धि चरण के लिए विकल्पों की एक पंक्ति, सबसे धीमे से सबसे तेज़ तक"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/editrenderpreset_ui.ui:1036
+#: src/ui/editrenderpreset_ui.ui:1042
 #, kde-format
 msgid "Additional Parameters:"
 msgstr "अतिरिक्त पैरामीटर:"
 
 #. i18n: ectx: property (text), widget (QLabel, parametersLabel)
-#: src/ui/editrenderpreset_ui.ui:1056
+#: src/ui/editrenderpreset_ui.ui:1062
 #, kde-format
 msgid ""
 "<html><head/><body><p>See <a href=\"https://www.mltframework.org/plugins/"
@@ -38201,7 +38201,7 @@ msgstr ""
 "#2980b9;\">MLT दस्तावेज़</span></a> देखें.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/editrenderpreset_ui.ui:1072
+#: src/ui/editrenderpreset_ui.ui:1078
 #, kde-format
 msgid ""
 "Enabling manual editing is for advanced users, you will only be able to edit "
@@ -38211,7 +38211,7 @@ msgstr ""
 "लिए सेटिंग्स को संपादित करने में सक्षम होंगे।"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_manual)
-#: src/ui/editrenderpreset_ui.ui:1088
+#: src/ui/editrenderpreset_ui.ui:1094
 #, kde-format
 msgid "Enable manual editing"
 msgstr "मैन्युअल संपादन सक्षम करें"
