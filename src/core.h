@@ -178,7 +178,7 @@ public:
     double getCurrentDar() const;
 
     /** @brief Returns frame rate of current profile */
-    double getCurrentFps() const;
+    Q_INVOKABLE double getCurrentFps() const;
 
     /** @brief Returns the frame size (width x height) of current profile */
     const QSize getCurrentFrameSize() const;

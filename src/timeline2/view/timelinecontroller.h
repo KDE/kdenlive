@@ -536,7 +536,6 @@ public:
      */
     Q_INVOKABLE void pasteEffects(int targetId = -1);
     Q_INVOKABLE void deleteEffects(int targetId = -1);
-    Q_INVOKABLE double fps() const;
     Q_INVOKABLE void addEffectKeyframe(int cid, int frame, double val);
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());

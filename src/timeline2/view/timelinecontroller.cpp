@@ -4192,11 +4192,6 @@ void TimelineController::pasteEffects(int targetId)
     }
 }
 
-double TimelineController::fps() const
-{
-    return pCore->getCurrentFps();
-}
-
 void TimelineController::editItemDuration()
 {
     std::unordered_set<int> sel = m_model->getCurrentSelection();

@@ -218,11 +218,11 @@ Item {
             hoverEnabled: !root.isPanning && K.Core.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
             }
             Keys.onRightPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + offset, true, true)
             }
             Keys.onUpPressed: {

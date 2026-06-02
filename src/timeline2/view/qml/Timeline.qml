@@ -1383,7 +1383,7 @@ function getTrackColor(audio, header) {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     root.zoomByWheel(wheel)
                 } else if (K.Core.activeTool !== K.ToolType.SlipTool) {
-                    var delta = wheel.modifiers & Qt.ShiftModifier ? root.timeline.fps() : 1
+                    var delta = wheel.modifiers & Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                     root.proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, root.timeline.fullDuration - 1)
                 }
             }

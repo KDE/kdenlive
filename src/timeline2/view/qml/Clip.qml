@@ -327,7 +327,7 @@ Rectangle {
         }
         Keys.onShortcutOverride: event => {event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
         Keys.onLeftPressed: event => {
-            var offset = event.modifiers === Qt.ShiftModifier ? clipRoot.timeline.fps() : 1
+            var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
             while((clipRoot.modelStart >= offset) && !clipRoot.controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
                 offset = clipRoot.controller.getPreviousBlank( clipRoot.trackId, clipRoot.modelStart - offset)
                 if (offset < 0) {
@@ -340,7 +340,7 @@ Rectangle {
             clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: event => {
-            var offset = event.modifiers === Qt.ShiftModifier ? clipRoot.timeline.fps() : 1
+            var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
             while(!clipRoot.controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
                 console.log('insert failed at: ', (clipRoot.modelStart + offset))
                 offset = clipRoot.controller.getNextBlank( clipRoot.trackId, clipRoot.modelStart + clipRoot.clipDuration + offset)

@@ -218,13 +218,13 @@ Item {
                 event.accepted = subtitleRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
             }
             Keys.onLeftPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? subtitleRoot.timeline.fps() : 1
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 if (subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true, true)) {
                     subtitleRoot.timeline.showToolTip(KI18n.i18n("Position: %1", subtitleRoot.timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             Keys.onRightPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? subtitleRoot.timeline.fps() : 1
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 if (subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true, true)) {
                     subtitleRoot.timeline.showToolTip(KI18n.i18n("Position: %1", subtitleRoot.timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }

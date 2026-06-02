@@ -131,9 +131,9 @@ Rectangle {
 
     function updateRuler()
     {
-        var projectFps = monitorController.fps()
         root.timeScale = ruler.width / (root.duration + 1) / root.zoomFactor
         var displayedLength = root.duration * root.zoomFactor / projectFps;
+        var projectFps = K.Core.getCurrentFps()
         if (displayedLength < 3 ) {
             // 1 frame tick
             root.frameSize = root.timeScale

@@ -115,7 +115,6 @@ public:
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
     Q_INVOKABLE void switchGrid();
-    Q_INVOKABLE double fps() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     Q_INVOKABLE void terminateJob(const QString &uuid);
