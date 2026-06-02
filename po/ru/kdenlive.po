@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-01 02:35+0000\n"
+"POT-Creation-Date: 2026-06-02 03:52+0000\n"
 "PO-Revision-Date: 2026-03-24 17:29+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -896,7 +896,7 @@ msgstr "Ширина фильтра"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:989
+#: src/mltcontroller/clippropertiescontroller.cpp:990
 #, kde-format
 msgid "Normalize"
 msgstr "Нормализация"
@@ -7557,7 +7557,7 @@ msgstr "В"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:1011
+#: src/mltcontroller/clippropertiescontroller.cpp:1012
 #, kde-format
 msgid "Swap channels"
 msgstr "Поменять каналы местами"
@@ -18937,7 +18937,7 @@ msgstr "Плавная (устарел)"
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
-#: src/dialogs/timeremap.cpp:1602 src/dialogs/timeremap.cpp:1627
+#: src/dialogs/timeremap.cpp:1603 src/dialogs/timeremap.cpp:1628
 #, kde-format
 msgid "Add keyframe"
 msgstr "Добавить ключевой кадр"
@@ -18952,7 +18952,7 @@ msgstr "Изменить тип ключевого кадра"
 #: src/assets/keyframes/model/keyframemodel.cpp:291
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
-#: src/dialogs/timeremap.cpp:1623
+#: src/dialogs/timeremap.cpp:1624
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Удалить ключевой кадр"
@@ -19165,19 +19165,19 @@ msgid "Switch to curve editor view"
 msgstr "Переключиться на панель редактора кривой"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:158
-#: src/dialogs/timeremap.cpp:1608 src/mainwindow.cpp:2076
+#: src/dialogs/timeremap.cpp:1609 src/mainwindow.cpp:2076
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "К предыдущему ключевому кадру"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:162
-#: src/dialogs/timeremap.cpp:1605 src/mainwindow.cpp:2074
+#: src/dialogs/timeremap.cpp:1606 src/mainwindow.cpp:2074
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "К следующему ключевому кадру"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:167
-#: src/dialogs/timeremap.cpp:1613 src/dialogs/timeremap.cpp:1615
+#: src/dialogs/timeremap.cpp:1614 src/dialogs/timeremap.cpp:1616
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Подвинуть выбранный ключевой кадр к курсору"
@@ -19568,7 +19568,7 @@ msgstr "Записать звук"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:434
 #: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:660
-#: src/mltcontroller/clippropertiescontroller.cpp:1067
+#: src/mltcontroller/clippropertiescontroller.cpp:1068
 #, kde-format
 msgid "dB"
 msgstr "дБ"
@@ -20123,7 +20123,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Заменить на монтажном столе"
 
-#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6261 src/bin/clipcreator.cpp:351
+#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6262 src/bin/clipcreator.cpp:351
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -20667,17 +20667,17 @@ msgstr "Маркер"
 msgid "Could not find master clip"
 msgstr "Не удалось найти мастер-клип"
 
-#: src/bin/bin.cpp:6283
+#: src/bin/bin.cpp:6284
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "Клипы: <b>%1</b> | "
 
-#: src/bin/bin.cpp:6285
+#: src/bin/bin.cpp:6286
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "Клипы: <b>%1</b> (выбрано %2) | "
 
-#: src/bin/bin.cpp:6354 src/bin/bin.cpp:6432
+#: src/bin/bin.cpp:6355 src/bin/bin.cpp:6433
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -20686,12 +20686,12 @@ msgstr[1] "Добавить дополнительные потоки для к�
 msgstr[2] "Добавить дополнительные потоки для клипа"
 msgstr[3] "Добавить дополнительный поток для клипа"
 
-#: src/bin/bin.cpp:6375
+#: src/bin/bin.cpp:6376
 #, kde-format
 msgid "Import selected clips"
 msgstr "Импорт выбранных клипов"
 
-#: src/bin/bin.cpp:6377
+#: src/bin/bin.cpp:6378
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -20700,51 +20700,51 @@ msgstr ""
 "Дополнительные потоки для клипа\n"
 "%1"
 
-#: src/bin/bin.cpp:6391 src/mltcontroller/clippropertiescontroller.cpp:754
+#: src/bin/bin.cpp:6392 src/mltcontroller/clippropertiescontroller.cpp:754
 #, kde-format
 msgid "Video stream %1"
 msgstr "Видеопоток %1"
 
-#: src/bin/bin.cpp:6406
+#: src/bin/bin.cpp:6407
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Звуковой поток %1"
 
-#: src/bin/bin.cpp:6459
+#: src/bin/bin.cpp:6460
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Удалить маркеры клипа"
 
-#: src/bin/bin.cpp:6656
+#: src/bin/bin.cpp:6657
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Рекомендуется сохранить проект перед операцией перекодирования"
 
-#: src/bin/bin.cpp:6657
+#: src/bin/bin.cpp:6658
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Сохранить проект"
 
-#: src/bin/bin.cpp:6658
+#: src/bin/bin.cpp:6659
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодировать без сохранения"
 
-#: src/bin/bin.cpp:6816 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6817 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1128
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Удалить эффект %1"
 
-#: src/bin/bin.cpp:6882 src/mainwindow.cpp:265
+#: src/bin/bin.cpp:6883 src/mainwindow.cpp:265
 #, kde-format
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:6885 src/bin/bin.cpp:6888 src/mainwindow.cpp:5286
+#: src/bin/bin.cpp:6886 src/bin/bin.cpp:6889 src/mainwindow.cpp:5286
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Корзина проекта %1"
@@ -22167,8 +22167,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Экспорт данных направляющих"
 
-#: src/dialogs/exportguidesdialog.cpp:92 src/dialogs/renderwidget.cpp:2218
-#: src/dialogs/renderwidget.cpp:2242 src/doc/kdenlivedoc.cpp:768
+#: src/dialogs/exportguidesdialog.cpp:92 src/dialogs/renderwidget.cpp:2225
+#: src/dialogs/renderwidget.cpp:2249 src/doc/kdenlivedoc.cpp:768
 #: src/doc/kdenlivedoc.cpp:776 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
@@ -22606,7 +22606,7 @@ msgstr "Ограниченный переменный битовый поток"
 msgid "The preset name can't be empty"
 msgstr "Имя предустановки не может быть пустым"
 
-#: src/dialogs/renderpresetdialog.cpp:917
+#: src/dialogs/renderpresetdialog.cpp:893
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -22642,7 +22642,7 @@ msgstr "Показать журнал"
 msgid "Show Xml"
 msgstr "Показать журнал"
 
-#: src/dialogs/renderwidget.cpp:256 src/dialogs/renderwidget.cpp:2040
+#: src/dialogs/renderwidget.cpp:256 src/dialogs/renderwidget.cpp:2047
 #, kde-format
 msgid "Waiting…"
 msgstr "Ожидание…"
@@ -22847,19 +22847,19 @@ msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Всё равно собрать"
 
-#: src/dialogs/renderwidget.cpp:959
+#: src/dialogs/renderwidget.cpp:966
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Перекодировать"
 
-#: src/dialogs/renderwidget.cpp:982 src/dialogs/renderwidget.cpp:2013
+#: src/dialogs/renderwidget.cpp:989 src/dialogs/renderwidget.cpp:2020
 #: src/project/dialogs/archivewidget.cpp:933
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Выходной файл уже существует. Перезаписать его?"
 
-#: src/dialogs/renderwidget.cpp:989 src/monitor/recmanager.cpp:181
+#: src/dialogs/renderwidget.cpp:996 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -22868,12 +22868,12 @@ msgstr ""
 "Не удалось создать папку «%1».\n"
 "Убедитесь в наличии соответствующих прав."
 
-#: src/dialogs/renderwidget.cpp:1061
+#: src/dialogs/renderwidget.cpp:1068
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "При попытке сборки произошли следующие ошибки"
 
-#: src/dialogs/renderwidget.cpp:1101 src/dialogs/renderwidget.cpp:2026
+#: src/dialogs/renderwidget.cpp:1108 src/dialogs/renderwidget.cpp:2033
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -22882,59 +22882,59 @@ msgstr ""
 "Уже выполняется задание по записи файла:<br><b>%1</b><br>Отмените это "
 "задание, чтобы перезаписать файл…"
 
-#: src/dialogs/renderwidget.cpp:1102 src/dialogs/renderwidget.cpp:2027
+#: src/dialogs/renderwidget.cpp:1109 src/dialogs/renderwidget.cpp:2034
 #, kde-format
 msgid "Already running"
 msgstr "Уже выполняется"
 
-#: src/dialogs/renderwidget.cpp:1131
+#: src/dialogs/renderwidget.cpp:1138
 #, kde-format
 msgid "Video without audio track"
 msgstr "Видео без звуковой дорожки"
 
-#: src/dialogs/renderwidget.cpp:1133
+#: src/dialogs/renderwidget.cpp:1140
 #, kde-format
 msgid "Audio without video track"
 msgstr "Звук без видеодорожки"
 
-#: src/dialogs/renderwidget.cpp:1215 src/main.cpp:462
+#: src/dialogs/renderwidget.cpp:1222 src/main.cpp:462
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Сборка %1 запущена"
 
-#: src/dialogs/renderwidget.cpp:1272 src/monitor/monitor.cpp:1555
+#: src/dialogs/renderwidget.cpp:1279 src/monitor/monitor.cpp:1555
 #, kde-format
 msgid "untitled"
 msgstr "безымянный"
 
-#: src/dialogs/renderwidget.cpp:1320
+#: src/dialogs/renderwidget.cpp:1327
 #, kde-format
 msgid "No preset selected"
 msgstr "Предустановка не выбрана"
 
-#: src/dialogs/renderwidget.cpp:1322
+#: src/dialogs/renderwidget.cpp:1329
 #, kde-format
 msgid "No matching preset"
 msgstr "Нет соответствующей предустановки"
 
-#: src/dialogs/renderwidget.cpp:1334 src/doc/kdenlivedoc.cpp:1889
+#: src/dialogs/renderwidget.cpp:1341 src/doc/kdenlivedoc.cpp:1889
 #, kde-format
 msgid "Invalid preset"
 msgstr "Недопустимая предустановка"
 
-#: src/dialogs/renderwidget.cpp:1475
+#: src/dialogs/renderwidget.cpp:1482
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "Сборка невозможна без звука и видео. Включите хотя бы что-то одно."
 
-#: src/dialogs/renderwidget.cpp:1680
+#: src/dialogs/renderwidget.cpp:1687
 #, kde-format
 msgid "Remaining time "
 msgstr "Осталось времени "
 
-#: src/dialogs/renderwidget.cpp:1682 src/dialogs/renderwidget.cpp:1785
+#: src/dialogs/renderwidget.cpp:1689 src/dialogs/renderwidget.cpp:1792
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -22943,87 +22943,87 @@ msgstr[1] "%1 дня "
 msgstr[2] "%1 дней "
 msgstr[3] "%1 день "
 
-#: src/dialogs/renderwidget.cpp:1694
+#: src/dialogs/renderwidget.cpp:1701
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 @ %2 кадров/с)"
 
-#: src/dialogs/renderwidget.cpp:1716
+#: src/dialogs/renderwidget.cpp:1723
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Объём оставшейся доступной памяти менее %1МБ."
 
-#: src/dialogs/renderwidget.cpp:1787
+#: src/dialogs/renderwidget.cpp:1794
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Сборка завершена за %1"
 
-#: src/dialogs/renderwidget.cpp:1799
+#: src/dialogs/renderwidget.cpp:1806
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Сборка %1 завершена за %2"
 
-#: src/dialogs/renderwidget.cpp:1802
+#: src/dialogs/renderwidget.cpp:1809
 #, fuzzy, kde-format
 #| msgid "Rendering of %1 finished in %2"
 msgid "First pass rendering of %1 finished"
 msgstr "Сборка %1 завершена за %2"
 
-#: src/dialogs/renderwidget.cpp:1825
+#: src/dialogs/renderwidget.cpp:1832
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Во время сборки произошёл сбой</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1827
+#: src/dialogs/renderwidget.cpp:1834
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Во время сборки %1 произошёл сбой</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1894 src/ui/renderwidget_ui.ui:923
+#: src/dialogs/renderwidget.cpp:1901 src/ui/renderwidget_ui.ui:923
 #, kde-format
 msgid "Abort Job"
 msgstr "Прервать задание"
 
-#: src/dialogs/renderwidget.cpp:1897
+#: src/dialogs/renderwidget.cpp:1904
 #, kde-format
 msgid "Remove Job"
 msgstr "Удалить задание"
 
-#: src/dialogs/renderwidget.cpp:2367
+#: src/dialogs/renderwidget.cpp:2393
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Добавить клипы на монтажный стол перед сборкой"
 
-#: src/dialogs/renderwidget.cpp:2374
+#: src/dialogs/renderwidget.cpp:2400
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 "Место для сохранения результатов недоступно для записи, выберите другое"
 
-#: src/dialogs/renderwidget.cpp:2377
+#: src/dialogs/renderwidget.cpp:2403
 #, fuzzy, kde-format
 #| msgid "Your project profile is invalid, rendering might fail."
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Недопустимый профиль проекта, возможен сбой во время сборки."
 
-#: src/dialogs/renderwidget.cpp:2380
+#: src/dialogs/renderwidget.cpp:2406
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2390
+#: src/dialogs/renderwidget.cpp:2416
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Длина собранного файла: %1"
 
-#: src/dialogs/renderwidget.cpp:2393
+#: src/dialogs/renderwidget.cpp:2419
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, fuzzy, kde-format
 msgid "Timecode Offset:"
 msgstr "Смещение времени:"
 
-#: src/dialogs/renderwidget.cpp:2398
+#: src/dialogs/renderwidget.cpp:2424
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -23032,7 +23032,7 @@ msgstr[1] "<b>В проекте используются %1 отсутствую
 msgstr[2] "<b>В проекте используются %1 отсутствующих клипов.</b>"
 msgstr[3] "<b>В проекте используется один отсутствующий клип.</b>"
 
-#: src/dialogs/renderwidget.cpp:2400
+#: src/dialogs/renderwidget.cpp:2426
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -23041,12 +23041,12 @@ msgstr[1] "%1 отсутствующих клипа (не используютс
 msgstr[2] "%1 отсутствующих клипов (не используются)."
 msgstr[3] "Один отсутствующий клип (не используется)."
 
-#: src/dialogs/renderwidget.cpp:2402
+#: src/dialogs/renderwidget.cpp:2428
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Отсутствующих клипов: %1 (<b>используются в проекте: %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:2532
+#: src/dialogs/renderwidget.cpp:2558
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -23055,12 +23055,12 @@ msgstr ""
 "Параметры скорости кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2552
+#: src/dialogs/renderwidget.cpp:2578
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Добавить в текущий проект"
 
-#: src/dialogs/renderwidget.cpp:2561
+#: src/dialogs/renderwidget.cpp:2587
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -24472,7 +24472,7 @@ msgstr "Кадровая частота:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:971
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1402
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -25005,28 +25005,28 @@ msgid "Cannot move first source keyframe before clip start"
 msgstr ""
 "Не удалось разместить первый исходный ключевой кадр перед началом клипа"
 
-#: src/dialogs/timeremap.cpp:1603 src/dialogs/timeremap.cpp:1628
+#: src/dialogs/timeremap.cpp:1604 src/dialogs/timeremap.cpp:1629
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
 "Вставляет ключевой кадр в текущую позицию указателя воспроизведения/кадр."
 
-#: src/dialogs/timeremap.cpp:1606
+#: src/dialogs/timeremap.cpp:1607
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr ""
 "Перемещает указатель воспроизведения к следующему ключевому кадру вправо."
 
-#: src/dialogs/timeremap.cpp:1609
+#: src/dialogs/timeremap.cpp:1610
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr ""
 "Перемещает указатель воспроизведения к следующему ключевому кадру влево."
 
-#: src/dialogs/timeremap.cpp:1614 src/dialogs/timeremap.cpp:1616
+#: src/dialogs/timeremap.cpp:1615 src/dialogs/timeremap.cpp:1617
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
@@ -25034,18 +25034,18 @@ msgstr ""
 "Перемещает выбранный ключевой кадр к текущей позиции указателя "
 "воспроизведения/кадру."
 
-#: src/dialogs/timeremap.cpp:1624
+#: src/dialogs/timeremap.cpp:1625
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr "Удаляет ключевой кадр в текущей позиции указателя воспроизведения."
 
-#: src/dialogs/timeremap.cpp:1732
+#: src/dialogs/timeremap.cpp:1733
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "Переназначение времени не работает в клипе с b-кадрами"
 
-#: src/dialogs/timeremap.cpp:2072
+#: src/dialogs/timeremap.cpp:2073
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Изменить ключевые кадры переназначения времени"
@@ -29625,8 +29625,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Не найдены профили MLT, укажите путь к ним"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:163
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1408
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -29728,7 +29728,7 @@ msgstr "Введите здесь текст шаблона"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/mltcontroller/clippropertiescontroller.cpp:695
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -29737,8 +29737,8 @@ msgstr "Соотношение сторон пиксела:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:707
-#: src/mltcontroller/clippropertiescontroller.cpp:1391
-#: src/mltcontroller/clippropertiescontroller.cpp:1396
+#: src/mltcontroller/clippropertiescontroller.cpp:1392
+#: src/mltcontroller/clippropertiescontroller.cpp:1397
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -29747,7 +29747,7 @@ msgstr "Кадровая частота:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1402
 #: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -29757,7 +29757,7 @@ msgstr "Построчно"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:712
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1402
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
@@ -29830,231 +29830,231 @@ msgstr "Цветовой диапазон:"
 msgid "File uses a variable frame rate, not recommended"
 msgstr "В файле используется переменная кадровая частота, не рекомендуется"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:848
+#: src/mltcontroller/clippropertiescontroller.cpp:849
 #, kde-format
 msgid "Disable audio"
 msgstr "Отключить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:848
+#: src/mltcontroller/clippropertiescontroller.cpp:849
 #, kde-format
 msgid "Enable audio"
 msgstr "Включить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:856
+#: src/mltcontroller/clippropertiescontroller.cpp:857
 #: src/monitor/monitor.cpp:314
 #, kde-format
 msgid "Audio streams"
 msgstr "Звуковые потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:878
+#: src/mltcontroller/clippropertiescontroller.cpp:879
 #: src/monitor/monitor.cpp:2240
 #, kde-format
 msgid "Merge all streams"
 msgstr "Объединить все потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1033
+#: src/mltcontroller/clippropertiescontroller.cpp:1034
 #, kde-format
 msgid "Copy channel:"
 msgstr "Копировать канал:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1034
+#: src/mltcontroller/clippropertiescontroller.cpp:1035
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1064
+#: src/mltcontroller/clippropertiescontroller.cpp:1065
 #, kde-format
 msgid "Gain:"
 msgstr "Усиление:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1091
+#: src/mltcontroller/clippropertiescontroller.cpp:1092
 #, kde-format
 msgid "Audio sync:"
 msgstr "Синхронизация звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1093
+#: src/mltcontroller/clippropertiescontroller.cpp:1094
 #, kde-format
 msgid "ms"
 msgstr "мс"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1142
+#: src/mltcontroller/clippropertiescontroller.cpp:1143
 #, kde-format
 msgid "Analysis data"
 msgstr "Данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1145
+#: src/mltcontroller/clippropertiescontroller.cpp:1146
 #, kde-format
 msgid "Delete analysis"
 msgstr "Удалить данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1146
+#: src/mltcontroller/clippropertiescontroller.cpp:1147
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Удаляет набор(ы) данных."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1147
+#: src/mltcontroller/clippropertiescontroller.cpp:1148
 #, kde-format
 msgid "Export analysis…"
 msgstr "Экспорт данных анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1148
+#: src/mltcontroller/clippropertiescontroller.cpp:1149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "Открывает диалоговое окно для экспорта/сохранения данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1149
+#: src/mltcontroller/clippropertiescontroller.cpp:1150
 #, kde-format
 msgid "Import analysis…"
 msgstr "Импорт данных анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1150
+#: src/mltcontroller/clippropertiescontroller.cpp:1151
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "Открывает диалоговое окно для импорта/загрузки данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1220
-#: src/mltcontroller/clippropertiescontroller.cpp:1545
+#: src/mltcontroller/clippropertiescontroller.cpp:1221
+#: src/mltcontroller/clippropertiescontroller.cpp:1546
 #, kde-format
 msgid "Tracks:"
 msgstr "Дорожки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #, kde-format
 msgid "Frame size:"
 msgstr "Размер кадра:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
+#: src/mltcontroller/clippropertiescontroller.cpp:1408
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Битовый поток видео:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1414
+#: src/mltcontroller/clippropertiescontroller.cpp:1415
 #, kde-format
 msgid "Video codec:"
 msgstr "Кодек видео:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1420
+#: src/mltcontroller/clippropertiescontroller.cpp:1421
 #, kde-format
 msgid "Pixel format:"
 msgstr "Формат пиксела:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1424
+#: src/mltcontroller/clippropertiescontroller.cpp:1425
 #: src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Цветовое пространство:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1428
+#: src/mltcontroller/clippropertiescontroller.cpp:1429
 #, kde-format
 msgid "B frames:"
 msgstr "B-кадры:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1428
+#: src/mltcontroller/clippropertiescontroller.cpp:1429
 #, kde-format
 msgid "Yes"
 msgstr "Да"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1428
+#: src/mltcontroller/clippropertiescontroller.cpp:1429
 #, kde-format
 msgid "No"
 msgstr "Нет"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1441
+#: src/mltcontroller/clippropertiescontroller.cpp:1442
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Каналы звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1446
+#: src/mltcontroller/clippropertiescontroller.cpp:1447
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Частота звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1446
+#: src/mltcontroller/clippropertiescontroller.cpp:1447
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Гц"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1452
+#: src/mltcontroller/clippropertiescontroller.cpp:1453
 #, kde-format
 msgid "Audio codec:"
 msgstr "Кодек звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Битовый поток звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1474
+#: src/mltcontroller/clippropertiescontroller.cpp:1475
 #, kde-format
 msgid "File size:"
 msgstr "Размер файла:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1500
+#: src/mltcontroller/clippropertiescontroller.cpp:1501
 #, kde-format
 msgid "Image size:"
 msgstr "Размер изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1503
+#: src/mltcontroller/clippropertiescontroller.cpp:1504
 #, kde-format
 msgid "Image duration:"
 msgstr "Длительность изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1510
+#: src/mltcontroller/clippropertiescontroller.cpp:1511
 #, kde-format
 msgid "Image count:"
 msgstr "Количество изображений:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1530
+#: src/mltcontroller/clippropertiescontroller.cpp:1531
 #, fuzzy, kde-format
 msgid "Video streams:"
 msgstr "Видеопоток"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1538
+#: src/mltcontroller/clippropertiescontroller.cpp:1539
 #, kde-format
 msgid "Audio streams:"
 msgstr "Звуковые потоки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1726
+#: src/mltcontroller/clippropertiescontroller.cpp:1727
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1753
+#: src/mltcontroller/clippropertiescontroller.cpp:1754
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1794
+#: src/mltcontroller/clippropertiescontroller.cpp:1795
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Сохранение данных анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1795
-#: src/mltcontroller/clippropertiescontroller.cpp:1808
+#: src/mltcontroller/clippropertiescontroller.cpp:1796
+#: src/mltcontroller/clippropertiescontroller.cpp:1809
 #: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Текстовый файл (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1807
+#: src/mltcontroller/clippropertiescontroller.cpp:1808
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
