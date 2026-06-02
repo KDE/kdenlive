@@ -101,7 +101,7 @@ Rectangle {
             icon.name: "text-speak"
             width: trackHeader.collapsedHeight
             height: trackHeader.collapsedHeight
-            onClicked: timeline.triggerAction('audio_recognition')
+            onClicked: K.Core.triggerAction('audio_recognition')
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
@@ -113,7 +113,7 @@ Rectangle {
             icon.name: trackHeader.isDisabled ? "view-hidden" : "view-visible"
             width: trackHeader.collapsedHeight
             height: trackHeader.collapsedHeight
-            onClicked: timeline.triggerAction('disable_subtitle')
+            onClicked: K.Core.triggerAction('disable_subtitle')
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
@@ -126,7 +126,7 @@ Rectangle {
             height: trackHeader.collapsedHeight
             focusPolicy: Qt.NoFocus
             icon.name: trackHeader.isLocked ? "lock" : "unlock"
-            onClicked: timeline.triggerAction('lock_subtitle')
+            onClicked: K.Core.triggerAction('lock_subtitle')
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000

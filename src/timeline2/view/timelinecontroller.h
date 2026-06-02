@@ -285,9 +285,6 @@ public:
      */
     Q_INVOKABLE void deleteSelectedClips();
 
-    Q_INVOKABLE void triggerAction(const QString &name);
-    Q_INVOKABLE const QString actionText(const QString &name);
-
     /** @brief Returns id of the timeline selected clip if there is only 1 clip selected
      * or an AVSplit group. If allowComposition is true, returns composition id if
      * only 1 is selected, otherwise returns -1. If restrictToCurrentPos is true, it will

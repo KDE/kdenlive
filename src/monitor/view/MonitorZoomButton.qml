@@ -43,7 +43,7 @@ K.MonitorToolButton {
                 toolTipText: KI18n.i18n("Zoom In")
                 onClicked: {
                     zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
-                    zoomButton.monitorController.triggerAction('monitor_zoomin')
+                    K.Core.triggerAction('monitor_zoomin')
                 }
             }
             K.MonitorToolButton {
@@ -51,7 +51,7 @@ K.MonitorToolButton {
                 toolTipText: KI18n.i18n("Zoom Out")
                 onClicked: {
                     zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
-                    zoomButton.monitorController.triggerAction('monitor_zoomout')
+                    K.Core.triggerAction('monitor_zoomout')
                 }
             }
             K.MonitorToolButton {
@@ -59,7 +59,7 @@ K.MonitorToolButton {
                 toolTipText: KI18n.i18n("Reset Zoom")
                 onClicked: {
                     zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
-                    zoomButton.monitorController.triggerAction('monitor_zoomreset')
+                    K.Core.triggerAction('monitor_zoomreset')
                 }
             }
         }

@@ -178,7 +178,6 @@ Q_SIGNALS:
     void rulerHeightChanged();
     void addSnap(int);
     void removeSnap(int);
-    void triggerAction(const QString &name);
     void overlayTypeChanged();
     void showSafezoneChanged();
     void maskOpacityChanged();

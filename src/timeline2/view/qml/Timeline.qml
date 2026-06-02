@@ -232,9 +232,9 @@ Rectangle {
         if (wheel.modifiers & Qt.AltModifier) {
             // Seek to next snap
             if (wheel.angleDelta.x > 0) {
-                root.timeline.triggerAction('monitor_seek_snap_backward')
+                K.Core.triggerAction('monitor_seek_snap_backward')
             } else {
-                root.timeline.triggerAction('monitor_seek_snap_forward')
+                K.Core.triggerAction('monitor_seek_snap_forward')
             }
         } else if (wheel.modifiers & Qt.ControlModifier) {
             root.wheelAccumulatedDelta += wheel.angleDelta.y;

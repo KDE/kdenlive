@@ -105,7 +105,7 @@ Item {
                     acceptedButtons: Qt.LeftButton
                     onClicked: {
                         root.activateTrack(trackSeperatorFrame.index)
-                        root.controller.triggerAction('perform_multitrack_mode')
+                        K.Core.triggerAction('perform_multitrack_mode')
                     }
                 }
             }

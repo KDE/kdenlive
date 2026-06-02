@@ -939,16 +939,6 @@ bool TimelineController::pasteItem(int position, int tid)
     return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
 
-void TimelineController::triggerAction(const QString &name)
-{
-    pCore->triggerAction(name);
-}
-
-const QString TimelineController::actionText(const QString &name)
-{
-    return pCore->actionText(name);
-}
-
 QString TimelineController::timecode(int frames) const
 {
     return KdenliveSettings::frametimecode() ? QString::number(frames) : m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);

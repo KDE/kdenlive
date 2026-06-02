@@ -163,7 +163,7 @@ Rectangle {
                 ToolTip {
                     visible: targetMouse.hovered
                     font: K.UiUtils.smallestReadableFont
-                    text: trackHeadRoot.timeline.actionText("switch_target_stream")
+                    text: K.Core.actionText("switch_target_stream")
                 }
             }
         }

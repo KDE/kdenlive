@@ -436,9 +436,9 @@ protected:
 
 public Q_SLOTS:
     /** @brief Trigger (launch) an action by its actionCollection name */
-    void triggerAction(const QString &name);
+    Q_INVOKABLE void triggerAction(const QString &name);
     /** @brief Get an action's descriptive text by its actionCollection name */
-    const QString actionText(const QString &name);
+    Q_INVOKABLE const QString actionText(const QString &name);
     /** @brief Add an action to the app's actionCollection */
     void addActionToCollection(const QString &name, QAction *action);
     /** @brief display a user info/warning message in statusbar */

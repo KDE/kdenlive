@@ -65,7 +65,7 @@ MouseArea {
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
                 toolTipText: KI18n.i18n("Switch Full Screen")
-                onClicked: barZone.monitorController.triggerAction('monitor_fullscreen')
+                onClicked: K.Core.triggerAction('monitor_fullscreen')
             }
             K.MonitorToolButton {
                 objectName: "switchGrid"
