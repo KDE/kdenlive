@@ -113,11 +113,10 @@ Rectangle {
     signal showSubtitleClipMenu()
     signal updateTimelineMousePos(int frame, int duration)
 
-    readonly property font miniFont: K.UiUtils.smallestReadableFont
 
     FontMetrics {
         id: fontMetrics
-        font: root.miniFont
+        font: K.UiUtils.smallestReadableFont
     }
 
     onDragInProgressChanged: {
@@ -1186,7 +1185,7 @@ function getTrackColor(audio, header) {
                 height: ruler.height
                 ToolButton {
                     text: metrics.elidedText
-                    font: root.miniFont
+                    font: K.UiUtils.smallestReadableFont
                     flat: true
                     icon.name: 'tools-wizard'
                     anchors.fill: parent
@@ -1198,7 +1197,7 @@ function getTrackColor(audio, header) {
                     ToolTip.text: KI18n.i18n("Show sequence effects")
                     TextMetrics {
                         id: metrics
-                        font: root.miniFont
+                        font: K.UiUtils.smallestReadableFont
                         elide: Text.ElideRight
                         elideWidth: root.headerWidth * 0.8
                         text: root.addedSequenceName.length == 0 ? KI18n.i18n("Sequence") : root.addedSequenceName
@@ -2307,7 +2306,7 @@ function getTrackColor(audio, header) {
                                 anchors.right: parent.right
                                 anchors.rightMargin: 2
                                 anchors.top: parent.top
-                                font: root.miniFont
+                                font: K.UiUtils.smallestReadableFont
                                 color: '#FFF'
                                 onRecStateChanged: {
                                     if (recState == 1) {
@@ -2410,7 +2409,7 @@ function getTrackColor(audio, header) {
                         bottomPadding: 2
                         leftPadding: 2
                         rightPadding: 2
-                        font: root.miniFont
+                        font: K.UiUtils.smallestReadableFont
                         color: '#FFF'
                     }
                 }
@@ -2446,7 +2445,7 @@ function getTrackColor(audio, header) {
             id: bubbleHelpLabel
             color: activePalette.text //application.toolTipTextColor
             anchors.centerIn: parent
-            font: root.miniFont
+            font: K.UiUtils.smallestReadableFont
         }
         function show(x, y, text) {
             bubbleHelp.text = text
