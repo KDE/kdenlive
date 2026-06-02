@@ -1120,6 +1120,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
 
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+    // Update active Track to ensure proper vertical scrolling now that everything is built
+    polishTimelines(m_project->getTimelinesUuids());
     m_lastSave.start();
     m_project->loading = false;
     if (pCore->closing) {
@@ -1132,6 +1134,31 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     checkProjectWarnings();
     pCore->projectItemModel()->missingClipTimer.start();
     Q_EMIT pCore->loadingMessageHide();
+}
+
+void ProjectManager::polishTimelines(QList<QUuid> uuids)
+{
+    if (pCore->window()) {
+        // Ensure correct vertical scrolling pos for all timelines
+        for (auto &uid : uuids) {
+            auto tl = pCore->window()->getTimeline(uid);
+            qDebug() << ":::READY TO POLISH TIMELINE: " << uid << ", HEIGHT: " << tl->height();
+            if (tl && tl->height() > 0) {
+                int activeTrackPosition = m_project->getSequenceProperty(uid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+                if (activeTrackPosition == -2) {
+                    // Subtitle model track always has ID == -2
+                    tl->controller()->setActiveTrack(-2);
+                } else if (activeTrackPosition > -1 && activeTrackPosition < tl->model()->getTracksCount()) {
+                    // otherwise, convert the position to a track ID
+                    tl->controller()->setActiveTrack(tl->model()->getTrackIndexFromPosition(activeTrackPosition));
+                } else {
+                    qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only" << tl->model()->getTracksCount();
+                    // set it to some valid track instead
+                    tl->controller()->setActiveTrack(tl->model()->getTrackIndexFromPosition(0));
+                }
+            }
+        }
+    }
 }
 
 void ProjectManager::abortProjectLoad(const QUrl &url)
@@ -2208,21 +2235,9 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         timeline = pCore->window()->openTimeline(uuid, ix, clip->clipName(), timelineModel, openInMonitor);
     }
 
-    int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (timeline == nullptr) {
         // We are in testing mode
         return true;
-    }
-    if (activeTrackPosition == -2) {
-        // Subtitle model track always has ID == -2
-        timeline->controller()->setActiveTrack(-2);
-    } else if (activeTrackPosition > -1 && activeTrackPosition < timeline->model()->getTracksCount()) {
-        // otherwise, convert the position to a track ID
-        timeline->controller()->setActiveTrack(timeline->model()->getTrackIndexFromPosition(activeTrackPosition));
-    } else {
-        qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only" << timeline->model()->getTracksCount();
-        // set it to some valid track instead
-        timeline->controller()->setActiveTrack(timeline->model()->getTrackIndexFromPosition(0));
     }
     if (m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")).toInt() == 1) {
         // Timeline effects are disabled

@@ -252,6 +252,8 @@ public Q_SLOTS:
     void slotCopyAndCreateSequenceFromSelection();
     /** @brief Show a track effect stack. */
     void showTrackEffectStack(int tid);
+    /** @brief Final steps to be done once the timeline widget is fully build and has its final height */
+    void polishTimelines(QList<QUuid> uuids);
 
 private Q_SLOTS:
     void slotRevert();

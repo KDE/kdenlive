@@ -23,7 +23,6 @@ import 'Utils.js' as Utils
 
 Rectangle {
     id: root
-    objectName: "timelineview"
     SystemPalette { id: activePalette }
     color: activePalette.window
 
@@ -658,6 +657,10 @@ function getTrackColor(audio, header) {
     }
 
     onViewActiveTrackChanged: {
+        if (root.timeline.activeTrack === -1 || scrollView.height <= 0) {
+            return
+        }
+
         if (root.controller.isSubtitleTrack(root.timeline.activeTrack)) {
             // subtitle track
             scrollView.contentY = 0
@@ -1264,8 +1267,7 @@ function getTrackColor(audio, header) {
                     Repeater {
                         id: trackHeaderRepeater
                         model: root.multitrack
-                        property int tracksCount: count
-                        onTracksCountChanged: {
+                        onCountChanged: {
                             if (root.autoTrackHeight) {
                                 trackHeightTimer.restart()
                             }

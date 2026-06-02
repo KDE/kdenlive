@@ -2754,21 +2754,6 @@ void MainWindow::connectDocument()
     slotSwitchTimelineZone(project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
     slotUpdateProjectDuration(getCurrentTimeline()->model()->duration() - 1);
     const QUuid uuid = getCurrentTimeline()->getUuid();
-
-    int activeTrackPosition = project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
-    if (activeTrackPosition == -2) {
-        // Subtitle model track always has ID == -2
-        getCurrentTimeline()->controller()->setActiveTrack(-2);
-    } else if (activeTrackPosition > -1 && activeTrackPosition < getCurrentTimeline()->model()->getTracksCount()) {
-        // otherwise, convert the position to a track ID
-        getCurrentTimeline()->controller()->setActiveTrack(getCurrentTimeline()->model()->getTrackIndexFromPosition(activeTrackPosition));
-    } else {
-        qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only"
-                   << getCurrentTimeline()->model()->getTracksCount();
-        // set it to some valid track instead
-        getCurrentTimeline()->controller()->setActiveTrack(getCurrentTimeline()->model()->getTrackIndexFromPosition(0));
-    }
-
     m_clipMonitor->updateDocumentUuid();
     pCore->guidesList()->refreshDar();
     connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);

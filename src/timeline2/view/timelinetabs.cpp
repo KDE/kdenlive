@@ -203,6 +203,7 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
         updateWindowTitle();
         if (!m_activeTimeline->model()->isLoading) {
             pCore->bin()->sequenceActivated();
+            pCore->projectManager()->polishTimelines({m_activeTimeline->getUuid()});
         }
         // Wait a few milliseconds to allow for the qml view to display
         pCore->monitorManager()->projectMonitor()->refreshMonitorTimer.start();
@@ -330,6 +331,7 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     Q_EMIT timeline->controller()->selectionChanged();
     timeline->setEnabled(true);
     timeline->setMouseTracking(true);
+    timeline->focusTimeline();
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
