@@ -457,7 +457,7 @@ Item {
                 height: label.height
                 Text {
                     id: label
-                    text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
+                    text: compositionRoot.clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
                     font: K.UiUtils.smallestReadableFont
                     anchors {
                         top: labelRect.top

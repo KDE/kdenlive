@@ -931,51 +931,45 @@ Rectangle {
                 Repeater {
                     // Clip markers
                     id: markersContainer
-                    model: container.width > 3 * K.UiUtils.baseSizeMedium ? markers : 0
+                    model: container.width > 3 * K.UiUtils.baseSizeMedium ? clipRoot.markers : 0
                     anchors.fill: parent
                     delegate: Loader {
                         id: loader
                         required property var modelData
                         property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
                         asynchronous: true
-                        active: clipRoot.visible
+                        active: clipRoot.visible && isInside
                         Binding {
                             target: loader.item
                             property: "position"
-                            value: modelData.frame
-                            when: isInside && loader.status == Loader.Ready
+                            value: loader.modelData.frame
+                            when: loader.isInside && loader.status == Loader.Ready
                         }
                         Binding {
                             target: loader.item
                             property: "markerText"
-                            value: modelData.comment
-                            when: isInside && loader.status == Loader.Ready
+                            value: loader.modelData.comment
+                            when: loader.isInside && loader.status == Loader.Ready
                         }
                         Binding {
                             target: loader.item
                             property: "markerColor"
-                            value: modelData.color
-                            when: isInside && loader.status == Loader.Ready
+                            value: loader.modelData.color
+                            when: loader.isInside && loader.status == Loader.Ready
                         }
                         Binding {
                             target: loader.item
                             property: "hasRange"
-                            value: modelData.hasRange || false
-                            when: isInside && loader.status == Loader.Ready
+                            value: loader.modelData.hasRange || false
+                            when: loader.isInside && loader.status == Loader.Ready
                         }
                         Binding {
                             target: loader.item
                             property: "duration"
-                            value: modelData.duration || 0
-                            when: isInside && loader.status == Loader.Ready
+                            value: loader.modelData.duration || 0
+                            when: loader.isInside && loader.status == Loader.Ready
                         }
-                        sourceComponent: {
-                            if (isInside) {
-                                return markerComponent;
-                            } else {
-                                return null;
-                            }
-                        }
+                        sourceComponent: markerComponent
                     }
                 }
             }
@@ -1018,7 +1012,9 @@ Rectangle {
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipRoot.clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != K.ClipType.Color && itemType != K.ClipType.Timeline && itemType != K.ClipType.Playlist && itemType != K.ClipType.Image
+                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                                    && clipRoot.itemType != K.ClipType.Color && clipRoot.itemType != K.ClipType.Timeline
+                                    && clipRoot.itemType != K.ClipType.Playlist && clipRoot.itemType != K.ClipType.Image
                     if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
@@ -1075,7 +1071,7 @@ Rectangle {
                             if (K.Core.activeTool === K.ToolType.RippleTool) {
                                 newDuration = clipRoot.originalDuration - delta
                             } else {
-                                if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
+                                if (clipRoot.maxDuration > 0 && delta < -clipRoot.inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
                                     delta = -clipRoot.inPoint
                                 }
                                 newDuration = clipRoot.clipDuration - delta

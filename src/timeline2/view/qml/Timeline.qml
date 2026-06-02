@@ -113,7 +113,6 @@ Rectangle {
     signal showSubtitleClipMenu()
     signal updateTimelineMousePos(int frame, int duration)
 
-
     FontMetrics {
         id: fontMetrics
         font: K.UiUtils.smallestReadableFont
@@ -1818,6 +1817,9 @@ function getTrackColor(audio, header) {
                         width: rulercontainer.contentWidth
                         height: parent.height
                         timeline: root.timeline
+                        controller: root.controller
+                        monitorProxy: root.proxy
+                        guidesModel: root.guidesModel
                         K.TimelinePlayhead {
                             id: playhead
                             height: Math.round(K.UiUtils.baseSizeMedium * .8)
@@ -1869,11 +1871,13 @@ function getTrackColor(audio, header) {
                         Repeater {
                             model: root.maxSubLayer + 1
                             Rectangle {
+                                required property int index
                                 width: scrollView.width
                                 border.width: 1
                                 border.color: root.frameColor
                                 height: subtitleTrack.height / (root.maxSubLayer + 1)
-                                color: (root.controller && root.controller.isSubtitleTrack(root.timeline.activeTrack) && (root.timeline.activeSubLayer == index)) ? Qt.tint(root.getTrackColor(false, false), root.selectedTrackColor) : root.getTrackColor(false, false)
+                                color: (root.controller && root.controller.isSubtitleTrack(root.timeline.activeTrack) && (root.timeline.activeSubLayer == index))
+                                       ? Qt.tint(root.getTrackColor(false, false), root.selectedTrackColor) : root.getTrackColor(false, false)
                             }
                         }
                     }
@@ -2526,6 +2530,8 @@ function getTrackColor(audio, header) {
             subtitle: model.subtitle
             isGrabbed: model.grabbed
             subLayer: model.layer
+            timeline: root.timeline
+            controller: root.controller
         }
     }
 

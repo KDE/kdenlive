@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
@@ -350,7 +352,7 @@ Item {
                                 mouse.accepted = true
                                 root.captureRightClick = false
                                 var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                                moveControlPoint(index, positionInFrame.x / frame.width, positionInFrame.y / frame.height)
+                                root.moveControlPoint(kfrPoint.index, positionInFrame.x / frame.width, positionInFrame.y / frame.height)
                                 generateLabel.visible = true
                             }
 
@@ -378,7 +380,7 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: keyframes.length == 0 ? KI18n.i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Generating image mask") : KI18n.i18n("Generating video mask")
+        text: root.keyframes.length == 0 ? KI18n.i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? KI18n.i18n("Generating image mask") : KI18n.i18n("Generating video mask")
         visible: false
         background: Rectangle {
             color: root.keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -478,6 +480,7 @@ Item {
             anchors.fill: parent
             Rectangle {
                 id: marker
+                required property var modelData
                 property int kf: modelData + root.maskStart
                 anchors.bottom: clipMonitorRuler.bottom
                 color: 'red'
@@ -495,7 +498,7 @@ Item {
                         mouse.accepted = true
                     }
                     onClicked: {
-                        controller.position = marker.kf
+                        root.controller.position = marker.kf
                     }
                     onReleased: mouse => {
                         root.updateClickCapture()

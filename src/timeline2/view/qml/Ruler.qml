@@ -18,6 +18,10 @@ Item {
     SystemPalette { id: activePalette }
     required property K.TimelineController timeline
 
+    required property K.TimelineItemModel controller
+    required property K.MonitorProxy monitorProxy
+    required property K.MarkerSortModel guidesModel
+
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(timeline.timecode(36000)).width
     // The spacing between labels. Depends on labelSize
@@ -110,14 +114,14 @@ Item {
     // Guides
     Repeater {
         id: guidesRepeater
-        model: guidesModel
+        model: rulerRoot.guidesModel
         property int radiusSize: K.KdenliveSettings.lockedGuides ? 0 : rulerRoot.guideLabelHeight / 2
         delegate:
         Item {
             id: guideRoot
             anchors.fill: parent
             required property var model
-            property bool activated : proxy.position === model.frame
+            property bool activated : rulerRoot.monitorProxy.position === model.frame
             property bool isRangeMarker: model.hasRange
             property real markerDuration: model.duration
             property real markerEndPos: model.endPos
@@ -207,7 +211,7 @@ Item {
                             rulerRoot.timeline.moveGuideById(movingMarkerId, destFrame)
                         } else {
                             if (K.Core.activeTool !== K.ToolType.SlipTool) {
-                                proxy.position = guideRoot.model.frame
+                                rulerRoot.monitorProxy.position = guideRoot.model.frame
                             }
                         }
                         movingMarkerId = -1
@@ -217,7 +221,7 @@ Item {
                     onPositionChanged: mouse => {
                         if (pressed) {
                             var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
-                            newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                            newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                             if (newFrame != destFrame) {
                                 var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                 if (frame > -1) {
@@ -230,7 +234,7 @@ Item {
                     onDoubleClicked: rulerRoot.timeline.editGuide(guideRoot.model.frame)
                     onClicked: mouse => {
                         if (K.Core.activeTool !== K.ToolType.SlipTool) {
-                            proxy.position = guideRoot.model.frame
+                            rulerRoot.monitorProxy.position = guideRoot.model.frame
                         }
                         if (mouse.button == Qt.RightButton) {
                             root.showRulerMenu()
@@ -292,7 +296,7 @@ Item {
 
                                 var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
                                 var newStartPosition = Math.max(0, startPosition + deltaFrames)
-                                newStartPosition = controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                                newStartPosition = rulerRoot.controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 var newDuration = Math.max(1, originalEndPosition - newStartPosition)
 
                                 currentNewStartPosition = newStartPosition
@@ -379,7 +383,7 @@ Item {
                                 
                                 var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
                                 var newDuration = Math.max(1, startDuration + deltaFrames)
-                                newDuration = controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping) - startPosition
+                                newDuration = rulerRoot.controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping) - startPosition
                                 
                                 rangeSpan.width = Math.max(1, newDuration * rulerRoot.timeline.scaleFactor)
                                 
@@ -505,7 +509,7 @@ Item {
                         onPositionChanged: mouse => {
                             if (pressed) {
                                 var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
-                                newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                                newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 if (newFrame != destFrame) {
                                     var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                     if (frame > -1) {
@@ -518,7 +522,7 @@ Item {
                         onDoubleClicked: rulerRoot.timeline.editGuide(guideRoot.model.frame)
                         onClicked: mouse => {
                             if (K.Core.activeTool !== K.ToolType.SlipTool) {
-                                proxy.position = guideRoot.model.frame
+                                rulerRoot.monitorProxy.position = guideRoot.model.frame
                             }
                             if (mouse.button == Qt.RightButton) {
                                 root.showRulerMenu()
@@ -583,9 +587,9 @@ Item {
                 var pos = Math.max(mouseX, 0)
                 var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
-                    frame = controller.suggestPlayheadSnapPoint(frame, root.snapping)
+                    frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, root.snapping)
                 }
-                proxy.position = frame
+                rulerRoot.monitorProxy.position = frame
                 mouse.accepted = true
             }
         }
@@ -594,9 +598,9 @@ Item {
                 var pos = Math.max(mouseX, 0)
                 var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
-                    frame = controller.suggestPlayheadSnapPoint(frame, root.snapping)
+                    frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, root.snapping)
                 }
-                proxy.position = frame
+                rulerRoot.monitorProxy.position = frame
             }
         }
         onDoubleClicked: mouse => {

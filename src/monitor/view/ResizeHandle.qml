@@ -209,7 +209,7 @@ Rectangle {
             handle.resizeStart()
             initialMouseX = mouseX
             initialMouseY = mouseY
-            initialFrame = Qt.rect(parentFramesize.x, parentFramesize.y, parentFramesize.width, parentFramesize.height)
+            initialFrame = Qt.rect(handle.parentFramesize.x, handle.parentFramesize.y, handle.parentFramesize.width, handle.parentFramesize.height)
         }
         
         onPositionChanged: mouse => {

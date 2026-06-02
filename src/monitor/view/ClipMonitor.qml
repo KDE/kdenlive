@@ -651,7 +651,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: 1
                             color: 'steelblue'
-                            anchors.rightMargin: (parent.width - 2) * (100 - root.controller.jobsProgress[index]) / 100
+                            anchors.rightMargin: (parent.width - 2) * (100 - root.controller.jobsProgress[jobContainer.index]) / 100
                         }
                     }
                 }
@@ -673,9 +673,10 @@ Item {
             anchors.fill: parent
             // Usage bar
             Rectangle {
+                required property int index
                 anchors.top: parent.top
                 anchors.topMargin: 1
-                property point bd: root.controller.clipBoundary(model.index)
+                property point bd: root.controller.clipBoundary(index)
                 x: bd.x * root.timeScale - (clipMonitorRuler.width / root.zoomFactor * root.zoomStart)
                 width: bd.y * root.timeScale
                 height: 2

@@ -152,7 +152,7 @@ Rectangle {
         visible: hoverArea.containsMouse
         delay: 1000
         timeout: 5000
-        text: recbutton.isLocked ? KI18n.i18n("Track is locked. Cannot start Recording.") : (KI18n.i18n("Record") + timeline.getActionShortcut("audio_record"))
+        text: recbutton.isLocked ? KI18n.i18n("Track is locked. Cannot start Recording.") : (KI18n.i18n("Record") + recbutton.timeline.getActionShortcut("audio_record"))
     }
     
     // Recording Button
