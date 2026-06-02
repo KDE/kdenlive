@@ -338,7 +338,7 @@ Rectangle {
             font: K.UiUtils.smallestReadableFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            visible: root.debugmode
+            visible: K.KdenliveSettings.uiDebugMode
         }
         Label {
             id: miniTrackLabel

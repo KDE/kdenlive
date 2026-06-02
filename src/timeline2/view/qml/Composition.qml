@@ -429,7 +429,7 @@ Item {
                 color: 'magenta'
                 width: debugCid.width
                 height: debugCid.height
-                visible: root.debugmode
+                visible: K.KdenliveSettings.uiDebugMode
                 anchors.left: labelRect.right
                 Text {
                     // Composition ID text

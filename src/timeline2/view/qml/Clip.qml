@@ -1275,7 +1275,7 @@ Rectangle {
                     color: 'magenta'
                     width: debugCid.width + (2 * itemBorder.border.width)
                     height: debugCid.height
-                    visible: root.debugmode
+                    visible: K.KdenliveSettings.uiDebugMode
                     anchors.left: parent.left
                     anchors.leftMargin: clipRoot.timeremap ? debugCidRect.height : 0
                     Text {

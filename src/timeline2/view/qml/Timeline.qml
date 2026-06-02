@@ -35,7 +35,6 @@ Rectangle {
     required property K.MonitorProxy proxy
     required property K.SubtitleModel subtitleModel
 
-    property bool debugmode: K.KdenliveSettings.uiDebugMode
     property bool showClipOverlays: K.KdenliveSettings.showClipOverlays
     property bool validMenu: false
     property bool subtitleMoving: false
