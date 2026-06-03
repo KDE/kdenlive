@@ -47,6 +47,7 @@
   <name xml:lang="sl">Kdenlive</name>
   <name xml:lang="sv">Kdenlive</name>
   <name xml:lang="tr">Kdenlive</name>
+  <name xml:lang="ug">Kdenlive</name>
   <name xml:lang="uk">Kdenlive</name>
   <name xml:lang="zh-CN">Kdenlive</name>
   <name xml:lang="zh-TW">Kdenlive</name>
@@ -153,6 +154,7 @@
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
+    <p xml:lang="ug">ئىقتىدار:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="zh-CN">程序功能：</p>
     <p xml:lang="zh-TW">功能：</p>
@@ -633,6 +635,7 @@
       <caption xml:lang="sl">Temna tema</caption>
       <caption xml:lang="sv">Mörkt tema</caption>
       <caption xml:lang="tr">Koyu tema</caption>
+      <caption xml:lang="ug">قاراڭغۇ ئۆرنەك</caption>
       <caption xml:lang="uk">Темна тема</caption>
       <caption xml:lang="zh-CN">深色主题</caption>
       <caption xml:lang="zh-TW">暗色主題</caption>
@@ -667,6 +670,7 @@
       <caption xml:lang="sl">Privzeti vmesnik</caption>
       <caption xml:lang="sv">Standardgränssnitt</caption>
       <caption xml:lang="tr">Öntanımlı arayüz</caption>
+      <caption xml:lang="ug">كۆڭۈلدىكى ئارايۈز</caption>
       <caption xml:lang="uk">Типовий інтерфейс</caption>
       <caption xml:lang="zh-CN">默认界面</caption>
       <caption xml:lang="zh-TW">預設介面</caption>
@@ -702,6 +706,7 @@
       <caption xml:lang="sl">Korekcija barv</caption>
       <caption xml:lang="sv">Färgkorrektion</caption>
       <caption xml:lang="tr">Renk düzeltmesi</caption>
+      <caption xml:lang="ug">رەڭ تۈزىتىش</caption>
       <caption xml:lang="uk">Виправлення кольорів</caption>
       <caption xml:lang="zh-CN">色彩校正</caption>
       <caption xml:lang="zh-TW">顏色校正</caption>
