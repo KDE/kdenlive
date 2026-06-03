@@ -1142,7 +1142,6 @@ void ProjectManager::polishTimelines(QList<QUuid> uuids)
         // Ensure correct vertical scrolling pos for all timelines
         for (auto &uid : uuids) {
             auto tl = pCore->window()->getTimeline(uid);
-            qDebug() << ":::READY TO POLISH TIMELINE: " << uid << ", HEIGHT: " << tl->height();
             if (tl && tl->height() > 0) {
                 int activeTrackPosition = m_project->getSequenceProperty(uid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
                 if (activeTrackPosition == -2) {
