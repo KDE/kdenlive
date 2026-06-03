@@ -37,7 +37,6 @@ Item {
     property double sourcedar : 1
     property double offsetx : 0
     property double offsety : 0
-    property double frameSize: 10
     property int duration: 300
     property double timeScale: 1
     property int mouseRulerPos: 0

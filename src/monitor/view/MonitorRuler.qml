@@ -25,6 +25,7 @@ Rectangle {
     property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
     // The scroll factor on seek
     property int seekOffset: K.UiUtils.baseSizeMedium * 0.7
+    property double tickDistance: 10
     
     property int playheadPosition: monitorController.position
     SystemPalette { id: activePalette }
@@ -125,7 +126,7 @@ Rectangle {
         ruler.color = activePalette.base
         // Enforce repaint
         rulerTicks.model = 0
-        rulerTicks.model = ruler.rulerZoomWidth / root.frameSize + 2
+        rulerTicks.model = ruler.rulerZoomWidth / ruler.tickDistance + 2
         playhead.color = activePalette.windowText
     }
 
@@ -136,31 +137,31 @@ Rectangle {
         var displayedLength = root.duration * root.zoomFactor / projectFps;
         if (displayedLength < 3 ) {
             // 1 frame tick
-            root.frameSize = root.timeScale
+            ruler.tickDistance = root.timeScale
         } else if (displayedLength < 30) {
             // 1 second tick
-            root.frameSize = projectFps * root.timeScale
+            ruler.tickDistance = projectFps * root.timeScale
         } else if (displayedLength < 150) {
             // 5 second tick
-            root.frameSize = 5 * projectFps * root.timeScale
+            ruler.tickDistance = 5 * projectFps * root.timeScale
         } else if (displayedLength < 300) {
             // 10 second tick
-            root.frameSize = 10 * projectFps * root.timeScale
+            ruler.tickDistance = 10 * projectFps * root.timeScale
         } else if (displayedLength < 900) {
             // 30 second tick
-            root.frameSize = 30 * projectFps * root.timeScale
+            ruler.tickDistance = 30 * projectFps * root.timeScale
         } else if (displayedLength < 1800) {
             // 1 min. tick
-            root.frameSize = 60 * projectFps * root.timeScale
+            ruler.tickDistance = 60 * projectFps * root.timeScale
         } else if (displayedLength < 9000) {
             // 5 min tick
-            root.frameSize = 300 * projectFps * root.timeScale
+            ruler.tickDistance = 300 * projectFps * root.timeScale
         } else if (displayedLength < 18000) {
             // 10 min tick
-            root.frameSize = 600 * projectFps * root.timeScale
+            ruler.tickDistance = 600 * projectFps * root.timeScale
         } else {
             // 30 min tick
-            root.frameSize = 18000 * projectFps * root.timeScale
+            ruler.tickDistance = 18000 * projectFps * root.timeScale
         }
     }
 
@@ -190,10 +191,10 @@ Rectangle {
     // frame ticks
     Repeater {
         id: rulerTicks
-        model: ruler.width / root.frameSize + 2
+        model: ruler.width / ruler.tickDistance + 2
         Rectangle {
             required property int index
-            x: index * root.frameSize - (ruler.rulerZoomOffset % root.frameSize)
+            x: index * ruler.tickDistance - (ruler.rulerZoomOffset % ruler.tickDistance)
             anchors.bottom: ruler.bottom
             height: (index % 5) ? ruler.height / 4 : ruler.height / 2
             width: 1

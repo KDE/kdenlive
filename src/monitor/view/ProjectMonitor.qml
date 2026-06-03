@@ -43,7 +43,6 @@ Item {
     property double offsety : 0
     property int duration: 300
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
     property int overlayType: root.controller.overlayType
     property bool isClipMonitor: false

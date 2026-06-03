@@ -58,7 +58,6 @@ Item {
     property string clipName: controller.clipName
     property int duration: 300 // last selectable frame of the timecode display
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
     property int overlayType: controller.overlayType
     property bool isClipMonitor: true

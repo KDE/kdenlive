@@ -45,7 +45,6 @@ Item {
     property int requestedKeyFrame
     property int duration: 300
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
     property var centerPoints: []
     signal effectPolygonChanged()
