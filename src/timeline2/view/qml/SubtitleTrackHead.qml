@@ -5,6 +5,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
@@ -17,10 +19,15 @@ Rectangle {
     id: trackHeader
     border.color: frameColor
     border.width: 1
+
+    required property K.TimelineController timeline
+    required property K.TimelineItemModel controller
     required property int collapsedHeight
     required property bool collapsed
     required property bool isDisabled
     required property bool isLocked
+
+    SystemPalette { id: activePalette }
 
     function animateLock() {
         flashLock.restart();
@@ -31,7 +38,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            timeline.activeTrack = -2
+            trackHeader.timeline.activeTrack = -2
         }
     }
     ToolButton {
@@ -52,8 +59,8 @@ Rectangle {
     }
     ComboBox {
         id: subLabel
-        model: timeline.subtitlesList
-        property int subIndex: timeline.activeSubPosition
+        model: trackHeader.timeline.subtitlesList
+        property int subIndex: trackHeader.timeline.activeSubPosition
         onSubIndexChanged: {
             subLabel.currentIndex = subIndex
         }
@@ -63,7 +70,7 @@ Rectangle {
         visible: (subtitleTrack.visible && subtitleTrack.height !== trackHeader.collapsedHeight)
         flat: true
         onActivated: index => {
-            timeline.subtitlesMenuActivatedAsync(index)
+            trackHeader.timeline.subtitlesMenuActivatedAsync(index)
         }
     }
 
@@ -79,7 +86,7 @@ Rectangle {
             icon.name: "data-warning"
             width: trackHeader.collapsedHeight
             height: trackHeader.collapsedHeight
-            onClicked: timeline.subtitlesWarningDetails()
+            onClicked: trackHeader.timeline.subtitlesWarningDetails()
             ToolTip {
                 visible: warningButton.hovered
                 font: K.UiUtils.smallestReadableFont
@@ -158,6 +165,7 @@ Rectangle {
             id: subLayerRepeater
             delegate: Rectangle {
                 id: layerLabel
+                required property int index
                 height: trackHeader.height / subLayerRepeater.count
                 width: subtitleLayerIndicator.width
                 color: subtitleLayerIndicator.bgColor
@@ -165,7 +173,7 @@ Rectangle {
                 Text {
                     id: name
                     font: K.UiUtils.smallestReadableFont
-                    text: "S" + index
+                    text: "S" + layerLabel.index
                     color: activePalette.text
                     anchors.centerIn: layerLabel
                 }

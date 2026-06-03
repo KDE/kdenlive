@@ -251,13 +251,13 @@ Rectangle {
             return clipRoot.tagColor
         }
         if (itemType === K.ClipType.Text) {
-            return titleColor
+            return clipRoot.timeline.titleColor
         }
         if (itemType === K.ClipType.Image) {
-            return imageColor
+            return clipRoot.timeline.imageColor
         }
         if (itemType === K.ClipType.SlideShow) {
-            return slideshowColor
+            return clipRoot.timeline.slideshowColor
         }
         if (itemType === K.ClipType.Color) {
             var color = clipResource.substring(clipResource.length - 9)
@@ -266,7 +266,7 @@ Rectangle {
             }
             return '#' + color.substring(color.length - 8, color.length - 2)
         }
-        return isAudio? root.audioColor : root.videoColor
+        return isAudio? clipRoot.timeline.audioColor : clipRoot.timeline.videoColor
     }
 
     property bool noThumbs: (isAudio || itemType === K.ClipType.Color || mltService === '')
@@ -443,11 +443,11 @@ Rectangle {
                 }
 
                 if (clipRoot.selected) {
-                    return root.selectionColor
+                    return clipRoot.timeline.selectionColor
                 }
 
                 if (clipRoot.grouped) {
-                    return root.groupColor
+                    return clipRoot.timeline.groupColor
                 }
 
                 return clipRoot.borderColor
@@ -512,7 +512,7 @@ Rectangle {
                     property bool mixSelected: root.selectedMix == clipRoot.clipId
                     anchors.fill: parent
                     visible: clipRoot.mixDuration > 0
-                    color: mixSelected ? Qt.rgba(root.selectionColor.r, root.selectionColor.g, root.selectionColor.b, 0.5) : "transparent"
+                    color: mixSelected ? Qt.rgba(clipRoot.timeline.selectionColor.r, clipRoot.timeline.selectionColor.g, clipRoot.timeline.selectionColor.b, 0.5) : "transparent"
                     Loader {
                         active: mixBackground.visible && container.handleVisible && mixContainer.width > 2 * K.UiUtils.baseSizeMedium
                         asynchronous: true
@@ -521,7 +521,7 @@ Rectangle {
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
-                    border.color: mixSelected ? root.selectionColor : "white"
+                    border.color: mixSelected ? clipRoot.timeline.selectionColor : "white"
                     border.width: clipRoot.mixDuration > 0 ? 2 : 0
                     radius: 3
                     Rectangle {
@@ -578,7 +578,7 @@ Rectangle {
                         drag.minimumX: (clipRoot.mixDuration - clipRoot.mixCut) * clipRoot.timeScale
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
-                        onPressed: {
+                        onPressed: (mouse) => {
                             if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                 mouse.accepted = false
                                 return
@@ -1535,7 +1535,7 @@ Rectangle {
                 name: 'locked'
                 when: clipRoot.isLocked === true
                 PropertyChanges {
-                    clipRoot.color: root.lockedColor
+                    clipRoot.color: clipRoot.timeline.lockedColor
                     clipRoot.opacity: 0.8
                     clipRoot.z: 0
                 }
@@ -1878,7 +1878,7 @@ Rectangle {
         }
         Item {
             id: slipControler
-            property color color: clipRoot.timeline.trimmingMainClip === clipRoot.clipId ? root.selectionColor : activePalette.highlight
+            property color color: clipRoot.timeline.trimmingMainClip === clipRoot.clipId ? clipRoot.timeline.selectionColor : activePalette.highlight
             anchors.bottom: container.bottom
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale

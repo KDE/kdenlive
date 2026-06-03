@@ -246,6 +246,9 @@ Item {
                     timeScale: trackRoot.timeline.scaleFactor
                     displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (K.UiUtils.baseSizeMedium * 2))
 
+                    timeline: trackRoot.timeline
+                    controller: trackRoot.controller
+
                     clipId: itemOnTrack.model.item
                     trackId: itemOnTrack.model.trackId
                     fakeTid: itemOnTrack.model.fakeTrackId

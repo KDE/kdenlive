@@ -278,7 +278,7 @@ Item {
             background: Rectangle {
                 color: root.subtitlesLocked ? "#ff6666" : enabled ? "#fff" : '#ccccff'
                 border {
-                    color: subtitleRoot.selected ? root.selectionColor : "#000"
+                    color: subtitleRoot.selected ? subtitleRoot.timeline.selectionColor : "#000"
                     width: subtitleRoot.isGrabbed ? 8 : 2
                 }
             }

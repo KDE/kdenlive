@@ -538,12 +538,6 @@ function getTrackColor(audio, header) {
     property int duration: root.timeline.duration
     property color audioColor: root.timeline.audioColor
     property color videoColor: root.timeline.videoColor
-    property color titleColor: root.timeline.titleColor
-    property color imageColor: root.timeline.imageColor
-    property color slideshowColor: root.timeline.slideshowColor
-    property color lockedColor: root.timeline.lockedColor
-    property color selectionColor: root.timeline.selectionColor
-    property color groupColor: root.timeline.groupColor
     property int doubleClickInterval: root.timeline.doubleClickInterval()
     property int mainItemId: -1
     property int clickFrame: -1
@@ -561,7 +555,8 @@ function getTrackColor(audio, header) {
     property int spacerClickFrame: -1
     property bool spacerGuides: false
     property real timeScale: root.timeline.scaleFactor
-    property int snapping: (K.KdenliveSettings.snaptopoints && (root.timeScale < 2 * K.UiUtils.baseSizeMedium)) ? Math.floor(K.UiUtils.baseSizeMedium / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
+    property int snapping: (K.KdenliveSettings.snaptopoints && (root.timeScale < 2 * K.UiUtils.baseSizeMedium)) ?
+                               Math.floor(K.UiUtils.baseSizeMedium / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
     property var timelineSelection: root.timeline.selection
     property int selectedMix: root.timeline.selectedMix
     property var selectedGuides: []
@@ -1255,6 +1250,8 @@ function getTrackColor(audio, header) {
                     id: subtitleTrackHeader
                     width: trackHeaders.width
                     height: subtitleTrack.height
+                    timeline: root.timeline
+                    controller: root.controller
                     isDisabled: root.subtitlesDisabled
                     isLocked: root.subtitlesLocked
                     collapsedHeight: root.collapsedHeight

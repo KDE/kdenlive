@@ -22,6 +22,11 @@ Item {
     required property K.MonitorProxy monitorProxy
     required property K.MarkerSortModel guidesModel
 
+    FontMetrics {
+        id: fontMetrics
+        font: K.UiUtils.smallestReadableFont
+    }
+
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(timeline.timecode(36000)).width
     // The spacing between labels. Depends on labelSize
@@ -32,7 +37,6 @@ Item {
     property int workingPreview : timeline.workingPreview
     property int timecodeOffset : timeline.timecodeOffset
     property int labelMod: 1
-    property bool useTimelineRuler : timeline.useRuler
     property int zoneHeight: Math.ceil(K.UiUtils.baseSizeMedium / 2) + 1
     property bool showZoneLabels: false
     property bool resizeActive: false // Used to decide which mouse cursor we should display
@@ -620,6 +624,7 @@ Item {
     RulerZone {
         id: zone
         z: 3
+        timeline: rulerRoot.timeline
         Binding {
             target: zone
             property: "frameIn"
@@ -630,7 +635,7 @@ Item {
             property: "frameOut"
             value: rulerRoot.timeline.zoneOut
         }
-        color: rulerRoot.useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
+        color: rulerRoot.timeline.useRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
         Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
         anchors.bottom: parent.bottom
         height: rulerRoot.zoneHeight
@@ -658,6 +663,7 @@ Item {
     RulerZone {
         id: effectZone
         z: 2
+        timeline: rulerRoot.timeline
         Binding {
             target: effectZone
             property: "frameIn"
