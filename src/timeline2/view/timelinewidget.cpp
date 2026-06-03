@@ -23,7 +23,6 @@
 #include "monitor/monitorproxy.h"
 #include "monitormanager.h"
 #include "project/dialogs/guideslist.h"
-#include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
 
 #include <QAction>
@@ -39,12 +38,11 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
-TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
-    : QQuickWidget(parent)
+TimelineWidget::TimelineWidget(const QUuid uuid, QQmlEngine *engine, QWidget *parent)
+    : QQuickWidget(engine, parent)
     , timelineController(this)
     , m_uuid(uuid)
 {
-    KLocalization::setupLocalizedContext(engine());
     setClearColor(palette().window().color());
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -183,7 +181,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
                           {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("Timeline"));
 
-    engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));

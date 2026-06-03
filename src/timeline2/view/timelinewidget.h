@@ -21,7 +21,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(const QUuid uuid, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(const QUuid uuid, QQmlEngine *engine, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
