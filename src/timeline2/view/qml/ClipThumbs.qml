@@ -3,11 +3,13 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Row {
     id: thumbRow
@@ -15,10 +17,10 @@ Row {
     visible: !isAudio
     clip: true
     property real initialSpeed: 1
-    opacity: clipState === Kdenlive.PlaylistState.Disabled ? 0.2 : 1
-    property bool fixedThumbs: clipRoot.itemType === Kdenlive.ClipType.Image || clipRoot.itemType === Kdenlive.ClipType.Text || clipRoot.itemType === Kdenlive.ClipType.TextTemplate
-    property int thumbWidth: container.height * root.dar
-    property bool enableCache: clipRoot.itemType === Kdenlive.ClipType.Video || clipRoot.itemType === Kdenlive.ClipType.AV
+    opacity: clipState === K.PlaylistState.Disabled ? 0.2 : 1
+    property bool fixedThumbs: clipRoot.itemType === K.ClipType.Image || clipRoot.itemType === K.ClipType.Text || clipRoot.itemType === K.ClipType.TextTemplate
+    property int thumbWidth: container.height * K.Core.getCurrentDar()
+    property bool enableCache: clipRoot.itemType === K.ClipType.Video || clipRoot.itemType === K.ClipType.AV
 
     Repeater {
         id: thumbRepeater
@@ -60,14 +62,16 @@ Row {
                                                   : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -thumbRow.initialSpeed - 1)
 
         Image {
+            id: thumbImage
+            required property int index
             width: thumbRepeater.imageWidth
             height: container.height
             fillMode: Image.PreserveAspectFit
             asynchronous: true
-            cache: enableCache
+            cache: thumbRow.enableCache
             //sourceSize.width: width
             //sourceSize.height: height
-            property int currentFrame: fixedThumbs
+            property int currentThumbFrame: thumbRow.fixedThumbs
                                        ? 0
                                        : thumbRepeater.count < 3
                                          ? (index === 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame)
@@ -76,8 +80,8 @@ Row {
                                  ? (index === 0 ? Image.AlignLeft : Image.AlignRight)
                                  : Image.AlignLeft
             source: thumbRepeater.count < 3
-                    ? (clipRoot.baseThumbPath + currentFrame)
-                    : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentFrame
+                    ? (clipRoot.baseThumbPath + currentThumbFrame)
+                    : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentThumbFrame
             onStatusChanged: {
                 if (status === Image.Ready && (index === 0  || index === thumbRepeater.count - 1)) {
                     thumbPlaceholder.source = source
@@ -85,9 +89,9 @@ Row {
             }
             Image {
                 id: thumbPlaceholder
-                visible: parent.status != Image.Ready && (index === 0  || index === thumbRepeater.count - 1)
+                visible: parent.status != Image.Ready && (thumbImage.index === 0  || thumbImage.index === thumbRepeater.count - 1)
                 anchors.left: parent.left
-                anchors.leftMargin: index < thumbRepeater.count - 1 ? 0 : parent.width - thumbRow.thumbWidth - 1
+                anchors.leftMargin: thumbImage.index < thumbRepeater.count - 1 ? 0 : parent.width - thumbRow.thumbWidth - 1
                 width: parent.width
                 height: parent.height
                 horizontalAlignment: Image.AlignLeft
@@ -97,7 +101,7 @@ Row {
             Rectangle {
                 visible: thumbRepeater.count < 3
                 anchors.left: parent.left
-                anchors.leftMargin: index === 0 ? thumbRow.thumbWidth: parent.width - thumbRow.thumbWidth - 1
+                anchors.leftMargin: thumbImage.index === 0 ? thumbRow.thumbWidth: parent.width - thumbRow.thumbWidth - 1
                 color: clipRoot.color.darker()
                 width: 2
                 height: parent.height

@@ -175,7 +175,7 @@ public:
     /** @brief Returns Sample Aspect Ratio of current profile */
     double getCurrentSar() const;
     /** @brief Returns Display Aspect Ratio of current profile */
-    double getCurrentDar() const;
+    Q_INVOKABLE double getCurrentDar() const;
 
     /** @brief Returns frame rate of current profile */
     Q_INVOKABLE double getCurrentFps() const;

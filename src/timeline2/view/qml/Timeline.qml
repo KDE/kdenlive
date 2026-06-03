@@ -579,7 +579,7 @@ function getTrackColor(audio, header) {
     property double dar: 16/9
     property bool paletteUnchanged: true
     property int maxLabelWidth: 20 * K.UiUtils.baseSizeMedium * Math.sqrt(root.timeScale)
-    property bool showSubtitles: false
+    property bool showSubtitles: K.KdenliveSettings.showSubtitles
     property bool subtitlesWarning: root.timeline.subtitlesWarning
     property bool subtitlesLocked: root.timeline.subtitlesLocked
     property bool subtitlesDisabled: root.timeline.subtitlesDisabled

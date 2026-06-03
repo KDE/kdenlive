@@ -188,7 +188,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
     connect(&timelineController, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
-    rootObject()->setProperty("dar", pCore->getCurrentDar());
     connect(rootObject(), SIGNAL(showClipMenu(int)), this, SLOT(showClipMenu(int)));
     connect(rootObject(), SIGNAL(showMixMenu(int)), this, SLOT(showMixMenu(int)));
     connect(rootObject(), SIGNAL(showCompositionMenu()), this, SLOT(showCompositionMenu()));
@@ -559,7 +558,6 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
         return;
     }
 
-    rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
     if (firstConnect) {
         rootObject()->setProperty("subtitleModel", QVariant::fromValue(model()->getSubtitleModel().get()));
         QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
