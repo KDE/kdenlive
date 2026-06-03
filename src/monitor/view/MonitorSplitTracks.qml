@@ -37,7 +37,6 @@ Item {
     property double offsetx : 0
     property double offsety : 0
     property int activeTrack: 0
-    onSourcedarChanged: refreshdar()
     property int requestedKeyFrame
     property int duration: 300
     property int mouseRulerPos: 0
