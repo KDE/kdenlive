@@ -7,19 +7,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "definitions.h"
 #include "jobs/taskmanager.h"
-#include "kdenlivecore_export.h"
-#include "layouts/layoutinfo.h"
 #include "undohelper.hpp"
 #include "utils/timecode.h"
 
 #include <KSharedDataCache>
 
 #include <QColor>
+#include <QEventLoop>
 #include <QMutex>
 #include <QObject>
 #include <QPoint>
+#include <QQmlEngine>
 #include <QTextEdit>
 #include <QThreadPool>
+#include <QTimer>
 #include <QUrl>
 
 #include <memory>
@@ -69,6 +70,10 @@ class Producer;
 class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+
+    Q_PROPERTY(ToolType::ProjectTool activeTool READ activeTool NOTIFY activeToolChanged FINAL)
 
 public:
     friend class KdenliveDoc;
@@ -77,6 +82,8 @@ public:
     Core &operator=(const Core &) = delete;
     Core(Core &&) = delete;
     Core &operator=(Core &&) = delete;
+    static Core *create(QQmlEngine *, QJSEngine *);
+
     QReadWriteLock xmlMutex;
     bool closing{false};
     QString lastActiveBin;
@@ -116,7 +123,7 @@ public:
     MainWindow *window();
 
     /** @brief Open a file using an external app. */
-    QString openExternalApp(QString appPath, const QStringList args);
+    QString openExternalApp(QString appPath, const QStringList args, ClipType::ProducerType clipType);
 
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
@@ -168,10 +175,10 @@ public:
     /** @brief Returns Sample Aspect Ratio of current profile */
     double getCurrentSar() const;
     /** @brief Returns Display Aspect Ratio of current profile */
-    double getCurrentDar() const;
+    Q_INVOKABLE double getCurrentDar() const;
 
     /** @brief Returns frame rate of current profile */
-    double getCurrentFps() const;
+    Q_INVOKABLE double getCurrentFps() const;
 
     /** @brief Returns the frame size (width x height) of current profile */
     const QSize getCurrentFrameSize() const;
@@ -429,9 +436,9 @@ protected:
 
 public Q_SLOTS:
     /** @brief Trigger (launch) an action by its actionCollection name */
-    void triggerAction(const QString &name);
+    Q_INVOKABLE void triggerAction(const QString &name);
     /** @brief Get an action's descriptive text by its actionCollection name */
-    const QString actionText(const QString &name);
+    Q_INVOKABLE const QString actionText(const QString &name);
     /** @brief Add an action to the app's actionCollection */
     void addActionToCollection(const QString &name, QAction *action);
     /** @brief display a user info/warning message in statusbar */
@@ -462,7 +469,7 @@ public Q_SLOTS:
     /** @brief Stop monitoring audio (without affecting the track header record control. */
     void setAudioMonitoring(bool);
     /** @brief Start audio recording (after countdown). */
-    void startRecording(bool showCountdown = false);
+    void startRecording(bool allowCountDown);
     /** @brief Show or hide track head audio rec controls. */
     void monitorAudio(int tid, bool monitor);
     /** @brief Open a documentation link, showing a warning box first */
@@ -486,6 +493,8 @@ Q_SIGNALS:
     void finalizeRecording(const QUuid uuid, const QString &captureFile);
     void autoScrollChanged();
     void centeredPlayheadChanged();
+    /** @brief The currently active editing tool changed */
+    void activeToolChanged();
     /** @brief Update the message about the current loading progress */
     void loadingMessageNewStage(const QString &message, int max = -1);
     /** @brief Increase the progress of the loading message by 1 */
@@ -562,7 +571,6 @@ Q_SIGNALS:
     void hideBars(bool);
     void switchTitleBars();
     void loadLayoutById(QString layoutId, bool onlyIfNoPrevious = false);
-    void switchDarkPalette(bool dark);
     void mainWindowReady();
     void loadLayoutFromData(const QString layout, bool onlyIfNoPrevious = false);
     /** The project profile changed, check if we have a more appropriate layout (horizontal/vertical) */

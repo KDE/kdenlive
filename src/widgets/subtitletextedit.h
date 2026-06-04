@@ -7,7 +7,6 @@
 
 #include "ktextedit.h"
 #include "qcompleter.h"
-#include "qstringlistmodel.h"
 
 class ASSTagHighlighter : public QSyntaxHighlighter
 {

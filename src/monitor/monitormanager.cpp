@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "monitorproxy.h"
 #include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/Mlt.h>
@@ -16,7 +15,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KDualAction>
 
-#include "kdenlive_debug.h"
 #include <QObject>
 #include <dialogs/timeremap.h>
 #include <timeline2/view/timelinecontroller.h>
@@ -108,7 +106,7 @@ void MonitorManager::focusProjectMonitor()
 {
     if (!m_projectMonitor->isActive()) {
         activateMonitor(Kdenlive::ProjectMonitor);
-    } else {
+    } else if (!projectMonitorVisible()) {
         // Force raise
         pCore->window()->raiseMonitor(false);
     }
@@ -197,7 +195,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
     }
     if (m_activeMonitor) {
         if (name == Kdenlive::ClipMonitor) {
-            if (!m_clipMonitor->monitorIsFullScreen()) {
+            if (!m_clipMonitor->monitorIsFullScreen(false)) {
                 if (raiseMonitor) {
                     pCore->window()->raiseMonitor(true);
                     if (!quickSwitch) {
@@ -210,7 +208,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!quickSwitch) {
                 // Set guides list to show guides
                 m_clipMonitor->updateGuidesList();
-                if (pCore->window()->isVisible() && !m_clipMonitor->isVisible()) {
+                if (pCore->window()->isVisible() && !clipMonitorVisible()) {
                     pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_projectMonitor;
@@ -231,7 +229,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
         } else if (name == Kdenlive::ProjectMonitor) {
             // Set guides list to show guides
             m_projectMonitor->updateGuidesList();
-            if (!m_projectMonitor->monitorIsFullScreen()) {
+            if (!m_projectMonitor->monitorIsFullScreen(false)) {
                 if (raiseMonitor) {
                     pCore->window()->raiseMonitor(false);
                     if (!quickSwitch) {
@@ -242,7 +240,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 m_projectMonitor->fixFocus();
             }
             if (!quickSwitch) {
-                if (pCore->window()->isVisible() && !m_projectMonitor->isVisible()) {
+                if (pCore->window()->isVisible() && !projectMonitorVisible()) {
                     pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_clipMonitor;

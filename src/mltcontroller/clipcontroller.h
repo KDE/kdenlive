@@ -14,10 +14,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDateTime>
 #include <QDir>
 #include <QMutex>
-#include <QString>
 #include <QReadWriteLock>
+#include <QString>
 #include <memory>
-#include <mlt++/Mlt.h>
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProperties.h>
 
 class QPixmap;
 class Bin;
@@ -199,6 +200,8 @@ public:
     QVector<int> activeFfmpegStreams() const;
     /** @brief Returns the count of audio streams for this clip */
     int audioStreamsCount() const;
+    /** @brief Returns the count of subtitle streams for this clip */
+    int subtitleStreamsCount() const;
     /** @brief Get the path to the original clip url (in case it is proxied) */
     const QString getOriginalUrl();
     /** @brief Returns true if this clip supports creating a proxy for it. */

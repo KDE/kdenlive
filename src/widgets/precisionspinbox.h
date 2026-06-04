@@ -35,13 +35,15 @@ public:
     double value() const;
     /** @brief set position
      */
-    void setValue(double value);
+    void setValue(double value, bool emitSignal = true);
     /** @brief get min
      */
     double min() const;
     /** @brief get max
      */
     double max() const;
+    /** @brief set send empty value signal */
+    void setSendEmptyValue(bool send) { m_sendEmptyValue = send; }
 
 protected:
     void stepBy(int steps) override;
@@ -50,6 +52,8 @@ protected:
 private:
     QDoubleValidator m_validator;
     QString m_suffix;
+    bool m_sendEmptyValue = false;
+    bool m_stepEmitted = false;
 
 private Q_SLOTS:
     void textChanged(const QString &text);

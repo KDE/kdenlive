@@ -34,9 +34,12 @@ private:
     Monitor *m_monitor;
     double m_fixedResRatio;
     bool m_manualPreset;
+    QStringList m_percentBasedAudioCodecs;
 
     void setPixelAspectRatio(int num, int den);
     void updateDisplayAspectRatio();
+    /** @brief adjust audio quality for percentage based codecs */
+    double getAudioQualityForCodec(double audioQuality, const QString &acodec);
 
 private Q_SLOTS:
     void slotUpdateParams();

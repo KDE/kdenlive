@@ -2,11 +2,13 @@
     SPDX-FileCopyrightText: 2024 Chengkun Chen <serix2004@gmail.com>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
+
 #include "subtitletextedit.h"
-#include "qabstractitemview.h"
-#include "qscrollbar.h"
-#include <iostream>
-#include <qapplication.h>
+
+#include <QAbstractItemView>
+#include <QApplication>
+#include <QScrollBar>
+#include <QStringListModel>
 
 static const QStringList ASSTagNames = {
     "\\b",    "\\i",     "\\u",    "\\s",        "\\fn",        "\\fs",   "\\r",     "\\pos",   "\\an",   "\\k",     "\\kf",    "\\ko", "\\q",    "\\p",

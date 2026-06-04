@@ -5,6 +5,7 @@
 */
 
 #include "providersrepository.hpp"
+#include "kdenlive_debug.h"
 #include <QDir>
 #include <QStandardPaths>
 

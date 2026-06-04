@@ -57,7 +57,7 @@ void GlaxnimateLauncher::reset()
 
 void GlaxnimateLauncher::openFile(const QString &filename)
 {
-    QString error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), {filename});
+    QString error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), {filename}, ClipType::Animation);
     if (!error.isEmpty()) {
         KMessageBox::detailedError(QApplication::activeWindow(), i18n("Failed to launch Glaxnimate application"), error);
         return;
@@ -100,13 +100,13 @@ void GlaxnimateLauncher::openClip(int clipId)
         args.clear();
         args << filename;
         qDebug() << "Run without --ipc";
-        error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), args);
+        error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), args, ClipType::Animation);
         if (error.isEmpty()) {
             m_sharedMemory.reset(new QSharedMemory(name));
             return;
         }
     } else {
-        if (pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), args).isEmpty()) {
+        if (pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), args, ClipType::Animation).isEmpty()) {
             m_sharedMemory.reset(new QSharedMemory(name));
             return;
         } else {
@@ -117,7 +117,7 @@ void GlaxnimateLauncher::openClip(int clipId)
             args.clear();
             args << filename;
             qDebug() << "Run without --ipc";
-            error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), args);
+            error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), args, ClipType::Animation);
         }
     }
     if (!error.isEmpty()) {

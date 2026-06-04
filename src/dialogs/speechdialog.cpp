@@ -8,7 +8,6 @@
 
 #include "bin/model/subtitlemodel.hpp"
 #include "core.h"
-#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -28,7 +27,6 @@
 #include <QProcess>
 
 #include <memory>
-#include <utility>
 
 SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, int tid, bool, bool, QWidget *parent)
     : QDialog(parent)
@@ -74,11 +72,11 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     m_buttonGroup->addButton(timeline_track, 3);
     m_buttonGroup->addButton(timeline_clips, 4);
     connect(m_buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this,
-            [=, selectedTrack = tid, sourceZone = zone, bg = m_buttonGroup](QAbstractButton *button) {
+            [this, selectedTrack = tid, sourceZone = zone, timeline](QAbstractButton *button) {
                 if (speech_info->messageType() == KMessageWidget::Information) {
                     speech_info->animatedHide();
                 }
-                KdenliveSettings::setSubtitleMode(bg->checkedId());
+                KdenliveSettings::setSubtitleMode(m_buttonGroup->checkedId());
                 if (speech_model->count() > 0) {
                     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
                 }

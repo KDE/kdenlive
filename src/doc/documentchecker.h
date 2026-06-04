@@ -18,7 +18,7 @@ class DocumentChecker : public QObject
     Q_OBJECT
 
 public:
-    enum MissingStatus { Fixed, Reload, Missing, MissingButProxy, Placeholder, Remove };
+    enum MissingStatus { Fixed, Reload, Missing, MissingButProxy, Placeholder, Remove, Remote };
     enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition, MissingBinClip, CircularRef };
     friend class KdenliveTests;
     struct DocumentResource

@@ -13,7 +13,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <iostream>
 
 // (defined in the header file)
 #ifdef DEBUG_AUDIOSPEC
@@ -23,7 +22,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 // (defined in the header file)
 #ifdef DETECT_OVERMODULATION
 #include <cmath>
-#include <limits>
 #endif
 
 // Draw lines instead of single pixels.

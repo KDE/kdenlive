@@ -14,9 +14,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 // TODO: fix video capture (Hint: QCameraInfo is not available in Qt6 anymore)
 //#include <QCameraInfo>
 #include <KLocalizedString>
+
+#include <QApplication>
 #include <QDir>
 #include <QtEndian>
-#include <utility>
 
 AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
     : QIODevice(parent)
@@ -71,7 +72,7 @@ MediaCapture::MediaCapture(QObject *parent)
     , m_audioInfo(nullptr)
     , m_audioDevice("default:")
     , m_path(QUrl())
-    , m_recordState(0)
+    , m_recordState(QMediaRecorder::StoppedState)
     , m_recOffset(0)
     , m_tid(-1)
     , m_readyForRecord(false)
@@ -126,9 +127,30 @@ void MediaCapture::switchMonitorState(bool run)
     if (m_recordStatus == RecordBusy) {
         return;
     }
+
     m_recordStatus = RecordBusy;
     if (run) {
         // Start monitoring audio
+#ifdef Q_OS_MAC
+        QMicrophonePermission microphonePermission;
+        switch (qApp->checkPermission(microphonePermission)) {
+        case Qt::PermissionStatus::Undetermined:
+            m_recordStatus = RecordReady;
+            qDebug() << ":::: REQUESTING MIC PERMISSION";
+            qApp->requestPermission(microphonePermission, [this](const QPermission &permission) {
+                if (permission.status() == Qt::PermissionStatus::Granted) {
+                    switchMonitorState(true);
+                }
+            });
+            return;
+        case Qt::PermissionStatus::Denied:
+            qDebug() << ":::: REQUESTING MIC PERMISSION...DENIED";
+            return;
+        case Qt::PermissionStatus::Granted:
+            qDebug() << ":::: REQUESTING MIC PERMISSION...GRANTED";
+            break;
+        }
+#endif
         initializeAudioSetup();
         QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelChanged, m_audioInput.get(), [&](const QVector<qreal> &level) {
             m_levels = level;
@@ -156,12 +178,8 @@ void MediaCapture::switchMonitorState(bool run)
             Q_EMIT levelsChanged();
         });
         QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelRecChanged, this, &MediaCapture::audioLevels);
-#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
-        qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
-#else
         qreal linearVolume =
             QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
-#endif
         m_audioSource->setVolume(linearVolume);
         m_audioInfo->open(QIODevice::WriteOnly);
         m_audioSource->start(m_audioInfo.data());
@@ -198,6 +216,9 @@ MediaCapture::~MediaCapture()
 void MediaCapture::displayErrorMessage()
 {
     qDebug() << " !!!!!!!!!!!!!!!! ERROR : QMediarecorder - Capture failed";
+    if (m_mediaRecorder) {
+        pCore->displayMessage(m_mediaRecorder->errorString(), ErrorMessage);
+    }
 }
 
 void MediaCapture::resetIfUnused()
@@ -222,6 +243,27 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
         pCore->displayMessage(i18n("Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to end."), InformationMessage, 8000);
     }
     if (!m_mediaRecorder) {
+#ifdef Q_OS_MAC
+        QMicrophonePermission microphonePermission;
+        switch (qApp->checkPermission(microphonePermission)) {
+        case Qt::PermissionStatus::Undetermined:
+            qDebug() << ":::: REQUESTING MIC PERMISSION";
+            m_recordStatus = RecordReady;
+            qApp->requestPermission(microphonePermission, [this, uuid, tid, record](const QPermission &permission) {
+                if (permission.status() == Qt::PermissionStatus::Granted) {
+                    recordAudio(uuid, tid, record);
+                }
+            });
+            return;
+        case Qt::PermissionStatus::Denied:
+            qDebug() << ":::: REQUESTING MIC PERMISSION... DENIED";
+            m_recordStatus = RecordReady;
+            return;
+        case Qt::PermissionStatus::Granted:
+            qDebug() << ":::: REQUESTING MIC PERMISSION... GRANTED";
+            break;
+        }
+#endif
         m_mediaRecorder = std::make_unique<QMediaRecorder>(this);
         connect(m_mediaRecorder.get(), &QMediaRecorder::recorderStateChanged, this, [&, tid](QMediaRecorder::RecorderState state) {
             m_recordState = state;
@@ -256,12 +298,8 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
         m_mediaCapture->setAudioInput(m_audioInput.get());
         m_mediaCapture->setRecorder(m_mediaRecorder.get());
         setCaptureOutputLocation();
-#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
-        qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
-#else
         qreal linearVolume =
             QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
-#endif
         m_audioSource->setVolume(linearVolume);
         connect(m_mediaRecorder.get(), &QMediaRecorder::errorChanged, this, &MediaCapture::displayErrorMessage);
 
@@ -300,11 +338,15 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
     }
 }
 
-int MediaCapture::startCapture(bool showCountdown)
+int MediaCapture::startCapture(bool allowCountDown)
 {
-    if (showCountdown && !KdenliveSettings::disablereccountdown()) {
+    if (allowCountDown && !KdenliveSettings::disablereccountdown()) {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->startCountDown();
         m_recordStatus = RecordShowingCountDown;
+        return -1;
+    }
+    if (!m_mediaRecorder) {
+        qDebug() << "=== MEDIA RECORDER NOT INITIALIZED";
         return -1;
     }
     m_lastPos = -1;
@@ -401,11 +443,10 @@ void MediaCapture::setAudioCaptureDevice()
 
 void MediaCapture::setAudioVolume()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
-    qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
-#else
+    if (m_recordStatus != RecordMonitoring && m_recordStatus != RecordRecording) {
+        return;
+    }
     qreal linearVolume = QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
-#endif
     m_audioSource->setVolume(linearVolume);
 }
 
@@ -448,7 +489,7 @@ void MediaCapture::pauseRecording()
 
 void MediaCapture::resumeRecording()
 {
-    if (m_mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
+    if (m_mediaRecorder && m_mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
         m_recOffset += m_lastPos;
         m_lastPos = -1;
         m_recTimer.start();

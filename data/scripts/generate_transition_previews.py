@@ -27,7 +27,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class TransitionPreviewGenerator:
-    def __init__(self, output_dir, xml_dir=None, luma_path=None, image_path1=None, image_path2=None, size=(320, 180), duration=15, mix_duration=30):
+    def __init__(self, output_dir, xml_dir=None, luma_path=None, image_path1=None, image_path2=None, size=(320, 180), duration=15, mix_duration=30, file_format="webp"):
         """
         Initialize the preview generator
         
@@ -40,6 +40,7 @@ class TransitionPreviewGenerator:
             duration (int): Duration of each clip in frames
             mix_duration (int): Duration of transition in frames
             luma_path (str): Path to luma files
+            file_format (str) : File format (extension) for rendering
         """
         self.output_dir = Path(output_dir)
         self.xml_dir = xml_dir
@@ -49,6 +50,7 @@ class TransitionPreviewGenerator:
         self.image_path1 = image_path1
         self.image_path2 = image_path2
         self.luma_path = luma_path
+        self.file_format = file_format
         
         # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -85,7 +87,11 @@ class TransitionPreviewGenerator:
 
     def get_available_transitions(self):
         transitionsXml = []
-        xml_folders = self.xml_dir.split()
+        if self.xml_dir is None:
+            xml_folders = ''
+        else:
+            xml_folders =  self.xml_dir.split()
+
         for l in xml_folders:
             directory_path = Path(urllib.parse.unquote(l))
             logger.error(f"Checking transitions path: {directory_path}")
@@ -96,14 +102,14 @@ class TransitionPreviewGenerator:
 
     def create_luma_preview(self, luma_id):
         """
-        Create a preview GIF for a specific luma
+        Create a preview webp for a specific luma
 
         Args:
         luma_id (str): The MLT luma file
         """
         file_path = Path(luma_id).stem
         logger.error(f"Processing luma: {luma_id}")
-        output_path = self.output_dir / f"{file_path}.gif"
+        output_path = self.output_dir / f"{file_path}.{self.file_format}"
 
         # Skip if preview already exists
         if output_path.exists():
@@ -119,15 +125,13 @@ class TransitionPreviewGenerator:
 
             # First clip
             if self.image_path1 is None:
-                # #5fa6fc 263f4d
-                command.extend(['color:#253d4b', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                command.extend(['color:0x253d4bff', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path1, f'out={self.duration}'])
 
             # Second clip
             if self.image_path2 is None:
-                # #f1e38e
-                command.extend(['color:#91cdfa', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=#505050', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                command.extend(['color:0x91cdfaff', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=0x505050ff', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path2, f'out={self.duration}'])
 
@@ -139,8 +143,14 @@ class TransitionPreviewGenerator:
                 '-consumer', f'avformat:{output_path}',
                 f'width={self.width}',
                 f'height={self.height}',
-                'fps=15'
+                'fps=10'
             ])
+            if str(output_path).endswith("webp"):
+                # webp format
+                command.extend([
+                    'quality=50',
+                    'loop=0'
+                ])
 
             logger.info(f"Generating preview for {luma_id}...")
             logger.info(f"Command: {' '.join(command)}")
@@ -185,7 +195,7 @@ class TransitionPreviewGenerator:
         except:
             logger.error(f"No preview param for transition {mlt_tag}")
 
-        output_path = self.output_dir / f"{transition_id}.gif"
+        output_path = self.output_dir / f"{transition_id}.{self.file_format}"
         
         # Skip if preview already exists
         if output_path.exists():
@@ -201,13 +211,13 @@ class TransitionPreviewGenerator:
             
             # First clip
             if self.image_path1 is None:
-                command.extend(['color:#253d4b', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                command.extend(['color:0x253d4bff', f'out={self.duration}', '-attach', 'qtext:A', 'size=100', 'fgcolour=white', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path1, f'out={self.duration}'])
             
             # Second clip
             if self.image_path2 is None:
-                command.extend(['color:#91cdfa', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=#505050', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
+                command.extend(['color:0x91cdfaff', f'out={self.duration}', '-attach', 'qtext:B', 'size=100', 'fgcolour=0x505050ff', 'bgcolour=transparent', 'valign=middle', 'halign=center', 'weight=800'])
             else:
                 command.extend([self.image_path2, f'out={self.duration}'])
             
@@ -223,7 +233,9 @@ class TransitionPreviewGenerator:
                 '-consumer', f'avformat:{output_path}',
                 f'width={self.width}',
                 f'height={self.height}',
-                'fps=15'
+                'fps=10',
+                'quality=50',
+                'loop=0'
             ])
             
             logger.info(f"Generating preview for {transition_id}...")
@@ -250,7 +262,6 @@ class TransitionPreviewGenerator:
         
         if not transitions:
             logger.error("No transitions found. Make sure MLT is properly installed.")
-            return
         
         logger.info(f"Starting preview generation for {len(transitions)} transitions...")
         
@@ -311,6 +322,11 @@ def main():
         default=10,
         help='Duration of each clip in frames'
     )
+    parser.add_argument(
+        '--file-format',
+        default="webp",
+        help='Output format for renders'
+    )
     
     parser.add_argument(
         '--mix-duration',
@@ -336,7 +352,9 @@ def main():
         size=(args.width, args.height),
         duration=args.duration,
         mix_duration=args.mix_duration,
-        luma_path=args.luma_path
+        luma_path=args.luma_path,
+        file_format=args.file_format
+
     )
     
     generator.generate_all_previews(max_workers=args.workers)

@@ -23,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTimer>
 #include <QUrl>
 #include <QUuid>
+#include <QtQmlIntegration>
 #include <memory>
 
 class AudioDevInfo: public QIODevice
@@ -45,6 +46,9 @@ private:
 class MediaCapture : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("MediaCapture is owned by Core; obtain it via Core::getAudioDevice()")
+
     Q_PROPERTY(QVector<qreal> levels READ levels NOTIFY levelsChanged)
     Q_PROPERTY(int recordState READ recordState NOTIFY recordStateChanged)
     Q_PROPERTY(int recDuration READ recDuration NOTIFY recDurationChanged)
@@ -80,7 +84,7 @@ public:
     void pauseRecording();
     void resumeRecording();
     /** @brief Start the real audio capture **/
-    int startCapture(bool showCountdown);
+    int startCapture(bool allowCountDown);
     void initializeAudioSetup();
 
 public Q_SLOTS:

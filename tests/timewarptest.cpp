@@ -5,7 +5,6 @@
 */
 #include "test_utils.hpp"
 // test specific headers
-#include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
 
 using namespace fakeit;

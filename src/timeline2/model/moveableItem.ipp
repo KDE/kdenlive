@@ -6,6 +6,9 @@
 #include "macros.hpp"
 #include <utility>
 
+#include <mlt++/MltTransition.h>
+#include <mlt++/MltProducer.h>
+
 template <typename Service>
 MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id)
     : m_parent(std::move(parent))

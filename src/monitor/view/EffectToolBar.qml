@@ -7,15 +7,18 @@
 import QtQuick.Controls 2.15
 import QtQuick 2.15
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 MouseArea {
     id: barZone
     hoverEnabled: true
+    required property K.MonitorProxy monitorController
     property bool rightSide: true
     property bool showAutoKeyframe: true
     acceptedButtons: Qt.NoButton
-    width: 2.4 * fontMetrics.font.pixelSize
+    width: 2.4 * K.UiUtils.baseSizeMedium
     height: parent.height
     onEntered: {
         animator.stop()
@@ -26,6 +29,8 @@ MouseArea {
             effecttoolbar.opacity = 0
         }
     }
+
+    SystemPalette { id: activePalette }
 
     Rectangle {
         id: effecttoolbar
@@ -59,66 +64,66 @@ MouseArea {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
-                toolTipText: i18n("Switch Full Screen")
-                onClicked: controller.triggerAction('monitor_fullscreen')
+                toolTipText: KI18n.i18n("Switch Full Screen")
+                onClicked: K.Core.triggerAction('monitor_fullscreen')
             }
             K.MonitorToolButton {
                 objectName: "switchGrid"
                 iconName: "snap"
-                toolTipText: i18n("Show Grid")
+                toolTipText: KI18n.i18n("Show Grid")
                 checkable: true
                 checked: K.KdenliveSettings.showMonitorGrid
                 onClicked: {
-                    controller.switchGrid()
+                    barZone.monitorController.switchGrid()
                 }
             }
             K.MonitorToolButton {
                 objectName: "showSafeZone"
                 iconName: "select-rectangular"
-                toolTipText: i18n("Show Safe Areas")
+                toolTipText: KI18n.i18n("Show Safe Areas")
                 checkable: true
                 checked: false
                 onCheckedChanged: {
-                    controller.showSafezone = checked
+                    barZone.monitorController.showSafezone = checked
                 }
                 Component.onCompleted: {
-                    checked = controller.showSafezone
+                    checked = barZone.monitorController.showSafezone
                 }
             }
             K.MonitorToolButton {
                 objectName: "switchOverlay"
                 iconName: "view-grid"
-                toolTipText: i18n("Composition Guides")
+                toolTipText: KI18n.i18n("Composition Guides")
                 onClicked: {
-                    if (controller.overlayType >= 5) {
-                        controller.overlayType = 0
+                    if (barZone.monitorController.overlayType >= 5) {
+                        barZone.monitorController.overlayType = 0
                     } else {
-                        controller.overlayType = controller.overlayType + 1;
+                        barZone.monitorController.overlayType = barZone.monitorController.overlayType + 1;
                     }
-                    root.overlayType = controller.overlayType
+                    root.overlayType = barZone.monitorController.overlayType
                 }
             }
             K.MonitorToolButton {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
-                toolTipText: i18n("Go to Next Keyframe")
-                onClicked: controller.seekToKeyframe(-1, 1);
+                toolTipText: KI18n.i18n("Go to Next Keyframe")
+                onClicked: barZone.monitorController.seekToKeyframe(-1, 1);
             }
             K.MonitorToolButton {
                 objectName: "prevKeyframe"
                 iconName: "keyframe-previous"
-                toolTipText: i18n("Go to Previous Keyframe")
-                onClicked: controller.seekToKeyframe(-1, -1);
+                toolTipText: KI18n.i18n("Go to Previous Keyframe")
+                onClicked: barZone.monitorController.seekToKeyframe(-1, -1);
             }
             K.MonitorToolButton {
                 objectName: "addKeyframe"
                 iconName: "keyframe-add"
-                toolTipText: i18n("Add/Remove Keyframe")
-                onClicked: controller.addRemoveKeyframe()
+                toolTipText: KI18n.i18n("Add/Remove Keyframe")
+                onClicked: barZone.monitorController.addRemoveKeyframe()
             }
             K.MonitorToolButton {
                 iconName: "keyframe-record"
-                toolTipText: i18n("Automatic Keyframes")
+                toolTipText: KI18n.i18n("Automatic Keyframes")
                 onClicked: () => { K.KdenliveSettings.autoKeyframe = K.KdenliveSettings.autoKeyframe }
                 checkable: true
                 checked: K.KdenliveSettings.autoKeyframe
@@ -126,11 +131,12 @@ MouseArea {
             }
             K.MonitorZoomButton {
                 id: zoomButton
+                monitorController: barZone.monitorController
             }
             K.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
-                toolTipText: i18n("Move Toolbar")
+                toolTipText: KI18n.i18n("Move Toolbar")
                 onClicked: {
                     if (barZone.rightSide) {
                         barZone.anchors.right = undefined

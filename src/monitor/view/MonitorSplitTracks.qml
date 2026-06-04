@@ -3,8 +3,12 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+
+import org.kde.kdenlive as K
 
 Item {
     id: root
@@ -13,12 +17,12 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string comment
     property string framenum
     property rect framesize
     property point profile: controller.profile
     property int overlayType: 0
-    property color overlayColor: controller.overlayColor
     property point center
     property double scalex
     property double scaley
@@ -33,12 +37,9 @@ Item {
     property double offsetx : 0
     property double offsety : 0
     property int activeTrack: 0
-    onSourcedarChanged: refreshdar()
     property int requestedKeyFrame
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
     property var tracks: []
 
@@ -55,17 +56,13 @@ Item {
         clipMonitorRuler.updateRuler()
     }
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
-    }
     MouseArea {
         id: barOverArea
         hoverEnabled: true
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
     }
 
@@ -78,10 +75,13 @@ Item {
         y: root.center.y - height / 2 - root.offsety
         Repeater {
             id: trackSeparators
-            model: tracks
+            model: root.tracks
             property int rows: trackSeparators.count < 2 ? 1 : trackSeparators.count < 5 ? 2 : 3
             property int columns: trackSeparators.count < 2 ? 1 : trackSeparators.count < 3 ? 1 : trackSeparators.count < 7 ? 2 : 3
             Rectangle {
+                id: trackSeperatorFrame
+                required property int index
+                required property string modelData
                 width: parent.width / trackSeparators.rows
                 height: parent.height / trackSeparators.columns
                 x: width * (index % trackSeparators.rows)
@@ -90,11 +90,11 @@ Item {
                 border.color: index == root.activeTrack ? "#ff0000" : "#00000000"
                 border.width: 2
                 Label {
-                    text: modelData
+                    text: trackSeperatorFrame.modelData
                     color: "#ffffff"
                     padding :4
                     background: Rectangle {
-                        color: index == root.activeTrack ? "#990000" : "#000066"
+                        color: trackSeperatorFrame.index == root.activeTrack ? "#990000" : "#000066"
                     }
                 }
                 MouseArea {
@@ -102,8 +102,8 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onClicked: {
-                        root.activateTrack(index)
-                        controller.triggerAction('perform_multitrack_mode')
+                        root.activateTrack(trackSeperatorFrame.index)
+                        K.Core.triggerAction('perform_multitrack_mode')
                     }
                 }
             }
@@ -118,6 +118,7 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
     MonitorRuler {
         id: clipMonitorRuler
@@ -126,6 +127,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 }

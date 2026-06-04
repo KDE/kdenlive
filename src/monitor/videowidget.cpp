@@ -12,8 +12,16 @@
     SPDX-License-Identifier: BSD-3-Clause
 */
 
+#include "videowidget.h"
+#include "bin/model/markersortmodel.h"
+#include "core.h"
+#include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/view/qmliconprovider.hpp"
+#include "monitorproxy.h"
+#include "profiles/profilemodel.hpp"
+#include "timeline2/view/qmltypes/thumbnailprovider.h"
+
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -31,21 +39,10 @@
 
 #include <ki18n_version.h>
 
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
 #include <KLocalizedQmlContext>
-#else
-#include <KLocalizedContext>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include "bin/model/markersortmodel.h"
-#include "core.h"
-#include "monitorproxy.h"
-#include "profiles/profilemodel.hpp"
-#include "timeline2/view/qmltypes/thumbnailprovider.h"
-#include "videowidget.h"
-#include <lib/localeHandling.h>
 #include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
@@ -97,11 +94,7 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_loopIn(0)
     , m_offset(QPoint(0, 0))
 {
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     KLocalization::setupLocalizedContext(engine());
-#else
-    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
-#endif
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
     setAcceptDrops(true);
@@ -132,7 +125,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     connect(pCore.get(), &Core::switchTimelineRecord, this, &VideoWidget::switchRecordState);
 
     m_proxy = new MonitorProxy(this);
-    rootContext()->setContextProperty("controller", m_proxy);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
     engine()->addImageProvider(QStringLiteral("icon"), new QmlIconProvider(QSize(iconSize, iconSize), this));
@@ -250,7 +242,7 @@ void VideoWidget::resizeVideo(int width, int height)
     x = (width - w) / 2.0;
     y = (height - h) / 2.0;
     m_rect = QRectF(x, y, w, h);
-    const QSize parentSize = parentWidget()->size();
+    const QSize parentSize = !m_fixedSize.isValid() && parentWidget() ? parentWidget()->size() : size();
     m_monitorOffset = QPointF((parentSize.width() - width) / 2., (parentSize.height() - m_displayRulerHeight - height) / 2.);
 
     QQuickItem *rootQml = rootObject();
@@ -258,7 +250,7 @@ void VideoWidget::resizeVideo(int width, int height)
         QSize s = pCore->getCurrentFrameSize();
         double scalex = m_rect.width() * m_zoom / s.width();
         double scaley = m_rect.height() * m_zoom / s.height();
-        rootQml->setProperty("center", m_rect.center());
+        rootQml->setProperty("center", m_rect.center() + m_monitorOffset);
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
         if (rootQml->objectName() == QLatin1String("rootsplit")) {
@@ -428,13 +420,13 @@ bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
         }
         return true;
     } else if (isPlaying) {
-        if (pos > m_maxProducerPosition - 2 && !(speed < 0.)) {
+        if (pos >= m_maxProducerPosition - 2 && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
             m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
-            m_proxy->setPosition(qMax(0, m_maxProducerPosition));
+            m_proxy->updatePosition(qMax(0, m_maxProducerPosition));
             m_producer->seek(qMax(0, m_maxProducerPosition));
             return false;
         } else if (pos <= 0 && speed < 0.) {
@@ -515,9 +507,11 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
     if (m_fullScreen) {
         m_mouseTimer.start();
     }
-    bool qmlClick = rootObject()->property("captureRightClick").toBool();
+    bool qmlClick = rootObject() ? rootObject()->property("captureRightClick").toBool() : false;
     QQuickWidget::mouseReleaseEvent(event);
-    rootObject()->setProperty("captureRightClick", false);
+    if (rootObject()) {
+        rootObject()->setProperty("captureRightClick", false);
+    }
     bool playMonitor = KdenliveSettings::play_monitor_on_click() &&
                        (m_dragStart.isNull() || (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) && m_panStart.isNull();
 
@@ -935,6 +929,13 @@ float VideoWidget::zoom() const
     return m_zoom;
 }
 
+void VideoWidget::resetAspect()
+{
+    m_colorSpace = pCore->getCurrentProfile()->colorspace();
+    m_dar = pCore->getCurrentDar();
+    refreshRect();
+}
+
 void VideoWidget::reloadProfile()
 {
     // The profile display aspect ratio may have changed.
@@ -968,7 +969,12 @@ QRect VideoWidget::displayRect() const
 
 QPoint VideoWidget::offset() const
 {
-    return {m_offset.x() - static_cast<int>(width() * m_zoom / 2), m_offset.y() - static_cast<int>(height() * m_zoom / 2)};
+    if (m_zoom <= 1.) {
+        return {0, 0};
+    }
+    int centerX = static_cast<int>(width() * m_zoom / 2);
+    int centerY = static_cast<int>(height() * m_zoom / 2);
+    return {m_offset.x() - centerX, m_offset.y() - centerY};
 }
 
 void VideoWidget::setZoom(float zoom, bool force)
@@ -1024,7 +1030,6 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 void VideoWidget::setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth)
 {
     m_offset.setX(horizontalScrollValue);
-
     if (rootObject()) {
         double adjustedOffset = 0.0;
         if (m_zoom > 1.0) {
@@ -1186,7 +1191,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_consumer->position() >= m_maxProducerPosition && speed > 0) {
+        if (m_consumer->position() >= m_maxProducerPosition && m_producer->position() >= m_maxProducerPosition && speed > 0) {
             // We are at the end of the clip / timeline
             if (m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) {
                 m_producer->seek(0);
@@ -1216,7 +1221,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_consumer->purge();
             m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
         }
-    } else {
+    } else if (m_producer->get_speed() != 0.) {
         pause();
     }
     return true;
@@ -1409,10 +1414,7 @@ void VideoWidget::setVolume(double volume)
 
 int VideoWidget::duration() const
 {
-    if (!m_producer) {
-        return 0;
-    }
-    return m_producer->get_playtime();
+    return m_maxProducerPosition;
 }
 
 void VideoWidget::setConsumerProperty(const QString &name, const QString &value)

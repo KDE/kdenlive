@@ -384,3 +384,119 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     // undoStack->clear();
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
+
+TEST_CASE("Fps change guides", "[FpsChange]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
+    SECTION("Guide position preserved in seconds after fps increase")
+    {
+        // Start at 25fps
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        KdenliveTests::updateTimeline(false, QString(), QString(), QDateTime::currentDateTime(), 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        fps = pCore->getCurrentFps();
+        GenTime::setFps(fps);
+        REQUIRE(qFuzzyCompare(fps, 25.0));
+
+        // Add guide at frame 25 = 1.0 second
+        auto guides = timeline->getGuideModel();
+        REQUIRE(guides->addMarker(GenTime(1.0), QLatin1String("test guide"), 0));
+        double secondsBefore = guides->data(guides->index(0), MarkerListModel::PosRole).toDouble();
+        REQUIRE(qFuzzyCompare(secondsBefore, 1.0));
+
+        // Switch to 50fps
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_50"));
+        KdenliveTests::updateProjectProfile(&document, false);
+        fps = pCore->getCurrentFps();
+        GenTime::setFps(fps);
+        REQUIRE(qFuzzyCompare(fps, 50.0));
+
+        // Guide should still be at 1.0 second = frame 50
+        double secondsAfter = guides->data(guides->index(0), MarkerListModel::PosRole).toDouble();
+        REQUIRE(qFuzzyCompare(secondsAfter, 1.0));
+        int frameAfter = guides->data(guides->index(0), MarkerListModel::FrameRole).toInt();
+        REQUIRE(frameAfter == 50);
+        pCore->taskManager.slotCancelJobs(true);
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("Guide position preserved in seconds after fps decrease")
+    {
+        // Start at 50fps
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_50"));
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        KdenliveTests::updateTimeline(false, QString(), QString(), QDateTime::currentDateTime(), 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        fps = pCore->getCurrentFps();
+        GenTime::setFps(fps);
+        REQUIRE(qFuzzyCompare(fps, 50.0));
+
+        // Add guide at frame 50 = 1.0 second
+        auto guides = timeline->getGuideModel();
+        REQUIRE(guides->addMarker(GenTime(1.0), QLatin1String("test guide"), 0));
+        double secondsBefore = guides->data(guides->index(0), MarkerListModel::PosRole).toDouble();
+        REQUIRE(qFuzzyCompare(secondsBefore, 1.0));
+
+        // Switch to 25fps
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
+        KdenliveTests::updateProjectProfile(&document, false);
+        fps = pCore->getCurrentFps();
+        GenTime::setFps(fps);
+        REQUIRE(qFuzzyCompare(fps, 25.0));
+
+        // Guide should still be at 1.0 second = frame 25
+        double secondsAfter = guides->data(guides->index(0), MarkerListModel::PosRole).toDouble();
+        REQUIRE(qFuzzyCompare(secondsAfter, 1.0));
+        int frameAfter = guides->data(guides->index(0), MarkerListModel::FrameRole).toInt();
+        REQUIRE(frameAfter == 25);
+        pCore->taskManager.slotCancelJobs(true);
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("Guide position round-trip (25fps -> 50fps -> 25fps)")
+    {
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        KdenliveTests::updateTimeline(false, QString(), QString(), QDateTime::currentDateTime(), 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        fps = pCore->getCurrentFps();
+        GenTime::setFps(fps);
+
+        // Add guide at frame 25 = 1.0 second
+        auto guides = timeline->getGuideModel();
+        REQUIRE(guides->addMarker(GenTime(1.0), QLatin1String("test guide"), 0));
+        int frameBefore = guides->data(guides->index(0), MarkerListModel::FrameRole).toInt();
+        REQUIRE(frameBefore == 25);
+
+        // 25fps -> 50fps
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_50"));
+        KdenliveTests::updateProjectProfile(&document, false);
+        fps = pCore->getCurrentFps();
+        GenTime::setFps(fps);
+
+        // 50fps -> 25fps
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
+        KdenliveTests::updateProjectProfile(&document, false);
+        fps = pCore->getCurrentFps();
+        GenTime::setFps(fps);
+
+        // Should be back at frame 25
+        int frameAfter = guides->data(guides->index(0), MarkerListModel::FrameRole).toInt();
+        REQUIRE(frameAfter == 25);
+        pCore->taskManager.slotCancelJobs(true);
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+}

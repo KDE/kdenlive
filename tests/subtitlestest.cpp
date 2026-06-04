@@ -10,6 +10,7 @@
 #include "definitions.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include <qjsonarray.h>
 
 using namespace fakeit;
 
@@ -172,6 +173,51 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         subtitleModel->importSubtitle(subtitleFile);
         // Ensure the 2 dialogues are loaded
         REQUIRE(subtitleModel->rowCount() == 2);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
+    SECTION("Subtitles get whitespace removed at start and end of comment")
+    {
+        const QString subtitleFile = sourcesPath + "/dataset/extra-whitespace.srt";
+        subtitleModel->importSubtitle(subtitleFile);
+
+        // Add another subtitle starting with a newline, which would be invalid in an SRT
+        const int subId = KdenliveTests::getNextId();
+        REQUIRE(subtitleModel->addSubtitle(subId, {0, GenTime(60)},
+                                           SubtitleEvent(true, GenTime(80), "Default", "", 0, 0, 0, "", QStringLiteral("\n   some more whitespaces  \n")),
+                                           false, false));
+        REQUIRE(subtitleModel->rowCount() == 2);
+
+        const auto allSubs = subtitleModel->getAllSubtitles();
+        CHECK(allSubs.at(0).second.text() == "surrounded by whitespace");
+        CHECK(allSubs.at(1).second.text() == "some more whitespaces");
+
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
+    SECTION("Comments in SRT export have no leading or trailing whitespace")
+    {
+        const int subId = KdenliveTests::getNextId();
+        REQUIRE(subtitleModel->addSubtitle(subId, {0, GenTime(60)},
+                                           SubtitleEvent(true, GenTime(80), "Default", "", 0, 0, 0, "", QStringLiteral("\n   surrounded by whitespace  \n")),
+                                           false, false));
+        REQUIRE(subtitleModel->rowCount() == 1);
+
+        QTemporaryFile tmp;
+        REQUIRE(tmp.open());
+        tmp.close();
+
+        subtitleModel->saveSubtitleData(subtitleModel->toJson(), tmp.fileName());
+
+        REQUIRE(tmp.open());
+        CHECK(tmp.readAll().toStdString() == R"(1
+00:01:00,000 --> 00:01:20,000
+surrounded by whitespace
+
+)");
+
         subtitleModel->removeAllSubtitles();
         REQUIRE(subtitleModel->rowCount() == 0);
     }

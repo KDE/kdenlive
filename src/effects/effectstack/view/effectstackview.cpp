@@ -442,9 +442,9 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::collapseAllEffects, this, &EffectStackView::slotCollapseAllEffects);
-        connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) { m_model->setActiveEffect(row); });
+        connect(view, &CollapsibleEffectView::activateEffect, this, [this](int row) { m_model->setActiveEffect(row); });
         connect(view, &CollapsibleEffectView::effectNamesUpdated, this,
-                [=]() { Q_EMIT m_model->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole}); });
+                [this]() { Q_EMIT m_model->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole}); });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
         connect(this, &EffectStackView::blockWheelEvent, view, &CollapsibleEffectView::blockWheelEvent);
@@ -458,7 +458,7 @@ void EffectStackView::loadEffects()
         // Install event filter to manage drag and drop from the stack view
         view->installEventFilter(this);
 
-        connect(pCore.get(), &Core::updateEffectZone, view, [=](const QPoint p, bool withUndo) {
+        connect(pCore.get(), &Core::updateEffectZone, view, [view](const QPoint p, bool withUndo) {
             // Update current effect zone
             if (view->isActive()) {
                 view->updateInOut({p.x(), p.y()}, withUndo);

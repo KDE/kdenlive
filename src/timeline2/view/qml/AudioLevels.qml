@@ -12,13 +12,15 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
 Rectangle {
     id: levelsContainer
     width: parent.width
     height: parent.height - 1
     x: 1
     y: 1
-    ToolTip.text: i18n("Mic level")
+    ToolTip.text: KI18n.i18n("Mic level")
     ToolTip.visible: levelArea.containsMouse
     ToolTip.delay: 1000
     ToolTip.timeout: 5000
@@ -60,7 +62,7 @@ Rectangle {
     
     // Background color for each channel
     Repeater {
-        model: channelCount
+        model: levelsContainer.channelCount
         id: bgRepeater
         Rectangle {
             required property int index
@@ -75,21 +77,23 @@ Rectangle {
     
     // Solid level fill for each channel
     Repeater {
-        model: channelCount
+        model: levelsContainer.channelCount
         id: levelRepeater
         property int lastPos: 0
         property int currentPos: 0
         Item {
+            id: channelLevel
             anchors.fill: parent
             anchors.margins: 1
-            property double currentLevel: audioLevels.length <= 0 || audioLevels.length === undefined ? 0 : audioLevels[index]
+            required property int index
+            property double currentLevel: levelsContainer.audioLevels.length <= 0 || levelsContainer.audioLevels.length === undefined ? 0 : levelsContainer.audioLevels[index]
             property double peak: 0
             
             // Thresholds from AudioLevelStyleProvider::LevelColors
             // These define the visual boundaries between green/yellow/red segments
-            readonly property double greenThresholdPos: iecScaleMax(-18.0)
-            readonly property double yellowThresholdPos: iecScaleMax(-6.0)
-            readonly property double redThresholdPos: iecScaleMax(-2.0)
+            readonly property double greenThresholdPos: levelsContainer.iecScaleMax(-18.0)
+            readonly property double yellowThresholdPos: levelsContainer.iecScaleMax(-6.0)
+            readonly property double redThresholdPos: levelsContainer.iecScaleMax(-2.0)
             
             // Channel layout calculations
             readonly property int channelHeight: parent.height / levelRepeater.count
@@ -98,33 +102,33 @@ Rectangle {
             
             // Green segment (0 to greenThreshold or currentLevel, whichever is smaller)
             Rectangle {
-                visible: currentLevel > 0
+                visible: channelLevel.currentLevel > 0
                 color: "#14be14"  // green: QColor(20, 190, 20)
-                width: Math.min(parent.width * greenThresholdPos, levelWidth)
-                height: channelHeight
+                width: Math.min(parent.width * channelLevel.greenThresholdPos, channelLevel.levelWidth)
+                height: channelLevel.channelHeight
                 x: 0
-                y: channelY
+                y: channelLevel.channelY
             }
             
             // Yellow segment (greenThreshold to yellowThreshold)
             Rectangle {
-                visible: currentLevel > greenThresholdPos
+                visible: channelLevel.currentLevel > channelLevel.greenThresholdPos
                 color: "#f8cc1b"  // yellow: QColor(248, 204, 27)
-                width: Math.min(parent.width * (yellowThresholdPos - greenThresholdPos), 
-                               Math.max(0, levelWidth - parent.width * greenThresholdPos))
-                height: channelHeight
-                x: parent.width * greenThresholdPos
-                y: channelY
+                width: Math.min(parent.width * (channelLevel.yellowThresholdPos - channelLevel.greenThresholdPos),
+                               Math.max(0, channelLevel.levelWidth - parent.width * channelLevel.greenThresholdPos))
+                height: channelLevel.channelHeight
+                x: parent.width * channelLevel.greenThresholdPos
+                y: channelLevel.channelY
             }
             
             // Red segment (yellowThreshold to currentLevel)
             Rectangle {
-                visible: currentLevel > yellowThresholdPos
+                visible: channelLevel.currentLevel > channelLevel.yellowThresholdPos
                 color: "#e12729"  // red: QColor(225, 39, 41)
-                width: Math.max(0, levelWidth - parent.width * yellowThresholdPos)
-                height: channelHeight
-                x: parent.width * yellowThresholdPos
-                y: channelY
+                width: Math.max(0, channelLevel.levelWidth - parent.width * channelLevel.yellowThresholdPos)
+                height: channelLevel.channelHeight
+                x: parent.width * channelLevel.yellowThresholdPos
+                y: channelLevel.channelY
             }
             
             // Peak tracking with decay
@@ -138,19 +142,19 @@ Rectangle {
             
             // Peak indicator (Monochrome style)
             Rectangle {
-                visible: peak > 0
+                visible: channelLevel.peak > 0
                 color: activePalette.text
                 width: 2
-                height: channelHeight
-                x: parent.width * peak
-                y: channelY
+                height: channelLevel.channelHeight
+                x: parent.width * channelLevel.peak
+                y: channelLevel.channelY
             }
         }
     }
     
     // Channel separator lines
     Repeater {
-        model: Math.max(0, channelCount - 1)
+        model: Math.max(0, levelsContainer.channelCount - 1)
         Rectangle {
             required property int index
             width: levelsContainer.width - 2

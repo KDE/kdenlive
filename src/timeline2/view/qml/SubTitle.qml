@@ -7,12 +7,18 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
 
 Item {
     id: subtitleRoot
     visible : true
     z: selected ? 30 : 20
+
+    required property K.TimelineController timeline
+    required property K.TimelineItemModel controller
+
     property int oldStartX
     property int startFrame
     property int fakeStartFrame
@@ -25,7 +31,7 @@ Item {
     property bool isGrabbed: false
     property int subLayer
     height: subtitleTrack.height / (root.maxSubLayer + 1)
-    property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
+    property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
     y: height * subLayer
 
     function editText()
@@ -89,7 +95,7 @@ Item {
     MouseArea {
             // Clip shifting
             id: subtitleClipArea
-            x: startFrame * root.timeScale
+            x: subtitleRoot.startFrame * root.timeScale
             height: parent.height
             width: subtitleBase.width
             hoverEnabled: !root.isPanning
@@ -105,7 +111,7 @@ Item {
             property double delta: -1
             property double oldDelta: 0
             property bool startMove: false
-            visible: root.activeTool === Kdenlive.ToolType.SelectTool
+            visible: K.Core.activeTool === K.ToolType.SelectTool
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
             drag.axis: Drag.XAxis | Drag.YAxis
@@ -114,14 +120,14 @@ Item {
             onEntered: {
                 if (root.isPanning) return
                 console.log('ENTERED SUBTITLE MOUSE AREA')
-                timeline.showKeyBinding(i18n("<b>Double click</b> to edit text"))
+                subtitleRoot.timeline.showKeyBinding(KI18n.i18n("<b>Double click</b> to edit text"))
             }
             onExited: {
                 if (root.isPanning) return
-                timeline.showKeyBinding()
+                subtitleRoot.timeline.showKeyBinding()
             }
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -139,27 +145,27 @@ Item {
                     root.subtitleItem = subtitleClipArea
                     incrementalOffset = 0
                 }
-                if (timeline.selection.indexOf(subtitleRoot.subId) === -1) {
-                    controller.requestAddToSelection(subtitleRoot.subId, !(mouse.modifiers & Qt.ShiftModifier))
-                    timeline.showAsset(subtitleRoot.subId);
+                if (subtitleRoot.timeline.selection.indexOf(subtitleRoot.subId) === -1) {
+                    subtitleRoot.controller.requestAddToSelection(subtitleRoot.subId, !(mouse.modifiers & Qt.ShiftModifier))
+                    subtitleRoot.timeline.showAsset(subtitleRoot.subId);
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
                     console.log('REMOVE FROM SELECTION!!!!')
-                    controller.requestRemoveFromSelection(subtitleRoot.subId)
+                    subtitleRoot.controller.requestRemoveFromSelection(subtitleRoot.subId)
                 } else {
-                    timeline.showAsset(subtitleRoot.subId)
+                    subtitleRoot.timeline.showAsset(subtitleRoot.subId)
                 }
-                timeline.activeTrack = -2
-                timeline.activeSubLayer = subtitleRoot.subLayer
+                subtitleRoot.timeline.activeTrack = -2
+                subtitleRoot.timeline.activeSubLayer = subtitleRoot.subLayer
             }
             function checkOffset(offset) {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
                     incrementalOffset += offset
-                    newStart = Math.max(0, oldStartFrame + (scrollView.contentX + mapToItem(scrollView,mouseX, 0).x + incrementalOffset - oldStartX)/ root.timeScale)
-                    snappedFrame = controller.suggestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, newStart, root.consumerPosition, root.snapping)
+                    newStart = Math.max(0, oldStartFrame + (scrollView.contentX + mapToItem(scrollView,mouseX, 0).x + incrementalOffset - subtitleRoot.oldStartX)/ root.timeScale)
+                    snappedFrame = subtitleRoot.controller.suggestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, newStart, root.consumerPosition, root.snapping)
                     root.continuousScrolling(scrollView.contentX + mapToItem(scrollView, mouseX, 0).x + incrementalOffset, root.timeScale)
                 }
             }
-            onPositionChanged: {
+            onPositionChanged: (mouse) => {
                 incrementalOffset = 0
                 checkOffset(0)
 
@@ -173,11 +179,11 @@ Item {
                         newLayer = 0
                     }
                     snappedLayer = Math.floor(newLayer)
-                    controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, false)
+                    subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, false)
                 }
             }
             onReleased: mouse => {
-                root.autoScrolling = timeline.autoScroll
+                root.autoScrolling = subtitleRoot.timeline.autoScroll
                 root.subtitleMoving = false
                 root.subtitleItem = undefined
                 if (subtitleBase.textEditBegin) {
@@ -192,9 +198,9 @@ Item {
                     if (mouse.y > subtitleRoot.height && mouse.modifiers & Qt.ShiftModifier) {
                         snappedLayer++
                     }
-                    console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
-                    controller.requestSubtitleMove(subtitleRoot.subId, oldLayer, oldStartFrame, false, false)
-                    controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, true, true)
+                    console.log("old start frame", oldStartFrame/subtitleRoot.timeline.scaleFactor, "new frame after shifting ", oldStartFrame/subtitleRoot.timeline.scaleFactor + delta)
+                    subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, oldLayer, oldStartFrame, false, false)
+                    subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, true, true)
                     x = snappedFrame * root.timeScale
                 }
                 console.log('RELEASED DONE\n\n_______________')
@@ -212,15 +218,15 @@ Item {
                 event.accepted = subtitleRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
             }
             Keys.onLeftPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true, true)) {
-                    timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
+                if (subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true, true)) {
+                    subtitleRoot.timeline.showToolTip(KI18n.i18n("Position: %1", subtitleRoot.timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             Keys.onRightPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true, true)) {
-                    timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
+                if (subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true, true)) {
+                    subtitleRoot.timeline.showToolTip(KI18n.i18n("Position: %1", subtitleRoot.timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             /*Keys.onUpPressed: {
@@ -230,7 +236,7 @@ Item {
                 controller.requestClipMove(subtitleRoot.subId, controller.getPreviousTrackId(subtitleRoot.trackId), subtitleRoot.startFrame, true, true, true);
             }*/
             Keys.onEscapePressed: {
-                timeline.grabCurrent()
+                subtitleRoot.timeline.grabCurrent()
                 //focus = false
             }
         }
@@ -238,12 +244,12 @@ Item {
         id: subtitleBase
         property bool textEditBegin: false
         height: subtitleRoot.height
-        width: duration * root.timeScale // to make width change wrt timeline scale factor
-        x: startFrame * root.timeScale;
+        width: subtitleRoot.duration * root.timeScale // to make width change wrt timeline scale factor
+        x: subtitleRoot.startFrame * root.timeScale;
         clip: true
         TextField {
             id: subtitleEdit
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             activeFocusOnPress: true
             selectByMouse: true
             onEditingFinished: {
@@ -272,7 +278,7 @@ Item {
             background: Rectangle {
                 color: root.subtitlesLocked ? "#ff6666" : enabled ? "#fff" : '#ccccff'
                 border {
-                    color: subtitleRoot.selected ? root.selectionColor : "#000"
+                    color: subtitleRoot.selected ? subtitleRoot.timeline.selectionColor : "#000"
                     width: subtitleRoot.isGrabbed ? 8 : 2
                 }
             }
@@ -283,7 +289,7 @@ Item {
     Item {
         // start position resize handle
         id: leftstart
-        width: root.baseUnit
+        width: K.UiUtils.baseSizeMedium
         height: subtitleBase.height
         anchors.top: subtitleBase.top
         anchors.left: subtitleBase.left
@@ -294,7 +300,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: !root.isPanning
             enabled: !root.isPanning
-            visible: root.activeTool === Kdenlive.ToolType.SelectTool
+            visible: K.Core.activeTool === K.ToolType.SelectTool
             property int newStart: subtitleRoot.startFrame
             property int newDuration: subtitleRoot.duration
             property int originalDuration: subtitleRoot.duration
@@ -307,7 +313,7 @@ Item {
             cursorShape: containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor;
             drag.target: leftstart
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -318,15 +324,15 @@ Item {
                 originalDuration = subtitleRoot.duration
                 newDuration = subtitleRoot.duration
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                if (!shiftTrim && (controller.isInGroup(subtitleRoot.subId) || controller.hasMultipleSelection())) {
-                    root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
+                if (!shiftTrim && (subtitleRoot.controller.isInGroup(subtitleRoot.subId) || subtitleRoot.controller.hasMultipleSelection())) {
+                    root.groupTrimData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
                 }
             }
             onPositionChanged: {
                 if (pressed) {
                     newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / root.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
-                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, root.snapping, shiftTrim);
+                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, root.snapping, shiftTrim);
                         if (frame > 0) {
                             newStart = subtitleRoot.endFrame - frame
                         }
@@ -336,15 +342,15 @@ Item {
             onReleased: {
                 //console.log('its RELEASED')
                 trimIn.opacity = 0
-                root.autoScrolling = timeline.autoScroll
+                root.autoScrolling = subtitleRoot.timeline.autoScroll
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
-                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === Kdenlive.ToolType.RippleTool)) {
-                        controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
-                        controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true, -1, shiftTrim);
+                    if (shiftTrim || (root.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
+                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
+                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true, -1, shiftTrim);
                     } else {
-                        var updatedGroupData = controller.getGroupData(subtitleRoot.subId)
-                        controller.processGroupResize(root.groupTrimData, updatedGroupData, false)
+                        var updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                        subtitleRoot.controller.processGroupResize(root.groupTrimData, updatedGroupData, false)
                     }
                 }
                 root.groupTrimData = undefined
@@ -352,7 +358,7 @@ Item {
             onEntered: {
                 if (!pressed) {
                     trimIn.opacity = 1
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                    subtitleRoot.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                 }
             }
             onExited: {
@@ -360,7 +366,7 @@ Item {
                     trimIn.opacity = 0
                 }
                 if (!subtitleClipArea.containsMouse) {
-                    timeline.showKeyBinding()
+                    subtitleRoot.timeline.showKeyBinding()
                 }
             }
 
@@ -381,7 +387,7 @@ Item {
     Item {
         // end position resize handle
         id: rightend
-        width: root.baseUnit
+        width: K.UiUtils.baseSizeMedium
         height: subtitleBase.height
         //x: subtitleRoot.endFrame * timeScale
         anchors.right: subtitleBase.right
@@ -395,7 +401,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: !root.isPanning
             enabled: !root.isPanning
-            visible: root.activeTool === Kdenlive.ToolType.SelectTool
+            visible: K.Core.activeTool === K.ToolType.SelectTool
             property bool sizeChanged: false
             property int oldMouseX
             acceptedButtons: Qt.LeftButton
@@ -408,7 +414,7 @@ Item {
             drag.smoothed: false
 
             onPressed: mouse => {
-                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
@@ -418,18 +424,18 @@ Item {
                 //rightend.anchors.right = undefined
                 oldMouseX = mouseX
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                if (!shiftTrim && (controller.isInGroup(subtitleRoot.subId) || controller.hasMultipleSelection())) {
-                    root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
+                if (!shiftTrim && (subtitleRoot.controller.isInGroup(subtitleRoot.subId) || subtitleRoot.controller.hasMultipleSelection())) {
+                    root.groupTrimData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
                 }
             }
             onPositionChanged: {
                 if (pressed) {
-                    if ((mouseX != oldMouseX && duration > 1) || (duration <= 1 && mouseX > oldMouseX)) {
+                    if ((mouseX != oldMouseX && subtitleRoot.duration > 1) || (subtitleRoot.duration <= 1 && mouseX > oldMouseX)) {
                         sizeChanged = true
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
                         newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX)/timeScale)
                         // Perform resize without changing model
-                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, root.snapping, shiftTrim);
+                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, root.snapping, shiftTrim);
                         if (frame > 0) {
                             newDuration = frame
                         }
@@ -438,18 +444,18 @@ Item {
             }
             onReleased: {
                 trimOut.opacity = 0
-                root.autoScrolling = timeline.autoScroll
+                root.autoScrolling = subtitleRoot.timeline.autoScroll
                 rightend.anchors.right = subtitleBase.right
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
-                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                    if (shiftTrim || (root.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
                         // Restore original size
-                        controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
+                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
                         // Perform real resize
-                        controller.requestItemResize(subtitleRoot.subId, newDuration , true, true, -1, shiftTrim)
+                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, true, -1, shiftTrim)
                     } else {
-                        var updatedGroupData = controller.getGroupData(subtitleRoot.subId)
-                        controller.processGroupResize(root.groupTrimData, updatedGroupData, true)
+                        var updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                        subtitleRoot.controller.processGroupResize(root.groupTrimData, updatedGroupData, true)
                     }
                     sizeChanged = false
                 }
@@ -459,7 +465,7 @@ Item {
                 console.log('ENTER MOUSE END AREA')
                 if (!pressed) {
                     trimOut.opacity = 1
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                    subtitleRoot.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                 }
             }
             onExited: {
@@ -467,7 +473,7 @@ Item {
                     trimOut.opacity = 0
                 }
                 if (!subtitleClipArea.containsMouse) {
-                    timeline.showKeyBinding()
+                    subtitleRoot.timeline.showKeyBinding()
                 }
             }
 

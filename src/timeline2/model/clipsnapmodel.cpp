@@ -5,8 +5,6 @@
 
 #include "clipsnapmodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
-#include <climits>
-#include <cstdlib>
 #include <memory>
 
 ClipSnapModel::ClipSnapModel() = default;

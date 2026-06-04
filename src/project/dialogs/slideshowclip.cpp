@@ -14,7 +14,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <KRecentDirs>
 
-#include "kdenlive_debug.h"
 #include <QDir>
 #include <QFontDatabase>
 #include <QStandardPaths>
@@ -40,15 +39,9 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.icon_list->setIconSize(QSize(50, 50));
     m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_view.show_thumbs, &QCheckBox::checkStateChanged, this, &SlideshowClip::slotEnableThumbs);
     connect(m_view.slide_fade, &QCheckBox::checkStateChanged, this, &SlideshowClip::slotEnableLuma);
     connect(m_view.luma_fade, &QCheckBox::checkStateChanged, this, &SlideshowClip::slotEnableLumaFile);
-#else
-    connect(m_view.show_thumbs, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableThumbs);
-    connect(m_view.slide_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLuma);
-    connect(m_view.luma_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLumaFile);
-#endif
     // WARNING: keep in sync with project/clipproperties.cpp
     m_view.image_type->addItem(QStringLiteral("JPG (*.jpg)"), QStringLiteral("jpg"));
     m_view.image_type->addItem(QStringLiteral("JPEG (*.jpeg)"), QStringLiteral("jpeg"));
@@ -60,6 +53,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.image_type->addItem(QStringLiteral("TIF (*.tif)"), QStringLiteral("tif"));
     m_view.image_type->addItem(QStringLiteral("TIFF (*.tiff)"), QStringLiteral("tiff"));
     m_view.image_type->addItem(QStringLiteral("Open EXR (*.exr)"), QStringLiteral("exr"));
+    m_view.image_type->addItem(QStringLiteral("WebP (*.webp)"), QStringLiteral("webp"));
     m_view.image_type->addItem(i18n("Preview from CR2 (*.cr2)"), QStringLiteral("cr2"));
     m_view.image_type->addItem(i18n("Preview from ARW (*.arw)"), QStringLiteral("arw"));
     m_view.animation->addItem(i18n("None"), QString());

@@ -2,6 +2,9 @@
     SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
+
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
@@ -14,10 +17,11 @@ Menu {
 
     Instantiator {
         id: itemRepeater
-        onObjectAdded: menuRoot.insertItem( index, object )
+        onObjectAdded: (index, object) => menuRoot.insertItem( index, object )
         onObjectRemoved: menuRoot.removeItem( object )
         delegate: MenuItem {
             id: menuItem
+            required property var model
             text: model.comment
             property int assetFrame: model.frame
             onTriggered: {

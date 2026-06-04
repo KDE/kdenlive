@@ -19,7 +19,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidgetAction>
 
 #include <memory>
-#include <unordered_set>
 
 class SnapModel;
 class ProjectClip;
@@ -42,6 +41,7 @@ class MarkerSortModel;
 namespace Mlt {
 class Profile;
 class Filter;
+class Transition;
 } // namespace Mlt
 
 class VolumeAction : public QWidgetAction
@@ -152,7 +152,7 @@ public:
     /** @brief Update active track in multitrack view */
     void updateMultiTrackView(int tid);
     /** @brief Returns true if monitor is currently fullscreen */
-    bool monitorIsFullScreen() const;
+    bool monitorIsFullScreen(bool considerMirror = true) const;
     void reloadActiveStream();
     /** @brief Returns true if monitor is playing */
     bool isPlaying() const;
@@ -212,6 +212,12 @@ protected:
     void updateBgColor();
 
 private:
+    const QScreen *getScreenForFullscreen(bool *multipleScreens);
+
+    // Fullscreen mirror helpers
+    void createFullscreenMirror();
+    void destroyFullscreenMirror();
+
     std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
     VideoWidget *m_glMonitor;
@@ -270,8 +276,13 @@ private:
     QTimer m_droppedTimer;
     double m_displayedFps;
     int m_speedIndex;
+    int m_startPlaybackPos{0};
     QMetaObject::Connection m_switchConnection;
     QMetaObject::Connection m_captureConnection;
+
+    // Fullscreen mirror window & widget.
+    QWidget *m_fullscreenWindow{nullptr};
+    VideoWidget *m_monitorMirror{nullptr};
 
     void adjustScrollBars(float horizontal, float vertical);
     void updateQmlDisplay(int currentOverlay);
@@ -457,4 +468,5 @@ Q_SIGNALS:
     void disablePreviewMask();
     void sceneChanged(MonitorSceneType sceneType);
     void effectRotationChanged(double rotation);
+    void profileUpdated();
 };

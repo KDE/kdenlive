@@ -20,7 +20,6 @@
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "render/renderrequest.h"
-#include "utils/qstringutils.h"
 #include "utils/timecode.h"
 #include "xml/xml.hpp"
 
@@ -69,16 +68,12 @@
 #include <Purpose/AlternativesModel>
 #include <Purpose/Menu>
 
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
-
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
 
-RenderViewDelegate::RenderViewDelegate(QWidget *parent)
+RenderViewDelegate::RenderViewDelegate(QWidget *parent, bool secondaryLineIsPath)
     : QStyledItemDelegate(parent)
+    , m_adjustSecondaryPath(secondaryLineIsPath)
 {
 }
 
@@ -163,11 +158,15 @@ void RenderViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         int mid = int((r1.height() / 2));
         r1.setBottom(r1.y() + mid);
         QRect bounding;
-        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, QDir::toNativeSeparators(index.data(Qt::DisplayRole).toString()), &bounding);
         r1.moveTop(r1.bottom() - textMargin);
         font.setBold(false);
         painter->setFont(font);
-        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
+        if (m_adjustSecondaryPath) {
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, QDir::toNativeSeparators(index.data(Qt::UserRole).toString()));
+        } else {
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
+        }
         int progress = index.data(RenderWidget::ProgressRole).toInt();
         if (progress > 0 && progress < 100) {
             // draw progress bar
@@ -344,15 +343,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
     m_view.optionsGroup->setMinimumWidth(m_view.optionsGroup->width() + m_view.optionsGroup->verticalScrollBar()->width());
     connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);
-
-    connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
-    connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void (RenderWidget::*)(const QUrl &)>(&RenderWidget::slotUpdateButtons));
-    connect(m_view.out_file->lineEdit(), &KLineEdit::editingFinished, this, [this]() {
-        const QUrl url = m_view.out_file->url();
-        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
-        qDebug() << "HHHHHHHHHHHHHHH\nEDITING FINISHED; URL: " << url;
-        m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
-    });
+    connect(m_view.out_file, &KUrlRequester::urlSelected, this, &RenderWidget::slotUpdateUrl);
+    connect(m_view.out_file->lineEdit(), &KLineEdit::editingFinished, this, &RenderWidget::slotUpdateUrl);
 
     connect(m_view.guide_multi_box, &QGroupBox::toggled, this, &RenderWidget::slotRenderModeChanged);
     connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
@@ -428,13 +420,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::refreshParams);
     connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_view.render_at_preview_res, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.render_full_color, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
-#else
-    connect(m_view.render_at_preview_res, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
-    connect(m_view.render_full_color, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
-#endif
     m_view.processing_threads->setMaximum(QThread::idealThreadCount());
     m_view.processing_threads->setValue(KdenliveSettings::processingthreads());
     connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KdenliveSettings::setProcessingthreads);
@@ -464,13 +451,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         }
         refreshParams();
     });
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_view.export_meta, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.checkTwoPass, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
-#else
-    connect(m_view.export_meta, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
-    connect(m_view.checkTwoPass, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
-#endif
     connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(); });
     connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(true); });
     updateMetadataToolTip();
@@ -522,7 +504,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     // ===== "Scripts" tab =====
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Stored Playlists"));
-    m_scriptsDelegate = new RenderViewDelegate(this);
+    m_scriptsDelegate = new RenderViewDelegate(this, true);
     m_view.scripts_list->setItemDelegate(m_scriptsDelegate);
     header = m_view.scripts_list->header();
     header->setSectionResizeMode(0, QHeaderView::Fixed);
@@ -640,6 +622,7 @@ void RenderWidget::saveConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "RenderWidget");
     resourceConfig.writeEntry(QStringLiteral("showoptions"), m_view.options->isChecked());
+    resourceConfig.writeEntry(QStringLiteral("addtobin"), m_view.add_to_bin->isChecked());
     QWindow *handle = windowHandle();
     KConfigGroup group = config->group("RenderDialogSize");
     if (handle) {
@@ -653,16 +636,17 @@ void RenderWidget::loadConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "RenderWidget");
     m_view.options->setChecked(resourceConfig.readEntry("showoptions", false));
+    m_view.add_to_bin->setChecked(resourceConfig.readEntry("addtobin", false));
 }
 
 void RenderWidget::updateDocumentPath()
 {
     m_view.out_file->setStartDir(QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder()));
-    if (m_view.out_file->url().isEmpty()) {
+    if (m_view.out_file->text().isEmpty()) {
         return;
     }
-    const QString fileName = m_view.out_file->url().fileName();
-    m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(pCore->currentDoc()->projectRenderFolder()).absoluteFilePath(fileName)));
+    const QString fileName = QFileInfo(m_view.out_file->text()).fileName();
+    m_view.out_file->setText(pCore->currentDoc()->projectRenderFolder() + "/" + fileName);
     parseScriptFiles();
 }
 
@@ -675,23 +659,39 @@ void RenderWidget::slotRenderModeChanged()
 
 void RenderWidget::slotUpdateRescaleWidth(int val)
 {
+    if (val % 2 == 1) {
+        val++;
+        QSignalBlocker bk(m_view.rescale_width);
+        m_view.rescale_width->setValue(val);
+    }
     KdenliveSettings::setDefaultrescalewidth(val);
-    m_view.rescale_height->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_height->setValue(val * profile->height() / profile->width());
+    int proposedHeight = qRound(double(val) * profile->height() / profile->width());
+    if (proposedHeight % 2 == 1) {
+        proposedHeight++;
+    }
+    QSignalBlocker bk(m_view.rescale_height);
+    m_view.rescale_height->setValue(proposedHeight);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
-    m_view.rescale_height->blockSignals(false);
     refreshParams();
 }
 
 void RenderWidget::slotUpdateRescaleHeight(int val)
 {
+    if (val % 2 == 1) {
+        val++;
+        QSignalBlocker bk(m_view.rescale_height);
+        m_view.rescale_height->setValue(val);
+    }
     KdenliveSettings::setDefaultrescaleheight(val);
-    m_view.rescale_width->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_width->setValue(val * profile->width() / profile->height());
+    int proposedWidth = qRound(double(val) * profile->width() / profile->height());
+    if (proposedWidth % 2 == 1) {
+        proposedWidth++;
+    }
+    QSignalBlocker bk(m_view.rescale_width);
+    m_view.rescale_width->setValue(proposedWidth);
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
-    m_view.rescale_width->blockSignals(false);
     refreshParams();
 }
 
@@ -813,7 +813,7 @@ void RenderWidget::reloadGuides()
     slotRenderModeChanged();
 }
 
-void RenderWidget::slotUpdateButtons(const QUrl &url)
+void RenderWidget::slotUpdateButtons()
 {
     if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
         m_view.buttonSaveAs->setEnabled(false);
@@ -829,8 +829,14 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         m_view.buttonDelete->setEnabled(profile->editable());
         m_view.buttonEdit->setEnabled(profile->editable());
     }
+    slotUpdateUrl();
+}
+
+void RenderWidget::slotUpdateUrl()
+{
+    const QUrl url = QUrl::fromLocalFile(m_view.out_file->text());
     if (url.isValid()) {
-        QStorageInfo info(QFileInfo(url.toLocalFile()).absolutePath());
+        QStorageInfo info(m_view.out_file->text());
         if (m_lastCheckedDevice != info.device()) {
             // User selected a new device, check now if it has enough space
             checkDriveSpace();
@@ -838,11 +844,6 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
         m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
     }
-}
-
-void RenderWidget::slotUpdateButtons()
-{
-    slotUpdateButtons(QUrl());
 }
 
 void RenderWidget::slotSavePresetAs()
@@ -935,6 +936,13 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
         QAction *b = new QAction(i18nc("@action:button", "Render Anyway"), this);
         connect(b, &QAction::triggered, this, [this, delayedRendering]() {
+            // Remove message actions
+            QList<QAction *> acts = m_view.infoMessage->actions();
+            while (!acts.isEmpty()) {
+                QAction *a = acts.takeFirst();
+                m_view.infoMessage->removeAction(a);
+                delete a;
+            }
             m_view.infoMessage->animatedHide();
             slotPrepareExport2(delayedRendering);
         });
@@ -960,25 +968,25 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
 void RenderWidget::slotPrepareExport2(bool delayedRendering)
 {
-    if (QFile::exists(m_view.out_file->url().toLocalFile())) {
+    QFileInfo info(m_view.out_file->text());
+    if (info.exists()) {
         if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
                                            KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
-    }
-    // mantisbt 1051
-    QDir dir(m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile());
-    if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
-        KMessageBox::error(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.",
-                                      m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
-        return;
+    } else {
+        QDir dir = info.dir();
+        if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
+            KMessageBox::error(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", dir.absolutePath()));
+            return;
+        }
     }
 
     saveRenderProfile();
 
     RenderRequest request;
 
-    request.setOutputFile(m_view.out_file->url().toLocalFile());
+    request.setOutputFile(QFileInfo(m_view.out_file->text()).absoluteFilePath());
 
     request.setPresetParams(m_params);
     request.setDelayedRendering(delayedRendering);
@@ -1109,6 +1117,7 @@ RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
     renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
     renderItem->setData(1, PlayAfterRole, m_view.play_after->isChecked());
+    renderItem->setData(1, AddToBinRole, m_view.add_to_bin->isChecked());
     if (!m_view.audio_box->isChecked()) {
         renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
     } else if (!m_view.video_box->isChecked()) {
@@ -1226,8 +1235,8 @@ int RenderWidget::runningJobsCount() const
 
 void RenderWidget::adjustViewToProfile()
 {
-    m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
-    m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
+    m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth() + KdenliveSettings::defaultrescalewidth() % 2);
+    m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight() + KdenliveSettings::defaultrescaleheight() % 2);
     refreshView();
 }
 
@@ -1239,14 +1248,6 @@ void RenderWidget::refreshView()
 
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
-    if (!url.isValid()) {
-        url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
-    }
-    QDir directory(url.adjusted(QUrl::RemoveFilename).toLocalFile());
-    if (!url.isValid() || directory.isRelative()) {
-        directory = QDir(pCore->currentDoc()->projectRenderFolder());
-    }
-
     QString ext;
     if (extension.startsWith(QLatin1Char('.'))) {
         ext = extension;
@@ -1270,8 +1271,17 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
             filename = filename.left(pos) + ext;
         }
     }
+    if (!url.isValid()) {
+        qDebug() << "==== GOT INITIAL URL INVALID: " << url;
+        url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
+    }
 
-    return QUrl::fromLocalFile(directory.absoluteFilePath(filename));
+    QFileInfo info(url.adjusted(QUrl::RemoveFilename).toLocalFile());
+    if (!url.isValid() || info.isRelative()) {
+        info.setFile(pCore->currentDoc()->projectRenderFolder());
+    }
+
+    return QUrl::fromLocalFile(QFileInfo(info.absoluteFilePath() + "/" + filename).absoluteFilePath());
 }
 
 void RenderWidget::slotChangeSelection(const QModelIndex &current, const QModelIndex &previous)
@@ -1528,9 +1538,24 @@ void RenderWidget::refreshParams()
         }
     }
     m_params.replacePlaceholder(QStringLiteral("%quality"), QString::number(val));
-    //  TODO check if this is finally correct
-    m_params.replacePlaceholder(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultVBitrate()));
-    m_params.replacePlaceholder(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(preset->defaultVBitrate()));
+
+    val = preset->defaultVBitrate().toInt();
+    if (m_view.qualityGroup->isChecked()) {
+        QList<int> vBitrates = {val};
+        for (auto &vb : preset->videoBitrates()) {
+            if (!vBitrates.contains(vb.toInt())) {
+                vBitrates << vb.toInt();
+            }
+        }
+        std::sort(vBitrates.begin(), vBitrates.end());
+        if (vBitrates.size() > 1) {
+            int pos = qRound((vBitrates.size() - 1) * percent);
+            val = vBitrates.at(pos);
+        }
+    }
+
+    m_params.replacePlaceholder(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(val));
+    m_params.replacePlaceholder(QStringLiteral("%bitrate"), QString::number(val));
 
     val = preset->defaultABitrate().toInt() * 1000;
     if (m_view.qualityGroup->isChecked()) {
@@ -1549,8 +1574,22 @@ void RenderWidget::refreshParams()
     }
     m_params.replacePlaceholder(QStringLiteral("%audioquality"), QString::number(val));
     // TODO check if this is finally correct
-    m_params.replacePlaceholder(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultABitrate()));
-    m_params.replacePlaceholder(QStringLiteral("%audiobitrate"), QStringLiteral("%1").arg(preset->defaultABitrate()));
+    val = preset->defaultABitrate().toInt();
+    if (m_view.qualityGroup->isChecked()) {
+        QList<int> aBitrates = {val};
+        for (auto &ab : preset->audioBitrates()) {
+            if (!aBitrates.contains(ab.toInt())) {
+                aBitrates << ab.toInt();
+            }
+        }
+        std::sort(aBitrates.begin(), aBitrates.end());
+        if (aBitrates.size() > 1) {
+            int pos = qRound((aBitrates.size() - 1) * percent);
+            val = aBitrates.at(pos);
+        }
+    }
+    m_params.replacePlaceholder(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(val));
+    m_params.replacePlaceholder(QStringLiteral("%audiobitrate"), QString::number(val));
 
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
     QString dvstd;
@@ -1768,8 +1807,9 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString t = i18n("Rendering finished in %1", est);
         item->setData(1, Qt::UserRole, t);
 
-        m_shareMenu->model()->setInputData(QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(item->text(1)).name()},
-                                                       {QStringLiteral("urls"), QJsonArray({item->text(1)})}});
+        m_shareMenu->model()->setInputData(
+            QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(item->data(1, Qt::DisplayRole).toString()).name()},
+                        {QStringLiteral("urls"), QJsonArray({item->data(1, Qt::DisplayRole).toString()})}});
         m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
         m_shareMenu->reload();
 
@@ -1783,7 +1823,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         }
         notify->setText(notif);
         notify->sendEvent();
-        const QUrl url = QUrl::fromLocalFile(item->text(1));
+        const QUrl url = QUrl::fromLocalFile(item->data(1, Qt::DisplayRole).toString());
         bool exists = QFile(url.toLocalFile()).exists();
         if (exists && !firstPassRendering) {
             if (item->data(1, OpenBrowserRole).toBool()) {
@@ -1793,6 +1833,9 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
                 auto *job = new KIO::OpenUrlJob(url);
                 job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
                 job->start();
+            }
+            if (item->data(1, AddToBinRole).toBool()) {
+                pCore->activeBin()->slotAddClipToProject(url);
             }
         }
     } else if (status == -2) {
@@ -1844,7 +1887,7 @@ void RenderWidget::slotAbortCurrentJob()
     auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if (current) {
         if (current->status() == RUNNINGJOB) {
-            Q_EMIT abortProcess(current->text(1));
+            Q_EMIT abortProcess(current->data(1, Qt::DisplayRole).toString());
         } else {
             delete current;
             slotCheckJob();
@@ -1876,8 +1919,9 @@ void RenderWidget::slotCheckJob()
         }
         activate = true;
         if (current->status() == FINISHEDJOB) {
-            m_shareMenu->model()->setInputData(QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->text(1)).name()},
-                                                           {QStringLiteral("urls"), QJsonArray({current->text(1)})}});
+            m_shareMenu->model()->setInputData(
+                QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->data(1, Qt::DisplayRole).toString()).name()},
+                            {QStringLiteral("urls"), QJsonArray({current->data(1, Qt::DisplayRole).toString()})}});
             m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
             m_shareMenu->reload();
             m_view.shareButton->setEnabled(true);
@@ -2141,7 +2185,7 @@ void RenderWidget::saveRenderProfile()
     std::unique_ptr<RenderPresetModel> &preset = RenderPresetRepository::get()->getPreset(m_currentProfile);
     renderProps.insert(QStringLiteral("rendercategory"), preset->groupId());
     renderProps.insert(QStringLiteral("renderprofile"), preset->name());
-    renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->url().toLocalFile());
+    renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->text());
     int mode = 0; // 0 = full project
     if (m_view.render_zone->isChecked()) {
         mode = 1;
@@ -2232,7 +2276,7 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     if (renderItem->status() != FINISHEDJOB) {
         return;
     }
-    QString fileName = item->text(1);
+    QString fileName = item->data(1, Qt::DisplayRole).toString();
     if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
         fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
     }
@@ -2286,7 +2330,18 @@ void RenderWidget::updateRenderOffset()
 
 void RenderWidget::checkDriveSpace()
 {
-    QStorageInfo info(QFileInfo(m_view.out_file->url().toLocalFile()).absolutePath());
+    if (m_view.out_file->text().isEmpty()) {
+        return;
+    }
+    QStorageInfo info(QFileInfo(m_view.out_file->text()).dir());
+    if (info.device().isEmpty()) {
+        // Unknown drive, don't check
+        if (m_freeSpaceStatus != SpaceUnknown) {
+            m_freeSpaceStatus = SpaceUnknown;
+            updateRenderInfoMessage();
+        }
+        return;
+    }
     m_lastCheckedDevice = info.device();
     DriveSpaceStatus previousState = m_freeSpaceStatus;
 #ifdef Q_OS_MAC
@@ -2307,7 +2362,26 @@ void RenderWidget::checkDriveSpace()
     }
     m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
 
-    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+    // Very rough estimate of h264 video size
+    int sizePerFrame = 0;
+    const QSize frameSize = pCore->getCurrentFrameSize();
+    qint32 pixels = frameSize.width() * frameSize.height();
+    if (pixels > 28000000) {
+        // Approximately 8K
+        sizePerFrame = 490000;
+    } else if (pixels > 7900000) {
+        // Approximately 4K
+        sizePerFrame = 39000;
+    } else if (pixels > 2000000) {
+        // Approximately HD
+        sizePerFrame = 26000;
+    } else {
+        // SD
+        sizePerFrame = 20000;
+    }
+
+    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * sizePerFrame));
+    qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
     if (m_lastFreeSpace < 5 * minimumSize) {
         m_freeSpaceStatus = SpaceLow;
     } else if (m_lastFreeSpace < minimumSize) {
@@ -2322,7 +2396,7 @@ void RenderWidget::checkDriveSpace()
 
 void RenderWidget::updateRenderInfoMessage()
 {
-    if (m_freeSpaceStatus != SpaceOk) {
+    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
         m_view.infoMessage->setMessageType(m_freeSpaceStatus == SpaceNone || m_freeSpaceStatus == SpaceNotWritable ? KMessageWidget::Error
                                                                                                                    : KMessageWidget::Warning);
     } else {
@@ -2333,7 +2407,7 @@ void RenderWidget::updateRenderInfoMessage()
         m_view.infoMessage->show();
         return;
     }
-    if (m_freeSpaceStatus != SpaceOk) {
+    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
         switch (m_freeSpaceStatus) {
         case SpaceNotWritable:
             m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
@@ -2516,7 +2590,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     QMenu menu(this);
     QAction *newAct = new QAction(i18n("Add to Current Project"), this);
     connect(newAct, &QAction::triggered, [&, renderItem]() {
-        QString fileName = renderItem->text(1);
+        QString fileName = renderItem->data(1, Qt::DisplayRole).toString();
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
             fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
         }
@@ -2525,7 +2599,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     menu.addAction(newAct);
     QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
     connect(openContainingFolder, &QAction::triggered, [&, renderItem]() {
-        QString fileName = renderItem->text(1);
+        QString fileName = renderItem->data(1, Qt::DisplayRole).toString();
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
             fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
         }
@@ -2550,7 +2624,7 @@ void RenderWidget::resetRenderPath(const QString &path)
     if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
     }
-    m_view.out_file->setUrl(QUrl::fromLocalFile(url));
+    m_view.out_file->setText(url);
     QMap<QString, QString> renderProps;
     renderProps.insert(QStringLiteral("renderurl"), url);
     Q_EMIT selectedRenderProfile(renderProps);

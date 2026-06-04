@@ -9,7 +9,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "kdenlive_debug.h"
 
 #include <KLocalizedString>
 #include <QMenu>

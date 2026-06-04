@@ -9,7 +9,6 @@
 #include "../monitormanager.h"
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "profiles/profilemodel.hpp"
 
 #include <QAction>
 #include <QFontDatabase>
@@ -23,7 +22,8 @@
 
 #include <cmath>
 
-#include <mlt++/Mlt.h>
+#include <mlt++/MltFilter.h>
+#include <mlt++/MltFrame.h>
 
 // Code borrowed from Shotcut's audiospectum by Brian Matherly <code@brianmatherly.com> (GPL)
 

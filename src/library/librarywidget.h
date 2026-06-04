@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include "definitions.h"
-
 #include <QApplication>
 #include <QDir>
 #include <QMutex>

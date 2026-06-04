@@ -6,6 +6,7 @@
 
 #include "pluginssettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "pythoninterfaces/dialogs/modeldownloadwidget.h"
 #include "pythoninterfaces/saminterface.h"
@@ -207,11 +208,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     speech_info->setWordWrap(true);
     connect(check_config, &QPushButton::clicked, this, &PluginsSettings::slotCheckSttConfig);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(custom_vosk_folder, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
-#else
-    connect(custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
-#endif
         vosk_folder->setEnabled(state != Qt::Unchecked);
         if (state == Qt::Unchecked) {
             // Clear custom folder

@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick.Controls 2.15
 import QtQuick 2.15
 
@@ -43,6 +45,8 @@ Rectangle {
         model: 4
         anchors.fill: parent
         delegate: Label {
+            required property int index
+            required property int modelData
             anchors.centerIn: parent
             visible: counter.countdown <= index
             opacity: counter.countdown == index ? 1 : 0.4

@@ -7,16 +7,17 @@
 
 #include "renderpresetmodel.hpp"
 #include "core.h"
-#include "kdenlive_debug.h"
-#include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "renderpresetrepository.hpp"
 
+#include <mlt++/MltProperties.h>
 #include <mlt++/MltRepository.h>
 
+#include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <KSharedConfig>
 #include <QDir>
 #include <QFile>
 #include <QRegularExpression>
@@ -476,7 +477,7 @@ QString RenderPresetModel::extension() const
     return getParam(QStringLiteral("f"));
 };
 
-QStringList RenderPresetModel::audioBitrates() const
+const QStringList RenderPresetModel::audioBitrates() const
 {
     return m_aBitrates.split(QLatin1Char(','), Qt::SkipEmptyParts);
 }
@@ -486,7 +487,7 @@ QString RenderPresetModel::defaultABitrate() const
     return m_defaultABitrate;
 }
 
-QStringList RenderPresetModel::audioQualities() const
+const QStringList RenderPresetModel::audioQualities() const
 {
     if (!m_aQualities.isEmpty()) {
         return m_aQualities.split(QLatin1Char(','), Qt::SkipEmptyParts);
@@ -508,7 +509,7 @@ QString RenderPresetModel::defaultAQuality() const
     return m_defaultAQuality;
 }
 
-QStringList RenderPresetModel::videoBitrates() const
+const QStringList RenderPresetModel::videoBitrates() const
 {
     return m_vBitrates.split(QLatin1Char(','), Qt::SkipEmptyParts);
 }
@@ -518,7 +519,7 @@ QString RenderPresetModel::defaultVBitrate() const
     return m_defaultVBitrate;
 }
 
-QStringList RenderPresetModel::videoQualities() const
+const QStringList RenderPresetModel::videoQualities() const
 {
     if (!m_vQualities.isEmpty()) {
         return m_vQualities.split(QLatin1Char(','), Qt::SkipEmptyParts);

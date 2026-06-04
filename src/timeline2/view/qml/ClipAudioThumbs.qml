@@ -3,6 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml.Models 2.15
@@ -22,7 +24,7 @@ Row {
     Timer {
         id: waveTimer
         interval: 50; running: false; repeat: false
-        onTriggered: processReload()
+        onTriggered: waveform.processReload()
     }
 
     onHeightChanged: {
@@ -82,6 +84,7 @@ Row {
     Repeater {
         id: waveformRepeater
         K.TimelineWaveform {
+            required property int index
             width: waveform.maxWidth < waveform.width ? (index + waveform.offset == waveform.totalChunks - 1 ? waveform.width % waveform.maxWidth : waveform.maxWidth) : Math.round(waveform.width)
             height: waveform.height
             channels: clipRoot.audioChannels

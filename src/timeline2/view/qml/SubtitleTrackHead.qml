@@ -5,17 +5,29 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
+
 
 Rectangle {
     id: trackHeader
     border.color: frameColor
     border.width: 1
+
+    required property K.TimelineController timeline
+    required property K.TimelineItemModel controller
     required property int collapsedHeight
     required property bool collapsed
     required property bool isDisabled
     required property bool isLocked
+
+    SystemPalette { id: activePalette }
 
     function animateLock() {
         flashLock.restart();
@@ -26,14 +38,14 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            timeline.activeTrack = -2
+            trackHeader.timeline.activeTrack = -2
         }
     }
     ToolButton {
         id: expandSubButton
         focusPolicy: Qt.NoFocus
         anchors.left: parent.left
-        anchors.leftMargin: 1.5 * root.baseUnit
+        anchors.leftMargin: 1.5 * K.UiUtils.baseSizeMedium
         width: trackHeader.collapsedHeight
         height: trackHeader.collapsedHeight
         icon.name: trackHeader.collapsed ? "go-next" : "go-down"
@@ -41,14 +53,14 @@ Rectangle {
             if (subtitleTrack.height > trackHeader.collapsedHeight) {
                 subtitleTrack.height = trackHeader.collapsedHeight
             } else {
-                subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
+                subtitleTrack.height = K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
             }
         }
     }
     ComboBox {
         id: subLabel
-        model: timeline.subtitlesList
-        property int subIndex: timeline.activeSubPosition
+        model: trackHeader.timeline.subtitlesList
+        property int subIndex: trackHeader.timeline.activeSubPosition
         onSubIndexChanged: {
             subLabel.currentIndex = subIndex
         }
@@ -58,7 +70,7 @@ Rectangle {
         visible: (subtitleTrack.visible && subtitleTrack.height !== trackHeader.collapsedHeight)
         flat: true
         onActivated: index => {
-            timeline.subtitlesMenuActivatedAsync(index)
+            trackHeader.timeline.subtitlesMenuActivatedAsync(index)
         }
     }
 
@@ -74,10 +86,10 @@ Rectangle {
             icon.name: "data-warning"
             width: trackHeader.collapsedHeight
             height: trackHeader.collapsedHeight
-            onClicked: timeline.subtitlesWarningDetails()
+            onClicked: trackHeader.timeline.subtitlesWarningDetails()
             ToolTip {
                 visible: warningButton.hovered
-                font: miniFont
+                font: K.UiUtils.smallestReadableFont
                 delay: 1500
                 timeout: 5000
                 background: Rectangle {
@@ -86,7 +98,7 @@ Rectangle {
                 }
                 contentItem: Label {
                     color: activePalette.text
-                    text: i18n("Click to see details")
+                    text: KI18n.i18n("Click to see details")
                 }
             }
         }
@@ -96,11 +108,11 @@ Rectangle {
             icon.name: "text-speak"
             width: trackHeader.collapsedHeight
             height: trackHeader.collapsedHeight
-            onClicked: timeline.triggerAction('audio_recognition')
+            onClicked: K.Core.triggerAction('audio_recognition')
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: i18n("Speech recognition")
+            ToolTip.text: KI18n.i18n("Speech recognition")
         }
         ToolButton {
             id: muteButton
@@ -108,11 +120,11 @@ Rectangle {
             icon.name: trackHeader.isDisabled ? "view-hidden" : "view-visible"
             width: trackHeader.collapsedHeight
             height: trackHeader.collapsedHeight
-            onClicked: timeline.triggerAction('disable_subtitle')
+            onClicked: K.Core.triggerAction('disable_subtitle')
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: trackHeader.isDisabled ? i18n("Show") : i18n("Hide")
+            ToolTip.text: trackHeader.isDisabled ? KI18n.i18n("Show") : KI18n.i18n("Hide")
         }
 
         ToolButton {
@@ -121,11 +133,11 @@ Rectangle {
             height: trackHeader.collapsedHeight
             focusPolicy: Qt.NoFocus
             icon.name: trackHeader.isLocked ? "lock" : "unlock"
-            onClicked: timeline.triggerAction('lock_subtitle')
+            onClicked: K.Core.triggerAction('lock_subtitle')
             ToolTip.visible: hovered
             ToolTip.delay: 1500
             ToolTip.timeout: 5000
-            ToolTip.text: trackHeader.isLocked ? i18n("Unlock track") : i18n("Lock track")
+            ToolTip.text: trackHeader.isLocked ? KI18n.i18n("Unlock track") : KI18n.i18n("Lock track")
             SequentialAnimation {
                 id: flashLock
                 loops: 3
@@ -153,14 +165,15 @@ Rectangle {
             id: subLayerRepeater
             delegate: Rectangle {
                 id: layerLabel
+                required property int index
                 height: trackHeader.height / subLayerRepeater.count
                 width: subtitleLayerIndicator.width
                 color: subtitleLayerIndicator.bgColor
                 border.color: root.frameColor
                 Text {
                     id: name
-                    font: miniFont
-                    text: "S" + index
+                    font: K.UiUtils.smallestReadableFont
+                    text: "S" + layerLabel.index
                     color: activePalette.text
                     anchors.centerIn: layerLabel
                 }

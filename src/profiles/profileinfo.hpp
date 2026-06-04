@@ -36,7 +36,6 @@ public:
     virtual int display_aspect_den() const = 0;
     virtual double dar() const = 0;
     virtual int colorspace() const = 0;
-    QString colorspaceDescription() const;
     virtual QString path() const = 0;
 
     /** @brief overload of comparison operators */

@@ -11,8 +11,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <string>
 #include <vector>
 
-#include <cstdlib>
-
 using std::string;
 using std::stringstream;
 using std::vector;

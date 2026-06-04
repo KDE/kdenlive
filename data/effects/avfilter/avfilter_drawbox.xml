@@ -4,23 +4,12 @@
     <name>Draw Box</name>
     <description>Draw a colored box on the input video</description>
     <author>libavfilter</author>
-    <parameter type="animated" name="av.x" default="100" min="0" max="%width" factor="1">
-        <name>Top-left X</name>
-    	<comment><![CDATA[X coordinate of top-left corner]]></comment>
-    </parameter>
-    <parameter type="animated" name="av.y" default="100" min="0" max="%height" factor="1">
-        <name>Top-left Y</name>
-    	<comment><![CDATA[Y coordinate of top-left corner]]></comment>
-    </parameter>
-    <parameter type="animated" name="av.w" default="100" min="1" max="%width" factor="1">
-        <name>Width (px)</name>
-    	<comment><![CDATA[Width of the box in pixel.<br>
-    	A width of <em>1</em> does not draw a line]]></comment>
-    </parameter>
-    <parameter type="animated" name="av.h" default="100" min="1" max="%height" factor="1">
-        <name>Height (px)</name>
-    	<comment><![CDATA[Height of the box in pixel.<br>
-    	A height of <em>1</em> does not draw a line]]></comment>
+    <parameter type="animatedfakerect" name="kdenlive:fakerect" default="100 100 100 100" opacity="false">
+        <name>Rectangle</name>
+        <parammap target="left" source="av.x" max="%width" min="0" default="100" />
+        <parammap target="top" source="av.y" max="%height" min="0" default="100" />
+        <parammap target="width" source="av.w" max="%width" min="1" default="100" />
+        <parammap target="height" source="av.h" max="%height" min="1" default="100" />
     </parameter>
     <parameter type="fixedcolor" name="av.color" default="0x0000FF" alpha="1">
         <name>Color</name>

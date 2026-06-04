@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "definitions.h"
 #include "providermodel.hpp"
 #include <QReadWriteLock>
 #include <mutex>

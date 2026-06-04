@@ -23,6 +23,8 @@ class SpeedDialog : public QDialog
 public:
     explicit SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate,
                          ClipType::ProducerType clipType);
+    explicit SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate,
+                         bool isTimelineOrPlaylistClips, bool isSingleOrPartnerClip);
     ~SpeedDialog() override;
 
     double getValue() const;

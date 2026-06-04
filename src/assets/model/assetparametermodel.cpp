@@ -8,11 +8,9 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "monitor/monitor.h"
-#include "profiles/profilemodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QDebug>
 #include <QDir>
@@ -215,17 +213,22 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             currentRow.name = title;
             m_params[name] = currentRow;
         }
-        if (!name.isEmpty()) {
-            internalSetParameter(name, value);
-            // Keep track of param order
-            m_paramOrder.push_back(name);
-        }
 
         if (isFixed) {
             // fixed parameters are not displayed so we don't store them.
+            if (!name.isEmpty()) {
+                internalSetParameter(name, value);
+                // Keep track of param order
+                m_paramOrder.push_back(name);
+            }
             continue;
         }
         m_rows.push_back(name);
+        if (!name.isEmpty()) {
+            internalSetParameter(name, value, index(m_rows.size() - 1, 0));
+            // Keep track of param order
+            m_paramOrder.push_back(name);
+        }
     }
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {
         // Sox effects need to have a special "Effect" value set
@@ -322,6 +325,11 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId, name);
+        if (m_ownerId.type == KdenliveObjectType::TimelineTrack) {
+            // Track length is only changed when adding or removing clips,
+            // so let the clips move do invalidatation
+            return;
+        }
         if (previousOut > -1 && value != previousOut) {
             // Only invalidate length diff
             int startPos = pCore->getItemPosition(m_ownerId) - pCore->getItemIn(m_ownerId);
@@ -421,17 +429,19 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             // check if this parameter is keyframable
             km = m_keyframes->getKeyModel(paramIndex);
         }
-        if (km) {
+        if (km || type == ParamType::AnimatedFakeRect || type == ParamType::AnimatedFakePoint) {
             // This is a fake query to force the animation to be parsed
             (void)m_asset->anim_get_int(name.toLatin1().constData(), 0, -1);
             if (type == ParamType::AnimatedFakeRect) {
                 // Process fake rect to set values for individual components
-                processFakeRect(name, paramValue, paramIndex);
+                processFakeRect(name, paramIndex);
             } else if (type == ParamType::AnimatedFakePoint) {
                 // Process fake point to set values for individual components
-                processFakePoint(name, paramValue, paramIndex);
+                processFakePoint(name, paramIndex);
             }
-            km->refresh();
+            if (km) {
+                km->refresh();
+            }
         } else {
             // Fixed value
             if (type == ParamType::FakeRect) {
@@ -505,13 +515,12 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
     }
 }
 
-void AssetParameterModel::processFakeRect(const QString &name, const QString &paramValue, const QModelIndex &paramIndex)
+void AssetParameterModel::processFakeRect(const QString &name, const QModelIndex &paramIndex)
 {
     QStringList xAnim;
     QStringList yAnim;
     QStringList wAnim;
     QStringList hAnim;
-    mlt_profile profile = (mlt_profile)m_asset->get_data("_profile");
     Mlt::Animation anim = m_asset->get_animation(name.toLatin1().constData());
     QVariantMap mappedParams = data(paramIndex, FakeRectRole).toMap();
     for (int i = 0; i < anim.key_count(); ++i) {
@@ -519,12 +528,6 @@ void AssetParameterModel::processFakeRect(const QString &name, const QString &pa
         mlt_keyframe_type type;
         anim.key_get(i, frame, type);
         mlt_rect rect = m_asset->anim_get_rect(name.toLatin1().constData(), frame);
-        if (paramValue.contains(QLatin1Char('%'))) {
-            rect.x *= profile->width;
-            rect.w *= profile->width;
-            rect.y *= profile->height;
-            rect.h *= profile->height;
-        }
         const QString separator = KeyframeModel::getSeparatorForKeyframeType(type);
         for (auto j = mappedParams.cbegin(), end = mappedParams.cend(); j != end; ++j) {
             const AssetRectInfo paramInfo = j.value().value<AssetRectInfo>();
@@ -569,9 +572,8 @@ void AssetParameterModel::processFakeRect(const QString &name, const QString &pa
     }
 }
 
-void AssetParameterModel::processFakePoint(const QString &name, const QString &paramValue, const QModelIndex &paramIndex)
+void AssetParameterModel::processFakePoint(const QString &name, const QModelIndex &paramIndex)
 {
-    mlt_profile profile = (mlt_profile)m_asset->get_data("_profile");
     Mlt::Animation anim = m_asset->get_animation(name.toLatin1().constData());
     AssetPointInfo paramInfo = data(paramIndex, FakePointRole).value<AssetPointInfo>();
     QStringList xAnim;
@@ -581,10 +583,6 @@ void AssetParameterModel::processFakePoint(const QString &name, const QString &p
         mlt_keyframe_type type;
         anim.key_get(i, frame, type);
         mlt_rect rect = m_asset->anim_get_rect(name.toLatin1().constData(), frame);
-        if (paramValue.contains(QLatin1Char('%'))) {
-            rect.x *= profile->width;
-            rect.y *= profile->height;
-        }
         const QString separator = KeyframeModel::getSeparatorForKeyframeType(type);
         xAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.x);
         yAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.y);

@@ -6,7 +6,7 @@
 #pragma once
 
 #include <QObject>
-#include <QtQml>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 /** @class ClipboardProxy
     @brief Provides an interface to the clipboard, to use directly from QML

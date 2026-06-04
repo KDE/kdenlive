@@ -7,7 +7,6 @@
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "definitions.h"
-#include "undohelper.hpp"
 
 #include <QReadWriteLock>
 #include <QUuid>

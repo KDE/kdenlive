@@ -4,10 +4,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "audiolevelwidget.hpp"
-#include "audiomixer/iecscale.h"
 #include "core.h"
-#include "mlt++/Mlt.h"
-#include "profiles/profilemodel.hpp"
 
 #include <KColorScheme>
 #include <KLocalizedString>
@@ -16,7 +13,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPaintEvent>
 #include <QPainter>
 #include <QToolTip>
-#include <array>
 
 // Drawing constants moved to AudioLevelRenderer
 constexpr int MINIMUM_SECONDARY_AXIS_LENGTH = 3;   // minimum height/width for audio level channels
@@ -58,6 +54,8 @@ AudioLevelWidget::AudioLevelWidget(QWidget *parent, Qt::Orientation orientation,
     , m_renderer(new AudioLevelRenderer(this))
     , m_showClippingIndicator(showClippingIndicator)
 {
+    // dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
+    m_maxDb = 0;
     QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     ft.setPointSizeF(ft.pointSize() * 0.6);
     setFont(ft);
@@ -272,8 +270,6 @@ void AudioLevelWidget::drawBackground()
     if (m_backgroundCache.isNull()) {
         return;
     }
-    const QVector<int> dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
-    m_maxDb = dbscale.first();
     m_backgroundCache.fill(Qt::transparent);
     QPainter p(&m_backgroundCache);
 

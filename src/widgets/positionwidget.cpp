@@ -5,8 +5,6 @@
 */
 
 #include "positionwidget.h"
-
-#include "kdenlivesettings.h"
 #include "timecodedisplay.h"
 
 #include <QHBoxLayout>

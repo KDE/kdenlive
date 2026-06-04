@@ -14,15 +14,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "macros.hpp"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
-#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
-#include "timeline2/view/timelinewidget.h"
 #include "widgets/timecodedisplay.h"
 
-#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QStylePainter>
 #include <QWheelEvent>
@@ -1124,16 +1121,11 @@ void RemapView::updateBeforeSpeed(double speed)
         m_keyframesOrigin = m_keyframes;
         it--;
         double updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
-        double offset = it.key() + updatedLength - m_currentKeyframe.first;
-        int offsetInt = int(offset);
-        int lengthInt = int(updatedLength);
+        int lengthInt = qRound(updatedLength);
+        int offsetInt = (it.key() + lengthInt) - m_currentKeyframe.first;
         if (offsetInt == 0) {
-            if (offset < 0) {
-                offsetInt = -1;
-            } else {
-                offsetInt = 1;
-            }
-            lengthInt += offsetInt;
+            // Rounded target position is identical to the current position; nothing to do.
+            return;
         }
         m_keyframes.remove(m_currentKeyframe.first);
         m_currentKeyframe.first = it.key() + lengthInt;
@@ -1177,17 +1169,12 @@ void RemapView::updateAfterSpeed(double speed)
         it++;
         QMap<int, int> updatedKfrs;
         QList<int> toDelete;
-        double updatedLength = (it.value() - m_currentKeyframe.second) * 100. / speed;
-        double offset = m_currentKeyframe.first + updatedLength - it.key();
-        int offsetInt = int(offset);
-        int lengthInt = int(updatedLength);
+        double updatedLength = qFuzzyIsNull(speed) ? 0 : (it.value() - m_currentKeyframe.second) * 100. / speed;
+        int lengthInt = qRound(updatedLength);
+        int offsetInt = (m_currentKeyframe.first + lengthInt) - it.key();
         if (offsetInt == 0) {
-            if (offset < 0) {
-                offsetInt = -1;
-            } else {
-                offsetInt = 1;
-            }
-            lengthInt += offsetInt;
+            // Rounded target position is identical to the current position; nothing to do.
+            return;
         }
         if (m_moveNext) {
             while (it != m_keyframes.end()) {
@@ -1580,8 +1567,9 @@ TimeRemap::TimeRemap(QWidget *parent)
     QAction *ac = new QAction(i18n("Transcode"), this);
     warningMessage->addAction(ac);
     connect(ac, &QAction::triggered, this, [&]() {
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(int, 0),
-                                  Q_ARG(bool, false));
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, m_binId),
+                                  Q_ARG(TranscodeSeek::TranscodeInfo, TranscodeSeek::TranscodeInfo()), Q_ARG(bool, false), Q_ARG(QString, QString()),
+                                  Q_ARG(QString, QString()));
     });
     m_view = new RemapView(this);
     speedBefore->setKeyboardTracking(false);
@@ -1672,6 +1660,9 @@ const QString &TimeRemap::currentClip() const
 
 void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles)
 {
+    if (m_isUpdatingKeyframes) {
+        return;
+    }
     int id = int(topLeft.internalId());
     if (m_cid != id || !roles.contains(TimelineModel::FinalMoveRole)) {
         return;
@@ -1983,10 +1974,12 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         // Resize first so that serialization doesn't cut keyframes
         int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
         std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
+        m_isUpdatingKeyframes = true;
         model->requestItemResize(m_cid, length, true, true, undo, redo);
         if (m_splitId > 0) {
             model->requestItemResize(m_splitId, length, true, true, undo, redo);
         }
+        m_isUpdatingKeyframes = false;
     }
 
     Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch,

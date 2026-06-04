@@ -85,7 +85,6 @@ public:
     bool canBeDropped(const QUuid &) const override;
     /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
     const QUuid getSequenceUuid() const override;
-    void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false) override;
     std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &uuid = QUuid()) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
     bool isActiveTimeline(const QUuid &uuid) const;
@@ -108,5 +107,6 @@ private:
 
 public Q_SLOTS:
     bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false, bool clearTrackProducers = true) override;
+    void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false) override;
     void setSequenceThumbnail(const QImage &img, const QUuid &uuid, bool inCache = false) override;
 };

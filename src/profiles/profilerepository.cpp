@@ -13,6 +13,7 @@
 #include <QStandardPaths>
 #include <algorithm>
 #include <mlt++/MltProfile.h>
+#include <set>
 
 std::unique_ptr<ProfileRepository> ProfileRepository::instance;
 std::once_flag ProfileRepository::m_onceFlag;
@@ -36,37 +37,69 @@ void ProfileRepository::refresh()
 {
     QWriteLocker locker(&m_mutex);
 
-    // Helper function to check a profile and print debug info
-    auto check_profile = [&](std::unique_ptr<ProfileModel> &profile, const QString &file) {
-        if (m_profiles.count(file) > 0) {
-            return false;
-        }
-        if (!profile->is_valid()) {
-            qCWarning(KDENLIVE_LOG) << "//// WARNING: invalid profile found: " << file << ". Ignoring.";
-            return false;
-        }
-        return true;
+    // Build a spec string from a profile's key dimensions for deduplication
+    auto make_spec = [](const std::unique_ptr<ProfileModel> &p) -> QString {
+        const QStringList properties = {QString::number(p->width()),
+            QString::number(p->height()),
+            QString::number(p->frame_rate_num()),
+            QString::number(p->frame_rate_den()),
+            QString::number(p->progressive() ? 1 : 0),
+            QString::number(p->sample_aspect_num()),
+            QString::number(p->sample_aspect_den()),
+            QString::number(p->colorspace())};
+        return properties.join(QLatin1Char('|'));
     };
 
-    // list MLT profiles.
-    QDir mltDir(KdenliveSettings::mltpath());
-    QStringList profilesFiles = mltDir.entryList(QDir::Files);
+    // Collect specs of profiles already loaded across previous refresh() calls.
+    // This prevents a spec-duplicate from slipping through on subsequent calls
+    // (e.g. when refresh() is invoked a second time by ProfileTreeModel::construct).
+    std::set<QString> loadedSpecs;
+    for (const auto &kv : m_profiles) {
+        loadedSpecs.insert(make_spec(kv.second));
+    }
 
-    // list Custom Profiles
+    // Step 1: Load MLT profiles into a local map keyed by spec string.
+    // When Kdenlive profiles share the same spec, the MLT entry is discarded.
+    using MltEntry = std::pair<QString, std::unique_ptr<ProfileModel>>;
+    std::map<QString, MltEntry> mltBySpec;
+
+    QDir mltDir(KdenliveSettings::mltpath());
+    QStringList mltFiles = mltDir.entryList(QDir::Files);
+    for (const auto &file : std::as_const(mltFiles)) {
+        if (m_profiles.count(file) > 0) continue;
+        std::unique_ptr<ProfileModel> profile(new ProfileModel(file));
+        if (!profile->is_valid()) {
+            qCWarning(KDENLIVE_LOG) << "//// WARNING: invalid profile found: " << file << ". Ignoring.";
+            continue;
+        }
+        QString spec = make_spec(profile);
+        if (mltBySpec.count(spec) == 0 && loadedSpecs.count(spec) == 0) {
+            MltEntry entry(file, std::move(profile));
+            mltBySpec.emplace(spec, std::move(entry));
+        }
+    }
+
+    // Step 2: Load Kdenlive profiles. For each valid profile, erase any MLT
+    // profile with the same spec (keeping Kdenlive's copy), then insert.
     QStringList customProfilesDir = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (const auto &dir : std::as_const(customProfilesDir)) {
         QStringList files = QDir(dir).entryList(QDir::Files);
         for (const auto &file : std::as_const(files)) {
-            profilesFiles << QDir(dir).absoluteFilePath(file);
+            QString fullPath = QDir(dir).absoluteFilePath(file);
+            if (m_profiles.count(fullPath) > 0) continue;
+            std::unique_ptr<ProfileModel> profile(new ProfileModel(fullPath));
+            if (!profile->is_valid()) {
+                qCWarning(KDENLIVE_LOG) << "//// WARNING: invalid profile found: " << fullPath << ". Ignoring.";
+                continue;
+            }
+            mltBySpec.erase(make_spec(profile));
+            m_profiles.insert(std::make_pair(fullPath, std::move(profile)));
         }
     }
 
-    // Iterate through files
-    for (const auto &file : std::as_const(profilesFiles)) {
-        std::unique_ptr<ProfileModel> profile(new ProfileModel(file));
-        if (check_profile(profile, file)) {
-            m_profiles.insert(std::make_pair(file, std::move(profile)));
-        }
+    // Step 3: Insert remaining MLT profiles that have no Kdenlive equivalent.
+    for (auto &kv : mltBySpec) {
+        m_profiles.insert(std::make_pair(kv.second.first, std::move(kv.second.second)));
     }
 }
 

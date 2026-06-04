@@ -7,7 +7,6 @@
 #pragma once
 
 #include "abstractpythoninterface.h"
-#include "definitions.h"
 
 #include <QObject>
 #include <QProcess>

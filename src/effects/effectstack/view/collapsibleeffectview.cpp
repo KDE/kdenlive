@@ -19,7 +19,6 @@
 #include "utils/qstringutils.h"
 #include "widgets/dragvalue.h"
 
-#include "kdenlive_debug.h"
 #include <QComboBox>
 #include <QDialog>
 #include <QFileDialog>
@@ -157,15 +156,21 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
 
     frame->setMinimumHeight(collapseButton->sizeHint().height());
-    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=](ObjectId id, QPair<int, int> inOut, bool checked) {
+    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [this](ObjectId id, QPair<int, int> inOut, bool checked) {
         m_inOutButton->setChecked(checked);
         zoneFrame->setFixedHeight(checked ? frame->height() : 0);
         slotSwitch(m_collapse->isActive());
         if (checked) {
             QSignalBlocker bk(m_inPos);
             QSignalBlocker bk2(m_outPos);
+            int trimIn = pCore->getItemIn(id);
+            m_inPos->setFrameOffset(-trimIn, false);
+            m_outPos->setFrameOffset(-trimIn, false);
             m_inPos->setValue(inOut.first);
             m_outPos->setValue(inOut.second);
+            // Remove clip in offset for display in timeline
+            inOut.first -= trimIn;
+            inOut.second -= trimIn;
         }
         Q_EMIT showEffectZone(id, inOut, checked);
     });
@@ -187,7 +192,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->addWidget(setIn);
     m_inPos = new TimecodeDisplay(this);
     layZone->addWidget(m_inPos);
-    layZone->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
+    layZone->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Preferred, QSizePolicy::Maximum));
     QLabel *out = new QLabel(i18n("Out:"), this);
     // out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(out);
@@ -200,32 +205,42 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     m_outPos = new TimecodeDisplay(this);
     layZone->addWidget(m_outPos);
 
-    connect(setIn, &QToolButton::clicked, this, [=]() {
+    connect(setIn, &QToolButton::clicked, this, [this]() {
         if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
             int pos = pCore->getMonitorPosition();
+            int trimIn = 0;
             if (m_model->getOwnerId().type == KdenliveObjectType::TimelineClip) {
                 int min = pCore->getItemPosition(m_model->getOwnerId());
                 int duration = pCore->getItemDuration(m_model->getOwnerId());
+                trimIn = pCore->getItemIn(m_model->getOwnerId());
                 pos -= min;
                 pos = qBound(0, pos, duration);
+                pos += trimIn;
             }
+            m_inPos->setFrameOffset(-trimIn, false);
+            m_outPos->setFrameOffset(-trimIn, false);
             m_inPos->setValue(pos);
         }
         updateEffectZone();
     });
-    connect(setOut, &QToolButton::clicked, this, [=]() {
+    connect(setOut, &QToolButton::clicked, this, [this]() {
         if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
             int pos = pCore->getMonitorPosition();
+            int trimIn = 0;
             if (m_model->getOwnerId().type == KdenliveObjectType::TimelineClip) {
                 int min = pCore->getItemPosition(m_model->getOwnerId());
                 int duration = pCore->getItemDuration(m_model->getOwnerId());
+                trimIn = pCore->getItemIn(m_model->getOwnerId());
                 pos -= min;
-                pos = qBound(m_inPos->getValue(), pos, duration);
+                pos = qBound(m_inPos->getValue() - trimIn, pos, duration);
+                pos += trimIn;
             }
+            m_inPos->setFrameOffset(-trimIn, false);
+            m_outPos->setFrameOffset(-trimIn, false);
             m_outPos->setValue(pos);
         }
         updateEffectZone();
@@ -238,6 +253,9 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     m_inOutButton->setChecked(m_model->hasForcedInOut());
     if (m_inOutButton->isChecked()) {
         QPair<int, int> inOut = m_model->getInOut();
+        int trimIn = pCore->getItemIn(m_model->getOwnerId());
+        m_inPos->setFrameOffset(-trimIn, false);
+        m_outPos->setFrameOffset(-trimIn, false);
         m_inPos->setValue(inOut.first);
         m_outPos->setValue(inOut.second);
     } else {
@@ -360,6 +378,10 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
 CollapsibleEffectView::~CollapsibleEffectView()
 {
     qDebug() << "deleting collapsibleeffectview";
+    if (m_inOutButton->isChecked()) {
+        // clear effects zone
+        Q_EMIT showEffectZone(m_model->getOwnerId(), {0, 0}, false);
+    }
 }
 
 void CollapsibleEffectView::updateGroupedInstances()
@@ -554,7 +576,11 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     qDebug() << ":::: ACTIOVATING VIEW: " << active << ", OUTSIDE: " << outside;
     Q_EMIT m_view->initKeyframeView(active, outside);
     if (m_inOutButton->isChecked()) {
-        Q_EMIT showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
+        QPair<int, int> inOut = m_model->getInOut();
+        int trimIn = pCore->getItemIn(m_model->getOwnerId());
+        inOut.first -= trimIn;
+        inOut.second -= trimIn;
+        Q_EMIT showEffectZone(m_model->getOwnerId(), inOut, true);
     } else {
         Q_EMIT showEffectZone(m_model->getOwnerId(), {0, 0}, false);
     }
@@ -1102,7 +1128,12 @@ void CollapsibleEffectView::switchInOut(bool checked)
     }
     qDebug() << "==== SWITCHING IN / OUT: " << inOut.first << "-" << inOut.second;
     if (inOut.first > -1) {
+        int trimIn = pCore->getItemIn(m_model->getOwnerId());
+        inOut.first += trimIn;
+        inOut.second += trimIn;
         m_model->setInOut(effectName, inOut, checked, true);
+        m_inPos->setFrameOffset(-trimIn, false);
+        m_outPos->setFrameOffset(-trimIn, false);
         m_inPos->setValue(inOut.first);
         m_outPos->setValue(inOut.second);
     }
@@ -1117,16 +1148,22 @@ void CollapsibleEffectView::updateInOut(QPair<int, int> inOut, bool withUndo)
     QString effectId = m_model->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
     if (inOut.first > -1) {
+        int trimIn = 0;
         ObjectId owner = m_model->getOwnerId();
         if (owner.type == KdenliveObjectType::TimelineClip) {
             int in = pCore->getItemPosition(owner);
+            trimIn = pCore->getItemIn(owner);
             int duration = pCore->getItemDuration(owner);
             inOut.first -= in;
             inOut.second -= in;
             inOut.first = qBound(0, inOut.first, duration);
             inOut.second = qBound(inOut.first, inOut.second, duration);
+            inOut.first += trimIn;
+            inOut.second += trimIn;
         }
         m_model->setInOut(effectName, inOut, true, withUndo);
+        m_inPos->setFrameOffset(-trimIn, false);
+        m_outPos->setFrameOffset(-trimIn, false);
         m_inPos->setValue(inOut.first);
         m_outPos->setValue(inOut.second);
     }

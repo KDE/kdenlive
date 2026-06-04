@@ -9,13 +9,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "capture/mediacapture.h"
 #include "core.h"
+#include "dialogs/markerdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "jobs/cuttask.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
-#include "lib/localeHandling.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/guideslist.h"
@@ -42,7 +42,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/thumbnailcache.hpp"
 
 #include "KLocalizedString"
 #include <KActionMenu>
@@ -74,8 +73,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QVBoxLayout>
 #include <QtConcurrent/QtConcurrentRun>
 #include <utility>
-
-#include "dialogs/markerdialog.h"
 
 #define SEEK_INACTIVE (-1)
 
@@ -499,7 +496,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
     }
     m_glMonitor->getControllerProxy()->setTimeCode(m_timePos);
-    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::addRemoveKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekToKeyframe, this, &Monitor::seekToKeyframe);
 
@@ -573,6 +569,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_infoMessage = new KMessageWidget(this);
     layout->addWidget(m_infoMessage);
     m_infoMessage->hide();
+
+    // Restore fullscreen state
     if (m_id == Kdenlive::ProjectMonitor) {
         if (!KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
             slotSwitchFullScreen();
@@ -596,6 +594,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 Monitor::~Monitor()
 {
+    destroyFullscreenMirror();
     m_markerModel.reset();
     delete m_audioMeterWidget;
     delete m_glMonitor;
@@ -814,15 +813,12 @@ void Monitor::slotForceSize(QAction *a)
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         m_glMonitor->setFixedImageSize(QSize(profileWidth, profileHeight));
         profileHeight += m_glMonitor->m_displayRulerHeight;
-        m_glMonitor->setFixedSize(profileWidth, profileHeight);
         profileHeight += m_toolbar->height();
         setMinimumSize(QSize(profileWidth, profileHeight));
         break;
     default:
         // Free resize
         m_glMonitor->setFixedImageSize(QSize());
-        m_glMonitor->setMinimumSize(profileWidth, profileHeight);
-        m_glMonitor->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->getControllerProxy()->rulerHeight()));
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
         break;
@@ -859,6 +855,8 @@ void Monitor::buildBackgroundedProducer(int pos)
     } else {
         // Add background compositing
         Mlt::Tractor trac(pCore->getProjectProfile());
+        // Pass the clipId that is used to check identity in some places
+        trac.set("kdenlive:id", m_controller->clipId().toLatin1().constData());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
         bg->set("length", maxDuration + 1);
@@ -1096,114 +1094,238 @@ void Monitor::setZoom(float zoomRatio)
     }
 }
 
-bool Monitor::monitorIsFullScreen() const
+bool Monitor::monitorIsFullScreen(bool considerMirror) const
 {
-    return m_glWidget->isFullScreen();
+    return m_glWidget->isFullScreen() || (considerMirror && (m_monitorMirror || m_fullscreenWindow));
+}
+
+const QScreen *Monitor::getScreenForFullscreen(bool *multipleScreens)
+{
+    if (qApp->screens().count() == 1) {
+        *multipleScreens = false;
+        return qApp->screens().first();
+    }
+    *multipleScreens = true;
+    QString requestedMonitor = KdenliveSettings::fullscreen_monitor();
+    if (m_id == Kdenlive::ProjectMonitor) {
+        if (!KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
+            requestedMonitor = KdenliveSettings::project_monitor_fullscreen();
+        }
+    } else {
+        if (!KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
+            requestedMonitor = KdenliveSettings::clip_monitor_fullscreen();
+        }
+    }
+    int ix = -1;
+    if (!requestedMonitor.isEmpty()) {
+        // If the platform does not provide screen serial number, use indexes
+        for (const QScreen *screen : qApp->screens()) {
+            ix++;
+            QString screenId = QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber());
+            bool match = requestedMonitor == screenId;
+            // Check if monitor's index changed
+            if (!match && !screen->serialNumber().isEmpty()) {
+                match = requestedMonitor.section(QLatin1Char(':'), 1) == screen->serialNumber();
+            }
+            if (match) {
+                if (m_id == Kdenlive::ProjectMonitor) {
+                    KdenliveSettings::setProject_monitor_fullscreen(screenId);
+                } else {
+                    KdenliveSettings::setClip_monitor_fullscreen(screenId);
+                }
+                return screen;
+            }
+        }
+    }
+
+    ix = 0;
+    for (const QScreen *screen : qApp->screens()) {
+        // Autodetect second monitor
+        QRect screenRect = screen->geometry();
+        if (screenRect.contains(pCore->window()->geometry().center())) {
+            // This is our current monitor, but we have at least 2 and want to find a different one
+            ix++;
+            continue;
+        }
+        QString screenId = QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber());
+        if (qApp->screens().count() > 2) {
+            // We have 3 monitors, use each
+            if (m_id == Kdenlive::ProjectMonitor) {
+                if (KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
+                    KdenliveSettings::setProject_monitor_fullscreen(screenId);
+                } else {
+                    if (KdenliveSettings::clip_monitor_fullscreen() == screenId) {
+                        continue;
+                    }
+                }
+            } else {
+                if (KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
+                    KdenliveSettings::setClip_monitor_fullscreen(screenId);
+                } else {
+                    if (KdenliveSettings::project_monitor_fullscreen() == screenId) {
+                        continue;
+                    }
+                }
+            }
+        } else {
+            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
+            if (m_id == Kdenlive::ProjectMonitor) {
+                KdenliveSettings::setProject_monitor_fullscreen(screenId);
+            } else {
+                KdenliveSettings::setClip_monitor_fullscreen(screenId);
+            }
+        }
+        return screen;
+    }
+
+    return nullptr;
+}
+
+void Monitor::destroyFullscreenMirror()
+{
+    if (!m_monitorMirror && !m_fullscreenWindow) {
+        return;
+    }
+    if (m_monitorMirror) {
+        disconnect(m_monitorMirror, &VideoWidget::reconnectWindow, this, nullptr);
+        disconnect(m_monitorManager, &MonitorManager::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed);
+        disconnect(this, &Monitor::profileUpdated, m_monitorMirror, &VideoWidget::resetAspect);
+        if (m_monitorMirror->quickWindow()) {
+            QObject::disconnect(m_monitorMirror->quickWindow(), nullptr, m_monitorMirror, nullptr);
+            QObject::disconnect(m_monitorMirror->quickWindow(), &QQuickWindow::destroyed, this, nullptr);
+        }
+        delete m_monitorMirror;
+        m_monitorMirror = nullptr;
+    }
+    if (m_fullscreenWindow) {
+        m_fullscreenWindow->close();
+        delete m_fullscreenWindow;
+        m_fullscreenWindow = nullptr;
+    }
+}
+
+void Monitor::createFullscreenMirror()
+{
+    if (m_monitorMirror || m_fullscreenWindow) {
+        return;
+    }
+
+    // Create top-level window
+    m_fullscreenWindow = new QWidget(this);
+    m_fullscreenWindow->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_fullscreenWindow->setContentsMargins(0, 0, 0, 0);
+
+    auto *lay = new QVBoxLayout(m_fullscreenWindow);
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->setSpacing(0);
+
+    m_fullscreenWindow->setMinimumSize(QSize(320, 180));
+
+    // Create the same concrete VideoWidget type as the embedded one
+#if defined(Q_OS_WIN)
+    if (QSGRendererInterface::Direct3D11 == QQuickWindow::graphicsApi()) {
+        m_monitorMirror = new D3DVideoWidget(m_id, m_fullscreenWindow);
+    } else {
+        m_monitorMirror = new OpenGLVideoWidget(m_id, m_fullscreenWindow);
+    }
+#elif defined(Q_OS_MACOS)
+    m_monitorMirror = new MetalVideoWidget(m_id, m_fullscreenWindow);
+#else
+    m_monitorMirror = new OpenGLVideoWidget(m_id, nullptr);
+#endif
+
+    connect(m_monitorMirror, &VideoWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
+    connect(m_monitorMirror, &VideoWidget::monitorPlay, m_playAction, &QAction::trigger);
+    connect(this, &Monitor::profileUpdated, m_monitorMirror, &VideoWidget::resetAspect, Qt::QueuedConnection);
+
+    connect(m_monitorMirror, &VideoWidget::passKeyEvent, this, [this](QKeyEvent *event) {
+        if (m_fullscreenWindow) {
+            event->ignore();
+            Q_EMIT passKeyPress(event);
+            return;
+        }
+        QWidget::keyPressEvent(event);
+    });
+
+    auto rebuildViewConnection = [this]() {
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_monitorMirror, &VideoWidget::initialize, Qt::DirectConnection);
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::beforeRendering, m_monitorMirror, &VideoWidget::beforeRendering, Qt::DirectConnection);
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_monitorMirror, &VideoWidget::renderVideo, Qt::DirectConnection);
+        m_monitorMirror->setClearColor(KdenliveSettings::window_background());
+        // Enforce geometry recalculation
+        m_monitorMirror->refreshZoom = true;
+        m_monitorMirror->resetAspect();
+        m_glMonitor->requestRefresh();
+        Q_EMIT m_monitorMirror->reconnectWindow();
+    };
+
+    connect(m_monitorMirror, &VideoWidget::reconnectWindow, this, [this, rebuildViewConnection]() {
+        connect(m_monitorMirror->quickWindow(), &QQuickWindow::destroyed, this, [rebuildViewConnection]() {
+            if (!pCore->closing) {
+                rebuildViewConnection();
+            }
+        });
+    });
+
+    rebuildViewConnection();
+
+    // Ensure the view fills the window
+    QWidget *widget = qobject_cast<QWidget *>(m_monitorMirror);
+    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    lay->addWidget(m_monitorMirror);
+    m_fullscreenWindow->setLayout(lay);
+
+    // Match clear color and zoom refresh behaviour
+
+    // Mirror frames: listen to VideoWidget::frameDisplayed and forward to the fullscreen widget
+    connect(m_glMonitor, &VideoWidget::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
+
+    // Show it full screen
+    bool ok;
+    const QScreen *screen = getScreenForFullscreen(&ok);
+    if (screen) {
+        m_fullscreenWindow->setParent(nullptr);
+        qDebug() << "Got screen" << screen;
+        m_fullscreenWindow->move(screen->geometry().topLeft());
+        m_fullscreenWindow->resize(screen->geometry().size());
+    }
+    m_monitorMirror->switchRuler(false);
+    m_monitorMirror->enableMouseTimer(true);
+    m_fullscreenWindow->showFullScreen();
 }
 
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     m_glMonitor->refreshZoom = true;
-    if (!m_glWidget->isFullScreen() && !minimizeOnly) {
-        // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
-        if (qApp->screens().count() > 1) {
-            QString requestedMonitor = KdenliveSettings::fullscreen_monitor();
-            if (m_id == Kdenlive::ProjectMonitor) {
-                if (!KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
-                    requestedMonitor = KdenliveSettings::project_monitor_fullscreen();
-                }
-            } else {
-                if (!KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
-                    requestedMonitor = KdenliveSettings::clip_monitor_fullscreen();
-                }
-            }
-            bool screenFound = false;
-            int ix = -1;
-            if (!requestedMonitor.isEmpty()) {
-                // If the platform does now provide screen serial number, use indexes
-                for (const QScreen *screen : qApp->screens()) {
-                    ix++;
-                    bool match = requestedMonitor == QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber());
-                    // Check if monitor's index changed
-                    if (!match && !screen->serialNumber().isEmpty()) {
-                        match = requestedMonitor.section(QLatin1Char(':'), 1) == screen->serialNumber();
-                    }
-                    if (match) {
-                        // Match
-                        m_glWidget->setParent(nullptr);
-                        m_glWidget->move(screen->geometry().topLeft());
-                        m_glWidget->resize(screen->geometry().size());
-                        screenFound = true;
-                        if (m_id == Kdenlive::ProjectMonitor) {
-                            KdenliveSettings::setProject_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
-                        } else {
-                            KdenliveSettings::setClip_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
-                        }
-                        break;
-                    }
-                }
-            }
-            if (!screenFound) {
-                ix = 0;
-                for (const QScreen *screen : qApp->screens()) {
-                    // Autodetect second monitor
-                    QRect screenRect = screen->geometry();
-                    if (!screenRect.contains(pCore->window()->geometry().center())) {
-                        if (qApp->screens().count() > 2) {
-                            // We have 3 monitors, use each
-                            if (m_id == Kdenlive::ProjectMonitor) {
-                                if (KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
-                                    KdenliveSettings::setProject_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
-                                } else {
-                                    if (KdenliveSettings::clip_monitor_fullscreen() ==
-                                        QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
-                                        continue;
-                                    }
-                                }
-                            } else {
-                                if (KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
-                                    KdenliveSettings::setClip_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
-                                } else {
-                                    if (KdenliveSettings::project_monitor_fullscreen() ==
-                                        QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
-                                        continue;
-                                    }
-                                }
-                            }
+    if (!monitorIsFullScreen() && !minimizeOnly) {
+        // Make monitor fullscreen
+        bool multipleScreen = false;
+        const QScreen *screen = getScreenForFullscreen(&multipleScreen);
 
-                        } else {
-                            if (m_id == Kdenlive::ProjectMonitor) {
-                                KdenliveSettings::setProject_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
-                            } else {
-                                KdenliveSettings::setClip_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
-                            }
-                        }
-                        m_glWidget->setParent(nullptr);
-                        m_glWidget->move(screenRect.topLeft());
-                        m_glWidget->resize(screenRect.size());
-                        screenFound = true;
-                        break;
-                    }
-                    ix++;
-                }
-            }
-            if (!screenFound) {
-                m_glWidget->setParent(nullptr);
-            }
+        if (KdenliveSettings::mirrorMonitorOnFullscreen() && multipleScreen) {
+            createFullscreenMirror();
         } else {
             m_glWidget->setParent(nullptr);
+            if (screen) {
+                m_glWidget->move(screen->geometry().topLeft());
+                m_glWidget->resize(screen->geometry().size());
+            }
+            m_glWidget->showFullScreen();
+            m_glMonitor->enableMouseTimer(true);
         }
-        m_glWidget->showFullScreen();
-        m_glMonitor->enableMouseTimer(true);
         setFocus();
     } else {
-        m_glWidget->showNormal();
-        m_glMonitor->enableMouseTimer(false);
-        auto *lay = static_cast<QVBoxLayout *>(layout());
-        lay->insertWidget(0, m_glWidget, 10);
-        // With some Qt versions, focus was lost after switching back from fullscreen,
-        // QApplication::setActiveWindow restores focus to the correct window
-        activateWindow(); // TODO is this still needed?
+        // Restore normal size
+        if (m_glWidget->isFullScreen()) {
+            m_glWidget->showNormal();
+            m_glMonitor->enableMouseTimer(false);
+            auto *lay = static_cast<QVBoxLayout *>(layout());
+            lay->insertWidget(0, m_glWidget, 10);
+            // With some Qt versions, focus was lost after switching back from fullscreen,
+            // QApplication::setActiveWindow restores focus to the correct window
+            activateWindow(); // TODO is this still needed?
+        }
+        destroyFullscreenMirror();
         if (m_id == Kdenlive::ProjectMonitor) {
             KdenliveSettings::setProject_monitor_fullscreen(QString());
         } else {
@@ -1789,7 +1911,7 @@ void Monitor::refreshMonitor(bool directUpdate, bool slowRefresh)
             m_glMonitor->refresh();
             // Monitor was not active, so we activate it, refresh and activate the other monitor once done
             QObject::disconnect(m_switchConnection);
-            m_switchConnection = connect(m_glMonitor, &VideoWidget::frameDisplayed, this, [=]() {
+            m_switchConnection = connect(m_glMonitor, &VideoWidget::frameDisplayed, this, [this, otherMonitorVisible]() {
                 m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, otherMonitorVisible);
                 QObject::disconnect(m_switchConnection);
             });
@@ -1880,9 +2002,20 @@ void Monitor::slotSwitchPlay()
     default:
         break;
     }
+    if (play) {
+        m_startPlaybackPos = position();
+    }
     if (!m_glMonitor->switchPlay(play)) {
         play = false;
         m_playAction->setActive(false);
+    }
+    if (!play && KdenliveSettings::rewindOnStop()) {
+        // Update proxy position immediately so the playhead moves before the
+        // async frame from MLT arrives. Without this, positionFromConsumer()
+        // in the !playing branch never emits positionChanged (it only fires
+        // seekFinished when m_position already equals the arrived frame pos).
+        m_glMonitor->getControllerProxy()->setCursorPosition(m_startPlaybackPos);
+        m_glMonitor->requestSeek(m_startPlaybackPos, true);
     }
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
@@ -2142,11 +2275,13 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setFrameOffset(qMax(0, m_controller->getStartTimecode()));
         }
         if (m_controller->statusReady()) {
+            int seekPos = in;
             double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
             if (in == out && in == -1) {
                 // Only apply on bin clip, not sub clips
                 int lastPosition = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:monitorPosition"));
                 if (lastPosition > 0 && lastPosition != m_controller->originalProducer()->position()) {
+                    seekPos = lastPosition;
                     m_controller->originalProducer()->seek(lastPosition);
                 }
                 if (audioScale > 0. && audioScale != 1.) {
@@ -2194,7 +2329,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
                 }
             }
-            buildBackgroundedProducer(in);
+            buildBackgroundedProducer(seekPos);
             m_activeControllerId = m_controller->binId();
             if (monitorVisible() && !m_monitorManager->projectMonitor()->isPlaying()) {
                 slotActivateMonitor();
@@ -2285,6 +2420,7 @@ void Monitor::resetProfile()
 {
     m_glMonitor->reloadProfile();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
+    Q_EMIT profileUpdated();
     // Update drop frame info
     m_qmlManager->setProperty(QStringLiteral("dropped"), false);
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
@@ -2475,8 +2611,13 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
     if (m_id == Kdenlive::ProjectMonitor) {
         Q_EMIT pCore->updateMixerLevels(frame.get_position());
     }
-    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_playAction->isActive())) {
+    const bool wasPlaying = m_playAction->isActive();
+    if (!m_glMonitor->checkFrameNumber(frame.get_position(), wasPlaying)) {
         updatePlayAction(false);
+        if (wasPlaying && KdenliveSettings::rewindOnStop() && frame.get_position() >= m_glMonitor->duration() - 2) {
+            m_glMonitor->getControllerProxy()->setCursorPosition(m_startPlaybackPos);
+            m_glMonitor->requestSeek(m_startPlaybackPos, true);
+        }
     }
 }
 
@@ -2758,7 +2899,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
-            QObject::connect(root, SIGNAL(startRecording()), pCore.get(), SLOT(startRecording()), Qt::UniqueConnection);
+            QObject::connect(root, SIGNAL(startRecording(bool)), pCore.get(), SLOT(startRecording(bool)), Qt::UniqueConnection);
         }
         break;
     case MonitorSplitTrack:
@@ -2837,6 +2978,7 @@ void Monitor::slotSwitchTrimming(bool enable)
 
 void Monitor::doKeyPressEvent(QKeyEvent *ev)
 {
+    qDebug() << "/// PASSING KEY EVENT: " << ev->key();
     keyPressEvent(ev);
 }
 

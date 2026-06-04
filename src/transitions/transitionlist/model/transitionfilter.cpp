@@ -6,6 +6,7 @@
 #include "transitionfilter.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
+#include "kdenlivesettings.h"
 
 TransitionFilter::TransitionFilter(QObject *parent)
     : AssetFilter(parent)
@@ -15,9 +16,10 @@ TransitionFilter::TransitionFilter(QObject *parent)
 
 void TransitionFilter::setFilterType(bool enabled, AssetListType::AssetType type)
 {
+    beginFilterChange();
     m_type_enabled = enabled;
     m_type_value = type;
-    invalidateFilter();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 
 void TransitionFilter::reloadFilterOnFavorite()

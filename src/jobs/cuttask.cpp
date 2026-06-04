@@ -10,14 +10,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
-#include "macros.hpp"
 #include "mainwindow.h"
-#include "profiles/profilemodel.hpp"
 #include "ui_cutjobdialog_ui.h"
 #include "utils/qstringutils.h"
-#include "xml/xml.hpp"
 
 #include <KIO/RenameDialog>
 #include <KLineEdit>

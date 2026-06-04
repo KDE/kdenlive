@@ -277,6 +277,8 @@ public:
     /** @brief Get the unique and unmutable uuid for this project clip */
     const QString getBinClipUuid(const QString &binId) const;
     const QString getBinClipIdByUuid(const QString uuid);
+    /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
+    std::pair<PlaylistState::ClipState, ClipType::ProducerType> getClipState(int itemId) const;
 
 protected:
     bool closing;

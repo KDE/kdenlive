@@ -7,6 +7,7 @@
 #include "test_utils.hpp"
 // test specific headers
 #include "doc/kdenlivedoc.h"
+#include <QStandardPaths>
 
 TEST_CASE("Regression")
 {

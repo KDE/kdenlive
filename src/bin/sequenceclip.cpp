@@ -11,10 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
-#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
-#include "kdenlivesettings.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
 #include "monitor/monitor.h"
@@ -245,7 +243,6 @@ void SequenceClip::setProperties(const QMap<QString, QString> &properties, bool 
         }
     }
     bool durationChanged = properties.contains("length") && properties.value("length").toInt() != getFramePlaytime();
-    qDebug() << ":::: SEQUENCE DURATION CHANGED: " << properties.value("length").toInt() << " != " << getFramePlaytime();
     ProjectClip::setProperties(properties, refreshPanel);
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
         if (!m_sequenceUuid.isNull()) {

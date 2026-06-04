@@ -10,10 +10,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kthumb.h"
-#include "kdenlivesettings.h"
 #include "utils/thumbnailcache.hpp"
 
-#include "xml/xml.hpp"
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProfile.h>
+
 #include <KLocalizedString>
 #include <QFile>
 #include <QImage>

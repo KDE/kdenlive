@@ -39,13 +39,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/bin.h"
 #include "definitions.h"
 #include "jobs/abstracttask.h"
-#include "kdenlive_debug.h"
-#include "kdenlivecore_export.h"
 #include "otio/otioexport.h"
 #include "otio/otioimport.h"
 #include "powermanagementinterface.h"
 #include "statusbarmessagelabel.h"
-#include "utils/gentime.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -148,7 +145,7 @@ public:
     /** @brief Returns a pointer to the timeline with @uuid */
     TimelineWidget *getTimeline(const QUuid uuid) const;
     void getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props);
-    void closeTimelineTab(const QUuid uuid, bool onDeletion);
+    void closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed=false);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
 
@@ -178,6 +175,8 @@ public:
     Bin *activeBin();
     int binCount() const;
     void loadBins(QStringList binInfo);
+
+    ToolType::ProjectTool activeTool();
 
     /** @brief Hide subtitle track and delete its temporary file*/
     void resetSubtitles(const QUuid &uuid);
@@ -313,6 +312,7 @@ private:
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
     QAction *m_buttonTimelineTags;
+    QAction *m_buttonMouseZoomOnPlayhead;
     QAction *m_normalEditTool;
     QAction *m_overwriteEditTool;
     QAction *m_insertEditTool;
@@ -457,6 +457,7 @@ private Q_SLOTS:
     void slotSwitchSnap();
     void slotSwitchClipOverlays();
     void slotShowTimelineTags();
+    void slotMouseZoomOnPlayhead();
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
@@ -491,6 +492,7 @@ private Q_SLOTS:
     void slotAddMarkerGuideQuickly();
     void slotAddMarkerWithCategory();
     void slotCutTimelineClip();
+    void slotReplaceTimelineClip();
     void slotCutTimelineAllClips();
     void slotInsertClipOverwrite();
     void slotInsertClipInsert();
@@ -532,6 +534,8 @@ private Q_SLOTS:
     void slotRemoveSpaceInAllTracks();
     void slotRemoveAllSpacesInTrack();
     void slotRemoveAllClipsInTrack();
+    void slotAddMarkersAtGaps();
+    void slotAddMarkersAtGapsOnTrack();
     void slotAddGuide();
     void slotEditGuide();
     void slotExportGuides();
@@ -551,6 +555,8 @@ private Q_SLOTS:
     void slotAutoTrackHeight(bool enable);
     void slotInsertTrack();
     void slotDeleteTrack();
+    void slotMoveTrackUp();
+    void slotMoveTrackDown();
     /** @brief Show context menu to switch current track target audio stream. */
     void slotSwitchTrackAudioStream();
     void slotShowTrackRec(bool checked);
@@ -606,7 +612,6 @@ private Q_SLOTS:
     /** @brief Move playhead to mouse cursor position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
-    void slotThemeChanged(const QString &name);
     void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);
@@ -668,8 +673,10 @@ private Q_SLOTS:
     void slotSearchGuide();
     /** @brief Focus the bin search line */
     void slotSearchBin();
-    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
+    /** @brief Move current timeline selection to a new sequence clip / Timeline tab */
     void slotCreateSequenceFromSelection();
+    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
+    void slotCopyAndCreateSequenceFromSelection();
 
 Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

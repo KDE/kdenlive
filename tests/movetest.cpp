@@ -9,7 +9,6 @@
 #include "doc/kdenlivedoc.h"
 
 #include "core.h"
-#include "definitions.h"
 
 using namespace fakeit;
 

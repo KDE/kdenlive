@@ -7,6 +7,7 @@
 #pragma once
 
 #include "definitions.h"
+#include "kdenlive_debug.h"
 
 #include <QAtomicInt>
 #include <QMutex>

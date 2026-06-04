@@ -7,26 +7,33 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import org.kde.kdenlive as K
+
 Item {
     id: recContainer
-    property int trackId: -1
+    required property K.TimelineController timeline
+    required property int trackId
+    required property K.MediaCapture audiorec
     property int recState: audiorec.recordState
     width: parent.width
-    implicitHeight: root.baseUnit * 1.5 + 4  // +4 for tick marks below levels
+    implicitHeight: K.UiUtils.baseSizeMedium * 1.5 + 4  // +4 for tick marks below levels
     
     RowLayout {
         spacing: 12
-        Layout.fillWidth: true
+        anchors.fill: parent
         
         AudioRecordButton {
+            timeline: recContainer.timeline
             recState: recContainer.recState
             trackId: recContainer.trackId
             isLocked: trackHeadRoot.isLocked
         }
         
         AudioLevels {
-            width: recContainer.width - parent.children[0].width - 16
-            height: parent.children[0].height - 1
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.rightMargin: 5
+            Layout.bottomMargin: 1
             audioLevels: audiorec.levels !== undefined ? audiorec.levels : []
         }
     }

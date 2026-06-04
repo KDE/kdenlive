@@ -24,6 +24,8 @@ class MonitorProxy : public QObject
     friend class AutomaskHelper;
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("MonitorProxy is owned by VideoWidget; obtained via setInitialProperties()")
 
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
     Q_PROPERTY(int position MEMBER m_position WRITE setPosition NOTIFY positionChanged)
@@ -92,6 +94,8 @@ public:
      * */
     Q_INVOKABLE bool setPosition(int pos);
     bool setPositionAdvanced(int pos, bool noAudioScrub);
+    /** @brief update position without causing a seek event. */
+    void updatePosition(int pos);
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QByteArray getUuid() const;
     Q_INVOKABLE void selectClip(int ix);
@@ -113,7 +117,6 @@ public:
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
     Q_INVOKABLE void switchGrid();
-    Q_INVOKABLE double fps() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     Q_INVOKABLE void terminateJob(const QString &uuid);
@@ -177,7 +180,6 @@ Q_SIGNALS:
     void rulerHeightChanged();
     void addSnap(int);
     void removeSnap(int);
-    void triggerAction(const QString &name);
     void overlayTypeChanged();
     void showSafezoneChanged();
     void maskOpacityChanged();

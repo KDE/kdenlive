@@ -4,8 +4,9 @@
 */
 
 #include "abstracttreemodel.hpp"
-
+#include "kdenlive_debug.h"
 #include "treeitem.hpp"
+
 #include <QDebug>
 #include <utility>
 

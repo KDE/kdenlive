@@ -20,7 +20,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDomElement>
 #include <QPainter>
 #include <QtMath>
-#include <utility>
 
 class ClipController;
 

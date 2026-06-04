@@ -8,6 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kdenlivesettings.h"
 
+#include <KLocalizedString>
+#include <KMessageWidget>
 #include <QIcon>
 #include <QPushButton>
 #include <utility>
@@ -76,6 +78,7 @@ void TrackDialog::buildCombo()
             deleteTracks->addItem(track);
         } else {
             comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
+            clipWarningLabel->setVisible(false);
         }
         // Track index in MLT, so add + 1 to compensate black track
         m_positionByIndex.insert(tid, i + 1);
@@ -86,18 +89,44 @@ void TrackDialog::buildCombo()
     }
     if (m_deleteMode) {
         deleteTracks->setMinimumWidth(deleteTracks->sizeHintForColumn(0));
-        connect(deleteTracks, &QListWidget::itemChanged, this, [=]() {
-            // Ensure we cannot check all tracks
+        auto updateClipWarning = [this](bool animated) {
             int count = deleteTracks->count();
+            int checkedCount = 0;
+            int totalClips = 0;
             for (int i = 0; i < count; i++) {
-                if (deleteTracks->item(i)->checkState() == Qt::Unchecked) {
-                    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-                    return true;
+                QListWidgetItem *item = deleteTracks->item(i);
+                if (item->checkState() == Qt::Checked) {
+                    checkedCount++;
+                    int trackId = m_idByTrackname.value(item->text(), -1);
+                    if (trackId != -1) {
+                        totalClips += m_model->getTrackClipsCount(trackId);
+                    }
                 }
             }
-            buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+            buttonBox->button(QDialogButtonBox::Ok)->setEnabled(checkedCount > 0 && checkedCount < count);
+            if (totalClips > 0) {
+                clipWarningLabel->setText(i18np("Warning: %1 clip will be deleted.", "Warning: %1 clips will be deleted.", totalClips));
+                if (animated) {
+                    clipWarningLabel->animatedShow();
+                } else {
+                    clipWarningLabel->setVisible(true);
+                }
+            } else {
+                if (animated) {
+                    clipWarningLabel->animatedHide();
+                } else {
+                    clipWarningLabel->setVisible(false);
+                }
+            }
+        };
+        connect(deleteTracks, &QListWidget::itemChanged, this, [updateClipWarning]() {
+            updateClipWarning(true);
             return true;
         });
+        // Initial check without animation to avoid animating on dialog open
+        if (deleteTracks->count() > 0) {
+            updateClipWarning(false);
+        }
     }
 }
 

@@ -5,27 +5,38 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
+
+
 Rectangle {
     id: trackHeadRoot
-    property string trackName
-    property string effectNames
-    property bool isStackEnabled
-    property bool isDisabled
-    property bool collapsed: false
-    property int isComposite
-    property bool isLocked: false
-    property bool isActive: false
-    property bool isAudio
-    property bool showAudioRecord: false
-    property bool current: false
-    property int trackId : -42
-    property string trackTag
-    property int thumbsFormat: 0
+    required property K.TimelineController timeline
+    required property K.TimelineItemModel controller
+    required property string trackName
+    required property string effectNames
+    required property bool isStackEnabled
+    required property bool isDisabled
+    required property bool collapsed
+    required property int isComposite
+    required property bool isLocked
+    required property bool isActive
+    required property bool isAudio
+    required property bool showAudioRecord
+    required property bool current
+    required property int trackId
+    required property string trackTag
+    required property int thumbsFormat
     border.width: 1
     border.color: root.frameColor
+
+    SystemPalette { id: activePalette }
 
     function editName() {
         nameEdit.visible = true
@@ -38,9 +49,9 @@ Rectangle {
     }
     
     onShowAudioRecordChanged: {
-        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3)) {
+        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3)) {
             // Ensure trackheight is large enough to have the vu-meter visible
-            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
+            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
         }
     }
 
@@ -54,16 +65,14 @@ Rectangle {
             name: 'current'
             when: trackHeadRoot.current
             PropertyChanges {
-                target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
+                trackHeadRoot.color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
             }
         },
         State {
             when: !trackHeadRoot.current
             name: 'normal'
             PropertyChanges {
-                target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : getTrackColor(isAudio, true)
+                trackHeadRoot.color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : getTrackColor(isAudio, true)
             }
         }
     ]
@@ -81,33 +90,33 @@ Rectangle {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: mouse => {
-            timeline.activeTrack = trackId
+            trackHeadRoot.timeline.activeTrack = trackHeadRoot.trackId
             if (mouse.button == Qt.RightButton) {
                 root.showHeaderMenu()
             }
         }
         onClicked: mouse => {
-            console.log('TRACK ID: ', trackId)
+            console.log('TRACK ID: ', trackHeadRoot.trackId)
             parent.forceActiveFocus()
             nameEdit.visible = false
             if (mouse.button == Qt.LeftButton) {
-                timeline.showTrackAsset(trackId)
+                trackHeadRoot.timeline.showTrackAsset(trackHeadRoot.trackId)
             }
         }
     }
     Label {
         id: trackTarget
         property color bgColor: 'grey'
-        font: miniFont
-        color: timeline.targetTextColor
+        font: K.UiUtils.smallestReadableFont
+        color: trackHeadRoot.timeline.targetTextColor
         background: Rectangle {
             color: trackTarget.bgColor
         }
-        width: 1.5 * root.baseUnit
+        width: 1.5 * K.UiUtils.baseSizeMedium
         height: trackHeadRoot.height
         verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignHCenter
-        visible: trackHeadRoot.isAudio ? timeline.hasAudioTarget > 0 : timeline.hasVideoTarget
+        visible: trackHeadRoot.isAudio ? trackHeadRoot.timeline.hasAudioTarget > 0 : trackHeadRoot.timeline.hasVideoTarget
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 1
@@ -121,19 +130,19 @@ Rectangle {
             onClicked: mouse => {
                 if (mouse.button == Qt.RightButton) {
                     if (trackHeadRoot.isAudio) {
-                        root.showTargetMenu(trackId)
+                        root.showTargetMenu(trackHeadRoot.trackId)
                     } else {
                         root.showHeaderMenu()
                     }
                 }
                 else {
                     if (trackHeadRoot.isAudio) {
-                        timeline.switchAudioTarget(trackHeadRoot.trackId);
+                        trackHeadRoot.timeline.switchAudioTarget(trackHeadRoot.trackId);
                     } else {
-                        if (trackHeadRoot.trackId === timeline.videoTarget) {
-                            timeline.videoTarget = -1;
-                        } else if (timeline.hasVideoTarget) {
-                            timeline.videoTarget = trackHeadRoot.trackId;
+                        if (trackHeadRoot.trackId === trackHeadRoot.timeline.videoTarget) {
+                            trackHeadRoot.timeline.videoTarget = -1;
+                        } else if (trackHeadRoot.timeline.hasVideoTarget) {
+                            trackHeadRoot.timeline.videoTarget = trackHeadRoot.trackId;
                         }
                     }
                 }
@@ -141,7 +150,7 @@ Rectangle {
             ToolButton {
                 id: targetMouse
                 focusPolicy: Qt.NoFocus
-                visible: trackHeadRoot.isAudio && timeline.clipTargets > 1 && trackHeadRoot.height > (2 * expandButton.height)
+                visible: trackHeadRoot.isAudio && trackHeadRoot.timeline.clipTargets > 1 && trackHeadRoot.height > (2 * expandButton.height)
                 background: Rectangle {
                     color: Qt.darker(trackTarget.bgColor, 1.5)
                     border.color: activePalette.light
@@ -151,48 +160,47 @@ Rectangle {
                 height: width
                 icon.name: "go-down"
                 onClicked: {
-                    root.showTargetMenu(trackId)
+                    root.showTargetMenu(trackHeadRoot.trackId)
                 }
                 ToolTip {
                     visible: targetMouse.hovered
-                    font: miniFont
-                    text: timeline.actionText("switch_target_stream")
+                    font: K.UiUtils.smallestReadableFont
+                    text: K.Core.actionText("switch_target_stream")
                 }
             }
         }
         ToolTip {
             visible: targetArea.containsMouse && !targetMouse.hovered
-            font: miniFont
-            text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
+            font: K.UiUtils.smallestReadableFont
+            text: KI18n.i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
         }
     state:  'normalTarget'
     states: [
         State {
             name: 'target'
-            when: (trackHeadRoot.isAudio && timeline.audioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId === timeline.videoTarget)
+            when: (trackHeadRoot.isAudio && trackHeadRoot.timeline.audioTarget.indexOf(trackHeadRoot.trackId) > -1)
+                  || (!trackHeadRoot.isAudio && trackHeadRoot.trackId === trackHeadRoot.timeline.videoTarget)
             PropertyChanges {
-                target: trackTarget
-                bgColor: timeline.targetColor
-                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+                trackTarget.bgColor: timeline.targetColor
+                trackTarget.text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
             }
         },
         State {
             name: 'inactiveTarget'
-            when: (trackHeadRoot.isAudio && timeline.lastAudioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastVideoTarget)
+            when: (trackHeadRoot.isAudio && trackHeadRoot.timeline.lastAudioTarget.indexOf(trackHeadRoot.trackId) > -1)
+                  || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == trackHeadRoot.timeline.lastVideoTarget)
             PropertyChanges {
-                target: trackTarget
-                opacity: 0.3
-                bgColor: activePalette.text
-                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+                trackTarget.opacity: 0.3
+                trackTarget.bgColor: activePalette.text
+                trackTarget.text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
             }
         },
         State {
             name: 'noTarget'
             when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
             PropertyChanges {
-                target: trackTarget
-                bgColor: activePalette.base
-                text: ''
+                trackTarget.bgColor: activePalette.base
+                trackTarget.text: ''
             }
         }
     ]
@@ -217,18 +225,18 @@ Rectangle {
             onClicked: {
                 if (modifier & Qt.ShiftModifier) {
                     // Collapse / expand all tracks
-                    timeline.collapseAllTrackHeight(trackId, !trackHeadRoot.collapsed, root.collapsedHeight)
+                    trackHeadRoot.timeline.collapseAllTrackHeight(trackHeadRoot.trackId, !trackHeadRoot.collapsed, root.collapsedHeight)
                 } else {
                     if (trackHeadRoot.collapsed) {
-                        var newHeight = Math.max(root.collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight"))
-                        controller.setTrackProperty(trackId, "kdenlive:trackheight", newHeight)
-                        controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
+                        var newHeight = Math.max(root.collapsedHeight * 1.5, trackHeadRoot.controller.getTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight"))
+                        trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight", newHeight)
+                        trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", "0")
                     } else {
-                        controller.setTrackProperty(trackId, "kdenlive:collapsed", root.collapsedHeight)
+                        trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", root.collapsedHeight)
                     }
                 }
                 if (root.autoTrackHeight) {
-                    timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
+                    trackHeadRoot.timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
                 }
             }
             MouseArea {
@@ -241,10 +249,10 @@ Rectangle {
                     mouse.accepted = false
                 }
                 onEntered: {
-                    timeline.showKeyBinding(i18n("<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"))
+                    trackHeadRoot.timeline.showKeyBinding(KI18n.i18n("<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"))
                 }
                 onExited: {
-                    timeline.showKeyBinding()
+                    trackHeadRoot.timeline.showKeyBinding()
                 }
             }
             anchors.left: parent.left
@@ -252,15 +260,15 @@ Rectangle {
             height: root.collapsedHeight
             ToolTip {
                 visible: expandButton.hovered
-                font: miniFont
-                text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
+                font: K.UiUtils.smallestReadableFont
+                text: trackLabel.visible? KI18n.i18n("Minimize") : KI18n.i18n("Expand")
             }
         }
         Label {
             id: trackLed
             property color bgColor: Qt.darker(trackHeadRoot.color, 0.55)
             anchors.left: expandButton.right
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             text: trackHeadRoot.trackTag
             color: activePalette.text
             background: Rectangle {
@@ -277,13 +285,13 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    timeline.switchTrackActive(trackHeadRoot.trackId)
+                    trackHeadRoot.timeline.switchTrackActive(trackHeadRoot.trackId)
                 }
             }
             ToolTip {
                 visible: tagMouseArea.containsMouse
-                font: miniFont
-                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
+                font: K.UiUtils.smallestReadableFont
+                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? KI18n.i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
             }
         state:  'normalled'
             states: [
@@ -291,25 +299,22 @@ Rectangle {
                     name: 'locked'
                     when: trackHeadRoot.isLocked
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: 'red'
+                        trackLed.bgColor: 'red'
                     }
                 },
                 State {
                     name: 'active'
                     when: trackHeadRoot.isActive
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: timeline.targetColor
-                        color: timeline.targetTextColor
+                        trackLed.bgColor: timeline.targetColor
+                        trackLed.color: timeline.targetTextColor
                     }
                 },
                 State {
                     name: 'inactive'
                     when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
                     PropertyChanges {
-                        target: trackLed
-                        bgColor: Qt.darker(trackHeadRoot.color, 0.55)
+                        trackLed.bgColor: Qt.darker(trackHeadRoot.color, 0.55)
                     }
                 }
             ]
@@ -332,10 +337,10 @@ Rectangle {
             y: 1
             text: trackHeadRoot.trackId
             elide: Text.ElideRight
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            visible: root.debugmode
+            visible: K.KdenliveSettings.uiDebugMode
         }
         Label {
             id: miniTrackLabel
@@ -346,7 +351,7 @@ Rectangle {
             width: buttonsRow.x - x
             text: trackHeadRoot.trackName
             elide: Text.ElideRight
-            font: miniFont
+            font: K.UiUtils.smallestReadableFont
             color: activePalette.text
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
@@ -365,25 +370,27 @@ Rectangle {
                 checkable: true
                 checked: enabled && trackHeadRoot.isStackEnabled
                 onClicked: {
-                    timeline.showTrackAsset(trackId)
-                    controller.setTrackStackEnabled(trackId, !isStackEnabled)
+                    trackHeadRoot.timeline.showTrackAsset(trackHeadRoot.trackId)
+                    trackHeadRoot.controller.setTrackStackEnabled(trackHeadRoot.trackId, !trackHeadRoot.isStackEnabled)
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
                 ToolTip {
                     visible: effectButton.hovered
-                    font: miniFont
-                    text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
+                    font: K.UiUtils.smallestReadableFont
+                    text: enabled ? (trackHeadRoot.isStackEnabled ? KI18n.i18n("Disable track effects"): KI18n.i18n("Enable track effects"))
+                                  : KI18n.i18n("Toggle track effects");
                 }
             }
             ToolButton {
                 id: muteButton
                 property int modifier: 0
                 focusPolicy: Qt.NoFocus
-                icon.name: isAudio ? (isDisabled ? "audio-off" : "audio-volume-high") : (isDisabled ? "kdenlive-hide-video" : "kdenlive-show-video")
+                icon.name: trackHeadRoot.isAudio ? (trackHeadRoot.isDisabled ? "audio-off" : "audio-volume-high")
+                                   : (trackHeadRoot.isDisabled ? "kdenlive-hide-video" : "kdenlive-show-video")
                 width: root.collapsedHeight
                 height: root.collapsedHeight
-                onClicked: timeline.hideTrack(trackId, isDisabled, modifier & Qt.ShiftModifier)
+                onClicked: trackHeadRoot.timeline.hideTrack(trackHeadRoot.trackId, trackHeadRoot.isDisabled, modifier & Qt.ShiftModifier)
                 MouseArea {
                     // Used to pass modifier state to expand button
                     anchors.fill: parent
@@ -394,16 +401,17 @@ Rectangle {
                         mouse.accepted = false
                     }
                     onEntered: {
-                        timeline.showKeyBinding(i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
+                        trackHeadRoot.timeline.showKeyBinding(KI18n.i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
                     }
                     onExited: {
-                        timeline.showKeyBinding()
+                        trackHeadRoot.timeline.showKeyBinding()
                     }
                 }
                 ToolTip {
                     visible: muteButton.hovered
-                    font: miniFont
-                    text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
+                    font: K.UiUtils.smallestReadableFont
+                    text: trackHeadRoot.isAudio ? (trackHeadRoot.isDisabled? KI18n.i18n("Unmute") : KI18n.i18n("Mute"))
+                                  : (trackHeadRoot.isDisabled? KI18n.i18n("Show") : KI18n.i18n("Hide"))
                 }
             }
 
@@ -413,11 +421,11 @@ Rectangle {
                 height: root.collapsedHeight
                 focusPolicy: Qt.NoFocus
                 icon.name: trackHeadRoot.isLocked ? "lock" : "unlock"
-                onClicked: controller.setTrackLockedState(trackId, !isLocked)
+                onClicked: trackHeadRoot.controller.setTrackLockedState(trackHeadRoot.trackId, !trackHeadRoot.isLocked)
                 ToolTip {
                     visible: lockButton.hovered
-                    font: miniFont
-                    text: isLocked? i18n("Unlock track") : i18n("Lock track")
+                    font: K.UiUtils.smallestReadableFont
+                    text: trackHeadRoot.isLocked ? KI18n.i18n("Unlock track") : KI18n.i18n("Lock track")
                 }
                 SequentialAnimation {
                     id: flashLock
@@ -437,14 +445,18 @@ Rectangle {
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2
-            height: showAudioRecord ? root.collapsedHeight - 4 : 0
+            height: trackHeadRoot.showAudioRecord ? root.collapsedHeight - 4 : 0
             Loader {
                 id: audioVuMeter
                 asynchronous: true 
                 anchors.fill: parent
-                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
-                source: isAudio && showAudioRecord ? "AudioRecordingControls.qml" : ""
-                onLoaded: item.trackId = trackId
+                visible: trackHeadRoot.showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
+                active: trackHeadRoot.isAudio && trackHeadRoot.showAudioRecord
+                sourceComponent: AudioRecordingControls {
+                    trackId: trackHeadRoot.trackId
+                    timeline: trackHeadRoot.timeline
+                    audiorec: root.audiorec
+                }
             }
         }
         Item {
@@ -470,38 +482,38 @@ Rectangle {
                     cursorShape: Qt.IBeamCursor
                     onDoubleClicked: editName()
                     onClicked: {
-                        timeline.showTrackAsset(trackId)
-                        timeline.activeTrack = trackId
+                        trackHeadRoot.timeline.showTrackAsset(trackHeadRoot.trackId)
+                        trackHeadRoot.timeline.activeTrack = trackHeadRoot.trackId
                         trackHeadRoot.focus = true
                     }
                 }
                 Label {
-                    text: trackName
+                    text: trackHeadRoot.trackName
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     color: activePalette.text
                 }
                 Label {
                     id: placeHolder
-                    visible: trackName == '' && (trackNameMouseArea.containsMouse || headerMouseArea.containsMouse)
+                    visible: trackHeadRoot.trackName == '' && (trackNameMouseArea.containsMouse || headerMouseArea.containsMouse)
                     enabled: false
-                    text: i18n("Edit track name")
+                    text: KI18n.i18n("Edit track name")
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     color: activePalette.text
                 }
                 TextField {
                     id: nameEdit
                     visible: false
                     width: parent.width
-                    text: trackName
-                    font: miniFont
+                    text: trackHeadRoot.trackName
+                    font: K.UiUtils.smallestReadableFont
                     color: activePalette.text
                     background: Rectangle {
                         radius: 2
@@ -518,7 +530,7 @@ Rectangle {
                         }
                     }*/
                     onEditingFinished: {
-                        controller.setTrackName(trackId, text)
+                        trackHeadRoot.controller.setTrackName(trackHeadRoot.trackId, text)
                         tracksArea.focus = true
                         visible = false
                     }
@@ -528,7 +540,7 @@ Rectangle {
     }
     Rectangle {
             id: resizer
-            height: Math.round(root.baseUnit/3)
+            height: Math.round(K.UiUtils.baseSizeMedium/3)
             color: 'red'
             opacity: 0
             Drag.active: trimInMouseArea.drag.active
@@ -556,18 +568,18 @@ Rectangle {
                     originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
                 }
                 onReleased: mouse => {
-                    root.autoScrolling = timeline.autoScroll
+                    root.autoScrolling = trackHeadRoot.timeline.autoScroll
                     if (!trimInMouseArea.containsMouse) {
                         parent.opacity = 0
                     }
                     if (mouse.modifiers & Qt.ShiftModifier && dragStarted) {
-                        timeline.adjustAllTrackHeight(trackHeadRoot.trackId, trackHeadRoot.height)
+                        trackHeadRoot.timeline.adjustAllTrackHeight(trackHeadRoot.trackId, trackHeadRoot.height)
                     }
                 }
                 onEntered: parent.opacity = 0.3
                 onExited: parent.opacity = 0
                 onDoubleClicked: mouse => {
-                    timeline.defaultTrackHeight(mouse.modifiers & Qt.ShiftModifier ? -1 : trackHeadRoot.trackId)
+                    trackHeadRoot.timeline.defaultTrackHeight(mouse.modifiers & Qt.ShiftModifier ? -1 : trackHeadRoot.trackId)
                 }
                 onPositionChanged: mouse=> {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -578,10 +590,10 @@ Rectangle {
                         var newHeight = Math.round(originalY + (mapToItem(null, x, y).y - startY))
                         newHeight =  Math.max(root.collapsedHeight, newHeight)
                         if (newHeight == root.collapsedHeight) {
-                            controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", root.collapsedHeight)
+                            trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", root.collapsedHeight)
                         } else {
-                            controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight", newHeight)
-                            controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", "0")
+                            trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight", newHeight)
+                            trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", "0")
                         }
                     }
                 }
@@ -590,7 +602,7 @@ Rectangle {
     DropArea { //Drop area for tracks
         anchors.fill: trackHeadRoot
         anchors.bottomMargin: resizer.height
-        keys: 'kdenlive/effect'
+        keys: ['kdenlive/effect']
         property string dropData
         property string dropSource
         onEntered: drag => {
@@ -602,9 +614,9 @@ Rectangle {
             console.log("Add effect: ", dropData)
             if (dropSource == '') {
                 // drop from effects list
-                controller.addTrackEffect(trackHeadRoot.trackId, dropData);
+                trackHeadRoot.controller.addTrackEffect(trackHeadRoot.trackId, dropData);
             } else {
-                controller.copyTrackEffect(trackHeadRoot.trackId, dropSource);
+                trackHeadRoot.controller.copyTrackEffect(trackHeadRoot.trackId, dropSource);
             }
             drag.acceptProposedAction()
         }

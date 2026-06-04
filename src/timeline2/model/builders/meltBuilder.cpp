@@ -13,7 +13,6 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "transitions/transitionsrepository.hpp"
 
@@ -26,7 +25,6 @@
 #include <mlt++/MltMultitrack.h>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltService.h>
-#include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
 #include <project/projectmanager.h>
 

@@ -7,6 +7,8 @@ import QtQuick.Controls
 import QtQuick.Window
 import QtQuick
 
+import org.kde.ki18n
+
 import org.kde.kdenlive as K
 
 Item {
@@ -17,8 +19,9 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string markerText
-    property point profile: controller.profile
+    property point profile: root.controller.profile
     property double zoom
     property point center
     property double scalex
@@ -38,16 +41,14 @@ Item {
     property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
-    property int overlayType: controller.overlayType
+    property int overlayType: root.controller.overlayType
     property bool isClipMonitor: false
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        root.controller.rulerHeight = root.zoomOffset
     }
 
     function updateClickCapture() {
@@ -56,11 +57,11 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font: K.UiUtils.fixedFont
     }
 
     signal editCurrentMarker()
-    signal startRecording()
+    signal startRecording(bool showCountDown)
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
@@ -77,7 +78,7 @@ Item {
         countDownLoader.source = "Countdown.qml"
     }
     function stopCountdown() {
-        root.startRecording()
+        root.startRecording(false)
         countDownLoader.source = ""
     }
 
@@ -95,13 +96,13 @@ Item {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onEntered: {
-            controller.setWidgetKeyBinding(i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
+            root.controller.setWidgetKeyBinding(KI18n.i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
         }
         onExited: {
-            controller.setWidgetKeyBinding();
+            root.controller.setWidgetKeyBinding();
         }
     }
     DropArea { //Drop area for effects
@@ -116,7 +117,7 @@ Item {
             droppedDataSource = drag.getDataAsString('kdenlive/effectsource')
         }
         onDropped: {
-            controller.addEffect(droppedData, droppedDataSource)
+            root.controller.addEffect(droppedData, droppedDataSource)
             droppedData = ""
             droppedDataSource = ""
         }
@@ -130,10 +131,11 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
+        monitorController: root.controller
     }
 
     Item {
-        height: root.height - controller.rulerHeight
+        height: root.height - root.controller.rulerHeight
         width: root.width
         id: monitorArea
         Item {
@@ -152,7 +154,8 @@ Item {
 
             K.MonitorSafeZone {
                 anchors.fill: frame
-                showSafeZone: controller.showSafezone
+                showSafeZone: root.controller.showSafezone
+                profile: root.controller.profile
             }
 
             Loader {
@@ -172,9 +175,9 @@ Item {
                 color: "#ffffff"
                 padding: 2
                 background: Rectangle {
-                    color: controller.monitorIsActive ? "#DD006600": "#66000000"
+                    color: root.controller.monitorIsActive ? "#DD006600": "#66000000"
                 }
-                text: controller.timecode
+                text: root.controller.timecode
                 visible: root.showTimecode
                 anchors {
                     right: monitorOverlay.right
@@ -192,7 +195,7 @@ Item {
                 background: Rectangle {
                     color: root.dropped ? "#99ff0000" : "#66004400"
                 }
-                text: i18n("%1fps", root.fps)
+                text: KI18n.i18n("%1fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
@@ -202,13 +205,13 @@ Item {
             }
             Label {
                 id: labelSpeed
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     top: parent.top
                 }
-                visible: Math.abs(controller.speed) > 1
-                text: "x" + controller.speed
+                visible: Math.abs(root.controller.speed) > 1
+                text: "x" + root.controller.speed
                 color: "white"
                 background: Rectangle {
                     color: "darkgreen"
@@ -218,14 +221,14 @@ Item {
             }
             Label {
                 id: inPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
                     bottomMargin: root.zoomOffset
                 }
-                visible: root.showMarkers && controller.position == controller.zoneIn
-                text: i18n("In Point")
+                visible: root.showMarkers && root.controller.position == root.controller.zoneIn
+                text: KI18n.i18n("In Point")
                 color: "white"
                 background: Rectangle {
                     color: "#228b22"
@@ -235,14 +238,14 @@ Item {
             }
             Label {
                 id: outPoint
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
                     bottomMargin: root.zoomOffset
                 }
-                visible: root.showMarkers && controller.position == controller.zoneOut
-                text: i18n("Out Point")
+                visible: root.showMarkers && root.controller.position == root.controller.zoneOut
+                text: KI18n.i18n("Out Point")
                 color: "white"
                 background: Rectangle {
                     color: "#770000"
@@ -252,7 +255,7 @@ Item {
             }
             TextField {
                 id: marker
-                font: fixedFont
+                font: K.UiUtils.fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
                 onEditingFinished: {
@@ -266,12 +269,12 @@ Item {
                     bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && text != ""
-                text: controller.markerComment
+                text: root.controller.markerComment
                 height: inPoint.height
                 width: fontMetrics.boundingRect(displayText).width + 10
                 horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
                 background: Rectangle {
-                    color: controller.markerColor
+                    color: root.controller.markerColor
                 }
                 color: "#000"
                 padding: 0
@@ -287,7 +290,7 @@ Item {
             anchors.topMargin: 10
             anchors.leftMargin: 10
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.5)
-            visible: K.KdenliveSettings.enableBuiltInEffects && controller.speed == 0 && (barOverArea.containsMouse || transformbutton.hovered)
+            visible: K.KdenliveSettings.enableBuiltInEffects && root.controller.speed == 0 && (barOverArea.containsMouse || transformbutton.hovered)
             radius: 4
             border.color : Qt.rgba(0, 0, 0, 0.3)
             border.width: 1
@@ -296,10 +299,10 @@ Item {
                 anchors.fill: transformcontainer
                 hoverEnabled: true
                 iconName: "transform-crop"
-                toolTipText: i18nc("@tooltip Transform, a tool to resize", "Enable Transform")
+                toolTipText: KI18n.i18nc("@tooltip Transform, a tool to resize", "Enable Transform")
                 checkable: false
                 onClicked: {
-                    controller.enableTransform()
+                    root.controller.enableTransform()
                 }
             }
         }
@@ -311,6 +314,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 }

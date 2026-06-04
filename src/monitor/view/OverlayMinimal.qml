@@ -7,18 +7,18 @@ import QtQuick 2.15
 
 Item {
     id: overlay
-    property color color
+    required property color color
 
     Rectangle {
         color: overlay.color
-        width: frame.width / 20
+        width: overlay.width / 20
         height: 1
-        anchors.centerIn: parent
+        anchors.centerIn: overlay
     }
     Rectangle {
         color: overlay.color
-        height: frame.width / 20
+        height: overlay.width / 20
         width: 1
-        anchors.centerIn: parent
+        anchors.centerIn: overlay
     }
 }

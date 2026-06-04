@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
+#include "bin/projectfolder.h"
 #include "doc/documentchecker.h"
 #include "doc/kdenlivedoc.h"
 #include "src/assets/keyframes/model/keyframemodel.hpp"
@@ -90,8 +91,8 @@ QString KdenliveTests::createTextProducer(Mlt::Profile &prof, std::shared_ptr<Pr
     producer->set("length", length);
     producer->set_in_and_out(0, length - 1);
     producer->set("kdenlive:duration", length);
-    producer->set_string("kdenlive:clipname", clipname.toLocal8Bit().data());
-    producer->set_string("xmldata", xmldata.toLocal8Bit().data());
+    producer->set_string("kdenlive:clipname", clipname.toUtf8().data());
+    producer->set_string("xmldata", xmldata.toUtf8().data());
 
     QString binId = QString::number(binModel->getFreeClipId());
     auto binClip = ProjectClip::construct(binId, QIcon(), binModel, producer);

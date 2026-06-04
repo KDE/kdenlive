@@ -7,14 +7,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettingsdialog.h"
 #include "core.h"
 #include "dialogs/customcamcorderdialog.h"
-#include "dialogs/profilesdialog.h"
 #include "dialogs/wizard.h"
 #include "doc/kdenlivedoc.h"
 #include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
-#include "monitor/monitorproxy.h"
 #include "pluginssettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
@@ -52,11 +50,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTimer>
 #include <QtConcurrent/QtConcurrentRun>
 
-#include <cstdio>
-#include <cstdlib>
 #include <fcntl.h>
 
 #ifdef USE_JOGSHUTTLE
+#include "jogshuttle/jogshuttle.h"
 #include "jogshuttle/jogshuttleconfig.h"
 #include <QStandardPaths>
 #include <linux/input.h>
@@ -88,6 +85,23 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     QWidget *p11 = new QWidget;
     m_configColors.setupUi(p11);
+
+    // Initialize clip color buttons with live computed colors
+    if (auto *tc = pCore->window()->getCurrentTimeline()->controller()) {
+        m_configColors.videoColor->setColor(tc->getTimelineClipColor(ClipType::Video));
+        m_configColors.audioColor->setColor(tc->getTimelineClipColor(ClipType::Audio));
+        m_configColors.titleColor->setColor(tc->getTimelineClipColor(ClipType::Text));
+        m_configColors.imageColor->setColor(tc->getTimelineClipColor(ClipType::Image));
+        m_configColors.slideshowColor->setColor(tc->getTimelineClipColor(ClipType::SlideShow));
+        connect(m_configColors.resetClipColors, &QPushButton::clicked, this, [this, tc]() {
+            m_configColors.videoColor->setColor(tc->getDefaultClipColor(ClipType::Video));
+            m_configColors.audioColor->setColor(tc->getDefaultClipColor(ClipType::Audio));
+            m_configColors.titleColor->setColor(tc->getDefaultClipColor(ClipType::Text));
+            m_configColors.imageColor->setColor(tc->getDefaultClipColor(ClipType::Image));
+            m_configColors.slideshowColor->setColor(tc->getDefaultClipColor(ClipType::SlideShow));
+        });
+    }
+
     m_pageColors = addPage(p11, i18n("Colors and Markers"), QStringLiteral("color-management"));
     m_guidesCategories = new GuideCategories(nullptr, this);
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
@@ -293,6 +307,13 @@ void KdenliveSettingsDialog::initProxyPage()
     m_configProxy.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
     loadExternalProxyProfiles();
     connect(m_configProxy.button_external, &QToolButton::clicked, this, &KdenliveSettingsDialog::configureExternalProxies);
+    QString allowedParams = KdenliveSettings::safeFFmpegParams().join(QLatin1Char(','));
+    m_configProxy.allowedProxyParams->setPlainText(allowedParams);
+    connect(m_configProxy.allowedProxyParams, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotDialogModified);
+    connect(m_configProxy.resetProxyParams, &QPushButton::clicked, this, [this]() {
+        QString defaults = KdenliveSettings::defaultSafeFFmpegParamsValue().join(QLatin1Char(','));
+        m_configProxy.allowedProxyParams->setPlainText(defaults);
+    });
 }
 
 void KdenliveSettingsDialog::configureExternalProxies()
@@ -565,11 +586,7 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     QWidget *p6 = new QWidget;
     m_configShuttle.setupUi(p6);
 #ifdef USE_JOGSHUTTLE
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
-#else
-    connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
-#endif
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
 
@@ -634,11 +651,7 @@ void KdenliveSettingsDialog::initTranscodePage()
     connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_configTranscode.profile_audioonly, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-#else
-    connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-#endif
 
     connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
 
@@ -1386,6 +1399,53 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
     }
 
+    bool colorsChanged = false;
+    if (auto *tc = pCore->window()->getCurrentTimeline()->controller()) {
+        QColor videoCol = m_configColors.videoColor->color();
+        QColor videoDefault = tc->getDefaultClipColor(ClipType::Video);
+        QColor videoToStore = (videoCol == videoDefault) ? QColor(0,0,0,0) : videoCol;
+        if (videoToStore != KdenliveSettings::videoColor()) {
+            KdenliveSettings::setVideoColor(videoToStore);
+            colorsChanged = true;
+        }
+
+        QColor audioCol = m_configColors.audioColor->color();
+        QColor audioDefault = tc->getDefaultClipColor(ClipType::Audio);
+        QColor audioToStore = (audioCol == audioDefault) ? QColor(0,0,0,0) : audioCol;
+        if (audioToStore != KdenliveSettings::audioColor()) {
+            KdenliveSettings::setAudioColor(audioToStore);
+            colorsChanged = true;
+        }
+
+        QColor titleCol = m_configColors.titleColor->color();
+        QColor titleDefault = tc->getDefaultClipColor(ClipType::Text);
+        QColor titleToStore = (titleCol == titleDefault) ? QColor(0,0,0,0) : titleCol;
+        if (titleToStore != KdenliveSettings::titleColor()) {
+            KdenliveSettings::setTitleColor(titleToStore);
+            colorsChanged = true;
+        }
+
+        QColor imageCol = m_configColors.imageColor->color();
+        QColor imageDefault = tc->getDefaultClipColor(ClipType::Image);
+        QColor imageToStore = (imageCol == imageDefault) ? QColor(0,0,0,0) : imageCol;
+        if (imageToStore != KdenliveSettings::imageColor()) {
+            KdenliveSettings::setImageColor(imageToStore);
+            colorsChanged = true;
+        }
+
+        QColor slideshowCol = m_configColors.slideshowColor->color();
+        QColor slideshowDefault = tc->getDefaultClipColor(ClipType::SlideShow);
+        QColor slideshowToStore = (slideshowCol == slideshowDefault) ? QColor(0,0,0,0) : slideshowCol;
+        if (slideshowToStore != KdenliveSettings::slideshowColor()) {
+            KdenliveSettings::setSlideshowColor(slideshowToStore);
+            colorsChanged = true;
+        }
+
+        if (colorsChanged) {
+            Q_EMIT tc->colorsChanged();
+        }
+    }
+
     if (m_configColors.kcfg_overlayColor->color() != KdenliveSettings::overlayColor()) {
         KdenliveSettings::setOverlayColor(m_configColors.kcfg_overlayColor->color());
     }
@@ -1411,6 +1471,11 @@ void KdenliveSettingsDialog::updateSettings()
         // The transcoding profiles were modified, save.
         m_modified = false;
         saveTranscodeProfiles();
+    }
+
+    const QStringList proxyParams = m_configProxy.allowedProxyParams->toPlainText().split(QLatin1Char(','));
+    if (proxyParams != KdenliveSettings::safeFFmpegParams()) {
+        KdenliveSettings::setSafeFFmpegParams(proxyParams);
     }
 
 #ifdef USE_JOGSHUTTLE

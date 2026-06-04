@@ -22,7 +22,7 @@ ToolButton {
     }
     ToolTip {
         visible: toolButton.hovered
-        delay: Qt.styleHints.mousePressAndHoldInterval
+        delay: Application.styleHints.mousePressAndHoldInterval
         text: toolButton.toolTipText
         timeout: 3000
     }

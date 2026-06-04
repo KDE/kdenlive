@@ -8,10 +8,8 @@
 
 #include <KLocalizedString>
 #include <QDomElement>
+#include <QMap>
 #include <QString>
-#include <memory>
-
-#include <mlt++/MltProfile.h>
 
 class RenderPresetParams : public QMap<QString, QString>
 {
@@ -60,13 +58,13 @@ public:
     int defaultSpeedIndex() const { return m_defaultSpeedIndex; };
     QString topFieldFirst() const { return m_topFieldFirst; };
     QString presetFile() const { return m_presetFile; };
-    QStringList audioBitrates() const;
+    const QStringList audioBitrates() const;
     QString defaultABitrate() const;
-    QStringList audioQualities() const;
+    const QStringList audioQualities() const;
     QString defaultAQuality() const;
-    QStringList videoBitrates() const;
+    const QStringList videoBitrates() const;
     QString defaultVBitrate() const;
-    QStringList videoQualities() const;
+    const QStringList videoQualities() const;
     QString defaultVQuality() const;
     /** @brief Returns a list of all default values for this profile (speed, aBitrate, aQuality, vBitrate, vQuality */
     QStringList defaultValues() const;

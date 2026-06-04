@@ -37,11 +37,6 @@ std::shared_ptr<DocumentCheckerTreeModel> DocumentCheckerTreeModel::construct(co
     QList<QVariant> data;
     data.reserve(3);
     for (const auto &item : items) {
-        if (item.type == DocumentChecker::MissingType::Proxy) {
-            // Skip proxy as they are shown in a different widget
-            continue;
-        }
-
         // we create the data list corresponding to this resource
         data.clear();
         data << DocumentChecker::readableNameForMissingType(item.type);
@@ -110,6 +105,36 @@ void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
     Q_EMIT searchDone();
 }
 
+void DocumentCheckerTreeModel::slotSearchProxyRecursively(const QString &newpath)
+{
+    QDir searchDir(newpath);
+    QMap<QModelIndex, QString> fixedMap;
+    QMapIterator<int, DocumentChecker::DocumentResource> i(m_resourceItems);
+    int counter = 1;
+    while (i.hasNext()) {
+        i.next();
+        Q_EMIT searchProgress(counter, m_resourceItems.count());
+        counter++;
+        if (i.value().status != DocumentChecker::MissingStatus::Missing) {
+            continue;
+        }
+        QString newPath;
+        if (i.value().type == DocumentChecker::MissingType::Proxy) {
+            newPath = DocumentChecker::searchPathRecursively(searchDir, QUrl::fromLocalFile(i.value().originalFilePath).fileName());
+        }
+        if (!newPath.isEmpty()) {
+            fixedMap.insert(getIndexFromId(i.key()), newPath);
+        }
+    }
+    QMapIterator<QModelIndex, QString> j(fixedMap);
+    while (j.hasNext()) {
+        j.next();
+        setItemsNewFilePath(j.key(), j.value(), DocumentChecker::MissingStatus::Fixed, false);
+    }
+    Q_EMIT dataChanged(QModelIndex(), QModelIndex());
+    Q_EMIT searchDone();
+}
+
 void DocumentCheckerTreeModel::usePlaceholdersForMissing()
 {
     QMapIterator<int, DocumentChecker::DocumentResource> i(m_resourceItems);
@@ -158,7 +183,8 @@ QVariant DocumentCheckerTreeModel::data(const QModelIndex &index, int role) cons
             }
         }
 
-        if (role == Qt::BackgroundRole && resource.status == DocumentChecker::MissingStatus::Missing && index.column() == 1) {
+        if (role == Qt::BackgroundRole && ((resource.status == DocumentChecker::MissingStatus::Missing && index.column() == 1) ||
+                                           resource.status == DocumentChecker::MissingStatus::Remote)) {
             KColorScheme scheme(qApp->palette().currentColorGroup(), KColorScheme::Window);
             return scheme.background(KColorScheme::NegativeBackground).color();
         }

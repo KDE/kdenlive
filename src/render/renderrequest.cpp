@@ -13,6 +13,7 @@
 #include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
+#include <QRegularExpression>
 #include <QTemporaryFile>
 
 // TODO: remove, see generatePlaylistFile()
@@ -20,7 +21,6 @@
 #include <QInputDialog>
 
 // TODO:
-#include "doc/docundostack.hpp"
 #include <QUndoGroup>
 
 QStringList RenderRequest::argsByJob(const RenderJob &job, bool addPid)
@@ -249,7 +249,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
 
         // set parameters
         setDocGeneralParams(sectionDoc, section.in, section.out);
-
+        qDebug() << "::: CREATED JOB WITH OUTPUT: " << outputPath;
         createRenderJobs(jobs, sectionDoc, newPlaylistPath, outputPath, subtitleFile, currentUuid);
     }
 
@@ -294,6 +294,7 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
         RenderJob job;
         job.playlistPath = playlistPath;
         job.outputPath = outputPath;
+        qDebug() << "::: BUILDING OUTPUT PLAYLIST WITH OUTPUT: " << outputPath;
         // outputFile will stay unmodified in case of 2 pass rendering
         job.outputFile = outputPath;
         job.subtitlePath = subtitlePath;

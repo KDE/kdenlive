@@ -5,7 +5,6 @@
 
 #include "filewatcher.hpp"
 
-#include <KDirWatch>
 #include <QFileInfo>
 
 FileWatcher::FileWatcher(QObject *parent)

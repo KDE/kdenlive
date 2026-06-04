@@ -8,7 +8,6 @@
 #pragma once
 
 #include "scopewidget.h"
-#include "sharedframe.h"
 
 #include <QPixmap>
 #include <QVector>

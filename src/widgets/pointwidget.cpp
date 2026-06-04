@@ -11,7 +11,7 @@
 #include <QToolButton>
 
 PointWidget::PointWidget(const QString &name, QPointF value, QPointF min, QPointF max, QPointF factor, QPointF defaultValue, int decimals,
-                         const QString &comment, int id, QWidget *parent)
+                         const QString &comment, int id, const QString &suffix, QWidget *parent)
     : QWidget(parent)
     , m_labelText(name)
     , m_factor(factor)
@@ -20,8 +20,8 @@ PointWidget::PointWidget(const QString &name, QPointF value, QPointF min, QPoint
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    m_dragValX = new DragValue(name, defaultValue.x(), decimals, min.x(), max.x(), id, QString(), false, false, this);
-    m_dragValY = new DragValue(name, defaultValue.y(), decimals, min.y(), max.y(), id, QString(), false, false, this);
+    m_dragValX = new DragValue(name, defaultValue.x(), decimals, min.x(), max.x(), id, suffix, false, false, this);
+    m_dragValY = new DragValue(name, defaultValue.y(), decimals, min.y(), max.y(), id, suffix, false, false, this);
     layout->addWidget(m_dragValX);
     layout->addWidget(m_dragValY);
     layout->addStretch(10);
@@ -30,6 +30,7 @@ PointWidget::PointWidget(const QString &name, QPointF value, QPointF min, QPoint
     if (!comment.isEmpty()) {
         setToolTip(comment);
     }
+    qDebug() << ":::: SETTING POINT X VALUE: " << value.x() << "x" << factor.x() << " = " << (value.x() * factor.x());
     m_dragValX->setValue(value.x() * factor.x(), false);
     m_dragValY->setValue(value.y() * factor.y(), false);
     connect(m_dragValX, &DragValue::customValueChanged, this,

@@ -6,11 +6,14 @@
 import QtQuick 2.15
 import QtQuick.Controls
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.ki18n
+
+import org.kde.kdenlive as K
 
 MouseArea {
     id: barZone
     hoverEnabled: true
+    required property K.MonitorProxy monitorController
     property bool rightSide: true
     width: 2.4 * fontMetrics.font.pixelSize
     acceptedButtons: Qt.NoButton
@@ -52,58 +55,59 @@ MouseArea {
 
         Column {
             width: parent.width
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
-                toolTipText: i18n("Switch Full Screen")
+                toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_fullscreen')
+                    barZone.monitorController.activateClipMonitor(root.isClipMonitor)
+                    K.Core.triggerAction('monitor_fullscreen')
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "showSafeZone"
                 iconName: "select-rectangular"
-                toolTipText: i18n("Show Safe Areas")
+                toolTipText: KI18n.i18n("Show Safe Areas")
                 checkable: true
                 checked: false
                 onCheckedChanged: {
-                    controller.showSafezone = checked
+                    barZone.monitorController.showSafezone = checked
                 }
                 Component.onCompleted: {
-                    checked = controller.showSafezone
+                    checked = barZone.monitorController.showSafezone
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 id: switchOverlay
                 iconName: "view-grid"
-                toolTipText: i18n("Composition Guides")
+                toolTipText: KI18n.i18n("Composition Guides")
                 onClicked: {
-                    if (controller.overlayType >= 5) {
-                        controller.overlayType = 0
+                    if (barZone.monitorController.overlayType >= 5) {
+                        barZone.monitorController.overlayType = 0
                     } else {
-                        controller.overlayType = controller.overlayType + 1;
+                        barZone.monitorController.overlayType = barZone.monitorController.overlayType + 1;
                     }
-                    root.overlayType = controller.overlayType
+                    root.overlayType = barZone.monitorController.overlayType
                 }
             }
-            Kdenlive.MonitorZoomButton {
+            K.MonitorZoomButton {
                 id: zoomButton
+                monitorController: barZone.monitorController
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "addMarker"
                 iconName: "bookmark-new"
-                toolTipText: i18n("Add/Remove Marker")
+                toolTipText: KI18n.i18n("Add/Remove Marker")
                 onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('add_marker_guide_quickly')
+                    barZone.monitorController.activateClipMonitor(root.isClipMonitor)
+                    K.Core.triggerAction('add_marker_guide_quickly')
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
-                toolTipText: i18n("Move Toolbar")
+                toolTipText: KI18n.i18n("Move Toolbar")
                 onClicked: {
                     if (barZone.rightSide) {
                         barZone.anchors.right = undefined

@@ -7,14 +7,11 @@
 // test specific headers
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include <QString>
-#include <cmath>
-#include <iostream>
-#include <tuple>
 #include <unordered_set>
 
 #include "core.h"
-#include "definitions.h"
 
 using namespace fakeit;
 

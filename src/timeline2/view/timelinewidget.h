@@ -21,7 +21,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(const QUuid uuid, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(const QUuid uuid, QQmlEngine *engine, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
@@ -33,8 +33,6 @@ public:
     Mlt::Tractor *tractor();
     TimelineController *controller();
     std::shared_ptr<TimelineItemModel> model();
-    void setTool(ToolType::ProjectTool tool);
-    ToolType::ProjectTool activeTool();
     QPair<int, int> getAvTracksCount() const;
     /** @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;
@@ -43,7 +41,6 @@ public:
     /** @brief Initiate timeline clip context menu */
     void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
                          QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu);
-    void updateShouldAddClip(bool shouldAddClip);
     void updateAddClipMenuStatus();
     bool loading;
     void connectSubtitleModel(bool firstConnect);
@@ -113,12 +110,8 @@ private:
     /** @brief Returns an alphabetically sorted list of favorite effects or transitions */
     const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
     QPoint m_clickPos;
-    QPoint m_addClipPos;
-    int m_addClipFrame;
-    int m_addClipTrack;
-    bool m_shouldAddClip{false};
+    QMetaObject::Connection m_addMenuConnection;
     QUuid m_uuid;
-    std::shared_ptr<MediaCapture> m_audioRec;
 
 Q_SIGNALS:
     void focusProjectMonitor();

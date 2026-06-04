@@ -14,6 +14,8 @@
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
+#include <KUrlRequester>
+#include <KUrlRequesterDialog>
 
 #include <QCryptographicHash>
 #include <QStandardPaths>
@@ -147,6 +149,10 @@ bool DocumentChecker::resolveProblemsWithGUI()
     int max = documentTractors.count();
     for (int i = 0; i < max; ++i) {
         QDomElement tractor = documentTractors.item(i).toElement();
+        if (Xml::hasXmlProperty(tractor, QStringLiteral("kdenlive:projectTractor"))) {
+            // This is a fake tractor to allow playing the active sequence, ignore
+            continue;
+        }
         tractorIds.append(tractor.attribute(QStringLiteral("id")));
         Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
@@ -180,9 +186,9 @@ bool DocumentChecker::hasErrorInProject()
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    const QString root = m_doc.documentElement().attribute(QStringLiteral("root"));
     QStringList timelinePreviewIds;
     QDomElement mainBinPlaylist;
-    int requestedPlaylists = 2;
     for (int i = 0; i < playlists.count(); ++i) {
         QDomElement pl = playlists.at(i).toElement();
         if (pl.attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
@@ -200,17 +206,33 @@ bool DocumentChecker::hasErrorInProject()
 
             // ensure the storage for temp files exists
             storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
-            storageFolder = ensureAbsolutePath(storageFolder);
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder)) {
-                if (projectDir.mkpath(m_documentid)) {
-                    // Move storage folder inside the document folder
-                    storageFolder = projectDir.absolutePath();
-                    Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
-                    m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
-                } else {
-                    // Cannot create storage folder, use default location
-                    Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
-                    m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+            if (!storageFolder.isEmpty()) {
+                storageFolder = ensureAbsolutePath(storageFolder);
+                if (!QFile::exists(storageFolder)) {
+                    // Storage folder not found, warn user and allow selecting a new one
+                    KUrlRequesterDialog dlg(
+                        QUrl::fromLocalFile(projectDir.absolutePath()),
+                        i18n("The project's storage folder <b>%1</b> was not found. Please enter an updated location to store files for this project.",
+                             projectDir.absolutePath()),
+                        qApp->activeWindow());
+                    dlg.urlRequester()->setAcceptMode(QFileDialog::AcceptOpen);
+                    dlg.urlRequester()->setMode(KFile::ExistingOnly | KFile::Directory);
+                    dlg.exec();
+                    QUrl updatedProjectFolder = dlg.selectedUrl();
+                    if (!updatedProjectFolder.isEmpty()) {
+                        projectDir = QDir(updatedProjectFolder.toLocalFile());
+                    }
+
+                    if (projectDir.mkpath(m_documentid)) {
+                        // Move storage folder inside the document folder
+                        storageFolder = projectDir.absolutePath();
+                        Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
+                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                    } else {
+                        // Cannot create storage folder, use default location
+                        Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                    }
                 }
             }
 
@@ -220,7 +242,6 @@ bool DocumentChecker::hasErrorInProject()
                 QDomElement e = m_binEntries.item(i).toElement();
                 m_binIds << e.attribute(QStringLiteral("producer"));
             }
-            requestedPlaylists--;
         } else if (Xml::getXmlProperty(pl, QStringLiteral("kdenlive:playlistid")) == QLatin1String("timeline_preview")) {
             // list timeline preview producers
             QDomNodeList entries = pl.elementsByTagName(QLatin1String("entry"));
@@ -228,12 +249,9 @@ bool DocumentChecker::hasErrorInProject()
                 QDomElement e = entries.item(i).toElement();
                 timelinePreviewIds << e.attribute(QStringLiteral("producer"));
             }
-            requestedPlaylists--;
-        }
-        if (requestedPlaylists == 0) {
-            break;
         }
     }
+    Q_ASSERT(!mainBinPlaylist.isNull());
 
     QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
@@ -248,6 +266,7 @@ bool DocumentChecker::hasErrorInProject()
 
     m_safeImages.clear();
     m_safeFonts.clear();
+    QStringList remoteResources;
 
     const int taskCount = documentProducers.count() + documentChains.count() + documentTractors.count();
     Q_EMIT pCore->loadingMessageNewStage(i18n("Checking for missing items…"), taskCount);
@@ -266,6 +285,16 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         int kid = Xml::getXmlProperty(e, "kdenlive:id").toInt();
         const QString resource = Xml::getXmlProperty(e, "resource");
+        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+            !remoteResources.contains(resource)) {
+            // Trying to load resource from the web, warn user
+            DocumentResource item;
+            item.type = MissingType::Clip;
+            item.status = MissingStatus::Remote;
+            item.originalFilePath = resource;
+            m_items.push_back(item);
+            remoteResources << resource;
+        }
         if (!m_binIds.contains(id)) {
             if (timelinePreviewIds.contains(id)) {
                 // Timeline preview clip
@@ -293,6 +322,17 @@ bool DocumentChecker::hasErrorInProject()
         int kid = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")).toInt();
         const QString id = e.attribute(QLatin1String("id"));
         const QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+
+        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+            !remoteResources.contains(resource)) {
+            // Trying to load resource from the web, warn user
+            DocumentResource item;
+            item.type = MissingType::Clip;
+            item.status = MissingStatus::Remote;
+            item.originalFilePath = resource;
+            m_items.push_back(item);
+            remoteResources << resource;
+        }
         if (!m_binIds.contains(id)) {
             // This is a timeline producer, ensure it has a bin entry and uuid_control
             timelineProducers.insert(kid, {id, resource});
@@ -1529,7 +1569,7 @@ void DocumentChecker::fixProxyClip(const QDomNodeList &items, const QString &id,
             timewarp = true;
             resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
         }
-        if (resource == oldUrl) {
+        if (ensureAbsolutePath(resource) == oldUrl) {
             if (timewarp) {
                 Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + ":" + newUrl);
                 Xml::setXmlProperty(e, QStringLiteral("warp_resource"), newUrl);
@@ -1915,6 +1955,8 @@ QString DocumentChecker::readableNameForMissingStatus(MissingStatus type)
         return i18nc("status of a missing clip; fixed as in repaired", "Fixed");
     case MissingStatus::Reload:
         return i18nc("action that will be performed on a missing clip", "Reload");
+    case MissingStatus::Remote:
+        return i18nc("status of a remote clip", "Remote");
     case MissingStatus::Missing:
         return i18nc("status of a missing clip", "Missing");
     case MissingStatus::MissingButProxy:

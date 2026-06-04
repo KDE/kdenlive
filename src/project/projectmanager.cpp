@@ -398,9 +398,13 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
         return false;
     }
 
-    file.write(scene.toUtf8());
+    if (file.write(scene.toUtf8()) == -1) {
+        qDebug() << "Failed to write to file" << file.fileName() << ":" << file.errorString();
+        return false;
+    }
+
     if (!file.commit()) {
-        qDebug() << "Cannot write to file %1";
+        qDebug() << "Failed to commit to file" << file.fileName() << ":" << file.errorString();
         return false;
     }
     qDebug() << "------------\nSAVED FILE AS: " << outputFileName << "\n==============";
@@ -563,7 +567,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
         // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
         // This timer is set by KdenliveDoc::setModified()
         const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
-        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(outputFileName).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(outputFileName).absoluteDir().absoluteFilePath(projectId));
         if (m_project->m_autosave == nullptr) {
             // The temporary file is not opened or created until actually needed.
             // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
@@ -609,6 +613,8 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
                                            i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
+                        // KIO::move needs to have dest folder existing to keep source folder name
+                        newDir.mkpath(".");
                         moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
                     }
                 }
@@ -719,25 +725,28 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
 {
     // Check for autosave file that belong to the url we passed in.
     const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
-    QUrl autosaveUrl =
-        newFile ? url : QUrl::fromLocalFile(QFileInfo(url.toLocalFile()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
-    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(autosaveUrl);
+    QUrl autosaveUrl = newFile ? url : QUrl::fromLocalFile(QFileInfo(url.toLocalFile()).absoluteDir().absoluteFilePath(projectId));
+    const QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(autosaveUrl);
     QFileInfo sourceInfo(url.toLocalFile());
     QDateTime sourceTime;
     if (sourceInfo.exists()) {
-        sourceTime = QFileInfo(url.toLocalFile()).lastModified();
+        sourceTime = sourceInfo.lastModified();
     }
     KAutoSaveFile *orphanedFile = nullptr;
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instance
     if (!staleFiles.isEmpty()) {
-        for (KAutoSaveFile *stale : std::as_const(staleFiles)) {
-            if (stale->open(QIODevice::QIODevice::ReadWrite)) {
-                // Found orphaned autosave file
-                if (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime) {
-                    orphanedFile = stale;
-                    break;
-                }
+        for (KAutoSaveFile *stale : staleFiles) {
+            if (!stale->open(QIODevice::QIODevice::ReadWrite)) {
+                delete stale;
+                continue;
+            }
+            // Found orphaned autosave file
+            if (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime) {
+                orphanedFile = stale;
+                break;
+            } else {
+                delete stale;
             }
         }
     }
@@ -751,7 +760,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         }
     }
     // remove the stale files
-    for (KAutoSaveFile *stale : std::as_const(staleFiles)) {
+    for (KAutoSaveFile *stale : staleFiles) {
         stale->open(QIODevice::ReadWrite);
         delete stale;
     }
@@ -883,7 +892,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
                 i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
             if (answer == KMessageBox::PrimaryAction) { // Open Backup
-                slotOpenBackup(url);
+                if (!slotOpenBackup(url)) {
+                    newFile(false);
+                }
                 return;
             } else if (answer == KMessageBox::SecondaryAction) { // Recover
                 // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
@@ -920,7 +931,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     if (stale == nullptr) {
         const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
-        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.toLocalFile()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.toLocalFile()).absoluteDir().absoluteFilePath(projectId));
         stale = new KAutoSaveFile(autosaveUrl, doc);
         doc->m_autosave = stale;
     } else {
@@ -1109,6 +1120,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
 
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+    // Update active Track to ensure proper vertical scrolling now that everything is built
+    polishTimelines(m_project->getTimelinesUuids());
     m_lastSave.start();
     m_project->loading = false;
     if (pCore->closing) {
@@ -1121,6 +1134,30 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     checkProjectWarnings();
     pCore->projectItemModel()->missingClipTimer.start();
     Q_EMIT pCore->loadingMessageHide();
+}
+
+void ProjectManager::polishTimelines(QList<QUuid> uuids)
+{
+    if (pCore->window()) {
+        // Ensure correct vertical scrolling pos for all timelines
+        for (auto &uid : uuids) {
+            auto tl = pCore->window()->getTimeline(uid);
+            if (tl && tl->height() > 0) {
+                int activeTrackPosition = m_project->getSequenceProperty(uid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+                if (activeTrackPosition == -2) {
+                    // Subtitle model track always has ID == -2
+                    tl->controller()->setActiveTrack(-2);
+                } else if (activeTrackPosition > -1 && activeTrackPosition < tl->model()->getTracksCount()) {
+                    // otherwise, convert the position to a track ID
+                    tl->controller()->setActiveTrack(tl->model()->getTrackIndexFromPosition(activeTrackPosition));
+                } else {
+                    qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only" << tl->model()->getTracksCount();
+                    // set it to some valid track instead
+                    tl->controller()->setActiveTrack(tl->model()->getTrackIndexFromPosition(0));
+                }
+            }
+        }
+    }
 }
 
 void ProjectManager::abortProjectLoad(const QUrl &url)
@@ -1680,7 +1717,8 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(mainId);
     timelineModel->setMarkerModel(mainClip->markerModel());
     if (pCore->window()) {
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration,
+                         static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         pCore->guidesList()->setModel(m_project->getGuideModel(m_project->activeUuid), m_project->getFilteredGuideModel(m_project->activeUuid));
     }
     m_project->loadSequenceGroupsAndGuides(uuid);
@@ -1744,11 +1782,11 @@ void ProjectManager::updateSequenceDuration(const QUuid &uuid)
     if (mainClip && model) {
         QMap<QString, QString> properties;
         std::pair<int, int> durations = model->durations();
-        int newDuration = durations.second > 0 ? durations.second : durations.first;
+        int newDuration = durations.second > 0 ? durations.second : durations.first + 1;
         properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(newDuration)));
         properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
         properties.insert(QStringLiteral("length"), QString::number(newDuration));
-        properties.insert(QStringLiteral("out"), QString::number(newDuration));
+        properties.insert(QStringLiteral("out"), QString::number(newDuration - 1));
         mainClip->setProperties(properties, true);
     } else {
         qDebug() << ":::: MAIN CLIP PRODUCER NOT FOUND!!!";
@@ -2024,7 +2062,7 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
 }
 
 bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, int position, bool duplicate, std::shared_ptr<TimelineItemModel> existingModel,
-                                  bool openInMonitor)
+                                  bool openInMonitor, bool forceCompositingForExistingModel)
 {
     if (position > -1) {
         m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
@@ -2083,6 +2121,11 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         if (existingModel == nullptr && !constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
+        // Construct timeline from the tractor does the compositing, which is not called for existingModels
+        if (forceCompositingForExistingModel && existingModel != nullptr) {
+            timelineModel->setReOpenTimeline();
+            timelineModel->buildTrackCompositing(true);
+        }
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
 
         // Load stored sequence properties
@@ -2093,7 +2136,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
             m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
         }
         std::pair<int, int> durations = timelineModel->durations();
-        int duration = durations.second > 0 ? durations.second : durations.first;
+        int duration = durations.second > 0 ? durations.second : durations.first + 1;
         prod->set("kdenlive:duration", prod->frames_to_time(duration));
         prod->set("kdenlive:maxduration", durations.first);
         prod->set("length", duration);
@@ -2111,7 +2154,8 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration,
+                         static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         timelineModel->setMarkerModel(clip->markerModel());
         m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);
@@ -2158,7 +2202,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         }
         qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timelineModel->tractor()->count() << "\nZZZZZZZZZZZZ";
         std::pair<int, int> durations = timelineModel->durations();
-        int duration = durations.second > 0 ? durations.second : durations.first;
+        int duration = durations.second > 0 ? durations.second : durations.first + 1;
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
         prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
         prod->set("kdenlive:maxduration", durations.first);
@@ -2190,21 +2234,9 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         timeline = pCore->window()->openTimeline(uuid, ix, clip->clipName(), timelineModel, openInMonitor);
     }
 
-    int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (timeline == nullptr) {
         // We are in testing mode
         return true;
-    }
-    if (activeTrackPosition == -2) {
-        // Subtitle model track always has ID == -2
-        timeline->controller()->setActiveTrack(-2);
-    } else if (activeTrackPosition > -1 && activeTrackPosition < timeline->model()->getTracksCount()) {
-        // otherwise, convert the position to a track ID
-        timeline->controller()->setActiveTrack(timeline->model()->getTrackIndexFromPosition(activeTrackPosition));
-    } else {
-        qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only" << timeline->model()->getTracksCount();
-        // set it to some valid track instead
-        timeline->controller()->setActiveTrack(timeline->model()->getTrackIndexFromPosition(0));
     }
     if (m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")).toInt() == 1) {
         // Timeline effects are disabled
@@ -2251,7 +2283,7 @@ bool ProjectManager::buildTimeline(const QString &binId, const QUuid &uuid)
         return false;
     }
     std::pair<int, int> durations = timelineModel->durations();
-    int duration = durations.second > 0 ? durations.second : durations.first;
+    int duration = durations.second > 0 ? durations.second : durations.first + 1;
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
     prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
     prod->set("kdenlive:maxduration", durations.first);
@@ -2321,7 +2353,7 @@ void ProjectManager::doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bo
     }
 }
 
-bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clearUndo)
+bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clearUndo, bool checkActiveClosed)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
     if (model == nullptr) {
@@ -2333,7 +2365,7 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clea
         // triggered when deleting bin clip, also close timeline tab
         pCore->projectItemModel()->removeReferencedClips(uuid, true);
         if (pCore->window()) {
-            pCore->window()->closeTimelineTab(uuid, false);
+            pCore->window()->closeTimelineTab(uuid, false, checkActiveClosed);
         }
     } else {
         if (!m_project->closing && !onDeletion) {
@@ -2421,7 +2453,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
     local_redo();
     PUSH_LAMBDA(local_redo, redo);
     int newId;
-    result = m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {});
+    result = m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {}, 1);
     if (!result) {
         undo();
         pCore->displayMessage(i18n("Cannot insert sequence in current timeline"), ErrorMessage);
@@ -2429,6 +2461,44 @@ void ProjectManager::slotCreateSequenceFromSelection()
     }
     m_activeTimelineModel->updateDuration();
     pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
+}
+
+void ProjectManager::slotCopyAndCreateSequenceFromSelection()
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    int aTracks = -1;
+    int vTracks = -1;
+    std::pair<int, QString> copiedData = pCore->window()->getCurrentTimeline()->controller()->getCopyItemData();
+    if (copiedData.first == -1) {
+        pCore->displayMessage(i18n("Select a clip to create sequence"), InformationMessage);
+        return;
+    }
+    const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
+    const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
+    if (newSequenceId.isEmpty()) {
+        // Action canceled
+        undo();
+        pCore->displayMessage(i18n("Sequence creation failed"), ErrorMessage);
+        return;
+    }
+    const QUuid destSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    int trackId = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    Fun local_redo1 = [destSequence, copiedData]() {
+        pCore->window()->raiseTimeline(destSequence);
+        return true;
+    };
+    local_redo1();
+    bool result = TimelineFunctions::pasteClipsWithUndo(m_activeTimelineModel, copiedData.second, trackId, 0, undo, redo);
+    if (!result) {
+        pCore->window()->raiseTimeline(sourceSequence);
+        undo();
+        return;
+    }
+    PUSH_LAMBDA(local_redo1, redo);
+    m_activeTimelineModel->updateDuration();
+    pCore->pushUndo(undo, redo, i18n("Copy clips to new Sequence"));
 }
 
 void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod)

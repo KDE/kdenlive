@@ -6,7 +6,6 @@
 */
 
 #include "speechtotextwhisper.h"
-#include "core.h"
 #include "dialogs/whisperdownload.h"
 #include "kdenlivesettings.h"
 

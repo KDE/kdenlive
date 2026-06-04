@@ -6,8 +6,6 @@
 */
 
 #include "speechtotext.h"
-#include "core.h"
-#include "dialogs/whisperdownload.h"
 #include "kdenlivesettings.h"
 
 #include <KIO/Global>

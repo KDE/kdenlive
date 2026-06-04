@@ -12,7 +12,6 @@
 #include <QAbstractListModel>
 #include <QReadWriteLock>
 
-#include <array>
 #include <map>
 #include <memory>
 

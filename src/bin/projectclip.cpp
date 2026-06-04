@@ -11,7 +11,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin.h"
 #include "clipcreator.hpp"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -21,23 +20,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/proxytask.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
-#include "macros.hpp"
 #include "mainwindow.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
 #include "model/markersortmodel.h"
-#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
-#include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "utils/thumbnailcache.hpp"
 #include "utils/timecode.h"
-#include "xml/xml.hpp"
 
-#include "kdenlive_debug.h"
 #include <KIO/RenameDialog>
 #include <KImageCache>
 #include <KLocalizedString>
@@ -536,19 +530,6 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
         return;
     }
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
-    if (hasProxy() && !thumb.isNull()) {
-        // Overlay proxy icon
-        QPainter p(&thumb);
-        QColor c(220, 220, 10, 200);
-        QRect r(0, 0, int(thumb.height() / 2.5), int(thumb.height() / 2.5));
-        p.fillRect(r, c);
-        QFont font = p.font();
-        font.setPixelSize(r.height());
-        font.setBold(true);
-        p.setFont(font);
-        p.setPen(Qt::black);
-        p.drawText(r, Qt::AlignCenter, i18nc("@label The first letter of Proxy, used as abbreviation", "P"));
-    }
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
@@ -833,14 +814,14 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer(const QUuid &)
         m_clipStatus == FileStatus::StatusMissing) {
         return nullptr;
     }
-    if (!m_thumbMutex.tryLock()) {
+    if (!m_thumbMutex.tryLock(50)) {
         return nullptr;
     }
     std::unique_ptr<Mlt::Producer> thumbProd;
     if (!m_thumbXml.isEmpty()) {
+        m_thumbMutex.unlock();
         QReadLocker lock(&pCore->xmlMutex);
         thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
-        m_thumbMutex.unlock();
         return thumbProd;
     }
     if (KdenliveSettings::gpu_accel()) {
@@ -1123,7 +1104,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             QString url;
             QString original_resource;
             if (m_clipStatus == FileStatus::StatusMissing) {
-                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), QStringLiteral("qtext"));
+                url = QStringLiteral("timewarp:%1:%2").arg(QString::number(speed, 'g', 15), QStringLiteral("qtext"));
                 original_resource = originalProducer()->get("resource");
 
             } else {
@@ -1134,7 +1115,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                     // We must use the special "consumer" producer for mlt playlist files
                     resource.prepend(QStringLiteral("consumer:"));
                 }
-                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+                url = QStringLiteral("timewarp:%1:%2").arg(QString::number(speed, 'g', 15), resource);
             }
             warpProducer.reset(new Mlt::Producer(pCore->getProjectProfile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
@@ -2075,7 +2056,7 @@ const QVariant ProjectClip::getData(DataType type) const
         if (m_clipStatus == FileStatus::StatusWaiting) {
             return QVariant("view-refresh");
         }
-        if (m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
+        if ((m_clipType == ClipType::Video || m_clipType == ClipType::AV) && m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
             return QVariant("emblem-warning");
         }
         return m_effectStack && m_effectStack->hasEffects() > 0 ? QVariant("tools-wizard") : QVariant();

@@ -7,7 +7,6 @@
 #pragma once
 
 #include <QString>
-#include <cmath>
 
 /**
  * @class GenTime

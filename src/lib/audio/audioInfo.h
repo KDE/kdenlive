@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QList>
 #include <memory>
-#include <mlt++/Mlt.h>
+#include <mlt++/MltProducer.h>
 
 class AudioStreamInfo;
 class AudioInfo

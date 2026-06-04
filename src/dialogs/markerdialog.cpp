@@ -9,9 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
-#include "doc/kthumb.h"
 #include "kdenlivesettings.h"
-#include "project/projectmanager.h"
 #include "utils/thumbnailcache.hpp"
 
 #include "kdenlive_debug.h"
@@ -193,7 +191,7 @@ void MarkerDialog::slotUpdateThumb()
 
 QImage MarkerDialog::markerImage() const
 {
-    return clip_thumb->pixmap(Qt::ReturnByValue).toImage();
+    return clip_thumb->pixmap().toImage();
 }
 
 CommentedTime MarkerDialog::newMarker()

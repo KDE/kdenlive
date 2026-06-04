@@ -61,21 +61,6 @@ bool ProfileInfo::hasValidFps() const
     return true;
 }
 
-QString ProfileInfo::colorspaceDescription() const
-{
-    // TODO: should the descriptions be translated?
-    switch (colorspace()) {
-    case 601:
-        return QStringLiteral("ITU-R 601");
-    case 709:
-        return QStringLiteral("ITU-R 709");
-    case 240:
-        return QStringLiteral("SMPTE240M");
-    default:
-        return i18n("Unknown");
-    }
-}
-
 const QString ProfileInfo::descriptiveString() const
 {
     QString data = description();

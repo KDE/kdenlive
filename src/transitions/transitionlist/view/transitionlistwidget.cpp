@@ -5,9 +5,9 @@
 
 #include "transitionlistwidget.hpp"
 #include "../model/transitiontreemodel.hpp"
-#include "assets/assetlist/view/asseticonprovider.hpp"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "transitionicondelegate.hpp"
@@ -17,6 +17,7 @@
 #include <QDir>
 #include <QHeaderView>
 #include <QProcess>
+#include <QScrollBar>
 #include <QStandardPaths>
 #include <QToolBar>
 #include <qsplitter.h>
@@ -53,13 +54,6 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     m_effectsIcon->setIconSize(iconSize);
     m_iconDelegate = new TransitionIconDelegate(iconSize, this);
 
-    // Set the preview directory
-    QString previewDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
-    // Ensure the directory exists
-    QDir().mkpath(previewDir);
-    qDebug() << "Setting transition preview directory to:" << previewDir;
-    m_iconDelegate->setPreviewDirectory(previewDir);
-
     m_effectsIcon->setViewMode(QListView::IconMode);
     m_effectsIcon->setItemDelegate(m_iconDelegate);
     m_effectsIcon->setMouseTracking(true);
@@ -73,10 +67,18 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     connect(m_effectsIcon, &QAbstractItemView::entered, this, &TransitionListWidget::iconViewEntered);
     connect(m_effectsIcon, &AssetListView::exited, this, &TransitionListWidget::iconViewExited);
 
-    // Add "Generate Previews" action to toolbar
-    m_generatePreviewAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
-    connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
-    m_toolbar->addAction(m_generatePreviewAction);
+    // Add "Generate Previews" action to toolbar, only if python is found
+#ifdef Q_OS_WIN
+    const QString pythonName = QStringLiteral("python");
+#else
+    const QString pythonName = QStringLiteral("python3");
+#endif
+    const QString pythonExe = QStandardPaths::findExecutable(pythonName);
+    if (!pythonExe.isEmpty()) {
+        m_generatePreviewAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Generate Previews"), this);
+        connect(m_generatePreviewAction, &QAction::triggered, this, &TransitionListWidget::generatePreviews);
+        m_toolbar->addAction(m_generatePreviewAction);
+    }
     connect(this, &AssetListWidget::checkAssetPreview, this, &TransitionListWidget::checkPreviews);
     connect(m_model.get(), &AssetTreeModel::rowsInserted, this, [this]() { m_proxyModel->sort(0, Qt::AscendingOrder); });
 
@@ -96,6 +98,12 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     connect(m_viewSplitter, &QSplitter::splitterMoved, this, [this]() {
         const QByteArray splitterData = m_viewSplitter->saveState();
         KdenliveSettings::setTransitionsInfoHeight(QString::fromLatin1(splitterData));
+    });
+    connect(m_effectsIcon->verticalScrollBar(), &QScrollBar::valueChanged, this, [this]() {
+        auto currentIndex = m_effectsIcon->indexAt(m_effectsIcon->mapFromGlobal(QCursor::pos()));
+        if (currentIndex.isValid()) {
+            iconViewEntered(currentIndex);
+        }
     });
 }
 
@@ -129,7 +137,7 @@ void TransitionListWidget::checkPreviews(bool force)
 {
     const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
     QDir previewFolder(outputDir);
-    if (force || !previewFolder.exists() || previewFolder.isEmpty()) {
+    if (m_generatePreviewAction && (force || !previewFolder.exists() || previewFolder.isEmpty())) {
         generatePreviews();
     }
 }
@@ -176,6 +184,10 @@ void TransitionListWidget::exportCustomEffect(const QModelIndex &) {}
 
 void TransitionListWidget::generatePreviews()
 {
+    if (m_previewProcess) {
+        // Already running, abort
+        return;
+    }
     // Find the script in the standard install location
     QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/generate_transition_previews.py"));
 
@@ -233,10 +245,12 @@ void TransitionListWidget::generatePreviews()
     }
     // Start the process
     QStringList args;
-    args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
+    // Don't generate previews for default transitions
+    // args << QStringLiteral("--xml-dir") << encodedXmlFolders.join(QLatin1Char(' '));
     args << QStringLiteral("--output-dir") << outputDir;
-    args << QStringLiteral("--width") << QStringLiteral("320");
-    args << QStringLiteral("--height") << QStringLiteral("180");
+    args << QStringLiteral("--width") << QStringLiteral("176");
+    args << QStringLiteral("--height") << QStringLiteral("99");
+    args << QStringLiteral("--file-format") << QStringLiteral("gif");
 
     const QStringList lumaFolders = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     QStringList encodedLumas;
@@ -275,10 +289,6 @@ void TransitionListWidget::previewDone(int exitCode, QProcess::ExitStatus exitSt
 {
     m_generatePreviewAction->setEnabled(true);
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-        // Update the delegate's preview directory
-        const QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
-        m_iconDelegate->setPreviewDirectory(outputDir);
-
         // Force refresh of the view
         if (isIconView()) {
             m_effectsIcon->reset();
@@ -310,50 +320,19 @@ void TransitionListWidget::showLumas()
 
 void TransitionListWidget::updateTransitionInfo(const QModelIndex &current, const QModelIndex &previous)
 {
-    if (previous.isValid()) {
-        // Stop previous animation
-        QString previousId = previous.data(AssetTreeModel::IdRole).toString();
-        if (previousId.isEmpty() || previousId == QLatin1String("root")) {
-            // Nothing to do
-        } else {
-            auto type = previous.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-            if (type == AssetListType::AssetType::LumaTransition) {
-                previousId = QFileInfo(previousId).baseName();
-            }
-            auto movie = m_iconDelegate->getMovie(previousId);
-            if (movie) {
-                movie->stop();
-            }
-        }
-    }
     // Get transition ID
     QString transitionId = current.data(AssetTreeModel::IdRole).toString();
     if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
         return;
-    }
-    // Luma transition id is the full path to luma, adjust
-    auto type = current.data(AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-    if (type == AssetListType::AssetType::LumaTransition) {
-        transitionId = QFileInfo(transitionId).baseName();
-    }
-    auto movie = m_iconDelegate->getMovie(transitionId);
-    if (movie) {
-        // Connect to frameChanged to trigger repaint
-        QObject::disconnect(m_animationConnection);
-        m_animationConnection = connect(movie, &QMovie::frameChanged, [this, current]() {
-            // Find all list views using this delegate
-            m_effectsIcon->update(current);
-        });
-        movie->start();
     }
     updateAssetInfo(current, previous);
 }
 
 void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
 {
-    iconViewExited();
     QString transitionId = ix.data(AssetTreeModel::IdRole).toString();
     if (transitionId.isEmpty() || transitionId == QLatin1String("root")) {
+        iconViewExited();
         return;
     }
     // Luma transition id is the full path to luma, adjust
@@ -361,14 +340,17 @@ void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
     if (type == AssetListType::AssetType::LumaTransition) {
         transitionId = QFileInfo(transitionId).baseName();
     }
-    auto movie = m_iconDelegate->getMovie(transitionId);
+    if (transitionId == m_hoveredTransition) {
+        return;
+    }
+    iconViewExited();
+    auto movie = m_iconDelegate->getMovie(transitionId, true);
     if (movie) {
         m_hoveredTransition = transitionId;
         // Connect to frameChanged to trigger repaint
-        QObject::disconnect(m_animationConnection);
-        m_hoverAnimationConnection = connect(movie, &QMovie::frameChanged, [this, ix]() {
-            // Find all list views using this delegate
-            m_effectsIcon->update(ix);
+        m_hoverAnimationConnection = connect(movie, &QMovie::updated, [this, ix]() {
+            auto index = m_proxyModel->mapToSource(ix);
+            Q_EMIT m_model->dataChanged(index, index, {Qt::DecorationRole, Qt::DisplayRole});
         });
         movie->start();
         qDebug() << "Start Animation...";
@@ -378,10 +360,8 @@ void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
 void TransitionListWidget::iconViewExited()
 {
     if (!m_hoveredTransition.isEmpty()) {
-        auto movie = m_iconDelegate->getMovie(m_hoveredTransition);
-        if (movie) {
-            movie->stop();
-        }
+        auto movie = m_iconDelegate->getMovie(m_hoveredTransition, true);
+        movie->stop();
         QObject::disconnect(m_hoverAnimationConnection);
         m_hoveredTransition.clear();
     }

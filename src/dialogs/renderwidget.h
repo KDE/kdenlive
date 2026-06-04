@@ -5,10 +5,6 @@
 
 #pragma once
 
-#include <QPainter>
-#include <QPushButton>
-#include <QStyledItemDelegate>
-
 namespace Purpose {
 class Menu;
 }
@@ -23,6 +19,11 @@ class Menu;
 
 #include <KIO/FileJob>
 #include <KNSWidgets/Button>
+#include <QPainter>
+#include <QPushButton>
+#include <QStorageInfo>
+#include <QStyledItemDelegate>
+#include <QTimer>
 
 class QDomElement;
 class QKeyEvent;
@@ -32,7 +33,7 @@ class RenderViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit RenderViewDelegate(QWidget *parent);
+    explicit RenderViewDelegate(QWidget *parent, bool secondaryLineIspath = false);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -42,6 +43,7 @@ protected:
 private:
     mutable QRect m_logRect;
     mutable QRect m_playlistRect;
+    bool m_adjustSecondaryPath;
 Q_SIGNALS:
     bool hoverLink(bool hover);
 };
@@ -67,7 +69,7 @@ class RenderWidget : public QDialog
 public:
     enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning };
     enum RenderStatus { NotRendering = 0, Rendering = 1 };
-    enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3 };
+    enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3, SpaceUnknown = 4 };
     // Render job roles
     enum ItemRole {
         ParametersRole = Qt::UserRole + 1,
@@ -78,6 +80,7 @@ public:
         LastFrameRole,
         OpenBrowserRole,
         PlayAfterRole,
+        AddToBinRole,
         LogFileRole,
         PlaylistFileRole,
         PlaylistDisplayRole,
@@ -138,12 +141,9 @@ private Q_SLOTS:
      * Will be called when the user selects an output file via the file dialog.
      * File extension will be added automatically.
      */
-    void slotUpdateButtons(const QUrl &url);
-    /**
-     * Will be called when the user changes the output file path in the text line.
-     * File extension must NOT be added, would make editing impossible!
-     */
     void slotUpdateButtons();
+    /** @brief Ensure the selected file url has the correct extension for selected profile. */
+    void slotUpdateUrl();
     void refreshView();
 
     void slotChangeSelection(const QModelIndex &current, const QModelIndex &previous);

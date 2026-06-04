@@ -31,6 +31,8 @@ class MarkerListModel;
 class TimelineItemModel : public TimelineModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("TimelineItemModel is owned by KdenliveDoc; obtained via setInitialProperties()")
 
 public:
     friend class KdenliveTests;

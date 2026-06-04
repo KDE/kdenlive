@@ -6,7 +6,6 @@
 #pragma once
 
 #include "abstractparamwidget.hpp"
-#include "utils/timecode.h"
 #include <QWidget>
 
 class QSlider;

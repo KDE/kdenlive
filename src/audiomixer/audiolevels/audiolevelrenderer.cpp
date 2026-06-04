@@ -11,7 +11,6 @@
 
 #include <KLocalizedString>
 #include <QPainter>
-#include <array>
 
 // Drawing constants
 constexpr int CHANNEL_BORDER_WIDTH = 1;      // px for channel border
@@ -172,8 +171,6 @@ void AudioLevelRenderer::drawBackground(QPainter &painter, const RenderData &dat
         data.valueDecibels.isEmpty()) {
         return;
     }
-
-    const QVector<int> dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
 
     // Draw channel borders (background rectangle and separators)
     drawChannelBorders(painter, data, true);

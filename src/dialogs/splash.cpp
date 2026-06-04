@@ -11,13 +11,9 @@
 #include <QFileInfo>
 #include <ki18n_version.h>
 
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
-#include <KLocalizedQmlContext>
-#else
-#include <KLocalizedContext>
-#endif
 #include <KColorSchemeManager>
 #include <KColorSchemeModel>
+#include <KLocalizedQmlContext>
 #include <KLocalizedString>
 #include <QDir>
 #include <QStandardPaths>
@@ -31,28 +27,10 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
     , m_wasUpgraded(wasUpgraded)
 {
     m_engine = new QQmlApplicationEngine(this);
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     KLocalization::setupLocalizedContext(m_engine);
-#else
-    m_engine->rootContext()->setContextObject(new KLocalizedContext(this));
-#endif
-    qDebug() << ":::::::::: CREATING SPLASH SCREEN SPLASH";
+    qDebug() << ":::::::::: CREATING SPLASH SCREEN";
     QLocale locale;
 
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 6, 0)
-    KConfigGroup cg(KSharedConfig::openConfig(), "UiSettings");
-    const QString theme = cg.readEntry("ColorSchemePath");
-    QString schemeId;
-    int max = KColorSchemeManager::instance()->model()->rowCount();
-    for (int i = 0; i < max; ++i) {
-        QModelIndex index = KColorSchemeManager::instance()->model()->index(i, 0);
-        if ((theme.isEmpty() && index.data(KColorSchemeModel::PathRole).toString().isEmpty()) ||
-            index.data(KColorSchemeModel::PathRole).toString().endsWith(theme)) {
-            KColorSchemeManager::instance()->activateScheme(index);
-            break;
-        }
-    }
-#endif
     QStringList fileNames;
     QStringList fileDates;
     for (auto &s : urls) {
@@ -60,6 +38,14 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
         fileNames.append(info.fileName());
         fileDates.append(locale.toString(info.lastModified(), "dd/MM/yy HH:mm:ss"));
     }
+    if (firstRun) {
+        // Default to dark palette on first run
+        switchPalette(true);
+    } else {
+        // Initialize SchemeManager to ensure correct color scheme on start
+        KColorSchemeManager::instance();
+    }
+
     if (showWelcome) {
         bool isPalFps = ProjectManager::getDefaultProjectFormat().endsWith(QLatin1String("_25"));
         m_engine->setInitialProperties({{"version", version},
@@ -86,7 +72,7 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
         connect(m_rootObject, SIGNAL(openLink(QString)), this, SIGNAL(openLink(QString)));
         connect(m_rootObject, SIGNAL(openTemplate(QString)), this, SIGNAL(openTemplate(QString)));
         connect(m_rootObject, SIGNAL(showWelcome(bool)), this, SLOT(updateWelcomeDisplay(bool)));
-        connect(m_rootObject, SIGNAL(switchPalette(bool)), this, SIGNAL(switchPalette(bool)));
+        connect(m_rootObject, SIGNAL(switchPalette(bool)), this, SLOT(switchPalette(bool)));
         connect(m_rootObject, SIGNAL(clearHistory()), this, SIGNAL(clearHistory()));
         connect(m_rootObject, SIGNAL(clearProfiles()), this, SIGNAL(clearProfiles()));
         connect(m_rootObject, SIGNAL(forgetFile(QString)), this, SIGNAL(forgetFile(QString)));
@@ -160,6 +146,11 @@ void Splash::fadeOut()
 void Splash::setReady()
 {
     QMetaObject::invokeMethod(m_rootObject, "enableActions");
+}
+
+void Splash::switchPalette(bool dark)
+{
+    KColorSchemeManager::instance()->activateSchemeId(dark ? QStringLiteral("BreezeDark") : QString());
 }
 
 void Splash::showProgressMessage(const QString &message, int)

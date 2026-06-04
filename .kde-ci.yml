@@ -32,16 +32,13 @@ Dependencies:
     'frameworks/purpose' : '@latest-kf6'
     'third-party/kddockwidgets': '@stable-kf6'
 
-#- 'on': ['Linux', 'FreeBSD']
-  #'require':
-    #'plasma/drkonqi' : '@stable'
 RuntimeDependencies:
 - 'on': ['Linux']
   'require':
     'sdk/selenium-webdriver-at-spi': '@latest-kf6'
 
 Options:
-  require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6']
-  cppcheck-arguments: ['--suppress=*:tests/fakeit.hpp', '--suppress=*:tests/catch.hpp', '--suppress=*:fuzzer/fakeit_standalone.hpp']
+  require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6' ]
+  cppcheck-arguments: ['-i', 'tests/', '--suppress=*:tests/fakeit.hpp', '--suppress=*:tests/catch.hpp', '--suppress=*:fuzzer/fakeit_standalone.hpp']
   require-cppcheck-clean: True
-
+  core-usage-limit: 8

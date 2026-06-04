@@ -3,8 +3,12 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Shapes 1.15
+
+import org.kde.ki18n
 
 import org.kde.kdenlive as K
 import "ResizeLogic.js" as ResizeLogic
@@ -17,6 +21,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
+    required property K.MonitorProxy controller
     property string comment
     property string framenum
     property rect framesize: _framesize
@@ -40,12 +45,11 @@ Item {
     property double offsety : 0
     property double lockratio : -1
     property double timeScale: 1
-    property double frameSize: 10
     property int duration: 300
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int mouseRulerPos: 0
     property bool rotatable: false
     property double rect_rotation: _rotation
+    property point rect_anchor: Qt.point(0.5, 0.5)
     // private property used to prevent circular updates when frame is transformed via Monitor, the change is signaled to cpp, 
     // it updates its model and calls us back to update the Monitor
     property double _rotation: 0
@@ -60,6 +64,11 @@ Item {
             canvas.requestPaint()
         }
     }
+    onRect_anchorChanged: {
+        console.log('RECT ANCHOR CHANGED TO: ', rect_anchor)
+        updateRotationAnchor()
+    }
+
     onFramesizeChanged: {
         if (!(transformedFrame.isResizing || transformedFrame.isMoving)) _framesize = framesize
     }
@@ -68,6 +77,8 @@ Item {
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
+    enum RotationAnchorModes { Center, TopLeft }
+    property string rotationAnchorMode: MonitorGeometryScene.RotationAnchorModes.Center
     signal effectChanged(rect frame)
     signal centersChanged()
     signal effectRotationChanged(double rotation)
@@ -136,10 +147,14 @@ Item {
         clipMonitorRuler.updateRuler()
     }
 
-    FontMetrics {
-        id: fontMetrics
-        font.family: "Arial"
+    function updateRotationAnchor()
+    {
+        transformedFrame.rotationAnchorX = transformedFrame.width * root.rect_anchor.x;
+        transformedFrame.rotationAnchorY = transformedFrame.height * root.rect_anchor.y;
+        console.log("updated rotation anchor to", transformedFrame.rotationAnchorX, transformedFrame.rotationAnchorY, "mode", root.rotationAnchorMode, "MonitorGeometryScene.RotationAnchorModes.TopLeft", MonitorGeometryScene.RotationAnchorModes.TopLeft);
     }
+
+    onRotationAnchorModeChanged: updateRotationAnchor()
 
     Canvas {
       id: canvas
@@ -148,7 +163,7 @@ Item {
       height: root.height
       anchors.centerIn: root
       contextType: "2d";
-      handleSize: root.baseUnit / 2
+      handleSize: K.UiUtils.baseSizeMedium / 2
       renderStrategy: Canvas.Threaded;
       onPaint:
       {
@@ -251,7 +266,8 @@ Item {
             id: safeZone
             anchors.fill: frame
             color: K.KdenliveSettings.safeColor
-            showSafeZone: controller.showSafezone
+            showSafeZone: root.controller.showSafezone
+            profile: root.controller.profile
         }
 
         Repeater {
@@ -284,7 +300,7 @@ Item {
         anchors.bottomMargin: clipMonitorRuler.height
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !controller.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
+        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !root.controller.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
         readonly property bool handleContainsMouse: {
               if (isMoving) {
                   return true
@@ -293,7 +309,7 @@ Item {
                   root.requestedKeyFrame = -1
                   return false
               }
-              var idx = getHandleIndexAtMouse(mouseX, mouseY, global)
+              var idx = root.getHandleIndexAtMouse(mouseX, mouseY, global)
               root.requestedKeyFrame = idx
               return idx !== -1
         }
@@ -311,7 +327,7 @@ Item {
                   } else {
                     var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                     var logicalPosition = Qt.point(positionInFrame.x / root.scalex, positionInFrame.y / root.scaley)
-                    var adjustedMouse = getSnappedPoint(logicalPosition)
+                    var adjustedMouse = root.getSnappedPoint(logicalPosition)
                     root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
                     root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                   }
@@ -324,15 +340,15 @@ Item {
             root.captureRightClick = true
             if (mouse.button & Qt.LeftButton) {
                 if (mouse.modifiers & Qt.AltModifier) {
-                    controller.switchFocusClip()
+                    root.controller.switchFocusClip()
                 } else if (root.requestedKeyFrame >= 0 && !isMoving) {
-                    controller.seekToKeyframe(root.requestedKeyFrame, 0);
+                    root.controller.seekToKeyframe(root.requestedKeyFrame, 0);
                 }
             }
             isMoving = false
         }
         onDoubleClicked: {
-            controller.addRemoveKeyframe()
+            root.controller.addRemoveKeyframe()
         }
         onReleased: {
             root.captureRightClick = false
@@ -340,13 +356,13 @@ Item {
             isMoving = false;
         }
         onEntered: {
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis","<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for center-based rescale, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Click</shortcut> on a center to seek to its keyframe"));
+            root.controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis","<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for center-based rescale, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Click</shortcut> on a center to seek to its keyframe"));
         }
         onExited: {
-            controller.setWidgetKeyBinding();
+            root.controller.setWidgetKeyBinding();
         }
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
     }
 
@@ -363,8 +379,8 @@ Item {
         x: frame.x + root.pendingFramesize.x * root.scalex
         y: frame.y + root.pendingFramesize.y * root.scaley
         transform: Rotation {
-            origin.x: pendingFrame.width/2
-            origin.y: pendingFrame.height/2
+            origin.x: pendingFrame.width * root.rect_anchor.x
+            origin.y: pendingFrame.height * root.rect_anchor.y
             angle: root.pendingRotation
         }
         antialiasing: true
@@ -379,7 +395,7 @@ Item {
                 horizontalCenter: pendingFrame.horizontalCenter
             }
             text: Math.round(root.pendingRotation) + "°"
-            flipText: shouldFlipText(root.pendingRotation)
+            flipText: root.shouldFlipText(root.pendingRotation)
         }
         
         // Position label
@@ -389,11 +405,11 @@ Item {
             anchors {
                 top: pendingFrame.top
                 left: pendingFrame.left
-                topMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * pendingFramesize.height / pendingFramesize.width)
-                leftMargin: 2 * root.baseUnit
+                topMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * root.pendingFramesize.height / root.pendingFramesize.width)
+                leftMargin: 2 * K.UiUtils.baseSizeMedium
             }
-            text: pendingFramesize.x.toFixed(0) + " x " + pendingFramesize.y.toFixed(0)
-            flipText: shouldFlipText(root.pendingRotation)
+            text: root.pendingFramesize.x.toFixed(0) + " x " + root.pendingFramesize.y.toFixed(0)
+            flipText: root.shouldFlipText(root.pendingRotation)
         }
 
         // Size label
@@ -403,11 +419,11 @@ Item {
             anchors {
                 bottom: pendingFrame.bottom
                 right: pendingFrame.right
-                bottomMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * pendingFramesize.height / pendingFramesize.width)
-                rightMargin: 2 * root.baseUnit
+                bottomMargin: 2 * Math.min(1.5 * K.UiUtils.baseSizeMedium, K.UiUtils.baseSizeMedium * root.pendingFramesize.height / root.pendingFramesize.width)
+                rightMargin: 2 * K.UiUtils.baseSizeMedium
             }
-            text: pendingFramesize.width.toFixed(0) + " x " + pendingFramesize.height.toFixed(0)
-            flipText: shouldFlipText(root.pendingRotation)
+            text: root.pendingFramesize.width.toFixed(0) + " x " + root.pendingFramesize.height.toFixed(0)
+            flipText: root.shouldFlipText(root.pendingRotation)
         }
     }
 
@@ -417,23 +433,28 @@ Item {
         property bool isMoving: false
         property bool isResizing: false
         property bool isRotating: false
-        property int smallRectMargin: transformedFrame.width < 2 * root.baseUnit || transformedFrame.height < 2 * root.baseUnit ? root.baseUnit : 0
-        property double handlesBottomMargin: root.height - clipMonitorRuler.height - transformedFrame.y - transformedFrame.height < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
-        property double handlesRightMargin: root.width - transformedFrame.x - transformedFrame.width < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
-        property double handlesTopMargin: transformedFrame.y < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
-        property double handlesLeftMargin: transformedFrame.x < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property int smallRectMargin: transformedFrame.width < 2 * K.UiUtils.baseSizeMedium || transformedFrame.height < 2 * K.UiUtils.baseSizeMedium ? K.UiUtils.baseSizeMedium : 0
+        property double handlesBottomMargin: root.height - clipMonitorRuler.height - transformedFrame.y - transformedFrame.height < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
+        property double handlesRightMargin: root.width - transformedFrame.x - transformedFrame.width < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
+        property double handlesTopMargin: transformedFrame.y < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
+        property double handlesLeftMargin: transformedFrame.x < K.UiUtils.baseSizeMedium/2 ? 0 : -K.UiUtils.baseSizeMedium/2 - smallRectMargin
+        property double rotationAnchorX: width / 2
+        property double rotationAnchorY: height / 2
 
         x: frame.x + root._framesize.x * root.scalex
         y: frame.y + root._framesize.y * root.scaley
         width: root._framesize.width * root.scalex
         height: root._framesize.height * root.scaley
-        enabled: controller.isKeyframe || K.KdenliveSettings.autoKeyframe
+        enabled: root.controller.isKeyframe || K.KdenliveSettings.autoKeyframe
         color: "transparent"
         border.color: root.disableHandles ? 'transparent' : "#ff0000"
         opacity: (isMoving || isResizing || isRotating) ? 0 : 1
+        onWidthChanged: root.updateRotationAnchor()
+        onHeightChanged: root.updateRotationAnchor()
+
         transform: Rotation {
-            origin.x: transformedFrame.width/2
-            origin.y: transformedFrame.height/2
+            origin.x: transformedFrame.rotationAnchorX
+            origin.y: transformedFrame.rotationAnchorY
             angle: root._rotation
         }
         antialiasing: true
@@ -469,6 +490,48 @@ Item {
                 }
             }
         }
+        // Rotation anchor indicator
+        Shape {
+            anchors.fill: parent
+            //visible: transformedFrame.isRotating
+            ShapePath {
+                strokeColor: "red"
+                strokeWidth: 2
+                fillColor: "transparent"
+                // Circle using PathAngleArc
+                PathMove {
+                    x: transformedFrame.rotationAnchorX + 8
+                    y: transformedFrame.rotationAnchorY
+                }
+                PathAngleArc {
+                    centerX: transformedFrame.rotationAnchorX
+                    centerY: transformedFrame.rotationAnchorY
+                    radiusX: 8
+                    radiusY: 8
+                    startAngle: 0
+                    sweepAngle: 360
+                }
+                // Horizontal line of the cross
+                PathMove {
+                    x: transformedFrame.rotationAnchorX - 10
+                    y: transformedFrame.rotationAnchorY
+                }
+                PathLine {
+                    x: transformedFrame.rotationAnchorX + 10
+                    y: transformedFrame.rotationAnchorY
+                }
+                // Vertical line of the cross
+                PathMove {
+                    x: transformedFrame.rotationAnchorX
+                    y: transformedFrame.rotationAnchorY - 10
+                }
+                PathLine {
+                    x: transformedFrame.rotationAnchorX
+                    y: transformedFrame.rotationAnchorY + 10
+                }
+            }
+        }
+
         MouseArea {
           id: moveArea
           anchors.fill: parent
@@ -486,7 +549,7 @@ Item {
                   root.requestedKeyFrame = -1
                   return false
               }
-              var idx = getHandleIndexAtMouse(mouseX, mouseY, moveArea)
+              var idx = root.getHandleIndexAtMouse(mouseX, mouseY, moveArea)
               root.requestedKeyFrame = idx
               return idx !== -1
           }
@@ -495,7 +558,7 @@ Item {
                 if (mouse.modifiers & Qt.AltModifier) {
                     mouse.accepted = true
                     root.captureRightClick = true
-                    controller.switchFocusClip()
+                    root.controller.switchFocusClip()
                     return;
                 } else if (handleContainsMouse) {
                     // Moving to another keyframe
@@ -503,11 +566,11 @@ Item {
                     return
                 } else {
                     // Ok, get ready for the move
-                    root.pendingFramesize = _framesize
+                    root.pendingFramesize = root._framesize
                     root.pendingRotation = root._rotation
-                    mouseClickPos = mapToItem(frame, mouse.x, mouse.y)
-                    frameClicksize.x = _framesize.x * root.scalex
-                    frameClicksize.y = _framesize.y * root.scaley
+                    moveArea.mouseClickPos = mapToItem(frame, mouse.x, mouse.y)
+                    moveArea.frameClicksize.x = root._framesize.x * root.scalex
+                    moveArea.frameClicksize.y = root._framesize.y * root.scaley
                 }
                 mouse.accepted = true
                 root.captureRightClick = true
@@ -529,13 +592,13 @@ Item {
                 delta.x += - mouseClickPos.x + frameClicksize.x
                 delta.y += - mouseClickPos.y + frameClicksize.y
 
-                var logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, _framesize.width, _framesize.height)
-                var snappedRect = getSnappedRect(logicalFrameRect, root._rotation)
+                var logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, root._framesize.width, root._framesize.height)
+                var snappedRect = root.getSnappedRect(logicalFrameRect, root._rotation)
                 root.pendingFramesize.x = snappedRect.x;
                 root.pendingFramesize.y = snappedRect.y;
                 
-                if (controller.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
-                  controller.addRemoveKeyframe();
+                if (root.controller.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
+                    root.controller.addRemoveKeyframe();
                 }
                 root.effectChanged(root.pendingFramesize)
                 mouse.accepted = true
@@ -545,11 +608,10 @@ Item {
 
         RotationHandle {
             id: rotationHandle
-            baseUnit: root.baseUnit
             rotatable: root.rotatable
             showHandle: root.showHandles
             smallRectMargin: transformedFrame.smallRectMargin
-            isKeyframe: controller.isKeyframe
+            isKeyframe: root.controller.isKeyframe
             rotationAngle: root._rotation
             
             onRotationStart: {
@@ -574,7 +636,7 @@ Item {
             }
             
             onAddRemoveKeyframe: {
-                controller.addRemoveKeyframe()
+                root.controller.addRemoveKeyframe()
             }
         }
         
@@ -592,9 +654,9 @@ Item {
             ]
             
             ResizeHandle {
+                required property string modelData
                 // Configuration
                 handleType: modelData
-                baseUnit: root.baseUnit
                 showHandle: root.showHandles
                 otherResizeHandleInUse: transformedFrame.isResizing
                 
@@ -603,7 +665,7 @@ Item {
                 scalex: root.scalex  
                 scaley: root.scaley
                 lockRatio: root.lockratio
-                isKeyframe: controller.isKeyframe
+                isKeyframe: root.controller.isKeyframe
                 
                 // Margin properties
                 handlesTopMargin: transformedFrame.handlesTopMargin
@@ -636,7 +698,7 @@ Item {
                 }
                 
                 onAddRemoveKeyframe: () => {
-                    controller.addRemoveKeyframe()
+                    root.controller.addRemoveKeyframe()
                 }
             }
         }
@@ -644,6 +706,7 @@ Item {
 
     EffectToolBar {
         id: effectToolBar
+        monitorController: root.controller
         anchors {
             right: parent.right
             top: parent.top
@@ -659,6 +722,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: controller.rulerHeight
+        height: root.controller.rulerHeight
+        monitorController: root.controller
     }
 }

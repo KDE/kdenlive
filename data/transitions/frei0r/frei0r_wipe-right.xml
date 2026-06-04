@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<transition tag="frei0r.sleid0r_wipe-right" id="frei0r.sleid0r_wipe-right">
+<transition tag="frei0r.sleid0r_wipe-right" id="frei0r.sleid0r_wipe-right" type="videotransition">
     <name>Wipe Right</name>
     <description>Wipe from left to right.</description>
     <author>Vadim Druzhin</author>

@@ -28,7 +28,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QPainter>
-#include <QToolButton>
 #include <QVBoxLayout>
 
 DragButton::DragButton(int ix, const QString &tag, const QString &description, QWidget *parent)
@@ -260,7 +259,7 @@ void TagWidget::showTagsConfig()
     QAction *a = KStandardAction::renameFile(this, editItem, &d);
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     list.addAction(a);
-    d.connect(&list, &QListWidget::itemDoubleClicked, &d, [=]() { editItem(); });
+    d.connect(&list, &QListWidget::itemDoubleClicked, &d, [editItem]() { editItem(); });
     QToolButton *tb = new QToolButton(&d);
     tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     lay->addWidget(tb);

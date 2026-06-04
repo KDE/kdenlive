@@ -454,6 +454,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="rewindOnStop" type="Bool">
+      <label>Return playhead to start position when stopping playback.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="seekonaddeffect" type="Bool">
       <label>Seek to clip when adding an effect.</label>
       <default>false</default>
@@ -626,6 +631,10 @@
       <label>Play/pause monitor on click.</label>
       <default>true</default>
     </entry>
+    <entry name="mirrorMonitorOnFullscreen" type="Bool">
+      <label>Whether to mirror the monitor on fullscreen instead of moving it.</label>
+      <default>false</default>
+    </entry>
     <entry name="fullscreen_monitor" type="String">
       <label>Monitor used for fullscreen output.</label>
       <default></default>
@@ -676,6 +685,12 @@
       <label>FFmpeg / Libav binary path.</label>
       <default></default>
     </entry>
+
+    <entry name="safeFFmpegParams" type="StringList">
+      <label>Safe known parameters for ffmpeg.</label>
+      <default>f,vf,af,c:v,c:a,codec:v,codec:a,g,qscale,filter_hw_device,i,vsync,ab,qp,bf,crf,preset,vendor,vb,vprofile,init_hw_device,hwaccel,hwaccel_output_format,resize,rc,pix_fmt,vcodec,acodec</default>
+    </entry>
+
 
     <entry name="ffplaypath" type="Path">
       <label>FFplay / avplay binary path.</label>
@@ -1092,6 +1107,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="timelinemousezoomonplayhead" type="Bool">
+      <label>Mouse zoom on timeline based on playhead position, not mouse position.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="transitionfollowcursor" type="Bool">
       <label>When editing a composite transition, move timeline cursor for better preview.</label>
       <default>true</default>
@@ -1255,6 +1275,31 @@
     <entry name="thumbColor2" type="Color">
       <label>Color to draw odd audio channels.</label>
       <default>#2ed172</default>
+    </entry>
+
+    <entry name="videoColor" type="Color">
+      <label>Color for video clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="audioColor" type="Color">
+      <label>Color for audio clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="titleColor" type="Color">
+      <label>Color for title clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+
+    <entry name="imageColor" type="Color">
+      <label>Color to draw image clips in the timeline.</label>
+      <default>#00000000</default>
+    </entry>
+    
+    <entry name="slideshowColor" type="Color">
+      <label>Color for slideshow clips in the timeline.</label>
+      <default>#00000000</default>
     </entry>
 
     <entry name="overlayColor" type="Color">

@@ -5,7 +5,6 @@
 
 #include "subtitleedit.h"
 #include "bin/model/subtitlemodel.hpp"
-#include "doc/kdenlivedoc.h"
 #include "monitor/monitor.h"
 
 #include "core.h"
@@ -263,11 +262,13 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     });
     connect(buttonAdd, &QToolButton::clicked, this, [this]() { Q_EMIT addSubtitle(subText->toPlainText()); });
     connect(buttonCut, &QToolButton::clicked, this, [this]() {
-        if (m_activeSub > -1 && subText->hasFocus()) {
+        if (m_activeSub > -1) {
             int pos = subText->textCursor().position();
-            updateSubtitle();
-            Q_EMIT cutSubtitle(m_activeSub, pos);
-            setActiveSubtitle(m_activeSub);
+            if (pos > 0) {
+                updateSubtitle();
+                Q_EMIT cutSubtitle(m_activeSub, pos);
+                setActiveSubtitle(m_activeSub);
+            }
         }
     });
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);

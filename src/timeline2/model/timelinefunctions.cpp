@@ -19,7 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
-#include "lib/audio/audioStreamInfo.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "project/projectmanager.h"
@@ -116,6 +116,18 @@ bool TimelineFunctions::requestMultipleClipsInsertion(const std::shared_ptr<Time
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    if (logUndo) {
+        QString binIdsString;
+        for (const QString &binId : binIds) {
+            binIdsString += (binId + ";");
+        }
+        QVariantList result = timeline->clipAudioStreamInfo(binIdsString, trackId, true, undo, redo); // This will prompt track creation if needed and log undo/redo for it
+        if(result[0].toInt() == -1) {
+            // User cancelled track creation or failed
+            undo();
+            return false;
+        }
+    }
     for (const QString &binId : binIds) {
         int clipId;
         if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, false, undo, redo)) {
@@ -269,7 +281,15 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         int mainOut = mainIn + timeline->getItemPlaytime(clipId);
         if (position > mainIn && position < mainOut) {
             trackToSelect = timeline->getItemTrackId(clipId);
-            if (timeline->getSubtitleModel() != nullptr) subLayerToSelect = timeline->getSubtitleLayer(clipId);
+        }
+    } else if (timeline->isSubTitle(clipId)) {
+        int mainIn = timeline->getItemPosition(clipId);
+        int mainOut = mainIn + timeline->getItemPlaytime(clipId);
+        if (position > mainIn && position < mainOut) {
+            trackToSelect = timeline->getItemTrackId(clipId);
+        }
+        if (timeline->getSubtitleModel() != nullptr) {
+            subLayerToSelect = timeline->getSubtitleLayer(clipId);
         }
     }
     // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
@@ -865,6 +885,23 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
             } else {
                 binClipId = QStringLiteral("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
             }
+            if (!useTargets) {
+                // Save current audio track list before potential track creation
+                const QList<int> audioTracksBefore = timeline->getTracksIds(true);
+                // prompt user to insert audio stream if needed.
+                QVariantList streamInfo = timeline->clipAudioStreamInfo(binClipId, trackIds.first(), true, undo, redo);
+                if(streamInfo[0].toInt() == -1) {
+                    // User cancelled track creation
+                    return false;
+                }
+                // Any audio tracks created by the prompt are not yet in affectedTracks, add them now so that they are considered for insertion.
+                const QList<int> audioTracksAfter = timeline->getTracksIds(true);
+                for (int tid : audioTracksAfter) {
+                    if (!audioTracksBefore.contains(tid) && !affectedTracks.contains(tid)) {
+                        affectedTracks << tid;
+                    }
+                }
+            }
             result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo, affectedTracks);
         }
     }
@@ -1301,6 +1338,11 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    setCompositionATrack(timeline, cid, aTrack, undo, redo, true);
+}
+
+bool TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack, Fun &undo, Fun &redo, bool pushUndo)
+{
     std::shared_ptr<CompositionModel> compo = timeline->getCompositionPtr(cid);
     int previousATrack = compo->getATrack();
     int previousAutoTrack = static_cast<int>(compo->getForcedTrack() == -1);
@@ -1338,8 +1380,12 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     if (local_redo()) {
         PUSH_LAMBDA(local_undo, undo);
         PUSH_LAMBDA(local_redo, redo);
+        if (pushUndo) {
+            pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
+        }
+        return true;
     }
-    pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
+    return false;
 }
 
 QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh)
@@ -3076,6 +3122,98 @@ bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<Timeline
         timeline->requestItemDeletion(id, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Delete clips on track"));
+    return true;
+}
+
+bool TimelineFunctions::addMarkersAtGaps(const std::shared_ptr<TimelineItemModel> &timeline)
+{
+    // Collect all clip intervals from all video tracks
+    std::vector<std::pair<int, int>> intervals;
+    QList<int> videoTrackIds = timeline->getTracksIds(false);
+
+    for (int trackId : videoTrackIds) {
+        auto track = timeline->getTrackById_const(trackId);
+        std::unordered_set<int> clipSet = track->getClipsInRange(0, -1);
+        for (int cid : clipSet) {
+            int start = timeline->getClipPosition(cid);
+            int end = timeline->getClipEnd(cid);
+            intervals.push_back({start, end});
+        }
+    }
+
+    if (intervals.empty()) {
+        pCore->displayBinMessage(i18n("No clips found in timeline"), KMessageWidget::Information);
+        return false;
+    }
+
+    // Sort by start position
+    std::sort(intervals.begin(), intervals.end());
+
+    // Merge overlapping intervals (union of all video track coverage)
+    std::vector<std::pair<int, int>> merged;
+    merged.push_back(intervals[0]);
+    for (size_t i = 1; i < intervals.size(); i++) {
+        if (intervals[i].first <= merged.back().second) {
+            merged.back().second = std::max(merged.back().second, intervals[i].second);
+        } else {
+            merged.push_back(intervals[i]);
+        }
+    }
+
+    // Find gaps between merged intervals
+    std::vector<std::pair<int, int>> gaps;
+    for (size_t i = 0; i + 1 < merged.size(); i++) {
+        int gapStart = merged[i].second;
+        int gapEnd = merged[i + 1].first;
+        if (gapEnd > gapStart) {
+            gaps.push_back({gapStart, gapEnd});
+        }
+    }
+
+    if (gaps.empty()) {
+        pCore->displayBinMessage(i18n("No gaps found in timeline"), KMessageWidget::Information);
+        return false;
+    }
+
+    // Add a guide marker at each gap start
+    auto guideModel = timeline->getGuideModel();
+    for (auto &gap : gaps) {
+        GenTime gapStart(gap.first, pCore->getCurrentFps());
+        GenTime gapDuration(gap.second - gap.first, pCore->getCurrentFps());
+        guideModel->addRangeMarker(gapStart, gapDuration, i18n("Gap"), KdenliveSettings::default_marker_type());
+    }
+    return true;
+}
+
+bool TimelineFunctions::addMarkersAtGapsOnTrack(const std::shared_ptr<TimelineItemModel> &timeline, int trackId)
+{
+    auto track = timeline->getTrackById_const(trackId);
+    if (!track || timeline->isAudioTrack(trackId)) {
+        return false;
+    }
+    std::unordered_set<int> clipSet = track->getClipsInRange(0, -1);
+    std::vector<int> clips(clipSet.begin(), clipSet.end());
+    std::sort(clips.begin(), clips.end(), [&](int a, int b) {
+        return timeline->getClipPosition(a) < timeline->getClipPosition(b);
+    });
+    std::vector<std::pair<int,int>> gaps;
+    for (int i = 0; i < (int)clips.size() - 1; i++) {
+        int clipEnd = timeline->getClipEnd(clips[i]);
+        int nextStart = timeline->getClipPosition(clips[i + 1]);
+        if (nextStart > clipEnd) {
+            gaps.push_back({clipEnd, nextStart});
+        }
+    }
+    if (gaps.empty()) {
+        pCore->displayBinMessage(i18n("No gaps found on selected track"), KMessageWidget::Information);
+        return false;
+    }
+    auto guideModel = timeline->getGuideModel();
+    for (auto &gap : gaps) {
+        GenTime gapStart(gap.first, pCore->getCurrentFps());
+        GenTime gapDuration(gap.second - gap.first, pCore->getCurrentFps());
+        guideModel->addRangeMarker(gapStart, gapDuration, i18n("Gap"), KdenliveSettings::default_marker_type());
+    }
     return true;
 }
 

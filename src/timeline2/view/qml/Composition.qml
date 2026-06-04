@@ -10,35 +10,39 @@ import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 import QtQuick.Window 2.15
 
+import org.kde.ki18n
+
 import 'TimelineLogic.js' as Logic
 import org.kde.kdenlive as K
 
 Item {
     id: compositionRoot
-    property real timeScale: 1
-    property string clipName: ''
-    property string clipResource: ''
-    property string mltService: ''
-    property int modelStart
-    property int displayHeight: 0
-    property var parentTrack: trackRoot
-    property int inPoint: 0
-    property int outPoint: 0
-    property int clipDuration: 0
+
+    required property K.TimelineController timeline
+    required property K.TimelineItemModel controller
+
+    SystemPalette { id: activePalette }
+
+    required property real timeScale
+    required property string clipName
+    required property string mltService
+    required property int modelStart
+    required property var parentTrack
+    required property int inPoint
+    required property int outPoint
+    required property int clipDuration
+    required property bool showKeyframes
+    required property bool isGrabbed
+    required property var keyframeModel
+    required property bool grouped
+    required property int trackId// Id in the model
+    required property int fakeTid
+    required property int fakePosition
+    required property int aTrack
+    required property int clipId // Id of the clip in the model
+    required property int displayHeight
+
     property bool isAudio: false
-    property bool showKeyframes: false
-    property int itemType: 0
-    property bool isGrabbed: false
-    property var keyframeModel
-    property bool grouped: false
-    property int binId: 0
-    property int trackHeight
-    property int trackIndex //Index in track repeater
-    property int trackId: -42    //Id in the model
-    property int fakeTid: -1
-    property int fakePosition: 0
-    property int aTrack: -1
-    property int clipId     //Id of the clip in the model
     property int originalTrackId: trackId
     property bool isComposition: true
     property int originalX: x
@@ -56,7 +60,7 @@ Item {
 
     property int mouseXPos: mouseArea.mouseX
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
-    property int trackOffset: 5
+    property int trackOffset: 0
     y: trackOffset
     height: 5
     enabled: !compoArea.containsDrag && !clipDropArea.containsDrag
@@ -72,9 +76,10 @@ Item {
             return
         }
         updateLabelOffset()
-        if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+        if (compositionRoot.width > scrollView.width) {
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -129,7 +134,7 @@ Item {
 
     function resetSelection() {
         if (effectRow.visible) {
-            effectRow.item.resetSelection()
+            (effectRow.item as KeyframeView).resetSelection()
         }
     }
 
@@ -149,10 +154,9 @@ Item {
         width = clipDuration * timeScale;
         if (compositionRoot.visible) {
             updateLabelOffset()
-            if (!compositionRoot.hideClipViews) {
-                if (effectRow.item && effectRow.item.kfrCanvas) {
-                    effectRow.item.kfrCanvas.requestPaint()
-                }
+            let kfrView = effectRow.item as KeyframeView
+            if (kfrView && kfrView.kfrCanvas) {
+                kfrView.kfrCanvas.requestPaint()
             }
         }
     }
@@ -162,14 +166,6 @@ Item {
         labelRect.anchors.leftMargin = compositionRoot.scrollStart > 0 ? (labelRect.width > compositionRoot.width ? 0 : compositionRoot.scrollStart) : 0
     }
 
-/*    function reparent(track) {
-        parent = track
-        isAudio = track.isAudio
-        parentTrack = track
-        displayHeight = track.height / 2
-        compositionRoot.trackId = parentTrack.trackId
-    }
-*/
     function updateDrag() {
         console.log('XXXXXXXXXXXXXXX\n\nXXXXXXXXXXXXX \nUPDATING COMPO DRAG')
         var itemPos = mapToItem(tracksContainerArea, 0, displayRect.y, displayRect.width, displayRect.height)
@@ -181,35 +177,32 @@ Item {
         anchors.top: compositionRoot.top
         anchors.right: compositionRoot.right
         anchors.left: compositionRoot.left
-        anchors.topMargin: displayHeight - compositionRoot.trackOffset
-        height: parentTrack.height - displayHeight
-        property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
+        anchors.topMargin: compositionRoot.displayHeight - compositionRoot.trackOffset
+        height: compositionRoot.parentTrack.height - compositionRoot.displayHeight
+        property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
         color: Qt.darker('mediumpurple')
-        border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
-        border.width: isGrabbed ? 8 : 2
-        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
+        border.color: compositionRoot.grouped ? compositionRoot.timeline.groupColor : mouseArea.containsMouse ? activePalette.highlight : compositionRoot.borderColor
+        border.width: compositionRoot.isGrabbed ? 8 : 2
+        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == compositionRoot.clipId ? 0.5 : 1.0
 
         states: [
             State {
                 name: 'normal'
                 when: !compositionRoot.selected
                 PropertyChanges {
-                    target: compositionRoot
-                    z: 0
+                    compositionRoot.z: 0
                 }
             },
             State {
                 name: 'selected'
                 when: compositionRoot.selected
                 PropertyChanges {
-                    target: compositionRoot
-                    z: 1
+                    compositionRoot.z: 1
                 }
                 PropertyChanges {
-                    target: displayRect
-                    height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, root.baseUnit)
-                    color: 'mediumpurple'
-                    border.color: root.selectionColor
+                    displayRect.height: parentTrack.height - displayHeight + Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, K.UiUtils.baseSizeMedium)
+                    displayRect.color: 'mediumpurple'
+                    displayRect.border.color: compositionRoot.timeline.selectionColor
                 }
             }
         ]
@@ -224,25 +217,25 @@ Item {
             id: mouseArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            enabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
-            hoverEnabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool
+            enabled: !root.isPanning && K.Core.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
+            hoverEnabled: !root.isPanning && K.Core.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
+                compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
             }
             Keys.onRightPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + offset, true, true)
+                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
+                compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + offset, true, true)
             }
             Keys.onUpPressed: {
-                controller.requestCompositionMove(compositionRoot.clipId, controller.getNextTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
+                compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.controller.getNextTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
             }
             Keys.onDownPressed: {
-                controller.requestCompositionMove(compositionRoot.clipId, controller.getPreviousTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
+                compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.controller.getPreviousTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
             }
             Keys.onEscapePressed: {
-                timeline.grabCurrent()
+                compositionRoot.timeline.grabCurrent()
             }
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
 
@@ -251,38 +244,38 @@ Item {
                 compositionRoot.forceActiveFocus();
                 root.mainItemId = compositionRoot.clipId
                 if (mouse.button == Qt.RightButton) {
-                    if (timeline.selection.indexOf(compositionRoot.clipId) === -1) {
-                        controller.requestAddToSelection(compositionRoot.clipId, true)
+                    if (compositionRoot.timeline.selection.indexOf(compositionRoot.clipId) === -1) {
+                        compositionRoot.controller.requestAddToSelection(compositionRoot.clipId, true)
                     }
                     root.showCompositionMenu()
                 }
             }
             onReleased: {
-                root.autoScrolling = timeline.autoScroll
+                root.autoScrolling = compositionRoot.timeline.autoScroll
             }
             onEntered: {
                 updateDrag()
-                var s = i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(timeline.simplifiedTC(compositionRoot.modelStart)).arg(timeline.simplifiedTC(compositionRoot.clipDuration)))
-                timeline.showToolTip(s)
+                var s = KI18n.i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.modelStart)).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.clipDuration)))
+                compositionRoot.timeline.showToolTip(s)
             }
             onExited: {
                 root.endDragIfFocused(compositionRoot.clipId)
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse) {
-                    timeline.showToolTip()
+                    compositionRoot.timeline.showToolTip()
                 }
             }
             onDoubleClicked: mouse => {
                 if (mouse.modifiers & Qt.ShiftModifier) {
-                    if (keyframeModel && showKeyframes) {
+                    if (compositionRoot.keyframeModel && compositionRoot.showKeyframes) {
                         // Add new keyframe
-                        var xPos = Math.round(mouse.x  / timeline.scaleFactor)
+                        var xPos = Math.round(mouse.x  / compositionRoot.timeline.scaleFactor)
                         var yPos = (compositionRoot.height - mouse.y) / compositionRoot.height
-                        keyframeModel.addKeyframe(xPos + compositionRoot.inPoint, yPos)
+                        compositionRoot.keyframeModel.addKeyframe(xPos + compositionRoot.inPoint, yPos)
                     } else {
-                        proxy.position = compositionRoot.x / timeline.scaleFactor
+                        proxy.position = compositionRoot.x / compositionRoot.timeline.scaleFactor
                     }
                 } else {
-                    timeline.editItemDuration()
+                    compositionRoot.timeline.editItemDuration()
                 }
             }
             onWheel: wheel => zoomByWheel(wheel)
@@ -291,8 +284,8 @@ Item {
                 id: trimInMouseArea
                 x: enabled ? -displayRect.border.width : 0
                 height: mouseArea.height
-                width: root.baseUnit
-                visible: enabled && root.activeTool === K.ToolType.SelectTool
+                width: K.UiUtils.baseSizeMedium
+                visible: enabled && K.Core.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
@@ -300,7 +293,7 @@ Item {
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
                 onPressed: mouse => {
-                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                         mouse.accepted = false
                         return
                     }
@@ -311,7 +304,7 @@ Item {
                     anchors.left = undefined
                 }
                 onReleased: {
-                    root.autoScrolling = timeline.autoScroll
+                    root.autoScrolling = compositionRoot.timeline.autoScroll
                     anchors.left = parent.left
                     compositionRoot.trimmedIn(compositionRoot)
                     trimIn.opacity = 0
@@ -320,7 +313,7 @@ Item {
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var delta = Math.round(x / timeScale)
+                        var delta = Math.round(x / compositionRoot.timeScale)
                         if (delta < -modelStart) {
                             delta = -modelStart
                         }
@@ -333,7 +326,7 @@ Item {
                 onEntered: {
                     if (!pressed) {
                         trimIn.opacity = 1
-                        timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                        compositionRoot.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                     }
                 }
                 onExited: {
@@ -341,10 +334,10 @@ Item {
                         trimIn.opacity = 0
                     }
                     if (!mouseArea.containsMouse) {
-                        timeline.showToolTip()
+                        compositionRoot.timeline.showToolTip()
                     }
                     if (!trimInMouseArea.containsMouse) {
-                        timeline.showKeyBinding()
+                        compositionRoot.timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -356,7 +349,7 @@ Item {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimInMouseArea.enabled)
+                    visible: trimInMouseArea.pressed || (K.Core.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimInMouseArea.enabled)
                 }
             }
 
@@ -365,28 +358,28 @@ Item {
                 anchors.right: mouseArea.right
                 anchors.rightMargin: enabled ? -displayRect.border.width : 0
                 height: displayRect.height
-                width: root.baseUnit
+                width: K.UiUtils.baseSizeMedium
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
-                visible: enabled && root.activeTool === K.ToolType.SelectTool
+                visible: enabled && K.Core.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
 
                 onPressed: mouse => {
-                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                         mouse.accepted = false
                         return
                     }
                     root.autoScrolling = false
                     root.trimInProgress = true;
-                    compositionRoot.originalDuration = clipDuration
+                    compositionRoot.originalDuration = compositionRoot.clipDuration
                     anchors.right = undefined
                 }
                 onReleased: {
                     trimOut.opacity = 0
-                    root.autoScrolling = timeline.autoScroll
+                    root.autoScrolling = compositionRoot.timeline.autoScroll
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
                     updateDrag()
@@ -401,7 +394,7 @@ Item {
                 onEntered: {
                     if (!pressed) {
                         trimOut.opacity = 1
-                        timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+                        compositionRoot.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to resize"))
                     }
                 }
                 onExited: {
@@ -409,10 +402,10 @@ Item {
                         trimOut.opacity = 0
                     }
                     if (!mouseArea.containsMouse) {
-                        timeline.showToolTip()
+                        compositionRoot.timeline.showToolTip()
                     }
                     if (!trimOutMouseArea.containsMouse) {
-                        timeline.showKeyBinding()
+                        compositionRoot.timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -424,7 +417,7 @@ Item {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimOutMouseArea.enabled)
+                    visible: trimOutMouseArea.pressed || (K.Core.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimOutMouseArea.enabled)
                 }
             }
             Item {
@@ -439,13 +432,13 @@ Item {
                 color: 'magenta'
                 width: debugCid.width
                 height: debugCid.height
-                visible: root.debugmode
+                visible: K.KdenliveSettings.uiDebugMode
                 anchors.left: labelRect.right
                 Text {
                     // Composition ID text
                     id: debugCid
                     text: compositionRoot.clipId
-                    font: miniFont
+                    font: K.UiUtils.smallestReadableFont
                     anchors {
                         top: debugCidRect.top
                         left: debugCidRect.left
@@ -462,13 +455,13 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: compositionRoot.scrollStart > 0 ? (labelRect.width > compositionRoot.width ? 0 : compositionRoot.scrollStart) : 0
                 color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
-                visible: compositionRoot.width > root.baseUnit
+                visible: compositionRoot.width > K.UiUtils.baseSizeMedium
                 width: label.width + 2
                 height: label.height
                 Text {
                     id: label
-                    text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
-                    font: miniFont
+                    text: compositionRoot.clipName + (compositionRoot.aTrack > -1 ? ' > ' + compositionRoot.timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
+                    font: K.UiUtils.smallestReadableFont
                     anchors {
                         top: labelRect.top
                         left: labelRect.left
@@ -479,10 +472,10 @@ Item {
                 }
                 states: [
                     State { when: !compositionRoot.hideDecorations
-                        PropertyChanges { target: labelRect; opacity: 1.0 }
+                        PropertyChanges { labelRect.opacity: 1.0 }
                     },
                     State { when: compositionRoot.hideDecorations
-                        PropertyChanges { target: labelRect; opacity: 0.0 }
+                        PropertyChanges { labelRect.opacity: 0.0 }
                     }
                 ]
                 transitions: Transition {
@@ -498,12 +491,12 @@ Item {
             anchors.fill: parent
             active: compositionRoot.visible
             asynchronous: true
-            visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
-            source: compositionRoot.hideClipViews || compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
+            visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * K.UiUtils.baseSizeMedium
+            source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {
                     target: effectRow.item
                     property: "kfrModel"
-                    value: compositionRoot.hideClipViews ? undefined : compositionRoot.keyframeModel
+                    value: compositionRoot.keyframeModel
                     when: effectRow.status == Loader.Ready && effectRow.item
                 }
                 Binding {

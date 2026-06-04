@@ -185,6 +185,7 @@ public:
 
     ~TimelineModel() override;
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
+    void setReOpenTimeline();
     /** @brief Load tracks from the current tractor, used on project opening
      */
     void loadTractor();
@@ -313,6 +314,12 @@ public:
      */
     Q_INVOKABLE int suggestSnapPoint(int pos, int snapDistance);
 
+    /** @brief Returns the closest snap point within snapDistance for the playhead
+     *  Unlike suggestSnapPoint, this does not add the current cursor position as a
+     *  snap point, so the playhead does not snap to itself when being dragged.
+     */
+    Q_INVOKABLE int suggestPlayheadSnapPoint(int pos, int snapDistance);
+
     /** @brief Return the previous track of same type as source trackId, or trackId if no track found */
     Q_INVOKABLE int getPreviousTrackId(int trackId);
     /** @brief Return the next track of same type as source trackId, or trackId if no track found */
@@ -407,6 +414,12 @@ public:
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
+    /** @brief Returns [streamCount, availableAudioTrackSlots, isEnoughTracks] for a bin clip dragged onto trackId.
+     *  Called from QML (controller.clipAudioStreamInfo) to populate the drag-drop info bubble. */
+    Q_INVOKABLE QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTrack=false);
+    /** @brief Returns [streamCount, availableAudioTrackSlots, isEnoughTracks] for a bin clip dragged onto trackId.
+     *  This overload accepts undo/redo stacks so that any track creation can be undone. */
+    QVariantList clipAudioStreamInfo(const QString &binClipId, int trackId, bool createTrack, Fun &undo, Fun &redo);
     /** @brief Returns true if a clip cid is on an audio track */
     bool clipIsAudio(int cid) const;
 
@@ -495,11 +508,11 @@ public:
        @param refreshView whether the view should be refreshed
        @param useTargets: if true, the Audio/video split will occur on the set targets. Otherwise, they will be computed as an offset from the middle line
     */
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true, bool refreshView = false,
-                              bool useTargets = true);
+   bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true, bool refreshView = false,
+                       bool useTargets = true, int finalMove = -1);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
-                              Fun &redo, const QVector<int> &allowedTracks = QVector<int>());
+   bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
+                       Fun &redo, QVector<int> allowedTracks = QVector<int>(), int finalMove = -1);
 
     /** @brief Switch current composition type
      *  @param cid the id of the composition we want to change
@@ -704,6 +717,17 @@ public:
     bool requestTrackDeletion(int trackId);
     /** @brief Same function, but accumulates undo and redo*/
     bool requestTrackDeletion(int trackId, Fun &undo, Fun &redo);
+
+      /** @brief Move a track one step up/down among tracks of the same type (audio/video).
+         This action is undoable
+         Returns true on success. If it fails, nothing is modified.
+         @param trackId id of the track to move
+         @param up if true, the track will be moved up, otherwise down
+         @param logUndo if true, the action will be logged for undo
+       */
+      bool requestTrackMove(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, bool up, bool logUndo = true);
+      /** @brief Same function, but accumulates undo and redo*/
+      bool requestTrackMove(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, bool up, Fun &undo, Fun &redo);
 
     /** @brief Get project duration
        Returns the duration in frames
@@ -1053,6 +1077,8 @@ Q_SIGNALS:
     /** @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated(const QUuid &uuid);
 
+    /** @brief Signal sent whenever the audio target changes */
+    void audioTargetChanged();
     /** @brief Signal sent whenever the selection changes */
     void selectionChanged();
     /** @brief Signal sent whenever the selected mix changes */
@@ -1148,4 +1174,39 @@ protected:
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
+
+private:
+
+    /** @brief Auto-create missing audio tracks for clip insertion
+     *  Creates the required number of audio tracks at the appropriate position
+     *  and integrates with undo/redo
+     *  @param missingCount Number of audio tracks to create
+     *  @param trackId The target video track for insertion
+     *  @param useTargets Whether to use audio targets for the new tracks
+     *  @param allowedTracks List of tracks allowed for insertion
+     *  @param undo Undo lambda to update
+     *  @param redo Redo lambda to update
+     *  @param streamsToCreate Optional list of specific stream indices to create tracks for only for target insertion.
+     *  @return true if tracks were created successfully (or none needed), false on failure
+     */
+   bool ensureAudioTracksForClip(int missingCount, int trackId, bool useTargets, QVector<int> &allowedTracks, Fun &undo, Fun &redo,
+                                 const QList<int> &streamsToCreate = QList<int>());
+
+   /**
+    * @brief Prompt the user to create missing audio tracks and create them.
+    * @param missingTracks Number of audio tracks that need to be created
+    * @param streamCount Total number of audio streams in the clip
+    * @param trackId The target track id for insertion (may be modified)
+    * @param useTargets Whether to use audio targets for the new tracks
+    * @param effectiveFinalMove Whether this is a final (committed) move
+    * @param allowedTracks List of tracks allowed for insertion
+    * @param undo Undo lambda to update
+    * @param redo Redo lambda to update
+    * @param streamsToCreate Optional list of specific stream indices to create tracks for
+    * @return Number of tracks created for the mirror/below positions (>=0), or -1 on failure/cancel
+    */
+   int promptAudioTrackCreation(int missingTracks, int streamCount, int &trackId, bool useTargets, bool effectiveFinalMove,
+                                QVector<int> &allowedTracks, Fun &undo, Fun &redo,
+                                const QList<int> &streamsToCreate = QList<int>());
+
 };

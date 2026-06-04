@@ -21,6 +21,7 @@
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "titler/patternsmodel.h"
+#include "widgets/dragvalue.h"
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
@@ -31,7 +32,6 @@
 #include <KMessageWidget>
 #include <KRecentDirs>
 
-#include "kdenlive_debug.h"
 #include <QButtonGroup>
 #include <QCryptographicHash>
 #include <QDomDocument>
@@ -52,7 +52,6 @@
 #include <QToolBar>
 
 #include <QStandardPaths>
-#include <iostream>
 #include <mlt++/MltProfile.h>
 #include <utility>
 
@@ -98,7 +97,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 {
     setupUi(this);
     if (TITLERVERSION == 0) {
-        if (KdenliveSettings::titlerVersion() < 400) {
+        if (KdenliveSettings::titlerVersion() < 600) {
             // Check version of the titler module
             QScopedPointer<Mlt::Properties> metadata(pCore->getMltRepository()->metadata(mlt_service_producer_type, "kdenlivetitle"));
             KdenliveSettings::setTitlerVersion(int(ceil(100 * metadata->get_double("version"))));
@@ -186,6 +185,11 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     m_duration->setValue(KdenliveSettings::title_duration());
 
+    rectCornerRadius = new MySpinBox(rectangle);
+    rectCornerRadius->setSuffix(i18n(" pixels"));
+    rectCornerRadius->setMaximum(1000);
+    gridLayout_2->addWidget(rectCornerRadius, 4, 1);
+
     connect(backgroundColor, &KColorButton::changed, this, &TitleWidget::slotChangeBackground);
     connect(backgroundAlpha, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotChangeBackground);
 
@@ -224,6 +228,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(gradient_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
     connect(gradients_rect_combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::rectChanged);
     connect(rectLineWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::rectChanged);
+    connect(rectCornerRadius, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::rectChanged);
 
     connect(zValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::zIndexChanged);
     connect(itemzoom, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::itemScaled);
@@ -259,18 +264,10 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     });
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(preserveAspectRatio, &QCheckBox::checkStateChanged, this, &TitleWidget::updateItemRatio);
-#else
-    connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&]() { slotValueChanged(ValueWidth); });
-#endif
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
     m_timePos->setEnabled(KdenliveSettings::titlerShowbg());
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(displayBg, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState state) {
-#else
-    connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state) {
-#endif
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
         bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
         m_timePos->setEnabled(KdenliveSettings::titlerShowbg());
@@ -405,8 +402,10 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
-    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move vertically, "
-                                                           "Alt+Shift+Drag to move horizontally, Shift+Drag edge to center resize, Ctrl+Drag to pan."));
+    m_buttonCursor->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move vertically, "
+               "Alt+Shift+Drag to move horizontally, Shift+Drag edge to center resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."));
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
@@ -454,7 +453,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     layout->addWidget(m_toolbar);
 
     // initialize graphic scene
-    m_scene = new GraphicsSceneRectMove(TITLERVERSION, this);
+    m_scene = new GraphicsSceneRectMove(TITLERVERSION, m_frameWidth, m_frameHeight, this);
     graphicsView->setScene(m_scene);
     graphicsView->setMouseTracking(true);
     graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -476,11 +475,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     graphicsView->scene()->addItem(m_frameBorder);
 
     // Guides
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(show_guides, &QCheckBox::checkStateChanged, this, &TitleWidget::showGuides);
-#else
-    connect(show_guides, &QCheckBox::stateChanged, this, &TitleWidget::showGuides);
-#endif
     show_guides->setChecked(KdenliveSettings::titlerShowGuides());
     hguides->setValue(KdenliveSettings::titlerHGuides());
     vguides->setValue(KdenliveSettings::titlerVGuides());
@@ -983,6 +978,8 @@ void TitleWidget::showToolbars(GraphicsSceneRectMove::TITLETOOL toolType)
     case GraphicsSceneRectMove::TITLE_ELLIPSE:
     case GraphicsSceneRectMove::TITLE_RECTANGLE:
         toolbar_stack->setCurrentIndex(1);
+        label_cornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE && TITLERVERSION >= 600);
+        rectCornerRadius->setVisible(toolType == GraphicsSceneRectMove::TITLE_RECTANGLE && TITLERVERSION >= 600);
         break;
     case GraphicsSceneRectMove::TITLE_TEXT:
     default:
@@ -1171,6 +1168,7 @@ void TitleWidget::slotNewRect(QGraphicsRectItem *rect)
     }
     rect->setZValue(m_count++);
     rect->setData(TitleDocument::ZoomFactor, 100);
+    static_cast<MyRectItem *>(rect)->setCornerRadius(rectCornerRadius->value());
     prepareTools(rect);
     // setCurrentItem(rect);
     // graphicsView->setFocus();
@@ -2005,7 +2003,7 @@ void TitleWidget::rectChanged()
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     for (auto i : std::as_const(l)) {
         if (i->type() == RECTITEM && (settingUp == 0)) {
-            auto *rec = static_cast<QGraphicsRectItem *>(i);
+            auto *rec = static_cast<MyRectItem *>(i);
             QColor f = rectFColor->color();
             if (rectLineWidth->value() == 0) {
                 rec->setPen(Qt::NoPen);
@@ -2025,6 +2023,7 @@ void TitleWidget::rectChanged()
                 QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rec->boundingRect().width()), int(rec->boundingRect().height()));
                 rec->setBrush(QBrush(gr));
             }
+            rec->setCornerRadius(rectCornerRadius->value());
         } else if (i->type() == ELLIPSEITEM && (settingUp == 0)) {
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(i);
             QColor f = rectFColor->color();
@@ -2305,7 +2304,7 @@ void TitleWidget::loadTitle(QUrl url)
         if (!Xml::docContentFromFile(doc, url.toLocalFile(), false)) {
             return;
         }
-        setXml(doc);
+        setXml(url.toLocalFile(), doc);
         updateGuides(0);
         m_projectTitlePath = QFileInfo(url.toLocalFile()).dir().absolutePath();
         KRecentDirs::add(QStringLiteral(":KdenliveProjectsTitles"), m_projectTitlePath);
@@ -2374,7 +2373,7 @@ void TitleWidget::setDuration(int duration)
     m_duration->setValue(GenTime(duration, m_fps));
 }
 
-void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
+void TitleWidget::setXml(const QString &path, const QDomDocument &doc, const QString &id)
 {
     m_clipId = id;
     int duration;
@@ -2382,7 +2381,7 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
         delete m_missingMessage;
         m_missingMessage = nullptr;
     }
-    m_count = m_titledocument.loadFromXml(doc, m_scene, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
+    m_count = m_titledocument.loadFromXml(path, doc, m_scene, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
     adjustFrameSize();
     if (m_titledocument.invalidCount() > 0) {
         m_missingMessage = new KMessageWidget(this);
@@ -3243,7 +3242,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         } else if ((referenceItem)->type() == RECTITEM) {
             showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             settingUp = 1;
-            auto *rec = static_cast<QGraphicsRectItem *>(referenceItem);
+            auto *rec = static_cast<MyRectItem *>(referenceItem);
             if (rec == m_startViewport || rec == m_endViewport) {
                 enableToolbars(GraphicsSceneRectMove::TITLE_SELECT);
             } else {
@@ -3271,6 +3270,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 } else {
                     rectLineWidth->setValue(rec->pen().width());
                 }
+                rectCornerRadius->setValue(rec->cornerRadius());
                 enableToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             }
 
@@ -3279,7 +3279,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             updateDimension(rec);
 
         } else if ((referenceItem)->type() == ELLIPSEITEM) {
-            showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
+            showToolbars(GraphicsSceneRectMove::TITLE_ELLIPSE);
             settingUp = 1;
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(referenceItem);
             QColor fcol = ellipse->pen().color();
@@ -3622,7 +3622,7 @@ void TitleWidget::slotPatternDblClicked(const QModelIndex &idx)
 
     QList<QGraphicsItem *> items;
     int width, height, duration, missing;
-    TitleDocument::loadFromXml(doc, items, width, height, nullptr, nullptr, nullptr, &duration, missing);
+    TitleDocument::loadFromXml(QString(), doc, items, width, height, nullptr, nullptr, nullptr, &duration, missing);
 
     for (QGraphicsItem *item : std::as_const(items)) {
         item->setZValue(m_count++);

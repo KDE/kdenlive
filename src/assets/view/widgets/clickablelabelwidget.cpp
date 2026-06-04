@@ -5,7 +5,6 @@
 
 #include "clickablelabelwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "core.h"
 
 #include <QApplication>
 #include <QClipboard>

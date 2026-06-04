@@ -5,11 +5,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "generators.h"
-#include "assets/abstractassetsrepository.hpp"
+#include "core.h"
 #include "doc/kthumb.h"
-#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "klocalizedstring.h"
+#include "profiles/profilemodel.hpp"
 #include "widgets/timecodedisplay.h"
+#include "xml/xml.hpp"
 
 #include <QDialogButtonBox>
 #include <QDir>
@@ -19,9 +21,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
-#include "core.h"
-#include "klocalizedstring.h"
-#include "profiles/profilemodel.hpp"
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <memory>

@@ -15,7 +15,6 @@
 #include "core.h"
 #include "mltconnection.h"
 #include "src/effects/effectsrepository.hpp"
-#include "src/mltcontroller/clipcontroller.h"
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
 

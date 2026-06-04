@@ -18,9 +18,6 @@
 #include <QThread>
 #include <QTimer>
 
-#include "bin/model/markerlistmodel.hpp"
-#include "definitions.h"
-#include "kdenlivesettings.h"
 #include "scopes/sharedframe.h"
 
 #include <mlt++/MltEvent.h>
@@ -28,7 +25,6 @@
 #include <mlt++/MltProfile.h>
 
 namespace Mlt {
-class Filter;
 class Producer;
 class Consumer;
 } // namespace Mlt
@@ -163,6 +159,8 @@ public Q_SLOTS:
      *  @returns true is scaling was changed
      */
     bool updateScaling();
+    /** @brief Update aspect ration and colorspace from current project, to be used for mirror monitor */
+    void resetAspect();
 
 Q_SIGNALS:
     void frameDisplayed(const SharedFrame &frame);

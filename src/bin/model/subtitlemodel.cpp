@@ -4,21 +4,15 @@
 */
 
 #include "subtitlemodel.hpp"
-#include "bin/bin.h"
 #include "config-kdenlive.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
-#include "undohelper.hpp"
-
-#include <mlt++/Mlt.h>
-#include <mlt++/MltProperties.h>
 
 #include <KEncodingProber>
 #include <KLocalizedString>
@@ -490,7 +484,12 @@ bool SubtitleModel::addSubtitle(int id, std::pair<int, GenTime> start, const Sub
     registerSubtitle(id, start, temporary);
     int row = getSubtitleIndex(id);
     beginInsertRows(QModelIndex(), row, row);
+
     m_subtitleList[start] = event;
+    // Strip all leading and trailing whitespaces from the text, to e.g. avoid bogus exports with
+    // leading newlines to SRT.
+    m_subtitleList[start].setText(event.text().trimmed());
+
     endInsertRows();
     addSnapPoint(start.second);
     addSnapPoint(event.endTime()); // {layer, end}
@@ -680,7 +679,7 @@ int SubtitleModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
     GenTime pos(position, pCore->getCurrentFps());
     GenTime start = GenTime(-1);
     for (const auto &subtitles : m_subtitleList) {
-        if (subtitles.first.second <= pos && subtitles.second.endTime() > pos) {
+        if (subtitles.first.second <= pos && subtitles.second.endTime() > pos && subtitles.first.first == layer) {
             start = subtitles.first.second;
             break;
         }
@@ -1243,7 +1242,7 @@ int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFi
     QFile outF(outFile);
 
     QWriteLocker locker(&m_lock);
-    if (list.isEmpty()) {
+    if (list.isEmpty() && !m_subtitleList.empty()) {
         qDebug() << "Error : Json file should be an array";
         return 0;
     }
@@ -1998,6 +1997,10 @@ void SubtitleModel::activateSubtitle(int ix)
 
 void SubtitleModel::setMaxLayer(int layer)
 {
+    if (layer > 50) {
+        pCore->displayMessage(i18n("Cannot create more than %1 layers in subtitles.", layer), ErrorMessage);
+        layer = 50;
+    }
     m_maxLayer = layer;
     for (int i = m_defaultStyles.size(); i < m_maxLayer + 1; i++) {
         m_defaultStyles << "Default";

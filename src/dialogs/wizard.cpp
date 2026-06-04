@@ -8,11 +8,8 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/videowidget.h"
-#include "profiles/profilemodel.hpp"
-#include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 
-#include "utils/thememanager.h"
 #include "core.h"
 #include <config-kdenlive.h>
 

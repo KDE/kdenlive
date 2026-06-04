@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "abstractmodel/abstracttreemodel.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
 
 #include <QReadWriteLock>

@@ -11,10 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QByteArray>
 #include <QList>
 #include <QTimer>
-
 #include <QWidget>
-
-#include <cstdint>
 
 class AudioSignal : public AbstractAudioScopeWidget
 {

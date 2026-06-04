@@ -15,7 +15,6 @@
 #include <QCryptographicHash>
 #include <QDebug>
 #include <mlt++/MltFilter.h>
-#include <mlt++/MltProfile.h>
 
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
