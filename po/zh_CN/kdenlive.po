@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-03 00:57+0000\n"
+"POT-Creation-Date: 2026-06-04 00:43+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7582,7 +7582,7 @@ msgstr "从黑色渐显视频"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:112 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "入点"
@@ -7604,7 +7604,7 @@ msgid "Fade video to black"
 msgstr "渐隐视频到黑色"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:146
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
 #, kde-format
 msgid "Out"
 msgstr "出点"
@@ -15813,7 +15813,7 @@ msgid "Process audio using a SoX effect"
 msgstr "使用 SoX 效果器处理音频"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:102
+#: src/monitor/view/MonitorSplit.qml:101
 #, kde-format
 msgid "Effect"
 msgstr "效果"
@@ -18766,12 +18766,12 @@ msgstr ""
 "双击、拖放\n"
 "或点击%1以导入媒体"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "拖动以向时间轴中添加纯音频"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "拖动以向时间轴中添加纯视频"
@@ -19257,7 +19257,7 @@ msgstr "播放列表"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2809 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1705 src/project/projectmanager.cpp:1707
+#: src/project/projectmanager.cpp:1704 src/project/projectmanager.cpp:1706
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20147,12 +20147,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "播放媒体"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Unmute"
 msgstr "取消静音"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Mute"
 msgstr "静音"
@@ -21133,7 +21133,7 @@ msgstr "导出标记数据"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2018 src/project/projectmanager.cpp:2024
+#: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21226,7 +21226,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "如果不确定，请尝试：<br/><b>Unicode (UTF-8)</b>"
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1907
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -24587,8 +24587,8 @@ msgid ""
 msgstr ""
 "您的项目文件已被升级到最新的 Kdenlive 项目文件版本，但是无法创建备份副本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1579
-#: src/project/projectmanager.cpp:1615
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1614
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
@@ -25656,7 +25656,7 @@ msgid "Clip in Timeline"
 msgstr "时间轴中的片段"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1205
+#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1200
 #, kde-format
 msgid "Sequence"
 msgstr "序列"
@@ -29314,27 +29314,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "点击刷新音频波形"
 
-#: src/monitor/view/ClipMonitor.qml:370 src/monitor/view/ProjectMonitor.qml:199
+#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:409 src/monitor/view/ProjectMonitor.qml:232
+#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
 #, kde-format
 msgid "In Point"
 msgstr "入点"
 
-#: src/monitor/view/ClipMonitor.qml:409
+#: src/monitor/view/ClipMonitor.qml:408
 #, kde-format
 msgid "In/Out Point"
 msgstr "入/出点"
 
-#: src/monitor/view/ClipMonitor.qml:432 src/monitor/view/ProjectMonitor.qml:249
+#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
 #, kde-format
 msgid "Out Point"
 msgstr "出点"
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:621
 #, kde-format
 msgid "Terminate Job"
 msgstr "终止任务"
@@ -29408,7 +29408,7 @@ msgstr "退出蒙板创建"
 msgid "Exit Preview Mode"
 msgstr "退出预览模式"
 
-#: src/monitor/view/MonitorAutomask.qml:281
+#: src/monitor/view/MonitorAutomask.qml:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29420,22 +29420,22 @@ msgstr ""
 "<shortcut>Shift+点击</shortcut>以包含另一个区段，<shortcut>Ctrl+点击</"
 "shortcut>以取消选择一个区段。"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "请先在图像中选择一个对象"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating image mask"
 msgstr "正在生成图像蒙版"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating video mask"
 msgstr "正在生成视频蒙版"
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -29446,12 +29446,12 @@ msgstr ""
 "Shift + 点击以包含另一个区域。\n"
 "Ctrl + 点击以排除某个区域。"
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid "Previewing video mask"
 msgstr "正在预览视频蒙版"
 
-#: src/monitor/view/MonitorAutomask.qml:405
+#: src/monitor/view/MonitorAutomask.qml:404
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -29464,17 +29464,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:415
+#: src/monitor/view/MonitorAutomask.qml:414
 #, kde-format
 msgid "Go to mask start"
 msgstr "转到蒙版起点"
 
-#: src/monitor/view/MonitorAutomask.qml:427
+#: src/monitor/view/MonitorAutomask.qml:426
 #, kde-format
 msgid "Go to mask end"
 msgstr "转到蒙版终点"
 
-#: src/monitor/view/MonitorGeometryScene.qml:360
+#: src/monitor/view/MonitorGeometryScene.qml:359
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29487,7 +29487,7 @@ msgstr ""
 "缩放，<shortcut>Ctrl + 拖动</shortcut>进行中心缩放，<shortcut>右侧悬停</"
 "shortcut>显示工具栏，<shortcut>单击</shortcut>对象中心点时移到它的关键帧"
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29496,7 +29496,7 @@ msgid ""
 msgstr ""
 "<shortcut>左键点击</shortcut>添加点，<shortcut>右键点击</shortcut>闭合形状。"
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29509,13 +29509,13 @@ msgstr ""
 "点，<shortcut>双击</shortcut>已有点删除它，<shortcut>双击</shortcut>背景新建"
 "关键帧，<shortcut>右侧悬停</shortcut>显示工具栏。"
 
-#: src/monitor/view/MonitorRotoScene.qml:74
+#: src/monitor/view/MonitorRotoScene.qml:73
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>按住 Shift 拖动手柄</shortcut>进行居中缩放"
 
-#: src/monitor/view/MonitorRotoScene.qml:433
+#: src/monitor/view/MonitorRotoScene.qml:432
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -29524,7 +29524,7 @@ msgstr ""
 "点击添加新点，\n"
 "右键点击或者按回车键闭合形状。"
 
-#: src/monitor/view/MonitorRuler.qml:246
+#: src/monitor/view/MonitorRuler.qml:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29538,7 +29538,7 @@ msgstr ""
 "记，<shortcut>Home 键</shortcut> / <shortcut>End 键</shortcut>转到第一帧 / 最"
 "后一帧"
 
-#: src/monitor/view/MonitorRuler.qml:318
+#: src/monitor/view/MonitorRuler.qml:319
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29548,7 +29548,7 @@ msgstr ""
 "<shortcut>拖动</shortcut> 以设定区段入点。 <shortcut>Shift+拖动</shortcut> 以"
 "调整区段入点。"
 
-#: src/monitor/view/MonitorRuler.qml:367
+#: src/monitor/view/MonitorRuler.qml:368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29564,7 +29564,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "重置缩放"
 
-#: src/monitor/view/ProjectMonitor.qml:103
+#: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -29573,7 +29573,7 @@ msgstr ""
 "<b>点击</b>播放，<b>双击</b>全屏，<b>右侧悬浮</b>显示工具栏，<b>鼠标滚轮</b>"
 "或<b>方向键</b>时移，<b>Ctrl+鼠标滚轮</b>缩放视图"
 
-#: src/monitor/view/ProjectMonitor.qml:303
+#: src/monitor/view/ProjectMonitor.qml:302
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
@@ -31072,7 +31072,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1844
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1843
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31148,12 +31148,12 @@ msgstr ""
 "%1\n"
 "您想要打开备份文件吗？"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1168
 #, kde-format
 msgid "Error opening file"
 msgstr "打开文件时出错"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1170
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
 #, kde-format
 msgid "Open Backup"
 msgstr "打开备份"
@@ -31184,7 +31184,7 @@ msgstr "正在加载时间轴…"
 msgid "Building sequences…"
 msgstr "正在构建序列…"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31193,19 +31193,19 @@ msgstr ""
 "无法打开项目文件。错误：\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "此操作将删除您最后一次保存项目之后的所有更改，您确定要继续吗？"
 
-#: src/project/projectmanager.cpp:1237
+#: src/project/projectmanager.cpp:1236
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "恢复到最后保存的版本"
 
-#: src/project/projectmanager.cpp:1336
+#: src/project/projectmanager.cpp:1335
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31214,35 +31214,35 @@ msgstr ""
 "项目已经损坏，无法备份。请先关闭您的项目文件，然后重新打开它以恢复到最近一次"
 "备份。"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1556
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "移动项目文件夹时出错，无法访问缓存文件夹"
 
-#: src/project/projectmanager.cpp:1593
+#: src/project/projectmanager.cpp:1592
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移动项目文件夹"
 
-#: src/project/projectmanager.cpp:1684 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1744
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1739
+#: src/project/projectmanager.cpp:1743
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1695
+#: src/project/projectmanager.cpp:1694
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1849
-#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1882
+#: src/project/projectmanager.cpp:1835 src/project/projectmanager.cpp:1848
+#: src/project/projectmanager.cpp:1872 src/project/projectmanager.cpp:1881
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:2012
+#: src/project/projectmanager.cpp:2011
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31251,12 +31251,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:2037
+#: src/project/projectmanager.cpp:2036
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:2101
+#: src/project/projectmanager.cpp:2100
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31265,32 +31265,32 @@ msgstr ""
 "无法从此片段创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2190
+#: src/project/projectmanager.cpp:2189
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "导入一个序列片段，此功能目前仍在实验阶段。"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2475
+#: src/project/projectmanager.cpp:2422 src/project/projectmanager.cpp:2474
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "选择一个片段以创建序列"
 
-#: src/project/projectmanager.cpp:2433 src/project/projectmanager.cpp:2484
+#: src/project/projectmanager.cpp:2432 src/project/projectmanager.cpp:2483
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "序列创建失败"
 
-#: src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2459
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "无法在当前时间线中插入序列"
 
-#: src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2463
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列片段"
 
-#: src/project/projectmanager.cpp:2502
+#: src/project/projectmanager.cpp:2501
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "复制片段至新序列"
@@ -33133,15 +33133,15 @@ msgid "Change clip speed"
 msgstr "更改片段速度"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Lock track"
 msgstr "锁定轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:7763
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Unlock track"
 msgstr "解锁轨道"
@@ -33322,7 +33322,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2322
+#: src/timeline2/view/qml/Timeline.qml:2319
 #, kde-format
 msgid "Paused"
 msgstr "已暂停"
@@ -33421,13 +33421,13 @@ msgstr "渐显：%1"
 msgid "Slip Clip"
 msgstr "滑移片段"
 
-#: src/timeline2/view/qml/Composition.qml:255
+#: src/timeline2/view/qml/Composition.qml:258
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1，位置：%2，持续时间：%3"
 
-#: src/timeline2/view/qml/Composition.qml:326
-#: src/timeline2/view/qml/Composition.qml:394
+#: src/timeline2/view/qml/Composition.qml:329
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:361
 #: src/timeline2/view/qml/SubTitle.qml:468
 #, kde-format
@@ -33456,123 +33456,123 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>双击</b>以编辑文本"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:94
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:101
 #, kde-format
 msgid "Click to see details"
 msgstr "点击查看详情"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:108
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
 #, kde-format
 msgid "Speech recognition"
 msgstr "语音识别"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Show"
 msgstr "显示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "隐藏"
 
-#: src/timeline2/view/qml/Timeline.qml:912
-#: src/timeline2/view/qml/Timeline.qml:922
+#: src/timeline2/view/qml/Timeline.qml:907
+#: src/timeline2/view/qml/Timeline.qml:917
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "音频：%2 个流，使用 %1 条轨道"
 
-#: src/timeline2/view/qml/Timeline.qml:1199
+#: src/timeline2/view/qml/Timeline.qml:1194
 #, kde-format
 msgid "Show sequence effects"
 msgstr "显示序列效果"
 
-#: src/timeline2/view/qml/Timeline.qml:1947
+#: src/timeline2/view/qml/Timeline.qml:1944
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>双击</b> 以添加字幕"
 
-#: src/timeline2/view/qml/Timeline.qml:2141
+#: src/timeline2/view/qml/Timeline.qml:2138
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/Timeline.qml:2311
-#: src/timeline2/view/qml/Timeline.qml:2320
+#: src/timeline2/view/qml/Timeline.qml:2308
+#: src/timeline2/view/qml/Timeline.qml:2317
 #, kde-format
 msgid "Recording"
 msgstr "正在录制"
 
-#: src/timeline2/view/qml/Timeline.qml:2414
+#: src/timeline2/view/qml/Timeline.qml:2411
 #, kde-format
 msgid "Multicam In"
 msgstr "多机位入点"
 
-#: src/timeline2/view/qml/Track.qml:275 src/timeline2/view/qml/Track.qml:293
+#: src/timeline2/view/qml/Track.qml:278 src/timeline2/view/qml/Track.qml:296
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2，持续时间 = %3"
 
-#: src/timeline2/view/qml/Track.qml:331
+#: src/timeline2/view/qml/Track.qml:334
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1% | 调整速度"
 
-#: src/timeline2/view/qml/TrackHead.qml:173
+#: src/timeline2/view/qml/TrackHead.qml:175
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr "点击切换该轨道为目标。目标轨道将接收插入片段。"
 
-#: src/timeline2/view/qml/TrackHead.qml:250
+#: src/timeline2/view/qml/TrackHead.qml:252
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b>以折叠/展开所有同类轨道 (音频/视频)"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Minimize"
 msgstr "最小化"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Expand"
 msgstr "展开"
 
-#: src/timeline2/view/qml/TrackHead.qml:292
+#: src/timeline2/view/qml/TrackHead.qml:294
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr "点击切换轨道激活状态。活动轨道将响应编辑操作"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Disable track effects"
 msgstr "禁用轨道效果"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Enable track effects"
 msgstr "启用轨道效果"
 
-#: src/timeline2/view/qml/TrackHead.qml:380
+#: src/timeline2/view/qml/TrackHead.qml:382
 #, kde-format
 msgid "Toggle track effects"
 msgstr "启用/禁用轨道效果"
 
-#: src/timeline2/view/qml/TrackHead.qml:402
+#: src/timeline2/view/qml/TrackHead.qml:404
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b>以显示/隐藏所有同类轨道 (音频/视频)"
 
-#: src/timeline2/view/qml/TrackHead.qml:501
+#: src/timeline2/view/qml/TrackHead.qml:503
 #, kde-format
 msgid "Edit track name"
 msgstr "编辑轨道名称"
@@ -33910,12 +33910,12 @@ msgstr "管理字幕"
 msgid "No range guide found at position"
 msgstr "在位置没有找到范围辅助线"
 
-#: src/timeline2/view/timelinetabs.cpp:50
+#: src/timeline2/view/timelinetabs.cpp:59
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "添加时间轴序列"
 
-#: src/timeline2/view/timelinetabs.cpp:52
+#: src/timeline2/view/timelinetabs.cpp:61
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -33924,7 +33924,7 @@ msgstr ""
 "添加时间轴序列。这将新建一条用于编辑的时间轴。每条时间轴对应项目素材箱中的一"
 "条序列片段"
 
-#: src/timeline2/view/timelinetabs.cpp:174
+#: src/timeline2/view/timelinetabs.cpp:183
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -33934,44 +33934,44 @@ msgstr ""
 "时间线序列 <b>%1</b> 已缩短。<br/>调整其他时间线中的所有实例？<br>若不调整其"
 "他时间线将会暂时保留所有其他序列的当前持续时间。"
 
-#: src/timeline2/view/timelinetabs.cpp:177
+#: src/timeline2/view/timelinetabs.cpp:186
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "调整大小"
 
-#: src/timeline2/view/timelinetabs.cpp:178
+#: src/timeline2/view/timelinetabs.cpp:187
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "不改变大小"
 
-#: src/timeline2/view/timelinetabs.cpp:261
+#: src/timeline2/view/timelinetabs.cpp:270
 #, kde-format
 msgid "Close %1"
 msgstr "关闭 %1"
 
-#: src/timeline2/view/timelinetabs.cpp:383
+#: src/timeline2/view/timelinetabs.cpp:392
 #, kde-format
 msgid "Align to Reference"
 msgstr "对齐到基准点"
 
-#: src/timeline2/view/timelinetabs.cpp:461
+#: src/timeline2/view/timelinetabs.cpp:470
 #, kde-format
 msgid "Rename Sequence"
 msgstr "重命名序列"
 
-#: src/timeline2/view/timelinewidget.cpp:54
+#: src/timeline2/view/timelinewidget.cpp:52
 #, kde-format
 msgid "Insert an effect..."
 msgstr "插入效果..."
 
-#: src/timeline2/view/timelinewidget.cpp:55
+#: src/timeline2/view/timelinewidget.cpp:53
 #, kde-format
 msgid "Insert a composition..."
 msgstr "插入合成..."
 
-#: src/timeline2/view/timelinewidget.cpp:312
+#: src/timeline2/view/timelinewidget.cpp:308
 #, kde-format
 msgid "No available stream"
 msgstr "没有可用的流"

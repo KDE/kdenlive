@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-03 00:57+0000\n"
+"POT-Creation-Date: 2026-06-04 00:43+0000\n"
 "PO-Revision-Date: 2026-05-26 08:58+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -7482,7 +7482,7 @@ msgstr "עמעום וידאו משחור"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:112 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "כניסה"
@@ -7504,7 +7504,7 @@ msgid "Fade video to black"
 msgstr "עמעום וידאו לשחור"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:146
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
 #, kde-format
 msgid "Out"
 msgstr "יציאה"
@@ -15548,7 +15548,7 @@ msgid "Process audio using a SoX effect"
 msgstr "עיבוד שמע בעזרת אפקט SoX"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:102
+#: src/monitor/view/MonitorSplit.qml:101
 #, kde-format
 msgid "Effect"
 msgstr "אפקט"
@@ -18513,12 +18513,12 @@ msgstr ""
 "אפשר ללחוץ לחיצה כפולה, לגרור קבצים\n"
 "או ללחוץ על %1 כדי לייבא מדיה"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "יש לגרור כדי להוסיף רק את השמע לציר הזמן"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "יש לגרור כדי להוסיף רק את הווידאו לציר הזמן"
@@ -19021,7 +19021,7 @@ msgstr "רשימת נגינה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2809 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1705 src/project/projectmanager.cpp:1707
+#: src/project/projectmanager.cpp:1704 src/project/projectmanager.cpp:1706
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -19921,12 +19921,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "ניגון מדיה"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Unmute"
 msgstr "ביטול השתקה"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Mute"
 msgstr "השתקה"
@@ -20918,7 +20918,7 @@ msgstr "ייצוא נתוני סמנים"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2018 src/project/projectmanager.cpp:2024
+#: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21011,7 +21011,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "במקרה של ספק, עדיף לנסות :<br/><b>יוניקוד (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1907
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -24416,8 +24416,8 @@ msgstr ""
 "קובץ המיזם שלך שודרג לגרסת המסמך העדכנית ביותר של Kdenlive, אבל יצירת עותק "
 "הגיבוי %1 לא מצליחה."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1579
-#: src/project/projectmanager.cpp:1615
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1614
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
@@ -25501,7 +25501,7 @@ msgid "Clip in Timeline"
 msgstr "סרטון בציר הזמן"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1205
+#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1200
 #, kde-format
 msgid "Sequence"
 msgstr "רצף"
@@ -29190,27 +29190,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "לחיצה כאן תרענן את צורת גל השמע"
 
-#: src/monitor/view/ClipMonitor.qml:370 src/monitor/view/ProjectMonitor.qml:199
+#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
 #, kde-format
 msgid "%1fps"
 msgstr "%1 תמוניות לשנייה"
 
-#: src/monitor/view/ClipMonitor.qml:409 src/monitor/view/ProjectMonitor.qml:232
+#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
 #, kde-format
 msgid "In Point"
 msgstr "נקודת כניסה"
 
-#: src/monitor/view/ClipMonitor.qml:409
+#: src/monitor/view/ClipMonitor.qml:408
 #, kde-format
 msgid "In/Out Point"
 msgstr "נקודת כניסה/יציאה"
 
-#: src/monitor/view/ClipMonitor.qml:432 src/monitor/view/ProjectMonitor.qml:249
+#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
 #, kde-format
 msgid "Out Point"
 msgstr "נקודת יציאה"
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:621
 #, kde-format
 msgid "Terminate Job"
 msgstr "חיסול משימה"
@@ -29284,7 +29284,7 @@ msgstr "יציאה מיצירת מסכה"
 msgid "Exit Preview Mode"
 msgstr "יציאה ממצב תצוגה מקדימה"
 
-#: src/monitor/view/MonitorAutomask.qml:281
+#: src/monitor/view/MonitorAutomask.qml:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29296,22 +29296,22 @@ msgstr ""
 "<shortcut>Shift+לחיצה</shortcut> כדי לכלול אזור נוסף.\n"
 "<shortcut>Ctrl+לחיצה</shortcut> כדי להחריג אזור."
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "ראשית יש לבחור פריט בתמונה"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating image mask"
 msgstr "נוצרת מסכת תמונה"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating video mask"
 msgstr "נוצרה מסכת וידאו"
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -29322,12 +29322,12 @@ msgstr ""
 "Shift+לחיצה כדי לכלול אזור נוסף.\n"
 "Ctrl+לחיצה כדי להחריג אזור."
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid "Previewing video mask"
 msgstr "תצוגה מקדימה של מסכת וידאו"
 
-#: src/monitor/view/MonitorAutomask.qml:405
+#: src/monitor/view/MonitorAutomask.qml:404
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -29340,17 +29340,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:415
+#: src/monitor/view/MonitorAutomask.qml:414
 #, kde-format
 msgid "Go to mask start"
 msgstr "מעבר לתחילת המסכה"
 
-#: src/monitor/view/MonitorAutomask.qml:427
+#: src/monitor/view/MonitorAutomask.qml:426
 #, kde-format
 msgid "Go to mask end"
 msgstr "מעבר לסוף המסכה"
 
-#: src/monitor/view/MonitorGeometryScene.qml:360
+#: src/monitor/view/MonitorGeometryScene.qml:359
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29364,7 +29364,7 @@ msgstr ""
 "לשינוי קנה מידהסביב המרכז, <shortcut>ריחוף משמאל</shortcut> לסרגל כלים, "
 "<shortcut>לחיצה</shortcut> במרכז כדי לחתור לתמונית המפתח שלו"
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29374,7 +29374,7 @@ msgstr ""
 "<shortcut>לחיצה</shortcut> תוסיף נקודות, <shortcut>לחיצה ימנית</shortcut> "
 "תסגור את הצורה."
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29388,13 +29388,13 @@ msgstr ""
 "shortcut> על נקודה כדי למחוק אותה, <shortcut>לחיצה כפולה</shortcut> על הרקע "
 "כדי ליצור תמונית מפתח חדשה, <shortcut>ריחוף משמאל</shortcut> לסרגל כלים"
 
-#: src/monitor/view/MonitorRotoScene.qml:74
+#: src/monitor/view/MonitorRotoScene.qml:73
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift עם גרירה של ידית</shortcut> תשנה בהתאם למרכז"
 
-#: src/monitor/view/MonitorRotoScene.qml:433
+#: src/monitor/view/MonitorRotoScene.qml:432
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -29403,7 +29403,7 @@ msgstr ""
 "לחיצה להוספת נקודות,\n"
 "לחיצה ימנית או Enter לסגירת הצורה."
 
-#: src/monitor/view/MonitorRuler.qml:246
+#: src/monitor/view/MonitorRuler.qml:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29417,7 +29417,7 @@ msgstr ""
 "shortcut> כדי לחתור עד לסמן, <shortcut>Home</shortcut> / <shortcut>End</"
 "shortcut> כדי לגשת לתמונית הראשונה/אחרונה"
 
-#: src/monitor/view/MonitorRuler.qml:318
+#: src/monitor/view/MonitorRuler.qml:319
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29427,7 +29427,7 @@ msgstr ""
 "יש <shortcut>לגרור</shortcut> כדי להגדיר נקודת כניסה לקטע, <shortcut>Shift"
 "+גרירה</shortcut> כדי לחתור במהלך כיוון הכניסה לקטע"
 
-#: src/monitor/view/MonitorRuler.qml:367
+#: src/monitor/view/MonitorRuler.qml:368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29443,7 +29443,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "איפוס תקריב"
 
-#: src/monitor/view/ProjectMonitor.qml:103
+#: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -29452,7 +29452,7 @@ msgstr ""
 "<b>לחיצה</b> להצגה, <b>לחיצה כפולה</b> למסך מלא, <b>ריחוף מעל</b> לשורת "
 "כלים, <b>גלגלת </b> או <b>חץ</b> לחיפוש, <b>Ctrl גלגלת</b> לתקריב"
 
-#: src/monitor/view/ProjectMonitor.qml:303
+#: src/monitor/view/ProjectMonitor.qml:302
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
@@ -30980,7 +30980,7 @@ msgstr "פתיחת קובץ גיבוי…"
 msgid "Save changes to document?"
 msgstr "לשמור שינויים למסמך‫?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1844
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1843
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31057,12 +31057,12 @@ msgstr ""
 "%1\n"
 "לפתוח את קובץ הגיבוי?"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1168
 #, kde-format
 msgid "Error opening file"
 msgstr "שגיאה בפתיחת קובץ"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1170
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
 #, kde-format
 msgid "Open Backup"
 msgstr "פתיחת גיבוי"
@@ -31093,7 +31093,7 @@ msgstr "ציר הזמן נטען…"
 msgid "Building sequences…"
 msgstr "הרצפים נבנים…"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31102,7 +31102,7 @@ msgstr ""
 "לא ניתן לפתוח את קובץ המיזם. שגיאה:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31110,12 +31110,12 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את השינויים שערכת מאז השמירה האחרונה של המיזם שלך. להמשיך?"
 
-#: src/project/projectmanager.cpp:1237
+#: src/project/projectmanager.cpp:1236
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "חזרה לגרסה השמורה האחרונה"
 
-#: src/project/projectmanager.cpp:1336
+#: src/project/projectmanager.cpp:1335
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31124,35 +31124,35 @@ msgstr ""
 "המיזם נפגם, אי אפשר לגבות. נא לסגור את המיזם שלך ולפתוח אותו מחדש כדי לשחזר "
 "מהגיבוי האחרון"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1556
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "שגיאה בהעברת תיקיית המיזם, אי אפשר לגשת לתיקיית המטמון"
 
-#: src/project/projectmanager.cpp:1593
+#: src/project/projectmanager.cpp:1592
 #, kde-format
 msgid "Moving project folder"
 msgstr "תיקיית המיזם מועברת"
 
-#: src/project/projectmanager.cpp:1684 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1744
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1739
+#: src/project/projectmanager.cpp:1743
 #, kde-format
 msgid "Sequence 1"
 msgstr "רצף 1"
 
-#: src/project/projectmanager.cpp:1695
+#: src/project/projectmanager.cpp:1694
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "קובץ המיזם פגום - טעינת הרצועות נכשלה. לנסות למצוא קובץ גיבוי?"
 
-#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1849
-#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1882
+#: src/project/projectmanager.cpp:1835 src/project/projectmanager.cpp:1848
+#: src/project/projectmanager.cpp:1872 src/project/projectmanager.cpp:1881
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "השינוי לפרופיל המיזם בוטל"
 
-#: src/project/projectmanager.cpp:2012
+#: src/project/projectmanager.cpp:2011
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31161,12 +31161,12 @@ msgstr ""
 "קובץ הפלט %1 כבר קיים.\n"
 "לשכתב אותו?"
 
-#: src/project/projectmanager.cpp:2037
+#: src/project/projectmanager.cpp:2036
 #, kde-format
 msgid "Project profile changed"
 msgstr "פרופיל המיזם השתנה"
 
-#: src/project/projectmanager.cpp:2101
+#: src/project/projectmanager.cpp:2100
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31175,32 +31175,32 @@ msgstr ""
 "לא ניתן ליצור ציר זמן מהסרטון הזה:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2190
+#: src/project/projectmanager.cpp:2189
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "מתבצע ייבוא של סרטון רצף, זה כרגע במצב ניסיוני"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2475
+#: src/project/projectmanager.cpp:2422 src/project/projectmanager.cpp:2474
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "בחירת סרטון ליצירת רצף"
 
-#: src/project/projectmanager.cpp:2433 src/project/projectmanager.cpp:2484
+#: src/project/projectmanager.cpp:2432 src/project/projectmanager.cpp:2483
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "יצירת רצף נכשלה"
 
-#: src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2459
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "לא ניתן להוסיף רצף בציר הזמן הנוכחי"
 
-#: src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2463
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "יצירת סרטון רצף"
 
-#: src/project/projectmanager.cpp:2502
+#: src/project/projectmanager.cpp:2501
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "העתקת סרטונים לרצף חדש"
@@ -33057,15 +33057,15 @@ msgid "Change clip speed"
 msgstr "שינוי מהירות הסרטון"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Lock track"
 msgstr "נעילת רצועה"
 
 #: src/timeline2/model/timelinemodel.cpp:7763
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Unlock track"
 msgstr "ביטול נעילת רצועה"
@@ -33260,7 +33260,7 @@ msgid "Stop"
 msgstr "עצירה"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2322
+#: src/timeline2/view/qml/Timeline.qml:2319
 #, kde-format
 msgid "Paused"
 msgstr "מושהה"
@@ -33363,13 +33363,13 @@ msgstr "כניסה מעומעמת: %1"
 msgid "Slip Clip"
 msgstr "החלקת קטע"
 
-#: src/timeline2/view/qml/Composition.qml:255
+#: src/timeline2/view/qml/Composition.qml:258
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, מקום: %2, משך: %3"
 
-#: src/timeline2/view/qml/Composition.qml:326
-#: src/timeline2/view/qml/Composition.qml:394
+#: src/timeline2/view/qml/Composition.qml:329
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:361
 #: src/timeline2/view/qml/SubTitle.qml:468
 #, kde-format
@@ -33399,31 +33399,31 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>לחיצה כפולה</b> לעריכת טקסט"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:94
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:101
 #, kde-format
 msgid "Click to see details"
 msgstr "לחיצה להצגת פרטים"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:108
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
 #, kde-format
 msgid "Speech recognition"
 msgstr "זיהוי דיבור"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Show"
 msgstr "הצגה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "הסתרה"
 
-#: src/timeline2/view/qml/Timeline.qml:912
-#: src/timeline2/view/qml/Timeline.qml:922
+#: src/timeline2/view/qml/Timeline.qml:907
+#: src/timeline2/view/qml/Timeline.qml:917
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
@@ -33432,43 +33432,43 @@ msgstr[1] "שמע: שתי רצועות ל־%2 תזרימים"
 msgstr[2] "שמע: %1 רצועות ל־%2 תזרימים"
 msgstr[3] "שמע: %1 רצועות ל־%2 תזרימים"
 
-#: src/timeline2/view/qml/Timeline.qml:1199
+#: src/timeline2/view/qml/Timeline.qml:1194
 #, kde-format
 msgid "Show sequence effects"
 msgstr "הצגת אפקטים על רצפים"
 
-#: src/timeline2/view/qml/Timeline.qml:1947
+#: src/timeline2/view/qml/Timeline.qml:1944
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>לחיצה כפולה</b> להוספת כתובית"
 
-#: src/timeline2/view/qml/Timeline.qml:2141
+#: src/timeline2/view/qml/Timeline.qml:2138
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "היסט: %1, מקום: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2311
-#: src/timeline2/view/qml/Timeline.qml:2320
+#: src/timeline2/view/qml/Timeline.qml:2308
+#: src/timeline2/view/qml/Timeline.qml:2317
 #, kde-format
 msgid "Recording"
 msgstr "הקלטה"
 
-#: src/timeline2/view/qml/Timeline.qml:2414
+#: src/timeline2/view/qml/Timeline.qml:2411
 #, kde-format
 msgid "Multicam In"
 msgstr "ריבוי מצלמות נכנס"
 
-#: src/timeline2/view/qml/Track.qml:275 src/timeline2/view/qml/Track.qml:293
+#: src/timeline2/view/qml/Track.qml:278 src/timeline2/view/qml/Track.qml:296
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, משך = %3"
 
-#: src/timeline2/view/qml/Track.qml:331
+#: src/timeline2/view/qml/Track.qml:334
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1% | כוונון מהירות"
 
-#: src/timeline2/view/qml/TrackHead.qml:173
+#: src/timeline2/view/qml/TrackHead.qml:175
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -33476,23 +33476,23 @@ msgid ""
 msgstr ""
 "יש ללחוץ כדי להחליף מצב יעד לרצועה. רצועות יעד יקבלו את הסרטונים שנוספים"
 
-#: src/timeline2/view/qml/TrackHead.qml:250
+#: src/timeline2/view/qml/TrackHead.qml:252
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b> לצמצום/הרחבה של כל הרצועות מאותו הסוג (שמע/וידאו)"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Minimize"
 msgstr "מזעור"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Expand"
 msgstr "הרחבה"
 
-#: src/timeline2/view/qml/TrackHead.qml:292
+#: src/timeline2/view/qml/TrackHead.qml:294
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -33500,27 +33500,27 @@ msgid ""
 msgstr ""
 "יש ללחוץ כדי להפוך רצועה לפעילה/מושבתת. הרצועות הפעילות תגבנה לפעולות עריכה"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Disable track effects"
 msgstr "השבתת אפקטים על רצועות"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Enable track effects"
 msgstr "הפעלת אפקטים על רצועות"
 
-#: src/timeline2/view/qml/TrackHead.qml:380
+#: src/timeline2/view/qml/TrackHead.qml:382
 #, kde-format
 msgid "Toggle track effects"
 msgstr "החלפת מצב אפקטים על רצועות"
 
-#: src/timeline2/view/qml/TrackHead.qml:402
+#: src/timeline2/view/qml/TrackHead.qml:404
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b> להצגה/הסתרה של כל הרצועות מאותו הסוג (שמע/וידאו)"
 
-#: src/timeline2/view/qml/TrackHead.qml:501
+#: src/timeline2/view/qml/TrackHead.qml:503
 #, kde-format
 msgid "Edit track name"
 msgstr "עריכת שם רצועה"
@@ -33861,12 +33861,12 @@ msgstr "ניהול כתוביות"
 msgid "No range guide found at position"
 msgstr "לא נמצאה הנחיית טווח במקום הזה"
 
-#: src/timeline2/view/timelinetabs.cpp:50
+#: src/timeline2/view/timelinetabs.cpp:59
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "הוספת רצף ציר זמן"
 
-#: src/timeline2/view/timelinetabs.cpp:52
+#: src/timeline2/view/timelinetabs.cpp:61
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -33875,7 +33875,7 @@ msgstr ""
 "הוספת רצף ציר זמן. הפעולה הזאת תיצור ציר זמן חדש לעריכה. כל ציר זמן מקושר "
 "לסרטון רצף בסל המיזם"
 
-#: src/timeline2/view/timelinetabs.cpp:174
+#: src/timeline2/view/timelinetabs.cpp:183
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -33885,44 +33885,44 @@ msgstr ""
 "רצף ציר הזמן <b>%1</b> קוצר.<br/>לשנות את גודל כל המופעים בצירי זמן אחרים?"
 "<br>בחירה שלא לשנות תשאיר את המשך הנוכחי בכל שאר הרצפים."
 
-#: src/timeline2/view/timelinetabs.cpp:177
+#: src/timeline2/view/timelinetabs.cpp:186
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "לשנות גודל"
 
-#: src/timeline2/view/timelinetabs.cpp:178
+#: src/timeline2/view/timelinetabs.cpp:187
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "לא לשנות גודל"
 
-#: src/timeline2/view/timelinetabs.cpp:261
+#: src/timeline2/view/timelinetabs.cpp:270
 #, kde-format
 msgid "Close %1"
 msgstr "סגירת %1"
 
-#: src/timeline2/view/timelinetabs.cpp:383
+#: src/timeline2/view/timelinetabs.cpp:392
 #, kde-format
 msgid "Align to Reference"
 msgstr "יישור לסימוכין"
 
-#: src/timeline2/view/timelinetabs.cpp:461
+#: src/timeline2/view/timelinetabs.cpp:470
 #, kde-format
 msgid "Rename Sequence"
 msgstr "שינוי שם רצף"
 
-#: src/timeline2/view/timelinewidget.cpp:54
+#: src/timeline2/view/timelinewidget.cpp:52
 #, kde-format
 msgid "Insert an effect..."
 msgstr "הוספת אפקט…"
 
-#: src/timeline2/view/timelinewidget.cpp:55
+#: src/timeline2/view/timelinewidget.cpp:53
 #, kde-format
 msgid "Insert a composition..."
 msgstr "הוספת תרכובת…"
 
-#: src/timeline2/view/timelinewidget.cpp:312
+#: src/timeline2/view/timelinewidget.cpp:308
 #, kde-format
 msgid "No available stream"
 msgstr "אין תזרים זמין"

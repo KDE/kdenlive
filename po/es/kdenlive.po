@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-03 00:57+0000\n"
+"POT-Creation-Date: 2026-06-04 00:43+0000\n"
 "PO-Revision-Date: 2026-05-17 12:06+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -7939,7 +7939,7 @@ msgstr "Permite fundir la imagen de un clip desde negro"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:112 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "Entrada"
@@ -7961,7 +7961,7 @@ msgid "Fade video to black"
 msgstr "Permite fundir la imagen de un clip hacia negro"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:146
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
 #, kde-format
 msgid "Out"
 msgstr "Salida"
@@ -16575,7 +16575,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Permite procesar el audio de un clip usando un efecto SoX"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:102
+#: src/monitor/view/MonitorSplit.qml:101
 #, kde-format
 msgid "Effect"
 msgstr "Efecto"
@@ -19640,12 +19640,12 @@ msgstr ""
 "Doble clic, soltar archivos o\n"
 "clic en %1 para cargar medios"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Arrastrar a la línea de tiempo solo el audio"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Arrastrar a la línea de tiempo solo el video"
@@ -20158,7 +20158,7 @@ msgstr "Lista de reproducción"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2809 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1705 src/project/projectmanager.cpp:1707
+#: src/project/projectmanager.cpp:1704 src/project/projectmanager.cpp:1706
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -21065,12 +21065,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Reproducir medio"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Unmute"
 msgstr "Escuchar"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Mute"
 msgstr "Silenciar"
@@ -22082,7 +22082,7 @@ msgstr "Exportar datos de marcadores"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2018 src/project/projectmanager.cpp:2024
+#: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -22176,7 +22176,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "En caso de duda, usar :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1907
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -25644,8 +25644,8 @@ msgstr ""
 "El archivo de proyecto fue actualizado al formato de la última versión de "
 "Kdenlive, pero no fue posible crear una copia de respaldo %1."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1579
-#: src/project/projectmanager.cpp:1615
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1614
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error al mover la carpeta de trabajo: %1"
@@ -26746,7 +26746,7 @@ msgid "Clip in Timeline"
 msgstr "Localizar en secuencia activa"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1205
+#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1200
 #, kde-format
 msgid "Sequence"
 msgstr "Secuencia"
@@ -30500,27 +30500,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Hacer clic para refrescar las gráficas de audio"
 
-#: src/monitor/view/ClipMonitor.qml:370 src/monitor/view/ProjectMonitor.qml:199
+#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:409 src/monitor/view/ProjectMonitor.qml:232
+#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
 #, kde-format
 msgid "In Point"
 msgstr "Punto de entrada"
 
-#: src/monitor/view/ClipMonitor.qml:409
+#: src/monitor/view/ClipMonitor.qml:408
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punto de entrada/salida"
 
-#: src/monitor/view/ClipMonitor.qml:432 src/monitor/view/ProjectMonitor.qml:249
+#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
 #, kde-format
 msgid "Out Point"
 msgstr "Punto de salida"
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:621
 #, kde-format
 msgid "Terminate Job"
 msgstr "Terminar tarea"
@@ -30594,7 +30594,7 @@ msgstr "Salir de creación de máscara"
 msgid "Exit Preview Mode"
 msgstr "Salir de modo de previsualización"
 
-#: src/monitor/view/MonitorAutomask.qml:281
+#: src/monitor/view/MonitorAutomask.qml:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30606,22 +30606,22 @@ msgstr ""
 "iniciar una máscara, <shortcut>Mayús+clic</shortcut> para incluir una nueva "
 "zona, <shortcut>Ctrl+clic</shortcut> para excluir una zona."
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Seleccionar un objeto en la imagen primero"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating image mask"
 msgstr "Generando la máscara de la imagen"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating video mask"
 msgstr "Generando la máscara del video"
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -30632,12 +30632,12 @@ msgstr ""
 "Mayús+clic para incluir una nueva zona.\n"
 "Ctrl+clic para excluir una zona."
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Previsualizando máscara de video"
 
-#: src/monitor/view/MonitorAutomask.qml:405
+#: src/monitor/view/MonitorAutomask.qml:404
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -30650,17 +30650,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:415
+#: src/monitor/view/MonitorAutomask.qml:414
 #, kde-format
 msgid "Go to mask start"
 msgstr "Ir al inicio de la máscara"
 
-#: src/monitor/view/MonitorAutomask.qml:427
+#: src/monitor/view/MonitorAutomask.qml:426
 #, kde-format
 msgid "Go to mask end"
 msgstr "Ir al fin de la máscara"
 
-#: src/monitor/view/MonitorGeometryScene.qml:360
+#: src/monitor/view/MonitorGeometryScene.qml:359
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30674,7 +30674,7 @@ msgstr ""
 "centro, <b>Posar a la derecha</b> barra de herramientas, <b>Clic</b> sobre "
 "un centro para saltar a su clave"
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30684,7 +30684,7 @@ msgstr ""
 "<shortcut>Clic</shortcut> agregar puntos, <shortcut>Clic derecho</shortcut> "
 "cerrar la forma."
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30698,13 +30698,13 @@ msgstr ""
 "sobre un punto para borrarlo, <b>Doble clic</b> sobre el fondo para crear un "
 "nuevo clave, <b>Posar a la derecha</b> barra de herramientas"
 
-#: src/monitor/view/MonitorRotoScene.qml:74
+#: src/monitor/view/MonitorRotoScene.qml:73
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Mayús+arrastrar</shortcut> escalar desde el centro"
 
-#: src/monitor/view/MonitorRotoScene.qml:433
+#: src/monitor/view/MonitorRotoScene.qml:432
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -30713,7 +30713,7 @@ msgstr ""
 "Clic para agregar puntos,\n"
 "clic derecho o presionar Intro para cerrar la forma."
 
-#: src/monitor/view/MonitorRuler.qml:246
+#: src/monitor/view/MonitorRuler.qml:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30727,7 +30727,7 @@ msgstr ""
 "shortcut> saltar hasta marcador, <shortcut>Inicio</shortcut> / "
 "<shortcut>Fin</shortcut> ir al primer / último fotograma"
 
-#: src/monitor/view/MonitorRuler.qml:318
+#: src/monitor/view/MonitorRuler.qml:319
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30738,7 +30738,7 @@ msgstr ""
 "<shortcut>Mayús+arrastrar</shortcut> previsualizar mientras se ajusta el "
 "punto"
 
-#: src/monitor/view/MonitorRuler.qml:367
+#: src/monitor/view/MonitorRuler.qml:368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30755,7 +30755,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Restablecer ampliación"
 
-#: src/monitor/view/ProjectMonitor.qml:103
+#: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -30765,7 +30765,7 @@ msgstr ""
 "<b>Posar a la derecha</b> para barra de herramientas, <b>Rueda</b> o "
 "<b>flechas</b> para recorrer, <b>Ctrl+rueda</b> para ampliar"
 
-#: src/monitor/view/ProjectMonitor.qml:303
+#: src/monitor/view/ProjectMonitor.qml:302
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
@@ -32300,7 +32300,7 @@ msgstr "Abrir archivo de respaldo…"
 msgid "Save changes to document?"
 msgstr "¿Guardar cambios al proyecto?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1844
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1843
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32378,12 +32378,12 @@ msgstr ""
 "%1,\n"
 "¿Abrir un archivo de respaldo?"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1168
 #, kde-format
 msgid "Error opening file"
 msgstr "Error al abrir el archivo"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1170
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
 #, kde-format
 msgid "Open Backup"
 msgstr "Abrir respaldo"
@@ -32418,7 +32418,7 @@ msgstr "Cargando línea de tiempo…"
 msgid "Building sequences…"
 msgstr "Construyendo secuencias…"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -32427,7 +32427,7 @@ msgstr ""
 "No es posible abrir el archivo de proyecto. Error:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -32436,12 +32436,12 @@ msgstr ""
 "Esto borrará todos los cambios hechos desde que el proyecto fue guardado. "
 "¿Seguro que desea continuar?"
 
-#: src/project/projectmanager.cpp:1237
+#: src/project/projectmanager.cpp:1236
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Volver a última versión guardada"
 
-#: src/project/projectmanager.cpp:1336
+#: src/project/projectmanager.cpp:1335
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -32450,25 +32450,25 @@ msgstr ""
 "El proyecto se encuentra corrupto, no es posible respaldarlo. Por favor "
 "cerrarlo y volver a abrirlo para recuperar el último respaldo"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1556
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Error al mover la carpeta de trabajo, no es posible acceder a la carpeta de "
 "cachés"
 
-#: src/project/projectmanager.cpp:1593
+#: src/project/projectmanager.cpp:1592
 #, kde-format
 msgid "Moving project folder"
 msgstr "Moviendo la carpeta de trabajo"
 
-#: src/project/projectmanager.cpp:1684 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1744
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1739
+#: src/project/projectmanager.cpp:1743
 #, kde-format
 msgid "Sequence 1"
 msgstr "Secuencia 1"
 
-#: src/project/projectmanager.cpp:1695
+#: src/project/projectmanager.cpp:1694
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -32476,13 +32476,13 @@ msgstr ""
 "Archivo de proyecto corrupto - no fue posible cargar las pistas. ¿Intentar "
 "encontrar un archivo de respaldo?"
 
-#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1849
-#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1882
+#: src/project/projectmanager.cpp:1835 src/project/projectmanager.cpp:1848
+#: src/project/projectmanager.cpp:1872 src/project/projectmanager.cpp:1881
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Cambio del perfil del proyecto cancelado"
 
-#: src/project/projectmanager.cpp:2012
+#: src/project/projectmanager.cpp:2011
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -32491,12 +32491,12 @@ msgstr ""
 "El archivo de salida %1 ya existe.\n"
 "¿Sobrescribirlo?"
 
-#: src/project/projectmanager.cpp:2037
+#: src/project/projectmanager.cpp:2036
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil del proyecto cambiado"
 
-#: src/project/projectmanager.cpp:2101
+#: src/project/projectmanager.cpp:2100
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -32505,34 +32505,34 @@ msgstr ""
 "No es posible crear una línea de tiempo a partir de este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2190
+#: src/project/projectmanager.cpp:2189
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importando un clip de secuencia; esto se encuentra actualmente en estado "
 "experimental"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2475
+#: src/project/projectmanager.cpp:2422 src/project/projectmanager.cpp:2474
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccionar un clip para crear una secuencia"
 
-#: src/project/projectmanager.cpp:2433 src/project/projectmanager.cpp:2484
+#: src/project/projectmanager.cpp:2432 src/project/projectmanager.cpp:2483
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Error al crear secuencia"
 
-#: src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2459
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "No es posible insertar la secuencia en la línea de tiempo actual"
 
-#: src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2463
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crear secuencia"
 
-#: src/project/projectmanager.cpp:2502
+#: src/project/projectmanager.cpp:2501
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "Copiar clips a nueva secuencia"
@@ -34428,15 +34428,15 @@ msgid "Change clip speed"
 msgstr "Cambiar velocidad del clip"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Lock track"
 msgstr "Bloquear pista"
 
 #: src/timeline2/model/timelinemodel.cpp:7763
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Unlock track"
 msgstr "Desbloquear pista"
@@ -34636,7 +34636,7 @@ msgid "Stop"
 msgstr "Detener"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2322
+#: src/timeline2/view/qml/Timeline.qml:2319
 #, kde-format
 msgid "Paused"
 msgstr "Pausado"
@@ -34739,13 +34739,13 @@ msgstr "Fundido entrante: %1"
 msgid "Slip Clip"
 msgstr "Desplazar clip"
 
-#: src/timeline2/view/qml/Composition.qml:255
+#: src/timeline2/view/qml/Composition.qml:258
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Posición: %2, Duración: %3"
 
-#: src/timeline2/view/qml/Composition.qml:326
-#: src/timeline2/view/qml/Composition.qml:394
+#: src/timeline2/view/qml/Composition.qml:329
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:361
 #: src/timeline2/view/qml/SubTitle.qml:468
 #, kde-format
@@ -34775,74 +34775,74 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Doble clic</b> para editar texto"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:94
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:101
 #, kde-format
 msgid "Click to see details"
 msgstr "Clic para ver más detalles"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:108
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
 #, kde-format
 msgid "Speech recognition"
 msgstr "Reconocimiento de voz"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Show"
 msgstr "Mostrar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Ocultar"
 
-#: src/timeline2/view/qml/Timeline.qml:912
-#: src/timeline2/view/qml/Timeline.qml:922
+#: src/timeline2/view/qml/Timeline.qml:907
+#: src/timeline2/view/qml/Timeline.qml:917
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Audio: %1 pista para %2 fuente"
 msgstr[1] "Audio: %1 pistas para %2 fuentes"
 
-#: src/timeline2/view/qml/Timeline.qml:1199
+#: src/timeline2/view/qml/Timeline.qml:1194
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Mostrar efectos globales de la secuencia"
 
-#: src/timeline2/view/qml/Timeline.qml:1947
+#: src/timeline2/view/qml/Timeline.qml:1944
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> para agregar un subtítulo"
 
-#: src/timeline2/view/qml/Timeline.qml:2141
+#: src/timeline2/view/qml/Timeline.qml:2138
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplazamiento: %1, Posición: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2311
-#: src/timeline2/view/qml/Timeline.qml:2320
+#: src/timeline2/view/qml/Timeline.qml:2308
+#: src/timeline2/view/qml/Timeline.qml:2317
 #, kde-format
 msgid "Recording"
 msgstr "Grabando"
 
-#: src/timeline2/view/qml/Timeline.qml:2414
+#: src/timeline2/view/qml/Timeline.qml:2411
 #, kde-format
 msgid "Multicam In"
 msgstr "Inicio multicámara"
 
-#: src/timeline2/view/qml/Track.qml:275 src/timeline2/view/qml/Track.qml:293
+#: src/timeline2/view/qml/Track.qml:278 src/timeline2/view/qml/Track.qml:296
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Duración = %3"
 
-#: src/timeline2/view/qml/Track.qml:331
+#: src/timeline2/view/qml/Track.qml:334
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1 % | Ajustando velocidad"
 
-#: src/timeline2/view/qml/TrackHead.qml:173
+#: src/timeline2/view/qml/TrackHead.qml:175
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -34851,7 +34851,7 @@ msgstr ""
 "Hacer clic para alternar esta pista como destino. Las pistas de destino "
 "recibirán los medios a ser insertados"
 
-#: src/timeline2/view/qml/TrackHead.qml:250
+#: src/timeline2/view/qml/TrackHead.qml:252
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -34859,17 +34859,17 @@ msgstr ""
 "<b>Mayús</b> para colapsar/expandir todas las pistas del mismo tipo (audio/"
 "video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Minimize"
 msgstr "Minimizar"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Expand"
 msgstr "Expandir"
 
-#: src/timeline2/view/qml/TrackHead.qml:292
+#: src/timeline2/view/qml/TrackHead.qml:294
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -34878,29 +34878,29 @@ msgstr ""
 "Hacer clic para activar o desactivar la pista. Las pistas activas "
 "reaccionarán a las operaciones de edición"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Disable track effects"
 msgstr "Deshabilitar efectos de pista"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Enable track effects"
 msgstr "Habilitar efectos de pista"
 
-#: src/timeline2/view/qml/TrackHead.qml:380
+#: src/timeline2/view/qml/TrackHead.qml:382
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Alternar efectos de pista"
 
-#: src/timeline2/view/qml/TrackHead.qml:402
+#: src/timeline2/view/qml/TrackHead.qml:404
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Mayús</b> para mostrar/ocultar todas las pistas del mismo tipo (audio/"
 "video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:501
+#: src/timeline2/view/qml/TrackHead.qml:503
 #, kde-format
 msgid "Edit track name"
 msgstr "Nombre de pista"
@@ -35258,12 +35258,12 @@ msgstr "Administrar"
 msgid "No range guide found at position"
 msgstr "No se encontró un marcador de rango en la posición actual"
 
-#: src/timeline2/view/timelinetabs.cpp:50
+#: src/timeline2/view/timelinetabs.cpp:59
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "Crear secuencia…"
 
-#: src/timeline2/view/timelinetabs.cpp:52
+#: src/timeline2/view/timelinetabs.cpp:61
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -35272,7 +35272,7 @@ msgstr ""
 "Crear secuencia. Esto creará una nueva secuencia en la línea de tiempo. Cada "
 "línea de tiempo se corresponderá con un medio de secuencia en el panel Medios"
 
-#: src/timeline2/view/timelinetabs.cpp:174
+#: src/timeline2/view/timelinetabs.cpp:183
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -35283,44 +35283,44 @@ msgstr ""
 ">¿Redimensionar todas sus instancias en otras secuencias?<br>No hacerlo "
 "mantendrá temporalmente la duración actual en todas las demás secuencias."
 
-#: src/timeline2/view/timelinetabs.cpp:177
+#: src/timeline2/view/timelinetabs.cpp:186
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Redimensionar"
 
-#: src/timeline2/view/timelinetabs.cpp:178
+#: src/timeline2/view/timelinetabs.cpp:187
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "No redimensionar"
 
-#: src/timeline2/view/timelinetabs.cpp:261
+#: src/timeline2/view/timelinetabs.cpp:270
 #, kde-format
 msgid "Close %1"
 msgstr "Cerrar %1"
 
-#: src/timeline2/view/timelinetabs.cpp:383
+#: src/timeline2/view/timelinetabs.cpp:392
 #, kde-format
 msgid "Align to Reference"
 msgstr "Alinear clip a referencia"
 
-#: src/timeline2/view/timelinetabs.cpp:461
+#: src/timeline2/view/timelinetabs.cpp:470
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Cambiar nombre a secuencia"
 
-#: src/timeline2/view/timelinewidget.cpp:54
+#: src/timeline2/view/timelinewidget.cpp:52
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Agregar efecto"
 
-#: src/timeline2/view/timelinewidget.cpp:55
+#: src/timeline2/view/timelinewidget.cpp:53
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Agregar método de composición"
 
-#: src/timeline2/view/timelinewidget.cpp:312
+#: src/timeline2/view/timelinewidget.cpp:308
 #, kde-format
 msgid "No available stream"
 msgstr "No hay fuentes disponibles"

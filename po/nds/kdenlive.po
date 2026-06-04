@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-03 00:57+0000\n"
+"POT-Creation-Date: 2026-06-04 00:43+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -7779,7 +7779,7 @@ msgstr ""
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:112 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr ""
@@ -7802,7 +7802,7 @@ msgid "Fade video to black"
 msgstr ""
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:146
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
 #, kde-format
 msgid "Out"
 msgstr ""
@@ -16121,7 +16121,7 @@ msgid "Process audio using a SoX effect"
 msgstr ""
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:102
+#: src/monitor/view/MonitorSplit.qml:101
 #, kde-format
 msgid "Effect"
 msgstr "Effekt"
@@ -19302,12 +19302,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -19822,7 +19822,7 @@ msgstr "Vöransichten warrt laadt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2809 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1705 src/project/projectmanager.cpp:1707
+#: src/project/projectmanager.cpp:1704 src/project/projectmanager.cpp:1706
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
@@ -20785,13 +20785,13 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Profil wegmaken"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Unmute"
 msgstr "Projektinstellen"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Mute"
@@ -21829,7 +21829,7 @@ msgstr " Biller"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2018 src/project/projectmanager.cpp:2024
+#: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21929,7 +21929,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1907
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
@@ -25404,8 +25404,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1579
-#: src/project/projectmanager.cpp:1615
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1614
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
@@ -26550,7 +26550,7 @@ msgid "Clip in Timeline"
 msgstr "Linkerhand utrichten"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1205
+#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1200
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Sequence"
@@ -30435,27 +30435,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Klangkanaals"
 
-#: src/monitor/view/ClipMonitor.qml:370 src/monitor/view/ProjectMonitor.qml:199
+#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
 #, kde-format
 msgid "%1fps"
 msgstr ""
 
-#: src/monitor/view/ClipMonitor.qml:409 src/monitor/view/ProjectMonitor.qml:232
+#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
 #, kde-format
 msgid "In Point"
 msgstr ""
 
-#: src/monitor/view/ClipMonitor.qml:409
+#: src/monitor/view/ClipMonitor.qml:408
 #, kde-format
 msgid "In/Out Point"
 msgstr ""
 
-#: src/monitor/view/ClipMonitor.qml:432 src/monitor/view/ProjectMonitor.qml:249
+#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
 #, kde-format
 msgid "Out Point"
 msgstr ""
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:621
 #, kde-format
 msgid "Terminate Job"
 msgstr ""
@@ -30541,7 +30541,7 @@ msgstr ""
 msgid "Exit Preview Mode"
 msgstr "Bildfolg importeren"
 
-#: src/monitor/view/MonitorAutomask.qml:281
+#: src/monitor/view/MonitorAutomask.qml:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30550,22 +30550,22 @@ msgid ""
 "<shortcut>Ctrl+click</shortcut> to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Select an object in the image first"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -30573,13 +30573,13 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, fuzzy, kde-format
 #| msgid "Proxy"
 msgid "Previewing video mask"
 msgstr "Proxy"
 
-#: src/monitor/view/MonitorAutomask.qml:405
+#: src/monitor/view/MonitorAutomask.qml:404
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -30588,17 +30588,17 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:415
+#: src/monitor/view/MonitorAutomask.qml:414
 #, kde-format
 msgid "Go to mask start"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:427
+#: src/monitor/view/MonitorAutomask.qml:426
 #, kde-format
 msgid "Go to mask end"
 msgstr ""
 
-#: src/monitor/view/MonitorGeometryScene.qml:360
+#: src/monitor/view/MonitorGeometryScene.qml:359
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30608,7 +30608,7 @@ msgid ""
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30616,7 +30616,7 @@ msgid ""
 "to close shape."
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30626,20 +30626,20 @@ msgid ""
 "to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:74
+#: src/monitor/view/MonitorRotoScene.qml:73
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 
-#: src/monitor/view/MonitorRotoScene.qml:433
+#: src/monitor/view/MonitorRotoScene.qml:432
 #, kde-format
 msgid ""
 "Click to add points,\n"
 "right click or press enter to close shape."
 msgstr ""
 
-#: src/monitor/view/MonitorRuler.qml:246
+#: src/monitor/view/MonitorRuler.qml:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30649,7 +30649,7 @@ msgid ""
 "to first / last frame"
 msgstr ""
 
-#: src/monitor/view/MonitorRuler.qml:318
+#: src/monitor/view/MonitorRuler.qml:319
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30657,7 +30657,7 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 
-#: src/monitor/view/MonitorRuler.qml:367
+#: src/monitor/view/MonitorRuler.qml:368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30672,14 +30672,14 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Koppel"
 
-#: src/monitor/view/ProjectMonitor.qml:103
+#: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/ProjectMonitor.qml:303
+#: src/monitor/view/ProjectMonitor.qml:302
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@tooltip Transform, a tool to resize"
@@ -32233,7 +32233,7 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1844
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1843
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -32305,12 +32305,12 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1168
 #, kde-format
 msgid "Error opening file"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1170
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
 #, kde-format
 msgid "Open Backup"
 msgstr ""
@@ -32344,7 +32344,7 @@ msgstr "Projekt warrt laadt"
 msgid "Building sequences…"
 msgstr "Bildfolg importeren"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid ""
@@ -32352,70 +32352,70 @@ msgid ""
 "%1\n"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1237
+#: src/project/projectmanager.cpp:1236
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1336
+#: src/project/projectmanager.cpp:1335
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1556
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/project/projectmanager.cpp:1593
+#: src/project/projectmanager.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Project Tree"
 msgid "Moving project folder"
 msgstr "Projektboom"
 
-#: src/project/projectmanager.cpp:1684 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1744
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1739
+#: src/project/projectmanager.cpp:1743
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Sequence 1"
 msgstr "Bildfolg importeren"
 
-#: src/project/projectmanager.cpp:1695
+#: src/project/projectmanager.cpp:1694
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1849
-#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1882
+#: src/project/projectmanager.cpp:1835 src/project/projectmanager.cpp:1848
+#: src/project/projectmanager.cpp:1872 src/project/projectmanager.cpp:1881
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2012
+#: src/project/projectmanager.cpp:2011
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2037
+#: src/project/projectmanager.cpp:2036
 #, fuzzy, kde-format
 #| msgid "Project Tree"
 msgid "Project profile changed"
 msgstr "Projektboom"
 
-#: src/project/projectmanager.cpp:2101
+#: src/project/projectmanager.cpp:2100
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid ""
@@ -32423,36 +32423,36 @@ msgid ""
 "%1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/project/projectmanager.cpp:2190
+#: src/project/projectmanager.cpp:2189
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2475
+#: src/project/projectmanager.cpp:2422 src/project/projectmanager.cpp:2474
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to create sequence"
 msgstr "Utsöök-Warktüüch"
 
-#: src/project/projectmanager.cpp:2433 src/project/projectmanager.cpp:2484
+#: src/project/projectmanager.cpp:2432 src/project/projectmanager.cpp:2483
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Sequence creation failed"
 msgstr "Utsöök-Warktüüch"
 
-#: src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2459
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Linkerhand utrichten"
 
-#: src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2463
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Create Sequence Clip"
 msgstr "Bildfolg importeren"
 
-#: src/project/projectmanager.cpp:2502
+#: src/project/projectmanager.cpp:2501
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Copy clips to new Sequence"
@@ -34358,16 +34358,16 @@ msgid "Change clip speed"
 msgstr "Füllklöör"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Lock track"
 msgstr " Biller"
 
 #: src/timeline2/model/timelinemodel.cpp:7763
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Unlock track"
@@ -34567,7 +34567,7 @@ msgid "Stop"
 msgstr "Anhollen"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2322
+#: src/timeline2/view/qml/Timeline.qml:2319
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -34680,14 +34680,14 @@ msgstr "Utblennen"
 msgid "Slip Clip"
 msgstr "Baven utrichten"
 
-#: src/timeline2/view/qml/Composition.qml:255
+#: src/timeline2/view/qml/Composition.qml:258
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "%1, Position: %2, Duration: %3"
 msgstr "Positschoon"
 
-#: src/timeline2/view/qml/Composition.qml:326
-#: src/timeline2/view/qml/Composition.qml:394
+#: src/timeline2/view/qml/Composition.qml:329
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:361
 #: src/timeline2/view/qml/SubTitle.qml:468
 #, kde-format
@@ -34713,33 +34713,33 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:94
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:101
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:108
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Speech recognition"
 msgstr "Utsöök-Warktüüch"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, fuzzy, kde-format
 #| msgid "Show histogram"
 msgid "Show"
 msgstr "Histogramm wiesen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:912
-#: src/timeline2/view/qml/Timeline.qml:922
+#: src/timeline2/view/qml/Timeline.qml:907
+#: src/timeline2/view/qml/Timeline.qml:917
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Audio: %1 track for %2 streams"
@@ -34747,102 +34747,102 @@ msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Klangkanaals"
 msgstr[1] "Klangkanaals"
 
-#: src/timeline2/view/qml/Timeline.qml:1199
+#: src/timeline2/view/qml/Timeline.qml:1194
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Show sequence effects"
 msgstr "Profil sekern"
 
-#: src/timeline2/view/qml/Timeline.qml:1947
+#: src/timeline2/view/qml/Timeline.qml:1944
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Positschoon"
 
-#: src/timeline2/view/qml/Timeline.qml:2141
+#: src/timeline2/view/qml/Timeline.qml:2138
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Offset: %1, Position: %2"
 msgstr "Positschoon"
 
-#: src/timeline2/view/qml/Timeline.qml:2311
-#: src/timeline2/view/qml/Timeline.qml:2320
+#: src/timeline2/view/qml/Timeline.qml:2308
+#: src/timeline2/view/qml/Timeline.qml:2317
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Opnehmen"
 
-#: src/timeline2/view/qml/Timeline.qml:2414
+#: src/timeline2/view/qml/Timeline.qml:2411
 #, kde-format
 msgid "Multicam In"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:275 src/timeline2/view/qml/Track.qml:293
+#: src/timeline2/view/qml/Track.qml:278 src/timeline2/view/qml/Track.qml:296
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:331
+#: src/timeline2/view/qml/Track.qml:334
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "%1% | Adjusting speed"
 msgstr "Profil bewerken"
 
-#: src/timeline2/view/qml/TrackHead.qml:173
+#: src/timeline2/view/qml/TrackHead.qml:175
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:250
+#: src/timeline2/view/qml/TrackHead.qml:252
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Minimize"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Expand"
 msgstr "Utwiedern anmaken"
 
-#: src/timeline2/view/qml/TrackHead.qml:292
+#: src/timeline2/view/qml/TrackHead.qml:294
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable track effects"
 msgstr "Keen Effekt"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable track effects"
 msgstr "Utwiedern anmaken"
 
-#: src/timeline2/view/qml/TrackHead.qml:380
+#: src/timeline2/view/qml/TrackHead.qml:382
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Toggle track effects"
 msgstr "Keen Effekt"
 
-#: src/timeline2/view/qml/TrackHead.qml:402
+#: src/timeline2/view/qml/TrackHead.qml:404
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:501
+#: src/timeline2/view/qml/TrackHead.qml:503
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Edit track name"
@@ -35207,20 +35207,20 @@ msgstr "ahn Titel"
 msgid "No range guide found at position"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:50
+#: src/timeline2/view/timelinetabs.cpp:59
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Add Timeline Sequence"
 msgstr "Bildfolg importeren"
 
-#: src/timeline2/view/timelinetabs.cpp:52
+#: src/timeline2/view/timelinetabs.cpp:61
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:174
+#: src/timeline2/view/timelinetabs.cpp:183
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -35228,50 +35228,50 @@ msgid ""
 "in all other sequences."
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:177
+#: src/timeline2/view/timelinetabs.cpp:186
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Grött ännern"
 
-#: src/timeline2/view/timelinetabs.cpp:178
+#: src/timeline2/view/timelinetabs.cpp:187
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "Grött ännern"
 
-#: src/timeline2/view/timelinetabs.cpp:261
+#: src/timeline2/view/timelinetabs.cpp:270
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Close %1"
 msgstr "Lütter maken"
 
-#: src/timeline2/view/timelinetabs.cpp:383
+#: src/timeline2/view/timelinetabs.cpp:392
 #, kde-format
 msgid "Align to Reference"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:461
+#: src/timeline2/view/timelinetabs.cpp:470
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Rename Sequence"
 msgstr "Bildfolg importeren"
 
-#: src/timeline2/view/timelinewidget.cpp:54
+#: src/timeline2/view/timelinewidget.cpp:52
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Insert an effect..."
 msgstr "Keen Effekt"
 
-#: src/timeline2/view/timelinewidget.cpp:55
+#: src/timeline2/view/timelinewidget.cpp:53
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Insert a composition..."
 msgstr "Positschoon"
 
-#: src/timeline2/view/timelinewidget.cpp:312
+#: src/timeline2/view/timelinewidget.cpp:308
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"

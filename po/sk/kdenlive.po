@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-03 00:57+0000\n"
+"POT-Creation-Date: 2026-06-04 00:43+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -7776,7 +7776,7 @@ msgstr "Prelínať video z čiernej"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:112 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "Dnu"
@@ -7798,7 +7798,7 @@ msgid "Fade video to black"
 msgstr "Prelínať video do čiernej"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:146
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
 #, kde-format
 msgid "Out"
 msgstr "Von"
@@ -16228,7 +16228,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Problém pri upravovaní efektu"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:102
+#: src/monitor/view/MonitorSplit.qml:101
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
@@ -19234,12 +19234,12 @@ msgstr ""
 "Dvakrát kliknite, presuňte súbory\n"
 "alebo kliknite na %1 pre import médií"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Nie je možné zvukový efekt do tohto klipu"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:559
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Potiahnutím pridáte iba video na časovú os"
@@ -19749,7 +19749,7 @@ msgstr "Zoznam skladieb"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2809 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1705 src/project/projectmanager.cpp:1707
+#: src/project/projectmanager.cpp:1704 src/project/projectmanager.cpp:1706
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20655,12 +20655,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Prehrať médiá"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Unmute"
 msgstr "Odmlčať"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:411
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Mute"
 msgstr "Stlmiť"
@@ -21662,7 +21662,7 @@ msgstr "Exportovať dáta značiek"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2018 src/project/projectmanager.cpp:2024
+#: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:421
 #: src/renderpresets/renderpresetrepository.cpp:477
@@ -21755,7 +21755,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1907
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
 #: src/renderpresets/renderpresetrepository.cpp:354
 #, kde-format
 msgid "Cannot read file %1"
@@ -25195,8 +25195,8 @@ msgstr ""
 "Váš súbor projektu bol inovovaný na najnovšiu verziu Kdenlive dokumentu, ale "
 "nebolo možné vytvoriť záložnú kópiu %1."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1579
-#: src/project/projectmanager.cpp:1615
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1614
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Chyba presunu priečinka projektu: %1"
@@ -26283,7 +26283,7 @@ msgid "Clip in Timeline"
 msgstr "Klip v časovej osi"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1205
+#: src/kdenliveui.rc:104 src/timeline2/view/qml/Timeline.qml:1200
 #, kde-format
 msgid "Sequence"
 msgstr "Sekvencia"
@@ -30001,27 +30001,27 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Kliknite na obnovenie zvukovej vlny"
 
-#: src/monitor/view/ClipMonitor.qml:370 src/monitor/view/ProjectMonitor.qml:199
+#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:409 src/monitor/view/ProjectMonitor.qml:232
+#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
 #, kde-format
 msgid "In Point"
 msgstr "V bode"
 
-#: src/monitor/view/ClipMonitor.qml:409
+#: src/monitor/view/ClipMonitor.qml:408
 #, kde-format
 msgid "In/Out Point"
 msgstr "Vstupný/výstupný bod"
 
-#: src/monitor/view/ClipMonitor.qml:432 src/monitor/view/ProjectMonitor.qml:249
+#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
 #, kde-format
 msgid "Out Point"
 msgstr "Mimo bodu"
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:621
 #, kde-format
 msgid "Terminate Job"
 msgstr "Ukončiť úlohu"
@@ -30095,7 +30095,7 @@ msgstr "Ukončiť vytváranie masky"
 msgid "Exit Preview Mode"
 msgstr "Ukončiť režim náhľadu"
 
-#: src/monitor/view/MonitorAutomask.qml:281
+#: src/monitor/view/MonitorAutomask.qml:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30107,22 +30107,22 @@ msgstr ""
 "mask, <shortcut>Shift+click</shortcut> to include another zone, "
 "<shortcut>Ctrl+click</shortcut> to exclude a zone."
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Najprv vyberte objekt na obrázku"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating image mask"
 msgstr "Vytváranie obrázkov menu"
 
-#: src/monitor/view/MonitorAutomask.qml:383
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Generating video mask"
 msgstr "Generating video mask"
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -30133,12 +30133,12 @@ msgstr ""
 "Shift+kliknutie na zahrnutie ďalšej zóny.\n"
 "Ctrl+kliknutie na vylúčenie zóny."
 
-#: src/monitor/view/MonitorAutomask.qml:394
+#: src/monitor/view/MonitorAutomask.qml:393
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Hlasitosť náhľadu:"
 
-#: src/monitor/view/MonitorAutomask.qml:405
+#: src/monitor/view/MonitorAutomask.qml:404
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -30151,17 +30151,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:415
+#: src/monitor/view/MonitorAutomask.qml:414
 #, kde-format
 msgid "Go to mask start"
 msgstr "Prejsť na začiatok masky"
 
-#: src/monitor/view/MonitorAutomask.qml:427
+#: src/monitor/view/MonitorAutomask.qml:426
 #, kde-format
 msgid "Go to mask end"
 msgstr "Prejsť na koniec masky"
 
-#: src/monitor/view/MonitorGeometryScene.qml:360
+#: src/monitor/view/MonitorGeometryScene.qml:359
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30174,38 +30174,38 @@ msgstr ""
 "shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for "
 "center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
+
+#: src/monitor/view/MonitorRotoScene.qml:71
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
+"to close shape."
+msgstr ""
+"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
+"to close shape."
 
 #: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
-"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
-"to close shape."
+"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
+"click</shortcut> on line segment to add new point, <shortcut>Double click</"
+"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
+"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 msgstr ""
-"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
-"to close shape."
+"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
+"click</shortcut> on line segment to add new point, <shortcut>Double click</"
+"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
+"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 
 #: src/monitor/view/MonitorRotoScene.qml:73
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
-"click</shortcut> on line segment to add new point, <shortcut>Double click</"
-"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
-"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
-msgstr ""
-"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
-"click</shortcut> on line segment to add new point, <shortcut>Double click</"
-"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
-"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
-
-#: src/monitor/view/MonitorRotoScene.qml:74
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift drag handle</shortcut> for center-based resize"
 
-#: src/monitor/view/MonitorRotoScene.qml:433
+#: src/monitor/view/MonitorRotoScene.qml:432
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -30214,7 +30214,7 @@ msgstr ""
 "Click to add points,\n"
 "right click or press enter to close shape."
 
-#: src/monitor/view/MonitorRuler.qml:246
+#: src/monitor/view/MonitorRuler.qml:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30228,7 +30228,7 @@ msgstr ""
 "seek to marker, <shortcut>Home</shortcut> / <shortcut>End</shortcut> to go "
 "to first / last frame"
 
-#: src/monitor/view/MonitorRuler.qml:318
+#: src/monitor/view/MonitorRuler.qml:319
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30238,7 +30238,7 @@ msgstr ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 
-#: src/monitor/view/MonitorRuler.qml:367
+#: src/monitor/view/MonitorRuler.qml:368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30254,7 +30254,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Vynulovať priblíženie"
 
-#: src/monitor/view/ProjectMonitor.qml:103
+#: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -30263,7 +30263,7 @@ msgstr ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 
-#: src/monitor/view/ProjectMonitor.qml:303
+#: src/monitor/view/ProjectMonitor.qml:302
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
@@ -31795,7 +31795,7 @@ msgstr "Otvoriť záložný súbor"
 msgid "Save changes to document?"
 msgstr "Uložiť zmeny do dokumentu?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1844
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1843
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31872,12 +31872,12 @@ msgstr ""
 "%1\n"
 "Chcete otvoriť záložný súbor?"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1168
 #, kde-format
 msgid "Error opening file"
 msgstr "Chyba pri otváraní súboru"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1170
+#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
 #, kde-format
 msgid "Open Backup"
 msgstr "Otvoriť zálohu"
@@ -31910,14 +31910,14 @@ msgstr "Načítava sa časová os…"
 msgid "Building sequences…"
 msgstr "Vytváranie sekvencií…"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
 msgstr "Nie je možné otvoriť súbor projektu %1\n"
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31926,12 +31926,12 @@ msgstr ""
 "Týmto sa vymaž[ všetky zmeny vykonané od posledného uloženia projektu. Ste "
 "si istí, že chcete pokračovať?"
 
-#: src/project/projectmanager.cpp:1237
+#: src/project/projectmanager.cpp:1236
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Vrátiť sa k poslednej uloženej verzii"
 
-#: src/project/projectmanager.cpp:1336
+#: src/project/projectmanager.cpp:1335
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31940,23 +31940,23 @@ msgstr ""
 "Projekt bol poškodený, nie je možné zálohovať. Zatvorte a znovu otvorte "
 "súbor projektu na obnovenie poslednej zálohy"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1556
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Error moving project folder, cannot access cache folder"
 
-#: src/project/projectmanager.cpp:1593
+#: src/project/projectmanager.cpp:1592
 #, kde-format
 msgid "Moving project folder"
 msgstr "Presúvam priečinok projektu"
 
-#: src/project/projectmanager.cpp:1684 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1744
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1739
+#: src/project/projectmanager.cpp:1743
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvencia 1"
 
-#: src/project/projectmanager.cpp:1695
+#: src/project/projectmanager.cpp:1694
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -31964,13 +31964,13 @@ msgstr ""
 "Súbor projektu je poškodený - nepodarilo sa načítať stopy. Pokúsiť sa nájsť "
 "záložný súbor?"
 
-#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1849
-#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1882
+#: src/project/projectmanager.cpp:1835 src/project/projectmanager.cpp:1848
+#: src/project/projectmanager.cpp:1872 src/project/projectmanager.cpp:1881
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Project profile change aborted"
 
-#: src/project/projectmanager.cpp:2012
+#: src/project/projectmanager.cpp:2011
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31979,12 +31979,12 @@ msgstr ""
 "Výstupný súbor %1 už existuje.\n"
 "Chcete ho prepísať?"
 
-#: src/project/projectmanager.cpp:2037
+#: src/project/projectmanager.cpp:2036
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil projektu zmenený"
 
-#: src/project/projectmanager.cpp:2101
+#: src/project/projectmanager.cpp:2100
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31993,33 +31993,33 @@ msgstr ""
 "Nie je možné vytvoriť časovú os z tohto klipu:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2190
+#: src/project/projectmanager.cpp:2189
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importuje sa klip sekvencie, toto je momentálne v experimentálnom stave"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2475
+#: src/project/projectmanager.cpp:2422 src/project/projectmanager.cpp:2474
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Vyberte klip na vytvorenie sekvencie"
 
-#: src/project/projectmanager.cpp:2433 src/project/projectmanager.cpp:2484
+#: src/project/projectmanager.cpp:2432 src/project/projectmanager.cpp:2483
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Vytvorenie sekvencie zlyhalo"
 
-#: src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2459
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Nie je možné vložiť sekvenciu do aktuálnej časovej osi"
 
-#: src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2463
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Vytvoriť klip sekvencie"
 
-#: src/project/projectmanager.cpp:2502
+#: src/project/projectmanager.cpp:2501
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "Kopírovať klipy do novej sekvencie"
@@ -33894,15 +33894,15 @@ msgid "Change clip speed"
 msgstr "Zmeniť rýchlosť klipu"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Lock track"
 msgstr "Zamknúť stopu"
 
 #: src/timeline2/model/timelinemodel.cpp:7763
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:133
-#: src/timeline2/view/qml/TrackHead.qml:426
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:140
+#: src/timeline2/view/qml/TrackHead.qml:428
 #, kde-format
 msgid "Unlock track"
 msgstr "Odomknúť stopu"
@@ -34103,7 +34103,7 @@ msgid "Stop"
 msgstr "Zastaviť"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2322
+#: src/timeline2/view/qml/Timeline.qml:2319
 #, kde-format
 msgid "Paused"
 msgstr "Pozastavené"
@@ -34204,13 +34204,13 @@ msgstr "Nájazd: %1"
 msgid "Slip Clip"
 msgstr "Kĺzajúci klip"
 
-#: src/timeline2/view/qml/Composition.qml:255
+#: src/timeline2/view/qml/Composition.qml:258
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Position: %2, Duration: %3"
 
-#: src/timeline2/view/qml/Composition.qml:326
-#: src/timeline2/view/qml/Composition.qml:394
+#: src/timeline2/view/qml/Composition.qml:329
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:361
 #: src/timeline2/view/qml/SubTitle.qml:468
 #, kde-format
@@ -34240,31 +34240,31 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Double click</b> to edit text"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:94
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:101
 #, kde-format
 msgid "Click to see details"
 msgstr "Kliknite pre zobrazenie podrobností"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:108
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
 #, kde-format
 msgid "Speech recognition"
 msgstr "Rozpoznávanie reči"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414
 #, kde-format
 msgid "Show"
 msgstr "Zobraziť"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:120
-#: src/timeline2/view/qml/TrackHead.qml:412 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:127
+#: src/timeline2/view/qml/TrackHead.qml:414 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/timeline2/view/qml/Timeline.qml:912
-#: src/timeline2/view/qml/Timeline.qml:922
+#: src/timeline2/view/qml/Timeline.qml:907
+#: src/timeline2/view/qml/Timeline.qml:917
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
@@ -34272,43 +34272,43 @@ msgstr[0] "Zvuk: %1 stopa pre %2 prúdov"
 msgstr[1] "Zvuk: %1 stopy pre %2 prúdov"
 msgstr[2] "Zvuk: %1 stôp pre %2 prúdov"
 
-#: src/timeline2/view/qml/Timeline.qml:1199
+#: src/timeline2/view/qml/Timeline.qml:1194
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Zobraziť všetky efekty"
 
-#: src/timeline2/view/qml/Timeline.qml:1947
+#: src/timeline2/view/qml/Timeline.qml:1944
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dvojkliknúť</b> pre pridanie titulku"
 
-#: src/timeline2/view/qml/Timeline.qml:2141
+#: src/timeline2/view/qml/Timeline.qml:2138
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Posun: %1, Pozícia: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2311
-#: src/timeline2/view/qml/Timeline.qml:2320
+#: src/timeline2/view/qml/Timeline.qml:2308
+#: src/timeline2/view/qml/Timeline.qml:2317
 #, kde-format
 msgid "Recording"
 msgstr "Nahrať"
 
-#: src/timeline2/view/qml/Timeline.qml:2414
+#: src/timeline2/view/qml/Timeline.qml:2411
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicam In"
 
-#: src/timeline2/view/qml/Track.qml:275 src/timeline2/view/qml/Track.qml:293
+#: src/timeline2/view/qml/Track.qml:278 src/timeline2/view/qml/Track.qml:296
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Duration = %3"
 
-#: src/timeline2/view/qml/Track.qml:331
+#: src/timeline2/view/qml/Track.qml:334
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1% | Adjusting speed"
 
-#: src/timeline2/view/qml/TrackHead.qml:173
+#: src/timeline2/view/qml/TrackHead.qml:175
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -34316,24 +34316,24 @@ msgid ""
 msgstr ""
 "Kliknite pre prepnutie stopy ako cieľa. Cieľové stopy prijmú vložené klipy"
 
-#: src/timeline2/view/qml/TrackHead.qml:250
+#: src/timeline2/view/qml/TrackHead.qml:252
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Minimize"
 msgstr "Minimalizovať"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:264
 #, kde-format
 msgid "Expand"
 msgstr "Expandovať"
 
-#: src/timeline2/view/qml/TrackHead.qml:292
+#: src/timeline2/view/qml/TrackHead.qml:294
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -34342,27 +34342,27 @@ msgstr ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Disable track effects"
 msgstr "Zakázať efekty stopy"
 
-#: src/timeline2/view/qml/TrackHead.qml:379
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Enable track effects"
 msgstr "Povoliť efekty stopy"
 
-#: src/timeline2/view/qml/TrackHead.qml:380
+#: src/timeline2/view/qml/TrackHead.qml:382
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Toggle track effects"
 
-#: src/timeline2/view/qml/TrackHead.qml:402
+#: src/timeline2/view/qml/TrackHead.qml:404
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:501
+#: src/timeline2/view/qml/TrackHead.qml:503
 #, kde-format
 msgid "Edit track name"
 msgstr "Upraviť názov skladby"
@@ -34704,12 +34704,12 @@ msgstr "Titulky"
 msgid "No range guide found at position"
 msgstr "Na pozícii nebolo nájdené žiadne rozsahové vodidlo"
 
-#: src/timeline2/view/timelinetabs.cpp:50
+#: src/timeline2/view/timelinetabs.cpp:59
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "Pridať sekvenciu časovej osi"
 
-#: src/timeline2/view/timelinetabs.cpp:52
+#: src/timeline2/view/timelinetabs.cpp:61
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -34718,7 +34718,7 @@ msgstr ""
 "Pridať sekvenciu časovej osi. Tým sa vytvorí nová časová os na úpravu. Každá "
 "časová os zodpovedá klipu sekvencie v zásobníku projektu"
 
-#: src/timeline2/view/timelinetabs.cpp:174
+#: src/timeline2/view/timelinetabs.cpp:183
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -34729,44 +34729,44 @@ msgstr ""
 "other timelines ?<br>Not resizing will temporarily keep the current duration "
 "in all other sequences."
 
-#: src/timeline2/view/timelinetabs.cpp:177
+#: src/timeline2/view/timelinetabs.cpp:186
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Zmeniť veľkosť"
 
-#: src/timeline2/view/timelinetabs.cpp:178
+#: src/timeline2/view/timelinetabs.cpp:187
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "Nezmeniť veľkosť"
 
-#: src/timeline2/view/timelinetabs.cpp:261
+#: src/timeline2/view/timelinetabs.cpp:270
 #, kde-format
 msgid "Close %1"
 msgstr "Zavrieť %1"
 
-#: src/timeline2/view/timelinetabs.cpp:383
+#: src/timeline2/view/timelinetabs.cpp:392
 #, kde-format
 msgid "Align to Reference"
 msgstr "Zarovnať podľa referencie"
 
-#: src/timeline2/view/timelinetabs.cpp:461
+#: src/timeline2/view/timelinetabs.cpp:470
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Premenovať sekvenciu"
 
-#: src/timeline2/view/timelinewidget.cpp:54
+#: src/timeline2/view/timelinewidget.cpp:52
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Vložiť efekt..."
 
-#: src/timeline2/view/timelinewidget.cpp:55
+#: src/timeline2/view/timelinewidget.cpp:53
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Vložiť kompozíciu..."
 
-#: src/timeline2/view/timelinewidget.cpp:312
+#: src/timeline2/view/timelinewidget.cpp:308
 #, kde-format
 msgid "No available stream"
 msgstr "Žiadny dostupný stream"
