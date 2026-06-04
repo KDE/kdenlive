@@ -276,6 +276,7 @@ private:
     QTimer m_droppedTimer;
     double m_displayedFps;
     int m_speedIndex;
+    int m_startPlaybackPos{0};
     QMetaObject::Connection m_switchConnection;
     QMetaObject::Connection m_captureConnection;
 

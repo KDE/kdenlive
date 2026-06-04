@@ -2002,9 +2002,20 @@ void Monitor::slotSwitchPlay()
     default:
         break;
     }
+    if (play) {
+        m_startPlaybackPos = position();
+    }
     if (!m_glMonitor->switchPlay(play)) {
         play = false;
         m_playAction->setActive(false);
+    }
+    if (!play && KdenliveSettings::rewindOnStop()) {
+        // Update proxy position immediately so the playhead moves before the
+        // async frame from MLT arrives. Without this, positionFromConsumer()
+        // in the !playing branch never emits positionChanged (it only fires
+        // seekFinished when m_position already equals the arrived frame pos).
+        m_glMonitor->getControllerProxy()->setCursorPosition(m_startPlaybackPos);
+        m_glMonitor->requestSeek(m_startPlaybackPos, true);
     }
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
@@ -2600,8 +2611,13 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
     if (m_id == Kdenlive::ProjectMonitor) {
         Q_EMIT pCore->updateMixerLevels(frame.get_position());
     }
-    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_playAction->isActive())) {
+    const bool wasPlaying = m_playAction->isActive();
+    if (!m_glMonitor->checkFrameNumber(frame.get_position(), wasPlaying)) {
         updatePlayAction(false);
+        if (wasPlaying && KdenliveSettings::rewindOnStop() && frame.get_position() >= m_glMonitor->duration() - 2) {
+            m_glMonitor->getControllerProxy()->setCursorPosition(m_startPlaybackPos);
+            m_glMonitor->requestSeek(m_startPlaybackPos, true);
+        }
     }
 }
 

@@ -454,6 +454,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="rewindOnStop" type="Bool">
+      <label>Return playhead to start position when stopping playback.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="seekonaddeffect" type="Bool">
       <label>Seek to clip when adding an effect.</label>
       <default>false</default>
