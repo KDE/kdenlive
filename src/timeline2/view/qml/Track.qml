@@ -17,7 +17,7 @@ Item {
     id: trackRoot
     required property K.TimelineController timeline
     required property K.TimelineItemModel controller
-    required property bool snapping
+    required property int snapping
     required property bool isDisabled
     required property bool isAudio
     required property bool isLocked
