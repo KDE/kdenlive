@@ -87,7 +87,12 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
 
     connect(ui->precisionSpin, &PrecisionSpinBox::valueChanged, this, [&, speed](double value) {
         QSignalBlocker bk(ui->speedSlider);
+        if (value == 0) {
+            // wait for more input
+            return;
+        }
         ui->speedSlider->setValue(int(qLn(value) * 12));
+        checkSpeed(value);
         if (m_durationDisplay) {
             QSignalBlocker bk2(m_durationDisplay);
             int dur = qRound(m_duration * std::fabs(speed / value));
@@ -114,9 +119,11 @@ void SpeedDialog::checkSpeed(double res)
     if (res < ui->precisionSpin->min() || res > ui->precisionSpin->max()) {
         ui->infoMessage->setText(res < ui->precisionSpin->min() ? i18n("Minimum speed is %1", ui->precisionSpin->min())
                                                                 : i18n("Maximum speed is %1", ui->precisionSpin->max()));
-        ui->infoMessage->setCloseButtonVisible(true);
+        ui->infoMessage->setCloseButtonVisible(false);
         ui->infoMessage->setMessageType(KMessageWidget::Warning);
         ui->infoMessage->animatedShow();
+    } else {
+        ui->infoMessage->hide();
     }
 }
 
