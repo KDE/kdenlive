@@ -385,9 +385,14 @@ std::shared_ptr<Mlt::Producer> SequenceClip::sequenceProducer(const QUuid &)
     return m_masterProducer;
 }
 
-int SequenceClip::getStartTimecode(int streamIndex)
+int SequenceClip::getStartTimecode(int /*streamIndex*/)
 {
     return pCore->currentDoc()->getSequenceProperty(m_sequenceUuid, "kdenlive:sequenceproperties.timecodeOffset").toInt();
+}
+
+bool SequenceClip::hasTimecode()
+{
+    return pCore->currentDoc()->hasSequenceProperty(m_sequenceUuid, "kdenlive:sequenceproperties.timecodeOffset");
 }
 
 const QString SequenceClip::hash(bool /*createIfEmpty*/)

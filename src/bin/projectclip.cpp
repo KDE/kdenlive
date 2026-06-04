@@ -859,11 +859,27 @@ void ProjectClip::createDisabledMasterProducer()
     }
 }
 
+bool ProjectClip::hasTimecode()
+{
+    bool isAVClip = m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio;
+    if (!m_masterProducer || !isAVClip) {
+        return false;
+    }
+    if (m_recStartCodePerStream.isEmpty()) {
+        int vIndex = qMax(0, getProducerIntProperty(QStringLiteral("video_index")));
+        m_recStartCodePerStream.insert(vIndex, getStartTimecode(vIndex));
+    }
+    return m_recStartCodePerStream.values().first() > 0;
+}
+
 int ProjectClip::getStartTimecode(int streamIndex)
 {
     bool isAVClip = m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio;
     if (!m_masterProducer || !isAVClip) {
         return 0;
+    }
+    if (m_recStartCodePerStream.contains(streamIndex)) {
+        return m_recStartCodePerStream.value(streamIndex);
     }
 
     QString cacheKey = streamIndex > 0 ? QStringLiteral("kdenlive:record_start_frame_%1").arg(streamIndex) : QStringLiteral("kdenlive:record_start_frame");
@@ -871,13 +887,15 @@ int ProjectClip::getStartTimecode(int streamIndex)
     int recTime = m_masterProducer->get_int(cacheKey.toUtf8().constData());
     if (recTime > 0) {
         // the value was cached, just use it
+        m_recStartCodePerStream.insert(streamIndex, recTime);
         return recTime;
     }
-
+    qDebug() << ":::: FETCHING CLIP TIMECODE FOR: " << m_binId;
     recTime = getStartTCFromProperties(streamIndex);
 
     // cache the value in a kdenlive property
     m_masterProducer->set(cacheKey.toUtf8().constData(), recTime);
+    m_recStartCodePerStream.insert(streamIndex, recTime);
 
     return recTime;
 }
@@ -889,7 +907,7 @@ int ProjectClip::getStartTCFromProperties(int streamIndex)
         return timecode_ms;
     }
 
-    int sIndex = streamIndex >= 0 ? streamIndex : 0;
+    int sIndex = qMax(0, streamIndex);
 
     // Check for a "time_reference" in the metadata, which is the timecode
     // counted in audio samples. Convert that to milliseconds.
@@ -897,7 +915,7 @@ int ProjectClip::getStartTCFromProperties(int streamIndex)
     int64_t audio_samples = m_masterProducer->get_int64("meta.attr.time_reference.markup");
 
     if (audio_samples > 0) {
-        QString sampleRateKey = QStringLiteral("meta.media.%1.codec.sample_rate").arg(sIndex);
+        const QString sampleRateKey = QStringLiteral("meta.media.%1.codec.sample_rate").arg(sIndex);
         int64_t sample_rate = m_masterProducer->get_int64(sampleRateKey.toUtf8().constData());
 
         if (audio_samples > 0) {
@@ -905,17 +923,15 @@ int ProjectClip::getStartTCFromProperties(int streamIndex)
         }
     }
 
-    QString timecode;
-
-    QString streamKey = QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(sIndex);
-    timecode = m_masterProducer->get(streamKey.toUtf8().constData());
+    const QString streamKey = QStringLiteral("meta.attr.%1.stream.timecode.markup").arg(sIndex);
+    QString timecode = m_masterProducer->get(streamKey.toUtf8().constData());
 
     if (timecode.isEmpty()) {
         timecode = m_masterProducer->get("meta.attr.timecode.markup");
     }
 
     if (timecode.isEmpty()) {
-        QString codecKey = QStringLiteral("meta.media.%1.codec.timecode").arg(sIndex);
+        const QString codecKey = QStringLiteral("meta.media.%1.codec.timecode").arg(sIndex);
         timecode = m_masterProducer->get(codecKey.toUtf8().constData());
     }
 

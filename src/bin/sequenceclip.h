@@ -85,6 +85,7 @@ public:
     std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
     int getStartTimecode(int streamIndex = -1) override;
+    bool hasTimecode() override;
     const QString hash(bool createIfEmpty = true) override;
     /** @brief Returns true if the audio has not changed since last generation of audio waveform. */
     bool audioSynced() const override;

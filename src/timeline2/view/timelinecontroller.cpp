@@ -3584,17 +3584,17 @@ void TimelineController::insertAtTimecode(const QString &binId)
         return;
     }
 
-    int trackId = m_activeTrack;
-    if (trackId == -1 || m_model->isAudioTrack(trackId)) {
-        trackId = videoTarget();
-    }
+    int trackId = videoTarget();
     if (trackId == -1) {
-        pCore->displayMessage(i18n("Please select a target video track"), ErrorMessage);
+        pCore->displayMessage(i18n("Please select a target track"), ErrorMessage);
         return;
     }
 
     int newClipId = -1;
-    m_model->requestClipInsertion(binId, trackId, startFrame, newClipId, true, true, false);
+    if (!m_model->requestClipInsertion(binId, trackId, startFrame, newClipId, true, true, true)) {
+        pCore->displayMessage(i18n("Failed to insert clip at %1 on track %2", simplifiedTC(startFrame), getTrackNameFromIndex(trackId)), ErrorMessage);
+        return;
+    }
     Q_EMIT seeked(startFrame);
 }
 

@@ -300,9 +300,6 @@ public:
     void rebuildMenu();
     void refreshIcons();
 
-    /** @brief Check if a clip has metadata Timecode */
-    bool hasTimecode();
-
     /** @brief This function change the global enabled state of the bin effects
      */
     void setBinEffectsEnabled(bool enabled, bool refreshMonitor = true);

@@ -285,6 +285,8 @@ public:
      * @return timecode in frames.
      */
     virtual int getStartTimecode(int streamIndex = -1);
+    /** @brief Check if a clip has metadata Timecode */
+    virtual bool hasTimecode();
     /** @brief Return maximum audio level for a stream. */
     int16_t getAudioMax(int streamIdx) const;
     /** @brief A timeline clip was modified, reload its other timeline instances. */
@@ -435,6 +437,7 @@ private:
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
     QTimer m_boundaryTimer;
+    QMap<int, int> m_recStartCodePerStream;
 
     // A temporary uuid used to reset thumbnails on producer change
     QUuid m_uuid;

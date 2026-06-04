@@ -2262,17 +2262,6 @@ void Bin::slotInsertAtTimecode()
     pCore->projectManager()->insertAtTimecode(clip->binId());
 }
 
-bool Bin::hasTimecode()
-{
-    std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
-    if (!clip) {
-        return false;
-    }
-
-    int vIndex = qMax(0, clip->getProducerIntProperty(QStringLiteral("video_index")));
-    return clip->getStartTimecode(vIndex) >= 0;
-}
-
 void Bin::slotReplaceClipInTimeline()
 {
     // Check if we have 2 selected clips
@@ -3105,6 +3094,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 if (clip->hasUrl()) {
                     isImported = true;
                 }
+                m_insertAtTimecodeAction->setEnabled(clip->hasTimecode());
             } else if (clip && clip->clipStatus() == FileStatus::StatusMissing) {
                 m_openAction->setEnabled(false);
             } else {
@@ -3131,7 +3121,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_proxyAction->setEnabled(m_doc->useProxy() && !isFolder);
             m_reloadAction->setEnabled(isClip && type != ClipType::Timeline);
             m_reloadAction->setVisible(!isFolder);
-            m_insertAtTimecodeAction->setEnabled(hasTimecode());
             m_insertAtTimecodeAction->setVisible(!isFolder);
             m_replaceAction->setEnabled(isClip);
             m_replaceAction->setVisible(!isFolder);
