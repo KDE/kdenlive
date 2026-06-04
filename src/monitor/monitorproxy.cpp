@@ -164,6 +164,15 @@ void MonitorProxy::setShowSafezone(bool display)
     Q_EMIT showSafezoneChanged();
 }
 
+void MonitorProxy::updatePosition(int pos)
+{
+    if (m_position == pos) {
+        return;
+    }
+    m_position = pos;
+    Q_EMIT positionChanged(pos);
+}
+
 bool MonitorProxy::setPosition(int pos)
 {
     return setPositionAdvanced(pos, false);

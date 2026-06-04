@@ -1782,11 +1782,11 @@ void ProjectManager::updateSequenceDuration(const QUuid &uuid)
     if (mainClip && model) {
         QMap<QString, QString> properties;
         std::pair<int, int> durations = model->durations();
-        int newDuration = durations.second > 0 ? durations.second : durations.first;
+        int newDuration = durations.second > 0 ? durations.second : durations.first + 1;
         properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(newDuration)));
         properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
         properties.insert(QStringLiteral("length"), QString::number(newDuration));
-        properties.insert(QStringLiteral("out"), QString::number(newDuration));
+        properties.insert(QStringLiteral("out"), QString::number(newDuration - 1));
         mainClip->setProperties(properties, true);
     } else {
         qDebug() << ":::: MAIN CLIP PRODUCER NOT FOUND!!!";
@@ -2136,7 +2136,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
             m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
         }
         std::pair<int, int> durations = timelineModel->durations();
-        int duration = durations.second > 0 ? durations.second : durations.first;
+        int duration = durations.second > 0 ? durations.second : durations.first + 1;
         prod->set("kdenlive:duration", prod->frames_to_time(duration));
         prod->set("kdenlive:maxduration", durations.first);
         prod->set("length", duration);
@@ -2202,7 +2202,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         }
         qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timelineModel->tractor()->count() << "\nZZZZZZZZZZZZ";
         std::pair<int, int> durations = timelineModel->durations();
-        int duration = durations.second > 0 ? durations.second : durations.first;
+        int duration = durations.second > 0 ? durations.second : durations.first + 1;
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
         prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
         prod->set("kdenlive:maxduration", durations.first);
@@ -2283,7 +2283,7 @@ bool ProjectManager::buildTimeline(const QString &binId, const QUuid &uuid)
         return false;
     }
     std::pair<int, int> durations = timelineModel->durations();
-    int duration = durations.second > 0 ? durations.second : durations.first;
+    int duration = durations.second > 0 ? durations.second : durations.first + 1;
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
     prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
     prod->set("kdenlive:maxduration", durations.first);

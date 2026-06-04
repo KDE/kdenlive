@@ -420,13 +420,13 @@ bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
         }
         return true;
     } else if (isPlaying) {
-        if (pos > m_maxProducerPosition - 2 && !(speed < 0.)) {
+        if (pos >= m_maxProducerPosition - 2 && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
             m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
-            m_proxy->setPosition(qMax(0, m_maxProducerPosition));
+            m_proxy->updatePosition(qMax(0, m_maxProducerPosition));
             m_producer->seek(qMax(0, m_maxProducerPosition));
             return false;
         } else if (pos <= 0 && speed < 0.) {
@@ -1221,7 +1221,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_consumer->purge();
             m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
         }
-    } else {
+    } else if (m_producer->get_speed() != 0.) {
         pause();
     }
     return true;
@@ -1414,10 +1414,7 @@ void VideoWidget::setVolume(double volume)
 
 int VideoWidget::duration() const
 {
-    if (!m_producer) {
-        return 0;
-    }
-    return m_producer->get_playtime();
+    return m_maxProducerPosition;
 }
 
 void VideoWidget::setConsumerProperty(const QString &name, const QString &value)
