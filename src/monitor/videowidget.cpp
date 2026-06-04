@@ -426,7 +426,7 @@ bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
             m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
-            m_proxy->updatePosition(qMax(0, m_maxProducerPosition));
+            m_proxy->setCursorPosition(qMax(0, m_maxProducerPosition));
             m_producer->seek(qMax(0, m_maxProducerPosition));
             return false;
         } else if (pos <= 0 && speed < 0.) {

@@ -94,8 +94,6 @@ public:
      * */
     Q_INVOKABLE bool setPosition(int pos);
     bool setPositionAdvanced(int pos, bool noAudioScrub);
-    /** @brief update position without causing a seek event. */
-    void updatePosition(int pos);
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QByteArray getUuid() const;
     Q_INVOKABLE void selectClip(int ix);
