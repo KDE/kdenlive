@@ -31,7 +31,6 @@ Item {
     property double offsety
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -43,10 +42,6 @@ Item {
     }
 
     signal qmlMoveSplit()
-
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
 
     percentage: 0.5
     splitterPos: this.width / 2
@@ -68,7 +63,6 @@ Item {
             root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onPressed: {
-            root.captureRightClick = true
             root.percentage = (mouseX - (root.width - (root.profile.x * root.scalex)) / 2) / (root.profile.x * root.scalex)
             root.splitterPos = mouseX
             root.qmlMoveSplit()
@@ -81,9 +75,6 @@ Item {
             }
             timer.restart()
             splitter.visible = true
-        }
-        onReleased: {
-            root.captureRightClick = false
         }
         //onEntered: { splitter.visible = true }
         onExited: { splitter.visible = false }

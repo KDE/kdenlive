@@ -26,7 +26,6 @@ Item {
     property int overlayType: controller.overlayType
     property double scalex : 1
     property double scaley : 1
-    property bool captureRightClick: true
     property bool seeking: false
     // Zoombar properties
     property double zoomStart: 0
@@ -89,14 +88,6 @@ Item {
         controller.rulerHeight = root.zoomOffset
     }
 
-    function updateClickCapture() {
-        if (root.isDefined) {
-            root.captureRightClick = false
-        } else {
-            root.captureRightClick = true
-        }
-    }
-
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
     }
@@ -118,7 +109,6 @@ Item {
 
     onIsDefinedChanged: {
         controller.setWidgetKeyBinding(root.isDefined ? defaultKeyBindInfo : emptyCanvasKeyBindInfo);
-        root.captureRightClick = !root.isDefined
     }
 
     onAutoKeyframeChanged: {
@@ -465,7 +455,6 @@ Item {
         onPressed: mouse=> {
             lastMouseX = mouse.x
             lastMouseY = mouse.y
-            root.captureRightClick = true
         }
         onExited: {
             root.controller.setWidgetKeyBinding()

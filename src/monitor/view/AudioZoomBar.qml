@@ -56,16 +56,12 @@ Rectangle {
             }
         }
         onPressed: mouse => {
-            root.captureRightClick = true
             if (mouse.buttons === Qt.LeftButton) {
                 var updatedPos = Math.max(0, mouseX - zoomRef.width / 2)
                 updatedPos = Math.min(audioSeekZone.width - zoomRef.width, updatedPos)
                 var zs = updatedPos / audioSeekZone.width
                 root.zoomStart = zs
             }
-        }
-        onReleased: mouse => {
-            root.captureRightClick = false
         }
     }
     Item {
@@ -187,12 +183,10 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.OpenHandCursor
         onPressed: mouse => {
-            root.captureRightClick = true
             clickPos = mouseX
             cursorShape = Qt.ClosedHandCursor
         }
         onReleased: {
-            root.captureRightClick = false
             cursorShape = Qt.OpenHandCursor
         }
         onPositionChanged: mouse => {
@@ -216,12 +210,6 @@ Rectangle {
             leftMargin: zoomRef.width > 2 * K.UiUtils.baseSizeMedium ? -K.UiUtils.baseSizeMedium : -2 * K.UiUtils.baseSizeMedium
         }
         cursorShape: Qt.SizeHorCursor
-        onPressed: {
-            root.captureRightClick = true
-        }
-        onReleased: {
-            root.captureRightClick = false
-        }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var updatedPos = Math.max(0, x + mouseX)
@@ -244,12 +232,6 @@ Rectangle {
             rightMargin: zoomRef.width > 2 * K.UiUtils.baseSizeMedium ? -K.UiUtils.baseSizeMedium : -2 * K.UiUtils.baseSizeMedium
         }
         cursorShape: Qt.SizeHorCursor
-        onPressed: {
-            root.captureRightClick = true
-        }
-        onReleased: {
-            root.captureRightClick = false
-        }
 
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {

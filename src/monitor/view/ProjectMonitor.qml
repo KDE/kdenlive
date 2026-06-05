@@ -26,7 +26,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     property bool seeking: false
     property bool dropped: false
     property string fps: '-'
@@ -49,10 +48,6 @@ Item {
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         root.controller.rulerHeight = root.zoomOffset
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
     }
 
     FontMetrics {

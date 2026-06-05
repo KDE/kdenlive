@@ -26,7 +26,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -42,10 +41,6 @@ Item {
     property int mouseRulerPos: 0
     property double timeScale: 1
     property var tracks: []
-
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
 
     signal activateTrack(int position)
 

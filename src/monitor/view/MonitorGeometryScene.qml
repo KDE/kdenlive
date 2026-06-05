@@ -34,7 +34,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     property bool seeking: false
     // Zoombar properties
     property double zoomStart: 0
@@ -109,10 +108,6 @@ Item {
         return frameRect
       }
       return SnappingLogic.getSnappedRect(frameRect, rotationAngle, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
     }
     
     function shouldFlipText(rotationAngle) {
@@ -337,7 +332,6 @@ Item {
         }
 
         onPressed: mouse => {
-            root.captureRightClick = true
             if (mouse.button & Qt.LeftButton) {
                 if (mouse.modifiers & Qt.AltModifier) {
                     root.controller.switchFocusClip()
@@ -351,7 +345,6 @@ Item {
             root.controller.addRemoveKeyframe()
         }
         onReleased: {
-            root.captureRightClick = false
             root.requestedKeyFrame = -1
             isMoving = false;
         }
@@ -557,7 +550,6 @@ Item {
             if (mouse.button & Qt.LeftButton) {
                 if (mouse.modifiers & Qt.AltModifier) {
                     mouse.accepted = true
-                    root.captureRightClick = true
                     root.controller.switchFocusClip()
                     return;
                 } else if (handleContainsMouse) {
@@ -573,12 +565,10 @@ Item {
                     moveArea.frameClicksize.y = root._framesize.y * root.scaley
                 }
                 mouse.accepted = true
-                root.captureRightClick = true
                 transformedFrame.isMoving = true
             }
           }
           onReleased: mouse => {
-            root.captureRightClick = false
             root.requestedKeyFrame = -1
             mouse.accepted = true
 
@@ -629,10 +619,6 @@ Item {
             onHandleRotationChanged: (angle) => {
                 root.pendingRotation = angle
                 root.effectRotationChanged(angle)
-            }
-            
-            onCaptureRightClick: (capture) => {
-                root.captureRightClick = capture
             }
             
             onAddRemoveKeyframe: {
@@ -691,10 +677,6 @@ Item {
                     root._framesize = root.pendingFramesize
                     root.framesize = root._framesize
                     transformedFrame.isResizing = false
-                }
-                
-                onCaptureRightClick: (capture) => {
-                    root.captureRightClick = capture
                 }
                 
                 onAddRemoveKeyframe: () => {

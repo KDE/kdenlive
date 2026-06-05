@@ -43,7 +43,6 @@ Rectangle {
     signal resize(rect adjustedFrame)
     signal resizeStart()
     signal resizeEnd()
-    signal captureRightClick(bool capture)
     signal addRemoveKeyframe()
 
     // Conditional anchoring based on handle type
@@ -205,7 +204,6 @@ Rectangle {
         cursorShape: ResizeLogic.getCursorShape(ResizeLogic.getVisualHandleType(handle.handleType, handle.rotationAngle))
 
         onPressed: mouse => {
-            handle.captureRightClick(true)
             handle.resizeStart()
             initialMouseX = mouseX
             initialMouseY = mouseY
@@ -245,7 +243,6 @@ Rectangle {
         }
         
         onReleased: {
-            handle.captureRightClick(false)
             handle.resizeEnd()
         }
     }

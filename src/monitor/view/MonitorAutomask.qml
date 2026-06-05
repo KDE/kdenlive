@@ -32,7 +32,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     // Zoombar properties
     // The start position of the zoomed area, between 0 and 1
     property double zoomStart: 0
@@ -101,10 +100,6 @@ Item {
         } else {
             root.boxCoords = [0, 0, 0, 0]
         }
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
     }
 
     Timer {
@@ -241,7 +236,6 @@ Item {
                         handleEvent = false
                         return;
                     }
-                    root.captureRightClick = false
                     selectionRect.visible = false
                     if (handleEvent) {
                         if (isRectEvent) {
@@ -344,12 +338,10 @@ Item {
                             drag.target: kfrPoint
                             drag.smoothed: false
                             onPressed: mouse => {
-                                root.captureRightClick = true
                                 mouse.accepted = true
                             }
                             onReleased: mouse => {
                                 mouse.accepted = true
-                                root.captureRightClick = false
                                 var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                                 root.moveControlPoint(kfrPoint.index, positionInFrame.x / frame.width, positionInFrame.y / frame.height)
                                 generateLabel.visible = true
@@ -412,24 +404,12 @@ Item {
             anchors.bottom: outsideLabel.bottom
             anchors.left: outsideLabel.left
             text: KI18n.i18n("Go to mask start")
-            onPressed: () =>{
-                root.captureRightClick = true
-            }
-            onReleased: () => {
-                root.updateClickCapture()
-            }
             onClicked: root.controller.position = root.maskStart
         }
         ToolButton {
             anchors.bottom: outsideLabel.bottom
             anchors.right: outsideLabel.right
             text: KI18n.i18n("Go to mask end")
-            onPressed: () =>{
-                root.captureRightClick = true
-            }
-            onReleased: () => {
-                root.updateClickCapture()
-            }
             onClicked: root.controller.position = root.maskEnd
         }
     }
@@ -493,14 +473,10 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
                     onPressed: mouse =>{
-                        root.captureRightClick = true
                         mouse.accepted = true
                     }
                     onClicked: {
                         root.controller.position = marker.kf
-                    }
-                    onReleased: mouse => {
-                        root.updateClickCapture()
                     }
                 }
             }

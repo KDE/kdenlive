@@ -25,7 +25,6 @@ Item {
     property double zoom
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
@@ -43,10 +42,6 @@ Item {
     property double timeScale: 1
     property int overlayType: controller.overlayType
     property bool isClipMonitor: false
-
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
 
     FontMetrics {
         id: fontMetrics

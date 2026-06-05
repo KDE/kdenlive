@@ -452,7 +452,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     // For some reason, on Qt6 in mouseReleaseEvent, the event is always accepted, so use this m_qmlEvent bool to track if the event is accepted in qml
     m_qmlEvent = event->isAccepted();
     m_dragStart = QPoint();
-    if (rootObject() != nullptr && m_qmlEvent && rootObject()->property("captureRightClick").toBool()) {
+    if (rootObject() != nullptr && m_qmlEvent) {
         // The event has been handled in qml
         m_swallowDrop = true;
     } else {
@@ -503,11 +503,7 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
     if (m_fullScreen) {
         m_mouseTimer.start();
     }
-    bool qmlClick = rootObject() ? rootObject()->property("captureRightClick").toBool() : false;
     QQuickWidget::mouseReleaseEvent(event);
-    if (rootObject()) {
-        rootObject()->setProperty("captureRightClick", false);
-    }
     bool playMonitor = KdenliveSettings::play_monitor_on_click() &&
                        (m_dragStart.isNull() || (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) && m_panStart.isNull();
 
@@ -519,7 +515,7 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         m_swallowDrop = false;
         return;
     }
-    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop && !qmlClick) {
+    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop) {
         event->accept();
         Q_EMIT monitorPlay();
     }

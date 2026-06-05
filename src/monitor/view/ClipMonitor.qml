@@ -33,7 +33,6 @@ Item {
     property point center
     property double scalex: 1.
     property double scaley: 1.
-    property bool captureRightClick: false
     property bool seeking: false
     // Zoombar properties
     // The start position of the zoomed area, between 0 and 1
@@ -72,10 +71,6 @@ Item {
         } else {
             controller.rulerHeight = root.zoomOffset
         }
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
     }
 
     FontMetrics {
@@ -536,19 +531,12 @@ Item {
                 property bool leftSide: dragZone.showVideoDrag ? mouseX < width / 2 : false
                 cursorShape: Qt.OpenHandCursor
                 propagateComposedEvents: true
-                onPositionChanged: {
-                    if (pressed) {
-                        root.captureRightClick = false
-                    }
-                }
                 onPressed: mouse => {
-                    root.captureRightClick = true
                     root.controller.dragType = leftSide ? 'V' : 'A'
                     mouse.accepted = false
                 }
                 onReleased: mouse => {
                     root.controller.dragType = ''
-                    root.captureRightClick = false
                     mouse.accepted = false
                 }
             }

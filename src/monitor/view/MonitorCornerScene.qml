@@ -26,7 +26,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -66,10 +65,6 @@ Item {
             return position
         }
         return SnappingLogic.getSnappedPoint(position, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
     }
 
     function refreshdar() {

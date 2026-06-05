@@ -23,7 +23,6 @@ Rectangle {
     signal rotationEnd()
     // Returns rotation angle between -360 and 360 (inclusive)
     signal handleRotationChanged(real angle)
-    signal captureRightClick(bool capture)
     signal addRemoveKeyframe()
     
     // Positioning
@@ -81,7 +80,6 @@ Rectangle {
         }
         
         onPressed: mouse => {
-            rotationHandle.captureRightClick(true)
             rotationHandle.rotationStart()
             oldMouseX = mouseX
             oldMouseY = mouseY
@@ -104,7 +102,6 @@ Rectangle {
         }
         
         onReleased: {
-            rotationHandle.captureRightClick(false)
             rotationHandle.rotationEnd()
         }
         
