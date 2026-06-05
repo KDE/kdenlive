@@ -267,6 +267,8 @@ private:
     bool playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode);
     bool isPaused() const;
     void pause();
+    /** @brief Update the producer speed, and sync the monitorproxy's speed */
+    void setProducerSpeed(double speed);
 
 private Q_SLOTS:
     void resizeVideo(int width, int height);
