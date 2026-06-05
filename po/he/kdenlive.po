@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-02 03:52+0000\n"
-"PO-Revision-Date: 2026-05-26 08:58+0300\n"
+"PO-Revision-Date: 2026-06-04 09:25+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Lokalize 26.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9700,9 +9700,9 @@ msgid "Delay time"
 msgstr "זמן שיהוי"
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delay grab"
-msgstr "שיהוי"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:5
 #, kde-format
@@ -9834,10 +9834,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:4
-#, fuzzy, kde-format
-#| msgid "Elastic In"
+#, kde-format
 msgid "Elastic Scale"
-msgstr "אלסטי פנימה"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:5
 #, kde-format
@@ -9962,9 +9961,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:8
 #: data/effects/frei0r/frei0r_facedetect.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Search scale"
-msgstr "חפש ידנית"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:9
 #: data/effects/frei0r/frei0r_facedetect.xml:9
@@ -10216,10 +10215,9 @@ msgid "The amount of variation in brightness between frames"
 msgstr "כמות השינוי בבהירות בין התמוניות"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
-#, fuzzy, kde-format
-#| msgid "Flip"
+#, kde-format
 msgid "Flippo"
-msgstr "היפוך"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
@@ -10247,10 +10245,9 @@ msgid "Extracts Green from Image"
 msgstr "חילוץ ירוק מהתמונה"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:4
-#, fuzzy, kde-format
-#| msgid "Gate (avfilter)"
+#, kde-format
 msgid "Gate Weave"
-msgstr "שער (avfilter)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:5
 #, kde-format
@@ -10436,16 +10433,14 @@ msgid "Enable edge compensation"
 msgstr "הפעלת פיצוי קצוות"
 
 #: data/effects/frei0r/frei0r_invert0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert0r"
-msgstr "היפוך"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_invert0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Inverts all colors of a source image"
-msgstr "התאם את ניגודיות תמונת המקור"
+msgstr "היפוך כל הצבעים בתמונת המקור"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
@@ -10531,10 +10526,9 @@ msgid "None,Counter Clockwise,Clockwise"
 msgstr "ללא,נגד כיוון השעון,עם כיוון השעון"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
-#, fuzzy, kde-format
-#| msgid "Selected Items:"
+#, kde-format
 msgid "Reflect Edges"
-msgstr "פריטים נבחרים:"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:38
 #, kde-format
@@ -11267,10 +11261,9 @@ msgstr "עיקבת R"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:38
 #: data/effects/frei0r/frei0r_pr0file.xml:39
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show R trace (red) on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:41
 #: data/effects/frei0r/frei0r_pr0file.xml:42
@@ -11280,10 +11273,9 @@ msgstr "עיקבת G"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:42
 #: data/effects/frei0r/frei0r_pr0file.xml:43
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show G trace (green) on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:45
 #: data/effects/frei0r/frei0r_pr0file.xml:46
@@ -11293,10 +11285,9 @@ msgstr "עיקבת B"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:46
 #: data/effects/frei0r/frei0r_pr0file.xml:47
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show B trace (blue) on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:49
 #: data/effects/frei0r/frei0r_pr0file.xml:50
@@ -11306,10 +11297,9 @@ msgstr "עיקבת Y"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:50
 #: data/effects/frei0r/frei0r_pr0file.xml:51
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show Y trace (luma) on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:53
 #: data/effects/frei0r/frei0r_pr0file.xml:54
@@ -11319,10 +11309,9 @@ msgstr "עיקבת Pr"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:54
 #: data/effects/frei0r/frei0r_pr0file.xml:55
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show Pr trace (red-difference) on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:57
 #: data/effects/frei0r/frei0r_pr0file.xml:58
@@ -11332,10 +11321,9 @@ msgstr "עיקבת Pb"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:58
 #: data/effects/frei0r/frei0r_pr0file.xml:59
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show Pb trace (blue_difference) on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:61
 #: data/effects/frei0r/frei0r_pr0file.xml:62
@@ -11345,10 +11333,9 @@ msgstr "מעקב אלפא"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:62
 #: data/effects/frei0r/frei0r_pr0file.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show Alpha trace on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:65
 #: data/effects/frei0r/frei0r_pr0file.xml:66
@@ -11358,10 +11345,9 @@ msgstr "הצגת ממוצע"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:66
 #: data/effects/frei0r/frei0r_pr0file.xml:67
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Show average on scope"
-msgstr "<![CDATA[הצגת ממוצע על ה]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:69
 #: data/effects/frei0r/frei0r_pr0file.xml:70
@@ -11383,10 +11369,9 @@ msgstr "הצגת מזערי"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:74
 #: data/effects/frei0r/frei0r_pr0file.xml:75
-#, fuzzy, kde-format
-#| msgid "Show maximum"
+#, kde-format
 msgid "Show minimum on scope"
-msgstr "הצגת הערך המרבי"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:77
 #: data/effects/frei0r/frei0r_pr0file.xml:78
@@ -11396,10 +11381,9 @@ msgstr "הצגת מרבי"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:78
 #: data/effects/frei0r/frei0r_pr0file.xml:79
-#, fuzzy, kde-format
-#| msgid "Show maximum"
+#, kde-format
 msgid "Show maximum on scope"
-msgstr "הצגת הערך המרבי"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:82
 #: data/effects/frei0r/frei0r_pr0file.xml:83
@@ -13797,10 +13781,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer/BW"
-msgstr "אקולייזר"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:6
 #, kde-format
@@ -13817,16 +13800,14 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:60
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
-#, fuzzy, kde-format
-#| msgid "B"
+#, kde-format
 msgid "BW"
-msgstr "כ"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "<Gain"
-msgstr "שבח"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
@@ -13869,10 +13850,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:4
-#, fuzzy, kde-format
-#| msgid "Dynamic Text"
+#, kde-format
 msgid "TAP Dynamics (St)"
-msgstr "טקסט דינמי"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:6
 #, kde-format
@@ -13980,10 +13960,9 @@ msgid "Pitch Tracking"
 msgstr "מעקב אחר גובה צליל"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Dry Left Position"
-msgstr "הגדרת מקום"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:25
 #: data/effects/ladspa/ladspa_2156.xml:30
@@ -13996,16 +13975,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:28
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Dry Right Position"
-msgstr "מקום התחלה"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:37
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Left Position"
-msgstr "הגדרת מקום"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:42
 #, kde-format
@@ -14635,10 +14612,9 @@ msgstr ""
 "      שהמעבר בערך האטימות מסתיים."
 
 #: data/effects/lumaliftgaingamma.xml:4
-#, fuzzy, kde-format
-#| msgid "LumaLiftGainGamma"
+#, kde-format
 msgid "Luma LiftGainGamma"
-msgstr "תיקון צבע ותמונה"
+msgstr ""
 
 #: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
@@ -15528,10 +15504,9 @@ msgid "Normalization level "
 msgstr "רמת נרמול "
 
 #: data/effects/sox/sox.xml:15
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Gain to normalize"
-msgstr "נרמול"
+msgstr ""
 
 #: data/effects/sox/sox.xml:18
 #, kde-format
@@ -15659,9 +15634,9 @@ msgid "High frequency damping"
 msgstr "ריסון תדירות גבוהה"
 
 #: data/effects/sox/sox_reverb.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Room scale"
-msgstr "נרמל"
+msgstr ""
 
 #: data/effects/sox/sox_reverb.xml:17
 #, kde-format
@@ -18275,10 +18250,9 @@ msgid "Gradient Fill"
 msgstr "מילוי מדרג"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:187
-#, fuzzy, kde-format
-#| msgid "Show channels"
+#, kde-format
 msgid "Show Block Lines"
-msgstr "הצגת ערוצים"
+msgstr ""
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:193
 #, kde-format
