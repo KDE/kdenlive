@@ -37,11 +37,9 @@ Item {
     property double offsetx : 0
     property double offsety : 0
     property int activeTrack: 0
-    onSourcedarChanged: refreshdar()
     property int requestedKeyFrame
     property int duration: 300
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
     property var tracks: []
 
@@ -105,7 +103,7 @@ Item {
                     acceptedButtons: Qt.LeftButton
                     onClicked: {
                         root.activateTrack(trackSeperatorFrame.index)
-                        root.controller.triggerAction('perform_multitrack_mode')
+                        K.Core.triggerAction('perform_multitrack_mode')
                     }
                 }
             }

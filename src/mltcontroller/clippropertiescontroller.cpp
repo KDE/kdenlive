@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "clippropertiescontroller.h"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
 #include "clipcontroller.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
@@ -785,9 +786,10 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
         if (m_properties->get_int("meta.media.variable_frame_rate")) {
             m_warningMessage->setText(i18n("File uses a variable frame rate, not recommended"));
             QAction *ac = new QAction(i18n("Transcode"));
-            QObject::connect(ac, &QAction::triggered, [id = m_id, resource = m_controller->clipUrl()]() {
-                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(int, 0),
-                                          Q_ARG(bool, false));
+            QObject::connect(ac, &QAction::triggered, [id = m_id]() {
+                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, id),
+                                          Q_ARG(TranscodeSeek::TranscodeInfo, TranscodeSeek::TranscodeInfo()), Q_ARG(bool, false), Q_ARG(QString, QString()),
+                                          Q_ARG(QString, QString()));
             });
             m_warningMessage->setMessageType(KMessageWidget::Warning);
             m_warningMessage->addAction(ac);
@@ -1396,6 +1398,16 @@ QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
     int b_frames = m_sourceProperties->get_int("meta.media.has_b_frames");
     propertyMap.append({i18n("B frames:"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
 
+    // Timecode
+    auto *projectClip = dynamic_cast<ProjectClip *>(m_controller);
+    if (projectClip) {
+        int startFrame = projectClip->getStartTimecode(streamIndex);
+        if (startFrame > 0) {
+            QString timecode = pCore->timecode().getTimecode(GenTime(startFrame, pCore->getCurrentFps()));
+            propertyMap.append({i18n("Timecode"), timecode});
+        }
+    }
+
     return propertyMap;
 }
 
@@ -1426,6 +1438,16 @@ QList<QStringList> ClipPropertiesController::getAudioProperties(int streamIndex)
     int bitrate = m_sourceProperties->get_int(property.toUtf8().constData()) / 1000;
     if (bitrate > 0) {
         propertyMap.append({i18n("Audio bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+    }
+
+    // Timecode
+    auto *projectClip = dynamic_cast<ProjectClip *>(m_controller);
+    if (projectClip) {
+        int startFrame = projectClip->getStartTimecode(streamIndex);
+        if (startFrame > 0) {
+            QString timecode = pCore->timecode().getTimecode(GenTime(startFrame, pCore->getCurrentFps()));
+            propertyMap.append({i18n("Timecode"), timecode});
+        }
     }
 
     return propertyMap;

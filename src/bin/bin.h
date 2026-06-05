@@ -423,6 +423,8 @@ private Q_SLOTS:
     void slotAddClip();
     /** @brief Reload clip from disk */
     void slotReloadClip();
+    /** @brief Insert Clip at metadata Timecode */
+    void slotInsertAtTimecode();
     /** @brief Replace clip with another file */
     void slotReplaceClip();
     /** @brief Replace audio or video component in timeline with another file */
@@ -601,6 +603,7 @@ private:
     QAction *m_openAction{nullptr};
     QAction *m_editAction{nullptr};
     QAction *m_reloadAction{nullptr};
+    QAction *m_insertAtTimecodeAction{nullptr};
     QAction *m_replaceAction{nullptr};
     QAction *m_replaceInTimelineAction{nullptr};
     QAction *m_duplicateAction{nullptr};

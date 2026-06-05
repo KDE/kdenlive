@@ -38,6 +38,7 @@
     <comment xml:lang="sl">Dokument video projekta Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-videoprojektdokument</comment>
     <comment xml:lang="tr">Kdenlive video proje belgesi</comment>
+    <comment xml:lang="ug">Kdenlive سىن قۇرۇلۇش پۈتۈكى</comment>
     <comment xml:lang="uk">документ відеопроєкту Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 视频项目文件</comment>
     <comment xml:lang="zh_TW">Kdenlive 影片專案文件</comment>
@@ -81,6 +82,7 @@
     <comment xml:lang="sl">Naslov videa Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-video</comment>
     <comment xml:lang="tr">Kdenlive video başlığı</comment>
+    <comment xml:lang="ug">Kdenlive سىن ماۋزۇسى</comment>
     <comment xml:lang="uk">заголовок відео Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 视频标题</comment>
     <comment xml:lang="zh_TW">Kdenlive 影片標題</comment>
@@ -122,6 +124,7 @@
     <comment xml:lang="sl">Postavitev programa Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive programlayout</comment>
     <comment xml:lang="tr">Kdenlive uygulama yerleşimi</comment>
+    <comment xml:lang="ug">Kdenlive پىروگرامما جايلاشتۇرۇلۇشى</comment>
     <comment xml:lang="uk">Компонування вікон програми Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 应用程序布局</comment>
     <comment xml:lang="zh_TW">Kdenlive 應用程式版面配置</comment>

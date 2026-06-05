@@ -186,6 +186,9 @@ bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
 
 void MonitorProxy::setCursorPosition(int pos)
 {
+    if (m_position == pos) {
+        return;
+    }
     m_position = pos;
     Q_EMIT positionChanged(pos);
 }
@@ -298,11 +301,6 @@ void MonitorProxy::resetZone()
     m_boundsCount = 0;
     Q_EMIT clipBoundsChanged();
     Q_EMIT zoneChanged();
-}
-
-double MonitorProxy::fps() const
-{
-    return pCore->getCurrentFps();
 }
 
 QPoint MonitorProxy::zone() const

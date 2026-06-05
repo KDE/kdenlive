@@ -144,6 +144,8 @@ public:
      * @param replaceAudio if true, only the audio clips will be replaced. if false, only the video parts.
      */
     void replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo);
+    /** @brief Insert selected clip at metadata Timecode*/
+    void insertAtTimecode(const QString &binId);
     /** @brief Sync the recent file list to settings file
      */
     void saveRecentFiles();
@@ -252,6 +254,8 @@ public Q_SLOTS:
     void slotCopyAndCreateSequenceFromSelection();
     /** @brief Show a track effect stack. */
     void showTrackEffectStack(int tid);
+    /** @brief Final steps to be done once the timeline widget is fully build and has its final height */
+    void polishTimelines(QList<QUuid> uuids);
 
 private Q_SLOTS:
     void slotRevert();

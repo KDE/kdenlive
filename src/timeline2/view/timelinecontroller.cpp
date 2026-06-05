@@ -940,16 +940,6 @@ bool TimelineController::pasteItem(int position, int tid)
     return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
 
-void TimelineController::triggerAction(const QString &name)
-{
-    pCore->triggerAction(name);
-}
-
-const QString TimelineController::actionText(const QString &name)
-{
-    return pCore->actionText(name);
-}
-
 QString TimelineController::timecode(int frames) const
 {
     return KdenliveSettings::frametimecode() ? QString::number(frames) : m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
@@ -1233,7 +1223,7 @@ void TimelineController::unGroupSelection(int cid)
 
 bool TimelineController::trimmingActive()
 {
-    ToolType::ProjectTool tool = pCore->window()->getCurrentTimeline()->activeTool();
+    ToolType::ProjectTool tool = pCore->activeTool();
     return tool == ToolType::SlideTool || tool == ToolType::SlipTool || tool == ToolType::RippleTool || tool == ToolType::RollTool;
 }
 
@@ -3579,6 +3569,36 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     return res;
 }
 
+void TimelineController::insertAtTimecode(const QString &binId)
+{
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+    if (!clip) {
+        pCore->displayMessage(i18n("Clip not found in project bin"), ErrorMessage);
+        return;
+    }
+
+    int vIndex = qMax(0, clip->getProducerIntProperty(QStringLiteral("video_index")));
+    int startFrame = clip->getStartTimecode(vIndex);
+
+    if (startFrame < 0) {
+        pCore->displayMessage(i18n("No timecode metadata found in clip"), ErrorMessage);
+        return;
+    }
+
+    int trackId = videoTarget();
+    if (trackId == -1) {
+        pCore->displayMessage(i18n("Please select a target track"), ErrorMessage);
+        return;
+    }
+
+    int newClipId = -1;
+    if (!m_model->requestClipInsertion(binId, trackId, startFrame, newClipId, true, true, true)) {
+        pCore->displayMessage(i18n("Failed to insert clip at %1 on track %2", simplifiedTC(startFrame), getTrackNameFromIndex(trackId)), ErrorMessage);
+        return;
+    }
+    Q_EMIT seeked(startFrame);
+}
+
 void TimelineController::updateClip(int clipId, const QVector<int> &roles)
 {
     const QModelIndex ix = m_model->makeClipIndexFromID(clipId);
@@ -4191,11 +4211,6 @@ void TimelineController::pasteEffects(int targetId)
         pCore->displayMessage(i18n("Cannot paste effect on selected clip"), ErrorMessage, 500);
         undo();
     }
-}
-
-double TimelineController::fps() const
-{
-    return pCore->getCurrentFps();
 }
 
 void TimelineController::editItemDuration()
@@ -5036,7 +5051,7 @@ void TimelineController::activateTrackAndSelect(int trackPosition, bool notesMod
     if (tid > -1) {
         m_activeTrack = tid;
         Q_EMIT activeTrackChanged();
-        if (!notesMode && pCore->window()->getCurrentTimeline()->activeTool() != ToolType::MulticamTool) {
+        if (!notesMode && pCore->activeTool() != ToolType::MulticamTool) {
             selectCurrentItem(KdenliveObjectType::TimelineClip, true);
         }
     }

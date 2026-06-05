@@ -227,6 +227,8 @@ public:
     /** @brief Request a seek operation
        @param position is the desired new timeline position
      */
+    /** @brief Insert selected clip at metadata Timecode */
+    void insertAtTimecode(const QString &binId);
     Q_INVOKABLE void setPosition(int position);
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
@@ -285,9 +287,6 @@ public:
     /** @brief Request deletion of the currently selected clips
      */
     Q_INVOKABLE void deleteSelectedClips();
-
-    Q_INVOKABLE void triggerAction(const QString &name);
-    Q_INVOKABLE const QString actionText(const QString &name);
 
     /** @brief Returns id of the timeline selected clip if there is only 1 clip selected
      * or an AVSplit group. If allowComposition is true, returns composition id if
@@ -537,7 +536,6 @@ public:
      */
     Q_INVOKABLE void pasteEffects(int targetId = -1);
     Q_INVOKABLE void deleteEffects(int targetId = -1);
-    Q_INVOKABLE double fps() const;
     Q_INVOKABLE void addEffectKeyframe(int cid, int frame, double val);
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());

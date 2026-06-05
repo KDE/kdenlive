@@ -484,7 +484,12 @@ bool SubtitleModel::addSubtitle(int id, std::pair<int, GenTime> start, const Sub
     registerSubtitle(id, start, temporary);
     int row = getSubtitleIndex(id);
     beginInsertRows(QModelIndex(), row, row);
+
     m_subtitleList[start] = event;
+    // Strip all leading and trailing whitespaces from the text, to e.g. avoid bogus exports with
+    // leading newlines to SRT.
+    m_subtitleList[start].setText(event.text().trimmed());
+
     endInsertRows();
     addSnapPoint(start.second);
     addSnapPoint(event.endTime()); // {layer, end}

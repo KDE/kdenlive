@@ -404,8 +404,7 @@ bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
             if (!m_isLoopMode) {
                 // end play zone mode
                 m_isZoneMode = false;
-                m_producer->set_speed(0);
-                m_proxy->setSpeed(0);
+                setProducerSpeed(0);
                 m_consumer->set("refresh", 0);
                 m_proxy->setPosition(m_loopOut);
                 m_producer->seek(m_loopOut);
@@ -413,26 +412,23 @@ bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
                 return false;
             }
             m_producer->seek(m_isZoneMode ? m_proxy->zoneIn() : m_loopIn);
-            m_producer->set_speed(1.0);
-            m_proxy->setSpeed(1.);
+            setProducerSpeed(1);
             m_consumer->set("refresh", 1);
             return true;
         }
         return true;
     } else if (isPlaying) {
-        if (pos > m_maxProducerPosition - 2 && !(speed < 0.)) {
+        if (pos >= m_maxProducerPosition - 2 && !(speed < 0.)) {
             // Playing past last clip, pause
-            m_producer->set_speed(0);
-            m_proxy->setSpeed(0);
+            setProducerSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
-            m_proxy->setPosition(qMax(0, m_maxProducerPosition));
+            m_proxy->setCursorPosition(qMax(0, m_maxProducerPosition));
             m_producer->seek(qMax(0, m_maxProducerPosition));
             return false;
         } else if (pos <= 0 && speed < 0.) {
             // rewinding reached 0, pause
-            m_producer->set_speed(0);
-            m_proxy->setSpeed(0);
+            setProducerSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
             m_proxy->setPosition(0);
@@ -700,8 +696,7 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
         // Reset markersModel
         rootContext()->setContextProperty("markersModel", nullptr);
     }
-    m_producer->set_speed(0);
-    m_proxy->setSpeed(0);
+    setProducerSpeed(0);
     error = reconfigure();
     if (error == 0) {
         // The profile display aspect ratio may have changed.
@@ -738,7 +733,7 @@ void VideoWidget::pause()
     int position = m_consumer ? m_consumer->position() + 1 : -1;
     if (m_producer && (!isPaused() || (m_maxProducerPosition - position < 25))) {
         Q_EMIT paused();
-        m_producer->set_speed(0);
+        setProducerSpeed(0);
         if (m_consumer && m_consumer->is_valid()) {
             m_consumer->set("volume", 0);
             m_producer->seek(position);
@@ -837,7 +832,6 @@ int VideoWidget::reconfigure()
         // Connect the producer to the consumer - tell it to "run" later
         if (m_producer) {
             m_consumer->connect(*m_producer.get());
-            // m_producer->set_speed(0.0);
         }
 
         int dropFrames = 1;
@@ -1191,7 +1185,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_consumer->position() >= m_maxProducerPosition && speed > 0) {
+        if (m_consumer->position() >= m_maxProducerPosition && m_producer->position() >= m_maxProducerPosition && speed > 0) {
             // We are at the end of the clip / timeline
             if (m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) {
                 m_producer->seek(0);
@@ -1200,8 +1194,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
             }
         }
         double current_speed = m_producer->get_speed();
-        m_producer->set_speed(speed);
-        m_proxy->setSpeed(speed);
+        setProducerSpeed(speed);
         if (qFuzzyCompare(speed, 1.0) || speed < -6. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
         } else if (KdenliveSettings::audio_scrub()) {
@@ -1221,7 +1214,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_consumer->purge();
             m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
         }
-    } else {
+    } else if (m_producer->get_speed() != 0.) {
         pause();
     }
     return true;
@@ -1245,11 +1238,16 @@ bool VideoWidget::loopClip(std::pair<int, int> inOut)
     return playZone(inOut.first, inOut.second, false, true, false);
 }
 
+void VideoWidget::setProducerSpeed(double speed)
+{
+    m_producer->set_speed(speed);
+    m_proxy->setSpeed(speed);
+}
+
 bool VideoWidget::playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode)
 {
     double current_speed = m_producer->get_speed();
-    m_producer->set_speed(0);
-    m_proxy->setSpeed(0);
+    setProducerSpeed(0);
     m_loopOut = out;
     m_loopIn = in;
     if (qFuzzyIsNull(current_speed)) {
@@ -1257,7 +1255,7 @@ bool VideoWidget::playZone(int in, int out, bool startFromIn, bool loop, bool zo
             m_producer->seek(m_loopIn);
         }
         m_consumer->start();
-        m_producer->set_speed(1.0);
+        setProducerSpeed(1.0);
         m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
         m_consumer->set("volume", KdenliveSettings::volume() / 100.);
@@ -1266,7 +1264,7 @@ bool VideoWidget::playZone(int in, int out, bool startFromIn, bool loop, bool zo
         m_consumer->set("refresh", 0);
         m_producer->seek(m_loopIn);
         m_consumer->purge();
-        m_producer->set_speed(1.0);
+        setProducerSpeed(1.0);
         m_consumer->set("refresh", 1);
     }
     m_isZoneMode = zoneMode;
@@ -1361,8 +1359,7 @@ void VideoWidget::stop()
         if (m_isZoneMode || m_isLoopMode) {
             resetZoneMode();
         }
-        m_producer->set_speed(0.0);
-        m_proxy->setSpeed(0);
+        setProducerSpeed(0);
     }
     if (m_consumer) {
         m_consumer->purge();
@@ -1414,10 +1411,7 @@ void VideoWidget::setVolume(double volume)
 
 int VideoWidget::duration() const
 {
-    if (!m_producer) {
-        return 0;
-    }
-    return m_producer->get_playtime();
+    return m_maxProducerPosition;
 }
 
 void VideoWidget::setConsumerProperty(const QString &name, const QString &value)

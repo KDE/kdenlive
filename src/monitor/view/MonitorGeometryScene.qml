@@ -45,7 +45,6 @@ Item {
     property double offsety : 0
     property double lockratio : -1
     property double timeScale: 1
-    property double frameSize: 10
     property int duration: 300
     property int mouseRulerPos: 0
     property bool rotatable: false

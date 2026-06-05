@@ -1120,6 +1120,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
 
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+    // Update active Track to ensure proper vertical scrolling now that everything is built
+    polishTimelines(m_project->getTimelinesUuids());
     m_lastSave.start();
     m_project->loading = false;
     if (pCore->closing) {
@@ -1132,6 +1134,30 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     checkProjectWarnings();
     pCore->projectItemModel()->missingClipTimer.start();
     Q_EMIT pCore->loadingMessageHide();
+}
+
+void ProjectManager::polishTimelines(QList<QUuid> uuids)
+{
+    if (pCore->window()) {
+        // Ensure correct vertical scrolling pos for all timelines
+        for (auto &uid : uuids) {
+            auto tl = pCore->window()->getTimeline(uid);
+            if (tl && tl->height() > 0) {
+                int activeTrackPosition = m_project->getSequenceProperty(uid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+                if (activeTrackPosition == -2) {
+                    // Subtitle model track always has ID == -2
+                    tl->controller()->setActiveTrack(-2);
+                } else if (activeTrackPosition > -1 && activeTrackPosition < tl->model()->getTracksCount()) {
+                    // otherwise, convert the position to a track ID
+                    tl->controller()->setActiveTrack(tl->model()->getTrackIndexFromPosition(activeTrackPosition));
+                } else {
+                    qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only" << tl->model()->getTracksCount();
+                    // set it to some valid track instead
+                    tl->controller()->setActiveTrack(tl->model()->getTrackIndexFromPosition(0));
+                }
+            }
+        }
+    }
 }
 
 void ProjectManager::abortProjectLoad(const QUrl &url)
@@ -1756,11 +1782,11 @@ void ProjectManager::updateSequenceDuration(const QUuid &uuid)
     if (mainClip && model) {
         QMap<QString, QString> properties;
         std::pair<int, int> durations = model->durations();
-        int newDuration = durations.second > 0 ? durations.second : durations.first;
+        int newDuration = durations.second > 0 ? durations.second : durations.first + 1;
         properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(newDuration)));
         properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
         properties.insert(QStringLiteral("length"), QString::number(newDuration));
-        properties.insert(QStringLiteral("out"), QString::number(newDuration));
+        properties.insert(QStringLiteral("out"), QString::number(newDuration - 1));
         mainClip->setProperties(properties, true);
     } else {
         qDebug() << ":::: MAIN CLIP PRODUCER NOT FOUND!!!";
@@ -2110,7 +2136,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
             m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
         }
         std::pair<int, int> durations = timelineModel->durations();
-        int duration = durations.second > 0 ? durations.second : durations.first;
+        int duration = durations.second > 0 ? durations.second : durations.first + 1;
         prod->set("kdenlive:duration", prod->frames_to_time(duration));
         prod->set("kdenlive:maxduration", durations.first);
         prod->set("length", duration);
@@ -2176,7 +2202,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         }
         qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timelineModel->tractor()->count() << "\nZZZZZZZZZZZZ";
         std::pair<int, int> durations = timelineModel->durations();
-        int duration = durations.second > 0 ? durations.second : durations.first;
+        int duration = durations.second > 0 ? durations.second : durations.first + 1;
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
         prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
         prod->set("kdenlive:maxduration", durations.first);
@@ -2208,21 +2234,9 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         timeline = pCore->window()->openTimeline(uuid, ix, clip->clipName(), timelineModel, openInMonitor);
     }
 
-    int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (timeline == nullptr) {
         // We are in testing mode
         return true;
-    }
-    if (activeTrackPosition == -2) {
-        // Subtitle model track always has ID == -2
-        timeline->controller()->setActiveTrack(-2);
-    } else if (activeTrackPosition > -1 && activeTrackPosition < timeline->model()->getTracksCount()) {
-        // otherwise, convert the position to a track ID
-        timeline->controller()->setActiveTrack(timeline->model()->getTrackIndexFromPosition(activeTrackPosition));
-    } else {
-        qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only" << timeline->model()->getTracksCount();
-        // set it to some valid track instead
-        timeline->controller()->setActiveTrack(timeline->model()->getTrackIndexFromPosition(0));
     }
     if (m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")).toInt() == 1) {
         // Timeline effects are disabled
@@ -2269,7 +2283,7 @@ bool ProjectManager::buildTimeline(const QString &binId, const QUuid &uuid)
         return false;
     }
     std::pair<int, int> durations = timelineModel->durations();
-    int duration = durations.second > 0 ? durations.second : durations.first;
+    int duration = durations.second > 0 ? durations.second : durations.first + 1;
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
     prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
     prod->set("kdenlive:maxduration", durations.first);
@@ -2493,6 +2507,13 @@ void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<M
     std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
     qDebug() << "====== STORING SEQUENCE " << uuid << " WITH TKS: " << trac->count() << "\n\n______________________";
     pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
+}
+
+void ProjectManager::insertAtTimecode(const QString &binId)
+{
+    if (m_activeTimelineModel) {
+        pCore->window()->getCurrentTimeline()->controller()->insertAtTimecode(binId);
+    }
 }
 
 void ProjectManager::replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo)

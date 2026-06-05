@@ -45,7 +45,6 @@ Item {
     property int requestedKeyFrame
     property int duration: 300
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
     property var centerPoints: []
     signal effectPolygonChanged()
@@ -234,7 +233,7 @@ Item {
             id: safeZone
             anchors.fill: frame
             color: K.KdenliveSettings.safeColor
-            showSafeZone: controller.showSafezone
+            showSafeZone: root.controller.showSafezone
             profile: root.controller.profile
         }
     }
@@ -246,10 +245,10 @@ Item {
         hoverEnabled: true
         cursorShape: kfrContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
         onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+            root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onDoubleClicked: {
-            controller.addRemoveKeyframe()
+            root.controller.addRemoveKeyframe()
         }
 
         onPositionChanged: {
@@ -257,7 +256,7 @@ Item {
             if (pressed && root.requestedKeyFrame >= 0) {
                 var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
                 var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
-                var adjustedMouse = getSnappedPos(logicalMousePos)
+                var adjustedMouse = root.getSnappedPos(logicalMousePos)
                 root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
                 root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                 canvas.requestPaint()

@@ -5,6 +5,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
@@ -163,7 +165,7 @@ Rectangle {
                 ToolTip {
                     visible: targetMouse.hovered
                     font: K.UiUtils.smallestReadableFont
-                    text: trackHeadRoot.timeline.actionText("switch_target_stream")
+                    text: K.Core.actionText("switch_target_stream")
                 }
             }
         }
@@ -338,7 +340,7 @@ Rectangle {
             font: K.UiUtils.smallestReadableFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            visible: root.debugmode
+            visible: K.KdenliveSettings.uiDebugMode
         }
         Label {
             id: miniTrackLabel

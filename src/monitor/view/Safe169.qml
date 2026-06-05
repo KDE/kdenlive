@@ -15,45 +15,45 @@ Item {
         objectName: "safezone"
         color: "transparent"
         border.color: overlay.color
-        width: parent.width * 0.9
-        height: parent.height * 0.9
-        anchors.centerIn: parent
+        width: overlay.width * 0.9
+        height: overlay.height * 0.9
+        anchors.centerIn: overlay
         Rectangle {
             id: safetext
             objectName: "safetext"
             color: "transparent"
             border.color: overlay.color
-            width: frame.width * 0.8
-            height: frame.height * 0.8
-            anchors.centerIn: parent
+            width: overlay.width * 0.8
+            height: overlay.height * 0.8
+            anchors.centerIn: safezone
         }
         Rectangle {
             color: overlay.color
-            height: frame.height / 11
+            height: overlay.height / 11
             width: 1
             y: 0
-            x: parent.width / 2
+            x: safezone.width / 2
         }
         Rectangle {
             color: overlay.color
-            height: frame.height / 11
+            height: overlay.height / 11
             width: 1
-            y: parent.height -height
-            x: parent.width / 2
+            y: safezone.height -height
+            x: safezone.width / 2
         }
         Rectangle {
             color: overlay.color
-            width: frame.width / 11
+            width: overlay.width / 11
             height: 1
-            y: parent.height / 2
+            y: safezone.height / 2
             x: 0
         }
         Rectangle {
             color: overlay.color
-            width: frame.width / 11
+            width: overlay.width / 11
             height: 1
-            y: parent.height / 2
-            x: parent.width -width
+            y: safezone.height / 2
+            x: safezone.width -width
         }
     }
 }

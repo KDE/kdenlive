@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMutex>
 #include <QObject>
 #include <QPoint>
+#include <QQmlEngine>
 #include <QTextEdit>
 #include <QThreadPool>
 #include <QTimer>
@@ -70,6 +71,10 @@ class Producer;
 class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+
+    Q_PROPERTY(ToolType::ProjectTool activeTool READ activeTool NOTIFY activeToolChanged FINAL)
 
 public:
     friend class KdenliveDoc;
@@ -78,6 +83,8 @@ public:
     Core &operator=(const Core &) = delete;
     Core(Core &&) = delete;
     Core &operator=(Core &&) = delete;
+    static Core *create(QQmlEngine *, QJSEngine *);
+
     QReadWriteLock xmlMutex;
     bool closing{false};
     QString lastActiveBin;
@@ -171,10 +178,10 @@ public:
     /** @brief Returns Sample Aspect Ratio of current profile */
     double getCurrentSar() const;
     /** @brief Returns Display Aspect Ratio of current profile */
-    double getCurrentDar() const;
+    Q_INVOKABLE double getCurrentDar() const;
 
     /** @brief Returns frame rate of current profile */
-    double getCurrentFps() const;
+    Q_INVOKABLE double getCurrentFps() const;
 
     /** @brief Returns the frame size (width x height) of current profile */
     const QSize getCurrentFrameSize() const;
@@ -434,9 +441,9 @@ protected:
 
 public Q_SLOTS:
     /** @brief Trigger (launch) an action by its actionCollection name */
-    void triggerAction(const QString &name);
+    Q_INVOKABLE void triggerAction(const QString &name);
     /** @brief Get an action's descriptive text by its actionCollection name */
-    const QString actionText(const QString &name);
+    Q_INVOKABLE const QString actionText(const QString &name);
     /** @brief Add an action to the app's actionCollection */
     void addActionToCollection(const QString &name, QAction *action);
     /** @brief display a user info/warning message in statusbar */

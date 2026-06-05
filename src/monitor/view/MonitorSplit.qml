@@ -29,7 +29,6 @@ Item {
     property point center
     property double offsetx
     property double offsety
-    property double frameSize: 10
     property double scalex
     property double scaley
     property bool captureRightClick: false

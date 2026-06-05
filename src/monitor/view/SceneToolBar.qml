@@ -62,7 +62,7 @@ MouseArea {
                 toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: {
                     barZone.monitorController.activateClipMonitor(root.isClipMonitor)
-                    barZone.monitorController.triggerAction('monitor_fullscreen')
+                    K.Core.triggerAction('monitor_fullscreen')
                 }
             }
             K.MonitorToolButton {
@@ -101,7 +101,7 @@ MouseArea {
                 toolTipText: KI18n.i18n("Add/Remove Marker")
                 onClicked: {
                     barZone.monitorController.activateClipMonitor(root.isClipMonitor)
-                    barZone.monitorController.triggerAction('add_marker_guide_quickly')
+                    K.Core.triggerAction('add_marker_guide_quickly')
                 }
             }
             K.MonitorToolButton {

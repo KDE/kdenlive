@@ -62,7 +62,7 @@ MouseArea {
                 toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_fullscreen')
+                    K.Core.triggerAction('monitor_fullscreen')
                 }
             }
             K.MonitorZoomButton {

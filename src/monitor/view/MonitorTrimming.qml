@@ -40,7 +40,6 @@ Item {
     property bool showZoomBar: false
     property int duration: 300
     property int mouseRulerPos: 0
-    property double frameSize: 10
     property double timeScale: 1
     property int overlayType: controller.overlayType
     property bool isClipMonitor: false

@@ -23,7 +23,6 @@
 #include "monitor/monitorproxy.h"
 #include "monitormanager.h"
 #include "project/dialogs/guideslist.h"
-#include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
 
 #include <QAction>
@@ -39,12 +38,11 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
-TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
-    : QQuickWidget(parent)
+TimelineWidget::TimelineWidget(const QUuid uuid, QQmlEngine *engine, QWidget *parent)
+    : QQuickWidget(engine, parent)
     , timelineController(this)
     , m_uuid(uuid)
 {
-    KLocalization::setupLocalizedContext(engine());
     setClearColor(palette().window().color());
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -183,12 +181,10 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
                           {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("Timeline"));
 
-    engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
     connect(&timelineController, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
-    rootObject()->setProperty("dar", pCore->getCurrentDar());
     connect(rootObject(), SIGNAL(showClipMenu(int)), this, SLOT(showClipMenu(int)));
     connect(rootObject(), SIGNAL(showMixMenu(int)), this, SLOT(showMixMenu(int)));
     connect(rootObject(), SIGNAL(showCompositionMenu()), this, SLOT(showCompositionMenu()));
@@ -469,16 +465,6 @@ void TimelineWidget::zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &ne
     timelineController.updateZone(oldZone, newZone);
 }
 
-void TimelineWidget::setTool(ToolType::ProjectTool tool)
-{
-    rootObject()->setProperty("activeTool", int(tool));
-}
-
-ToolType::ProjectTool TimelineWidget::activeTool()
-{
-    return ToolType::ProjectTool(rootObject()->property("activeTool").toInt());
-}
-
 QPair<int, int> TimelineWidget::getAvTracksCount() const
 {
     return timelineController.getAvTracksCount();
@@ -569,7 +555,6 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
         return;
     }
 
-    rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
     if (firstConnect) {
         rootObject()->setProperty("subtitleModel", QVariant::fromValue(model()->getSubtitleModel().get()));
         QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);

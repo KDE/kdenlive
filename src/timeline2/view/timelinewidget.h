@@ -21,7 +21,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(const QUuid uuid, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(const QUuid uuid, QQmlEngine *engine, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
@@ -33,8 +33,6 @@ public:
     Mlt::Tractor *tractor();
     TimelineController *controller();
     std::shared_ptr<TimelineItemModel> model();
-    void setTool(ToolType::ProjectTool tool);
-    ToolType::ProjectTool activeTool();
     QPair<int, int> getAvTracksCount() const;
     /** @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;

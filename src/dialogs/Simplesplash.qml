@@ -293,7 +293,7 @@ Window {
                 property bool buttonPressed: false
                 text: KI18n.i18n("What's New")
                 icon.name: "help-contents"
-                onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes")
+                onClicked: splash.openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes")
                 Keys.onPressed: (event)=> {
                     if (event.key === Qt.Key_Return) {
                         buttonPressed = true
