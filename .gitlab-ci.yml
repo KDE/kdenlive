@@ -17,11 +17,52 @@ include:
       - /gitlab-templates/windows-qt6.yml
       # CD Qt6
       - /gitlab-templates/flatpak.yml
-      - /gitlab-templates/craft-appimage-qt6.yml
-      - /gitlab-templates/craft-windows-mingw64-qt6.yml
-      - /gitlab-templates/craft-macos-x86-64-qt6.yml
-      - /gitlab-templates/craft-macos-arm64-qt6.yml
       - /gitlab-templates/snap-snapcraft-lxd.yml
+  - project: sysadmin/craft-ci
+    file:
+      - /gitlab-templates/appimage-qt6.yml
+      - /gitlab-templates/windows-mingw64-qt6.yml
+      - /gitlab-templates/macos-x86-64-qt6.yml
+      - /gitlab-templates/macos-arm64-qt6.yml
+      - /gitlab-templates/windows-x86-64-qt6.yml
+      - /gitlab-templates/windows-appx-qt6.yml
+
+# Overwrite the script step to not run ci-notary-service/publishbuild.py
+# Given that we are in a transition phase from MinGW to MSVC we have to Windows jobs
+# and running ci-notary-service/publishbuild.py on both will cause a race condition
+craft_windows_qt6_x86_64:
+  script:
+    # Set up craft settings and blueprint settings
+    - Run-CraftMaster --setup
+    # Get Craft itself ready
+    - Run-CraftMaster -c -i --options virtual.ignored=True --update craft
+    # Install all of our dependencies
+    - Run-CraftMaster -c --install-deps --options "[CodeSigning]Enabled=False" $env:CI_PROJECT_NAME
+    # Build the actual application
+    - Run-CraftMaster -c --no-cache --options "$env:CI_PROJECT_NAME.srcDir=$env:CI_PROJECT_DIR/src/" $env:CI_PROJECT_NAME
+    # Ensure the tools needed to conduct packaging are installed
+    - Run-CraftMaster -c -i --update nsis
+    # Package it up!
+    - Run-CraftMaster -c --package --options "$env:CI_PROJECT_NAME.srcDir=$env:CI_PROJECT_DIR/src/" --options "[CodeSigning]Enabled=True" $env:CI_PROJECT_NAME
+    - $packageAppx = Run-CraftMaster -c --get subinfo.options.dynamic.packageAppx $env:CI_PROJECT_NAME
+    # Save our package
+    - $packageDir = Run-CraftMaster -c -q --get "packageDestinationDir()" virtual/base
+    - mkdir $env:CI_PROJECT_DIR/kde-ci-packages
+    - cd $env:CI_PROJECT_DIR/kde-ci-packages
+    - Get-ChildItem -Path $packageDir -Recurse -Include *.exe, *.7z, *.sha256 | Copy-Item
+    - cd C:/Craft
+    - |
+      if ($packageAppx -eq "True") {
+        # Create the APPX packages
+        Run-CraftMaster -c --package --options "[Packager]PackageType=AppxPackager" --options "$env:CI_PROJECT_NAME.srcDir=$env:CI_PROJECT_DIR/src/" --options "[CodeSigning]Enabled=True" $env:CI_PROJECT_NAME
+        # Copy the APPX packages
+        cd $env:CI_PROJECT_DIR/kde-ci-packages
+        Get-ChildItem -Path $packageDir -Recurse -Include *.appx, *.appxupload | Copy-Item
+        cd C:/Craft
+      }
+    # Publish the installers
+    # - python -u ci-notary-service/publishbuild.py -v --config ci-utilities/signing/publishbuild.ini --platform windows "$env:CI_PROJECT_DIR/kde-ci-packages/"
+
   
 # Customize the job from /gitlab-templates/xml-lint.yml
 # to use our own validate-xml-files.py which has some advanced
