@@ -18,7 +18,6 @@ Item {
     required property K.MonitorProxy monitorController
     required property double timeScale
     required property int duration
-
     property bool isAudioClip: false
     property bool stateVisible: false
     property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
@@ -66,7 +65,7 @@ Item {
     function refreshView()
     {
         audioThumb.isAudioClip = monitorController.clipType === K.ClipType.Audio
-        audioThumb.stateVisible = (K.KdenliveSettings.alwaysShowMonitorAudio && monitorController.clipHasAV) || audioThumb.isAudioClip
+        audioThumb.stateVisible = (monitorController.clipHasAV && (K.KdenliveSettings.alwaysShowMonitorAudio || thumbTimer.running)) || audioThumb.isAudioClip
         checkAudioThumbState()
     }
 

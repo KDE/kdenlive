@@ -69,6 +69,11 @@ Item {
     Timer {
         id: thumbTimer
         interval: 3000; running: false;
+        onRunningChanged: {
+            if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
+                audioView.refreshView()
+            }
+        }
     }
 
     signal editCurrentMarker()
