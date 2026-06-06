@@ -14,6 +14,7 @@ MouseArea {
     id: barZone
     hoverEnabled: true
     required property K.MonitorProxy monitorController
+    required property bool isClipMonitor
     property bool rightSide: true
     acceptedButtons: Qt.NoButton
     width: 2.4 * K.UiUtils.baseSizeMedium
@@ -113,6 +114,7 @@ MouseArea {
             K.MonitorZoomButton {
                 id: zoomButton
                 monitorController: barZone.monitorController
+                isClipMonitor: barZone.isClipMonitor
             }
 
             K.MonitorToolButton {

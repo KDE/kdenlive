@@ -26,8 +26,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double stretch : 1
     property double sourcedar : 1
     onScalexChanged: canvas.requestPaint()
@@ -40,12 +38,10 @@ Item {
     property bool cursorOutsideEffect: controller.cursorOutsideEffect
     property int requestedKeyFrame
     property int duration: 300
-    property int mouseRulerPos: 0
     property var centerPoints: []
     signal effectPolygonChanged()
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     function updatePoints(types, points) {
@@ -280,6 +276,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: false
     }
     MonitorRuler {
         id: clipMonitorRuler

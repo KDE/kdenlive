@@ -14,6 +14,7 @@ Rectangle {
     property int subcount: 0
     anchors.fill: parent
     property int size: Math.min(width, height)
+    signal stopCountdown()
     color: Qt.rgba(0, 0, 0, 0.5)
     Timer {
         id: countdownTimer
@@ -26,7 +27,7 @@ Rectangle {
                 counter.subcount = 0
                 counter.countdown--
                 if (counter.countdown == 0) {
-                    root.stopCountdown()
+                    counter.stopCountdown()
                 }
             }
         }

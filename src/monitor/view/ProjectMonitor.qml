@@ -26,24 +26,19 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool seeking: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
     property bool showTimecode: false
     property bool showFps: false
     property bool showAudiothumb: false
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property int duration: 300
-    property int mouseRulerPos: 0
     property int overlayType: root.controller.overlayType
     property bool isClipMonitor: false
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        root.controller.rulerHeight = root.zoomOffset
+        root.controller.rulerHeight = 0
     }
 
     FontMetrics {
@@ -116,6 +111,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
 
     Item {
@@ -146,6 +142,14 @@ Item {
                 id: countDownLoader
                 anchors.fill: frame
             }
+
+            Connections {
+                target: countDownLoader.item
+
+                function onStopCountdown() {
+                    root.stopCountdown()
+                }
+            }
         }
         Item {
             id: monitorOverlay
@@ -166,7 +170,6 @@ Item {
                 anchors {
                     right: monitorOverlay.right
                     bottom: monitorOverlay.bottom
-                    bottomMargin: root.zoomOffset
                 }
             }
             Label {
@@ -184,7 +187,6 @@ Item {
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
             }
             Label {
@@ -209,7 +211,6 @@ Item {
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && root.controller.position == root.controller.zoneIn
                 text: KI18n.i18n("In Point")
@@ -226,7 +227,6 @@ Item {
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && root.controller.position == root.controller.zoneOut
                 text: KI18n.i18n("Out Point")
@@ -250,7 +250,6 @@ Item {
                 anchors {
                     left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && text != ""
                 text: root.controller.markerComment

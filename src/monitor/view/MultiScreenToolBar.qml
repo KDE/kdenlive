@@ -14,6 +14,7 @@ MouseArea {
     id: barZone
     hoverEnabled: true
     required property K.MonitorProxy monitorController
+    required property bool isClipMonitor
     property bool rightSide: true
     acceptedButtons: Qt.NoButton
     width: 2.4 * fontMetrics.font.pixelSize
@@ -61,13 +62,14 @@ MouseArea {
                 iconName: "view-fullscreen"
                 toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
+                    barZone.monitorController.activateClipMonitor(barZone.isClipMonitor)
                     K.Core.triggerAction('monitor_fullscreen')
                 }
             }
             K.MonitorZoomButton {
                 id: zoomButton
                 monitorController: barZone.monitorController
+                isClipMonitor: root.isClipMonitor
             }
             K.MonitorToolButton {
                 objectName: "moveBar"

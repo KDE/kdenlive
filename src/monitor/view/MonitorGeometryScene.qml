@@ -34,14 +34,10 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool seeking: false
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property double lockratio : -1
     property int duration: 300
-    property int mouseRulerPos: 0
     property bool rotatable: false
     property double rect_rotation: _rotation
     property point rect_anchor: Qt.point(0.5, 0.5)
@@ -79,8 +75,7 @@ Item {
     signal effectRotationChanged(double rotation)
 
     Component.onCompleted: {
-      // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     function updatePoints(types, points) {
@@ -678,6 +673,7 @@ Item {
     EffectToolBar {
         id: effectToolBar
         monitorController: root.controller
+        isClipMonitor: false
         anchors {
             right: parent.right
             top: parent.top

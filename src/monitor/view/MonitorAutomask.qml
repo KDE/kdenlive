@@ -32,10 +32,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    // Zoombar properties
-    // The pixel height of zoom bar, used to offset markers info
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property bool dropped: false
@@ -50,7 +46,6 @@ Item {
     property bool showToolbar: false
     property string clipName: controller.clipName
     property int duration: 300
-    property int mouseRulerPos: 0
     property double timeScale: 1
     property var centerPoints: []
     property var centerPointsTypes: []
@@ -63,10 +58,9 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: 0
     property int maskMode: controller.maskMode
     Component.onCompleted: {
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     onDisplayFrameChanged: {
@@ -109,12 +103,8 @@ Item {
     signal generateMask()
     signal exitMaskPreview()
 
-    onZoomOffsetChanged: {
-        controller.rulerHeight = root.zoomOffset
-    }
-    
     onHeightChanged: {
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     function updatePalette() {
@@ -412,6 +402,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
     Timer {
         id: firstTimer

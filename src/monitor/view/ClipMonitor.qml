@@ -33,11 +33,6 @@ Item {
     property point center
     property double scalex: 1.
     property double scaley: 1.
-    property bool seeking: false
-    // Zoombar properties
-    // The pixel height of zoom bar, used to offset markers info
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx: 0
     property double offsety: 0
     property bool dropped: false
@@ -52,20 +47,17 @@ Item {
     property bool showToolbar: false
     property string clipName: controller.clipName
     property int duration: 300 // last selectable frame of the timecode display
-    property int mouseRulerPos: 0
     property double timeScale: 1
     property int overlayType: controller.overlayType
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property bool inLowerThird: (audioView.containsMyMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
-    property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
+    property bool inLowerThird: (audioView.containsMyMouse || clipMonitorRuler.containsMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
+    property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? audioView.height : 0
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = audioView.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
+            controller.rulerHeight = audioView.height
         }
     }
 
@@ -91,25 +83,13 @@ Item {
 
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = audioView.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
-        }
-    }
-
-    onZoomOffsetChanged: {
-        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = audioView.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
+            controller.rulerHeight = audioView.height
         }
     }
 
     onHeightChanged: {
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = (audioView.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
+            controller.rulerHeight = (audioView.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6)
         }
     }
 
@@ -163,6 +143,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
 
     Item {
@@ -212,10 +193,14 @@ Item {
                 id: audioView
                 monitorController: root.controller
                 timeScale: clipMonitorRuler.timeScale
+                duration: root.duration
+                onZoomInRuler: xpos => clipMonitorRuler.zoomInRuler(xpos)
+                onZoomOutRuler: xpos => clipMonitorRuler.zoomOutRuler(xpos)
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
+                    //bottom: clipMonitorRuler.top
+                    // bottomMargin: clipMonitorRuler.height
                 }
                 height: isAudioClip ? parent.height : parent.height / 5
                 width: parent.width

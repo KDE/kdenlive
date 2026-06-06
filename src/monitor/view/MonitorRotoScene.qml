@@ -26,15 +26,11 @@ Item {
     property int overlayType: controller.overlayType
     property double scalex : 1
     property double scaley : 1
-    property bool seeking: false
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double stretch : 1
     property double sourcedar : 1
     property double offsetx : 0
     property double offsety : 0
     property int duration: 300
-    property int mouseRulerPos: 0
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
     onScalexChanged: canvas.requestPaint()
@@ -80,8 +76,7 @@ Item {
         }
     }
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     onIsKeyframeChanged: {
@@ -754,6 +749,7 @@ Item {
     EffectToolBar {
         id: effectToolBar
         monitorController: root.controller
+        isClipMonitor: false
         anchors {
             right: parent.right
             top: parent.top

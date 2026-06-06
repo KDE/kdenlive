@@ -20,6 +20,8 @@ Rectangle {
     required property int duration
 
     property bool containsMouse: rulerMouseArea.containsMouse
+    property int mouseRulerPos: 0
+    property bool seeking: false
     property bool seekingFinished : monitorController.seekFinished
     // The width of the visible part
     property double rulerZoomWidth: monitorController.timeZoomFactor * width
@@ -75,9 +77,9 @@ Rectangle {
         id: scrollTimer
         interval: 200; running: false;
         onTriggered: {
-            if (root.seeking) {
+            if (ruler.seeking) {
                 // Check if seeking ruler
-                root.monitorController.position = Math.max(0, Math.min((root.mouseRulerPos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration))
+                ruler.monitorController.position = Math.max(0, Math.min((ruler.mouseRulerPos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration))
             }
         }
     }
@@ -110,7 +112,6 @@ Rectangle {
 
     function zoomInRuler(xPos)
     {
-        root.showZoomBar = true
         var currentX = playhead.x
         var currentCursor = playhead.x + playhead.width / 2 + ruler.rulerZoomOffset
         
@@ -133,7 +134,6 @@ Rectangle {
         monitorController.timeZoomFactor = Math.min(1, monitorController.timeZoomFactor * 1.2)
         if (monitorController.timeZoomFactor == 1) {
             monitorController.timeZoomOffset = 0
-            root.showZoomBar = false
         } else {
             // Always try to have cursor pos centered in zoom
             var cursorPos = Math.max(0, ruler.monitorController.position / ruler.duration - monitorController.timeZoomFactor / 2)
@@ -206,19 +206,19 @@ Rectangle {
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
-                root.seeking = true
-                root.mouseRulerPos = mouseX
+                ruler.seeking = true
+                ruler.mouseRulerPos = mouseX
                 ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
                 mouse.accepted = true
             }
         }
         onReleased: mouse => {
-            root.seeking = false
+            ruler.seeking = false
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
-                root.mouseRulerPos = pos
+                ruler.mouseRulerPos = pos
                 if (pressed) {
                     ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
                 }
@@ -228,10 +228,10 @@ Rectangle {
             if (wheel.modifiers & Qt.ControlModifier) {
                 if (wheel.angleDelta.y < 0) {
                     // zoom out
-                    zoomOutRuler(wheel.x)
+                    ruler.zoomOutRuler(wheel.x)
                 } else {
                     // zoom in
-                    zoomInRuler(wheel.x)
+                    ruler.zoomInRuler(wheel.x)
                 }
             } else {
                 wheel.accepted = false
@@ -494,7 +494,6 @@ Rectangle {
                         startDuration = guideRoot.markerDuration
                         startPosition = guideRoot.model.frame
                         originalEndPosition = guideRoot.model.frame + guideRoot.markerDuration
-                        lastUpdateTime = (new Date()).getTime()
                         cursorShape = Qt.SizeHorCursor
                     }
                     
@@ -566,15 +565,13 @@ Rectangle {
                     property real startDuration: 0
                     property real startPosition: 0
                     property real currentNewDuration: 0
-                    property real lastUpdateTime: 0
-                    
+
                     onPressed: {
                         isResizing = true
                         startX = mouseX
                         globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
                         startDuration = guideRoot.markerDuration
                         startPosition = guideRoot.model.frame
-                        lastUpdateTime = new Date().getTime()
                         cursorShape = Qt.SizeHorCursor
                     }
                     

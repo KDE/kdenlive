@@ -32,10 +32,7 @@ Item {
     property bool showFps: false
     property bool showSafezone: false
     property bool showAudiothumb: false
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property int duration: 300
-    property int mouseRulerPos: 0
     property int overlayType: controller.overlayType
     property bool isClipMonitor: false
 
@@ -79,6 +76,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
 
     Item {

@@ -14,10 +14,16 @@ import org.kde.kdenlive as K
 Rectangle {
     id: audioSeekZone
     required property K.MonitorProxy monitorController
+    required property int duration
     property int zoomZoneBorder: K.UiUtils.baseSizeMedium * 0.24
     property bool containsMouse: containerArea.containsMouse || mainHandleArea.containsMouse || leftHandle.containsMouse || mainHandleArea.pressed || leftHandle.pressed || rightHandle.pressed || rightHandle.containsMouse
+
+    signal zoomOutRuler(int xPos)
+    signal zoomInRuler(int xPos)
+
     color: activePalette.midlight
     width: parent.width
+
     SystemPalette { id: activePalette }
     MouseArea {
         id: containerArea
@@ -38,10 +44,10 @@ Rectangle {
                 }
                 if (wheel.angleDelta.y < 0) {
                     // zoom out
-                    clipMonitorRuler.zoomOutRuler(wheel.x)
+                    audioSeekZone.zoomOutRuler(wheel.x)
                 } else {
                     // zoom in
-                    clipMonitorRuler.zoomInRuler(wheel.x)
+                    audioSeekZone.zoomInRuler(wheel.x)
                 }
             } else {
                 var newPos = zoomRef.x
@@ -95,8 +101,8 @@ Rectangle {
                 }
                 // Highlight color for the selected wave part
                 Rectangle {
-                    x: audioSeekZone.monitorController.zoneIn * audioThumb.width / root.duration
-                    width: (audioSeekZone.monitorController.zoneOut - audioSeekZone.monitorController.zoneIn) * audioThumb.width / root.duration
+                    x: audioSeekZone.monitorController.zoneIn * audioSeekZone.width / audioSeekZone.duration
+                    width: (audioSeekZone.monitorController.zoneOut - audioSeekZone.monitorController.zoneIn) * audioSeekZone.width / audioSeekZone.duration
                     height: thumbsContainer.streamHeight - 2
                     color:  Utils.mixColors(activePalette.midlight, activePalette.highlight, 0.7)
                         //Utils.desaturateColor(activePalette.highlight, 0.6, 1)
@@ -114,8 +120,8 @@ Rectangle {
                     audioStream: audioSeekZone.monitorController.audioStreams[streamContainer.index]
                     format: audioSeekZone.monitorController.clipHasAV ? false : K.KdenliveSettings.displayallchannels
                     normalize: K.KdenliveSettings.normalizechannels
-                    property int aClipDuration: root.duration + 1
-                    scaleFactor: audioThumb.width / aClipDuration
+                    property int aClipDuration: audioSeekZone.duration + 1
+                    scaleFactor: audioSeekZone.width / aClipDuration
                     waveInPoint: 0
                     waveOutPoint: waveform2.aClipDuration
                     fgColorEven: "#00000000"//K.KdenliveSettings.thumbColor1
@@ -155,7 +161,7 @@ Rectangle {
         color: "#99FF0000"
         width: 2
         height: parent.height - 2 * zoomRef.border.width - 1
-        x: audioSeekZone.monitorController.position * audioThumb.width / root.duration
+        x: audioSeekZone.monitorController.position * audioSeekZone.width / audioSeekZone.duration
         y: zoomRef.border.width
     }
     // Current view reference
@@ -238,7 +244,7 @@ Rectangle {
                 var updatedPos = Math.min(audioSeekZone.width, x + mouseX)
                 updatedPos = Math.max(updatedPos, zoomRef.x)
                 var zf = (updatedPos - zoomRef.x) / audioSeekZone.width
-                monitorController.timeZoomFactor = zf
+                audioSeekZone.monitorController.timeZoomFactor = zf
             }
         }
     }

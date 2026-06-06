@@ -19,7 +19,6 @@ Item {
     height: 300; width: 400
     required property K.MonitorProxy controller
     property int duration: 300
-    property int mouseRulerPos: 0
     property int splitterPos
     property rect framesize
     // percentage holds splitter pos relative to the scene percentage
@@ -30,11 +29,8 @@ Item {
     property double offsety
     property double scalex
     property double scaley
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     signal qmlMoveSplit()
