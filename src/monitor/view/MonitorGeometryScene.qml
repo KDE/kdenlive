@@ -35,15 +35,11 @@ Item {
     property double scalex
     property double scaley
     property bool seeking: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property double lockratio : -1
-    property double timeScale: 1
     property int duration: 300
     property int mouseRulerPos: 0
     property bool rotatable: false
@@ -133,13 +129,6 @@ Item {
             }
         }
         return -1
-    }
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
     }
 
     function updateRotationAnchor()
@@ -706,5 +695,6 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 }

@@ -33,10 +33,6 @@ Item {
     property double scalex
     property double scaley
     // Zoombar properties
-    // The start position of the zoomed area, between 0 and 1
-    property double zoomStart: 0
-    // The zoom factor (between 0 and 1). 0.5 means 2x zoom
-    property double zoomFactor: 1
     // The pixel height of zoom bar, used to offset markers info
     property int zoomOffset: 0
     property bool showZoomBar: false
@@ -113,13 +109,6 @@ Item {
     signal generateMask()
     signal exitMaskPreview()
 
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    
     onZoomOffsetChanged: {
         controller.rulerHeight = root.zoomOffset
     }
@@ -454,6 +443,7 @@ Item {
         visible: root.duration > 0
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
         Repeater {
             model:root.keyframes
             anchors.fill: parent
@@ -466,7 +456,7 @@ Item {
                 width: clipMonitorRuler.height / 2
                 height: width
                 radius: width
-                x: kf * root.timeScale - (frame.width/root.zoomFactor * root.zoomStart) - width / 2
+                x: kf * clipMonitorRuler.timeScale - (frame.width/root.controller.timeZoomFactor * root.controller.timeZoomOffset) - width / 2
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton

@@ -33,6 +33,10 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int seekFinished MEMBER m_seekFinished NOTIFY seekFinishedChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
+    /** @brief The time zoom factor (between 0 and 1). 1 means no zoom, 0.5 means 2x zoom */
+    Q_PROPERTY(double timeZoomFactor READ timeZoomFactor WRITE setTimeZoomFactor NOTIFY timeZoomFactorChanged)
+    /** @brief The start position of the zoomed area, between 0 and 1 */
+    Q_PROPERTY(double timeZoomOffset READ timeZoomOffset WRITE setTimeZoomOffset NOTIFY timeZoomOffsetChanged)
     Q_PROPERTY(bool audioSynced MEMBER m_audioSynced WRITE setAudioSynced NOTIFY audioSyncedChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight WRITE setRulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment MEMBER m_markerComment NOTIFY markerChanged)
@@ -105,6 +109,11 @@ public:
     void setZoneIn(int pos);
     void setZoneOut(int pos);
     Q_INVOKABLE void setZone(int in, int out, bool sendUpdate = true);
+    double timeZoomFactor() const;
+    double timeZoomOffset() const;
+    void setTimeZoomFactor(double factor);
+    void setTimeZoomOffset(double offset);
+    void resetTimeZoom();
     /** brief: Activate clip monitor if param is true, project monitor otherwise
      * */
     Q_INVOKABLE void activateClipMonitor(bool isClipMonitor);
@@ -173,6 +182,8 @@ Q_SIGNALS:
     void zoneChanged();
     void saveZone(const QPoint zone);
     void saveZoneWithUndo(const QPoint, const QPoint&);
+    void timeZoomFactorChanged();
+    void timeZoomOffsetChanged();
     void markerChanged();
     void audioSyncedChanged();
     void rulerHeightChanged();
@@ -225,6 +236,8 @@ private:
     int m_position;
     int m_zoneIn;
     int m_zoneOut;
+    double m_timeZoomFactor{1};
+    double m_timeZoomOffset{0};
     bool m_hasAV;
     double m_speed;
     QList <int> m_audioStreams;

@@ -2129,9 +2129,9 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     if (m_controller) {
         m_glMonitor->resetZoneMode();
         // store last audiothumb zoom / position
-        double zoomFactor = m_glMonitor->rootObject()->property("zoomFactor").toDouble();
+        double zoomFactor = m_glMonitor->getControllerProxy()->timeZoomFactor();
         if (zoomFactor != 1.) {
-            double zoomStart = m_glMonitor->rootObject()->property("zoomStart").toDouble();
+            double zoomStart = m_glMonitor->getControllerProxy()->timeZoomOffset();
             m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbZoomFactor"), zoomFactor);
             m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbZoomStart"), zoomStart);
         } else {
@@ -2181,8 +2181,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         loadQmlScene(MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_glMonitor->getControllerProxy()->setAudioThumb();
-        m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
-        m_glMonitor->rootObject()->setProperty("zoomStart", 0);
+        m_glMonitor->getControllerProxy()->resetTimeZoom();
         m_audioMeterWidget->audioChannels = 0;
         m_timePos->setRange(0, 0);
         m_glMonitor->setRulerInfo(0, nullptr);
@@ -2286,15 +2285,14 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 }
                 if (audioScale > 0. && audioScale != 1.) {
                     double audioStart = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomStart"));
-                    m_glMonitor->rootObject()->setProperty("zoomFactor", audioScale);
-                    m_glMonitor->rootObject()->setProperty("zoomStart", audioStart);
+                    m_glMonitor->getControllerProxy()->resetTimeZoom();
+                    m_glMonitor->getControllerProxy()->setTimeZoomFactor(audioScale);
+                    m_glMonitor->getControllerProxy()->setTimeZoomOffset(audioStart);
                 } else {
-                    m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
-                    m_glMonitor->rootObject()->setProperty("zoomStart", 0);
+                    m_glMonitor->getControllerProxy()->resetTimeZoom();
                 }
             } else {
-                m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
-                m_glMonitor->rootObject()->setProperty("zoomStart", 0);
+                m_glMonitor->getControllerProxy()->resetTimeZoom();
             }
             pCore->guidesList()->setClipMarkerModel(m_controller);
             loadQmlScene(MonitorSceneDefault);

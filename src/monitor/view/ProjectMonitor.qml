@@ -33,16 +33,12 @@ Item {
     property bool showTimecode: false
     property bool showFps: false
     property bool showAudiothumb: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property int duration: 300
     property int mouseRulerPos: 0
-    property double timeScale: 1
     property int overlayType: root.controller.overlayType
     property bool isClipMonitor: false
     Component.onCompleted: {
@@ -58,13 +54,6 @@ Item {
     signal editCurrentMarker()
     signal startRecording(bool showCountDown)
 
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
     function updatePalette() {
         clipMonitorRuler.forceRepaint()
     }
@@ -311,5 +300,6 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 }

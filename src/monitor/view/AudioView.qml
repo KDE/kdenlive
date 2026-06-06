@@ -16,6 +16,7 @@ import org.kde.kdenlive as K
 Item {
     id: audioThumb
     required property K.MonitorProxy monitorController
+    required property double timeScale
     property bool isAudioClip: false
     property bool stateVisible: false
     property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
@@ -186,15 +187,15 @@ Item {
                         required property int index
                         y: streamContainer.channelHeight * channelBackground.index
                         height: streamContainer.channelHeight - 2
-                        anchors.right: parent.right
-                        anchors.left: parent.left
+                        anchors.right: streamContainer.right
+                        anchors.left: streamContainer.left
                         color: index %2 == 0 ? K.KdenliveSettings.thumbColor1 : K.KdenliveSettings.thumbColor2
                     }
                 }
                 // Highlight color for the selected wave part
                 Rectangle {
-                    x: audioThumb.monitorController.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
-                    width: (audioThumb.monitorController.zoneOut - audioThumb.monitorController.zoneIn) * timeScale
+                    x: audioThumb.monitorController.zoneIn * audioThumb.timeScale - (audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset)
+                    width: (audioThumb.monitorController.zoneOut - audioThumb.monitorController.zoneIn) * audioThumb.timeScale
                     height: streamThumb.streamHeight - 2
                     color:  Utils.mixColors(K.KdenliveSettings.thumbColor1, activePalette.highlight, 0.6)
                     visible: audioThumb.monitorController.zoneOut > audioThumb.monitorController.zoneIn
@@ -211,9 +212,9 @@ Item {
                     format: K.KdenliveSettings.displayallchannels
                     normalize: K.KdenliveSettings.normalizechannels
                     property int aClipDuration: root.duration + 1
-                    scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
-                    waveInPoint: waveform.aClipDuration * root.zoomStart
-                    waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
+                    scaleFactor: audioThumb.width / aClipDuration / audioThumb.monitorController.timeZoomFactor
+                    waveInPoint: waveform.aClipDuration * audioThumb.monitorController.timeZoomOffset
+                    waveOutPoint: waveform.aClipDuration * (audioThumb.monitorController.timeZoomOffset + audioThumb.monitorController.timeZoomFactor)
                     fgColorEven: "#00000000" //K.KdenliveSettings.thumbColor1
                     fgColorOdd: "#00000000" //K.KdenliveSettings.thumbColor2
                     bgColorEven: audioBg.color //"#00000000"
@@ -259,7 +260,7 @@ Item {
             color: "red"
             width: 2
             height: streamThumb.streamHeight * streamThumb.count
-            x: audioThumb.monitorController.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+            x: audioThumb.monitorController.position * audioThumb.timeScale - (audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset)
         }
     }
     MouseArea {
@@ -287,8 +288,8 @@ Item {
             root.seeking = true
             var pos = Math.max(mouseX, 0)
             root.mouseRulerPos = mouseX
-            pos += audioThumb.width / root.zoomFactor * root.zoomStart
-            audioThumb.monitorController.setPosition(Math.min(pos / root.timeScale, root.duration));
+            pos += audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset
+            audioThumb.monitorController.setPosition(Math.min(pos / audioThumb.timeScale, root.duration));
         }
         onPositionChanged: mouse => {
             if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioZoom.height) {
@@ -298,8 +299,8 @@ Item {
             if (mouse.modifiers & Qt.ShiftModifier || pressed) {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = mouseX
-                pos += audioThumb.width / root.zoomFactor * root.zoomStart
-                audioThumb.monitorController.setPosition(Math.min(pos / root.timeScale, root.duration));
+                pos += audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset
+                audioThumb.monitorController.setPosition(Math.min(pos / audioThumb.timeScale, root.duration));
             }
         }
         onReleased: {

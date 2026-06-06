@@ -18,7 +18,6 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
-    property double timeScale: 1
     property int duration: 300
     property int mouseRulerPos: 0
     property int splitterPos
@@ -31,9 +30,6 @@ Item {
     property double offsety
     property double scalex
     property double scaley
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
     Component.onCompleted: {
@@ -45,13 +41,6 @@ Item {
 
     percentage: 0.5
     splitterPos: this.width / 2
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
 
     MouseArea {
         width: root.width; height: root.height
@@ -108,6 +97,7 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 
     Timer {

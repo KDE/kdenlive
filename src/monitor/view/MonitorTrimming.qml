@@ -32,14 +32,10 @@ Item {
     property bool showFps: false
     property bool showSafezone: false
     property bool showAudiothumb: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
     property int duration: 300
     property int mouseRulerPos: 0
-    property double timeScale: 1
     property int overlayType: controller.overlayType
     property bool isClipMonitor: false
 

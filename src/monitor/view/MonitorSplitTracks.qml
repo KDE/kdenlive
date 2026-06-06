@@ -26,9 +26,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
     property double stretch : 1
@@ -39,17 +36,9 @@ Item {
     property int requestedKeyFrame
     property int duration: 300
     property int mouseRulerPos: 0
-    property double timeScale: 1
     property var tracks: []
 
     signal activateTrack(int position)
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
 
     MouseArea {
         id: barOverArea
@@ -124,5 +113,6 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 }

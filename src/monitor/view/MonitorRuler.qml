@@ -17,15 +17,50 @@ Rectangle {
     id: ruler
     color: activePalette.base
     required property K.MonitorProxy monitorController
+    required property int duration
+
     property bool containsMouse: rulerMouseArea.containsMouse
     property bool seekingFinished : monitorController.seekFinished
     // The width of the visible part
-    property double rulerZoomWidth: root.zoomFactor * width
+    property double rulerZoomWidth: monitorController.timeZoomFactor * width
     // The pixel offset
-    property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
+    property double rulerZoomOffset: monitorController.timeZoomOffset * width / monitorController.timeZoomFactor
     // The scroll factor on seek
     property int seekOffset: K.UiUtils.baseSizeMedium * 0.7
-    property double tickDistance: 10
+    property double tickDistance: {
+        let projectFps = K.Core.getCurrentFps();
+        let displayedLength = ruler.duration * monitorController.timeZoomFactor / projectFps;
+        if (displayedLength < 3 ) {
+            // 1 frame tick
+            return ruler.timeScale
+        } else if (displayedLength < 30) {
+            // 1 second tick
+            return projectFps * ruler.timeScale
+        } else if (displayedLength < 150) {
+            // 5 second tick
+            return 5 * projectFps * ruler.timeScale
+        } else if (displayedLength < 300) {
+            // 10 second tick
+            return 10 * projectFps * ruler.timeScale
+        } else if (displayedLength < 900) {
+            // 30 second tick
+            return 30 * projectFps * ruler.timeScale
+        } else if (displayedLength < 1800) {
+            // 1 min. tick
+            return 60 * projectFps * ruler.timeScale
+        } else if (displayedLength < 9000) {
+            // 5 min tick
+            return 300 * projectFps * ruler.timeScale
+        } else if (displayedLength < 18000) {
+            // 10 min tick
+            return 600 * projectFps * ruler.timeScale
+        } else {
+            // 30 min tick
+            return 18000 * projectFps * ruler.timeScale
+        }
+    }
+
+    property double timeScale: ruler.width / (ruler.duration + 1) / monitorController.timeZoomFactor
     
     property int playheadPosition: monitorController.position
     SystemPalette { id: activePalette }
@@ -42,32 +77,32 @@ Rectangle {
         onTriggered: {
             if (root.seeking) {
                 // Check if seeking ruler
-                root.monitorController.position = Math.max(0, Math.min((root.mouseRulerPos + ruler.rulerZoomOffset) / root.timeScale, root.duration))
+                root.monitorController.position = Math.max(0, Math.min((root.mouseRulerPos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration))
             }
         }
     }
     
     onPlayheadPositionChanged: {
-        if (root.zoomFactor == 1) {
+        if (monitorController.timeZoomFactor == 1) {
             return
         }
-        var scaledPosition = ruler.playheadPosition * root.timeScale - ruler.rulerZoomOffset
+        var scaledPosition = ruler.playheadPosition * ruler.timeScale - ruler.rulerZoomOffset
         if (scaledPosition < K.UiUtils.baseSizeMedium) {
             if (scaledPosition < 0) {
-                root.zoomStart = Math.max(0, (rulerZoomOffset - root.seekOffset + scaledPosition) * root.zoomFactor) / ruler.width
+                monitorController.timeZoomOffset = Math.max(0, (rulerZoomOffset - ruler.seekOffset + scaledPosition) * monitorController.timeZoomFactor) / ruler.width
             } else {
-                root.zoomStart = Math.max(0, (rulerZoomOffset - root.seekOffset) * root.zoomFactor) / ruler.width
+                monitorController.timeZoomOffset = Math.max(0, (rulerZoomOffset - ruler.seekOffset) * monitorController.timeZoomFactor) / ruler.width
             }
-            if (root.zoomStart > 0) {
+            if (monitorController.timeZoomOffset > 0) {
                 scrollTimer.start()
             }
         } else if (scaledPosition > ruler.width - K.UiUtils.baseSizeMedium) {
             if (scaledPosition > ruler.width) {
-                root.zoomStart = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + seekOffset + scaledPosition - ruler.width) * root.zoomFactor) / ruler.width
+                monitorController.timeZoomOffset = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + seekOffset + scaledPosition - ruler.width) * monitorController.timeZoomFactor) / ruler.width
             } else {
-                root.zoomStart = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + seekOffset) * root.zoomFactor) / ruler.width
+                monitorController.timeZoomOffset = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + seekOffset) * monitorController.timeZoomFactor) / ruler.width
             }
-            if (root.zoomStart < ruler.width - rulerZoomWidth) {
+            if (monitorController.timeZoomOffset < ruler.width - rulerZoomWidth) {
                 scrollTimer.start()
             }
         }
@@ -80,41 +115,37 @@ Rectangle {
         var currentCursor = playhead.x + playhead.width / 2 + ruler.rulerZoomOffset
         
         // Adjust zoom factor
-        root.zoomFactor = Math.min(1, root.zoomFactor / 1.2)
-        if (root.zoomFactor * ruler.width < K.UiUtils.baseSizeMedium / 2) {
+        monitorController.timeZoomFactor = Math.min(1, monitorController.timeZoomFactor / 1.2)
+        if (monitorController.timeZoomFactor * ruler.width < K.UiUtils.baseSizeMedium / 2) {
             // Don't allow too large zoom
-            root.zoomFactor = K.UiUtils.baseSizeMedium / 2 / ruler.width
+            monitorController.timeZoomFactor = K.UiUtils.baseSizeMedium / 2 / ruler.width
         }
         // Always try to have cursor pos centered in zoom
-        var cursorPos = Math.max(0, ruler.monitorController.position / root.duration - root.zoomFactor / 2)
-        if (cursorPos + root.zoomFactor > 1) {
-            cursorPos = 1 - root.zoomFactor
+        var cursorPos = Math.max(0, ruler.monitorController.position / ruler.duration - monitorController.timeZoomFactor / 2)
+        if (cursorPos + monitorController.timeZoomFactor > 1) {
+            cursorPos = 1 - monitorController.timeZoomFactor
         }
-        root.zoomStart = cursorPos
+        monitorController.timeZoomOffset = cursorPos
     }
     
     function zoomOutRuler(xPos)
     {
-        root.zoomFactor = Math.min(1, root.zoomFactor * 1.2)
-        if (root.zoomFactor == 1) {
-            root.zoomStart = 0
+        monitorController.timeZoomFactor = Math.min(1, monitorController.timeZoomFactor * 1.2)
+        if (monitorController.timeZoomFactor == 1) {
+            monitorController.timeZoomOffset = 0
             root.showZoomBar = false
         } else {
             // Always try to have cursor pos centered in zoom
-            var cursorPos = Math.max(0, ruler.monitorController.position / root.duration - root.zoomFactor / 2)
-            if (cursorPos + root.zoomFactor > 1) {
-                cursorPos = 1 - root.zoomFactor
+            var cursorPos = Math.max(0, ruler.monitorController.position / ruler.duration - monitorController.timeZoomFactor / 2)
+            if (cursorPos + monitorController.timeZoomFactor > 1) {
+                cursorPos = 1 - monitorController.timeZoomFactor
             }
-            root.zoomStart = cursorPos
+            monitorController.timeZoomOffset = cursorPos
         }
     }
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
-    }
-
-    onRulerZoomWidthChanged: {
-        updateRuler()
     }
 
     Timer {
@@ -130,48 +161,13 @@ Rectangle {
         playhead.color = activePalette.windowText
     }
 
-    function updateRuler()
-    {
-        root.timeScale = ruler.width / (root.duration + 1) / root.zoomFactor
-        var projectFps = K.Core.getCurrentFps()
-        var displayedLength = root.duration * root.zoomFactor / projectFps;
-        if (displayedLength < 3 ) {
-            // 1 frame tick
-            ruler.tickDistance = root.timeScale
-        } else if (displayedLength < 30) {
-            // 1 second tick
-            ruler.tickDistance = projectFps * root.timeScale
-        } else if (displayedLength < 150) {
-            // 5 second tick
-            ruler.tickDistance = 5 * projectFps * root.timeScale
-        } else if (displayedLength < 300) {
-            // 10 second tick
-            ruler.tickDistance = 10 * projectFps * root.timeScale
-        } else if (displayedLength < 900) {
-            // 30 second tick
-            ruler.tickDistance = 30 * projectFps * root.timeScale
-        } else if (displayedLength < 1800) {
-            // 1 min. tick
-            ruler.tickDistance = 60 * projectFps * root.timeScale
-        } else if (displayedLength < 9000) {
-            // 5 min tick
-            ruler.tickDistance = 300 * projectFps * root.timeScale
-        } else if (displayedLength < 18000) {
-            // 10 min tick
-            ruler.tickDistance = 600 * projectFps * root.timeScale
-        } else {
-            // 30 min tick
-            ruler.tickDistance = 18000 * projectFps * root.timeScale
-        }
-    }
-
     // Ruler zone
     Rectangle {
         id: zone
         visible: ruler.monitorController.zoneOut >= ruler.monitorController.zoneIn
         color: activePalette.highlight
-        x: ruler.monitorController.zoneIn * root.timeScale - ruler.rulerZoomOffset
-        width: (ruler.monitorController.zoneOut - ruler.monitorController.zoneIn) * root.timeScale
+        x: ruler.monitorController.zoneIn * ruler.timeScale - ruler.rulerZoomOffset
+        width: (ruler.monitorController.zoneOut - ruler.monitorController.zoneIn) * ruler.timeScale
         property bool zoneHovered: rulerMouseArea.pressed == false && ruler.monitorController.zoneOut >= ruler.monitorController.zoneIn && ((rulerMouseArea.containsMouse && rulerMouseArea.mouseX >= zone.x && rulerMouseArea.mouseX < zone.x + zone.width) || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse)
         anchors.bottom: parent.bottom
         height: ruler.height / 2
@@ -212,7 +208,7 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 root.seeking = true
                 root.mouseRulerPos = mouseX
-                ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+                ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
                 mouse.accepted = true
             }
         }
@@ -224,7 +220,7 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = pos
                 if (pressed) {
-                    ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+                    ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
                 }
             }
         }
@@ -276,7 +272,7 @@ Rectangle {
         anchors.top: ruler.top
         z: 2
         color: activePalette.windowText
-        x: ruler.monitorController.position * root.timeScale - ruler.rulerZoomOffset - (playhead.width / 2)
+        x: ruler.monitorController.position * ruler.timeScale - ruler.rulerZoomOffset - (playhead.width / 2)
     }
     MouseArea {
         id: trimInMouseArea
@@ -305,7 +301,7 @@ Rectangle {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                ruler.monitorController.zoneIn = Math.max(0, Math.round((x + (K.UiUtils.baseSizeMedium * .4) + ruler.rulerZoomOffset) / root.timeScale))
+                ruler.monitorController.zoneIn = Math.max(0, Math.round((x + (K.UiUtils.baseSizeMedium * .4) + ruler.rulerZoomOffset) / ruler.timeScale))
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     ruler.monitorController.position = ruler.monitorController.zoneIn
                 }
@@ -352,7 +348,7 @@ Rectangle {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                ruler.monitorController.zoneOut = Math.round((x + (K.UiUtils.baseSizeMedium * .4) + ruler.rulerZoomOffset) / root.timeScale)
+                ruler.monitorController.zoneOut = Math.round((x + (K.UiUtils.baseSizeMedium * .4) + ruler.rulerZoomOffset) / ruler.timeScale)
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     ruler.monitorController.position = ruler.monitorController.zoneOut
                 }
@@ -387,8 +383,8 @@ Rectangle {
             Rectangle {
                 id: rangeSpan
                 visible: guideRoot.isRangeMarker
-                x: (guideRoot.model.frame * root.timeScale) - ruler.rulerZoomOffset
-                width: Math.max(1, guideRoot.markerDuration * root.timeScale)
+                x: (guideRoot.model.frame * ruler.timeScale) - ruler.rulerZoomOffset
+                width: Math.max(1, guideRoot.markerDuration * ruler.timeScale)
                 height: parent.height
                 color: Qt.rgba(guideRoot.model.color.r, guideRoot.model.color.g, guideRoot.model.color.b, 0.5)
             }
@@ -397,7 +393,7 @@ Rectangle {
                 id: markerBase
                 width: 1
                 height: parent.height
-                x: (guideRoot.model.frame) * root.timeScale - ruler.rulerZoomOffset;
+                x: (guideRoot.model.frame) * ruler.timeScale - ruler.rulerZoomOffset;
                 color: guideRoot.model.color
             }
 
@@ -406,7 +402,7 @@ Rectangle {
                 visible: guideRoot.isRangeMarker
                 width: 1
                 height: parent.height
-                x: (guideRoot.model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset;
+                x: (guideRoot.model.frame + guideRoot.markerDuration) * ruler.timeScale - ruler.rulerZoomOffset;
                 color: guideRoot.model.color
             }
 
@@ -507,16 +503,16 @@ Rectangle {
                             var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
                             var realDeltaX = globalCurrentX - globalStartX
 
-                            var deltaFrames = Math.round(realDeltaX / root.timeScale)
+                            var deltaFrames = Math.round(realDeltaX / ruler.timeScale)
                             var newStartPosition = Math.max(0, startPosition + deltaFrames)
                             var newDuration = Math.max(1, originalEndPosition - newStartPosition)
 
                             currentNewStartPosition = newStartPosition
                             currentNewDuration = newDuration
 
-                            rangeSpan.x = (newStartPosition * root.timeScale) - ruler.rulerZoomOffset
-                            rangeSpan.width = Math.max(1, newDuration * root.timeScale)
-                            markerBase.x = (newStartPosition) * root.timeScale - ruler.rulerZoomOffset
+                            rangeSpan.x = (newStartPosition * ruler.timeScale) - ruler.rulerZoomOffset
+                            rangeSpan.width = Math.max(1, newDuration * ruler.timeScale)
+                            markerBase.x = (newStartPosition) * ruler.timeScale - ruler.rulerZoomOffset
 
                             cursorShape = Qt.SizeHorCursor
                         }
@@ -526,18 +522,18 @@ Rectangle {
                         if (isResizing) {
                             ruler.monitorController.resizeMarker(startPosition, currentNewDuration, true, currentNewStartPosition)
                             isResizing = false
-                            rangeSpan.x = Qt.binding(function() { return (guideRoot.model.frame * root.timeScale) - ruler.rulerZoomOffset })
-                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
-                            markerBase.x = Qt.binding(function() { return (guideRoot.model.frame) * root.timeScale - ruler.rulerZoomOffset; })
+                            rangeSpan.x = Qt.binding(function() { return (guideRoot.model.frame * ruler.timeScale) - ruler.rulerZoomOffset })
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * ruler.timeScale) })
+                            markerBase.x = Qt.binding(function() { return (guideRoot.model.frame) * ruler.timeScale - ruler.rulerZoomOffset; })
                         }
                     }
                     
                     onCanceled: {
                         if (isResizing) {
                             isResizing = false
-                            rangeSpan.x = Qt.binding(function() { return (guideRoot.model.frame * root.timeScale) - ruler.rulerZoomOffset })
-                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
-                            markerBase.x = Qt.binding(function() { return (guideRoot.model.frame) * root.timeScale - ruler.rulerZoomOffset; })
+                            rangeSpan.x = Qt.binding(function() { return (guideRoot.model.frame * ruler.timeScale) - ruler.rulerZoomOffset })
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * ruler.timeScale) })
+                            markerBase.x = Qt.binding(function() { return (guideRoot.model.frame) * ruler.timeScale - ruler.rulerZoomOffset; })
                         }
                     }
                 }
@@ -587,13 +583,13 @@ Rectangle {
                             var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
                             var realDeltaX = globalCurrentX - globalStartX
                             
-                            var deltaFrames = Math.round(realDeltaX / root.timeScale)
+                            var deltaFrames = Math.round(realDeltaX / ruler.timeScale)
                             var newDuration = Math.max(1, startDuration + deltaFrames)
                             
                             currentNewDuration = newDuration
                             
-                            rangeSpan.width = Math.max(1, newDuration * root.timeScale)
-                            markerEnd.x = (startPosition + newDuration) * root.timeScale - ruler.rulerZoomOffset
+                            rangeSpan.width = Math.max(1, newDuration * ruler.timeScale)
+                            markerEnd.x = (startPosition + newDuration) * ruler.timeScale - ruler.rulerZoomOffset
                             
                             cursorShape = Qt.SizeHorCursor
                             
@@ -604,16 +600,16 @@ Rectangle {
                         if (isResizing) {
                             ruler.monitorController.resizeMarker(startPosition, currentNewDuration, false)
                             isResizing = false
-                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
-                            markerEnd.x = Qt.binding(function() { return (guideRoot.model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset; })
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * ruler.timeScale) })
+                            markerEnd.x = Qt.binding(function() { return (guideRoot.model.frame + guideRoot.markerDuration) * ruler.timeScale - ruler.rulerZoomOffset; })
                         }
                     }
                     
                     onCanceled: {
                         if (isResizing) {
                             isResizing = false
-                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
-                            markerEnd.x = Qt.binding(function() { return (guideRoot.model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset; })
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * ruler.timeScale) })
+                            markerEnd.x = Qt.binding(function() { return (guideRoot.model.frame + guideRoot.markerDuration) * ruler.timeScale - ruler.rulerZoomOffset; })
                         }
                     }
                 }

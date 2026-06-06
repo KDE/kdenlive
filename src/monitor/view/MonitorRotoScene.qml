@@ -27,9 +27,6 @@ Item {
     property double scalex : 1
     property double scaley : 1
     property bool seeking: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
     property double stretch : 1
@@ -37,7 +34,6 @@ Item {
     property double offsetx : 0
     property double offsety : 0
     property int duration: 300
-    property double timeScale: 1
     property int mouseRulerPos: 0
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
@@ -86,13 +82,6 @@ Item {
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         controller.rulerHeight = root.zoomOffset
-    }
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
     }
 
     onIsKeyframeChanged: {
@@ -782,6 +771,7 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 
 }

@@ -52,7 +52,7 @@ Rectangle {
                 }
                 var zs = Math.max(0, newPos / audioSeekZone.width)
                 zs = Math.min((audioSeekZone.width - zoomRef.width) / audioSeekZone.width, zs)
-                root.zoomStart = zs
+                audioSeekZone.monitorController.timeZoomOffset = zs
             }
         }
         onPressed: mouse => {
@@ -60,7 +60,7 @@ Rectangle {
                 var updatedPos = Math.max(0, mouseX - zoomRef.width / 2)
                 updatedPos = Math.min(audioSeekZone.width - zoomRef.width, updatedPos)
                 var zs = updatedPos / audioSeekZone.width
-                root.zoomStart = zs
+                audioSeekZone.monitorController.timeZoomOffset = zs
             }
         }
     }
@@ -132,17 +132,17 @@ Rectangle {
                 }
                 // fade a bit the not viewed zone audio wave
                 Rectangle {
-                    visible: root.zoomStart > 0
+                    visible: audioSeekZone.monitorController.timeZoomOffset > 0
                     height: thumbsContainer.streamHeight - 2
                     anchors.left: parent.left
-                    width: streamThumbMini.width * root.zoomStart
+                    width: streamThumbMini.width * audioSeekZone.monitorController.timeZoomOffset
                     color: audioSeekZone.color
                     opacity: 0.3
                 }
                 Rectangle {
-                    visible: root.zoomFactor < 1
+                    visible: audioSeekZone.monitorController.timeZoomFactor < 1
                     height: thumbsContainer.streamHeight - 2
-                    width: streamThumbMini.width * (1 - root.zoomStart - root.zoomFactor)
+                    width: streamThumbMini.width * (1 - audioSeekZone.monitorController.timeZoomOffset - audioSeekZone.monitorController.timeZoomFactor)
                     anchors.right: parent.right
                     color: audioSeekZone.color
                     opacity: 0.3
@@ -161,10 +161,10 @@ Rectangle {
     // Current view reference
     Rectangle {
         id: zoomRef
-        x: audioSeekZone.width * root.zoomStart
-        width: audioSeekZone.width * root.zoomFactor
+        x: audioSeekZone.width * audioSeekZone.monitorController.timeZoomOffset
+        width: audioSeekZone.width * audioSeekZone.monitorController.timeZoomFactor
         height: audioSeekZone.height - 1
-        opacity: mainHandleArea.containsMouse || mainHandleArea.pressed ? 1 : root.zoomFactor === 1. ? 0.5 : 0.8
+        opacity: mainHandleArea.containsMouse || mainHandleArea.pressed ? 1 : audioSeekZone.monitorController.timeZoomFactor === 1. ? 0.5 : 0.8
         radius: 2
         border.width: audioSeekZone.monitorController.clipHasAV ? 2 : 2
         border.color: mainHandleArea.containsMouse || mainHandleArea.pressed ? activePalette.highlight : activePalette.text
@@ -195,7 +195,7 @@ Rectangle {
                 updatedPos = Math.max(0, updatedPos)
                 updatedPos = Math.min(audioSeekZone.width - mainHandleArea.width, updatedPos)
                 var zs = updatedPos / audioSeekZone.width
-                root.zoomStart = zs
+                audioSeekZone.monitorController.timeZoomOffset = zs
             }
         }
     }
@@ -216,8 +216,8 @@ Rectangle {
                 updatedPos = Math.min(updatedPos, zoomRef.x + zoomRef.width)
                 var zs = updatedPos / audioSeekZone.width
                 var zf = (zoomRef.x + zoomRef.width - updatedPos) / audioSeekZone.width
-                root.zoomStart = zs
-                root.zoomFactor = zf
+                audioSeekZone.monitorController.timeZoomOffset = zs
+                audioSeekZone.monitorController.timeZoomFactor = zf
             }
         }
     }
@@ -238,7 +238,7 @@ Rectangle {
                 var updatedPos = Math.min(audioSeekZone.width, x + mouseX)
                 updatedPos = Math.max(updatedPos, zoomRef.x)
                 var zf = (updatedPos - zoomRef.x) / audioSeekZone.width
-                root.zoomFactor = zf
+                monitorController.timeZoomFactor = zf
             }
         }
     }

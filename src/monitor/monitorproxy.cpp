@@ -308,6 +308,36 @@ QPoint MonitorProxy::zone() const
     return {m_zoneIn, m_zoneOut};
 }
 
+double MonitorProxy::timeZoomFactor() const
+{
+    return m_timeZoomFactor;
+}
+
+void MonitorProxy::setTimeZoomFactor(double factor)
+{
+    m_timeZoomFactor = factor;
+    Q_EMIT timeZoomFactorChanged();
+}
+
+double MonitorProxy::timeZoomOffset() const
+{
+    return m_timeZoomOffset;
+}
+
+void MonitorProxy::setTimeZoomOffset(double offset)
+{
+    m_timeZoomOffset = offset;
+    Q_EMIT timeZoomOffsetChanged();
+}
+
+void MonitorProxy::resetTimeZoom()
+{
+    m_timeZoomFactor = 1;
+    m_timeZoomOffset = 0;
+    Q_EMIT timeZoomFactorChanged();
+    Q_EMIT timeZoomOffsetChanged();
+}
+
 void MonitorProxy::extractFrameToFile(int frame_position, const QStringList &pathInfo, bool addToProject, bool useSourceProfile)
 {
     const QString path = pathInfo.at(0);

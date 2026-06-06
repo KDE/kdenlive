@@ -35,10 +35,6 @@ Item {
     property double scaley: 1.
     property bool seeking: false
     // Zoombar properties
-    // The start position of the zoomed area, between 0 and 1
-    property double zoomStart: 0
-    // The zoom factor (between 0 and 1). 1 means no zoom, 0.5 means 2x zoom
-    property double zoomFactor: 1
     // The pixel height of zoom bar, used to offset markers info
     property int zoomOffset: 0
     property bool showZoomBar: false
@@ -85,12 +81,6 @@ Item {
 
     signal editCurrentMarker()
 
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
     onClipNameChanged: {
         // Animate clip name
         labelContainer.opacity = 1
@@ -154,7 +144,7 @@ Item {
         onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
                 var pos = Math.max(mouseX, 0)
-                pos += width / root.zoomFactor * root.zoomStart
+                pos += width / root.controller.timeZoomFactor * root.controller.timeZoomOffset
                 root.controller.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
@@ -221,6 +211,7 @@ Item {
             AudioView {
                 id: audioView
                 monitorController: root.controller
+                timeScale: clipMonitorRuler.timeScale
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -655,6 +646,7 @@ Item {
         visible: root.duration > 0
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
         Repeater {
             model: root.controller.clipBounds
             anchors.fill: parent
@@ -664,8 +656,8 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 1
                 property point bd: root.controller.clipBoundary(index)
-                x: bd.x * root.timeScale - (clipMonitorRuler.width / root.zoomFactor * root.zoomStart)
-                width: bd.y * root.timeScale
+                x: bd.x * clipMonitorRuler.timeScale - (clipMonitorRuler.width / root.controller.timeZoomFactor * root.controller.timeZoomOffset)
+                width: bd.y * clipMonitorRuler.timeScale
                 height: 2
                 color: 'goldenrod'
             }
