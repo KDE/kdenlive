@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-05 00:43+0000\n"
+"POT-Creation-Date: 2026-06-06 00:42+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -8183,7 +8183,7 @@ msgstr "Video parādās no melna ekrāna"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:106 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "Parādās"
@@ -8205,7 +8205,7 @@ msgid "Fade video to black"
 msgstr "Video izgaist uz melnu"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:140
 #, kde-format
 msgid "Out"
 msgstr "Izgaist"
@@ -17149,7 +17149,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Apstrādāt audio, izmantojot „SoX“ efektu"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:101
+#: src/monitor/view/MonitorSplit.qml:92
 #, kde-format
 msgid "Effect"
 msgstr "Efekts"
@@ -20295,12 +20295,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -27429,7 +27429,7 @@ msgid "Clip in Timeline"
 msgstr "Klips laika joslā"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1200
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1199
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -31234,17 +31234,17 @@ msgstr "Lai ieslēgtu Audio spektru, MLT ir jābūt kompilētam ar „libfftw3�
 msgid "Enable Audio Spectrum"
 msgstr "Ieslēgt audio spektru"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1222
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Atlasīt atskaņojamo apgabalu"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1231
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Atlasīt atskaņojamo klipu"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1341
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -31255,33 +31255,33 @@ msgstr ""
 "Ir problēmas ar „Kdenlive“ instalāciju vai draivera iestatījumiem. Novērsiet "
 "tās."
 
-#: src/monitor/view/AudioView.qml:344
+#: src/monitor/view/AudioView.qml:342
 #, fuzzy, kde-format
 #| msgid "Zoom Audio Waveforms"
 msgid "Click to refresh audio waveform"
 msgstr "Tuvināt audio viļņformas"
 
-#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
+#: src/monitor/view/ClipMonitor.qml:364 src/monitor/view/ProjectMonitor.qml:193
 #, kde-format
 msgid "%1fps"
 msgstr "%1 fps"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
+#: src/monitor/view/ClipMonitor.qml:403 src/monitor/view/ProjectMonitor.qml:226
 #, kde-format
 msgid "In Point"
 msgstr "Sākuma punkts"
 
-#: src/monitor/view/ClipMonitor.qml:408
+#: src/monitor/view/ClipMonitor.qml:403
 #, kde-format
 msgid "In/Out Point"
 msgstr "Sākuma/beigu punkts"
 
-#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
+#: src/monitor/view/ClipMonitor.qml:426 src/monitor/view/ProjectMonitor.qml:243
 #, kde-format
 msgid "Out Point"
 msgstr "Beigu punkts"
 
-#: src/monitor/view/ClipMonitor.qml:621
+#: src/monitor/view/ClipMonitor.qml:609
 #, kde-format
 msgid "Terminate Job"
 msgstr "Nobeigt darbu"
@@ -31357,7 +31357,7 @@ msgstr "Iziet no maskas izveides"
 msgid "Exit Preview Mode"
 msgstr "Iziet no priekšskatījuma režīma"
 
-#: src/monitor/view/MonitorAutomask.qml:280
+#: src/monitor/view/MonitorAutomask.qml:274
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Click on an object or draw a box to start a mask.\n"
@@ -31373,22 +31373,22 @@ msgstr ""
 "„Shift“+klikšķis iekļaus vēl citu zonu.\n"
 "„Ctrl“+klikšķis izņems zonu."
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Vispirms attēlā atlasiet objektu"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating image mask"
 msgstr "Ģenerē attēla masku"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating video mask"
 msgstr "Ģenerē video masku"
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -31399,12 +31399,12 @@ msgstr ""
 "„Shift“+klikšķis iekļaus vēl citu zonu.\n"
 "„Ctrl“+klikšķis izņems zonu."
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Video maskas priekšskatījums"
 
-#: src/monitor/view/MonitorAutomask.qml:404
+#: src/monitor/view/MonitorAutomask.qml:396
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -31417,17 +31417,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:414
+#: src/monitor/view/MonitorAutomask.qml:406
 #, kde-format
 msgid "Go to mask start"
 msgstr "Iet uz maskas sākumu"
 
-#: src/monitor/view/MonitorAutomask.qml:426
+#: src/monitor/view/MonitorAutomask.qml:412
 #, kde-format
 msgid "Go to mask end"
 msgstr "Iet uz maskas beigām"
 
-#: src/monitor/view/MonitorGeometryScene.qml:359
+#: src/monitor/view/MonitorGeometryScene.qml:352
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31442,7 +31442,7 @@ msgstr ""
 "<shortcut>Pārlikt peles rādītāju labajā pusē</shortcut> rīku joslai. "
 "<shortcut>Viens klikšķis</shortcut> centrā, lai pārvietotos uz tā atslēgkadru"
 
-#: src/monitor/view/MonitorRotoScene.qml:71
+#: src/monitor/view/MonitorRotoScene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31452,7 +31452,7 @@ msgstr ""
 "<shortcut>Viens klikšķis</shortcut>, lai pievienotu punktus. "
 "<shortcut>Labais klikšķis</shortcut>, lai aizvērtu formu."
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31467,14 +31467,14 @@ msgstr ""
 "<shortcut>Dubultklikšķis</shortcut> uz fona, lai pievienotu jaunu "
 "atslēgkadru. <shortcut>Pārlikt peli labajā pusē</shortcut> rīku joslai"
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>„Shift“ un vilkt aiz tura</shortcut>, lai mainītu izmēru no centra"
 
-#: src/monitor/view/MonitorRotoScene.qml:432
+#: src/monitor/view/MonitorRotoScene.qml:422
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -31483,7 +31483,7 @@ msgstr ""
 "Spiediet, lai pievienotu punktus,\n"
 "labais klikšķis vai „Enter“ taustiņš, lai aizvērtu formu."
 
-#: src/monitor/view/MonitorRuler.qml:247
+#: src/monitor/view/MonitorRuler.qml:245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31498,7 +31498,7 @@ msgstr ""
 "<shortcut>„Home“</shortcut> / <shortcut>„End“</shortcut> taustiņš, lai ietu "
 "uz pirmo / pēdējo kadru"
 
-#: src/monitor/view/MonitorRuler.qml:319
+#: src/monitor/view/MonitorRuler.qml:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31508,7 +31508,7 @@ msgstr ""
 "<shortcut>Vilkt</shortcut>, lai iestatītu apgabalu punktā. "
 "<shortcut>„Shift“+vilkt</shortcut>, lai pārvietotos, mainot apgabalu iekšā"
 
-#: src/monitor/view/MonitorRuler.qml:368
+#: src/monitor/view/MonitorRuler.qml:362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31526,7 +31526,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Atiestatīt %1"
 
-#: src/monitor/view/ProjectMonitor.qml:102
+#: src/monitor/view/ProjectMonitor.qml:97
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -31536,7 +31536,7 @@ msgstr ""
 "<b>Pārlikt peli labajā pusē</b> rīku joslai. <b>Ritenītis</b> vai "
 "<b>bultiņas</b>, lai pārvietotos. <b>„Ctrl“ + ritenītis</b> tālummaiņai"
 
-#: src/monitor/view/ProjectMonitor.qml:302
+#: src/monitor/view/ProjectMonitor.qml:297
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
@@ -35424,7 +35424,7 @@ msgid "Stop"
 msgstr "Apturēt"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2319
+#: src/timeline2/view/qml/Timeline.qml:2318
 #, kde-format
 msgid "Paused"
 msgstr "Pauzēts"
@@ -35586,8 +35586,8 @@ msgstr "Rādīt"
 msgid "Hide"
 msgstr "Slēpt"
 
-#: src/timeline2/view/qml/Timeline.qml:907
-#: src/timeline2/view/qml/Timeline.qml:917
+#: src/timeline2/view/qml/Timeline.qml:906
+#: src/timeline2/view/qml/Timeline.qml:916
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -35596,29 +35596,29 @@ msgstr[0] "Nepietiek audio celiņu visām straumēm (%1)"
 msgstr[1] "Nepietiek audio celiņu visām straumēm (%1)"
 msgstr[2] "Nepietiek audio celiņu visām straumēm (%1)"
 
-#: src/timeline2/view/qml/Timeline.qml:1194
+#: src/timeline2/view/qml/Timeline.qml:1193
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "Rādīt pamata efektus"
 
-#: src/timeline2/view/qml/Timeline.qml:1944
+#: src/timeline2/view/qml/Timeline.qml:1943
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubultklikšķis</b>, lai atvērtu subtitru"
 
-#: src/timeline2/view/qml/Timeline.qml:2138
+#: src/timeline2/view/qml/Timeline.qml:2137
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Nobīde: %1, Pozīcija: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2308
-#: src/timeline2/view/qml/Timeline.qml:2317
+#: src/timeline2/view/qml/Timeline.qml:2307
+#: src/timeline2/view/qml/Timeline.qml:2316
 #, kde-format
 msgid "Recording"
 msgstr "Ieraksta"
 
-#: src/timeline2/view/qml/Timeline.qml:2411
+#: src/timeline2/view/qml/Timeline.qml:2410
 #, kde-format
 msgid "Multicam In"
 msgstr "Vairāku kameru ievade"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-05 00:43+0000\n"
+"POT-Creation-Date: 2026-06-06 00:42+0000\n"
 "PO-Revision-Date: 2025-03-22 22:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -8186,7 +8186,7 @@ msgstr "Paligi videon el nigra"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:106 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "En"
@@ -8208,7 +8208,7 @@ msgid "Fade video to black"
 msgstr "Paligi videon al nigra"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:140
 #, kde-format
 msgid "Out"
 msgstr "Ekstere"
@@ -17141,7 +17141,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Procesi Audio uzante SoX-efikon"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:101
+#: src/monitor/view/MonitorSplit.qml:92
 #, kde-format
 msgid "Effect"
 msgstr "Efiko"
@@ -20292,12 +20292,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -27419,7 +27419,7 @@ msgid "Clip in Timeline"
 msgstr "Aŭdvidaĵo en Timeline"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1200
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1199
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -31228,17 +31228,17 @@ msgstr "MLT devas esti kompilita kun libfftw3 por ebligi Audio Spectrum"
 msgid "Enable Audio Spectrum"
 msgstr "Ebligi Sonan Spektron"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1222
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Elekti zonon por ludi"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1231
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Elekti tondaĵon por ludi"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1341
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -31249,33 +31249,33 @@ msgstr ""
 "Estas io malĝusta kun via instalado de Kdenlive aŭ viaj pelilaj agordoj, "
 "bonvolu ripari ĝin."
 
-#: src/monitor/view/AudioView.qml:344
+#: src/monitor/view/AudioView.qml:342
 #, fuzzy, kde-format
 #| msgid "Zoom Audio Waveforms"
 msgid "Click to refresh audio waveform"
 msgstr "Zomi Aŭd-Ondoformojn"
 
-#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
+#: src/monitor/view/ClipMonitor.qml:364 src/monitor/view/ProjectMonitor.qml:193
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
+#: src/monitor/view/ClipMonitor.qml:403 src/monitor/view/ProjectMonitor.qml:226
 #, kde-format
 msgid "In Point"
 msgstr "En Punkto"
 
-#: src/monitor/view/ClipMonitor.qml:408
+#: src/monitor/view/ClipMonitor.qml:403
 #, kde-format
 msgid "In/Out Point"
 msgstr "En/Elira Punkto"
 
-#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
+#: src/monitor/view/ClipMonitor.qml:426 src/monitor/view/ProjectMonitor.qml:243
 #, kde-format
 msgid "Out Point"
 msgstr "Eksterpunkto"
 
-#: src/monitor/view/ClipMonitor.qml:621
+#: src/monitor/view/ClipMonitor.qml:609
 #, kde-format
 msgid "Terminate Job"
 msgstr "Termini Ijobon"
@@ -31351,7 +31351,7 @@ msgstr "Eliri Masko-Kreadon"
 msgid "Exit Preview Mode"
 msgstr "Eliri Antaŭrigardan Reĝimon"
 
-#: src/monitor/view/MonitorAutomask.qml:280
+#: src/monitor/view/MonitorAutomask.qml:274
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Click on an object or draw a box to start a mask.\n"
@@ -31367,22 +31367,22 @@ msgstr ""
 "Shift+klako por inkluzivi alian zonon.\n"
 "Ktrl+klako por ekskludi zonon."
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Unue elektu objekton en la bildo"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating image mask"
 msgstr "Generante bildmaskon"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating video mask"
 msgstr "Generante filmetan maskon"
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -31393,12 +31393,12 @@ msgstr ""
 "Shift+klako por inkluzivi alian zonon.\n"
 "Ktrl+klako por ekskludi zonon."
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Antaŭrigardo de videomasko"
 
-#: src/monitor/view/MonitorAutomask.qml:404
+#: src/monitor/view/MonitorAutomask.qml:396
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -31411,17 +31411,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:414
+#: src/monitor/view/MonitorAutomask.qml:406
 #, kde-format
 msgid "Go to mask start"
 msgstr "Iri al komenco de masko"
 
-#: src/monitor/view/MonitorAutomask.qml:426
+#: src/monitor/view/MonitorAutomask.qml:412
 #, kde-format
 msgid "Go to mask end"
 msgstr "Iri al fino de masko"
 
-#: src/monitor/view/MonitorGeometryScene.qml:359
+#: src/monitor/view/MonitorGeometryScene.qml:352
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31435,7 +31435,7 @@ msgstr ""
 "por centro-bazita reskalo, <shortcut>Ŝvebi dekstren</shortcut> por ilobreto, "
 "<shortcut>Alklaku</shortcut> sur centro por serĉi ĝian ŝlosilkadron"
 
-#: src/monitor/view/MonitorRotoScene.qml:71
+#: src/monitor/view/MonitorRotoScene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31445,7 +31445,7 @@ msgstr ""
 "<shortcut>Alklaku</shortcut> por aldoni punktojn, <shortcut>Dekstre alklaku</"
 "shortcut> por fermi formon."
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31460,13 +31460,13 @@ msgstr ""
 "<shortcut>Duoble alklako </shortcut> fono por krei novan ŝlosilkadron, "
 "<shortcut>Ŝvebi dekstren</shortcut> por ilobreto"
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift trena tenilo</shortcut> por centro-bazita regrandigo"
 
-#: src/monitor/view/MonitorRotoScene.qml:432
+#: src/monitor/view/MonitorRotoScene.qml:422
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -31475,7 +31475,7 @@ msgstr ""
 "Alklaku por aldoni punktojn,\n"
 "dekstre alklaku aŭ premu enter por fermi formon."
 
-#: src/monitor/view/MonitorRuler.qml:247
+#: src/monitor/view/MonitorRuler.qml:245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31489,7 +31489,7 @@ msgstr ""
 "por serĉi markilon, <shortcut>Hejmo</shortcut> / <shortcut>Fino</shortcut> "
 "por iri al unua/lasta kadro"
 
-#: src/monitor/view/MonitorRuler.qml:319
+#: src/monitor/view/MonitorRuler.qml:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31499,7 +31499,7 @@ msgstr ""
 "<shortcut>Trenu</shortcut> por agordi zonon en punkton, <shortcut>Shift"
 "+Trenu</shortcut> por serĉi dum ĝustigado de zono en"
 
-#: src/monitor/view/MonitorRuler.qml:368
+#: src/monitor/view/MonitorRuler.qml:362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31516,7 +31516,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Restarigi %1"
 
-#: src/monitor/view/ProjectMonitor.qml:102
+#: src/monitor/view/ProjectMonitor.qml:97
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -31526,7 +31526,7 @@ msgstr ""
 "dekstren</b> por ilobreto, <b>Rado</b> aŭ <b>sagoj</b> b> por serĉi, <b>Ktrl-"
 "rado</b> por zomi"
 
-#: src/monitor/view/ProjectMonitor.qml:302
+#: src/monitor/view/ProjectMonitor.qml:297
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
@@ -35404,7 +35404,7 @@ msgid "Stop"
 msgstr "Halti"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2319
+#: src/timeline2/view/qml/Timeline.qml:2318
 #, kde-format
 msgid "Paused"
 msgstr "Paŭzita"
@@ -35565,8 +35565,8 @@ msgstr "Montri"
 msgid "Hide"
 msgstr "Kaŝi"
 
-#: src/timeline2/view/qml/Timeline.qml:907
-#: src/timeline2/view/qml/Timeline.qml:917
+#: src/timeline2/view/qml/Timeline.qml:906
+#: src/timeline2/view/qml/Timeline.qml:916
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -35574,29 +35574,29 @@ msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Ne sufiĉas sonspuroj por ĉiuj fluoj (%1)"
 msgstr[1] "Ne sufiĉas sonspuroj por ĉiuj fluoj (%1)"
 
-#: src/timeline2/view/qml/Timeline.qml:1194
+#: src/timeline2/view/qml/Timeline.qml:1193
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "Montri majstrajn efektojn"
 
-#: src/timeline2/view/qml/Timeline.qml:1944
+#: src/timeline2/view/qml/Timeline.qml:1943
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Duoble alklaku</b> por aldoni subtitolon"
 
-#: src/timeline2/view/qml/Timeline.qml:2138
+#: src/timeline2/view/qml/Timeline.qml:2137
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Deŝovo: %1, Pozicio: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2308
-#: src/timeline2/view/qml/Timeline.qml:2317
+#: src/timeline2/view/qml/Timeline.qml:2307
+#: src/timeline2/view/qml/Timeline.qml:2316
 #, kde-format
 msgid "Recording"
 msgstr "Registrado"
 
-#: src/timeline2/view/qml/Timeline.qml:2411
+#: src/timeline2/view/qml/Timeline.qml:2410
 #, kde-format
 msgid "Multicam In"
 msgstr "Multikamera En"

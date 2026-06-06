@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-05 00:43+0000\n"
+"POT-Creation-Date: 2026-06-06 00:42+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -7629,7 +7629,7 @@ msgstr "從黑色背景淡入為視訊"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:106 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "起點"
@@ -7651,7 +7651,7 @@ msgid "Fade video to black"
 msgstr "視訊淡出為黑色畫面背景"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:140
 #, kde-format
 msgid "Out"
 msgstr "終點"
@@ -15903,7 +15903,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Sox 低音聲訊特效"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:101
+#: src/monitor/view/MonitorSplit.qml:92
 #, kde-format
 msgid "Effect"
 msgstr "效果"
@@ -18997,12 +18997,12 @@ msgstr ""
 "雙擊、拖放檔案，或\n"
 "點擊 %1 來匯入媒體"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "拖曳來只將音訊加入時間軸"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "拖曳來只將視訊加入時間軸"
@@ -25942,7 +25942,7 @@ msgid "Clip in Timeline"
 msgstr "時間軸中的素材"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1200
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1199
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -29600,17 +29600,17 @@ msgstr "MLT 編譯時必須有 libfftw3 才能使用音訊頻譜"
 msgid "Enable Audio Spectrum"
 msgstr "啟用音訊頻譜"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1222
 #, kde-format
 msgid "Select a zone to play"
 msgstr "選取要播放的區段"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1231
 #, kde-format
 msgid "Select a clip to play"
 msgstr "選擇要播放的素材"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1341
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -29620,33 +29620,33 @@ msgstr ""
 "無法建立影片預覽視窗。\n"
 "您的 Kdenlive 安裝或驅動程式設定有問題，請修正它。"
 
-#: src/monitor/view/AudioView.qml:344
+#: src/monitor/view/AudioView.qml:342
 #, fuzzy, kde-format
 #| msgid "Click to reset Audio Waveform Zoom"
 msgid "Click to refresh audio waveform"
 msgstr "點擊以重設音訊波形縮放"
 
-#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
+#: src/monitor/view/ClipMonitor.qml:364 src/monitor/view/ProjectMonitor.qml:193
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
+#: src/monitor/view/ClipMonitor.qml:403 src/monitor/view/ProjectMonitor.qml:226
 #, kde-format
 msgid "In Point"
 msgstr "起點"
 
-#: src/monitor/view/ClipMonitor.qml:408
+#: src/monitor/view/ClipMonitor.qml:403
 #, kde-format
 msgid "In/Out Point"
 msgstr "起點/終點"
 
-#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
+#: src/monitor/view/ClipMonitor.qml:426 src/monitor/view/ProjectMonitor.qml:243
 #, kde-format
 msgid "Out Point"
 msgstr "終點"
 
-#: src/monitor/view/ClipMonitor.qml:621
+#: src/monitor/view/ClipMonitor.qml:609
 #, kde-format
 msgid "Terminate Job"
 msgstr "終止工作"
@@ -29724,7 +29724,7 @@ msgstr "離開遮罩建立"
 msgid "Exit Preview Mode"
 msgstr "離開預覽模式"
 
-#: src/monitor/view/MonitorAutomask.qml:280
+#: src/monitor/view/MonitorAutomask.qml:274
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29736,23 +29736,23 @@ msgstr ""
 "罩，<shortcut>Shift+點擊</shortcut>來包含另一個區域，<shortcut>Ctrl+點擊</"
 "shortcut>來排除一個區域。"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "在專案素材庫中選取素材來比對效果"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating image mask"
 msgstr "正在建立影像遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating video mask"
 msgstr "正在建立影片遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -29763,12 +29763,12 @@ msgstr ""
 "Shift+點擊來包含另一個區域。\n"
 "Ctrl+點擊來排除一個區域。"
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid "Previewing video mask"
 msgstr "正在預覽影片遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:404
+#: src/monitor/view/MonitorAutomask.qml:396
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -29777,17 +29777,17 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:414
+#: src/monitor/view/MonitorAutomask.qml:406
 #, kde-format
 msgid "Go to mask start"
 msgstr "跳到遮罩起點"
 
-#: src/monitor/view/MonitorAutomask.qml:426
+#: src/monitor/view/MonitorAutomask.qml:412
 #, kde-format
 msgid "Go to mask end"
 msgstr "跳到遮罩末尾"
 
-#: src/monitor/view/MonitorGeometryScene.qml:359
+#: src/monitor/view/MonitorGeometryScene.qml:352
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29801,7 +29801,7 @@ msgstr ""
 "右邊</shortcut>來使用工具列，在中心<shortcut>點擊</shortcut>來移動到它的關鍵"
 "幀"
 
-#: src/monitor/view/MonitorRotoScene.qml:71
+#: src/monitor/view/MonitorRotoScene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29810,7 +29810,7 @@ msgid ""
 msgstr ""
 "<shortcut>點擊</shortcut>來新增點，<shortcut>右鍵點擊</shortcut>來關閉形狀。"
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29823,13 +29823,13 @@ msgstr ""
 "點，<shortcut>雙擊</shortcut>點來刪除它，<shortcut>雙擊</shortcut>背景來建立"
 "新影格，<shortcut>滑鼠停駐於右方</shortcut>來使用工具列"
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift-拖曳把手</shortcut>來以中央為中心調整大小"
 
-#: src/monitor/view/MonitorRotoScene.qml:432
+#: src/monitor/view/MonitorRotoScene.qml:422
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -29838,7 +29838,7 @@ msgstr ""
 "點擊以新增控制點，\n"
 "右鍵點擊或按 Enter 來將形狀封起來。"
 
-#: src/monitor/view/MonitorRuler.qml:247
+#: src/monitor/view/MonitorRuler.qml:245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29852,7 +29852,7 @@ msgstr ""
 "記，<shortcut>Home</shortcut> / <shortcut>End</shortcut> 來前往第一個 / 最後"
 "一個影格"
 
-#: src/monitor/view/MonitorRuler.qml:319
+#: src/monitor/view/MonitorRuler.qml:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29862,7 +29862,7 @@ msgstr ""
 "<shortcut>拖曳</shortcut>來設定區段起點，<shortcut>Shift+拖曳</shortcut>來一"
 "邊移動一邊調整區段起點"
 
-#: src/monitor/view/MonitorRuler.qml:368
+#: src/monitor/view/MonitorRuler.qml:362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29878,7 +29878,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "重設縮放"
 
-#: src/monitor/view/ProjectMonitor.qml:102
+#: src/monitor/view/ProjectMonitor.qml:97
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -29887,7 +29887,7 @@ msgstr ""
 "<b>點擊</b>來播放，<b>雙擊</b>進入全螢幕，<b>滑鼠停留於右方</b>來打開工具列，"
 "使用<b>滾輪</b>或<b>方向鍵</b>來前後移動，<b>Ctrl+滾輪</b>來縮放"
 
-#: src/monitor/view/ProjectMonitor.qml:302
+#: src/monitor/view/ProjectMonitor.qml:297
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
@@ -33646,7 +33646,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2319
+#: src/timeline2/view/qml/Timeline.qml:2318
 #, kde-format
 msgid "Paused"
 msgstr "已暫停"
@@ -33803,37 +33803,37 @@ msgstr "顯示"
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/timeline2/view/qml/Timeline.qml:907
-#: src/timeline2/view/qml/Timeline.qml:917
+#: src/timeline2/view/qml/Timeline.qml:906
+#: src/timeline2/view/qml/Timeline.qml:916
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "音訊軌不夠處理所有串流（%1）"
 
-#: src/timeline2/view/qml/Timeline.qml:1194
+#: src/timeline2/view/qml/Timeline.qml:1193
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "顯示 master 效果"
 
-#: src/timeline2/view/qml/Timeline.qml:1944
+#: src/timeline2/view/qml/Timeline.qml:1943
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>雙擊</b>來新增字幕"
 
-#: src/timeline2/view/qml/Timeline.qml:2138
+#: src/timeline2/view/qml/Timeline.qml:2137
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/Timeline.qml:2308
-#: src/timeline2/view/qml/Timeline.qml:2317
+#: src/timeline2/view/qml/Timeline.qml:2307
+#: src/timeline2/view/qml/Timeline.qml:2316
 #, kde-format
 msgid "Recording"
 msgstr "錄製"
 
-#: src/timeline2/view/qml/Timeline.qml:2411
+#: src/timeline2/view/qml/Timeline.qml:2410
 #, kde-format
 msgid "Multicam In"
 msgstr "多相機 入"

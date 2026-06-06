@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-05 00:43+0000\n"
-"PO-Revision-Date: 2026-05-15 09:25+0200\n"
+"POT-Creation-Date: 2026-06-06 00:42+0000\n"
+"PO-Revision-Date: 2026-06-05 13:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -7818,10 +7818,9 @@ msgstr "Geometria"
 
 #: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
 #: data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "Família de la lletra"
+msgstr "Família de la <u>lletra</u>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
@@ -7832,23 +7831,20 @@ msgstr "Estil"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "Escala normal"
+msgstr "Normal,cursiva"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
-#, fuzzy, kde-format
-#| msgid "Weight:"
+#, kde-format
 msgid "Weight"
-msgstr "Tipus:"
+msgstr "Gruix"
 
 #: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "Color del text"
+msgstr "Color del <u>text</u>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7887,10 +7883,9 @@ msgstr "Subratllat"
 
 #: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
 #: data/effects/timer.xml:39
-#, fuzzy, kde-format
-#| msgid "StrikeOut"
+#, kde-format
 msgid "Strikethrough"
-msgstr "Ratllat"
+msgstr "Barrat"
 
 #: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:103
 #: data/effects/timer.xml:42
@@ -7940,20 +7935,16 @@ msgstr ""
 "la sortida, com: #createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:58
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timecode,Frame number,File name,Base name,Full path,Creation date,File "
-#| "date (GMT),File date (local),Source frame rate,Source codec,Source bit "
-#| "rate,Source width,Source height,Source comment"
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"Codi de temps,Número de fotograma,Nom de fitxer,Nom base,Camí complet,Data "
-"de creació,Data de fitxer (GMT),Data de fitxer (local),Velocitat dels "
-"fotogrames original,Còdec original,Taxa de bits original,Amplada original,"
-"Alçada original,Comentari original"
+"Codi de temps,Número de fotograma,Nom de fitxer,Nom base,Data de creació,"
+"Data de fitxer (GMT),Data de fitxer (local),Velocitat dels fotogrames "
+"original,Còdec original,Taxa de bits original,Amplada original,Alçada "
+"original,Comentari original"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -7968,7 +7959,7 @@ msgstr "Fosa del vídeo des de negre"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:106 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "Entrada"
@@ -7990,7 +7981,7 @@ msgid "Fade video to black"
 msgstr "Fosa del vídeo a negre"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:140
 #, kde-format
 msgid "Out"
 msgstr "Sortida"
@@ -14018,19 +14009,12 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "Superposició de text relacionat amb el GPS en el vídeo."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "Vegeu la documentació sobre els diferents estils disponibles"
+msgstr "Vegeu la documentació en línia sobre els qualificadors addicionals"
 
 #: data/effects/gpstext.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date "
-#| "and time of current gps point,date and time of current frame in video "
-#| "file,heart rate,current GPS bearing,current GPS direction,GPS altitude "
-#| "gain so far,GPS altitude loss so far,distance travelled uphill so far,"
-#| "distance travelled downhill so far,distance travelled on flat area so far"
+#, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date "
 "and time of current GPS point,Date and time of current frame in video file,"
@@ -14040,12 +14024,14 @@ msgid ""
 "area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in "
 "watts,Gradient of GPS track,Gradient of GPS track in degrees"
 msgstr ""
-"Latitud GPS,Longitud GPS,Altitud GPS,Velocitat del GPS,distància fins ara,"
-"data i hora del punt de GPS actual,data i hora del fotograma actual en el "
-"fitxer de vídeo,ritme cardíac,orientació de GPS actual,direcció de GPS "
-"actual,guany d'altitud GPS fins ara,pèrdua d'altitud GPS fins ara,distància "
-"recorreguda costa amunt fins ara,distància recorreguda costa avall fins ara,"
-"distància recorreguda en pla fins ara"
+"Latitud GPS,Longitud GPS,Altitud GPS,Velocitat del GPS,Distància total fins "
+"ara,Data i hora del punt de GPS actual,Data i hora del fotograma actual en "
+"el fitxer de vídeo,Ritme cardíac,Orientació de GPS actual,Direcció de GPS "
+"actual,Guany total d'altitud GPS fins ara,Pèrdua total d'altitud GPS fins "
+"ara,Distància total recorreguda costa amunt fins ara,Distància total "
+"recorreguda costa avall fins ara,Distància total recorreguda en pla fins ara,"
+"(Bicicleta) cadència (en revolucions per minut),Temperatura ambient,Potència "
+"en watts,Pendent del trajecte GPS,Pendent del trajecte GPS en graus"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -14053,20 +14039,16 @@ msgid "GPS processing start time"
 msgstr "Temps d'inici de processament del GPS"
 
 #: data/effects/gpstext.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the video file is a timelapse (or slow motion), use this value to set "
-#| "the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage."
+#, kde-format
 msgid ""
 "If the video file is a timelapse<br>\n"
 "        (or slow motion), use this value to set the speed up/slow down ratio."
 "<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"Si el fitxer de vídeo és una filmació a intervals (o una càmera lenta), "
-"utilitzeu aquest valor per a establir la relació d'acceleració.<br>\n"
+"Si el fitxer de vídeo és una filmació a intervals<br>\n"
+"        (o una càmera lenta), utilitzeu aquest valor per a establir la "
+"relació d'acceleració.<br>\n"
 "        Valors de mostra: 30 per a una filmació a intervals a 30x, 0,25 per "
 "a un metratge a càmera lenta 4x."
 
@@ -14083,30 +14065,30 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"Controla quantes vegades per segon<br>\n"
+"        s'actualitza el text GPS en el vídeo (interpolat).<br>\n"
+"        Un valor de 0 només actualitzarà el text quan s'hagi registrat un "
+"punt GPS real. Es pot utilitzar en combinació amb «speed_multiplier»."
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "El color de la forma d'ona."
+msgstr "La família tipogràfica de la lletra."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
-#| msgid "The space in pixels between the segments."
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "L'espai en píxels entre els segments."
+msgstr "La mida en píxels de la lletra."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "L'amplada de l'interval de to"
+msgstr "El gruix de la lletra."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The style of the font."
-msgstr "El color de la forma d'ona."
+msgstr "L'estil de la lletra."
 
 #: data/effects/gpstext.xml:84
 #, kde-format
@@ -14119,44 +14101,39 @@ msgid "Outline Color"
 msgstr "Color del contorn"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
 msgstr "Color del contorn"
 
 #: data/effects/gpstext.xml:92
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The width of the outline in pixels"
-msgstr "L'amplada de l'interval de to"
+msgstr "L'amplada del contorn en píxels"
 
 #: data/effects/gpstext.xml:96
-#, fuzzy, kde-format
-#| msgid "Apply deflate effect to the video"
+#, kde-format
 msgid "Apply underline decoration to the text."
-msgstr "Aplicar l'efecte «deflate» al vídeo"
+msgstr "Aplica una decoració de subratllat al text."
 
 #: data/effects/gpstext.xml:100
 #, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr ""
+msgstr "Aplica una decoració de barrat al text."
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "Alineació horitzontal"
+msgstr "Estableix l'alineació horitzontal"
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "Alineació vertical"
+msgstr "Estableix l'alineació vertical"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "Opacitat de tots els elements: text, contorn i fons"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -16633,7 +16610,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Procés d'àudio emprant un efecte SoX"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:101
+#: src/monitor/view/MonitorSplit.qml:92
 #, kde-format
 msgid "Effect"
 msgstr "Efecte"
@@ -16926,64 +16903,49 @@ msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 #: data/effects/timer.xml:60
 #, kde-format
 msgid "Start (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Inici (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed."
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
-"L'hora que el temporitzador començarà a comptar amunt o avall.\n"
-"El text es congelarà a les 00:00:00.000 des de l'inici del filtre fins que "
-"hagi transcorregut l'hora d'inici."
+"L'hora que el temporitzador començarà a comptar amunt o avall.<br>\n"
+"        El text es congelarà a les 00:00:00.000 des de l'inici del filtre "
+"fins que hagi transcorregut l'hora d'inici."
 
 #: data/effects/timer.xml:63 data/effects/timer.xml:69
 #: data/effects/timer.xml:76
 #, kde-format
 msgid "HH:MM:SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS.SSS"
 
 #: data/effects/timer.xml:66
 #, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Durada (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"La durada màxima del temporitzador després que hagi transcorregut\n"
-"el temps d'inici.\n"
-"El text es congelarà a l'hora de la durada després que hagi transcorregut\n"
-"la durada."
+"La durada màxima del temporitzador després que hagi transcorregut el temps "
+"d'inici.<br>\n"
+"El text es congelarà a l'hora de la durada després que hagi transcorregut la "
+"durada."
 
 #: data/effects/timer.xml:72
 #, kde-format
 msgid "Offset (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Desplaçament (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.<br>\n"
 "        When the direction is <i>Down</i>, the timer will count down to "
@@ -16991,10 +16953,11 @@ msgid ""
 "        When the direction is <i>Up</i>, the timer will count up starting "
 "from <i>Offset</i>."
 msgstr ""
-"Un desplaçament que s'afegirà al valor del temporitzador.\n"
-"Quan la direcció sigui «enrere», el temporitzador comptarà fins el\n"
-"«desplaçament» en lloc de 00:00:00.000. Quan la direcció sigui «endavant»,\n"
-"el temporitzador comptarà començant des del «desplaçament»."
+"Un desplaçament que s'afegirà al valor del temporitzador.<br>\n"
+"        Quan la direcció sigui <i>enrere</i>, el temporitzador comptarà fins "
+"el <i>desplaçament</i> en lloc de 00:00:00.000.<br>\n"
+"        Quan la direcció sigui <i>endavant</i>, el temporitzador comptarà "
+"començant des del <i>desplaçament</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -17027,13 +16990,7 @@ msgstr ""
 "la durada."
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -17042,9 +16999,10 @@ msgid ""
 "<i>Offset</i>."
 msgstr ""
 "Un desplaçament que s'afegirà al valor del temporitzador.\n"
-"Quan la direcció sigui «enrere», el temporitzador comptarà fins el\n"
-"«desplaçament» en lloc de 00:00:00.000. Quan la direcció sigui «endavant»,\n"
-"el temporitzador comptarà començant des del «desplaçament»."
+"Quan la direcció sigui <i>enrere</i>, el temporitzador comptarà fins el "
+"<i>desplaçament</i> en lloc de 00:00:00.000.\n"
+"Quan la direcció sigui <i>endavant</i>, el temporitzador comptarà començant "
+"des del <i>desplaçament</i>."
 
 #: data/effects/timer.xml:100
 #, kde-format
@@ -17058,28 +17016,29 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"Multiplicador de la velocitat del rellotge.<br>\n"
+"        Per exemple, la velocitat 10,0 fa que el temporitzador marqui 10 "
+"segons per cada segon de reproducció.<br><br>\n"
+"        La durada de les escales no afecten l'<i>Inici</i> ni el "
+"<i>Desplaçament</i>. Per exemple: inici 5 s, durada 30 s, desplaçament 7 s i "
+"velocitat 10,0 faran que el temporitzador s'iniciï a l'hora de reproducció "
+"00:00:05.000 amb valor 00:00:07, comptant 10 segons per cada segon de "
+"reproducció i s'aturarà a l'hora de reproducció 00:00:08.000 amb valor "
+"00:00:37."
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            Si el comptador ha de comptar endavant des de 00:00:00.000 o "
-"enrere des de l'hora de la durada.\n"
-"        "
+"Si el comptador ha de comptar endavant des de 00:00:00.000 o enrere des de "
+"l'hora de la durada."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "Avall"
+msgstr "Endavant,enrere"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -19772,12 +19731,12 @@ msgstr ""
 "Doble clic, deixant anar fitxers\n"
 "o clic a %1 per a importar elements multimèdia"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Arrossegueu per a afegir només àudio a la línia de temps"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Arrossegueu per a afegir només vídeo a la línia de temps"
@@ -20437,10 +20396,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "Transcodifica el clip en format fàcil d'editar…"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "Insereix el codi de temps actual"
+msgstr "Insereix al codi de temps"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -26878,7 +26836,7 @@ msgid "Clip in Timeline"
 msgstr "Clip a la línia de temps"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1200
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1199
 #, kde-format
 msgid "Sequence"
 msgstr "Seqüència"
@@ -30614,17 +30572,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Activa l'espectre d'àudio"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1222
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Seleccioneu una zona per a reproduir"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1231
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Seleccioneu un clip a reproduir"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1341
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -30635,32 +30593,32 @@ msgstr ""
 "Hi ha algun error a la instal·lació del Kdenlive o als paràmetres del "
 "controlador. Si us plau, solucioneu-ho."
 
-#: src/monitor/view/AudioView.qml:344
+#: src/monitor/view/AudioView.qml:342
 #, kde-format
 msgid "Click to refresh audio waveform"
 msgstr "Feu clic per a actualitzar la forma d'ona d'àudio"
 
-#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
+#: src/monitor/view/ClipMonitor.qml:364 src/monitor/view/ProjectMonitor.qml:193
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
+#: src/monitor/view/ClipMonitor.qml:403 src/monitor/view/ProjectMonitor.qml:226
 #, kde-format
 msgid "In Point"
 msgstr "Punt d'entrada"
 
-#: src/monitor/view/ClipMonitor.qml:408
+#: src/monitor/view/ClipMonitor.qml:403
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punt d'entrada/sortida"
 
-#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
+#: src/monitor/view/ClipMonitor.qml:426 src/monitor/view/ProjectMonitor.qml:243
 #, kde-format
 msgid "Out Point"
 msgstr "Punt de sortida"
 
-#: src/monitor/view/ClipMonitor.qml:621
+#: src/monitor/view/ClipMonitor.qml:609
 #, kde-format
 msgid "Terminate Job"
 msgstr "Finalitza el treball"
@@ -30734,7 +30692,7 @@ msgstr "Surt de la creació de la màscara"
 msgid "Exit Preview Mode"
 msgstr "Sortida del mode de vista prèvia"
 
-#: src/monitor/view/MonitorAutomask.qml:280
+#: src/monitor/view/MonitorAutomask.qml:274
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30746,22 +30704,22 @@ msgstr ""
 "per a iniciar una màscara, <shortcut>Maj+clic</shortcut> per a incloure una "
 "altra zona. <shortcut>Ctrl+clic</shortcut> per a excloure una zona."
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Seleccioneu primer un objecte de la imatge"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating image mask"
 msgstr "S'està generant la màscara d'imatge"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating video mask"
 msgstr "S'està generant la màscara de vídeo"
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -30773,13 +30731,13 @@ msgstr ""
 "Maj+clic per a incloure una altra zona.\n"
 "Ctrl+clic per a excloure una zona."
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid "Previewing video mask"
 msgstr "S'està previsualitzant la màscara de vídeo"
 
 # skip-rule: common-time_zone
-#: src/monitor/view/MonitorAutomask.qml:404
+#: src/monitor/view/MonitorAutomask.qml:396
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -30792,17 +30750,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:414
+#: src/monitor/view/MonitorAutomask.qml:406
 #, kde-format
 msgid "Go to mask start"
 msgstr "Ves a l'inici de la màscara"
 
-#: src/monitor/view/MonitorAutomask.qml:426
+#: src/monitor/view/MonitorAutomask.qml:412
 #, kde-format
 msgid "Go to mask end"
 msgstr "Ves al final de la màscara"
 
-#: src/monitor/view/MonitorGeometryScene.qml:359
+#: src/monitor/view/MonitorGeometryScene.qml:352
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30818,7 +30776,7 @@ msgstr ""
 "barra d'eines, feu <shortcut>clic</shortcut> sobre un centre per a cercar el "
 "seu fotograma clau"
 
-#: src/monitor/view/MonitorRotoScene.qml:71
+#: src/monitor/view/MonitorRotoScene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30828,7 +30786,7 @@ msgstr ""
 "Feu <shortcut>clic</shortcut> per a afegir punts, feu <shortcut>clic dret</"
 "shortcut> per a tancar la forma."
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30845,7 +30803,7 @@ msgstr ""
 "d'eines"
 
 # skip-rule: k-Shift-1
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -30853,7 +30811,7 @@ msgstr ""
 "<shortcut>Arrossegueu la nansa</shortcut> per a redimensionar basant-se en "
 "el centre"
 
-#: src/monitor/view/MonitorRotoScene.qml:432
+#: src/monitor/view/MonitorRotoScene.qml:422
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -30862,7 +30820,7 @@ msgstr ""
 "Feu clic per a afegir punts,\n"
 "clic dret o premeu retorn per a tancar la forma."
 
-#: src/monitor/view/MonitorRuler.qml:247
+#: src/monitor/view/MonitorRuler.qml:245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30877,7 +30835,7 @@ msgstr ""
 "<shortcut>Inici</shortcut> / <shortcut>Fi</shortcut> per a anar al primer / "
 "últim fotograma"
 
-#: src/monitor/view/MonitorRuler.qml:319
+#: src/monitor/view/MonitorRuler.qml:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30888,7 +30846,7 @@ msgstr ""
 "<shortcut>Maj + Arrossegar</shortcut> per a cercar mentre s'ajusta l'entrada "
 "de la zona"
 
-#: src/monitor/view/MonitorRuler.qml:368
+#: src/monitor/view/MonitorRuler.qml:362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30905,7 +30863,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Reinicialitza el zoom"
 
-#: src/monitor/view/ProjectMonitor.qml:102
+#: src/monitor/view/ProjectMonitor.qml:97
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -30916,7 +30874,7 @@ msgstr ""
 "b> o les <b>fletxes del teclat</b> per a cercar, empreu la <b>roda + Ctrl</"
 "b> per a fer zoom"
 
-#: src/monitor/view/ProjectMonitor.qml:302
+#: src/monitor/view/ProjectMonitor.qml:297
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
@@ -34782,7 +34740,7 @@ msgid "Stop"
 msgstr "Atura"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2319
+#: src/timeline2/view/qml/Timeline.qml:2318
 #, kde-format
 msgid "Paused"
 msgstr "En pausa"
@@ -34945,36 +34903,36 @@ msgstr "Mostra"
 msgid "Hide"
 msgstr "Oculta"
 
-#: src/timeline2/view/qml/Timeline.qml:907
-#: src/timeline2/view/qml/Timeline.qml:917
+#: src/timeline2/view/qml/Timeline.qml:906
+#: src/timeline2/view/qml/Timeline.qml:916
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Àudio: %1 pista per a %2 fluxos"
 msgstr[1] "Àudio: %1 pistes per a %2 fluxos"
 
-#: src/timeline2/view/qml/Timeline.qml:1194
+#: src/timeline2/view/qml/Timeline.qml:1193
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Mostra els efectes de seqüència"
 
-#: src/timeline2/view/qml/Timeline.qml:1944
+#: src/timeline2/view/qml/Timeline.qml:1943
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> per a afegir un subtítol"
 
-#: src/timeline2/view/qml/Timeline.qml:2138
+#: src/timeline2/view/qml/Timeline.qml:2137
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplaçament: %1, Posició: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2308
-#: src/timeline2/view/qml/Timeline.qml:2317
+#: src/timeline2/view/qml/Timeline.qml:2307
+#: src/timeline2/view/qml/Timeline.qml:2316
 #, kde-format
 msgid "Recording"
 msgstr "Enregistrament"
 
-#: src/timeline2/view/qml/Timeline.qml:2411
+#: src/timeline2/view/qml/Timeline.qml:2410
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicàmera a"
@@ -35191,32 +35149,24 @@ msgstr ""
 "destinació"
 
 #: src/timeline2/view/timelinecontroller.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "Clip a la safata del projecte"
+msgstr "El clip no s'ha trobat a la safata del projecte"
 
 #: src/timeline2/view/timelinecontroller.cpp:3583
-#, fuzzy, kde-format
-#| msgid "No timecode for clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "No hi ha cap codi de temps per al clip"
+msgstr "No s'ha trobat cap metadada de codi de temps al clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:3589
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "Seleccioneu un perfil de vídeo"
+msgstr "Seleccioneu una pista de destinació"
 
 #: src/timeline2/view/timelinecontroller.cpp:3595
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr ""
-"Ha fallat en generar el clip:\n"
-"%1"
+msgstr "Ha fallat en inserir el clip a %1 a la pista %2"
 
 #: src/timeline2/view/timelinecontroller.cpp:3647
 #, kde-format
@@ -38091,10 +38041,9 @@ msgstr "Cerca al clip en afegir un efecte"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "Alinea el capçal de reproducció amb la posició del ratolí"
+msgstr "Retorna el capçal de reproducció a la posició d'inici en aturar-se"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-05 00:43+0000\n"
-"PO-Revision-Date: 2026-05-18 22:07+0200\n"
+"POT-Creation-Date: 2026-06-06 00:42+0000\n"
+"PO-Revision-Date: 2026-06-05 22:58+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7724,10 +7724,9 @@ msgstr "Geometrija"
 
 #: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
 #: data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "Družina pisav"
+msgstr "Družina <u>pisav</u>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
@@ -7738,23 +7737,20 @@ msgstr "Slog"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "Običajno merilo"
+msgstr "Navadno,Ležeče"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
-#, fuzzy, kde-format
-#| msgid "Weight:"
+#, kde-format
 msgid "Weight"
-msgstr "Debelina:"
+msgstr "Debelina"
 
 #: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "Barva besedila"
+msgstr "Barva <u>besedila</u>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7793,8 +7789,7 @@ msgstr "Podčrtano"
 
 #: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
 #: data/effects/timer.xml:39
-#, fuzzy, kde-format
-#| msgid "StrikeOut"
+#, kde-format
 msgid "Strikethrough"
 msgstr "Prečrtano"
 
@@ -7845,19 +7840,15 @@ msgstr ""
 "primer: #createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:58
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timecode,Frame number,File name,Base name,Full path,Creation date,File "
-#| "date (GMT),File date (local),Source frame rate,Source codec,Source bit "
-#| "rate,Source width,Source height,Source comment"
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"Časovna koda,Številka sličice,Ime datoteke,Osnova imena,Polna pot,Datum "
-"nastanka,Datum datoteke (GMT),Datum datoteke (krajevno),Hitrost vira v "
-"sličicah,Kodek vira,Bitna hitrost vira,Širina vira,Višina vira,Komentar vira"
+"Časovna koda,Številka sličice,Ime datoteke,Osnova imena,Datum nastanka,Datum "
+"datoteke (GMT),Datum datoteke (krajevno),Hitrost vira v sličicah,Kodek vira,"
+"Bitna hitrost vira,Širina vira,Višina vira,Komentar vira"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -7872,7 +7863,7 @@ msgstr "Odtemnitev slike"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:111 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:106 src/timeline2/view/qml/Track.qml:99
 #, kde-format
 msgid "In"
 msgstr "Vhod"
@@ -7894,7 +7885,7 @@ msgid "Fade video to black"
 msgstr "Zbledi video v črnino"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:145
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:140
 #, kde-format
 msgid "Out"
 msgstr "Ven"
@@ -13864,19 +13855,12 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "Prikaže besedilo, povezano z GPS-jem, prek videoposnetka."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "Oglejte si dokumentacijo o različnih slogih, ki so na voljo"
+msgstr "Oglejte si spletno dokumentacijo o dodatnih kvalifikatorjih"
 
 #: data/effects/gpstext.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date "
-#| "and time of current gps point,date and time of current frame in video "
-#| "file,heart rate,current GPS bearing,current GPS direction,GPS altitude "
-#| "gain so far,GPS altitude loss so far,distance travelled uphill so far,"
-#| "distance travelled downhill so far,distance travelled on flat area so far"
+#, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date "
 "and time of current GPS point,Date and time of current frame in video file,"
@@ -13891,7 +13875,8 @@ msgstr ""
 "sličice v videodatoteki,Srčni utrip,Trenutni GPS ležaj,Trenutna smer GPS,"
 "Pridobljena višina GPS do sedaj,Izguba nadmorske višine GPS doslej,Doslej "
 "prevožena razdalja navzgor,Doslej prevožena razdalja navzdol,Doslej "
-"prevožena razdalja po ravnini"
+"prevožena razdalja po ravnini,(kolesarjenje) kadenca (v obratih na minuto),"
+"temperatura okolice, moč v wattih,naklon poti GPS,naklon poti GPS v stopinjah"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -13899,23 +13884,18 @@ msgid "GPS processing start time"
 msgstr "Začetni čas obdelave GPS"
 
 #: data/effects/gpstext.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the video file is a timelapse (or slow motion), use this value to set "
-#| "the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage."
+#, kde-format
 msgid ""
 "If the video file is a timelapse<br>\n"
 "        (or slow motion), use this value to set the speed up/slow down ratio."
 "<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"Če je video datoteka posneta v časovnih presledkih (ali z upočasnjenim "
-"gibanjem), uporabite to vrednost za nastavitev razmerje pohitritve/"
-"upočasnitve.<br>\n"
-"    \tVzorčne vrednosti: 30 za 30-kratne časovne presledke, 0,25 za 4-kratno "
-"upočasnjene posnetke."
+"Če je video datoteka posneta v časovnih presledkih<br>\n"
+"        (ali z upočasnjenim gibanjem), uporabite to vrednost za nastavitev "
+"razmerje pohitritve/upočasnitve.<br>\n"
+"        Vzorčne vrednosti: 30 za 30-kratne časovne presledke, 0,25 za 4-"
+"kratno upočasnjene posnetke."
 
 #: data/effects/gpstext.xml:31
 #, kde-format
@@ -13930,34 +13910,33 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"Nadzira, kolikokrat na sekundo<br>\n"
+"        se besedilo GPS posodobi na videu (interpolirano).<br>\n"
+"        Vrednost 0 posodobi besedilo samo takrat, ko je zabeležena dejanska "
+"točka gps. Lahko uporabljate skupaj s speed_multiplier."
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "Barva valovne oblike."
+msgstr "Tipografija pisave."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
-#| msgid "The space in pixels between the segments."
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "Vrzel med odseki v slikovnih točkah."
+msgstr "Velikost pisave v slikovnih točkah."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "Širina obsega obarvanosti"
+msgstr "Debelina pisave."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The style of the font."
-msgstr "Barva valovne oblike."
+msgstr "Slog pisave."
 
 #: data/effects/gpstext.xml:84
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
 msgstr "Barva ozadja"
 
@@ -13967,44 +13946,39 @@ msgid "Outline Color"
 msgstr "Barva orisa"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
 msgstr "Barva orisa"
 
 #: data/effects/gpstext.xml:92
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The width of the outline in pixels"
-msgstr "Širina obsega obarvanosti"
+msgstr "Širina orisa v slikovnih točkah"
 
 #: data/effects/gpstext.xml:96
-#, fuzzy, kde-format
-#| msgid "Apply deflate effect to the video"
+#, kde-format
 msgid "Apply underline decoration to the text."
-msgstr "Uveljavite učinek sploščenja v videoposnetku"
+msgstr "Uveljavite učinek podčrtanosti v besedilu."
 
 #: data/effects/gpstext.xml:100
 #, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr ""
+msgstr "Uveljavi okrasitev besedila s prečrtanjem."
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "Vodoravna poravnava"
+msgstr "Določite vodoravno poravnavo"
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "Navpična poravnava"
+msgstr "Določite navpično poravnavo"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "Prekrivnost vseh elementov - besedila, orisa in ozadja"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -16466,7 +16440,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Obdelajte zvok z učinkom SoX"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:101
+#: src/monitor/view/MonitorSplit.qml:92
 #, kde-format
 msgid "Effect"
 msgstr "Učinek"
@@ -16759,62 +16733,47 @@ msgstr ""
 #: data/effects/timer.xml:60
 #, kde-format
 msgid "Start (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Začetek (UU:MM:SS,SSS)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed."
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
-"Čas, s katerim bo časovnik začel beležiti čas ali ga odštevati.\n"
-"Besedilo bo zamrznjeno pri 00:00:00.000 od začetka filtra do pretečenega "
-"začetnega časa."
+"Čas, s katerim bo časovnik začel beležiti čas ali ga odštevati.<br>\n"
+"        Besedilo bo zamrznjeno pri 00:00:00,000 od začetka filtra do "
+"pretečenega začetnega časa."
 
 #: data/effects/timer.xml:63 data/effects/timer.xml:69
 #: data/effects/timer.xml:76
 #, kde-format
 msgid "HH:MM:SS.SSS"
-msgstr ""
+msgstr "UU:MM:SS,SSS"
 
 #: data/effects/timer.xml:66
 #, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Trajanje (UU:MM:SS,SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"Najdaljše trajanje časovnika po tem, ko je začetni čas pretekel.\n"
+"Najdaljše trajanje časovnika po tem, ko je začetni čas pretekel.<br>\n"
 "Besedilo bo zamrznjeno v času trajanja po tem, ko je trajanje preteklo."
 
 #: data/effects/timer.xml:72
 #, kde-format
 msgid "Offset (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Zamik (UU:MM:SS,SSS)"
 
 #: data/effects/timer.xml:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.<br>\n"
 "        When the direction is <i>Down</i>, the timer will count down to "
@@ -16822,10 +16781,10 @@ msgid ""
 "        When the direction is <i>Up</i>, the timer will count up starting "
 "from <i>Offset</i>."
 msgstr ""
-"Zamik, ki bo dodan vrednosti časovnika.\n"
-"Ko časovnik »odšteva«, bo časovnik odšteva do »odmika« namesto od "
-"00:00:00.000.\n"
-"Ko časovnik prišteva, bo časovnik štel od »odmika« naprej."
+"Zamik, ki bo dodan vrednosti časovnika.<br>\n"
+"        Ko je smer <i>Navzdol</i>, bo časovnik odšteval do <i>odmika</i> "
+"namesto od 00:00:00,000.\n"
+"        Ko je smer <i>Navzgor</i>, bo časovnik štel od <i>odmika</i> naprej."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -16856,13 +16815,7 @@ msgstr ""
 "Besedilo bo zamrznjeno v času trajanja po tem, ko je trajanje preteklo."
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -16871,9 +16824,9 @@ msgid ""
 "<i>Offset</i>."
 msgstr ""
 "Zamik, ki bo dodan vrednosti časovnika.\n"
-"Ko časovnik »odšteva«, bo časovnik odšteva do »odmika« namesto od "
-"00:00:00.000.\n"
-"Ko časovnik prišteva, bo časovnik štel od »odmika« naprej."
+"Ko je smer <i>Navzdol</i>, bo časovnik odšteval do <i>odmika</i> namesto od "
+"00:00:00,000.\n"
+"Ko je smer <i>Navzgor</i>, bo časovnik štel od <i>odmika</i> naprej."
 
 #: data/effects/timer.xml:100
 #, kde-format
@@ -16887,28 +16840,28 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"Multiplikator hitrosti ure.<br>\n"
+"        Primer: hitrost 10,0 povzroči 10 s tiktakanje za vsako sekundo "
+"predvajanja.<br><br>\n"
+"        Spremeni dolžino trajanja, vendar ne vpliva na <i>Začetek</i> ali "
+"<i>Zamik</i>. Primer: začetek 5 s, trajanje 30 s, zamik 7 s in hitrost 10,0 "
+"zaženejo časovnik pri predvajalnem času 00:00:05,000 z vrednostjo 00:00:07, "
+"šteje 10 sekund na sekundo predvajanja in se ustavi pri predvajalnem času "
+"00:00:08,000 z vrednostjo 00:00:37."
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            Ali naj števec beleži čas od 00:00:00.000 naprej ali naj odšteva "
-"od časa trajanja.\n"
-"        "
+"Ali naj števec beleži čas od 00:00:00,000 naprej ali naj odšteva od časa "
+"trajanja."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "Navzdol"
+msgstr "Navzgor,Navzdol"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -19580,12 +19533,12 @@ msgstr ""
 "Dvokliknite, spustite datoteke\n"
 "ali kliknite %1 za uvoz predstavnosti"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Povlecite, da dodate samo zvok na časovnico"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:558
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:546
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Povlecite, da dodate samo video na časovnico"
@@ -20247,10 +20200,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "Prekodiraj v montaži prijazen zapis …"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "Vstavi trenutno časovno kodo"
+msgstr "Vstavi na trenutni časovni kodi"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -26666,7 +26618,7 @@ msgid "Clip in Timeline"
 msgstr "Posnetek na časovnici"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1200
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1199
 #, kde-format
 msgid "Sequence"
 msgstr "Zaporedje"
@@ -30377,17 +30329,17 @@ msgstr "Za omogočitev zvočnega spektra mora biti MLT preveden z libfftw3"
 msgid "Enable Audio Spectrum"
 msgstr "Omogoči zvočni spekter"
 
-#: src/monitor/videowidget.cpp:1233
+#: src/monitor/videowidget.cpp:1222
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Izberite območje predvajanja"
 
-#: src/monitor/videowidget.cpp:1242
+#: src/monitor/videowidget.cpp:1231
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Izberite posnetek za predvajanje"
 
-#: src/monitor/videowidget.cpp:1347
+#: src/monitor/videowidget.cpp:1341
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -30397,32 +30349,32 @@ msgstr ""
 "Predoglednega okna za video ni možno ustvariti.\n"
 "Preverite vašo namestitev Kdenlive ali nastavitve gonilnika. Popravite to."
 
-#: src/monitor/view/AudioView.qml:344
+#: src/monitor/view/AudioView.qml:342
 #, kde-format
 msgid "Click to refresh audio waveform"
 msgstr "Kliknite za osvežitev valovne oblike zvoka"
 
-#: src/monitor/view/ClipMonitor.qml:369 src/monitor/view/ProjectMonitor.qml:198
+#: src/monitor/view/ClipMonitor.qml:364 src/monitor/view/ProjectMonitor.qml:193
 #, kde-format
 msgid "%1fps"
 msgstr "%1sl/s"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:231
+#: src/monitor/view/ClipMonitor.qml:403 src/monitor/view/ProjectMonitor.qml:226
 #, kde-format
 msgid "In Point"
 msgstr "Vhodna točka"
 
-#: src/monitor/view/ClipMonitor.qml:408
+#: src/monitor/view/ClipMonitor.qml:403
 #, kde-format
 msgid "In/Out Point"
 msgstr "Vhodna/izhodna točka"
 
-#: src/monitor/view/ClipMonitor.qml:431 src/monitor/view/ProjectMonitor.qml:248
+#: src/monitor/view/ClipMonitor.qml:426 src/monitor/view/ProjectMonitor.qml:243
 #, kde-format
 msgid "Out Point"
 msgstr "Izhodna točka"
 
-#: src/monitor/view/ClipMonitor.qml:621
+#: src/monitor/view/ClipMonitor.qml:609
 #, kde-format
 msgid "Terminate Job"
 msgstr "Prekini posel"
@@ -30496,7 +30448,7 @@ msgstr "Izhod iz ustvarjanja maske"
 msgid "Exit Preview Mode"
 msgstr "Izhod iz načina predogleda"
 
-#: src/monitor/view/MonitorAutomask.qml:280
+#: src/monitor/view/MonitorAutomask.qml:274
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30509,22 +30461,22 @@ msgstr ""
 "vključitev dodatnega območja, <shortcut>krmilka+klik</shortcut> za izločitev "
 "območja."
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Najprej izberite predmet na sliki"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating image mask"
 msgstr "Tvojenje slikovne maske"
 
-#: src/monitor/view/MonitorAutomask.qml:382
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid "Generating video mask"
 msgstr "Tvorjenje video maske"
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -30535,12 +30487,12 @@ msgstr ""
 "Dvigalka+klik: vključite drugo območje.\n"
 "Krmilka+klik: izključite območje."
 
-#: src/monitor/view/MonitorAutomask.qml:393
+#: src/monitor/view/MonitorAutomask.qml:385
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Predogled video maske"
 
-#: src/monitor/view/MonitorAutomask.qml:404
+#: src/monitor/view/MonitorAutomask.qml:396
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -30553,17 +30505,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:414
+#: src/monitor/view/MonitorAutomask.qml:406
 #, kde-format
 msgid "Go to mask start"
 msgstr "Pojdi na začetek maske"
 
-#: src/monitor/view/MonitorAutomask.qml:426
+#: src/monitor/view/MonitorAutomask.qml:412
 #, kde-format
 msgid "Go to mask end"
 msgstr "Pojdi na konec maske"
 
-#: src/monitor/view/MonitorGeometryScene.qml:359
+#: src/monitor/view/MonitorGeometryScene.qml:352
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30578,7 +30530,7 @@ msgstr ""
 "orodno vrstico, <shortcut>klik</shortcut> središča poišče njegovo ključno "
 "sličico"
 
-#: src/monitor/view/MonitorRotoScene.qml:71
+#: src/monitor/view/MonitorRotoScene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30588,7 +30540,7 @@ msgstr ""
 "<shortcut>Klik</shortcut> za dodajanje točk, <shortcut>desni klik</shortcut> "
 "za zapiranje oblike."
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30603,7 +30555,7 @@ msgstr ""
 "shortcut> ozadja za ustvarjanje nove ključne sličice, <shortcut>desni "
 "postoj</shortcut> za orodno vrstico"
 
-#: src/monitor/view/MonitorRotoScene.qml:73
+#: src/monitor/view/MonitorRotoScene.qml:72
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -30611,7 +30563,7 @@ msgstr ""
 "<shortcut>S pritisnjeno dvigalko potegnite ročico</shortcut> za spremembo "
 "velikosti iz središča"
 
-#: src/monitor/view/MonitorRotoScene.qml:432
+#: src/monitor/view/MonitorRotoScene.qml:422
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -30620,7 +30572,7 @@ msgstr ""
 "Klik za dodajanje točk,\n"
 "desni klik ali pritisk vnašalke za zapiranje lika."
 
-#: src/monitor/view/MonitorRuler.qml:247
+#: src/monitor/view/MonitorRuler.qml:245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30635,7 +30587,7 @@ msgstr ""
 "shortcut>  /  <shortcut>Konec/End</shortcut>  za pomik do prve / zadnje "
 "sličice"
 
-#: src/monitor/view/MonitorRuler.qml:319
+#: src/monitor/view/MonitorRuler.qml:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30646,7 +30598,7 @@ msgstr ""
 "<shortcut>dvigalka+povlek</shortcut> za iskanje med prilagajanjem vhoda v "
 "območje"
 
-#: src/monitor/view/MonitorRuler.qml:368
+#: src/monitor/view/MonitorRuler.qml:362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30663,7 +30615,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Ponastavi približanje"
 
-#: src/monitor/view/ProjectMonitor.qml:102
+#: src/monitor/view/ProjectMonitor.qml:97
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -30673,7 +30625,7 @@ msgstr ""
 "postoj</b> za orodno vrstico, <b>kolešček miške</b> ali <b>smerne tipke</b> "
 "za iskanje, <b>krmilka+kolešček</b> za povečavo"
 
-#: src/monitor/view/ProjectMonitor.qml:302
+#: src/monitor/view/ProjectMonitor.qml:297
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
@@ -34535,7 +34487,7 @@ msgid "Stop"
 msgstr "Ustavi"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2319
+#: src/timeline2/view/qml/Timeline.qml:2318
 #, kde-format
 msgid "Paused"
 msgstr "Prekinjeno"
@@ -34697,8 +34649,8 @@ msgstr "Pokaži"
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/timeline2/view/qml/Timeline.qml:907
-#: src/timeline2/view/qml/Timeline.qml:917
+#: src/timeline2/view/qml/Timeline.qml:906
+#: src/timeline2/view/qml/Timeline.qml:916
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
@@ -34707,28 +34659,28 @@ msgstr[1] "Zvok: %1 zvočna steza za %2 tokov"
 msgstr[2] "Zvok: %1 zvočni stezi za %2 tokov"
 msgstr[3] "Zvok: %1 zvočne steze za %2 tokov"
 
-#: src/timeline2/view/qml/Timeline.qml:1194
+#: src/timeline2/view/qml/Timeline.qml:1193
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Pokaži učinke zaporedja"
 
-#: src/timeline2/view/qml/Timeline.qml:1944
+#: src/timeline2/view/qml/Timeline.qml:1943
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dvokliknite</b> za dodajanje podnaslova"
 
-#: src/timeline2/view/qml/Timeline.qml:2138
+#: src/timeline2/view/qml/Timeline.qml:2137
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Odmik:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2308
-#: src/timeline2/view/qml/Timeline.qml:2317
+#: src/timeline2/view/qml/Timeline.qml:2307
+#: src/timeline2/view/qml/Timeline.qml:2316
 #, kde-format
 msgid "Recording"
 msgstr "Snemanje"
 
-#: src/timeline2/view/qml/Timeline.qml:2411
+#: src/timeline2/view/qml/Timeline.qml:2410
 #, kde-format
 msgid "Multicam In"
 msgstr "Vstopna/sinhrona točka posnetkov več kamer"
@@ -34937,32 +34889,24 @@ msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Izberite ciljno stezo s klikom na ciljno območje steze"
 
 #: src/timeline2/view/timelinecontroller.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "Posnetek v posodi projekta"
+msgstr "Posnetka ni v posodi projekta"
 
 #: src/timeline2/view/timelinecontroller.cpp:3583
-#, fuzzy, kde-format
-#| msgid "No timecode for clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "Ni časovne kode za posnetek"
+msgstr "Posnetek nima metapodatkov časovne kode"
 
 #: src/timeline2/view/timelinecontroller.cpp:3589
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "Izberite profil za video"
+msgstr "Izberite ciljno stezo"
 
 #: src/timeline2/view/timelinecontroller.cpp:3595
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr ""
-"Posnetka ni možno ustvariti:\n"
-"%1"
+msgstr "Posnetka ni možno vstaviti na %1 na stezo %2"
 
 #: src/timeline2/view/timelinecontroller.cpp:3647
 #, kde-format
@@ -37825,10 +37769,9 @@ msgstr "Išči po posnetku ob dodajanju učinka"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "Poravnaj predvajalno glavo na mesto miške"
+msgstr "Ob ustavitvi vrni predvajalno glavo na začetni položaj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101
@@ -40750,112 +40693,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Font Size"
-#~ msgstr "Velikost pisave"
-
-#~ msgid "Font Weight"
-#~ msgstr "Debelina pisave"
-
-#~ msgid "Font Style"
-#~ msgstr "Slog pisave"
-
-#~ msgid "OpenTimelineIO core functionality"
-#~ msgstr "Jedrna funkcionalnost OpenTimelineIO"
-
-#~ msgid "OpenTimelineIO Kdenlive support"
-#~ msgstr "OpenTimelineIO podpora za Kdenlive"
-
-#~ msgid ""
-#~ "Could not find \"otioconvert\" script although it is installed through "
-#~ "pip3.\n"
-#~ "Please check the otio scripts are installed in a directory listed in PATH "
-#~ "environment variable"
-#~ msgstr ""
-#~ "Skripta »otioconvert« ni možno najti, čeprav je nameščen prek pip3.\n"
-#~ "Preverite, ali so skripti otio nameščene v mapi, ki je navedena v "
-#~ "okoljski spremenljivki PATH"
-
-#~ msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-#~ msgstr "OpenTimelineIO ni našel adapterja Kdenlive."
-
-#~ msgid "Configure your OpenTimelineIO setup"
-#~ msgstr "Prilagodite svojo nastavitev OpenTimelineIO"
-
-#~ msgid "Check again"
-#~ msgstr "Preveri znova"
-
-#~ msgid "OpenTimelineIO Application otioconvert not found"
-#~ msgstr "Programa OpenTimelineIO otioconvert ni možno najti"
-
-#~ msgid "OpenTimelineIO Project conversion failed"
-#~ msgstr "Pretvorba projekta OpenTimelineIO ni uspela"
-
-#~ msgid "Project conversion complete"
-#~ msgstr "Pretvorba projekta dokončana"
-
-#~ msgid "Export Project"
-#~ msgstr "Izvozi projekt"
-
-#~ msgid "OpenTimelineIO adapters (%1)(%1)"
-#~ msgstr "Adapterji OpenTimelineIO (%1)(%1)"
-
-#~ msgid "Project file could not be saved for export."
-#~ msgstr "Datoteke projekta ni bilo možno shraniti za izvoz."
-
-#~ msgid "Unable to write to temporary kdenlive file for export: %1"
-#~ msgstr "Ni možno pisati v začasno datoteko kdenlive za izvoz: %1"
-
-#~ msgid "Project to import"
-#~ msgstr "Projekt za uvoz"
-
-#~ msgid "Imported Project"
-#~ msgstr "Uvoženi projekt"
-
-#~ msgid "Kdenlive project (*.kdenlive)"
-#~ msgstr "Projekt Kdenlive (*.kdenlive)"
-
-#~ msgid ""
-#~ "The current project has not been saved\n"
-#~ "Do you want to load imported project abandoning latest changes?"
-#~ msgstr ""
-#~ "Trenutni projekt ni bil shranjen.\n"
-#~ "Ali želite naložiti uvožen projekt in opustiti najnovejše spremembe?"
-
-#~ msgid "Logo X Position"
-#~ msgstr "Položaj logotipa X"
-
-#~ msgid "Logo Y Position"
-#~ msgstr "Položaj logotipa Y"
-
-#~ msgid "Logo Width"
-#~ msgstr "Širina logotipa"
-
-#~ msgid "Logo Height"
-#~ msgstr "Višina logotipa"
-
-#~ msgid "X coordinate of top-left corner"
-#~ msgstr "X-koordinata levega zgornjega kota."
-
-#~ msgid "Y coordinate of top-left corner"
-#~ msgstr "Y-koordinata levega zgornjega kota."
-
-#~ msgid "Width (px)"
-#~ msgstr "Širina (sl. t.)"
-
-#~ msgid ""
-#~ "Width of the box in pixel.<br>\n"
-#~ "    \tA width of <em>1</em> does not draw a line"
-#~ msgstr ""
-#~ "Širina polja v slikovnih točkah.<br>\n"
-#~ "    \tŠirina <em>1</em> ne nariše črte."
-
-#~ msgid "Height (px)"
-#~ msgstr "Višina (sl. t.)"
-
-#~ msgid ""
-#~ "Height of the box in pixel.<br>\n"
-#~ "    \tA height of <em>1</em> does not draw a line"
-#~ msgstr ""
-#~ "Višina polja v slikovnih točkah.<br>\n"
-#~ "    \tVišina <em>1</em> ne nariše črte."
