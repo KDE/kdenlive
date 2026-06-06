@@ -5,10 +5,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-02 03:52+0000\n"
+"POT-Creation-Date: 2026-06-06 03:19+0000\n"
 "PO-Revision-Date: 2012-01-01 20:29+0100\n"
 "Last-Translator: Kjetil Kilhavn <kjetil@kilhavn.no>\n"
-"Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
+"Language-Team: Norwegian Bokmål <l10n-no@nuug.no>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28191,17 +28191,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr ""
 
-#: src/monitor/videowidget.cpp:1241
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr ""
 
-#: src/monitor/videowidget.cpp:1250
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr ""
 
-#: src/monitor/videowidget.cpp:1355
+#: src/monitor/videowidget.cpp:1353
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

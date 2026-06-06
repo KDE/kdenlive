@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-02 03:52+0000\n"
+"POT-Creation-Date: 2026-06-06 03:19+0000\n"
 "PO-Revision-Date: 2026-05-26 23:23+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -29960,17 +29960,17 @@ msgstr "MLT deve essere compilato con libfftw3 per abilitare lo spettro audio"
 msgid "Enable Audio Spectrum"
 msgstr "Abilita Spettro audio"
 
-#: src/monitor/videowidget.cpp:1241
+#: src/monitor/videowidget.cpp:1234
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Seleziona una zona da riprodurre"
 
-#: src/monitor/videowidget.cpp:1250
+#: src/monitor/videowidget.cpp:1243
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Seleziona una clip da riprodurre"
 
-#: src/monitor/videowidget.cpp:1355
+#: src/monitor/videowidget.cpp:1353
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

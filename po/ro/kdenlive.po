@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-02 03:52+0000\n"
+"POT-Creation-Date: 2026-06-06 03:19+0000\n"
 "PO-Revision-Date: 2026-03-16 16:10+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -30602,19 +30602,19 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Desparte sunetul"
 
-#: src/monitor/videowidget.cpp:1241
+#: src/monitor/videowidget.cpp:1234
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Unealtă de selecție"
 
-#: src/monitor/videowidget.cpp:1250
+#: src/monitor/videowidget.cpp:1243
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Unealtă de selecție"
 
-#: src/monitor/videowidget.cpp:1355
+#: src/monitor/videowidget.cpp:1353
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
