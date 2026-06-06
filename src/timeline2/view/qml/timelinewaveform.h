@@ -14,21 +14,21 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(QColor bgColorEven MEMBER m_bgColorEven NOTIFY needRedraw)
-    Q_PROPERTY(QColor bgColorOdd MEMBER m_bgColorOdd NOTIFY needRedraw)
-    Q_PROPERTY(QColor fgColorEven MEMBER m_fgColorEven NOTIFY needRedraw)
-    Q_PROPERTY(QColor fgColorOdd MEMBER m_fgColorOdd NOTIFY needRedraw)
-    Q_PROPERTY(int channels MEMBER m_channels NOTIFY channelsChanged)
-    Q_PROPERTY(QString binId MEMBER m_binId NOTIFY binIdChanged)
-    Q_PROPERTY(double waveInPoint MEMBER m_inPoint NOTIFY waveInPointChanged)
-    Q_PROPERTY(double waveOutPoint MEMBER m_outPoint NOTIFY waveOutPointChanged)
-    Q_PROPERTY(int audioStream MEMBER m_stream NOTIFY audioStreamChanged)
-    Q_PROPERTY(double scaleFactor MEMBER m_scale NOTIFY scaleFactorChanged)
+    Q_PROPERTY(QColor bgColorEven MEMBER m_bgColorEven NOTIFY needRedraw REQUIRED)
+    Q_PROPERTY(QColor bgColorOdd MEMBER m_bgColorOdd NOTIFY needRedraw REQUIRED)
+    Q_PROPERTY(QColor fgColorEven MEMBER m_fgColorEven NOTIFY needRedraw REQUIRED)
+    Q_PROPERTY(QColor fgColorOdd MEMBER m_fgColorOdd NOTIFY needRedraw REQUIRED)
+    Q_PROPERTY(int channels MEMBER m_channels NOTIFY channelsChanged REQUIRED)
+    Q_PROPERTY(QString binId MEMBER m_binId NOTIFY binIdChanged REQUIRED)
+    Q_PROPERTY(double waveInPoint MEMBER m_inPoint NOTIFY waveInPointChanged REQUIRED)
+    Q_PROPERTY(double waveOutPoint MEMBER m_outPoint NOTIFY waveOutPointChanged REQUIRED)
+    Q_PROPERTY(int audioStream MEMBER m_stream NOTIFY audioStreamChanged REQUIRED)
+    Q_PROPERTY(double scaleFactor MEMBER m_scale NOTIFY scaleFactorChanged REQUIRED)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
-    Q_PROPERTY(bool format MEMBER m_separateChannels NOTIFY formatChanged)
-    Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY normalizeChanged)
+    Q_PROPERTY(bool format MEMBER m_separateChannels NOTIFY formatChanged REQUIRED)
+    Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY normalizeChanged REQUIRED)
     Q_PROPERTY(bool drawChannelNames MEMBER m_drawChannelNames NOTIFY needRedraw)
-    Q_PROPERTY(bool isOpaque MEMBER m_opaquePaint)
+    Q_PROPERTY(bool isOpaque MEMBER m_opaquePaint REQUIRED)
 
 public:
     TimelineWaveform(QQuickItem *parent = nullptr);
