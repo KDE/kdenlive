@@ -27,17 +27,14 @@ TimelineWaveform::TimelineWaveform(QQuickItem *parent)
     // setRenderTarget(QQuickPaintedItem::FramebufferObject);
     // setMipmap(true);
     // setTextureSize(QSize(1, 1));
-    connect(this, &TimelineWaveform::needRecompute, [this] {
-        if (m_outPoint <= m_inPoint) {
-            // Waveform not initialized
-            return;
-        }
-        m_needRecompute = true;
-        if (m_normalize && m_normalizeFactor == 1.) {
-            m_normalizeFactor = static_cast<double>(std::numeric_limits<int16_t>::max()) / pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream);
-        }
-        update();
-    });
+    connect(this, &TimelineWaveform::binIdChanged, this, &TimelineWaveform::requestRecompute);
+    connect(this, &TimelineWaveform::channelsChanged, this, &TimelineWaveform::requestRecompute);
+    connect(this, &TimelineWaveform::audioStreamChanged, this, &TimelineWaveform::requestRecompute);
+    connect(this, &TimelineWaveform::scaleFactorChanged, this, &TimelineWaveform::requestRecompute);
+    connect(this, &TimelineWaveform::speedChanged, this, &TimelineWaveform::requestRecompute);
+    connect(this, &TimelineWaveform::waveInPointChanged, this, &TimelineWaveform::requestRecompute);
+    connect(this, &TimelineWaveform::waveOutPointChanged, this, &TimelineWaveform::requestRecompute);
+    connect(this, &TimelineWaveform::formatChanged, this, &TimelineWaveform::requestRecompute);
     connect(this, &TimelineWaveform::needRedraw, &QQuickItem::update);
     connect(this, &TimelineWaveform::normalizeChanged, [this] {
         if (m_normalize) {
@@ -91,6 +88,19 @@ void TimelineWaveform::drawWaveformPath(QPainter *painter, const int ch, const i
     if (!m_opaquePaint) {
         painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
     }
+}
+
+void TimelineWaveform::requestRecompute()
+{
+    if (m_outPoint <= m_inPoint) {
+        // Waveform not initialized
+        return;
+    }
+    m_needRecompute = true;
+    if (m_normalize && m_normalizeFactor == 1.) {
+        m_normalizeFactor = static_cast<double>(std::numeric_limits<int16_t>::max()) / pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream);
+    }
+    update();
 }
 
 void TimelineWaveform::compute()
