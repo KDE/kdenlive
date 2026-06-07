@@ -16,6 +16,7 @@ import org.kde.kdenlive as K
 Item {
     id: audioThumb
     required property K.MonitorProxy monitorController
+    property int viewType: K.SceneType.MonitorSceneAutoMask
     required property double timeScale
     required property int duration
     property bool isAudioClip: false

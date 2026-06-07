@@ -111,7 +111,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_index(index)
     , m_parent(parent)
     , m_monitorHelper(nullptr)
-    , m_neededScene(MonitorSceneType::MonitorSceneDefault)
+    , m_neededScene(SceneType::MonitorSceneDefault)
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
     , m_baseHeight(0)
     , m_addedHeight(0)
@@ -663,29 +663,29 @@ void KeyframeContainer::initNeededSceneAndHelper()
 {
     // Loop over all parameters to determine the needed scene and helper
     m_monitorHelper = nullptr;
-    m_neededScene = MonitorSceneType::MonitorSceneDefault;
+    m_neededScene = SceneType::MonitorSceneDefault;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         const QString assetId = m_model->getAssetId();
         if (assetId == QLatin1String("qtblend")) {
-            m_neededScene = MonitorSceneType::MonitorSceneRotatedGeometry;
+            m_neededScene = SceneType::MonitorSceneRotatedGeometry;
             m_monitorHelper = new RotatedRectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
         } else if (type == ParamType::Roto_spline) {
-            m_neededScene = MonitorSceneType::MonitorSceneRoto;
+            m_neededScene = SceneType::MonitorSceneRoto;
             m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
         } else if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
-            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+            m_neededScene = SceneType::MonitorSceneGeometry;
             m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
             break;
         } else if (assetId == QLatin1String("frei0r.c0rners")) {
-            m_neededScene = MonitorSceneType::MonitorSceneCorners;
+            m_neededScene = SceneType::MonitorSceneCorners;
             m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
         } else if (assetId == QLatin1String("frei0r.alpha0ps_alphaspot") || assetId.contains(QLatin1String("frei0r.alphaspot"))) {
-            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+            m_neededScene = SceneType::MonitorSceneGeometry;
             m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
         }
@@ -757,7 +757,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, true, opacity, m_sourceFrameSize, false,
                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout));
-        if (m_neededScene == MonitorSceneType::MonitorSceneRotatedGeometry) {
+        if (m_neededScene == SceneType::MonitorSceneRotatedGeometry) {
             m_geom->setRotatable(true);
         }
         connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix, int frame) {
@@ -964,7 +964,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
     }
     int framePos = getPosition();
     GenTime pos(framePos, pCore->getCurrentFps());
-    if (!m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == MonitorSceneType::MonitorSceneRoto) {
+    if (!m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == SceneType::MonitorSceneRoto) {
         if (!m_keyframes->hasKeyframe(framePos)) {
             // Auto add keyframe only if there already is more than 1 keyframe
             m_keyframes->addKeyframe(pos, KeyframeType::Linear);
@@ -991,7 +991,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
     }
 }
 
-MonitorSceneType KeyframeContainer::requiredScene() const
+SceneType::MonitorSceneType KeyframeContainer::requiredScene() const
 {
     qDebug() << "// // // RESULTING REQUIRED SCENE: " << m_neededScene;
     return m_neededScene;
@@ -1169,7 +1169,7 @@ void KeyframeContainer::slotImportKeyframes()
     for (const auto &w : m_parameters) {
         indexes << w.first;
     }
-    if (m_neededScene == MonitorSceneRoto) {
+    if (m_neededScene == SceneType::MonitorSceneRoto) {
         indexes << m_monitorHelper->getIndexes();
     }
     QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(),

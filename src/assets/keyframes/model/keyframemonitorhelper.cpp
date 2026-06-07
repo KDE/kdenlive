@@ -12,7 +12,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <core.h>
 #include <utility>
-KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, MonitorSceneType sceneType, QObject *parent)
+KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, SceneType::MonitorSceneType sceneType,
+                                             QObject *parent)
     : QObject(parent)
     , m_monitor(monitor)
     , m_model(std::move(model))
@@ -61,7 +62,7 @@ void KeyframeMonitorHelper::refreshParamsWhenReady(int pos)
         refreshParams(pos);
     } else {
         // Scene is not ready yet
-        connect(m_monitor, &Monitor::sceneChanged, this, [this, pos](MonitorSceneType sceneType) {
+        connect(m_monitor, &Monitor::sceneChanged, this, [this, pos](SceneType::MonitorSceneType sceneType) {
             if (sceneType == m_requestedSceneType) {
                 refreshParams(pos);
             }

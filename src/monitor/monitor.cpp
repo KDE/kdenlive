@@ -128,7 +128,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
-    , m_lastMonitorSceneType(MonitorSceneDefault)
+    , m_lastMonitorSceneType(SceneType::MonitorSceneDefault)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -558,7 +558,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_trimmingbar->setVisible(false);
 
     // Load monitor overlay qml
-    loadQmlScene(MonitorSceneDefault);
+    loadQmlScene(SceneType::MonitorSceneDefault);
 
     // Monitor dropped fps timer
     m_droppedTimer.setInterval(1000);
@@ -937,7 +937,7 @@ void Monitor::slotLoadClipZone(const QPoint &zone)
 
 void Monitor::slotSetZoneStart()
 {
-    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+    if (m_qmlManager->sceneType() == SceneType::MonitorSceneAutoMask) {
         // Don't allow changing in/out when in mask mode
         pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
         return;
@@ -973,7 +973,7 @@ void Monitor::slotSetZoneStart()
 
 void Monitor::slotSetZoneEnd()
 {
-    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+    if (m_qmlManager->sceneType() == SceneType::MonitorSceneAutoMask) {
         // Don't allow changing in/out when in mask mode
         pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
         return;
@@ -1009,7 +1009,7 @@ void Monitor::slotSetZoneEnd()
 
 void Monitor::slotSetZone(const QPoint zone)
 {
-    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+    if (m_qmlManager->sceneType() == SceneType::MonitorSceneAutoMask) {
         // Don't allow changing in/out when in mask mode
         pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
         return;
@@ -1716,7 +1716,7 @@ void Monitor::slotSeek(int pos)
 
 void Monitor::checkOverlay(int pos)
 {
-    if (m_qmlManager->sceneType() != MonitorSceneDefault) {
+    if (m_qmlManager->sceneType() != SceneType::MonitorSceneDefault) {
         // we are not in main view, ignore
         return;
     }
@@ -2118,7 +2118,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         // Don't display a clip if we are closing
         return false;
     }
-    if (m_qmlManager->sceneType() == MonitorSceneAutoMask && maskMode() != MaskModeType::MaskNone) {
+    if (m_qmlManager->sceneType() == SceneType::MonitorSceneAutoMask && maskMode() != MaskModeType::MaskNone) {
         if (KMessageBox::warningContinueCancel(this, i18n("Exit Mask Mode ?")) != KMessageBox::Continue) {
             return false;
         }
@@ -2178,7 +2178,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         // We had another clip displayed, reset
         pCore->taskManager.displayedClip = -1;
         m_markerModel = nullptr;
-        loadQmlScene(MonitorSceneDefault);
+        loadQmlScene(SceneType::MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_glMonitor->getControllerProxy()->resetTimeZoom();
@@ -2295,7 +2295,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 m_glMonitor->getControllerProxy()->resetTimeZoom();
             }
             pCore->guidesList()->setClipMarkerModel(m_controller);
-            loadQmlScene(MonitorSceneDefault);
+            loadQmlScene(SceneType::MonitorSceneDefault);
             updateMarkers();
             connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
             connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
@@ -2408,7 +2408,7 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
     m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title, true);
     m_glMonitor->setRulerInfo(m_glMonitor->producer()->get_length() - 1);
-    loadQmlScene(MonitorSceneDefault);
+    loadQmlScene(SceneType::MonitorSceneDefault);
     checkOverlay();
     slotStart();
     switchPlay(true);
@@ -2481,7 +2481,7 @@ QPoint Monitor::getZoneInfo() const
 void Monitor::enableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
-    MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneDefault;
+    SceneType::MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : SceneType::MonitorSceneDefault;
     if (enable) {
         connect(this, &Monitor::sceneChanged, this, [this]() {
             Q_EMIT updateScene();
@@ -2491,27 +2491,27 @@ void Monitor::enableEffectScene(bool enable)
     slotShowEffectScene(sceneType, true);
 }
 
-void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, const QVariant &sceneData)
+void Monitor::slotShowEffectScene(SceneType::MonitorSceneType sceneType, bool temporary, const QVariant &sceneData)
 {
     if (m_trimmingbar->isVisible()) {
         return;
     }
-    if (sceneType == MonitorSceneNone) {
+    if (sceneType == SceneType::MonitorSceneNone) {
         // We just want to revert to normal scene
-        if (m_qmlManager->sceneType() == MonitorSceneSplit || m_qmlManager->sceneType() == MonitorSceneDefault) {
+        if (m_qmlManager->sceneType() == SceneType::MonitorSceneSplit || m_qmlManager->sceneType() == SceneType::MonitorSceneDefault) {
             // Ok, nothing to do
             return;
         }
-        sceneType = MonitorSceneDefault;
-    } else if (m_qmlManager->sceneType() == MonitorSplitTrack) {
+        sceneType = SceneType::MonitorSceneDefault;
+    } else if (m_qmlManager->sceneType() == SceneType::MonitorSplitTrack) {
         // Don't show another scene type if multitrack mode is active
-        loadQmlScene(MonitorSplitTrack, sceneData);
+        loadQmlScene(SceneType::MonitorSplitTrack, sceneData);
         return;
     }
     if (!temporary) {
         m_lastMonitorSceneType = sceneType;
     }
-    if (sceneType == MonitorSceneDefault || KdenliveSettings::showOnMonitorScene()) {
+    if (sceneType == SceneType::MonitorSceneDefault || KdenliveSettings::showOnMonitorScene()) {
         loadQmlScene(sceneType, sceneData);
     }
 }
@@ -2522,7 +2522,7 @@ void Monitor::setUpEffectGeometry(const QVariantList &list, const QVariantList &
     if (!root) {
         return;
     }
-    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+    if (m_qmlManager->sceneType() == SceneType::MonitorSceneAutoMask) {
         QVariantList boxPoints;
         if (!box.isNull()) {
             const QSize frameSize = pCore->getCurrentFrameSize();
@@ -2531,7 +2531,7 @@ void Monitor::setUpEffectGeometry(const QVariantList &list, const QVariantList &
         }
         QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, boxPoints));
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, types), Q_ARG(QVariant, list));
-    } else if (m_qmlManager->sceneType() != MonitorSceneDefault && (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto)) {
+    } else if (m_qmlManager->sceneType() != SceneType::MonitorSceneDefault && (!list.isEmpty() || m_qmlManager->sceneType() == SceneType::MonitorSceneRoto)) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
 }
@@ -2557,7 +2557,7 @@ void Monitor::setEffectSceneProperty(const QString &name, const QVariant &value)
 
 void Monitor::setEffectKeyframe(bool enable, bool outside)
 {
-    if (m_nextSceneType != MonitorSceneNone) {
+    if (m_nextSceneType != SceneType::MonitorSceneNone) {
         // The scene is still loading, postpone
         // If another keyframe call is pending, discard it to only keep the last one
         QObject::disconnect(m_glMonitor, &QQuickWidget::statusChanged, this, nullptr);
@@ -2572,7 +2572,7 @@ void Monitor::setEffectKeyframe(bool enable, bool outside)
     m_glMonitor->getControllerProxy()->setCursorOutsideEffect(outside);
 }
 
-bool Monitor::effectSceneDisplayed(MonitorSceneType effectType)
+bool Monitor::effectSceneDisplayed(SceneType::MonitorSceneType effectType)
 {
     return m_qmlManager->sceneType() == effectType;
 }
@@ -2705,7 +2705,7 @@ void Monitor::warningMessage(const QString &text, int timeout, const QList<QActi
 
 void Monitor::activateSplit()
 {
-    loadQmlScene(MonitorSceneSplit);
+    loadQmlScene(SceneType::MonitorSceneSplit);
     if (isActive()) {
         m_glMonitor->requestRefresh();
     } else if (slotActivateMonitor()) {
@@ -2717,7 +2717,7 @@ void Monitor::slotSwitchCompare(bool enable)
 {
     if (m_id == Kdenlive::ProjectMonitor) {
         if (enable) {
-            if (m_qmlManager->sceneType() == MonitorSceneSplit) {
+            if (m_qmlManager->sceneType() == SceneType::MonitorSceneSplit) {
                 // Split scene is already active
                 return;
             }
@@ -2737,7 +2737,7 @@ void Monitor::slotSwitchCompare(bool enable)
         // Delete temp track
         Q_EMIT removeSplitOverlay();
         m_splitEffect.reset();
-        loadQmlScene(MonitorSceneDefault);
+        loadQmlScene(SceneType::MonitorSceneDefault);
         if (isActive()) {
             m_glMonitor->requestRefresh();
         } else if (slotActivateMonitor()) {
@@ -2755,7 +2755,7 @@ void Monitor::slotSwitchCompare(bool enable)
         return;
     }
     if (enable) {
-        if (m_qmlManager->sceneType() == MonitorSceneSplit) {
+        if (m_qmlManager->sceneType() == SceneType::MonitorSceneSplit) {
             // Split scene is already active
             qDebug() << " . . . .. ALREADY ACTIVE";
             return;
@@ -2766,14 +2766,14 @@ void Monitor::slotSwitchCompare(bool enable)
         m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), position());
         m_splitEffect.reset();
         m_splitProducer.reset();
-        loadQmlScene(MonitorSceneDefault);
+        loadQmlScene(SceneType::MonitorSceneDefault);
     }
     slotActivateMonitor();
 }
 
 void Monitor::resetScene()
 {
-    loadQmlScene(MonitorSceneDefault);
+    loadQmlScene(SceneType::MonitorSceneDefault);
 }
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
@@ -2822,7 +2822,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     m_splitProducer = std::make_shared<Mlt::Producer>(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
     m_glMonitor->setRulerInfo(int(m_controller->frameDuration()), m_controller->getFilteredMarkerModel());
-    loadQmlScene(MonitorSceneSplit);
+    loadQmlScene(SceneType::MonitorSceneSplit);
 }
 
 QSize Monitor::profileSize() const
@@ -2830,11 +2830,11 @@ QSize Monitor::profileSize() const
     return m_glMonitor->profileSize();
 }
 
-void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, bool resetProperties)
+void Monitor::loadQmlScene(SceneType::MonitorSceneType type, const QVariant &sceneData, bool resetProperties)
 {
     if (type == m_qmlManager->sceneType()) {
         if (sceneData.isNull() && !resetProperties) {
-            if (type == MonitorSceneRoto) {
+            if (type == SceneType::MonitorSceneRoto) {
                 // Reset defined state when switching to a new undefined rotoscoping
                 setUpEffectGeometry(QVariantList());
             }
@@ -2843,7 +2843,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
     } else {
         QQuickItem *root = m_glMonitor->rootObject();
         if (root) {
-            if (m_nextSceneType != MonitorSceneNone) {
+            if (m_nextSceneType != SceneType::MonitorSceneNone) {
                 // Another scene change is already running
                 m_nextSceneType = type;
                 return;
@@ -2856,7 +2856,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
                     loadQmlScene(m_nextSceneType, sceneData, true);
                     Q_EMIT sceneChanged(m_nextSceneType);
                 }
-                m_nextSceneType = MonitorSceneNone;
+                m_nextSceneType = SceneType::MonitorSceneNone;
             });
             m_qmlManager->blockSceneChange(true);
             root->deleteLater();
@@ -2869,11 +2869,11 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
 
     // Ensure scalex, scaley and center are correctly updated
     m_glMonitor->refreshRect();
-    bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
+    bool sceneWithEdit = type == SceneType::MonitorSceneGeometry || type == SceneType::MonitorSceneCorners || type == SceneType::MonitorSceneRoto;
     if (!m_monitorManager->getAction(QStringLiteral("monitor_editmode"))->isChecked() && sceneWithEdit) {
         // User doesn't want effect scenes
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
-        type = MonitorSceneDefault;
+        type = SceneType::MonitorSceneDefault;
     }
 
     if (m_glMonitor->zoom() != 1.) {
@@ -2881,15 +2881,15 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
     }
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
-    case MonitorSceneSplit:
+    case SceneType::MonitorSceneSplit:
         QObject::connect(root, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
         break;
-    case MonitorSceneTrimming:
-    case MonitorSceneGeometry:
-    case MonitorSceneCorners:
-    case MonitorSceneRoto:
+    case SceneType::MonitorSceneTrimming:
+    case SceneType::MonitorSceneGeometry:
+    case SceneType::MonitorSceneCorners:
+    case SceneType::MonitorSceneRoto:
         break;
-    case MonitorSceneDefault:
+    case SceneType::MonitorSceneDefault:
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
@@ -2900,7 +2900,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
             QObject::connect(root, SIGNAL(startRecording(bool)), pCore.get(), SLOT(startRecording(bool)), Qt::UniqueConnection);
         }
         break;
-    case MonitorSplitTrack:
+    case SceneType::MonitorSplitTrack:
         m_qmlManager->setProperty(QStringLiteral("tracks"), sceneData);
         break;
     default:
@@ -2917,7 +2917,7 @@ void Monitor::setQmlProperty(const QString &name, const QVariant &value)
 void Monitor::slotAdjustEffectCompare()
 {
     double percent = 0.5;
-    if (m_qmlManager->sceneType() == MonitorSceneSplit) {
+    if (m_qmlManager->sceneType() == SceneType::MonitorSceneSplit) {
         // Adjust splitter pos
         QQuickItem *root = m_glMonitor->rootObject();
         percent = root->property("percentage").toDouble();
@@ -2951,7 +2951,7 @@ void Monitor::slotSwitchTrimming(bool enable)
         return;
     }
     if (enable) {
-        loadQmlScene(MonitorSceneTrimming);
+        loadQmlScene(SceneType::MonitorSceneTrimming);
         m_toolbar->setVisible(false);
         m_trimmingbar->setVisible(true);
         if (pCore->activeTool() == ToolType::RippleTool) {
@@ -2967,7 +2967,7 @@ void Monitor::slotSwitchTrimming(bool enable)
         }
         m_glMonitor->switchRuler(false);
     } else if (m_trimmingbar->isVisible()) {
-        loadQmlScene(MonitorSceneDefault);
+        loadQmlScene(SceneType::MonitorSceneDefault);
         m_trimmingbar->setVisible(false);
         m_toolbar->setVisible(true);
         m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & Monitor::InfoOverlay);
@@ -3299,7 +3299,7 @@ void Monitor::focusTimecode()
 
 void Monitor::startCountDown()
 {
-    loadQmlScene(MonitorSceneDefault);
+    loadQmlScene(SceneType::MonitorSceneDefault);
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
         QMetaObject::invokeMethod(root, "startCountdown");
@@ -3419,7 +3419,7 @@ void Monitor::previewMask(const QString &binId, const QString &maskFile, int in,
     slotLoadClipZone(QPoint(in, out));
     getControllerProxy()->setMaskMode(maskMode);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
-    loadQmlScene(MonitorSceneAutoMask);
+    loadQmlScene(SceneType::MonitorSceneAutoMask);
 }
 
 void Monitor::abortPreviewMask(bool rebuildProducer)
@@ -3432,7 +3432,7 @@ void Monitor::abortPreviewMask(bool rebuildProducer)
     getControllerProxy()->setMaskMode(MaskModeType::MaskNone);
     if (rebuildProducer) {
         buildBackgroundedProducer(position());
-        loadQmlScene(MonitorSceneDefault);
+        loadQmlScene(SceneType::MonitorSceneDefault);
     }
     m_maskOpacity.reset();
     m_maskInvert.reset();

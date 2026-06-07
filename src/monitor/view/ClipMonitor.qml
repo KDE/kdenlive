@@ -26,6 +26,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneDefault
     property string markerText
     property int itemType: 0
     property point profile: controller.profile

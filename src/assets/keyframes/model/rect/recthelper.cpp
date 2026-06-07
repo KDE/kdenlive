@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSize>
 #include <utility>
 RectHelper::RectHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QObject *parent)
-    : KeyframeMonitorHelper(monitor, std::move(model), MonitorSceneGeometry, parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), SceneType::MonitorSceneGeometry, parent)
 {
 }
 

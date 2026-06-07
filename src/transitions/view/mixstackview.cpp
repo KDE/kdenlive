@@ -202,7 +202,7 @@ void MixStackView::unsetModel()
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
         }
         disconnect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
-        pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(MonitorSceneDefault);
+        pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(SceneType::MonitorSceneDefault);
     }
     AssetParameterView::unsetModel();
 }

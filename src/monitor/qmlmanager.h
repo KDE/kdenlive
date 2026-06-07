@@ -25,18 +25,18 @@ public:
     explicit QmlManager(VideoWidget *view, Monitor *monitor);
 
     /** @brief return current active scene type */
-    MonitorSceneType sceneType() const;
+    SceneType::MonitorSceneType sceneType() const;
     /** @brief Set a property on the root item */
     void setProperty(const QString &name, const QVariant &value);
     /** @brief Load a monitor scene */
-    bool setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, int duration);
+    bool setScene(Kdenlive::MonitorId id, SceneType::MonitorSceneType type, QSize profile, double profileStretch, int duration);
     /** @brief reset stored scene type */
     void clearSceneType();
 
 private:
     VideoWidget *m_view;
     Monitor *m_monitor;
-    MonitorSceneType m_sceneType;
+    SceneType::MonitorSceneType m_sceneType;
     bool m_sceneChangeBlocked{false};
 
 public Q_SLOTS:

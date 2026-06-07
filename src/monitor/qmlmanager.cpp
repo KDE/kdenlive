@@ -19,11 +19,11 @@ QmlManager::QmlManager(VideoWidget *view, Monitor *monitor)
     : QObject(monitor)
     , m_view(view)
     , m_monitor(monitor)
-    , m_sceneType(MonitorSceneNone)
+    , m_sceneType(SceneType::MonitorSceneNone)
 {
 }
 
-MonitorSceneType QmlManager::sceneType() const
+SceneType::MonitorSceneType QmlManager::sceneType() const
 {
     return m_sceneType;
 }
@@ -40,10 +40,10 @@ void QmlManager::blockSceneChange(bool block)
 
 void QmlManager::clearSceneType()
 {
-    m_sceneType = MonitorSceneNone;
+    m_sceneType = SceneType::MonitorSceneNone;
 }
 
-bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, int duration)
+bool QmlManager::setScene(Kdenlive::MonitorId id, SceneType::MonitorSceneType type, QSize profile, double profileStretch, int duration)
 {
     if (type == m_sceneType || m_sceneChangeBlocked) {
         // Scene type already active
@@ -53,14 +53,14 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     QQuickItem *root = nullptr;
     m_view->setInitialProperties({{QStringLiteral("controller"), QVariant::fromValue(m_view->getControllerProxy())}});
     switch (type) {
-    case MonitorSceneGeometry:
+    case SceneType::MonitorSceneGeometry:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorGeometryScene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectChanged(QRectF)), m_monitor, SIGNAL(effectChanged(QRectF)), Qt::UniqueConnection);
         QObject::connect(root, SIGNAL(centersChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         break;
-    case MonitorSceneRotatedGeometry:
+    case SceneType::MonitorSceneRotatedGeometry:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorGeometryScene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectChanged(QRectF)), m_monitor, SIGNAL(effectChanged(QRectF)), Qt::UniqueConnection);
@@ -69,36 +69,36 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         root->setProperty("rotatable", true);
         break;
-    case MonitorSceneCorners:
+    case SceneType::MonitorSceneCorners:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorCornerScene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         root->setProperty("stretch", profileStretch);
         break;
-    case MonitorSceneRoto:
+    case SceneType::MonitorSceneRoto:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorRotoScene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectPolygonChanged(QVariant, QVariant)), this, SLOT(effectRotoChanged(QVariant, QVariant)), Qt::UniqueConnection);
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         root->setProperty("stretch", profileStretch);
         break;
-    case MonitorSplitTrack:
+    case SceneType::MonitorSplitTrack:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorSplitTracks.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(activateTrack(int)), this, SIGNAL(activateTrack(int)), Qt::UniqueConnection);
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         root->setProperty("stretch", profileStretch);
         break;
-    case MonitorSceneSplit:
+    case SceneType::MonitorSceneSplit:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorSplit.qml")));
         root = m_view->rootObject();
         break;
-    case MonitorSceneTrimming:
+    case SceneType::MonitorSceneTrimming:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorTrimming.qml")));
         root = m_view->rootObject();
         break;
-    case MonitorSceneAutoMask:
+    case SceneType::MonitorSceneAutoMask:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorAutomask.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(moveControlPoint(int, double, double)), m_monitor, SLOT(moveControlPoint(int, double, double)), Qt::UniqueConnection);

@@ -245,6 +245,10 @@ enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2, RippleTool = 3
 Q_ENUM_NS(ProjectTool)
 } // namespace ToolType
 
+namespace SceneType {
+Q_NAMESPACE
+QML_ELEMENT
+
 enum MonitorSceneType {
     MonitorSceneNone = 0,
     MonitorSceneDefault,
@@ -255,8 +259,11 @@ enum MonitorSceneType {
     MonitorSceneTrimming,
     MonitorSplitTrack,
     MonitorSceneAutoMask,
-    MonitorSceneRotatedGeometry
+    MonitorSceneRotatedGeometry,
+    MonitorSceneAudio
 };
+Q_ENUM_NS(MonitorSceneType)
+} // namespace SceneType
 
 enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };
 

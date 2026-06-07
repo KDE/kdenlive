@@ -507,9 +507,9 @@ bool AutomaskHelper::jobRunning() const
     return m_maskCreationMode || m_jobStatus == QProcess::Running;
 }
 
-void AutomaskHelper::sceneUpdated(MonitorSceneType sceneType)
+void AutomaskHelper::sceneUpdated(SceneType::MonitorSceneType sceneType)
 {
-    if (sceneType == MonitorSceneAutoMask) {
+    if (sceneType == SceneType::MonitorSceneAutoMask) {
         monitorSeek(m_seekPos);
     }
     disconnect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::sceneChanged, this, &AutomaskHelper::sceneUpdated);
@@ -518,7 +518,7 @@ void AutomaskHelper::sceneUpdated(MonitorSceneType sceneType)
 void AutomaskHelper::monitorSeek(int pos)
 {
     Monitor *mon = pCore->getMonitor(Kdenlive::ClipMonitor);
-    if (!mon->effectSceneDisplayed(MonitorSceneAutoMask)) {
+    if (!mon->effectSceneDisplayed(SceneType::MonitorSceneAutoMask)) {
         qDebug() << "::::: SEEKING WHILE MONITOR NOT READY!!!";
         // Monitor mask scene is not yet loaded
         m_seekPos = pos;
