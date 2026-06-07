@@ -2356,7 +2356,7 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clea
     m_project->closeTimeline(uuid, onDeletion);
     // The undo stack keeps references to guides model and will crash on undo if not cleared
     if (clearUndo) {
-        qDebug() << ":::::::::::::: WARNING CLEARING NUDO STACK\n\n:::::::::::::::::";
+        qDebug() << ":::::::::::::: WARNING CLEARING UNDO STACK\n\n:::::::::::::::::";
         undoStack()->clear();
     }
     if (!m_project->closing) {

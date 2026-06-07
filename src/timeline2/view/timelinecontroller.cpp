@@ -4170,7 +4170,7 @@ void TimelineController::focusTimelineSequence(int id)
         Fun local_redo = [uuid, binId = binClip->binId(), sequencePos]() { return pCore->projectManager()->openTimeline(binId, -1, uuid, sequencePos); };
         if (local_redo()) {
             Fun local_undo = [uuid]() {
-                if (pCore->projectManager()->closeTimeline(uuid)) {
+                if (pCore->projectManager()->closeTimeline(uuid, false, false)) {
                     pCore->window()->closeTimelineTab(uuid, false);
                 }
                 return true;
