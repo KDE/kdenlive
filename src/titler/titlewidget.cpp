@@ -3240,6 +3240,12 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             enableToolbars(GraphicsSceneRectMove::TITLE_TEXT);
 
         } else if ((referenceItem)->type() == RECTITEM) {
+            QSignalBlocker bk(plain_rect);
+            QSignalBlocker bk2(gradient_rect);
+            QSignalBlocker bk3(rectBColor);
+            QSignalBlocker bk4(rectFColor);
+            QSignalBlocker bk5(rectLineWidth);
+            QSignalBlocker bk6(rectCornerRadius);
             showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             settingUp = 1;
             auto *rec = static_cast<MyRectItem *>(referenceItem);
@@ -3279,6 +3285,11 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             updateDimension(rec);
 
         } else if ((referenceItem)->type() == ELLIPSEITEM) {
+            QSignalBlocker bk(plain_rect);
+            QSignalBlocker bk2(gradient_rect);
+            QSignalBlocker bk3(rectBColor);
+            QSignalBlocker bk4(rectFColor);
+            QSignalBlocker bk5(rectLineWidth);
             showToolbars(GraphicsSceneRectMove::TITLE_ELLIPSE);
             settingUp = 1;
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(referenceItem);
