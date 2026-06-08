@@ -174,6 +174,41 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
 
+    SECTION("Create mix and cut on color clips")
+    {
+        // Cid3 at 500, length 20
+        // Cid4 at 520, length 20
+        state0();
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // Cut a clip with mix end only
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid3, 505));
+        // Get newly created cut clip
+        int clone = timeline->getClipByPosition(tid2, 506, 0);
+        // Ensure each clip is on the correct playlist
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 0);
+        undoStack->undo();
+        state2();
+
+        // Cut a clip with mix start only
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid4, 535));
+        // Get newly created cut clip
+        clone = timeline->getClipByPosition(tid2, 536);
+        // Ensure each clip is on the correct playlist
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 0);
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state2();
+        undoStack->undo();
+        state0();
+    }
+
     SECTION("Add mix and resize last clip in playlist")
     {
         // Cid3 at 500, length 20
@@ -1140,13 +1175,13 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Get newly created cut clip
         int clone = timeline->getClipByPosition(tid2, 506, 0);
         // Ensure each clip is on the correct playlist
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
         REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 0);
         // Undo cid3 cut
         undoStack->undo();
         REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
         undoStack->redo();
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
         undoStack->undo();
 
         // Cut a clip with mix at start and end
