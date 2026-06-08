@@ -47,8 +47,12 @@ Rectangle {
         drag.target: parent
         drag.smoothed: false
         drag.axis: Drag.XAxis
+        onPressed: {
+            root.blockAutoScroll = true
+        }
+
         onReleased: mouse => {
-            root.autoScrolling = timeline.autoScroll
+            root.blockAutoScroll = false
             keyframe.dragPos = -1
             var newPos = Math.round(parent.x / timeScale) + keyframeContainer.inPoint
             if (keyframe.frame != keyframeContainer.inPoint && newPos != keyframe.frame) {
@@ -110,6 +114,7 @@ Rectangle {
             property double newVal: NaN
             property bool shiftPressed: false
             onPressed: mouse => {
+                root.blockAutoScroll = true
                 drag.axis = keyframe.model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
             }
             onClicked: mouse => {
@@ -129,10 +134,10 @@ Rectangle {
                 }
             }
             onReleased: {
+                root.blockAutoScroll = false
                 if (isNaN(newVal)) {
                     return
                 }
-                root.autoScrolling = timeline.autoScroll
                 var newPos = frame == keyframeContainer.inPoint ? keyframeContainer.inPoint : Math.round((keyframe.x + parent.x + K.UiUtils.baseSizeMedium / 2) / timeScale) + keyframeContainer.inPoint
                 if (newPos === frame && keyframe.value == keyframe.height - parent.y - K.UiUtils.baseSizeMedium / 2) {
                     var pos = keyframeContainer.modelStart + frame - keyframeContainer.inPoint
