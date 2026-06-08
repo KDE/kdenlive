@@ -7688,10 +7688,9 @@ msgstr "Geometria"
 
 #: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
 #: data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "Rodina písma"
+msgstr "<u>Rodina</u> písma"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
@@ -7702,23 +7701,20 @@ msgstr "Štýl"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "Normálna mierka"
+msgstr "Normálne,Kurzíva"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
-#, fuzzy, kde-format
-#| msgid "Weight:"
+#, kde-format
 msgid "Weight"
-msgstr "Výška:"
+msgstr "Hrúbka"
 
 #: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "Farba textu"
+msgstr "<u>Farba</u> textu"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7757,10 +7753,9 @@ msgstr "Podčiarknuté"
 
 #: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
 #: data/effects/timer.xml:39
-#, fuzzy, kde-format
-#| msgid "StrikeOut"
+#, kde-format
 msgid "Strikethrough"
-msgstr "StrikeOut"
+msgstr "Prečiarknuté"
 
 #: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:103
 #: data/effects/timer.xml:42
@@ -7809,19 +7804,15 @@ msgstr ""
 "#createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:58
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timecode,Frame number,File name,Base name,Full path,Creation date,File "
-#| "date (GMT),File date (local),Source frame rate,Source codec,Source bit "
-#| "rate,Source width,Source height,Source comment"
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"Časový kód,Číslo snímky,Názov súboru,Základný názov,Úplná cesta,Dátum "
-"vytvorenia,Dátum súboru (GMT),Dátum súboru (lokálny),Rýchlosť snímok zdroja,"
-"Kodek zdroja,Bitová rýchlosť zdroja,Šírka zdroja,Výška zdroja,Komentár zdroja"
+"Časový kód,Číslo snímky,Názov súboru,Základný názov,Dátum vytvorenia,Dátum "
+"súboru (GMT),Dátum súboru (lokálny),Rýchlosť snímok zdroja,Kodek zdroja,"
+"Bitová rýchlosť zdroja,Šírka zdroja,Výška zdroja,Komentár zdroja"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -13813,19 +13804,12 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "Prekrytie textu súvisiaceho s GPS na video."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "Pozrite dokumentáciu o dostupných rôznych štýloch"
+msgstr "Pozrite si online dokumentáciu o ďalších kvalifikátoroch"
 
 #: data/effects/gpstext.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date "
-#| "and time of current gps point,date and time of current frame in video "
-#| "file,heart rate,current GPS bearing,current GPS direction,GPS altitude "
-#| "gain so far,GPS altitude loss so far,distance travelled uphill so far,"
-#| "distance travelled downhill so far,distance travelled on flat area so far"
+#, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date "
 "and time of current GPS point,Date and time of current frame in video file,"
@@ -13835,11 +13819,14 @@ msgid ""
 "area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in "
 "watts,Gradient of GPS track,Gradient of GPS track in degrees"
 msgstr ""
-"GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date and "
-"time of current gps point,date and time of current frame in video file,heart "
-"rate,current GPS bearing,current GPS direction,GPS altitude gain so far,GPS "
-"altitude loss so far,distance travelled uphill so far,distance travelled "
-"downhill so far,distance travelled on flat area so far"
+"Zemepisná šírka GPS,Zemepisná dĺžka GPS,Nadmorská výška GPS,Rýchlosť GPS,"
+"Celková doterajšia vzdialenosť,Dátum a čas aktuálneho bodu GPS,Dátum a čas "
+"aktuálnej snímky vo videosúbore,Tepová frekvencia,Aktuálny azimut GPS,"
+"Aktuálny smer GPS,Celkové doterajšie stúpanie GPS,Celkové doterajšie "
+"klesanie GPS,Celková doterajšia vzdialenosť do kopca,Celková doterajšia "
+"vzdialenosť z kopca,Celková doterajšia vzdialenosť po rovine,Kadencia "
+"(bicykel) (otáčky za minútu),Teplota okolia,Výkon vo wattoch,Sklon trasy GPS,"
+"Sklon trasy GPS v stupňoch"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -13847,21 +13834,17 @@ msgid "GPS processing start time"
 msgstr "Čas začiatku spracovania GPS"
 
 #: data/effects/gpstext.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the video file is a timelapse (or slow motion), use this value to set "
-#| "the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage."
+#, kde-format
 msgid ""
 "If the video file is a timelapse<br>\n"
 "        (or slow motion), use this value to set the speed up/slow down ratio."
 "<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"If the video file is a timelapse (or slow motion), use this value to set the "
-"speed up/slow down ratio.<br>\n"
-"        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
+"Ak je videosúbor časozber<br>\n"
+"        (alebo spomalený záber), použite túto hodnotu na nastavenie pomeru "
+"zrýchlenia/spomalenia.<br>\n"
+"        Vzorové hodnoty: 30 pre 30× časozber, 0,25 pre 4× spomalený záber."
 
 #: data/effects/gpstext.xml:31
 #, kde-format
@@ -13876,33 +13859,33 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"Určuje, koľkokrát za sekundu<br>\n"
+"        sa GPS text vo videu aktualizuje (interpoluje).<br>\n"
+"        Hodnota 0 aktualizuje text len pri zázname skutočného bodu GPS. Dá "
+"sa použiť v kombinácii so speed_multiplier."
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "Farba krivky."
+msgstr "Typ písma."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
-#| msgid "The space in pixels between the segments."
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "Medzera v pixeloch medzi segmentmi."
+msgstr "Veľkosť písma v pixeloch."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "Šírka rozsahu odtieňa"
+msgstr "Hrúbka písma."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The style of the font."
-msgstr "Farba krivky."
+msgstr "Štýl písma."
 
 #: data/effects/gpstext.xml:84
-#, fuzzy, kde-format
+#, kde-format
 msgid "Background color"
 msgstr "Farba pozadia"
 
@@ -13912,44 +13895,39 @@ msgid "Outline Color"
 msgstr "Farba obrysu"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
 msgstr "Farba obrysu"
 
 #: data/effects/gpstext.xml:92
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The width of the outline in pixels"
-msgstr "Šírka rozsahu odtieňa"
+msgstr "Šírka obrysu v pixeloch"
 
 #: data/effects/gpstext.xml:96
-#, fuzzy, kde-format
-#| msgid "Apply deflate effect to the video"
+#, kde-format
 msgid "Apply underline decoration to the text."
-msgstr "Použiť efekt deflácie na video"
+msgstr "Použiť na text podčiarknutie."
 
 #: data/effects/gpstext.xml:100
 #, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr ""
+msgstr "Použiť na text prečiarknutie."
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "Horizontálne zarovnanie"
+msgstr "Nastaviť horizontálne zarovnanie"
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "Vertikálne zarovnanie"
+msgstr "Nastaviť vertikálne zarovnanie"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "Nepriehľadnosť všetkých prvkov – textu, obrysu a pozadia"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -16692,63 +16670,47 @@ msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 #: data/effects/timer.xml:60
 #, kde-format
 msgid "Start (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Začiatok (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed."
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
-"Čas, od ktorého časovač začne počítať nahor alebo nadol.\n"
-"Text bude zmrazený na 00:00:00.000 od začiatku filtra, kým neuplynie čas "
-"začiatku."
+"Čas, od ktorého časovač začne počítať nahor alebo nadol.<br>\n"
+"        Text bude zmrazený na 00:00:00.000 od začiatku filtra, kým neuplynie "
+"čas začiatku."
 
 #: data/effects/timer.xml:63 data/effects/timer.xml:69
 #: data/effects/timer.xml:76
 #, kde-format
 msgid "HH:MM:SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS.SSS"
 
 #: data/effects/timer.xml:66
-#, fuzzy, kde-format
-#| msgid "Duration (s)"
+#, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr "Trvanie (s)"
+msgstr "Trvanie (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"Maximálna uplynutá doba časovača po uplynutí počiatočného času.\n"
+"Maximálna uplynutá doba časovača po uplynutí počiatočného času.<br>\n"
 "Text bude zmrazený na dobe trvania po uplynutí doby trvania."
 
 #: data/effects/timer.xml:72
 #, kde-format
 msgid "Offset (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Posun (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.<br>\n"
 "        When the direction is <i>Down</i>, the timer will count down to "
@@ -16756,10 +16718,10 @@ msgid ""
 "        When the direction is <i>Up</i>, the timer will count up starting "
 "from <i>Offset</i>."
 msgstr ""
-"Posun, ktorý sa pridá k hodnote časovača.\n"
-"Keď je smer \"nadol\", časovač bude odpočítavať do \"posunu\" namiesto "
-"00:00:00.000.\n"
-"Keď je smer nahor, časovač bude počítať od \"posunu\"."
+"Posun, ktorý sa pridá k hodnote časovača.<br>\n"
+"        Keď je smer <i>Nadol</i>, časovač bude odpočítavať do <i>Posunu</i> "
+"namiesto 00:00:00.000.<br>\n"
+"        Keď je smer <i>Nahor</i>, časovač bude počítať od <i>Posunu</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -16790,13 +16752,7 @@ msgstr ""
 "Text bude zmrazený na dobe trvania po uplynutí doby trvania."
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -16805,9 +16761,9 @@ msgid ""
 "<i>Offset</i>."
 msgstr ""
 "Posun, ktorý sa pridá k hodnote časovača.\n"
-"Keď je smer \"nadol\", časovač bude odpočítavať do \"posunu\" namiesto "
+"Keď je smer <i>Nadol</i>, časovač bude odpočítavať do <i>Posunu</i> namiesto "
 "00:00:00.000.\n"
-"Keď je smer nahor, časovač bude počítať od \"posunu\"."
+"Keď je smer <i>Nahor</i>, časovač bude počítať od <i>Posunu</i>."
 
 #: data/effects/timer.xml:100
 #, kde-format
@@ -16821,28 +16777,27 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"Násobič rýchlosti hodín.<br>\n"
+"        Napríklad rýchlosť 10.0 spôsobí, že časovač odtiká 10 sekúnd za "
+"každú sekundu prehrávania.<br><br>\n"
+"        Škáluje Trvanie, ale neovplyvňuje <i>Začiatok</i> ani <i>Posun</i>. "
+"Napríklad: začiatok 5 s, trvanie 30 s, posun 7 s a rýchlosť 10.0 spôsobia, "
+"že časovač sa spustí v čase prehrávania 00:00:05.000 s hodnotou 00:00:07, "
+"bude počítať 10 sekúnd za sekundu prehrávania a zastaví sa v čase "
+"prehrávania 00:00:08.000 s hodnotou 00:00:37."
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            Či má počítadlo počítať nahor od 00:00:00.000 alebo nadol od "
-"doby trvania.\n"
-"        "
+"Či má počítadlo počítať nahor od 00:00:00.000 alebo nadol od doby trvania."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "Nadol"
+msgstr "Nahor,Nadol"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -20167,10 +20122,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "Prekódovanie na DVD formát"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "Vložiť aktuálny časový kód"
+msgstr "Vložiť na časový kód"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -34767,28 +34721,24 @@ msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Prosím vyberte cieľovú stopu na vykonanie operácie"
 
 #: src/timeline2/view/timelinecontroller.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "Klip v koši projektu"
+msgstr "Klip sa v koši projektu nenašiel"
 
 #: src/timeline2/view/timelinecontroller.cpp:3583
-#, fuzzy, kde-format
-#| msgid "No keyframe data found in clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "Neboli nájdené žiadne údaje kľúčových snímok v klipe"
+msgstr "V klipe neboli nájdené žiadne metaúdaje časového kódu"
 
 #: src/timeline2/view/timelinecontroller.cpp:3589
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "Prosím, vyberte video profil"
+msgstr "Prosím, vyberte cieľovú stopu"
 
 #: src/timeline2/view/timelinecontroller.cpp:3595
-#, fuzzy, kde-format
-#| msgid "Error removing clip at %1 on track %2"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr "Chyba pri odstraňovaní v %1 na stope %2"
+msgstr "Nepodarilo sa vložiť klip na %1 na stope %2"
 
 #: src/timeline2/view/timelinecontroller.cpp:3647
 #, kde-format
@@ -37649,10 +37599,9 @@ msgstr "Prejsť na klip pri pridaní efektu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "Zarovnať Playhead na pozíciu myši"
+msgstr "Pri zastavení vrátiť prehrávací kurzor na počiatočnú pozíciu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101

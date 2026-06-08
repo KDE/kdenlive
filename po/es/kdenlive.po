@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-07 00:43+0000\n"
-"PO-Revision-Date: 2026-05-17 12:06+0100\n"
-"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
+"PO-Revision-Date: 2026-06-07 16:28+0100\n"
+"Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -503,7 +503,7 @@ msgstr "Visualizar onda de audio"
 #: data/effects/audiowaveform.xml:10 data/effects/gpstext.xml:79
 #, kde-format
 msgid "Foreground Color"
-msgstr "Color de primer plano"
+msgstr "Color"
 
 #: data/effects/audiowaveform.xml:26
 #, kde-format
@@ -7850,10 +7850,9 @@ msgstr "Geometría"
 
 #: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
 #: data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "Familia tipográfica"
+msgstr "Tipografía"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
@@ -7864,23 +7863,20 @@ msgstr "Estilo"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "Escala normal"
+msgstr "Normal,Cursiva"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
-#, fuzzy, kde-format
-#| msgid "Weight:"
+#, kde-format
 msgid "Weight"
-msgstr "Cuerpo:"
+msgstr "Cuerpo"
 
 #: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "Color del texto"
+msgstr "Color texto"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7906,7 +7902,7 @@ msgstr "Contorno"
 #: data/effects/timer.xml:33
 #, kde-format
 msgid "Outline Width"
-msgstr "Ancho del contorno"
+msgstr "Ancho contorno"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
@@ -7919,8 +7915,7 @@ msgstr "Subrayado"
 
 #: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
 #: data/effects/timer.xml:39
-#, fuzzy, kde-format
-#| msgid "StrikeOut"
+#, kde-format
 msgid "Strikethrough"
 msgstr "Tachado"
 
@@ -7971,20 +7966,16 @@ msgstr ""
 "la salida, como: #createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:58
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timecode,Frame number,File name,Base name,Full path,Creation date,File "
-#| "date (GMT),File date (local),Source frame rate,Source codec,Source bit "
-#| "rate,Source width,Source height,Source comment"
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"Código de tiempo,Fotograma,Nombre de archivo,Nombre base,Ruta completa,Fecha "
-"de creación,Fecha de archivo (GMT),Fecha de archivo (local),Velocidad "
-"original,Compresor original,Frecuencia de bits original,Ancho original,"
-"Altura original,Comentario original"
+"Código de tiempo,Fotograma,Nombre de archivo,Nombre base,Fecha de creación,"
+"Fecha del archivo (GMT),Fecha del archivo (local),Velocidad original,"
+"Compresor original,Frecuencia de bits original,Ancho original,Altura "
+"original,Comentario original"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -14114,19 +14105,12 @@ msgstr ""
 "Permite sobreimprimir texto relativo al GPS sobre la imagen de un clip."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "Ver la documentación acerca de los varios estilos disponibles"
+msgstr "Ver la documentación en línea para calificadores adicionales"
 
 #: data/effects/gpstext.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date "
-#| "and time of current gps point,date and time of current frame in video "
-#| "file,heart rate,current GPS bearing,current GPS direction,GPS altitude "
-#| "gain so far,GPS altitude loss so far,distance travelled uphill so far,"
-#| "distance travelled downhill so far,distance travelled on flat area so far"
+#, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date "
 "and time of current GPS point,Date and time of current frame in video file,"
@@ -14136,10 +14120,13 @@ msgid ""
 "area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in "
 "watts,Gradient of GPS track,Gradient of GPS track in degrees"
 msgstr ""
-"latitud,longitud,altitud,velocidad,distancia transitada,fecha y hora de la "
-"ubicación,fecha y hora del fot. actual del video,pulso,rumbo,dirección,"
-"ganancia de altitud,pérdida de altitud,distancia ascendida,distancia "
-"descendida,distancia plana"
+"Latitud GPS,Longitud GPS,Altitud GPS,Velocidad GPS,Distancia transitada,"
+"Fecha y hora de ubicación actual GPS,Fecha y hora del fot. actual del video,"
+"Pulso,Rumbo actual GPS,Dirección actual GPS,Ganancia total de altitud GPS,"
+"Pérdida total de altitud GPS,Distancia total ascendida actual,Distancia "
+"total descendida actual,Distancia total plana actual,(bicicleta) Cadencia "
+"(rpm),Temperatura ambiente,Potencia (vatios),Gradiente de pista GPS,"
+"Gradiente de pista GPS (grados)"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -14147,22 +14134,18 @@ msgid "GPS processing start time"
 msgstr "Tiempo de inicio de procesamiento de GPS"
 
 #: data/effects/gpstext.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the video file is a timelapse (or slow motion), use this value to set "
-#| "the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage."
+#, kde-format
 msgid ""
 "If the video file is a timelapse<br>\n"
 "        (or slow motion), use this value to set the speed up/slow down ratio."
 "<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"En caso de que el archivo de video se tratara de una grabación a intervalos "
-"(o fuera en cámara lenta), usar este valor para definir la tasa de "
+"En caso de que el archivo de video se tratara de una grabación a "
+"intervalos<br>\n"
+"        (o fuera en cámara lenta), usar este valor para definir la tasa de "
 "aceleración o desaceleración del video.<br>\n"
-"        Valores de ejemplo: 30 para un intervalo ×30, 0,25 para material en "
+"        Valores de ejemplo: 30 para un intervalo ×30 o 0,25 para material en "
 "cámara lenta a ×4."
 
 #: data/effects/gpstext.xml:31
@@ -14178,34 +14161,34 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"Controla cuántas veces por segundo<br>\n"
+"        se actualiza el texto del GPS en el video (interpolado).<br>\n"
+"        Un valor de 0 solo actualizará el texto en los puntos reales "
+"grabados por el GPS. Puede ser usado en combinación con el multiplicador de "
+"velocidad."
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "El color de la forma de onda."
+msgstr "La tipografía escogida."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
-#| msgid "The space in pixels between the segments."
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "El espacio, en píxeles, entre los segmentos."
+msgstr "El tamaño de la tipografía, en píxeles."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "El ancho del rango tonal"
+msgstr "El cuerpo de la tipografía."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The style of the font."
-msgstr "El color de la forma de onda."
+msgstr "El estilo de la tipografía."
 
 #: data/effects/gpstext.xml:84
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
 msgstr "Color de fondo"
 
@@ -14215,44 +14198,39 @@ msgid "Outline Color"
 msgstr "Color del contorno"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
 msgstr "Color del contorno"
 
 #: data/effects/gpstext.xml:92
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The width of the outline in pixels"
-msgstr "El ancho del rango tonal"
+msgstr "El ancho del contorno, en píxeles"
 
 #: data/effects/gpstext.xml:96
-#, fuzzy, kde-format
-#| msgid "Apply deflate effect to the video"
+#, kde-format
 msgid "Apply underline decoration to the text."
-msgstr "Permite aplicar un efecto de desinflado a la imagen de un clip"
+msgstr "Permite aplicar un subrayado al texto."
 
 #: data/effects/gpstext.xml:100
 #, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr ""
+msgstr "Permite aplicar un tachado al texto."
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "Alineación horizontal"
+msgstr "Permite definir la alineación horizontal"
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "Alineación vertical"
+msgstr "Permite definir la alineación vertical"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "Opacidad general (texto, contorno y fondo)"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -17049,65 +17027,50 @@ msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 #: data/effects/timer.xml:60
 #, kde-format
 msgid "Start (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Inicio (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed."
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
 "El tiempo en el que el temporizador comenzará a contar hacia adelante o "
-"atrás.\n"
-"El texto quedará fijo en 00:00:00,000 desde el inicio del filtro hasta que "
-"el tiempo de inicio haya transcurrido."
+"atrás.<br>\n"
+"        El texto quedará fijo en 00:00:00,000 desde el inicio del efecto "
+"hasta que se alcance el tiempo de Inicio."
 
 #: data/effects/timer.xml:63 data/effects/timer.xml:69
 #: data/effects/timer.xml:76
 #, kde-format
 msgid "HH:MM:SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS.SSS"
 
 #: data/effects/timer.xml:66
 #, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Duración (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"La duración máxima del temporizador, transcurrida después de que el tiempo "
-"de inicio haya transcurrido.\n"
-"El texto quedará fijo en el tiempo de duración, después de que la misma haya "
-"transcurrido."
+"La duración máxima del temporizador, transcurrida después de que se alcance "
+"el tiempo de Inicio.<br>\n"
+"El texto quedará fijo en el tiempo de Duración, después de que se alcance la "
+"misma."
 
 #: data/effects/timer.xml:72
 #, kde-format
 msgid "Offset (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "Desplazamiento (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.<br>\n"
 "        When the direction is <i>Down</i>, the timer will count down to "
@@ -17115,11 +17078,12 @@ msgid ""
 "        When the direction is <i>Up</i>, the timer will count up starting "
 "from <i>Offset</i>."
 msgstr ""
-"Un desplazamiento que será agregado al valor del temporizador.\n"
-"Cuando la dirección sea hacia \"abajo\", el temporizador contará en "
-"retroceso hasta el \"desplazamiento\" en vez de hasta 00:00:00,000.\n"
-"Cuando la dirección sea hacia \"arriba\", el temporizador contará hacia "
-"adelante, comenzando desde el \"desplazamiento\"."
+"Un desplazamiento que será agregado al valor del temporizador.<br>\n"
+"        Cuando la Dirección sea <i>Descendente</i>, el temporizador contará "
+"en retroceso hasta el <i>Desplazamiento</i> en vez de hasta 00:00:00,000."
+"<br>\n"
+"        Cuando la Dirección sea <i>Ascendente</i>, el temporizador contará "
+"hacia adelante, comenzando desde el <i>Desplazamiento</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -17153,13 +17117,7 @@ msgstr ""
 "transcurrido."
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -17168,10 +17126,10 @@ msgid ""
 "<i>Offset</i>."
 msgstr ""
 "Un desplazamiento que será agregado al valor del temporizador.\n"
-"Cuando la dirección sea hacia \"abajo\", el temporizador contará en "
-"retroceso hasta el \"desplazamiento\" en vez de hasta 00:00:00,000.\n"
-"Cuando la dirección sea hacia \"arriba\", el temporizador contará hacia "
-"adelante, comenzando desde el \"desplazamiento\"."
+"Cuando la Dirección sea <i>Descendente</i>, el temporizador contará en "
+"retroceso hasta el <i>Desplazamiento</i> en vez de hasta 00:00:00,000.\n"
+"Cuando la Dirección sea <i>Ascendente</i>, el temporizador contará hacia "
+"adelante, comenzando desde el <i>Desplazamiento</i>."
 
 #: data/effects/timer.xml:100
 #, kde-format
@@ -17185,29 +17143,29 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"Multiplicador de la velocidad del temporizador.<br>\n"
+"        Por ejemplo, una velocidad de 10 provocará que el temporizador "
+"marque 10 segundos por cada segundo de reproducción.<br><br>\n"
+"        Escala la Duración pero sin afectar los puntos de <i>Inicio</i> o "
+"<i>Desplazamiento</i>. Por ejemplo: Inicio=5s, Duración=30s, "
+"Desplazamiento=7s y Velocidad=10 provocarán que el temporizador comience en "
+"el tiempo de reproducción 00:00:05.000 con un valor de 00:00:07, contando 10 "
+"segundos por cada segundo reproducido y que se detenga en el tiempo de "
+"reproducción 00:00:08.000, alcanzando un valor de 00:00:37."
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            Define si el temporizador deberá contar hacia adelante, "
-"partiendo desde 00:00:00,000 o en retroceso, partiendo desde el tiempo de "
-"duración.\n"
-"        "
+"Define si el temporizador deberá contar hacia adelante, partiendo desde "
+"00:00:00,000 o en retroceso, partiendo desde el tiempo de Duración."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "Abajo"
+msgstr "Ascendente,Descendente"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -20585,10 +20543,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "Transcodificar a formato editable…"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "Insertar código de tiempo actual"
+msgstr "Insertar en código de tiempo"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -27908,7 +27865,7 @@ msgstr "Explorador de medios"
 #: src/mainwindow.cpp:375
 #, kde-format
 msgid "Effect/Composition Stack"
-msgstr "Opciones de efectos/composición"
+msgstr "Opciones"
 
 #: src/mainwindow.cpp:460
 #, kde-format
@@ -35320,32 +35277,24 @@ msgstr ""
 "destino de la misma"
 
 #: src/timeline2/view/timelinecontroller.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "Localizar en panel Medios"
+msgstr "Medio no encontrado en panel Medios"
 
 #: src/timeline2/view/timelinecontroller.cpp:3583
-#, fuzzy, kde-format
-#| msgid "No timecode for clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "No hay código de tiempo para este clip"
+msgstr "No se encontró código de tiempo en los metadatos del medio"
 
 #: src/timeline2/view/timelinecontroller.cpp:3589
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "Por favor, seleccionar un perfil de video"
+msgstr "Seleccionar una pista de destino"
 
 #: src/timeline2/view/timelinecontroller.cpp:3595
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr ""
-"No fue posible generar medio:\n"
-"%1"
+msgstr "Error al insertar medio en %1 en la pista %2"
 
 #: src/timeline2/view/timelinecontroller.cpp:3647
 #, kde-format
@@ -38214,7 +38163,7 @@ msgstr "Pausar la reproducción al saltar"
 #, kde-format
 msgid "Jump to timeline start if playback is started on last frame in timeline"
 msgstr ""
-"Volver al inicio cuando la reproducción comience en el último fotograma"
+"Volver al inicio cuando la reproducción comience desde el último fotograma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_seekonaddeffect)
 #: src/ui/configtimeline_ui.ui:80
@@ -38224,10 +38173,10 @@ msgstr "Saltar al clip al agregar un efecto"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "Alinear cursor de tiempo a posición del ratón"
+msgstr ""
+"Restablecer cursor de tiempo a posición de partida al detener reproducción"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101
@@ -38307,7 +38256,7 @@ msgstr "Al importar habilitar:"
 #: src/ui/configtimeline_ui.ui:215
 #, kde-format
 msgid "Check if project contains enough tracks"
-msgstr "Comprobar si el proyecto contiene suficientes pistas"
+msgstr "Comprobar si la secuencia contiene suficientes pistas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:225
@@ -38325,7 +38274,7 @@ msgstr "Habilitar modo de depuración"
 #: src/ui/configtimeline_ui.ui:252
 #, kde-format
 msgid "Raise Effects/Composition Stack for"
-msgstr "Mostrar panel Opciones de efectos/composición"
+msgstr "Mostrar panel Opciones"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:272
@@ -41157,114 +41106,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Font Size"
-#~ msgstr "Tamaño de la tipografía"
-
-#~ msgid "Font Weight"
-#~ msgstr "Cuerpo de la tipografía"
-
-#~ msgid "Font Style"
-#~ msgstr "Estilo de tipografía"
-
-#~ msgid "OpenTimelineIO core functionality"
-#~ msgstr "Funcionalidad básica de OpenTimelineIO"
-
-#~ msgid "OpenTimelineIO Kdenlive support"
-#~ msgstr "Soporte de Kdenlive para OpenTimelineIO"
-
-#~ msgid ""
-#~ "Could not find \"otioconvert\" script although it is installed through "
-#~ "pip3.\n"
-#~ "Please check the otio scripts are installed in a directory listed in PATH "
-#~ "environment variable"
-#~ msgstr ""
-#~ "No fue posible encontrar el script \"otioconvert\" aunque haya sido "
-#~ "instalado a través de pip3.\n"
-#~ "Comprobar que los scripts otio estén en un directorio listado en la "
-#~ "variable de entorno PATH"
-
-#~ msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-#~ msgstr "OpenTimelineIO no pudo encontrar el adaptador para Kdenlive."
-
-#~ msgid "Configure your OpenTimelineIO setup"
-#~ msgstr "Configurar OpenTimelineIO"
-
-#~ msgid "Check again"
-#~ msgstr "Comprobar nuevamente"
-
-#~ msgid "OpenTimelineIO Application otioconvert not found"
-#~ msgstr "No se encontró la aplicación otioconvert de OpenTimelineIO"
-
-#~ msgid "OpenTimelineIO Project conversion failed"
-#~ msgstr "Falló la conversión del proyecto a OpenTimelineIO"
-
-#~ msgid "Project conversion complete"
-#~ msgstr "Conversión del proyecto finalizada"
-
-#~ msgid "Export Project"
-#~ msgstr "Exportar proyecto"
-
-#~ msgid "OpenTimelineIO adapters (%1)(%1)"
-#~ msgstr "Adaptadores de OpenTimelineIO (%1)(%1)"
-
-#~ msgid "Project file could not be saved for export."
-#~ msgstr "No fue posible guardar el archivo del proyecto para ser exportado."
-
-#~ msgid "Unable to write to temporary kdenlive file for export: %1"
-#~ msgstr ""
-#~ "No es posible escribir en el archivo temporal de kdenlive al exportar: %1"
-
-#~ msgid "Project to import"
-#~ msgstr "Proyecto a importar"
-
-#~ msgid "Imported Project"
-#~ msgstr "Proyecto importado"
-
-#~ msgid "Kdenlive project (*.kdenlive)"
-#~ msgstr "Proyecto de Kdenlive (*.kdenlive)"
-
-#~ msgid ""
-#~ "The current project has not been saved\n"
-#~ "Do you want to load imported project abandoning latest changes?"
-#~ msgstr ""
-#~ "EL proyecto actual no ha sido guardado\n"
-#~ "¿Importar proyecto descartando los cambios más recientes?"
-
-#~ msgid "Logo X Position"
-#~ msgstr "Posición logo X"
-
-#~ msgid "Logo Y Position"
-#~ msgstr "Posición logo Y"
-
-#~ msgid "Logo Width"
-#~ msgstr "Ancho logo"
-
-#~ msgid "Logo Height"
-#~ msgstr "Altura logo"
-
-#~ msgid "X coordinate of top-left corner"
-#~ msgstr "Coordenada X de la esquina superior izquierda"
-
-#~ msgid "Y coordinate of top-left corner"
-#~ msgstr "Coordenada Y de la esquina superior izquierda"
-
-#~ msgid "Width (px)"
-#~ msgstr "Ancho (px)"
-
-#~ msgid ""
-#~ "Width of the box in pixel.<br>\n"
-#~ "    \tA width of <em>1</em> does not draw a line"
-#~ msgstr ""
-#~ "Ancho del marco en píxeles.<br>\n"
-#~ "    \tUn ancho de <em>1</em> no dibujará ninguna línea"
-
-#~ msgid "Height (px)"
-#~ msgstr "Altura (px)"
-
-#~ msgid ""
-#~ "Height of the box in pixel.<br>\n"
-#~ "    \tA height of <em>1</em> does not draw a line"
-#~ msgstr ""
-#~ "Altura del marco en píxeles.<br>\n"
-#~ "    \tUna altura de <em>1</em> no dibujará ninguna línea"
