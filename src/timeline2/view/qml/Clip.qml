@@ -300,7 +300,6 @@ Rectangle {
         hoverEnabled: !root.isPanning && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: mouse => {
-            root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
             if (mouse.button == Qt.RightButton) {
                 if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
@@ -308,11 +307,13 @@ Rectangle {
                 }
                 root.clickFrame = Math.round(mouse.x / timeline.scaleFactor)
                 root.showClipMenu(clipRoot.clipId)
-                root.autoScrolling = timeline.autoScroll
+                root.blockAutoScroll = false
+            } else {
+                root.blockAutoScroll = true
             }
         }
         onReleased: {
-            root.autoScrolling = timeline.autoScroll
+            root.blockAutoScroll = false
         }
         Keys.onShortcutOverride: event => {event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
         Keys.onLeftPressed: event => {
@@ -533,13 +534,17 @@ Rectangle {
                                 return
                             }
                             controller.requestMixSelection(clipRoot.clipId);
-                            root.autoScrolling = false
                             if (mouse.button == Qt.RightButton) {
                                 root.clickFrame = Math.round(mouse.x / timeline.scaleFactor)
                                 root.showMixMenu(clipRoot.clipId)
-                                root.autoScrolling = timeline.autoScroll
+                            } else {
+                                root.blockAutoScroll = true
                             }
                         }
+                        onReleased: {
+                            root.blockAutoScroll = false
+                        }
+
                         onEntered: {
                             var text = i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
                             .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
@@ -571,14 +576,14 @@ Rectangle {
                             }
                             root.trimInProgress = true;
                             previousMix = clipRoot.mixDuration
-                            root.autoScrolling = false
+                            root.blockAutoScroll = true
                             mixOut.color = 'red'
                             anchors.left = undefined
                             parent.anchors.right = undefined
                             mixCutPos.anchors.right = undefined
                         }
                         onReleased: mouse => {
-                            root.autoScrolling = timeline.autoScroll
+                            root.blockAutoScroll = false
                             if (sizeChanged) {
                                 controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
                                 sizeChanged = false
@@ -997,12 +1002,14 @@ Rectangle {
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
+                property int lastDuration
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: mouse => {
-                    root.autoScrolling = false
+                    root.blockAutoScroll = true
                     root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipDuration
+                    lastDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != K.ClipType.Color && itemType != K.ClipType.Timeline && itemType != K.ClipType.Playlist && itemType != K.ClipType.Image
                     if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
@@ -1014,7 +1021,7 @@ Rectangle {
                 }
                 onReleased: {
                     trimIn.opacity = 0
-                    root.autoScrolling = timeline.autoScroll
+                    root.blockAutoScroll = false
                     x = -itemBorder.border.width
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
@@ -1066,8 +1073,11 @@ Rectangle {
                                 }
                                 newDuration = clipDuration - delta
                             }
-                            sizeChanged = true
-                            clipRoot.trimmingIn(clipRoot, newDuration, shiftTrim, controlTrim)
+                            if (newDuration != lastDuration) {
+                                sizeChanged = true
+                                clipRoot.trimmingIn(clipRoot, newDuration, shiftTrim, controlTrim)
+                                lastDuration = newDuration
+                            }
                         }
                     }
                 }
@@ -1115,15 +1125,17 @@ Rectangle {
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
+                property int lastDuration
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
 
                 onPressed: mouse => {
-                    root.autoScrolling = false
+                    root.blockAutoScroll = true
                     root.trimInProgress = true;
                     clipRoot.originalDuration = clipDuration
+                    lastDuration = clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != K.ClipType.Color && itemType != K.ClipType.Timeline && itemType != K.ClipType.Playlist && itemType != K.ClipType.Image
@@ -1136,7 +1148,7 @@ Rectangle {
                 }
                 onReleased: {
                     trimOut.opacity = 0
-                    root.autoScrolling = timeline.autoScroll
+                    root.blockAutoScroll = false
                     anchors.right = parent.right
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
@@ -1167,9 +1179,10 @@ Rectangle {
                         if (maxDuration > 0 && (newDuration > maxDuration - inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
                             newDuration = maxDuration - inPoint
                         }
-                        if (newDuration != clipDuration) {
+                        if (newDuration != lastDuration) {
                             sizeChanged = true
                             clipRoot.trimmingOut(clipRoot, newDuration, shiftTrim, controlTrim)
+                            lastDuration = newDuration
                         }
                     }
                 }
@@ -1659,7 +1672,7 @@ Rectangle {
                     mouse.accepted = false
                     return
                 }
-                root.autoScrolling = false
+                root.blockAutoScroll = true
                 startFadeOut = clipRoot.fadeOut
                 dragStarted = startFadeOut > 0
                 startMousePos = mouse.x
@@ -1668,7 +1681,7 @@ Rectangle {
             }
             onReleased: {
                 fadeOutCanvas.opacity = 0.4
-                root.autoScrolling = timeline.autoScroll
+                root.blockAutoScroll = false
                 anchors.right = parent.right
                 var duration = clipRoot.fadeOut
                 timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
@@ -1771,7 +1784,7 @@ Rectangle {
                     mouse.accepted = false
                     return
                 }
-                root.autoScrolling = false
+                root.blockAutoScroll = true
                 startFadeIn = clipRoot.fadeIn
                 dragStarted = startFadeIn > 0
                 startMousePos = mouse.x
@@ -1780,7 +1793,7 @@ Rectangle {
                 // parentTrack.clipSelected(clipRoot, parentTrack) TODO
             }
             onReleased: {
-                root.autoScrolling = timeline.autoScroll
+                root.blockAutoScroll = false
                 fadeInTriangle.opacity = 0.4
                 timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 //bubbleHelp.hide()

@@ -550,13 +550,13 @@ Rectangle {
                 property bool dragStarted: false
 
                 onPressed: {
-                    root.autoScrolling = false
+                    root.blockAutoScroll = true
                     dragStarted = false
                     startY = mapToItem(null, x, y).y
                     originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
                 }
                 onReleased: mouse => {
-                    root.autoScrolling = timeline.autoScroll
+                    root.blockAutoScroll = false
                     if (!trimInMouseArea.containsMouse) {
                         parent.opacity = 0
                     }
