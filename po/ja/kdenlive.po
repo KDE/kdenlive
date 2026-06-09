@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-06 03:19+0000\n"
+"POT-Creation-Date: 2026-06-09 02:37+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -19325,7 +19325,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1412
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1425
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -34695,47 +34695,47 @@ msgstr "停止"
 msgid "Paused"
 msgstr "一時停止"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1194
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1207
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), 位置: %4, 長さ: %5"
 
-#: src/timeline2/view/qml/Clip.qml:329 src/timeline2/view/qml/Clip.qml:343
+#: src/timeline2/view/qml/Clip.qml:330 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:217
 #: src/timeline2/view/qml/SubTitle.qml:223
 #, kde-format
 msgid "Position: %1"
 msgstr "位置: %1"
 
-#: src/timeline2/view/qml/Clip.qml:544
+#: src/timeline2/view/qml/Clip.qml:549
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:602
+#: src/timeline2/view/qml/Clip.qml:607
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "+%1, Mix duration: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:609
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "-%1, Mix duration: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/Clip.qml:607 src/timeline2/view/qml/Clip.qml:622
+#: src/timeline2/view/qml/Clip.qml:612 src/timeline2/view/qml/Clip.qml:627
 #, fuzzy, kde-format
 #| msgid "Duration:"
 msgid "Mix duration: %1"
 msgstr "長さ:"
 
-#: src/timeline2/view/qml/Clip.qml:1079
+#: src/timeline2/view/qml/Clip.qml:1089
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "入力:%1, 位置:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1082 src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1197
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34744,57 +34744,57 @@ msgstr ""
 "<b>Ctrl + ドラッグ</b>で速度を変える、<b>ダブルクリック</b>で隣接するクリップ"
 "とミックスする。"
 
-#: src/timeline2/view/qml/Clip.qml:1084
+#: src/timeline2/view/qml/Clip.qml:1094
 #, fuzzy, kde-format
 #| msgid "<b>Drag</b> to resize"
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>ドラッグ</b>で拡大縮小"
 
-#: src/timeline2/view/qml/Clip.qml:1181
+#: src/timeline2/view/qml/Clip.qml:1194
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Out:%1, Position:%2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, kde-format
 msgid "Offset: -%1"
 msgstr "オフセット: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, kde-format
 msgid "Offset: %1"
 msgstr "オフセット: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1321
+#: src/timeline2/view/qml/Clip.qml:1334
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid " <b>Click</b> to align clips"
 msgstr "オプションの表示/非表示"
 
-#: src/timeline2/view/qml/Clip.qml:1569 src/timeline2/view/qml/Clip.qml:1610
+#: src/timeline2/view/qml/Clip.qml:1582 src/timeline2/view/qml/Clip.qml:1623
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "<b>Click</b> to add composition"
 msgstr "オプションの表示/非表示"
 
-#: src/timeline2/view/qml/Clip.qml:1691 src/timeline2/view/qml/Clip.qml:1698
+#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
 #, kde-format
 msgid "Fade out: %1"
 msgstr "フェードアウト: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1702 src/timeline2/view/qml/Clip.qml:1813
+#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1826
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>ドラッグ</b>でフェードを調節、<b>クリック</b>で既定時間のフェードを追加"
 
-#: src/timeline2/view/qml/Clip.qml:1802 src/timeline2/view/qml/Clip.qml:1809
+#: src/timeline2/view/qml/Clip.qml:1815 src/timeline2/view/qml/Clip.qml:1822
 #, kde-format
 msgid "Fade in: %1"
 msgstr "フェードイン: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1897
+#: src/timeline2/view/qml/Clip.qml:1910
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
@@ -34813,14 +34813,14 @@ msgstr "%1, 位置: %2, 長さ: %3"
 msgid "<b>Drag</b> to resize"
 msgstr "<b>ドラッグ</b>で拡大縮小"
 
-#: src/timeline2/view/qml/KeyframeView.qml:171
+#: src/timeline2/view/qml/KeyframeView.qml:175
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:284
+#: src/timeline2/view/qml/KeyframeView.qml:289
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

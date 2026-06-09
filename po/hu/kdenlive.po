@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-06 03:19+0000\n"
+"POT-Creation-Date: 2026-06-09 02:37+0000\n"
 "PO-Revision-Date: 2026-01-29 22:59+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -19620,7 +19620,7 @@ msgstr "Hangeffektus nem adható hozzá ehhez a kliphez"
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1412
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1425
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "@label The first letter of Proxy, used as abbreviation"
@@ -35247,12 +35247,12 @@ msgstr "Lejátszás leállítása"
 msgid "Paused"
 msgstr "Szünet"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1194
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1207
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:329 src/timeline2/view/qml/Clip.qml:343
+#: src/timeline2/view/qml/Clip.qml:330 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:217
 #: src/timeline2/view/qml/SubTitle.qml:223
 #, fuzzy, kde-format
@@ -35260,96 +35260,96 @@ msgstr ""
 msgid "Position: %1"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Clip.qml:544
+#: src/timeline2/view/qml/Clip.qml:549
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:602
+#: src/timeline2/view/qml/Clip.qml:607
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "+%1, Mix duration: %2"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:609
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "-%1, Mix duration: %2"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:607 src/timeline2/view/qml/Clip.qml:622
+#: src/timeline2/view/qml/Clip.qml:612 src/timeline2/view/qml/Clip.qml:627
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "Mix duration: %1"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:1079
+#: src/timeline2/view/qml/Clip.qml:1089
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "In:%1, Position:%2"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1082 src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1197
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1084
+#: src/timeline2/view/qml/Clip.qml:1094
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1181
+#: src/timeline2/view/qml/Clip.qml:1194
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Out:%1, Position:%2"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: -%1"
 msgstr "Eltolás:"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: %1"
 msgstr "Eltolás:"
 
-#: src/timeline2/view/qml/Clip.qml:1321
+#: src/timeline2/view/qml/Clip.qml:1334
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid " <b>Click</b> to align clips"
 msgstr "Kattintson az átmenet hozzáadásához."
 
-#: src/timeline2/view/qml/Clip.qml:1569 src/timeline2/view/qml/Clip.qml:1610
+#: src/timeline2/view/qml/Clip.qml:1582 src/timeline2/view/qml/Clip.qml:1623
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Click</b> to add composition"
 msgstr "Kattintson az átmenet hozzáadásához."
 
-#: src/timeline2/view/qml/Clip.qml:1691 src/timeline2/view/qml/Clip.qml:1698
+#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "Elhalványodás"
 
-#: src/timeline2/view/qml/Clip.qml:1702 src/timeline2/view/qml/Clip.qml:1813
+#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1826
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1802 src/timeline2/view/qml/Clip.qml:1809
+#: src/timeline2/view/qml/Clip.qml:1815 src/timeline2/view/qml/Clip.qml:1822
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "Fokozatos megjelenítés"
 
-#: src/timeline2/view/qml/Clip.qml:1897
+#: src/timeline2/view/qml/Clip.qml:1910
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
@@ -35369,14 +35369,14 @@ msgstr "Pozíció: %1"
 msgid "<b>Drag</b> to resize"
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:171
+#: src/timeline2/view/qml/KeyframeView.qml:175
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:284
+#: src/timeline2/view/qml/KeyframeView.qml:289
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

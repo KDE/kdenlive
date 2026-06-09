@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-06 03:19+0000\n"
-"PO-Revision-Date: 2026-06-04 09:25+0300\n"
+"POT-Creation-Date: 2026-06-09 02:37+0000\n"
+"PO-Revision-Date: 2026-06-06 21:49+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1651,12 +1651,12 @@ msgstr "בחירת מרחב צבעי ה־CIE"
 #: data/effects/avfilter/avfilter_ciescope.xml:15
 #, kde-format
 msgid "xyY,UCS,LUV"
-msgstr ""
+msgstr "xyY,UCS,LUV"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:18
 #, kde-format
 msgid "Gamuts to Draw"
-msgstr ""
+msgstr "מנעדים לציור"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
 #, kde-format
@@ -1679,10 +1679,9 @@ msgid "Size"
 msgstr "גודל"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the envelope mode]]>"
+#, kde-format
 msgid "Set the size of the scope on screen"
-msgstr "<![CDATA[הגדרת מצב המעטפה]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
@@ -2517,10 +2516,9 @@ msgid "Enable clipping"
 msgstr "הפעלת חיתוך"
 
 #: data/effects/avfilter/avfilter_datascope.xml:4
-#, fuzzy, kde-format
-#| msgid "Scopes"
+#, kde-format
 msgid "Data Scope"
-msgstr "טווחים"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_datascope.xml:5
 #, kde-format
@@ -5245,64 +5243,54 @@ msgid "Tilt"
 msgstr "נטייה"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X position of the trace profile]]>"
+#, kde-format
 msgid "Tilting of the trace profile"
-msgstr "<![CDATA[מקום ב־X של פרופיל המעקב]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "Opacity of the scope display"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
-#, fuzzy, kde-format
-#| msgid "X position"
+#, kde-format
 msgid "Scope X Position"
-msgstr "מקום ב־Y"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "X position of the scope display"
-msgstr "<![CDATA[זווית סיבוב לאורך ציר X]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Scope Y Position"
-msgstr "מקום ב־X"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "Y position of the scope display"
-msgstr "<![CDATA[זווית סיבוב לאורך ציר X]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
-#, fuzzy, kde-format
-#| msgid "Shape width"
+#, kde-format
 msgid "Scope Width"
-msgstr "רוחב צורה"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "Width of the scope display"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
-#, fuzzy, kde-format
-#| msgid "Track height"
+#, kde-format
 msgid "Scope Height"
-msgstr "גובה ערוץ"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "Height of the scope display"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #, kde-format
@@ -18456,7 +18444,7 @@ msgstr "יש לגרור כדי להוסיף רק את השמע לציר הזמן
 msgid "Drag to add only video to timeline"
 msgstr "יש לגרור כדי להוסיף רק את הווידאו לציר הזמן"
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1412
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1425
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -33060,44 +33048,44 @@ msgstr "עצירה"
 msgid "Paused"
 msgstr "מושהה"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1194
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1207
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), מקום: %4, משך: %5"
 
-#: src/timeline2/view/qml/Clip.qml:329 src/timeline2/view/qml/Clip.qml:343
+#: src/timeline2/view/qml/Clip.qml:330 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:217
 #: src/timeline2/view/qml/SubTitle.qml:223
 #, kde-format
 msgid "Position: %1"
 msgstr "מקום :%1"
 
-#: src/timeline2/view/qml/Clip.qml:544
+#: src/timeline2/view/qml/Clip.qml:549
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "משך תערובת: %1, חיתוך ב־: %2"
 
-#: src/timeline2/view/qml/Clip.qml:602
+#: src/timeline2/view/qml/Clip.qml:607
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "‎+%1, משך ערבוב: %2"
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:609
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "‎-%1, משך ערבוב: %2"
 
-#: src/timeline2/view/qml/Clip.qml:607 src/timeline2/view/qml/Clip.qml:622
+#: src/timeline2/view/qml/Clip.qml:612 src/timeline2/view/qml/Clip.qml:627
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "‫משך ערבוב: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1079
+#: src/timeline2/view/qml/Clip.qml:1089
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "כניסה:%1, מקום:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1082 src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1197
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -33106,54 +33094,54 @@ msgstr ""
 "<b>Ctrl וגרירה</b> כדי לשנות מהירות, <b>לחיצה כפולה</b> כדי לערבב עם סרטונים "
 "סמוכים"
 
-#: src/timeline2/view/qml/Clip.qml:1084
+#: src/timeline2/view/qml/Clip.qml:1094
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "יש <b>לגרור</b> כדי לשנות את משך הערבוב"
 
-#: src/timeline2/view/qml/Clip.qml:1181
+#: src/timeline2/view/qml/Clip.qml:1194
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "יציאה:%1, מקום:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, kde-format
 msgid "Offset: -%1"
 msgstr "היסט: ‎-%1"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, kde-format
 msgid "Offset: %1"
 msgstr "היסט: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1321
+#: src/timeline2/view/qml/Clip.qml:1334
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>לחיצה</b> תיישר את הסרטונים"
 
-#: src/timeline2/view/qml/Clip.qml:1569 src/timeline2/view/qml/Clip.qml:1610
+#: src/timeline2/view/qml/Clip.qml:1582 src/timeline2/view/qml/Clip.qml:1623
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "יש <b>ללחוץ</b> כדי להוסיף תרכובת"
 
-#: src/timeline2/view/qml/Clip.qml:1691 src/timeline2/view/qml/Clip.qml:1698
+#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
 #, kde-format
 msgid "Fade out: %1"
 msgstr "יציאה מעומעמת: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1702 src/timeline2/view/qml/Clip.qml:1813
+#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1826
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "יש <b>לגרור</b> כדי לשנות את העמעום, או <b>ללחוץ</b> כדי להוסיף את משך "
 "העמעום כברירת המחדל"
 
-#: src/timeline2/view/qml/Clip.qml:1802 src/timeline2/view/qml/Clip.qml:1809
+#: src/timeline2/view/qml/Clip.qml:1815 src/timeline2/view/qml/Clip.qml:1822
 #, kde-format
 msgid "Fade in: %1"
 msgstr "כניסה מעומעמת: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1897
+#: src/timeline2/view/qml/Clip.qml:1910
 #, kde-format
 msgid "Slip Clip"
 msgstr "החלקת קטע"
@@ -33171,7 +33159,7 @@ msgstr "%1, מקום: %2, משך: %3"
 msgid "<b>Drag</b> to resize"
 msgstr "יש <b>לגרור</b> כדי לשנות גודל"
 
-#: src/timeline2/view/qml/KeyframeView.qml:171
+#: src/timeline2/view/qml/KeyframeView.qml:175
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -33180,7 +33168,7 @@ msgstr ""
 "<b>גרירה</b> להזזת מקום תמוניות המפתח. <b>Shift גרירה</b> להזזת כל תמוניות "
 "המפתח שתהיינה אחרי זאת."
 
-#: src/timeline2/view/qml/KeyframeView.qml:284
+#: src/timeline2/view/qml/KeyframeView.qml:289
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

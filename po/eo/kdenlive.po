@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-06 03:19+0000\n"
+"POT-Creation-Date: 2026-06-09 02:37+0000\n"
 "PO-Revision-Date: 2025-03-22 22:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -20013,7 +20013,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1412
+#: src/bin/bin.cpp:466 src/bin/bin.cpp:856 src/timeline2/view/qml/Clip.qml:1425
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -34970,44 +34970,44 @@ msgstr "Halti"
 msgid "Paused"
 msgstr "Paŭzita"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1194
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1207
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Pozicio: %4, Daŭro: %5"
 
-#: src/timeline2/view/qml/Clip.qml:329 src/timeline2/view/qml/Clip.qml:343
+#: src/timeline2/view/qml/Clip.qml:330 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:217
 #: src/timeline2/view/qml/SubTitle.qml:223
 #, kde-format
 msgid "Position: %1"
 msgstr "Pozicio: %1"
 
-#: src/timeline2/view/qml/Clip.qml:544
+#: src/timeline2/view/qml/Clip.qml:549
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Daŭro de miksaĵo: %1, Tranĉu ĉe: %2"
 
-#: src/timeline2/view/qml/Clip.qml:602
+#: src/timeline2/view/qml/Clip.qml:607
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Daŭro de miksaĵo: %2"
 
-#: src/timeline2/view/qml/Clip.qml:604
+#: src/timeline2/view/qml/Clip.qml:609
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Daŭro de miksaĵo: %2"
 
-#: src/timeline2/view/qml/Clip.qml:607 src/timeline2/view/qml/Clip.qml:622
+#: src/timeline2/view/qml/Clip.qml:612 src/timeline2/view/qml/Clip.qml:627
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Daŭro de miksaĵo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1079
+#: src/timeline2/view/qml/Clip.qml:1089
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "En:%1, Pozicio:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1082 src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1197
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -35016,53 +35016,53 @@ msgstr ""
 "<b>Ktrl trenu</b> por ŝanĝi rapidecon, <b>duoble alklaku</b> por miksi kun "
 "apuda tondaĵo"
 
-#: src/timeline2/view/qml/Clip.qml:1084
+#: src/timeline2/view/qml/Clip.qml:1094
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Trenu</b> por ŝanĝi daŭron de miksaĵo"
 
-#: src/timeline2/view/qml/Clip.qml:1181
+#: src/timeline2/view/qml/Clip.qml:1194
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "El:%1, Pozicio:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Deŝovo: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1320
+#: src/timeline2/view/qml/Clip.qml:1333
 #, kde-format
 msgid "Offset: %1"
 msgstr "Deŝovo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1321
+#: src/timeline2/view/qml/Clip.qml:1334
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Alklaku</b> por vicigi tondaĵojn"
 
-#: src/timeline2/view/qml/Clip.qml:1569 src/timeline2/view/qml/Clip.qml:1610
+#: src/timeline2/view/qml/Clip.qml:1582 src/timeline2/view/qml/Clip.qml:1623
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Alklaku</b> por aldoni komponadon"
 
-#: src/timeline2/view/qml/Clip.qml:1691 src/timeline2/view/qml/Clip.qml:1698
+#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Forfluo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1702 src/timeline2/view/qml/Clip.qml:1813
+#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1826
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Trenu</b> por ĝustigi fadon, <b>Alklaku</b> por aldoni defaŭltan daŭron"
 
-#: src/timeline2/view/qml/Clip.qml:1802 src/timeline2/view/qml/Clip.qml:1809
+#: src/timeline2/view/qml/Clip.qml:1815 src/timeline2/view/qml/Clip.qml:1822
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Enfluo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1897
+#: src/timeline2/view/qml/Clip.qml:1910
 #, kde-format
 msgid "Slip Clip"
 msgstr "Slip-aŭdvidaĵo"
@@ -35080,7 +35080,7 @@ msgstr "%1, Pozicio: %2, Daŭro: %3"
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Trenu</b> por regrandigi"
 
-#: src/timeline2/view/qml/KeyframeView.qml:171
+#: src/timeline2/view/qml/KeyframeView.qml:175
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -35089,7 +35089,7 @@ msgstr ""
 "<b>Trenu</b> por movi la elektitajn ŝlosilkadrojn pozicion. <b>Shift treni</"
 "b> por movi ĉiujn ŝlosilkadrojn post ĉi tiu."
 
-#: src/timeline2/view/qml/KeyframeView.qml:284
+#: src/timeline2/view/qml/KeyframeView.qml:289
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
