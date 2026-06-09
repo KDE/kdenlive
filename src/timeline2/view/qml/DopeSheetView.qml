@@ -270,6 +270,10 @@ Item {
         dopesheetmodel.moveKeyframe(dopeRoot.grabbedKeyframes, dopeRoot.mouseFramePos, dopeRoot.mouseFramePos + (left ? -1 : 1), true)
     }
 
+    function getActiveIndex() {
+        return treeView.index(treeView.currentRow, 0)
+    }
+
     Menu {
         id: defaultTypeMenu
         ActionGroup {

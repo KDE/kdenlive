@@ -91,6 +91,8 @@ public:
     bool stateGrabbed() const;
     /** @brief True if we have grabbed keyframes for a move */
     void setGrabbed(bool grabbed);
+    int getPreviousSnap(const QModelIndex ix, int pos);
+    int getNextSnap(const QModelIndex ix, int pos);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;

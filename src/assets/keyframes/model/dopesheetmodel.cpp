@@ -791,3 +791,43 @@ bool DopeSheetModel::stateGrabbed() const
 {
     return m_hasGrabbedKeyframes;
 }
+
+int DopeSheetModel::getPreviousSnap(const QModelIndex ix, int pos)
+{
+    // Find active model
+    KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+    pos -= dopePosition();
+    if (!km) {
+        qDebug() << "// INVALID INDEX PASSED FOR SEEK: " << ix;
+        return pos;
+    }
+    bool ok;
+    GenTime previousTime = km->getPrevKeyframe(GenTime(pos, pCore->getCurrentFps()), &ok).first;
+    if (ok) {
+        pos = previousTime.frames(pCore->getCurrentFps());
+    } else {
+        pos = 0;
+    }
+    pos += dopePosition();
+    return pos;
+}
+
+int DopeSheetModel::getNextSnap(const QModelIndex ix, int pos)
+{
+    // Find active model
+    KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+    pos -= dopePosition();
+    if (!km) {
+        qDebug() << "// INVALID INDEX PASSED FOR SEEK: " << ix;
+        return pos;
+    }
+    bool ok;
+    GenTime previousTime = km->getNextKeyframe(GenTime(pos, pCore->getCurrentFps()), &ok).first;
+    if (ok) {
+        pos = previousTime.frames(pCore->getCurrentFps());
+    } else {
+        pos = dopeDuration() - 1;
+    }
+    pos += dopePosition();
+    return pos;
+}

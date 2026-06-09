@@ -21,6 +21,8 @@ public:
     void grabKeyframes();
     void clearSelection();
     void moveGrab(bool left);
+    void gotoPreviousSnap();
+    void gotoNextSnap();
 
 public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);

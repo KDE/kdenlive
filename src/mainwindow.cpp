@@ -3699,7 +3699,9 @@ void MainWindow::customEvent(QEvent *e)
 
 void MainWindow::slotSnapRewind()
 {
-    if (m_projectMonitor->isActive()) {
+    if (m_dopeWidget->isAncestorOf(QApplication::focusWidget())) {
+        m_dopeWidget->gotoPreviousSnap();
+    } else if (m_projectMonitor->isActive()) {
         getCurrentTimeline()->controller()->gotoPreviousSnap();
     } else {
         m_clipMonitor->slotSeekToPreviousSnap();
@@ -3708,7 +3710,9 @@ void MainWindow::slotSnapRewind()
 
 void MainWindow::slotSnapForward()
 {
-    if (m_projectMonitor->isActive()) {
+    if (m_dopeWidget->isAncestorOf(QApplication::focusWidget())) {
+        m_dopeWidget->gotoNextSnap();
+    } else if (m_projectMonitor->isActive()) {
         getCurrentTimeline()->controller()->gotoNextSnap();
     } else {
         m_clipMonitor->slotSeekToNextSnap();

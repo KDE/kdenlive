@@ -97,3 +97,31 @@ void DopeWidget::moveGrab(bool left)
     }
     QMetaObject::invokeMethod(rootObject(), "moveGrab", Q_ARG(QVariant, left));
 }
+
+void DopeWidget::gotoPreviousSnap()
+{
+    if (!rootObject()) {
+        return;
+    }
+    // Find active model
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    const QModelIndex activeIndex = returnedValue.toModelIndex();
+    int pos = pCore->getMonitorPosition();
+    pos = pCore->dopeSheetModel()->getPreviousSnap(activeIndex, pos);
+    pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
+}
+
+void DopeWidget::gotoNextSnap()
+{
+    if (!rootObject()) {
+        return;
+    }
+    // Find active model
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    const QModelIndex activeIndex = returnedValue.toModelIndex();
+    int pos = pCore->getMonitorPosition();
+    pos = pCore->dopeSheetModel()->getNextSnap(activeIndex, pos);
+    pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
+}
