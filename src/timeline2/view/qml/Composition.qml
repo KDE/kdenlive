@@ -240,7 +240,7 @@ Item {
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
 
             onPressed: mouse => {
-                root.autoScrolling = false
+                root.blockAutoScroll = true
                 compositionRoot.forceActiveFocus();
                 root.mainItemId = compositionRoot.clipId
                 if (mouse.button == Qt.RightButton) {
@@ -251,7 +251,7 @@ Item {
                 }
             }
             onReleased: {
-                root.autoScrolling = compositionRoot.timeline.autoScroll
+                root.blockAutoScroll = false
             }
             onEntered: {
                 updateDrag()
@@ -297,14 +297,14 @@ Item {
                         mouse.accepted = false
                         return
                     }
-                    root.autoScrolling = false
+                    root.blockAutoScroll = true
                     root.trimInProgress = true;
                     compositionRoot.originalX = compositionRoot.x
                     compositionRoot.originalDuration = clipDuration
                     anchors.left = undefined
                 }
                 onReleased: {
-                    root.autoScrolling = compositionRoot.timeline.autoScroll
+                    root.blockAutoScroll = false
                     anchors.left = parent.left
                     compositionRoot.trimmedIn(compositionRoot)
                     trimIn.opacity = 0
@@ -372,14 +372,14 @@ Item {
                         mouse.accepted = false
                         return
                     }
-                    root.autoScrolling = false
+                    root.blockAutoScroll = true
                     root.trimInProgress = true;
                     compositionRoot.originalDuration = compositionRoot.clipDuration
                     anchors.right = undefined
                 }
                 onReleased: {
                     trimOut.opacity = 0
-                    root.autoScrolling = compositionRoot.timeline.autoScroll
+                    root.blockAutoScroll = false
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
                     updateDrag()

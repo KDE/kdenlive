@@ -73,7 +73,7 @@ private:
 
 private Q_SLOTS:
     void generateImage();
-    void sceneUpdated(MonitorSceneType sceneType);
+    void sceneUpdated(SceneType::MonitorSceneType sceneType);
 
 Q_SIGNALS:
     void showMessage(const QString &message, KMessageWidget::MessageType type = KMessageWidget::Information);

@@ -4042,7 +4042,7 @@ bool TimelineController::hasVideoTarget() const
 
 bool TimelineController::autoScroll() const
 {
-    return !pCore->monitorManager()->projectMonitor()->isPlaying() || KdenliveSettings::autoscroll();
+    return KdenliveSettings::autoscroll() || !pCore->monitorManager()->projectMonitor()->isPlaying();
 }
 
 void TimelineController::resetTrackHeight()
@@ -4250,7 +4250,7 @@ void TimelineController::focusTimelineSequence(int id)
         Fun local_redo = [uuid, binId = binClip->binId(), sequencePos]() { return pCore->projectManager()->openTimeline(binId, -1, uuid, sequencePos); };
         if (local_redo()) {
             Fun local_undo = [uuid]() {
-                if (pCore->projectManager()->closeTimeline(uuid)) {
+                if (pCore->projectManager()->closeTimeline(uuid, false, false)) {
                     pCore->window()->closeTimelineTab(uuid, false);
                 }
                 return true;
@@ -4982,7 +4982,8 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
         // This is just a temporary state (disable multitrack view for playlist save, don't change scene
         return;
     }
-    pCore->monitorManager()->projectMonitor()->slotShowEffectScene(enable ? MonitorSplitTrack : MonitorSceneNone, false, QVariant(trackNames));
+    pCore->monitorManager()->projectMonitor()->slotShowEffectScene(enable ? SceneType::MonitorSplitTrack : SceneType::MonitorSceneNone, false,
+                                                                   QVariant(trackNames));
     QObject::disconnect(m_connection);
     if (enable) {
         connect(m_model.get(), &TimelineItemModel::trackVisibilityChanged, this, &TimelineController::updateMultiTrack, Qt::UniqueConnection);
@@ -5024,7 +5025,7 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
 void TimelineController::updateMultiTrack()
 {
     QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, true, true);
-    pCore->monitorManager()->projectMonitor()->slotShowEffectScene(MonitorSplitTrack, false, QVariant(trackNames));
+    pCore->monitorManager()->projectMonitor()->slotShowEffectScene(SceneType::MonitorSplitTrack, false, QVariant(trackNames));
 }
 
 void TimelineController::activateTrackAndSelect(int trackPosition, bool notesMode)

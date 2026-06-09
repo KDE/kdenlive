@@ -270,8 +270,8 @@ private:
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
     int m_forceSizeFactor;
-    MonitorSceneType m_lastMonitorSceneType;
-    MonitorSceneType m_nextSceneType{MonitorSceneType::MonitorSceneNone};
+    SceneType::MonitorSceneType m_lastMonitorSceneType;
+    SceneType::MonitorSceneType m_nextSceneType{SceneType::MonitorSceneNone};
     MonitorAudioLevel *m_audioMeterWidget;
     QTimer m_droppedTimer;
     double m_displayedFps;
@@ -300,7 +300,7 @@ private:
     QTimer m_preventSleepTimer;
 
 protected:
-    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant(), bool resetProperties = false);
+    void loadQmlScene(SceneType::MonitorSceneType type, const QVariant &sceneData = QVariant(), bool resetProperties = false);
 
 private Q_SLOTS:
     void slotSetThumbFrame();
@@ -397,8 +397,8 @@ public Q_SLOTS:
     void adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel> &markerModel = nullptr);
     void setTimePos(const QString &pos);
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
-    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, const QVariant &sceneData = QVariant());
-    bool effectSceneDisplayed(MonitorSceneType effectType);
+    void slotShowEffectScene(SceneType::MonitorSceneType sceneType, bool temporary = false, const QVariant &sceneData = QVariant());
+    bool effectSceneDisplayed(SceneType::MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable);
     void slotMouseSeek(int eventDelta, uint modifiers) override;
@@ -466,7 +466,7 @@ Q_SIGNALS:
     void addMonitorControlRect(int position, const QSize frameSize, const QRect rect, bool extend);
     void generateMask();
     void disablePreviewMask();
-    void sceneChanged(MonitorSceneType sceneType);
+    void sceneChanged(SceneType::MonitorSceneType sceneType);
     void effectRotationChanged(double rotation);
     void profileUpdated();
 };

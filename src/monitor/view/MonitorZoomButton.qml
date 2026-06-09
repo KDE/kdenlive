@@ -16,6 +16,7 @@ K.MonitorToolButton {
     iconName: "zoom"
     toolTipText: KI18n.i18n("Zoom")
     required property K.MonitorProxy monitorController
+    required property bool isClipMonitor
     property bool menuVisible: zoomContextMenu.visible
     onClicked: {
         if (zoomContextMenu.visible) {
@@ -42,7 +43,7 @@ K.MonitorToolButton {
                 iconName: "zoom-in"
                 toolTipText: KI18n.i18n("Zoom In")
                 onClicked: {
-                    zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
+                    zoomButton.monitorController.activateClipMonitor(zoomButton.isClipMonitor)
                     K.Core.triggerAction('monitor_zoomin')
                 }
             }
@@ -50,7 +51,7 @@ K.MonitorToolButton {
                 iconName: "zoom-out"
                 toolTipText: KI18n.i18n("Zoom Out")
                 onClicked: {
-                    zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
+                    zoomButton.monitorController.activateClipMonitor(zoomButton.isClipMonitor)
                     K.Core.triggerAction('monitor_zoomout')
                 }
             }
@@ -58,7 +59,7 @@ K.MonitorToolButton {
                 iconName: "zoom-original"
                 toolTipText: KI18n.i18n("Reset Zoom")
                 onClicked: {
-                    zoomButton.monitorController.activateClipMonitor(root.isClipMonitor)
+                    zoomButton.monitorController.activateClipMonitor(zoomButton.isClipMonitor)
                     K.Core.triggerAction('monitor_zoomreset')
                 }
             }

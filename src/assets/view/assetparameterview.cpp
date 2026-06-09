@@ -289,23 +289,23 @@ int AssetParameterView::contentHeight() const
     return m_lay->minimumSize().height();
 }
 
-MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
+SceneType::MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
 {
-    MonitorSceneType requestedType = MonitorSceneDefault;
+    SceneType::MonitorSceneType requestedType = SceneType::MonitorSceneDefault;
     if (m_mainKeyframeWidget) {
         requestedType = m_mainKeyframeWidget->requiredScene();
     }
-    if (requestedType != MonitorSceneDefault) {
+    if (requestedType != SceneType::MonitorSceneDefault) {
         return requestedType;
     }
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::Geometry || type == ParamType::FakeRect) {
-            return MonitorSceneGeometry;
+            return SceneType::MonitorSceneGeometry;
         }
     }
-    return MonitorSceneDefault;
+    return SceneType::MonitorSceneDefault;
 }
 
 void AssetParameterView::slotRefresh()

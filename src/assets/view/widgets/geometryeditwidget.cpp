@@ -99,12 +99,12 @@ void GeometryEditWidget::slotInitMonitor(bool active, bool outside)
     } else {
         disconnect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek);
     }
-    if (monitor->effectSceneDisplayed(MonitorSceneType::MonitorSceneGeometry)) {
+    if (monitor->effectSceneDisplayed(SceneType::MonitorSceneGeometry)) {
         monitor->setUpEffectGeometry(m_geom->getRect());
     } else {
         // Scene is not ready yet
-        connect(monitor, &Monitor::sceneChanged, this, [this](MonitorSceneType sceneType) {
-            if (sceneType == MonitorSceneType::MonitorSceneGeometry) {
+        connect(monitor, &Monitor::sceneChanged, this, [this](SceneType::MonitorSceneType sceneType) {
+            if (sceneType == SceneType::MonitorSceneGeometry) {
                 pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(m_geom->getRect());
             }
         });

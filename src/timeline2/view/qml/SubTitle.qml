@@ -132,7 +132,7 @@ Item {
                     return
                 }
                 console.log('ENTERED ITEM CLICKED:', subtitleRoot.subtitle, ' ID: ', subtitleRoot.subId, 'START FRAME: ', subtitleRoot.startFrame)
-                root.autoScrolling = false
+                root.blockAutoScroll = true
                 oldStartX = scrollView.contentX + mapToItem(scrollView, mouseX, 0).x
                 oldStartFrame = subtitleRoot.startFrame
                 oldLayer = subtitleRoot.subLayer
@@ -183,7 +183,7 @@ Item {
                 }
             }
             onReleased: mouse => {
-                root.autoScrolling = subtitleRoot.timeline.autoScroll
+                root.blockAutoScroll = false
                 root.subtitleMoving = false
                 root.subtitleItem = undefined
                 if (subtitleBase.textEditBegin) {
@@ -317,7 +317,7 @@ Item {
                     mouse.accepted = false
                     return
                 }
-                root.autoScrolling = false
+                root.blockAutoScroll = true
                 oldMouseX = mouseX
                 leftstart.anchors.left = undefined
                 oldStartFrame = subtitleRoot.startFrame // the original start frame of subtitle
@@ -342,7 +342,7 @@ Item {
             onReleased: {
                 //console.log('its RELEASED')
                 trimIn.opacity = 0
-                root.autoScrolling = subtitleRoot.timeline.autoScroll
+                root.blockAutoScroll = false
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
                     if (shiftTrim || (root.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
@@ -418,7 +418,7 @@ Item {
                     mouse.accepted = false
                     return
                 }
-                root.autoScrolling = false
+                root.blockAutoScroll = true
                 newDuration = subtitleRoot.duration
                 originalDuration = subtitleRoot.duration
                 //rightend.anchors.right = undefined
@@ -444,7 +444,7 @@ Item {
             }
             onReleased: {
                 trimOut.opacity = 0
-                root.autoScrolling = subtitleRoot.timeline.autoScroll
+                root.blockAutoScroll = false
                 rightend.anchors.right = subtitleBase.right
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {

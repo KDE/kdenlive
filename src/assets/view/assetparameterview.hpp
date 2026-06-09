@@ -41,7 +41,7 @@ public:
     int contentHeight() const;
 
     /** Returns the type of monitor overlay required by this effect */
-    MonitorSceneType needsMonitorEffectScene() const;
+    SceneType::MonitorSceneType needsMonitorEffectScene() const;
 
     /** Returns true is the effect can use keyframes */
     bool keyframesAllowed() const;

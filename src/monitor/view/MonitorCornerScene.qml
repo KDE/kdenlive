@@ -18,6 +18,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneCorners
     property string comment
     property string framenum
     property rect framesize
@@ -26,12 +27,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double stretch : 1
     property double sourcedar : 1
     onScalexChanged: canvas.requestPaint()
@@ -44,13 +39,10 @@ Item {
     property bool cursorOutsideEffect: controller.cursorOutsideEffect
     property int requestedKeyFrame
     property int duration: 300
-    property int mouseRulerPos: 0
-    property double timeScale: 1
     property var centerPoints: []
     signal effectPolygonChanged()
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     function updatePoints(types, points) {
@@ -68,21 +60,11 @@ Item {
         return SnappingLogic.getSnappedPoint(position, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
     }
 
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
-
     function refreshdar() {
         canvas.darOffset = root.sourcedar < root.profile.x * root.stretch / root.profile.y ? (root.profile.x * root.stretch - root.profile.y * root.sourcedar) / (2 * root.profile.x * root.stretch) :(root.profile.y - root.profile.x * root.stretch / root.sourcedar) / (2 * root.profile.y);
         canvas.requestPaint()
     }
 
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
     onCursorOutsideEffectChanged: {
         canvas.requestPaint()
     }
@@ -295,6 +277,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: false
     }
     MonitorRuler {
         id: clipMonitorRuler
@@ -305,5 +288,6 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 }

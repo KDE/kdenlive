@@ -22,6 +22,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneGeometry
     property string comment
     property string framenum
     property rect framesize: _framesize
@@ -34,19 +35,10 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
-    property bool seeking: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property double lockratio : -1
-    property double timeScale: 1
     property int duration: 300
-    property int mouseRulerPos: 0
     property bool rotatable: false
     property double rect_rotation: _rotation
     property point rect_anchor: Qt.point(0.5, 0.5)
@@ -84,8 +76,7 @@ Item {
     signal effectRotationChanged(double rotation)
 
     Component.onCompleted: {
-      // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     function updatePoints(types, points) {
@@ -109,10 +100,6 @@ Item {
         return frameRect
       }
       return SnappingLogic.getSnappedRect(frameRect, rotationAngle, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
     }
     
     function shouldFlipText(rotationAngle) {
@@ -138,13 +125,6 @@ Item {
             }
         }
         return -1
-    }
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
     }
 
     function updateRotationAnchor()
@@ -337,7 +317,6 @@ Item {
         }
 
         onPressed: mouse => {
-            root.captureRightClick = true
             if (mouse.button & Qt.LeftButton) {
                 if (mouse.modifiers & Qt.AltModifier) {
                     root.controller.switchFocusClip()
@@ -351,7 +330,6 @@ Item {
             root.controller.addRemoveKeyframe()
         }
         onReleased: {
-            root.captureRightClick = false
             root.requestedKeyFrame = -1
             isMoving = false;
         }
@@ -557,7 +535,6 @@ Item {
             if (mouse.button & Qt.LeftButton) {
                 if (mouse.modifiers & Qt.AltModifier) {
                     mouse.accepted = true
-                    root.captureRightClick = true
                     root.controller.switchFocusClip()
                     return;
                 } else if (handleContainsMouse) {
@@ -573,12 +550,10 @@ Item {
                     moveArea.frameClicksize.y = root._framesize.y * root.scaley
                 }
                 mouse.accepted = true
-                root.captureRightClick = true
                 transformedFrame.isMoving = true
             }
           }
           onReleased: mouse => {
-            root.captureRightClick = false
             root.requestedKeyFrame = -1
             mouse.accepted = true
 
@@ -629,10 +604,6 @@ Item {
             onHandleRotationChanged: (angle) => {
                 root.pendingRotation = angle
                 root.effectRotationChanged(angle)
-            }
-            
-            onCaptureRightClick: (capture) => {
-                root.captureRightClick = capture
             }
             
             onAddRemoveKeyframe: {
@@ -693,10 +664,6 @@ Item {
                     transformedFrame.isResizing = false
                 }
                 
-                onCaptureRightClick: (capture) => {
-                    root.captureRightClick = capture
-                }
-                
                 onAddRemoveKeyframe: () => {
                     root.controller.addRemoveKeyframe()
                 }
@@ -707,6 +674,7 @@ Item {
     EffectToolBar {
         id: effectToolBar
         monitorController: root.controller
+        isClipMonitor: false
         anchors {
             right: parent.right
             top: parent.top
@@ -724,5 +692,6 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 }

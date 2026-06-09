@@ -14,6 +14,7 @@ MouseArea {
     id: barZone
     hoverEnabled: true
     required property K.MonitorProxy monitorController
+    required property bool isClipMonitor
     property bool rightSide: true
     width: 2.4 * fontMetrics.font.pixelSize
     acceptedButtons: Qt.NoButton
@@ -94,13 +95,14 @@ MouseArea {
             K.MonitorZoomButton {
                 id: zoomButton
                 monitorController: barZone.monitorController
+                isClipMonitor: root.isClipMonitor
             }
             K.MonitorToolButton {
                 objectName: "addMarker"
                 iconName: "bookmark-new"
                 toolTipText: KI18n.i18n("Add/Remove Marker")
                 onClicked: {
-                    barZone.monitorController.activateClipMonitor(root.isClipMonitor)
+                    barZone.monitorController.activateClipMonitor(barZone.isClipMonitor)
                     K.Core.triggerAction('add_marker_guide_quickly')
                 }
             }

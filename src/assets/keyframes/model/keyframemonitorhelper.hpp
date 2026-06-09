@@ -39,7 +39,8 @@ public:
      * @param sceneType The type of monitor scene this helper is associated with (geometry, corners, etc).
      * @param parent Optional QObject parent.
      */
-    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, MonitorSceneType sceneType, QObject *parent = nullptr);
+    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, SceneType::MonitorSceneType sceneType,
+                                   QObject *parent = nullptr);
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
@@ -64,7 +65,7 @@ protected:
      */
     QList<QPersistentModelIndex> m_indexes;
     bool m_active;
-    MonitorSceneType m_requestedSceneType{MonitorSceneNone};
+    SceneType::MonitorSceneType m_requestedSceneType{SceneType::MonitorSceneNone};
 
 private Q_SLOTS:
     virtual void slotUpdateFromMonitorData(const QVariantList &v);

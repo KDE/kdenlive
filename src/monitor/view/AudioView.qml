@@ -16,16 +16,23 @@ import org.kde.kdenlive as K
 Item {
     id: audioThumb
     required property K.MonitorProxy monitorController
+    property int viewType: K.SceneType.MonitorSceneAutoMask
+    required property double timeScale
+    required property int duration
     property bool isAudioClip: false
     property bool stateVisible: false
     property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
     property bool displayAudioZoom: true
     property bool dragButtonsVisible: false
     property bool dirty: false
-    property bool containsMyMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse || clipMonitorRuler.containsMouse || thumbMouseArea.pressed
+    property bool containsMyMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse || thumbMouseArea.pressed
     property int clipId: monitorController.clipId
     property bool alwaysShowMonitorAudio: K.KdenliveSettings.alwaysShowMonitorAudio
     state: stateVisible ? "showAudio" : "hideAudio"
+
+    signal zoomOutRuler(int xPos)
+    signal zoomInRuler(int xPos)
+
     onDragButtonsVisibleChanged: {
         if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
             if (dragButtonsVisible) {
@@ -59,7 +66,7 @@ Item {
     function refreshView()
     {
         audioThumb.isAudioClip = monitorController.clipType === K.ClipType.Audio
-        audioThumb.stateVisible = (K.KdenliveSettings.alwaysShowMonitorAudio && monitorController.clipHasAV) || audioThumb.isAudioClip
+        audioThumb.stateVisible = (monitorController.clipHasAV && (K.KdenliveSettings.alwaysShowMonitorAudio || thumbTimer.running)) || audioThumb.isAudioClip
         checkAudioThumbState()
     }
 
@@ -81,7 +88,7 @@ Item {
     {
         if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
             zoomCollapseTimer.stop()
-            monitorController.rulerHeight = root.zoomOffset
+            monitorController.rulerHeight = 0
             if (audioThumb.stateVisible) {
                 audioThumb.state = "showAudio"
             } else {
@@ -90,9 +97,7 @@ Item {
         } else {
             // adjust monitor image size
             if (audioThumb.stateVisible) {
-                monitorController.rulerHeight = audioThumb.height + root.zoomOffset
-            } else {
-                monitorController.rulerHeight = root.zoomOffset
+                monitorController.rulerHeight = audioThumb.height
             }
             audioThumb.state = "showAudio"
         }
@@ -145,6 +150,9 @@ Item {
     K.AudioZoomBar {
         id: audioZoom
         monitorController: audioThumb.monitorController
+        duration: audioThumb.duration
+        onZoomInRuler: xpos => audioThumb.zoomInRuler(xpos)
+        onZoomOutRuler: xpos => audioThumb.zoomOutRuler(xpos)
         visible: audioThumb.isAudioClip || audioThumb.monitorController.clipHasAV
         opacity: audioThumb.dirty ? 0.5 : 1
         anchors.top: parent.top
@@ -186,15 +194,15 @@ Item {
                         required property int index
                         y: streamContainer.channelHeight * channelBackground.index
                         height: streamContainer.channelHeight - 2
-                        anchors.right: parent.right
-                        anchors.left: parent.left
+                        anchors.right: streamContainer.right
+                        anchors.left: streamContainer.left
                         color: index %2 == 0 ? K.KdenliveSettings.thumbColor1 : K.KdenliveSettings.thumbColor2
                     }
                 }
                 // Highlight color for the selected wave part
                 Rectangle {
-                    x: audioThumb.monitorController.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
-                    width: (audioThumb.monitorController.zoneOut - audioThumb.monitorController.zoneIn) * timeScale
+                    x: audioThumb.monitorController.zoneIn * audioThumb.timeScale - (audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset)
+                    width: (audioThumb.monitorController.zoneOut - audioThumb.monitorController.zoneIn) * audioThumb.timeScale
                     height: streamThumb.streamHeight - 2
                     color:  Utils.mixColors(K.KdenliveSettings.thumbColor1, activePalette.highlight, 0.6)
                     visible: audioThumb.monitorController.zoneOut > audioThumb.monitorController.zoneIn
@@ -210,10 +218,10 @@ Item {
                     audioStream: audioThumb.monitorController.audioStreams[streamContainer.index]
                     format: K.KdenliveSettings.displayallchannels
                     normalize: K.KdenliveSettings.normalizechannels
-                    property int aClipDuration: root.duration + 1
-                    scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
-                    waveInPoint: waveform.aClipDuration * root.zoomStart
-                    waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
+                    property int aClipDuration: audioThumb.duration + 1
+                    scaleFactor: audioThumb.width / aClipDuration / audioThumb.monitorController.timeZoomFactor
+                    waveInPoint: waveform.aClipDuration * audioThumb.monitorController.timeZoomOffset
+                    waveOutPoint: waveform.aClipDuration * (audioThumb.monitorController.timeZoomOffset + audioThumb.monitorController.timeZoomFactor)
                     fgColorEven: "#00000000" //K.KdenliveSettings.thumbColor1
                     fgColorOdd: "#00000000" //K.KdenliveSettings.thumbColor2
                     bgColorEven: audioBg.color //"#00000000"
@@ -259,7 +267,7 @@ Item {
             color: "red"
             width: 2
             height: streamThumb.streamHeight * streamThumb.count
-            x: audioThumb.monitorController.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+            x: audioThumb.monitorController.position * audioThumb.timeScale - (audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset)
         }
     }
     MouseArea {
@@ -284,12 +292,9 @@ Item {
                 mouse.accepted = false
                 return
             }
-            root.seeking = true
-            root.captureRightClick = true
             var pos = Math.max(mouseX, 0)
-            root.mouseRulerPos = mouseX
-            pos += audioThumb.width / root.zoomFactor * root.zoomStart
-            audioThumb.monitorController.setPosition(Math.min(pos / root.timeScale, root.duration));
+            pos += audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset
+            audioThumb.monitorController.setPosition(Math.min(pos / audioThumb.timeScale, audioThumb.duration));
         }
         onPositionChanged: mouse => {
             if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioZoom.height) {
@@ -298,14 +303,9 @@ Item {
             }
             if (mouse.modifiers & Qt.ShiftModifier || pressed) {
                 var pos = Math.max(mouseX, 0)
-                root.mouseRulerPos = mouseX
-                pos += audioThumb.width / root.zoomFactor * root.zoomStart
-                audioThumb.monitorController.setPosition(Math.min(pos / root.timeScale, root.duration));
+                pos += audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset
+                audioThumb.monitorController.setPosition(Math.min(pos / audioThumb.timeScale, audioThumb.duration));
             }
-        }
-        onReleased: {
-            root.seeking = false
-            root.captureRightClick = false
         }
 
         onWheel: wheel => {
@@ -316,10 +316,10 @@ Item {
                 }
                 if (wheel.angleDelta.y < 0) {
                     // zoom out
-                    clipMonitorRuler.zoomOutRuler(wheel.x)
+                    audioThumb.zoomOutRuler(wheel.x)
                 } else {
                     // zoom in
-                    clipMonitorRuler.zoomInRuler(wheel.x)
+                    audioThumb.zoomInRuler(wheel.x)
                 }
             } else {
                 wheel.accepted = false

@@ -14,12 +14,6 @@ ToolButton {
     width: parent.width
     height: width
     focusPolicy: Qt.NoFocus
-    onPressed: {
-        root.captureRightClick = true
-    }
-    onReleased: {
-        root.captureRightClick = false
-    }
     ToolTip {
         visible: toolButton.hovered
         delay: Application.styleHints.mousePressAndHoldInterval

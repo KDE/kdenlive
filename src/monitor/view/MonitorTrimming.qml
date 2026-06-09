@@ -20,12 +20,12 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneTrimming
     property string markerText
     property point profile: controller.profile
     property double zoom
     property double scalex
     property double scaley
-    property bool captureRightClick: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
@@ -33,20 +33,9 @@ Item {
     property bool showFps: false
     property bool showSafezone: false
     property bool showAudiothumb: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property int duration: 300
-    property int mouseRulerPos: 0
-    property double timeScale: 1
     property int overlayType: controller.overlayType
     property bool isClipMonitor: false
-
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
 
     FontMetrics {
         id: fontMetrics
@@ -88,6 +77,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
 
     Item {

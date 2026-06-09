@@ -18,6 +18,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSplitTrack
     property string comment
     property string framenum
     property rect framesize
@@ -26,12 +27,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double stretch : 1
     property double sourcedar : 1
     property double offsetx : 0
@@ -39,22 +34,9 @@ Item {
     property int activeTrack: 0
     property int requestedKeyFrame
     property int duration: 300
-    property int mouseRulerPos: 0
-    property double timeScale: 1
     property var tracks: []
 
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
-
     signal activateTrack(int position)
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
 
     MouseArea {
         id: barOverArea
@@ -119,6 +101,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
     MonitorRuler {
         id: clipMonitorRuler
@@ -129,5 +112,6 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 }

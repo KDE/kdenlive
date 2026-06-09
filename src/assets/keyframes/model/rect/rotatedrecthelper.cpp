@@ -11,7 +11,7 @@
 #include <utility>
 
 RotatedRectHelper::RotatedRectHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QObject *parent)
-    : KeyframeMonitorHelper(monitor, std::move(model), MonitorSceneRotatedGeometry, parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), SceneType::MonitorSceneRotatedGeometry, parent)
 {
 }
 

@@ -20,39 +20,26 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneDefault
     property string markerText
     property point profile: root.controller.profile
     property double zoom
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
-    property bool seeking: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
     property bool showTimecode: false
     property bool showFps: false
     property bool showAudiothumb: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property int duration: 300
-    property int mouseRulerPos: 0
-    property double timeScale: 1
     property int overlayType: root.controller.overlayType
     property bool isClipMonitor: false
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        root.controller.rulerHeight = root.zoomOffset
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
+        root.controller.rulerHeight = 0
     }
 
     FontMetrics {
@@ -63,13 +50,6 @@ Item {
     signal editCurrentMarker()
     signal startRecording(bool showCountDown)
 
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
     function updatePalette() {
         clipMonitorRuler.forceRepaint()
     }
@@ -132,6 +112,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
 
     Item {
@@ -162,6 +143,14 @@ Item {
                 id: countDownLoader
                 anchors.fill: frame
             }
+
+            Connections {
+                target: countDownLoader.item
+
+                function onStopCountdown() {
+                    root.stopCountdown()
+                }
+            }
         }
         Item {
             id: monitorOverlay
@@ -182,7 +171,6 @@ Item {
                 anchors {
                     right: monitorOverlay.right
                     bottom: monitorOverlay.bottom
-                    bottomMargin: root.zoomOffset
                 }
             }
             Label {
@@ -200,7 +188,6 @@ Item {
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
             }
             Label {
@@ -225,7 +212,6 @@ Item {
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && root.controller.position == root.controller.zoneIn
                 text: KI18n.i18n("In Point")
@@ -242,7 +228,6 @@ Item {
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && root.controller.position == root.controller.zoneOut
                 text: KI18n.i18n("Out Point")
@@ -266,7 +251,6 @@ Item {
                 anchors {
                     left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && text != ""
                 text: root.controller.markerComment
@@ -316,5 +300,6 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 }

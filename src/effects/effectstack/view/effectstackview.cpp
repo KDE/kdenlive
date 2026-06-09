@@ -404,7 +404,7 @@ void EffectStackView::loadEffects()
         lock.unlock();
         ObjectId item = m_model->getOwnerId();
         pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
-            ->slotShowEffectScene(MonitorSceneDefault);
+            ->slotShowEffectScene(SceneType::MonitorSceneDefault);
         updateTreeHeight();
         Q_EMIT effectsCountChanged();
         pCore->window()->registerDopeStack(nullptr);
@@ -651,7 +651,7 @@ void EffectStackView::unsetModel(bool reset)
         if (!KdenliveSettings::enableBuiltInEffects()) {
             destroyBuildinWidget();
         }
-        pCore->getMonitor(id)->slotShowEffectScene(MonitorSceneDefault);
+        pCore->getMonitor(id)->slotShowEffectScene(SceneType::MonitorSceneDefault);
     }
 }
 

@@ -24,6 +24,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneAutoMask
     property string markerText
     property int itemType: 0
     property point profile: controller.profile
@@ -32,15 +33,6 @@ Item {
     property point center
     property double scalex
     property double scaley
-    property bool captureRightClick: false
-    // Zoombar properties
-    // The start position of the zoomed area, between 0 and 1
-    property double zoomStart: 0
-    // The zoom factor (between 0 and 1). 0.5 means 2x zoom
-    property double zoomFactor: 1
-    // The pixel height of zoom bar, used to offset markers info
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx : 0
     property double offsety : 0
     property bool dropped: false
@@ -55,7 +47,6 @@ Item {
     property bool showToolbar: false
     property string clipName: controller.clipName
     property int duration: 300
-    property int mouseRulerPos: 0
     property double timeScale: 1
     property var centerPoints: []
     property var centerPointsTypes: []
@@ -68,10 +59,9 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: 0
     property int maskMode: controller.maskMode
     Component.onCompleted: {
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     onDisplayFrameChanged: {
@@ -103,10 +93,6 @@ Item {
         }
     }
 
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
-
     Timer {
         id: thumbTimer
         interval: 3000; running: false;
@@ -118,19 +104,8 @@ Item {
     signal generateMask()
     signal exitMaskPreview()
 
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    
-    onZoomOffsetChanged: {
-        controller.rulerHeight = root.zoomOffset
-    }
-    
     onHeightChanged: {
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     function updatePalette() {
@@ -241,7 +216,6 @@ Item {
                         handleEvent = false
                         return;
                     }
-                    root.captureRightClick = false
                     selectionRect.visible = false
                     if (handleEvent) {
                         if (isRectEvent) {
@@ -344,12 +318,10 @@ Item {
                             drag.target: kfrPoint
                             drag.smoothed: false
                             onPressed: mouse => {
-                                root.captureRightClick = true
                                 mouse.accepted = true
                             }
                             onReleased: mouse => {
                                 mouse.accepted = true
-                                root.captureRightClick = false
                                 var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                                 root.moveControlPoint(kfrPoint.index, positionInFrame.x / frame.width, positionInFrame.y / frame.height)
                                 generateLabel.visible = true
@@ -412,24 +384,12 @@ Item {
             anchors.bottom: outsideLabel.bottom
             anchors.left: outsideLabel.left
             text: KI18n.i18n("Go to mask start")
-            onPressed: () =>{
-                root.captureRightClick = true
-            }
-            onReleased: () => {
-                root.updateClickCapture()
-            }
             onClicked: root.controller.position = root.maskStart
         }
         ToolButton {
             anchors.bottom: outsideLabel.bottom
             anchors.right: outsideLabel.right
             text: KI18n.i18n("Go to mask end")
-            onPressed: () =>{
-                root.captureRightClick = true
-            }
-            onReleased: () => {
-                root.updateClickCapture()
-            }
             onClicked: root.controller.position = root.maskEnd
         }
     }
@@ -443,6 +403,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
     Timer {
         id: firstTimer
@@ -474,6 +435,7 @@ Item {
         visible: root.duration > 0
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
         Repeater {
             model:root.keyframes
             anchors.fill: parent
@@ -486,21 +448,17 @@ Item {
                 width: clipMonitorRuler.height / 2
                 height: width
                 radius: width
-                x: kf * root.timeScale - (frame.width/root.zoomFactor * root.zoomStart) - width / 2
+                x: kf * clipMonitorRuler.timeScale - (frame.width/root.controller.timeZoomFactor * root.controller.timeZoomOffset) - width / 2
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
                     onPressed: mouse =>{
-                        root.captureRightClick = true
                         mouse.accepted = true
                     }
                     onClicked: {
                         root.controller.position = marker.kf
-                    }
-                    onReleased: mouse => {
-                        root.updateClickCapture()
                     }
                 }
             }

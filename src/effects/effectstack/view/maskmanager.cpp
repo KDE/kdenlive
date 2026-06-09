@@ -314,7 +314,7 @@ void MaskManager::exportFrames(bool autoAdd, bool editMode)
             const QString maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
             clipMon->previewMask(binId, maskFile, zone.x(), zone.y(), MaskModeType::MaskInput);
         } else {
-            clipMon->loadQmlScene(MonitorSceneAutoMask);
+            clipMon->loadQmlScene(SceneType::MonitorSceneAutoMask);
             clipMon->getControllerProxy()->setMaskMode(MaskModeType::MaskInput);
         }
         m_maskHelper->launchSam(previewFolder, clipMon->getZoneStart(), m_owner, autoAdd, zone.x());

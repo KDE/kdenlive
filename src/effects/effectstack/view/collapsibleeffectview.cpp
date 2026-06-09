@@ -976,10 +976,10 @@ void CollapsibleEffectView::adjustButtons(int ix, int max)
     buttonDown->setEnabled(ix < max - 1);
 }
 
-MonitorSceneType CollapsibleEffectView::needsMonitorEffectScene() const
+SceneType::MonitorSceneType CollapsibleEffectView::needsMonitorEffectScene() const
 {
     if (!m_model->isAssetEnabled() || !m_view) {
-        return MonitorSceneDefault;
+        return SceneType::MonitorSceneDefault;
     }
     return m_view->needsMonitorEffectScene();
 }

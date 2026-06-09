@@ -19,6 +19,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneRoto
     property string comment
     property string framenum
     property point profile: controller.profile
@@ -26,20 +27,11 @@ Item {
     property int overlayType: controller.overlayType
     property double scalex : 1
     property double scaley : 1
-    property bool captureRightClick: true
-    property bool seeking: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double stretch : 1
     property double sourcedar : 1
     property double offsetx : 0
     property double offsety : 0
     property int duration: 300
-    property double timeScale: 1
-    property int mouseRulerPos: 0
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
     onScalexChanged: canvas.requestPaint()
@@ -85,23 +77,7 @@ Item {
         }
     }
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
-    }
-
-    function updateClickCapture() {
-        if (root.isDefined) {
-            root.captureRightClick = false
-        } else {
-            root.captureRightClick = true
-        }
-    }
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
+        controller.rulerHeight = 0
     }
 
     onIsKeyframeChanged: {
@@ -118,7 +94,6 @@ Item {
 
     onIsDefinedChanged: {
         controller.setWidgetKeyBinding(root.isDefined ? defaultKeyBindInfo : emptyCanvasKeyBindInfo);
-        root.captureRightClick = !root.isDefined
     }
 
     onAutoKeyframeChanged: {
@@ -465,7 +440,6 @@ Item {
         onPressed: mouse=> {
             lastMouseX = mouse.x
             lastMouseY = mouse.y
-            root.captureRightClick = true
         }
         onExited: {
             root.controller.setWidgetKeyBinding()
@@ -776,6 +750,7 @@ Item {
     EffectToolBar {
         id: effectToolBar
         monitorController: root.controller
+        isClipMonitor: false
         anchors {
             right: parent.right
             top: parent.top
@@ -793,6 +768,7 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 
 }

@@ -26,6 +26,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property int viewType: K.SceneType.MonitorSceneDefault
     property string markerText
     property int itemType: 0
     property point profile: controller.profile
@@ -33,16 +34,6 @@ Item {
     property point center
     property double scalex: 1.
     property double scaley: 1.
-    property bool captureRightClick: false
-    property bool seeking: false
-    // Zoombar properties
-    // The start position of the zoomed area, between 0 and 1
-    property double zoomStart: 0
-    // The zoom factor (between 0 and 1). 1 means no zoom, 0.5 means 2x zoom
-    property double zoomFactor: 1
-    // The pixel height of zoom bar, used to offset markers info
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     property double offsetx: 0
     property double offsety: 0
     property bool dropped: false
@@ -57,25 +48,18 @@ Item {
     property bool showToolbar: false
     property string clipName: controller.clipName
     property int duration: 300 // last selectable frame of the timecode display
-    property int mouseRulerPos: 0
     property double timeScale: 1
     property int overlayType: controller.overlayType
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property bool inLowerThird: (audioView.containsMyMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
-    property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
+    property bool inLowerThird: (audioView.containsMyMouse || clipMonitorRuler.containsMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
+    property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? audioView.height : 0
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = audioView.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
+            controller.rulerHeight = audioView.height
         }
-    }
-
-    function updateClickCapture() {
-        root.captureRightClick = false
     }
 
     FontMetrics {
@@ -86,16 +70,15 @@ Item {
     Timer {
         id: thumbTimer
         interval: 3000; running: false;
+        onRunningChanged: {
+            if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
+                audioView.refreshView()
+            }
+        }
     }
 
     signal editCurrentMarker()
 
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
     onClipNameChanged: {
         // Animate clip name
         labelContainer.opacity = 1
@@ -106,25 +89,13 @@ Item {
 
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = audioView.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
-        }
-    }
-
-    onZoomOffsetChanged: {
-        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = audioView.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
+            controller.rulerHeight = audioView.height
         }
     }
 
     onHeightChanged: {
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
-            controller.rulerHeight = (audioView.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
+            controller.rulerHeight = (audioView.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6)
         }
     }
 
@@ -159,7 +130,7 @@ Item {
         onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
                 var pos = Math.max(mouseX, 0)
-                pos += width / root.zoomFactor * root.zoomStart
+                pos += width / root.controller.timeZoomFactor * root.controller.timeZoomOffset
                 root.controller.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
@@ -178,6 +149,7 @@ Item {
             leftMargin: 4
         }
         monitorController: root.controller
+        isClipMonitor: root.isClipMonitor
     }
 
     Item {
@@ -226,10 +198,15 @@ Item {
             AudioView {
                 id: audioView
                 monitorController: root.controller
+                timeScale: clipMonitorRuler.timeScale
+                duration: root.duration
+                onZoomInRuler: xpos => clipMonitorRuler.zoomInRuler(xpos)
+                onZoomOutRuler: xpos => clipMonitorRuler.zoomOutRuler(xpos)
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
+                    //bottom: clipMonitorRuler.top
+                    // bottomMargin: clipMonitorRuler.height
                 }
                 height: isAudioClip ? parent.height : parent.height / 5
                 width: parent.width
@@ -536,19 +513,12 @@ Item {
                 property bool leftSide: dragZone.showVideoDrag ? mouseX < width / 2 : false
                 cursorShape: Qt.OpenHandCursor
                 propagateComposedEvents: true
-                onPositionChanged: {
-                    if (pressed) {
-                        root.captureRightClick = false
-                    }
-                }
                 onPressed: mouse => {
-                    root.captureRightClick = true
                     root.controller.dragType = leftSide ? 'V' : 'A'
                     mouse.accepted = false
                 }
                 onReleased: mouse => {
                     root.controller.dragType = ''
-                    root.captureRightClick = false
                     mouse.accepted = false
                 }
             }
@@ -667,6 +637,7 @@ Item {
         visible: root.duration > 0
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
         Repeater {
             model: root.controller.clipBounds
             anchors.fill: parent
@@ -676,8 +647,8 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 1
                 property point bd: root.controller.clipBoundary(index)
-                x: bd.x * root.timeScale - (clipMonitorRuler.width / root.zoomFactor * root.zoomStart)
-                width: bd.y * root.timeScale
+                x: bd.x * clipMonitorRuler.timeScale - (clipMonitorRuler.width / root.controller.timeZoomFactor * root.controller.timeZoomOffset)
+                width: bd.y * clipMonitorRuler.timeScale
                 height: 2
                 color: 'goldenrod'
             }

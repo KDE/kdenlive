@@ -253,7 +253,7 @@ void VideoWidget::resizeVideo(int width, int height)
         rootQml->setProperty("center", m_rect.center() + m_monitorOffset);
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
-        if (rootQml->objectName() == QLatin1String("rootsplit")) {
+        if (rootQml->property("viewType") == SceneType::MonitorSceneSplit) {
             // Adjust splitter pos
             rootQml->setProperty("splitterPos", x + (rootQml->property("percentage").toDouble() * w));
         }
@@ -452,7 +452,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     // For some reason, on Qt6 in mouseReleaseEvent, the event is always accepted, so use this m_qmlEvent bool to track if the event is accepted in qml
     m_qmlEvent = event->isAccepted();
     m_dragStart = QPoint();
-    if (rootObject() != nullptr && m_qmlEvent && rootObject()->property("captureRightClick").toBool()) {
+    if (rootObject() != nullptr && m_qmlEvent) {
         // The event has been handled in qml
         m_swallowDrop = true;
     } else {
@@ -503,12 +503,9 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
     if (m_fullScreen) {
         m_mouseTimer.start();
     }
-    bool qmlClick = rootObject() ? rootObject()->property("captureRightClick").toBool() : false;
     QQuickWidget::mouseReleaseEvent(event);
-    if (rootObject()) {
-        rootObject()->setProperty("captureRightClick", false);
-    }
-    bool playMonitor = KdenliveSettings::play_monitor_on_click() &&
+    bool allowPlay = rootObject() ? rootObject()->property("viewType") == SceneType::MonitorSceneDefault : true;
+    bool playMonitor = allowPlay && KdenliveSettings::play_monitor_on_click() &&
                        (m_dragStart.isNull() || (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) && m_panStart.isNull();
 
     m_dragStart = QPoint();
@@ -519,7 +516,7 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         m_swallowDrop = false;
         return;
     }
-    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop && !qmlClick) {
+    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop) {
         event->accept();
         Q_EMIT monitorPlay();
     }
@@ -534,7 +531,7 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
         }
         m_mouseTimer.start();
     }
-    if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) &&
+    if ((rootObject() != nullptr) && rootObject()->property("viewType") != SceneType::MonitorSceneDefault && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
         QQuickWidget::mouseMoveEvent(event);
@@ -1015,7 +1012,7 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
     if (event->isAccepted()) {
         return;
     }
-    if ((rootObject() == nullptr) || rootObject()->objectName() != QLatin1String("rooteffectscene")) {
+    if ((rootObject() == nullptr) || rootObject()->property("viewType") != SceneType::MonitorSceneGeometry) {
         Q_EMIT switchFullScreen();
     }
     event->accept();

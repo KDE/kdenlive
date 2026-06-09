@@ -87,7 +87,7 @@ void TransitionStackView::unsetModel()
         if (kfr) {
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
         }
-        pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(MonitorSceneDefault);
+        pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(SceneType::MonitorSceneDefault);
         m_trackBox = nullptr;
     }
     AssetParameterView::unsetModel();

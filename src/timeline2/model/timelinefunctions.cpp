@@ -191,15 +191,15 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         };
         PUSH_LAMBDA(local_undo, undo);
         // Assign end mix to new clone clip
-        if (!hasStartMix && subplaylist != 1) {
+        if (!hasStartMix && subplaylist != 0) {
             Fun local_redo2 = [timeline, trackId, clipId, start]() {
-                // If the clip has no start mix, move to playlist 1
-                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 0, 1);
+                // If the clip has no start mix, move to playlist 0
+                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 1, 0);
             };
             // Restore initial subplaylist on undo
             Fun local_undo2 = [timeline, trackId, clipId, start]() {
-                // If the clip has no start mix, move back to playlist 0
-                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 1, 0);
+                // If the clip has no start mix, move back to playlist 1
+                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 0, 1);
             };
             res = res && local_redo2();
             if (res) {

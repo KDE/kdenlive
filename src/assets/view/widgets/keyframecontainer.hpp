@@ -43,7 +43,7 @@ public:
     int getPosition() const;
     /** @brief Returns the monitor scene required for this asset
      */
-    MonitorSceneType requiredScene() const;
+    SceneType::MonitorSceneType requiredScene() const;
     /** @brief Show / hide keyframe related widgets
      */
     void showKeyframes(bool enable);
@@ -123,7 +123,7 @@ private:
     QAction *m_applyAction;
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
-    MonitorSceneType m_neededScene;
+    SceneType::MonitorSceneType m_neededScene;
     bool m_monitorActive{false};
     bool m_isRelative{false};
     QSize m_sourceFrameSize;

@@ -18,9 +18,8 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
-    property double timeScale: 1
+    property int viewType: K.SceneType.MonitorSceneSplit
     property int duration: 300
-    property int mouseRulerPos: 0
     property int splitterPos
     property rect framesize
     // percentage holds splitter pos relative to the scene percentage
@@ -31,32 +30,14 @@ Item {
     property double offsety
     property double scalex
     property double scaley
-    property bool captureRightClick: false
-    // Zoombar properties
-    property double zoomStart: 0
-    property double zoomFactor: 1
-    property int zoomOffset: 0
-    property bool showZoomBar: false
     Component.onCompleted: {
-        // adjust monitor image size if audio thumb is displayed
-        controller.rulerHeight = root.zoomOffset
+        controller.rulerHeight = 0
     }
 
     signal qmlMoveSplit()
 
-    function updateClickCapture() {
-        root.captureRightClick = false
-    }
-
     percentage: 0.5
     splitterPos: this.width / 2
-
-    onDurationChanged: {
-        clipMonitorRuler.updateRuler()
-    }
-    onWidthChanged: {
-        clipMonitorRuler.updateRuler()
-    }
 
     MouseArea {
         width: root.width; height: root.height
@@ -68,7 +49,6 @@ Item {
             root.controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onPressed: {
-            root.captureRightClick = true
             root.percentage = (mouseX - (root.width - (root.profile.x * root.scalex)) / 2) / (root.profile.x * root.scalex)
             root.splitterPos = mouseX
             root.qmlMoveSplit()
@@ -81,9 +61,6 @@ Item {
             }
             timer.restart()
             splitter.visible = true
-        }
-        onReleased: {
-            root.captureRightClick = false
         }
         //onEntered: { splitter.visible = true }
         onExited: { splitter.visible = false }
@@ -117,6 +94,7 @@ Item {
         }
         height: root.controller.rulerHeight
         monitorController: root.controller
+        duration: root.duration
     }
 
     Timer {

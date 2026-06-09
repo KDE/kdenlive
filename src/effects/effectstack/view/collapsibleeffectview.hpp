@@ -53,7 +53,7 @@ public:
     /** @brief Show / hide up / down buttons. */
     void adjustButtons(int ix, int max);
     /** @brief Returns this effect's monitor scene type if any is needed. */
-    MonitorSceneType needsMonitorEffectScene() const;
+    SceneType::MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Import keyframes from a clip's data. */
     void setKeyframes(const QString &tag, const QString &keyframes);
     /** @brief Pass frame size info (dar, etc). */
@@ -156,7 +156,7 @@ protected:
 Q_SIGNALS:
     void parameterChanged(const QDomElement &, const QDomElement &, int);
     void syncEffectsPos(int);
-    void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
+    void effectStateChanged(bool, int ix, SceneType::MonitorSceneType effectNeedsMonitorScene);
     void deleteEffect(std::shared_ptr<EffectItemModel> effect);
     void moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect);
     void checkMonitorPosition(int);
