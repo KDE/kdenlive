@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE void addKeyframe(const QModelIndex &ix, int framePosition);
     /** @brief Move keyframes in all parameters at current pos */
     Q_INVOKABLE void moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo);
+    Q_INVOKABLE void moveScaledKeyframe(int updatedPos, bool logUndo, bool updateView);
     /** @brief Align keyframes to the right or left of the selection */
     Q_INVOKABLE void alignKeyframe(QVariantMap kfData, bool right);
     /** @brief Register all keyframes that will need to move */
@@ -84,6 +85,8 @@ public:
     Q_INVOKABLE QVariantList grabbedIndexes() const;
     Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
+    Q_INVOKABLE void resetScaledInfo();
+    Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
     int dopeDuration() const;
     int dopePosition() const;
     void updateItemPosition(ObjectId itemId);
@@ -111,6 +114,9 @@ private:
     QMap<QModelIndex, int> m_relatedMove;
     QList<QMetaObject::Connection> m_connectionList;
     std::shared_ptr<EffectStackModel> m_model;
+    QMap<QModelIndex, QList<std::pair<int, int>>> m_scaledKFInfo;
+    std::pair<int, int> m_scaledRange;
+    bool m_resizeFromStart{false};
     /** @brief Returns a list on int indexes of keyframes in a
      *  parameter ix that are placed between startFrame and endFrame */
     QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);

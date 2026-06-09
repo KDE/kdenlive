@@ -664,6 +664,7 @@ Item {
                     property bool dragStarted: false
                     property point clickPoint
                     property bool shiftClick: false
+                    property bool ctrlClick: false
                     property var buttonClicked
                     anchors.fill: parent
                     anchors.leftMargin: -K.UiUtils.baseSizeMedium
@@ -684,11 +685,8 @@ Item {
                         rubberTopLeft = mapToItem(dopeRoot, mouseX, mouseY)
                         mouse.accepted = true
                         console.log('    - - -- DOPE CLICK - - - ')
-                        if (mouse.modifiers & Qt.ShiftModifier) {
-                            shiftClick = true
-                        } else {
-                            shiftClick = false
-                        }
+                        shiftClick = mouse.modifiers & Qt.ShiftModifier
+                        ctrlClick = mouse.modifiers & Qt.ControlModifier
                         buttonClicked = mouse.buttons
                         // Select parameter
                         var parameterIndex = treeView.index(row, column)
@@ -750,6 +748,9 @@ Item {
                             updateSelectedKeyframesForIndex(parameterIndex, selectedKeyframes, shiftClick)
                             dopeRoot.allSelectedKeyframesChanged()
                         }
+                        if (ctrlClick) {
+                            dopesheetmodel.setScaledInfo(dopeRoot.allSelectedKeyframes, clickFrame)
+                        }
                         if (mouse.buttons === Qt.RightButton) {
                             // Show context menu
                             treeView.selectedKeyframe = kfMoveArea.currentFrame
@@ -775,13 +776,19 @@ Item {
                             return
                         }
                         if (dragStarted) {
-                            if (clickIndex > -1) {
+                            if (ctrlClick) {
+                                dopesheetmodel.moveScaledKeyframe(clickFrame, false, false)
+                                dopesheetmodel.moveScaledKeyframe(movePosition, true, true)
+                            } else if (clickIndex > -1) {
                                 dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, movePosition, clickFrame, false)
                                 dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, clickFrame, movePosition, true)
                                 kfMoveArea.currentFrame = movePosition
                             }
                         } else if (clickIndex > -1 && buttonClicked === Qt.LeftButton && !shiftClick) {
                             dopeModel.seekToKeyframe(clickIndex)
+                        }
+                        if (ctrlClick) {
+                            dopesheetmodel.resetScaledInfo()
                         }
                         dragStarted = false
                         mouse.accepted = true
@@ -827,8 +834,12 @@ Item {
                                 // No move, abort
                                 return
                             }
+                            if (ctrlClick) {
+                                dopesheetmodel.moveScaledKeyframe(dopeRoot.mouseFramePos, false, true)
+                            } else {
+                                dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, dopeRoot.mouseFramePos, false)
+                            }
 
-                            dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, dopeRoot.mouseFramePos, false)
                             movePosition = dopeRoot.mouseFramePos
                         }
                     }

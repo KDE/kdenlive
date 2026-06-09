@@ -171,6 +171,7 @@ public:
     int getIndexForPos(const GenTime pos) const;
     GenTime getPosAtIndex(int ix) const;
     Q_INVOKABLE bool moveKeyframeByIndex(int ix, int pos, bool logUndo);
+    bool moveKeyframeByIndex(int ix, int pos, Fun &undo, Fun &redo, bool updateView);
     int getKeyframeTypeAtPos(GenTime pos) const;
     Q_INVOKABLE int getKeyframeTypeAtFrame(int frame) const;
 

@@ -341,7 +341,89 @@ void DopeSheetModel::alignKeyframe(QVariantMap kfData, bool right)
     }
 }
 
-void DopeSheetModel::moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo)
+void DopeSheetModel::resetScaledInfo()
+{
+    m_scaledKFInfo.clear();
+}
+
+void DopeSheetModel::setScaledInfo(const QVariantMap kfData, int sourcePos)
+{
+    QMap<QModelIndex, QVariant> selection = sanitizeKeyframesIndexes(kfData);
+    m_scaledKFInfo.clear();
+    // m_scaledRange.second = sourcePos;
+    m_scaledRange = {-1, -1};
+    for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
+        int itemId = int(i.key().internalId());
+        auto tItem = getItemById(itemId);
+        if (tItem->depth() == 1) {
+            // Summary item, ignore
+            continue;
+        }
+        KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
+        if (km) {
+            QVariantList indexes = i.value().toList();
+            std::sort(indexes.begin(), indexes.end(), [](const QVariant &a, const QVariant &b) { return a.toInt() < b.toInt(); });
+            QList<std::pair<int, int>> kfMap;
+            for (auto &k : indexes) {
+                int frame = km->getPosAtIndex(k.toInt()).frames(pCore->getCurrentFps());
+                if (frame < m_scaledRange.first || m_scaledRange.first < 0) {
+                    m_scaledRange.first = frame;
+                }
+                m_scaledRange.second = qMax(frame, m_scaledRange.second);
+                std::pair<int, int> kfValue(k.toInt(), frame);
+                kfMap << kfValue;
+            }
+            m_scaledKFInfo.insert(i.key(), kfMap);
+        }
+    }
+    m_resizeFromStart = m_scaledRange.first == sourcePos;
+}
+
+void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updateView)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool success = true;
+    double percentage;
+    if (m_resizeFromStart) {
+        percentage = double(m_scaledRange.second - updatedPos) / (m_scaledRange.second - m_scaledRange.first);
+    } else {
+        percentage = double(updatedPos - m_scaledRange.first) / (m_scaledRange.second - m_scaledRange.first);
+    }
+    GenTime firstKeyframe;
+    // Check first / last keyframes for scaling
+    for (auto i = m_scaledKFInfo.cbegin(), end = m_scaledKFInfo.cend(); i != end; ++i) {
+        int itemId = int(i.key().internalId());
+        auto tItem = getItemById(itemId);
+        if (tItem->depth() == 1) {
+            // Summary item, ignore
+            continue;
+        }
+        KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
+        km->setSelectedKeyframes({});
+        if (km && success) {
+            const QList<std::pair<int, int>> indexes = i.value();
+            for (auto &j : indexes) {
+                int updatedFrame = m_resizeFromStart ? m_scaledRange.second - (m_scaledRange.second - j.second) * percentage
+                                                     : m_scaledRange.first + (j.second - m_scaledRange.first) * percentage;
+                qDebug() << "::: MOVING KEYFRAME AT: " << j.first << " = " << j.second << " TO " << updatedFrame;
+                success = success && km->moveKeyframeByIndex(j.first, updatedFrame, undo, redo, updateView);
+            }
+        }
+    }
+    if (success) {
+        if (logUndo) {
+            pCore->pushUndo(undo, redo, i18n("Move keyframes"));
+        }
+    } else {
+        undo();
+        if (logUndo) {
+            pCore->displayMessage(i18n("Failed to move keyframe"), InformationMessage);
+        }
+    }
+}
+
+void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };

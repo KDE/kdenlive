@@ -471,6 +471,8 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         bool res = true;
         if (auto ptr = m_model.lock()) {
             const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            // fake query to force animation parsing
+            (void)ptr->getAsset()->anim_get_double(name.toUtf8().constData(), 0, -1);
             Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
             Q_ASSERT(anim.key_get_frame(row) == pos.frames(pCore->getCurrentFps()));
             res = anim.key_set_frame(row, oldPos.frames(pCore->getCurrentFps())) == 0;
@@ -491,6 +493,8 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         // qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
         if (auto ptr = m_model.lock()) {
             const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            // fake query to force animation parsing
+            (void)ptr->getAsset()->anim_get_double(name.toUtf8().constData(), 0, -1);
             Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
             qDebug() << "CURRENT FRAME AT ROW: " << anim.key_get_frame(row) << " / OLD: " << oldPos.frames(pCore->getCurrentFps());
             Q_ASSERT(anim.key_get_frame(row) == oldPos.frames(pCore->getCurrentFps()));
@@ -562,6 +566,13 @@ bool KeyframeModel::moveKeyframeByIndex(int ix, int pos, bool logUndo)
     GenTime oPos = getPosAtIndex(ix);
     GenTime nPos(pos, pCore->getCurrentFps());
     return moveKeyframe(oPos, nPos, QVariant(), logUndo);
+}
+
+bool KeyframeModel::moveKeyframeByIndex(int ix, int pos, Fun &undo, Fun &redo, bool updateView)
+{
+    GenTime oPos = getPosAtIndex(ix);
+    GenTime nPos(pos, pCore->getCurrentFps());
+    return moveOneKeyframe(oPos, nPos, QVariant(), undo, redo, updateView);
 }
 
 bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
