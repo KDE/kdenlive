@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-09 00:43+0000\n"
+"POT-Creation-Date: 2026-06-10 00:45+0000\n"
 "PO-Revision-Date: 2026-06-05 13:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -35438,7 +35438,7 @@ msgid "No available stream"
 msgstr "No hi ha cap flux disponible"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3410 src/titler/titlewidget.cpp:3413
+#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
 #, kde-format
 msgid "Gradient %1"
 msgstr "Degradat %1"
@@ -35833,7 +35833,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Final de l'àrea de visualització"
 
-#: src/titler/titlewidget.cpp:3443
+#: src/titler/titlewidget.cpp:3454
 #, kde-format
 msgid "Gradient"
 msgstr "Degradat"
