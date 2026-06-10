@@ -777,6 +777,7 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
             QObject::connect(videoStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this, videoStream]() {
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("video_index"), QString::number(videoStream->currentData().toInt()));
+                properties.insert(QStringLiteral("vstream"), QString::number(videoStream->currentIndex()));
                 Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
