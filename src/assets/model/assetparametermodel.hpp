@@ -394,7 +394,7 @@ public:
     const QString getParam(const QString &paramName);
     /** @brief Returns the current asset */
     Mlt::Properties *getAsset();
-    /** @brief Returns a frame time as click time (00:00:00.000) */
+    /** @brief Returns a frame time as clock time (00:00:00.000) */
     const QString framesToTime(int t) const;
     /** @brief Given an animation keyframe string, find out the keyframe type */
     static const QChar getKeyframeType(const QString keyframeString);
