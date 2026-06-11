@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-09 02:37+0000\n"
+"POT-Creation-Date: 2026-06-11 02:33+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -869,7 +869,7 @@ msgstr "Šírka filtra"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:990
+#: src/mltcontroller/clippropertiescontroller.cpp:991
 #, kde-format
 msgid "Normalize"
 msgstr "Normalizovať"
@@ -7431,7 +7431,7 @@ msgstr "Do"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:1012
+#: src/mltcontroller/clippropertiescontroller.cpp:1013
 #, kde-format
 msgid "Swap channels"
 msgstr "Prehodiť kanály"
@@ -19036,7 +19036,7 @@ msgstr "Žiadny zvuk"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:434
 #: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:660
-#: src/mltcontroller/clippropertiescontroller.cpp:1068
+#: src/mltcontroller/clippropertiescontroller.cpp:1069
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -22640,7 +22640,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
 #: src/dialogs/timeremap.cpp:1570 src/kdenliveui.rc:81
-#: src/mltcontroller/clippropertiescontroller.cpp:810
+#: src/mltcontroller/clippropertiescontroller.cpp:811
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
 #, kde-format
 msgid "Transcode"
@@ -23838,7 +23838,7 @@ msgstr "Snímková frekvencia"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:971
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -28842,8 +28842,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Nie je možné nájsť vaše profily MLT, prosím, uveďte cestu"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:163
-#: src/mltcontroller/clippropertiescontroller.cpp:1408
-#: src/mltcontroller/clippropertiescontroller.cpp:1460
+#: src/mltcontroller/clippropertiescontroller.cpp:1409
+#: src/mltcontroller/clippropertiescontroller.cpp:1461
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -28945,7 +28945,7 @@ msgstr "Zadajte sem text šablóny"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/mltcontroller/clippropertiescontroller.cpp:695
-#: src/mltcontroller/clippropertiescontroller.cpp:1386
+#: src/mltcontroller/clippropertiescontroller.cpp:1387
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -28954,8 +28954,8 @@ msgstr "Pixlový pomer strán:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:707
-#: src/mltcontroller/clippropertiescontroller.cpp:1392
-#: src/mltcontroller/clippropertiescontroller.cpp:1397
+#: src/mltcontroller/clippropertiescontroller.cpp:1393
+#: src/mltcontroller/clippropertiescontroller.cpp:1398
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -28964,7 +28964,7 @@ msgstr "Frekvencia snímok:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -28974,7 +28974,7 @@ msgstr "Progresívny"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:712
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
@@ -29022,256 +29022,256 @@ msgstr "Povoliť video"
 msgid "Video stream"
 msgstr "Video stream"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:798
+#: src/mltcontroller/clippropertiescontroller.cpp:799
 #, kde-format
 msgid "Color space:"
 msgstr "Priestor farieb"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:802
+#: src/mltcontroller/clippropertiescontroller.cpp:803
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Vysielanie obmedzené (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:802
+#: src/mltcontroller/clippropertiescontroller.cpp:803
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Plné (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:804
+#: src/mltcontroller/clippropertiescontroller.cpp:805
 #, kde-format
 msgid "Color range:"
 msgstr "Farebný rozsah:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:809
+#: src/mltcontroller/clippropertiescontroller.cpp:810
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "Súbor používa premennú snímkovú frekvenciu, neodporúča sa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:849
+#: src/mltcontroller/clippropertiescontroller.cpp:850
 #, kde-format
 msgid "Disable audio"
 msgstr "Zakázať audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:849
+#: src/mltcontroller/clippropertiescontroller.cpp:850
 #, kde-format
 msgid "Enable audio"
 msgstr "Povoliť audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:857
+#: src/mltcontroller/clippropertiescontroller.cpp:858
 #: src/monitor/monitor.cpp:314
 #, kde-format
 msgid "Audio streams"
 msgstr "Zvukové prúdy"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:879
+#: src/mltcontroller/clippropertiescontroller.cpp:880
 #: src/monitor/monitor.cpp:2240
 #, kde-format
 msgid "Merge all streams"
 msgstr "Zlúčiť všetky prúdy"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1034
+#: src/mltcontroller/clippropertiescontroller.cpp:1035
 #, kde-format
 msgid "Copy channel:"
 msgstr "Kopírovať Kanál"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1036
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1065
+#: src/mltcontroller/clippropertiescontroller.cpp:1066
 #, kde-format
 msgid "Gain:"
 msgstr "Nárast:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1092
+#: src/mltcontroller/clippropertiescontroller.cpp:1093
 #, kde-format
 msgid "Audio sync:"
 msgstr "Synchronizácia zvuku:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1094
+#: src/mltcontroller/clippropertiescontroller.cpp:1095
 #, kde-format
 msgid "ms"
 msgstr "ms"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1143
+#: src/mltcontroller/clippropertiescontroller.cpp:1144
 #, kde-format
 msgid "Analysis data"
 msgstr "Dátová analýza"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1146
+#: src/mltcontroller/clippropertiescontroller.cpp:1147
 #, kde-format
 msgid "Delete analysis"
 msgstr "Vymazať analýzu"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1147
+#: src/mltcontroller/clippropertiescontroller.cpp:1148
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Zmazať dáta"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1148
+#: src/mltcontroller/clippropertiescontroller.cpp:1149
 #, kde-format
 msgid "Export analysis…"
 msgstr "Exportovať analýzu"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1149
+#: src/mltcontroller/clippropertiescontroller.cpp:1150
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "Opens a file dialog window to export/save the analysis data."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1150
+#: src/mltcontroller/clippropertiescontroller.cpp:1151
 #, kde-format
 msgid "Import analysis…"
 msgstr "Načítať analýzu"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1151
+#: src/mltcontroller/clippropertiescontroller.cpp:1152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "Opens a file dialog window to import/load analysis data."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1221
-#: src/mltcontroller/clippropertiescontroller.cpp:1546
+#: src/mltcontroller/clippropertiescontroller.cpp:1222
+#: src/mltcontroller/clippropertiescontroller.cpp:1547
 #, kde-format
 msgid "Tracks:"
 msgstr "Stopy"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1373
+#: src/mltcontroller/clippropertiescontroller.cpp:1374
 #, kde-format
 msgid "Frame size:"
 msgstr "Veľkosť snímky:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1408
+#: src/mltcontroller/clippropertiescontroller.cpp:1409
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Dátový tok videa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:1416
 #, kde-format
 msgid "Video codec:"
 msgstr "Kodek pre video"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1421
+#: src/mltcontroller/clippropertiescontroller.cpp:1422
 #, kde-format
 msgid "Pixel format:"
 msgstr "Pixlový formát"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1425
+#: src/mltcontroller/clippropertiescontroller.cpp:1426
 #: src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Farebný priestor:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, kde-format
 msgid "B frames:"
 msgstr "B snímky:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, kde-format
 msgid "Yes"
 msgstr "áno"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, kde-format
 msgid "No"
 msgstr "N"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1443
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Zvukové kanály"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Frekvencia zvuku"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1453
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "Audio codec:"
 msgstr "Kodek pre zvuk"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1460
+#: src/mltcontroller/clippropertiescontroller.cpp:1461
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Dátový tok zvuku"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1475
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, kde-format
 msgid "File size:"
 msgstr "Veľkosť súboru"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "Image size:"
 msgstr "Veľkosť obrázka"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1504
+#: src/mltcontroller/clippropertiescontroller.cpp:1505
 #, kde-format
 msgid "Image duration:"
 msgstr "Trvanie obrázka:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1511
+#: src/mltcontroller/clippropertiescontroller.cpp:1512
 #, kde-format
 msgid "Image count:"
 msgstr "Počet obrázkov:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1531
+#: src/mltcontroller/clippropertiescontroller.cpp:1532
 #, kde-format
 msgid "Video streams:"
 msgstr "Video prúdy:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1539
+#: src/mltcontroller/clippropertiescontroller.cpp:1540
 #, kde-format
 msgid "Audio streams:"
 msgstr "Zvukové prúdy"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1727
+#: src/mltcontroller/clippropertiescontroller.cpp:1728
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1754
+#: src/mltcontroller/clippropertiescontroller.cpp:1755
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Zázračná lampa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1795
+#: src/mltcontroller/clippropertiescontroller.cpp:1796
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Uložiť analýzu dát"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1796
-#: src/mltcontroller/clippropertiescontroller.cpp:1809
+#: src/mltcontroller/clippropertiescontroller.cpp:1797
+#: src/mltcontroller/clippropertiescontroller.cpp:1810
 #: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Textový súbor (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1808
+#: src/mltcontroller/clippropertiescontroller.cpp:1809
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"

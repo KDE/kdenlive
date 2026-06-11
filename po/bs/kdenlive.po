@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-09 02:37+0000\n"
+"POT-Creation-Date: 2026-06-11 02:33+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -892,7 +892,7 @@ msgstr "Širina granice"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:990
+#: src/mltcontroller/clippropertiescontroller.cpp:991
 #, fuzzy, kde-format
 msgid "Normalize"
 msgstr "Normalno"
@@ -7306,7 +7306,7 @@ msgstr "T"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:1012
+#: src/mltcontroller/clippropertiescontroller.cpp:1013
 #, fuzzy, kde-format
 msgid "Swap channels"
 msgstr "Zvučni kanali"
@@ -18686,7 +18686,7 @@ msgstr "Raspakuj u"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:434
 #: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:660
-#: src/mltcontroller/clippropertiescontroller.cpp:1068
+#: src/mltcontroller/clippropertiescontroller.cpp:1069
 #, fuzzy, kde-format
 #| msgid "B"
 msgid "dB"
@@ -22498,7 +22498,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:628
 #: src/dialogs/timeremap.cpp:1570 src/kdenliveui.rc:81
-#: src/mltcontroller/clippropertiescontroller.cpp:810
+#: src/mltcontroller/clippropertiescontroller.cpp:811
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
 #, kde-format
 msgid "Transcode"
@@ -23736,7 +23736,7 @@ msgstr "Protok kadrova"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:971
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -29066,8 +29066,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Ne mogu pronaći vaše MLT profile, molimo upišite put."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:163
-#: src/mltcontroller/clippropertiescontroller.cpp:1408
-#: src/mltcontroller/clippropertiescontroller.cpp:1460
+#: src/mltcontroller/clippropertiescontroller.cpp:1409
+#: src/mltcontroller/clippropertiescontroller.cpp:1461
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -29179,7 +29179,7 @@ msgstr "Unesi put šablona"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/mltcontroller/clippropertiescontroller.cpp:695
-#: src/mltcontroller/clippropertiescontroller.cpp:1386
+#: src/mltcontroller/clippropertiescontroller.cpp:1387
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -29188,8 +29188,8 @@ msgstr "Omjer piksela:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:707
-#: src/mltcontroller/clippropertiescontroller.cpp:1392
-#: src/mltcontroller/clippropertiescontroller.cpp:1397
+#: src/mltcontroller/clippropertiescontroller.cpp:1393
+#: src/mltcontroller/clippropertiescontroller.cpp:1398
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -29198,7 +29198,7 @@ msgstr "Protok kadrova:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -29208,7 +29208,7 @@ msgstr "Progresivno"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:712
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, fuzzy, kde-format
 #| msgid "Scanning"
@@ -29267,151 +29267,151 @@ msgstr "Omogući efekt"
 msgid "Video stream"
 msgstr "Video slijed %1"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:798
+#: src/mltcontroller/clippropertiescontroller.cpp:799
 #, fuzzy, kde-format
 #| msgid "Color space"
 msgid "Color space:"
 msgstr "Opseg boja"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:802
+#: src/mltcontroller/clippropertiescontroller.cpp:803
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:802
+#: src/mltcontroller/clippropertiescontroller.cpp:803
 #, kde-format
 msgid "Full (JPEG)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:804
+#: src/mltcontroller/clippropertiescontroller.cpp:805
 #, fuzzy, kde-format
 #| msgid "Color Space"
 msgid "Color range:"
 msgstr "Opseg boja"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:809
+#: src/mltcontroller/clippropertiescontroller.cpp:810
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:849
+#: src/mltcontroller/clippropertiescontroller.cpp:850
 #, kde-format
 msgid "Disable audio"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:849
+#: src/mltcontroller/clippropertiescontroller.cpp:850
 #, fuzzy, kde-format
 #| msgid "Split audio"
 msgid "Enable audio"
 msgstr "Razdvoji zvuk"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:857
+#: src/mltcontroller/clippropertiescontroller.cpp:858
 #: src/monitor/monitor.cpp:314
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "Audio streams"
 msgstr "Zvučni slijed %1"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:879
+#: src/mltcontroller/clippropertiescontroller.cpp:880
 #: src/monitor/monitor.cpp:2240
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1034
+#: src/mltcontroller/clippropertiescontroller.cpp:1035
 #, fuzzy, kde-format
 msgid "Copy channel:"
 msgstr "Kanali"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1036
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1065
+#: src/mltcontroller/clippropertiescontroller.cpp:1066
 #, fuzzy, kde-format
 msgid "Gain:"
 msgstr "Zelena"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1092
+#: src/mltcontroller/clippropertiescontroller.cpp:1093
 #, fuzzy, kde-format
 #| msgid "Audio only"
 msgid "Audio sync:"
 msgstr "Video samo"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1094
+#: src/mltcontroller/clippropertiescontroller.cpp:1095
 #, fuzzy, kde-format
 #| msgctxt "Selection tool shortcut"
 #| msgid "s"
 msgid "ms"
 msgstr "s"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1143
+#: src/mltcontroller/clippropertiescontroller.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Load analysis data"
 msgid "Analysis data"
 msgstr "Učitaj podatke analize"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1146
+#: src/mltcontroller/clippropertiescontroller.cpp:1147
 #, fuzzy, kde-format
 #| msgid "Delete analysis data"
 msgid "Delete analysis"
 msgstr "Izbriši podatke analize"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1147
+#: src/mltcontroller/clippropertiescontroller.cpp:1148
 #, fuzzy, kde-kuit-format
 #| msgid "Delete data"
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Obriši podatke"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1148
+#: src/mltcontroller/clippropertiescontroller.cpp:1149
 #, fuzzy, kde-format
 #| msgid "Export audio"
 msgid "Export analysis…"
 msgstr "Zvučni izvoz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1149
+#: src/mltcontroller/clippropertiescontroller.cpp:1150
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1150
+#: src/mltcontroller/clippropertiescontroller.cpp:1151
 #, fuzzy, kde-format
 #| msgid "Load analysis data"
 msgid "Import analysis…"
 msgstr "Učitaj podatke analize"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1151
+#: src/mltcontroller/clippropertiescontroller.cpp:1152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1221
-#: src/mltcontroller/clippropertiescontroller.cpp:1546
+#: src/mltcontroller/clippropertiescontroller.cpp:1222
+#: src/mltcontroller/clippropertiescontroller.cpp:1547
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Tracks:"
 msgstr "Numera"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1373
+#: src/mltcontroller/clippropertiescontroller.cpp:1374
 #, kde-format
 msgid "Frame size:"
 msgstr "Veličina okvira:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1408
+#: src/mltcontroller/clippropertiescontroller.cpp:1409
 #, fuzzy, kde-format
 #| msgid ""
 #| "Video\n"
@@ -29421,71 +29421,71 @@ msgstr ""
 "Video\n"
 "brzina prijenosa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:1416
 #, fuzzy, kde-format
 #| msgid "Video codec"
 msgid "Video codec:"
 msgstr "Video kodek"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1421
+#: src/mltcontroller/clippropertiescontroller.cpp:1422
 #, fuzzy, kde-format
 #| msgid "Pixel format"
 msgid "Pixel format:"
 msgstr "Format piksela"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1425
+#: src/mltcontroller/clippropertiescontroller.cpp:1426
 #: src/ui/profiledialog_ui.ui:323
 #, fuzzy, kde-format
 #| msgid "Colorspace"
 msgid "Colorspace:"
 msgstr "Prostor boja"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "B frames:"
 msgstr " kadrovi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, fuzzy, kde-format
 #| msgid "N"
 msgid "No"
 msgstr "N"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1443
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Audio channels:"
 msgstr "Zvučni kanali"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "Audio frequency:"
 msgstr "Učestalost"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, fuzzy, kde-format
 #| msgid "Hz"
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1453
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio codec:"
 msgstr "Zvučni kodek"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1460
+#: src/mltcontroller/clippropertiescontroller.cpp:1461
 #, fuzzy, kde-format
 #| msgid ""
 #| "Audio\n"
@@ -29495,67 +29495,67 @@ msgstr ""
 "Audio\n"
 "brzina prijenosa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1475
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "File size:"
 msgstr "Veličina datoteke"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Image size:"
 msgstr "Veličina slike"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1504
+#: src/mltcontroller/clippropertiescontroller.cpp:1505
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Image duration:"
 msgstr "Trajanje kadra"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1511
+#: src/mltcontroller/clippropertiescontroller.cpp:1512
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Image count:"
 msgstr "Slikovna pozadina"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1531
+#: src/mltcontroller/clippropertiescontroller.cpp:1532
 #, fuzzy, kde-format
 #| msgid "Video stream %1"
 msgid "Video streams:"
 msgstr "Video slijed %1"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1539
+#: src/mltcontroller/clippropertiescontroller.cpp:1540
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "Audio streams:"
 msgstr "Zvučni slijed %1"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1727
+#: src/mltcontroller/clippropertiescontroller.cpp:1728
 #, kde-format
 msgid "Exif"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1754
+#: src/mltcontroller/clippropertiescontroller.cpp:1755
 #, kde-format
 msgid "Magic Lantern"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1795
+#: src/mltcontroller/clippropertiescontroller.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Save Analysis Data"
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Snimi podatke analize"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1796
-#: src/mltcontroller/clippropertiescontroller.cpp:1809
+#: src/mltcontroller/clippropertiescontroller.cpp:1797
+#: src/mltcontroller/clippropertiescontroller.cpp:1810
 #: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1808
+#: src/mltcontroller/clippropertiescontroller.cpp:1809
 #, fuzzy, kde-format
 #| msgid "Open Analysis Data"
 msgctxt "@title:window"
