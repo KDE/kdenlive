@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-07 00:43+0000\n"
+"POT-Creation-Date: 2026-06-11 00:44+0000\n"
 "PO-Revision-Date: 2026-06-05 13:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -878,7 +878,7 @@ msgstr "Amplada del filtre"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:968
+#: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Normalize"
 msgstr "Normalitza"
@@ -7498,7 +7498,7 @@ msgstr "A"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:986
+#: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
 msgid "Swap channels"
 msgstr "Intercanvia els canals"
@@ -19563,7 +19563,7 @@ msgstr "Sense àudio"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
 #: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1038
+#: src/mltcontroller/clippropertiescontroller.cpp:1039
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -19741,7 +19741,7 @@ msgstr "Arrossegueu per a afegir només àudio a la línia de temps"
 msgid "Drag to add only video to timeline"
 msgstr "Arrossegueu per a afegir només vídeo a la línia de temps"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1427
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1440
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -22715,8 +22715,8 @@ msgid "None"
 msgstr "Cap"
 
 #: src/dialogs/renderwidget.cpp:397
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1408
+#: src/mltcontroller/clippropertiescontroller.cpp:1450
 #, kde-format
 msgid "Timecode"
 msgstr "Codi de temps"
@@ -23215,7 +23215,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:645
 #: src/dialogs/timeremap.cpp:1567 src/kdenliveui.rc:81
-#: src/mltcontroller/clippropertiescontroller.cpp:788
+#: src/mltcontroller/clippropertiescontroller.cpp:789
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -24420,7 +24420,7 @@ msgstr "Velocitat dels fotogrames"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:981
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:132 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -29613,8 +29613,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "No es poden trobar els perfils del MLT. Si us plau, indiqueu el camí"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:165
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -29716,7 +29716,7 @@ msgstr "Introduïu aquí el text de la plantilla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/mltcontroller/clippropertiescontroller.cpp:673
-#: src/mltcontroller/clippropertiescontroller.cpp:1356
+#: src/mltcontroller/clippropertiescontroller.cpp:1357
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -29725,8 +29725,8 @@ msgstr "Relació d'aspecte dels píxels:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:685
-#: src/mltcontroller/clippropertiescontroller.cpp:1362
-#: src/mltcontroller/clippropertiescontroller.cpp:1367
+#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -29735,7 +29735,7 @@ msgstr "Velocitat dels fotogrames:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:133 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -29745,7 +29745,7 @@ msgstr "Progressiu"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:690
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
@@ -29793,110 +29793,110 @@ msgstr "Activa el vídeo"
 msgid "Video stream"
 msgstr "Flux de vídeo"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:776
+#: src/mltcontroller/clippropertiescontroller.cpp:777
 #, kde-format
 msgid "Color space:"
 msgstr "Espai de color:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Difusió limitada (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Complet (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:782
+#: src/mltcontroller/clippropertiescontroller.cpp:783
 #, kde-format
 msgid "Color range:"
 msgstr "Interval de color:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:788
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "El fitxer usa una freqüència variable dels fotogrames i no es recomana"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Disable audio"
 msgstr "Desactiva l'àudio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Enable audio"
 msgstr "Activa l'àudio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:835
+#: src/mltcontroller/clippropertiescontroller.cpp:836
 #: src/monitor/monitor.cpp:311
 #, kde-format
 msgid "Audio streams"
 msgstr "Fluxos d'àudio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:857
+#: src/mltcontroller/clippropertiescontroller.cpp:858
 #: src/monitor/monitor.cpp:2246
 #, kde-format
 msgid "Merge all streams"
 msgstr "Fusiona tots els fluxos"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1004
+#: src/mltcontroller/clippropertiescontroller.cpp:1005
 #, kde-format
 msgid "Copy channel:"
 msgstr "Copia un canal:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1005
+#: src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1006
+#: src/mltcontroller/clippropertiescontroller.cpp:1007
 #: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "Gain:"
 msgstr "Guany:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1062
+#: src/mltcontroller/clippropertiescontroller.cpp:1063
 #, kde-format
 msgid "Audio sync:"
 msgstr "Sincronitza l'àudio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1064
+#: src/mltcontroller/clippropertiescontroller.cpp:1065
 #, kde-format
 msgid "ms"
 msgstr "ms"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1113
+#: src/mltcontroller/clippropertiescontroller.cpp:1114
 #, kde-format
 msgid "Analysis data"
 msgstr "Anàlisi de dades"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1116
+#: src/mltcontroller/clippropertiescontroller.cpp:1117
 #, kde-format
 msgid "Delete analysis"
 msgstr "Suprimeix anàlisi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1117
+#: src/mltcontroller/clippropertiescontroller.cpp:1118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Suprimeix el/s conjunt/s de dades."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1118
+#: src/mltcontroller/clippropertiescontroller.cpp:1119
 #, kde-format
 msgid "Export analysis…"
 msgstr "Exporta anàlisi…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1119
+#: src/mltcontroller/clippropertiescontroller.cpp:1120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
@@ -29904,12 +29904,12 @@ msgstr ""
 "Obre una finestra de diàleg de fitxer per a exportar/desar les dades "
 "d'anàlisi."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1120
+#: src/mltcontroller/clippropertiescontroller.cpp:1121
 #, kde-format
 msgid "Import analysis…"
 msgstr "Importa anàlisi…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1121
+#: src/mltcontroller/clippropertiescontroller.cpp:1122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
@@ -29917,141 +29917,141 @@ msgstr ""
 "Obre una finestra de diàleg de fitxer per a importar/carregar les dades "
 "d'anàlisi."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1191
-#: src/mltcontroller/clippropertiescontroller.cpp:1542
+#: src/mltcontroller/clippropertiescontroller.cpp:1192
+#: src/mltcontroller/clippropertiescontroller.cpp:1543
 #, kde-format
 msgid "Tracks:"
 msgstr "Pistes:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1344
 #, kde-format
 msgid "Frame size:"
 msgstr "Mida de fotograma:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Taxa de bits del vídeo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #, kde-format
 msgid "Video codec:"
 msgstr "Còdec de vídeo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1391
+#: src/mltcontroller/clippropertiescontroller.cpp:1392
 #, kde-format
 msgid "Pixel format:"
 msgstr "Format dels píxels:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1395
+#: src/mltcontroller/clippropertiescontroller.cpp:1396
 #: src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Espai de color:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "B frames:"
 msgstr "Fotogrames B:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "Yes"
 msgstr "Sí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "No"
 msgstr "No"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1423
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Canals d'àudio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Freqüència d'àudio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1433
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #, kde-format
 msgid "Audio codec:"
 msgstr "Còdec d'àudio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Taxa de bits de l'àudio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1465
+#: src/mltcontroller/clippropertiescontroller.cpp:1466
 #, kde-format
 msgid "File size:"
 msgstr "Mida del fitxer:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1491
+#: src/mltcontroller/clippropertiescontroller.cpp:1492
 #, kde-format
 msgid "Image size:"
 msgstr "Mida de la imatge:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1494
+#: src/mltcontroller/clippropertiescontroller.cpp:1495
 #, kde-format
 msgid "Image duration:"
 msgstr "Durada de la imatge:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "Image count:"
 msgstr "Nombre d'imatges:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1521
+#: src/mltcontroller/clippropertiescontroller.cpp:1522
 #, kde-format
 msgid "Video streams:"
 msgstr "Fluxos de vídeo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1529
+#: src/mltcontroller/clippropertiescontroller.cpp:1530
 #, kde-format
 msgid "Audio streams:"
 msgstr "Fluxos d'àudio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1534
+#: src/mltcontroller/clippropertiescontroller.cpp:1535
 #, kde-format
 msgid "Subtitle streams:"
 msgstr "Fluxos de subtítol:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1723
+#: src/mltcontroller/clippropertiescontroller.cpp:1724
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1750
+#: src/mltcontroller/clippropertiescontroller.cpp:1751
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1791
+#: src/mltcontroller/clippropertiescontroller.cpp:1792
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Desa l'anàlisi de dades"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1792
-#: src/mltcontroller/clippropertiescontroller.cpp:1805
+#: src/mltcontroller/clippropertiescontroller.cpp:1793
+#: src/mltcontroller/clippropertiescontroller.cpp:1806
 #: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Fitxer de text (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1804
+#: src/mltcontroller/clippropertiescontroller.cpp:1805
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -34745,44 +34745,44 @@ msgstr "Atura"
 msgid "Paused"
 msgstr "En pausa"
 
-#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1208
+#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1221
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posició: %4, Durada: %5"
 
-#: src/timeline2/view/qml/Clip.qml:340 src/timeline2/view/qml/Clip.qml:354
+#: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:223
 #: src/timeline2/view/qml/SubTitle.qml:229
 #, kde-format
 msgid "Position: %1"
 msgstr "Posició: %1"
 
-#: src/timeline2/view/qml/Clip.qml:558
+#: src/timeline2/view/qml/Clip.qml:563
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Durada de la mescla: %1, retallat a: %2"
 
-#: src/timeline2/view/qml/Clip.qml:616
+#: src/timeline2/view/qml/Clip.qml:621
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, durada de la mescla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:618
+#: src/timeline2/view/qml/Clip.qml:623
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, durada de la mescla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621 src/timeline2/view/qml/Clip.qml:636
+#: src/timeline2/view/qml/Clip.qml:626 src/timeline2/view/qml/Clip.qml:641
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Durada de la mescla: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1089
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "A:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1102 src/timeline2/view/qml/Clip.qml:1211
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34791,54 +34791,54 @@ msgstr ""
 "<b>Ctrl + arrossega</b> per a canviar la velocitat, feu <b>doble clic</b> "
 "per a mesclar amb el clip adjacent"
 
-#: src/timeline2/view/qml/Clip.qml:1094
+#: src/timeline2/view/qml/Clip.qml:1104
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrossegueu</b> per a canviar la durada de la mescla"
 
-#: src/timeline2/view/qml/Clip.qml:1195
+#: src/timeline2/view/qml/Clip.qml:1208
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Sortida:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1334
+#: src/timeline2/view/qml/Clip.qml:1347
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplaçament: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1335
+#: src/timeline2/view/qml/Clip.qml:1348
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplaçament: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1336
+#: src/timeline2/view/qml/Clip.qml:1349
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " Feu <b>clic</b> per a alinear els clips"
 
-#: src/timeline2/view/qml/Clip.qml:1581 src/timeline2/view/qml/Clip.qml:1622
+#: src/timeline2/view/qml/Clip.qml:1594 src/timeline2/view/qml/Clip.qml:1635
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Feu <b>clic</b> per a afegir una composició"
 
-#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1710
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1723
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fosa de sortida: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1714 src/timeline2/view/qml/Clip.qml:1825
+#: src/timeline2/view/qml/Clip.qml:1727 src/timeline2/view/qml/Clip.qml:1838
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrossega</b> per a ajustar l'esvaniment, feu <b>clic</b> per a afegir la "
 "durada predeterminada de l'esvaniment"
 
-#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
+#: src/timeline2/view/qml/Clip.qml:1827 src/timeline2/view/qml/Clip.qml:1834
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fosa d'entrada: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1909
+#: src/timeline2/view/qml/Clip.qml:1922
 #, kde-format
 msgid "Slip Clip"
 msgstr "Desplaça el clip"
@@ -34856,7 +34856,7 @@ msgstr "%1, Posició: %2, Durada: %3"
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Arrossega</b> per a redimensionar"
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:84
+#: src/timeline2/view/qml/KeyframeDelegate.qml:88
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -34866,7 +34866,7 @@ msgstr ""
 "<b>Desplaceu i arrossegueu</b> per a moure tots els fotogrames clau després "
 "d'aquest."
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:197
+#: src/timeline2/view/qml/KeyframeDelegate.qml:202
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -35447,7 +35447,7 @@ msgid "No available stream"
 msgstr "No hi ha cap flux disponible"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3410 src/titler/titlewidget.cpp:3413
+#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
 #, kde-format
 msgid "Gradient %1"
 msgstr "Degradat %1"
@@ -35842,7 +35842,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Final de l'àrea de visualització"
 
-#: src/titler/titlewidget.cpp:3443
+#: src/titler/titlewidget.cpp:3454
 #, kde-format
 msgid "Gradient"
 msgstr "Degradat"

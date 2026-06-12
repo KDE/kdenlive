@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-07 00:43+0000\n"
+"POT-Creation-Date: 2026-06-11 00:44+0000\n"
 "PO-Revision-Date: 2026-03-24 17:29+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -897,7 +897,7 @@ msgstr "Ширина фильтра"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:968
+#: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Normalize"
 msgstr "Нормализация"
@@ -7380,7 +7380,7 @@ msgstr "В"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:986
+#: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
 msgid "Swap channels"
 msgstr "Поменять каналы местами"
@@ -19310,7 +19310,7 @@ msgstr "Записать звук"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
 #: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1038
+#: src/mltcontroller/clippropertiescontroller.cpp:1039
 #, kde-format
 msgid "dB"
 msgstr "дБ"
@@ -19481,7 +19481,7 @@ msgstr "Нельзя применить звуковой эффект к тек�
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1427
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1440
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -22467,8 +22467,8 @@ msgid "None"
 msgstr "Отсутствует"
 
 #: src/dialogs/renderwidget.cpp:397
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1408
+#: src/mltcontroller/clippropertiescontroller.cpp:1450
 #, kde-format
 msgid "Timecode"
 msgstr "Тайм-код"
@@ -22969,7 +22969,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:645
 #: src/dialogs/timeremap.cpp:1567 src/kdenliveui.rc:81
-#: src/mltcontroller/clippropertiescontroller.cpp:788
+#: src/mltcontroller/clippropertiescontroller.cpp:789
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -24170,7 +24170,7 @@ msgstr "Кадровая частота:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:981
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:132 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -29385,8 +29385,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Не найдены профили MLT, укажите путь к ним"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:165
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -29488,7 +29488,7 @@ msgstr "Введите здесь текст шаблона"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/mltcontroller/clippropertiescontroller.cpp:673
-#: src/mltcontroller/clippropertiescontroller.cpp:1356
+#: src/mltcontroller/clippropertiescontroller.cpp:1357
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -29497,8 +29497,8 @@ msgstr "Соотношение сторон пиксела:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:685
-#: src/mltcontroller/clippropertiescontroller.cpp:1362
-#: src/mltcontroller/clippropertiescontroller.cpp:1367
+#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -29507,7 +29507,7 @@ msgstr "Кадровая частота:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:133 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -29517,7 +29517,7 @@ msgstr "Построчно"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:690
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
@@ -29565,262 +29565,262 @@ msgstr "Включить видео"
 msgid "Video stream"
 msgstr "Видеопоток"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:776
+#: src/mltcontroller/clippropertiescontroller.cpp:777
 #, kde-format
 msgid "Color space:"
 msgstr "Цветовое пространство:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Ограниченный для трансляции (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Полный (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:782
+#: src/mltcontroller/clippropertiescontroller.cpp:783
 #, kde-format
 msgid "Color range:"
 msgstr "Цветовой диапазон:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:788
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "В файле используется переменная кадровая частота, не рекомендуется"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Disable audio"
 msgstr "Отключить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Enable audio"
 msgstr "Включить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:835
+#: src/mltcontroller/clippropertiescontroller.cpp:836
 #: src/monitor/monitor.cpp:311
 #, kde-format
 msgid "Audio streams"
 msgstr "Звуковые потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:857
+#: src/mltcontroller/clippropertiescontroller.cpp:858
 #: src/monitor/monitor.cpp:2246
 #, kde-format
 msgid "Merge all streams"
 msgstr "Объединить все потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1004
+#: src/mltcontroller/clippropertiescontroller.cpp:1005
 #, kde-format
 msgid "Copy channel:"
 msgstr "Копировать канал:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1005
+#: src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1006
+#: src/mltcontroller/clippropertiescontroller.cpp:1007
 #: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "Gain:"
 msgstr "Усиление:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1062
+#: src/mltcontroller/clippropertiescontroller.cpp:1063
 #, kde-format
 msgid "Audio sync:"
 msgstr "Синхронизация звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1064
+#: src/mltcontroller/clippropertiescontroller.cpp:1065
 #, kde-format
 msgid "ms"
 msgstr "мс"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1113
+#: src/mltcontroller/clippropertiescontroller.cpp:1114
 #, kde-format
 msgid "Analysis data"
 msgstr "Данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1116
+#: src/mltcontroller/clippropertiescontroller.cpp:1117
 #, kde-format
 msgid "Delete analysis"
 msgstr "Удалить данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1117
+#: src/mltcontroller/clippropertiescontroller.cpp:1118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Удаляет набор(ы) данных."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1118
+#: src/mltcontroller/clippropertiescontroller.cpp:1119
 #, kde-format
 msgid "Export analysis…"
 msgstr "Экспорт данных анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1119
+#: src/mltcontroller/clippropertiescontroller.cpp:1120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "Открывает диалоговое окно для экспорта/сохранения данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1120
+#: src/mltcontroller/clippropertiescontroller.cpp:1121
 #, kde-format
 msgid "Import analysis…"
 msgstr "Импорт данных анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1121
+#: src/mltcontroller/clippropertiescontroller.cpp:1122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "Открывает диалоговое окно для импорта/загрузки данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1191
-#: src/mltcontroller/clippropertiescontroller.cpp:1542
+#: src/mltcontroller/clippropertiescontroller.cpp:1192
+#: src/mltcontroller/clippropertiescontroller.cpp:1543
 #, kde-format
 msgid "Tracks:"
 msgstr "Дорожки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1344
 #, kde-format
 msgid "Frame size:"
 msgstr "Размер кадра:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Битовый поток видео:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #, kde-format
 msgid "Video codec:"
 msgstr "Кодек видео:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1391
+#: src/mltcontroller/clippropertiescontroller.cpp:1392
 #, kde-format
 msgid "Pixel format:"
 msgstr "Формат пиксела:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1395
+#: src/mltcontroller/clippropertiescontroller.cpp:1396
 #: src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Цветовое пространство:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "B frames:"
 msgstr "B-кадры:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "Yes"
 msgstr "Да"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "No"
 msgstr "Нет"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1423
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Каналы звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Частота звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Гц"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1433
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #, kde-format
 msgid "Audio codec:"
 msgstr "Кодек звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Битовый поток звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1465
+#: src/mltcontroller/clippropertiescontroller.cpp:1466
 #, kde-format
 msgid "File size:"
 msgstr "Размер файла:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1491
+#: src/mltcontroller/clippropertiescontroller.cpp:1492
 #, kde-format
 msgid "Image size:"
 msgstr "Размер изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1494
+#: src/mltcontroller/clippropertiescontroller.cpp:1495
 #, kde-format
 msgid "Image duration:"
 msgstr "Длительность изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "Image count:"
 msgstr "Количество изображений:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1521
+#: src/mltcontroller/clippropertiescontroller.cpp:1522
 #, fuzzy, kde-format
 msgid "Video streams:"
 msgstr "Видеопоток"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1529
+#: src/mltcontroller/clippropertiescontroller.cpp:1530
 #, kde-format
 msgid "Audio streams:"
 msgstr "Звуковые потоки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1534
+#: src/mltcontroller/clippropertiescontroller.cpp:1535
 #, fuzzy, kde-format
 #| msgid "Subtitles:"
 msgid "Subtitle streams:"
 msgstr "Субтитры:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1723
+#: src/mltcontroller/clippropertiescontroller.cpp:1724
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1750
+#: src/mltcontroller/clippropertiescontroller.cpp:1751
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1791
+#: src/mltcontroller/clippropertiescontroller.cpp:1792
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Сохранение данных анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1792
-#: src/mltcontroller/clippropertiescontroller.cpp:1805
+#: src/mltcontroller/clippropertiescontroller.cpp:1793
+#: src/mltcontroller/clippropertiescontroller.cpp:1806
 #: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Текстовый файл (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1804
+#: src/mltcontroller/clippropertiescontroller.cpp:1805
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -34507,44 +34507,44 @@ msgstr "Остановить"
 msgid "Paused"
 msgstr "Приостановлено"
 
-#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1208
+#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1221
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Позиция: %4, Длительность: %5"
 
-#: src/timeline2/view/qml/Clip.qml:340 src/timeline2/view/qml/Clip.qml:354
+#: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:223
 #: src/timeline2/view/qml/SubTitle.qml:229
 #, kde-format
 msgid "Position: %1"
 msgstr "Позиция: %1"
 
-#: src/timeline2/view/qml/Clip.qml:558
+#: src/timeline2/view/qml/Clip.qml:563
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Продолжительность соединения: %1, обрезано на: %2"
 
-#: src/timeline2/view/qml/Clip.qml:616
+#: src/timeline2/view/qml/Clip.qml:621
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, длительность соединения: %2"
 
-#: src/timeline2/view/qml/Clip.qml:618
+#: src/timeline2/view/qml/Clip.qml:623
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, длительность соединения: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621 src/timeline2/view/qml/Clip.qml:636
+#: src/timeline2/view/qml/Clip.qml:626 src/timeline2/view/qml/Clip.qml:641
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Длительность соединения: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1089
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Вход: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1102 src/timeline2/view/qml/Clip.qml:1211
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34553,54 +34553,54 @@ msgstr ""
 "<b>Ctrl + перемещение</b>: изменение скорости, <b> Двойной щелчок</b>: "
 "соединение с соседним клипом"
 
-#: src/timeline2/view/qml/Clip.qml:1094
+#: src/timeline2/view/qml/Clip.qml:1104
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Перемещение</b>: изменение длительности соединения"
 
-#: src/timeline2/view/qml/Clip.qml:1195
+#: src/timeline2/view/qml/Clip.qml:1208
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Выход: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1334
+#: src/timeline2/view/qml/Clip.qml:1347
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Смещение: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1335
+#: src/timeline2/view/qml/Clip.qml:1348
 #, kde-format
 msgid "Offset: %1"
 msgstr "Смещение: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1336
+#: src/timeline2/view/qml/Clip.qml:1349
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Щелчок</b>: выравнивание клипов"
 
-#: src/timeline2/view/qml/Clip.qml:1581 src/timeline2/view/qml/Clip.qml:1622
+#: src/timeline2/view/qml/Clip.qml:1594 src/timeline2/view/qml/Clip.qml:1635
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Щелчок</b>: вставка композиции"
 
-#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1710
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1723
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Исчезание: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1714 src/timeline2/view/qml/Clip.qml:1825
+#: src/timeline2/view/qml/Clip.qml:1727 src/timeline2/view/qml/Clip.qml:1838
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Перемещение</b>: настройка исчезания, <b>Щелчок</b>: установка "
 "продолжительности исчезания по умолчанию"
 
-#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
+#: src/timeline2/view/qml/Clip.qml:1827 src/timeline2/view/qml/Clip.qml:1834
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Появление: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1909
+#: src/timeline2/view/qml/Clip.qml:1922
 #, kde-format
 msgid "Slip Clip"
 msgstr "Прокрутить клип"
@@ -34618,7 +34618,7 @@ msgstr "%1, Позиция: %2, Длительность: %3"
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Перемещение</b>: изменение размера"
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:84
+#: src/timeline2/view/qml/KeyframeDelegate.qml:88
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -34627,7 +34627,7 @@ msgstr ""
 "<b>Перемещение</b>: смещение выбранной позиции ключевых кадров. <b>Shift + "
 "перемещение</b>: смещение всех ключевых кадров после данного кадра."
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:197
+#: src/timeline2/view/qml/KeyframeDelegate.qml:202
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -35204,7 +35204,7 @@ msgid "No available stream"
 msgstr "Нет доступных потоков"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3410 src/titler/titlewidget.cpp:3413
+#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
 #, kde-format
 msgid "Gradient %1"
 msgstr "Градиент %1"
@@ -35594,7 +35594,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Закрыть окно просмотра"
 
-#: src/titler/titlewidget.cpp:3443
+#: src/titler/titlewidget.cpp:3454
 #, kde-format
 msgid "Gradient"
 msgstr "Градиент"

@@ -377,14 +377,14 @@ int main(int argc, char *argv[])
                 qWarning() << "Cannot overwrite existing file " << outputFilename;
                 return EXIT_FAILURE;
             }
-            if (!file.open(QIODeviceBase::WriteOnly)) {
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 qWarning() << "Cannot write into file " << outputFilename;
-                return EXIT_FAILURE;
-            } else {
-                qCritical() << "You need to provide a valid file path to the --setup-report command line option.";
                 return EXIT_FAILURE;
             }
             file.write(QJsonDocument(report).toJson());
+        } else {
+            qCritical() << "You need to provide a valid file path to the --setup-report command line option.";
+            return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;
     }

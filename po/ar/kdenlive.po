@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-07 00:43+0000\n"
-"PO-Revision-Date: 2026-05-21 13:25+0400\n"
+"POT-Creation-Date: 2026-06-11 00:44+0000\n"
+"PO-Revision-Date: 2026-06-11 11:16+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -863,7 +863,7 @@ msgstr "عرض المرشح"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:968
+#: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Normalize"
 msgstr "المساواة"
@@ -7284,7 +7284,7 @@ msgstr "إلى"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:986
+#: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
 msgid "Swap channels"
 msgstr "تبديل القنوات"
@@ -7598,10 +7598,9 @@ msgstr "الأبعاد"
 
 #: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
 #: data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "عائلة الخطّ"
+msgstr "عائلة <u>الخط</u>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
@@ -7612,23 +7611,20 @@ msgstr "النّمط"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "مقاس عادي"
+msgstr "عادي،مائل"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
-#, fuzzy, kde-format
-#| msgid "Weight:"
+#, kde-format
 msgid "Weight"
-msgstr "الوزن:"
+msgstr "الوزن"
 
 #: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "لون النّصّ"
+msgstr "لون <u>نص</u>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7667,10 +7663,9 @@ msgstr "تسطير"
 
 #: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
 #: data/effects/timer.xml:39
-#, fuzzy, kde-format
-#| msgid "StrikeOut"
+#, kde-format
 msgid "Strikethrough"
-msgstr "مشطوب"
+msgstr "شطب"
 
 #: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:103
 #: data/effects/timer.xml:42
@@ -13660,19 +13655,12 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "تضع النصوص المتعلقة بالجي بي اس على الفيديو."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "راجع الوثائق المتعلقة بالطرز المختلفة المتاحة"
+msgstr "انظر التوثيق على الإنترنت حول المؤهلات الإضافية"
 
 #: data/effects/gpstext.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date "
-#| "and time of current gps point,date and time of current frame in video "
-#| "file,heart rate,current GPS bearing,current GPS direction,GPS altitude "
-#| "gain so far,GPS altitude loss so far,distance travelled uphill so far,"
-#| "distance travelled downhill so far,distance travelled on flat area so far"
+#, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date "
 "and time of current GPS point,Date and time of current frame in video file,"
@@ -13682,12 +13670,13 @@ msgid ""
 "area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in "
 "watts,Gradient of GPS track,Gradient of GPS track in degrees"
 msgstr ""
-"خط العرض جي بي اس,خط الطول جي بي اس,ارتفاع جي بي اس,سرعة جي بي اس,المسافة "
-"حتى الآن,تاريخ ووقت نقطة جي بي اس الحالية,تاريخ ووقت الإطار الحالي في ملف "
-"الفيديو,معدل ضربات القلب,محمل جي بي اس الحالي,اتجاه جي بي اس الحالي,زيادة "
-"ارتفاع جي بي اس حتى الآن,فقدان ارتفاع جي بي اس حتى الآن,المسافة المقطوعة "
-"شاقًا حتى الآن,المسافة المقطوعة إلى أسفل حتى الآن,مسافة المقطوعة على مساحة "
-"مسطحة حتى الآن"
+"خط عرض GPS،خط طول GPS،ارتفاع GPS،سرعة GPS،المسافة الكلية حتى الآن،تاريخ ووقت "
+"نقطة GPS الحالية،تاريخ ووقت الإطار الحالي في ملف الفيديو،معدل ضربات القلب،"
+"اتجاه GPS الحالي،اتجاه GPS الحالي،الارتفاع الكلي المكتسب من GPS حتى الآن،"
+"الارتفاع الكلي المفقود من GPS حتى الآن،المسافة الكلية المقطوعة صعودًا حتى "
+"الآن،المسافة الكلية المقطوعة هبوطًا حتى الآن،المسافة الكلية المقطوعة على أرض "
+"مستوية حتى الآن،إيقاع (الدراجة) (بالدورة في الدقيقة)،درجة الحرارة المحيطة،"
+"الطاقة بالواط،انحدار مسار GPS،انحدار مسار GPS بالدرجات"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -13695,20 +13684,15 @@ msgid "GPS processing start time"
 msgstr "وقت بدء معالجة جي بي اس"
 
 #: data/effects/gpstext.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the video file is a timelapse (or slow motion), use this value to set "
-#| "the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage."
+#, kde-format
 msgid ""
 "If the video file is a timelapse<br>\n"
 "        (or slow motion), use this value to set the speed up/slow down ratio."
 "<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"إذا كان ملف الفيديو عبارة عن تصوير فاصل زمني (أو حركة بطيئة)، فاستخدم هذه "
-"القيمة لتعيين نسبة التسريع/الإبطاء.<br>\n"
+"إذا كان ملف الفيديو عبارة عن تصوير فاصل زمني<br>\n"
+" (أو حركة بطيئة)، فاستخدم هذه القيمة لتعيين نسبة التسريع/الإبطاء.<br>\n"
 "قيم العينة: 30 لتصوير فاصل زمني بسرعة 30x، و0.25 لتصوير فاصل زمني بسرعة 4x."
 
 #: data/effects/gpstext.xml:31
@@ -13724,36 +13708,36 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"تتحكم هذه الخاصية في عدد المرات في الثانية<br>\n"
+"        التي يُحدث فيها نص نظام تحديد المواقع العالمي (GPS) على الفيديو (عبر "
+"الاستكمال الحسابي).        القيمة 0: ستؤدي إلى تحديث النص فقط عند تسجيل "
+"إحداثيات GPS فعلية. يمكن استخدام هذه الخاصية بالاشتراك مع speed_multiplier "
+"(مضاعف السرعة)."
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "لون الموجة."
+msgstr "محرف الخط."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
-#| msgid "The space in pixels between the segments."
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "الفضاء بالبكسل بين الأجزاء"
+msgstr "حجم الخط بالبكسل."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "عرض نطاق تدرج اللون"
+msgstr "وزن الخط."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The style of the font."
-msgstr "لون الموجة."
+msgstr "نمط الخط."
 
 #: data/effects/gpstext.xml:84
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
-msgstr "لون الخلفيّة"
+msgstr "لون الخلفية"
 
 #: data/effects/gpstext.xml:87
 #, kde-format
@@ -13761,44 +13745,39 @@ msgid "Outline Color"
 msgstr "لون المحيط"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
-msgstr "لون المحيط"
+msgstr "لون المخطط"
 
 #: data/effects/gpstext.xml:92
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The width of the outline in pixels"
-msgstr "عرض نطاق تدرج اللون"
+msgstr "عرض المخطط بالبكسل"
 
 #: data/effects/gpstext.xml:96
-#, fuzzy, kde-format
-#| msgid "Apply deflate effect to the video"
+#, kde-format
 msgid "Apply underline decoration to the text."
-msgstr "طبّق تأثير التقلص على الفيديو"
+msgstr "طبِّق زخرفة تسطير على النص."
 
 #: data/effects/gpstext.xml:100
 #, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr ""
+msgstr "طبِّق زخرفة شطب على النص."
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "محاذاة أفقية"
+msgstr "اضبط المحاذاة الأفقية"
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "محاذاة العموديّة"
+msgstr "اضبط المحاذاة العمودية"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "عتامة كل العناصر - النص والمخطط والخلفية"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -16512,61 +16491,46 @@ msgstr "س‌س‌:د‌د‌:ث‌ث‌،س‌س‌:د‌د‌:ث‌ث‌.ث‌
 #: data/effects/timer.xml:60
 #, kde-format
 msgid "Start (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "البداية (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed."
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
-"الوقت الذي سيبدأ العد منه.\n"
+"الوقت الذي سيبدأ العد منه.<br>\n"
 "سيجمد النص عند 00:00:00.000 من بداية المرشح حتى انقضاء وقت البداية."
 
 #: data/effects/timer.xml:63 data/effects/timer.xml:69
 #: data/effects/timer.xml:76
 #, kde-format
 msgid "HH:MM:SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS.SSS"
 
 #: data/effects/timer.xml:66
 #, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "المدة (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"الحد الأقصى للمدة المنقضية للمؤقت بعد انقضاء وقت البدء. \n"
+"الحد الأقصى للمدة المنقضية للمؤقت بعد انقضاء وقت البدء.<br>\n"
 "سيُجمد النص في وقت المدة بعد انقضاء المدة"
 
 #: data/effects/timer.xml:72
 #, kde-format
 msgid "Offset (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "الإزاحة (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.<br>\n"
 "        When the direction is <i>Down</i>, the timer will count down to "
@@ -16574,10 +16538,10 @@ msgid ""
 "        When the direction is <i>Up</i>, the timer will count up starting "
 "from <i>Offset</i>."
 msgstr ""
-"إزاحة تضاف إلى قيمة المؤقت.\n"
-"عندما يكون العد للأسفل سيعد المؤقت إلى قيمة \"الإزاحة\" عوضا عن "
-"00:00:00.000.\n"
-"عندما يكون العد للأعلى، سيبدأ المؤقت العد من قيمة \"الإزاحة\"\"."
+"تُضاف إزاحة إلى قيمة المؤقت.<br>\n"
+"عندما يكون الاتجاه <i>أسفل</i>، سيبدأ المؤقت العد التنازلي إلى<i>الإزاحة</i> "
+"بدلاً من 00:00:00.000.<br>\n"
+"عندما يكون الاتجاه <i>أعلى</i>، سيبدأ المؤقت العد التصاعدي من <i>الإزاحة</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -16607,13 +16571,7 @@ msgstr ""
 "سيُجمد النص في وقت المدة بعد انقضاء المدة"
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -16621,10 +16579,10 @@ msgid ""
 "When the direction is <i>Up</i>, the timer will count up starting from "
 "<i>Offset</i>."
 msgstr ""
-"إزاحة تضاف إلى قيمة المؤقت.\n"
-"عندما يكون العد للأسفل سيعد المؤقت إلى قيمة \"الإزاحة\" عوضا عن "
-"00:00:00.000.\n"
-"عندما يكون العد للأعلى، سيبدأ المؤقت العد من قيمة \"الإزاحة\"\"."
+"تُضاف إزاحة إلى قيمة المؤقت.\n"
+"عندما يكون الاتجاه <i>أسفل</i>، سيبدأ المؤقت العد التنازلي إلى<i>الإزاحة</i> "
+"بدلاً من 00:00:00.000.\n"
+"عندما يكون الاتجاه <i>أعلى</i>، سيبدأ المؤقت العد التصاعدي من <i>الإزاحة</i>."
 
 #: data/effects/timer.xml:100
 #, kde-format
@@ -16638,28 +16596,27 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"مضاعف سرعة الساعة.<br>\n"
+"       على سبيل المثال، السرعة 10.0 تجعل المؤقت يعد 10 ثوانٍ لكل ثانية من "
+"التشغيل.<br><br>\n"
+"       يقوم بتغيير المقياس للمدة ولكنه لا يؤثر على <i>البداية</i> أو "
+"<i>الإزاحة</i>. على سبيل المثال: البداية عند 5 ثوانٍ، المدة 30 ثانية، الإزاحة "
+"7 ثوانٍ، وسرعة 10.0، سيجعل المؤقت يبدأ عند زمن تشغيل 00:00:05.000 بقيمة "
+"00:00:07، ويعد 10 ثوانٍ لكل ثانية من التشغيل، ويتوقف عند زمن تشغيل "
+"00:00:08.000 بقيمة 00:00:37."
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            ما إذا كان يجب على المؤقت العد للأعلى من 00:00:00.000 أو لأسفل "
-"من وقت المدة.\n"
-"        "
+"ما إذا كان العداد سيعد تصاعديًا من 00:00:00.000 أم تنازليًا من وقت المدة."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "أسفل"
+msgstr "تصاعدي،تنازلي"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -19146,7 +19103,7 @@ msgstr "لا يوجد صوت"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
 #: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1038
+#: src/mltcontroller/clippropertiescontroller.cpp:1039
 #, kde-format
 msgid "dB"
 msgstr "دسب"
@@ -19316,7 +19273,7 @@ msgstr "اسحب لإضافة الصوت فقط إلى الخط الزمني"
 msgid "Drag to add only video to timeline"
 msgstr "اسحب لإضافة الفيديو فقط إلى الخط الزمني"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1427
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1440
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -19966,10 +19923,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "بدل الترميز لتحرر التنسيقات الصديقة…"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "أدرج رمز الوقت الحالي"
+msgstr "أدرج عند التوقيت الزمني"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -22279,8 +22235,8 @@ msgid "None"
 msgstr "بلا"
 
 #: src/dialogs/renderwidget.cpp:397
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1408
+#: src/mltcontroller/clippropertiescontroller.cpp:1450
 #, kde-format
 msgid "Timecode"
 msgstr "رمز الوقت"
@@ -22782,7 +22738,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:645
 #: src/dialogs/timeremap.cpp:1567 src/kdenliveui.rc:81
-#: src/mltcontroller/clippropertiescontroller.cpp:788
+#: src/mltcontroller/clippropertiescontroller.cpp:789
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -23980,7 +23936,7 @@ msgstr "معدل الإطارات"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:981
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:132 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -29092,8 +29048,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "تعذّر العثور على تشكيلات MLT، رجاء قدّم مسارًا"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:165
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -29195,7 +29151,7 @@ msgstr "أدخل هنا نصّ القالب"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/mltcontroller/clippropertiescontroller.cpp:673
-#: src/mltcontroller/clippropertiescontroller.cpp:1356
+#: src/mltcontroller/clippropertiescontroller.cpp:1357
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -29204,8 +29160,8 @@ msgstr "نسبة البكسل الباعيّة:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:685
-#: src/mltcontroller/clippropertiescontroller.cpp:1362
-#: src/mltcontroller/clippropertiescontroller.cpp:1367
+#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -29214,7 +29170,7 @@ msgstr "معدّل الإطارات:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:133 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -29224,7 +29180,7 @@ msgstr "متتالي"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:690
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
@@ -29272,261 +29228,261 @@ msgstr "مكّن الفيديو"
 msgid "Video stream"
 msgstr "دفق الفيديو"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:776
+#: src/mltcontroller/clippropertiescontroller.cpp:777
 #, kde-format
 msgid "Color space:"
 msgstr "الفضاء اللونيّ:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "بث محدودة (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "كامل (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:782
+#: src/mltcontroller/clippropertiescontroller.cpp:783
 #, kde-format
 msgid "Color range:"
 msgstr "المدى اللوني:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:788
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "الملف يستعمل معدل أطر متغير، هذا غير مستحسن"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Disable audio"
 msgstr "عطّل الصّوت"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Enable audio"
 msgstr "مكّن الصّوت"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:835
+#: src/mltcontroller/clippropertiescontroller.cpp:836
 #: src/monitor/monitor.cpp:311
 #, kde-format
 msgid "Audio streams"
 msgstr "التدفقات الصوتية"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:857
+#: src/mltcontroller/clippropertiescontroller.cpp:858
 #: src/monitor/monitor.cpp:2246
 #, kde-format
 msgid "Merge all streams"
 msgstr "ادمج كل التدفقات"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1004
+#: src/mltcontroller/clippropertiescontroller.cpp:1005
 #, kde-format
 msgid "Copy channel:"
 msgstr "نسخ القناة:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1005
+#: src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1006
+#: src/mltcontroller/clippropertiescontroller.cpp:1007
 #: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "Gain:"
 msgstr "الكسب:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1062
+#: src/mltcontroller/clippropertiescontroller.cpp:1063
 #, kde-format
 msgid "Audio sync:"
 msgstr "تزامن الصوت:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1064
+#: src/mltcontroller/clippropertiescontroller.cpp:1065
 #, kde-format
 msgid "ms"
 msgstr "م‌ث"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1113
+#: src/mltcontroller/clippropertiescontroller.cpp:1114
 #, kde-format
 msgid "Analysis data"
 msgstr "حلل البيانات"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1116
+#: src/mltcontroller/clippropertiescontroller.cpp:1117
 #, kde-format
 msgid "Delete analysis"
 msgstr "احذف التّحليل"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1117
+#: src/mltcontroller/clippropertiescontroller.cpp:1118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "احذف مجموعة(ات) البيانات"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1118
+#: src/mltcontroller/clippropertiescontroller.cpp:1119
 #, kde-format
 msgid "Export analysis…"
 msgstr "صدّر التّحليل…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1119
+#: src/mltcontroller/clippropertiescontroller.cpp:1120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "يفتح نافذة مربع حوار ملف لتصدير/حفظ بيانات التحليل."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1120
+#: src/mltcontroller/clippropertiescontroller.cpp:1121
 #, kde-format
 msgid "Import analysis…"
 msgstr "استورد تحليلًا…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1121
+#: src/mltcontroller/clippropertiescontroller.cpp:1122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "يفتح نافذة مربع حوار ملف لاستيراد/تحميل بيانات التحليل."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1191
-#: src/mltcontroller/clippropertiescontroller.cpp:1542
+#: src/mltcontroller/clippropertiescontroller.cpp:1192
+#: src/mltcontroller/clippropertiescontroller.cpp:1543
 #, kde-format
 msgid "Tracks:"
 msgstr "المقطوعات:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1344
 #, kde-format
 msgid "Frame size:"
 msgstr "مقاس الإطار"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
 msgid "Video bitrate:"
 msgstr "معدّل بتّات الفيديو:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #, kde-format
 msgid "Video codec:"
 msgstr "مرماز الفيديو:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1391
+#: src/mltcontroller/clippropertiescontroller.cpp:1392
 #, kde-format
 msgid "Pixel format:"
 msgstr "تنسيق نقاط الشاشة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1395
+#: src/mltcontroller/clippropertiescontroller.cpp:1396
 #: src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "الفضاء اللوني:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "B frames:"
 msgstr "إطارات ثنائية الاتجاة المتوقع:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "Yes"
 msgstr "نعم"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "No"
 msgstr "لا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1423
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "قنوات الصّوت:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgid "Audio frequency:"
 msgstr "تردد صوت:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "هرتز"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1433
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #, kde-format
 msgid "Audio codec:"
 msgstr "مرماز الصّوت:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "معدّل بتّات الصّوت:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1465
+#: src/mltcontroller/clippropertiescontroller.cpp:1466
 #, kde-format
 msgid "File size:"
 msgstr "حجم الملف:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1491
+#: src/mltcontroller/clippropertiescontroller.cpp:1492
 #, kde-format
 msgid "Image size:"
 msgstr "مقاس الصّورة:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1494
+#: src/mltcontroller/clippropertiescontroller.cpp:1495
 #, kde-format
 msgid "Image duration:"
 msgstr "مدّة الصورة:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "Image count:"
 msgstr "عدد الصور:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1521
+#: src/mltcontroller/clippropertiescontroller.cpp:1522
 #, kde-format
 msgid "Video streams:"
 msgstr "تدفقات الفيديو:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1529
+#: src/mltcontroller/clippropertiescontroller.cpp:1530
 #, kde-format
 msgid "Audio streams:"
 msgstr "دفق الصّوت:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1534
+#: src/mltcontroller/clippropertiescontroller.cpp:1535
 #, kde-format
 msgid "Subtitle streams:"
 msgstr "تدفقات الترجمة:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1723
+#: src/mltcontroller/clippropertiescontroller.cpp:1724
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1750
+#: src/mltcontroller/clippropertiescontroller.cpp:1751
 #, kde-format
 msgid "Magic Lantern"
 msgstr "فانوس سحري"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1791
+#: src/mltcontroller/clippropertiescontroller.cpp:1792
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "احفظ بيانات التّحليل"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1792
-#: src/mltcontroller/clippropertiescontroller.cpp:1805
+#: src/mltcontroller/clippropertiescontroller.cpp:1793
+#: src/mltcontroller/clippropertiescontroller.cpp:1806
 #: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "ملف نصي (‎*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1804
+#: src/mltcontroller/clippropertiescontroller.cpp:1805
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -34154,44 +34110,44 @@ msgstr "أوقف"
 msgid "Paused"
 msgstr "مُلبثة"
 
-#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1208
+#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1221
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3)، الموضع: %4، المدة: %5"
 
-#: src/timeline2/view/qml/Clip.qml:340 src/timeline2/view/qml/Clip.qml:354
+#: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:223
 #: src/timeline2/view/qml/SubTitle.qml:229
 #, kde-format
 msgid "Position: %1"
 msgstr "الموضع: %1"
 
-#: src/timeline2/view/qml/Clip.qml:558
+#: src/timeline2/view/qml/Clip.qml:563
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "مدة المزج: %1، قص عند: %2"
 
-#: src/timeline2/view/qml/Clip.qml:616
+#: src/timeline2/view/qml/Clip.qml:621
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1، مدة المزج: %2"
 
-#: src/timeline2/view/qml/Clip.qml:618
+#: src/timeline2/view/qml/Clip.qml:623
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1، مدة المزج: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621 src/timeline2/view/qml/Clip.qml:636
+#: src/timeline2/view/qml/Clip.qml:626 src/timeline2/view/qml/Clip.qml:641
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "مدة المزج: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1089
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "الدخول:%1، الموضع:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1102 src/timeline2/view/qml/Clip.qml:1211
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34200,52 +34156,52 @@ msgstr ""
 "<b>السحب مع Ctrl </b> لتغير السرعة، <b>النقر المزدوج</b> للمزج مع المقطع "
 "المجاورة"
 
-#: src/timeline2/view/qml/Clip.qml:1094
+#: src/timeline2/view/qml/Clip.qml:1104
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>اسحب</b> لتغيير مدة المزج"
 
-#: src/timeline2/view/qml/Clip.qml:1195
+#: src/timeline2/view/qml/Clip.qml:1208
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "الخروج:%1، الموضع:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1334
+#: src/timeline2/view/qml/Clip.qml:1347
 #, kde-format
 msgid "Offset: -%1"
 msgstr "الإزاحة: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1335
+#: src/timeline2/view/qml/Clip.qml:1348
 #, kde-format
 msgid "Offset: %1"
 msgstr "الإزاحة: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1336
+#: src/timeline2/view/qml/Clip.qml:1349
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>انقر</b> لتحاذي المقاطع"
 
-#: src/timeline2/view/qml/Clip.qml:1581 src/timeline2/view/qml/Clip.qml:1622
+#: src/timeline2/view/qml/Clip.qml:1594 src/timeline2/view/qml/Clip.qml:1635
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>انقر</b> لتضيف تركيبًا"
 
-#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1710
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1723
 #, kde-format
 msgid "Fade out: %1"
 msgstr "تلاشٍ للخارج: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1714 src/timeline2/view/qml/Clip.qml:1825
+#: src/timeline2/view/qml/Clip.qml:1727 src/timeline2/view/qml/Clip.qml:1838
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b> السحب </b> لضبط التلاشي، <b>النقر</b> لإضافة تتلاشى المدة المبدئية"
 
-#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
+#: src/timeline2/view/qml/Clip.qml:1827 src/timeline2/view/qml/Clip.qml:1834
 #, kde-format
 msgid "Fade in: %1"
 msgstr "تلاشٍ للداخل: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1909
+#: src/timeline2/view/qml/Clip.qml:1922
 #, kde-format
 msgid "Slip Clip"
 msgstr "أزلق مقطع"
@@ -34263,7 +34219,7 @@ msgstr "%1، الموضع: %2, المدة: %3"
 msgid "<b>Drag</b> to resize"
 msgstr "<b>اسحب</b> لتغيير الحجم"
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:84
+#: src/timeline2/view/qml/KeyframeDelegate.qml:88
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -34272,7 +34228,7 @@ msgstr ""
 "<b>السحب</b> لنقل موضع إطارات الرئيسة المحددة. <b>السحب مع SHIFT</b> لتحريك "
 "جميع الإطارات الرئيسة بعد هذا."
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:197
+#: src/timeline2/view/qml/KeyframeDelegate.qml:202
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -34545,32 +34501,24 @@ msgid "Please select a target track by clicking on a track's target zone"
 msgstr "يرجى تحديد مسارا مستهدفا بالنقر فوق منطقة الهدف من المسار"
 
 #: src/timeline2/view/timelinecontroller.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "مقطع في سلة المشروع"
+msgstr "لم يُعثر على المقطع في مستودع المشروع"
 
 #: src/timeline2/view/timelinecontroller.cpp:3583
-#, fuzzy, kde-format
-#| msgid "No timecode for clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "لا يوجد رمز وقت للمقطع"
+msgstr "لم تُعثر على بيانات توقيت زمني في المقطع"
 
 #: src/timeline2/view/timelinecontroller.cpp:3589
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "رجاء اضبط تشكيلة الفيديو المبدئية"
+msgstr "رجاءً اختر مسارًا هدفًا"
 
 #: src/timeline2/view/timelinecontroller.cpp:3595
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr ""
-"فشل توليد المقطع:\n"
-"%1"
+msgstr "فشل إدراج المقطع عند %1 على المسار %2"
 
 #: src/timeline2/view/timelinecontroller.cpp:3647
 #, kde-format
@@ -34850,7 +34798,7 @@ msgid "No available stream"
 msgstr "لا يوجد دفق"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3410 src/titler/titlewidget.cpp:3413
+#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
 #, kde-format
 msgid "Gradient %1"
 msgstr "التّدرّج %1"
@@ -35243,7 +35191,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "أنهِ العرض"
 
-#: src/titler/titlewidget.cpp:3443
+#: src/titler/titlewidget.cpp:3454
 #, kde-format
 msgid "Gradient"
 msgstr "التّدرّج"
@@ -37411,10 +37359,9 @@ msgstr "اقصد مقطع عند إضافة تأثير"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "حاذِ رأس التشغيل مع موضع الفأرة"
+msgstr "أعد رأس التشغيل إلى موضع البدء عند التوقف"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-07 00:43+0000\n"
+"POT-Creation-Date: 2026-06-11 00:44+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -875,7 +875,7 @@ msgstr "Filtra platums"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:968
+#: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Normalize"
 msgstr "Normalizēt"
@@ -7705,7 +7705,7 @@ msgstr "Uz"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:986
+#: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
 msgid "Swap channels"
 msgstr "Mainīt kanālus vietām"
@@ -20131,7 +20131,7 @@ msgstr "Ierakstīt audio"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
 #: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1038
+#: src/mltcontroller/clippropertiescontroller.cpp:1039
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -20305,7 +20305,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1427
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1440
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -23305,8 +23305,8 @@ msgid "None"
 msgstr "Neviens"
 
 #: src/dialogs/renderwidget.cpp:397
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1408
+#: src/mltcontroller/clippropertiescontroller.cpp:1450
 #, kde-format
 msgid "Timecode"
 msgstr "Laika kods"
@@ -23815,7 +23815,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:645
 #: src/dialogs/timeremap.cpp:1567 src/kdenliveui.rc:81
-#: src/mltcontroller/clippropertiescontroller.cpp:788
+#: src/mltcontroller/clippropertiescontroller.cpp:789
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -25036,7 +25036,7 @@ msgstr "Kadru ātrums:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:981
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:132 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -30272,8 +30272,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Nevar atrast MLT profilus, norādīt ceļu"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:165
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -30375,7 +30375,7 @@ msgstr "Ievadiet veidnes tekstu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/mltcontroller/clippropertiescontroller.cpp:673
-#: src/mltcontroller/clippropertiescontroller.cpp:1356
+#: src/mltcontroller/clippropertiescontroller.cpp:1357
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -30384,8 +30384,8 @@ msgstr "Pikseļu malu attiecība:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:685
-#: src/mltcontroller/clippropertiescontroller.cpp:1362
-#: src/mltcontroller/clippropertiescontroller.cpp:1367
+#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -30394,7 +30394,7 @@ msgstr "Kadru ātrums:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:133 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -30404,7 +30404,7 @@ msgstr "Progresīva"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:690
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
@@ -30452,262 +30452,262 @@ msgstr "Ieslēgt video"
 msgid "Video stream"
 msgstr "Video straume"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:776
+#: src/mltcontroller/clippropertiescontroller.cpp:777
 #, kde-format
 msgid "Color space:"
 msgstr "Krāstelpa:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Pārraidīt ierobežotu (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:780
+#: src/mltcontroller/clippropertiescontroller.cpp:781
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Pilnu (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:782
+#: src/mltcontroller/clippropertiescontroller.cpp:783
 #, kde-format
 msgid "Color range:"
 msgstr "Krāsu diapazons:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:788
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "Datne izmanto mainīgu kadru ātrumu, nav ieteicams"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Disable audio"
 msgstr "Izslēgt audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:827
+#: src/mltcontroller/clippropertiescontroller.cpp:828
 #, kde-format
 msgid "Enable audio"
 msgstr "Ieslēgt audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:835
+#: src/mltcontroller/clippropertiescontroller.cpp:836
 #: src/monitor/monitor.cpp:311
 #, kde-format
 msgid "Audio streams"
 msgstr "Audio straumes"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:857
+#: src/mltcontroller/clippropertiescontroller.cpp:858
 #: src/monitor/monitor.cpp:2246
 #, kde-format
 msgid "Merge all streams"
 msgstr "Apvienot visas straumes"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1004
+#: src/mltcontroller/clippropertiescontroller.cpp:1005
 #, kde-format
 msgid "Copy channel:"
 msgstr "Kopēt kanālu:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1005
+#: src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1006
+#: src/mltcontroller/clippropertiescontroller.cpp:1007
 #: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "Gain:"
 msgstr "Pastiprinājums:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1062
+#: src/mltcontroller/clippropertiescontroller.cpp:1063
 #, kde-format
 msgid "Audio sync:"
 msgstr "Audio sinhronizācija:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1064
+#: src/mltcontroller/clippropertiescontroller.cpp:1065
 #, kde-format
 msgid "ms"
 msgstr "ms"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1113
+#: src/mltcontroller/clippropertiescontroller.cpp:1114
 #, kde-format
 msgid "Analysis data"
 msgstr "Analīzes dati"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1116
+#: src/mltcontroller/clippropertiescontroller.cpp:1117
 #, kde-format
 msgid "Delete analysis"
 msgstr "Dzēst analīzi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1117
+#: src/mltcontroller/clippropertiescontroller.cpp:1118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Dzēš datu kopu(as)."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1118
+#: src/mltcontroller/clippropertiescontroller.cpp:1119
 #, kde-format
 msgid "Export analysis…"
 msgstr "Eksportēt analīzi…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1119
+#: src/mltcontroller/clippropertiescontroller.cpp:1120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "Atver lodziņu, lai eksportētu/saglabātu analīzes datus."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1120
+#: src/mltcontroller/clippropertiescontroller.cpp:1121
 #, kde-format
 msgid "Import analysis…"
 msgstr "Importēt analīzi…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1121
+#: src/mltcontroller/clippropertiescontroller.cpp:1122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "Atver lodziņu, lai importētu/ielādētu analīzes datus."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1191
-#: src/mltcontroller/clippropertiescontroller.cpp:1542
+#: src/mltcontroller/clippropertiescontroller.cpp:1192
+#: src/mltcontroller/clippropertiescontroller.cpp:1543
 #, kde-format
 msgid "Tracks:"
 msgstr "Celiņi:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1344
 #, kde-format
 msgid "Frame size:"
 msgstr "Kadra izmērs:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Video bitu ātrums:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #, kde-format
 msgid "Video codec:"
 msgstr "Video kodeks:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1391
+#: src/mltcontroller/clippropertiescontroller.cpp:1392
 #, kde-format
 msgid "Pixel format:"
 msgstr "Pikseļu formāts:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1395
+#: src/mltcontroller/clippropertiescontroller.cpp:1396
 #: src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Krāstelpa:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "B frames:"
 msgstr "B kadri:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "Yes"
 msgstr "Jā"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1399
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "No"
 msgstr "Nē"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1423
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Audio kanāli:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Audio frekvence:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1427
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1433
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #, kde-format
 msgid "Audio codec:"
 msgstr "Audio kodeks:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Audio bitu ātrums:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1465
+#: src/mltcontroller/clippropertiescontroller.cpp:1466
 #, kde-format
 msgid "File size:"
 msgstr "Datnes izmērs:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1491
+#: src/mltcontroller/clippropertiescontroller.cpp:1492
 #, kde-format
 msgid "Image size:"
 msgstr "Attēla izmērs:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1494
+#: src/mltcontroller/clippropertiescontroller.cpp:1495
 #, kde-format
 msgid "Image duration:"
 msgstr "Attēla ilgums:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "Image count:"
 msgstr "Attēlu skaits:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1521
+#: src/mltcontroller/clippropertiescontroller.cpp:1522
 #, kde-format
 msgid "Video streams:"
 msgstr "Video straumes:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1529
+#: src/mltcontroller/clippropertiescontroller.cpp:1530
 #, kde-format
 msgid "Audio streams:"
 msgstr "Audio straumes:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1534
+#: src/mltcontroller/clippropertiescontroller.cpp:1535
 #, fuzzy, kde-format
 #| msgid "Subtitles:"
 msgid "Subtitle streams:"
 msgstr "Subtitri:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1723
+#: src/mltcontroller/clippropertiescontroller.cpp:1724
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1750
+#: src/mltcontroller/clippropertiescontroller.cpp:1751
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1791
+#: src/mltcontroller/clippropertiescontroller.cpp:1792
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Saglabāt analīzes datus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1792
-#: src/mltcontroller/clippropertiescontroller.cpp:1805
+#: src/mltcontroller/clippropertiescontroller.cpp:1793
+#: src/mltcontroller/clippropertiescontroller.cpp:1806
 #: src/project/dialogs/projectsettings.cpp:812
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Teksta datne (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1804
+#: src/mltcontroller/clippropertiescontroller.cpp:1805
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -35429,44 +35429,44 @@ msgstr "Apturēt"
 msgid "Paused"
 msgstr "Pauzēts"
 
-#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1208
+#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1221
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2—%3), Pozīcija: %4, Ilgums: %5"
 
-#: src/timeline2/view/qml/Clip.qml:340 src/timeline2/view/qml/Clip.qml:354
+#: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:223
 #: src/timeline2/view/qml/SubTitle.qml:229
 #, kde-format
 msgid "Position: %1"
 msgstr "Pozīcija: %1"
 
-#: src/timeline2/view/qml/Clip.qml:558
+#: src/timeline2/view/qml/Clip.qml:563
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Maisījuma ilgums: %1, Griezt pie: %2"
 
-#: src/timeline2/view/qml/Clip.qml:616
+#: src/timeline2/view/qml/Clip.qml:621
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Samaisīšanas ilgums: %2"
 
-#: src/timeline2/view/qml/Clip.qml:618
+#: src/timeline2/view/qml/Clip.qml:623
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "−%1, Samaisīšanas ilgums: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621 src/timeline2/view/qml/Clip.qml:636
+#: src/timeline2/view/qml/Clip.qml:626 src/timeline2/view/qml/Clip.qml:641
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Samaisīšanas ilgums: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1089
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Iekšā:%1, Pozīcija:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1092 src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1102 src/timeline2/view/qml/Clip.qml:1211
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -35475,54 +35475,54 @@ msgstr ""
 "<b>„Ctrl“ un velciet</b>, lai mainītu ātrumu. <b>Dubultklikšķis</b>, lai "
 "sajauktu ar blakus esošo klipu"
 
-#: src/timeline2/view/qml/Clip.qml:1094
+#: src/timeline2/view/qml/Clip.qml:1104
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Velciet</b>, lai mainīt sajaukšanas ilgumu"
 
-#: src/timeline2/view/qml/Clip.qml:1195
+#: src/timeline2/view/qml/Clip.qml:1208
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Ārā:%1, Pozīcija:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1334
+#: src/timeline2/view/qml/Clip.qml:1347
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Nobīde: −%1"
 
-#: src/timeline2/view/qml/Clip.qml:1335
+#: src/timeline2/view/qml/Clip.qml:1348
 #, kde-format
 msgid "Offset: %1"
 msgstr "Nobīde: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1336
+#: src/timeline2/view/qml/Clip.qml:1349
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Viens klips</b>, lai izkārtotu klipus"
 
-#: src/timeline2/view/qml/Clip.qml:1581 src/timeline2/view/qml/Clip.qml:1622
+#: src/timeline2/view/qml/Clip.qml:1594 src/timeline2/view/qml/Clip.qml:1635
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Viens klikšķis</b>, lai pievienotu kompozīciju"
 
-#: src/timeline2/view/qml/Clip.qml:1703 src/timeline2/view/qml/Clip.qml:1710
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1723
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Izgaist: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1714 src/timeline2/view/qml/Clip.qml:1825
+#: src/timeline2/view/qml/Clip.qml:1727 src/timeline2/view/qml/Clip.qml:1838
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Velciet</b>, lai regulētu izgaišanu/parādīšanos. <b>Viens klikšķis</b>, "
 "lai pievienotu izgaišanas/parādīšanās ilgumu"
 
-#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
+#: src/timeline2/view/qml/Clip.qml:1827 src/timeline2/view/qml/Clip.qml:1834
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Parādīties: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1909
+#: src/timeline2/view/qml/Clip.qml:1922
 #, kde-format
 msgid "Slip Clip"
 msgstr "Slidināt klipu"
@@ -35540,7 +35540,7 @@ msgstr "%1, Pozīcija: %2, Ilgums: %3"
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Velciet</b>, lai mainītu izmēru"
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:84
+#: src/timeline2/view/qml/KeyframeDelegate.qml:88
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -35549,7 +35549,7 @@ msgstr ""
 "<b>Velciet</b>, lai pārvietotu atlasītā atslēgkadra novietojumu. <b>„Shift“ "
 "un velciet</b>, lai pārvietotu visus atslēgkadrus pēc šī."
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:197
+#: src/timeline2/view/qml/KeyframeDelegate.qml:202
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -36133,7 +36133,7 @@ msgid "No available stream"
 msgstr "Straume nav pieejama"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3410 src/titler/titlewidget.cpp:3413
+#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradients %1"
@@ -36527,7 +36527,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Beigu skatlauks"
 
-#: src/titler/titlewidget.cpp:3443
+#: src/titler/titlewidget.cpp:3454
 #, kde-format
 msgid "Gradient"
 msgstr "Gradients"
