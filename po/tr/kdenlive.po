@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-11 02:33+0000\n"
-"PO-Revision-Date: 2026-06-05 12:36+0300\n"
+"PO-Revision-Date: 2026-06-11 21:16+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23345,7 +23345,7 @@ msgstr "Halh Moğolcası"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:96
 #, kde-format
 msgid "Hebrew"
-msgstr "İbranice"
+msgstr "İbrânîce"
 
 #: src/dialogs/speechdialog.cpp:530
 #: src/pythoninterfaces/speechtotextwhisper.cpp:97
