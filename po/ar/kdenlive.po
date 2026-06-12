@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-11 00:44+0000\n"
-"PO-Revision-Date: 2026-06-08 21:44+0400\n"
+"PO-Revision-Date: 2026-06-11 11:16+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7598,10 +7598,9 @@ msgstr "الأبعاد"
 
 #: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
 #: data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "عائلة الخطّ"
+msgstr "عائلة <u>الخط</u>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
@@ -7612,10 +7611,9 @@ msgstr "النّمط"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "مقاس عادي"
+msgstr "عادي،مائل"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
@@ -13657,19 +13655,12 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "تضع النصوص المتعلقة بالجي بي اس على الفيديو."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "راجع الوثائق المتعلقة بالطرز المختلفة المتاحة"
+msgstr "انظر التوثيق على الإنترنت حول المؤهلات الإضافية"
 
 #: data/effects/gpstext.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date "
-#| "and time of current gps point,date and time of current frame in video "
-#| "file,heart rate,current GPS bearing,current GPS direction,GPS altitude "
-#| "gain so far,GPS altitude loss so far,distance travelled uphill so far,"
-#| "distance travelled downhill so far,distance travelled on flat area so far"
+#, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date "
 "and time of current GPS point,Date and time of current frame in video file,"
@@ -13679,12 +13670,13 @@ msgid ""
 "area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in "
 "watts,Gradient of GPS track,Gradient of GPS track in degrees"
 msgstr ""
-"خط العرض جي بي اس,خط الطول جي بي اس,ارتفاع جي بي اس,سرعة جي بي اس,المسافة "
-"حتى الآن,تاريخ ووقت نقطة جي بي اس الحالية,تاريخ ووقت الإطار الحالي في ملف "
-"الفيديو,معدل ضربات القلب,محمل جي بي اس الحالي,اتجاه جي بي اس الحالي,زيادة "
-"ارتفاع جي بي اس حتى الآن,فقدان ارتفاع جي بي اس حتى الآن,المسافة المقطوعة "
-"شاقًا حتى الآن,المسافة المقطوعة إلى أسفل حتى الآن,مسافة المقطوعة على مساحة "
-"مسطحة حتى الآن"
+"خط عرض GPS،خط طول GPS،ارتفاع GPS،سرعة GPS،المسافة الكلية حتى الآن،تاريخ ووقت "
+"نقطة GPS الحالية،تاريخ ووقت الإطار الحالي في ملف الفيديو،معدل ضربات القلب،"
+"اتجاه GPS الحالي،اتجاه GPS الحالي،الارتفاع الكلي المكتسب من GPS حتى الآن،"
+"الارتفاع الكلي المفقود من GPS حتى الآن،المسافة الكلية المقطوعة صعودًا حتى "
+"الآن،المسافة الكلية المقطوعة هبوطًا حتى الآن،المسافة الكلية المقطوعة على أرض "
+"مستوية حتى الآن،إيقاع (الدراجة) (بالدورة في الدقيقة)،درجة الحرارة المحيطة،"
+"الطاقة بالواط،انحدار مسار GPS،انحدار مسار GPS بالدرجات"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -13716,36 +13708,36 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"تتحكم هذه الخاصية في عدد المرات في الثانية<br>\n"
+"        التي يُحدث فيها نص نظام تحديد المواقع العالمي (GPS) على الفيديو (عبر "
+"الاستكمال الحسابي).        القيمة 0: ستؤدي إلى تحديث النص فقط عند تسجيل "
+"إحداثيات GPS فعلية. يمكن استخدام هذه الخاصية بالاشتراك مع speed_multiplier "
+"(مضاعف السرعة)."
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "لون الموجة."
+msgstr "محرف الخط."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
-#| msgid "The space in pixels between the segments."
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "الفضاء بالبكسل بين الأجزاء"
+msgstr "حجم الخط بالبكسل."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "عرض نطاق تدرج اللون"
+msgstr "وزن الخط."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The style of the font."
-msgstr "لون الموجة."
+msgstr "نمط الخط."
 
 #: data/effects/gpstext.xml:84
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
-msgstr "لون الخلفيّة"
+msgstr "لون الخلفية"
 
 #: data/effects/gpstext.xml:87
 #, kde-format
@@ -13753,44 +13745,39 @@ msgid "Outline Color"
 msgstr "لون المحيط"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
-msgstr "لون المحيط"
+msgstr "لون المخطط"
 
 #: data/effects/gpstext.xml:92
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The width of the outline in pixels"
-msgstr "عرض نطاق تدرج اللون"
+msgstr "عرض المخطط بالبكسل"
 
 #: data/effects/gpstext.xml:96
-#, fuzzy, kde-format
-#| msgid "Apply deflate effect to the video"
+#, kde-format
 msgid "Apply underline decoration to the text."
-msgstr "طبّق تأثير التقلص على الفيديو"
+msgstr "طبِّق زخرفة تسطير على النص."
 
 #: data/effects/gpstext.xml:100
 #, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr ""
+msgstr "طبِّق زخرفة شطب على النص."
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "محاذاة أفقية"
+msgstr "اضبط المحاذاة الأفقية"
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "محاذاة العموديّة"
+msgstr "اضبط المحاذاة العمودية"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "عتامة كل العناصر - النص والمخطط والخلفية"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -16504,61 +16491,46 @@ msgstr "س‌س‌:د‌د‌:ث‌ث‌،س‌س‌:د‌د‌:ث‌ث‌.ث‌
 #: data/effects/timer.xml:60
 #, kde-format
 msgid "Start (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "البداية (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed."
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
-"الوقت الذي سيبدأ العد منه.\n"
+"الوقت الذي سيبدأ العد منه.<br>\n"
 "سيجمد النص عند 00:00:00.000 من بداية المرشح حتى انقضاء وقت البداية."
 
 #: data/effects/timer.xml:63 data/effects/timer.xml:69
 #: data/effects/timer.xml:76
 #, kde-format
 msgid "HH:MM:SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS.SSS"
 
 #: data/effects/timer.xml:66
 #, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "المدة (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"الحد الأقصى للمدة المنقضية للمؤقت بعد انقضاء وقت البدء. \n"
+"الحد الأقصى للمدة المنقضية للمؤقت بعد انقضاء وقت البدء.<br>\n"
 "سيُجمد النص في وقت المدة بعد انقضاء المدة"
 
 #: data/effects/timer.xml:72
 #, kde-format
 msgid "Offset (HH:MM:SS.SSS)"
-msgstr ""
+msgstr "الإزاحة (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.<br>\n"
 "        When the direction is <i>Down</i>, the timer will count down to "
@@ -16566,10 +16538,10 @@ msgid ""
 "        When the direction is <i>Up</i>, the timer will count up starting "
 "from <i>Offset</i>."
 msgstr ""
-"إزاحة تضاف إلى قيمة المؤقت.\n"
-"عندما يكون العد للأسفل سيعد المؤقت إلى قيمة \"الإزاحة\" عوضا عن "
-"00:00:00.000.\n"
-"عندما يكون العد للأعلى، سيبدأ المؤقت العد من قيمة \"الإزاحة\"\"."
+"تُضاف إزاحة إلى قيمة المؤقت.<br>\n"
+"عندما يكون الاتجاه <i>أسفل</i>، سيبدأ المؤقت العد التنازلي إلى<i>الإزاحة</i> "
+"بدلاً من 00:00:00.000.<br>\n"
+"عندما يكون الاتجاه <i>أعلى</i>، سيبدأ المؤقت العد التصاعدي من <i>الإزاحة</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -16599,13 +16571,7 @@ msgstr ""
 "سيُجمد النص في وقت المدة بعد انقضاء المدة"
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -16613,10 +16579,10 @@ msgid ""
 "When the direction is <i>Up</i>, the timer will count up starting from "
 "<i>Offset</i>."
 msgstr ""
-"إزاحة تضاف إلى قيمة المؤقت.\n"
-"عندما يكون العد للأسفل سيعد المؤقت إلى قيمة \"الإزاحة\" عوضا عن "
-"00:00:00.000.\n"
-"عندما يكون العد للأعلى، سيبدأ المؤقت العد من قيمة \"الإزاحة\"\"."
+"تُضاف إزاحة إلى قيمة المؤقت.\n"
+"عندما يكون الاتجاه <i>أسفل</i>، سيبدأ المؤقت العد التنازلي إلى<i>الإزاحة</i> "
+"بدلاً من 00:00:00.000.\n"
+"عندما يكون الاتجاه <i>أعلى</i>، سيبدأ المؤقت العد التصاعدي من <i>الإزاحة</i>."
 
 #: data/effects/timer.xml:100
 #, kde-format
@@ -16630,28 +16596,27 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"مضاعف سرعة الساعة.<br>\n"
+"       على سبيل المثال، السرعة 10.0 تجعل المؤقت يعد 10 ثوانٍ لكل ثانية من "
+"التشغيل.<br><br>\n"
+"       يقوم بتغيير المقياس للمدة ولكنه لا يؤثر على <i>البداية</i> أو "
+"<i>الإزاحة</i>. على سبيل المثال: البداية عند 5 ثوانٍ، المدة 30 ثانية، الإزاحة "
+"7 ثوانٍ، وسرعة 10.0، سيجعل المؤقت يبدأ عند زمن تشغيل 00:00:05.000 بقيمة "
+"00:00:07، ويعد 10 ثوانٍ لكل ثانية من التشغيل، ويتوقف عند زمن تشغيل "
+"00:00:08.000 بقيمة 00:00:37."
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            ما إذا كان يجب على المؤقت العد للأعلى من 00:00:00.000 أو لأسفل "
-"من وقت المدة.\n"
-"        "
+"ما إذا كان العداد سيعد تصاعديًا من 00:00:00.000 أم تنازليًا من وقت المدة."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "أسفل"
+msgstr "تصاعدي،تنازلي"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -19958,10 +19923,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "بدل الترميز لتحرر التنسيقات الصديقة…"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "أدرج رمز الوقت الحالي"
+msgstr "أدرج عند التوقيت الزمني"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -34537,32 +34501,24 @@ msgid "Please select a target track by clicking on a track's target zone"
 msgstr "يرجى تحديد مسارا مستهدفا بالنقر فوق منطقة الهدف من المسار"
 
 #: src/timeline2/view/timelinecontroller.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "مقطع في سلة المشروع"
+msgstr "لم يُعثر على المقطع في مستودع المشروع"
 
 #: src/timeline2/view/timelinecontroller.cpp:3583
-#, fuzzy, kde-format
-#| msgid "No timecode for clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "لا يوجد رمز وقت للمقطع"
+msgstr "لم تُعثر على بيانات توقيت زمني في المقطع"
 
 #: src/timeline2/view/timelinecontroller.cpp:3589
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "رجاء اضبط تشكيلة الفيديو المبدئية"
+msgstr "رجاءً اختر مسارًا هدفًا"
 
 #: src/timeline2/view/timelinecontroller.cpp:3595
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr ""
-"فشل توليد المقطع:\n"
-"%1"
+msgstr "فشل إدراج المقطع عند %1 على المسار %2"
 
 #: src/timeline2/view/timelinecontroller.cpp:3647
 #, kde-format
@@ -37403,10 +37359,9 @@ msgstr "اقصد مقطع عند إضافة تأثير"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "حاذِ رأس التشغيل مع موضع الفأرة"
+msgstr "أعد رأس التشغيل إلى موضع البدء عند التوقف"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101
