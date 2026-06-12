@@ -112,6 +112,7 @@ public:
     /** @brief Adds an action to the action collection and stores the name. */
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
                        const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
+
     /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon, const QKeySequence &shortcut,
                        const QString &category);
@@ -352,7 +353,7 @@ private:
     ToolType::ProjectTool m_activeTool;
     /** @brief Store latest mouse position in timeline. */
     int m_mousePosition;
-    DopeWidget *m_dopeWidget;
+    DopeWidget *m_dopeWidget{nullptr};
 
     KHamburgerMenu *m_hamburgerMenu;
 

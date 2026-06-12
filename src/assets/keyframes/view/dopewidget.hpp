@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QModelIndex>
 #include <QQuickWidget>
 #include <QWidget>
 
@@ -12,6 +13,7 @@ class EffectStackModel;
 
 class DopeWidget : public QQuickWidget
 {
+    Q_OBJECT
 public:
     DopeWidget(QWidget *parent = nullptr);
     void setViewProperties(QVariantMap properties);
@@ -26,4 +28,10 @@ public:
 
 public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);
+    void slotAddRemoveKeyframe();
+    void saveActiveIndex();
+    void restoreActiveIndex();
+
+private:
+    QModelIndex m_activeIndex;
 };

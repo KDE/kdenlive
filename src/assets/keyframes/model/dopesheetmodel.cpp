@@ -152,6 +152,7 @@ void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 
 void DopeSheetModel::loadEffects()
 {
+    Q_EMIT saveActiveIndex();
     QWriteLocker locker(&m_lock);
     if (!m_paramsList.empty()) {
         m_paramsList.clear();
@@ -174,6 +175,7 @@ void DopeSheetModel::loadEffects()
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
         registerAsset(i, effectModel);
     }
+    Q_EMIT restoreActiveIndex();
 }
 
 void DopeSheetModel::registerAsset(int i, std::shared_ptr<EffectItemModel> effectModel)
@@ -912,4 +914,19 @@ int DopeSheetModel::getNextSnap(const QModelIndex ix, int pos)
     }
     pos += dopePosition();
     return pos;
+}
+
+void DopeSheetModel::addRemoveKeyframe(const QModelIndex ix, int pos)
+{
+    // Get model
+    KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+    if (!km) {
+        qDebug() << "// INVALID INDEX PASSED FOR ADD/REMOVE KF: " << ix;
+        return;
+    }
+    if (km->hasKeyframe(pos)) {
+        removeKeyframe(ix, pos);
+    } else {
+        addKeyframe(ix, pos);
+    }
 }

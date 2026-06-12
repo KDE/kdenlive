@@ -96,6 +96,7 @@ public:
     void setGrabbed(bool grabbed);
     int getPreviousSnap(const QModelIndex ix, int pos);
     int getNextSnap(const QModelIndex ix, int pos);
+    void addRemoveKeyframe(const QModelIndex ix, int pos);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
@@ -134,4 +135,6 @@ Q_SIGNALS:
     void dopeDurationChanged();
     void dopePositionChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
+    void saveActiveIndex();
+    void restoreActiveIndex();
 };

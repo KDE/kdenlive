@@ -38,6 +38,8 @@ DopeWidget::DopeWidget(QWidget *parent)
                           {"keyframeTypeNames", KeyframeModel::getKeyframeTypesVariant().keys()},
                           {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("DopeSheetView"));
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::saveActiveIndex, this, &DopeWidget::saveActiveIndex);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::restoreActiveIndex, this, &DopeWidget::restoreActiveIndex);
 }
 
 void DopeWidget::deleteItem()
@@ -124,4 +126,37 @@ void DopeWidget::gotoNextSnap()
     int pos = pCore->getMonitorPosition();
     pos = pCore->dopeSheetModel()->getNextSnap(activeIndex, pos);
     pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
+}
+
+void DopeWidget::slotAddRemoveKeyframe()
+{
+    if (!rootObject()) {
+        return;
+    }
+    // Find active model
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    const QModelIndex activeIndex = returnedValue.toModelIndex();
+    if (!activeIndex.isValid()) {
+        pCore->displayMessage(i18n("Select a parameter to add a keyframe"), ErrorMessage);
+        return;
+    }
+    int pos = pCore->getMonitorPosition() - pCore->dopeSheetModel()->dopePosition();
+    pCore->dopeSheetModel()->addRemoveKeyframe(activeIndex, pos);
+}
+
+void DopeWidget::saveActiveIndex()
+{
+    // Find active model
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    m_activeIndex = returnedValue.toModelIndex();
+}
+
+void DopeWidget::restoreActiveIndex()
+{
+    if (!m_activeIndex.isValid()) {
+        return;
+    }
+    QMetaObject::invokeMethod(rootObject(), "setActiveIndex", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(m_activeIndex.row())));
 }

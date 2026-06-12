@@ -226,7 +226,12 @@ void MainWindow::init()
     fr->setMaximumHeight(1);
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
+
+    // Keyframe stuff
+    m_assetPanel = new AssetPanel(this);
+    m_dopeWidget = new DopeWidget(this);
     setupActions();
+
     auto *layoutManager = new LayoutManagement(this);
     connect(pCore.get(), &Core::loadLayoutById, layoutManager, &LayoutManagement::slotLoadLayoutById, Qt::DirectConnection);
     connect(pCore.get(), &Core::loadLayoutFromData, layoutManager, &LayoutManagement::slotLoadLayoutFromData, Qt::DirectConnection);
@@ -310,7 +315,7 @@ void MainWindow::init()
     // Audio record action
     QAction *recAudio = new QAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Record"), this);
     addAction(QStringLiteral("audio_record"), recAudio, Qt::Key_R);
-    connect(recAudio, &QAction::triggered, [&]() {
+    connect(recAudio, &QAction::triggered, this, [&]() {
         if (pCore->isMediaMonitoring() || pCore->isMediaCapturing()) {
             getCurrentTimeline()->controller()->switchRecording();
         } else {
@@ -502,7 +507,6 @@ void MainWindow::init()
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
     // DopeSheet
-    m_dopeWidget = new DopeWidget(this);
     addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
     connect(this, &MainWindow::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
     connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
@@ -540,7 +544,8 @@ void MainWindow::init()
             QStringLiteral("Windows"),
             // QStringLiteral("macintosh")
         };
-        for (QAction *child : stylesAction->menu()->actions()) {
+        const auto actionsList = stylesAction->menu()->actions();
+        for (const auto &child : actionsList) {
             if (stylesToHide.contains(child->data().toString(), Qt::CaseInsensitive)) {
                 child->setVisible(false);
             }
@@ -2109,20 +2114,18 @@ void MainWindow::setupActions()
 
     act = clipActionCategory->addAction(KStandardActions::Copy, this, &MainWindow::slotCopy);
     act->setEnabled(false);
-
     actionCollection()->addAction(KStandardActions::Paste, this, &MainWindow::slotPaste);
+    kdenliveCategoryMap.insert(QStringLiteral("timelineselection"), clipActionCategory);
 
     // Keyframe actions
-    m_assetPanel = new AssetPanel(this);
     KActionCategory *kfActions = new KActionCategory(i18n("Effect Keyframes"), actionCollection());
-    addAction(QStringLiteral("keyframe_add"), i18n("Add/Remove Keyframe"), m_assetPanel, SLOT(slotAddRemoveKeyframe()),
+    addAction(QStringLiteral("keyframe_add"), i18n("Add/Remove Keyframe"), m_dopeWidget, SLOT(slotAddRemoveKeyframe()),
               QIcon::fromTheme(QStringLiteral("keyframe-add")), QKeySequence(), kfActions);
-    addAction(QStringLiteral("keyframe_next"), i18n("Go to next keyframe"), m_assetPanel, SLOT(slotNextKeyframe()),
+    addAction(QStringLiteral("keyframe_next"), i18n("Go to next keyframe"), m_dopeWidget, SLOT(gotoNextSnap()),
               QIcon::fromTheme(QStringLiteral("keyframe-next")), QKeySequence(), kfActions);
-    addAction(QStringLiteral("keyframe_previous"), i18n("Go to previous keyframe"), m_assetPanel, SLOT(slotPreviousKeyframe()),
+    addAction(QStringLiteral("keyframe_previous"), i18n("Go to previous keyframe"), m_dopeWidget, SLOT(gotoPreviousSnap()),
               QIcon::fromTheme(QStringLiteral("keyframe-previous")), QKeySequence(), kfActions);
-
-    kdenliveCategoryMap.insert(QStringLiteral("timelineselection"), clipActionCategory);
+    kdenliveCategoryMap.insert(QStringLiteral("keyframes"), kfActions);
 
     addAction(QStringLiteral("insert_space"), i18n("Insert Space…"), this, SLOT(slotInsertSpace()));
     addAction(QStringLiteral("delete_space"), i18n("Remove Space"), this, SLOT(slotRemoveSpace()));

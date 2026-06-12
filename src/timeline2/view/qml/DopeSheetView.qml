@@ -274,6 +274,10 @@ Item {
         return treeView.index(treeView.currentRow, 0)
     }
 
+    function setActiveIndex(row) {
+        treeView.selectionModel.setCurrentIndex(treeView.index(row, 0), ItemSelectionModel.SelectCurrent);
+    }
+
     Menu {
         id: defaultTypeMenu
         ActionGroup {
@@ -399,7 +403,7 @@ Item {
     }
     Label {
         id: mouseLabel
-        visible: (backgroundArea.containsMouse || treeView.hoveredParam > -1)// && dopeRoot.isInView(dopeRoot.mouseFramePos)
+        visible: !ruler.pressed && (backgroundArea.containsMouse || treeView.hoveredParam > -1)
         anchors.horizontalCenter: mouseLine.horizontalCenter
         text: dopeRoot.mouseFramePos
         leftPadding: 6

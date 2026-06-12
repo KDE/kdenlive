@@ -24,6 +24,7 @@ Item {
     property real scalingFactor: 1.
     property real tickSpacing: scalingFactor
     property int timecodeOffset : timeline.timecodeOffset
+    property bool pressed: rulerMouseArea.pressed
     property int rulerOffset: 0
     property int labelMod: 1
     property color dimmedColor: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
