@@ -71,7 +71,7 @@ static double convertValue(const QString &value, const QSize profileSize, double
             if (result.isNumber()) {
                 return result.toNumber();
             } else {
-                qWarning() << "!! Could not avaluate math expression: " << value;
+                qWarning() << "!! Could not evaluate math expression: " << value;
             }
         }
         return evaluated.toInt();
