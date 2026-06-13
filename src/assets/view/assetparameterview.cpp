@@ -87,6 +87,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &KeyframeContainer::slotInitMonitor);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::activateEffect, this, &AssetParameterView::activateEffect);
+                connect(m_mainKeyframeWidget, &KeyframeContainer::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::updateHeight, this, [&]() {
                     setFixedHeight(contentHeight());
                     Q_EMIT updateHeight();
