@@ -37,9 +37,29 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
         // Cannot read value, use random default
         rect = QRect(50, 50, 200, 200);
     }
+
+    auto type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+    std::pair<int, int> xRange{0, 0};
+    std::pair<int, int> yRange{0, 0};
+    if (type == ParamType::FakeRect || type == ParamType::AnimatedFakeRect) {
+        QVariantMap mappedParams = m_model->data(index, AssetParameterModel::FakeRectRole).toMap();
+        for (auto i = mappedParams.cbegin(), end = mappedParams.cend(); i != end; ++i) {
+            const AssetRectInfo paramInfo = i.value().value<AssetRectInfo>();
+            int index = paramInfo.positionForTarget();
+            if (index % 2 == 0) {
+                if (paramInfo.maximum > paramInfo.minimum) {
+                    xRange = {int(paramInfo.minimum), int(paramInfo.maximum)};
+                }
+            } else {
+                if (paramInfo.maximum > paramInfo.minimum) {
+                    yRange = {int(paramInfo.minimum), int(paramInfo.maximum)};
+                }
+            }
+        }
+    }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     m_geom.reset(new GeometryWidget(monitor, QPair<int, int>(start, end), rect, false, 100, frameSize, false,
-                                    m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, layout));
+                                    m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, layout, xRange, yRange));
     connect(m_geom.get(), &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
         if (m_model->isActive()) {
             pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);

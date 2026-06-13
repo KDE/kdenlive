@@ -4,12 +4,12 @@
     <name>DeLogo</name>
     <description>Remove logo from input video</description>
     <author>libavfilter</author>
-    <parameter type="fakerect" name="kdenlive:fakerect" default="0 0 100 100" opacity="false">
+    <parameter type="fakerect" name="kdenlive:fakerect" default="1 1 100 100" opacity="false">
         <name>Logo</name>
-        <parammap target="left" source="av.x" max="%width" min="0" default="0" />
-        <parammap target="top" source="av.y" max="%height" min="0" default="0" />
-        <parammap target="width" source="av.w" max="%width" min="1" default="100" />
-        <parammap target="height" source="av.h" max="%height" min="1" default="100" />
+        <parammap target="left" source="av.x" max="%width-1" min="1" default="1" />
+        <parammap target="top" source="av.y" max="%height-1" min="1" default="1" />
+        <parammap target="width" source="av.w" max="%width-1" min="1" default="100" />
+        <parammap target="height" source="av.h" max="%height-1" min="1" default="100" />
     </parameter>
     <parameter type="list" name="av.show" default="0" paramlist="0;1">
         <name>Show borders</name>
