@@ -797,6 +797,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         labelWidget = new QLabel(name, m_parent);
         auto colorWidget = new ChooseColorWidget(m_parent, QColorUtils::stringToColor(value), alphaEnabled);
         colorWidget->setToolTip(comment);
+        connect(colorWidget, &ChooseColorWidget::disableCurrentFilter, this, &KeyframeContainer::disableCurrentFilter);
         connect(colorWidget, &ChooseColorWidget::modified, this, [this, index, alphaEnabled](const QColor &color) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(QColorUtils::colorToString(color, alphaEnabled)), -1, index);

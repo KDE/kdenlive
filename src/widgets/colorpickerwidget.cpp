@@ -90,7 +90,8 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     // our custom implementation (eg. preview and average color are missing)
     if (pCore) {
         QPoint p(pCore->window()->geometry().center());
-        for (QScreen *screen : QGuiApplication::screens()) {
+        const auto screens = QGuiApplication::screens();
+        for (const auto screen : screens) {
             QRect screenRect = screen->geometry();
             if (screenRect.contains(p)) {
                 QPixmap pm = screen->grabWindow(pCore->window()->winId(), p.x(), p.y(), 1, 1);
@@ -149,7 +150,7 @@ void ColorPickerWidget::paintEvent(QPaintEvent *event)
 
 void ColorPickerWidget::slotGetAverageColor()
 {
-    disconnect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
+    disconnect(m_grabRectFrame, &MyFrame::getColor, this, &ColorPickerWidget::slotGetAverageColor);
     m_grabRect = m_grabRect.normalized();
 
     int numPixel = m_grabRect.width() * m_grabRect.height();
@@ -227,7 +228,7 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
             Q_EMIT disableCurrentFilter(false);
         } else {
             // delay because m_grabRectFrame does not hide immediately
-            connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
+            connect(m_grabRectFrame, &MyFrame::getColor, this, &ColorPickerWidget::slotGetAverageColor);
             m_grabRectFrame->hide();
         }
     }
@@ -331,21 +332,30 @@ void ColorPickerWidget::grabColorDBus()
     QDBusPendingCall pendingCall = QDBusConnection::sessionBus().asyncCall(message);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall);
     Q_EMIT disableCurrentFilter(true);
-    connect(watcher, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *watcher) {
-        QDBusPendingReply<QDBusObjectPath> reply = *watcher;
+    connect(watcher, &QDBusPendingCallWatcher::finished, this, &ColorPickerWidget::callFinishedSlot);
+}
+
+void ColorPickerWidget::callFinishedSlot(QDBusPendingCallWatcher *caller)
+{
+    QDBusPendingReply<QDBusObjectPath> reply = *caller;
+    if (reply.isError()) {
+        qWarning() << "Couldn't get reply";
+        qWarning() << "Error: " << reply.error().message();
         Q_EMIT disableCurrentFilter(false);
-        if (reply.isError()) {
-            qWarning() << "Couldn't get reply";
-            qWarning() << "Error: " << reply.error().message();
-        } else {
-            QDBusConnection::sessionBus().connect(QString(), reply.value().path(), QLatin1String("org.freedesktop.portal.Request"), QLatin1String("Response"),
-                                                  this, SLOT(gotColorResponse(uint, QVariantMap)));
-        }
-    });
+    } else {
+        m_dbusPath = reply.value().path();
+        QDBusConnection::sessionBus().connect(QString(), m_dbusPath, QLatin1String("org.freedesktop.portal.Request"), QLatin1String("Response"), this,
+                                              SLOT(gotColorResponse(uint, QVariantMap)));
+    }
+    caller->deleteLater();
 }
 
 void ColorPickerWidget::gotColorResponse(uint response, const QVariantMap &results)
 {
+    QDBusConnection::sessionBus().disconnect(QString(), m_dbusPath, QLatin1String("org.freedesktop.portal.Request"), QLatin1String("Response"), this,
+                                             SLOT(gotColorResponse(uint, QVariantMap)));
+    m_dbusPath.clear();
+    Q_EMIT disableCurrentFilter(false);
     if (!response) {
         if (results.contains(QLatin1String("color"))) {
             const QColor color = qdbus_cast<QColor>(results.value(QLatin1String("color")));
