@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 02:33+0000\n"
+"POT-Creation-Date: 2026-06-14 02:32+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -16718,7 +16718,7 @@ msgid "Use cos instead of linear"
 msgstr ""
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr ""
@@ -18341,75 +18341,75 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Discrete"
 msgstr "Afkoppeln"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Elastic Out"
 msgstr "Lütter maken"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -18418,7 +18418,7 @@ msgstr ""
 msgid "Add keyframe"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, fuzzy, kde-format
@@ -18426,7 +18426,7 @@ msgstr ""
 msgid "Change keyframe type"
 msgstr "Füllklöör"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1624
@@ -18434,14 +18434,14 @@ msgstr "Füllklöör"
 msgid "Delete keyframe"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, fuzzy, kde-format
 #| msgid " frames"
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr " Biller"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -18451,32 +18451,32 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr " Biller"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframe"
 msgstr " Biller"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Delete all keyframes"
 msgstr " Biller"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, fuzzy, kde-format
 #| msgid "Group"
 msgid "Reset %1"
 msgstr "Koppel"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Reset effect"
@@ -18489,7 +18489,7 @@ msgid "Delete keyframes"
 msgstr " Biller"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1789
+#: src/assets/model/assetparametermodel.cpp:1784
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Update effect"
@@ -18576,14 +18576,14 @@ msgstr " Biller"
 msgid "Update %1"
 msgstr "Profil opfrischen"
 
-#: src/assets/model/assetparametermodel.cpp:1626
-#: src/assets/model/assetparametermodel.cpp:1673
+#: src/assets/model/assetparametermodel.cpp:1621
+#: src/assets/model/assetparametermodel.cpp:1668
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot open preset file %1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/assets/model/assetparametermodel.cpp:1763
+#: src/assets/model/assetparametermodel.cpp:1758
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgctxt "@info:status"
@@ -18629,7 +18629,7 @@ msgstr "Profil wegmaken"
 msgid "Save effect"
 msgstr "Effekten"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, fuzzy, kde-format
@@ -18638,7 +18638,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Unikode-Teken infögen"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -18703,7 +18703,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframecontainer.cpp:176
-#: src/assets/view/widgets/keyframecontainer.cpp:1130
+#: src/assets/view/widgets/keyframecontainer.cpp:1131
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Paste keyframe"
@@ -18798,44 +18798,44 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Parameters"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1027
+#: src/assets/view/widgets/keyframecontainer.cpp:1028
 #, fuzzy, kde-format
 msgid "Keyframes copied"
 msgstr "Interpolater"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1038
-#: src/assets/view/widgets/keyframecontainer.cpp:1079
-#: src/assets/view/widgets/keyframecontainer.cpp:1086
+#: src/assets/view/widgets/keyframecontainer.cpp:1039
+#: src/assets/view/widgets/keyframecontainer.cpp:1080
+#: src/assets/view/widgets/keyframecontainer.cpp:1087
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No valid keyframe data in clipboard"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1139
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot copy current parameter values"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1143
-#: src/assets/view/widgets/keyframecontainer.cpp:1154
+#: src/assets/view/widgets/keyframecontainer.cpp:1144
+#: src/assets/view/widgets/keyframecontainer.cpp:1155
 #, fuzzy, kde-format
 msgid "Current values copied"
 msgstr "Interpolater"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1166
+#: src/assets/view/widgets/keyframecontainer.cpp:1167
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No keyframe data in clipboard"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1247
+#: src/assets/view/widgets/keyframecontainer.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot remove the last keyframe"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1259
+#: src/assets/view/widgets/keyframecontainer.cpp:1260
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove keyframe"
@@ -25553,19 +25553,19 @@ msgstr "Keen Effekt"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Hide keyframes"
 msgstr " Biller"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Show keyframes"
 msgstr " Biller"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Update zone for %1"
@@ -40634,12 +40634,12 @@ msgstr ""
 msgid "Transparency:"
 msgstr "Dörschienen"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr ""
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

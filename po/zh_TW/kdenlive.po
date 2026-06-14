@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 02:33+0000\n"
+"POT-Creation-Date: 2026-06-14 02:32+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -16324,7 +16324,7 @@ msgid "Use cos instead of linear"
 msgstr "使用餘弦 (cos) 而非線性"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "平滑"
@@ -17871,73 +17871,73 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr "您必須在序列的第一個影片影格定義包含點。"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "線性"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "分離"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr "彈入"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr "彈出"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr "立方入"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr "立方出"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr "指數入"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr "指數出"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr "圓入"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr "圓出"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr "彈性入"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Elastic Out"
 msgstr "彈性出"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "平滑（已棄用）"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -17946,14 +17946,14 @@ msgstr "平滑（已棄用）"
 msgid "Add keyframe"
 msgstr "新增關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "修改關鍵幀類型"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1624
@@ -17961,13 +17961,13 @@ msgstr "修改關鍵幀類型"
 msgid "Delete keyframe"
 msgstr "刪除關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "移動關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -17976,29 +17976,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "移動關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "更新關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "刪除所有關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "效果"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "重設 %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "重設效果"
@@ -18009,7 +18009,7 @@ msgid "Delete keyframes"
 msgstr "刪除關鍵幀"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1789
+#: src/assets/model/assetparametermodel.cpp:1784
 #, kde-format
 msgid "Update effect"
 msgstr "更新效果"
@@ -18083,13 +18083,13 @@ msgstr "編輯 %1 關鍵幀"
 msgid "Update %1"
 msgstr "更新 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1626
-#: src/assets/model/assetparametermodel.cpp:1673
+#: src/assets/model/assetparametermodel.cpp:1621
+#: src/assets/model/assetparametermodel.cpp:1668
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "無法寫入預設檔 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1763
+#: src/assets/model/assetparametermodel.cpp:1758
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18128,7 +18128,7 @@ msgstr "刪除目前選取的預設檔。"
 msgid "Save effect"
 msgstr "儲存效果"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -18136,7 +18136,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "輸入預設檔名稱"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -18197,7 +18197,7 @@ msgid ""
 msgstr "複製關鍵幀。複製選取的關鍵幀；若沒有選取關鍵幀則複製目前參數的數值。"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:176
-#: src/assets/view/widgets/keyframecontainer.cpp:1130
+#: src/assets/view/widgets/keyframecontainer.cpp:1131
 #, kde-format
 msgid "Paste keyframe"
 msgstr "貼上關鍵幀"
@@ -18283,41 +18283,41 @@ msgstr "開啟管理關鍵幀用的更多動作的列表（例如：關鍵幀的
 msgid "Select parameters to copy"
 msgstr "選擇要複製的參數"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1027
+#: src/assets/view/widgets/keyframecontainer.cpp:1028
 #, kde-format
 msgid "Keyframes copied"
 msgstr "關鍵幀已複製"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1038
-#: src/assets/view/widgets/keyframecontainer.cpp:1079
-#: src/assets/view/widgets/keyframecontainer.cpp:1086
+#: src/assets/view/widgets/keyframecontainer.cpp:1039
+#: src/assets/view/widgets/keyframecontainer.cpp:1080
+#: src/assets/view/widgets/keyframecontainer.cpp:1087
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "剪貼簿中沒有有效的關鍵幀資料"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1139
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "無法複製目前的參數值"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1143
-#: src/assets/view/widgets/keyframecontainer.cpp:1154
+#: src/assets/view/widgets/keyframecontainer.cpp:1144
+#: src/assets/view/widgets/keyframecontainer.cpp:1155
 #, kde-format
 msgid "Current values copied"
 msgstr "已複製目前的值"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1166
+#: src/assets/view/widgets/keyframecontainer.cpp:1167
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "剪貼簿中沒有有效的關鍵幀資料"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1247
+#: src/assets/view/widgets/keyframecontainer.cpp:1248
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "無法移除最後一個關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1259
+#: src/assets/view/widgets/keyframecontainer.cpp:1260
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -24756,17 +24756,17 @@ msgstr "匯出自訂效果"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "您加入最愛的一些效果是無效的而已被移除：%1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "隱藏關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "顯示關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, kde-format
 msgid "Update zone for %1"
 msgstr "為 %1 更新區段"
@@ -39074,12 +39074,12 @@ msgstr "1.0×"
 msgid "Transparency:"
 msgstr "透明度："
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "從螢幕上提取顏色。"
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

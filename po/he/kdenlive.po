@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 02:33+0000\n"
-"PO-Revision-Date: 2026-06-06 21:49+0300\n"
+"POT-Creation-Date: 2026-06-14 02:32+0000\n"
+"PO-Revision-Date: 2026-06-13 17:26+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -793,10 +793,9 @@ msgid "Normalize to 0dB"
 msgstr "נרמול ל־0 דציבל"
 
 #: data/effects/avfilter/avfilter_allpass.xml:4
-#, fuzzy, kde-format
-#| msgid "2 pass"
+#, kde-format
 msgid "Allpass"
-msgstr "2 מעברים"
+msgstr "מעביר כל"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
 #, kde-format
@@ -840,7 +839,7 @@ msgstr "שיטה"
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
 #, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
-msgstr ""
+msgstr "הרץ,מקדם Q,אוקטבה,שיפוע,קה״ץ"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -960,15 +959,14 @@ msgid "Triangular,Sinusoidal"
 msgstr "משולש,סינוסואידי"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Pulsator"
-msgstr "מאפננים"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid " Audio pulsator."
-msgstr "רצועת שמע"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:15
 #, kde-format
@@ -1343,23 +1341,22 @@ msgstr "רדיוס שקיפות"
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
 msgid "Radius of the alpha blurring box"
-msgstr ""
+msgstr "רדיוס תיבת הטשטוש של השקיפות"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
 #, kde-format
 msgid "Alpha Power"
-msgstr "עוצמת אלפא"
+msgstr "עוצמת שקיפות"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:29
 #, kde-format
 msgid "How many times should the boxblur be applied to alpha"
-msgstr ""
+msgstr "כמה פעמים תיבת הטשטוש תחול על השקיפות"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo to mono"
+#, kde-format
 msgid "Stereo to binaural"
-msgstr "סטריאו למונו"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:5
 #, kde-format
@@ -1823,6 +1820,7 @@ msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
 msgstr ""
+"שינוי ערוץ צבע על ידי הוספת הערכים שמשויכים לערוצים האחרים של אותם הפיקסלים"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
@@ -1877,7 +1875,7 @@ msgstr "ניגודיות צבע"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
 msgid "Adjust color contrast between RGB components."
-msgstr ""
+msgstr "כוונון ניגודיות צבע בין רכיבי RGB (אדום-ירוק-כחול)"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
 #, kde-format
@@ -1937,10 +1935,9 @@ msgid "Blue shadow spot"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:14
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Red highlight spot"
-msgstr "הדגשת פסגות"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:17
 #, kde-format
@@ -2831,7 +2828,7 @@ msgstr "עוצמת מסנן"
 #: data/effects/avfilter/avfilter_deblock.xml:9
 #, kde-format
 msgid "Weak,Strong"
-msgstr ""
+msgstr "חלש,חזק"
 
 #: data/effects/avfilter/avfilter_deblock.xml:15
 #: data/effects/avfilter/avfilter_smartblur.xml:48
@@ -2857,7 +2854,7 @@ msgstr "סף דלתא"
 #: data/effects/avfilter/avfilter_deblock.xml:28
 #, kde-format
 msgid "All,Y,U,V,Alpha,Red,Green,Blue"
-msgstr ""
+msgstr "הכול,Y,U,V,שקיפות,אדום,ירוק,כחול"
 
 #: data/effects/avfilter/avfilter_dedot.xml:4
 #, kde-format
@@ -3065,7 +3062,7 @@ msgstr "טעינת מודל"
 #: data/effects/avfilter/avfilter_despill.xml:4
 #, kde-format
 msgid "Despill"
-msgstr ""
+msgstr "ביטול זליגה"
 
 #: data/effects/avfilter/avfilter_despill.xml:5
 #, kde-format
@@ -3073,6 +3070,7 @@ msgid ""
 "Remove unwanted contamination of foreground colors, caused by reflected "
 "color of greenscreen or bluescreen"
 msgstr ""
+"הסרת זיהום לא רצוי של צבעי חזית, נגרם על ידי צבע משתף במסך ירוק או כחול"
 
 #: data/effects/avfilter/avfilter_despill.xml:8
 #, kde-format
@@ -3087,30 +3085,27 @@ msgstr "ירוק,כחול"
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
 msgid "Spillmap Mix"
-msgstr ""
+msgstr "ערבוב מפת זליגה"
 
 #: data/effects/avfilter/avfilter_despill.xml:15
 #, kde-format
 msgid "Spillmap Expand"
-msgstr ""
+msgstr "הרחבת מפת זליגה"
 
 #: data/effects/avfilter/avfilter_despill.xml:18
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Set Red Scale"
-msgstr "סולם קצב"
+msgstr "הגדרת סולם אדום"
 
 #: data/effects/avfilter/avfilter_despill.xml:21
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Set Green Scale"
-msgstr "סולם קצב"
+msgstr "הגדרת סולם ירוק"
 
 #: data/effects/avfilter/avfilter_despill.xml:24
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Set Blue Scale"
-msgstr "סולם קצב"
+msgstr "הגדרת סולם כחול"
 
 #: data/effects/avfilter/avfilter_despill.xml:27
 #: data/effects/avfilter/avfilter_eq.xml:11
@@ -3192,12 +3187,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
 msgid "Doubleweave"
-msgstr ""
+msgstr "אריגה כפולה"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:5
 #, kde-format
 msgid "Weave input video fields into double number of frames"
-msgstr ""
+msgstr "אריגת שדות הווידאו למספר כפול של תמוניות"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:8
 #: data/effects/avfilter/avfilter_weave.xml:8
@@ -3447,7 +3442,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_limiter.xml:17
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
-msgstr ""
+msgstr "ללא,Y,U,YU,V,YV,UV,YUV,שקיפות"
 
 #: data/effects/avfilter/avfilter_elbg.xml:4
 #, kde-format
@@ -3511,7 +3506,7 @@ msgstr "אקוולייזר וידאו"
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
 msgid "Adjust Brightness, contrast, gamma, saturation"
-msgstr ""
+msgstr "כוונון בהירות, ניגודיות, גאמה ורוויה"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
 #: data/effects/frei0r/frei0r_levels.xml:19
@@ -3565,7 +3560,7 @@ msgstr "סוג עובי"
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-msgstr ""
+msgstr "הרץ,מקדם Q,אוקטבה,שיפוע,קה״ץ"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -4016,10 +4011,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
-#, fuzzy, kde-format
-#| msgid "Gradient"
+#, kde-format
 msgid "Gradfun"
-msgstr "מדרג"
+msgstr "שחזור מדרג צבע"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
 #, kde-format
@@ -4363,7 +4357,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqx.xml:4
 #, kde-format
 msgid "Hq*x Interpolator"
-msgstr ""
+msgstr "מביין Hq*x"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
@@ -4380,12 +4374,12 @@ msgstr "2×,3×,4×"
 #: data/effects/avfilter/avfilter_hsvhold.xml:4
 #, kde-format
 msgid "HSV Hold"
-msgstr ""
+msgstr "החזקת HSV"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into gray "
-msgstr ""
+msgstr "הפיכת טווח HSV מסוים לאפור "
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
@@ -4429,7 +4423,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
 #, kde-format
 msgid "Set similarity percentage with the key color"
-msgstr ""
+msgstr "הגדרת אחוז דימיון מול צבע המפתח"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
@@ -4455,7 +4449,7 @@ msgstr "חוזק רווית צבע"
 #: data/effects/avfilter/avfilter_huesaturation.xml:5
 #, kde-format
 msgid "Apply hue-saturation-intensity adjustments"
-msgstr ""
+msgstr "החלת כוונוני גוון-רוויה-עוצמה"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:8
 #, kde-format
@@ -6252,10 +6246,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "S/C level"
-msgstr "רמת מיקרופון"
+msgstr "ערוץ צד/מרכז"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:75
 #, fuzzy, kde-format
@@ -9596,9 +9589,9 @@ msgid "Defish"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Non rectilinear lens mappings"
-msgstr "נקה מטמון"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:11
 #, kde-format
@@ -16070,7 +16063,7 @@ msgid "Use cos instead of linear"
 msgstr "להשתמש בקוסינוס במקום ליניארי"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "חלק"
@@ -17584,73 +17577,73 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr "יש להגדיר נקודות הכללה בתמונית הסרטון הראשונה ברצף."
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "קווי"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "נפרד"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr "כניסה בקפיצה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr "יציאה בקפיצה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr "ריבועי פנימה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr "ריבועי החוצה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr "מעריכי פנימה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr "מעריכי החוצה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr "מעגלי פנימה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr "מעגלי החוצה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr "אלסטי פנימה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Elastic Out"
 msgstr "אלסטי החוצה"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "חלק (לא בשימוש עוד)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -17659,14 +17652,14 @@ msgstr "חלק (לא בשימוש עוד)"
 msgid "Add keyframe"
 msgstr "הוספת תמונית מפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "החלפת סוג תמונית מפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1624
@@ -17674,13 +17667,13 @@ msgstr "החלפת סוג תמונית מפתח"
 msgid "Delete keyframe"
 msgstr "מחיקת תמונית מפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "העברת תמוניות מפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -17689,29 +17682,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "העברת תמונית מפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "עדכון תמונית מפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "מחיקת כל תמוניות המפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "אפקט"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "איפוס %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "איפוס אפקט"
@@ -17722,7 +17715,7 @@ msgid "Delete keyframes"
 msgstr "מחיקת תמוניות מפתח"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1789
+#: src/assets/model/assetparametermodel.cpp:1784
 #, kde-format
 msgid "Update effect"
 msgstr "עדכון אפקט"
@@ -17799,13 +17792,13 @@ msgstr "עריכת תמונית מפתח %1"
 msgid "Update %1"
 msgstr "עדכון %1"
 
-#: src/assets/model/assetparametermodel.cpp:1626
-#: src/assets/model/assetparametermodel.cpp:1673
+#: src/assets/model/assetparametermodel.cpp:1621
+#: src/assets/model/assetparametermodel.cpp:1668
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "לא ניתן לפתוח את קובץ הערכה %1"
 
-#: src/assets/model/assetparametermodel.cpp:1763
+#: src/assets/model/assetparametermodel.cpp:1758
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -17844,7 +17837,7 @@ msgstr "מוחק את הערכה הנוכחית שנבחרה."
 msgid "Save effect"
 msgstr "שמירת אפקט"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -17852,7 +17845,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "נא למלא שם לערכה"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -17915,7 +17908,7 @@ msgstr ""
 "אם לא נבחרו אף תמוניות מפתח."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:176
-#: src/assets/view/widgets/keyframecontainer.cpp:1130
+#: src/assets/view/widgets/keyframecontainer.cpp:1131
 #, kde-format
 msgid "Paste keyframe"
 msgstr "הדבקת תמונית מפתח"
@@ -18002,40 +17995,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "נא לבחור משתנים להעתקה"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1027
+#: src/assets/view/widgets/keyframecontainer.cpp:1028
 #, kde-format
 msgid "Keyframes copied"
 msgstr "תמוניות מפתח הועתקו"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1038
-#: src/assets/view/widgets/keyframecontainer.cpp:1079
-#: src/assets/view/widgets/keyframecontainer.cpp:1086
+#: src/assets/view/widgets/keyframecontainer.cpp:1039
+#: src/assets/view/widgets/keyframecontainer.cpp:1080
+#: src/assets/view/widgets/keyframecontainer.cpp:1087
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "אין נתוני תמונית מפתח תקפים בלוח הגזירים"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1139
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "לא ניתן להעתיק את הערכים הנוכחיים של המשתנים"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1143
-#: src/assets/view/widgets/keyframecontainer.cpp:1154
+#: src/assets/view/widgets/keyframecontainer.cpp:1144
+#: src/assets/view/widgets/keyframecontainer.cpp:1155
 #, kde-format
 msgid "Current values copied"
 msgstr "הערכים הנוכחיים הועתקו"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1166
+#: src/assets/view/widgets/keyframecontainer.cpp:1167
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "אין נתוני תמונית מפתח בלוח הגזירים"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1247
+#: src/assets/view/widgets/keyframecontainer.cpp:1248
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "לא ניתן להסיר את תמונית המפתח האחרונה"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1259
+#: src/assets/view/widgets/keyframecontainer.cpp:1260
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -24525,17 +24518,17 @@ msgstr "ייצוא אפקט מותאם אישית"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "חלק מהאפקטים המועדפים עליך שגויים ולכן הוסרו: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "הסתר תמוניות מפתח"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "הצגת תמוניות מפתח"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, kde-format
 msgid "Update zone for %1"
 msgstr "עדכון קטע עבור %1"
@@ -38912,12 +38905,12 @@ msgstr "1.0×"
 msgid "Transparency:"
 msgstr "שקיפות:"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "בחירת צבע במסך."
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

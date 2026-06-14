@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 02:33+0000\n"
-"PO-Revision-Date: 2026-06-06 20:24+0200\n"
+"POT-Creation-Date: 2026-06-14 02:32+0000\n"
+"PO-Revision-Date: 2026-06-13 18:39+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -1675,6 +1675,8 @@ msgid ""
 "NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
 "709,UHD TV,Rec. 2020,DCI-P3"
 msgstr ""
+"NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Szerokie RGB,CIE 1931,HD TV,"
+"Rec. 709,UHD TV,Rec. 2020,DCI-P3"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:13
 #, kde-format
@@ -1719,10 +1721,9 @@ msgid "Size"
 msgstr "Rozmiar"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the size of the scope on screen]]>"
+#, kde-format
 msgid "Set the size of the scope on screen"
-msgstr "<![CDATA[Ustaw rozmiar wyświetlacza na ekranie]]>"
+msgstr "Ustaw rozmiar wyświetlacza na ekranie"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
@@ -1749,6 +1750,8 @@ msgid ""
 "Set contrast used to draw<br>\n"
 "       \ttongue colors that are out of active color system gamut"
 msgstr ""
+"Usta kontrast używany do rysowania<br>\n"
+"       \tbarw języków, które są poza gamutem bieżącego systemu barw"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:37
 #, kde-format
@@ -3297,6 +3300,8 @@ msgid ""
 "Limit the maximum change for each plane.<br>\n"
 "        Default is 65535. If 0, plane will remain unchanged."
 msgstr ""
+"Ogranicz największą dozwoloną zmianę dla każdej płaszczyzny.<br>\n"
+"        Domyślnie to 65535. Gdy 0, to płaszczyzna pozostanie bez zmian."
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
@@ -3488,10 +3493,9 @@ msgid "X Offset"
 msgstr "Przesunięcie X"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance from the left edge in pixel]]>"
+#, kde-format
 msgid "Distance from the left edge in pixel"
-msgstr "<![CDATA[Odległość od lewej krawędzi w pikselach]]>"
+msgstr "Odległość od lewej krawędzi w pikselach"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16 data/effects/frei0r/frei0r_mirr0r.xml:11
@@ -3500,10 +3504,9 @@ msgid "Y Offset"
 msgstr "Przesunięcie Y"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance from the top edge in pixel]]>"
+#, kde-format
 msgid "Distance from the top edge in pixel"
-msgstr "<![CDATA[Odległość od górnej krawędzi w pikselach]]>"
+msgstr "Odległość od górnej krawędzi w pikselach"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3520,10 +3523,9 @@ msgid "Width"
 msgstr "Szerokość"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "Distance between vertical lines in pixel"
-msgstr "<![CDATA[Odległość pomiędzy liniami pionowymi w pikselach]]>"
+msgstr "Odległość pomiędzy liniami pionowymi w pikselach"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
@@ -4199,6 +4201,8 @@ msgid ""
 "Set sigma, the standard deviation of Gaussian blur.<br>\n"
 "        Determines the strength of the horizontal blur. Default is 10."
 msgstr ""
+"Ustaw sigmę, odchylenie standardowe rozmycia Gaussa.<br>\n"
+"        Określa siłę rozmycia w poziomie. Domyślna wartość to 10."
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
@@ -4211,6 +4215,8 @@ msgid ""
 "Set vertical sigma.<br>\n"
 "        Determines the strength of the vertical blur. Default is 10."
 msgstr ""
+"Ustaw sigmę w pionie.<br>\n"
+"        Określa siłę rozmycia w pionie. Domyślna wartość to 10."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
@@ -4962,6 +4968,8 @@ msgid ""
 "Correct radial lens distortion. This effect allows to specify a color for "
 "the unmapped pixels."
 msgstr ""
+"Popraw promieniowe zniekształcenie soczewki. Ten efekt umożliwia wskazanie "
+"barwy dla niezmapowanych pikseli."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, kde-format
@@ -7144,10 +7152,9 @@ msgid "Set the display mode"
 msgstr "<![CDATA[Ustaw tryb wyświetlania]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the components to be displayed]]>"
+#, kde-format
 msgid "Select the components to be displayed"
-msgstr "<![CDATA[Wybierz składniki do wyświetlenia]]>"
+msgstr "Wybierz składniki do wyświetlenia"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
@@ -7600,10 +7607,9 @@ msgstr "Z"
 
 #: data/effects/copychannelstostereo.xml:9
 #: data/effects/copychannelstostereo.xml:13
-#, fuzzy, kde-format
-#| msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+#, kde-format
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
-msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
 
 #: data/effects/copychannelstostereo.xml:12
 #, kde-format
@@ -8153,6 +8159,8 @@ msgid ""
 "Display and manipulation of the alpha channel.<br>\n"
 "        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</em>."
 msgstr ""
+"Wyświetlanie i manipulacja kanałem alfa.<br>\n"
+"        Ten efekt został zastąpiony <em>frei0r.alpha0ps_alpha0ps</em>."
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:11
 #: data/effects/frei0r/frei0r_alpha0ps.xml:37
@@ -8205,6 +8213,8 @@ msgid ""
 "Display and manipulation of the alpha channel.<br>\n"
 "        This effect has been replaced by <em>frei0r.alphaops_alphaops</em>."
 msgstr ""
+"Wyświetlanie i manipulacja kanałem alfa.<br>\n"
+"        Ten efekt został zastąpiony <em>frei0r.alphaops_alphaops</em>."
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:44
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
@@ -8400,6 +8410,8 @@ msgid ""
 "Fill the alpha channel with a specified gradient.<br>\n"
 "    This effect has been replaced by frei0r.alphaops_alphagrad."
 msgstr ""
+"Wypełnij kanał alfa podanym gradientem.<br>\n"
+"    Ten efekt został zastąpiony frei0r.alphaops_alphagrad."
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, fuzzy, kde-format
@@ -8413,6 +8425,8 @@ msgid ""
 "Draws simple shapes into the alpha channel.<br>\n"
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>."
 msgstr ""
+"Rysuje proste kształty na kanale alfa.<br>\n"
+"    Ten efekt został zastąpiony <em>frei0r.alphaops_alphaspot</em>."
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -8752,6 +8766,8 @@ msgid ""
 "The Start is half the height in degrees of the un-matted area. The End is "
 "the half the height in degrees where the matte is at 100%."
 msgstr ""
+"Początek to połowa wysokości w stopniach obszaru un-matted. Koniec to połowa "
+"wysokości w stopniach tam, gdzie matte jest na 100%."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
 #, kde-format
@@ -8765,6 +8781,8 @@ msgid ""
 "The <b>Start</b> is the width in degrees of the un-matted area. The <b>End</"
 "b> is the width in degrees where the matte is at 100%."
 msgstr ""
+"<b>Początek</b> to szerokość w stopniach obszaru un-matted. <b>Koniec</b> to "
+"szerokość w stopniach, gdzie matte jest na 100%."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
 #, kde-format
@@ -8832,6 +8850,8 @@ msgid ""
 "The amount to rotate the image<br>\n"
 "    \t(clockwise or anticlockwise rotation along the axis of movement)."
 msgstr ""
+"Ilość o jaką obrócić obraz<br>\n"
+"    \t(zgodnie lub przeciwnie do ruchu wskazówek zegara i wzdłuż osi ruchu)."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
@@ -8845,6 +8865,8 @@ msgid ""
 "The horizontal field of view, in degrees, of the resulting frame.<br>\n"
 "    \tAny value over 179 results in a fisheye projection."
 msgstr ""
+"Pole widoku klatki wynikowej, w poziomie, w stopniach.<br>\n"
+"    \tWartości powyżej 179 skutkują projekcją rybie oko."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:28
 #, kde-format
@@ -8978,6 +9000,8 @@ msgid ""
 "The fisheye projection type. Currently only equidistant fisheyes, like the "
 "Ricoh Theta and Garmin Virb360 are supported."
 msgstr ""
+"Rodzaj rzutowania rybie oko. Obecnie obsługiwane są tylko równoodległe rybie "
+"oczy, takie jak Ricoh Theta oraz Garmin Virb360."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
 #, kde-format
@@ -8995,6 +9019,8 @@ msgid ""
 "The field of view of a single hemisphere in degrees, expressed as a fraction "
 "of the frame width."
 msgstr ""
+"Pole widoku pojedynczej półkuli w stopniach, wyrażone jako ułamek szerokości "
+"klatki."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
 #, kde-format
@@ -9018,6 +9044,8 @@ msgid ""
 "The image center and image orientation for the front-facing camera.<br>\n"
 "    \tThe X parameter is a fraction of the image width."
 msgstr ""
+"Środek i kierunek obrazu dla kamery patrzącej w przód.<br>\n"
+"    \tParametr X jest ułamkiem szerokości obrazu."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:41
 #, kde-format
@@ -9030,6 +9058,8 @@ msgid ""
 "The image center and image orientation for the front-facing camera.<br>\n"
 "    \tThe Y parameter a fraction of the image height."
 msgstr ""
+"Środek i kierunek obrazu dla kamery patrzącej w przód.<br>\n"
+"    \tParametr Y jest ułamkiem wysokości obrazu."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:46
 #, kde-format
@@ -9058,6 +9088,8 @@ msgid ""
 "The image center and image orientation for the back-facing camera.<br>\n"
 "    \tThe X parameter is a fraction of the image width.."
 msgstr ""
+"Środek i kierunek obrazu dla kamery patrzącej w tył.<br>\n"
+"    \tParametr X jest ułamkiem szerokości obrazu."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:56
 #, kde-format
@@ -9070,6 +9102,8 @@ msgid ""
 "The image center and image orientation for the back-facing camera.<br>\n"
 "    \tThe Y parameter a fraction of the image height."
 msgstr ""
+"Środek i kierunek obrazu dla kamery patrzącej w tył.<br>\n"
+"    \tParametr Y jest ułamkiem wysokości obrazu."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:61
 #, kde-format
@@ -9124,6 +9158,8 @@ msgid ""
 "Lens distortion correction parameters.<br>\n"
 "    \tThe first three parameters are the same as in Hugin."
 msgstr ""
+"Parametry poprawkowe zniekształcenia soczewki.<br>\n"
+"    \tPierwsze trzy parametry są takie same jak w Hugin."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
 #, kde-format
@@ -9365,10 +9401,9 @@ msgid "Analysis offset"
 msgstr "Odsunięcie analizy"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "The distance between the track points"
-msgstr "<![CDATA[Odległość pomiędzy liniami pionowymi w pikselach]]>"
+msgstr "Odległość pomiędzy punktami na ścieżce"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -9384,7 +9419,7 @@ msgid ""
 msgstr ""
 "Po zaznaczeniu, sześć punktów śledzących skierowanych wstecz będzie "
 "używanych do wykrywania ruchów nachylenia i obrotu wokół osi pionowej.<br>\n"
-"    \tWyłącz tto jeśli na przykład pojawiasz się tam, trzymając kamerę"
+"    \tWyłącz to jeśli na przykład pojawiasz się tam, trzymając kamerę"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
 #, kde-format
@@ -9414,6 +9449,8 @@ msgid ""
 "The number of frames to use to smooth out the shakes. The higher the value, "
 "the slower the camera will follow any intended motion."
 msgstr ""
+"Liczba klatek używanych do wygładzania drgań. Im wyższa wartość, tym wolniej "
+"kamera będzie podążać za zamierzonym ruchem."
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
 #, kde-format
@@ -10423,6 +10460,9 @@ msgid ""
 "of the embossed areas.<br>\n"
 "            Range is 0 to 40."
 msgstr ""
+"Określa grubość krawędzi zwiększając/zmniejszając postrzeganą głębię "
+"wytłoczonych obszarów.<br>\n"
+"            Wartość w zakresie od 0 do 40."
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
@@ -10792,10 +10832,9 @@ msgid "Glitching (rows and color)"
 msgstr "Przesuwanie wierszy na obrazie do-i-z"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Adds glitches and block shifting"
+#, kde-format
 msgid "Adds color glitches and block shifting"
-msgstr "Dodaje zakłócenia i przesunięcia bloku"
+msgstr "Dodaje zakłócenia barwne i przesunięcia bloku"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:8
 #, kde-format
@@ -10890,6 +10929,8 @@ msgid ""
 "<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
 "    High quality 3D denoiser"
 msgstr ""
+"<b>Zastąpiony frei0r.denoise_hqdn3d</b><br>\n"
+"    Odszumiacz 3D o wysokiej jakości"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
 #, kde-format
@@ -10944,10 +10985,9 @@ msgid "Invert0r"
 msgstr "Invert0r"
 
 #: data/effects/frei0r/frei0r_invert0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Inverts all colors of a source image"
-msgstr "Dostosowuje kontrast obrazu źródłowego"
+msgstr "Odwraca wszystkie barwy obrazu źródłowego"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
@@ -11930,10 +11970,9 @@ msgstr "Ślad Pr"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:54
 #: data/effects/frei0r/frei0r_pr0file.xml:55
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
+#, kde-format
 msgid "Show Pr trace (red-difference) on scope"
-msgstr "<![CDATA[Pokaż ślad Pr (różnica czerwonego) na wyświetlaczu]]>"
+msgstr "Pokaż ślad Pr (różnica czerwonego) na wyświetlaczu"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:57
 #: data/effects/frei0r/frei0r_pr0file.xml:58
@@ -11943,10 +11982,9 @@ msgstr "Ślad Pb"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:58
 #: data/effects/frei0r/frei0r_pr0file.xml:59
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
+#, kde-format
 msgid "Show Pb trace (blue_difference) on scope"
-msgstr "<![CDATA[Pokaż ślad Pb (różnica niebieskiego) na wyświetlaczu]]>"
+msgstr "Pokaż ślad Pb (różnica niebieskiego) na wyświetlaczu"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:61
 #: data/effects/frei0r/frei0r_pr0file.xml:62
@@ -11982,10 +12020,9 @@ msgstr "Wyświetl RMS"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:70
 #: data/effects/frei0r/frei0r_pr0file.xml:71
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
+#, kde-format
 msgid "Show RMS (root mean square) on scope"
-msgstr "<![CDATA[Pokaż RMS (pierwiastek średniokwadratowy) na wyświetlaczu]]>"
+msgstr "Pokaż RMS (średnia kwadratowa) na wyświetlaczu"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:73
 #: data/effects/frei0r/frei0r_pr0file.xml:74
@@ -12015,10 +12052,9 @@ msgstr "<![CDATA[Pokaż maksimum na wyświetlaczu]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:82
 #: data/effects/frei0r/frei0r_pr0file.xml:83
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
+#, kde-format
 msgid "Use a scale of 0-255 instead of 0.0-1.0"
-msgstr "<![CDATA[Użyj skali 0-255 zamiast 0,0-1,0]]>"
+msgstr "Użyj skali 0-255 zamiast 0,0-1,0"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
@@ -12080,6 +12116,8 @@ msgid ""
 "Repeats and flips the input image when it goes out of bounds, allowing for "
 "adjustable offset, zoom and rotation."
 msgstr ""
+"Powtarza i odbija obraz wejściowy, gdy znajdzie się on poza granicami, "
+"umożliwiając dostosowanie przesunięcia, powiększenia i obrotu."
 
 #: data/effects/frei0r/frei0r_ndvi.xml:4
 #, kde-format
@@ -12144,6 +12182,8 @@ msgid ""
 "An offset to be applied to<br>\n"
 "        the near-infrared component (mapped to [-100%, 100%])"
 msgstr ""
+"Przesunięcie do zastosowania<br>\n"
+"        na składowej bliskiej podczerwieni (zmapowane do [-100%, 100%])"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:34
 #, fuzzy, kde-format
@@ -12340,8 +12380,7 @@ msgid "Glitch image by shifting rows back and forth."
 msgstr "Zakłóć obraz przesuwając wiersze raz w jedną raz w drugą stronę."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
 msgstr "Agresywność przesuwania wiersza/kolumny"
 
@@ -12408,10 +12447,11 @@ msgid ""
 "Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>"
 msgstr ""
+"Mierz wartości wideo.<br>\n"
+"    Ten efekt został zastąpiony <em>frei0r.measure_pr0be</em>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "Oscyloskop (rozbudowany) (ZASTĄPIONY)"
 
@@ -12421,6 +12461,8 @@ msgid ""
 "2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>"
 msgstr ""
+"Oscyloskop 2D wideo.<br>\n"
+"    Ten efekt został zastąpiony <em>frei0r.measure_pr0file</em>"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:4
 #, kde-format
@@ -13005,10 +13047,9 @@ msgid "3-Point Balance"
 msgstr "Stosunek trzypunktowy"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
-#, fuzzy, kde-format
-#| msgid "Balances colors along with 3 points"
+#, kde-format
 msgid "Adjust color balance with 3 color points"
-msgstr "Zmienia równowagę między barwami wzdłuż 3 punktów"
+msgstr "Dostosuj równowagę barw przy użyciu 3 punktów barw"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
 #, fuzzy, kde-format
@@ -14087,6 +14128,9 @@ msgid ""
 "TAP Equalizer (LADSPA 2141)<br>\n"
 "    8-band equalizer with adjustable band center frequencies."
 msgstr ""
+"Korektor graficzny TAP (LADSPA (2141)<br>\n"
+"    8 pasmowy korektor graficzny z możliwością dostrojenia środkowych "
+"częstotliwości."
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
 #, kde-format
@@ -14344,6 +14388,8 @@ msgid ""
 "TAP Scaling Limiter (LADSPA 2145)<br>\n"
 "   Achieves signal level limiting without audible artifacts."
 msgstr ""
+"Ogranicznik skali TAP (LADSPA 2145)<br>\n"
+"   Osiąga ograniczenie poziomu sygnału bez słyszalnych artefaktów."
 
 #: data/effects/ladspa/ladspa_2145.xml:9
 #, kde-format
@@ -14435,20 +14481,19 @@ msgid ""
 "if a strange effect is needed."
 msgstr ""
 "TAP Vibrato (LADSPA 2148)<br>\n"
-"   Moduluje ton swojego sygnału wejściowego sygnałem sinusoidalnym o niskiej "
-"częstotliwości. Użyteczne dla ścieżek z gitarą i syntetycznych. Może się "
-"także przydać, gdy potrzebny jest dziwny efekt."
+"   Moduluje wysokość dźwięku swojego sygnału wejściowego sygnałem "
+"sinusoidalnym o niskiej częstotliwości. Użyteczne dla ścieżek z gitarą i "
+"syntetycznych. Może się także przydać, gdy potrzebny jest dziwny efekt."
 
 #: data/effects/ladspa/ladspa_2148.xml:10
 #, kde-format
 msgid "Determines how fast the pitch is modulated up-down"
-msgstr "Określa szybkość modulowania tonu w górę i w dół"
+msgstr "Określa szybkość modulowania wysokości dźwięku w górę i w dół"
 
 #: data/effects/ladspa/ladspa_2148.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "Sets the amount of pitch modulation"
-msgstr "<![CDATA[Ustawia kąt dla kierunku]]>"
+msgstr "Ustawia ilość modulacji wysokości dźwięku"
 
 #: data/effects/ladspa/ladspa_2149.xml:4
 #, kde-format
@@ -14485,7 +14530,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2150.xml:4
 #, kde-format
 msgid "TAP Pitch Shifter"
-msgstr "Przesunięcie tonu TAP"
+msgstr "Przesunięcie wysokości dźwięku TAP"
 
 #: data/effects/ladspa/ladspa_2150.xml:6
 #, kde-format
@@ -14493,6 +14538,8 @@ msgid ""
 "TAP Pitch Shifter (LADSPA 2150)<br>\n"
 "   Change the pitch in the range of plus/minus one octave."
 msgstr ""
+"Przesunięcie wysokości TAP (LADSPA 2150)<br>\n"
+"   Zmień wysokość w zakresie plus/minus jednej oktawy."
 
 #: data/effects/ladspa/ladspa_2150.xml:9
 #, kde-format
@@ -14505,6 +14552,9 @@ msgid ""
 "Does the same thing as <b>Rate Shift</b></br>\n"
 "      but allows to set musically sensible pitch shift rates."
 msgstr ""
+"Robi to samo co <b>Przesunięcie szybkości</b></br>\n"
+"      lecz umożliwia także ustawienie muzycznie sensowych szybkości "
+"przesunięć wysokości dźwięku."
 
 #: data/effects/ladspa/ladspa_2150.xml:14
 #, kde-format
@@ -14519,8 +14569,8 @@ msgid ""
 "\"physical\", non-musical approach"
 msgstr ""
 "Robi to samo, co <b>Przesunięcie półtonów</b><br>\n"
-"      lecz jako procent pierwotnego tonu, co jest bliższe \"fizycznemu\", "
-"niemuzycznemu podejściu"
+"      lecz jako procent pierwotnej wysokości dźwięku, co jest bliższe "
+"\"fizycznemu\", niemuzycznemu podejściu"
 
 #: data/effects/ladspa/ladspa_2151.xml:4
 #, kde-format
@@ -14533,6 +14583,9 @@ msgid ""
 "TAP Equalizer (LADSPA (2151)<br>\n"
 "    8-band equalizer with adjustable band center frequencies and bandwidth."
 msgstr ""
+"Korektor graficzny TAP (LADSPA (2151)<br>\n"
+"    8 pasmowy korektor graficzny z możliwością dostrojenia środkowych "
+"częstotliwości i szerokości pasma."
 
 #: data/effects/ladspa/ladspa_2151.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:24
@@ -14562,6 +14615,8 @@ msgid ""
 "TAP Dynamics Mono (LADSPA 2152)<br>\n"
 "   Allows changing the dynamic content of the audio stream"
 msgstr ""
+"Dynamika mono TAP (LADSPA 2152)<br>\n"
+"   Umożliwia zmianę dynamicznej treści strumienia dźwiękowego"
 
 #: data/effects/ladspa/ladspa_2152.xml:15
 #: data/effects/ladspa/ladspa_2153.xml:15
@@ -14607,6 +14662,8 @@ msgid ""
 "TAP Dynamics Stereo (LADSPA 2153)<br>\n"
 "   Allows changing the dynamic content of the audio stream"
 msgstr ""
+"Dynamika stereo TAP (LADSPA 2153)<br>\n"
+"   Umożliwia zmianę dynamicznej treści strumienia dźwiękowego"
 
 #: data/effects/ladspa/ladspa_2153.xml:23
 #, kde-format
@@ -14614,6 +14671,8 @@ msgid ""
 "Controls how the envelope levels<br>\n"
 "      are used to determine the needed gain adjustment"
 msgstr ""
+"Określa jak poziomy koperty<br>\n"
+"      są używane do określania potrzebnego dostosowania wzmocnienia"
 
 #: data/effects/ladspa/ladspa_2153.xml:24
 #, fuzzy, kde-format
@@ -14720,7 +14779,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2156.xml:14
 #, kde-format
 msgid "Pitch Tracking"
-msgstr "Śledzenie tonu"
+msgstr "Śledzenie wysokości"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
 #, kde-format
@@ -14736,6 +14795,8 @@ msgid ""
 "These controls range between 0 and 1,<br>\n"
 "      0 meaning hard left and 1 meaning hard right position."
 msgstr ""
+"Te elementy sterujące są w zakresie od 0 do 1,<br>\n"
+"      0 oznacza położenie twardo na lewo, a 1 twardo na prawo."
 
 #: data/effects/ladspa/ladspa_2156.xml:28
 #, fuzzy, kde-format
@@ -14766,6 +14827,8 @@ msgid ""
 "   Applies a time-invariant nonlinear amplitude transfer function to the "
 "signal."
 msgstr ""
+"Wzmocnienie Sigmoid TAP (LADSPA 2157)<br>\n"
+"   Stosuje nieliniową i niezmienną w czasie funkcję przenoszącą na sygnał."
 
 #: data/effects/ladspa/ladspa_2157.xml:9
 #, kde-format
@@ -14881,6 +14944,9 @@ msgid ""
 "      Increasing it will result in stronger modulation using the same LFO "
 "frequency."
 msgstr ""
+"Dostosowuje głębię modulacji opóźnienia.<br>\n"
+"      Zwiększenie tego poskutkuje silniejszą modulacją przy użyciu tej samej "
+"częstotliwości LFO."
 
 #: data/effects/ladspa/ladspa_2159.xml:26
 #, kde-format
@@ -14909,6 +14975,8 @@ msgid ""
 "The cutoff frequency of a high-pass<br>\n"
 "      filter applied to the now twice-delayed signal."
 msgstr ""
+"Częstotliwość odcięcia filtra<br>\n"
+"      górnoprzepustowego nałożona na obecnie dwukrotnie opóźniony sygnał."
 
 #: data/effects/ladspa/ladspa_2159.xml:36
 #: data/effects/ladspa/ladspa_2159.xml:41
@@ -15118,7 +15186,7 @@ msgstr "Rozstrzał"
 #: data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
 msgid "Pitch Shift"
-msgstr "Przesunięcie tonu"
+msgstr "Przesunięcie wysokości dźwięku"
 
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, kde-format
@@ -15133,7 +15201,7 @@ msgstr "Przesunięcie"
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
 #, kde-format
 msgid "Pitch Scaler"
-msgstr "Skalowanie tonu"
+msgstr "Skalowanie wysokości dźwięku"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:5
 #, kde-format
@@ -15372,6 +15440,9 @@ msgid ""
 "Luma value that defines the<br>\n"
 "      center point of transition from prelevel to postlevel opacity value."
 msgstr ""
+"Wartość luma, która określa<br>\n"
+"      punkt środkowy przejścia z wartości nieprzezroczystości przed poziomem "
+"do wartości po poziomie."
 
 #: data/effects/lumakey.xml:16
 #, kde-format
@@ -15917,7 +15988,7 @@ msgstr "Przesunięcie oktawy Rubberband"
 #: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
 msgid "Adjust the audio pitch using the Rubberband library."
-msgstr "Dostosowuje ton dźwięku przy użyciu biblioteki Rubberband."
+msgstr "Dostosowuje wysokość dźwięku przy użyciu biblioteki Rubberband."
 
 #: data/effects/rboctaveshift.xml:8
 #, kde-format
@@ -15939,7 +16010,7 @@ msgstr ""
 "0 pozostawi niezmienioną. Aby wyjaśnić to pojęciami częstotliwości, "
 "przesunięcie częstotliwości f (gdzie f jest większe niż jeden dla przesunięć "
 "w górę i mniejsze niż jeden dla przesunięć w dół) to: o = log(f) / log(2). "
-"Pomijane, jeśli ustawiono skalę tonu."
+"Pomijane, jeśli ustawiono skalę wysokości."
 
 #: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
 #, kde-format
@@ -15969,12 +16040,12 @@ msgstr "Ilość opóźnienia dla każdej próbki z wejścia do wyjścia."
 #: data/effects/rbpitchscale.xml:4
 #, kde-format
 msgid "Rubberband Pitch Scale"
-msgstr "Skalowanie tonu Rubberband"
+msgstr "Skalowanie wysokości dźwięku Rubberband"
 
 #: data/effects/rbpitchscale.xml:8
 #, kde-format
 msgid "Pitch Scale"
-msgstr "Skalowanie tonu"
+msgstr "Skalowanie wysokości dźwięku"
 
 #: data/effects/rbpitchscale.xml:9
 #, kde-format
@@ -15986,13 +16057,13 @@ msgid ""
 "(where o is positive for an upwards shift and negative for downwards) is: f "
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
-"Stosunek skalowania tonu. Jest to stosunek częstotliwości docelowej do "
-"źródłowej. Na przykład, stosunek 2,0 przesunie w górę o jedną oktawę; 0,5 w "
-"dół o jedną oktawę; a 1,0 pozostawi ton niezmienionym. Aby wyjaśnić to "
-"pojęciami muzycznymi, współczynnik skalowania tonu odpowiadający "
-"przesunięciu oktaw (gdzie \"o\" jest dodatnie dla przesunięcia w górę i "
-"ujemne dla przesunięcia w dół) to: f = pow(2.0, o). Zastępuje przesunięcie "
-"oktawy."
+"Stosunek skalowania wysokości dźwięku. Jest to stosunek częstotliwości "
+"docelowej do źródłowej. Na przykład, stosunek 2,0 przesunie w górę o jedną "
+"oktawę; 0,5 w dół o jedną oktawę; a 1,0 pozostawi wysokość niezmienioną. Aby "
+"wyjaśnić to pojęciami muzycznymi, współczynnik skalowania wysokości "
+"odpowiadający przesunięciu oktaw (gdzie \"o\" jest dodatnie dla przesunięcia "
+"w górę i ujemne dla przesunięcia w dół) to: f = pow(2.0, o). Zastępuje "
+"przesunięcie oktawy."
 
 #: data/effects/rotate-3-way.xml:4
 #, kde-format
@@ -16214,10 +16285,9 @@ msgid "Max Number of Lines"
 msgstr "Największa liczba linii"
 
 #: data/effects/scratchlines.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Maximum number of lines in the clip]]>"
+#, kde-format
 msgid "Maximum number of lines in the clip"
-msgstr "<![CDATA[Największa liczba linii na wycinku]]>"
+msgstr "Graniczna liczba linii na wycinku"
 
 #: data/effects/scratchlines.xml:16
 #, kde-format
@@ -16439,7 +16509,7 @@ msgstr "Efekt dźwiękowy zmieniania fazy dźwięku Sox"
 #: data/effects/sox/sox_pitch.xml:4
 #, kde-format
 msgid "Sox Pitch Shift"
-msgstr "Przesunięcie tonu Sox"
+msgstr "Przesunięcie wysokości Sox"
 
 #: data/effects/sox/sox_pitch.xml:5
 #, kde-format
@@ -16928,7 +16998,7 @@ msgid "Use cos instead of linear"
 msgstr "Użyj kosinusa zamiast linowego"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "Gładka"
@@ -17177,7 +17247,7 @@ msgstr "Obrazy stereo oraz binaural"
 #: data/kdenliveeffectscategory.rc:102
 #, kde-format
 msgid "Pitch and Time"
-msgstr "Ton i czas"
+msgstr "Wysokość i czas"
 
 #: data/kdenliveeffectscategory.rc:106
 #, kde-format
@@ -17288,10 +17358,9 @@ msgid "Old-TV definition (DVD...)"
 msgstr ""
 
 #: data/profiles.xml:75
-#, fuzzy, kde-format
-#| msgid "AMF hardware acceleration"
+#, kde-format
 msgid "Hardware Accelerated (experimental)"
-msgstr "Przyspieszenie sprzętowe AMF"
+msgstr "Przyspieszenie sprzętowe (eksperymentalne)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, profile_audioonly)
 #: data/profiles.xml:116 src/ui/configtranscode_ui.ui:76
@@ -18485,73 +18554,73 @@ msgstr ""
 "Musisz określić punkty, które należy uwzględnić na pierwszej klatce obrazu "
 "danego ciągu."
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Liniowa"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "Stopniowa"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr "Odbicie do wewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr "Odbicie na zewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr "Sześcienny do wewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr "Sześcienny na zewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr "Wykładniczy do wewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr "Wykładniczy na zewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr "Kołowy do wewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr "Kołowy na zewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr "Elastyczny do wewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Elastic Out"
 msgstr "Elastyczny na zewnątrz"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "Gładki (przestarzały)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -18560,14 +18629,14 @@ msgstr "Gładki (przestarzały)"
 msgid "Add keyframe"
 msgstr "Dodaj klatkę kluczową"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Zmień rodzaj klatki kluczowej"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1624
@@ -18575,13 +18644,13 @@ msgstr "Zmień rodzaj klatki kluczowej"
 msgid "Delete keyframe"
 msgstr "Usuń klatkę kluczową"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Przenieś klatki kluczowe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -18590,29 +18659,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Przenieś klatkę kluczową"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "Uaktualnij klatkę kluczową"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Usuń wszystkie klatki kluczowe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "efekt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "Wyzeruj %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "Wyzeruj efekt"
@@ -18623,7 +18692,7 @@ msgid "Delete keyframes"
 msgstr "Usuń klatki kluczowe"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1789
+#: src/assets/model/assetparametermodel.cpp:1784
 #, kde-format
 msgid "Update effect"
 msgstr "Uaktualnij efekt"
@@ -18699,13 +18768,13 @@ msgstr "Edytuj klatkę kluczową %1"
 msgid "Update %1"
 msgstr "Uaktualnij %1"
 
-#: src/assets/model/assetparametermodel.cpp:1626
-#: src/assets/model/assetparametermodel.cpp:1673
+#: src/assets/model/assetparametermodel.cpp:1621
+#: src/assets/model/assetparametermodel.cpp:1668
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Nie można otworzyć pliku nastaw %1"
 
-#: src/assets/model/assetparametermodel.cpp:1763
+#: src/assets/model/assetparametermodel.cpp:1758
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18744,7 +18813,7 @@ msgstr "Usuwa obecnie zaznaczoną nastawę."
 msgid "Save effect"
 msgstr "Zapisz efekt"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -18752,7 +18821,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Wpisz nazwę nastawy"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -18815,7 +18884,7 @@ msgstr ""
 "bieżących parametrów, jeśli nie zostały zaznaczone żadne klatki kluczowe."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:176
-#: src/assets/view/widgets/keyframecontainer.cpp:1130
+#: src/assets/view/widgets/keyframecontainer.cpp:1131
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Wklej klatkę kluczową"
@@ -18906,40 +18975,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Wybierz parametry do skopiowania"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1027
+#: src/assets/view/widgets/keyframecontainer.cpp:1028
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Skopiowano klatki kluczowe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1038
-#: src/assets/view/widgets/keyframecontainer.cpp:1079
-#: src/assets/view/widgets/keyframecontainer.cpp:1086
+#: src/assets/view/widgets/keyframecontainer.cpp:1039
+#: src/assets/view/widgets/keyframecontainer.cpp:1080
+#: src/assets/view/widgets/keyframecontainer.cpp:1087
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Nie ma żadnych prawidłowych danych klatki kluczowej w schowku"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1139
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Nie można skopiować wartości bieżącego parametru"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1143
-#: src/assets/view/widgets/keyframecontainer.cpp:1154
+#: src/assets/view/widgets/keyframecontainer.cpp:1144
+#: src/assets/view/widgets/keyframecontainer.cpp:1155
 #, kde-format
 msgid "Current values copied"
 msgstr "Skopiowano bieżące wartości"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1166
+#: src/assets/view/widgets/keyframecontainer.cpp:1167
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Nie ma żadnych danych klatki kluczowej w schowku"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1247
+#: src/assets/view/widgets/keyframecontainer.cpp:1248
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Nie można usunąć ostatniej klatki kluczowej"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1259
+#: src/assets/view/widgets/keyframecontainer.cpp:1260
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -19329,6 +19398,7 @@ msgstr ""
 msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
 msgstr ""
+"Kliknij dwukrotnie, upuść pliki lub kliknij %1, aby zaimportować multimedia"
 
 #: src/bin/bin.cpp:143
 #, kde-format
@@ -19339,6 +19409,8 @@ msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
 msgstr ""
+"Kliknij dwukrotnie, upuść pliki\n"
+"lub kliknij %1, aby zaimportować multimedia"
 
 #: src/bin/bin.cpp:324 src/bin/bin.cpp:698 src/monitor/view/ClipMonitor.qml:555
 #, fuzzy, kde-format
@@ -20612,10 +20684,9 @@ msgstr "Usuń wszystkie znaczniki"
 #: src/bin/model/markerlistmodel.cpp:1118
 #: src/bin/model/markerlistmodel.cpp:1148
 #: src/timeline2/view/timelinecontroller.cpp:1622
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "Nie znaleziono prowadnicy w bieżącym miejscu"
+msgstr "Nie znaleziono znacznika bieżącym miejscu"
 
 #: src/bin/model/markerlistmodel.cpp:1079
 #, kde-format
@@ -23174,6 +23245,8 @@ msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
+"Uaktualniono Kdenlive. Jeśli lubisz ten program, to rozważ <a href="
+"\"%1\">dołączenie do jego twórców</a> lub pomoc <a href=\"%2\">pieniężną</a>."
 
 #: src/dialogs/Simplesplash.qml:292 src/dialogs/Splash.qml:692
 #, kde-format
@@ -25520,17 +25593,17 @@ msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 "Niektóre z twoich ulubionych efektów są nieprawidłowe i zostały usunięte: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Ukryj klatki kluczowe"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "Pokaż klatki kluczowe"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Uaktualnij obszar dla %1"
@@ -26250,7 +26323,7 @@ msgstr "Plik docelowy"
 #: src/ui/timeremap_ui.ui:297
 #, kde-format
 msgid "Pitch compensation"
-msgstr "Wyrównanie tonu"
+msgstr "Wyrównanie wysokości dźwięku"
 
 #: src/jobs/speedtask.cpp:243
 #, kde-format
@@ -26615,14 +26688,9 @@ msgid "Kdenlive Layout (*.json)"
 msgstr "Układ Kdenlive (*.kdenlivelayout)"
 
 #: src/layouts/layoutmanagerdialog.cpp:231
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not create assets folder:\n"
-#| " %1"
+#, kde-format
 msgid "Could not write in the layouts folder %1"
-msgstr ""
-"Nie można utworzyć katalogu zasobów:\n"
-"%1"
+msgstr "Nie udało się zapisać w katalogu układów %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:235
 #, kde-format
@@ -26662,10 +26730,9 @@ msgid "Overwrite existing file for vertical layout %1?"
 msgstr ""
 
 #: src/layouts/layoutmanagerdialog.cpp:305
-#, fuzzy, kde-format
-#| msgid "Layout exported successfully."
+#, kde-format
 msgid "Horizontal layout exported successfully."
-msgstr "Pomyślnie wyeksportowano układ."
+msgstr "Pomyślnie wyeksportowano układ poziomy."
 
 #: src/layouts/layoutmanagerdialog.cpp:319
 #, kde-format
@@ -26685,11 +26752,10 @@ msgid "This layout contains a horizontal profile"
 msgstr "Ten układ zawiera profil poziomy"
 
 #: src/layouts/layoutmanagerdialog.cpp:340
-#, fuzzy, kde-format
-#| msgid "Shift chroma pixels horizontally and/or vertically. "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
-msgstr "Przesuń piksele chromy w poziomie i/lub poziomie. "
+msgstr "Ten układ zawiera profil poziomy"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -29823,10 +29889,9 @@ msgstr ""
 
 #: src/monitor/monitor.cpp:3490 src/monitor/monitor.cpp:3511
 #: src/timeline2/view/timelinecontroller.cpp:6004
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "Nieudane tworzenie pliku."
+msgstr "Nie udało się utworzyć znacznika zakresu z obszaru"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -32828,6 +32893,8 @@ msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
+"10 bitowa głębia barw zostanie przekształcona na 8 bitową, gdy używasz "
+"złożenia lub efektów niedostarczonych przez avfilter."
 
 #: src/renderpresets/renderpresetmodel.cpp:387
 #, kde-format
@@ -33720,10 +33787,9 @@ msgid "Could not add bin clip"
 msgstr "Nie można dodać wycinka pojemnika"
 
 #: src/timeline2/model/timelinefunctions.cpp:2582
-#, fuzzy, kde-format
-#| msgid "All clips were not successfully copied"
+#, kde-format
 msgid "Not all clips were copied successfully"
-msgstr "Nie udało się skopiować wszystkich wycinków"
+msgstr "Nie wszystkie wycinki udało się skopiować"
 
 #: src/timeline2/model/timelinefunctions.cpp:2638
 #: src/timeline2/model/timelinefunctions.cpp:2819
@@ -34118,7 +34184,7 @@ msgstr "Szybkość wycinka"
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
 "MLT musi być skompilowany z biblioteką rubberband aby włączyć poprawianie "
-"tonu"
+"wysokości dźwięku"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:53
 #, kde-format
@@ -39644,7 +39710,7 @@ msgstr "Szablon:"
 #: src/ui/templateclip_ui.ui:63
 #, no-c-format, kde-format
 msgid "Enter the text that will replace the %s string from the template"
-msgstr ""
+msgstr "Wpisz tekst, który zastąpi ciąg %s ze wzorca"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:58
@@ -40147,12 +40213,12 @@ msgstr "1.0×"
 msgid "Transparency:"
 msgstr "Przezroczystość:"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "Wybierz barwę na ekranie."
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

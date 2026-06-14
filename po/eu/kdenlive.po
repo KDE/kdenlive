@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 02:33+0000\n"
+"POT-Creation-Date: 2026-06-14 02:32+0000\n"
 "PO-Revision-Date: 2025-12-11 23:38+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -17341,7 +17341,7 @@ msgid "Use cos instead of linear"
 msgstr "erabili cos lineala beharrean"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:100
+#: src/assets/keyframes/model/keyframemodel.cpp:101
 #, kde-format
 msgid "Smooth"
 msgstr "Leundu"
@@ -18928,73 +18928,73 @@ msgstr ""
 "Sekuentziaren lehenengo bideo-fotograman barneratutako puntua definitu behar "
 "dituzu."
 
-#: src/assets/keyframes/model/keyframemodel.cpp:98
+#: src/assets/keyframes/model/keyframemodel.cpp:99
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Lineala"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:99
+#: src/assets/keyframes/model/keyframemodel.cpp:100
 #, kde-format
 msgid "Discrete"
 msgstr "Diskretua"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:101
+#: src/assets/keyframes/model/keyframemodel.cpp:102
 #, kde-format
 msgid "Bounce In"
 msgstr "Punpa barrura"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:102
+#: src/assets/keyframes/model/keyframemodel.cpp:103
 #, kde-format
 msgid "Bounce Out"
 msgstr "Punpa kanpora"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #, kde-format
 msgid "Cubic In"
 msgstr "Kubikoa barrura"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Cubic Out"
 msgstr "Kubikoa kanpora"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Exponential In"
 msgstr "Esponentziala barrura"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Exponential Out"
 msgstr "Esponentziala kanpora"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Circular In"
 msgstr "Zirkularra barrura"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Circular Out"
 msgstr "Zirkularra kanpora"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Elastic In"
 msgstr "Elastikoa barrura"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Elastic Out"
 msgstr "Elastikoa kanpora"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "Leuna (baztertua)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframecontainer.cpp:151
@@ -19003,14 +19003,14 @@ msgstr "Leuna (baztertua)"
 msgid "Add keyframe"
 msgstr "Gehitu gako-fotograma"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:198
+#: src/assets/keyframes/model/keyframemodel.cpp:199
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Aldatu gako-fotograma mota"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:291
+#: src/assets/keyframes/model/keyframemodel.cpp:292
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframecontainer.cpp:153
 #: src/dialogs/timeremap.cpp:1624
@@ -19018,13 +19018,13 @@ msgstr "Aldatu gako-fotograma mota"
 msgid "Delete keyframe"
 msgstr "Ezabatu gako-fotograma"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:489
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Mugitu gako-fotogramak"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:509
+#: src/assets/keyframes/model/keyframemodel.cpp:510
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
 #: src/assets/keyframes/view/keyframeview.cpp:210
@@ -19033,29 +19033,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Mugitu gako-fotograma"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:580
+#: src/assets/keyframes/model/keyframemodel.cpp:581
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "Eguneratu gako-fotograma"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:940
+#: src/assets/keyframes/model/keyframemodel.cpp:941
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Ezabatu gako-fotograma guztiak"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1182
+#: src/assets/keyframes/model/keyframemodel.cpp:1183
 #, kde-format
 msgid "effect"
 msgstr "efektua"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1191
+#: src/assets/keyframes/model/keyframemodel.cpp:1192
 #, kde-format
 msgid "Reset %1"
 msgstr "Berrezarri %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1469
+#: src/assets/keyframes/model/keyframemodel.cpp:1470
 #, kde-format
 msgid "Reset effect"
 msgstr "Berrabiarazi efektua"
@@ -19066,7 +19066,7 @@ msgid "Delete keyframes"
 msgstr "Ezabatu gako-fotogramak"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1789
+#: src/assets/model/assetparametermodel.cpp:1784
 #, kde-format
 msgid "Update effect"
 msgstr "Eguneratu efektua"
@@ -19141,13 +19141,13 @@ msgstr "Editatu %1 gako-fotograma"
 msgid "Update %1"
 msgstr "%1 eguneratu"
 
-#: src/assets/model/assetparametermodel.cpp:1626
-#: src/assets/model/assetparametermodel.cpp:1673
+#: src/assets/model/assetparametermodel.cpp:1621
+#: src/assets/model/assetparametermodel.cpp:1668
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 aurrezarpen-fitxategia ezin da ireki"
 
-#: src/assets/model/assetparametermodel.cpp:1763
+#: src/assets/model/assetparametermodel.cpp:1758
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -19186,7 +19186,7 @@ msgstr "Hautatutako aurrezarpena ezabatzen du."
 msgid "Save effect"
 msgstr "Gorde efektua"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -19194,7 +19194,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Sartu Aurrezarpen Izena"
 
-#: src/assets/view/assetparameterview.cpp:377
+#: src/assets/view/assetparameterview.cpp:378
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1559
 #, kde-format
@@ -19257,7 +19257,7 @@ msgstr ""
 "parametroak gako-fotogramarik hautatuta ez badago."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:176
-#: src/assets/view/widgets/keyframecontainer.cpp:1130
+#: src/assets/view/widgets/keyframecontainer.cpp:1131
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Itsatsi gako-fotograma"
@@ -19348,40 +19348,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Hautatu kopiatu beharreko parametroak"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1027
+#: src/assets/view/widgets/keyframecontainer.cpp:1028
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Gako-fotogramak kopiatu dira"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1038
-#: src/assets/view/widgets/keyframecontainer.cpp:1079
-#: src/assets/view/widgets/keyframecontainer.cpp:1086
+#: src/assets/view/widgets/keyframecontainer.cpp:1039
+#: src/assets/view/widgets/keyframecontainer.cpp:1080
+#: src/assets/view/widgets/keyframecontainer.cpp:1087
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Arbelean ez dago gako-fotogramen datu baliodunik"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1139
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Ezin dira uneko parametroaren balioak kopiatu"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1143
-#: src/assets/view/widgets/keyframecontainer.cpp:1154
+#: src/assets/view/widgets/keyframecontainer.cpp:1144
+#: src/assets/view/widgets/keyframecontainer.cpp:1155
 #, kde-format
 msgid "Current values copied"
 msgstr "Uneko balioak kopiatu dira"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1166
+#: src/assets/view/widgets/keyframecontainer.cpp:1167
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Arbelean ez dago gako-fotograma daturik"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1247
+#: src/assets/view/widgets/keyframecontainer.cpp:1248
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Ezin da azken gako-fotograma ezabatu"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1259
+#: src/assets/view/widgets/keyframecontainer.cpp:1260
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -25996,17 +25996,17 @@ msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 "Zure efektu gogokoenetako batzuk baliogabeak dira eta ezabatuak izan dira: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Ezkutatu gako-fotogramak"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:372
+#: src/effects/effectstack/model/effectitemmodel.cpp:376
 #, kde-format
 msgid "Show keyframes"
 msgstr "Erakutsi gako-fotogramak"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:457
+#: src/effects/effectstack/model/effectitemmodel.cpp:461
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1entzako zonaldea eguneratu"
@@ -40585,12 +40585,12 @@ msgstr "1.0×"
 msgid "Transparency:"
 msgstr "Gardentasuna:"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "Hautatu kolorea pantailan."
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
