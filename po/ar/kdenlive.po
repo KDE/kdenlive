@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 00:44+0000\n"
+"POT-Creation-Date: 2026-06-14 00:43+0000\n"
 "PO-Revision-Date: 2026-06-11 11:16+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -2618,7 +2618,7 @@ msgstr "اعرض المحور"
 #: src/assets/view/widgets/keyframecontainer.cpp:339
 #: src/assets/view/widgets/keyframecontainer.cpp:386
 #: src/assets/view/widgets/keyframecontainer.cpp:711
-#: src/widgets/geometrywidget.cpp:175
+#: src/widgets/geometrywidget.cpp:180
 #, kde-format
 msgid "Opacity"
 msgstr "العُتَمَة"
@@ -4750,7 +4750,7 @@ msgstr "تطبيق عامل كيرش."
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
-#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:165
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
 msgstr "حجّم"
@@ -17278,7 +17278,7 @@ msgid "Crop to fill"
 msgstr "اقتطع لتملئ"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:213
+#: src/widgets/geometrywidget.cpp:218
 #, kde-format
 msgid "Align"
 msgstr "حاذِ"
@@ -18665,7 +18665,7 @@ msgstr "تحذف الإعداد المسبق المحدّدة الآن."
 msgid "Save effect"
 msgstr "احفظ التّأثير"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:129
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -18673,7 +18673,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "أدخل اسم الإعداد المسبق"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -18736,7 +18736,7 @@ msgstr ""
 "لم يكن هناك إطار رئيس محدد."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:174
-#: src/assets/view/widgets/keyframecontainer.cpp:1128
+#: src/assets/view/widgets/keyframecontainer.cpp:1129
 #, kde-format
 msgid "Paste keyframe"
 msgstr "ألصق الإطار الرئيس"
@@ -18825,40 +18825,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "حدد المعاملات لنسخها"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1025
+#: src/assets/view/widgets/keyframecontainer.cpp:1026
 #, kde-format
 msgid "Keyframes copied"
 msgstr "نسخت الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1036
-#: src/assets/view/widgets/keyframecontainer.cpp:1077
-#: src/assets/view/widgets/keyframecontainer.cpp:1084
+#: src/assets/view/widgets/keyframecontainer.cpp:1037
+#: src/assets/view/widgets/keyframecontainer.cpp:1078
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "لا يوجد إطار رئيس صالح في الحافظة"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1136
+#: src/assets/view/widgets/keyframecontainer.cpp:1137
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "تعذّر نسخ قيم المعامل الحالي"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1141
-#: src/assets/view/widgets/keyframecontainer.cpp:1152
+#: src/assets/view/widgets/keyframecontainer.cpp:1142
+#: src/assets/view/widgets/keyframecontainer.cpp:1153
 #, kde-format
 msgid "Current values copied"
 msgstr "نُسخت القيم الحالية"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1164
+#: src/assets/view/widgets/keyframecontainer.cpp:1165
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "لا يوجد بيانات إطار رئيس في الحافظة"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1245
+#: src/assets/view/widgets/keyframecontainer.cpp:1246
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "لا يمكن إزالة الإطار الرئيس الأخير"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1257
+#: src/assets/view/widgets/keyframecontainer.cpp:1258
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -34861,7 +34861,7 @@ msgstr "عرض الحدّ"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:165 src/widgets/geometrywidget.cpp:175
+#: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -35502,12 +35502,12 @@ msgstr "بعض تراكيبك المفضلة غير صالحة وأزيلت: %1"
 msgid "Luma file :"
 msgstr "ملفّ ”لوما“ :"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:126
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:131
 #, kde-format
 msgid "Align left"
 msgstr "حاذِ يسارًا"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:130
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:135
 #, kde-format
 msgid "Align right"
 msgstr "حاذِ يمينًا"
@@ -40112,12 +40112,12 @@ msgstr "1.0×"
 msgid "Transparency:"
 msgstr "الشفافيّة"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "انتقِ لونًا من على الشاشة."
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -40183,71 +40183,71 @@ msgstr "أظهر %1 في الخطّ الزّمنيّ"
 msgid "Shift + Drag to adjust value one by one."
 msgstr "شفت + السحب لتضبط القيمة واحد بواحد"
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:61
 #, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "الموضع س"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:67
 #, kde-format
 msgctxt "y axis position"
 msgid "Y"
 msgstr "ص"
 
-#: src/widgets/geometrywidget.cpp:81
+#: src/widgets/geometrywidget.cpp:85
 #, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "حجم ع"
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "اقفل النّسبة الباعيّة"
 
-#: src/widgets/geometrywidget.cpp:98
+#: src/widgets/geometrywidget.cpp:103
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "ر"
 
-#: src/widgets/geometrywidget.cpp:116
+#: src/widgets/geometrywidget.cpp:121
 #, kde-format
 msgid "Adjust to original size"
 msgstr "اضبط إلى الحجم  الأصليّ"
 
-#: src/widgets/geometrywidget.cpp:119
+#: src/widgets/geometrywidget.cpp:124
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "اضبط ووسّط في الإطار"
 
-#: src/widgets/geometrywidget.cpp:121
+#: src/widgets/geometrywidget.cpp:126
 #, kde-format
 msgid "Fit to width"
 msgstr "لائم إلى العرض"
 
-#: src/widgets/geometrywidget.cpp:123
+#: src/widgets/geometrywidget.cpp:128
 #, kde-format
 msgid "Fit to height"
 msgstr "لائم إلى الارتفاع"
 
-#: src/widgets/geometrywidget.cpp:128
+#: src/widgets/geometrywidget.cpp:133
 #, kde-format
 msgid "Center horizontally"
 msgstr "وسّط أفقيًّا"
 
-#: src/widgets/geometrywidget.cpp:132
+#: src/widgets/geometrywidget.cpp:137
 #, kde-format
 msgid "Align top"
 msgstr "حاذِ إلى الأعلى"
 
-#: src/widgets/geometrywidget.cpp:134
+#: src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Center vertically"
 msgstr "وسّط عموديًا"
 
-#: src/widgets/geometrywidget.cpp:136
+#: src/widgets/geometrywidget.cpp:141
 #, kde-format
 msgid "Align bottom"
 msgstr "حاذِ إلى الأسفل"

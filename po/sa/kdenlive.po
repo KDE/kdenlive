@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 00:44+0000\n"
+"POT-Creation-Date: 2026-06-14 00:43+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -2687,7 +2687,7 @@ msgstr "क्षेत्राणि दर्शयतु"
 #: src/assets/view/widgets/keyframecontainer.cpp:339
 #: src/assets/view/widgets/keyframecontainer.cpp:386
 #: src/assets/view/widgets/keyframecontainer.cpp:711
-#: src/widgets/geometrywidget.cpp:175
+#: src/widgets/geometrywidget.cpp:180
 #, kde-format
 msgid "Opacity"
 msgstr "अपारदर्शिता"
@@ -4844,7 +4844,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
-#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:165
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
 msgstr "मापन"
@@ -17841,7 +17841,7 @@ msgid "Crop to fill"
 msgstr "सस्यं पूरयितुं"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:213
+#: src/widgets/geometrywidget.cpp:218
 #, kde-format
 msgid "Align"
 msgstr "संरेखणं कुर्वन्तु"
@@ -19282,7 +19282,7 @@ msgstr "वर्तमान चयनितं पूर्वनिर्ध�
 msgid "Save effect"
 msgstr "प्रभावं रक्षतु"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:129
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -19290,7 +19290,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "पूर्वनिर्धारितनाम प्रविष्टं कुर्वन्तु"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -19353,7 +19353,7 @@ msgstr ""
 "यदि कोऽपि कीफ्रेम् चयनितः नास्ति ।"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:174
-#: src/assets/view/widgets/keyframecontainer.cpp:1128
+#: src/assets/view/widgets/keyframecontainer.cpp:1129
 #, kde-format
 msgid "Paste keyframe"
 msgstr "कीफ्रेम् चिनोतु"
@@ -19443,41 +19443,41 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "प्रतिलिपिं कर्तुं पैरामीटर्स् चिनोतु"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1025
+#: src/assets/view/widgets/keyframecontainer.cpp:1026
 #, kde-format
 msgid "Keyframes copied"
 msgstr "कीफ्रेम्स् प्रतिलिपिकृतम्"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1036
-#: src/assets/view/widgets/keyframecontainer.cpp:1077
-#: src/assets/view/widgets/keyframecontainer.cpp:1084
+#: src/assets/view/widgets/keyframecontainer.cpp:1037
+#: src/assets/view/widgets/keyframecontainer.cpp:1078
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "क्लिप्बोर्ड् मध्ये वैधः कीफ्रेम् दत्तांशः नास्ति"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1136
+#: src/assets/view/widgets/keyframecontainer.cpp:1137
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "वर्तमान पैरामीटर् मूल्यानां प्रतिलिपिं कर्तुं न शक्यते"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1141
-#: src/assets/view/widgets/keyframecontainer.cpp:1152
+#: src/assets/view/widgets/keyframecontainer.cpp:1142
+#: src/assets/view/widgets/keyframecontainer.cpp:1153
 #, kde-format
 msgid "Current values copied"
 msgstr "वर्तमानमूल्यानि प्रतिलिपिकृतानि"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1164
+#: src/assets/view/widgets/keyframecontainer.cpp:1165
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "क्लिप्बोर्ड् मध्ये वैधः कीफ्रेम् दत्तांशः नास्ति"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1245
+#: src/assets/view/widgets/keyframecontainer.cpp:1246
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "अन्तिमं कीफ्रेम् अपसारयितुं न शक्यते"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1257
+#: src/assets/view/widgets/keyframecontainer.cpp:1258
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -35680,7 +35680,7 @@ msgstr "सीमाविस्तारः"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:165 src/widgets/geometrywidget.cpp:175
+#: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
 msgstr "% ."
@@ -36321,12 +36321,12 @@ msgstr "भवतः काश्चन प्रियाः रचनाः �
 msgid "Luma file :"
 msgstr "लुमा सञ्चिका"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:126
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:131
 #, kde-format
 msgid "Align left"
 msgstr "वामभागे संरेखणं कुर्वन्तु"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:130
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:135
 #, kde-format
 msgid "Align right"
 msgstr "दक्षिणतः संरेखणं कुर्वन्तु"
@@ -40975,12 +40975,12 @@ msgstr ""
 msgid "Transparency:"
 msgstr "पारदर्शिता :"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "पर्दायां एकं वर्णं चिनुत।"
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -41044,71 +41044,71 @@ msgstr "समयरेखायां %1 दर्शयतु"
 msgid "Shift + Drag to adjust value one by one."
 msgstr "एकैकं मूल्यं समायोजयितुं Shift + Drag ।"
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:61
 #, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "पद X"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:67
 #, kde-format
 msgctxt "y axis position"
 msgid "Y"
 msgstr "तथा"
 
-#: src/widgets/geometrywidget.cpp:81
+#: src/widgets/geometrywidget.cpp:85
 #, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "आकारः प"
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "ताला आस्पेक्ट रेशियो"
 
-#: src/widgets/geometrywidget.cpp:98
+#: src/widgets/geometrywidget.cpp:103
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "ह"
 
-#: src/widgets/geometrywidget.cpp:116
+#: src/widgets/geometrywidget.cpp:121
 #, kde-format
 msgid "Adjust to original size"
 msgstr "मूल आकारे समायोजयन्तु"
 
-#: src/widgets/geometrywidget.cpp:119
+#: src/widgets/geometrywidget.cpp:124
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "समायोजनं कृत्वा फ्रेममध्ये केन्द्रं कुर्वन्तु"
 
-#: src/widgets/geometrywidget.cpp:121
+#: src/widgets/geometrywidget.cpp:126
 #, kde-format
 msgid "Fit to width"
 msgstr "विस्तारं प्रति उपयुक्तम्"
 
-#: src/widgets/geometrywidget.cpp:123
+#: src/widgets/geometrywidget.cpp:128
 #, kde-format
 msgid "Fit to height"
 msgstr "ऊर्ध्वतां यावत् उपयुक्तम्"
 
-#: src/widgets/geometrywidget.cpp:128
+#: src/widgets/geometrywidget.cpp:133
 #, kde-format
 msgid "Center horizontally"
 msgstr "क्षैतिजरूपेण केन्द्रं कुर्वन्तु"
 
-#: src/widgets/geometrywidget.cpp:132
+#: src/widgets/geometrywidget.cpp:137
 #, kde-format
 msgid "Align top"
 msgstr "उपरि संरेखणं कुर्वन्तु"
 
-#: src/widgets/geometrywidget.cpp:134
+#: src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Center vertically"
 msgstr "लंबवत केन्द्र"
 
-#: src/widgets/geometrywidget.cpp:136
+#: src/widgets/geometrywidget.cpp:141
 #, kde-format
 msgid "Align bottom"
 msgstr "तलम् संरेखयन्तु"
