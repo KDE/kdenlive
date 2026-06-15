@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 00:43+0000\n"
+"POT-Creation-Date: 2026-06-15 00:43+0000\n"
 "PO-Revision-Date: 2026-06-05 13:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -19004,7 +19004,7 @@ msgid "Delete keyframes"
 msgstr "Suprimeix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1782
+#: src/assets/model/assetparametermodel.cpp:1787
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -19081,13 +19081,13 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza el %1"
 
-#: src/assets/model/assetparametermodel.cpp:1619
-#: src/assets/model/assetparametermodel.cpp:1666
+#: src/assets/model/assetparametermodel.cpp:1624
+#: src/assets/model/assetparametermodel.cpp:1671
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
 
-#: src/assets/model/assetparametermodel.cpp:1756
+#: src/assets/model/assetparametermodel.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"

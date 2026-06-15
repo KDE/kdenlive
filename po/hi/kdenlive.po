@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 00:43+0000\n"
+"POT-Creation-Date: 2026-06-15 00:43+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -19165,7 +19165,7 @@ msgid "Delete keyframes"
 msgstr "मुख्य फ़्रेम हटाएं"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1782
+#: src/assets/model/assetparametermodel.cpp:1787
 #, kde-format
 msgid "Update effect"
 msgstr "अद्यतन प्रभाव"
@@ -19240,13 +19240,13 @@ msgstr "%1कीफ़्रेम संपादित करें"
 msgid "Update %1"
 msgstr "अपडेट करें %1"
 
-#: src/assets/model/assetparametermodel.cpp:1619
-#: src/assets/model/assetparametermodel.cpp:1666
+#: src/assets/model/assetparametermodel.cpp:1624
+#: src/assets/model/assetparametermodel.cpp:1671
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "प्रीसेट फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/assets/model/assetparametermodel.cpp:1756
+#: src/assets/model/assetparametermodel.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"

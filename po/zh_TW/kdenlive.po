@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 00:43+0000\n"
+"POT-Creation-Date: 2026-06-15 00:43+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -18287,7 +18287,7 @@ msgid "Delete keyframes"
 msgstr "刪除關鍵幀"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1782
+#: src/assets/model/assetparametermodel.cpp:1787
 #, kde-format
 msgid "Update effect"
 msgstr "更新效果"
@@ -18361,13 +18361,13 @@ msgstr "編輯 %1 關鍵幀"
 msgid "Update %1"
 msgstr "更新 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1619
-#: src/assets/model/assetparametermodel.cpp:1666
+#: src/assets/model/assetparametermodel.cpp:1624
+#: src/assets/model/assetparametermodel.cpp:1671
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "無法寫入預設檔 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1756
+#: src/assets/model/assetparametermodel.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 00:43+0000\n"
+"POT-Creation-Date: 2026-06-15 00:43+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -18733,7 +18733,7 @@ msgid "Delete keyframes"
 msgstr " Biller"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1782
+#: src/assets/model/assetparametermodel.cpp:1787
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Update effect"
@@ -18820,14 +18820,14 @@ msgstr " Biller"
 msgid "Update %1"
 msgstr "Profil opfrischen"
 
-#: src/assets/model/assetparametermodel.cpp:1619
-#: src/assets/model/assetparametermodel.cpp:1666
+#: src/assets/model/assetparametermodel.cpp:1624
+#: src/assets/model/assetparametermodel.cpp:1671
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot open preset file %1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/assets/model/assetparametermodel.cpp:1756
+#: src/assets/model/assetparametermodel.cpp:1761
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgctxt "@info:status"

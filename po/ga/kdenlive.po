@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 00:43+0000\n"
+"POT-Creation-Date: 2026-06-15 00:43+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -18987,7 +18987,7 @@ msgid "Delete keyframes"
 msgstr "Scrios frámaí eochair"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1782
+#: src/assets/model/assetparametermodel.cpp:1787
 #, kde-format
 msgid "Update effect"
 msgstr "Éifeacht nuashonraithe"
@@ -19066,13 +19066,13 @@ msgstr "Cuir fráma eochair %1 in eagar"
 msgid "Update %1"
 msgstr "Nuashonraigh %1"
 
-#: src/assets/model/assetparametermodel.cpp:1619
-#: src/assets/model/assetparametermodel.cpp:1666
+#: src/assets/model/assetparametermodel.cpp:1624
+#: src/assets/model/assetparametermodel.cpp:1671
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Ní féidir comhad réamhshocraithe %1 a oscailt"
 
-#: src/assets/model/assetparametermodel.cpp:1756
+#: src/assets/model/assetparametermodel.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
