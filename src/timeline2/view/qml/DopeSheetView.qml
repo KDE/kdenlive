@@ -276,8 +276,24 @@ Item {
         return treeView.index(treeView.currentRow, 0)
     }
 
-    function setActiveIndex(row) {
-        treeView.selectionModel.setCurrentIndex(treeView.index(row, 0), ItemSelectionModel.SelectCurrent);
+function setActiveIndexFromModel(index) {
+        var currentIx = treeView.selectionModel.currentIndex
+        if (currentIx.parent && currentIx.parent.valid) {
+            if (currentIx.parent.row === index.row) {
+                return
+            }
+        } else if (currentIx.row === index.row) {
+            return
+        }
+        treeView.selectionModel.setCurrentIndex(treeView.model.index(index.row, 0), ItemSelectionModel.SelectCurrent);
+    }
+
+    function setActiveIndex(index) {
+        if (index.parent && index.parent.valid) {
+            dopesheetmodel.setActiveIndex(index.parent.row)
+        } else {
+            dopesheetmodel.setActiveIndex(index.row)
+        }
     }
 
     Menu {
@@ -611,6 +627,15 @@ Item {
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
             model: dopesheetmodel
+            onCurrentChanged: (current, previous) => {
+                if (current.valid && current.parent) {
+                    if (current.parent && current.parent.valid && current.parent != model.rootIndex) {
+                        dopesheetmodel.setActiveIndex(current.parent.row)
+                    } else {
+                        dopesheetmodel.setActiveIndex(current.row)
+                    }
+                }
+            }
         }
         // You can set a custom delegate or use a built-in TreeViewDelegate
         delegate: Item {
@@ -733,13 +758,13 @@ Item {
                         clickPoint = Qt.point(mouseX, mouseY)
                         rubberTopLeft = mapToItem(dopeRoot, mouseX, mouseY)
                         mouse.accepted = true
-                        console.log('    - - -- DOPE CLICK - - - ')
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
                         buttonClicked = mouse.buttons
                         // Select parameter
                         var parameterIndex = treeView.index(row, column)
-                        treeView.selectionModel.setCurrentIndex(parameterIndex, ItemSelectionModel.SelectCurrent)
+                        treeView.selectionModel.setCurrentIndex(parameterIndex, ItemSelectionModel.SelectCurrent);
+                        dopeRoot.setActiveIndex(parameterIndex)
 
                         if (clickIndex < 0) {
                             // Not on a keyframe

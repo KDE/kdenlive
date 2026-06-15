@@ -38,8 +38,7 @@ DopeWidget::DopeWidget(QWidget *parent)
                           {"keyframeTypeNames", KeyframeModel::getKeyframeTypesVariant().keys()},
                           {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("DopeSheetView"));
-    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::saveActiveIndex, this, &DopeWidget::saveActiveIndex);
-    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::restoreActiveIndex, this, &DopeWidget::restoreActiveIndex);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::activateEffect, this, &DopeWidget::activateEffect);
 }
 
 void DopeWidget::deleteItem()
@@ -72,10 +71,14 @@ void DopeWidget::doKeyPressEvent(QKeyEvent *ev)
 
 void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
 {
-    pCore->dopeSheetModel()->registerStack(model);
+    if (!pCore->dopeSheetModel()->registerStack(model)) {
+        // model is already active
+        return;
+    }
     if (!model || !rootObject()) {
         return;
     }
+    connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::QueuedConnection);
     // Check if we are on a keyframe
     int pos = pCore->getMonitorPosition() - pCore->getItemPosition(model->getOwnerId());
     pCore->dopeSheetModel()->isOnKeyframe(pos, true);
@@ -148,18 +151,14 @@ void DopeWidget::slotAddRemoveKeyframe()
     pCore->dopeSheetModel()->addRemoveKeyframe(activeIndex, pos);
 }
 
-void DopeWidget::saveActiveIndex()
+void DopeWidget::activateEffect(QPersistentModelIndex ix)
 {
-    // Find active model
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    m_activeIndex = returnedValue.toModelIndex();
+    QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(ix)));
 }
 
-void DopeWidget::restoreActiveIndex()
+void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active)
 {
-    if (!m_activeIndex.isValid()) {
-        return;
+    if (active) {
+        activateEffect(ix);
     }
-    QMetaObject::invokeMethod(rootObject(), "setActiveIndex", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(m_activeIndex.row())));
 }

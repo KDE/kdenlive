@@ -65,8 +65,8 @@ public:
     void deregisterItem(QPersistentModelIndex ix);
     void clearModel();
     /** @brief Register all keyframable params for an effect */
-    void registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel);
-    void registerStack(std::shared_ptr<EffectStackModel> model);
+    bool registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel);
+    bool registerStack(std::shared_ptr<EffectStackModel> model);
     /** @brief Remove all keyframes at given indexes (parameter indexes / keyframes indexes) */
     Q_INVOKABLE void removeKeyframes(QVariantList indexes, QVariantList keyframes);
     /** @brief Remove all keyframes at given position */
@@ -90,6 +90,7 @@ public:
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
+    Q_INVOKABLE void setActiveIndex(int row);
     int dopeDuration() const;
     int dopePosition() const;
     void updateItemPosition(ObjectId itemId);
@@ -140,7 +141,6 @@ Q_SIGNALS:
     void dopeDurationChanged();
     void dopePositionChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
-    void saveActiveIndex();
-    void restoreActiveIndex();
+    void activateEffect(QPersistentModelIndex ix);
     void matchingKeyframes(QList<QPersistentModelIndex>);
 };

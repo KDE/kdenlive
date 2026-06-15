@@ -29,8 +29,10 @@ public:
 public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);
     void slotAddRemoveKeyframe();
-    void saveActiveIndex();
-    void restoreActiveIndex();
+    void activateEffect(QPersistentModelIndex ix);
+
+private Q_SLOTS:
+    void updateActiveEffect(QPersistentModelIndex ix, bool active);
 
 private:
     QModelIndex m_activeIndex;

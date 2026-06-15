@@ -225,6 +225,6 @@ Q_SIGNALS:
     /** @brief: The master effect stack zones changed, update */
     void updateMasterZones();
     /** @brief: Currently active effect changed */
-    void currentChanged(QModelIndex ix, bool active);
+    void currentChanged(QPersistentModelIndex ix, bool active);
     void customDataChanged(const QModelIndex &, const QModelIndex &, const QList<int> &roles = QList<int>());
 };

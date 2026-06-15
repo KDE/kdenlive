@@ -136,8 +136,11 @@ void DopeSheetModel::deregisterItem(QPersistentModelIndex ix)
     endRemoveRows();
 }*/
 
-void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
+bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 {
+    if (model == m_model) {
+        return false;
+    }
     m_model.reset();
     m_hasGrabbedKeyframes = false;
     m_indexesOnKeyframe.clear();
@@ -150,11 +153,11 @@ void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
         connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
     }
     loadEffects();
+    return true;
 }
 
 void DopeSheetModel::loadEffects()
 {
-    Q_EMIT saveActiveIndex();
     QWriteLocker locker(&m_lock);
     if (!m_paramsList.empty()) {
         m_paramsList.clear();
@@ -168,6 +171,7 @@ void DopeSheetModel::loadEffects()
         return;
     }
     int max = m_model->rowCount();
+    int activeEffect = m_model->getActiveEffect();
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         if (item->childCount() > 0) {
@@ -175,19 +179,20 @@ void DopeSheetModel::loadEffects()
             continue;
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
-        registerAsset(i, effectModel);
+        if (registerAsset(i, effectModel) && i == activeEffect) {
+            Q_EMIT activateEffect(m_model->index(i, 0));
+        }
     }
-    Q_EMIT restoreActiveIndex();
 }
 
-void DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel)
+bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel)
 {
     qDebug() << ":::: REGISTERING DOPE EFFECT: " << effectModel->dataColumn(0);
     auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString(), row}, shared_from_this(), false);
     std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
     if (!keyframes) {
         // EFfect has no keyframes, abort
-        return;
+        return false;
     }
     QStringList blockedParams = effectModel->data(QModelIndex(), AssetParameterModel::BlockedKeyframesRole).toStringList();
     getRoot()->appendChild(effectItem);
@@ -250,6 +255,7 @@ void DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> eff
                                   }
                               });
     m_connectionList << connection;
+    return true;
 }
 
 void DopeSheetModel::updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles)
@@ -963,5 +969,12 @@ void DopeSheetModel::addRemoveKeyframe(const QModelIndex ix, int pos)
         removeKeyframe(ix, pos);
     } else {
         addKeyframe(ix, pos);
+    }
+}
+
+void DopeSheetModel::setActiveIndex(int row)
+{
+    if (m_model) {
+        m_model->setActiveEffect(row);
     }
 }
