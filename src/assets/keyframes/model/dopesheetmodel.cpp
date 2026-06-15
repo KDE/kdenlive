@@ -46,6 +46,7 @@ void DopeSheetModel::clearModel()
 {
     m_paramsList.clear();
     m_hasGrabbedKeyframes = false;
+    m_indexesOnKeyframe.clear();
     for (auto &c : m_connectionList) {
         QObject::disconnect(c);
     }
@@ -139,6 +140,7 @@ void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 {
     m_model.reset();
     m_hasGrabbedKeyframes = false;
+    m_indexesOnKeyframe.clear();
     m_model = std::move(model);
     Q_EMIT dopeDurationChanged();
     Q_EMIT dopePositionChanged();
@@ -178,10 +180,10 @@ void DopeSheetModel::loadEffects()
     Q_EMIT restoreActiveIndex();
 }
 
-void DopeSheetModel::registerAsset(int i, std::shared_ptr<EffectItemModel> effectModel)
+void DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel)
 {
     qDebug() << ":::: REGISTERING DOPE EFFECT: " << effectModel->dataColumn(0);
-    auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString(), i}, shared_from_this(), false);
+    auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString(), row}, shared_from_this(), false);
     std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
     if (!keyframes) {
         // EFfect has no keyframes, abort
@@ -209,6 +211,7 @@ void DopeSheetModel::registerAsset(int i, std::shared_ptr<EffectItemModel> effec
         pInfo.id = effectModel->data(ix, Qt::DisplayRole).toString();
         pInfo.type = effectModel->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         pInfo.row = ix.row();
+        pInfo.index = ix;
         m_paramsList.insert({paramItem->getId(), {pInfo, km}});
     }
     auto connection = connect(effectModel.get(), &AssetParameterModel::dataChanged, this,
@@ -476,6 +479,38 @@ void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int u
             pCore->displayMessage(i18n("Failed to move keyframe"), InformationMessage);
         }
     }
+}
+
+bool DopeSheetModel::isOnKeyframe(int framePosition, bool force)
+{
+    if (!m_model) {
+        return false;
+    }
+    int max = m_model->rowCount();
+    QList<QPersistentModelIndex> matchingIndexes;
+    bool matching = false;
+    for (int i = 0; i < max; i++) {
+        QModelIndex ix = index(i, 0);
+        KeyframeModel *master = data(ix, ModelRole).value<KeyframeModel *>();
+        if (master && master->hasKeyframe(framePosition)) {
+            int itemId = int(ix.internalId());
+            auto tItem = getItemById(itemId);
+            for (int j = 0; j < tItem->childCount(); ++j) {
+                auto current = tItem->child(j);
+                auto ix2 = getIndexFromItem(current);
+                KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+                if (km->hasKeyframe(framePosition)) {
+                    matchingIndexes << m_paramsList.at(current->getId()).first.index;
+                }
+            }
+            matching = true;
+        }
+    }
+    if (force || m_indexesOnKeyframe != matchingIndexes) {
+        Q_EMIT matchingKeyframes(matchingIndexes);
+    }
+    m_indexesOnKeyframe = matchingIndexes;
+    return matching;
 }
 
 void DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)

@@ -42,6 +42,7 @@ protected:
         QString id;     // Identifier of the parameter
         ParamType type; // The parameter type (double, animatedrect,...)
         int row{-1};    // The index row in the assetmodel
+        QPersistentModelIndex index;
     };
 
 public:
@@ -64,7 +65,7 @@ public:
     void deregisterItem(QPersistentModelIndex ix);
     void clearModel();
     /** @brief Register all keyframable params for an effect */
-    void registerAsset(int i, std::shared_ptr<EffectItemModel> effectModel);
+    void registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel);
     void registerStack(std::shared_ptr<EffectStackModel> model);
     /** @brief Remove all keyframes at given indexes (parameter indexes / keyframes indexes) */
     Q_INVOKABLE void removeKeyframes(QVariantList indexes, QVariantList keyframes);
@@ -72,6 +73,8 @@ public:
     Q_INVOKABLE void removeKeyframe(const QModelIndex &ix, int framePos);
     /** @brief Add a keyframe to all parameters */
     Q_INVOKABLE void addKeyframe(const QModelIndex &ix, int framePosition);
+    /** @brief Returns true if a keyframe exists in this parameter at that position */
+    Q_INVOKABLE bool isOnKeyframe(int framePosition, bool force = false);
     /** @brief Move keyframes in all parameters at current pos */
     Q_INVOKABLE void moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo);
     Q_INVOKABLE void moveScaledKeyframe(int updatedPos, bool logUndo, bool updateView);
@@ -117,6 +120,8 @@ private:
     std::shared_ptr<EffectStackModel> m_model;
     QMap<QModelIndex, QList<std::pair<int, int>>> m_scaledKFInfo;
     std::pair<int, int> m_scaledRange;
+    /** @brief Remember if the playhead is on a keyframe */
+    QList<QPersistentModelIndex> m_indexesOnKeyframe;
     bool m_resizeFromStart{false};
     /** @brief Returns a list on int indexes of keyframes in a
      *  parameter ix that are placed between startFrame and endFrame */
@@ -137,4 +142,5 @@ Q_SIGNALS:
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void saveActiveIndex();
     void restoreActiveIndex();
+    void matchingKeyframes(QList<QPersistentModelIndex>);
 };

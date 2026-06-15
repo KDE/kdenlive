@@ -6,6 +6,7 @@
 
 #include "keyframecontainer.hpp"
 #include "assets/keyframes/model/corners/cornershelper.hpp"
+#include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/keyframes/model/rect/recthelper.hpp"
@@ -120,16 +121,19 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_addedHeight(0)
     , m_layout(layout)
 {
-    m_editorviewcontainer = new QStackedWidget(parent);
-    m_curveeditorcontainer = new QTabWidget(parent);
-    m_curveeditorcontainer->setTabBarAutoHide(true);
-    m_isRelative = m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool();
-
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingKeyframes, this, &KeyframeContainer::updatedPosition);
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     m_model->prepareKeyframes();
     m_keyframes = m_model->getKeyframeModel();
+
+    /*m_editorviewcontainer = new QStackedWidget(parent);
+    m_curveeditorcontainer = new QTabWidget(parent);
+    m_curveeditorcontainer->setTabBarAutoHide(true);
+    m_isRelative = m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool();
+
+
     m_keyframeview = new KeyframeView(m_keyframes, duration, m_isRelative, parent);
     m_toggleViewAction = new KDualAction(parent);
     m_toggleViewAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("measure")));
@@ -216,6 +220,8 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     m_toolbar->addAction(m_copyAction);
     m_toolbar->addAction(m_pasteAction);
     m_toolbar->addAction(m_selectType);
+
+
 
     QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), parent);
     seekKeyframe->setCheckable(true);
@@ -313,9 +319,9 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     hlay->addWidget(m_time);
     hlay->addStretch();
     hlay->addWidget(m_viewswitch);
-    m_layout->addRow(hlay);
+    m_layout->addRow(hlay);*/
 
-    connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
+    /*connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
     connect(m_keyframeview, &KeyframeView::seekToPos, this, &KeyframeContainer::slotSeekToPos);
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeContainer::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeContainer::slotRefreshParams);
@@ -436,7 +442,9 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     QMargins mrg = m_layout->contentsMargins();
     m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
     m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
-    m_addedHeight = mrg.top() + mrg.bottom() + m_layout->horizontalSpacing();
+    m_addedHeight = mrg.top() + mrg.bottom() + m_layout->horizontalSpacing();*/
+
+    bool isColorWheel = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel;
     if (isColorWheel) {
         addParameter(index);
     }
@@ -501,14 +509,14 @@ void KeyframeContainer::slotRefreshParams()
     KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
     Q_EMIT updateAnimCheckBox();
-    while (auto ac = m_selectType->action(i)) {
+    /*while (auto ac = m_selectType->action(i)) {
         if (ac->data().toInt() == int(keyType)) {
             m_selectType->setCurrentItem(i);
             m_selectType->setIcon(ac->icon());
             break;
         }
         i++;
-    }
+    }*/
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::AnimatedFakePoint || type == ParamType::AnimatedPoint) {
@@ -544,12 +552,13 @@ void KeyframeContainer::slotRefreshParams()
             (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
-    if (m_monitorHelper && m_model->isActive() && m_curveeditorcontainer->isEnabled()) {
+    if (m_monitorHelper && m_model->isActive() /*&& m_curveeditorcontainer->isEnabled()*/) {
         m_monitorHelper->refreshParams(pos);
     }
 }
 void KeyframeContainer::slotSetPosition(int pos, bool update)
 {
+    return;
     bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
     int offset = 0;
     if (pos < 0) {
@@ -575,12 +584,33 @@ void KeyframeContainer::slotSetPosition(int pos, bool update)
 
 int KeyframeContainer::getPosition() const
 {
-    return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
+    int pos = pCore->getMonitorPosition(m_model->monitorId);
+    int itemPos = pCore->getItemPosition(m_keyframes->getOwnerId());
+    return pos - itemPos;
+    // return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
+}
+
+void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)
+{
+    int pos = pCore->getMonitorPosition(m_model->monitorId);
+    bool inside = pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
+    qDebug() << "::: UPDATED POSIITON ON ITEMS: " << m_parameters.size();
+    for (const auto &w : m_parameters) {
+        qDebug() << "::: COMPARING IXES: " << w.first << " IS IN: " << indexes;
+        if (w.second) {
+            w.second->setEnabled(inside && indexes.contains(w.first));
+        } else {
+            qDebug() << "::: MISSING WIDGET FOR IX: " << w.first << " / GEOM: " << m_geometryIndex;
+        }
+    }
+    if (m_geom) {
+        m_geom->setEnabled(inside && indexes.contains(m_geometryIndex));
+    }
 }
 
 void KeyframeContainer::slotAtKeyframe(int frame, bool atKeyframe, bool singleKeyframe)
 {
-    m_addDeleteAction->setActive(!atKeyframe);
+    /*m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe && getCurrentView() == 0);
 
     bool outside = !pCore->itemContainsPos(m_keyframes->getOwnerId(), frame);
@@ -597,7 +627,7 @@ void KeyframeContainer::slotAtKeyframe(int frame, bool atKeyframe, bool singleKe
             enableParameter = outside ? false : m_keyframes->enableParameter(w.first, frame);
             w.second->setEnabled(enableParameter);
         }
-    }
+    }*/
 }
 
 void KeyframeContainer::positionUpdated(int relativePos)
@@ -730,7 +760,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
 
     qDebug() << "::::::PARAM ADDED:" << name << static_cast<int>(type) << comment << suffix;
     // create KeyframeCurveEditor(s) which controls the current parameter
-    if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
+    /*if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
         QVector<QString> tabname = QVector<QString>() << i18n("X position") << i18n("Y position") << i18n("Width") << i18n("Height");
         if (m_model->data(index, AssetParameterModel::OpacityRole).toBool()) {
             tabname.append(i18n("Opacity"));
@@ -740,7 +770,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         }
     } else if (type == ParamType::KeyframeParam) { // other types which support curve editors
         addCurveEditor(index);
-    }
+    }*/
 
     // Construct object
     QLabel *labelWidget = nullptr;
@@ -973,7 +1003,7 @@ int KeyframeContainer::minimumHeight() const
 void KeyframeContainer::slotInitMonitor(bool active, bool)
 {
     connectMonitor(active);
-    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    /*Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (m_keyframeview) {
         m_keyframeview->initKeyframePos();
         connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
@@ -983,7 +1013,7 @@ void KeyframeContainer::slotInitMonitor(bool active, bool)
     }
     if (m_monitorHelper) {
         m_monitorHelper->refreshParamsWhenReady(getPosition());
-    }
+    }*/
 }
 
 void KeyframeContainer::connectMonitor(bool active)
@@ -1017,7 +1047,7 @@ void KeyframeContainer::connectMonitor(bool active)
     if (m_geom) {
         m_geom->connectMonitor(active, m_keyframes->singleKeyframe());
         if (active) {
-            m_keyframeview->initKeyframePos();
+            // m_keyframeview->initKeyframePos();
         }
     }
 }
@@ -1418,6 +1448,7 @@ void KeyframeContainer::slotSeekToKeyframe(int ix, int offset)
 }
 void KeyframeContainer::slotSeekToPos(int pos)
 {
+    return;
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
     bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
     if (pos < 0) {

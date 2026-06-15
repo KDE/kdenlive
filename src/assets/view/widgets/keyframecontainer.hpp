@@ -99,6 +99,7 @@ private Q_SLOTS:
     void slotToggleView();
     void monitorSeek(int pos);
     void positionUpdated(int pos);
+    void updatedPosition(QList<QPersistentModelIndex> indexes);
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
@@ -107,12 +108,12 @@ private:
     QToolBar *m_toolbar;
     QToolButton *m_viewswitch;
     std::shared_ptr<KeyframeModelList> m_keyframes;
-    KeyframeView *m_keyframeview;
-    KeyframeMonitorHelper *m_monitorHelper;
-    QTabWidget *m_curveeditorcontainer;
+    KeyframeView *m_keyframeview{nullptr};
+    KeyframeMonitorHelper *m_monitorHelper{nullptr};
+    QTabWidget *m_curveeditorcontainer{nullptr};
     int m_lastKeyframePos{-1};
     QVector<KeyframeCurveEditor *> m_curveeditorview;
-    QStackedWidget *m_editorviewcontainer;
+    QStackedWidget *m_editorviewcontainer{nullptr};
     KDualAction *m_addDeleteAction;
     KDualAction *m_toggleViewAction;
     QAction *m_centerAction;
@@ -131,8 +132,8 @@ private:
     void setDuration(int duration);
     void addCurveEditor(const QPersistentModelIndex &index, QString name = "", int rectindex = -1);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
-    int m_baseHeight;
-    int m_addedHeight;
+    int m_baseHeight{0};
+    int m_addedHeight{0};
     QFormLayout *m_layout;
     std::unique_ptr<GeometryWidget> m_geom;
     QPersistentModelIndex m_geometryIndex;

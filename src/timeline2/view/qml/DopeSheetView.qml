@@ -6,6 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import org.kde.ki18n
 
 import org.kde.kdenlive as K
 
@@ -16,6 +17,7 @@ Item {
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     // Effects duration
     property int frameDuration: dopesheetmodel.dopeDuration
+    property int toolbarHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
     property int mouseFramePos: -1
     property int hoverKeyframe: -1
     required property var keyframeTypes
@@ -56,7 +58,7 @@ Item {
         console.log('UPDATED DOPE DURATION: ', frameDuration)
     }
     onConsumerPositionChanged: {
-        console.log('UPDATED DOPE POSITION: ', consumerPosition)
+        rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition)
     }
 
     function updateOwner() {
@@ -285,7 +287,7 @@ Item {
             exclusive: true
         }
         MenuItem {
-            text: i18n("Use same type as previous keyframe")
+            text: KI18n.i18n("Use same type as previous keyframe")
             checkable: true
             checked: K.KdenliveSettings.usepreviouskeyframeinterp
             onTriggered: {
@@ -297,7 +299,7 @@ Item {
             exclusive: true
         }
         Menu {
-            title: i18n("Type for selected keyframes")
+            title: KI18n.i18n("Type for selected keyframes")
             id: selectionTypeMenu
             Repeater {
                 model: keyframeTypeNames
@@ -318,7 +320,7 @@ Item {
             }
         }
         Menu {
-            title: i18n("Default type for new keyframes")
+            title: KI18n.i18n("Default type for new keyframes")
             Repeater {
                 model: keyframeTypeNames
                 MenuItem {
@@ -339,11 +341,49 @@ Item {
             }
         }
     }
+    Item {
+        id: dopeBar
+        height: dopeRoot.toolbarHeight + 4
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 4
+        anchors.rightMargin: 4
+        RowLayout {
+            //anchors.fill: parent
+            ToolButton {
+                id: kfTypeButton
+                icon.name: "application-menu"
+                implicitWidth: dopeRoot.toolbarHeight
+                implicitHeight: width
+                onClicked: {
+                    // Check required kfr type
+                    var actionList = currTypeActions.actions
+                    for (var i = 0; i < actionList.length; i++) {
+                        console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
+                        if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
+                            console.log('CHECK ACTION: ', i)
+                            actionList[i].checked = true
+                            break
+                        }
+                    }
+                    selectionTypeMenu.enabled = dopeRoot.allSelectedKeyframes.length > 0
+                    defaultTypeMenu.popup()
+                }
+            }
+            ToolButton {
+                implicitWidth: dopeRoot.toolbarHeight
+                implicitHeight: width
+                icon.name: "keyframe-add"
+                ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
+                onClicked: K.Core.triggerAction('keyframe_add')
+            }
+        }
+    }
 
     Flickable {
         // scroll area for the Ruler.
         id: rulercontainer
-        anchors.top: parent.top
+        anchors.top: dopeBar.bottom
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.leftMargin: K.UiUtils.baseSizeMedium + treeView.headerWidth
@@ -368,11 +408,12 @@ Item {
         anchors.fill: playheadLabel
         visible: playheadLabel.visible
         radius: 4
-        color: activePalette.light
+        color: rulerCursor.overKeyframe ? dopeRoot.hoverColor : activePalette.light
     }
     Label {
         id: playheadLabel
         visible: dopeRoot.isInView(dopeRoot.consumerPosition)
+        anchors.top: rulercontainer.top
         anchors.horizontalCenter: rulerCursor.horizontalCenter
         text: dopeRoot.consumerPosition
         leftPadding: 6
@@ -384,6 +425,7 @@ Item {
         anchors.top: playheadLabel.bottom
         anchors.bottom: parent.bottom
         visible: playheadLabel.visible
+        property bool overKeyframe: false
         z: 4
         x: treeView.headerWidth + K.UiUtils.baseSizeMedium + frameToView(dopeRoot.consumerPosition)
         color: activePalette.text
@@ -404,6 +446,7 @@ Item {
     Label {
         id: mouseLabel
         visible: !ruler.pressed && (backgroundArea.containsMouse || treeView.hoveredParam > -1)
+        anchors.top: rulercontainer.top
         anchors.horizontalCenter: mouseLine.horizontalCenter
         text: dopeRoot.mouseFramePos
         leftPadding: 6
@@ -423,6 +466,7 @@ Item {
         id: backgroundArea
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
+        anchors.topMargin: dopeBar.height
         anchors.leftMargin: treeView.headerWidth
         hoverEnabled: true
         onWheel: wheel => {
@@ -451,9 +495,8 @@ Item {
     Rectangle {
         // Param name background
         anchors.left: parent.left
-        anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.topMargin: rulercontainer.height
+        anchors.top: rulercontainer.bottom
         width: treeView.headerWidth
         color: activePalette.alternateBase
     }
@@ -461,34 +504,34 @@ Item {
     Menu {
         id: keyframeMenu
         MenuItem {
-            text: i18n("Cut")
+            text: KI18n.i18n("Cut")
             enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
             }
         }
         MenuItem {
-            text: i18n("Copy")
+            text: KI18n.i18n("Copy")
             enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
                 dopesheetmodel.copyKeyframes(dopeRoot.allSelectedKeyframes)
             }
         }
         MenuItem {
-            text: i18n("Move to Playhead")
+            text: KI18n.i18n("Move to Playhead")
             enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
                 dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, dopeRoot.mouseFramePos, dopeRoot.consumerPosition, true)
             }
         }
         MenuItem {
-            text: i18n("Align Left")
+            text: KI18n.i18n("Align Left")
             enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
                 dopesheetmodel.alignKeyframe(dopeRoot.allSelectedKeyframes, false)
             }
         }
         MenuItem {
-            text: i18n("Align Right")
+            text: KI18n.i18n("Align Right")
             enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
                 dopesheetmodel.alignKeyframe(dopeRoot.allSelectedKeyframes, true)
@@ -496,7 +539,7 @@ Item {
         }
         Menu {
             id: typeMenu
-            title: i18n("Type")
+            title: KI18n.i18n("Type")
             ActionGroup {
                 id: typeActions
                 exclusive: true
@@ -521,7 +564,7 @@ Item {
             }
         }
         MenuItem {
-            text: i18n("Remove Keyframe")
+            text: KI18n.i18n("Remove Keyframe")
             onTriggered: {
                 if (treeView.selectedKeyframe > -1) {
                     console.log('Removing keyframe')
@@ -538,10 +581,10 @@ Item {
     Menu {
         id: otherMenu
         MenuItem {
-            text: i18n("Paste")
+            text: KI18n.i18n("Paste")
         }
         MenuItem {
-            text: i18n("Add keyframe")
+            text: KI18n.i18n("Add keyframe")
             onTriggered: {
                 if (treeView.selectedKeyframe > -1) {
                     console.log('Adding keyframe')
@@ -556,8 +599,10 @@ Item {
         // The model needs to be a QAbstractItemModel
         id: treeView
         model: dopesheetmodel
-        anchors.fill: parent
-        anchors.topMargin: rulercontainer.height
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.top: rulercontainer.bottom
         property int headerWidth: 100
         property int hoveredParam: -1
         property var activeIndex
@@ -953,30 +998,6 @@ Item {
             dopeRoot.timeScale = 1
             //scrollView.contentX = 0
             //zoomOnBar = true
-        }
-    }
-    ToolButton {
-        id: kfTypeButton
-        anchors.top: dopeRoot.top
-        anchors.left: dopeRoot.left
-        anchors.topMargin: 2
-        anchors.leftMargin: 2
-        icon.name: "application-menu"
-        width: dopeRoot.collapsedHeight
-        height: width
-        onClicked: {
-            // Check required kfr type
-            var actionList = currTypeActions.actions
-            for (var i = 0; i < actionList.length; i++) {
-                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
-                if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
-                    console.log('CHECK ACTION: ', i)
-                    actionList[i].checked = true
-                    break
-                }
-            }
-            selectionTypeMenu.enabled = dopeRoot.allSelectedKeyframes.length > 0
-            defaultTypeMenu.popup()
         }
     }
 }

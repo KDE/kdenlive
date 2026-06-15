@@ -1866,8 +1866,8 @@ function getTrackColor(audio, header) {
                         id: mouseLabel
                         anchors.top: ruler.top
                         anchors.topMargin: ruler.guideLabelHeight
-                        visible: true //backgroundArea.containsMouse
-                        font: miniFont
+                        visible: true
+                        font: K.UiUtils.smallestReadableFont
                         x: root.mouseFrame * root.timeScale - width / 2
                         text: timeline.timecode(root.mouseFrame + timeline.timecodeOffset)
                         color: ruler.dimmedColor

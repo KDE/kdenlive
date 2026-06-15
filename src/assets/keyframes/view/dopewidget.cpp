@@ -76,6 +76,9 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     if (!model || !rootObject()) {
         return;
     }
+    // Check if we are on a keyframe
+    int pos = pCore->getMonitorPosition() - pCore->getItemPosition(model->getOwnerId());
+    pCore->dopeSheetModel()->isOnKeyframe(pos, true);
     QMetaObject::invokeMethod(rootObject(), "updateOwner");
 }
 
