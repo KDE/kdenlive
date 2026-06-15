@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-14 02:32+0000\n"
-"PO-Revision-Date: 2026-05-26 23:23+0200\n"
+"PO-Revision-Date: 2026-06-07 16:36+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -7349,7 +7349,7 @@ msgstr "Sottotitoli"
 #: data/effects/avfilter/subtitles.xml:5
 #, kde-format
 msgid "Render subtitles onto the video"
-msgstr "Disegna i sottotitoli sul video"
+msgstr "Genera i sottotitoli sul video"
 
 #: data/effects/avfilter/subtitles.xml:8
 #, kde-format
@@ -17275,7 +17275,7 @@ msgstr "Metodo composito"
 #: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
-msgstr "Forza esportazione progressiva"
+msgstr "Forza la generazione progressiva"
 
 #: data/transitions/dissolve.xml:4
 #, kde-format
@@ -17991,15 +17991,15 @@ msgstr ""
 #: data/transitions/vqm.xml:8
 #, kde-format
 msgid "Render line"
-msgstr "Esporta linea"
+msgstr "Genera linea"
 
 #: data/transitions/vqm.xml:9
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
 msgstr ""
-"Esporta una linea tra la metà superiore e quella inferiore e i valori nella "
-"parte alta del video."
+"Genera una linea tra la metà superiore e quella inferiore, con i valori "
+"nella parte alta del video."
 
 #: data/transitions/wipe.xml:4
 #, kde-format
@@ -21207,7 +21207,7 @@ msgstr "Orologio sopra"
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
-"Il profilo del progetto non è valido, l'esportazione potrebbe non riuscire."
+"Il profilo del progetto non è valido, la generazione potrebbe non riuscire."
 
 #: src/core.cpp:1431
 #, kde-format
@@ -22065,7 +22065,7 @@ msgstr "6"
 #: src/dialogs/renderpresetdialog.cpp:435
 #, kde-format
 msgid "Edit Render Preset"
-msgstr "Modifica preimpostazione di esportazione"
+msgstr "Modifica preimpostazione di generazione"
 
 #: src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
@@ -22093,7 +22093,7 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
-"Mostra la lista di riproduzione xml usata per l'esportazione:\n"
+"Mostra la lista di riproduzione xml usata per la generazione:\n"
 "%1"
 
 #: src/dialogs/renderwidget.cpp:104
@@ -22102,7 +22102,7 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
-"Mostra il file di registro:\n"
+"Mostra il file di registro di generazione:\n"
 " %1"
 
 #: src/dialogs/renderwidget.cpp:209 src/dialogs/renderwidget.cpp:213
@@ -22130,17 +22130,17 @@ msgstr "Avvio..."
 #: src/dialogs/renderwidget.cpp:263
 #, kde-format
 msgid "Rendering finished"
-msgstr "Esportazione conclusa"
+msgstr "Generazione terminata"
 
 #: src/dialogs/renderwidget.cpp:268
 #, kde-format
 msgid "Rendering crashed"
-msgstr "Il processo di esportazione è andato in crash"
+msgstr "Il processo di generazione è andato in crash"
 
 #: src/dialogs/renderwidget.cpp:273
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Esportazione annullata"
+msgstr "Generazione annullata"
 
 #: src/dialogs/renderwidget.cpp:371
 #, kde-format
@@ -22233,7 +22233,7 @@ msgid ""
 "Not compatible with variable bitrate, and only relevant for some video "
 "codecs."
 msgstr ""
-"Un'esportazione a due passaggi permette un miglior controllo sulla "
+"Una generazione in due passaggi permette un miglior controllo sulla "
 "dimensione del file esportato.\n"
 "Non è compatibile con un bitrate variabile, ed è rilevante solo per alcuni "
 "codec video."
@@ -22241,7 +22241,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:412
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "Esportazione usando clip rappresentative a bassa qualità"
+msgstr "Generazione usando clip rappresentative a bassa qualità"
 
 #: src/dialogs/renderwidget.cpp:505
 #, kde-format
@@ -22260,7 +22260,7 @@ msgid ""
 "installation. Rendering will not work"
 msgstr ""
 "Impossibile trovare l'applicazione kdenlive_render, c'è qualcosa che non va "
-"nell'installazione. L'esportazione non funzionerà"
+"nell'installazione. La generazione non funzionerà"
 
 #: src/dialogs/renderwidget.cpp:590
 #, kde-format
@@ -22297,13 +22297,13 @@ msgstr "Inizio"
 #: src/dialogs/renderwidget.cpp:929
 #, kde-format
 msgid "Add a clip to timeline before rendering"
-msgstr "Aggiungi una clip alla linea temporale prima di esportare"
+msgstr "Aggiungi una clip alla linea temporale prima di generare"
 
 #: src/dialogs/renderwidget.cpp:935
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
-"Impossibile trovare il programma «melt», richiesto per l'esportazione del "
+"Impossibile trovare il programma «melt», richiesto per la generazione del "
 "filmato (fa parte di MLT)."
 
 #: src/dialogs/renderwidget.cpp:944
@@ -22314,7 +22314,7 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
-"Esportare un progetto con una frequenza di fotogrammi variabili può portare "
+"Generare un progetto con una frequenza di fotogrammi variabili può portare "
 "alla perdita di sincronizzazione audio/video.\n"
 "Ti raccomandiamo di transcodificare, così da modificare in un formato adatto "
 "al montaggio."
@@ -22323,7 +22323,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "Esporta comunque"
+msgstr "Genera comunque"
 
 #: src/dialogs/renderwidget.cpp:966
 #, kde-format
@@ -22349,7 +22349,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:1068
 #, kde-format
 msgid "The following errors occurred while trying to render"
-msgstr "Nel tentativo di esportazione si sono verificati i seguenti errori"
+msgstr "Nel tentativo di generare si sono verificati i seguenti errori"
 
 #: src/dialogs/renderwidget.cpp:1108 src/dialogs/renderwidget.cpp:2033
 #, kde-format
@@ -22378,7 +22378,7 @@ msgstr "Audio senza traccia video"
 #: src/dialogs/renderwidget.cpp:1222 src/main.cpp:462
 #, kde-format
 msgid "Rendering %1 started"
-msgstr "Esportazione %1 iniziata"
+msgstr "Generazione %1 iniziata"
 
 #: src/dialogs/renderwidget.cpp:1279 src/monitor/monitor.cpp:1555
 #, kde-format
@@ -22405,7 +22405,7 @@ msgstr "Preimpostazione non valida"
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
-msgstr "L'esportazione senza audio e video non funziona: abilitane almeno uno."
+msgstr "La generazione senza audio e video non funziona: abilitane almeno uno."
 
 # , kde-format, kde-format
 #: src/dialogs/renderwidget.cpp:1687
@@ -22434,30 +22434,30 @@ msgstr "Meno di %1MB di memoria disponibile rimanente."
 #: src/dialogs/renderwidget.cpp:1794
 #, kde-format
 msgid "Rendering finished in %1"
-msgstr "Esportazione conclusa in %1"
+msgstr "Generazione terminata in %1"
 
 # , kde-format, kde-format
 #: src/dialogs/renderwidget.cpp:1806
 #, kde-format
 msgid "Rendering of %1 finished in %2"
-msgstr "Esportazione di %1 conclusa in %2"
+msgstr "Generazione di %1 conclusa in %2"
 
 # , kde-format, kde-format
 #: src/dialogs/renderwidget.cpp:1809
 #, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "Primo passaggio di esportazione di %1 concluso"
+msgstr "Primo passaggio nella generazione di %1 terminato"
 
 #: src/dialogs/renderwidget.cpp:1832
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
-msgstr "<strong>Il processo di esportazione è andato in crash</strong><br />"
+msgstr "<strong>Il processo di generazione è andato in crash</strong><br />"
 
 #: src/dialogs/renderwidget.cpp:1834
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
-"<strong>Il processo di esportazione di %1 è andato in crash</strong><br />"
+"<strong>Il processo di generazione di %1 è andato in crash</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
 #: src/dialogs/renderwidget.cpp:1901 src/ui/renderwidget_ui.ui:923
@@ -22473,7 +22473,7 @@ msgstr "Elimina processo"
 #: src/dialogs/renderwidget.cpp:2393
 #, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Aggiungi le clip nella linea temporale prima di esportare"
+msgstr "Aggiungi le clip nella linea temporale prima di generare"
 
 #: src/dialogs/renderwidget.cpp:2400
 #, kde-format
@@ -22483,7 +22483,7 @@ msgstr "La posizione di output non è scrivibile, selezionarne un'altra."
 #: src/dialogs/renderwidget.cpp:2403
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "Il disco è quasi pieno, l'esportazione potrebbe non riuscire"
+msgstr "Il disco è quasi pieno, la generazione potrebbe non riuscire"
 
 #: src/dialogs/renderwidget.cpp:2406
 #, kde-format
@@ -22493,7 +22493,7 @@ msgstr "Lo spazio su disco è limitato (%1)"
 #: src/dialogs/renderwidget.cpp:2416
 #, kde-format
 msgid "Rendered File Length: %1"
-msgstr "Lunghezza del file esportato: %1"
+msgstr "Lunghezza del file generato: %1"
 
 #: src/dialogs/renderwidget.cpp:2419
 #: src/mltcontroller/clippropertiescontroller.cpp:644
@@ -24733,8 +24733,8 @@ msgstr ""
 #, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Applicazione mancante: <b>kdenlive_render</b><br/>richiesta per "
-"l'esportazione</li>"
+"<li>Applicazione mancante: <b>kdenlive_render</b><br/>richiesta per la "
+"generazione</li>"
 
 #: src/dialogs/wizard.cpp:491
 #, kde-format
@@ -26086,7 +26086,7 @@ msgstr "Non ci sono fotogrammi in ingresso da elaborare"
 #: src/jobs/masktask.cpp:69
 #, kde-format
 msgid "Failed to render mask %1"
-msgstr "Impossibile rendere la maschera %1"
+msgstr "Impossibile generare la maschera %1"
 
 #: src/jobs/melttask.cpp:62
 #, kde-format
@@ -27012,13 +27012,13 @@ msgstr ""
 #: src/main.cpp:330
 #, kde-format
 msgid "Directly render the project and exit."
-msgstr "Esporta direttamente il progetto ed esci."
+msgstr "Genera direttamente il progetto ed esci."
 
 #: src/main.cpp:333
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
-"Nome della preimpostazione di esportazione di Kdenlive (verrà usato MP4-H264/"
+"Nome della preimpostazione di generazione di Kdenlive (verrà usato MP4-H264/"
 "AAC se non ne viene fornito nessuno)."
 
 #: src/main.cpp:338
@@ -27027,7 +27027,7 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
-"Esci dopo l'avvio del processo (separato) di esportazione, senza questo flag "
+"Esci dopo l'avvio del processo (separato) di generazione, senza questo flag "
 "esiste solo dopo che ha finito."
 
 #: src/main.cpp:341
@@ -27052,7 +27052,7 @@ msgstr "Documento di Kdenlive da aprire."
 #: src/main.cpp:348
 #, kde-format
 msgid "Output file for rendered video."
-msgstr "File di uscita per il video esportato."
+msgstr "File di uscita per il video generato."
 
 #: src/mainwindow.cpp:150
 #, kde-format
@@ -27247,7 +27247,7 @@ msgstr ""
 #: src/mainwindow.cpp:613 src/mainwindow.cpp:1668
 #, kde-format
 msgid "Render…"
-msgstr "Esporta…"
+msgstr "Genera..."
 
 #: src/mainwindow.cpp:618
 #, kde-format
@@ -27255,12 +27255,12 @@ msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
 "toolbar"
 msgid "Render Button"
-msgstr "Pulsante di esportazione"
+msgstr "Pulsante di generazione"
 
 #: src/mainwindow.cpp:624
 #, kde-format
 msgid "Rendering preview"
-msgstr "Anteprima dell'esportazione"
+msgstr "Anteprima della generazione"
 
 #: src/mainwindow.cpp:671
 #, kde-format
@@ -27338,21 +27338,21 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Hai un processo di esportazione in corso.\n"
+"Hai un processo di generazione in corso.\n"
 "Cosa vuoi farci?"
 msgstr[1] ""
-"Hai %1 processi di esportazione in corso.\n"
+"Hai %1 processi di generazione in corso.\n"
 "Cosa vuoi farci?"
 
 #: src/mainwindow.cpp:1062
 #, kde-format
 msgid "Continue rendering in the background"
-msgstr "Continua l'esportazione in background"
+msgstr "Continua la generazione in background"
 
 #: src/mainwindow.cpp:1062
 #, kde-format
 msgid "Abort rendering"
-msgstr "Interrompi l'esportazione"
+msgstr "Interrompi la generazione"
 
 #: src/mainwindow.cpp:1079
 #, kde-format
@@ -27363,10 +27363,10 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Hai un processo di esportazione in attesa nella coda.\n"
+"Hai un processo di generazione in attesa nella coda.\n"
 "Cosa vuoi farci?"
 msgstr[1] ""
-"Hai %1 processi di esportazione in attesa nella coda.\n"
+"Hai %1 processi di generazione in attesa nella coda.\n"
 "Cosa vuoi farci?"
 
 #: src/mainwindow.cpp:1082
@@ -27762,7 +27762,7 @@ msgstr "Impostazioni del progetto…"
 #: src/mainwindow.cpp:1671
 #, kde-format
 msgid "Stop Render"
-msgstr "Ferma l'esportazione"
+msgstr "Ferma la generazione"
 
 #: src/mainwindow.cpp:1676
 #, kde-format
@@ -28018,7 +28018,7 @@ msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 "Aggiunge la zona della linea temporale o della selezione attualmente "
-"definita come una zona di esportazione dell'anteprima"
+"definita come una zona di generazione dell'anteprima"
 
 #: src/mainwindow.cpp:1852 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
@@ -28033,8 +28033,8 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 "Rimuove la zona della linea temporale o della selezione attualmente definita "
-"dalla zona di esportazione dell'anteprima. Nota che questo può lasciare "
-"degli spazi nella zona di esportazione dell'anteprima."
+"dalla zona di generazione dell'anteprima. Nota che questo può lasciare degli "
+"spazi nella zona di esportazione dell'anteprima."
 
 #: src/mainwindow.cpp:1857 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
@@ -28045,12 +28045,12 @@ msgstr "Rimuovi tutte le zone di anteprima"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "Rimuovi tutte le zone di esportazione dell'anteprima."
+msgstr "Rimuovi tutte le zone di generazione dell'anteprima."
 
 #: src/mainwindow.cpp:1860
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Inizia esportazione dell'anteprima"
+msgstr "Inizia generazione dell'anteprima"
 
 #: src/mainwindow.cpp:1863
 #, kde-kuit-format
@@ -28060,16 +28060,16 @@ msgid ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
-"Fai clic per iniziare l'esportazione di tutte le zone di esportazione "
+"Fai clic per iniziare la generazione di tutte le zone di esportazione "
 "dell'anteprima (raccomandata per le aree con molti effetti e complessi).<nl/"
 ">Fai clic sull'icona con la freccia in giù per ottenere una lista dei tipi "
 "di sorgenti dalla quale selezionare (ad esempio: aggiungi zona di "
-"esportazione dell'anteprima, o rimuovi tutte le zone)."
+"generazione dell'anteprima, o rimuovi tutte le zone)."
 
 #: src/mainwindow.cpp:1865
 #, kde-format
 msgid "Stop Preview Render"
-msgstr "Termina l'esportazione dell'anteprima"
+msgstr "Termina la generazione dell'anteprima"
 
 #: src/mainwindow.cpp:1868
 #, kde-format
@@ -28997,8 +28997,8 @@ msgstr "Controllo della dimensione dei dati nella cache"
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
-"Impossibile trovare il programma «melt», richiesto per l'esportazione del "
-"filmato (fa parte di MLT)"
+"Impossibile trovare il programma «melt», richiesto per la generazione (fa "
+"parte di MLT)"
 
 #: src/mltconnection.cpp:351
 #, kde-format
@@ -30607,13 +30607,13 @@ msgstr "Riproduzione video"
 #, kde-format
 msgctxt "@info:status  explanation for sleep inhibit during rendering"
 msgid "Rendering video"
-msgstr "Esportazione video"
+msgstr "Generazione video"
 
 #: src/powermanagementinterface.cpp:354
 #, kde-format
 msgctxt "@info:status explanation for sleep inhibit during rendering"
 msgid "Playing or rendering video"
-msgstr "Riproduzione o esportazione video"
+msgstr "Riproduzione o generazione video"
 
 #: src/profiles/profileinfo.cpp:88
 #, kde-format
@@ -32705,9 +32705,9 @@ msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
-"L'esportazione mediante script e quella audio multi-traccia non possono "
-"essere usate insieme. Lo script verrà salvato senza l'esportazione multi-"
-"traccia."
+"La generazione mediante script e l'esportazione audio multi-traccia non "
+"possono essere usati insieme. Lo script verrà salvato senza l'esportazione "
+"multi-traccia."
 
 #: src/render/renderrequest.cpp:358
 #, kde-format
@@ -32718,12 +32718,12 @@ msgstr "esporta"
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
-msgstr "Esportazione ritardata"
+msgstr "Generazione ritardata"
 
 #: src/render/renderrequest.cpp:373
 #, kde-format
 msgid "Select a name for this rendering."
-msgstr "Seleziona un nome per questa esportazione."
+msgstr "Seleziona un nome per questa generazione."
 
 #: src/render/renderrequest.cpp:474
 #, kde-format
@@ -32733,12 +32733,12 @@ msgstr "inizio"
 #: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
 #, kde-format
 msgid "Can't open communication with render job %1"
-msgstr "Impossibile aprire la comunicazione col processo di esportazione %1"
+msgstr "Impossibile aprire la comunicazione col processo di generazione %1"
 
 #: src/render/renderserver.cpp:51
 #, kde-format
 msgid "Communication error with render job"
-msgstr "Errore di comunicazione col processo di esportazione"
+msgstr "Errore di comunicazione col processo di generazione"
 
 #: src/renderpresets/renderpresetmodel.cpp:316
 #, kde-format
@@ -32786,7 +32786,7 @@ msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
-"Questo preimpostazione di esportazione utilizza un parametro «profile».<br /"
+"Questo preimpostazione di generazione utilizza un parametro «profile».<br /"
 ">A meno che tu non sappia quello che stai facendo, probabilmente dovresti "
 "cambiarlo con «mlt_profile»."
 
@@ -34078,7 +34078,7 @@ msgstr ""
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr ""
-"L'effetto di velocità esporterà meglio quando utilizzato su singole clip con "
+"L'effetto di velocità genererà meglio quando utilizzato su singole clip con "
 "fps alto"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:116
@@ -34146,7 +34146,7 @@ msgstr "C'è qualcosa che non va con le cartelle della cache"
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
-"Esportazione dell'anteprima non riuscita, controlla i parametri. %1Mostra i "
+"Generazione dell'anteprima non riuscita, controlla i parametri. %1Mostra i "
 "dettagli...%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
@@ -36418,7 +36418,7 @@ msgstr "Controlla aggiornamenti"
 #: src/ui/configenv_ui.ui:119
 #, kde-format
 msgid "Prevent sleep when playing and rendering"
-msgstr "Previeni la sospensione durante la riproduzione o l'esportazione"
+msgstr "Previeni la sospensione durante la riproduzione o la generazione"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dragFromTitlebarOnly)
 #: src/ui/configenv_ui.ui:128
@@ -36532,7 +36532,7 @@ msgstr "Cartella della libreria:"
 #: src/ui/configenv_ui.ui:309
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "Cartella per esportazioni, titoli e script:"
+msgstr "Cartella per generazioni, titoli, e script:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:365
@@ -37105,7 +37105,7 @@ msgstr "Dispositivo di uscita:"
 #: src/ui/configsdl_ui.ui:196
 #, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "Duplica controllo a schermo intero:"
+msgstr "Rispecchia controllo a schermo intero:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -37624,7 +37624,7 @@ msgstr "Configura il processo."
 #: src/ui/editrenderpreset_ui.ui:18
 #, kde-format
 msgid "Save Render Preset"
-msgstr "Salva preimpostazione di esportazione"
+msgstr "Salva preimpostazione di generazione"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
@@ -39018,13 +39018,13 @@ msgstr "Spaziatura:"
 #: src/ui/renderwidget_ui.ui:18
 #, kde-format
 msgid "Rendering"
-msgstr "Esportazione"
+msgstr "Generazione"
 
 #. i18n: ectx: attribute (title), widget (QWidget, renderTab)
 #: src/ui/renderwidget_ui.ui:43
 #, kde-format
 msgid "Render Project"
-msgstr "Esporta progetto"
+msgstr "Genera progetto"
 
 #. i18n: ectx: property (text), widget (QLabel, toLabel)
 #: src/ui/renderwidget_ui.ui:80
@@ -39066,7 +39066,7 @@ msgstr "&Salva"
 #: src/ui/renderwidget_ui.ui:238
 #, kde-format
 msgid "Download New Render Presets…"
-msgstr "Scarica nuove preimpostazioni di esportazione…"
+msgstr "Scarica nuove preimpostazioni di generazione…"
 
 #. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
 #: src/ui/renderwidget_ui.ui:247
@@ -39108,7 +39108,7 @@ msgstr "&Elimina"
 #: src/ui/renderwidget_ui.ui:335
 #, kde-format
 msgid "Render to File"
-msgstr "Esporta in un file"
+msgstr "Genera in un file"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
 #: src/ui/renderwidget_ui.ui:342
@@ -39150,13 +39150,13 @@ msgstr "Marcatori da usare come separatori:"
 #: src/ui/renderwidget_ui.ui:495
 #, kde-format
 msgid "Render full color range"
-msgstr "Esporta intervallo di colori completo"
+msgstr "Genera con l'intervallo di colori completo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:502
 #, kde-format
 msgid "Render at Preview Resolution"
-msgstr "Esporta alla risoluzione dell'anteprima"
+msgstr "Genera alla risoluzione dell'anteprima"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
 #: src/ui/renderwidget_ui.ui:509
@@ -39271,7 +39271,7 @@ msgstr "Elaborazione parallela"
 #: src/ui/renderwidget_ui.ui:807
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
-msgstr "L'elaborazione parallela può causare artefatti nell'esportazione"
+msgstr "L'elaborazione parallela può causare artefatti nella generazione"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
 #: src/ui/renderwidget_ui.ui:823
@@ -39307,7 +39307,7 @@ msgstr "Apri la cartella dopo l'esportazione"
 #: src/ui/renderwidget_ui.ui:878
 #, kde-format
 msgid "Play after render"
-msgstr "Riproduci dopo l'esportazione"
+msgstr "Riproduci dopo la generazione"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_log_files)
 #: src/ui/renderwidget_ui.ui:885
@@ -39349,7 +39349,7 @@ msgstr "Registro degli errori"
 #: src/ui/renderwidget_ui.ui:1053
 #, kde-format
 msgid "Shutdown computer after renderings"
-msgstr "Spegni il computer al termine delle esportazioni"
+msgstr "Spegni il computer al termine delle generazioni"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
 #: src/ui/renderwidget_ui.ui:1068
@@ -39613,7 +39613,7 @@ msgstr "Inserisci il testo che sostituirà la stringa %s dal modello"
 #: src/ui/testproxy_ui.ui:58
 #, kde-format
 msgid "Render Time"
-msgstr "Tempo di esportazione"
+msgstr "Tempo di generazione"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:63
