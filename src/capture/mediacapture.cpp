@@ -68,8 +68,6 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
 MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)
     , currentState(-1)
-    , m_audioInput(nullptr)
-    , m_audioInfo(nullptr)
     , m_audioDevice("default:")
     , m_path(QUrl())
     , m_recordState(QMediaRecorder::StoppedState)
@@ -152,6 +150,12 @@ void MediaCapture::switchMonitorState(bool run)
         }
 #endif
         initializeAudioSetup();
+        if (m_audioInfo.isNull() || m_audioSource == nullptr || m_audioInput == nullptr) {
+            // No audio device found
+            pCore->displayMessage(i18n("No audio"), MessageType::ErrorMessage);
+            m_recordStatus = RecordReady;
+            return;
+        }
         QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelChanged, m_audioInput.get(), [&](const QVector<qreal> &level) {
             m_levels = level;
             if (m_recordState == QMediaRecorder::RecordingState) {
@@ -292,6 +296,12 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
 
     if (record && m_mediaRecorder->recorderState() == QMediaRecorder::StoppedState) {
         initializeAudioSetup();
+        if (m_audioInfo.isNull() || m_audioSource == nullptr || m_audioInput == nullptr) {
+            // No audio device found
+            pCore->displayMessage(i18n("No audio"), MessageType::ErrorMessage);
+            m_recordStatus = RecordReady;
+            return;
+        }
         m_recTimer.invalidate();
         m_resetTimer.stop();
         m_readyForRecord = true;
@@ -443,7 +453,7 @@ void MediaCapture::setAudioCaptureDevice()
 
 void MediaCapture::setAudioVolume()
 {
-    if (m_recordStatus != RecordMonitoring && m_recordStatus != RecordRecording) {
+    if ((m_recordStatus != RecordMonitoring && m_recordStatus != RecordRecording) || m_audioSource == nullptr) {
         return;
     }
     qreal linearVolume = QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
