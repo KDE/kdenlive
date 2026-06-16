@@ -650,7 +650,7 @@ void KeyframeContainer::positionUpdated(int relativePos)
 void KeyframeContainer::slotRefresh()
 {
     // update duration
-    bool ok = false;
+    /*bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
@@ -670,7 +670,7 @@ void KeyframeContainer::slotRefresh()
         if (isInRange && framePos != m_time->getValue()) {
             slotSetPosition(framePos, false);
         }
-    }
+    }*/
     slotRefreshParams();
 }
 
