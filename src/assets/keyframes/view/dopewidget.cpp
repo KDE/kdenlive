@@ -94,7 +94,10 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::QueuedConnection);
     // Check if we are on a keyframe
     int pos = pCore->getMonitorPosition() - pCore->getItemPosition(model->getOwnerId());
-    pCore->dopeSheetModel()->isOnKeyframe(pos, true);
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
+    pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
     QMetaObject::invokeMethod(rootObject(), "updateOwner");
 }
 
@@ -180,5 +183,9 @@ void DopeWidget::checkModelUpdate()
 {
     // Check if we are on a keyframe
     int pos = pCore->getMonitorPosition() - pCore->dopeSheetModel()->dopePosition();
-    pCore->dopeSheetModel()->isOnKeyframe(pos, false);
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
+    bool onKeyframe = pCore->dopeSheetModel()->isOnKeyframe(pos, false, activeIndex);
+    QMetaObject::invokeMethod(rootObject(), "updateOverKeyframeFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(onKeyframe)));
 }

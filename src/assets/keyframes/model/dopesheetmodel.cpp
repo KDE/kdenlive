@@ -489,7 +489,7 @@ void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int u
     }
 }
 
-bool DopeSheetModel::isOnKeyframe(int framePosition, bool force)
+bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentModelIndex activeIndex)
 {
     if (!m_model) {
         return false;
@@ -497,9 +497,17 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force)
     int max = m_model->rowCount();
     QList<QPersistentModelIndex> matchingIndexes;
     bool matching = false;
+    bool foundActive = false;
     for (int i = 0; i < max; i++) {
         QModelIndex ix = index(i, 0);
         KeyframeModel *master = data(ix, ModelRole).value<KeyframeModel *>();
+        if (ix == activeIndex) {
+            KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+            if (km->hasKeyframe(framePosition)) {
+                qDebug() << ":::: FOUND MASTER ITEM AT IX: " << ix;
+                foundActive = true;
+            }
+        }
         if (master && master->hasKeyframe(framePosition)) {
             int itemId = int(ix.internalId());
             auto tItem = getItemById(itemId);
@@ -508,6 +516,9 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force)
                 auto ix2 = getIndexFromItem(current);
                 KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
                 if (km->hasKeyframe(framePosition)) {
+                    if (ix2 == activeIndex) {
+                        foundActive = true;
+                    }
                     matchingIndexes << m_paramsList.at(current->getId()).first.index;
                 }
             }
@@ -518,6 +529,11 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force)
         Q_EMIT matchingKeyframes(matchingIndexes);
     }
     m_indexesOnKeyframe = matchingIndexes;
+    if (matching) {
+        if (activeIndex.isValid()) {
+            return foundActive;
+        }
+    }
     return matching;
 }
 

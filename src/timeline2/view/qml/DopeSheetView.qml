@@ -64,7 +64,11 @@ Rectangle {
         console.log('UPDATED DOPE DURATION: ', frameDuration)
     }
     onConsumerPositionChanged: {
-        rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition)
+        rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveIndex())
+    }
+
+    function updateOverKeyframeFromModel(overKeyframe) {
+        rulerCursor.overKeyframe = overKeyframe
     }
 
     function switchFocus(hasFocus) {
@@ -400,7 +404,7 @@ function setActiveIndexFromModel(index) {
             ToolButton {
                 implicitWidth: dopeRoot.toolbarHeight
                 implicitHeight: width
-                icon.name: "keyframe-add"
+                icon.name: rulerCursor.overKeyframe ? "keyframe-remove" : "keyframe-add"
                 ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
                 onClicked: K.Core.triggerAction('keyframe_add')
             }
@@ -640,6 +644,7 @@ function setActiveIndexFromModel(index) {
         selectionModel: ItemSelectionModel {
             model: dopesheetmodel
             onCurrentChanged: (current, previous) => {
+                rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveIndex())
                 if (current.valid && current.parent) {
                     var item
                     if (current.parent !== treeView.rootIndex) {
@@ -738,7 +743,7 @@ function setActiveIndexFromModel(index) {
                     anchors.verticalCenter: parent.verticalCenter
                     height: 6
                     radius: 2
-                    color: contentRect.row == treeView.hoveredParam ? Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1) : activePalette.light
+                    color: contentRect.current ? activePalette.highlight : contentRect.row == treeView.hoveredParam ? Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1) : activePalette.light
                     border.width: 1
                     border.color: activePalette.shadow
                 }

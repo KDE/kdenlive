@@ -74,7 +74,7 @@ public:
     /** @brief Add a keyframe to all parameters */
     Q_INVOKABLE void addKeyframe(const QModelIndex &ix, int framePosition);
     /** @brief Returns true if a keyframe exists in this parameter at that position */
-    Q_INVOKABLE bool isOnKeyframe(int framePosition, bool force = false);
+    Q_INVOKABLE bool isOnKeyframe(int framePosition, bool force, QPersistentModelIndex activeIndex);
     /** @brief Move keyframes in all parameters at current pos */
     Q_INVOKABLE void moveKeyframe(QVariantMap kfData, int sourcePos, int updatedPos, bool logUndo);
     Q_INVOKABLE void moveScaledKeyframe(int updatedPos, bool logUndo, bool updateView);
