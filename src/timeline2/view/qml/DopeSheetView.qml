@@ -587,7 +587,7 @@ function setActiveIndexFromModel(index) {
                         checkable: true
                         ActionGroup.group: typeActions
                         onTriggered: {
-                            console.log('changing kf type to: ', keyframeTypes[text], ' current: ', v.keyframeType)
+                            console.log('changing kf type to: ', keyframeTypes[text], ' current: ', dopeRoot.keyframeType)
                             dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, keyframeTypes[text])
                             dopeRoot.keyframeType = keyframeTypes[text]
                         }
