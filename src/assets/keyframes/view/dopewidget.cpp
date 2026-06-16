@@ -39,6 +39,7 @@ DopeWidget::DopeWidget(QWidget *parent)
                           {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("DopeSheetView"));
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::activateEffect, this, &DopeWidget::activateEffect);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, this, &DopeWidget::checkModelUpdate, Qt::QueuedConnection);
 }
 
 void DopeWidget::deleteItem()
@@ -67,6 +68,18 @@ void DopeWidget::clearSelection()
 void DopeWidget::doKeyPressEvent(QKeyEvent *ev)
 {
     keyPressEvent(ev);
+}
+
+void DopeWidget::focusInEvent(QFocusEvent *event)
+{
+    QMetaObject::invokeMethod(rootObject(), "switchFocus", Q_ARG(QVariant, true));
+    QQuickWidget::focusInEvent(event);
+}
+
+void DopeWidget::focusOutEvent(QFocusEvent *event)
+{
+    QMetaObject::invokeMethod(rootObject(), "switchFocus", Q_ARG(QVariant, false));
+    QQuickWidget::focusOutEvent(event);
 }
 
 void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
@@ -128,7 +141,7 @@ void DopeWidget::gotoNextSnap()
     // Find active model
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    const QModelIndex activeIndex = returnedValue.toModelIndex();
+    const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
     int pos = pCore->getMonitorPosition();
     pos = pCore->dopeSheetModel()->getNextSnap(activeIndex, pos);
     pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
@@ -159,6 +172,13 @@ void DopeWidget::activateEffect(QPersistentModelIndex ix)
 void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active)
 {
     if (active) {
-        activateEffect(ix);
+        QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(ix)));
     }
+}
+
+void DopeWidget::checkModelUpdate()
+{
+    // Check if we are on a keyframe
+    int pos = pCore->getMonitorPosition() - pCore->dopeSheetModel()->dopePosition();
+    pCore->dopeSheetModel()->isOnKeyframe(pos, false);
 }

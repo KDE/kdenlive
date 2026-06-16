@@ -206,10 +206,12 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> eff
     std::vector<QPersistentModelIndex> indexes = keyframes->getIndexes();
     for (unsigned i = indexes.size(); i-- > 0;) {
         const QPersistentModelIndex ix = indexes.at(i);
-        auto km = keyframes->getKeyModel(ix);
         if (blockedParams.contains(effectModel->data(ix, AssetParameterModel::NameRole).toString())) {
             continue;
         }
+        auto km = keyframes->getKeyModel(ix);
+        auto conn = connect(km.get(), &KeyframeModel::dataChanged, this, &DopeSheetModel::modelChanged, Qt::QueuedConnection);
+        m_connectionList << conn;
         auto paramItem = TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString()}, shared_from_this(), false);
         effectItem->appendChild(paramItem);
         qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString();
@@ -972,9 +974,9 @@ void DopeSheetModel::addRemoveKeyframe(const QModelIndex ix, int pos)
     }
 }
 
-void DopeSheetModel::setActiveIndex(int row)
+void DopeSheetModel::setActiveIndex(const QPersistentModelIndex ix)
 {
     if (m_model) {
-        m_model->setActiveEffect(row);
+        m_model->setActiveEffect(ix.row());
     }
 }

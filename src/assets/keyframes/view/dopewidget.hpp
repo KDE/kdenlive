@@ -26,6 +26,10 @@ public:
     void gotoPreviousSnap();
     void gotoNextSnap();
 
+protected:
+    virtual void focusInEvent(QFocusEvent *event) override;
+    virtual void focusOutEvent(QFocusEvent *event) override;
+
 public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);
     void slotAddRemoveKeyframe();
@@ -33,6 +37,8 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void updateActiveEffect(QPersistentModelIndex ix, bool active);
+    /** @brief The model was updated, ensure we enable/disable parameters depending on the keyframes positions */
+    void checkModelUpdate();
 
 private:
     QModelIndex m_activeIndex;

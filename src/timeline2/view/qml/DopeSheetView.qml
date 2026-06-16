@@ -10,10 +10,14 @@ import org.kde.ki18n
 
 import org.kde.kdenlive as K
 
-Item {
+Rectangle {
     id: dopeRoot
     anchors.fill: parent
+    anchors.margins: 2
     SystemPalette { id: activePalette }
+    border.width: 2
+    border.color: dopeRoot.viewHasFocus ? activePalette.highlight : activePalette.base
+    color: activePalette.base
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     // Effects duration
     property int frameDuration: dopesheetmodel.dopeDuration
@@ -25,6 +29,7 @@ Item {
     required property K.DopeSheetModel dopesheetmodel
     property K.MonitorProxy proxy
     property var keyframeType
+    property bool viewHasFocus: false
     // The position in frame of the stack owner
     property int offset: dopesheetmodel.dopePosition
     property color hoverColor: "#cc9900"
@@ -49,6 +54,7 @@ Item {
     property int consumerPosition: proxy ? proxy.position - offset: -1
     property int keyframeContainerWidth: width - treeView.headerWidth - (2 * baseUnit)
     focus: true
+
     FontMetrics {
         id: fontMetrics
         font: miniFont
@@ -59,6 +65,10 @@ Item {
     }
     onConsumerPositionChanged: {
         rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition)
+    }
+
+    function switchFocus(hasFocus) {
+        viewHasFocus = hasFocus
     }
 
     function updateOwner() {
@@ -273,7 +283,8 @@ Item {
     }
 
     function getActiveIndex() {
-        return treeView.model.index(treeView.currentRow, 0)
+        var item = treeView.itemAtIndex(treeView.selectionModel.currentIndex)
+        return treeView.index(item.row, item.column)
     }
 
 function setActiveIndexFromModel(index) {
@@ -511,6 +522,7 @@ function setActiveIndexFromModel(index) {
     Rectangle {
         // Param name background
         anchors.left: parent.left
+        anchors.leftMargin: 4
         anchors.bottom: parent.bottom
         anchors.top: rulercontainer.bottom
         width: treeView.headerWidth
@@ -629,10 +641,17 @@ function setActiveIndexFromModel(index) {
             model: dopesheetmodel
             onCurrentChanged: (current, previous) => {
                 if (current.valid && current.parent) {
-                    if (current.parent && current.parent.valid && current.parent != model.rootIndex) {
-                        dopesheetmodel.setActiveIndex(current.parent.row)
+                    var item
+                    if (current.parent !== treeView.rootIndex) {
+                        item = treeView.itemAtIndex(current.parent)
+                        if (item) {
+                            dopesheetmodel.setActiveIndex(treeView.index(item.row, item.column))
+                        }
                     } else {
-                        dopesheetmodel.setActiveIndex(current.row)
+                        item = treeView.itemAtIndex(current)
+                        if (item) {
+                            dopesheetmodel.setActiveIndex(treeView.index(item.row, item.column))
+                        }
                     }
                 }
             }
@@ -659,6 +678,7 @@ function setActiveIndexFromModel(index) {
                 color: Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1)
                 radius: 4
                 visible: current
+                x: 4
                 height: parent.height
                 width: treeView.headerWidth
             }
@@ -724,6 +744,9 @@ function setActiveIndexFromModel(index) {
                 }
                 MouseArea {
                     id: kfMoveArea
+                    anchors.fill: parent
+                    anchors.leftMargin: -K.UiUtils.baseSizeMedium
+                    anchors.rightMargin: -K.UiUtils.baseSizeMedium
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
                     // The frame position of the clicked keyframe, -1 if none
                     property int clickFrame: -1
@@ -740,9 +763,6 @@ function setActiveIndexFromModel(index) {
                     property bool shiftClick: false
                     property bool ctrlClick: false
                     property var buttonClicked
-                    anchors.fill: parent
-                    anchors.leftMargin: -K.UiUtils.baseSizeMedium
-                    anchors.rightMargin: -K.UiUtils.baseSizeMedium
                     hoverEnabled: true
                     onHoveredChanged: {
                         if (containsMouse) {
@@ -764,7 +784,6 @@ function setActiveIndexFromModel(index) {
                         // Select parameter
                         var parameterIndex = treeView.index(row, column)
                         treeView.selectionModel.setCurrentIndex(parameterIndex, ItemSelectionModel.SelectCurrent);
-                        dopeRoot.setActiveIndex(parameterIndex)
 
                         if (clickIndex < 0) {
                             // Not on a keyframe

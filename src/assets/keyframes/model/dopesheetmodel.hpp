@@ -90,7 +90,7 @@ public:
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
-    Q_INVOKABLE void setActiveIndex(int row);
+    Q_INVOKABLE void setActiveIndex(const QPersistentModelIndex ix);
     int dopeDuration() const;
     int dopePosition() const;
     void updateItemPosition(ObjectId itemId);

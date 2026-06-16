@@ -129,9 +129,6 @@ private:
 
     void destroyBuildinWidget();
     void constructBuildinWidget();
-    /** @brief Activate an effect and ensure it is visible
-     */
-    void activateAndScroll(int row);
 
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
