@@ -169,7 +169,7 @@ void AudioLevelsTask::run()
 
         const QString cachePath = binClip->getAudioThumbPath(streamIdx.key());
         QVector<int16_t> levels;
-        bool skipSaving = false;
+        bool skipSaving = cachePath.isEmpty();
         if (!m_isCanceled && !m_isForce && !cachePath.isEmpty() && QFile::exists(cachePath)) {
             // load from cache
             levels = getLevelsFromCache(cachePath);
