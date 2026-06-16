@@ -152,7 +152,7 @@ void MediaCapture::switchMonitorState(bool run)
         initializeAudioSetup();
         if (m_audioInfo.isNull() || m_audioSource == nullptr || m_audioInput == nullptr) {
             // No audio device found
-            pCore->displayMessage(i18n("No audio"), MessageType::ErrorMessage);
+            pCore->displayMessage(i18n("No audio device found"), MessageType::ErrorMessage);
             m_recordStatus = RecordReady;
             return;
         }
@@ -298,7 +298,7 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
         initializeAudioSetup();
         if (m_audioInfo.isNull() || m_audioSource == nullptr || m_audioInput == nullptr) {
             // No audio device found
-            pCore->displayMessage(i18n("No audio"), MessageType::ErrorMessage);
+            pCore->displayMessage(i18n("No audio device found"), MessageType::ErrorMessage);
             m_recordStatus = RecordReady;
             return;
         }
