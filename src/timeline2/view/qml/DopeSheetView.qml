@@ -273,7 +273,7 @@ Item {
     }
 
     function getActiveIndex() {
-        return treeView.index(treeView.currentRow, 0)
+        return treeView.model.index(treeView.currentRow, 0)
     }
 
 function setActiveIndexFromModel(index) {

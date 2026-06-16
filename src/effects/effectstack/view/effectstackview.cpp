@@ -362,6 +362,9 @@ void EffectStackView::activateEffect(const QModelIndex &ix, bool active)
     auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(mapped));
     if (w) {
         w->slotActivateEffect(active);
+        if (active) {
+            slotFocusEffect();
+        }
     }
 }
 
@@ -899,7 +902,7 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
                 if (row >= m_model->rowCount()) {
                     row = 0;
                 }
-                activateAndScroll(row);
+                m_model->setActiveEffect(row);
                 e->accept();
                 break;
             }
@@ -908,7 +911,7 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
                 if (row < 0) {
                     row = m_model->rowCount() - 1;
                 }
-                activateAndScroll(row);
+                m_model->setActiveEffect(row);
                 e->accept();
                 break;
             }
@@ -929,7 +932,7 @@ void EffectStackView::keyPressEvent(QKeyEvent *event)
         if (row >= m_model->rowCount()) {
             row = 0;
         }
-        activateAndScroll(row);
+        m_model->setActiveEffect(row);
         break;
     }
     case Qt::Key_Up: {
@@ -937,19 +940,13 @@ void EffectStackView::keyPressEvent(QKeyEvent *event)
         if (row < 0) {
             row = m_model->rowCount() - 1;
         }
-        activateAndScroll(row);
+        m_model->setActiveEffect(row);
         break;
     }
     default:
         break;
     }
     QWidget::keyPressEvent(event);
-}
-
-void EffectStackView::activateAndScroll(int row)
-{
-    m_model->setActiveEffect(row);
-    slotFocusEffect();
 }
 
 void EffectStackView::updateSamProgress(int progress, bool exportStep)
