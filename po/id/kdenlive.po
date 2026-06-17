@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-15 00:43+0000\n"
+"POT-Creation-Date: 2026-06-17 00:44+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -21344,12 +21344,18 @@ msgstr "Tambahkan Tag"
 msgid "New tag"
 msgstr "Tag baru"
 
-#: src/capture/mediacapture.cpp:118
+#: src/capture/mediacapture.cpp:116
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:243
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#, fuzzy, kde-format
+#| msgid "No audio track found"
+msgid "No audio device found"
+msgstr "Tidak ada trek audio yang ditemukan"
+
+#: src/capture/mediacapture.cpp:247
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21358,7 +21364,7 @@ msgstr ""
 "Memantau audio. Tekan <b>Space</b> untuk memulai/menjeda perekaman, <b>Esc</"
 "b> untuk membatalkan."
 
-#: src/capture/mediacapture.cpp:411 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-15 00:43+0000\n"
+"POT-Creation-Date: 2026-06-17 00:44+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -20894,19 +20894,25 @@ msgstr "Dodaj traku"
 msgid "New tag"
 msgstr ""
 
-#: src/capture/mediacapture.cpp:118
+#: src/capture/mediacapture.cpp:116
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:243
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#, fuzzy, kde-format
+#| msgid "No previous frame found"
+msgid "No audio device found"
+msgstr "Niti jedan prijašnji kadar nije pronađen"
+
+#: src/capture/mediacapture.cpp:247
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:411 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"

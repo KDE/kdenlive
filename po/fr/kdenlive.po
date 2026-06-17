@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-15 00:43+0000\n"
+"POT-Creation-Date: 2026-06-17 00:44+0000\n"
 "PO-Revision-Date: 2026-04-15 22:57+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
@@ -21562,12 +21562,18 @@ msgstr "Ajouter une étiquette"
 msgid "New tag"
 msgstr "Nouvelle étiquette"
 
-#: src/capture/mediacapture.cpp:118
+#: src/capture/mediacapture.cpp:116
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Format d'enregistrement ajusté à %1 canaux, %2 Hz."
 
-#: src/capture/mediacapture.cpp:243
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#, fuzzy, kde-format
+#| msgid "No audio track found"
+msgid "No audio device found"
+msgstr "Aucune piste audio trouvée"
+
+#: src/capture/mediacapture.cpp:247
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21576,7 +21582,7 @@ msgstr ""
 "Surveillance de l'audio. Appuyez sur <b>Espace</b> pour démarrer / arrêter "
 "l'enregistrement, <b>Échap</b> pour arrêter."
 
-#: src/capture/mediacapture.cpp:411 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"

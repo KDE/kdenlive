@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-15 00:43+0000\n"
+"POT-Creation-Date: 2026-06-17 00:44+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -20842,12 +20842,18 @@ msgstr "ເພີ່ມແທັກ"
 msgid "New tag"
 msgstr "ແທັກໃໝ່"
 
-#: src/capture/mediacapture.cpp:118
+#: src/capture/mediacapture.cpp:116
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:243
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#, fuzzy, kde-format
+#| msgid "No audio track found"
+msgid "No audio device found"
+msgstr "ບໍ່ພົບແທຣັກສຽງ"
+
+#: src/capture/mediacapture.cpp:247
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20855,7 +20861,7 @@ msgid ""
 msgstr ""
 "ກຳລັງ Monitor ສຽງ. ກົດ <b>Space</b> ເພື່ອເລີ່ມ/ຢຸດຊົ່ວຄາວ ການບັນທຶກ, <b>Esc</b> ເພື່ອຈົບ."
 
-#: src/capture/mediacapture.cpp:411 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"

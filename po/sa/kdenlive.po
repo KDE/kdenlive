@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-15 00:43+0000\n"
+"POT-Creation-Date: 2026-06-17 00:44+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -21547,12 +21547,18 @@ msgstr "Add Tag"
 msgid "New tag"
 msgstr "नवीन टैग"
 
-#: src/capture/mediacapture.cpp:118
+#: src/capture/mediacapture.cpp:116
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:243
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#, fuzzy, kde-format
+#| msgid "No audio track found"
+msgid "No audio device found"
+msgstr "न कोऽपि श्रव्यपटलः प्राप्तः"
+
+#: src/capture/mediacapture.cpp:247
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21561,7 +21567,7 @@ msgstr ""
 "श्रव्यस्य निरीक्षणम्। रिकार्डिङ्ग् आरभ्य/विरामं कर्तुं <b>Space</b> नुदन्तु, समाप्तुं <b>Esc</"
 "b> नुदन्तु ।"
 
-#: src/capture/mediacapture.cpp:411 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
