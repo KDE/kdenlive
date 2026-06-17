@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 02:32+0000\n"
+"POT-Creation-Date: 2026-06-17 02:37+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -19029,7 +19029,8 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:431
-#: src/bin/previewpanel.cpp:382
+#: src/bin/previewpanel.cpp:382 src/capture/mediacapture.cpp:156
+#: src/capture/mediacapture.cpp:306
 #, kde-format
 msgid "No audio"
 msgstr "Žiadny zvuk"
@@ -20837,12 +20838,12 @@ msgstr "Pridať štítok"
 msgid "New tag"
 msgstr "Nový štítok"
 
-#: src/capture/mediacapture.cpp:119
+#: src/capture/mediacapture.cpp:117
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Formát nahrávania upravený na %1 kanálov, %2 Hz."
 
-#: src/capture/mediacapture.cpp:248
+#: src/capture/mediacapture.cpp:252
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20851,7 +20852,7 @@ msgstr ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 
-#: src/capture/mediacapture.cpp:420 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:430 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"

@@ -1,19 +1,19 @@
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2011, 2012.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
-# SPDX-FileCopyrightText: 2024, 2025, 2026 Kristof Kiszel <ulysses@fsf.hu>
+# SPDX-FileCopyrightText: 2024-2026 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 02:32+0000\n"
-"PO-Revision-Date: 2026-01-29 22:59+0100\n"
+"POT-Creation-Date: 2026-06-17 02:37+0000\n"
+"PO-Revision-Date: 2026-06-16 22:40+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 26.04.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -19435,7 +19435,8 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:431
-#: src/bin/previewpanel.cpp:382
+#: src/bin/previewpanel.cpp:382 src/capture/mediacapture.cpp:156
+#: src/capture/mediacapture.cpp:306
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "No audio"
@@ -21419,19 +21420,19 @@ msgstr "Sáv hozzáadása"
 msgid "New tag"
 msgstr ""
 
-#: src/capture/mediacapture.cpp:119
+#: src/capture/mediacapture.cpp:117
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:248
+#: src/capture/mediacapture.cpp:252
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:420 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:430 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
@@ -35761,10 +35762,9 @@ msgid "Restore audio"
 msgstr "Hang kibontása"
 
 #: src/timeline2/view/timelinecontroller.cpp:4573
-#, fuzzy, kde-format
-#| msgid "Move guide"
+#, kde-format
 msgid "Move item"
-msgstr "Segédpont áthelyezése"
+msgstr "Elem áthelyezése"
 
 #: src/timeline2/view/timelinecontroller.cpp:5054
 #, fuzzy, kde-format
@@ -35802,7 +35802,7 @@ msgstr "Klipek hozzáadása"
 #| msgid "Insert Track"
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
-msgstr[0] "Sáv beszúrása"
+msgstr[0] "Beszúrás"
 msgstr[1] "Sáv beszúrása"
 
 #: src/timeline2/view/timelinecontroller.cpp:5440
@@ -35904,8 +35904,7 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinetabs.cpp:178
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Átméretezés"
@@ -36692,10 +36691,9 @@ msgid "Lumas"
 msgstr "Fényesség"
 
 #: src/transitions/transitionlist/view/transitionicondelegate.cpp:32
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "No Preview"
-msgstr "Előnézet"
+msgstr "Nincs előnézet"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
 #, fuzzy, kde-format
@@ -36758,10 +36756,9 @@ msgstr "Igazítás jobbra"
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:48
 #: src/ui/editsub_ui.ui:132
-#, fuzzy, kde-format
-#| msgid " Position:"
+#, kde-format
 msgid "Position:"
-msgstr " Pozíció:"
+msgstr "Pozíció:"
 
 #: src/transitions/view/transitionstackview.cpp:61
 #, fuzzy, kde-format
@@ -37300,10 +37297,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
 #: src/ui/clipjobmanager_ui.ui:342
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Folder name"
-msgstr "Fájlnév"
+msgstr "Mappanév"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/clipjobmanager_ui.ui:368
@@ -38440,18 +38436,16 @@ msgstr ""
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, wr_venv_label)
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_venv_label)
 #: src/ui/configspeech_ui.ui:328 src/ui/configspeech_ui.ui:947
-#, fuzzy, kde-format
-#| msgid "Original size"
+#, kde-format
 msgid "Plugin size"
-msgstr "Eredeti méret"
+msgstr "Bővítmény mérete"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:342 src/ui/configspeech_ui.ui:918
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Telepített modulok"
+msgstr "Bővítmény eltávolítása"
 
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:414
@@ -38737,10 +38731,9 @@ msgstr "Kompozit"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Clip"
+#, kde-format
 msgid "Clips"
-msgstr "Klip"
+msgstr "Klipek"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
 #: src/ui/configtimeline_ui.ui:272
@@ -38769,10 +38762,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "Keyframes"
-msgstr "képkockák"
+msgstr "Kulcskockák"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
@@ -41145,17 +41137,15 @@ msgstr "T"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hguides)
 #: src/ui/titlewidget_ui.ui:403
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal guides."
-msgstr "Vízszintes"
+msgstr "Vízszintes segédvonalak."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, vguides)
 #: src/ui/titlewidget_ui.ui:416
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical guides."
-msgstr "Függőleges"
+msgstr "Függőleges segédvonalak."
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
 #: src/ui/titlewidget_ui.ui:442
@@ -41165,10 +41155,9 @@ msgstr "N"
 
 #. i18n: ectx: property (text), widget (QCheckBox, show_guides)
 #: src/ui/titlewidget_ui.ui:462
-#, fuzzy, kde-format
-#| msgid "Show curves"
+#, kde-format
 msgid "Show guides:"
-msgstr "Görbék megjelenítése"
+msgstr "Segédvonalak megjelenítése:"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, buttonSelectAll)
 #: src/ui/titlewidget_ui.ui:469

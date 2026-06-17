@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-14 02:32+0000\n"
+"POT-Creation-Date: 2026-06-17 02:37+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -19118,7 +19118,8 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:431
-#: src/bin/previewpanel.cpp:382
+#: src/bin/previewpanel.cpp:382 src/capture/mediacapture.cpp:156
+#: src/capture/mediacapture.cpp:306
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "No audio"
@@ -21035,19 +21036,19 @@ msgstr "Προσθήκη κομματιού"
 msgid "New tag"
 msgstr ""
 
-#: src/capture/mediacapture.cpp:119
+#: src/capture/mediacapture.cpp:117
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:248
+#: src/capture/mediacapture.cpp:252
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:420 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:430 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
