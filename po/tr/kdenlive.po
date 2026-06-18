@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 02:37+0000\n"
-"PO-Revision-Date: 2026-06-11 21:16+0300\n"
+"PO-Revision-Date: 2026-06-17 09:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23110,7 +23110,7 @@ msgstr "Çözümleme gerçekleştirmek için zaman akışından bir klip seçin"
 #: src/dialogs/speechdialog.cpp:134
 #, kde-format
 msgid "No audio track found"
-msgstr "Ses izi bulunamadı"
+msgstr "Bulunan ses izi yok"
 
 #: src/dialogs/speechdialog.cpp:190 src/dialogs/textbasededit.cpp:1084
 #: src/dialogs/textbasededit.cpp:1097
@@ -30216,7 +30216,7 @@ msgstr "Arama başarısız oldu! %1"
 #, kde-format
 msgctxt "@info"
 msgid "No items found."
-msgstr "Öge bulunamadı."
+msgstr "Bulunan öge yok"
 
 #: src/onlineresources/resourcewidget.cpp:288
 #, kde-format
@@ -31419,7 +31419,7 @@ msgstr "Kaydırma ve yakınlaştırma"
 #: src/project/dialogs/slideshowclip.cpp:319 src/ui/slideshowclip_ui.ui:299
 #, kde-format
 msgid "No image found"
-msgstr "Görsel bulunamadı"
+msgstr "Bulunan görsel yok"
 
 #: src/project/dialogs/temporarydata.cpp:171
 #: src/project/dialogs/temporarydata.cpp:175
