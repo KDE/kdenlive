@@ -33,6 +33,7 @@
 #include <KRecentDirs>
 
 #include <QButtonGroup>
+#include <QClipboard>
 #include <QCryptographicHash>
 #include <QDomDocument>
 #include <QFileDialog>
@@ -45,6 +46,7 @@
 #include <QImageReader>
 #include <QKeyEvent>
 #include <QMenu>
+#include <QMimeData>
 #include <QSpinBox>
 #include <QTextBlockFormat>
 #include <QTextCursor>
@@ -461,6 +463,8 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     graphicsView->setRubberBandSelectionMode(Qt::ContainsItemBoundingRect);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, &QGraphicsScene::changed, this, &TitleWidget::slotChanged);
+    connect(m_scene, &GraphicsSceneRectMove::copy, this, &TitleWidget::slotCopy);
+    connect(m_scene, &GraphicsSceneRectMove::paste, this, &TitleWidget::slotPaste);
     connect(font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_scene, &GraphicsSceneRectMove::slotUpdateFontSize);
     connect(use_grid, &QAbstractButton::toggled, m_scene, &GraphicsSceneRectMove::slotUseGrid);
 
@@ -2381,6 +2385,7 @@ void TitleWidget::setXml(const QString &path, const QDomDocument &doc, const QSt
         delete m_missingMessage;
         m_missingMessage = nullptr;
     }
+    m_path = path;
     m_count = m_titledocument.loadFromXml(path, doc, m_scene, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
     adjustFrameSize();
     if (m_titledocument.invalidCount() > 0) {
@@ -3701,4 +3706,75 @@ void TitleWidget::writeBaseConfig()
     QByteArray ba = m_patternsModel->serialize();
     titleConfig.writeEntry("patterns", ba);
     config->sync();
+}
+
+void TitleWidget::slotCopy()
+{
+    QDomDocument document;
+    QDomElement documentElement = document.createElement(QStringLiteral("items"));
+    document.appendChild(documentElement);
+
+    for (auto selected : m_scene->selectedItems()) {
+        QDomDocument itemDocument = m_titledocument.xmlItem(selected, m_frameWidth, m_frameHeight);
+        if (!itemDocument.hasChildNodes()) continue;
+        documentElement.appendChild(itemDocument);
+    }
+
+    QClipboard *clipboard = QApplication::clipboard();
+    QMimeData *data = new QMimeData();
+    data->setData("x-kdenlivetitle-items", document.toByteArray());
+    clipboard->setMimeData(data);
+}
+
+void TitleWidget::slotPaste()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    const QMimeData *data = clipboard->mimeData();
+    if (data == nullptr) {
+        return;
+    }
+
+    if (!data->hasFormat("x-kdenlivetitle-items")) {
+        return;
+    }
+
+    QByteArray documentBytes = data->data("x-kdenlivetitle-items");
+    QDomDocument document;
+    document.setContent(documentBytes);
+    QDomElement documentElement = document.documentElement();
+    int missingElements = 0;
+    int maxZIndex = 0;
+    m_scene->clearSelection();
+    QList<QGraphicsItem *> items;
+    for (auto item : documentElement.elementsByTagName("item")) {
+        QGraphicsItem *gitem = m_titledocument.loadItemFromXml(item, m_path, m_frameWidth, m_frameHeight, missingElements, maxZIndex);
+        if (!gitem) continue;
+
+        QPointF position = gitem->pos();
+        while (true) {
+            bool existingItemAtPosition = false;
+            for (auto sceneItem : m_scene->items()) {
+                if (sceneItem->pos() == position) {
+                    existingItemAtPosition = true;
+                    position += QPointF(50, 50);
+                    gitem->setPos(position);
+                    break;
+                }
+            }
+
+            if (!existingItemAtPosition) {
+                break;
+            }
+        }
+
+        m_scene->addItem(gitem);
+        items.append(gitem);
+    }
+
+    if (!items.isEmpty()) {
+        m_scene->setSelectedItem(items.first());
+        for (auto item : items) {
+            item->setSelected(true);
+        }
+    }
 }

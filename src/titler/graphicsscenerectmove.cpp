@@ -760,6 +760,12 @@ void GraphicsSceneRectMove::setTool(GraphicsSceneRectMove::TITLETOOL tool)
 
 void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
 {
+    if (keyEvent->matches(QKeySequence::Copy)) {
+        Q_EMIT copy();
+    } else if (keyEvent->matches(QKeySequence::Paste)) {
+        Q_EMIT paste();
+    }
+
     if (m_selectedItem == nullptr || !(m_selectedItem->flags() & QGraphicsItem::ItemIsMovable)) {
         QGraphicsScene::keyPressEvent(keyEvent);
         return;
@@ -771,6 +777,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
             return;
         }
     }
+
     int diff = m_gridSize;
     if ((keyEvent->modifiers() & Qt::ControlModifier) != 0u) {
         diff = m_gridSize * 5;
