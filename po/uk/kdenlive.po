@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 00:44+0000\n"
-"PO-Revision-Date: 2026-06-05 14:41+0300\n"
+"PO-Revision-Date: 2026-06-17 08:02+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -21309,10 +21309,9 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Формат запису скориговано до %1 каналів, %2 Гц."
 
 #: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
-#, fuzzy, kde-format
-#| msgid "No audio track found"
+#, kde-format
 msgid "No audio device found"
-msgstr "Не знайдено звукової доріжки"
+msgstr "Не знайдено звукового пристрою"
 
 #: src/capture/mediacapture.cpp:247
 #, kde-format

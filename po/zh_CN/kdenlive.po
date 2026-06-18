@@ -13466,6 +13466,10 @@ msgid ""
 "area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in "
 "watts,Gradient of GPS track,Gradient of GPS track in degrees"
 msgstr ""
+"GPS纬度、GPS经度、GPS海拔、GPS速度、累计总里程、当前GPS点位日期时间、视频文件"
+"当前帧日期时间、心率、当前GPS方位角、当前GPS行进方向、累计总爬升海拔、累计总"
+"下降海拔、累计上坡行驶距离、累计下坡行驶距离、累计平路行驶距离、（自行车）踏"
+"频（转/分钟）、环境温度、功率（瓦）、GPS轨迹坡度、GPS轨迹坡度（角度制）"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -20568,10 +20572,9 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "录制格式已调整为 %1 声道，%2 Hz。"
 
 #: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
-#, fuzzy, kde-format
-#| msgid "No audio track found"
+#, kde-format
 msgid "No audio device found"
-msgstr "未找到音轨"
+msgstr ""
 
 #: src/capture/mediacapture.cpp:247
 #, kde-format

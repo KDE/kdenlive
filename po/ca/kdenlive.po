@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-17 00:44+0000\n"
-"PO-Revision-Date: 2026-06-05 13:13+0200\n"
+"PO-Revision-Date: 2026-06-17 08:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21381,10 +21381,9 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Format d'enregistrament ajustat a %1 canals, %2 Hz."
 
 #: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
-#, fuzzy, kde-format
-#| msgid "No audio track found"
+#, kde-format
 msgid "No audio device found"
-msgstr "No s'ha trobat cap pista d'àudio"
+msgstr "No s'ha trobat cap dispositiu d'àudio"
 
 #: src/capture/mediacapture.cpp:247
 #, kde-format
