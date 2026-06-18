@@ -54,15 +54,20 @@ enum class GroupType {
 const QString groupTypeToStr(GroupType t);
 GroupType groupTypeFromStr(const QString &s);
 
-// We can not use just ObjectType as name because that causes conflicts with Xcode on macOS
-enum class KdenliveObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
+namespace KdenliveObjectType {
+Q_NAMESPACE
+QML_ELEMENT
+
+enum ItemType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
+Q_ENUM_NS(ItemType)
+} // namespace KdenliveObjectType
 
 struct ObjectId
 {
-    KdenliveObjectType type;
+    KdenliveObjectType::ItemType type;
     int itemId;
     QUuid uuid;
-    explicit constexpr ObjectId(const KdenliveObjectType tp = KdenliveObjectType::NoItem, int id = -1, const QUuid uid = QUuid())
+    explicit constexpr ObjectId(const KdenliveObjectType::ItemType tp = KdenliveObjectType::NoItem, int id = -1, const QUuid uid = QUuid())
         : type(tp)
         , itemId(id)
         , uuid(uid)

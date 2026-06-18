@@ -3,10 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-// KLocalizedQmlContext include has to be before mlt includes,
-// because it breaks due to some macros in MLT
-#include <KLocalizedQmlContext>
-
+#include "timelinetabs.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/projectclip.h"
@@ -18,9 +15,7 @@
 #include "monitor/monitormanager.h"
 #include "monitor/monitorproxy.h"
 #include "project/projectmanager.h"
-#include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
-#include "timelinetabs.hpp"
 #include "timelinewidget.h"
 
 #include <KMessageBox>
@@ -41,14 +36,11 @@ QSize TimelineContainer::sizeHint() const
     return QSize(800, pCore->window()->height() / 2);
 }
 
-TimelineTabs::TimelineTabs(QWidget *parent)
+TimelineTabs::TimelineTabs(QQmlEngine *engine, QWidget *parent)
     : QTabWidget(parent)
     , m_activeTimeline(nullptr)
 {
-    m_qmlEngine = new QQmlEngine(this);
-    KLocalization::setupLocalizedContext(m_qmlEngine);
-    m_qmlEngine->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
-
+    m_qmlEngine = engine;
     setTabBarAutoHide(true);
     setTabsClosable(false);
     setDocumentMode(true);
@@ -59,7 +51,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     pb->setToolTip(i18n("Add Timeline Sequence"));
     pb->setWhatsThis(
         i18n("Add Timeline Sequence. This will create a new timeline for editing. Each timeline corresponds to a Sequence Clip in the Project Bin"));
-    connect(pb, &QToolButton::clicked, [this]() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
+    connect(pb, &QToolButton::clicked, this, []() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
     setCornerWidget(pb);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);

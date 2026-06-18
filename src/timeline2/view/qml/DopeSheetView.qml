@@ -20,6 +20,7 @@ Rectangle {
     color: activePalette.base
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     // Effects duration
+    property int inPoint: dopesheetmodel.dopeInPoint
     property int frameDuration: dopesheetmodel.dopeDuration
     property int toolbarHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
     property int mouseFramePos: -1
@@ -29,6 +30,8 @@ Rectangle {
     required property K.DopeSheetModel dopesheetmodel
     property K.MonitorProxy proxy
     property var keyframeType
+    property int ownerType
+    property int ownerId
     property bool viewHasFocus: false
     // The position in frame of the stack owner
     property int offset: dopesheetmodel.dopePosition
@@ -75,7 +78,13 @@ Rectangle {
         viewHasFocus = hasFocus
     }
 
-    function updateOwner() {
+    function setBlockAutoScroll(block) {
+        // Placeholder
+    }
+
+    function updateOwner(type, id) {
+        dopeRoot.ownerType = type
+        dopeRoot.ownerId = id
         dopeRoot.contentScroll = 0
         dopeRoot.timeScale = 1
         ruler.adjustStepSize()
@@ -288,7 +297,11 @@ Rectangle {
 
     function getActiveIndex() {
         var item = treeView.itemAtIndex(treeView.selectionModel.currentIndex)
-        return treeView.index(item.row, item.column)
+        if (item) {
+            return treeView.index(item.row, item.column)
+        }
+        console.log('NO ACTIVE ITEM FOUND IN DOPESHEET...')
+        return treeView.index(-1, -1)
     }
 
 function setActiveIndexFromModel(index) {
@@ -525,6 +538,7 @@ function setActiveIndexFromModel(index) {
 
     Rectangle {
         // Param name background
+        id: headerBg
         anchors.left: parent.left
         anchors.leftMargin: 4
         anchors.bottom: parent.bottom
@@ -646,6 +660,7 @@ function setActiveIndexFromModel(index) {
             onCurrentChanged: (current, previous) => {
                 rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveIndex())
                 if (current.valid && current.parent) {
+                    keyframeCurve.model = dopesheetmodel.getKeyframeModel(getActiveIndex())
                     var item
                     if (current.parent !== treeView.rootIndex) {
                         item = treeView.itemAtIndex(current.parent)
@@ -734,7 +749,7 @@ function setActiveIndexFromModel(index) {
                 anchors.top: contentRect.top
                 anchors.bottom: contentRect.bottom
                 anchors.leftMargin: K.UiUtils.baseSizeMedium + treeView.headerWidth
-                anchors.rightMargin: K.UiUtils.baseSizeMedium
+                anchors.rightMargin: K.UiUtils.baseSizeMedium / 2 + 2
                 Rectangle {
                     // keyframe slider
                     id: keyframeSlider
@@ -772,6 +787,7 @@ function setActiveIndexFromModel(index) {
                     onHoveredChanged: {
                         if (containsMouse) {
                             treeView.hoveredParam = contentRect.row
+                            console.log('COmparing slider width: ', keyframeSlider.width, ' == ', keyframeContainer.width)
                         }
                     }
 
@@ -1020,6 +1036,71 @@ function setActiveIndexFromModel(index) {
         y: Math.min(dopeRoot.rubberTopLeft.y, dopeRoot.rubberBottomRight.y)
         width: Math.abs(dopeRoot.rubberBottomRight.x - dopeRoot.rubberTopLeft.x)
         height: Math.abs(dopeRoot.rubberBottomRight.y - dopeRoot.rubberTopLeft.y)
+    }
+
+    Flickable {
+        id: keyframeContainer
+        anchors.left: parent.left
+        anchors.leftMargin: K.UiUtils.baseSizeMedium + treeView.headerWidth
+        anchors.right: parent.right
+        anchors.rightMargin: K.UiUtils.baseSizeMedium
+        anchors.bottom: horZoomBar.top
+        anchors.bottomMargin: 2
+        height: K.UiUtils.baseSizeMedium * 4
+        property bool isPanning: false
+        contentWidth: Math.max(width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
+        contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale - width)
+        interactive: false
+        clip: true
+    Loader {
+        // Keyframe curve
+        id: keyframeCurve
+        height: keyframeContainer.height
+        width: keyframeContainer.contentWidth
+        property var model
+        property bool hasKeyframes: false
+        property alias curveView: keyframeCurve.item
+        property bool isPanning: false
+        asynchronous: true
+        visible: status == Loader.Ready
+        active: true
+        onModelChanged: {
+            if (keyframeCurve.model === undefined) {
+                keyframeCurve.setSource("")
+            } else {
+                keyframeCurve.setSource("KeyframeView.qml", {"color":Qt.rgba(1, 1, 1, 0.5), "container": keyframeCurve, "selected": true, "kfrModel": keyframeCurve.model, "timescale": dopeRoot.maximumScaleFactor * dopeRoot.timeScale, "ownerId": dopeRoot.ownerId, "ownerType": dopeRoot.ownerType})
+            }
+        }
+
+        Binding {
+            target: keyframeCurve.item
+            property: "inPoint"
+            value: dopesheetmodel.dopeInPoint
+            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+            restoreMode: Binding.RestoreBindingOrValue
+        }
+        Binding {
+            target: keyframeCurve.item
+            property: "outPoint"
+            value: dopesheetmodel.dopeInPoint + dopesheetmodel.dopeDuration - 1
+            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+            restoreMode: Binding.RestoreBindingOrValue
+        }
+        Binding {
+            target: keyframeCurve.item
+            property: "modelStart"
+            value: dopesheetmodel.dopePosition
+            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+            restoreMode: Binding.RestoreBindingOrValue
+        }
+        Binding {
+            target: keyframeCurve.item
+            property: "scrollStart"
+            value: 0
+            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+            restoreMode: Binding.RestoreBindingOrValue
+        }
+    }
     }
     K.ZoomBar {
         id: horZoomBar

@@ -80,7 +80,7 @@ protected:
 
     /** @brief Removes the keyframe at the given position. */
     Q_INVOKABLE bool removeKeyframe(int frame);
-    bool moveKeyframe(int oldPos, int pos, QVariant newVal);
+    Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, QVariant newVal, bool logUndo);
     /** @brief Duplicate a keyframe at the given position. */
     bool duplicateKeyframe(GenTime srcPos, GenTime dstPos, Fun &undo, Fun &redo);
     bool removeKeyframe(GenTime pos);
@@ -98,8 +98,8 @@ public:
        @param pos defines the new position of the keyframe, relative to the clip
        @param logUndo if true, then an undo object is created
     */
-    bool moveKeyframe(int oldPos, int pos, bool logUndo);
-    bool offsetKeyframes(int oldPos, int pos, bool logUndo);
+    Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, bool logUndo);
+    Q_INVOKABLE bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
 
@@ -255,4 +255,3 @@ public:
     auto begin() -> decltype(m_keyframeList.begin()) { return m_keyframeList.begin(); }
     auto end() -> decltype(m_keyframeList.end()) { return m_keyframeList.end(); }
 };
-// Q_DECLARE_METATYPE(KeyframeModel *)

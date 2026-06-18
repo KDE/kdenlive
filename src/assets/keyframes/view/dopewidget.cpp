@@ -11,26 +11,13 @@
 #include <QVariant>
 #include <QtGlobal>
 
-#include <ki18n_version.h>
-
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
-#include <KLocalizedQmlContext>
-#else
-#include <KLocalizedContext>
-#endif
-
 #include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
-DopeWidget::DopeWidget(QWidget *parent)
-    : QQuickWidget(parent)
+DopeWidget::DopeWidget(QQmlEngine *engine, QWidget *parent)
+    : QQuickWidget(engine, parent)
 {
-#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
-    KLocalization::setupLocalizedContext(engine());
-#else
-    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
-#endif
     setClearColor(palette().base().color());
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
@@ -89,6 +76,7 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
         return;
     }
     if (!model || !rootObject()) {
+        QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, -1), Q_ARG(QVariant, -1));
         return;
     }
     connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::QueuedConnection);
@@ -98,7 +86,8 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
     pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
-    QMetaObject::invokeMethod(rootObject(), "updateOwner");
+    QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
+                              Q_ARG(QVariant, model->getOwnerId().itemId));
 }
 
 void DopeWidget::clear()

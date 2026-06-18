@@ -427,7 +427,8 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
 
 bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
 {
-    qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
+    qDebug() << "starting to move ONE keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps())
+             << "; UPDATE VIEW: " << updateView;
     QWriteLocker locker(&m_lock);
     if (!allowedToFail) {
         Q_ASSERT(m_keyframeList.count(oldPos) > 0);
@@ -606,11 +607,11 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(int oldPos, int pos, QVariant newVal)
+bool KeyframeModel::moveKeyframe(int oldPos, int pos, QVariant newVal, bool logUndo)
 {
     GenTime oPos(oldPos, pCore->getCurrentFps());
     GenTime nPos(pos, pCore->getCurrentFps());
-    return moveKeyframe(oPos, nPos, std::move(newVal), true);
+    return moveKeyframe(oPos, nPos, std::move(newVal), logUndo);
 }
 
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo)
@@ -844,6 +845,7 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         return false;
     }
     case NormalizedValueRole: {
+        Q_ASSERT(m_index.isValid());
         if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
             const QString &data = it->second.second.toString();
             bool ok;
@@ -858,7 +860,6 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         }
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {
-            Q_ASSERT(m_index.isValid());
             double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
             double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
             if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {

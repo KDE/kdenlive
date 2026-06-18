@@ -397,7 +397,7 @@ int TimelineController::selectedTrack() const
     return selected_tracks.front().second;
 }
 
-bool TimelineController::selectCurrentItem(KdenliveObjectType type, bool select, bool addToCurrent, bool showErrorMsg)
+bool TimelineController::selectCurrentItem(KdenliveObjectType::ItemType type, bool select, bool addToCurrent, bool showErrorMsg)
 {
     int currentClip = -1;
     if (m_activeTrack == -1 || (m_model->isSubtitleTrack(m_activeTrack) && type != KdenliveObjectType::TimelineClip)) {

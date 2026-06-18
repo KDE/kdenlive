@@ -79,6 +79,10 @@ Rectangle {
         return best
     }
 
+    function setBlockAutoScroll(block) {
+        root.blockAutoScroll = block
+    }
+
     function screenEdges(globalPos) {
         const s = screenForGlobalPos(globalPos)
         if (!s) {

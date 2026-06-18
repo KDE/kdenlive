@@ -16,12 +16,18 @@ Rectangle
     property int activeIndex
     property int inPoint
     property int outPoint
-    property int clipId
+    property int ownerType
+    property int ownerId
     property int modelStart
     property bool selected
     property var kfrModel
     property int scrollStart
+    property var container
+    property bool isPanning: parent.isPanning
+    property color textColor: activePalette.text
+    property color kfColor: activePalette.highlight
     property alias kfrCanvas: keyframecanvas
+    property double timescale
     signal seek(int position)
 
     onKfrCountChanged: {
@@ -57,7 +63,7 @@ Rectangle
                 var oldFrame = activeKeyframe.value
                 var newPos = Math.max(oldFrame - 1 - keyframeContainer.inPoint, 0)
                 if (newPos != oldFrame) {
-                    timeline.updateEffectKeyframe(clipId, oldFrame, newPos)
+                    kfrModel.moveKeyframe(oldFrame, newPos, true)
                     event.accepted = true
                 }
             }
@@ -72,7 +78,7 @@ Rectangle
                 var oldFrame = activeKeyframe.value
                 var newPos = Math.min(oldFrame + 1 - keyframeContainer.inPoint, keyframeContainer.outPoint - keyframeContainer.inPoint)
                 if (newPos != oldFrame) {
-                    timeline.updateEffectKeyframe(clipId, oldFrame, newPos)
+                    kfrModel.moveKeyframe(oldFrame, newPos, true)
                 }
             }
             event.accepted = true
@@ -112,10 +118,10 @@ Rectangle
         id: keyframecanvas
         contextType: "2d"
         renderStrategy: Canvas.Threaded
-        property int offset: keyframeContainer.scrollStart < 0 || parent.width <= scrollView.width ? 0 : keyframeContainer.scrollStart
+        property int offset: keyframeContainer.scrollStart < 0 || parent.width <= container.width ? 0 : keyframeContainer.scrollStart
         anchors.left: parent.left
         anchors.leftMargin: offset
-        width: keyframeContainer.kfrCount > 0 ? Math.min(parent.width, scrollView.width) : 0
+        width: keyframeContainer.kfrCount > 0 ? Math.min(keyframeContainer.width, container === undefined ? keyframeContainer.width : container.width) : 0
         height: keyframeContainer.kfrCount > 0 ? parent.height : 0
         opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
@@ -143,8 +149,10 @@ Rectangle
 
         onPaint: {
             if (keyframeContainer.kfrCount < 1) {
+                console.log('KEYFRAME COUNT ERROR: ', keyframeContainer.kfrCount)
                 return
             }
+            console.log('PAINTING KEYFRMS: ', keyframeContainer.kfrCount, ' / KFRS: ', keyframes.count)
             var ctx = getContext("2d");
             ctx.beginPath()
             ctx.fillStyle = Qt.rgba(0,0,0.8, 0.5);
@@ -401,7 +409,7 @@ Rectangle
                         paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                         break;
                 }
-                if (xpos > scrollView.width) {
+                if (xpos > container.width) {
                     break;
                 }
             }

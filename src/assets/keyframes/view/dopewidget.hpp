@@ -15,7 +15,7 @@ class DopeWidget : public QQuickWidget
 {
     Q_OBJECT
 public:
-    DopeWidget(QWidget *parent = nullptr);
+    DopeWidget(QQmlEngine *engine, QWidget *parent = nullptr);
     void setViewProperties(QVariantMap properties);
     void deleteItem();
     void doKeyPressEvent(QKeyEvent *ev);
@@ -23,8 +23,6 @@ public:
     void grabKeyframes();
     void clearSelection();
     void moveGrab(bool left);
-    void gotoPreviousSnap();
-    void gotoNextSnap();
 
 protected:
     virtual void focusInEvent(QFocusEvent *event) override;
@@ -34,6 +32,8 @@ public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);
     void slotAddRemoveKeyframe();
     void activateEffect(QPersistentModelIndex ix);
+    void gotoPreviousSnap();
+    void gotoNextSnap();
 
 private Q_SLOTS:
     void updateActiveEffect(QPersistentModelIndex ix, bool active);

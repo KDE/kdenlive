@@ -1797,7 +1797,7 @@ void AssetParameterModel::setParametersFromTask(const paramVector &params)
 
 void AssetParameterModel::setParameters(const paramVector &params, bool update)
 {
-    KdenliveObjectType itemType = m_ownerId.type;
+    KdenliveObjectType::ItemType itemType = m_ownerId.type;
     if (!update) {
         // Change itemId to NoItem to ensure we don't send any update like refreshProjectItem that would trigger monitor refreshes.
         m_ownerId.type = KdenliveObjectType::NoItem;

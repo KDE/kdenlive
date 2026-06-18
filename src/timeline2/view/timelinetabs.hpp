@@ -36,7 +36,7 @@ class TimelineTabs : public QTabWidget
 
 public:
     /** @brief Construct the tabs as well as the widget for the main timeline */
-    TimelineTabs(QWidget *parent = nullptr);
+    TimelineTabs(QQmlEngine *engine, QWidget *parent = nullptr);
     ~TimelineTabs() override;
 
     /** @brief Returns a pointer to the current timeline */

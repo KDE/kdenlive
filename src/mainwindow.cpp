@@ -4,6 +4,10 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+// KLocalizedQmlContext include has to be before mlt includes,
+// because it breaks due to some macros in MLT
+#include <KLocalizedQmlContext>
+
 #include "mainwindow.h"
 #include "assets/assetpanel.hpp"
 #include "assets/keyframes/model/dopesheetmodel.hpp"
@@ -68,6 +72,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/temporarydata.h"
 #include "project/projectmanager.h"
 #include "scopes/scopemanager.h"
+#include "timeline2/view/qmltypes/thumbnailprovider.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinetabs.hpp"
 #include "timeline2/view/timelinewidget.h"
@@ -121,6 +126,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenuBar>
 #include <QPushButton>
 #include <QQmlContext>
+#include <QQmlEngine>
 #include <QScreen>
 #include <QStandardPaths>
 #include <QStatusBar>
@@ -228,8 +234,12 @@ void MainWindow::init()
     ctnLay->addWidget(fr);
 
     // Keyframe stuff
+    m_qmlEngine = new QQmlEngine(this);
+    KLocalization::setupLocalizedContext(m_qmlEngine);
+    m_qmlEngine->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
+
     m_assetPanel = new AssetPanel(this);
-    m_dopeWidget = new DopeWidget(this);
+    m_dopeWidget = new DopeWidget(m_qmlEngine, this);
     setupActions();
 
     auto *layoutManager = new LayoutManagement(this);
@@ -260,7 +270,7 @@ void MainWindow::init()
     installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
 
-    m_timelineTabs = new TimelineTabs();
+    m_timelineTabs = new TimelineTabs(m_qmlEngine, this);
     ctnLay->addWidget(m_timelineTabs);
 
     // Timeline dock

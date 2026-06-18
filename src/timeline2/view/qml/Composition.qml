@@ -491,6 +491,7 @@ Item {
             anchors.fill: parent
             active: compositionRoot.visible
             asynchronous: true
+            property bool isPanning: root.isPanning
             visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * K.UiUtils.baseSizeMedium
             source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {
@@ -531,8 +532,14 @@ Item {
                 }
                 Binding {
                     target: effectRow.item
-                    property: "clipId"
+                    property: "ownerId"
                     value: compositionRoot.clipId
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "ownerType"
+                    value: K.KdenliveObjectType.TimelineComposition
                     when: effectRow.status == Loader.Ready && effectRow.item
                 }
             }

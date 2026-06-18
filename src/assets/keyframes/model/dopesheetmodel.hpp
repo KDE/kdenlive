@@ -49,10 +49,11 @@ public:
     friend class KdenliveTests;
     ~DopeSheetModel() override;
 
+    Q_PROPERTY(int dopeInPoint READ dopeInPoint NOTIFY dopeInPointChanged)
     Q_PROPERTY(int dopeDuration READ dopeDuration NOTIFY dopeDurationChanged)
     Q_PROPERTY(int dopePosition READ dopePosition NOTIFY dopePositionChanged)
     static std::shared_ptr<DopeSheetModel> construct(QObject *parent = nullptr);
-    enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, IndexRole, SelectedRole };
+    enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, IndexRole, SelectedRole, RecapRole };
     friend class KeyframeModel;
     friend class KeyframeContainer;
     friend class KeyframeImport;
@@ -91,7 +92,9 @@ public:
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
     Q_INVOKABLE void setActiveIndex(const QPersistentModelIndex ix);
+    Q_INVOKABLE KeyframeModel *getKeyframeModel(QPersistentModelIndex activeIndex);
     int dopeDuration() const;
+    int dopeInPoint() const;
     int dopePosition() const;
     void updateItemPosition(ObjectId itemId);
     /** @brief True if we have grabbed keyframes for a move */
@@ -139,6 +142,7 @@ private Q_SLOTS:
 Q_SIGNALS:
     void modelChanged();
     void dopeDurationChanged();
+    void dopeInPointChanged();
     void dopePositionChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void activateEffect(QPersistentModelIndex ix);

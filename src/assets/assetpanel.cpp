@@ -374,7 +374,7 @@ void AssetPanel::clear()
 
 void AssetPanel::processSplitEffect(bool enable)
 {
-    KdenliveObjectType id = m_effectStackWidget->stackOwner().type;
+    KdenliveObjectType::ItemType id = m_effectStackWidget->stackOwner().type;
     if (id == KdenliveObjectType::TimelineClip) {
         Q_EMIT doSplitEffect(enable);
     } else if (id == KdenliveObjectType::BinClip) {

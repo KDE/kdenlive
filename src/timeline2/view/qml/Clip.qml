@@ -146,7 +146,7 @@ Rectangle {
     }
 
     function resetSelection() {
-        if (effectRow.visible) {
+        if (effectRow.visible && effectRow.item) {
             (effectRow.item as KeyframeView).resetSelection()
         }
     }
@@ -1484,6 +1484,8 @@ Rectangle {
                 anchors.fill: parent
                 asynchronous: true
                 property bool hasKeyframes: false
+                property bool isPanning: root.isPanning
+
                 active: clipRoot.visible
                 visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
@@ -1531,8 +1533,29 @@ Rectangle {
                 }
                 Binding {
                     target: effectRow.item
-                    property: "clipId"
+                    property: "ownerId"
                     value: clipRoot.clipId
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "ownerType"
+                    value: K.KdenliveObjectType.TimelineClip
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "container"
+                    value: scrollView
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "timescale"
+                    value: root.timeScale
                     when: effectRow.status == Loader.Ready && effectRow.item
                     restoreMode: Binding.RestoreBindingOrValue
                 }

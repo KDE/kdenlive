@@ -63,6 +63,7 @@ QHash<int, QByteArray> DopeSheetModel::roleNames() const
     roles[ModelRole] = "dopeModel";
     roles[IndexRole] = "dopeIndex";
     roles[SelectedRole] = "dopeSelected";
+    roles[RecapRole] = "dopeRecap";
     return roles;
 }
 
@@ -88,6 +89,8 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
         return item->dataColumn(0);
     case ModelRole:
         return QVariant::fromValue(m_paramsList.at(itemId).second.get());
+    case RecapRole:
+        return m_paramsList.at(itemId).first.row == -1;
     /*case AssetTypeRole:
         return QVariant::fromValue(it->second.first.second);
     case SelectedRole:
@@ -147,6 +150,7 @@ bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
     m_model = std::move(model);
     Q_EMIT dopeDurationChanged();
     Q_EMIT dopePositionChanged();
+    Q_EMIT dopeInPointChanged();
     if (m_model) {
         connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
         connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
@@ -224,6 +228,10 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> eff
     auto connection = connect(effectModel.get(), &AssetParameterModel::dataChanged, this,
                               [this, effectItem, effectModel](const QModelIndex &ix1, const QModelIndex & /*ix2*/, const QList<int> &roles) {
                                   if (roles.contains(AssetParameterModel::ParentDurationRole)) {
+                                      Q_EMIT dopeDurationChanged();
+                                  }
+                                  if (roles.contains(AssetParameterModel::InRole)) {
+                                      Q_EMIT dopeInPointChanged();
                                       Q_EMIT dopeDurationChanged();
                                   }
                                   if (roles.contains(AssetParameterModel::BlockedKeyframesRole)) {
@@ -489,6 +497,15 @@ void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int u
     }
 }
 
+KeyframeModel *DopeSheetModel::getKeyframeModel(QPersistentModelIndex activeIndex)
+{
+    if (data(activeIndex, RecapRole).toBool() == true) {
+        // Recap, return null
+        return nullptr;
+    }
+    return data(activeIndex, ModelRole).value<KeyframeModel *>();
+}
+
 bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentModelIndex activeIndex)
 {
     if (!m_model) {
@@ -503,7 +520,7 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
         KeyframeModel *master = data(ix, ModelRole).value<KeyframeModel *>();
         if (ix == activeIndex) {
             KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
-            if (km->hasKeyframe(framePosition)) {
+            if (km && km->hasKeyframe(framePosition)) {
                 qDebug() << ":::: FOUND MASTER ITEM AT IX: " << ix;
                 foundActive = true;
             }
@@ -515,7 +532,7 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
                 auto current = tItem->child(j);
                 auto ix2 = getIndexFromItem(current);
                 KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
-                if (km->hasKeyframe(framePosition)) {
+                if (km && km->hasKeyframe(framePosition)) {
                     if (ix2 == activeIndex) {
                         foundActive = true;
                     }
@@ -901,6 +918,14 @@ int DopeSheetModel::dopeDuration() const
         return 0;
     }
     return pCore->getItemDuration(m_model->getOwnerId());
+}
+
+int DopeSheetModel::dopeInPoint() const
+{
+    if (!m_model) {
+        return 0;
+    }
+    return pCore->getItemIn(m_model->getOwnerId());
 }
 
 int DopeSheetModel::dopePosition() const
