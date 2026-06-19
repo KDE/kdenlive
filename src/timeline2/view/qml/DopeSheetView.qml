@@ -323,6 +323,53 @@ function setActiveIndexFromModel(index) {
         }
     }
 
+    Keys.onDownPressed: {
+        if (treeView.selectionModel.currentIndex.parent != treeView.rootIndex) {
+            // Child Item
+            var parentIndex = treeView.selectionModel.currentIndex.parent
+            if (treeView.selectionModel.currentIndex.row < treeView.model.rowCount(parentIndex) - 1) {
+                treeView.selectionModel.setCurrentIndex(treeView.model.index(treeView.selectionModel.currentIndex.row + 1, treeView.selectionModel.currentIndex.column, parentIndex), ItemSelectionModel.SelectCurrent)
+                return
+            }
+            // Move to next top level item
+            if (parentIndex.row < treeView.model.rowCount(treeView.rootIndex) - 1) {
+                treeView.selectionModel.setCurrentIndex(treeView.model.index(parentIndex.row + 1, treeView.selectionModel.currentIndex.column), ItemSelectionModel.SelectCurrent)
+                return
+            }
+        }
+        // Move to next child or top level item
+        if (treeView.model.rowCount(treeView.selectionModel.currentIndex) > 0) {
+            treeView.selectionModel.setCurrentIndex(treeView.model.index(0, 0, treeView.selectionModel.currentIndex), ItemSelectionModel.SelectCurrent)
+        } else {
+            if (treeView.selectionModel.currentIndex.row < treeView.model.rowCount(treeView.rootIndex) - 1) {
+                treeView.selectionModel.setCurrentIndex(treeView.model.index(treeView.selectionModel.currentIndex.row + 1, treeView.selectionModel.currentIndex.column), ItemSelectionModel.SelectCurrent)
+            }
+        }
+    }
+
+    Keys.onUpPressed: {
+        if (treeView.selectionModel.currentIndex.parent != treeView.rootIndex) {
+            // Child Item
+            var parentIndex = treeView.selectionModel.currentIndex.parent
+            if (treeView.selectionModel.currentIndex.row > 0) {
+                treeView.selectionModel.setCurrentIndex(treeView.model.index(treeView.selectionModel.currentIndex.row - 1, treeView.selectionModel.currentIndex.column, parentIndex), ItemSelectionModel.SelectCurrent)
+                return
+            }
+            // Move to top level item
+            treeView.selectionModel.setCurrentIndex(parentIndex, ItemSelectionModel.SelectCurrent)
+            return
+        }
+        // Move to next child or top level item
+        if (treeView.selectionModel.currentIndex.row > 0) {
+            var upperItem = treeView.model.index(treeView.selectionModel.currentIndex.row - 1, treeView.selectionModel.currentIndex.column)
+            if (treeView.model.rowCount(upperItem) > 0) {
+                treeView.selectionModel.setCurrentIndex(treeView.model.index(treeView.model.rowCount(upperItem) - 1, treeView.selectionModel.currentIndex.column, upperItem), ItemSelectionModel.SelectCurrent)
+            } else {
+                treeView.selectionModel.setCurrentIndex(upperItem, ItemSelectionModel.SelectCurrent)
+            }
+        }
+    }
+
     Menu {
         id: defaultTypeMenu
         ActionGroup {
@@ -386,6 +433,26 @@ function setActiveIndexFromModel(index) {
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
                 onClicked: K.Core.triggerAction('keyframe_add')
+            }
+            ToolButton {
+                icon.name: "arrow-left"
+                implicitWidth: dopeRoot.toolbarHeight
+                implicitHeight: width
+                enabled: dopeRoot.consumerPosition > 0
+                ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
+                onClicked: K.Core.triggerAction('monitor_seek_snap_backward')
+            }
+            ToolButton {
+                icon.name: "arrow-right"
+                implicitWidth: dopeRoot.toolbarHeight
+                implicitHeight: width
+                enabled: dopeRoot.consumerPosition < dopeRoot.frameDuration - 1
+                onClicked: {
+                    console.log('FWD CLICK: ', dopeRoot.consumerPosition, ' < ', dopeRoot.frameDuration)
+                    K.Core.triggerAction('monitor_seek_snap_forward')
+                }
             }
             ComboBox {
                 id: keyframeTypeCombo
