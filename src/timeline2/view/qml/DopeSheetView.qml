@@ -449,12 +449,12 @@ Rectangle {
             ToolButton {
                 implicitWidth: dopeRoot.toolbarHeight
                 implicitHeight: width
-                icon.name: "align-center"
-                enabled: rulerCursor.overKeyframe
+                icon.name: "align-horizontal-center"
+                enabled: dopeRoot.allSelectedKeyframes.length > 0
                 ToolTip.text: KI18n.i18n("Align Keyframe to Playhead")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
-                onClicked: K.Core.triggerAction('keyframe_add')
+                onClicked: dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, -1, dopeRoot.consumerPosition, true)
             }
             ToolButton {
                 implicitWidth: dopeRoot.toolbarHeight

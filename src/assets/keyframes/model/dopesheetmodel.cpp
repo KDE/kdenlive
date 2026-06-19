@@ -622,6 +622,38 @@ void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int u
     Fun redo = []() { return true; };
     const QMap<QModelIndex, QVariant> selection = sanitizeKeyframesIndexes(kfData);
     bool success = true;
+    if (sourcePos == -1) {
+        // Calculate best offset, get first and last selected KF
+        int firstPos = -1;
+        int lastPos = -1;
+        for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
+            int itemId = int(i.key().internalId());
+            auto tItem = getItemById(itemId);
+            if (tItem->depth() == 1) {
+                // Summary item, ignore
+                continue;
+            }
+            KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
+            if (km) {
+                const QVariantList indexes = i.value().toList();
+                if (!indexes.isEmpty()) {
+                    int first = km->getPosAtIndex(indexes.first().toInt()).frames(pCore->getCurrentFps());
+                    int last = km->getPosAtIndex(indexes.last().toInt()).frames(pCore->getCurrentFps());
+                    if (firstPos == -1 || first < firstPos) {
+                        firstPos = first;
+                    }
+                    if (lastPos == -1 || last > lastPos) {
+                        lastPos = last;
+                    }
+                }
+            }
+        }
+        if (qAbs(updatedPos - firstPos) < qAbs(updatedPos - lastPos)) {
+            sourcePos = firstPos;
+        } else {
+            sourcePos = lastPos;
+        }
+    }
     const GenTime offset(updatedPos - sourcePos, pCore->getCurrentFps());
     for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
         int itemId = int(i.key().internalId());
