@@ -23,6 +23,7 @@ public:
     void grabKeyframes();
     void clearSelection();
     void moveGrab(bool left);
+    void sendStandardCommand(int command);
 
 protected:
     virtual void focusInEvent(QFocusEvent *event) override;

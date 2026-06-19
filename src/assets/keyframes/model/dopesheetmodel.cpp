@@ -16,12 +16,69 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QLineF>
 #include <QSize>
 #include <mlt++/Mlt.h>
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <utility>
+
+struct
+{
+    mlt_keyframe_type t;
+    const QChar s;
+} keyframe_type_map[] = {
+    // Map keyframe type to any single character except numeric values.
+    {mlt_keyframe_discrete, QChar('|')},
+    {mlt_keyframe_discrete, QChar('!')},
+    {mlt_keyframe_linear, QChar()},
+    {mlt_keyframe_smooth, QChar('~')},
+    {mlt_keyframe_smooth_loose, QChar('~')},
+    {mlt_keyframe_smooth_natural, QChar('$')},
+    {mlt_keyframe_smooth_tight, QChar('-')},
+    {mlt_keyframe_sinusoidal_in, QChar('a')},
+    {mlt_keyframe_sinusoidal_out, QChar('b')},
+    {mlt_keyframe_sinusoidal_in_out, QChar('c')},
+    {mlt_keyframe_quadratic_in, QChar('d')},
+    {mlt_keyframe_quadratic_out, QChar('e')},
+    {mlt_keyframe_quadratic_in_out, QChar('f')},
+    {mlt_keyframe_cubic_in, QChar('g')},
+    {mlt_keyframe_cubic_out, QChar('h')},
+    {mlt_keyframe_cubic_in_out, QChar('i')},
+    {mlt_keyframe_quartic_in, QChar('j')},
+    {mlt_keyframe_quartic_out, QChar('k')},
+    {mlt_keyframe_quartic_in_out, QChar('l')},
+    {mlt_keyframe_quintic_in, QChar('m')},
+    {mlt_keyframe_quintic_out, QChar('n')},
+    {mlt_keyframe_quintic_in_out, QChar('o')},
+    {mlt_keyframe_exponential_in, QChar('p')},
+    {mlt_keyframe_exponential_out, QChar('q')},
+    {mlt_keyframe_exponential_in_out, QChar('r')},
+    {mlt_keyframe_circular_in, QChar('s')},
+    {mlt_keyframe_circular_out, QChar('t')},
+    {mlt_keyframe_circular_in_out, QChar('u')},
+    {mlt_keyframe_back_in, QChar('v')},
+    {mlt_keyframe_back_out, QChar('w')},
+    {mlt_keyframe_back_in_out, QChar('x')},
+    {mlt_keyframe_elastic_in, QChar('y')},
+    {mlt_keyframe_elastic_out, QChar('z')},
+    {mlt_keyframe_elastic_in_out, QChar('A')},
+    {mlt_keyframe_bounce_in, QChar('B')},
+    {mlt_keyframe_bounce_out, QChar('C')},
+    {mlt_keyframe_bounce_in_out, QChar('D')},
+};
+
+static mlt_keyframe_type str_to_keyframe_type(const QChar s)
+{
+    int map_count = sizeof(keyframe_type_map) / sizeof(*keyframe_type_map);
+    for (int i = 0; i < map_count; i++) {
+        if (s == keyframe_type_map[i].s) {
+            return keyframe_type_map[i].t;
+        }
+    }
+    return mlt_keyframe_linear;
+}
 
 DopeSheetModel::DopeSheetModel(QObject *parent)
     : AbstractTreeModel(parent)
@@ -220,6 +277,7 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> eff
         effectItem->appendChild(paramItem);
         qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString();
         pInfo.id = effectModel->data(ix, Qt::DisplayRole).toString();
+        pInfo.mltId = effectModel->data(ix, AssetParameterModel::NameRole).toString();
         pInfo.type = effectModel->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         pInfo.row = ix.row();
         pInfo.index = ix;
@@ -255,9 +313,11 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> eff
                                           }
                                           auto paramItem = TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString()}, shared_from_this(), false);
                                           effectItem->appendChild(paramItem);
-                                          qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString();
+                                          qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString() << " / "
+                                                   << effectModel->data(ix, AssetParameterModel::NameRole).toString();
                                           EffectParamInfo pInfo;
                                           pInfo.id = effectModel->data(ix, Qt::DisplayRole).toString();
+                                          pInfo.mltId = effectModel->data(ix, AssetParameterModel::NameRole).toString();
                                           pInfo.type = effectModel->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
                                           pInfo.row = ix.row();
                                           m_paramsList.insert({paramItem->getId(), {pInfo, km}});
@@ -303,6 +363,118 @@ void DopeSheetModel::buildMasterSelection(const QModelIndex &ix, int index)
             m_relatedMove.insert(ix2, km->getIndexForPos(position));
         }
     }
+}
+
+void DopeSheetModel::slotPasteKeyframeFromClipBoard(int position)
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    QString values = clipboard->text();
+    auto json = QJsonDocument::fromJson(values.toUtf8());
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    if (!json.isArray()) {
+        pCore->displayMessage(i18n("No valid keyframe data in clipboard"), InformationMessage);
+        return;
+    }
+    auto list = json.array();
+    QMap<QString, QMap<std::pair<int, QChar>, QVariant>> storedValues;
+    for (const auto &entry : std::as_const(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid marker data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("name"))) {
+            qDebug() << "Warning : Skipping invalid marker data (does not contain name)";
+            continue;
+        }
+
+        ParamType kfrType = entryObj[QLatin1String("type")].toVariant().value<ParamType>();
+        auto assetModel = m_model->getActiveAsset();
+        if (!assetModel) {
+            qWarning() << ":::: COULD NOT FIND AN ASSET MODEL...";
+            return;
+        }
+        if (assetModel->isAnimated(kfrType)) {
+            QMap<std::pair<int, QChar>, QVariant> values;
+            if (kfrType == ParamType::Roto_spline) {
+                auto value = entryObj.value(QLatin1String("value"));
+                if (value.isObject()) {
+                    QJsonObject obj = value.toObject();
+                    QStringList keys = obj.keys();
+                    for (auto &k : keys) {
+                        values.insert({k.toInt(), QChar()}, obj.value(k));
+                    }
+                } else if (value.isArray()) {
+                    auto list = value.toArray();
+                    for (const auto &entry : std::as_const(list)) {
+                        if (!entry.isObject()) {
+                            qDebug() << "Warning : Skipping invalid category data";
+                            continue;
+                        }
+                        QJsonObject obj = entry.toObject();
+                        QStringList keys = obj.keys();
+                        for (auto &k : keys) {
+                            values.insert({k.toInt(), QChar()}, obj.value(k));
+                        }
+                    }
+                } else {
+                    pCore->displayMessage(i18n("No valid keyframe data in clipboard"), InformationMessage);
+                    qDebug() << "::: Invalid ROTO VALUE, ABORTING PASTE\n" << value;
+                    return;
+                }
+            } else {
+                const QString value = entryObj.value(QLatin1String("value")).toString();
+                if (value.isEmpty()) {
+                    pCore->displayMessage(i18n("No valid keyframe data in clipboard"), InformationMessage);
+                    qDebug() << "::: Invalid KFR VALUE, ABORTING PASTE\n" << value;
+                    return;
+                }
+                const QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+                for (auto &val : stringVals) {
+                    QChar separator;
+                    QString timeVal = val.section(QLatin1Char('='), 0, 0);
+                    if (!timeVal.isEmpty() && !timeVal.back().isDigit()) {
+                        separator = timeVal.back();
+                        timeVal.chop(1);
+                    }
+                    int position = assetModel->time_to_frames(timeVal);
+                    values.insert({position, separator}, val.section(QLatin1Char('='), 1));
+                }
+            }
+            storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
+        } else {
+            const QString value = entryObj.value(QLatin1String("value")).toString();
+            QMap<std::pair<int, QChar>, QVariant> values;
+            values.insert({0, QChar()}, value);
+            storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
+        }
+    }
+    for (auto &p : m_paramsList) {
+        qDebug() << "::: CHECKING PARAM: " << p.second.first.id << " / " << p.second.first.mltId;
+        QPersistentModelIndex ix = p.second.first.index;
+        auto paramName = p.second.first.mltId; // m_model->data(ix, AssetParameterModel::NameRole).toString();
+        if (paramName.isEmpty()) {
+            // Recap, ignore
+            continue;
+        }
+        if (storedValues.contains(paramName)) {
+            auto km = p.second.second;
+            const QMap<std::pair<int, QChar>, QVariant> values = storedValues.value(paramName);
+            int offset = values.firstKey().first;
+            QMapIterator<std::pair<int, QChar>, QVariant> i(values);
+            while (i.hasNext()) {
+                i.next();
+                mlt_keyframe_type type = str_to_keyframe_type(i.key().second);
+                qDebug() << "::: ADDING KF AT: " << position + i.key().first << "\nXXXXXXXXXXXXXxx";
+                km->addKeyframe(GenTime(position + i.key().first - offset, pCore->getCurrentFps()), KeyframeModel::convertFromMltType(type), i.value(), true,
+                                undo, redo);
+            }
+        } else {
+            qDebug() << "::: NOT FOUND PARAM: " << paramName << " in list: " << storedValues.keys();
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Paste keyframe"));
 }
 
 void DopeSheetModel::alignKeyframe(QVariantMap kfData, bool right)
@@ -869,49 +1041,6 @@ void DopeSheetModel::changeKeyframeType(const QVariantMap kfData, int type)
     }
 }
 
-/*void DopeSheetModel::copyKeyframes(QVariantMap kfData)
-{
-    qDebug() << ":::: " << kfData;
-    QJsonArray jsonArray;
-    for (auto i = kfData.cbegin(), end = kfData.cend(); i != end; ++i) {
-        auto index = i.value().toMap();
-        const QModelIndex ix = index.value(QStringLiteral("index")).toModelIndex();
-        int itemId = int(ix.internalId());
-        auto tItem = getItemById(itemId);
-        if (tItem) {
-            qDebug() << "::: CHECKING ITEM FOR ID: " << itemId << ", " << tItem->dataColumn(0);
-            if (tItem->depth() == 1) {
-                continue;
-            }
-            auto parentItem = tItem->parentItem();
-            if (auto ptr = parentItem.lock()) {
-                qDebug() << "::: FETCHIBNG ITEM PARENT: " << ptr->dataColumn(0) << " = " << ptr->dataColumn(1);
-                std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(ptr->dataColumn(1).toInt());
-                std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
-                if (!effectModel) {
-                    continue;
-                }
-                const QVariantList keys = index.value(QStringLiteral("kfrs")).toList();
-                QVector<int> selection;
-                for (auto &k : keys) {
-                    selection << k.toInt();
-                }
-                int paramRow = m_paramsList.at(tItem->getId()).first.row;
-                QJsonDocument doc1 = effectModel->toJson(selection, false, false, {paramRow});
-                jsonArray.append(doc1.array());
-            }
-        }
-    }
-    QJsonDocument effectDoc(jsonArray);
-    if (effectDoc.isEmpty()) {
-        pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
-        return;
-    }
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(QString(effectDoc.toJson()));
-    pCore->displayMessage(i18n("Current values copied"), InformationMessage);
-}*/
-
 int DopeSheetModel::dopeDuration() const
 {
     if (!m_model) {
@@ -1051,9 +1180,7 @@ void DopeSheetModel::copySelectedKeyframes(const QModelIndex ix, const QVariantM
         int paramRow = m_paramsList.at(tItem->getId()).first.row;
         finalSelection.insert(paramRow, kfIndexes);
     }
-    qDebug() << ":::::: LIST OF SELECTED KFS:" << finalSelection << "\n\n______________________";
     QJsonDocument effectDoc = assetModel->toJson(finalSelection, false);
-
     if (effectDoc.isEmpty()) {
         pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
         return;

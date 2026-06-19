@@ -11,6 +11,8 @@
 #include <QVariant>
 #include <QtGlobal>
 
+#include <KStandardAction>
+
 #include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -175,4 +177,19 @@ void DopeWidget::checkModelUpdate()
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
     bool onKeyframe = pCore->dopeSheetModel()->isOnKeyframe(pos, false, activeIndex);
     QMetaObject::invokeMethod(rootObject(), "updateOverKeyframeFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(onKeyframe)));
+}
+
+void DopeWidget::sendStandardCommand(int command)
+{
+    switch (command) {
+    case KStandardAction::Copy:
+        QMetaObject::invokeMethod(rootObject(), "copyKeyframes", Qt::QueuedConnection);
+        break;
+    case KStandardAction::Paste:
+        QMetaObject::invokeMethod(rootObject(), "pasteKeyframes", Qt::QueuedConnection);
+        break;
+    default:
+        qDebug() << ":::: UNKNOWN COMMAND: " << command;
+        break;
+    }
 }

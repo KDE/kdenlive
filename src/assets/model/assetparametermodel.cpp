@@ -1368,15 +1368,15 @@ QJsonDocument AssetParameterModel::toJson(QMap<int, QList<int>> selection, bool 
             continue;
         }
         QJsonObject currentParam;
-        QModelIndex ix = index(m_rows.indexOf(param.first), 0);
-        if (!selection.isEmpty() && !selection.contains(ix.row())) {
+        QModelIndex paramIndex = index(m_rows.indexOf(param.first), 0);
+        if (!selection.isEmpty() && !selection.contains(paramIndex.row())) {
             continue;
         }
 
         if (param.first.contains(QLatin1String("Position X"))) {
             x = param.second.value.toString();
-            rectIn = data(ix, AssetParameterModel::ParentInRole).toInt();
-            rectOut = rectIn + data(ix, AssetParameterModel::ParentDurationRole).toInt();
+            rectIn = data(paramIndex, AssetParameterModel::ParentInRole).toInt();
+            rectOut = rectIn + data(paramIndex, AssetParameterModel::ParentDurationRole).toInt();
         }
         if (param.first.contains(QLatin1String("Position Y"))) {
             y = param.second.value.toString();
@@ -1394,7 +1394,7 @@ QJsonDocument AssetParameterModel::toJson(QMap<int, QList<int>> selection, bool 
             currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toDouble()));
         } else {
             QString resultValue = param.second.value.toString();
-            ParamType type = data(ix, AssetParameterModel::TypeRole).value<ParamType>();
+            ParamType type = data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>();
             if (percentageExport &&
                 (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect ||
                  type == ParamType::AnimatedFakePoint || type == ParamType::AnimatedPoint || type == ParamType::FakePoint || type == ParamType::Point)) {
@@ -1418,7 +1418,7 @@ QJsonDocument AssetParameterModel::toJson(QMap<int, QList<int>> selection, bool 
                         QJsonObject dataObject;
                         int ix = 0;
                         while (i != map.constEnd()) {
-                            if (selection.contains(ix)) {
+                            if (selection.value(paramIndex.row()).contains(ix)) {
                                 dataObject.insert(i.key(), i.value().toJsonValue());
                             }
                             ix++;
@@ -1431,7 +1431,7 @@ QJsonDocument AssetParameterModel::toJson(QMap<int, QList<int>> selection, bool 
                     QStringList remainingValues;
                     int ix = 0;
                     for (auto &val : values) {
-                        if (selection.contains(ix)) {
+                        if (selection.value(paramIndex.row()).contains(ix)) {
                             remainingValues << val;
                         }
                         ix++;
@@ -1440,13 +1440,13 @@ QJsonDocument AssetParameterModel::toJson(QMap<int, QList<int>> selection, bool 
                 }
             }
         }
-        int type = data(ix, AssetParameterModel::TypeRole).toInt();
-        double min = data(ix, AssetParameterModel::MinRole).toDouble();
-        double max = data(ix, AssetParameterModel::MaxRole).toDouble();
-        double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
-        int in = data(ix, AssetParameterModel::ParentInRole).toInt();
-        int out = in + data(ix, AssetParameterModel::ParentDurationRole).toInt();
-        bool opacity = data(ix, AssetParameterModel::OpacityRole).toBool();
+        int type = data(paramIndex, AssetParameterModel::TypeRole).toInt();
+        double min = data(paramIndex, AssetParameterModel::MinRole).toDouble();
+        double max = data(paramIndex, AssetParameterModel::MaxRole).toDouble();
+        double factor = data(paramIndex, AssetParameterModel::FactorRole).toDouble();
+        int in = data(paramIndex, AssetParameterModel::ParentInRole).toInt();
+        int out = in + data(paramIndex, AssetParameterModel::ParentDurationRole).toInt();
+        bool opacity = data(paramIndex, AssetParameterModel::OpacityRole).toBool();
         if (factor > 0) {
             min /= factor;
             max /= factor;
@@ -1465,9 +1465,9 @@ QJsonDocument AssetParameterModel::toJson(QMap<int, QList<int>> selection, bool 
         int size = x.split(";").length();
         QString value;
         for (int i = 0; i < size; i++) {
-            if (!selection.isEmpty() && !selection.contains(i)) {
+            /*if (!selection.isEmpty() && !selection.value(paramIndex).contains(i)) {
                 continue;
-            }
+            }*/
             QSize frameSize = pCore->getCurrentFrameSize();
             QString pos = x.split(";").at(i).split("=").at(0);
             double xval = x.split(";").at(i).split("=").at(1).toDouble();

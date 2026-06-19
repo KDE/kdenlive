@@ -39,7 +39,8 @@ protected:
     explicit DopeSheetModel(QObject *parent = nullptr);
     struct EffectParamInfo
     {
-        QString id;     // Identifier of the parameter
+        QString id;     // Display name of the parameter
+        QString mltId;  // MLT identifier of the parameter
         ParamType type; // The parameter type (double, animatedrect,...)
         int row{-1};    // The index row in the assetmodel
         QPersistentModelIndex index;
@@ -87,7 +88,6 @@ public:
     Q_INVOKABLE QVariantMap selectKeyframeAtPos(const QModelIndex &masterIndex, int frame);
     Q_INVOKABLE QVariantList selectedIndexes() const;
     Q_INVOKABLE QVariantList grabbedIndexes() const;
-    // Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
@@ -105,6 +105,7 @@ public:
     int getNextSnap(const QModelIndex ix, int pos);
     void addRemoveKeyframe(const QModelIndex ix, int pos);
     Q_INVOKABLE void copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData);
+    Q_INVOKABLE void slotPasteKeyframeFromClipBoard(int position);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;

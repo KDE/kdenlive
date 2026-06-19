@@ -303,7 +303,7 @@ Rectangle {
         return treeView.index(-1, -1)
     }
 
-function setActiveIndexFromModel(index) {
+    function setActiveIndexFromModel(index) {
         var currentIx = treeView.selectionModel.currentIndex
         if (currentIx.parent && currentIx.parent.valid) {
             if (currentIx.parent.row === index.row) {
@@ -321,6 +321,18 @@ function setActiveIndexFromModel(index) {
         } else {
             dopesheetmodel.setActiveIndex(index.row)
         }
+    }
+
+    function pasteKeyframes(position=undefined) {
+        if (position === undefined) {
+            position = dopeRoot.consumerPosition
+        }
+        console.log('pasting to pos: ', position)
+        dopesheetmodel.slotPasteKeyframeFromClipBoard(position)
+    }
+
+    function copyKeyframes() {
+        dopesheetmodel.copySelectedKeyframes(getActiveIndex(), dopeRoot.allSelectedKeyframes)
     }
 
     Keys.onDownPressed: {
@@ -452,9 +464,7 @@ function setActiveIndexFromModel(index) {
                 ToolTip.text: KI18n.i18n("Copy Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
-                onClicked: {
-                    dopesheetmodel.copySelectedKeyframes(getActiveIndex(), dopeRoot.allSelectedKeyframes)
-                }
+                onClicked: copyKeyframes()
             }
             ToolButton {
                 implicitWidth: dopeRoot.toolbarHeight
@@ -463,7 +473,7 @@ function setActiveIndexFromModel(index) {
                 ToolTip.text: KI18n.i18n("Paste Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
-                onClicked: K.Core.triggerAction('keyframe_add')
+                onClicked: dopeRoot.pasteKeyframes()
             }
             ToolButton {
                 icon.name: "arrow-left"
@@ -638,10 +648,11 @@ function setActiveIndexFromModel(index) {
         MenuItem {
             text: KI18n.i18n("Copy")
             enabled: dopeRoot.hoverKeyframe > -1
-            onTriggered: {
-                dopesheetmodel.copySelectedKeyframes(getActiveIndex(), dopeRoot.allSelectedKeyframes)
-                //dopesheetmodel.copyKeyframes(dopeRoot.allSelectedKeyframes)
-            }
+            onTriggered: dopeRoot.copyKeyframes()
+        }
+        MenuItem {
+            text: KI18n.i18n("Paste")
+            onTriggered: dopeRoot.pasteKeyframes(dopeRoot.mouseFramePos)
         }
         MenuItem {
             text: KI18n.i18n("Move to Playhead")
@@ -709,6 +720,7 @@ function setActiveIndexFromModel(index) {
         id: otherMenu
         MenuItem {
             text: KI18n.i18n("Paste")
+            onTriggered: dopeRoot.pasteKeyframes(dopeRoot.mouseFramePos)
         }
         MenuItem {
             text: KI18n.i18n("Add keyframe")

@@ -3930,11 +3930,12 @@ void MainWindow::showKeyBinding(const QString &text)
 void MainWindow::slotCopy()
 {
     QWidget *widget = QApplication::focusWidget();
+    if (m_dopeWidget->isAncestorOf(widget)) {
+        m_dopeWidget->sendStandardCommand(KStandardAction::Copy);
+        return;
+    }
     while ((widget != nullptr) && widget != this) {
-        if (widget == m_effectStackDock) {
-            m_assetPanel->sendStandardCommand(KStandardAction::Copy);
-            return;
-        } else if (widget == m_effectList2 && m_effectList2->infoPanelIsFocused()) {
+        if (widget == m_effectList2 && m_effectList2->infoPanelIsFocused()) {
             m_effectList2->processCopy();
             return;
         } else if (widget == m_compositionList && m_compositionList->infoPanelIsFocused()) {
@@ -3963,12 +3964,9 @@ void MainWindow::slotCut()
 void MainWindow::slotPaste()
 {
     QWidget *widget = QApplication::focusWidget();
-    while ((widget != nullptr) && widget != this) {
-        if (widget == m_effectStackDock) {
-            m_assetPanel->sendStandardCommand(KStandardAction::Paste);
-            return;
-        }
-        widget = widget->parentWidget();
+    if (m_dopeWidget->isAncestorOf(widget)) {
+        m_dopeWidget->sendStandardCommand(KStandardAction::Paste);
+        return;
     }
     getCurrentTimeline()->controller()->pasteItem();
 }
