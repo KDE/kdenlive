@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:44+0000\n"
+"POT-Creation-Date: 2026-06-19 00:43+0000\n"
 "PO-Revision-Date: 2026-03-24 17:29+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -7236,7 +7236,7 @@ msgstr "Применение эффекта масштабирования с п
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:378
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Zoom"
 msgstr "Масштаб"
@@ -7805,7 +7805,7 @@ msgstr "По верхнему краю,По центру,По нижнему к�
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1049 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "Текст"
@@ -13750,7 +13750,7 @@ msgstr ""
 "    \tЗначения меньше 100 увеличивают изображение, а значения больше 100 "
 "уменьшают его. Если значение равно 0, изображение будет скрыто."
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:382
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Background opacity"
 msgstr "Непрозрачность фона"
@@ -20314,7 +20314,7 @@ msgstr ""
 "Выполняется редактирование внешнего клипа титров (%1). Сохранить изменения в "
 "файл с титрами или применить изменения только к этому проекту?"
 
-#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2333
+#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Save Title"
 msgstr "Сохранить титры"
@@ -20852,7 +20852,7 @@ msgstr ""
 "Файл «%1» уже существует.\n"
 "Перезаписать его?"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:411
+#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "Введите текст"
@@ -21937,7 +21937,7 @@ msgstr "Экспорт данных направляющих"
 #: src/renderpresets/renderpresetrepository.cpp:477
 #: src/timeline2/view/timelinecontroller.cpp:5726
 #: src/timeline2/view/timelinecontroller.cpp:5731
-#: src/titler/titlewidget.cpp:2346
+#: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Не удалось записать в файл «%1»"
@@ -27850,7 +27850,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Включает или отключает дорожку субтитров на монтажном столе."
 
-#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:402
+#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Selection Tool"
 msgstr "Инструмент выбора"
@@ -28990,7 +28990,7 @@ msgstr "Пересоздать"
 
 #: src/mainwindow.cpp:2468 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2329
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -35210,22 +35210,22 @@ msgid "No available stream"
 msgstr "Нет доступных потоков"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
+#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
 #, kde-format
 msgid "Gradient %1"
 msgstr "Градиент %1"
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Клип титров был создан с другим размером кадра."
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "Title Profile"
 msgstr "Профиль титров"
 
-#: src/titler/titledocument.cpp:459
+#: src/titler/titledocument.cpp:513
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35237,44 +35237,44 @@ msgstr ""
 "размера будет преобразована в пикселы, чтобы сделать клипы переносимыми, "
 "однако может возникнуть необходимость в корректировке их размера."
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:516
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Текстовые клипы обновлены"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "Толщина контура"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "Непрозрачность цвета фона"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Вращение вокруг оси X"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Вращение вокруг оси Y"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Вращение вокруг оси Z"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "Ширина рамки"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
@@ -35284,159 +35284,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:189 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr " пкс"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:292
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Тонкий"
 
-#: src/titler/titlewidget.cpp:291
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Обычный"
 
-#: src/titler/titlewidget.cpp:292
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Полужирный"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Жирный"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Очень жирный"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgid "Font weight"
 msgstr "Степень жирности шрифта"
 
-#: src/titler/titlewidget.cpp:309
+#: src/titler/titlewidget.cpp:311
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Вставить символ Unicode"
 
-#: src/titler/titlewidget.cpp:315
+#: src/titler/titlewidget.cpp:317
 #, kde-format
 msgid "Raise object"
 msgstr "Поднять объект"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:323
 #, kde-format
 msgid "Lower object"
 msgstr "Опустить объект"
 
-#: src/titler/titlewidget.cpp:329
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Raise object to top"
 msgstr "Поднять объект наверх"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:338
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Опустить объект вниз"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Select All"
 msgstr "Выбрать всё"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Выбрать только текстовые элементы"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Выбрать только прямоугольники"
 
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Выбрать только изображения"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Deselect"
 msgstr "Отменить выбор"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Инвертировать направление оси X и сместить нулевую точку"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Инвертировать направление оси Y и сместить нулевую точку"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select fill color"
 msgstr "Выбрать цвет заливки"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select border color"
 msgstr "Выбрать цвет рамки"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Исходный размер (1:1)"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Fit zoom"
 msgstr "Вместить"
 
-#: src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Select background color"
 msgstr "Выбрать цвет фона"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Select all"
 msgstr "Выбрать всё"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Выбрать только текст"
 
-#: src/titler/titlewidget.cpp:385
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Выбрать только прямоугольники"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Выбрать только изображения"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Unselect all"
 msgstr "Отменить выбор"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:409
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -35445,101 +35445,101 @@ msgid ""
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Добавить прямоугольник"
 
-#: src/titler/titlewidget.cpp:421
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Добавить эллипс"
 
-#: src/titler/titlewidget.cpp:426
+#: src/titler/titlewidget.cpp:428
 #, kde-format
 msgid "Add Image…"
 msgstr "Добавить изображение…"
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:435
 #, fuzzy, kde-format
 msgid "Open Title…"
 msgstr "Открыть титры…"
 
-#: src/titler/titlewidget.cpp:438
+#: src/titler/titlewidget.cpp:440
 #, kde-format
 msgid "Save Title As…"
 msgstr "Сохранить титры как…"
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:445
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "Загрузить новые шаблоны титров…"
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:560
 #, kde-format
 msgid "Save and add to project"
 msgstr "Сохранить и добавить в проект"
 
-#: src/titler/titlewidget.cpp:557
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Create Title"
 msgstr "Создать титры"
 
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "Загрузить новый шаблон? Изменения в этих титрах будут потеряны!"
 
-#: src/titler/titlewidget.cpp:927
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "All Images"
 msgstr "Все изображения"
 
-#: src/titler/titlewidget.cpp:929
+#: src/titler/titlewidget.cpp:933
 #, kde-format
 msgid "%1 Image"
 msgstr "Изображение %1"
 
-#: src/titler/titlewidget.cpp:939
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "Add Image"
 msgstr "Добавить изображение"
 
-#: src/titler/titlewidget.cpp:1782
+#: src/titler/titlewidget.cpp:1786
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1784 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1806
+#: src/titler/titlewidget.cpp:1810
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1808 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2280
+#: src/titler/titlewidget.cpp:2284
 #, kde-format
 msgid "Load Title"
 msgstr "Загрузка титров"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2285
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Титры Kdenlive"
 
-#: src/titler/titlewidget.cpp:2327
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -35548,13 +35548,13 @@ msgstr ""
 "Встроить изображения в этот клип титров?\n"
 "Более всего это необходимо для совместного использования титров."
 
-#: src/titler/titlewidget.cpp:2328
+#: src/titler/titlewidget.cpp:2332
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Встроить изображения"
 
-#: src/titler/titlewidget.cpp:2391
+#: src/titler/titlewidget.cpp:2396
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -35563,44 +35563,44 @@ msgstr[1] "В этих титрах отсутствуют %1 элемента"
 msgstr[2] "В этих титрах отсутствуют %1 элементов"
 msgstr[3] "В этих титрах отсутствует %1 элемент"
 
-#: src/titler/titlewidget.cpp:2392 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2397 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Подробнее"
 
-#: src/titler/titlewidget.cpp:2395
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Удалить отсутствующие элементы"
 
-#: src/titler/titlewidget.cpp:2455
+#: src/titler/titlewidget.cpp:2460
 #, kde-format
 msgid "Update Title"
 msgstr "Обновить титры"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2463
 #, kde-format
 msgid "Add as new Title"
 msgstr "Добавить в качестве новых титров"
 
-#: src/titler/titlewidget.cpp:2512
+#: src/titler/titlewidget.cpp:2517
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Отсутствуют следующие файлы:"
 
-#: src/titler/titlewidget.cpp:2709
+#: src/titler/titlewidget.cpp:2714
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Открыть окно просмотра"
 
-#: src/titler/titlewidget.cpp:2710
+#: src/titler/titlewidget.cpp:2715
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Закрыть окно просмотра"
 
-#: src/titler/titlewidget.cpp:3454
+#: src/titler/titlewidget.cpp:3459
 #, kde-format
 msgid "Gradient"
 msgstr "Градиент"

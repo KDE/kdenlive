@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:44+0000\n"
+"POT-Creation-Date: 2026-06-19 00:43+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -7300,7 +7300,7 @@ msgstr "Cuir éifeacht Zúmáil agus Peanáil i bhfeidhm"
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:378
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Zoom"
 msgstr "Súmáil"
@@ -7866,7 +7866,7 @@ msgstr "Barr, Lár, Bun"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1049 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "Téacs"
@@ -13892,7 +13892,7 @@ msgstr ""
 "    \tZúmálann luachanna níos lú ná 100 isteach san íomhá, zúmálann "
 "luachanna níos mó ná 100 amach. Folaíonn 0 í."
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:382
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Background opacity"
 msgstr "Teimhneacht an chúlra"
@@ -20563,7 +20563,7 @@ msgstr ""
 "do chuid athruithe a shábháil sa chomhad teidil nó na hathruithe a shábháil "
 "don tionscadal seo amháin?"
 
-#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2333
+#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Save Title"
 msgstr "Sábháil Teideal"
@@ -21104,7 +21104,7 @@ msgstr ""
 "Tá comhad %1 ann cheana féin.\n"
 "Ar mhaith leat é a athscríobh?"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:411
+#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "Cuir Téacs leis"
@@ -22192,7 +22192,7 @@ msgstr "Easpórtáil Sonraí Marcóirí"
 #: src/renderpresets/renderpresetrepository.cpp:477
 #: src/timeline2/view/timelinecontroller.cpp:5726
 #: src/timeline2/view/timelinecontroller.cpp:5731
-#: src/titler/titlewidget.cpp:2346
+#: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ní féidir comhad %1 a scríobh"
@@ -28157,7 +28157,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Athraíonn sé rian na bhfotheideal sa líne ama."
 
-#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:402
+#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Selection Tool"
 msgstr "Uirlis an Roghnaithe"
@@ -29298,7 +29298,7 @@ msgstr "Athchruthaigh"
 
 #: src/mainwindow.cpp:2468 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2329
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -35586,22 +35586,22 @@ msgid "No available stream"
 msgstr "Níl aon sruth ar fáil"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
+#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
 #, kde-format
 msgid "Gradient %1"
 msgstr "Grádán %1"
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Cruthaíodh an ghearrthóg teidil seo le méid fráma difriúil."
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "Title Profile"
 msgstr "Próifíl Teidil"
 
-#: src/titler/titledocument.cpp:459
+#: src/titler/titledocument.cpp:513
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35613,44 +35613,44 @@ msgstr ""
 "picteilín, rud a fhágfaidh go mbeidh siad iniompartha, ach b’fhéidir go "
 "mbeadh ort a méid a choigeartú."
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:516
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Gearrthóga Téacs Nuashonraithe"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "Leithead imlíne"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "Teimhneacht dath an chúlra"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Rothlú timpeall an ais X"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Rothlú timpeall an ais Y"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Rothlú timpeall ais Z"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "Leithead na teorann"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
@@ -35660,159 +35660,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:189 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr " picteilíní"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:292
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Solas"
 
-#: src/titler/titlewidget.cpp:291
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Gnáth"
 
-#: src/titler/titlewidget.cpp:292
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Leath-Trom"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Trom"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Dubh"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgid "Font weight"
 msgstr "Clómheáchan"
 
-#: src/titler/titlewidget.cpp:309
+#: src/titler/titlewidget.cpp:311
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Cuir carachtar Unicode isteach"
 
-#: src/titler/titlewidget.cpp:315
+#: src/titler/titlewidget.cpp:317
 #, kde-format
 msgid "Raise object"
 msgstr "Ardaigh an réad"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:323
 #, kde-format
 msgid "Lower object"
 msgstr "Réad níos ísle"
 
-#: src/titler/titlewidget.cpp:329
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Raise object to top"
 msgstr "Ardaigh an réad go barr"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:338
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Ísligh an réad go dtí an bun"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Select All"
 msgstr "Roghnaigh Uile"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Coinnigh míreanna téacs amháin roghnaithe"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Coinnigh míreanna cearta amháin roghnaithe"
 
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Coinnigh míreanna íomhá amháin roghnaithe"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Deselect"
 msgstr "Díroghnaigh"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Inbhéartaigh an ais-x agus athraigh an pointe 0"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Inbhéartaigh an ais-y agus athraigh an pointe 0"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select fill color"
 msgstr "Roghnaigh dath líonta"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select border color"
 msgstr "Roghnaigh dath na teorann"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Méid bunaidh (1:1)"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Fit zoom"
 msgstr "Oiriúnaigh súmáil"
 
-#: src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Select background color"
 msgstr "Roghnaigh dath cúlra"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Select all"
 msgstr "Roghnaigh uile"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Roghnaigh míreanna téacs sa roghnú reatha"
 
-#: src/titler/titlewidget.cpp:385
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Roghnaigh míreanna ceart sa roghnú reatha"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Roghnaigh míreanna íomhá sa roghnú reatha"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Unselect all"
 msgstr "Díroghnaigh gach rud"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:409
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -35830,47 +35830,47 @@ msgstr ""
 "cothrománach, Shift+Tarraing imeall chun an lár a athrú, Ctrl+Tarraing chun "
 "panáil."
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Cuir Dronuilleog leis"
 
-#: src/titler/titlewidget.cpp:421
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Cuir Éilips leis"
 
-#: src/titler/titlewidget.cpp:426
+#: src/titler/titlewidget.cpp:428
 #, kde-format
 msgid "Add Image…"
 msgstr "Cuir Íomhá Leis…"
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:435
 #, kde-format
 msgid "Open Title…"
 msgstr "Oscail an Teideal…"
 
-#: src/titler/titlewidget.cpp:438
+#: src/titler/titlewidget.cpp:440
 #, kde-format
 msgid "Save Title As…"
 msgstr "Sábháil Teideal Mar…"
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:445
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "Íoslódáil Teimpléid Teidil Nua…"
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:560
 #, kde-format
 msgid "Save and add to project"
 msgstr "Sábháil agus cuir leis an tionscadal"
 
-#: src/titler/titlewidget.cpp:557
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Create Title"
 msgstr "Cruthaigh Teideal"
 
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -35879,54 +35879,54 @@ msgstr ""
 "An bhfuil tú cinnte gur mhaith leat teimpléad nua a luchtú? Caillfear "
 "athruithe sa teideal seo!"
 
-#: src/titler/titlewidget.cpp:927
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "All Images"
 msgstr "Gach Íomhá"
 
-#: src/titler/titlewidget.cpp:929
+#: src/titler/titlewidget.cpp:933
 #, kde-format
 msgid "%1 Image"
 msgstr "Íomhá %1"
 
-#: src/titler/titlewidget.cpp:939
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "Add Image"
 msgstr "Cuir Íomhá Leis"
 
-#: src/titler/titlewidget.cpp:1782
+#: src/titler/titlewidget.cpp:1786
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1784 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1806
+#: src/titler/titlewidget.cpp:1810
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1808 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2280
+#: src/titler/titlewidget.cpp:2284
 #, kde-format
 msgid "Load Title"
 msgstr "Luchtaigh Teideal"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2285
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Teideal Kdenlive"
 
-#: src/titler/titlewidget.cpp:2327
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -35935,13 +35935,13 @@ msgstr ""
 "Ar mhaith leat Íomhánna a leabú isteach sa TeidealDocument seo?\n"
 "Tá sé seo den chuid is mó riachtanach chun Teidil a roinnt."
 
-#: src/titler/titlewidget.cpp:2328
+#: src/titler/titlewidget.cpp:2332
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Íomhánna a Leabú"
 
-#: src/titler/titlewidget.cpp:2391
+#: src/titler/titlewidget.cpp:2396
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -35951,44 +35951,44 @@ msgstr[2] "Tá %1 eilimint ar iarraidh sa teideal seo"
 msgstr[3] "Tá %1 eilimint ar iarraidh sa teideal seo"
 msgstr[4] "Tá %1 eilimint ar iarraidh sa teideal seo"
 
-#: src/titler/titlewidget.cpp:2392 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2397 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Sonraí"
 
-#: src/titler/titlewidget.cpp:2395
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Scrios eilimintí atá ar iarraidh"
 
-#: src/titler/titlewidget.cpp:2455
+#: src/titler/titlewidget.cpp:2460
 #, kde-format
 msgid "Update Title"
 msgstr "Nuashonraigh an Teideal"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2463
 #, kde-format
 msgid "Add as new Title"
 msgstr "Cuir leis mar Theideal nua"
 
-#: src/titler/titlewidget.cpp:2512
+#: src/titler/titlewidget.cpp:2517
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Tá na comhaid seo a leanas ar iarraidh:"
 
-#: src/titler/titlewidget.cpp:2709
+#: src/titler/titlewidget.cpp:2714
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Tosaigh Radharcphoirt"
 
-#: src/titler/titlewidget.cpp:2710
+#: src/titler/titlewidget.cpp:2715
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Deireadh Radharcphoirt"
 
-#: src/titler/titlewidget.cpp:3454
+#: src/titler/titlewidget.cpp:3459
 #, kde-format
 msgid "Gradient"
 msgstr "Grádán"

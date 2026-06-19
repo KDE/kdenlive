@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:44+0000\n"
+"POT-Creation-Date: 2026-06-19 00:43+0000\n"
 "PO-Revision-Date: 2026-06-11 11:16+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -7140,7 +7140,7 @@ msgstr "طبق تأثير التكبير والتحريك"
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:378
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Zoom"
 msgstr "تكبير"
@@ -7699,7 +7699,7 @@ msgstr "فوق,وسط,أسفل"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1049 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "النص"
@@ -13571,7 +13571,7 @@ msgstr ""
 "\tالقيم الأصغر من 100 تعمل على تكبير الصورة، والقيم الأكبر من 100 تعمل على "
 "تصغيرها. 0 تعمل على إخفائها."
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:382
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Background opacity"
 msgstr "شفافيّة الخلفيّة"
@@ -20094,7 +20094,7 @@ msgstr ""
 "أنت تحرّر مقطع عنوان خارجيّة (%1). أتريد حفظ تغييراتك إلى ملفّ العنوان أو حفظها "
 "لهذا المشروع فقط؟"
 
-#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2333
+#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Save Title"
 msgstr "احفظ العنوان"
@@ -20632,7 +20632,7 @@ msgstr ""
 "الملفّ %1 موجود فعلًا.\n"
 "أتريد الكتابة فوقه؟"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:411
+#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "أضف نصًّا"
@@ -21704,7 +21704,7 @@ msgstr "صدر بيانات العلامات"
 #: src/renderpresets/renderpresetrepository.cpp:477
 #: src/timeline2/view/timelinecontroller.cpp:5726
 #: src/timeline2/view/timelinecontroller.cpp:5731
-#: src/titler/titlewidget.cpp:2346
+#: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "تعذرت الكتابة إلى الملف %1"
@@ -27551,7 +27551,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "تعرض/تخفي مسار الترجمة في الخط الزمني."
 
-#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:402
+#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Selection Tool"
 msgstr "أداة التّحديد"
@@ -28665,7 +28665,7 @@ msgstr "أعد الإنشاء"
 
 #: src/mainwindow.cpp:2468 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2329
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -34804,22 +34804,22 @@ msgid "No available stream"
 msgstr "لا يوجد دفق"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
+#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
 #, kde-format
 msgid "Gradient %1"
 msgstr "التّدرّج %1"
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "أُنشئت مقطع العنوان مقاس إطاراتها مختلف."
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "Title Profile"
 msgstr "عنوان التّشكيلة"
 
-#: src/titler/titledocument.cpp:459
+#: src/titler/titledocument.cpp:513
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -34829,44 +34829,44 @@ msgstr ""
 "حُفظت بعض مقاطع النّصوص حيث ضُبط حجمها بالنّقاط، ما يعني اختلاف الحجم باختلاف "
 "الشّاشة. ستحول إلى حجم البكسل، مما يجعلها محمولة، لكن يمكنك ضبط حجمها."
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:516
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "تحدّثت مقاطع النّصوص"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "عرض المحيط"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "شفافيّة لون الخلفيّة"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "التّدوير حول المحور السّينيّ"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "التّدوير حول المحور الصّاديّ"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "التّدوير حول المحور العينيّ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "عرض الحدّ"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
@@ -34876,159 +34876,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:189 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr " بكسل"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:292
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "خفيف"
 
-#: src/titler/titlewidget.cpp:291
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "عادي"
 
-#: src/titler/titlewidget.cpp:292
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "نصف عريض"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "ثخين"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "أسود"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgid "Font weight"
 msgstr "وزن الخطّ"
 
-#: src/titler/titlewidget.cpp:309
+#: src/titler/titlewidget.cpp:311
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "أدرج محرف يونيكود"
 
-#: src/titler/titlewidget.cpp:315
+#: src/titler/titlewidget.cpp:317
 #, kde-format
 msgid "Raise object"
 msgstr "ارفع كائن"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:323
 #, kde-format
 msgid "Lower object"
 msgstr "انزل كائن"
 
-#: src/titler/titlewidget.cpp:329
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Raise object to top"
 msgstr "ارفع كائن للأعلى"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:338
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "انزل كائن للقاع"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Select All"
 msgstr "حدّد الكلّ"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "أبقِ على العناصر النصية المحددة"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "أبقِ على العناصر المستطيلة المحددة"
 
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "أبقِ على عناصر الصور المحددة"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Deselect"
 msgstr "أزل التّحديد"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "اقلب محور س وغيّر نقطة الصفر"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "اقلب محور ص وغيّر نقطة الصفر"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select fill color"
 msgstr "حدّد لون الملء"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select border color"
 msgstr "حدّد لون الحدّ"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "الحجم الأصليّ (1:1)"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Fit zoom"
 msgstr "لائم التكبير"
 
-#: src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Select background color"
 msgstr "حدّد لون الخلفيّة"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Select all"
 msgstr "حدّد الكلّ"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "حدّد عناصر النّصّ في التّحديد الحاليّ"
 
-#: src/titler/titlewidget.cpp:385
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "حدّد عناصر المستطيلات في التّحديد الحاليّ"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "حدّد عناصر الصّورة في التّحديد الحاليّ"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Unselect all"
 msgstr "أزل تحديد الكلّ"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:409
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -35040,101 +35040,101 @@ msgstr ""
 "+Shift+اسحب للتحريك أفقيًا، Shift+اسحب الحافة لإعادة التحجيم نحو المركز، Ctrl"
 "+اسحب للتحريك. عطّل ميزة ”الالتصاق“ أثناء تحريك عنصر باستخدام مفتاح Ctrl."
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Add Rectangle"
 msgstr "أضف مستطيلًا"
 
-#: src/titler/titlewidget.cpp:421
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Add Ellipse"
 msgstr "أضف شكل بيضاوي"
 
-#: src/titler/titlewidget.cpp:426
+#: src/titler/titlewidget.cpp:428
 #, kde-format
 msgid "Add Image…"
 msgstr "أضف صورة..."
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:435
 #, kde-format
 msgid "Open Title…"
 msgstr "افتح عنوانًا…"
 
-#: src/titler/titlewidget.cpp:438
+#: src/titler/titlewidget.cpp:440
 #, kde-format
 msgid "Save Title As…"
 msgstr "احفظ العنوان باسم…"
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:445
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "نزّل قوالب عنوان جديدة…"
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:560
 #, kde-format
 msgid "Save and add to project"
 msgstr "احفظ وأضف في المشروع"
 
-#: src/titler/titlewidget.cpp:557
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Create Title"
 msgstr "أنشئ عنوانًا"
 
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "أمتأكّد من تحميل قالب جديد؟ ستفقد التّغييرات على هذا العنوان!"
 
-#: src/titler/titlewidget.cpp:927
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "All Images"
 msgstr "كلّ الصّور"
 
-#: src/titler/titlewidget.cpp:929
+#: src/titler/titlewidget.cpp:933
 #, kde-format
 msgid "%1 Image"
 msgstr "صورة %1"
 
-#: src/titler/titlewidget.cpp:939
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "Add Image"
 msgstr "أضف صورةً"
 
-#: src/titler/titlewidget.cpp:1782
+#: src/titler/titlewidget.cpp:1786
 #, kde-format
 msgid "−X"
 msgstr "−س"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1784 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+س"
 
-#: src/titler/titlewidget.cpp:1806
+#: src/titler/titlewidget.cpp:1810
 #, kde-format
 msgid "−Y"
 msgstr "−ص"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1808 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+ص"
 
-#: src/titler/titlewidget.cpp:2280
+#: src/titler/titlewidget.cpp:2284
 #, kde-format
 msgid "Load Title"
 msgstr "حمّل عنوانًا"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2285
 #, kde-format
 msgid "Kdenlive title"
 msgstr "عنوان كدنلايف"
 
-#: src/titler/titlewidget.cpp:2327
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -35143,13 +35143,13 @@ msgstr ""
 "أتريد تضمين الصّور إلى TitleDocument هذا؟\n"
 "هذا ضروريّ لمشاركة العناوين."
 
-#: src/titler/titlewidget.cpp:2328
+#: src/titler/titlewidget.cpp:2332
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "ضمّن الصور"
 
-#: src/titler/titlewidget.cpp:2391
+#: src/titler/titlewidget.cpp:2396
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -35160,44 +35160,44 @@ msgstr[3] "هذا العنوان يفتقد %1 عناصر"
 msgstr[4] "هذا العنوان يفتقد %1 عنصرًا"
 msgstr[5] "هذا العنوان يفتقد %1 عنصر"
 
-#: src/titler/titlewidget.cpp:2392 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2397 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "التفاصيل"
 
-#: src/titler/titlewidget.cpp:2395
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Delete missing elements"
 msgstr "حذف عناصر  الناقصة"
 
-#: src/titler/titlewidget.cpp:2455
+#: src/titler/titlewidget.cpp:2460
 #, kde-format
 msgid "Update Title"
 msgstr "حدّث العنوان"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2463
 #, kde-format
 msgid "Add as new Title"
 msgstr "أضف كعنوان جديد"
 
-#: src/titler/titlewidget.cpp:2512
+#: src/titler/titlewidget.cpp:2517
 #, kde-format
 msgid "The following files are missing:"
 msgstr "الملفات التالية مفقودة:"
 
-#: src/titler/titlewidget.cpp:2709
+#: src/titler/titlewidget.cpp:2714
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "ابدأ العرض"
 
-#: src/titler/titlewidget.cpp:2710
+#: src/titler/titlewidget.cpp:2715
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "أنهِ العرض"
 
-#: src/titler/titlewidget.cpp:3454
+#: src/titler/titlewidget.cpp:3459
 #, kde-format
 msgid "Gradient"
 msgstr "التّدرّج"

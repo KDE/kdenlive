@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 00:44+0000\n"
+"POT-Creation-Date: 2026-06-19 00:43+0000\n"
 "PO-Revision-Date: 2026-06-13 17:26+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -6913,7 +6913,7 @@ msgstr "החלת אפקט תקריב וסריקה"
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:378
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Zoom"
 msgstr "תקריב"
@@ -7477,7 +7477,7 @@ msgstr "למעלה,מרכז,למטה"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1049 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "טקסט"
@@ -13135,7 +13135,7 @@ msgstr ""
 "    \tערכים קטנים מ־100 יקרבו את התמונה, גודלים מ־100 ירחיקו אותה. 0 יסתיר "
 "אותה."
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:382
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Background opacity"
 msgstr "אטימות רקע"
@@ -19553,7 +19553,7 @@ msgstr ""
 "בחרת לערוך סרטון כותרת חיצוני (%1). לשמור את השינויים שלך לקובץ הכותרת או "
 "לשמור את השינויים רק למיזם הזה?"
 
-#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2333
+#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Save Title"
 msgstr "שמירת כותר"
@@ -20087,7 +20087,7 @@ msgstr ""
 "הקובץ %1 קיים.\n"
 "לדרוס אותו?"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:411
+#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "הוספת טקסט"
@@ -21153,7 +21153,7 @@ msgstr "ייצוא נתוני סמנים"
 #: src/renderpresets/renderpresetrepository.cpp:477
 #: src/timeline2/view/timelinecontroller.cpp:5726
 #: src/timeline2/view/timelinecontroller.cpp:5731
-#: src/titler/titlewidget.cpp:2346
+#: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
@@ -26957,7 +26957,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "מחליף את מצב רצועת הכתוביות בציר הזמן."
 
-#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:402
+#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Selection Tool"
 msgstr "כלי בחירה"
@@ -28061,7 +28061,7 @@ msgstr "יצירה מחדש"
 
 #: src/mainwindow.cpp:2468 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2329
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -34172,22 +34172,22 @@ msgid "No available stream"
 msgstr "אין תזרים זמין"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
+#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
 #, kde-format
 msgid "Gradient %1"
 msgstr "מדרג %1"
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "סרטון כותר זה נוצר עם גודל תמוניות שונה."
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "Title Profile"
 msgstr "פרופיל כותר"
 
-#: src/titler/titledocument.cpp:459
+#: src/titler/titledocument.cpp:513
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -34198,44 +34198,44 @@ msgstr ""
 "השונות. הם יומרו לגודל בפיקסלים, מה שיהפוך אותם לניידים, אך זה עלול לשנות את "
 "הגודל שלהם."
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:516
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "סרטוני טקסט עודכנו"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "רוחב מתאר"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "אטימות צבע רקע"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "סיבוב מסביב לציר X"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "סיבוב מסביב לציר Y"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "סיבוב מסביב לציר Z"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "רוחב מסגרת"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
@@ -34245,159 +34245,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:189 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr " פיקסלים"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:292
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "קליל"
 
-#: src/titler/titlewidget.cpp:291
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "רגיל"
 
-#: src/titler/titlewidget.cpp:292
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "חצי מודגש"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "מודגש"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "עבה מאוד"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgid "Font weight"
 msgstr "משקל גופן"
 
-#: src/titler/titlewidget.cpp:309
+#: src/titler/titlewidget.cpp:311
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "הוספת תו יוניקוד"
 
-#: src/titler/titlewidget.cpp:315
+#: src/titler/titlewidget.cpp:317
 #, kde-format
 msgid "Raise object"
 msgstr "הגבהת עצם"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:323
 #, kde-format
 msgid "Lower object"
 msgstr "הנמכת עצם"
 
-#: src/titler/titlewidget.cpp:329
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Raise object to top"
 msgstr "הגבהת עצם למעלה"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:338
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "הנמכת עצם לתחתית"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Select All"
 msgstr "בחירה בהכול"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "להשאיר רק פריטי טקסט בבחירה"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "להשאיר רק פרטים מרובעים בבחירה"
 
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "להשאיר רק פריטי תמונות בבחירה"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Deselect"
 msgstr "ביטול בחירה"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "הוספת ציר x ושינוי נקודת 0"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "הוספת ציר y ושינוי נקודת 0"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select fill color"
 msgstr "בחירת צבע מילוי"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select border color"
 msgstr "בחירת צבע מסגרת"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "גודל מקורי (1:1)"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Fit zoom"
 msgstr "התאמת תקריב"
 
-#: src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Select background color"
 msgstr "בחירת צבע רקע"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Select all"
 msgstr "בחירה בהכול"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "לבחור פריטי טקסט בבחירה הנוכחית"
 
-#: src/titler/titlewidget.cpp:385
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "לבחור פריטים מרובעים בבחירה הנוכחית"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "בחירת פריטי תמונות בבחירה הנוכחית"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Unselect all"
 msgstr "ביטול בחירה בהכול"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:409
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -34409,101 +34409,101 @@ msgstr ""
 "אנכית, Alt+Shift+גרירה תזיז אופקית, Shift+גרירת קצה למרכז תשנה את הגודל, Ctrl"
 "+גרירה כדי להזיז את שטח העבודה. אפשר להשבית הצמדה בעת הזזת פריט עם Ctrl."
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Add Rectangle"
 msgstr "הוספת מרובע"
 
-#: src/titler/titlewidget.cpp:421
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Add Ellipse"
 msgstr "הוספת אליפסה"
 
-#: src/titler/titlewidget.cpp:426
+#: src/titler/titlewidget.cpp:428
 #, kde-format
 msgid "Add Image…"
 msgstr "הוספת תמונה…"
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:435
 #, kde-format
 msgid "Open Title…"
 msgstr "פתיחת כותר…"
 
-#: src/titler/titlewidget.cpp:438
+#: src/titler/titlewidget.cpp:440
 #, kde-format
 msgid "Save Title As…"
 msgstr "שמירת כותר בתור…"
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:445
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "הורדת תבניות כותר חדשות…"
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:560
 #, kde-format
 msgid "Save and add to project"
 msgstr "שמירה והוספה למיזם"
 
-#: src/titler/titlewidget.cpp:557
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Create Title"
 msgstr "יצירת כותרת"
 
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "לטעון תבנית חדשה? השינויים לכותר הזה יאבדו!"
 
-#: src/titler/titlewidget.cpp:927
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "All Images"
 msgstr "כל התמונות"
 
-#: src/titler/titlewidget.cpp:929
+#: src/titler/titlewidget.cpp:933
 #, kde-format
 msgid "%1 Image"
 msgstr "תמונת %1"
 
-#: src/titler/titlewidget.cpp:939
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "Add Image"
 msgstr "הוספת תמונה"
 
-#: src/titler/titlewidget.cpp:1782
+#: src/titler/titlewidget.cpp:1786
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1784 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1806
+#: src/titler/titlewidget.cpp:1810
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1808 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2280
+#: src/titler/titlewidget.cpp:2284
 #, kde-format
 msgid "Load Title"
 msgstr "טעינת כותר"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2285
 #, kde-format
 msgid "Kdenlive title"
 msgstr "כותרת Kdenlive"
 
-#: src/titler/titlewidget.cpp:2327
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -34512,13 +34512,13 @@ msgstr ""
 "להטמיע תמונות לתוך מסמך כותרת (TitleDocument) זה?\n"
 "זה נחוץ בעיקר לשיתוף כותרות."
 
-#: src/titler/titlewidget.cpp:2328
+#: src/titler/titlewidget.cpp:2332
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "הטמעת תמונות"
 
-#: src/titler/titlewidget.cpp:2391
+#: src/titler/titlewidget.cpp:2396
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -34527,44 +34527,44 @@ msgstr[1] "חסרים שני רכיבים בכותר הזה"
 msgstr[2] "חסרים %1 רכיבים בכותר הזה"
 msgstr[3] "חסרים %1 רכיבים בכותר הזה"
 
-#: src/titler/titlewidget.cpp:2392 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2397 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "פרטים"
 
-#: src/titler/titlewidget.cpp:2395
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Delete missing elements"
 msgstr "מחיקת רכיבים חסרים"
 
-#: src/titler/titlewidget.cpp:2455
+#: src/titler/titlewidget.cpp:2460
 #, kde-format
 msgid "Update Title"
 msgstr "עדכון כותרת"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2463
 #, kde-format
 msgid "Add as new Title"
 msgstr "הוספת ככותרת חדשה"
 
-#: src/titler/titlewidget.cpp:2512
+#: src/titler/titlewidget.cpp:2517
 #, kde-format
 msgid "The following files are missing:"
 msgstr "הקבצים הבאים חסרים:"
 
-#: src/titler/titlewidget.cpp:2709
+#: src/titler/titlewidget.cpp:2714
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "תחילת אשנב"
 
-#: src/titler/titlewidget.cpp:2710
+#: src/titler/titlewidget.cpp:2715
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "סוף אשנב"
 
-#: src/titler/titlewidget.cpp:3454
+#: src/titler/titlewidget.cpp:3459
 #, kde-format
 msgid "Gradient"
 msgstr "מדרג"
