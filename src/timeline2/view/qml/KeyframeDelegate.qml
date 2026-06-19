@@ -93,15 +93,19 @@ Rectangle {
             //timeline.showKeyBinding()
         }
     }
-    Rectangle {
+    Item {
         id: keyframeVal
         x: - K.UiUtils.baseSizeMedium / 2
         y: keyframeContainer.height - keyframe.value - K.UiUtils.baseSizeMedium / 2
         width: K.UiUtils.baseSizeMedium
         height: width
-        radius: width / 2
-        color: keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? keyframeContainer.textColor : keyframeContainer.kfColor
-        border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : keyframeContainer.textColor
+        Rectangle {
+            anchors.fill: keyframeVal
+            anchors.margins: keyframeVal.width / 4
+            radius: width / 2
+            color: keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? keyframeContainer.textColor : keyframeContainer.kfColor
+            border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : keyframeContainer.textColor
+        }
 
         MouseArea {
             id: kf1MouseArea

@@ -696,12 +696,13 @@ function setActiveIndexFromModel(index) {
         model: dopesheetmodel
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.bottom: parent.bottom
+        anchors.bottom: keyframeContainer.top
         anchors.top: rulercontainer.bottom
         property int headerWidth: 100
         property int hoveredParam: -1
         property var activeIndex
         property int selectedKeyframe
+        clip: true
         // Disable flicking
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
