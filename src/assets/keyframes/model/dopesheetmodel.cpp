@@ -869,7 +869,7 @@ void DopeSheetModel::changeKeyframeType(const QVariantMap kfData, int type)
     }
 }
 
-void DopeSheetModel::copyKeyframes(QVariantMap kfData)
+/*void DopeSheetModel::copyKeyframes(QVariantMap kfData)
 {
     qDebug() << ":::: " << kfData;
     QJsonArray jsonArray;
@@ -910,7 +910,7 @@ void DopeSheetModel::copyKeyframes(QVariantMap kfData)
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(QString(effectDoc.toJson()));
     pCore->displayMessage(i18n("Current values copied"), InformationMessage);
-}
+}*/
 
 int DopeSheetModel::dopeDuration() const
 {
@@ -1020,4 +1020,46 @@ void DopeSheetModel::setActiveIndex(const QPersistentModelIndex ix)
     if (m_model) {
         m_model->setActiveEffect(ix.row());
     }
+}
+
+void DopeSheetModel::copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData)
+{
+    if (!m_model) {
+        return;
+    }
+
+    const QMap<QModelIndex, QVariant> selection = sanitizeKeyframesIndexes(kfData);
+    if (!selection.contains(ix)) {
+        pCore->displayMessage(i18n("No keyframe selected in current parameter"), InformationMessage);
+        return;
+    }
+    auto assetModel = m_model->getActiveAsset();
+    QMap<int, QList<int>> finalSelection;
+    for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
+        if (data(i.key(), RecapRole).toBool()) {
+            // Recap, ignore
+            qDebug() << "// RECAP: " << i.key() << ", IGNORING";
+            continue;
+        }
+        const QVariantList indexes = i.value().toList();
+        QList<int> kfIndexes;
+        for (auto &i : indexes) {
+            kfIndexes << i.toInt();
+        }
+        int itemId = int(i.key().internalId());
+        auto tItem = getItemById(itemId);
+        int paramRow = m_paramsList.at(tItem->getId()).first.row;
+        finalSelection.insert(paramRow, kfIndexes);
+    }
+    qDebug() << ":::::: LIST OF SELECTED KFS:" << finalSelection << "\n\n______________________";
+    QJsonDocument effectDoc = assetModel->toJson(finalSelection, false);
+
+    if (effectDoc.isEmpty()) {
+        pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
+        return;
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(QString(effectDoc.toJson()));
+    qDebug() << ":::: COPIED: " << QString(effectDoc.toJson());
+    pCore->displayMessage(i18n("Current values copied"), InformationMessage);
 }

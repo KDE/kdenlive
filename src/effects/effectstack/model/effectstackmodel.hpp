@@ -75,6 +75,8 @@ public:
     void setActiveEffect(int ix);
     /** @brief Get currently active effect row */
     int getActiveEffect() const;
+    /** @brief Get currently active effect assetparametermodel */
+    std::shared_ptr<AssetParameterModel> getActiveAsset();
     /** @brief Adjust an effect duration (useful for fades) */
     bool adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade, bool logUndo);
     bool adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, int offset, Fun &undo, Fun &redo, bool logUndo);

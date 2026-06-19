@@ -1145,13 +1145,13 @@ void KeyframeContainer::showKeyframes(bool enable)
 
 void KeyframeContainer::slotCopyKeyframes()
 {
-    QJsonDocument effectDoc = m_model->toJson({}, false);
+    /*QJsonDocument effectDoc = m_model->toJson({}, false);
     if (effectDoc.isEmpty()) {
         return;
     }
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(QString(effectDoc.toJson()));
-    pCore->displayMessage(i18n("Keyframes copied"), InformationMessage);
+    pCore->displayMessage(i18n("Keyframes copied"), InformationMessage);*/
 }
 
 void KeyframeContainer::slotPasteKeyframeFromClipBoard()
@@ -1259,7 +1259,7 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
 
 void KeyframeContainer::slotCopySelectedKeyframes()
 {
-    const QVector<int> results = m_keyframeview->selectedKeyframesIndexes();
+    /*const QVector<int> results = m_keyframeview->selectedKeyframesIndexes();
     QJsonDocument effectDoc = m_model->toJson(results, false);
     if (effectDoc.isEmpty()) {
         pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
@@ -1267,7 +1267,7 @@ void KeyframeContainer::slotCopySelectedKeyframes()
     }
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(QString(effectDoc.toJson()));
-    pCore->displayMessage(i18n("Current values copied"), InformationMessage);
+    pCore->displayMessage(i18n("Current values copied"), InformationMessage);*/
 }
 
 void KeyframeContainer::slotCopyValueAtCursorPos()

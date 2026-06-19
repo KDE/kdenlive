@@ -1667,6 +1667,17 @@ int EffectStackModel::getActiveEffect() const
     return -1;
 }
 
+std::shared_ptr<AssetParameterModel> EffectStackModel::getActiveAsset()
+{
+    int ix = getActiveEffect();
+    if (ix < 0 || ix > rootItem->childCount() - 1) {
+        return nullptr;
+    }
+    QWriteLocker locker(&m_lock);
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    return std::static_pointer_cast<AssetParameterModel>(sourceEffect);
+}
+
 void EffectStackModel::slotCreateGroup(const std::shared_ptr<EffectItemModel> &childEffect)
 {
     QWriteLocker locker(&m_lock);

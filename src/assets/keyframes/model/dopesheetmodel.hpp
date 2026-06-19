@@ -87,7 +87,7 @@ public:
     Q_INVOKABLE QVariantMap selectKeyframeAtPos(const QModelIndex &masterIndex, int frame);
     Q_INVOKABLE QVariantList selectedIndexes() const;
     Q_INVOKABLE QVariantList grabbedIndexes() const;
-    Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
+    // Q_INVOKABLE void copyKeyframes(QVariantMap kfData);
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
@@ -104,6 +104,7 @@ public:
     int getPreviousSnap(const QModelIndex ix, int pos);
     int getNextSnap(const QModelIndex ix, int pos);
     void addRemoveKeyframe(const QModelIndex ix, int pos);
+    Q_INVOKABLE void copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;

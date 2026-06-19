@@ -435,6 +435,37 @@ function setActiveIndexFromModel(index) {
                 onClicked: K.Core.triggerAction('keyframe_add')
             }
             ToolButton {
+                implicitWidth: dopeRoot.toolbarHeight
+                implicitHeight: width
+                icon.name: "align-center"
+                enabled: rulerCursor.overKeyframe
+                ToolTip.text: KI18n.i18n("Align Keyframe to Playhead")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
+                onClicked: K.Core.triggerAction('keyframe_add')
+            }
+            ToolButton {
+                implicitWidth: dopeRoot.toolbarHeight
+                implicitHeight: width
+                icon.name: "edit-copy"
+                enabled: dopeRoot.allSelectedKeyframes.length > 0
+                ToolTip.text: KI18n.i18n("Copy Keyframe")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
+                onClicked: {
+                    dopesheetmodel.copySelectedKeyframes(getActiveIndex(), dopeRoot.allSelectedKeyframes)
+                }
+            }
+            ToolButton {
+                implicitWidth: dopeRoot.toolbarHeight
+                implicitHeight: width
+                icon.name: "edit-paste"
+                ToolTip.text: KI18n.i18n("Paste Keyframe")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
+                onClicked: K.Core.triggerAction('keyframe_add')
+            }
+            ToolButton {
                 icon.name: "arrow-left"
                 implicitWidth: dopeRoot.toolbarHeight
                 implicitHeight: width
@@ -608,7 +639,8 @@ function setActiveIndexFromModel(index) {
             text: KI18n.i18n("Copy")
             enabled: dopeRoot.hoverKeyframe > -1
             onTriggered: {
-                dopesheetmodel.copyKeyframes(dopeRoot.allSelectedKeyframes)
+                dopesheetmodel.copySelectedKeyframes(getActiveIndex(), dopeRoot.allSelectedKeyframes)
+                //dopesheetmodel.copyKeyframes(dopeRoot.allSelectedKeyframes)
             }
         }
         MenuItem {
@@ -806,8 +838,8 @@ function setActiveIndexFromModel(index) {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    height: 6
-                    radius: 2
+                    height: Math.max(4, K.UiUtils.baseSizeMedium / 4)
+                    radius: height/3
                     color: contentRect.current ? activePalette.highlight : contentRect.row == treeView.hoveredParam ? Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1) : activePalette.light
                     border.width: 1
                     border.color: activePalette.shadow
@@ -1049,15 +1081,16 @@ function setActiveIndexFromModel(index) {
                 Repeater {
                     id: paramModel
                     model: dopeModel
+                    property int handleWidth: Math.round(K.UiUtils.baseSizeMedium * 0.8)
                     Rectangle {
                         id: handle
                         z: 10
-                        x: percentPosition * kfContainer.width * dopeRoot.timeScale - dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor - K.UiUtils.baseSizeMedium/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
-                        visible : x >= -K.UiUtils.baseSizeMedium/2 - 1 && x < dopeRoot.keyframeContainerWidth + K.UiUtils.baseSizeMedium/2
+                        x: percentPosition * kfContainer.width * dopeRoot.timeScale - dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor - width / 2
+                        visible : x >= -width/2 && x < dopeRoot.keyframeContainerWidth + width/2
                         anchors.verticalCenter: kfContainer.verticalCenter
-                        width: K.UiUtils.baseSizeMedium - (kfArea.containsMouse ? 0 : 2)
+                        width: paramModel.handleWidth - (kfArea.containsMouse ? 0 : 2)
                         height: width
-                        property bool atMousePos: dopeRoot.mouseFramePos == model.frame
+                        property bool atMousePos: dopeRoot.mouseFramePos === model.frame
                         color: keyframeGrabbed(treeView.index(contentRect.row, contentRect.column), index) > -1 ? 'red' : keyframeSelected(treeView.index(contentRect.row, contentRect.column), index) > -1 ? activePalette.highlight : activePalette.light
                         radius: type == 1 ? 0 : Math.round(width/2)
                         border.width: atMousePos ? 2 : 1
@@ -1108,61 +1141,61 @@ function setActiveIndexFromModel(index) {
         anchors.rightMargin: K.UiUtils.baseSizeMedium
         anchors.bottom: horZoomBar.top
         anchors.bottomMargin: 2
-        height: K.UiUtils.baseSizeMedium * 4
+        height: keyframeCurve.model === undefined ? 0 : K.UiUtils.baseSizeMedium * 4
         property bool isPanning: false
         contentWidth: Math.max(width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale - width)
         interactive: false
         clip: true
-    Loader {
-        // Keyframe curve
-        id: keyframeCurve
-        height: keyframeContainer.height
-        width: keyframeContainer.contentWidth
-        property var model
-        property bool hasKeyframes: false
-        property alias curveView: keyframeCurve.item
-        property bool isPanning: false
-        asynchronous: true
-        visible: status == Loader.Ready
-        active: true
-        onModelChanged: {
-            if (keyframeCurve.model === undefined) {
-                keyframeCurve.setSource("")
-            } else {
-                keyframeCurve.setSource("KeyframeView.qml", {"color":Qt.rgba(1, 1, 1, 0.5), "container": keyframeCurve, "selected": true, "kfrModel": keyframeCurve.model, "timescale": dopeRoot.maximumScaleFactor * dopeRoot.timeScale, "ownerId": dopeRoot.ownerId, "ownerType": dopeRoot.ownerType})
+        Loader {
+            // Keyframe curve
+            id: keyframeCurve
+            height: keyframeContainer.height
+            width: keyframeContainer.contentWidth
+            property var model
+            property bool hasKeyframes: false
+            property alias curveView: keyframeCurve.item
+            property bool isPanning: false
+            asynchronous: true
+            visible: status == Loader.Ready
+            active: true
+            onModelChanged: {
+                if (keyframeCurve.model === undefined) {
+                    keyframeCurve.setSource("")
+                } else {
+                    keyframeCurve.setSource("KeyframeView.qml", {"color":Qt.rgba(1, 1, 1, 0.5), "container": keyframeCurve, "selected": true, "kfrModel": keyframeCurve.model, "timescale": dopeRoot.maximumScaleFactor * dopeRoot.timeScale, "ownerId": dopeRoot.ownerId, "ownerType": dopeRoot.ownerType})
+                }
+            }
+
+            Binding {
+                target: keyframeCurve.item
+                property: "inPoint"
+                value: dopesheetmodel.dopeInPoint
+                when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+                restoreMode: Binding.RestoreBindingOrValue
+            }
+            Binding {
+                target: keyframeCurve.item
+                property: "outPoint"
+                value: dopesheetmodel.dopeInPoint + dopesheetmodel.dopeDuration - 1
+                when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+                restoreMode: Binding.RestoreBindingOrValue
+            }
+            Binding {
+                target: keyframeCurve.item
+                property: "modelStart"
+                value: dopesheetmodel.dopePosition
+                when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+                restoreMode: Binding.RestoreBindingOrValue
+            }
+            Binding {
+                target: keyframeCurve.item
+                property: "scrollStart"
+                value: 0
+                when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
+                restoreMode: Binding.RestoreBindingOrValue
             }
         }
-
-        Binding {
-            target: keyframeCurve.item
-            property: "inPoint"
-            value: dopesheetmodel.dopeInPoint
-            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
-            restoreMode: Binding.RestoreBindingOrValue
-        }
-        Binding {
-            target: keyframeCurve.item
-            property: "outPoint"
-            value: dopesheetmodel.dopeInPoint + dopesheetmodel.dopeDuration - 1
-            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
-            restoreMode: Binding.RestoreBindingOrValue
-        }
-        Binding {
-            target: keyframeCurve.item
-            property: "modelStart"
-            value: dopesheetmodel.dopePosition
-            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
-            restoreMode: Binding.RestoreBindingOrValue
-        }
-        Binding {
-            target: keyframeCurve.item
-            property: "scrollStart"
-            value: 0
-            when: keyframeCurve.status == Loader.Ready && keyframeCurve.item
-            restoreMode: Binding.RestoreBindingOrValue
-        }
-    }
     }
     K.ZoomBar {
         id: horZoomBar
