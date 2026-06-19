@@ -26,7 +26,6 @@ Rectangle {
     property int mouseFramePos: -1
     property int hoverKeyframe: -1
     required property var keyframeTypes
-    required property var keyframeTypeNames
     required property K.DopeSheetModel dopesheetmodel
     property K.MonitorProxy proxy
     property var keyframeType
@@ -338,47 +337,22 @@ function setActiveIndexFromModel(index) {
                 K.KdenliveSettings.usepreviouskeyframeinterp = checked
             }
         }
-        ActionGroup {
-            id: currTypeActions
-            exclusive: true
-        }
-        Menu {
-            title: KI18n.i18n("Type for selected keyframes")
-            id: selectionTypeMenu
-            Repeater {
-                model: keyframeTypeNames
-                MenuItem {
-                    required property string modelData
-                    text: modelData
-                    checkable: true
-                    action: Action {
-                        text: modelData
-                        checkable: true
-                        ActionGroup.group: currTypeActions
-                        onTriggered: {
-                            dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, keyframeTypes[text])
-                            dopeRoot.keyframeType = keyframeTypes[text]
-                        }
-                    }
-                }
-            }
-        }
         Menu {
             title: KI18n.i18n("Default type for new keyframes")
             Repeater {
-                model: keyframeTypeNames
+                model: keyframeTypes
                 MenuItem {
-                    required property string modelData
-                    text: modelData
+                    required property var modelData
+                    text: modelData.text
                     checkable: true
                     action: Action {
-                        text: modelData
+                        text: modelData.text
                         checkable: true
-                        checked: keyframeTypes[text] == K.KdenliveSettings.defaultkeyframeinterp
+                        checked: modelData.value === K.KdenliveSettings.defaultkeyframeinterp
                         ActionGroup.group: defTypeActions
                         onTriggered: {
-                            console.log('changing default kf type to: ', keyframeTypes[text])
-                            K.KdenliveSettings.defaultkeyframeinterp = keyframeTypes[text]
+                            console.log('changing default kf type to: ', modelData.value)
+                            K.KdenliveSettings.defaultkeyframeinterp = modelData.value
                         }
                     }
                 }
@@ -401,16 +375,6 @@ function setActiveIndexFromModel(index) {
                 implicitHeight: width
                 onClicked: {
                     // Check required kfr type
-                    var actionList = currTypeActions.actions
-                    for (var i = 0; i < actionList.length; i++) {
-                        console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
-                        if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
-                            console.log('CHECK ACTION: ', i)
-                            actionList[i].checked = true
-                            break
-                        }
-                    }
-                    selectionTypeMenu.enabled = dopeRoot.allSelectedKeyframes.length > 0
                     defaultTypeMenu.popup()
                 }
             }
@@ -419,7 +383,25 @@ function setActiveIndexFromModel(index) {
                 implicitHeight: width
                 icon.name: rulerCursor.overKeyframe ? "keyframe-remove" : "keyframe-add"
                 ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
                 onClicked: K.Core.triggerAction('keyframe_add')
+            }
+            ComboBox {
+                id: keyframeTypeCombo
+                model: keyframeTypes
+                textRole: "text"
+                valueRole: "value"
+                currentValue: dopeRoot.keyframeType
+                enabled: dopeRoot.allSelectedKeyframes.length > 0
+                ToolTip.text: KI18n.i18n("Type for selected keyframe")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
+                onActivated: {
+                    console.log('changing kf type to: ', currentValue, ' current: ', dopeRoot.keyframeType)
+                    dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, currentValue)
+                    dopeRoot.keyframeType = currentValue
+                }
             }
         }
     }
@@ -591,19 +573,19 @@ function setActiveIndexFromModel(index) {
                 exclusive: true
             }
             Repeater {
-                model: keyframeTypeNames
+                model: keyframeTypes
                 MenuItem {
-                    required property string modelData
-                    text: modelData
+                    required property var modelData
+                    text: modelData.text
                     checkable: true
                     action: Action {
-                        text: modelData
+                        text: modelData.text
                         checkable: true
                         ActionGroup.group: typeActions
                         onTriggered: {
-                            console.log('changing kf type to: ', keyframeTypes[text], ' current: ', dopeRoot.keyframeType)
-                            dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, keyframeTypes[text])
-                            dopeRoot.keyframeType = keyframeTypes[text]
+                            console.log('changing kf type to: ', modelData.value, ' current: ', dopeRoot.keyframeType)
+                            dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, modelData.value)
+                            dopeRoot.keyframeType = modelData.value
                         }
                     }
                 }
@@ -820,17 +802,24 @@ function setActiveIndexFromModel(index) {
                         dopeRoot.keyframeType = dopeModel.getKeyframeTypeAtFrame(clickFrame)
                         var selectedKeyframes = getSelectedKeyframesForIndex(parameterIndex)
                         var alreadySelected = selectedKeyframes.indexOf(currentIndex) > -1
+                        var actionList = typeActions.actions
                         if (mouse.buttons === Qt.RightButton) {
                             if (alreadySelected) {
                                 // keyframe already selected, just show menu
                                 treeView.selectedKeyframe = kfMoveArea.currentFrame
                                 treeView.activeIndex = parameterIndex
-                                var actionList = typeActions.actions
-                                for (var i = 0; i < actionList.length; i++) {
-                                    console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
-                                    if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
-                                        console.log('CHECK ACTION: ', i)
-                                        actionList[i].checked = true
+                                var matchingText
+                                for (var i = 0; i < keyframeTypes.length; i++) {
+                                    if (keyframeTypes[i].value === dopeRoot.keyframeType) {
+                                        matchingText = keyframeTypes[i].text
+                                        break
+                                    }
+                                }
+
+                                for (var j = 0; j < actionList.length; j++) {
+                                    if (actionList[j].text === matchingText) {
+                                        console.log('CHECK ACTION: ', j)
+                                        actionList[j].checked = true
                                         break
                                    }
                                 }
@@ -869,12 +858,17 @@ function setActiveIndexFromModel(index) {
                             // Show context menu
                             treeView.selectedKeyframe = kfMoveArea.currentFrame
                             treeView.activeIndex = parameterIndex
-                            var actionList = typeActions.actions
-                            for (var i = 0; i < actionList.length; i++) {
-                                console.log('CHECKING ACTION: ', actionList[i].text, ', TYPE: ', keyframeTypes[actionList[i].text],' == ', dopeRoot.keyframeType)
-                                if (keyframeTypes[actionList[i].text] == dopeRoot.keyframeType) {
-                                    console.log('CHECK ACTION: ', i)
-                                    actionList[i].checked = true
+                            for (i = 0; i < keyframeTypes.length; i++) {
+                                if (keyframeTypes[i].value === dopeRoot.keyframeType) {
+                                    matchingText = keyframeTypes[i].text
+                                    break
+                               }
+                            }
+
+                            for (j = 0; j < actionList.length; j++) {
+                                if (actionList[j].text === matchingText) {
+                                    console.log('CHECK ACTION: ', j)
+                                    actionList[j].checked = true
                                     break
                                 }
                             }
@@ -1011,7 +1005,7 @@ function setActiveIndexFromModel(index) {
                                 console.log("entered kfr: ", index)
                                 kfMoveArea.currentFrame = model.frame
                                 kfMoveArea.currentIndex = index
-                                dopeRoot.keyframeType = type
+                                //dopeRoot.keyframeType = type
                                 dopeRoot.hoverKeyframe = model.frame
                                 dopeRoot.mouseFramePos = model.frame
                             }

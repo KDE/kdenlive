@@ -188,7 +188,7 @@ public:
     static const QString getSeparatorForKeyframeType(mlt_keyframe_type type);
     static void initKeyframeTypes();
     static const QMap<KeyframeType::KeyframeEnum, QString> getKeyframeTypes();
-    static const QVariantMap getKeyframeTypesVariant();
+    static const QVariantList getKeyframeTypesVariant();
     /** @brief Used for testing */
     int keyframesCount() const;
     QList<QVariant> testSerializeKeyframes() const;

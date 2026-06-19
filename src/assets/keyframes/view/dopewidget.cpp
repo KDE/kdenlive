@@ -21,9 +21,7 @@ DopeWidget::DopeWidget(QQmlEngine *engine, QWidget *parent)
     setClearColor(palette().base().color());
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    setInitialProperties({{"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()},
-                          {"keyframeTypeNames", KeyframeModel::getKeyframeTypesVariant().keys()},
-                          {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())}});
+    setInitialProperties({{"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()}, {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("DopeSheetView"));
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::activateEffect, this, &DopeWidget::activateEffect);
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, this, &DopeWidget::checkModelUpdate, Qt::QueuedConnection);

@@ -123,14 +123,26 @@ const QMap<KeyframeType::KeyframeEnum, QString> KeyframeModel::getKeyframeTypes(
     return KeyframeTypeName;
 }
 
-const QVariantMap KeyframeModel::getKeyframeTypesVariant()
+const QVariantList KeyframeModel::getKeyframeTypesVariant()
 {
-    QVariantMap map = {{i18n("Linear"), KeyframeType::Linear},
-                       {i18n("Discrete"), KeyframeType::Discrete},
-                       {i18n("Smooth"), KeyframeType::CurveSmooth},
-                       {i18n("Bounce In"), KeyframeType::BounceIn},
-                       {i18n("Bounce Out"), KeyframeType::BounceOut}};
-    return map;
+    QVariantList result;
+    QVariantMap map;
+    map["text"] = i18n("Linear");
+    map["value"] = KeyframeType::Linear;
+    result.append(map);
+    map["text"] = i18n("Discrete");
+    map["value"] = KeyframeType::Discrete;
+    result.append(map);
+    map["text"] = i18n("Smooth");
+    map["value"] = KeyframeType::CurveSmooth;
+    result.append(map);
+    map["text"] = i18n("Bounce In");
+    map["value"] = KeyframeType::BounceIn;
+    result.append(map);
+    map["text"] = i18n("Bounce Out");
+    map["value"] = KeyframeType::BounceOut;
+    result.append(map);
+    return result;
 }
 
 void KeyframeModel::setup()
