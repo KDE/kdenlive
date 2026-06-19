@@ -11,6 +11,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidget>
 
 class QFrame;
+
+#ifndef NODBUS
+class QDBusPendingCallWatcher;
+#endif
+
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #endif
@@ -64,8 +69,12 @@ private:
     bool m_useDBus{true};
     QRect m_grabRect;
     QPoint m_clickPoint;
-    QFrame *m_grabRectFrame;
+    MyFrame *m_grabRectFrame;
     QColor m_mouseColor;
+#ifndef NODBUS
+    QString m_dbusPath;
+#endif
+
 #ifdef Q_WS_X11
     XImage *m_image;
 #else
@@ -82,6 +91,8 @@ private Q_SLOTS:
 #ifndef NODBUS
     /** @brief Send a DBus message to the Freedesktop portal to request a color picker operation */
     void grabColorDBus();
+    /** @brief Handle DBus answer */
+    void callFinishedSlot(QDBusPendingCallWatcher *caller);
     /** @brief To be called by the DBus connection when a response comes in */
     void gotColorResponse(uint response, const QVariantMap &results);
 #endif

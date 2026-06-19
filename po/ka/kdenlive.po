@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 00:44+0000\n"
-"PO-Revision-Date: 2026-06-05 05:44+0200\n"
+"POT-Creation-Date: 2026-06-19 00:43+0000\n"
+"PO-Revision-Date: 2026-06-17 05:24+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2592,7 +2592,7 @@ msgstr "ღერძის ჩვენება"
 #: src/assets/view/widgets/keyframecontainer.cpp:339
 #: src/assets/view/widgets/keyframecontainer.cpp:386
 #: src/assets/view/widgets/keyframecontainer.cpp:711
-#: src/widgets/geometrywidget.cpp:175
+#: src/widgets/geometrywidget.cpp:180
 #, kde-format
 msgid "Opacity"
 msgstr "გაუმჭვირვალობა"
@@ -4666,7 +4666,7 @@ msgstr "კირშის ოპერატორის გამოყენ�
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
-#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:165
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
 msgstr "მასშტაბირება"
@@ -7022,7 +7022,7 @@ msgstr "პანორამირების და გადიდები�
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:378
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Zoom"
 msgstr "გადიდება"
@@ -7586,7 +7586,7 @@ msgstr "ზედა, შუა, ქვედა"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1049 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "ტექსტი"
@@ -13338,7 +13338,7 @@ msgstr ""
 "        \t100-ზე მცირე მნიშვნელობები ადიდებს გამოსახულებები, 100-ზე დიდი კი "
 "აპატარავებს. 0 დამალავს მას."
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:382
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Background opacity"
 msgstr "ფონის გაუმჭვირვალობა"
@@ -16964,7 +16964,7 @@ msgid "Crop to fill"
 msgstr "ამოჭრა კადრის მიხედვით"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:213
+#: src/widgets/geometrywidget.cpp:218
 #, kde-format
 msgid "Align"
 msgstr "სწორება"
@@ -18219,7 +18219,7 @@ msgid "Delete keyframes"
 msgstr "საკვანძო კადრების წაშლა"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1782
+#: src/assets/model/assetparametermodel.cpp:1787
 #, kde-format
 msgid "Update effect"
 msgstr "ეფექტის განახლება"
@@ -18294,13 +18294,13 @@ msgstr "%1 ძირითადი კადრის ჩასწორებ�
 msgid "Update %1"
 msgstr "%1-ის განახლება"
 
-#: src/assets/model/assetparametermodel.cpp:1619
-#: src/assets/model/assetparametermodel.cpp:1666
+#: src/assets/model/assetparametermodel.cpp:1624
+#: src/assets/model/assetparametermodel.cpp:1671
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "ვერ გავხსენი პრესეტის ფაილი %1"
 
-#: src/assets/model/assetparametermodel.cpp:1756
+#: src/assets/model/assetparametermodel.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18339,7 +18339,7 @@ msgstr "მონიშნული პრესეტის წაშლა."
 msgid "Save effect"
 msgstr "ეფექტის შენახვა"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:129
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -18347,7 +18347,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "შეიყვანეთ პრესეტის სახელი"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -18410,7 +18410,7 @@ msgstr ""
 "მიმდინარე პარამეტრის მნიშვნელობების, თუ საკვანძო კადრი მონიშნული არაა."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:174
-#: src/assets/view/widgets/keyframecontainer.cpp:1128
+#: src/assets/view/widgets/keyframecontainer.cpp:1129
 #, kde-format
 msgid "Paste keyframe"
 msgstr "ძირითადი კადრის ჩასმა"
@@ -18501,40 +18501,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "აირჩიეთ დასაკოპირებელი პარამეტრები"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1025
+#: src/assets/view/widgets/keyframecontainer.cpp:1026
 #, kde-format
 msgid "Keyframes copied"
 msgstr "ძირითადი კადრები კოპირებულია"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1036
-#: src/assets/view/widgets/keyframecontainer.cpp:1077
-#: src/assets/view/widgets/keyframecontainer.cpp:1084
+#: src/assets/view/widgets/keyframecontainer.cpp:1037
+#: src/assets/view/widgets/keyframecontainer.cpp:1078
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "ბუფერში სწორი საკვანძო კადრის მონაცემები არაა"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1136
+#: src/assets/view/widgets/keyframecontainer.cpp:1137
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "მიმდინარე პარამეტრების მნიშვნელობების კოპირების შეცდომა"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1141
-#: src/assets/view/widgets/keyframecontainer.cpp:1152
+#: src/assets/view/widgets/keyframecontainer.cpp:1142
+#: src/assets/view/widgets/keyframecontainer.cpp:1153
 #, kde-format
 msgid "Current values copied"
 msgstr "მიმდინარე მნიშვნელობები კოპირებულია"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1164
+#: src/assets/view/widgets/keyframecontainer.cpp:1165
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "ბუფერში საკვანძო კადრის მონაცემები არაა"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1245
+#: src/assets/view/widgets/keyframecontainer.cpp:1246
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "ბოლო ძირითადი კადრის წაშლა შეუძლებელია"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1257
+#: src/assets/view/widgets/keyframecontainer.cpp:1258
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -19764,7 +19764,7 @@ msgstr ""
 "არედაქტირებთ გარე ტიტრის კლიპს (%1). გნებავთ შეინახოთ ცვლილებები ტიტრის "
 "ფაილში თუ, მხოლოდ, ამ პროექტში?"
 
-#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2333
+#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Save Title"
 msgstr "სათაურის შენახვა"
@@ -20295,7 +20295,7 @@ msgstr ""
 "ფაილი %1 უკვე არსებობს.\n"
 "გნებავთ, გადააწეროთ?"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:411
+#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "ტექსტის დამატება"
@@ -20570,12 +20570,17 @@ msgstr "ჭდის დამატება"
 msgid "New tag"
 msgstr "ახალი ჭდე"
 
-#: src/capture/mediacapture.cpp:118
+#: src/capture/mediacapture.cpp:116
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "ჩაწერის ფორმატი გასწორდა %1 არხზე, %2 ჰც."
 
-#: src/capture/mediacapture.cpp:243
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#, kde-format
+msgid "No audio device found"
+msgstr "აუდიომოწყობილობები აღმოჩენილი არაა"
+
+#: src/capture/mediacapture.cpp:247
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20584,7 +20589,7 @@ msgstr ""
 "ხმის მონიტორინგი. დააწექით ღილაკს <b>Space</b> ჩაწერის გასაშვებად/"
 "შესაჩერებლად, <b>Esc</b> კი - დასასრულებლად."
 
-#: src/capture/mediacapture.cpp:411 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -21361,7 +21366,7 @@ msgstr "მარკერის მონაცემების გატა�
 #: src/renderpresets/renderpresetrepository.cpp:477
 #: src/timeline2/view/timelinecontroller.cpp:5726
 #: src/timeline2/view/timelinecontroller.cpp:5731
-#: src/titler/titlewidget.cpp:2346
+#: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "ფაილში ჩაწერის შეცდომა: %1"
@@ -27203,7 +27208,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "გადართავს სუბტიტრების ტრეკს დროის ხაზზე."
 
-#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:402
+#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Selection Tool"
 msgstr "მონიშვნის ხელსაწყო"
@@ -28323,7 +28328,7 @@ msgstr "თავიდან შექმნა"
 
 #: src/mainwindow.cpp:2468 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2329
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -34473,22 +34478,22 @@ msgid "No available stream"
 msgstr "ხელმისაწვდომი ნაკადის გარეშე"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
+#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
 #, kde-format
 msgid "Gradient %1"
 msgstr "გრადიენტი %1"
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "ეს ტიტრის კლიპი განსხვავებული კადრის ზომით შეიქმნა."
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "Title Profile"
 msgstr "ტიტრის პროფილი"
 
-#: src/titler/titledocument.cpp:459
+#: src/titler/titledocument.cpp:513
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -34500,45 +34505,45 @@ msgstr ""
 "პიქსელის ზომაში, რაც მათ გადატანადს გახდის. მაგრამ, სჯობს, ისინი ხელით "
 "მოირგოთ."
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:516
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "ტექსტის კლიპები განახლდა"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "კონტურის სიგანე"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "ფონის ფერის გაუმჭვირვალობა"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "შემობრუნება X ღერძის გარშემო"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "შემობრუნება Y ღერძის გარშემო"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "შემობრუნება Z ღერძის გარშემო"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "საზღვრის სიგანე"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:165 src/widgets/geometrywidget.cpp:175
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
+#: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -34547,159 +34552,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:189 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr "  პიქსელი"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:292
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "მსუბუქი"
 
-#: src/titler/titlewidget.cpp:291
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "ნორმალური"
 
-#: src/titler/titlewidget.cpp:292
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "ნახევრად სქელი"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "გასქელება"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "შავი"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgid "Font weight"
 msgstr "ფონტის წონა"
 
-#: src/titler/titlewidget.cpp:309
+#: src/titler/titlewidget.cpp:311
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "უნიკოდის სიმბოლოს_ჩასმა"
 
-#: src/titler/titlewidget.cpp:315
+#: src/titler/titlewidget.cpp:317
 #, kde-format
 msgid "Raise object"
 msgstr "ობიექტის აწევა"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:323
 #, kde-format
 msgid "Lower object"
 msgstr "ობიექტის დაწევა"
 
-#: src/titler/titlewidget.cpp:329
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Raise object to top"
 msgstr "ობიექტის თავში აწევა"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:338
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "ობიექტის ბოლომდე დაწევა"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Select All"
 msgstr "ყველას მონიშვნა"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "მხოლოდ, ტექსტის მონიშვნა"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "მხოლოდ, მართკუთხედების მონიშვნა"
 
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "მხოლოდ, გამოსახულებების მონიშვნა"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Deselect"
 msgstr "მონიშვნის მოხსნა"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "X ღერძის ინვერსია და 0 წერტილის შეცვლა"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Y ღერძის ინვერსია და 0 წერტილის შეცვლა"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select fill color"
 msgstr "აირჩიეთ შესავსები ფერი"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select border color"
 msgstr "აირჩიეთ საზღვრის ფერი"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "პირველადი ზომა (1:1)"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Fit zoom"
 msgstr "ჩატევა"
 
-#: src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Select background color"
 msgstr "აირჩიეთ ფონის ფერი"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Select all"
 msgstr "ყველას მონიშვნა"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "ტექსტური ელემენტების მონიშვნა მიმდინარე მონიშნულში"
 
-#: src/titler/titlewidget.cpp:385
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "მართკუთხედების მონიშვნა მიმდინარე მონიშნულში"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "გამოსახულებების მონიშვნა მიმდინარე მონიშნულში"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Unselect all"
 msgstr "მონიშვნის ყველაფერზე მოხსნა"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:409
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -34713,47 +34718,47 @@ msgstr ""
 "+გადათრევა პანორამირებისთვის. მიმაგრება გაითიშება, თუ ელემენტს Ctrl-ით "
 "გადაათრევთ."
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Add Rectangle"
 msgstr "მართკუთხედის დამატება"
 
-#: src/titler/titlewidget.cpp:421
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Add Ellipse"
 msgstr "ოვალის დამატება"
 
-#: src/titler/titlewidget.cpp:426
+#: src/titler/titlewidget.cpp:428
 #, kde-format
 msgid "Add Image…"
 msgstr "გამოსახულების დამატება…"
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:435
 #, kde-format
 msgid "Open Title…"
 msgstr "ტიტრის გახსნა…"
 
-#: src/titler/titlewidget.cpp:438
+#: src/titler/titlewidget.cpp:440
 #, kde-format
 msgid "Save Title As…"
 msgstr "სათაურის შენახვა, როგორც…"
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:445
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "ახალი ტიტრის ნიმუშების გადმოწერა…"
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:560
 #, kde-format
 msgid "Save and add to project"
 msgstr "შენახვა და პროექტისთვის დამატება"
 
-#: src/titler/titlewidget.cpp:557
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Create Title"
 msgstr "სათაურის შექმნა"
 
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -34762,54 +34767,54 @@ msgstr ""
 "მართლლა გნებავთ ახალი ნიმუშის ჩატვირთვა? ამ ტიტრში შეტანილი თვისებები "
 "დაიკარგება!"
 
-#: src/titler/titlewidget.cpp:927
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "All Images"
 msgstr "ყველა გამოსახულება"
 
-#: src/titler/titlewidget.cpp:929
+#: src/titler/titlewidget.cpp:933
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 გამოსახულება"
 
-#: src/titler/titlewidget.cpp:939
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "Add Image"
 msgstr "გამოსახულების დამატება"
 
-#: src/titler/titlewidget.cpp:1782
+#: src/titler/titlewidget.cpp:1786
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1784 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1806
+#: src/titler/titlewidget.cpp:1810
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1808 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2280
+#: src/titler/titlewidget.cpp:2284
 #, kde-format
 msgid "Load Title"
 msgstr "სათაურის ჩატვირთვა"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2285
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive-ის სათაური"
 
-#: src/titler/titlewidget.cpp:2327
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -34818,57 +34823,57 @@ msgstr ""
 "გნებავთ გამოსახულებების ჩაშენება ან ტიტრის კლიპში?\n"
 "ეს უმეტესად ტიტრების გასაზიარებლადაა საჭირო."
 
-#: src/titler/titlewidget.cpp:2328
+#: src/titler/titlewidget.cpp:2332
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "გამოსახულებების ჩაშენება"
 
-#: src/titler/titlewidget.cpp:2391
+#: src/titler/titlewidget.cpp:2396
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "ამ სათაურს 1 ელემენტი აკლია"
 msgstr[1] "ამ სათაურს %1 ელემენტი აკლია"
 
-#: src/titler/titlewidget.cpp:2392 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2397 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "დეტალები"
 
-#: src/titler/titlewidget.cpp:2395
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Delete missing elements"
 msgstr "ნაკლული ელემენტების წაშლა"
 
-#: src/titler/titlewidget.cpp:2455
+#: src/titler/titlewidget.cpp:2460
 #, kde-format
 msgid "Update Title"
 msgstr "სათაურის განახლება"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2463
 #, kde-format
 msgid "Add as new Title"
 msgstr "ახალი სათაურის დამატება"
 
-#: src/titler/titlewidget.cpp:2512
+#: src/titler/titlewidget.cpp:2517
 #, kde-format
 msgid "The following files are missing:"
 msgstr "აკლია შემდეგი ფაილები:"
 
-#: src/titler/titlewidget.cpp:2709
+#: src/titler/titlewidget.cpp:2714
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "გადახედვის ხედის გაშვება"
 
-#: src/titler/titlewidget.cpp:2710
+#: src/titler/titlewidget.cpp:2715
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "გადახედვის ხედის დასრულება"
 
-#: src/titler/titlewidget.cpp:3454
+#: src/titler/titlewidget.cpp:3459
 #, kde-format
 msgid "Gradient"
 msgstr "გრადაცია"
@@ -35195,12 +35200,12 @@ msgstr "ზოგიერთ თქვენი რჩეული კომპ
 msgid "Luma file :"
 msgstr "კაშეს ფაილი :"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:126
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:131
 #, kde-format
 msgid "Align left"
 msgstr "მარცხნვ სწორება"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:130
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:135
 #, kde-format
 msgid "Align right"
 msgstr "მარჯვნივ სწორება"
@@ -39828,12 +39833,12 @@ msgstr "1.0×"
 msgid "Transparency:"
 msgstr "გამჭვირვალობა:"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "აირჩიეთ ფერი, ეკრანიდან."
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -39900,71 +39905,71 @@ msgstr "%1-ის ჩვენება დროის ხაზში"
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + გაადთრევა მნიშვნელობის ერთით გასასწორებლად."
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:61
 #, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "მდებარეობის X"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:67
 #, kde-format
 msgctxt "y axis position"
 msgid "Y"
 msgstr "ი"
 
-#: src/widgets/geometrywidget.cpp:81
+#: src/widgets/geometrywidget.cpp:85
 #, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "ზომა სიგ"
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "გადიდების კოეფიციენტის დაბლოკვა"
 
-#: src/widgets/geometrywidget.cpp:98
+#: src/widgets/geometrywidget.cpp:103
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "სიმ"
 
-#: src/widgets/geometrywidget.cpp:116
+#: src/widgets/geometrywidget.cpp:121
 #, kde-format
 msgid "Adjust to original size"
 msgstr "ორიგინალურ ზომასთან გასწორება"
 
-#: src/widgets/geometrywidget.cpp:119
+#: src/widgets/geometrywidget.cpp:124
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "გასწორება და ცენტრში გატანა კადრში"
 
-#: src/widgets/geometrywidget.cpp:121
+#: src/widgets/geometrywidget.cpp:126
 #, kde-format
 msgid "Fit to width"
 msgstr "სიგანეში ჩატევა"
 
-#: src/widgets/geometrywidget.cpp:123
+#: src/widgets/geometrywidget.cpp:128
 #, kde-format
 msgid "Fit to height"
 msgstr "სიმაღლეში ჩატევა"
 
-#: src/widgets/geometrywidget.cpp:128
+#: src/widgets/geometrywidget.cpp:133
 #, kde-format
 msgid "Center horizontally"
 msgstr "ჰორიზონტალურად დაცენტრება"
 
-#: src/widgets/geometrywidget.cpp:132
+#: src/widgets/geometrywidget.cpp:137
 #, kde-format
 msgid "Align top"
 msgstr "სწორება ზემოთ"
 
-#: src/widgets/geometrywidget.cpp:134
+#: src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Center vertically"
 msgstr "ვერტიკალურად დაცენტრება"
 
-#: src/widgets/geometrywidget.cpp:136
+#: src/widgets/geometrywidget.cpp:141
 #, kde-format
 msgid "Align bottom"
 msgstr "სწორება ქვემოთ"

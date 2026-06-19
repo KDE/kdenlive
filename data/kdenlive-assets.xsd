@@ -26,6 +26,16 @@ SPDX-License-Identifier: CC0-1.0
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="sizePlaceholderWithMath">
+        <xs:restriction base="xs:string">
+            <!-- Limits the overall length of the expression -->
+            <xs:maxLength value="30"/>
+
+            <!-- Validates the specific structure: %variable [operator] number -->
+            <xs:pattern value="-?%(width|height|maxWidth|maxHeight)\s*[\+\-\*/]\s*[0-9]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="filterName">
         <xs:restriction base="xs:string">
             <xs:enumeration value="frei0r.select0r"/>
@@ -49,7 +59,7 @@ SPDX-License-Identifier: CC0-1.0
     </xs:simpleType>
 
     <xs:simpleType name="valueType">
-        <xs:union memberTypes="xs:decimal sizePlaceholder filterName"/>
+        <xs:union memberTypes="xs:decimal sizePlaceholder sizePlaceholderWithMath filterName"/>
     </xs:simpleType>
 
     <xs:simpleType name="valueTypeOrPoint">

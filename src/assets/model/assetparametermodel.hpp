@@ -60,10 +60,21 @@ static double convertValue(const QString &value, const QSize profileSize, double
 {
     if (value.isEmpty()) {
         return defaultValue;
-    } else if (value == QLatin1String("%width")) {
-        return profileSize.width();
-    } else if (value == QLatin1String("%height")) {
-        return profileSize.height();
+    } else if (value.contains(QLatin1String("%width")) || value.contains(QLatin1String("%height"))) {
+        QString evaluated = value;
+        evaluated.replace(QLatin1String("%width"), QString::number(profileSize.width()));
+        evaluated.replace(QLatin1String("%height"), QString::number(profileSize.height()));
+        if (evaluated.contains(QLatin1Char('-')) || evaluated.contains(QLatin1Char('+')) || evaluated.contains(QLatin1Char('*')) ||
+            evaluated.contains(QLatin1Char('/'))) {
+            QJSEngine engine;
+            QJSValue result = engine.evaluate(evaluated);
+            if (result.isNumber()) {
+                return result.toNumber();
+            } else {
+                qWarning() << "!! Could not evaluate math expression: " << value;
+            }
+        }
+        return evaluated.toInt();
     }
     return value.toDouble();
 }
@@ -166,8 +177,8 @@ struct AssetRectInfo
     QString destName;
     QString target;
     double defaultValue;
-    double minimum;
-    double maximum;
+    double minimum{0};
+    double maximum{0};
     double factor{1};
     explicit AssetRectInfo(const QString &name, const QString &tar, const QString &value, const QString &min, const QString &max,
                            const QString &fac = QString())
@@ -193,9 +204,9 @@ struct AssetRectInfo
     int positionForTarget() const
     {
         int index = -1;
-        if (target == QStringLiteral("left")) {
+        if (target == QStringLiteral("left") || target == QStringLiteral("x")) {
             index = 0;
-        } else if (target == QStringLiteral("top")) {
+        } else if (target == QStringLiteral("top") || target == QStringLiteral("y")) {
             index = 1;
         } else if (target == QStringLiteral("width") || target == QStringLiteral("right")) {
             index = 2;

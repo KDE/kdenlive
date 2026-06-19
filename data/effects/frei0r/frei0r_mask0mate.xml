@@ -4,7 +4,7 @@
     <name>Rectangular Alpha mask</name>
     <description>Creates an square alpha-channel mask</description>
     <author>Richard Spindler</author>
-    <parameter type="fakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
+    <parameter type="animatedfakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
         <name>Rectangle</name>
         <parammap target="left" source="Left" max="%width" min="0" default="0" factor="%width"/>
         <parammap target="top" source="Top" max="%height" min="0" default="0" factor="%height"/>

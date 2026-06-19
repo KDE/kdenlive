@@ -153,4 +153,5 @@ Q_SIGNALS:
     void activateEffect();
     void updateHeight();
     void updateAnimCheckBox();
+    void disableCurrentFilter(bool);
 };

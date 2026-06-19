@@ -58,7 +58,7 @@ public:
 /** @class TitleWidget
  *  @brief Title creation dialog
  *  Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
-*/
+ */
 class TitleWidget : public QDialog, public Ui::TitleWidget_UI
 {
     Q_OBJECT
@@ -130,6 +130,8 @@ private:
     UnicodeDialog *m_unicodeDialog;
     KMessageWidget *m_missingMessage;
 
+    QString m_path;
+
     /** @brief Project path for storing title documents. */
     QString m_projectTitlePath;
 
@@ -166,7 +168,7 @@ private:
 
     PatternsModel *m_patternsModel;
 
-    //QList<TitleTemplate> m_titleTemplates;
+    // QList<TitleTemplate> m_titleTemplates;
 
     enum ValueType { ValueWidth = 1, ValueHeight = 2, ValueX = 4, ValueY = 8 };
 
@@ -400,7 +402,7 @@ private Q_SLOTS:
     /** @brief When scale slider is changed. */
     void slotPatternsTileWidth(int width);
     /** @brief Pattern in the list double clicked. */
-    void slotPatternDblClicked(const QModelIndex & idx);
+    void slotPatternDblClicked(const QModelIndex &idx);
     /** @brief Pattern add button clicked. */
     void slotPatternBtnAddClicked();
     /** @brief Pattern remove button clicked. */
@@ -410,6 +412,9 @@ private Q_SLOTS:
     void scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center = false);
     /** @brief Seek project monitor. */
     void seekTimeline();
+
+    void slotCopy();
+    void slotPaste();
 
 Q_SIGNALS:
     void requestBackgroundFrame(bool request);

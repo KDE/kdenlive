@@ -1153,9 +1153,14 @@ QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDo
             if (ok) {
                 return result;
             }
-            Mlt::Properties p;
-            p.set("eval", content.prepend(QLatin1Char('@')).toLatin1().constData());
-            return p.get_double("eval");
+            QJSEngine engine;
+            QJSValue evaluation = engine.evaluate(content);
+            if (evaluation.isNumber()) {
+                return evaluation.toNumber();
+            } else {
+                qWarning() << "!! Could not evaluate math expression for asset: " << m_assetId << " = " << content;
+                return 0;
+            }
         }
     } else if (type == ParamType::Double || type == ParamType::Hidden) {
         if (attribute == QLatin1String("default")) {

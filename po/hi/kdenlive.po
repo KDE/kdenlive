@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-11 00:44+0000\n"
+"POT-Creation-Date: 2026-06-19 00:43+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -2690,7 +2690,7 @@ msgstr "फ़ील्ड दिखाएँ"
 #: src/assets/view/widgets/keyframecontainer.cpp:339
 #: src/assets/view/widgets/keyframecontainer.cpp:386
 #: src/assets/view/widgets/keyframecontainer.cpp:711
-#: src/widgets/geometrywidget.cpp:175
+#: src/widgets/geometrywidget.cpp:180
 #, kde-format
 msgid "Opacity"
 msgstr "अस्पष्टता"
@@ -4847,7 +4847,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
-#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:165
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
 msgstr "पैमाना"
@@ -7280,7 +7280,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:378
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Zoom"
 msgstr "ज़ूम"
@@ -7860,7 +7860,7 @@ msgstr "शीर्ष,मध्य,नीचे"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1049 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "मूलपाठ"
@@ -14018,7 +14018,7 @@ msgstr ""
 "above GPS track.<br> 100 से कम मान छवि को ज़ूम इन करते हैं, 100 से अधिक मान छवि को "
 "ज़ूम आउट करते हैं। 0 इसे छुपाता है।]]&gt;"
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:382
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Background opacity"
 msgstr "पृष्ठभूमि अस्पष्टता"
@@ -17847,7 +17847,7 @@ msgid "Crop to fill"
 msgstr "भरने के लिए फसल"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:213
+#: src/widgets/geometrywidget.cpp:218
 #, kde-format
 msgid "Align"
 msgstr "संरेखित"
@@ -19165,7 +19165,7 @@ msgid "Delete keyframes"
 msgstr "मुख्य फ़्रेम हटाएं"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1782
+#: src/assets/model/assetparametermodel.cpp:1787
 #, kde-format
 msgid "Update effect"
 msgstr "अद्यतन प्रभाव"
@@ -19240,13 +19240,13 @@ msgstr "%1कीफ़्रेम संपादित करें"
 msgid "Update %1"
 msgstr "अपडेट करें %1"
 
-#: src/assets/model/assetparametermodel.cpp:1619
-#: src/assets/model/assetparametermodel.cpp:1666
+#: src/assets/model/assetparametermodel.cpp:1624
+#: src/assets/model/assetparametermodel.cpp:1671
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "प्रीसेट फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/assets/model/assetparametermodel.cpp:1756
+#: src/assets/model/assetparametermodel.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -19285,7 +19285,7 @@ msgstr "वर्तमान में चयनित प्रीसेट �
 msgid "Save effect"
 msgstr "प्रभाव सहेजें"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:129
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -19293,7 +19293,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "प्रीसेट नाम दर्ज करें"
 
-#: src/assets/view/assetparameterview.cpp:378
+#: src/assets/view/assetparameterview.cpp:379
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1624
 #, kde-format
@@ -19356,7 +19356,7 @@ msgstr ""
 "वर्तमान पैरामीटर मान कॉपी करें।"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:174
-#: src/assets/view/widgets/keyframecontainer.cpp:1128
+#: src/assets/view/widgets/keyframecontainer.cpp:1129
 #, kde-format
 msgid "Paste keyframe"
 msgstr "मुख्य फ़्रेम चिपकाएँ"
@@ -19446,41 +19446,41 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "कॉपी करने के लिए पैरामीटर चुनें"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1025
+#: src/assets/view/widgets/keyframecontainer.cpp:1026
 #, kde-format
 msgid "Keyframes copied"
 msgstr "मुख्य फ़्रेम कॉपी किए गए"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1036
-#: src/assets/view/widgets/keyframecontainer.cpp:1077
-#: src/assets/view/widgets/keyframecontainer.cpp:1084
+#: src/assets/view/widgets/keyframecontainer.cpp:1037
+#: src/assets/view/widgets/keyframecontainer.cpp:1078
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "क्लिपबोर्ड में कोई वैध कीफ़्रेम डेटा नहीं है"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1136
+#: src/assets/view/widgets/keyframecontainer.cpp:1137
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "वर्तमान पैरामीटर मानों की प्रतिलिपि नहीं बनाई जा सकती"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1141
-#: src/assets/view/widgets/keyframecontainer.cpp:1152
+#: src/assets/view/widgets/keyframecontainer.cpp:1142
+#: src/assets/view/widgets/keyframecontainer.cpp:1153
 #, kde-format
 msgid "Current values copied"
 msgstr "वर्तमान मान कॉपी किए गए"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1164
+#: src/assets/view/widgets/keyframecontainer.cpp:1165
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "क्लिपबोर्ड में कोई वैध कीफ़्रेम डेटा नहीं है"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1245
+#: src/assets/view/widgets/keyframecontainer.cpp:1246
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "अंतिम मुख्यफ़्रेम हटाया नहीं जा सकता"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1257
+#: src/assets/view/widgets/keyframecontainer.cpp:1258
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -20730,7 +20730,7 @@ msgstr ""
 "आप एक बाहरी शीर्षक क्लिप (%1) संपादित कर रहे हैं। क्या आप अपने परिवर्तनों को शीर्षक "
 "फ़ाइल में सहेजना चाहते हैं या केवल इस प्रोजेक्ट के लिए परिवर्तनों को सहेजना चाहते हैं?"
 
-#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2333
+#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Save Title"
 msgstr "शीर्षक सहेजें"
@@ -21269,7 +21269,7 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "फ़ाइल %1 पहले से मौजूद है. क्या आप इसे अधिलेखित करना चाहते हैं?"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:411
+#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "लेख जोड़ें"
@@ -21558,12 +21558,18 @@ msgstr "टैग जोड़ें"
 msgid "New tag"
 msgstr "नया टैग"
 
-#: src/capture/mediacapture.cpp:118
+#: src/capture/mediacapture.cpp:116
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:243
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#, fuzzy, kde-format
+#| msgid "No audio track found"
+msgid "No audio device found"
+msgstr "कोई ऑडियो ट्रैक नहीं मिला"
+
+#: src/capture/mediacapture.cpp:247
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21572,7 +21578,7 @@ msgstr ""
 "ऑडियो मॉनिटरिंग। रिकॉर्डिंग शुरू/रोकने के लिए <b>स्पेस</b> दबाएँ, समाप्त करने के लिए "
 "<b>Esc</b> दबाएँ।"
 
-#: src/capture/mediacapture.cpp:411 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
@@ -22353,7 +22359,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/renderpresets/renderpresetrepository.cpp:477
 #: src/timeline2/view/timelinecontroller.cpp:5726
 #: src/timeline2/view/timelinecontroller.cpp:5731
-#: src/titler/titlewidget.cpp:2346
+#: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "फ़ाइल %1 पर नहीं लिखा जा सकता"
@@ -28268,7 +28274,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "टाइमलाइन में उपशीर्षक ट्रैक को टॉगल करता है."
 
-#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:402
+#: src/mainwindow.cpp:1351 src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Selection Tool"
 msgstr "चयन उपकरण"
@@ -29431,7 +29437,7 @@ msgstr "बहलाना"
 
 #: src/mainwindow.cpp:2468 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2329
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -35658,22 +35664,22 @@ msgid "No available stream"
 msgstr "कोई स्ट्रीम उपलब्ध नहीं है"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3421 src/titler/titlewidget.cpp:3424
+#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
 #, kde-format
 msgid "Gradient %1"
 msgstr "ग्रेडिएंट %1"
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "यह शीर्षक क्लिप एक अलग फ्रेम आकार के साथ बनाया गया था।"
 
-#: src/titler/titledocument.cpp:386
+#: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "Title Profile"
 msgstr "शीर्षक प्रोफ़ाइल"
 
-#: src/titler/titledocument.cpp:459
+#: src/titler/titledocument.cpp:513
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -35684,45 +35690,45 @@ msgstr ""
 "पर अलग-अलग आकार। उन्हें पिक्सेल आकार में परिवर्तित किया जाएगा, जिससे वे पोर्टेबल हो "
 "जाएंगे, लेकिन आपको उनका आकार समायोजित करना पड़ सकता है।"
 
-#: src/titler/titledocument.cpp:462
+#: src/titler/titledocument.cpp:516
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "टेक्स्ट क्लिप अपडेट किए गए"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:139
 #, kde-format
 msgid "Outline width"
 msgstr "रूपरेखा की चौड़ाई"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:146
 #, kde-format
 msgid "Background color opacity"
 msgstr "पृष्ठभूमि रंग अस्पष्टता"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:152
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "एक्स अक्ष के चारों ओर घूर्णन"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:158
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Y अक्ष के चारों ओर घूर्णन"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:164
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Z अक्ष के चारों ओर घूर्णन"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "सीमा की चौड़ाई"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:178 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:165 src/widgets/geometrywidget.cpp:175
+#: src/titler/titlewidget.cpp:180 src/ui/titlewidget_ui.ui:90
+#: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -35731,159 +35737,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:189 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:191 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr "पिक्सल"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:292
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "रोशनी"
 
-#: src/titler/titlewidget.cpp:291
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "सामान्य"
 
-#: src/titler/titlewidget.cpp:292
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "डेमी-बोल्ड"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "बोल्ड"
 
-#: src/titler/titlewidget.cpp:294
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "काला"
 
-#: src/titler/titlewidget.cpp:295
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgid "Font weight"
 msgstr "फ़ॉन्ट वजन"
 
-#: src/titler/titlewidget.cpp:309
+#: src/titler/titlewidget.cpp:311
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "यूनिकोड वर्ण डालें"
 
-#: src/titler/titlewidget.cpp:315
+#: src/titler/titlewidget.cpp:317
 #, kde-format
 msgid "Raise object"
 msgstr "वस्तु उठाएँ"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:323
 #, kde-format
 msgid "Lower object"
 msgstr "निचली वस्तु"
 
-#: src/titler/titlewidget.cpp:329
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Raise object to top"
 msgstr "ऑब्जेक्ट को ऊपर उठाएँ"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:338
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "ऑब्जेक्ट को नीचे ले जाएं"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Select All"
 msgstr "सबका चयन करें"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "केवल टेक्स्ट आइटम चयनित रखें"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "केवल रेक्ट आइटम चयनित रखें"
 
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "केवल छवि आइटम चयनित रखें"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Deselect"
 msgstr "अचयनित"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "x अक्ष को उलटें और 0 बिंदु बदलें"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Y अक्ष को उलटें और 0 बिंदु बदलें"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select fill color"
 msgstr "भरण रंग चुनें"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select border color"
 msgstr "बॉर्डर का रंग चुनें"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "मूल आकार (1:1)"
 
-#: src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Fit zoom"
 msgstr "फिट ज़ूम"
 
-#: src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Select background color"
 msgstr "पृष्ठभूमि रंग चुनें"
 
-#: src/titler/titlewidget.cpp:383
+#: src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Select all"
 msgstr "सबका चयन करें"
 
-#: src/titler/titlewidget.cpp:384
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "वर्तमान चयन में पाठ आइटम चुनें"
 
-#: src/titler/titlewidget.cpp:385
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "वर्तमान चयन में आयत आइटम चुनें"
 
-#: src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "वर्तमान चयन में छवि आइटम चुनें"
 
-#: src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Unselect all"
 msgstr "सभी को अचयनित करें"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:409
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -35892,51 +35898,51 @@ msgid ""
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Add Rectangle"
 msgstr "आयत जोड़ें"
 
-#: src/titler/titlewidget.cpp:421
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Add Ellipse"
 msgstr "दीर्घवृत्त जोड़ें"
 
-#: src/titler/titlewidget.cpp:426
+#: src/titler/titlewidget.cpp:428
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Image…"
 msgstr "छवि जोड़ें"
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:435
 #, fuzzy, kde-format
 #| msgid "Open Backup File…"
 msgid "Open Title…"
 msgstr "बैकअप फ़ाइल खोलें…"
 
-#: src/titler/titlewidget.cpp:438
+#: src/titler/titlewidget.cpp:440
 #, fuzzy, kde-format
 #| msgid "Save Title"
 msgid "Save Title As…"
 msgstr "शीर्षक सहेजें"
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:445
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Title Templates…"
 msgstr "नए शीर्षक टेम्पलेट्स डाउनलोड करें..."
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:560
 #, kde-format
 msgid "Save and add to project"
 msgstr "सहेजें और प्रोजेक्ट में जोड़ें"
 
-#: src/titler/titlewidget.cpp:557
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Create Title"
 msgstr "शीर्षक बनाएं"
 
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -35944,54 +35950,54 @@ msgid ""
 msgstr ""
 "क्या आप वाकई नया टेम्पलेट लोड करना चाहते हैं? इस शीर्षक में किए गए परिवर्तन खो जाएंगे!"
 
-#: src/titler/titlewidget.cpp:927
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "All Images"
 msgstr "सभी छवियाँ"
 
-#: src/titler/titlewidget.cpp:929
+#: src/titler/titlewidget.cpp:933
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 छवि"
 
-#: src/titler/titlewidget.cpp:939
+#: src/titler/titlewidget.cpp:943
 #, kde-format
 msgid "Add Image"
 msgstr "छवि जोड़ें"
 
-#: src/titler/titlewidget.cpp:1782
+#: src/titler/titlewidget.cpp:1786
 #, kde-format
 msgid "−X"
 msgstr "-X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1784 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+एक्स"
 
-#: src/titler/titlewidget.cpp:1806
+#: src/titler/titlewidget.cpp:1810
 #, kde-format
 msgid "−Y"
 msgstr "−और"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1808 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+य"
 
-#: src/titler/titlewidget.cpp:2280
+#: src/titler/titlewidget.cpp:2284
 #, kde-format
 msgid "Load Title"
 msgstr "शीर्षक लोड करें"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2285
 #, kde-format
 msgid "Kdenlive title"
 msgstr "केडेनलाइव शीर्षक"
 
-#: src/titler/titlewidget.cpp:2327
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -36000,57 +36006,57 @@ msgstr ""
 "क्या आप इस शीर्षक दस्तावेज़ में छवियाँ एम्बेड करना चाहते हैं?\n"
 "शीर्षक साझा करने के लिए इसकी सबसे अधिक आवश्यकता होती है।"
 
-#: src/titler/titlewidget.cpp:2328
+#: src/titler/titlewidget.cpp:2332
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "छवियाँ एम्बेड करें"
 
-#: src/titler/titlewidget.cpp:2391
+#: src/titler/titlewidget.cpp:2396
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "इस शीर्षक में %1 तत्व लुप्त है"
 msgstr[1] "इस शीर्षक में %1 तत्व लुप्त है"
 
-#: src/titler/titlewidget.cpp:2392 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2397 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "विवरण"
 
-#: src/titler/titlewidget.cpp:2395
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Delete missing elements"
 msgstr "गायब तत्वों को हटाएं"
 
-#: src/titler/titlewidget.cpp:2455
+#: src/titler/titlewidget.cpp:2460
 #, kde-format
 msgid "Update Title"
 msgstr "शीर्षक अपडेट करें"
 
-#: src/titler/titlewidget.cpp:2458
+#: src/titler/titlewidget.cpp:2463
 #, kde-format
 msgid "Add as new Title"
 msgstr "नए शीर्षक के रूप में जोड़ें"
 
-#: src/titler/titlewidget.cpp:2512
+#: src/titler/titlewidget.cpp:2517
 #, kde-format
 msgid "The following files are missing:"
 msgstr "निम्नलिखित फ़ाइलें गायब हैं:"
 
-#: src/titler/titlewidget.cpp:2709
+#: src/titler/titlewidget.cpp:2714
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "व्यूपोर्ट प्रारंभ करें"
 
-#: src/titler/titlewidget.cpp:2710
+#: src/titler/titlewidget.cpp:2715
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "व्यूपोर्ट समाप्त करें"
 
-#: src/titler/titlewidget.cpp:3454
+#: src/titler/titlewidget.cpp:3459
 #, kde-format
 msgid "Gradient"
 msgstr "ढाल"
@@ -36360,12 +36366,12 @@ msgstr "आपकी कुछ पसंदीदा रचनाएँ अम�
 msgid "Luma file :"
 msgstr "लूमा फ़ाइल"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:126
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:131
 #, kde-format
 msgid "Align left"
 msgstr "बाईं ओर संरेखित करें"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:130
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:135
 #, kde-format
 msgid "Align right"
 msgstr "दाएँ संरेखित करें"
@@ -41032,12 +41038,12 @@ msgstr ""
 msgid "Transparency:"
 msgstr "पारदर्शिता:"
 
-#: src/widgets/colorpickerwidget.cpp:106
+#: src/widgets/colorpickerwidget.cpp:107
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "स्क्रीन पर कोई रंग चुनें."
 
-#: src/widgets/colorpickerwidget.cpp:109
+#: src/widgets/colorpickerwidget.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -41101,71 +41107,71 @@ msgstr "%1 को टाइमलाइन में दिखाएँ"
 msgid "Shift + Drag to adjust value one by one."
 msgstr "एक-एक करके मान समायोजित करने के लिए Shift + Drag का प्रयोग करें।"
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:61
 #, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "स्थिति X"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:67
 #, kde-format
 msgctxt "y axis position"
 msgid "Y"
 msgstr "और"
 
-#: src/widgets/geometrywidget.cpp:81
+#: src/widgets/geometrywidget.cpp:85
 #, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "आकार डब्ल्यू"
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "पहलू अनुपात लॉक करें"
 
-#: src/widgets/geometrywidget.cpp:98
+#: src/widgets/geometrywidget.cpp:103
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "एच"
 
-#: src/widgets/geometrywidget.cpp:116
+#: src/widgets/geometrywidget.cpp:121
 #, kde-format
 msgid "Adjust to original size"
 msgstr "मूल आकार में समायोजित करें"
 
-#: src/widgets/geometrywidget.cpp:119
+#: src/widgets/geometrywidget.cpp:124
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "फ़्रेम में समायोजित करें और केन्द्रित करें"
 
-#: src/widgets/geometrywidget.cpp:121
+#: src/widgets/geometrywidget.cpp:126
 #, kde-format
 msgid "Fit to width"
 msgstr "चौड़ाई में फिट"
 
-#: src/widgets/geometrywidget.cpp:123
+#: src/widgets/geometrywidget.cpp:128
 #, kde-format
 msgid "Fit to height"
 msgstr "ऊंचाई के अनुसार फिट"
 
-#: src/widgets/geometrywidget.cpp:128
+#: src/widgets/geometrywidget.cpp:133
 #, kde-format
 msgid "Center horizontally"
 msgstr "क्षैतिज रूप से केन्द्रित करें"
 
-#: src/widgets/geometrywidget.cpp:132
+#: src/widgets/geometrywidget.cpp:137
 #, kde-format
 msgid "Align top"
 msgstr "शीर्ष संरेखित करें"
 
-#: src/widgets/geometrywidget.cpp:134
+#: src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Center vertically"
 msgstr "लंबवत केन्द्रित करें"
 
-#: src/widgets/geometrywidget.cpp:136
+#: src/widgets/geometrywidget.cpp:141
 #, kde-format
 msgid "Align bottom"
 msgstr "नीचे संरेखित करें"

@@ -96,8 +96,8 @@ private:
     std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
     std::unique_ptr<QMediaRecorder> m_mediaRecorder;
     std::unique_ptr<QAudioSource> m_audioSource{nullptr};
-    std::unique_ptr<QAudioInput> m_audioInput;
-    QScopedPointer<AudioDevInfo> m_audioInfo;
+    std::unique_ptr<QAudioInput> m_audioInput{nullptr};
+    QScopedPointer<AudioDevInfo> m_audioInfo{nullptr};
     QUuid m_recordingSequence;
     std::unique_ptr<QMediaRecorder> m_videoRecorder;
     std::unique_ptr<QCamera> m_camera;

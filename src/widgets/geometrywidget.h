@@ -31,7 +31,8 @@ public:
      * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
      */
     explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, bool allowNullRect, double opacity, const QSize frameSize,
-                            bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout);
+                            bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout, std::pair<int, int> xRange = {-99000, 99000},
+                            std::pair<int, int> yRange = {-99000, 99000});
     void setValue(const QRect r, double opacity = 1, int frame = -1);
     bool connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);

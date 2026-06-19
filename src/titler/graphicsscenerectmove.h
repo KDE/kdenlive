@@ -189,4 +189,6 @@ Q_SIGNALS:
     void scalePixmap(QGraphicsItem *item, double scalex, double scaley, resizeModes resize, bool center = false);
     void actionFinished();
     void doubleClickEvent();
+    void copy();
+    void paste();
 };

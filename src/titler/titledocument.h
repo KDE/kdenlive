@@ -5,7 +5,6 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-
 /*
  *                                                                         *
  *   Modifications by Rafał Lalik to implement Patterns mechanism          *
@@ -44,7 +43,7 @@ public:
     /** \brief Get the background color (incl. alpha) from the document, if possibly
      * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
     QColor getBackgroundColor() const;
-    static QColor getBackgroundColor(const QList<QGraphicsItem *> & items);
+    static QColor getBackgroundColor(const QList<QGraphicsItem *> &items);
     int frameWidth() const;
     int frameHeight() const;
     /** \brief Extract embedded images in project titles folder. */
@@ -58,13 +57,16 @@ public:
     /**
      * @brief General static function to store items in xml format.
      */
-    static QDomDocument xml(const QList<QGraphicsItem *> & items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed_images = false, const QString & projectPath = QString());
+    static QDomDocument xml(const QList<QGraphicsItem *> &items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv,
+                            bool embedImages = false, const QString &projectPath = QString());
+    static QDomDocument xmlItem(QGraphicsItem *item, int width, int height, bool embedImages = false, const QString &projectPath = QString());
 
     /**
      * @brief General static function to load items into list from a xml file.
      */
     static int loadFromXml(const QString &path, const QDomDocument &doc, QList<QGraphicsItem *> &gitems, int &width, int &height, GraphicsSceneRectMove *scene,
                            QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int &missingElements);
+    static QGraphicsItem *loadItemFromXml(const QDomNode &itemNode, const QString &path, int width, int height, int &missingElements, int &maxZValue);
 
 private:
     QGraphicsScene *m_scene;
@@ -78,6 +80,6 @@ private:
     static QColor stringToColor(const QString &);
     static QTransform stringToTransform(const QString &);
     static QList<QVariant> stringToList(const QString &);
-    static int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString & pojectPath);
+    static int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath);
     static QPixmap createInvalidPixmap(const QString &url, int height);
 };

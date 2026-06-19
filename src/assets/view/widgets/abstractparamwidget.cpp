@@ -104,8 +104,8 @@ std::pair<AbstractParamWidget *, KeyframeContainer *> AbstractParamWidget::const
     case ParamType::FakePoint:
         widget = new PointParamWidget(model, index, parent);
         break;
-    case ParamType::Geometry:
     case ParamType::FakeRect:
+    case ParamType::Geometry:
         widget = new GeometryEditWidget(model, index, frameSize, parent, layout);
         break;
     case ParamType::Position:
