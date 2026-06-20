@@ -34,7 +34,6 @@ Rectangle {
     required property K.MonitorProxy proxy
     required property K.SubtitleModel subtitleModel
 
-    property bool showClipOverlays: K.KdenliveSettings.showClipOverlays
     property bool validMenu: false
     property bool subtitleMoving: false
     property var subtitleItem
@@ -523,16 +522,14 @@ function getTrackColor(audio, header) {
         }
     }
 
-    property int activeTool: K.Core.activeTool
-    property int minClipWidthForViews: 1.5 * K.UiUtils.baseSizeMedium
-    property real fontUnit: fontMetrics.font.pointSize
-    property int collapsedHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
-    property int minHeaderWidth: 6 * collapsedHeight
+    readonly property int activeTool: K.Core.activeTool
+    readonly property int minClipWidthForViews: 1.5 * K.UiUtils.baseSizeMedium
+    readonly property int collapsedHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
+    readonly property int minHeaderWidth: 6 * collapsedHeight
+    readonly property bool autoTrackHeight: root.timeline.autotrackHeight
+    readonly property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
+    readonly property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.5)
     property int headerWidth: Math.max(minHeaderWidth, root.timeline.headerWidth())
-    property bool autoTrackHeight: root.timeline.autotrackHeight
-    property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
-    property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.5)
-    property bool autoScrolling: root.timeline.autoScroll
     property bool blockAutoScroll: false
     property int duration: root.timeline.duration
     property color audioColor: root.timeline.audioColor
@@ -577,7 +574,7 @@ function getTrackColor(audio, header) {
     property bool subtitlesWarning: root.timeline.subtitlesWarning
     property bool subtitlesLocked: root.timeline.subtitlesLocked
     property bool subtitlesDisabled: root.timeline.subtitlesDisabled
-    property int maxSubLayer: root.timeline.maxSubLayer
+    readonly property int maxSubLayer: root.timeline.maxSubLayer
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property int spacerMinPos: 0
     property int spacerMaxPos: -1
@@ -644,7 +641,7 @@ function getTrackColor(audio, header) {
         if (!root.blockAutoScroll && root.consumerPosition > -1) {
             if (K.KdenliveSettings.centeredplayhead) {
                 scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
-            } else if (root.autoScrolling) {
+            } else if (root.timeline.autoScroll) {
                 Logic.scrollIfNeeded()
             }
         }
@@ -1288,9 +1285,11 @@ function getTrackColor(audio, header) {
                             collapsed: height <= root.collapsedHeight
                             timeline: root.timeline
                             controller: root.controller
-                            Component.onCompleted: {
-                                root.collapsedHeight = root.collapsedHeight
-                            }
+                            collapsedHeight: root.collapsedHeight
+
+                            border.color: root.frameColor
+                            color: root.getTrackColor(isAudio, true)
+
                             onHeightChanged: {
                                 collapsed = height <= root.collapsedHeight
                             }
@@ -2492,7 +2491,10 @@ function getTrackColor(audio, header) {
             timeline: root.timeline
             controller: root.controller
             snapping: root.snapping
+            isPanning: root.isPanning
             z: tracksRepeater.count - index
+
+            onBlockAutoScroll: (enabled) => { root.blockAutoScroll = enabled }
         }
     }
 
@@ -2530,6 +2532,10 @@ function getTrackColor(audio, header) {
             subLayer: model.layer
             timeline: root.timeline
             controller: root.controller
+            isPanning: root.isPanning
+            timeScale: root.timeScale
+
+            onIsUserInteractingChanged: { root.blockAutoScroll = isUserInteracting }
         }
     }
 

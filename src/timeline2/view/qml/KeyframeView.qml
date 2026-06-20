@@ -105,7 +105,9 @@ Rectangle
         Repeater {
             id: keyframes
             model: keyframeContainer.kfrModel
-            KeyframeDelegate { }
+            KeyframeDelegate {
+                timeScale: root.timeScale
+            }
         }
     }
     Canvas {

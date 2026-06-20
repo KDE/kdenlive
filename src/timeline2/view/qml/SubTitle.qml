@@ -18,6 +18,10 @@ Item {
 
     required property K.TimelineController timeline
     required property K.TimelineItemModel controller
+    required property bool isPanning
+    required property double timeScale
+
+    readonly property bool isUserInteracting: subtitleClipArea.pressed || startMouseArea.pressed || endMouseArea.pressed
 
     property int oldStartX
     property int startFrame
@@ -25,12 +29,11 @@ Item {
     property int endFrame
     property int subId
     property int duration : endFrame - startFrame
-    property double tScale: root.timeScale
     property string subtitle
     property bool selected
     property bool isGrabbed: false
     property int subLayer
-    height: subtitleTrack.height / (root.maxSubLayer + 1)
+    height: subtitleTrack.height / (timeline.maxSubLayer + 1)
     property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
     y: height * subLayer
 
@@ -51,21 +54,21 @@ Item {
         if (subtitleRoot.fakeStartFrame == -1) {
             // Restore binding
             subtitleBase.x = Qt.binding(function () {
-                return subtitleRoot.startFrame * root.timeScale
+                return subtitleRoot.startFrame * subtitleRoot.timeScale
             })
         } else {
-            subtitleBase.x = subtitleRoot.fakeStartFrame * root.timeScale
+            subtitleBase.x = subtitleRoot.fakeStartFrame * subtitleRoot.timeScale
         }
     }
 
     onStartFrameChanged: {
         if (!subtitleClipArea.pressed) {
-            subtitleClipArea.x = startFrame * root.timeScale
+            subtitleClipArea.x = startFrame * subtitleRoot.timeScale
         }
     }
 
-    onTScaleChanged: {
-        subtitleClipArea.x = startFrame * root.timeScale;
+    onTimeScaleChanged: {
+        subtitleClipArea.x = startFrame * subtitleRoot.timeScale;
     }
 
     onIsGrabbedChanged: {
@@ -95,11 +98,11 @@ Item {
     MouseArea {
             // Clip shifting
             id: subtitleClipArea
-            x: subtitleRoot.startFrame * root.timeScale
+            x: subtitleRoot.startFrame * subtitleRoot.timeScale
             height: parent.height
             width: subtitleBase.width
-            hoverEnabled: !root.isPanning
-            enabled: !root.isPanning
+            hoverEnabled: !subtitleRoot.isPanning
+            enabled: !subtitleRoot.isPanning
             property int newStart: -1
             property int diff: -1
             property int oldLayer
@@ -118,12 +121,12 @@ Item {
             drag.smoothed: false
             drag.minimumX: 0
             onEntered: {
-                if (root.isPanning) return
+                if (subtitleRoot.isPanning) return
                 console.log('ENTERED SUBTITLE MOUSE AREA')
                 subtitleRoot.timeline.showKeyBinding(KI18n.i18n("<b>Double click</b> to edit text"))
             }
             onExited: {
-                if (root.isPanning) return
+                if (subtitleRoot.isPanning) return
                 subtitleRoot.timeline.showKeyBinding()
             }
             onPressed: mouse => {
@@ -132,7 +135,6 @@ Item {
                     return
                 }
                 console.log('ENTERED ITEM CLICKED:', subtitleRoot.subtitle, ' ID: ', subtitleRoot.subId, 'START FRAME: ', subtitleRoot.startFrame)
-                root.blockAutoScroll = true
                 oldStartX = scrollView.contentX + mapToItem(scrollView, mouseX, 0).x
                 oldStartFrame = subtitleRoot.startFrame
                 oldLayer = subtitleRoot.subLayer
@@ -160,9 +162,9 @@ Item {
             function checkOffset(offset) {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
                     incrementalOffset += offset
-                    newStart = Math.max(0, oldStartFrame + (scrollView.contentX + mapToItem(scrollView,mouseX, 0).x + incrementalOffset - subtitleRoot.oldStartX)/ root.timeScale)
+                    newStart = Math.max(0, oldStartFrame + (scrollView.contentX + mapToItem(scrollView,mouseX, 0).x + incrementalOffset - subtitleRoot.oldStartX)/ subtitleRoot.timeScale)
                     snappedFrame = subtitleRoot.controller.suggestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, newStart, root.consumerPosition, root.snapping)
-                    root.continuousScrolling(scrollView.contentX + mapToItem(scrollView, mouseX, 0).x + incrementalOffset, root.timeScale)
+                    root.continuousScrolling(scrollView.contentX + mapToItem(scrollView, mouseX, 0).x + incrementalOffset, subtitleRoot.timeScale)
                 }
             }
             onPositionChanged: (mouse) => {
@@ -171,19 +173,13 @@ Item {
 
                 var layerOffset = mouse.y / subtitleRoot.height
                 if (layerOffset >= 1 || layerOffset <= 0) {
-                    var newLayer = subtitleRoot.subLayer + layerOffset
-                    if(newLayer > root.maxSubLayer){
-                        newLayer = root.maxSubLayer
-                    }
-                    if(newLayer < 0){
-                        newLayer = 0
-                    }
+                    var newLayer = Math.min(subtitleRoot.subLayer + layerOffset, subtitleRoot.timeline.maxSubLayer)
+                    newLayer = Math.max(0, newLayer)
                     snappedLayer = Math.floor(newLayer)
                     subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, false)
                 }
             }
             onReleased: mouse => {
-                root.blockAutoScroll = false
                 root.subtitleMoving = false
                 root.subtitleItem = undefined
                 if (subtitleBase.textEditBegin) {
@@ -201,7 +197,7 @@ Item {
                     console.log("old start frame", oldStartFrame/subtitleRoot.timeline.scaleFactor, "new frame after shifting ", oldStartFrame/subtitleRoot.timeline.scaleFactor + delta)
                     subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, oldLayer, oldStartFrame, false, false)
                     subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, true, true)
-                    x = snappedFrame * root.timeScale
+                    x = snappedFrame * subtitleRoot.timeScale
                 }
                 console.log('RELEASED DONE\n\n_______________')
             }
@@ -244,8 +240,8 @@ Item {
         id: subtitleBase
         property bool textEditBegin: false
         height: subtitleRoot.height
-        width: subtitleRoot.duration * root.timeScale // to make width change wrt timeline scale factor
-        x: subtitleRoot.startFrame * root.timeScale;
+        width: subtitleRoot.duration * subtitleRoot.timeScale // to make width change wrt timeline scale factor
+        x: subtitleRoot.startFrame * subtitleRoot.timeScale;
         clip: true
         TextField {
             id: subtitleEdit
@@ -298,8 +294,8 @@ Item {
             // Left resize handle to change start timing
             id: startMouseArea
             anchors.fill: parent
-            hoverEnabled: !root.isPanning
-            enabled: !root.isPanning
+            hoverEnabled: !subtitleRoot.isPanning
+            enabled: !subtitleRoot.isPanning
             visible: K.Core.activeTool === K.ToolType.SelectTool
             property int newStart: subtitleRoot.startFrame
             property int newDuration: subtitleRoot.duration
@@ -317,7 +313,6 @@ Item {
                     mouse.accepted = false
                     return
                 }
-                root.blockAutoScroll = true
                 oldMouseX = mouseX
                 leftstart.anchors.left = undefined
                 oldStartFrame = subtitleRoot.startFrame // the original start frame of subtitle
@@ -330,7 +325,7 @@ Item {
             }
             onPositionChanged: {
                 if (pressed) {
-                    newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / root.timeScale)
+                    newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / subtitleRoot.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
                         var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, root.snapping, shiftTrim);
                         if (frame > 0) {
@@ -342,7 +337,6 @@ Item {
             onReleased: {
                 //console.log('its RELEASED')
                 trimIn.opacity = 0
-                root.blockAutoScroll = false
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
                     if (shiftTrim || (root.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
@@ -399,8 +393,8 @@ Item {
             // Right resize handle to change end timing
             id: endMouseArea
             anchors.fill: parent
-            hoverEnabled: !root.isPanning
-            enabled: !root.isPanning
+            hoverEnabled: !subtitleRoot.isPanning
+            enabled: !subtitleRoot.isPanning
             visible: K.Core.activeTool === K.ToolType.SelectTool
             property bool sizeChanged: false
             property int oldMouseX
@@ -418,7 +412,6 @@ Item {
                     mouse.accepted = false
                     return
                 }
-                root.blockAutoScroll = true
                 newDuration = subtitleRoot.duration
                 originalDuration = subtitleRoot.duration
                 //rightend.anchors.right = undefined
@@ -444,7 +437,6 @@ Item {
             }
             onReleased: {
                 trimOut.opacity = 0
-                root.blockAutoScroll = false
                 rightend.anchors.right = subtitleBase.right
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {

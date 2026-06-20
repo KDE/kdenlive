@@ -15,6 +15,9 @@ Rectangle {
     visible: K.Core.activeTool === K.ToolType.SelectTool
     required property var model
     required property int index
+
+    required property double timeScale
+
     property int frame : model.frame
     property int frameType : model.type
     property string realValue: model.value
@@ -68,19 +71,19 @@ Rectangle {
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 if (keyframe.frame == keyframeContainer.inPoint) {
-                    parent.x = keyframeContainer.inPoint * timeScale
+                    parent.x = keyframeContainer.inPoint * keyframe.timeScale
                     return
                 }
-                var newPos = Math.min(Math.round(parent.x / timeScale), Math.round(keyframeContainer.width / timeScale) - 1)
+                var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - 1)
                 if (newPos < 1) {
                     newPos = 1
                 }
-                if (newPos != dragPos && (newPos == 0 || !timeline.hasKeyframeAt(clipId, frame + newPos))) {
-                    dragPos = newPos
-                    parent.x = newPos * timeScale
+                if (newPos != keyframe.dragPos && (newPos == 0 || !timeline.hasKeyframeAt(clipId, keyframe.frame + newPos))) {
+                    keyframe.dragPos = newPos
+                    parent.x = newPos * keyframe.timeScale
                     keyframecanvas.requestPaint()
                 } else {
-                    parent.x = keyframe.dragPos * timeScale
+                    parent.x = keyframe.dragPos * keyframe.timeScale
                 }
             }
         }
