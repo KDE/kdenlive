@@ -102,12 +102,18 @@ Rectangle
             event.accepted = false
         }
     }
-    Item {
+    MouseArea {
         // Keyframes container
         anchors.fill: parent
         z: 5
         visible: keyframeContainer.selected && keyframeContainer.width > K.UiUtils.baseSizeMedium * 3
                  && (keyframeContainer.kfrCount < (keyframeContainer.width / K.UiUtils.baseSizeMedium)) && keyframeContainer.kfrCount > 1
+        onDoubleClicked: {
+            var newVal = (height - mouseY) / height
+            var newPos = Math.round(mouseX / keyframeContainer.timescale) + keyframeContainer.inPoint
+            //root.timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
+            keyframeContainer.kfrModel.addKeyframe(newPos, newVal);
+        }
         Repeater {
             id: keyframes
             model: keyframeContainer.kfrModel

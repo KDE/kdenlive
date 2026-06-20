@@ -136,6 +136,7 @@ private:
     /** @brief Ensure selected keyframes contain all child parameters */
     const QMap<QModelIndex, QVariant> sanitizeKeyframesIndexes(const QVariantMap kfData);
     bool m_hasGrabbedKeyframes{false};
+    bool isRecap(std::shared_ptr<TreeItem> item) const;
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);

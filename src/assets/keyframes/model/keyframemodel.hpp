@@ -72,7 +72,6 @@ protected:
        @param type is the type of the keyframe.
      */
     bool addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value);
-    bool addKeyframe(int frame, double normalizedValue);
     /** @brief Same function but accumulates undo/redo
        @param notify: if true, send a signal to model
      */
@@ -197,6 +196,7 @@ public:
 
 public Q_SLOTS:
     Q_INVOKABLE bool addKeyframe(int framePos);
+    Q_INVOKABLE bool addKeyframe(int frame, double normalizedValue);
     bool addKeyframe(int framePos, Fun &undo, Fun &redo);
     Q_INVOKABLE void seekToKeyframe(int index);
 

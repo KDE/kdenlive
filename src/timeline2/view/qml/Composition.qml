@@ -266,14 +266,7 @@ Item {
             }
             onDoubleClicked: mouse => {
                 if (mouse.modifiers & Qt.ShiftModifier) {
-                    if (compositionRoot.keyframeModel && compositionRoot.showKeyframes) {
-                        // Add new keyframe
-                        var xPos = Math.round(mouse.x  / compositionRoot.timeline.scaleFactor)
-                        var yPos = (compositionRoot.height - mouse.y) / compositionRoot.height
-                        compositionRoot.keyframeModel.addKeyframe(xPos + compositionRoot.inPoint, yPos)
-                    } else {
-                        proxy.position = compositionRoot.x / compositionRoot.timeline.scaleFactor
-                    }
+                    proxy.position = compositionRoot.x / compositionRoot.timeline.scaleFactor
                 } else {
                     compositionRoot.timeline.editItemDuration()
                 }

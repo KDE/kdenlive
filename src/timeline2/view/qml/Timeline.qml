@@ -2230,22 +2230,16 @@ function getTrackColor(audio, header) {
                                         }
                                     }
                                     onDoubleClicked: {
-                                        if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes && !doubleClickTimer.running) {
-                                            var newVal = (dragProxy.height - mouseY) / dragProxy.height
-                                            var newPos = Math.round(mouseX / root.timeScale) + dragProxy.masterObject.inPoint
-                                            root.timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
+                                        root.clipBeingMovedId = -1
+                                        root.timeline.ungrabHack()
+                                        if(dragProxy.masterObject.itemType === K.ClipType.Timeline) {
+                                            root.timeline.focusTimelineSequence(dragProxy.draggedItem)
+                                        } else if(dragProxy.masterObject.itemType === K.ClipType.Text || dragProxy.masterObject.itemType === K.ClipType.TextTemplate) {
+                                            root.timeline.editTitleClip(dragProxy.draggedItem)
+                                        } else if (dragProxy.masterObject.itemType === K.ClipType.Animation) {
+                                            root.timeline.editAnimationClip(dragProxy.draggedItem)
                                         } else {
-                                            root.clipBeingMovedId = -1
-                                            root.timeline.ungrabHack()
-                                            if(dragProxy.masterObject.itemType === K.ClipType.Timeline) {
-                                                root.timeline.focusTimelineSequence(dragProxy.draggedItem)
-                                            } else if(dragProxy.masterObject.itemType === K.ClipType.Text || dragProxy.masterObject.itemType === K.ClipType.TextTemplate) {
-                                                root.timeline.editTitleClip(dragProxy.draggedItem)
-                                            } else if (dragProxy.masterObject.itemType === K.ClipType.Animation) {
-                                                root.timeline.editAnimationClip(dragProxy.draggedItem)
-                                            } else {
-                                                root.timeline.editItemDuration()
-                                            }
+                                            root.timeline.editItemDuration()
                                         }
                                     }
                                     onClicked: {

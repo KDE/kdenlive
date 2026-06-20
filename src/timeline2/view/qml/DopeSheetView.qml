@@ -811,7 +811,7 @@ Rectangle {
             ToolButton {
                 id: indicator
                 icon.name: "arrow-right"
-                visible: depth == 0
+                visible: contentRect.hasChildren
                 onClicked: {
                     treeView.toggleExpanded(row)
                 }
@@ -952,7 +952,7 @@ Rectangle {
                             } else {
                                 selectedKeyframes = [currentIndex]
                             }
-                            if (depth == 0) {
+                            if (contentRect.hasChildren) {
                                 // Top level item, build index of related kf to select
                                 dopesheetmodel.buildMasterSelection(parameterIndex, clickIndex)
                                 var result = dopesheetmodel.selectKeyframeAtPos(parameterIndex, clickFrame)
@@ -1068,7 +1068,7 @@ Rectangle {
                         if (kfMoveArea.currentFrame > -1) {
                             console.log('Removing keyframe')
                             // Double click on a keyframe, remove it
-                            if (depth == 0) {
+                            if (contentRect.hasChildren) {
                                 dopesheetmodel.removeKeyframe(parameterIndex, kfMoveArea.currentFrame)
                             } else {
                                 dopeModel.removeKeyframe(kfMoveArea.currentFrame)
@@ -1079,7 +1079,7 @@ Rectangle {
                             dopeRoot.keyframeType = -1
                             return
                         }
-                        if (depth == 0) {
+                        if (contentRect.hasChildren) {
                             dopesheetmodel.addKeyframe(parameterIndex, dopeRoot.mouseFramePos)
                         } else {
                             console.log('Adding keyframe at: ', dopeRoot.mouseFramePos)
