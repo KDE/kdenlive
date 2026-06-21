@@ -397,6 +397,22 @@ Rectangle {
         }
         onWheel: wheel => zoomByWheel(wheel)
 
+        Component {
+            id: videoThumb
+            ClipThumbs {
+                initialSpeed: clipRoot.speed
+            }
+        }
+
+        Component {
+            id: audioThumb
+            ClipAudioThumbs {
+                timeScale: clipRoot.timeScale
+                parentClip: clipRoot
+                audioColor: clipRoot.timeline.audioColor
+            }
+        }
+
         Loader {
             // Thumbs container
             id: thumbsLoader
@@ -410,23 +426,15 @@ Rectangle {
             asynchronous: true
             visible: status == Loader.Ready
             active: clipRoot.visible
-            source: {
-                if (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === K.ClipType.Color) {
-                    return ""
-                }
-                if (clipRoot.parentTrack.isAudio) {
-                    return K.KdenliveSettings.audiothumbnails ? "ClipAudioThumbs.qml" : ""
-                }
-                if (K.KdenliveSettings.videothumbnails) {
-                    return "ClipThumbs.qml"
-                }
-                return ""
-            }
-            onStatusChanged: {
-                if (!clipRoot.parentTrack.isAudio && thumbsLoader.item) {
-                    thumbsLoader.item.initialSpeed = clipRoot.speed
-                }
-            }
+                    && !(clipRoot.hideClipViews
+                         || clipRoot.itemType == K.ClipType.Unknown
+                         || clipRoot.itemType === K.ClipType.Color
+                         // not if it is a audio clip, but audio thumbs are disabled
+                         || clipRoot.parentTrack.isAudio && !K.KdenliveSettings.audiothumbnails
+                         // not if it is a video clip, but video thumbs are disabled
+                         || !clipRoot.parentTrack.isAudio && !K.KdenliveSettings.videothumbnails
+                         )
+            sourceComponent:  clipRoot.parentTrack.isAudio ? audioThumb : videoThumb
         }
 
         Rectangle {
@@ -500,7 +508,7 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: clipRoot.mixDuration * root.timeScale
+                width: clipRoot.mixDuration * clipRoot.timeScale
                 onWidthChanged: {
                     if (clipRoot.visible) {
                         updateLabelOffset()
@@ -1293,7 +1301,7 @@ Rectangle {
                     Text {
                         // Clip name text
                         id: label
-                        property string clipNameString: (clipRoot.isAudio && clipRoot.multiStream) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipName ) : clipName
+                        property string clipNameString: (clipRoot.isAudio && clipRoot.multiStream) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipRoot.clipName ) : clipRoot.clipName
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: K.UiUtils.smallestReadableFont
                         topPadding: -2

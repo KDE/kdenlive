@@ -13,12 +13,16 @@ import org.kde.kdenlive as K
 
 Row {
     id: waveform
-    opacity: clipState === K.PlaylistState.Disabled ? 0.2 : 1
-    property int maxWidth: 2048
+    required property var parentClip
+    required property color audioColor
+    required property real timeScale
+
+    readonly property int maxWidth: 2048
     property int totalChunks: 0
     property bool usesOffset: false
     property int offset: -1
-    property real timeScale: root.timeScale
+
+    opacity: parentClip.clipState === K.PlaylistState.Disabled ? 0.2 : 1
     anchors.fill: parent
 
     Timer {
@@ -56,7 +60,7 @@ Row {
         if (chunks > 10) {
             // Having too many chunks causes major slowdowns. In this case, we use an offset and only allow up to 10 chunks
             waveform.usesOffset = true
-            updatedOffset = Math.max(0, Math.floor(clipRoot.scrollStart / waveform.maxWidth - 2))
+            updatedOffset = Math.max(0, Math.floor(waveform.parentClip.scrollStart / waveform.maxWidth - 2))
             if (updatedOffset < waveform.offset || updatedOffset > (waveform.offset + 5) || total != waveform.totalChunks) {
                 // Enforce repaint
                 //waveformRepeater.model = 0
@@ -87,21 +91,21 @@ Row {
             required property int index
             width: waveform.maxWidth < waveform.width ? (index + waveform.offset == waveform.totalChunks - 1 ? waveform.width % waveform.maxWidth : waveform.maxWidth) : Math.round(waveform.width)
             height: waveform.height
-            channels: clipRoot.audioChannels
-            binId: clipRoot.binId
-            audioStream: clipRoot.audioStream
+            channels: waveform.parentClip.audioChannels
+            binId: waveform.parentClip.binId
+            audioStream: waveform.parentClip.audioStream
             isOpaque: true
             scaleFactor: waveform.timeScale
             format: K.KdenliveSettings.displayallchannels
             normalize: K.KdenliveSettings.normalizechannels
-            speed: clipRoot.speed
-            property int aWaveInPoint: Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / scaleFactor)) * Math.abs(clipRoot.speed))
+            speed: waveform.parentClip.speed
+            property int aWaveInPoint: Math.round((waveform.parentClip.inPoint + ((index + waveform.offset) * waveform.maxWidth / scaleFactor)) * Math.abs(waveform.parentClip.speed))
             waveInPoint: aWaveInPoint
-            waveOutPoint: aWaveInPoint + Math.round(width / scaleFactor * Math.abs(clipRoot.speed))
-            bgColorEven: clipRoot.selected ? root.audioColor : root.audioColor.darker(1.5) //K.KdenliveSettings.thumbColor1.darker(5)
-            bgColorOdd: clipRoot.selected ? root.audioColor : root.audioColor.darker(1.5)//K.KdenliveSettings.thumbColor2.darker(5)
-            fgColorEven: clipRoot.selected ? K.KdenliveSettings.thumbColor1 :  K.KdenliveSettings.thumbColor1.darker(1.5)
-            fgColorOdd: clipRoot.selected ? K.KdenliveSettings.thumbColor2 : K.KdenliveSettings.thumbColor2.darker(1.5)
+            waveOutPoint: aWaveInPoint + Math.round(width / scaleFactor * Math.abs(waveform.parentClip.speed))
+            bgColorEven: waveform.parentClip.selected ? waveform.audioColor : waveform.audioColor.darker(1.5) //K.KdenliveSettings.thumbColor1.darker(5)
+            bgColorOdd: waveform.parentClip.selected ? waveform.audioColor : waveform.audioColor.darker(1.5)//K.KdenliveSettings.thumbColor2.darker(5)
+            fgColorEven: waveform.parentClip.selected ? K.KdenliveSettings.thumbColor1 :  K.KdenliveSettings.thumbColor1.darker(1.5)
+            fgColorOdd: waveform.parentClip.selected ? K.KdenliveSettings.thumbColor2 : K.KdenliveSettings.thumbColor2.darker(1.5)
             drawChannelNames: false //(index + waveform.offset) == 0
         }
     }

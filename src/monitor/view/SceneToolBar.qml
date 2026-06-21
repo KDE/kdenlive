@@ -95,7 +95,7 @@ MouseArea {
             K.MonitorZoomButton {
                 id: zoomButton
                 monitorController: barZone.monitorController
-                isClipMonitor: root.isClipMonitor
+                isClipMonitor: barZone.isClipMonitor
             }
             K.MonitorToolButton {
                 objectName: "addMarker"

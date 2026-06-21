@@ -366,8 +366,7 @@ if (BUILD_QCH)
     )
 endif()
 
-# TODO: enable once a few more warning are fixed
-# add_dependencies(kdenlive all_qmllint)
+add_dependencies(kdenlive all_qmllint)
 
 ecm_finalize_qml_module(kdenliveLib
     DESTINATION ${KDE_INSTALL_QMLDIR})
