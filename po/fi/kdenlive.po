@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-19 00:43+0000\n"
+"POT-Creation-Date: 2026-06-21 00:43+0000\n"
 "PO-Revision-Date: 2026-02-09 16:55+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4008,7 +4008,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/timer.xml:97
-#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:65
+#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:68
 #: src/ui/clipspeed_ui.ui:36 src/ui/editsub_ui.ui:557
 #, kde-format
 msgid "Speed"
@@ -7372,8 +7372,8 @@ msgstr "Y"
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:339
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
-#: src/timeline2/view/qml/Track.qml:67 src/timeline2/view/qml/Track.qml:93
-#: src/timeline2/view/qml/Track.qml:101 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:70 src/timeline2/view/qml/Track.qml:96
+#: src/timeline2/view/qml/Track.qml:104 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
@@ -7970,7 +7970,8 @@ msgstr "Häivytä mustasta videoon"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:101 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:101
+#: src/timeline2/view/qml/Track.qml:102
 #, kde-format
 msgid "In"
 msgstr "Sisään"
@@ -11900,8 +11901,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetProxyParams)
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:657
-#: src/dialogs/Splash.qml:1044 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:659
+#: src/dialogs/Splash.qml:1046 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -17499,12 +17500,12 @@ msgstr "Heilahteluväli loppu"
 msgid "Wave Amplitude"
 msgstr "Heilahteluväli aalto"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:869
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:871
 #, kde-format
 msgid "Horizontal"
 msgstr "Vaaka"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:916
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:918
 #, kde-format
 msgid "Vertical"
 msgstr "Pysty"
@@ -19963,7 +19964,7 @@ msgstr "Äänitehostetta ei voitu lisätä tähän leikkeeseen"
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1440
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1430
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -21384,12 +21385,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Toista media"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:412
 #, kde-format
 msgid "Unmute"
 msgstr "Poista vaimennus"
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:412
 #, kde-format
 msgid "Mute"
 msgstr "Vaimenna"
@@ -23789,7 +23790,7 @@ msgstr "KDE:n tekemä"
 
 # pmap: =:gen=Kdenliven:
 # pmap: =:elat=Kdenlivestä:
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:625 src/main.cpp:277
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:277
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -23809,14 +23810,14 @@ msgstr "Palauta asetukset"
 msgid "Start Normally"
 msgstr "Aloita normaalisti"
 
-#: src/dialogs/Simplesplash.qml:278 src/dialogs/Splash.qml:684
+#: src/dialogs/Simplesplash.qml:278 src/dialogs/Splash.qml:686
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:294 src/dialogs/Splash.qml:701
+#: src/dialogs/Simplesplash.qml:294 src/dialogs/Splash.qml:703
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -24591,68 +24592,68 @@ msgstr "Uusi profiilista"
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:576
+#: src/dialogs/Splash.qml:578
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Poista profiili luettelosta"
 
-#: src/dialogs/Splash.qml:615
+#: src/dialogs/Splash.qml:617
 #, kde-format
 msgid "Show on Startup"
 msgstr "Näytä käynnistettäessä"
 
-#: src/dialogs/Splash.qml:648 src/dialogs/Splash.qml:1037
+#: src/dialogs/Splash.qml:650 src/dialogs/Splash.qml:1039
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "Viime käynnistyskerralla Kdenlive kaatui. Palautetaanko asetukset ja "
 "käynnistetään uudelleen?"
 
-#: src/dialogs/Splash.qml:729
+#: src/dialogs/Splash.qml:731
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:734
+#: src/dialogs/Splash.qml:736
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:740
+#: src/dialogs/Splash.qml:742
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:793
+#: src/dialogs/Splash.qml:795
 #, fuzzy, kde-format
 #| msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgid "<h3>Welcome to Kdenlive Quick Setup</h3>"
 msgstr "<b>Tervetuloa Kdenliven pika-asetukseen</b>"
 
-#: src/dialogs/Splash.qml:799
+#: src/dialogs/Splash.qml:801
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:811
+#: src/dialogs/Splash.qml:813
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>Projektin oletusprofiili</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:928 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:930 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Tarkkuus"
 
-#: src/dialogs/Splash.qml:955
+#: src/dialogs/Splash.qml:957
 #, kde-format
 msgid "Frame Rate"
 msgstr "Kuvanopeus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:981
+#: src/dialogs/Splash.qml:983
 #: src/mltcontroller/clippropertiescontroller.cpp:689
 #: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:132 src/ui/editrenderpreset_ui.ui:215
@@ -24661,27 +24662,27 @@ msgstr "Kuvanopeus"
 msgid "Interlaced"
 msgstr "Lomitettu"
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:999
 #, kde-format
 msgid "Video Tracks"
 msgstr "Videoraitoja"
 
-#: src/dialogs/Splash.qml:1006
+#: src/dialogs/Splash.qml:1008
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Ääniraitoja"
 
-#: src/dialogs/Splash.qml:1018
+#: src/dialogs/Splash.qml:1020
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1058
+#: src/dialogs/Splash.qml:1060
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Katso verkon ohjeet"
 
-#: src/dialogs/Splash.qml:1067
+#: src/dialogs/Splash.qml:1069
 #, kde-format
 msgid "Start Editing"
 msgstr "Aloita muokkaus"
@@ -27031,7 +27032,7 @@ msgid "Clip in Timeline"
 msgstr "Leike aikajanalla"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1199
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1196
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -34779,7 +34780,7 @@ msgstr "Muuta leikkeen nopeutta"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
-#: src/timeline2/view/qml/TrackHead.qml:428
+#: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "Lukitse raita"
@@ -34787,7 +34788,7 @@ msgstr "Lukitse raita"
 # Avaa lukitus parempi kuin avaa raidan lukitus
 #: src/timeline2/model/timelinemodel.cpp:7763
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
-#: src/timeline2/view/qml/TrackHead.qml:428
+#: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "Avaa lukitus"
@@ -34981,49 +34982,49 @@ msgid "Stop"
 msgstr "Pysäytä"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2318
+#: src/timeline2/view/qml/Timeline.qml:2317
 #, kde-format
 msgid "Paused"
 msgstr "Tauko"
 
-#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1221
+#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1211
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Sijainti: %4, Kesto: %5"
 
 #: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
-#: src/timeline2/view/qml/SubTitle.qml:223
-#: src/timeline2/view/qml/SubTitle.qml:229
+#: src/timeline2/view/qml/SubTitle.qml:219
+#: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "Sijainti: %1"
 
-#: src/timeline2/view/qml/Clip.qml:563
+#: src/timeline2/view/qml/Clip.qml:565
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Sekoituksen kesto: %1, leikkaa: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621
+#: src/timeline2/view/qml/Clip.qml:619
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Sekoituksen kesto: %2"
 
-#: src/timeline2/view/qml/Clip.qml:623
+#: src/timeline2/view/qml/Clip.qml:621
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Sekoituksen kesto: %2"
 
-#: src/timeline2/view/qml/Clip.qml:626 src/timeline2/view/qml/Clip.qml:641
+#: src/timeline2/view/qml/Clip.qml:624 src/timeline2/view/qml/Clip.qml:639
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Sekoituksen kesto: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1099
+#: src/timeline2/view/qml/Clip.qml:1093
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Sisään:%1, Sijainti:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1102 src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:1096 src/timeline2/view/qml/Clip.qml:1201
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -35032,72 +35033,72 @@ msgstr ""
 "<b>Ctrl-vedä</b> voit muuttaa nopeutta, <b>Napsauta kahdesti</b> jos haluat "
 "yhdistää viereiseen leikkeeseen"
 
-#: src/timeline2/view/qml/Clip.qml:1104
+#: src/timeline2/view/qml/Clip.qml:1098
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "Muuta sekoituksen kestoa <b>vetämällä</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1208
+#: src/timeline2/view/qml/Clip.qml:1198
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Ulos:%1, Sijainti:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1347
+#: src/timeline2/view/qml/Clip.qml:1337
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Siirtymä: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1348
+#: src/timeline2/view/qml/Clip.qml:1338
 #, kde-format
 msgid "Offset: %1"
 msgstr "Siirtymä: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1349
+#: src/timeline2/view/qml/Clip.qml:1339
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "Tasaa leikkeet <b>painamalla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1594 src/timeline2/view/qml/Clip.qml:1635
+#: src/timeline2/view/qml/Clip.qml:1584 src/timeline2/view/qml/Clip.qml:1625
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Lisää koostaminen <b>napsauttamalla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1723
+#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Häivytä ulos: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1727 src/timeline2/view/qml/Clip.qml:1838
+#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1824
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Säädä häivytystä <b>vetämällä</b>, <b>napsauttamalla</b> lisää häivytystä "
 "oletuksen verran"
 
-#: src/timeline2/view/qml/Clip.qml:1827 src/timeline2/view/qml/Clip.qml:1834
+#: src/timeline2/view/qml/Clip.qml:1813 src/timeline2/view/qml/Clip.qml:1820
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Häivytä sisään: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1922
+#: src/timeline2/view/qml/Clip.qml:1908
 #, kde-format
 msgid "Slip Clip"
 msgstr "Liukuleike"
 
-#: src/timeline2/view/qml/Composition.qml:258
+#: src/timeline2/view/qml/Composition.qml:257
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Sijainti: %2, Kesto: %3"
 
-#: src/timeline2/view/qml/Composition.qml:329
-#: src/timeline2/view/qml/Composition.qml:397
-#: src/timeline2/view/qml/SubTitle.qml:361
-#: src/timeline2/view/qml/SubTitle.qml:468
+#: src/timeline2/view/qml/Composition.qml:324
+#: src/timeline2/view/qml/Composition.qml:388
+#: src/timeline2/view/qml/SubTitle.qml:355
+#: src/timeline2/view/qml/SubTitle.qml:460
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "Muuta kokoa <b>vetämällä</b>"
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:88
+#: src/timeline2/view/qml/KeyframeDelegate.qml:91
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -35106,7 +35107,7 @@ msgstr ""
 "Siirrä valittuja leikekehysten sijaintia <b>vetämällä</b>. <b>Shift-"
 "vetäminen</b> siirtää kaikki leikekehykset tämän jälkeen."
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:202
+#: src/timeline2/view/qml/KeyframeDelegate.qml:205
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -35115,7 +35116,7 @@ msgstr ""
 "<b>Shift-vetämällä</b> voit muuttaa valittujen leikekehysten arvoa, <b>Ctrl-"
 "napsautus</b> useiden leikekehysten valinnassa."
 
-#: src/timeline2/view/qml/SubTitle.qml:123
+#: src/timeline2/view/qml/SubTitle.qml:126
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "Muokkaa tekstiä <b>napsauttamalla kahdesti</b>"
@@ -35131,20 +35132,20 @@ msgid "Speech recognition"
 msgstr "Puheentunnistus"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:127
-#: src/timeline2/view/qml/TrackHead.qml:414
+#: src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Show"
 msgstr "Näytä"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:127
-#: src/timeline2/view/qml/TrackHead.qml:414 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/TrackHead.qml:413 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/timeline2/view/qml/Timeline.qml:906
-#: src/timeline2/view/qml/Timeline.qml:916
+#: src/timeline2/view/qml/Timeline.qml:903
+#: src/timeline2/view/qml/Timeline.qml:913
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -35152,44 +35153,44 @@ msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Ääniraitoja ei ole tarpeeksi kaikille kanaville (%1)"
 msgstr[1] "Ääniraitoja ei ole tarpeeksi kaikille kanaville (%1)"
 
-#: src/timeline2/view/qml/Timeline.qml:1193
+#: src/timeline2/view/qml/Timeline.qml:1190
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "Näytä alkuperäiset tehosteet"
 
-#: src/timeline2/view/qml/Timeline.qml:1943
+#: src/timeline2/view/qml/Timeline.qml:1942
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Lisää tekstitys <b>napsauttamalla kahdesti</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2137
+#: src/timeline2/view/qml/Timeline.qml:2136
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Siirtymä:%1, Paikka: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2307
-#: src/timeline2/view/qml/Timeline.qml:2316
+#: src/timeline2/view/qml/Timeline.qml:2306
+#: src/timeline2/view/qml/Timeline.qml:2315
 #, kde-format
 msgid "Recording"
 msgstr "Nauhoitus"
 
-#: src/timeline2/view/qml/Timeline.qml:2410
+#: src/timeline2/view/qml/Timeline.qml:2409
 #, kde-format
 msgid "Multicam In"
 msgstr "Useampi kamera sisään"
 
-#: src/timeline2/view/qml/Track.qml:278 src/timeline2/view/qml/Track.qml:296
+#: src/timeline2/view/qml/Track.qml:285 src/timeline2/view/qml/Track.qml:303
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Kesto = %3"
 
-#: src/timeline2/view/qml/Track.qml:334
+#: src/timeline2/view/qml/Track.qml:344
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1 % | Säädetään nopeutta"
 
-#: src/timeline2/view/qml/TrackHead.qml:175
+#: src/timeline2/view/qml/TrackHead.qml:174
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -35198,7 +35199,7 @@ msgstr ""
 "Vaihda raita kohteeksi napsauttamalla. Kohderaidat vastaanottavat lisätyt "
 "leikkeet"
 
-#: src/timeline2/view/qml/TrackHead.qml:252
+#: src/timeline2/view/qml/TrackHead.qml:251
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -35206,17 +35207,17 @@ msgstr ""
 "<b>Shift</b> tiivistä/laajenna kaikki samaa tyyppiä olevat raidat (ääni/"
 "video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:264
+#: src/timeline2/view/qml/TrackHead.qml:263
 #, kde-format
 msgid "Minimize"
 msgstr "Minimoi"
 
-#: src/timeline2/view/qml/TrackHead.qml:264
+#: src/timeline2/view/qml/TrackHead.qml:263
 #, kde-format
 msgid "Expand"
 msgstr "Laajenna"
 
-#: src/timeline2/view/qml/TrackHead.qml:294
+#: src/timeline2/view/qml/TrackHead.qml:293
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -35225,28 +35226,28 @@ msgstr ""
 "Napsauta raita aktiiviseksi/passiiviseksi. Aktiiviset raidat reagoivat "
 "muokkaamiseen"
 
-#: src/timeline2/view/qml/TrackHead.qml:381
+#: src/timeline2/view/qml/TrackHead.qml:380
 #, kde-format
 msgid "Disable track effects"
 msgstr "Poista raidan tehosteet käytöstä"
 
-#: src/timeline2/view/qml/TrackHead.qml:381
+#: src/timeline2/view/qml/TrackHead.qml:380
 #, kde-format
 msgid "Enable track effects"
 msgstr "Raidan tehosteet käyttöön"
 
-#: src/timeline2/view/qml/TrackHead.qml:382
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Vaihda raidan tehosteita"
 
-#: src/timeline2/view/qml/TrackHead.qml:404
+#: src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Vaihto</b> näyttää tai piilottaa kaikki samantyyppiset raidat (ääni/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:503
+#: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Edit track name"
 msgstr "Muokkaa raidan nimeä"

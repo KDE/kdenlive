@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-19 00:43+0000\n"
+"POT-Creation-Date: 2026-06-21 00:43+0000\n"
 "PO-Revision-Date: 2024-03-27 23:13+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -3706,7 +3706,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/timer.xml:97
-#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:65
+#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:68
 #: src/ui/clipspeed_ui.ui:36 src/ui/editsub_ui.ui:557
 #, kde-format
 msgid "Speed"
@@ -6778,8 +6778,8 @@ msgstr ""
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:339
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
-#: src/timeline2/view/qml/Track.qml:67 src/timeline2/view/qml/Track.qml:93
-#: src/timeline2/view/qml/Track.qml:101 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:70 src/timeline2/view/qml/Track.qml:96
+#: src/timeline2/view/qml/Track.qml:104 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
@@ -7342,7 +7342,8 @@ msgstr ""
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:101 src/timeline2/view/qml/Track.qml:99
+#: src/monitor/view/MonitorTrimming.qml:101
+#: src/timeline2/view/qml/Track.qml:102
 #, kde-format
 msgid "In"
 msgstr ""
@@ -10892,8 +10893,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetProxyParams)
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:657
-#: src/dialogs/Splash.qml:1044 src/layouts/layoutmanagerdialog.cpp:99
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:659
+#: src/dialogs/Splash.qml:1046 src/layouts/layoutmanagerdialog.cpp:99
 #: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -15919,12 +15920,12 @@ msgstr ""
 msgid "Wave Amplitude"
 msgstr ""
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:869
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:871
 #, kde-format
 msgid "Horizontal"
 msgstr ""
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:916
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:918
 #, kde-format
 msgid "Vertical"
 msgstr ""
@@ -18227,7 +18228,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1440
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1430
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -19580,12 +19581,12 @@ msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr ""
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:412
 #, kde-format
 msgid "Unmute"
 msgstr ""
 
-#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:413
+#: src/bin/previewpanel.cpp:68 src/timeline2/view/qml/TrackHead.qml:412
 #, kde-format
 msgid "Mute"
 msgstr ""
@@ -21856,7 +21857,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:625 src/main.cpp:277
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:277
 #, kde-format
 msgid "Kdenlive"
 msgstr ""
@@ -21876,14 +21877,14 @@ msgstr ""
 msgid "Start Normally"
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:278 src/dialogs/Splash.qml:684
+#: src/dialogs/Simplesplash.qml:278 src/dialogs/Splash.qml:686
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:294 src/dialogs/Splash.qml:701
+#: src/dialogs/Simplesplash.qml:294 src/dialogs/Splash.qml:703
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -22655,65 +22656,65 @@ msgstr ""
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:576
+#: src/dialogs/Splash.qml:578
 #, kde-format
 msgid "Remove profile from list"
 msgstr ""
 
-#: src/dialogs/Splash.qml:615
+#: src/dialogs/Splash.qml:617
 #, kde-format
 msgid "Show on Startup"
 msgstr ""
 
-#: src/dialogs/Splash.qml:648 src/dialogs/Splash.qml:1037
+#: src/dialogs/Splash.qml:650 src/dialogs/Splash.qml:1039
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 
-#: src/dialogs/Splash.qml:729
+#: src/dialogs/Splash.qml:731
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:734
+#: src/dialogs/Splash.qml:736
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:740
+#: src/dialogs/Splash.qml:742
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:793
+#: src/dialogs/Splash.qml:795
 #, kde-format
 msgid "<h3>Welcome to Kdenlive Quick Setup</h3>"
 msgstr ""
 
-#: src/dialogs/Splash.qml:799
+#: src/dialogs/Splash.qml:801
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:811
+#: src/dialogs/Splash.qml:813
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:928 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:930 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr ""
 
-#: src/dialogs/Splash.qml:955
+#: src/dialogs/Splash.qml:957
 #, kde-format
 msgid "Frame Rate"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:981
+#: src/dialogs/Splash.qml:983
 #: src/mltcontroller/clippropertiescontroller.cpp:689
 #: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/project/dialogs/profilewidget.cpp:132 src/ui/editrenderpreset_ui.ui:215
@@ -22722,27 +22723,27 @@ msgstr ""
 msgid "Interlaced"
 msgstr ""
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:999
 #, kde-format
 msgid "Video Tracks"
 msgstr ""
 
-#: src/dialogs/Splash.qml:1006
+#: src/dialogs/Splash.qml:1008
 #, kde-format
 msgid "Audio Tracks"
 msgstr ""
 
-#: src/dialogs/Splash.qml:1018
+#: src/dialogs/Splash.qml:1020
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:1058
+#: src/dialogs/Splash.qml:1060
 #, kde-format
 msgid "Check Online Documentation"
 msgstr ""
 
-#: src/dialogs/Splash.qml:1067
+#: src/dialogs/Splash.qml:1069
 #, kde-format
 msgid "Start Editing"
 msgstr ""
@@ -24963,7 +24964,7 @@ msgid "Clip in Timeline"
 msgstr ""
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1199
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1196
 #, kde-format
 msgid "Sequence"
 msgstr ""
@@ -32232,14 +32233,14 @@ msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:7758
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
-#: src/timeline2/view/qml/TrackHead.qml:428
+#: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:7763
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
-#: src/timeline2/view/qml/TrackHead.qml:428
+#: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr ""
@@ -32424,133 +32425,133 @@ msgid "Stop"
 msgstr ""
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2318
+#: src/timeline2/view/qml/Timeline.qml:2317
 #, kde-format
 msgid "Paused"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:238 src/timeline2/view/qml/Clip.qml:1221
+#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1211
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
 #: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
-#: src/timeline2/view/qml/SubTitle.qml:223
-#: src/timeline2/view/qml/SubTitle.qml:229
+#: src/timeline2/view/qml/SubTitle.qml:219
+#: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:563
+#: src/timeline2/view/qml/Clip.qml:565
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:621
+#: src/timeline2/view/qml/Clip.qml:619
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:623
+#: src/timeline2/view/qml/Clip.qml:621
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:626 src/timeline2/view/qml/Clip.qml:641
+#: src/timeline2/view/qml/Clip.qml:624 src/timeline2/view/qml/Clip.qml:639
 #, kde-format
 msgid "Mix duration: %1"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1099
+#: src/timeline2/view/qml/Clip.qml:1093
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1102 src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:1096 src/timeline2/view/qml/Clip.qml:1201
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1104
+#: src/timeline2/view/qml/Clip.qml:1098
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1208
+#: src/timeline2/view/qml/Clip.qml:1198
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1347
+#: src/timeline2/view/qml/Clip.qml:1337
 #, kde-format
 msgid "Offset: -%1"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1348
+#: src/timeline2/view/qml/Clip.qml:1338
 #, kde-format
 msgid "Offset: %1"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1349
+#: src/timeline2/view/qml/Clip.qml:1339
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1594 src/timeline2/view/qml/Clip.qml:1635
+#: src/timeline2/view/qml/Clip.qml:1584 src/timeline2/view/qml/Clip.qml:1625
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1723
+#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
 #, kde-format
 msgid "Fade out: %1"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1727 src/timeline2/view/qml/Clip.qml:1838
+#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1824
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1827 src/timeline2/view/qml/Clip.qml:1834
+#: src/timeline2/view/qml/Clip.qml:1813 src/timeline2/view/qml/Clip.qml:1820
 #, kde-format
 msgid "Fade in: %1"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1922
+#: src/timeline2/view/qml/Clip.qml:1908
 #, kde-format
 msgid "Slip Clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Composition.qml:258
+#: src/timeline2/view/qml/Composition.qml:257
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr ""
 
-#: src/timeline2/view/qml/Composition.qml:329
-#: src/timeline2/view/qml/Composition.qml:397
-#: src/timeline2/view/qml/SubTitle.qml:361
-#: src/timeline2/view/qml/SubTitle.qml:468
+#: src/timeline2/view/qml/Composition.qml:324
+#: src/timeline2/view/qml/Composition.qml:388
+#: src/timeline2/view/qml/SubTitle.qml:355
+#: src/timeline2/view/qml/SubTitle.qml:460
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:88
+#: src/timeline2/view/qml/KeyframeDelegate.qml:91
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:202
+#: src/timeline2/view/qml/KeyframeDelegate.qml:205
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
 "for multiple keyframe selection."
 msgstr ""
 
-#: src/timeline2/view/qml/SubTitle.qml:123
+#: src/timeline2/view/qml/SubTitle.qml:126
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr ""
@@ -32566,113 +32567,113 @@ msgid "Speech recognition"
 msgstr ""
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:127
-#: src/timeline2/view/qml/TrackHead.qml:414
+#: src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Show"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:127
-#: src/timeline2/view/qml/TrackHead.qml:414 src/ui/configcapture_ui.ui:203
+#: src/timeline2/view/qml/TrackHead.qml:413 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:906
-#: src/timeline2/view/qml/Timeline.qml:916
+#: src/timeline2/view/qml/Timeline.qml:903
+#: src/timeline2/view/qml/Timeline.qml:913
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/timeline2/view/qml/Timeline.qml:1193
+#: src/timeline2/view/qml/Timeline.qml:1190
 #, kde-format
 msgid "Show sequence effects"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:1943
+#: src/timeline2/view/qml/Timeline.qml:1942
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:2137
+#: src/timeline2/view/qml/Timeline.qml:2136
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:2307
-#: src/timeline2/view/qml/Timeline.qml:2316
+#: src/timeline2/view/qml/Timeline.qml:2306
+#: src/timeline2/view/qml/Timeline.qml:2315
 #, kde-format
 msgid "Recording"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:2410
+#: src/timeline2/view/qml/Timeline.qml:2409
 #, kde-format
 msgid "Multicam In"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:278 src/timeline2/view/qml/Track.qml:296
+#: src/timeline2/view/qml/Track.qml:285 src/timeline2/view/qml/Track.qml:303
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:334
+#: src/timeline2/view/qml/Track.qml:344
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:175
+#: src/timeline2/view/qml/TrackHead.qml:174
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:252
+#: src/timeline2/view/qml/TrackHead.qml:251
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:264
+#: src/timeline2/view/qml/TrackHead.qml:263
 #, kde-format
 msgid "Minimize"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:264
+#: src/timeline2/view/qml/TrackHead.qml:263
 #, kde-format
 msgid "Expand"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:294
+#: src/timeline2/view/qml/TrackHead.qml:293
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:381
+#: src/timeline2/view/qml/TrackHead.qml:380
 #, kde-format
 msgid "Disable track effects"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:381
+#: src/timeline2/view/qml/TrackHead.qml:380
 #, kde-format
 msgid "Enable track effects"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:382
+#: src/timeline2/view/qml/TrackHead.qml:381
 #, kde-format
 msgid "Toggle track effects"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:404
+#: src/timeline2/view/qml/TrackHead.qml:403
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:503
+#: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Edit track name"
 msgstr ""
