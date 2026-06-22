@@ -16,11 +16,12 @@ Row {
     anchors.fill: parent
     visible: !isAudio
     clip: true
+    property Clip parentClip: clipRoot
     property real initialSpeed: 1
     opacity: clipState === K.PlaylistState.Disabled ? 0.2 : 1
-    property bool fixedThumbs: clipRoot.itemType === K.ClipType.Image || clipRoot.itemType === K.ClipType.Text || clipRoot.itemType === K.ClipType.TextTemplate
+    property bool fixedThumbs: parentClip.itemType === K.ClipType.Image || parentClip.itemType === K.ClipType.Text || parentClip.itemType === K.ClipType.TextTemplate
     property int thumbWidth: container.height * K.Core.getCurrentDar()
-    property bool enableCache: clipRoot.itemType === K.ClipType.Video || clipRoot.itemType === K.ClipType.AV
+    property bool enableCache: parentClip.itemType === K.ClipType.Video || parentClip.itemType === K.ClipType.AV
 
     Repeater {
         id: thumbRepeater
@@ -49,17 +50,17 @@ Row {
                        // No thumbs
                        0 // 0: will disable thumbnails
                }
-        property int startFrame: clipRoot.inPoint
-        property int endFrame: clipRoot.outPoint
+        property int startFrame: thumbRow.parentClip.inPoint
+        property int endFrame: thumbRow.parentClip.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, parent.width / thumbRepeater.count)
         property int thumbStartFrame: thumbRow.fixedThumbs ? 0 :
-                                                    (clipRoot.speed >= 0)
-                                                    ? Math.round(clipRoot.inPoint * thumbRow.initialSpeed)
-                                                    : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -thumbRow.initialSpeed - 1)
+                                                    (thumbRow.parentClip.speed >= 0)
+                                                    ? Math.round(thumbRow.parentClip.inPoint * thumbRow.initialSpeed)
+                                                    : Math.round((thumbRow.parentClip.maxDuration - thumbRow.parentClip.inPoint) * -thumbRow.initialSpeed - 1)
         property int thumbEndFrame: thumbRow.fixedThumbs ? 0 :
-                                                  (clipRoot.speed >= 0)
-                                                  ? Math.round(clipRoot.outPoint * thumbRow.initialSpeed)
-                                                  : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -thumbRow.initialSpeed - 1)
+                                                  (thumbRow.parentClip.speed >= 0)
+                                                  ? Math.round(thumbRow.parentClip.outPoint * thumbRow.initialSpeed)
+                                                  : Math.round((thumbRow.parentClip.maxDuration - thumbRow.parentClip.outPoint) * -thumbRow.initialSpeed - 1)
 
         Image {
             id: thumbImage
@@ -80,8 +81,9 @@ Row {
                                  ? (index === 0 ? Image.AlignLeft : Image.AlignRight)
                                  : Image.AlignLeft
             source: thumbRepeater.count < 3
-                    ? (clipRoot.baseThumbPath + currentThumbFrame)
-                    : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentThumbFrame
+                    ? (thumbRow.parentClip.baseThumbPath + currentThumbFrame)
+                    : (index * width < thumbRow.parentClip.scrollStart - width || index * width > thumbRow.parentClip.scrollStart + scrollView.width)
+                      ? '' : thumbRow.parentClip.baseThumbPath + currentThumbFrame
             onStatusChanged: {
                 if (status === Image.Ready && (index === 0  || index === thumbRepeater.count - 1)) {
                     thumbPlaceholder.source = source
@@ -102,7 +104,7 @@ Row {
                 visible: thumbRepeater.count < 3
                 anchors.left: parent.left
                 anchors.leftMargin: thumbImage.index === 0 ? thumbRow.thumbWidth: parent.width - thumbRow.thumbWidth - 1
-                color: clipRoot.color.darker()
+                color: thumbRow.parentClip.color.darker()
                 width: 2
                 height: parent.height
             }

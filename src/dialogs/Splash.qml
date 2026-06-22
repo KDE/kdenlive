@@ -536,6 +536,8 @@ Window {
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.left: parent.left
                                         anchors.leftMargin: 4
+                                        anchors.right: parent.right
+                                        anchors.rightMargin: 4
                                         leftPadding: 4
                                         text: splash.profileNames[templateItem.index]
                                         color: templatesArea.containsMouse || tlistButton.hovered ? activePalette.highlight : activePalette.text

@@ -302,7 +302,7 @@ Rectangle {
         //return treeView.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column)
         var item = treeView.itemAtIndex(treeView.selectionModel.currentIndex)
         if (item) {
-            return treeView.index(item.row, item.column)
+            return treeView.model.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column, treeView.selectionModel.currentIndex.parent)
         }
         console.log('NO ACTIVE ITEM FOUND IN DOPESHEET...')
         return treeView.index(-1, -1)
@@ -762,19 +762,21 @@ Rectangle {
                 console.log('+++++++++++++++++++\nCURRENT DOPE SCLECTIOPN CHANGED TO: ', current, '\n+++++++++++++++++')
                 if (current.valid && current.parent) {
                     console.log('- - - -READY TO ACTIVETE MODEL FROM : ', current)
-                    keyframeCurve.model = dopesheetmodel.getKeyframeModel(getActiveIndex())
-                    var item
+                    var activeIndex = getActiveIndex()
+                    keyframeCurve.model = dopesheetmodel.getKeyframeModel(activeIndex)
+                    dopesheetmodel.setActiveIndex(activeIndex)
+                    /*var item
                     if (current.parent !== treeView.rootIndex) {
                         item = treeView.itemAtIndex(current.parent)
                         if (item) {
-                            dopesheetmodel.setActiveIndex(treeView.index(item.row, item.column))
+                            dopesheetmodel.setActiveIndex(treeView.index((item as TreeViewDelegate).row, (item as TreeViewDelegate).column))
                         }
                     } else {
-                        item = treeView.itemAtIndex(current)
+                        item = treeView.itemAtIndex(current) as TreeViewDelegate
                         if (item) {
-                            dopesheetmodel.setActiveIndex(treeView.index(item.row, item.column))
+                            dopesheetmodel.setActiveIndex(treeView.index((item as TreeViewDelegate).row, (item as TreeViewDelegate).column))
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -1041,7 +1043,7 @@ Rectangle {
                             return
                         }
                         if (!dragStarted && mouse.buttons === Qt.LeftButton) {
-                            if (Math.abs(mouseX - clickPoint.x) + Math.abs(mouseY - clickPoint.y) > Qt.styleHints.startDragDistance) {
+                            if (Math.abs(mouseX - clickPoint.x) + Math.abs(mouseY - clickPoint.y) > Application.styleHints.startDragDistance) {
                                 console.log(' - - - DRAG STARTED -- - ')
                                 dragStarted = true
                                 if (shiftClick) {
@@ -1067,7 +1069,6 @@ Rectangle {
                             } else {
                                 dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, dopeRoot.mouseFramePos, false)
                             }
-
                             movePosition = dopeRoot.mouseFramePos
                         }
                     }
@@ -1163,7 +1164,6 @@ Rectangle {
         anchors.bottom: horZoomBar.top
         anchors.bottomMargin: 2
         height: keyframeCurve.model === undefined ? 0 : K.UiUtils.baseSizeMedium * 4
-        property bool isPanning: false
         contentWidth: Math.max(dopeRoot.keyframeContainerWidth, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         contentHeight: height
         contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor - width)
@@ -1192,6 +1192,13 @@ Rectangle {
                 target: keyframeCurve.item
                 property: "selected"
                 value: true
+                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                restoreMode: Binding.RestoreBindingOrValue
+            }
+            Binding {
+                target: keyframeCurve.item
+                property: "isPanning"
+                value: false
                 when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }

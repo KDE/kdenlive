@@ -33,8 +33,8 @@ Rectangle {
     required property int trackId
     required property string trackTag
     required property int thumbsFormat
+    required property int collapsedHeight
     border.width: 1
-    border.color: root.frameColor
 
     SystemPalette { id: activePalette }
 
@@ -49,13 +49,12 @@ Rectangle {
     }
     
     onShowAudioRecordChanged: {
-        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3)) {
+        if (showAudioRecord && trackHeadRoot.height < 2 * trackHeadRoot.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3)) {
             // Ensure trackheight is large enough to have the vu-meter visible
-            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
+            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * trackHeadRoot.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
         }
     }
 
-    color: getTrackColor(isAudio, true)
     //border.color: selected? 'red' : 'transparent'
     //border.width: selected? 1 : 0
     clip: true
@@ -225,18 +224,18 @@ Rectangle {
             onClicked: {
                 if (modifier & Qt.ShiftModifier) {
                     // Collapse / expand all tracks
-                    trackHeadRoot.timeline.collapseAllTrackHeight(trackHeadRoot.trackId, !trackHeadRoot.collapsed, root.collapsedHeight)
+                    trackHeadRoot.timeline.collapseAllTrackHeight(trackHeadRoot.trackId, !trackHeadRoot.collapsed, trackHeadRoot.collapsedHeight)
                 } else {
                     if (trackHeadRoot.collapsed) {
-                        var newHeight = Math.max(root.collapsedHeight * 1.5, trackHeadRoot.controller.getTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight"))
+                        var newHeight = Math.max(trackHeadRoot.collapsedHeight * 1.5, trackHeadRoot.controller.getTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight"))
                         trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight", newHeight)
                         trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", "0")
                     } else {
-                        trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", root.collapsedHeight)
+                        trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", trackHeadRoot.collapsedHeight)
                     }
                 }
-                if (root.autoTrackHeight) {
-                    trackHeadRoot.timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
+                if (trackHeadRoot.timeline.autotrackHeight) {
+                    trackHeadRoot.timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, trackHeadRoot.collapsedHeight)
                 }
             }
             MouseArea {
@@ -256,8 +255,8 @@ Rectangle {
                 }
             }
             anchors.left: parent.left
-            width: root.collapsedHeight
-            height: root.collapsedHeight
+            width: trackHeadRoot.collapsedHeight
+            height: trackHeadRoot.collapsedHeight
             ToolTip {
                 visible: expandButton.hovered
                 font: K.UiUtils.smallestReadableFont
@@ -275,7 +274,7 @@ Rectangle {
                 color: trackLed.bgColor
             }
             width: root.trackTagWidth
-            height: root.collapsedHeight - 2
+            height: trackHeadRoot.collapsedHeight - 2
             y: 1
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -333,7 +332,7 @@ Rectangle {
             }
             anchors.leftMargin: 2
             width: root.trackTagWidth * 2
-            height: root.collapsedHeight - 2
+            height: trackHeadRoot.collapsedHeight - 2
             y: 1
             text: trackHeadRoot.trackId
             elide: Text.ElideRight
@@ -360,7 +359,7 @@ Rectangle {
         Row {
             id: buttonsRow
             width: childrenRect.width
-            x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
+            x: Math.max(2 * trackHeadRoot.collapsedHeight + 2, parent.width - width - 4)
             spacing: 0
             ToolButton {
                 id: effectButton
@@ -373,8 +372,8 @@ Rectangle {
                     trackHeadRoot.timeline.showTrackAsset(trackHeadRoot.trackId)
                     trackHeadRoot.controller.setTrackStackEnabled(trackHeadRoot.trackId, !trackHeadRoot.isStackEnabled)
                 }
-                width: root.collapsedHeight
-                height: root.collapsedHeight
+                width: trackHeadRoot.collapsedHeight
+                height: trackHeadRoot.collapsedHeight
                 ToolTip {
                     visible: effectButton.hovered
                     font: K.UiUtils.smallestReadableFont
@@ -388,8 +387,8 @@ Rectangle {
                 focusPolicy: Qt.NoFocus
                 icon.name: trackHeadRoot.isAudio ? (trackHeadRoot.isDisabled ? "audio-off" : "audio-volume-high")
                                    : (trackHeadRoot.isDisabled ? "kdenlive-hide-video" : "kdenlive-show-video")
-                width: root.collapsedHeight
-                height: root.collapsedHeight
+                width: trackHeadRoot.collapsedHeight
+                height: trackHeadRoot.collapsedHeight
                 onClicked: trackHeadRoot.timeline.hideTrack(trackHeadRoot.trackId, trackHeadRoot.isDisabled, modifier & Qt.ShiftModifier)
                 MouseArea {
                     // Used to pass modifier state to expand button
@@ -417,8 +416,8 @@ Rectangle {
 
             ToolButton {
                 id: lockButton
-                width: root.collapsedHeight
-                height: root.collapsedHeight
+                width: trackHeadRoot.collapsedHeight
+                height: trackHeadRoot.collapsedHeight
                 focusPolicy: Qt.NoFocus
                 icon.name: trackHeadRoot.isLocked ? "lock" : "unlock"
                 onClicked: trackHeadRoot.controller.setTrackLockedState(trackHeadRoot.trackId, !trackHeadRoot.isLocked)
@@ -441,16 +440,16 @@ Rectangle {
         }
         Item {
             id: recLayout
-            y: root.collapsedHeight + 4
+            y: trackHeadRoot.collapsedHeight + 4
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2
-            height: trackHeadRoot.showAudioRecord ? root.collapsedHeight - 4 : 0
+            height: trackHeadRoot.showAudioRecord ? trackHeadRoot.collapsedHeight - 4 : 0
             Loader {
                 id: audioVuMeter
                 asynchronous: true 
                 anchors.fill: parent
-                visible: trackHeadRoot.showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
+                visible: trackHeadRoot.showAudioRecord && (trackHeadRoot.height >= 2 * trackHeadRoot.collapsedHeight + Math.ceil(K.UiUtils.baseSizeMedium/3))
                 active: trackHeadRoot.isAudio && trackHeadRoot.showAudioRecord
                 sourceComponent: AudioRecordingControls {
                     trackId: trackHeadRoot.trackId
@@ -555,7 +554,7 @@ Rectangle {
                 cursorShape: Qt.SizeVerCursor
                 drag.target: parent
                 drag.axis: Drag.YAxis
-                drag.minimumY: root.collapsedHeight - resizer.height
+                drag.minimumY: trackHeadRoot.collapsedHeight - resizer.height
                 property double startY
                 property double originalY
                 drag.smoothed: false
@@ -588,9 +587,9 @@ Rectangle {
                             dragStarted = true
                         }
                         var newHeight = Math.round(originalY + (mapToItem(null, x, y).y - startY))
-                        newHeight =  Math.max(root.collapsedHeight, newHeight)
-                        if (newHeight == root.collapsedHeight) {
-                            trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", root.collapsedHeight)
+                        newHeight =  Math.max(trackHeadRoot.collapsedHeight, newHeight)
+                        if (newHeight == trackHeadRoot.collapsedHeight) {
+                            trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", trackHeadRoot.collapsedHeight)
                         } else {
                             trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight", newHeight)
                             trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", "0")

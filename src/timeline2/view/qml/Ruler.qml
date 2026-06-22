@@ -41,7 +41,7 @@ Item {
     property int labelMod: 1
     property int zoneHeight: Math.ceil(K.UiUtils.baseSizeMedium / 2) + 1
     property bool showZoneLabels: false
-    property bool resizeActive: false // Used to decide which mouse cursor we should display
+    readonly property bool resizeActive: zone.resizeActive || effectZone.resizeActive // Used to decide which mouse cursor we should display
     property bool hoverGuide: false
     property bool hoverResizeHandle: false
     property int cursorShape: resizeActive ? Qt.SizeHorCursor : hoverResizeHandle ? Qt.SizeHorCursor : hoverGuide ? Qt.PointingHandCursor : Qt.ArrowCursor

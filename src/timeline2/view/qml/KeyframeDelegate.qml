@@ -15,10 +15,13 @@ Rectangle {
     visible: K.Core.activeTool === K.ToolType.SelectTool
     required property var model
     required property int index
+
+    required property double timeScale
+
     property int frame : model.frame
     property int frameType : model.type
     property string realValue: model.value
-    x: (model.frame - keyframeContainer.inPoint) * keyframeContainer.timescale
+    x: (model.frame - keyframeContainer.inPoint) * keyframe.timeScale
     height: parent.height
     property int value: parent.height * model.normalizedValue
     property int tmpVal : keyframeVal.y + K.UiUtils.baseSizeMedium / 2
@@ -38,7 +41,7 @@ Rectangle {
     onRealValueChanged: {
         kf1MouseArea.movingVal = kfrModel.realValue(model.normalizedValue)
     }
-    width: Math.max(1, keyframeContainer.timescale / 2)
+    width: Math.max(1, keyframe.timeScale / 2)
     color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
     MouseArea {
         id: kfMouseArea
@@ -70,19 +73,19 @@ Rectangle {
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 if (keyframe.frame == keyframeContainer.inPoint) {
-                    parent.x = keyframeContainer.inPoint * keyframeContainer.timescale
+                    parent.x = keyframeContainer.inPoint * keyframe.timeScale
                     return
                 }
-                var newPos = Math.min(Math.round(parent.x / keyframeContainer.timescale), Math.round(keyframeContainer.width / keyframeContainer.timescale) - 1)
+                var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - 1)
                 if (newPos < 1) {
                     newPos = 1
                 }
                 if (newPos != keyframe.dragPos && (newPos == 0 || !kfrModel.hasKeyframe(frame + newPos))) {
                     keyframe.dragPos = newPos
-                    parent.x = newPos * keyframeContainer.timescale
+                    parent.x = newPos * keyframe.timeScale
                     keyframecanvas.requestPaint()
                 } else {
-                    parent.x = keyframe.dragPos * keyframeContainer.timescale
+                    parent.x = keyframe.dragPos * keyframe.timeScale
                 }
             }
         }
@@ -186,16 +189,16 @@ Rectangle {
                     if (keyframe.frame == keyframeContainer.inPoint) {
                         parent.x = - K.UiUtils.baseSizeMedium / 2
                     } else {
-                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / keyframeContainer.timescale), Math.round(keyframeContainer.width / keyframeContainer.timescale) - keyframe.frame + keyframeContainer.inPoint - 1) + keyframe.frame
+                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - keyframe.frame + keyframeContainer.inPoint - 1) + keyframe.frame
                         if (newPos <= keyframeContainer.inPoint) {
                             newPos = keyframeContainer.inPoint + 1
                         }
 
                         if (newPos != keyframe.dragPos && !kfrModel.hasKeyframe(newPos)) {
                             keyframe.dragPos = newPos
-                            parent.x = (keyframe.dragPos - keyframe.frame) * keyframeContainer.timescale - K.UiUtils.baseSizeMedium / 2
+                            parent.x = (keyframe.dragPos - keyframe.frame) * keyframe.timeScale - K.UiUtils.baseSizeMedium / 2
                         } else {
-                            parent.x = (keyframe.dragPos - keyframe.frame) * keyframeContainer.timescale - K.UiUtils.baseSizeMedium / 2
+                            parent.x = (keyframe.dragPos - keyframe.frame) * keyframe.timeScale - K.UiUtils.baseSizeMedium / 2
                         }
                     }
                     keyframecanvas.requestPaint()

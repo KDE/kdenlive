@@ -24,6 +24,9 @@ Item {
     required property int trackInternalId
     required property int trackThumbsFormat
     required property var effectZones
+    required property bool isPanning
+
+    signal blockAutoScroll(bool enabled)
 
     property alias trackModel: trackModel.model
     property alias rootIndex : trackModel.rootIndex
@@ -221,6 +224,7 @@ Item {
                     canBeVideo: itemOnTrack.model.canBeVideo
                     itemType: itemOnTrack.model.clipType
                     trackId: itemOnTrack.model.trackId
+                    isPanning: trackRoot.isPanning
 
                     onInitGroupTrim: clipId => {
                         // We are resizing a group, remember coordinates of all elements
@@ -230,6 +234,8 @@ Item {
                     onTrimmedIn: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, false) }
                     onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => { trackRoot.clipTrimming(clip, newDuration, shiftTrim, controlTrim, true) }
                     onTrimmedOut: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, true) }
+                    onIsUserInteractingChanged: { trackRoot.blockAutoScroll(isUserInteracting) }
+                    onTrimInProgressChanged: { root.trimInProgress = trimInProgress }
                 }
                 onLoaded: {
                     console.log('loaded clip: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', itemOnTrack.model.clipType)
@@ -266,6 +272,7 @@ Item {
                     grouped: itemOnTrack.model.grouped
                     clipName: itemOnTrack.model.name
                     selected: itemOnTrack.model.selected
+                    isPanning: trackRoot.isPanning
 
                     onTrimmingIn: (clip, newDuration) => {
                         var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)
@@ -304,6 +311,9 @@ Item {
                         trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, trackRoot.snapping)
                         trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, trackRoot.snapping)
                     }
+
+                    onIsUserInteractingChanged: { trackRoot.blockAutoScroll(isUserInteracting) }
+                    onTrimInProgressChanged: { root.trimInProgress = trimInProgress }
                 }
                 onLoaded: {
                     console.log('loaded composition: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)

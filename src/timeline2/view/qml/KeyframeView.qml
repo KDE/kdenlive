@@ -23,7 +23,7 @@ Rectangle
     property var kfrModel
     property int scrollStart
     property int containerWidth
-    property bool isPanning: parent.isPanning
+    property bool isPanning
     property color textColor: activePalette.text
     property color kfColor: activePalette.highlight
     property alias kfrCanvas: keyframecanvas
@@ -117,7 +117,9 @@ Rectangle
         Repeater {
             id: keyframes
             model: keyframeContainer.kfrModel
-            KeyframeDelegate { }
+            KeyframeDelegate {
+                timeScale: keyframeContainer.timescale
+            }
         }
     }
     Canvas {

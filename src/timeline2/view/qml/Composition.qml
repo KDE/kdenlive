@@ -20,6 +20,7 @@ Item {
 
     required property K.TimelineController timeline
     required property K.TimelineItemModel controller
+    required property bool isPanning
 
     SystemPalette { id: activePalette }
 
@@ -53,12 +54,13 @@ Item {
     property double speed: 1.0
     property color color: displayRect.color
     property color borderColor: 'black'
-    property bool hideCompoViews: !visible || width < root.minClipWidthForViews
-    property bool hideDecorations: !root.showClipOverlays || trimInMouseArea.drag.active || trimOutMouseArea.drag.active
+    readonly property bool trimInProgress: trimInMouseArea.pressed || trimOutMouseArea.pressed
+    readonly property bool isUserInteracting: mouseArea.pressed || trimInProgress
+    readonly property bool hideCompoViews: !visible || width < root.minClipWidthForViews
+    readonly property bool hideDecorations: !K.KdenliveSettings.showClipOverlays || trimInMouseArea.drag.active || trimOutMouseArea.drag.active
     visible: scrollView.lastVisibleFrame > compositionRoot.modelStart && scrollView.firstVisibleFrame <= (compositionRoot.modelStart + compositionRoot.clipDuration)
     property int scrollStart: visible ? scrollView.contentX - (compositionRoot.modelStart * root.timeScale) : 0
 
-    property int mouseXPos: mouseArea.mouseX
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
     property int trackOffset: 0
     y: trackOffset
@@ -70,6 +72,7 @@ Item {
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration)
     signal trimmedOut(var clip)
+
 
     onScrollStartChanged: {
         if (!compositionRoot.visible) {
@@ -217,8 +220,8 @@ Item {
             id: mouseArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            enabled: !root.isPanning && K.Core.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
-            hoverEnabled: !root.isPanning && K.Core.activeTool === K.ToolType.SelectTool
+            enabled: !compositionRoot.isPanning && K.Core.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
+            hoverEnabled: !compositionRoot.isPanning && K.Core.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
@@ -239,8 +242,7 @@ Item {
             }
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
 
-            onPressed: mouse => {
-                root.blockAutoScroll = true
+            onPressed: mouse => {           
                 compositionRoot.forceActiveFocus();
                 root.mainItemId = compositionRoot.clipId
                 if (mouse.button == Qt.RightButton) {
@@ -249,9 +251,6 @@ Item {
                     }
                     root.showCompositionMenu()
                 }
-            }
-            onReleased: {
-                root.blockAutoScroll = false
             }
             onEntered: {
                 updateDrag()
@@ -290,25 +289,21 @@ Item {
                         mouse.accepted = false
                         return
                     }
-                    root.blockAutoScroll = true
-                    root.trimInProgress = true;
                     compositionRoot.originalX = compositionRoot.x
-                    compositionRoot.originalDuration = clipDuration
+                    compositionRoot.originalDuration = compositionRoot.clipDuration
                     anchors.left = undefined
                 }
                 onReleased: {
-                    root.blockAutoScroll = false
                     anchors.left = parent.left
                     compositionRoot.trimmedIn(compositionRoot)
                     trimIn.opacity = 0
                     updateDrag()
-                    root.trimInProgress = false;
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         var delta = Math.round(x / compositionRoot.timeScale)
-                        if (delta < -modelStart) {
-                            delta = -modelStart
+                        if (delta < -compositionRoot.modelStart) {
+                            delta = -compositionRoot.modelStart
                         }
                         if (delta !== 0) {
                             var newDuration = compositionRoot.clipDuration - delta
@@ -365,22 +360,18 @@ Item {
                         mouse.accepted = false
                         return
                     }
-                    root.blockAutoScroll = true
-                    root.trimInProgress = true;
                     compositionRoot.originalDuration = compositionRoot.clipDuration
                     anchors.right = undefined
                 }
                 onReleased: {
                     trimOut.opacity = 0
-                    root.blockAutoScroll = false
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
                     updateDrag()
-                    root.trimInProgress = false;
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var newDuration = Math.round((x + width) / timeScale)
+                        var newDuration = Math.round((x + width) / compositionRoot.timeScale)
                         compositionRoot.trimmingOut(compositionRoot, newDuration)
                     }
                 }
@@ -484,7 +475,6 @@ Item {
             anchors.fill: parent
             active: compositionRoot.visible
             asynchronous: true
-            property bool isPanning: root.isPanning
             visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * K.UiUtils.baseSizeMedium
             source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {
@@ -540,6 +530,13 @@ Item {
                     property: "containerWidth"
                     value: effectRow.width
                     when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "isPanning"
+                    value: root.isPanning
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
             }
             Connections {

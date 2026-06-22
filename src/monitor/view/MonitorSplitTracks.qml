@@ -18,6 +18,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    property bool isClipMonitor: false
     property int viewType: K.SceneType.MonitorSplitTrack
     property string comment
     property string framenum
