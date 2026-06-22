@@ -410,7 +410,7 @@ void EffectStackView::loadEffects()
             ->slotShowEffectScene(SceneType::MonitorSceneDefault);
         updateTreeHeight();
         Q_EMIT effectsCountChanged();
-        pCore->window()->registerDopeStack(nullptr);
+        // Q_EMIT pCore->registerDopeStack(nullptr);
         return;
     }
     QModelIndex activeIndex;

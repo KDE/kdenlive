@@ -21,7 +21,7 @@ Item {
     // The spacing between labels. Depends on labelSize
     property real labelSpacing: labelSize
     // The space we want between each ticks in the ruler
-    property real scalingFactor: 1.
+    required property real scalingFactor
     property real tickSpacing: scalingFactor
     property int timecodeOffset : timeline.timecodeOffset
     property bool pressed: rulerMouseArea.pressed

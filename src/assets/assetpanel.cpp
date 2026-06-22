@@ -218,6 +218,7 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_timelineButton->setVisible(true);
     QSize s = pCore->getCompositionSizeOnTrack(id);
     m_transitionWidget->setModel(transitionModel, s, true);
+    Q_EMIT pCore->registerDopeAsset(transitionModel, m_switchCompoButton->currentText());
 }
 
 void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel, bool refreshOnly)
@@ -244,6 +245,7 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
     m_mixWidget->setVisible(true);
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_mixWidget->setModel(transitionModel, QSize(), true);
+    Q_EMIT pCore->registerDopeAsset(transitionModel, m_switchCompoButton->currentText());
 }
 
 void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
@@ -251,6 +253,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
         return;
     }
+
     if (effectsModel == nullptr) {
         // Item is not ready
         clear();
@@ -315,6 +318,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     } else {
         m_effectStackWidget->setVisible(true);
     }
+    Q_EMIT pCore->registerDopeStack(effectsModel);
 }
 
 void AssetPanel::clearAssetPanel(int itemId)
@@ -348,6 +352,7 @@ void AssetPanel::clear()
     if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
         return;
     }
+    Q_EMIT pCore->registerDopeStack(nullptr);
     if (m_splitButton->isActive()) {
         m_splitButton->setActive(false);
         processSplitEffect(false);

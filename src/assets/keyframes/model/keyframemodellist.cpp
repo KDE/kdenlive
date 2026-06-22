@@ -872,19 +872,19 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     param.second->removeKeyframe(old_in, undo, redo);
                 }
             }
-            // Remove all keyframes before in
-            bool nextOk = false;
-            kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &nextOk);
+            // Remove keyframes before in in each parameter
             GenTime pos;
-            while (nextOk) {
-                pos = kf.first;
-                if (pos < new_in) {
-                    for (const auto &param : m_parameters) {
+            for (const auto &param : m_parameters) {
+                bool nextOk = false;
+                kf = param.second->getNextKeyframe(GenTime(-1), &nextOk);
+                while (nextOk) {
+                    pos = kf.first;
+                    if (pos < new_in) {
                         param.second->removeKeyframe(pos, undo, redo);
+                        kf = param.second->getNextKeyframe(pos, &nextOk);
+                    } else {
+                        break;
                     }
-                    kf = m_parameters.begin()->second->getNextKeyframe(pos, &nextOk);
-                } else {
-                    break;
                 }
             }
         }

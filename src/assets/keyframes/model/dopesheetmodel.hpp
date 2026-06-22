@@ -67,8 +67,10 @@ public:
     void deregisterItem(QPersistentModelIndex ix);
     void clearModel();
     /** @brief Register all keyframable params for an effect */
-    bool registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel);
+    bool registerAsset(int row, std::shared_ptr<AssetParameterModel> effectModel, const QString assetName);
     bool registerStack(std::shared_ptr<EffectStackModel> model);
+    /** @brief Register all keyframable params for a composition */
+    bool registerComposition(std::shared_ptr<AssetParameterModel> effectModel, const QString transitionName);
     /** @brief Remove all keyframes at given indexes (parameter indexes / keyframes indexes) */
     Q_INVOKABLE void removeKeyframes(QVariantList indexes, QVariantList keyframes);
     /** @brief Remove all keyframes at given position */
@@ -106,6 +108,8 @@ public:
     void addRemoveKeyframe(const QModelIndex ix, int pos);
     Q_INVOKABLE void copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData);
     Q_INVOKABLE void slotPasteKeyframeFromClipBoard(int position);
+    /** @brief get current monitor for item owner */
+    Kdenlive::MonitorId getMonitorId() const;
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
@@ -123,12 +127,14 @@ private:
     QVariantList m_grabbedIndexes;
     QMap<QModelIndex, int> m_relatedMove;
     QList<QMetaObject::Connection> m_connectionList;
+    QList<QMetaObject::Connection> m_assetConnectionList;
     std::shared_ptr<EffectStackModel> m_model;
     QMap<QModelIndex, QList<std::pair<int, int>>> m_scaledKFInfo;
     std::pair<int, int> m_scaledRange;
     /** @brief Remember if the playhead is on a keyframe */
     QList<QPersistentModelIndex> m_indexesOnKeyframe;
     bool m_resizeFromStart{false};
+    ObjectId m_currentOwner;
     /** @brief Returns a list on int indexes of keyframes in a
      *  parameter ix that are placed between startFrame and endFrame */
     QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);
@@ -137,6 +143,7 @@ private:
     const QMap<QModelIndex, QVariant> sanitizeKeyframesIndexes(const QVariantMap kfData);
     bool m_hasGrabbedKeyframes{false};
     bool isRecap(std::shared_ptr<TreeItem> item) const;
+    void disconnectModel();
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);

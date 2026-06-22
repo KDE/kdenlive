@@ -104,11 +104,17 @@ void DopeSheetModel::clearModel()
     m_paramsList.clear();
     m_hasGrabbedKeyframes = false;
     m_indexesOnKeyframe.clear();
+    for (auto &c : m_assetConnectionList) {
+        QObject::disconnect(c);
+    }
+    m_assetConnectionList.clear();
+
     for (auto &c : m_connectionList) {
         QObject::disconnect(c);
     }
     m_connectionList.clear();
     m_model.reset();
+    m_currentOwner = ObjectId();
     clear();
 }
 
@@ -164,17 +170,21 @@ bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
     if (model == m_model) {
         return false;
     }
-    m_model.reset();
-    m_hasGrabbedKeyframes = false;
-    m_indexesOnKeyframe.clear();
+    clearModel();
     m_model = std::move(model);
+    if (m_model) {
+        m_currentOwner = m_model->getOwnerId();
+    }
     Q_EMIT dopeDurationChanged();
     Q_EMIT dopePositionChanged();
     Q_EMIT dopeInPointChanged();
     if (m_model) {
-        connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
-        connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
-        connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
+        auto conn1 = connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
+        m_connectionList << conn1;
+        auto conn2 = connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
+        m_connectionList << conn2;
+        auto conn3 = connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
+        m_connectionList << conn3;
     }
     loadEffects();
     return true;
@@ -187,10 +197,10 @@ void DopeSheetModel::loadEffects()
         m_paramsList.clear();
         clear();
     }
-    for (auto &c : m_connectionList) {
+    for (auto &c : m_assetConnectionList) {
         QObject::disconnect(c);
     }
-    m_connectionList.clear();
+    m_assetConnectionList.clear();
     if (!m_model) {
         return;
     }
@@ -203,36 +213,66 @@ void DopeSheetModel::loadEffects()
             continue;
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
-        if (registerAsset(i, effectModel) && i == activeEffect) {
+        if (registerAsset(i, effectModel, effectModel->dataColumn(0).toString()) && i == activeEffect) {
             Q_EMIT activateEffect(m_model->index(i, 0));
         }
     }
 }
 
-bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> effectModel)
+bool DopeSheetModel::registerComposition(std::shared_ptr<AssetParameterModel> assetModel, const QString transitionName)
 {
-    qDebug() << ":::: REGISTERING DOPE EFFECT: " << effectModel->dataColumn(0);
+    if (assetModel) {
+        auto owner = assetModel->getOwnerId();
+        if (owner == m_currentOwner) {
+            return false;
+        }
+        clearModel();
+        m_currentOwner = owner;
+        registerAsset(0, assetModel, transitionName);
+        Q_EMIT dopeDurationChanged();
+        Q_EMIT dopePositionChanged();
+        Q_EMIT dopeInPointChanged();
+    } else {
+        clearModel();
+    }
+    return true;
+}
+
+Kdenlive::MonitorId DopeSheetModel::getMonitorId() const
+{
+    if (m_currentOwner.type == KdenliveObjectType::BinClip) {
+        return Kdenlive::ClipMonitor;
+    }
+    if (m_currentOwner.type == KdenliveObjectType::NoItem) {
+        return Kdenlive::NoMonitor;
+    }
+    return Kdenlive::ProjectMonitor;
+}
+
+bool DopeSheetModel::registerAsset(int row, std::shared_ptr<AssetParameterModel> effectModel, const QString assetName)
+{
+    qDebug() << "::: REGISTERING ASSET: " << assetName << "\n+++++++++++";
     std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
     if (!keyframes) {
         // EFfect has no keyframes, abort
         return false;
     }
     QStringList blockedParams = effectModel->data(QModelIndex(), AssetParameterModel::BlockedKeyframesRole).toStringList();
-    blockedParams.removeAll(QString(""));
     std::vector<QPersistentModelIndex> indexes = keyframes->getIndexes();
     if (ulong(blockedParams.size()) == indexes.size()) {
         // All parameters set to non keyframed, abort
         qDebug() << "// ALL PARAMETERS BLOCKED: " << blockedParams << " / " << indexes.size();
         return false;
     }
-    auto effectItem = TreeItem::construct({effectModel->dataColumn(0).toString(), row}, shared_from_this(), false);
+    const QString displayRole = effectModel->data(QModelIndex(), Qt::DisplayRole).toString();
+    auto effectItem = TreeItem::construct({assetName, row}, shared_from_this(), false);
     getRoot()->appendChild(effectItem);
 
     // If there is more than one parameter, add a recap top item
     EffectParamInfo pInfo;
     if (indexes.size() > 1) {
         // Recap line for the effect
-        pInfo.id = effectModel->dataColumn(0).toString();
+        pInfo.id = assetName;
         pInfo.type = ParamType::Double;
         pInfo.row = -1;
         m_paramsList.insert({effectItem->getId(), {pInfo, keyframes->getRecap()}});
@@ -246,7 +286,7 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> eff
         }
         auto km = keyframes->getKeyModel(ix);
         auto conn = connect(km.get(), &KeyframeModel::dataChanged, this, &DopeSheetModel::modelChanged, Qt::QueuedConnection);
-        m_connectionList << conn;
+        m_assetConnectionList << conn;
         int treeItemId;
         if (indexes.size() > 1) {
             // Build recap item
@@ -306,7 +346,7 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<EffectItemModel> eff
                                       }
                                   }
                               });
-    m_connectionList << connection;
+    m_assetConnectionList << connection;
     return true;
 }
 
@@ -1059,34 +1099,32 @@ void DopeSheetModel::changeKeyframeType(const QVariantMap kfData, int type)
 
 int DopeSheetModel::dopeDuration() const
 {
-    if (!m_model) {
+    if (m_currentOwner.type == KdenliveObjectType::NoItem) {
         return 0;
     }
-    return pCore->getItemDuration(m_model->getOwnerId());
+    return pCore->getItemDuration(m_currentOwner);
 }
 
 int DopeSheetModel::dopeInPoint() const
 {
-    if (!m_model) {
+    if (m_currentOwner.type == KdenliveObjectType::NoItem) {
         return 0;
     }
-    return pCore->getItemIn(m_model->getOwnerId());
+    return pCore->getItemIn(m_currentOwner);
 }
 
 int DopeSheetModel::dopePosition() const
 {
-    if (!m_model) {
+    if (m_currentOwner.type == KdenliveObjectType::NoItem) {
         return 0;
     }
-    return pCore->getItemPosition(m_model->getOwnerId());
+    return pCore->getItemPosition(m_currentOwner);
 }
 
 void DopeSheetModel::updateItemPosition(ObjectId itemId)
 {
-    if (m_model) {
-        if (m_model->getOwnerId() == itemId) {
-            Q_EMIT dopePositionChanged();
-        }
+    if (m_currentOwner == itemId) {
+        Q_EMIT dopePositionChanged();
     }
 }
 

@@ -1547,8 +1547,8 @@ Rectangle {
                 }
                 Binding {
                     target: effectRow.item
-                    property: "container"
-                    value: scrollView
+                    property: "containerWidth"
+                    value: effectRow.width
                     when: effectRow.status == Loader.Ready && effectRow.item
                     restoreMode: Binding.RestoreBindingOrValue
                 }

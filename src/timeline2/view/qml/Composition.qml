@@ -535,6 +535,12 @@ Item {
                     value: K.KdenliveObjectType.TimelineComposition
                     when: effectRow.status == Loader.Ready && effectRow.item
                 }
+                Binding {
+                    target: effectRow.item
+                    property: "containerWidth"
+                    value: effectRow.width
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
             }
             Connections {
                 target: effectRow.item

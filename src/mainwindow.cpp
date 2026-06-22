@@ -425,7 +425,6 @@ void MainWindow::init()
                     return;
                 }
                 m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
-                Q_EMIT registerDopeStack(model);
                 if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
                     // Don't raise if tabbed with timeline
                     return;
@@ -518,17 +517,12 @@ void MainWindow::init()
 
     // DopeSheet
     addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
-    connect(this, &MainWindow::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
+    connect(pCore.get(), &Core::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
+    connect(pCore.get(), &Core::registerDopeAsset, m_dopeWidget, &DopeWidget::registerDopeAsset);
     connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
-
-    QStringList stylesToHide = {
-        QStringLiteral("windowsvista"), // recoloring does not work well
-        QStringLiteral("Windows"),
-        // QStringLiteral("macintosh")
-    };
     connect(m_commandStack, &QUndoGroup::cleanChanged, [this, cleanHistory](bool isClean) {
         m_saveAction->setDisabled(isClean);
         cleanHistory->setDisabled(isClean);

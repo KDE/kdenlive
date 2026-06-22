@@ -4,6 +4,11 @@
 */
 
 #include "dopewidget.hpp"
+#include "assets/keyframes/model/dopesheetmodel.hpp"
+#include "core.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
+#include "monitor/monitor.h"
+#include "monitor/monitorproxy.h"
 
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -12,10 +17,6 @@
 #include <QtGlobal>
 
 #include <KStandardAction>
-
-#include "assets/keyframes/model/dopesheetmodel.hpp"
-#include "core.h"
-#include "effects/effectstack/model/effectstackmodel.hpp"
 
 DopeWidget::DopeWidget(QQmlEngine *engine, QWidget *parent)
     : QQuickWidget(engine, parent)
@@ -69,19 +70,48 @@ void DopeWidget::focusOutEvent(QFocusEvent *event)
     QQuickWidget::focusOutEvent(event);
 }
 
+void DopeWidget::registerDopeAsset(std::shared_ptr<AssetParameterModel> model, const QString assetName)
+{
+    if (!pCore->dopeSheetModel()->registerComposition(model, assetName)) {
+        // model is already active
+        return;
+    }
+    QObject::disconnect(m_activeEffectConnection);
+    if (!model || !rootObject()) {
+        QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, -1), Q_ARG(QVariant, -1));
+        return;
+    }
+    QVariant monitorProxy = QVariant::fromValue(pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy());
+    rootObject()->setProperty("proxy", monitorProxy);
+    QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(monitorProxy), QQmlEngine::CppOwnership);
+    // Check if we are on a keyframe
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->getItemPosition(model->getOwnerId());
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
+    pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
+    QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
+                              Q_ARG(QVariant, model->getOwnerId().itemId));
+}
+
 void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
 {
     if (!pCore->dopeSheetModel()->registerStack(model)) {
         // model is already active
         return;
     }
+    QObject::disconnect(m_activeEffectConnection);
     if (!model || !rootObject()) {
         QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, -1), Q_ARG(QVariant, -1));
         return;
     }
-    connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::QueuedConnection);
+    QVariant monitorProxy = QVariant::fromValue(
+        pCore->getMonitor(model->getOwnerId().type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->getControllerProxy());
+    rootObject()->setProperty("proxy", monitorProxy);
+    QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(monitorProxy), QQmlEngine::CppOwnership);
+    m_activeEffectConnection = connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::QueuedConnection);
     // Check if we are on a keyframe
-    int pos = pCore->getMonitorPosition() - pCore->getItemPosition(model->getOwnerId());
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->getItemPosition(model->getOwnerId());
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
@@ -120,9 +150,9 @@ void DopeWidget::gotoPreviousSnap()
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QModelIndex activeIndex = returnedValue.toModelIndex();
-    int pos = pCore->getMonitorPosition();
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId());
     pos = pCore->dopeSheetModel()->getPreviousSnap(activeIndex, pos);
-    pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
+    pCore->seekMonitor(pCore->dopeSheetModel()->getMonitorId(), pos);
 }
 
 void DopeWidget::gotoNextSnap()
@@ -134,9 +164,9 @@ void DopeWidget::gotoNextSnap()
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
-    int pos = pCore->getMonitorPosition();
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId());
     pos = pCore->dopeSheetModel()->getNextSnap(activeIndex, pos);
-    pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
+    pCore->seekMonitor(pCore->dopeSheetModel()->getMonitorId(), pos);
 }
 
 void DopeWidget::slotAddRemoveKeyframe()
@@ -152,7 +182,7 @@ void DopeWidget::slotAddRemoveKeyframe()
         pCore->displayMessage(i18n("Select a parameter to add a keyframe"), ErrorMessage);
         return;
     }
-    int pos = pCore->getMonitorPosition() - pCore->dopeSheetModel()->dopePosition();
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopePosition();
     pCore->dopeSheetModel()->addRemoveKeyframe(activeIndex, pos);
 }
 
@@ -171,7 +201,7 @@ void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active)
 void DopeWidget::checkModelUpdate()
 {
     // Check if we are on a keyframe
-    int pos = pCore->getMonitorPosition() - pCore->dopeSheetModel()->dopePosition();
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopePosition();
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();

@@ -22,7 +22,7 @@ Rectangle
     property bool selected
     property var kfrModel
     property int scrollStart
-    property var container
+    property int containerWidth
     property bool isPanning: parent.isPanning
     property color textColor: activePalette.text
     property color kfColor: activePalette.highlight
@@ -124,10 +124,12 @@ Rectangle
         id: keyframecanvas
         contextType: "2d"
         renderStrategy: Canvas.Threaded
-        property int offset: keyframeContainer.scrollStart < 0 || parent.width <= container.width ? 0 : keyframeContainer.scrollStart
+        property int offset: keyframeContainer.scrollStart < 0 || parent.width <= keyframeContainer.containerWidth ? 0 : keyframeContainer.scrollStart
+        property bool exitLoop: false
         anchors.left: parent.left
         anchors.leftMargin: offset
-        width: keyframeContainer.kfrCount > 0 ? Math.min(keyframeContainer.width, container === undefined ? keyframeContainer.width : container.width) : 0
+        anchors.right: parent.right
+        //width: keyframeContainer.kfrCount > 0 ? Math.min(keyframeContainer.width, keyframeContainer.containerWidth) : 0
         height: keyframeContainer.kfrCount > 0 ? parent.height : 0
         opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
@@ -165,22 +167,22 @@ Rectangle
             paths = []
 
             var firstKeyframe = keyframes.itemAt(0) as KeyframeDelegate
-            var xpos = firstKeyframe.tmpPos - offset
+            var xpos = firstKeyframe.tmpPos - keyframecanvas.offset
             var ypos = firstKeyframe.tmpVal
             // Add first curve point
             paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
-
+            exitLoop = false
             for(var i = 1; i < keyframes.count; i++)
             {
                 var previousKeyframe = keyframes.itemAt(i - 1) as KeyframeDelegate
                 var currentKeyframe = keyframes.itemAt(i) as KeyframeDelegate
                 var nextKeyframe = keyframes.itemAt(i + 1) as KeyframeDelegate
                 if (i + 1 < keyframes.count) {
-                    if (nextKeyframe.tmpPos < offset) {
+                    if (nextKeyframe.tmpPos < keyframecanvas.offset) {
                         continue;
                     }
                 }
-                xpos = currentKeyframe.tmpPos - offset
+                xpos = currentKeyframe.tmpPos - keyframecanvas.offset
                 var alpha = 0.5
                 var type = previousKeyframe.frameType
                 switch (type) {
@@ -233,7 +235,7 @@ Rectangle
                             prevXOffset = (currentKeyframe.tmpPos - beforePreviousKeframe.tmpPos) / 6
                             prevYOffset = (currentKeyframe.tmpVal - beforePreviousKeframe.tmpVal) / 6
                         }
-                        var prevxpos = previousKeyframe.tmpPos - offset + prevXOffset * alpha
+                        var prevxpos = previousKeyframe.tmpPos - keyframecanvas.offset + prevXOffset * alpha
                         var prevypos = previousKeyframe.tmpVal + prevYOffset * alpha
                         if (i == keyframes.count - 1) {
                             // Last point
@@ -246,42 +248,42 @@ Rectangle
                     case KeyframeType.CubicIn:
                         // Simulate cubic with Bezier curve, based on empiric testing
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         paths.push(quad.createObject(keyframecanvas, {"x": xpos, "y": ypos, "controlX": prevX + (xpos - prevX) *  0.75, "controlY": prevY} ))
                         break;
                     case KeyframeType.CubicOut:
                         // Simulate cubic with Bezier curve, based on empiric testing
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         paths.push(quad.createObject(keyframecanvas, {"x": xpos, "y": ypos, "controlX": prevX, "controlY": prevY + (ypos - prevY) *  0.75} ))
                         break;
                     case KeyframeType.ExponentialIn:
                         // Simulate exponential with Bezier curve, based on empiric testing
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         paths.push(cubic.createObject(keyframecanvas, {"x": xpos, "y": ypos, "control1X": prevX + (xpos - prevX) *  1, "control1Y": prevY, "control2X": xpos, "control2Y": ypos - (ypos - prevY) *  0.5}))
                         break;
                     case KeyframeType.ExponentialOut:
                         // Simulate exponential with Bezier curve, based on empiric testing
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         paths.push(cubic.createObject(keyframecanvas, {"x": xpos, "y": ypos, "control1X": prevX, "control1Y": prevY + (ypos - prevY) *  1, "control2X": xpos - (xpos - prevX) *  0.5, "control2Y": ypos}))
                         break;
                     case KeyframeType.CircularIn:
                         // Simulate circular with Bezier curve
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         paths.push(cubic.createObject(keyframecanvas, {"x": xpos, "y": ypos, "control1X": prevX + (xpos - prevX) *  0.5522, "control1Y": prevY, "control2X": xpos, "control2Y": ypos - (ypos - prevY) *  0.5522} ))
                         break;
                     case KeyframeType.CircularOut:
                         // Simulate circular with Bezier curve
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         paths.push(cubic.createObject(keyframecanvas, {"x": xpos, "y": ypos, "control1X": prevX, "control1Y": prevY + (ypos - prevY) *  0.5522, "control2X": xpos - (xpos - prevX) *  0.5522, "control2Y": ypos} ))
                         break;
@@ -289,7 +291,7 @@ Rectangle
                         // Simulate bounce with Bezier curve, based on empiric testing
                         // Add 3 control points based on i-1
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         var step = (xpos - prevX) / 11.
                         var delta = currentKeyframe.tmpVal - prevY
@@ -322,7 +324,7 @@ Rectangle
                         // Simulate bounce with Bezier curve, based on empiric testing
                         // Add 3 control points based on i-1
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         var step = (xpos - prevX) / 11.
                         var delta = prevY - currentKeyframe.tmpVal
@@ -356,7 +358,7 @@ Rectangle
                         // Simulate elastic with Bezier curve, based on empiric testing
                         // Add 3 control points based on i-1
                         ypos = currentKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         var step = xpos - prevX
                         var delta = currentKeyframe.tmpVal - prevY
@@ -383,7 +385,7 @@ Rectangle
                         // Simulate elastic with Bezier curve, based on empiric testing
                         // Add 3 control points based on i-1
                         ypos = previousKeyframe.tmpVal
-                        var prevX = previousKeyframe.tmpPos - offset
+                        var prevX = previousKeyframe.tmpPos - keyframecanvas.offset
                         var prevY = previousKeyframe.tmpVal
                         var step = xpos - prevX
                         var delta = previousKeyframe.tmpVal - prevY
@@ -415,8 +417,11 @@ Rectangle
                         paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                         break;
                 }
-                if (xpos > container.width) {
-                    break;
+                if (xpos > keyframeContainer.containerWidth) {
+                    if (exitLoop) {
+                        break;
+                    }
+                    exitLoop = true
                 }
             }
             paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": ypos} ))

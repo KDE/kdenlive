@@ -702,7 +702,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
             return m_requiresInOut;
         case BlockedKeyframesRole: {
             const QString vals = m_asset->get("kdenlive:block_keyframes");
-            return vals.split(QLatin1Char(';'));
+            return vals.split(QLatin1Char(';'), Qt::SkipEmptyParts);
         }
         default:
             qDebug() << "WARNING; UNHANDLED DATA: " << role;

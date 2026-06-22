@@ -32,6 +32,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class Bin;
 class DocUndoStack;
 class DopeSheetModel;
+class AssetParameterModel;
 class EffectStackModel;
 class KdenliveDoc;
 class LibraryWidget;
@@ -564,6 +565,9 @@ Q_SIGNALS:
     void samConfigUpdated();
     /** Show / hide the automask panel */
     void switchMaskPanel(bool show);
+    /** @brief Set the effect stack for the dopesheet model */
+    void registerDopeStack(std::shared_ptr<EffectStackModel> model);
+    void registerDopeAsset(std::shared_ptr<AssetParameterModel> model, const QString assetName);
     void transcodeProgress(ObjectId id, int progress);
     /** Inform of an autosave starting operation */
     void startAutoSave();

@@ -9,6 +9,7 @@
 #include <QQuickWidget>
 #include <QWidget>
 
+class AssetParameterModel;
 class EffectStackModel;
 
 class DopeWidget : public QQuickWidget
@@ -31,6 +32,7 @@ protected:
 
 public Q_SLOTS:
     void registerDopeStack(std::shared_ptr<EffectStackModel> model);
+    void registerDopeAsset(std::shared_ptr<AssetParameterModel> model, const QString assetName);
     void slotAddRemoveKeyframe();
     void activateEffect(QPersistentModelIndex ix);
     void gotoPreviousSnap();
@@ -43,4 +45,5 @@ private Q_SLOTS:
 
 private:
     QModelIndex m_activeIndex;
+    QMetaObject::Connection m_activeEffectConnection;
 };
