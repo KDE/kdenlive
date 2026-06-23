@@ -168,9 +168,9 @@ void Splash::clearHistory()
 void Splash::forgetFile(const QString &path)
 {
     KConfigGroup history(KSharedConfig::openConfig(), "Recent Files");
-    auto entires = history.entryMap();
+    auto entries = history.entryMap();
     QString entryName;
-    for (auto i = entires.cbegin(), end = entires.cend(); i != end; ++i) {
+    for (auto i = entries.cbegin(), end = entries.cend(); i != end; ++i) {
         if (i.value() == path) {
             entryName = i.key();
             break;
