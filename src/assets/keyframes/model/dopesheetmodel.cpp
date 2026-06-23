@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-FileCopyrightText: 2026 Jean-Baptiste Mardelle
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
