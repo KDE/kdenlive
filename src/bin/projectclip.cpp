@@ -213,7 +213,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDo
 
 ProjectClip::~ProjectClip()
 {
-    if (pCore->currentDoc()->closing) {
+    if (pCore->closing || pCore->currentDoc()->closing) {
         for (auto &p : m_audioProducers) {
             m_effectStack->removeService(p.second);
         }
