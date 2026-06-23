@@ -169,13 +169,13 @@ Window {
         }
 
         Shortcut {
-            sequence: StandardKey.Quit
+            sequences: [StandardKey.Quit]
             context: Qt.ApplicationShortcut
             onActivated: splash.closeApp()
         }
 
         Shortcut {
-            sequence: StandardKey.Open
+            sequences: [StandardKey.Open]
             context: Qt.ApplicationShortcut
             enabled: !splash.firstRun
             onActivated: splash.openOtherFile()
