@@ -759,9 +759,8 @@ Rectangle {
             model: dopesheetmodel
             onCurrentChanged: (current, previous) => {
                 rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveIndex())
-                console.log('+++++++++++++++++++\nCURRENT DOPE SCLECTIOPN CHANGED TO: ', current, '\n+++++++++++++++++')
                 if (current.valid && current.parent) {
-                    console.log('- - - -READY TO ACTIVETE MODEL FROM : ', current)
+                    console.log('- - - -READY TO ACTIVATE MODEL FROM : ', current)
                     var activeIndex = getActiveIndex()
                     keyframeCurve.model = dopesheetmodel.getKeyframeModel(activeIndex)
                     dopesheetmodel.setActiveIndex(activeIndex)
