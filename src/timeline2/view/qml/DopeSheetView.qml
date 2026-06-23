@@ -69,7 +69,7 @@ Rectangle {
         }
     }
     onConsumerPositionChanged: {
-        rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveIndex())
+        rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveCppParamIndex())
     }
 
     function updateOverKeyframeFromModel(overKeyframe) {
@@ -297,9 +297,8 @@ Rectangle {
         dopesheetmodel.moveKeyframe(dopeRoot.grabbedKeyframes, dopeRoot.mouseFramePos, dopeRoot.mouseFramePos + (left ? -1 : 1), true)
     }
 
-    function getActiveIndex() {
+    function getActiveCppParamIndex() {
         console.log('Current SELECTION INDEX: ', treeView.selectionModel.currentIndex)
-        //return treeView.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column)
         var item = treeView.itemAtIndex(treeView.selectionModel.currentIndex)
         if (item) {
             return treeView.model.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column, treeView.selectionModel.currentIndex.parent)
@@ -310,15 +309,18 @@ Rectangle {
 
     function setActiveIndexFromModel(index) {
         console.log('READY TO SET MODEINDEX FROM C++: ', index)
+        // Ensure item is visible
+        let modelIndex = treeView.model.index(index, 0)
         var currentIx = treeView.selectionModel.currentIndex
         if (currentIx.parent && currentIx.parent.valid) {
-            if (currentIx.parent.row === index.row) {
+            if (currentIx.parent.row === modelIndex.row) {
                 return
             }
-        } else if (currentIx.row === index.row) {
+        } else if (currentIx.row === modelIndex.row) {
             return
         }
-        treeView.selectionModel.setCurrentIndex(treeView.model.index(index.row, 0), ItemSelectionModel.SelectCurrent);
+        let row = treeView.rowAtIndex(modelIndex);
+        treeView.selectionModel.setCurrentIndex(treeView.model.index(row, 0), ItemSelectionModel.SelectCurrent);
     }
 
     function setActiveIndex(index) {
@@ -338,7 +340,7 @@ Rectangle {
     }
 
     function copyKeyframes() {
-        dopesheetmodel.copySelectedKeyframes(getActiveIndex(), dopeRoot.allSelectedKeyframes)
+        dopesheetmodel.copySelectedKeyframes(getActiveCppParamIndex(), dopeRoot.allSelectedKeyframes)
     }
 
     Keys.onDownPressed: {
@@ -758,24 +760,12 @@ Rectangle {
         selectionModel: ItemSelectionModel {
             model: dopesheetmodel
             onCurrentChanged: (current, previous) => {
-                rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveIndex())
+                rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveCppParamIndex())
                 if (current.valid && current.parent) {
-                    console.log('- - - -READY TO ACTIVATE MODEL FROM : ', current)
-                    var activeIndex = getActiveIndex()
+                    var activeIndex = getActiveCppParamIndex()
                     keyframeCurve.model = dopesheetmodel.getKeyframeModel(activeIndex)
-                    dopesheetmodel.setActiveIndex(activeIndex)
-                    /*var item
-                    if (current.parent !== treeView.rootIndex) {
-                        item = treeView.itemAtIndex(current.parent)
-                        if (item) {
-                            dopesheetmodel.setActiveIndex(treeView.index((item as TreeViewDelegate).row, (item as TreeViewDelegate).column))
-                        }
-                    } else {
-                        item = treeView.itemAtIndex(current) as TreeViewDelegate
-                        if (item) {
-                            dopesheetmodel.setActiveIndex(treeView.index((item as TreeViewDelegate).row, (item as TreeViewDelegate).column))
-                        }
-                    }*/
+                    let cppEffectIndex = treeView.index(activeIndex.parent === treeView.rootIndex ? activeIndex.row : activeIndex.parent.row, 0)
+                    dopesheetmodel.setActiveIndex(cppEffectIndex)
                 }
             }
         }

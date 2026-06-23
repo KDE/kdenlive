@@ -124,7 +124,7 @@ QHash<int, QByteArray> DopeSheetModel::roleNames() const
     roles[NameRole] = "dopeName";
     roles[AssetTypeRole] = "dopeType";
     roles[ModelRole] = "dopeModel";
-    roles[IndexRole] = "dopeIndex";
+    roles[EffectIndexRole] = "dopeEffectIndex";
     roles[SelectedRole] = "dopeSelected";
     roles[RecapRole] = "dopeRecap";
     return roles;
@@ -143,13 +143,13 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
         qDebug() << "Item index is not valid" << itemId << ", ROLE: " << role;
         return QVariant();
     }
-    qDebug() << "::: QUERYING DATA FOR INDEX: " << index.row() << " = " << role;
     switch (role) {
     case Qt::DisplayRole:
     case Qt::EditRole:
     case NameRole:
-        qDebug() << "::: QUERYING DATA FOR INDEX: " << index.row() << " = " << item->dataColumn(0);
         return item->dataColumn(0);
+    case EffectIndexRole:
+        return item->dataColumn(1);
     case ModelRole:
         return QVariant::fromValue(m_paramsList.at(itemId).second.get());
     case RecapRole:
@@ -1198,10 +1198,22 @@ void DopeSheetModel::addRemoveKeyframe(const QModelIndex ix, int pos)
     }
 }
 
+int DopeSheetModel::getRowFromEffectIndex(const QPersistentModelIndex ix)
+{
+    for (int j = 0; j < rootItem->childCount(); ++j) {
+        auto current = rootItem->child(j);
+        if (current->dataColumn(1).toInt() == ix.row()) {
+            return j;
+        }
+    }
+    return -1;
+}
+
 void DopeSheetModel::setActiveIndex(const QPersistentModelIndex ix)
 {
     if (m_model) {
-        m_model->setActiveEffect(ix.row());
+        int effectIndex = data(ix, EffectIndexRole).toInt();
+        m_model->setActiveEffect(effectIndex);
     }
 }
 

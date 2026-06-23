@@ -188,13 +188,19 @@ void DopeWidget::slotAddRemoveKeyframe()
 
 void DopeWidget::activateEffect(QPersistentModelIndex ix)
 {
-    QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(ix)));
+    int dopeRow = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
+    if (dopeRow >= 0) {
+        QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(dopeRow)));
+    }
 }
 
 void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active)
 {
     if (active) {
-        QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(ix)));
+        int dopeRow = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
+        if (dopeRow >= 0) {
+            QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(dopeRow)));
+        }
     }
 }
 
