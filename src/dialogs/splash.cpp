@@ -73,10 +73,10 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
         connect(m_rootObject, SIGNAL(openTemplate(QString)), this, SIGNAL(openTemplate(QString)));
         connect(m_rootObject, SIGNAL(showWelcome(bool)), this, SLOT(updateWelcomeDisplay(bool)));
         connect(m_rootObject, SIGNAL(switchPalette(bool)), this, SLOT(switchPalette(bool)));
-        connect(m_rootObject, SIGNAL(clearHistory()), this, SIGNAL(clearHistory()));
-        connect(m_rootObject, SIGNAL(clearProfiles()), this, SIGNAL(clearProfiles()));
-        connect(m_rootObject, SIGNAL(forgetFile(QString)), this, SIGNAL(forgetFile(QString)));
-        connect(m_rootObject, SIGNAL(forgetProfile(QString)), this, SIGNAL(forgetProfile(QString)));
+        connect(m_rootObject, SIGNAL(clearHistory()), this, SLOT(clearHistory()));
+        connect(m_rootObject, SIGNAL(clearProfiles()), this, SLOT(clearProfiles()));
+        connect(m_rootObject, SIGNAL(forgetFile(QString)), this, SLOT(forgetFile(QString)));
+        connect(m_rootObject, SIGNAL(forgetProfile(QString)), this, SLOT(forgetProfile(QString)));
 
         // All signals should also trigger a release lock
         connect(m_rootObject, SIGNAL(resetConfig()), this, SIGNAL(resetConfig()));
@@ -157,4 +157,50 @@ void Splash::showProgressMessage(const QString &message, int)
 {
     QMetaObject::invokeMethod(m_rootObject, "displayProgress", Qt::DirectConnection, Q_ARG(QVariant, message));
     qApp->processEvents();
+}
+
+void Splash::clearHistory()
+{
+    KConfigGroup history(KSharedConfig::openConfig(), "Recent Files");
+    history.deleteGroup();
+}
+
+void Splash::forgetFile(const QString &path)
+{
+    KConfigGroup history(KSharedConfig::openConfig(), "Recent Files");
+    auto entries = history.entryMap();
+    QString entryName;
+    for (auto i = entries.cbegin(), end = entries.cend(); i != end; ++i) {
+        if (i.value() == path) {
+            entryName = i.key();
+            break;
+        }
+    }
+    if (!entryName.isEmpty()) {
+        history.deleteEntry(entryName);
+        entryName.replace(QStringLiteral("File"), QStringLiteral("Name"));
+        history.deleteEntry(entryName);
+    }
+}
+
+void Splash::forgetProfile(const QString &path)
+{
+    KConfigGroup history(KSharedConfig::openConfig(), "Recent Profiles");
+    QStringList profileIds = history.readEntry("recentProfiles").split(QLatin1Char(','));
+    QStringList profileNames = history.readEntry("recentProfileNames").split(QLatin1Char(','));
+    int ix = profileIds.indexOf(path);
+    if (ix > -1) {
+        profileIds.removeAt(ix);
+        if (profileNames.size() > ix) {
+            profileNames.removeAt(ix);
+        }
+        history.writeEntry("recentProfiles", profileIds);
+        history.writeEntry("recentProfileNames", profileNames);
+    }
+}
+
+void Splash::clearProfiles()
+{
+    KConfigGroup history(KSharedConfig::openConfig(), "Recent Profiles");
+    history.deleteGroup();
 }

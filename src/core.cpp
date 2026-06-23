@@ -288,45 +288,6 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
             }
         });
 
-        // History
-        connect(m_splash, &Splash::clearHistory, this, [&]() {
-            if (m_splash->hasEventLoop() || !m_guiConstructed) {
-                connect(this, &Core::mainWindowReady, this, [&]() {
-                    m_projectManager->recentFilesAction()->clear();
-                    m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
-                });
-            } else {
-                m_projectManager->recentFilesAction()->clear();
-                m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
-            }
-        });
-        connect(m_splash, &Splash::forgetFile, this, [&](const QString path) {
-            if (m_splash->hasEventLoop() || !m_guiConstructed) {
-                connect(this, &Core::mainWindowReady, this, [&, path]() {
-                    m_projectManager->recentFilesAction()->removeUrl(QUrl::fromLocalFile(path));
-                    m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
-                });
-            } else {
-                m_projectManager->recentFilesAction()->removeUrl(QUrl::fromLocalFile(path));
-                m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
-            }
-        });
-        connect(m_splash, &Splash::clearProfiles, this, [&]() {
-            KdenliveSettings::setRecentProfiles({});
-            KdenliveSettings::setRecentProfileNames({});
-        });
-        connect(m_splash, &Splash::forgetProfile, this, [&](const QString path) {
-            QStringList profileIds = KdenliveSettings::recentProfiles();
-            QStringList profileNames = KdenliveSettings::recentProfileNames();
-            int ix = profileIds.indexOf(path);
-            if (ix > -1) {
-                profileIds.removeAt(ix);
-                profileNames.removeAt(ix);
-                KdenliveSettings::setRecentProfiles(profileIds);
-                KdenliveSettings::setRecentProfileNames(profileNames);
-            }
-        });
-
         connect(m_splash, &Splash::openTemplate, this, [this](QString url) {
             if (url.isEmpty()) {
                 // Open project settings
