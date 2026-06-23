@@ -2027,7 +2027,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
               Qt::SHIFT | Qt::Key_R);
 
-    addAction(QStringLiteral("replace_timeline_clip"), i18n("Replace Timeline Clip"), this, SLOT(slotReplaceTimelineClip()),
+    addAction(QStringLiteral("replace_timeline_clip"), i18n("Replace with Bin Selection"), this, SLOT(slotReplaceTimelineClip()),
               QIcon::fromTheme(QStringLiteral("edit-find-replace")), QKeySequence());
     act->setData('C');
 
