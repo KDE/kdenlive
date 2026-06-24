@@ -307,27 +307,23 @@ Rectangle {
         return treeView.index(-1, -1)
     }
 
-    function setActiveIndexFromModel(index) {
-        console.log('READY TO SET MODEINDEX FROM C++: ', index)
+    function setActiveIndexFromModel(row) {
+        console.log('READY TO SET MODEINDEX FROM C++: ', row)
         // Ensure item is visible
-        let modelIndex = treeView.model.index(index, 0)
+        let modelIndex = treeView.model.index(row, 0)
+        if (!modelIndex.valid) {
+            return
+        }
         var currentIx = treeView.selectionModel.currentIndex
-        if (currentIx.parent && currentIx.parent.valid) {
+        if (currentIx.parent && currentIx.parent.valid && currentIx.parent != treeView.rootIndex) {
             if (currentIx.parent.row === modelIndex.row) {
                 return
             }
         } else if (currentIx.row === modelIndex.row) {
             return
         }
+        console.log('Setting index from C++: ', modelIndex)
         treeView.selectionModel.setCurrentIndex(modelIndex, ItemSelectionModel.SelectCurrent);
-    }
-
-    function setActiveIndex(index) {
-        if (index.parent && index.parent.valid) {
-            dopesheetmodel.setActiveIndex(index.parent.row)
-        } else {
-            dopesheetmodel.setActiveIndex(index.row)
-        }
     }
 
     function pasteKeyframes(position=undefined) {
@@ -762,9 +758,11 @@ Rectangle {
                 rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveCppParamIndex())
                 if (current.valid && current.parent) {
                     var activeIndex = getActiveCppParamIndex()
-                    keyframeCurve.model = dopesheetmodel.getKeyframeModel(activeIndex)
-                    let cppEffectIndex = treeView.index(activeIndex.parent === treeView.rootIndex ? activeIndex.row : activeIndex.parent.row, 0)
-                    dopesheetmodel.setActiveIndex(cppEffectIndex)
+                    if (activeIndex.valid) {
+                        keyframeCurve.model = dopesheetmodel.getKeyframeModel(activeIndex)
+                        let cppEffectIndex = treeView.model.index(activeIndex.parent === treeView.rootIndex ? activeIndex.row : activeIndex.parent.row, 0)
+                        dopesheetmodel.setActiveIndex(cppEffectIndex)
+                    }
                 }
             }
         }

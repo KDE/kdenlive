@@ -119,6 +119,9 @@ public:
     /** @brief Returns true if at least one keyframe exists
      */
     bool hasKeyframes(const QPersistentModelIndex index) const;
+    /** @brief Returns the keyframes count in a specific index
+     */
+    int keyframesCount(const QPersistentModelIndex index) const;
     /** @brief Returns true if there is only 1 keyframe or frame is on a keyframe
      */
     bool enableParameter(const QPersistentModelIndex index, int frame) const;

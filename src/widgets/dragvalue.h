@@ -178,6 +178,7 @@ public Q_SLOTS:
     void setValueFromProgress(double value, bool final, bool createUndoEntry, bool updateWidget = true);
     /** @brief Resets to default value */
     void slotReset();
+    void setParamState(bool isOnKeyframe, bool singleKeyframe);
 
 Q_SIGNALS:
     void customValueChanged(double value, bool final = true, bool createUndoEntry = true);
@@ -216,6 +217,8 @@ private:
     double m_minimum;
     int m_decimals;
     double m_default;
+    bool m_onKeyframe{false};
+    bool m_singleKeyframe{false};
     int m_id;
     QString m_labelText;
     MySpinBox *m_intEdit{nullptr};

@@ -36,6 +36,7 @@ public:
     /** @brief Create the widget's label
      */
     virtual QLabel *createLabel();
+    virtual void setParamState(bool isOnKeyframe, bool singleKeyframe);
 
 Q_SIGNALS:
     /** @brief Signal sent when the parameters hold by the widgets are modified
@@ -70,4 +71,6 @@ public Q_SLOTS:
 protected:
     std::shared_ptr<AssetParameterModel> m_model;
     QPersistentModelIndex m_index;
+    bool m_onKeyframe{false};
+    bool m_singleKeyframe{false};
 };

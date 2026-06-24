@@ -734,7 +734,7 @@ KeyframeModel *DopeSheetModel::getKeyframeModel(QPersistentModelIndex activeInde
 
 bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentModelIndex activeIndex)
 {
-    if (!m_model) {
+    if (!m_model || !activeIndex.isValid()) {
         return false;
     }
     int max = m_model->rowCount();

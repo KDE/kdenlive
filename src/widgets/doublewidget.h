@@ -67,6 +67,7 @@ private:
 
 Q_SIGNALS:
     void valueChanged(double, bool createUndoEntry);
+    void setParamState(bool isOnKeyframe, bool singleKeyframe);
 
     // same signal as valueChanged, but add an extra boolean to tell if user is dragging value or not
     void valueChanging(double, bool);

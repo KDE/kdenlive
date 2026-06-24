@@ -703,6 +703,13 @@ bool KeyframeModelList::hasKeyframes(const QPersistentModelIndex index) const
     return m_parameters.at(index)->keyframesCount() > 0;
 }
 
+int KeyframeModelList::keyframesCount(const QPersistentModelIndex index) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_parameters.count(index) > 0);
+    return m_parameters.at(index)->keyframesCount();
+}
+
 void KeyframeModelList::refresh()
 {
     QWriteLocker locker(&m_lock);

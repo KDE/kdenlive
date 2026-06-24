@@ -598,7 +598,18 @@ void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)
     for (const auto &w : m_parameters) {
         qDebug() << "::: COMPARING IXES: " << w.first << " IS IN: " << indexes;
         if (w.second) {
-            w.second->setEnabled(inside && indexes.contains(w.first));
+            auto abstractParam = qobject_cast<AbstractParamWidget *>(w.second);
+            if (abstractParam) {
+                abstractParam->setParamState(inside && indexes.contains(w.first), m_keyframes->keyframesCount(w.first) == 1);
+            } else {
+                auto doubleParam = qobject_cast<DoubleWidget *>(w.second);
+                if (doubleParam) {
+                    doubleParam->setParamState(inside && indexes.contains(w.first), m_keyframes->keyframesCount(w.first) == 1);
+                } else {
+                    qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT...";
+                    doubleParam->setEnabled(inside && indexes.contains(w.first));
+                }
+            }
         } else {
             qDebug() << "::: MISSING WIDGET FOR IX: " << w.first << " / GEOM: " << m_geometryIndex;
         }

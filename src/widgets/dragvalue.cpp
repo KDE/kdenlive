@@ -763,6 +763,26 @@ QLabel *DragValue::createLabel()
     return new QLabel(m_labelText, this);
 }
 
+void DragValue::setParamState(bool isOnKeyframe, bool singleKeyframe)
+{
+    if (isOnKeyframe != m_onKeyframe || singleKeyframe != m_singleKeyframe) {
+        m_onKeyframe = isOnKeyframe;
+        m_singleKeyframe = singleKeyframe;
+        KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+        QColor col = m_singleKeyframe ? scheme.background(KColorScheme::LinkBackground).color()
+                     : m_onKeyframe   ? scheme.background(KColorScheme::NeutralBackground).color()
+                                      : scheme.background(KColorScheme::PositiveBackground).color();
+        QPalette pal = palette();
+        if (m_intEdit) {
+            pal.setColor(m_intEdit->backgroundRole(), col);
+            m_intEdit->setPalette(pal);
+        } else {
+            pal.setColor(m_doubleEdit->backgroundRole(), col);
+            m_doubleEdit->setPalette(pal);
+        }
+    }
+}
+
 bool DragValue::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::Wheel) {

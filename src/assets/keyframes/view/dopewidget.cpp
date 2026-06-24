@@ -89,7 +89,9 @@ void DopeWidget::registerDopeAsset(std::shared_ptr<AssetParameterModel> model, c
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
-    pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
+    if (activeIndex.isValid()) {
+        pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
+    }
     QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
                               Q_ARG(QVariant, model->getOwnerId().itemId));
 }
@@ -115,7 +117,9 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
-    pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
+    if (activeIndex.isValid()) {
+        pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
+    }
     QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
                               Q_ARG(QVariant, model->getOwnerId().itemId));
 }
@@ -150,6 +154,9 @@ void DopeWidget::gotoPreviousSnap()
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QModelIndex activeIndex = returnedValue.toModelIndex();
+    if (!activeIndex.isValid()) {
+        return;
+    }
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId());
     pos = pCore->dopeSheetModel()->getPreviousSnap(activeIndex, pos);
     pCore->seekMonitor(pCore->dopeSheetModel()->getMonitorId(), pos);
@@ -164,6 +171,9 @@ void DopeWidget::gotoNextSnap()
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
+    if (!activeIndex.isValid()) {
+        return;
+    }
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId());
     pos = pCore->dopeSheetModel()->getNextSnap(activeIndex, pos);
     pCore->seekMonitor(pCore->dopeSheetModel()->getMonitorId(), pos);
@@ -211,6 +221,9 @@ void DopeWidget::checkModelUpdate()
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
+    if (!activeIndex.isValid()) {
+        return;
+    }
     bool onKeyframe = pCore->dopeSheetModel()->isOnKeyframe(pos, false, activeIndex);
     QMetaObject::invokeMethod(rootObject(), "updateOverKeyframeFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(onKeyframe)));
 }
