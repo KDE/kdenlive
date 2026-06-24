@@ -87,7 +87,7 @@ void DopeWidget::registerDopeAsset(std::shared_ptr<AssetParameterModel> model, c
     // Check if we are on a keyframe
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->getItemPosition(model->getOwnerId());
     QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
     pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
     QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
@@ -113,7 +113,7 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     // Check if we are on a keyframe
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->getItemPosition(model->getOwnerId());
     QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
     pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
     QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
@@ -148,7 +148,7 @@ void DopeWidget::gotoPreviousSnap()
     }
     // Find active model
     QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QModelIndex activeIndex = returnedValue.toModelIndex();
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId());
     pos = pCore->dopeSheetModel()->getPreviousSnap(activeIndex, pos);
@@ -162,7 +162,7 @@ void DopeWidget::gotoNextSnap()
     }
     // Find active model
     QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId());
     pos = pCore->dopeSheetModel()->getNextSnap(activeIndex, pos);
@@ -176,7 +176,7 @@ void DopeWidget::slotAddRemoveKeyframe()
     }
     // Find active model
     QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QModelIndex activeIndex = returnedValue.toModelIndex();
     if (!activeIndex.isValid()) {
         pCore->displayMessage(i18n("Select a parameter to add a keyframe"), ErrorMessage);
@@ -209,7 +209,7 @@ void DopeWidget::checkModelUpdate()
     // Check if we are on a keyframe
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopePosition();
     QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
     bool onKeyframe = pCore->dopeSheetModel()->isOnKeyframe(pos, false, activeIndex);
     QMetaObject::invokeMethod(rootObject(), "updateOverKeyframeFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(onKeyframe)));

@@ -319,8 +319,7 @@ Rectangle {
         } else if (currentIx.row === modelIndex.row) {
             return
         }
-        let row = treeView.rowAtIndex(modelIndex);
-        treeView.selectionModel.setCurrentIndex(treeView.model.index(row, 0), ItemSelectionModel.SelectCurrent);
+        treeView.selectionModel.setCurrentIndex(modelIndex, ItemSelectionModel.SelectCurrent);
     }
 
     function setActiveIndex(index) {
@@ -787,6 +786,15 @@ Rectangle {
             required property int column
             required property bool current
             required property bool selected
+            Rectangle {
+                color: 'darkgoldenrod'
+                opacity: 0.3
+                visible: depth == 0
+                x: 4
+                anchors.fill: parent
+                //height: parent.height
+                //width: treeView.headerWidth
+            }
             Rectangle {
                 color: Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1)
                 radius: 4
