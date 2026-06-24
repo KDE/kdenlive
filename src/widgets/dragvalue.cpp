@@ -933,6 +933,24 @@ void DragValue::slotSetValue(double value)
     setValue(value, true);
 }
 
+void DragValue::resizeEvent(QResizeEvent *ev)
+{
+    if (m_label) {
+        if (m_intEdit) {
+            if (ev->size().width() <= 2.3 * m_intEdit->minimumWidth()) {
+                m_label->setVisible(false);
+            } else {
+                m_label->setVisible(true);
+            }
+        } else if (ev->size().width() <= 2.3 * m_doubleEdit->minimumWidth()) {
+            m_doubleEdit->setVisible(false);
+        } else {
+            m_doubleEdit->setVisible(true);
+        }
+    }
+    QWidget::resizeEvent(ev);
+}
+
 void DragValue::setValueFromProgress(double value, bool final, bool createUndoEntry, bool updateWidget)
 {
     value = m_minimum + value * (m_maximum - m_minimum) / m_label->maximum();

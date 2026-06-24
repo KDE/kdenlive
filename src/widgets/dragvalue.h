@@ -193,6 +193,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *e);*/
     /** @brief Forwards tab focus to lineedit since it is disabled. */
     bool eventFilter(QObject *watched, QEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
     // virtual void keyPressEvent(QKeyEvent *e);
     // virtual void wheelEvent(QWheelEvent *e);
