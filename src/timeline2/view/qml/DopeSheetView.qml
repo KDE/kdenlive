@@ -1100,6 +1100,11 @@ Rectangle {
                     id: paramModel
                     model: dopeModel
                     property int handleWidth: Math.round(K.UiUtils.baseSizeMedium * 0.8)
+                    onCountChanged: {
+                        // A keyframe was added/removed, check if playhead position is over a keyframe
+                        rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveCppParamIndex())
+                    }
+
                     Rectangle {
                         id: handle
                         z: 10
