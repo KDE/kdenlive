@@ -122,6 +122,8 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_layout(layout)
 {
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingKeyframes, this, &KeyframeContainer::updatedPosition);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::refreshAnimatedValues, this, &KeyframeContainer::slotRefresh);
+
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
@@ -598,16 +600,19 @@ void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)
     for (const auto &w : m_parameters) {
         qDebug() << "::: COMPARING IXES: " << w.first << " IS IN: " << indexes;
         if (w.second) {
+            auto tb = m_keyframeActions[w.first];
+            bool onKeyframe = inside && indexes.contains(w.first);
+            tb->setActive(onKeyframe);
             auto abstractParam = qobject_cast<AbstractParamWidget *>(w.second);
             if (abstractParam) {
-                abstractParam->setParamState(inside && indexes.contains(w.first), m_keyframes->keyframesCount(w.first) == 1);
+                abstractParam->setParamState(onKeyframe, m_keyframes->keyframesCount(w.first) == 1);
             } else {
                 auto doubleParam = qobject_cast<DoubleWidget *>(w.second);
                 if (doubleParam) {
-                    doubleParam->setParamState(inside && indexes.contains(w.first), m_keyframes->keyframesCount(w.first) == 1);
+                    doubleParam->setParamState(onKeyframe, m_keyframes->keyframesCount(w.first) == 1);
                 } else {
                     qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT...";
-                    doubleParam->setEnabled(inside && indexes.contains(w.first));
+                    doubleParam->setEnabled(onKeyframe);
                 }
             }
         } else {
@@ -617,6 +622,7 @@ void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)
     if (m_geom) {
         m_geom->setEnabled(inside && indexes.contains(m_geometryIndex));
     }
+    slotRefreshParams();
 }
 
 void KeyframeContainer::slotAtKeyframe(int frame, bool atKeyframe, bool singleKeyframe)
@@ -870,7 +876,6 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(QColorUtils::colorToString(color, alphaEnabled)), -1, index);
         });
         paramWidget = colorWidget;
-
     } else {
         if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
             if (type == ParamType::KeyframeParam) {
@@ -908,8 +913,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(),
                                              m_model->data(index, AssetParameterModel::CompactRole).toBool(), m_parent);
-
-        QCheckBox *cb = new QCheckBox(m_parent);
+        /*QCheckBox *cb = new QCheckBox(m_parent);
         cb->setToolTip(i18n("Enable keyframes"));
         cb->setChecked(!m_model->data(index, AssetParameterModel::BlockedKeyframesRole)
                             .toStringList()
@@ -973,8 +977,26 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 pCore->pushUndo(undo, redo, i18n("Remove and Disable Keyframes"));
             }
         });
-        lay->addWidget(doubleWidget);
         lay->addWidget(cb);
+        */
+        lay->addWidget(doubleWidget);
+        KDualAction *kfAction = new KDualAction(m_parent);
+        kfAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
+        kfAction->setActiveText(i18n("Remove Keyframe"));
+        kfAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
+        kfAction->setInactiveText(i18n("Add Keyframe"));
+        QToolButton *tb = new QToolButton(m_parent);
+        tb->setAutoRaise(true);
+        tb->setDefaultAction(kfAction);
+        lay->addWidget(tb);
+        connect(kfAction, &KDualAction::activeChangedByUser, this, [this, index](bool activated) {
+            auto km = m_keyframes->getKeyModel(index);
+            if (activated) {
+                km->addKeyframe(getPosition());
+            } else {
+                km->removeKeyframe(getPosition());
+            }
+        });
 
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
@@ -989,16 +1011,39 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         }
         doubleWidget->setDragObjectName(QString::number(index.row()));
         m_parameters[index] = doubleWidget;
+        m_keyframeActions[index] = kfAction;
         labelWidget = doubleWidget->createLabel();
         m_layout->addRow(labelWidget, container);
         return;
     }
     if (paramWidget) {
         m_parameters[index] = paramWidget;
+        QWidget *container = new QWidget(m_parent);
+        auto lay = new QHBoxLayout(container);
+        lay->addWidget(paramWidget);
+        KDualAction *kfAction = new KDualAction(m_parent);
+        kfAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
+        kfAction->setActiveText(i18n("Remove Keyframe"));
+        kfAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
+        kfAction->setInactiveText(i18n("Add Keyframe"));
+        QToolButton *tb = new QToolButton(m_parent);
+        tb->setAutoRaise(true);
+        tb->setDefaultAction(kfAction);
+        lay->addWidget(tb);
+        connect(kfAction, &KDualAction::activeChangedByUser, this, [this, index](bool activated) {
+            auto km = m_keyframes->getKeyModel(index);
+            if (activated) {
+                km->addKeyframe(getPosition());
+            } else {
+                km->removeKeyframe(getPosition());
+            }
+        });
+
+        m_keyframeActions[index] = kfAction;
         if (labelWidget) {
-            m_layout->addRow(labelWidget, paramWidget);
+            m_layout->addRow(labelWidget, container);
         } else {
-            m_layout->addRow(paramWidget);
+            m_layout->addRow(container);
         }
         m_addedHeight += paramWidget->minimumHeight() + m_layout->horizontalSpacing();
         m_fixedHeight = m_baseHeight + m_addedHeight;

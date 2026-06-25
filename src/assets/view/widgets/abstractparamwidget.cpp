@@ -170,6 +170,10 @@ std::pair<AbstractParamWidget *, KeyframeContainer *> AbstractParamWidget::const
 
 void AbstractParamWidget::setParamState(bool isOnKeyframe, bool singleKeyframe)
 {
-    m_onKeyframe = isOnKeyframe;
-    m_singleKeyframe = singleKeyframe;
+    if (m_onKeyframe != isOnKeyframe || m_singleKeyframe != singleKeyframe) {
+        m_onKeyframe = isOnKeyframe;
+        m_singleKeyframe = singleKeyframe;
+        // Position changed, update value
+        setEnabled(isOnKeyframe || singleKeyframe);
+    }
 }

@@ -319,7 +319,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
         QList<QEvent::Type> handledTypes = {
             QEvent::ContextMenu, QEvent::MouseButtonPress, QEvent::MouseButtonRelease, QEvent::MouseMove, QEvent::Wheel, QEvent::Enter, QEvent::Leave,
             QEvent::FocusIn,     QEvent::FocusOut};
-        if (!isEnabled() && handledTypes.contains(type)) {
+        if ((!isEnabled() || isReadOnly()) && handledTypes.contains(type)) {
             // Widget is disabled
             event->accept();
             return true;
@@ -481,7 +481,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
         QList<QEvent::Type> handledTypes = {
             QEvent::ContextMenu, QEvent::MouseButtonPress, QEvent::MouseButtonRelease, QEvent::MouseMove, QEvent::Wheel, QEvent::Enter, QEvent::Leave,
             QEvent::FocusIn,     QEvent::FocusOut};
-        if (!isEnabled() && handledTypes.contains(type)) {
+        if ((!isEnabled() || isReadOnly()) && handledTypes.contains(type)) {
             // Widget is disabled
             event->accept();
             return true;
@@ -773,12 +773,18 @@ void DragValue::setParamState(bool isOnKeyframe, bool singleKeyframe)
                      : m_onKeyframe   ? scheme.background(KColorScheme::NeutralBackground).color()
                                       : scheme.background(KColorScheme::PositiveBackground).color();
         QPalette pal = palette();
+        bool readOnly = !isOnKeyframe && !singleKeyframe;
         if (m_intEdit) {
             pal.setColor(m_intEdit->backgroundRole(), col);
             m_intEdit->setPalette(pal);
+            m_intEdit->setReadOnly(readOnly);
         } else {
             pal.setColor(m_doubleEdit->backgroundRole(), col);
             m_doubleEdit->setPalette(pal);
+            m_doubleEdit->setReadOnly(readOnly);
+        }
+        if (m_label) {
+            m_label->setEnabled(!readOnly);
         }
     }
 }

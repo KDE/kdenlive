@@ -23,7 +23,7 @@ public:
     DoubleParamWidget() = delete;
     DoubleParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
     QLabel *createLabel() override;
-    void setParamState(bool isOnKeyframe, bool singleKeyframe);
+    void setParamState(bool isOnKeyframe, bool singleKeyframe) override;
 
 public Q_SLOTS:
     /** @brief Toggle the comments on or off

@@ -157,5 +157,8 @@ Q_SIGNALS:
     void dopePositionChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void activateEffect(QPersistentModelIndex ix);
+    /** @brief The keyframe state per parameter changed, inform effect stack */
     void matchingKeyframes(QList<QPersistentModelIndex>);
+    /** @brief Update effect stack values for animated params on position change */
+    void refreshAnimatedValues();
 };

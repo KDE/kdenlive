@@ -773,8 +773,12 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
     }
     if (force || m_indexesOnKeyframe != matchingIndexes) {
         Q_EMIT matchingKeyframes(matchingIndexes);
+        m_indexesOnKeyframe = matchingIndexes;
+    } else {
+        // only position changed
+        Q_EMIT refreshAnimatedValues();
     }
-    m_indexesOnKeyframe = matchingIndexes;
+
     if (matching) {
         if (activeIndex.isValid()) {
             return foundActive;

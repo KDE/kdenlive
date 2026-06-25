@@ -132,6 +132,7 @@ private:
     void setDuration(int duration);
     void addCurveEditor(const QPersistentModelIndex &index, QString name = "", int rectindex = -1);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
+    std::unordered_map<QPersistentModelIndex, KDualAction *> m_keyframeActions;
     int m_baseHeight{0};
     int m_addedHeight{0};
     QFormLayout *m_layout;
