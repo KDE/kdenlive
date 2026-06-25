@@ -39,10 +39,7 @@ static std::map<QString, QString> categoryMap{{QStringLiteral("Generic (HD for w
                                               {QStringLiteral("10 Bit"), QStringLiteral("10bit")},
                                               {QStringLiteral("Lossless/HQ"), QStringLiteral("lossless")}};
 
-RenderPresetRepository::RenderPresetRepository()
-{
-    refresh();
-}
+RenderPresetRepository::RenderPresetRepository() {}
 
 std::unique_ptr<RenderPresetRepository> &RenderPresetRepository::get()
 {
@@ -112,6 +109,9 @@ void RenderPresetRepository::refresh(bool fullRefresh)
     // Parse some MLT's profiles
     parseMltPresets();
 
+    // customprofiles needs to be read last
+    fileList.removeAll(QStringLiteral("customprofiles.xml"));
+
     // Parse files downloaded with KNewStuff
     for (const QString &filename : std::as_const(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
@@ -121,13 +121,12 @@ void RenderPresetRepository::refresh(bool fullRefresh)
     // all other profiles
     if (directory.exists(QStringLiteral("customprofiles.xml"))) {
         parseFile(directory.absoluteFilePath(QStringLiteral("customprofiles.xml")), true);
-        // no need to parse this again
-        fileList.removeAll(QStringLiteral("customprofiles.xml"));
     }
 }
 
 void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
 {
+    qDebug() << ":::::PARSING FILE: " << exportFile << "\n_______________________";
     QDomDocument doc;
     if (!Xml::docContentFromFile(doc, exportFile, false)) {
         return;
@@ -204,12 +203,16 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
                 }
             }
             std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable, category));
-            if (m_profiles.count(model->name()) == 0) {
-                m_profiles.insert(std::make_pair(model->name(), std::move(model)));
-            } else if (editable) {
-                // Editable items should override existing items
-                m_profiles.erase(model->name());
-                m_profiles.insert(std::make_pair(model->name(), std::move(model)));
+            if (model->isValid()) {
+                if (m_profiles.count(model->name()) == 0) {
+                    m_profiles.insert(std::make_pair(model->name(), std::move(model)));
+                } else if (editable) {
+                    // Editable items should override existing items
+                    m_profiles.erase(model->name());
+                    m_profiles.insert(std::make_pair(model->name(), std::move(model)));
+                }
+            } else {
+                qWarning() << "-- IGNORING MALICIOUS RENDER PROFILE: " << model->name() << " AT: " << exportFile;
             }
             node = doc.elementsByTagName(QStringLiteral("profile")).at(count);
             count++;
@@ -243,7 +246,9 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
             }
             QDomElement profile = n.toElement();
             std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable, groupId, renderer));
-            if (m_profiles.count(model->name()) == 0) {
+            if (!model->isValid()) {
+                qWarning() << "-- IGNORING MALICIOUS RENDER PROFILE: " << model->name() << " AT: " << exportFile;
+            } else if (m_profiles.count(model->name()) == 0) {
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
             n = n.nextSibling();
@@ -271,7 +276,7 @@ void RenderPresetRepository::parseMltPresets()
         for (const QString &prof : profiles) {
             std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("lossless"), baseDir.absoluteFilePath(prof), prof,
                                                                            QStringLiteral("properties=lossless/%1").arg(prof), true));
-            if (m_profiles.count(model->name()) == 0) {
+            if (model->isValid() && m_profiles.count(model->name()) == 0) {
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
         }

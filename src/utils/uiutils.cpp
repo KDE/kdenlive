@@ -12,11 +12,17 @@
 #include <QIcon>
 #include <QPixmap>
 
-static QStringList forbiddenParams = {QStringLiteral("attach"), QStringLiteral("metadata"), QStringLiteral("null"),   QStringLiteral("dump"),
-                                      QStringLiteral("concat"), QStringLiteral("safe"),     QStringLiteral("ladspa"), QStringLiteral("protocol_whitelist")};
-
 const QStringList UiUtils::getProxyForbiddenParams()
 {
+    static QStringList forbiddenParams = {QStringLiteral("attach"), QStringLiteral("metadata"), QStringLiteral("null"),   QStringLiteral("dump"),
+                                          QStringLiteral("concat"), QStringLiteral("safe"),     QStringLiteral("ladspa"), QStringLiteral("protocol_whitelist"),
+                                          QStringLiteral("-ante "), QStringLiteral("-post ")};
+    return forbiddenParams;
+}
+
+const QStringList UiUtils::getRenderForbiddenParams()
+{
+    static QStringList forbiddenParams = {QStringLiteral(" ante="), QStringLiteral(" post=")};
     return forbiddenParams;
 }
 

@@ -70,6 +70,7 @@ public:
     QStringList defaultValues() const;
     bool editable() const;
     bool isManual() const;
+    bool isValid() const;
 
     QString getParam(const QString &name) const;
     bool hasParam(const QString &name) const;
@@ -106,6 +107,7 @@ private:
     QString m_defaultABitrate;
     QString m_aQualities;
     QString m_defaultAQuality;
+    bool m_isValid{true};
 
     QString m_errors;
     QString m_warnings;

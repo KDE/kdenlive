@@ -278,4 +278,16 @@ TEST_CASE("Tests of the render functions to use guides for sections", "[RenderRe
         CHECK(sections.at(2).first == 51);
         CHECK(sections.at(2).second == out);
     }
+
+    SECTION("Test invalid parameter")
+    {
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ParamTest"), QStringLiteral("Test"),
+                                                                       QStringLiteral("ante=first two=second value three=third four=4"), QString(), QString(),
+                                                                       QString(), QString(), QString(), QString(), QString(), false));
+        CHECK(model->isValid() == false);
+        std::unique_ptr<RenderPresetModel> model2(new RenderPresetModel(QStringLiteral("ParamTest"), QStringLiteral("Test"),
+                                                                        QStringLiteral("ante\\=first two=second value three=third four=4"), QString(),
+                                                                        QString(), QString(), QString(), QString(), QString(), QString(), false));
+        CHECK(model2->isValid() == false);
+    }
 }

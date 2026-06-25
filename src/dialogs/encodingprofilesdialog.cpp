@@ -150,16 +150,16 @@ void EncodingProfilesDialog::slotAddProfile()
             d->accept();
             return;
         }
-        QString params = pparams->toPlainText().simplified();
+        const QString sanitized = pparams->toPlainText().simplified().remove(QLatin1Char('\\'));
         const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
         for (auto &f : forbiddenArgs) {
-            if (params.contains(f)) {
+            if (sanitized.contains(f)) {
                 warning->setText(i18n("Your proxy parameters contains forbidden keywords, please remove them: <b>%1</b>.", f));
                 warning->show();
                 return;
             }
         }
-        const QStringList unknownKeywords = UiUtils::checkUnknownProxyParams(params);
+        const QStringList unknownKeywords = UiUtils::checkUnknownProxyParams(sanitized);
         if (!unknownKeywords.isEmpty() && (!warning->isVisible() || warning->actions().isEmpty())) {
             warning->setText(i18n("Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you want to always allow them ?",
                                   unknownKeywords.join(QLatin1Char(','))));
@@ -219,16 +219,16 @@ void EncodingProfilesDialog::slotEditProfile()
             d->accept();
             return;
         }
-        QString params = pparams->toPlainText().simplified();
+        const QString sanitized = pparams->toPlainText().simplified().remove(QLatin1Char('\\'));
         const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
         for (auto &f : forbiddenArgs) {
-            if (params.contains(f)) {
+            if (sanitized.contains(f)) {
                 warning->setText(i18n("Your proxy parameters contains forbidden keywords, please remove them: <b>%1</b>.", f));
                 warning->show();
                 return;
             }
         }
-        const QStringList unknownKeywords = UiUtils::checkUnknownProxyParams(params);
+        const QStringList unknownKeywords = UiUtils::checkUnknownProxyParams(sanitized);
         if (!unknownKeywords.isEmpty() && (!warning->isVisible() || warning->actions().isEmpty())) {
             warning->setText(i18n("Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you want to always allow them ?",
                                   unknownKeywords.join(QLatin1Char(','))));
