@@ -27806,10 +27806,9 @@ msgid "Cut Clip"
 msgstr "分割片段"
 
 #: src/mainwindow.cpp:2030
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace with Bin Selection"
-msgstr "替换时间轴中的片段"
+msgstr ""
 
 #: src/mainwindow.cpp:2034
 #, kde-format
@@ -34022,17 +34021,15 @@ msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
-msgstr "替换片段"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
-#, fuzzy, kde-format
-#| msgid "Import selected clips"
+#, kde-format
 msgid "Import New Clip"
-msgstr "导入所选片段"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4524
 #, kde-format
@@ -34040,14 +34037,9 @@ msgid "Incompatible clip types for replacement"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4531
-#, fuzzy, kde-format
-#| msgid ""
-#| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
-#| "with clip <b>%2</b>"
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
 msgstr ""
-"正在把片段 <b>%1</b><br/> 位于活动时间轴中的实例\n"
-"替换为片段 <b>%2</b>"
 
 #: src/timeline2/view/timelinecontroller.cpp:4534
 #, kde-format
@@ -34056,10 +34048,9 @@ msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
 msgstr[0] ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
-msgstr "替换片段"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4761
 #, kde-format

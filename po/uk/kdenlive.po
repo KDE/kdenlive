@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-24 01:23+0000\n"
-"PO-Revision-Date: 2026-06-17 08:02+0300\n"
+"PO-Revision-Date: 2026-06-24 22:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -28799,10 +28799,9 @@ msgid "Cut Clip"
 msgstr "Розрізати кліп"
 
 #: src/mainwindow.cpp:2030
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace with Bin Selection"
-msgstr "Замінити на монтажному столі"
+msgstr "Замінити на вибраний у контейнері"
 
 #: src/mainwindow.cpp:2034
 #, kde-format
@@ -35247,20 +35246,20 @@ msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
+"У контейнері проєкту не вибрано кліпу-замінника. Виберіть кліп у контейнері "
+"і спробуйте повторити виконання дії або імпортуйте новий кліп."
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
-msgstr "Замінити кліп"
+msgstr "Заміна кліпу"
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
-#, fuzzy, kde-format
-#| msgid "Import selected clips"
+#, kde-format
 msgid "Import New Clip"
-msgstr "Імпортувати позначені кліпи"
+msgstr "Імпортувати новий кліп"
 
 #: src/timeline2/view/timelinecontroller.cpp:4524
 #, kde-format
@@ -35268,27 +35267,21 @@ msgid "Incompatible clip types for replacement"
 msgstr "Несумісні типи кліпів для заміни"
 
 #: src/timeline2/view/timelinecontroller.cpp:4531
-#, fuzzy, kde-format
-#| msgid ""
-#| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
-#| "with clip <b>%2</b>"
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
-msgstr ""
-"Замінюємо екземпляри кліпу <b>%1</b><br/>на активному монтажному столі\n"
-"кліпом <b>%2</b>"
+msgstr "Замінити кліп <b>%1</b> на <b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4534
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Замінити <b>%1</b> кліп на <b>%2</b>?"
+msgstr[1] "Замінити <b>%1</b> кліпи на <b>%2</b>?"
+msgstr[2] "Замінити <b>%1</b> кліпів на <b>%2</b>?"
+msgstr[3] "Замінити <b>%1</b> кліп на <b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
 msgstr "Замінити кліп"
 

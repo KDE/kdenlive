@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-24 01:23+0000\n"
-"PO-Revision-Date: 2026-06-17 08:45+0200\n"
+"PO-Revision-Date: 2026-06-24 12:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 26.04.2\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -28840,10 +28840,9 @@ msgid "Cut Clip"
 msgstr "Retalla el clip"
 
 #: src/mainwindow.cpp:2030
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace with Bin Selection"
-msgstr "Substitueix a la línia de temps"
+msgstr "Substitueix per la selecció de la safata"
 
 #: src/mainwindow.cpp:2034
 #, kde-format
@@ -35269,20 +35268,21 @@ msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
+"No s'ha seleccionat cap clip de substitució a la safata del projecte. "
+"Seleccioneu un clip a la safata i torneu a provar aquesta acció, o importeu "
+"un clip nou."
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
-msgstr "Substitueix el clip"
+msgstr "Substitució de clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
-#, fuzzy, kde-format
-#| msgid "Import selected clips"
+#, kde-format
 msgid "Import New Clip"
-msgstr "Importa els clips seleccionats"
+msgstr "Importa un clip nou"
 
 #: src/timeline2/view/timelinecontroller.cpp:4524
 #, kde-format
@@ -35290,28 +35290,21 @@ msgid "Incompatible clip types for replacement"
 msgstr "Tipus de clips incompatibles per a la substitució"
 
 #: src/timeline2/view/timelinecontroller.cpp:4531
-#, fuzzy, kde-format
-#| msgid ""
-#| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
-#| "with clip <b>%2</b>"
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
-msgstr ""
-"Se substitueixen les instàncies del clip <b>%1</b><br/>en la línia de temps "
-"activa\n"
-"pel clip <b>%2</b>"
+msgstr "Substitueixo el clip <b>%1</b> pel <b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4534
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Substitueixo el clip <b>%1</b> pel <b>%2</b>?"
+msgstr[1] "Substitueixo els clips <b>%1</b> per <b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
-msgstr "Substitueix el clip"
+msgstr "Substitució de clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:4761
 #, kde-format

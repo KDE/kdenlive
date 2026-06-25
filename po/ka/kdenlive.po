@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-24 01:23+0000\n"
-"PO-Revision-Date: 2026-06-17 05:24+0200\n"
+"PO-Revision-Date: 2026-06-24 04:20+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -27957,10 +27957,9 @@ msgid "Cut Clip"
 msgstr "კლიპის ამოჭრა"
 
 #: src/mainwindow.cpp:2030
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace with Bin Selection"
-msgstr "ჩანაცვლება დროის ხაზზე"
+msgstr "ჩანაცვლება კალათში მონიშნულით"
 
 #: src/mainwindow.cpp:2034
 #, kde-format
@@ -34299,17 +34298,15 @@ msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "კლიპის ჩანაცვლება"
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
-#, fuzzy, kde-format
-#| msgid "Import selected clips"
+#, kde-format
 msgid "Import New Clip"
-msgstr "მონიშნულის კლიპების შემოტანა"
+msgstr "ახალი კლიპის შემოტანა"
 
 #: src/timeline2/view/timelinecontroller.cpp:4524
 #, kde-format
@@ -34317,14 +34314,9 @@ msgid "Incompatible clip types for replacement"
 msgstr "შეუთავსებელი კლიპების ტიპები ჩანაცვლებისთვის"
 
 #: src/timeline2/view/timelinecontroller.cpp:4531
-#, fuzzy, kde-format
-#| msgid ""
-#| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
-#| "with clip <b>%2</b>"
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
-msgstr ""
-"ასლების ჩანაცვლება კლიპისთვის <b>%1</b><br/>აქტიურ დროის ხაზში\n"
-"კლიპით <b>%2</b>"
+msgstr "ჩანაცვლდეს კლიპი <b>%1</b><br/> კლიპით <b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4534
 #, kde-format
@@ -34334,8 +34326,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
 msgstr "კლიპის ჩანაცვლება"
 

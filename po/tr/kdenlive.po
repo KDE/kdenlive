@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-24 01:23+0000\n"
-"PO-Revision-Date: 2026-06-17 09:31+0300\n"
+"PO-Revision-Date: 2026-06-24 12:30+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -28577,10 +28577,9 @@ msgid "Cut Clip"
 msgstr "Klibi Kes"
 
 #: src/mainwindow.cpp:2030
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace with Bin Selection"
-msgstr "Zaman akışında değiştir"
+msgstr "Kova Seçimiyle Değiştir"
 
 #: src/mainwindow.cpp:2034
 #, kde-format
@@ -34917,20 +34916,20 @@ msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
+"Proje kovasında değişim yapılacak bir klip seçili değil. Kovadan bir klip "
+"seçin ve bu eylemi yeniden deneyin veya yeni bir klip içe aktarın."
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
-msgstr "Klibi değiştir"
+msgstr "Klibi Değiştir"
 
 #: src/timeline2/view/timelinecontroller.cpp:4481
-#, fuzzy, kde-format
-#| msgid "Import selected clips"
+#, kde-format
 msgid "Import New Clip"
-msgstr "Seçili klipleri içe aktar"
+msgstr "Yeni Klip İçe Aktar"
 
 #: src/timeline2/view/timelinecontroller.cpp:4524
 #, kde-format
@@ -34938,27 +34937,21 @@ msgid "Incompatible clip types for replacement"
 msgstr "Değiştirme için uyumsuz klip türleri"
 
 #: src/timeline2/view/timelinecontroller.cpp:4531
-#, fuzzy, kde-format
-#| msgid ""
-#| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
-#| "with clip <b>%2</b>"
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
-msgstr ""
-"Etkin zaman akışındaki <b>%1</b><br/>klibinin örnekleri\n"
-"<b>%2</b> klibiyle değiştiriliyor"
+msgstr "<b>%1</b> klibi, <b>%2</b> ile değiştirilsin mi?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4534
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>%1</b> klip, <b>%2</b> ile değiştirilsin mi?"
+msgstr[1] "<b>%1</b> klip, <b>%2</b> ile değiştirilsin mi?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
-msgstr "Klibi değiştir"
+msgstr "Klibi Değiştir"
 
 #: src/timeline2/view/timelinecontroller.cpp:4761
 #, kde-format

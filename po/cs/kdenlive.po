@@ -33425,8 +33425,7 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4537
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
 msgstr "Nahradit klip"
 
