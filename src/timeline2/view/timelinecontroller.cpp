@@ -46,8 +46,10 @@
 #include "utils/thumbnailcache.hpp"
 
 #include <KColorScheme>
+#include <KGuiItem>
 #include <KMessageBox>
 #include <KRecentDirs>
+#include <KStandardGuiItem>
 #include <KUrlRequesterDialog>
 #include <QClipboard>
 #include <QFontDatabase>
@@ -4475,8 +4477,13 @@ void TimelineController::replaceClip()
         }
     }
     if (!binReplacement) {
-        pCore->bin()->setReadyCallBack([this](const QString &) { replaceClip(); });
-        pCore->window()->actionCollection()->action(QStringLiteral("add_clip"))->trigger();
+        auto res = KMessageBox::questionTwoActions(
+            pCore->window(), i18n("No replacement clip selected in project bin. Select a clip in the bin and try this action again, or import a new clip."),
+            i18nc("@title:window", "Replace Clip"), KGuiItem(i18n("Import New Clip")), KStandardGuiItem::cancel());
+        if (res == KMessageBox::PrimaryAction) {
+            pCore->bin()->setReadyCallBack([this](const QString &) { replaceClip(); });
+            pCore->window()->actionCollection()->action(QStringLiteral("add_clip"))->trigger();
+        }
         return;
     }
     bool repHasA = binReplacement->hasAudio();
@@ -4518,6 +4525,21 @@ void TimelineController::replaceClip()
         pCore->displayMessage(i18n("Incompatible clip types for replacement"), ErrorMessage);
         return;
     }
+
+    QString message;
+    if (replacements.size() == 1) {
+        int singleId = std::get<0>(replacements[0]);
+        message = i18n("Replace clip <b>%1</b> with <b>%2</b>?", m_model->getClipName(singleId), binReplacement->clipName());
+    } else {
+        message =
+            i18np("Replace <b>%1</b> clip with <b>%2</b>?", "Replace <b>%1</b> clips with <b>%2</b>?", int(replacements.size()), binReplacement->clipName());
+    }
+
+    if (KMessageBox::questionTwoActions(pCore->window(), message, i18nc("@title:window", "Replace Clip"), KGuiItem(i18n("Replace Clip")),
+                                        KStandardGuiItem::cancel(), QStringLiteral("showReplaceConfirmation")) != KMessageBox::PrimaryAction) {
+        return;
+    }
+
     if (!leavesToUngroup.empty()) {
         m_model->requestClipsUngroup(leavesToUngroup);
     }

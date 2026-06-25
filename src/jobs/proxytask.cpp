@@ -290,9 +290,10 @@ void ProxyTask::run()
                     proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                 } else {
                     // Sanitize parameters
+                    const QString sanitized = proxyParams.remove(QLatin1Char('\\'));
                     const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
                     for (auto &f : forbiddenArgs) {
-                        if (proxyParams.contains(f)) {
+                        if (sanitized.contains(f)) {
                             // Unwanted param found, discard parameters
                             proxyParams = pCore->currentDoc()->getAutoProxyProfile();
                             break;

@@ -10,6 +10,7 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "renderpresetrepository.hpp"
+#include "utils/uiutils.h"
 
 #include <mlt++/MltProperties.h>
 #include <mlt++/MltRepository.h>
@@ -391,6 +392,11 @@ void RenderPresetModel::checkPreset()
     }
 }
 
+bool RenderPresetModel::isValid() const
+{
+    return m_isValid;
+}
+
 QDomElement RenderPresetModel::toXml()
 {
     QDomDocument doc;
@@ -442,6 +448,15 @@ QDomElement RenderPresetModel::toXml()
 
 void RenderPresetModel::setParams(const QString &params)
 {
+    const QString sanitized = QString(" %1").arg(params).remove(QLatin1Char('\\'));
+    static const QStringList forbiddenArgs = UiUtils::getRenderForbiddenParams();
+    for (auto &f : forbiddenArgs) {
+        if (sanitized.contains(f)) {
+            // Suspicious render parameters
+            m_isValid = false;
+            return;
+        }
+    }
     m_params.clear();
     m_params.insertFromString(params, true);
 

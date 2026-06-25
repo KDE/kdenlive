@@ -1873,7 +1873,7 @@ bool KdenliveDoc::loadDocumentProperties()
         }
     }
 
-    QString proxyparams = m_documentProperties.value(QStringLiteral("proxyparams"));
+    QString proxyparams = m_documentProperties.value(QStringLiteral("proxyparams")).remove(QLatin1Char('\\'));
     if (!proxyparams.isEmpty()) {
         bool discard = false;
         const QString proxyExtension = m_documentProperties.value(QStringLiteral("proxyextension"));
@@ -1954,7 +1954,7 @@ bool KdenliveDoc::loadDocumentProperties()
                     m_documentProperties.remove(QStringLiteral("proxyextension"));
                 }
 
-                if (!dia_ui.allowAlways->isChecked()) {
+                if (dia_ui.allowAlways->isChecked()) {
                     // update safe params list
                     UiUtils::addSafeParameters(unknownParams);
                 }

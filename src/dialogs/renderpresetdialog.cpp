@@ -12,6 +12,7 @@
 #include "profiles/profilemodel.hpp"
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/renderpresetrepository.hpp"
+#include "utils/uiutils.h"
 
 #include <KMessageBox>
 #include <QPushButton>
@@ -39,6 +40,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     if (preset) {
         m_manualPreset = preset->isManual();
     }
+    infoMessage->setVisible(false);
     m_percentBasedAudioCodecs = {QStringLiteral("aac"), QStringLiteral("vorbis"), QStringLiteral("vorbis"), QStringLiteral("libmp3lame")};
     m_uiParams.append({QStringLiteral("f"),
                        QStringLiteral("acodec"),
@@ -468,6 +470,14 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             new RenderPresetModel(newPresetName, newGroupName, parameters->toPlainText().simplified(), preset_extension->text().simplified(),
                                   QString::number(default_vbitrate->value()), QString::number(default_vquality->value()), qualities_str,
                                   QString::number(aBitrate->value()), QString::number(audioQuality), speeds_list_str, m_manualPreset));
+        if (!newPreset->isValid()) {
+            infoMessage->setText(i18n("The render profile contains unsupported parameters, like <i>%1</i> please remove them.",
+                                      UiUtils::getRenderForbiddenParams().join(QLatin1Char(','))));
+            infoMessage->setVisible(true);
+            return;
+        } else {
+            infoMessage->setVisible(false);
+        }
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
         if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {
