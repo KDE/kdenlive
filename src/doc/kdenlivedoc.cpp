@@ -1954,7 +1954,7 @@ bool KdenliveDoc::loadDocumentProperties()
                     m_documentProperties.remove(QStringLiteral("proxyextension"));
                 }
 
-                if (!dia_ui.allowAlways->isChecked()) {
+                if (dia_ui.allowAlways->isChecked()) {
                     // update safe params list
                     UiUtils::addSafeParameters(unknownParams);
                 }
