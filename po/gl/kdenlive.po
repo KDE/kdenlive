@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-24 01:23+0000\n"
+"POT-Creation-Date: 2026-06-26 00:44+0000\n"
 "PO-Revision-Date: 2025-06-21 12:22+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -18067,7 +18067,7 @@ msgstr "Aceleración de soporte físico de AMF"
 msgid "Audio only"
 msgstr "Só o son"
 
-#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:292
+#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:297
 #, kde-format
 msgid "Images sequence"
 msgstr "Secuencia de imaxes"
@@ -20408,8 +20408,8 @@ msgstr "Fragmento orixinal ausente"
 
 #: src/bin/bin.cpp:2189 src/bin/bin.cpp:2893
 #: src/effects/effectlist/view/effectlistwidget.cpp:184
-#: src/renderpresets/renderpresetrepository.cpp:169
-#: src/renderpresets/renderpresetrepository.cpp:471
+#: src/renderpresets/renderpresetrepository.cpp:168
+#: src/renderpresets/renderpresetrepository.cpp:476
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Non é posíbel escribir no ficheiro %1"
@@ -20988,7 +20988,7 @@ msgstr "Defina a aplicación predeterminada para abrir ficheiros de son"
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
-#: src/renderpresets/renderpresetrepository.cpp:415
+#: src/renderpresets/renderpresetrepository.cpp:420
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Non é posíbel abrir o ficheiro %1"
@@ -22645,8 +22645,8 @@ msgstr "Exportar os datos das guías"
 #: src/project/dialogs/archivewidget.cpp:940
 #: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
-#: src/renderpresets/renderpresetrepository.cpp:421
-#: src/renderpresets/renderpresetrepository.cpp:477
+#: src/renderpresets/renderpresetrepository.cpp:426
+#: src/renderpresets/renderpresetrepository.cpp:482
 #: src/timeline2/view/timelinecontroller.cpp:5748
 #: src/timeline2/view/timelinecontroller.cpp:5753
 #: src/titler/titlewidget.cpp:2350
@@ -22750,7 +22750,7 @@ msgstr "Ante a dúbida, probe:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
 #: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
-#: src/renderpresets/renderpresetrepository.cpp:354
+#: src/renderpresets/renderpresetrepository.cpp:359
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Non é posíbel ler o ficheiro %1"
@@ -23012,63 +23012,70 @@ msgstr "Xerando o vídeo de proba de 60 segundos %1"
 msgid "Processing %1"
 msgstr "Procesando %1"
 
-#: src/dialogs/renderpresetdialog.cpp:89 src/dialogs/renderpresetdialog.cpp:163
+#: src/dialogs/renderpresetdialog.cpp:91 src/dialogs/renderpresetdialog.cpp:165
 #, kde-format
 msgid "(Not set)"
 msgstr "(non definido)"
 
-#: src/dialogs/renderpresetdialog.cpp:90 src/dialogs/renderpresetdialog.cpp:164
+#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
 msgid "Average Bitrate"
 msgstr "Taxa de bits media"
 
-#: src/dialogs/renderpresetdialog.cpp:91 src/dialogs/renderpresetdialog.cpp:165
+#: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
 msgid "CBR – Constant Bitrate"
 msgstr "CBR — Taxa de bits constante"
 
-#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
+#: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "VBR – Variable Bitrate"
 msgstr "VBR — Taxa de bits variábel"
 
-#: src/dialogs/renderpresetdialog.cpp:94
+#: src/dialogs/renderpresetdialog.cpp:96
 #, kde-format
 msgid "1 (mono)"
 msgstr "1 (mono)"
 
-#: src/dialogs/renderpresetdialog.cpp:95
+#: src/dialogs/renderpresetdialog.cpp:97
 #, kde-format
 msgid "2 (stereo)"
 msgstr "2 (estéreo)"
 
-#: src/dialogs/renderpresetdialog.cpp:96
+#: src/dialogs/renderpresetdialog.cpp:98
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/renderpresetdialog.cpp:97
+#: src/dialogs/renderpresetdialog.cpp:99
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/renderpresetdialog.cpp:118
-#: src/dialogs/renderpresetdialog.cpp:435
+#: src/dialogs/renderpresetdialog.cpp:120
+#: src/dialogs/renderpresetdialog.cpp:437
 #, kde-format
 msgid "Edit Render Preset"
 msgstr "Editar a predefinición de renderización"
 
-#: src/dialogs/renderpresetdialog.cpp:167
+#: src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "Constrained VBR"
 msgstr "VBR restrinxido"
 
-#: src/dialogs/renderpresetdialog.cpp:447
+#: src/dialogs/renderpresetdialog.cpp:449
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr "O nome de predefinición non pode quedar baleiro"
 
-#: src/dialogs/renderpresetdialog.cpp:889
+#: src/dialogs/renderpresetdialog.cpp:474
+#, kde-format
+msgid ""
+"The render profile contains unsupported parameters, like <i>%1</i> please "
+"remove them."
+msgstr ""
+
+#: src/dialogs/renderpresetdialog.cpp:899
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -27210,7 +27217,7 @@ msgstr ""
 "Non se atopou FFmpeg, defina a súa ruta no ambiente de configuración de "
 "Kdenlive."
 
-#: src/jobs/proxytask.cpp:432 src/jobs/proxytask.cpp:446
+#: src/jobs/proxytask.cpp:433 src/jobs/proxytask.cpp:447
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Non foi posíbel crear o fragmento proxy."
@@ -33932,44 +33939,44 @@ msgstr "Non é posíbel abrir unha comunicación coa tarefa de renderización %1
 msgid "Communication error with render job"
 msgstr "Produciuse un erro de comunicación coa tarefa de renderización"
 
-#: src/renderpresets/renderpresetmodel.cpp:317
+#: src/renderpresets/renderpresetmodel.cpp:318
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "O estándar (%1) non é compatíbel co perfil de proxecto (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:327
+#: src/renderpresets/renderpresetmodel.cpp:328
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr ""
 "A frecuencia de fotogramas (%1) non é compatíbel co perfil de proxecto (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:341
-#: src/renderpresets/renderpresetmodel.cpp:364
+#: src/renderpresets/renderpresetmodel.cpp:342
+#: src/renderpresets/renderpresetmodel.cpp:365
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Formato de vídeo non admitido: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:346
-#: src/renderpresets/renderpresetmodel.cpp:377
+#: src/renderpresets/renderpresetmodel.cpp:347
+#: src/renderpresets/renderpresetmodel.cpp:378
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Códec de video non admitido: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:351
-#: src/renderpresets/renderpresetmodel.cpp:371
+#: src/renderpresets/renderpresetmodel.cpp:352
+#: src/renderpresets/renderpresetmodel.cpp:372
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Códec de son non admitido: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:356
-#: src/renderpresets/renderpresetmodel.cpp:383
+#: src/renderpresets/renderpresetmodel.cpp:357
+#: src/renderpresets/renderpresetmodel.cpp:384
 #, kde-format
 msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:388
+#: src/renderpresets/renderpresetmodel.cpp:389
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -33979,50 +33986,50 @@ msgstr ""
 "ser que saiba ben o que anda a facer, probabelmente o teña que cambiar a "
 "«mlt_profile»."
 
-#: src/renderpresets/renderpresetrepository.cpp:99
+#: src/renderpresets/renderpresetrepository.cpp:96
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category"
 msgid "Custom"
 msgstr "Personalizado"
 
-#: src/renderpresets/renderpresetrepository.cpp:100
+#: src/renderpresets/renderpresetrepository.cpp:97
 #, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr ""
 
-#: src/renderpresets/renderpresetrepository.cpp:101
+#: src/renderpresets/renderpresetrepository.cpp:98
 #, fuzzy, kde-format
 #| msgid "Lossless/HQ"
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Sen perda ou alta calidade"
 
-#: src/renderpresets/renderpresetrepository.cpp:148
+#: src/renderpresets/renderpresetrepository.cpp:147
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Personalizado"
 
-#: src/renderpresets/renderpresetrepository.cpp:229
+#: src/renderpresets/renderpresetrepository.cpp:232
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category name"
 msgid "Custom"
 msgstr "Personalizado"
 
-#: src/renderpresets/renderpresetrepository.cpp:280
+#: src/renderpresets/renderpresetrepository.cpp:285
 #, kde-format
 msgid "10 Bit"
 msgstr ""
 
-#: src/renderpresets/renderpresetrepository.cpp:390
+#: src/renderpresets/renderpresetrepository.cpp:395
 #, kde-format
 msgid "Preset already exists"
 msgstr "A predefinición xa existe"
 
-#: src/renderpresets/renderpresetrepository.cpp:391
+#: src/renderpresets/renderpresetrepository.cpp:396
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
