@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1218" tag="ladspa.1218" ladspaid="1218" type="audio">
+<name>4x4 Pole Allpass</name>
+   <description><![CDATA[4x4 Pole Allpass (LADSPA 1218)<br>
+   Automatically adapts to the number of channels and sampling rate of the consumer.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="5000.750" max="20000.000" min="1.000" suffix="Hz">
+      <name>Frequency 1</name>
+   </parameter>
+   <parameter name="1" type="constant" decimals="1" default="0.0" max="1.0" min="-1.0" suffix="dB">
+      <name>Feedback 1</name>
+   </parameter>
+   <parameter name="2" type="constant" decimals="3" default="10000.500" max="20000.000" min="1.000" suffix="Hz">
+      <name>Frequency 2</name>
+   </parameter>
+   <parameter name="3" type="constant" decimals="1" default="0.0" max="1.0" min="-1.0" suffix="dB">
+      <name>Feedback 2</name>
+   </parameter>
+   <parameter name="4" type="constant" decimals="3" default="15000.250" max="20000.000" min="1.000" suffix="Hz">
+      <name>Frequency 3</name>
+   </parameter>
+   <parameter name="5" type="constant" decimals="1" default="0.0" max="1.0" min="-1.0" suffix="dB">
+      <name>Feedback 3</name>
+   </parameter>
+   <parameter name="6" type="constant" decimals="3" default="20000.000" max="20000.000" min="1.000" suffix="Hz">
+      <name>Frequency 4</name>
+   </parameter>
+   <parameter name="7" type="constant" decimals="1" default="0.0" max="1.0" min="-1.0" suffix="dB">
+      <name>Feedback 4</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

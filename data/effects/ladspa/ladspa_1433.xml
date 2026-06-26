@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1433" tag="ladspa.1433" ladspaid="1433" type="audio">
+<name>AM Pitch Shifter</name>
+   <description><![CDATA[AM Pitch Shifter (LADSPA 1433)<br>
+   This effect works by running a single write pointer (monotonic) and two read pointers (pitchscaled) over a ringbuffer. The output is faded between the two readpointers according to the sine of the distance from the write pointer.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="2" default="1.00" max="4.00" min="0.25">
+      <name>Pitch Shift</name>
+      <comment><![CDATA[The multiple of the output pitch.<br>
+      For example, 2.00 will increase the pitch by one octave.]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" default="4" max="7" min="1" decimals="0">
+      <name>Buffer Size</name>
+      <comment><![CDATA[The order of magnitude of the buffer size.<br>
+      Small buffers will sound fluttery, large buffers will have flangy sounding echos.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

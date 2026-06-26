@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1190" tag="ladspa.1190" ladspaid="1190" type="audio">
+<name>Comb Filter</name>
+   <description><![CDATA[Comb Filter (LADSPA 1190)]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="172.000" max="640.000" min="16.000" suffix="Hz">
+      <name>Band Separation</name>
+      <comment><![CDATA[Controls the distance between the filters peaks]]></comment>
+   </parameter>
+   <parameter decimals="2" default="0.00" max="0.99" min="-0.99" name="1" type="constant" suffix="dB">
+      <name>Feedback</name>
+      <comment><![CDATA[Feedback level, increases the distinctive wooshy phaser sound.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

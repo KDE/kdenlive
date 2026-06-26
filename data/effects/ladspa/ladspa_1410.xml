@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1410" tag="ladspa.1410" ladspaid="1410" type="audio">
+<name>Gate</name>
+   <description><![CDATA[Gate (LADSPA 1410)]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="33.599" max="4800.000" min="33.599" suffix="Hz">
+      <name>LF Key Filter</name>
+      <comment><![CDATA[Controls the cutoff of<br>
+      the low frequency filter (highpass)]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="3" default="23520.000" max="23520.000" min="240.000" suffix="Hz">
+      <name>HF Key Filter</name>
+      <comment><![CDATA[Controls the cutoff of<br>
+      the high frequency filter (lowpass)]]></comment>
+   </parameter>
+   <parameter name="2" type="constant" decimals="1" default="-70.0" max="20.0" min="-70.0" suffix="dB">
+      <name>Threshold</name>
+      <comment><![CDATA[Controls the level at<br>
+      which the gate will open]]></comment>
+   </parameter>
+   <parameter name="3" type="constant" decimals="0" default="250" max="1000" min="0.01" suffix="ms">
+      <name>Attack</name>
+      <comment><![CDATA[Controls the time the<br>
+      gate will take to open fully]]></comment>
+   </parameter>
+   <parameter name="4" type="constant" decimals="0" default="1500" max="2000" min="2" suffix="ms">
+      <name>Hold</name>
+      <comment><![CDATA[Controls the minimum<br>
+      time the gate will stay open for]]></comment>
+   </parameter>
+   <parameter name="5" type="constant" decimals="0" default="2001" max="4000" min="2" suffix="ms">
+      <name>Decay</name>
+      <comment><![CDATA[Controls the time the<br>
+      gate will take to close fully]]></comment>
+   </parameter>
+   <parameter name="6" type="constant" decimals="1" default="-90.0" max="0.0" min="-90.0" suffix="dB">
+      <name>Range</name>
+      <comment><![CDATA[Controls the difference<br>
+      between the gate's open and closed state]]></comment>
+   </parameter>
+   <parameter name="7" type="list" default="0" paramlist="-1;0;1">
+      <name>Output Monitor</name>
+      <comment><![CDATA[Controls output monitor]]></comment>
+      <paramlistdisplay>Key (listen),Gate (normal output),Bypass</paramlistdisplay>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

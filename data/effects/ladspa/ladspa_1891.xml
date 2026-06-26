@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1891" tag="ladspa.1891" ladspaid="1891" type="audio">
+<name>GLAME Lowpass</name>
+   <description><![CDATA[GLAME Lowpass Filter (LADSPA 1891)<br>
+   IIR lowpass filter based using Chebishev coefficients. The filter allows you to tweak the number of stages used for filtering. Every stage adds two more poles, which leads to a steeper dropoff.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="2637.246" max="21600.000" min="4.800" suffix="Hz">
+      <name>Cutoff Frequency</name>
+   </parameter>
+   <parameter name="1" type="constant" default="1" max="10" min="1" decimals="0">
+      <name>Stages</name>
+      <comment><![CDATA[Every stage adds two more<br>
+      poles, which leads to a steeper dropoff.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

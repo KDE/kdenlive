@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1404" tag="ladspa.1404" ladspaid="1404" type="audio">
+<name>Crossover Distortion</name>
+   <description><![CDATA[Crossover Distortion (LADSPA 1404)<br>
+   This is a simulation of the distortion that happens in class B and AB power amps when the signal crosses 0.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="0.000" max="0.100" min="0.000" suffix="dB">
+      <name>Crossover Amplitude</name>
+      <comment><![CDATA[Controls the point at which the output signal becomes linear]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="1" default="1.0" max="1.0" min="0.0">
+      <name>Smoothing</name>
+      <comment><![CDATA[Controls degree of smoothing of the crossover point]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

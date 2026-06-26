@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1408" tag="ladspa.1408" ladspaid="1408" type="audio">
+<name>Barry's Satan Maximiser</name>
+   <description><![CDATA[Barry's Satan Maximiser (LADSPA 1408)<br>
+   Compresses signals with a stupidly short attack and decay, infinite ratio and hard knee. Not really as a compressor, but good harsh (non-musical) distortion.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="2" default="30.00" max="30.00" min="2.00">
+      <name>Decay Time (samples)</name>
+      <comment><![CDATA[Controls the envelope decay time.]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="1" default="0.0" max="0.0" min="-90.0" suffix="dB">
+      <name>Knee Point</name>
+      <comment><![CDATA[Controls the knee roll-off point,<br>
+      ie. the point above which the compression kicks in. 0 will have no effect, -90 will remove virtually all dynamic range.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1213" tag="ladspa.1213" ladspaid="1213" type="audio">
+<name>Foldover Distortion</name>
+   <description><![CDATA[Foldover Distortion (LADSPA 1213)<br>
+   Uses a sine wave approximation to simulate valve style foldover distortion. Probably should have a <i>DC Offset Remover</i> on the output, but it's not always necessary.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="0.000" max="1.000" min="0.000">
+      <name>Drive</name>
+      <comment><![CDATA[Controls the degree of distortion]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="3" default="0.000" max="1.000" min="0.000">
+      <name>Skew</name>
+      <comment><![CDATA[Controls the asymmetry of the waveform]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

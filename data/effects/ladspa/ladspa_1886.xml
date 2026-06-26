@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1886" tag="ladspa.1886" ladspaid="1886" type="audio">
+<name>Exponential Signal Decay</name>
+   <description><![CDATA[Exponential Signal Decay (LADSPA 1886)]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="2" type="constant" decimals="3" default="0.000" min="0.000" max="5.00" suffix="s">
+      <name>Decay Time</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

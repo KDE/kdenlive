@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1196" tag="ladspa.1196" ladspaid="1196" type="audio">
+<name>Fast Overdrive</name>
+   <description><![CDATA[Fast Overdrive (LADSPA 1196)<br>
+   A simple overdrive. Compresses the extreme peaks to make a sound similar to an overdriven amplifier.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="1.000" max="3.000" min="1.000">
+      <name>Drive Level</name>
+      <comment><![CDATA[Controls the point at<br>
+      which the signal starts to distort, and the degree of distortion.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

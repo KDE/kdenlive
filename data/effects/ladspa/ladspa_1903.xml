@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1903" tag="ladspa.1903" ladspaid="1903" type="audio">
+<name>GLAME Butterworth Lowpass</name>
+   <description><![CDATA[Butterworth Lowpass Filter (LADSPA 1903)]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="39.314" max="21600.000" min="4.800" suffix="Hz">
+      <name>Cutoff Frequency</name>
+   </parameter>
+   <parameter name="1" type="constant" decimals="3" default="0.755" max="1.410" min="0.100">
+      <name>Resonance</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

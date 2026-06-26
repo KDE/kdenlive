@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1191" tag="ladspa.1191" ladspaid="1191" type="audio">
+<name>Flanger</name>
+   <description><![CDATA[Flanger (LADSPA 1191)<br>
+   A digital flanger implementation. Uses a novel zero excursion, controlled bandwidth modulation function, which should make the modulation less repetitive and noticeable.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="0" default="10" max="25" min="0" suffix="ms">
+      <name>Delay Base</name>
+      <comment><![CDATA[This is the offset from<br>
+      the input time that the detune delay moves around]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="0" default="20" max="100" min="00" suffix="ms">
+      <name>Max Slowdown</name>
+      <comment><![CDATA[This is the maximum<br>
+      delay that will be applied to the delayed signal, relative to the dry signal.]]></comment>
+   </parameter>
+   <parameter name="2" type="constant" decimals="3" default="0.334" max="100.000" min="0.050" suffix="Hz">
+      <name>LFO Frequency</name>
+      <comment><![CDATA[This is the core frequency<br>
+      that the 'LFO' will move at. The LFO isn't actually an oscillator, but it does vary periodically.]]></comment>
+   </parameter>
+   <parameter name="3" type="constant" decimals="0" default="00" max="100" min="-100" factor="100" suffix="%">
+      <name>Feedback</name>
+      <comment><![CDATA[Feedback applied from the<br>
+      output to the input, increases the depth of the effect, but makes it sound less like a real flanger.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

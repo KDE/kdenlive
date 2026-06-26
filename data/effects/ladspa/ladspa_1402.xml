@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1402" tag="ladspa.1402" ladspaid="1402" type="audio">
+<name>Delayorama</name>
+   <description><![CDATA[Delayorama (LADSPA 1402)]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" default="0" max="1000" min="0" decimals="0">
+      <name>Random Seed</name>
+      <comment><![CDATA[Controls the random numbers that<br>
+      will be used to stagger the delays and amplitudes if random is turned up on them. Changing this forces the random values to be recalulated.]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="1" default="0.0" max="24.0" min="-96.0" suffix="dB">
+      <name>Input Gain</name>
+      <comment><![CDATA[Controls the gain of the input signal]]></comment>
+   </parameter>
+   <parameter name="2" type="constant" decimals="0" default="0" max="100" min="0" factor="100" suffix="%">
+      <name>Feedback</name>
+      <comment><![CDATA[Controls the amount of output signal fed back into the input]]></comment>
+   </parameter>
+   <parameter name="3" type="constant" default="2" max="128" min="2" decimals="0">
+      <name>Number of Taps</name>
+      <comment><![CDATA[Controls the number of taps in the delay]]></comment>
+   </parameter>
+   <parameter name="4" type="constant" decimals="3" default="0.000" max="5.000" min="0.000" suffix="s">
+      <name>First Delay</name>
+      <comment><![CDATA[The time of the first delay]]></comment>
+   </parameter>
+   <parameter name="5" type="constant" decimals="3" default="6.000" max="6.000" min="0.000100" suffix="s">
+      <name>Delay Range</name>
+      <comment><![CDATA[The time difference between the first and last delay]]></comment>
+   </parameter>
+   <parameter name="6" type="constant" decimals="3" default="1.000" max="5.000" min="0.200000">
+      <name>Delay Change</name>
+      <comment><![CDATA[The scaling factor between one delay and the next]]></comment>
+   </parameter>
+   <parameter name="7" type="constant" decimals="0" default="0" max="100" min="0" factor="100" suffix="%">
+      <name>Delay Random</name>
+      <comment><![CDATA[The random factor applied to the delay]]></comment>
+   </parameter>
+   <parameter name="8" type="constant" decimals="3" default="1.000" max="5.000" min="0.200000">
+      <name>Amplitude Change</name>
+      <comment><![CDATA[The scaling factor between one amplitude and the next]]></comment>
+   </parameter>
+   <parameter name="9" type="constant" decimals="0" default="0" max="100" min="0" factor="100" suffix="%">
+      <name>Amplitude Random</name>
+      <comment><![CDATA[The random factor applied to the amplitude]]></comment>
+   </parameter>
+   <parameter name="10" type="constant" decimals="0" default="100" max="100" min="0" factor="100" suffix="%">
+      <name>Dry/Wet Mix</name>
+      <comment><![CDATA[The level of delayed sound mixed into the output]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

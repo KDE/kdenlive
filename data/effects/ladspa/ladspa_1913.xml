@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1913" tag="ladspa.1913" ladspaid="1913" type="audio">
+<name>Fast Lookahead Limiter</name>
+   <description><![CDATA[Fast Lookahead Limiter (LADSPA 1913)<br>
+   This is a limiter with an attack time of 5ms. It adds just over 5ms of latency to the input signal, but it guarantees that there will be no signals over the limit, and tries to get the minimum amount of distortion.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="1" default="0.0" max="20.0" min="-20.0" suffix="dB">
+      <name>Input Gain</name>
+      <comment><![CDATA[Gain that is applied<br>
+      to the input stage. Can be used to trim gain to bring it roughly under the limit or to push the signal against the limit.]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="1" default="0.0" max="0.0" min="-20.0" suffix="dB">
+      <name>Limit</name>
+      <comment><![CDATA[The maximum output amplitude.<br>
+      Peaks over this level will be attenuated as smoothly as possible to bring them as close as possible to this level.]]></comment>
+   </parameter>
+   <parameter name="2" type="constant" decimals="3" default="0.507" max="2.000" min="0.010" suffix="s">
+      <name>Release Time</name>
+      <comment><![CDATA[The time taken for the<br>
+      limiters attenuation to return to 0 dB]]></comment>
+   </parameter>
+   <parameter name="3" type="constant" decimals="1" default="0.0" max="70.0" min="0.0" suffix="dB">
+      <name>Attenuation</name>
+      <comment><![CDATA[The current attenuation<br>
+      of the signal coming out of the delay buffer]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1202" tag="ladspa.1202" ladspaid="1202" type="audio">
+<name>Decimator</name>
+   <description><![CDATA[Decimator (LADSPA 1202)<br>
+   Decimates (reduces the effective sample rate), and reduces the bit depth of the input signal, allows non integer values for smooth transitions between clean and lo-fi signals.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="0" default="24" max="24" min="1">
+      <name>Bit Depth</name>
+      <comment><![CDATA[The bit depth that the signal will be reduced to]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="0" default="480000" max="480000" min="48.000004" suffix="Hz">
+      <name>Sample Rate</name>
+      <comment><![CDATA[The sample rate that the signal will be resampled at]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

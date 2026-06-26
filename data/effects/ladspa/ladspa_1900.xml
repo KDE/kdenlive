@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1900" tag="ladspa.1900" ladspaid="1900" type="audio">
+   <name>Simple Delay Line (Cubic Spline Interpolation)</name>
+   <description><![CDATA[Simple Delay Line (LADSPA 1900)<br>
+   Uses cubic spline interpolation]]></description>
+   <author>Andy Wingo (http://www.ladspa.org)</author>
+   <parameter name="2" type="constant" min="0.000" max="5.000" decimals="3" default="0.000" suffix="s">
+       <name>Max Delay</name>
+   </parameter>
+   <parameter name="3" type="constant" min="0.000" max="5.000" decimals="3" default="0.000" suffix="s">
+       <name>Delay Time</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+       <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

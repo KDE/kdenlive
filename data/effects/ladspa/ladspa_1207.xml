@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1207" tag="ladspa.1207" ladspaid="1207" type="audio">
+<name>DC Offset Remover</name>
+   <description><![CDATA[DC Offset Remover (LADSPA 1207)<br>
+   Simply removes the DC (0 Hz) component from an audio signal, uses a high pass filter, so has some side effects, but they should be minimal.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

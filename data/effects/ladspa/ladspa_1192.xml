@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1192" tag="ladspa.1192" ladspaid="1192" type="audio">
+   <name>Fractionally Addressed Delay Line</name>
+   <description><![CDATA[Fractionally Addressed Delay Line (LADSPA 1192)<br>
+   Automatically adapts to the number of channels and sampling rate of the consumer.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="1.000" max="10.000" min="0.100" suffix="s">
+      <name>Delay</name>
+   </parameter>
+   <parameter name="1" type="constant" decimals="1" default="0.0" max="0.0" min="-70.0" suffix="dB">
+      <name>Feedback</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+       <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

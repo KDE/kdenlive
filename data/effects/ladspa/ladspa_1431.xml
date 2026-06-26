@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1431" tag="ladspa.1431" ladspaid="1431" type="audio">
+<name>Bode Frequency Shifter</name>
+   <description><![CDATA[<b>Bode Frequency Shifter</b> (LADSPA 1431)<br>
+   A Bode/Moog Frequency Shifter is a popular analogue synth module that works by shifting all the frequencies of an input signal up or down by a specified frequency. This effect shifts in both directions at the same time as it is almost no extra work and is often useful to have both directions. In contrast to the analogue Bode/Moog, which use Dome filters as the core, it uses a Hilbert Transformer, which is much simpler to implement in digital systems.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="0.000" max="5000.000" min="0.000" suffix="Hz">
+      <name>Frequency Shift</name>
+      <comment><![CDATA[Controls the frequency shift applied to the input signal]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

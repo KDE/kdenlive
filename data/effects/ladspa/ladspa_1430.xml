@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1430" tag="ladspa.1430" ladspaid="1430" type="audio">
+<name>Chebyshev Distortion</name>
+   <description><![CDATA[Chebyshev Distortion (LADSPA 1430)<br>
+   This effect is seeded from incoming signal envelope. As the level of the signal rises more and more harmonics will for added to the output signal. The distortion control sets the sensitivity of the input.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter decimals="3" default="0.000000" max="3.000000" min="0.000000" name="0" type="constant" value="0">
+      <name>Distortion</name>
+      <comment><![CDATA[Sets the sensitivity of the input]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>
