@@ -80,6 +80,15 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             currentParameter.setAttribute(QStringLiteral("value"), paramValues.join(QLatin1Char('\n')));
             continue;
         }
+        if (paramType == QLatin1String("av_curve")) {
+            // av_curve stores a KisCubicCurve string in the model, avfilter format in MLT
+            // read from MLT (avfilter "x/y x/y") and convert back to KisCubicCurve "x/y;x/y;"
+            const QString avVal = QString::fromUtf8(effect->get(paramName.toUtf8().constData()));
+            const QStringList pts = avVal.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+            const QString kisVal = pts.join(QLatin1Char(';')) + (pts.isEmpty() ? QString() : QStringLiteral(";"));
+            currentParameter.setAttribute(QStringLiteral("value"), kisVal);
+            continue;
+        }
         QString paramValue = effect->get(paramName.toUtf8().constData());
         if (paramValue.isEmpty() && paramType == QLatin1String("animatedfakerect")) {
             // Check if we have existing values for the fake rect individual components

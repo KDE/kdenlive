@@ -54,6 +54,12 @@ Q_SIGNALS:
     void updateHeight();
     void activateEffect();
 
+public:
+    /** @brief Add a tab for an additional av_curve parameter.
+     *  Only implemented by CurveParamWidget<KisCurveWidget>; no-op otherwise.
+     */
+    virtual void addAvCurveTab(const QModelIndex & /*index*/) {}
+
 public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */

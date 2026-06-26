@@ -4,12 +4,16 @@
  */
 
 #include "bezier/beziersplineeditor.h"
-#include "utils/colortools.h"
 #include "cubic/kis_curve_widget.h"
+#include "curveparamwidget.h"
 #include "kdenlivesettings.h"
+#include "utils/colortools.h"
 #include "widgets/dragvalue.h"
 #include <KLocalizedString>
-#include "curveparamwidget.h"
+#include <QDoubleSpinBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QToolButton>
 
 /** @brief this label is a pixmap corresponding to a legend of the axis*/
 template <typename CurveWidget_t> class ValueLabel : public QLabel
@@ -109,8 +113,74 @@ template <> void CurveParamWidget<BezierSplineEditor>::slotShowAllHandles(bool s
     KdenliveSettings::setBezier_showallhandles(show);
 }
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShowAllHandles(bool /*show*/) {}
-template <typename CurveWidget_t>
 
+static bool isIdentityCurve(const QString &s)
+{
+    return s.isEmpty() || s == QLatin1String("0/0;1/1;");
+}
+
+template <> void CurveParamWidget<KisCurveWidget>::slotTabChanged(int index)
+{
+    if (index < 0 || index >= m_tabIndexes.size()) return;
+
+    // update m_index before loading so the modified signal fires with the correct index
+    m_index = m_tabIndexes.at(index);
+
+    // block the editor while loading to avoid spurious valueChanged
+    m_edit->blockSignals(true);
+    const QString stored = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    if (!stored.isEmpty()) {
+        m_edit->setFromString(stored);
+    } else {
+        m_edit->reset();
+    }
+    m_edit->blockSignals(false);
+
+    // clear point spinboxes on tab switch — no point is selected yet
+    if (m_inSpin && m_outSpin) {
+        QSignalBlocker bk1(m_inSpin);
+        QSignalBlocker bk2(m_outSpin);
+        m_inSpin->setValue(0.0);
+        m_outSpin->setValue(0.0);
+        m_inSpin->setEnabled(false);
+        m_outSpin->setEnabled(false);
+    }
+
+    // apply the curve line color for this tab
+    if (index < m_tabColors.size()) {
+        m_edit->setCurveColor(m_tabColors.at(index));
+    }
+
+    // build ghost curves from every other channel that has been edited
+    QList<QPair<KisCubicCurve, QColor>> ghosts;
+    for (int i = 0; i < m_tabIndexes.size(); ++i) {
+        if (i == index) continue;
+        const QString val = m_model->data(m_tabIndexes.at(i), AssetParameterModel::ValueRole).toString();
+        if (isIdentityCurve(val)) continue;
+        KisCubicCurve curve;
+        curve.fromString(val);
+        const QColor color = (i < m_tabColors.size()) ? m_tabColors.at(i) : QColor();
+        ghosts.append({curve, color});
+    }
+    m_edit->setGhostCurves(ghosts);
+
+    // update background pixmap to match channel color
+    const CurveModes modes[] = {CurveModes::RGB, CurveModes::Red, CurveModes::Green, CurveModes::Blue};
+    if (index < 4) {
+        m_mode = modes[index];
+    }
+    if (m_showPixmap) {
+        slotShowPixmap(true);
+    }
+}
+
+// no-op for BezierSplineEditor, keeps existing combobox
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotTabChanged(int index)
+{
+    Q_UNUSED(index);
+}
+
+template <typename CurveWidget_t>
 CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_mode(CurveModes::Luma)
@@ -169,7 +239,6 @@ template <> void CurveParamWidget<KisCurveWidget>::deleteIrrelevantItems()
     delete m_ui.handlesLayout;
     m_ui.gridLayout->removeWidget(m_ui.buttonShowAllHandles);
     delete m_ui.buttonShowAllHandles;
-
 }
 
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::deleteIrrelevantItems()
@@ -364,6 +433,54 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShow
     Q_UNUSED(show);
 }
 
+template <> void CurveParamWidget<KisCurveWidget>::slotRefresh()
+{
+    const ParamType paramType = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+    if (paramType == ParamType::AvCurve) {
+        // each AvCurve param is a single channel — load directly from m_index
+        const QString stored = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+        if (!stored.isEmpty()) {
+            m_edit->setFromString(stored);
+        } else {
+            m_edit->reset();
+        }
+        // rebuild ghosts from model so saved-project state shows correctly on first load
+        const int activeTab = m_tabBar ? m_tabBar->currentIndex() : 0;
+        QList<QPair<KisCubicCurve, QColor>> ghosts;
+        for (int i = 0; i < m_tabIndexes.size(); ++i) {
+            if (i == activeTab) continue;
+            const QString val = m_model->data(m_tabIndexes.at(i), AssetParameterModel::ValueRole).toString();
+            if (isIdentityCurve(val)) continue;
+            KisCubicCurve curve;
+            curve.fromString(val);
+            const QColor color = (i < m_tabColors.size()) ? m_tabColors.at(i) : QColor();
+            ghosts.append({curve, color});
+        }
+        m_edit->setGhostCurves(ghosts);
+    } else {
+        // frei0r.curves / legacy Curve type: single-channel
+        if (paramType == ParamType::Curve) {
+            QList<QPointF> points;
+            int number = qRound(m_model->data(m_index, AssetParameterModel::Enum3Role).toDouble() * 10);
+            int start = m_model->data(m_index, AssetParameterModel::MinRole).toInt();
+            int inRef = int(AssetParameterModel::Enum6Role) + 2 * (start - 1);
+            int outRef = int(AssetParameterModel::Enum7Role) + 2 * (start - 1);
+            for (int j = start; j <= number; ++j) {
+                double inVal = m_model->data(m_index, AssetParameterModel::DataRoles(inRef)).toDouble();
+                double outVal = m_model->data(m_index, AssetParameterModel::DataRoles(outRef)).toDouble();
+                points << QPointF(inVal, outVal);
+                inRef += 2;
+                outRef += 2;
+            }
+            if (!points.isEmpty()) {
+                m_edit->setFromString(KisCubicCurve(points).toString());
+            }
+        } else {
+            m_edit->setFromString(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
+        }
+    }
+}
+
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefresh()
 {
     if (m_model->data(m_index, AssetParameterModel::TypeRole).template value<ParamType>() == ParamType::Curve) {
@@ -398,4 +515,197 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::resizeEv
 {
     QWidget::resizeEvent(e);
     Q_EMIT updateHeight();
+}
+
+template <>
+CurveParamWidget<KisCurveWidget>::CurveParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+    : AbstractParamWidget(std::move(model), index, parent)
+    , m_mode(CurveModes::RGB)
+    , m_showPixmap(KdenliveSettings::bezier_showpixmap())
+{
+    // construct curve editor
+    m_edit = new KisCurveWidget(this);
+    connect(m_edit, static_cast<void (KisCurveWidget::*)(const Point_t &, bool)>(&KisCurveWidget::currentPoint), this,
+            static_cast<void (CurveParamWidget<KisCurveWidget>::*)(const Point_t &, bool)>(&CurveParamWidget<KisCurveWidget>::slotUpdatePointEntries));
+
+    // construct and fill layout
+    auto *layout = new QVBoxLayout(this);
+    layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    const bool isAvCurve = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::AvCurve;
+
+    // frei0r.curves is limited to 5 control points; avfilter.curves has no such limit
+    if (!isAvCurve) {
+        m_edit->setMaxPoints(5);
+    }
+
+    // create tab bar (only for AvCurve; AssetParameterView will add tabs for the other channel params)
+    m_tabBar = new QTabBar(this);
+    m_tabBar->setExpanding(false);
+    m_tabBar->setVisible(isAvCurve);
+
+    auto *tabRowLayout = new QHBoxLayout();
+    tabRowLayout->setSpacing(0);
+    tabRowLayout->setContentsMargins(0, 0, 0, 0);
+    tabRowLayout->addWidget(m_tabBar);
+    tabRowLayout->addStretch(1);
+    layout->addLayout(tabRowLayout);
+
+    if (isAvCurve) {
+        auto *pointRow = new QHBoxLayout();
+        pointRow->setSpacing(4);
+        pointRow->setContentsMargins(2, 2, 2, 2);
+
+        auto *inLabel = new QLabel(i18n("In:"), this);
+        m_inSpin = new QDoubleSpinBox(this);
+        m_inSpin->setRange(0.0, 1.0);
+        m_inSpin->setDecimals(3);
+        m_inSpin->setSingleStep(0.001);
+        m_inSpin->setEnabled(false);
+
+        auto *outLabel = new QLabel(i18n("Out:"), this);
+        m_outSpin = new QDoubleSpinBox(this);
+        m_outSpin->setRange(0.0, 1.0);
+        m_outSpin->setDecimals(3);
+        m_outSpin->setSingleStep(0.001);
+        m_outSpin->setEnabled(false);
+
+        auto *resetChannelBtn = new QToolButton(this);
+        resetChannelBtn->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
+        resetChannelBtn->setText(i18n("Reset curve"));
+        resetChannelBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        resetChannelBtn->setAutoRaise(true);
+        connect(resetChannelBtn, &QAbstractButton::clicked, m_edit, &KisCurveWidget::reset);
+
+        pointRow->addWidget(inLabel);
+        pointRow->addWidget(m_inSpin);
+        pointRow->addSpacing(8);
+        pointRow->addWidget(outLabel);
+        pointRow->addWidget(m_outSpin);
+        pointRow->addStretch(1);
+        pointRow->addWidget(resetChannelBtn);
+        layout->addLayout(pointRow);
+    }
+
+    if (isAvCurve) {
+        // first tab label comes from this param's display name
+        const QString firstName = m_model->data(m_index, Qt::DisplayRole).toString();
+        m_tabBar->addTab(firstName);
+        m_tabIndexes.append(m_index);
+        const QString colorStr = m_model->data(m_index, AssetParameterModel::CurveColorRole).toString();
+        m_tabColors.append(colorStr.isEmpty() ? QColor() : QColor(colorStr));
+        if (!m_tabColors.isEmpty() && m_tabColors.first().isValid()) {
+            m_edit->setCurveColor(m_tabColors.first());
+        }
+    }
+
+    layout->addWidget(m_edit);
+    m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    auto *widget = new QWidget(this);
+    widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    m_ui.setupUi(widget);
+    widget->setFixedHeight(widget->minimumHeight());
+    layout->addWidget(widget);
+
+    // set up icons and initial button states
+    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::RGB, 0.8))));
+    m_ui.widgetPoint->setEnabled(false);
+    m_edit->setGridLines(KdenliveSettings::bezier_gridlines());
+    m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());
+
+    // connect tab bar
+    connect(m_tabBar, &QTabBar::currentChanged, this, &CurveParamWidget<KisCurveWidget>::slotTabChanged);
+
+    // connect buttons
+    connect(m_ui.buttonDeletePoint, &QAbstractButton::clicked, m_edit, &KisCurveWidget::slotDeleteCurrentPoint);
+    connect(m_ui.buttonZoomIn, &QAbstractButton::clicked, m_edit, &KisCurveWidget::slotZoomIn);
+    connect(m_ui.buttonZoomOut, &QAbstractButton::clicked, m_edit, &KisCurveWidget::slotZoomOut);
+    connect(m_ui.buttonGridChange, &QAbstractButton::clicked, this, &CurveParamWidget<KisCurveWidget>::slotGridChange);
+    connect(m_ui.buttonShowPixmap, &QAbstractButton::toggled, this, &CurveParamWidget<KisCurveWidget>::slotShowPixmap);
+    connect(m_ui.buttonResetSpline, &QAbstractButton::clicked, m_edit, &KisCurveWidget::reset);
+
+    if (isAvCurve) {
+        connect(m_edit, static_cast<void (KisCurveWidget::*)(const QPointF &, bool)>(&KisCurveWidget::currentPoint), this, [this](const QPointF &p, bool extremal) {
+            if (!m_inSpin || !m_outSpin) return;
+            if (p == QPointF()) {
+                m_inSpin->setEnabled(false);
+                m_outSpin->setEnabled(false);
+            } else {
+                m_inSpin->setEnabled(!extremal);
+                m_outSpin->setEnabled(true);
+                QSignalBlocker bk1(m_inSpin);
+                QSignalBlocker bk2(m_outSpin);
+                m_inSpin->setValue(p.x());
+                m_outSpin->setValue(p.y());
+            }
+        });
+
+        connect(m_inSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this](double val) {
+            QPointF p = m_edit->getCurrentPoint();
+            if (p == QPointF()) return;
+            m_edit->updateCurrentPoint(QPointF(val, p.y()));
+        });
+
+        connect(m_outSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this](double val) {
+            QPointF p = m_edit->getCurrentPoint();
+            if (p == QPointF()) return;
+            m_edit->updateCurrentPoint(QPointF(p.x(), val));
+        });
+    }
+
+    setupLayoutPoint();
+    slotRefresh();
+    deleteIrrelevantItems();
+
+    // emit valueChanged for the currently active index; also refresh ghosts so
+    // other tabs see an up-to-date curve if the user edits this one then switches away
+    connect(m_edit, &KisCurveWidget::modified, [this]() {
+        Q_EMIT valueChanged(m_index, m_edit->toString(), true);
+        if (!m_tabIndexes.isEmpty()) {
+            const int activeTab = m_tabBar ? m_tabBar->currentIndex() : 0;
+            QList<QPair<KisCubicCurve, QColor>> ghosts;
+            for (int i = 0; i < m_tabIndexes.size(); ++i) {
+                if (i == activeTab) continue;
+                const QString val = m_model->data(m_tabIndexes.at(i), AssetParameterModel::ValueRole).toString();
+                if (isIdentityCurve(val)) continue;
+                KisCubicCurve curve;
+                curve.fromString(val);
+                const QColor color = (i < m_tabColors.size()) ? m_tabColors.at(i) : QColor();
+                ghosts.append({curve, color});
+            }
+            m_edit->setGhostCurves(ghosts);
+        }
+    });
+}
+
+template <> void CurveParamWidget<KisCurveWidget>::addAvCurveTab(const QModelIndex &index)
+{
+    if (!m_tabBar) return;
+    const QString label = m_model->data(index, Qt::DisplayRole).toString();
+    m_tabBar->addTab(label);
+    m_tabIndexes.append(index);
+    const QString colorStr = m_model->data(index, AssetParameterModel::CurveColorRole).toString();
+    m_tabColors.append(colorStr.isEmpty() ? QColor() : QColor(colorStr));
+
+    // rebuild ghosts each time a tab is added so that by the time the last tab
+    // is registered the widget already has the full picture from saved state
+    const int activeTab = m_tabBar->currentIndex();
+    QList<QPair<KisCubicCurve, QColor>> ghosts;
+    for (int i = 0; i < m_tabIndexes.size(); ++i) {
+        if (i == activeTab) continue;
+        const QString val = m_model->data(m_tabIndexes.at(i), AssetParameterModel::ValueRole).toString();
+        if (isIdentityCurve(val)) continue;
+        KisCubicCurve curve;
+        curve.fromString(val);
+        const QColor color = (i < m_tabColors.size()) ? m_tabColors.at(i) : QColor();
+        ghosts.append({curve, color});
+    }
+    m_edit->setGhostCurves(ghosts);
+}
+
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::addAvCurveTab(const QModelIndex & /*index*/)
+{
+    // Not supported for non-KisCurveWidget types
 }

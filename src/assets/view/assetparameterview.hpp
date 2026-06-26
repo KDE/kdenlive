@@ -77,6 +77,7 @@ protected:
     std::shared_ptr<AssetParameterModel> m_model;
     std::vector<AbstractParamWidget *> m_widgets;
     KeyframeContainer *m_mainKeyframeWidget{nullptr};
+    AbstractParamWidget *m_mainCurveWidget{nullptr};
     QMenu *m_presetMenu;
     std::shared_ptr<QActionGroup> m_presetGroup;
 

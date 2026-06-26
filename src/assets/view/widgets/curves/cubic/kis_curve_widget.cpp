@@ -46,7 +46,6 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     m_pixmapCache = nullptr;
     m_maxPoints = 0;
     m_curve = KisCubicCurve();
-    setMaxPoints(5);
     update();
 }
 
@@ -71,11 +70,27 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
     QPainter p(this);
     paintBackground(&p);
 
+    // Draw ghost curves (other channels) at reduced opacity before the active curve.
+    for (const auto &ghost : std::as_const(m_ghostCurves)) {
+        QColor ghostColor = ghost.second.isValid() ? ghost.second : palette().text().color();
+        ghostColor.setAlphaF(0.33);
+        p.setPen(QPen(ghostColor, 1, Qt::SolidLine));
+        QPolygonF ghostPoly;
+        ghostPoly.reserve(m_wWidth);
+        int gx;
+        for (gx = 0; gx < m_wWidth; ++gx) {
+            double nx = double(gx) / m_wWidth;
+            ghostPoly.append(QPointF(gx, m_wHeight - ghost.first.value(nx) * m_wHeight));
+        }
+        ghostPoly.append(QPointF(gx, m_wHeight - ghost.first.value(1.0) * m_wHeight));
+        p.drawPolyline(ghostPoly);
+    }
+
     // Draw curve.
     int x;
     QPolygonF poly;
 
-    p.setPen(QPen(palette().text().color(), 1, Qt::SolidLine));
+    p.setPen(QPen(m_curveColor.isValid() ? m_curveColor : palette().text().color(), 1, Qt::SolidLine));
     poly.reserve(m_wWidth);
     for (x = 0; x < m_wWidth; ++x) {
         double normalizedX = double(x) / m_wWidth;

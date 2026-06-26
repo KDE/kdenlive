@@ -134,7 +134,8 @@ std::pair<AbstractParamWidget *, KeyframeContainer *> AbstractParamWidget::const
         widget = new Widget_t(model, index, parent);
         break;
     }
-    case ParamType::Curve: {
+    case ParamType::Curve:
+    case ParamType::AvCurve: {
         using Widget_t = CurveParamWidget<KisCurveWidget>;
         widget = new Widget_t(model, index, parent);
         break;

@@ -325,7 +325,6 @@ watermark
 avfilter.addroi
 avfilter.crop
 avfilter.cue
-avfilter.curves
 avfilter.drawgraph
 avfilter.find_rect
 avfilter.geq

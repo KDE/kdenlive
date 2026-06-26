@@ -23,6 +23,7 @@ avfilter_boxblur.xml
 avfilter_bs2b.xml
 avfilter_bwdif.xml
 avfilter_cas.xml
+avfilter_curves.xml
 avfilter_ciescope.xml
 avfilter_chromahold.xml
 avfilter_chromanr.xml

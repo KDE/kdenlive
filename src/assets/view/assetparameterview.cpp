@@ -110,6 +110,32 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             if (type != ParamType::ColorWheel) {
                 m_mainKeyframeWidget->addParameter(index);
             }
+        } else if (type == ParamType::AvCurve) {
+            if (!m_mainCurveWidget) {
+                // First AvCurve param: create the widget
+                auto paramWidgets = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
+                AbstractParamWidget *w = paramWidgets.first;
+                if (w) {
+                    m_mainCurveWidget = w;
+                    connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
+                    connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+                    connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
+                    connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
+                    connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
+                    connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
+                        setMinimumHeight(contentHeight());
+                        Q_EMIT updateHeight();
+                    });
+                    m_lay->insertRow(nonKeyframeRow, w);
+                    nonKeyframeRow++;
+                }
+                m_widgets.push_back(w);
+            } else {
+                // Subsequent AvCurve params: add a tab to the existing widget
+                m_mainCurveWidget->addAvCurveTab(index);
+                // store a null placeholder so m_widgets indexing stays aligned with model rows
+                m_widgets.push_back(nullptr);
+            }
         } else {
             auto paramWidgets = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
             AbstractParamWidget *w = paramWidgets.first;
@@ -235,6 +261,7 @@ void AssetParameterView::unsetModel()
     }
     delete m_mainKeyframeWidget;
     m_mainKeyframeWidget = nullptr;
+    m_mainCurveWidget = nullptr; // owned by m_widgets or the layout, not separately
     // Delete widgets
     while (m_lay->rowCount() > 0) {
         m_lay->removeRow(0);
@@ -273,10 +300,18 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
         if (bottomRight.isValid()) {
             max = qMin(max, size_t(bottomRight.row()));
         }
+        bool curveWidgetRefreshed = false;
         for (auto i = size_t(topLeft.row()); i <= max; ++i) {
             if (m_widgets.at(i)) {
                 m_widgets.at(i)->slotRefresh();
+                if (m_widgets.at(i) == m_mainCurveWidget) {
+                    curveWidgetRefreshed = true;
+                }
             }
+        }
+        // If a secondary AvCurve param changed, refresh the shared curve widget too
+        if (m_mainCurveWidget && !curveWidgetRefreshed) {
+            m_mainCurveWidget->slotRefresh();
         }
     }
     if (m_mainKeyframeWidget) {

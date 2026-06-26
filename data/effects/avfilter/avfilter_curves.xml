@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.curves" id="avfilter.curves">
+    <name>Curves (avfilter)</name>
+    <description>Adjust RGB color curves per channel.</description>
+    <author>libavfilter</author>
+    <parameter type="av_curve" name="av.master" default="" color="#CCCCCC">
+        <name>All</name>
+    </parameter>
+    <parameter type="av_curve" name="av.r" default="" color="#FF4444">
+        <name>R</name>
+    </parameter>
+    <parameter type="av_curve" name="av.g" default="" color="#44CC44">
+        <name>G</name>
+    </parameter>
+    <parameter type="av_curve" name="av.b" default="" color="#4488FF">
+        <name>B</name>
+    </parameter>
+</effect>
