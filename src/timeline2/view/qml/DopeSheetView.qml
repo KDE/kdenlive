@@ -488,7 +488,7 @@ Rectangle {
                 implicitWidth: dopeRoot.toolbarHeight
                 implicitHeight: width
                 enabled: dopeRoot.consumerPosition > 0
-                ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
+                ToolTip.text: KI18n.i18n("Go to Previous Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
                 onClicked: K.Core.triggerAction('monitor_seek_snap_backward')
@@ -498,10 +498,10 @@ Rectangle {
                 implicitWidth: dopeRoot.toolbarHeight
                 implicitHeight: width
                 enabled: dopeRoot.consumerPosition < dopeRoot.frameDuration - 1
-                onClicked: {
-                    console.log('FWD CLICK: ', dopeRoot.consumerPosition, ' < ', dopeRoot.frameDuration)
-                    K.Core.triggerAction('monitor_seek_snap_forward')
-                }
+                ToolTip.text: KI18n.i18n("Go to Next Keyframe")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
+                onClicked: K.Core.triggerAction('monitor_seek_snap_forward')
             }
             ComboBox {
                 id: keyframeTypeCombo
