@@ -1869,7 +1869,7 @@ void KdenliveDoc::loadDocumentProperties()
         }
     }
 
-    const QString proxyparams = m_documentProperties.value(QStringLiteral("proxyparams"));
+    const QString proxyparams = m_documentProperties.value(QStringLiteral("proxyparams")).remove(QLatin1Char('\\'));
     if (!proxyparams.isEmpty()) {
         // Sanitize parameters. First check for forbidden params
         const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();

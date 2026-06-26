@@ -165,6 +165,14 @@ void ProxyTask::run()
                 }
                 continue;
             } else {
+                if (t.startsWith(QLatin1String("ante")) || t.startsWith(QLatin1String("post"))) {
+                    t.remove(QLatin1Char('\\'));
+                    if (t.startsWith(QLatin1String("ante ")) || t.startsWith(QLatin1String("post "))) {
+                        // Possible malicious command
+                        qWarning() << "=== Droping suspicious proxy parameters in : " << params;
+                        continue;
+                    }
+                }
                 t.replace(QLatin1Char(' '), QLatin1String("="));
                 if (t == QLatin1String("acodec=copy") && type == ClipType::Playlist) {
                     // drop this for playlists, otherwise we have no sound in proxies
