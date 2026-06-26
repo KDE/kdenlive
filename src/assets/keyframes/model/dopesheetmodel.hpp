@@ -145,6 +145,7 @@ private:
     bool m_hasGrabbedKeyframes{false};
     QList<std::shared_ptr<TreeItem>> m_recapToRefresh;
     QMap<std::pair<KdenliveObjectType::ItemType, int>, std::shared_ptr<TreeItem>> m_masterList;
+    std::shared_ptr<TreeItem> m_activeMaster{nullptr};
     QTimer m_recapRefreshTimer;
     bool isRecap(std::shared_ptr<TreeItem> item) const;
     void disconnectModel();

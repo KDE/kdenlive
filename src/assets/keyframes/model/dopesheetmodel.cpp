@@ -110,6 +110,7 @@ DopeSheetModel::~DopeSheetModel()
 void DopeSheetModel::clearModel()
 {
     m_masterList.clear();
+    m_activeMaster.reset();
     m_paramsList.clear();
     m_masterRecap.reset();
     m_hasGrabbedKeyframes = false;
@@ -218,6 +219,7 @@ void DopeSheetModel::loadEffects()
     int activeEffect = m_model->getActiveEffect();
     auto master = createTopLevelItem(m_model);
     m_masterList.insert({m_currentOwner.type, m_currentOwner.itemId}, master);
+    m_activeMaster = master;
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         if (item->childCount() > 0) {
@@ -843,8 +845,9 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
     QList<QPersistentModelIndex> matchingIndexes;
     bool matching = false;
     bool foundActive = false;
+    auto masterIndex = m_activeMaster ? getIndexFromItem(m_activeMaster) : QModelIndex();
     for (int i = 0; i < max; i++) {
-        QModelIndex ix = index(i, 0);
+        QModelIndex ix = index(i, 0, masterIndex);
         KeyframeModel *master = data(ix, ModelRole).value<KeyframeModel *>();
         if (ix == activeIndex) {
             KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
