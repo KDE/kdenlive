@@ -116,10 +116,6 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->getItemPosition(model->getOwnerId());
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
-    if (activeIndex.isValid()) {
-        pCore->dopeSheetModel()->isOnKeyframe(pos, true, activeIndex);
-    }
     QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
                               Q_ARG(QVariant, model->getOwnerId().itemId));
 }

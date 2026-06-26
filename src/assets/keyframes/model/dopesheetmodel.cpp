@@ -838,25 +838,31 @@ KeyframeModel *DopeSheetModel::getKeyframeModel(QPersistentModelIndex activeInde
 
 bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentModelIndex activeIndex)
 {
-    if (!m_model || !activeIndex.isValid()) {
+    if (!m_model) {
         return false;
     }
     int max = m_model->rowCount();
     QList<QPersistentModelIndex> matchingIndexes;
     bool matching = false;
     bool foundActive = false;
+    if (m_masterRecap) {
+        if (!m_masterRecap->hasKeyframe(framePosition)) {
+            if (m_indexesOnKeyframe.isEmpty()) {
+                // Only position changed
+                Q_EMIT refreshAnimatedValues();
+            } else {
+                m_indexesOnKeyframe.clear();
+                Q_EMIT matchingKeyframes(matchingIndexes);
+            }
+            return false;
+        }
+    }
     auto masterIndex = m_activeMaster ? getIndexFromItem(m_activeMaster) : QModelIndex();
     for (int i = 0; i < max; i++) {
         QModelIndex ix = index(i, 0, masterIndex);
         KeyframeModel *master = data(ix, ModelRole).value<KeyframeModel *>();
-        if (ix == activeIndex) {
-            KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
-            if (km && km->hasKeyframe(framePosition)) {
-                qDebug() << ":::: FOUND MASTER ITEM AT IX: " << ix;
-                foundActive = true;
-            }
-        }
         if (master && master->hasKeyframe(framePosition)) {
+            foundActive = true;
             int itemId = int(ix.internalId());
             auto tItem = getItemById(itemId);
             if (tItem->childCount() == 0) {
