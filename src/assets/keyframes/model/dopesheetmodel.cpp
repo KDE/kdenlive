@@ -84,6 +84,14 @@ DopeSheetModel::DopeSheetModel(QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
 {
+    m_recapRefreshTimer.setSingleShot(true);
+    m_recapRefreshTimer.setInterval(100);
+    connect(&m_recapRefreshTimer, &QTimer::timeout, this, [this]() {
+        while (!m_recapToRefresh.isEmpty()) {
+            auto refreshItem = m_recapToRefresh.takeFirst();
+            updateMasterRecap(refreshItem);
+        }
+    });
 }
 
 std::shared_ptr<DopeSheetModel> DopeSheetModel::construct(QObject *parent)
@@ -101,7 +109,9 @@ DopeSheetModel::~DopeSheetModel()
 
 void DopeSheetModel::clearModel()
 {
+    m_masterList.clear();
     m_paramsList.clear();
+    m_masterRecap.reset();
     m_hasGrabbedKeyframes = false;
     m_indexesOnKeyframe.clear();
     for (auto &c : m_assetConnectionList) {
@@ -153,7 +163,7 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
     case ModelRole:
         return QVariant::fromValue(m_paramsList.at(itemId).second.get());
     case RecapRole:
-        return m_paramsList.at(itemId).first.row == -1;
+        return m_paramsList.at(itemId).first.row < 0;
     /*case AssetTypeRole:
         return QVariant::fromValue(it->second.first.second);
     case SelectedRole:
@@ -206,6 +216,8 @@ void DopeSheetModel::loadEffects()
     }
     int max = m_model->rowCount();
     int activeEffect = m_model->getActiveEffect();
+    auto master = createTopLevelItem(m_model);
+    m_masterList.insert({m_currentOwner.type, m_currentOwner.itemId}, master);
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         if (item->childCount() > 0) {
@@ -213,10 +225,65 @@ void DopeSheetModel::loadEffects()
             continue;
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
-        if (registerAsset(i, effectModel, effectModel->dataColumn(0).toString()) && i == activeEffect) {
+        if (registerAsset(master, i, effectModel, effectModel->dataColumn(0).toString()) && i == activeEffect) {
             Q_EMIT activateEffect(m_model->index(i, 0));
         }
     }
+    updateMasterRecap(master);
+}
+
+std::shared_ptr<TreeItem> DopeSheetModel::createTopLevelItem(std::shared_ptr<EffectStackModel> model)
+{
+    if (!m_masterRecap) {
+        std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(0);
+        if (!item) {
+            return nullptr;
+        }
+        std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
+        m_masterRecap = std::shared_ptr<KeyframeModel>(new KeyframeModel(effectModel, QModelIndex(), pCore->undoStack(), pCore->getItemIn(m_currentOwner),
+                                                                         pCore->getItemIn(m_currentOwner) + pCore->getItemDuration(m_currentOwner)));
+    }
+    const QString clipName = pCore->getItemName(model->getOwnerId());
+    auto masterItem = TreeItem::construct({clipName, -2}, shared_from_this(), false);
+    getRoot()->appendChild(masterItem);
+
+    // If there is more than one parameter, add a recap top item
+    EffectParamInfo pInfo;
+    // Recap line for the effect
+    pInfo.id = clipName;
+    pInfo.type = ParamType::Double;
+    pInfo.row = -2;
+    m_paramsList.insert({masterItem->getId(), {pInfo, m_masterRecap}});
+    return masterItem;
+}
+
+void DopeSheetModel::updateMasterRecap(std::shared_ptr<TreeItem> topItem)
+{
+    if (!m_masterRecap || !topItem) {
+        return;
+    }
+    QMap<GenTime, KeyframeType::KeyframeEnum> kfrList;
+    for (int j = 0; j < topItem->childCount(); ++j) {
+        auto current = topItem->child(j);
+        if (!m_paramsList.contains(current->getId())) {
+            continue;
+        }
+        if (m_paramsList.at(current->getId()).first.row == -2) {
+            continue;
+        }
+        auto kfModel = m_paramsList.at(current->getId()).second;
+        QList<GenTime> paramKF = kfModel->getKeyframePos();
+        for (auto &g : paramKF) {
+            if (!kfrList.contains(g)) {
+                KeyframeType::KeyframeEnum type = KeyframeType::KeyframeEnum(kfModel->getKeyframeTypeAtPos(g));
+                kfrList.insert(g, type);
+            }
+        }
+    }
+    m_masterRecap->loadKeyframePos(kfrList);
+    const QModelIndex start = m_masterRecap->index(0);
+    const QModelIndex end = m_masterRecap->index(kfrList.size() - 1);
+    Q_EMIT m_masterRecap->dataChanged(start, end, {});
 }
 
 bool DopeSheetModel::registerComposition(std::shared_ptr<AssetParameterModel> assetModel, const QString transitionName)
@@ -228,7 +295,7 @@ bool DopeSheetModel::registerComposition(std::shared_ptr<AssetParameterModel> as
         }
         clearModel();
         m_currentOwner = owner;
-        registerAsset(0, assetModel, transitionName);
+        registerAsset(nullptr, 0, assetModel, transitionName);
         Q_EMIT dopeDurationChanged();
         Q_EMIT dopePositionChanged();
         Q_EMIT dopeInPointChanged();
@@ -249,7 +316,7 @@ Kdenlive::MonitorId DopeSheetModel::getMonitorId() const
     return Kdenlive::ProjectMonitor;
 }
 
-bool DopeSheetModel::registerAsset(int row, std::shared_ptr<AssetParameterModel> effectModel, const QString assetName)
+bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, std::shared_ptr<AssetParameterModel> effectModel, const QString assetName)
 {
     qDebug() << "::: REGISTERING ASSET: " << assetName << "\n+++++++++++";
     std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
@@ -266,7 +333,10 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<AssetParameterModel>
     }
     const QString displayRole = effectModel->data(QModelIndex(), Qt::DisplayRole).toString();
     auto effectItem = TreeItem::construct({assetName, row}, shared_from_this(), false);
-    getRoot()->appendChild(effectItem);
+    if (master == nullptr) {
+        master = getRoot();
+    }
+    master->appendChild(effectItem);
 
     // If there is more than one parameter, add a recap top item
     EffectParamInfo pInfo;
@@ -275,7 +345,17 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<AssetParameterModel>
         pInfo.id = assetName;
         pInfo.type = ParamType::Double;
         pInfo.row = -1;
-        m_paramsList.insert({effectItem->getId(), {pInfo, keyframes->getRecap()}});
+        auto recap = keyframes->getRecap();
+        auto conn = connect(recap.get(), &KeyframeModel::dataChanged, this, [this, master]() {
+            if (!m_recapToRefresh.contains(master)) {
+                m_recapToRefresh << master;
+            }
+            if (!m_recapRefreshTimer.isActive()) {
+                m_recapRefreshTimer.start();
+            }
+        });
+        m_assetConnectionList << conn;
+        m_paramsList.insert({effectItem->getId(), {pInfo, recap}});
     }
 
     // Loop keyframable parameters
@@ -285,17 +365,24 @@ bool DopeSheetModel::registerAsset(int row, std::shared_ptr<AssetParameterModel>
             continue;
         }
         auto km = keyframes->getKeyModel(ix);
-        auto conn = connect(km.get(), &KeyframeModel::dataChanged, this, &DopeSheetModel::modelChanged, Qt::QueuedConnection);
-        m_assetConnectionList << conn;
         int treeItemId;
         if (indexes.size() > 1) {
-            // Build recap item
-            auto paramItem = TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString()}, shared_from_this(), false);
+            // Build param item
+            auto paramItem = TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString(), row}, shared_from_this(), false);
 
             effectItem->appendChild(paramItem);
             treeItemId = paramItem->getId();
         } else {
             treeItemId = effectItem->getId();
+            auto conn = connect(km.get(), &KeyframeModel::dataChanged, this, [this, master]() {
+                if (!m_recapToRefresh.contains(master)) {
+                    m_recapToRefresh << master;
+                }
+                if (!m_recapRefreshTimer.isActive()) {
+                    m_recapRefreshTimer.start();
+                }
+            });
+            m_assetConnectionList << conn;
         }
         qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString();
         pInfo.id = effectModel->data(ix, Qt::DisplayRole).toString();
@@ -725,6 +812,12 @@ void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int u
 
 KeyframeModel *DopeSheetModel::getKeyframeModel(QPersistentModelIndex activeIndex)
 {
+    int effectIndex = data(activeIndex, EffectIndexRole).toInt();
+    qDebug() << "::: ACTIVATING EFFECT INDEX: " << effectIndex << ", FROM IX: " << activeIndex << "\n________________";
+    if (effectIndex >= 0) {
+        m_model->setActiveEffect(effectIndex);
+    }
+
     if (data(activeIndex, RecapRole).toBool() == true) {
         // Recap, return null
         return nullptr;
@@ -801,6 +894,16 @@ void DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)
     } else {
         for (int j = 0; j < tItem->childCount(); ++j) {
             auto current = tItem->child(j);
+            if (isRecap(current)) {
+                // Recap item, process all children
+                for (int k = 0; k < current->childCount(); ++k) {
+                    auto subChild = current->child(k);
+                    auto ix2 = getIndexFromItem(subChild);
+                    KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+                    success = km->addKeyframe(framePosition, undo, redo);
+                }
+                continue;
+            }
             auto ix2 = getIndexFromItem(current);
             KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
             success = km->addKeyframe(framePosition, undo, redo);
@@ -831,6 +934,18 @@ void DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
     } else {
         for (int j = 0; j < tItem->childCount(); ++j) {
             auto current = tItem->child(j);
+            if (isRecap(current)) {
+                // Recap item, process all children
+                for (int k = 0; k < current->childCount(); ++k) {
+                    auto subChild = current->child(k);
+                    auto ix2 = getIndexFromItem(subChild);
+                    KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+                    if (km->hasKeyframe(position)) {
+                        success = km->removeKeyframe(position, undo, redo);
+                    }
+                }
+                continue;
+            }
             auto ix2 = getIndexFromItem(current);
             KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
             if (km->hasKeyframe(position)) {
@@ -895,9 +1010,7 @@ QVariantMap DopeSheetModel::selectKeyframeAtPos(const QModelIndex &masterIndex, 
 
 QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame)
 {
-    QVariantList paramIndexes;
     QVariantMap keyframeIndexes;
-    QList<QModelIndex> processed;
     m_selectedIndexes.clear();
     bool stopParsing = false;
     QModelIndex currentIndex = startIndex;
@@ -915,36 +1028,51 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
             auto tItem = getItemById(itemId);
             if (isRecap(tItem)) {
                 // Top level item
-                int currentRow = tItem->row();
-                if (currentRow < getRoot()->childCount() - 1) {
-                    auto nextItem = getRoot()->child(++currentRow);
-                    if (!nextItem) {
-                        stopParsing = true;
-                    } else {
-                        currentIndex = getIndexFromItem(nextItem);
+                auto childItem = tItem->child(0);
+                if (!childItem) {
+                    auto parentItem = tItem->parentItem();
+                    int currentRow = tItem->row() + 1;
+                    if (auto ptr = parentItem.lock()) {
+                        if (currentRow < ptr->childCount()) {
+                            auto nextItem = ptr->child(currentRow);
+                            if (!nextItem) {
+                                stopParsing = true;
+                            } else {
+                                currentIndex = getIndexFromItem(nextItem);
+                            }
+                        }
                     }
                 } else {
-                    // No more item, abort
-                    qDebug() << "// Reached last item...";
+                    currentIndex = getIndexFromItem(childItem);
                 }
             } else {
                 // Loop children
                 auto parentItem = tItem->parentItem();
                 int currentRow = tItem->row();
                 if (auto ptr = parentItem.lock()) {
+                    if (ptr->dataColumn(1) == -2) {
+                        // this is a top level effect with single param, nothing else to do
+                        continue;
+                    }
+                    currentRow++;
                     int siblings = ptr->childCount();
-                    qDebug() << ":::: SELECTING ITEM in ROW: " << currentRow << ", MAX: " << ptr->childCount();
-                    while (currentRow < siblings) {
-                        qDebug() << "_____ CHECKING EFFECT ROW: " << currentRow;
-                        auto nextItem = getRoot()->child(currentRow++);
-                        qDebug() << "_____ CHECKING EFFECT ROW DONE; NXT: " << currentRow;
+                    if (currentRow >= siblings) {
+                        // Move to parent's next item
+                        currentRow = ptr->row() + 1;
+                        auto topParentItem = ptr->parentItem();
+                        if (auto top = topParentItem.lock()) {
+                            if (currentRow < top->childCount()) {
+                                auto nextItem = top->child(currentRow);
+                                currentIndex = getIndexFromItem(nextItem);
+                                continue;
+                            }
+                        }
+                        stopParsing = true;
+                    } else {
+                        auto nextItem = ptr->child(currentRow);
                         if (nextItem) {
                             currentIndex = getIndexFromItem(nextItem);
-                            break;
                         }
-                    }
-                    if (currentRow == siblings) {
-                        stopParsing = true;
                     }
                 }
             }
@@ -956,7 +1084,6 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
 QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame)
 {
     int itemId = int(startIndex.internalId());
-    QVariantList paramIndexes;
     QVariantMap keyframeIndexes;
     auto tItem = getItemById(itemId);
     QList<QModelIndex> processed;
@@ -972,6 +1099,30 @@ QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex,
         keyframeIndexes.insert(QString::number(startIndex.internalId()), currentKeyframeIndexes);
         for (int j = 0; j < tItem->childCount(); ++j) {
             auto current = tItem->child(j);
+            if (isRecap(current)) {
+                for (int k = 0; k < current->childCount(); ++k) {
+                    auto subChild = current->child(k);
+                    auto ix2 = getIndexFromItem(subChild);
+                    processed << ix2;
+                    currentKeyframeIndexes = processIndex(ix2, startFrame, endFrame);
+                    if (!currentKeyframeIndexes.isEmpty()) {
+                        m_selectedIndexes << ix2;
+                        keyframeIndexes.insert(QString::number(ix2.internalId()), currentKeyframeIndexes);
+                        if (isRecap(subChild)) {
+                            for (int l = 0; l < subChild->childCount(); ++l) {
+                                auto lastChild = subChild->child(l);
+                                auto ix3 = getIndexFromItem(lastChild);
+                                processed << ix3;
+                                currentKeyframeIndexes = processIndex(ix3, startFrame, endFrame);
+                                if (!currentKeyframeIndexes.isEmpty()) {
+                                    m_selectedIndexes << ix3;
+                                    keyframeIndexes.insert(QString::number(ix3.internalId()), currentKeyframeIndexes);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             auto ix2 = getIndexFromItem(current);
             processed << ix2;
             currentKeyframeIndexes = processIndex(ix2, startFrame, endFrame);
@@ -993,7 +1144,7 @@ QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex,
 
 QVariantList DopeSheetModel::selectedIndexes() const
 {
-    qDebug() << "::::: REQUESTING INDEXES: " << m_selectedIndexes << "\n**************************";
+    // qDebug() << "::::: REQUESTING INDEXES: " << m_selectedIndexes << "\n**************************";
     return m_selectedIndexes;
 }
 
@@ -1204,21 +1355,24 @@ void DopeSheetModel::addRemoveKeyframe(const QModelIndex ix, int pos)
 
 int DopeSheetModel::getRowFromEffectIndex(const QPersistentModelIndex ix)
 {
-    for (int j = 0; j < rootItem->childCount(); ++j) {
-        auto current = rootItem->child(j);
+    // Find master for active effect
+    std::shared_ptr<TreeItem> master{nullptr};
+    for (auto i = m_masterList.cbegin(), end = m_masterList.cend(); i != end; ++i) {
+        if (i.key().first == m_currentOwner.type && i.key().second == m_currentOwner.itemId) {
+            master = i.value();
+            break;
+        }
+    }
+    if (master == nullptr) {
+        master = rootItem;
+    }
+    for (int j = 0; j < master->childCount(); ++j) {
+        auto current = master->child(j);
         if (current->dataColumn(1).toInt() == ix.row()) {
             return j;
         }
     }
     return -1;
-}
-
-void DopeSheetModel::setActiveIndex(const QPersistentModelIndex ix)
-{
-    if (m_model) {
-        int effectIndex = data(ix, EffectIndexRole).toInt();
-        m_model->setActiveEffect(effectIndex);
-    }
 }
 
 void DopeSheetModel::copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData)
@@ -1264,5 +1418,5 @@ void DopeSheetModel::copySelectedKeyframes(const QModelIndex ix, const QVariantM
 bool DopeSheetModel::isRecap(std::shared_ptr<TreeItem> item) const
 {
     Q_ASSERT(m_paramsList.contains(item->getId()));
-    return m_paramsList.at(item->getId()).first.row == -1;
+    return m_paramsList.at(item->getId()).first.row < 0;
 }

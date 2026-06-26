@@ -67,7 +67,7 @@ public:
     void deregisterItem(QPersistentModelIndex ix);
     void clearModel();
     /** @brief Register all keyframable params for an effect */
-    bool registerAsset(int row, std::shared_ptr<AssetParameterModel> effectModel, const QString assetName);
+    bool registerAsset(std::shared_ptr<TreeItem> master, int row, std::shared_ptr<AssetParameterModel> effectModel, const QString assetName);
     bool registerStack(std::shared_ptr<EffectStackModel> model);
     /** @brief Register all keyframable params for a composition */
     bool registerComposition(std::shared_ptr<AssetParameterModel> effectModel, const QString transitionName);
@@ -93,7 +93,6 @@ public:
     Q_INVOKABLE void changeKeyframeType(const QVariantMap kfData, int type);
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
-    Q_INVOKABLE void setActiveIndex(const QPersistentModelIndex ix);
     Q_INVOKABLE KeyframeModel *getKeyframeModel(QPersistentModelIndex activeIndex);
     Q_INVOKABLE int getRowFromEffectIndex(const QPersistentModelIndex ix);
     int dopeDuration() const;
@@ -132,6 +131,7 @@ private:
     std::shared_ptr<EffectStackModel> m_model;
     QMap<QModelIndex, QList<std::pair<int, int>>> m_scaledKFInfo;
     std::pair<int, int> m_scaledRange;
+    std::shared_ptr<KeyframeModel> m_masterRecap{nullptr};
     /** @brief Remember if the playhead is on a keyframe */
     QList<QPersistentModelIndex> m_indexesOnKeyframe;
     bool m_resizeFromStart{false};
@@ -143,12 +143,17 @@ private:
     /** @brief Ensure selected keyframes contain all child parameters */
     const QMap<QModelIndex, QVariant> sanitizeKeyframesIndexes(const QVariantMap kfData);
     bool m_hasGrabbedKeyframes{false};
+    QList<std::shared_ptr<TreeItem>> m_recapToRefresh;
+    QMap<std::pair<KdenliveObjectType::ItemType, int>, std::shared_ptr<TreeItem>> m_masterList;
+    QTimer m_recapRefreshTimer;
     bool isRecap(std::shared_ptr<TreeItem> item) const;
     void disconnectModel();
+    std::shared_ptr<TreeItem> createTopLevelItem(std::shared_ptr<EffectStackModel> model);
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);
     void loadEffects();
+    void updateMasterRecap(std::shared_ptr<TreeItem> topItem);
 
 Q_SIGNALS:
     void modelChanged();

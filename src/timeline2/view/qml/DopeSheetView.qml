@@ -90,6 +90,7 @@ Rectangle {
         dopeRoot.contentScroll = 0
         dopeRoot.timeScale = 1
         ruler.adjustStepSize()
+        treeView.expand(0)
     }
 
     function scrollByWheel(wheel) {
@@ -298,7 +299,6 @@ Rectangle {
     }
 
     function getActiveCppParamIndex() {
-        console.log('Current SELECTION INDEX: ', treeView.selectionModel.currentIndex)
         var item = treeView.itemAtIndex(treeView.selectionModel.currentIndex)
         if (item) {
             return treeView.model.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column, treeView.selectionModel.currentIndex.parent)
@@ -310,17 +310,22 @@ Rectangle {
     function setActiveIndexFromModel(row) {
         console.log('READY TO SET MODEINDEX FROM C++: ', row)
         // Ensure item is visible
-        let modelIndex = treeView.model.index(row, 0)
+        let modelIndex = treeView.model.index(row, 0, treeView.model.index(0, 0, treeView.rootIndex))
         if (!modelIndex.valid) {
+            console.log('invalid ix from C++')
             return
         }
         var currentIx = treeView.selectionModel.currentIndex
-        if (currentIx.parent && currentIx.parent.valid && currentIx.parent != treeView.rootIndex) {
+        if (currentIx.parent && currentIx.parent.parent && currentIx.parent.parent != treeView.rootIndex) {
+            // We are on an effect param with a recap
             if (currentIx.parent.row === modelIndex.row) {
                 return
             }
-        } else if (currentIx.row === modelIndex.row) {
-            return
+        } else if (currentIx.parent.parent === treeView.rootIndex) {
+            // We are on an effect recap
+            if (currentIx.row === modelIndex.row) {
+                return
+            }
         }
         console.log('Setting index from C++: ', modelIndex)
         treeView.selectionModel.setCurrentIndex(modelIndex, ItemSelectionModel.SelectCurrent);
@@ -760,8 +765,6 @@ Rectangle {
                     var activeIndex = getActiveCppParamIndex()
                     if (activeIndex.valid) {
                         keyframeCurve.model = dopesheetmodel.getKeyframeModel(activeIndex)
-                        let cppEffectIndex = treeView.model.index(activeIndex.parent === treeView.rootIndex ? activeIndex.row : activeIndex.parent.row, 0)
-                        dopesheetmodel.setActiveIndex(cppEffectIndex)
                     }
                 }
             }
@@ -784,14 +787,13 @@ Rectangle {
             required property int column
             required property bool current
             required property bool selected
+
             Rectangle {
-                color: 'darkgoldenrod'
-                opacity: 0.3
-                visible: depth == 0
+                color: depth == 0 ? 'darkorange' : 'darkgoldenrod'
+                opacity: 0.25
+                visible: depth < 2
                 x: 4
                 anchors.fill: parent
-                //height: parent.height
-                //width: treeView.headerWidth
             }
             Rectangle {
                 color: Qt.rgba(activePalette.highlight.r * 0.6, activePalette.highlight.g * 0.6, activePalette.highlight.b * 0.6, 1)
@@ -809,6 +811,7 @@ Rectangle {
                 duration: 200
                 easing.type: Easing.OutQuart
             }
+
             TableView.onPooled: indicatorAnimation.complete()
             TableView.onReused: if (current) indicatorAnimation.start()
             onExpandedChanged: indicator.rotation = expanded ? 90 : 0
@@ -1086,7 +1089,6 @@ Rectangle {
                         if (contentRect.hasChildren) {
                             dopesheetmodel.addKeyframe(parameterIndex, dopeRoot.mouseFramePos)
                         } else {
-                            console.log('Adding keyframe at: ', dopeRoot.mouseFramePos)
                             dopeModel.addKeyframe(dopeRoot.mouseFramePos)
                         }
                         kfMoveArea.currentFrame = dopeRoot.mouseFramePos
@@ -1138,6 +1140,7 @@ Rectangle {
                     }
                 }
                 Component.onCompleted: {
+                    treeView.expand(0)
                     console.log('Loaded TREEVIEW COMPONENT ID: ', treeView.model.index(contentRect.row, contentRect.column))
                     console.log('CONTAINER WIDTH CHANGED ON COMPLETION: ', keyframeContainer.width, ' / RULER: ', rulercontainer.width, 'CONTEINER CONTENR: ', keyframeContainer.contentWidth, 'TREEVIEW: ', treeView.width, ' - ', treeView.headerWidth,'\n.....................')
                 }

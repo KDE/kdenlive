@@ -1165,6 +1165,31 @@ int Core::getItemPosition(const ObjectId &id)
     return 0;
 }
 
+QString Core::getItemName(const ObjectId &id)
+{
+    if (!m_guiConstructed) {
+        qWarning() << "GUI not build";
+        return QString();
+    }
+    switch (id.type) {
+    case KdenliveObjectType::TimelineClip: {
+        auto timeline = currentDoc()->getTimeline(id.uuid);
+        if (timeline && timeline->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getClipName(id.itemId);
+        } else {
+            qWarning() << "querying non clip properties";
+            return QString();
+        }
+        break;
+    }
+    case KdenliveObjectType::BinClip: {
+        return m_mainWindow->getBin()->getBinClipName(QString::number(id.itemId));
+    }
+    default:
+        return QString();
+    }
+}
+
 int Core::getItemIn(const ObjectId &id)
 {
     if (!m_guiConstructed) {
