@@ -440,8 +440,8 @@ Window {
                 }
 
                 Item {
+                    Layout.fillWidth: true
                     Layout.preferredHeight: childrenRect.height
-                    Layout.preferredWidth: templateSeparator.width
 
                     Button {
                         id: newProjectButton
@@ -466,7 +466,7 @@ Window {
                             anchors.top: parent.top
                             anchors.margins: 10
                             height: templatesLabel.height + 6
-                            width: templatesLabel.width + 1.5 * templatesClearButton.width
+                            width: parent.width
                             radius: height / 4
                             color: Qt.darker(splashContent.color, 1.5)
                             Label {
