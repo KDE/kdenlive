@@ -374,6 +374,16 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
             treeItemId = paramItem->getId();
         } else {
             treeItemId = effectItem->getId();
+            auto conn1 = connect(km.get(), &KeyframeModel::modelChanged, this, [this, master]() {
+                if (!m_recapToRefresh.contains(master)) {
+                    m_recapToRefresh << master;
+                }
+                if (!m_recapRefreshTimer.isActive()) {
+                    m_recapRefreshTimer.start();
+                }
+            });
+            m_assetConnectionList << conn1;
+
             auto conn = connect(km.get(), &KeyframeModel::dataChanged, this, [this, master]() {
                 if (!m_recapToRefresh.contains(master)) {
                     m_recapToRefresh << master;
@@ -813,8 +823,7 @@ void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int u
 KeyframeModel *DopeSheetModel::getKeyframeModel(QPersistentModelIndex activeIndex)
 {
     int effectIndex = data(activeIndex, EffectIndexRole).toInt();
-    qDebug() << "::: ACTIVATING EFFECT INDEX: " << effectIndex << ", FROM IX: " << activeIndex << "\n________________";
-    if (effectIndex >= 0) {
+    if (m_model && effectIndex >= 0) {
         m_model->setActiveEffect(effectIndex);
     }
 
