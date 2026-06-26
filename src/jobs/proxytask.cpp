@@ -169,7 +169,7 @@ void ProxyTask::run()
                     t.remove(QLatin1Char('\\'));
                     if (t.startsWith(QLatin1String("ante ")) || t.startsWith(QLatin1String("post "))) {
                         // Possible malicious command
-                        qWarning() << "=== Droping suspicious proxy parameters in : " << params;
+                        qWarning() << "=== Dropping suspicious proxy parameters in : " << params;
                         continue;
                     }
                 }
