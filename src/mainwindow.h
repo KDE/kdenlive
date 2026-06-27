@@ -64,6 +64,7 @@ class TimelineItemModel;
 class MonitorProxy;
 class KDualAction;
 class QQuickWidget;
+class QQmlEngine;
 
 class MltErrorEvent : public QEvent
 {
