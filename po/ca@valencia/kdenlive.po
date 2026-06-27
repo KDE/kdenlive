@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-24 03:44+0000\n"
+"POT-Creation-Date: 2026-06-27 02:42+0000\n"
 "PO-Revision-Date: 2026-05-02 10:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -26283,17 +26283,17 @@ msgstr "Ha fallat mentre es processava la llista de reproducció."
 msgid "Creating proxy"
 msgstr "S'està creant l'intermediari"
 
-#: src/jobs/proxytask.cpp:222
+#: src/jobs/proxytask.cpp:230
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "No s'ha pogut carregar la imatge %1."
 
-#: src/jobs/proxytask.cpp:242
+#: src/jobs/proxytask.cpp:250
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "La imatge és massa xicoteta perquè siga intermediària."
 
-#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:258 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -26301,7 +26301,7 @@ msgstr ""
 "No s'ha trobat FFmpeg. Cal definir el camí cap a la configuració de l'entorn "
 "de Kdenlive"
 
-#: src/jobs/proxytask.cpp:434 src/jobs/proxytask.cpp:448
+#: src/jobs/proxytask.cpp:442 src/jobs/proxytask.cpp:456
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "No s'ha pogut crear el clip intermediari."

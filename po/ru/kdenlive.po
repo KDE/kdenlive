@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-24 03:44+0000\n"
-"PO-Revision-Date: 2026-06-25 17:10+0300\n"
+"POT-Creation-Date: 2026-06-27 02:42+0000\n"
+"PO-Revision-Date: 2026-06-26 17:14+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -402,8 +402,8 @@ msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
 msgstr ""
-"Определяет необходимость заливки цветом области под звуковым спектром."
-"Применимо только для линейных графиков."
+"Следует ли заливать цветом области под звуковым спектром.Применимо только "
+"для линейных графиков."
 
 #: data/effects/audiospectrum.xml:43
 #, kde-format
@@ -967,6 +967,8 @@ msgstr "Точность фильтра"
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 msgstr ""
+"Авто,16-битное со знаком,32-битное со знаком,32-битное с плавающей "
+"запятой,64-битное с плавающей запятой"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -4461,7 +4463,7 @@ msgid "High-shelf"
 msgstr "Высокочастотная полка"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "Применение высокочастотного полочного фильтра"
 
@@ -5148,7 +5150,7 @@ msgstr ""
 "дБ на полюс на октаву (20 дБ на полюс на декаду)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
 msgstr "Гц,Q-коэффициент,Октава,Спад,кГц"
 
@@ -5347,9 +5349,9 @@ msgid "Add noise on video input frame"
 msgstr "Добавление шума на кадры входного видео"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "<b><u>All Components</u></b> Noise Seed"
-msgstr "<b>--Низ--</b> Начало"
+msgstr "Начальное значение шума <b><u>всех компонентов</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
@@ -5374,15 +5376,16 @@ msgstr ""
 #: data/effects/avfilter/avfilter_noise.xml:47
 #: data/effects/avfilter/avfilter_noise.xml:61
 #: data/effects/avfilter/avfilter_noise.xml:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
-"Средний временной шум,Смешанный случайный шум,Временной шум,Однородный шум"
+"Усреднённый временной шум,Смешанный случайный шум,Временной шум,Однородный "
+"шум"
 
 #: data/effects/avfilter/avfilter_noise.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "<b><u>Component #0</u></b> Noise Seed"
-msgstr "<b>--Низ--</b> Начало"
+msgstr "Начальное значение шума <b><u>компонента 0</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
 #, kde-format
@@ -5390,19 +5393,19 @@ msgid " Strength"
 msgstr " Сила"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "<b><u>Component #1</u></b> Noise Seed"
-msgstr "<b>--Низ--</b> Начало"
+msgstr "Начальное значение шума <b><u>компонента 1</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "<b><u>Component #2</u></b> Noise Seed"
-msgstr "<b>--Низ--</b> Начало"
+msgstr "Начальное значение шума <b><u>компонента 2</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:64
-#, fuzzy, kde-format
+#, kde-format
 msgid "<b><u>Component #3</u></b> Noise Seed"
-msgstr "<b>--Низ--</b> Начало"
+msgstr "Начальное значение шума <b><u>компонента 3</u></b>"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -5892,10 +5895,11 @@ msgstr ""
 "результат "
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sets the value which will be added to filtered result"
 msgstr ""
-"Указать значение, которое будет добавляться к отфильтрованному результату."
+"Устанавливает значение, которое будет добавляться к отфильтрованному "
+"результату"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:607
@@ -7648,9 +7652,9 @@ msgstr "Из"
 
 #: data/effects/copychannelstostereo.xml:9
 #: data/effects/copychannelstostereo.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
-msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
 
 #: data/effects/copychannelstostereo.xml:12
 #, kde-format
@@ -7927,13 +7931,13 @@ msgid "Text"
 msgstr "Текст"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, no-c-format, kde-format
+#, no-c-format, kde-format
 msgid ""
 "You can also enter <i>strftime</i> parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
-"Для настройки вывода также можно указать параметры strftime, например: "
-"#createdate %H:%M %D#"
+"Для настройки вывода также можно указать параметры <i>strftime</i>, "
+"например: #createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:45
 #, fuzzy, kde-format
@@ -8726,9 +8730,9 @@ msgid "Bottom Enabled"
 msgstr "Низ включён"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "comment"
-msgstr "Комментарий"
+msgstr "комментарий"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
 #, kde-format
@@ -8833,10 +8837,10 @@ msgid ""
 "you're used to seeing). Can be used to preview what will be shown in a 360 "
 "video viewer. Delayed frame blitting mapped on a time bitmap"
 msgstr ""
-"Преобразует эквидистантный (панорамный) кадр в прямоугольный (используемый "
-"для просмотра). Можно использовать для предпросмотра того, что будет "
-"показано в 360-градусном средстве просмотра. Отложенное дублирование кадра, "
-"отображаемое на битовой карте времени"
+"Преобразует эквидистантный (панорамный) кадр в прямоугольный (обычно "
+"используемый для просмотра). Можно использовать для предпросмотра того, что "
+"будет показано в 360-градусном средстве просмотра. Отложенный блиттинг "
+"кадров по битовой карте времени."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
@@ -10258,7 +10262,7 @@ msgstr "Захват с задержкой"
 #: data/effects/frei0r/frei0r_delaygrab.xml:5
 #, kde-format
 msgid "Delayed frame blitting mapped on a time bitmap"
-msgstr "Отсроченный блиттинг кадра, наложенный на переменный растр"
+msgstr "Отложенный блиттинг кадров по битовой карте времени"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
@@ -10266,7 +10270,7 @@ msgid "HQ 3D Denoiser (frei0r)"
 msgstr "Высококачественное устранение шума в 3D (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "High quality 3D denoiser"
 msgstr "Высококачественное устранение шума в 3D"
 
@@ -10459,7 +10463,7 @@ msgstr "Тиснение"
 #: data/effects/frei0r/frei0r_emboss.xml:6
 #, kde-format
 msgid "Creates embossed relief image of source image"
-msgstr "Создает рельеф на основе оригинального изображения"
+msgstr "Создание рельефа на основе оригинального изображения"
 
 #: data/effects/frei0r/frei0r_emboss.xml:9
 #, kde-format
@@ -11018,14 +11022,14 @@ msgid "Enable edge compensation"
 msgstr "Включить режим заполнения краёв"
 
 #: data/effects/frei0r/frei0r_invert0r.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invert0r"
-msgstr "Инвертировать"
+msgstr "Инверсия"
 
 #: data/effects/frei0r/frei0r_invert0r.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Inverts all colors of a source image"
-msgstr "Коррекция контраста оригинального изображения"
+msgstr "Инверсия всех цветов оригинального изображения"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
@@ -11208,7 +11212,7 @@ msgid ""
 msgstr ""
 "Если флажок установлен, выбранный<br>\n"
 "        цвет будет использоваться, если отражение находится за пределами "
-"исходного изображения и не отражается обратно"
+"оригинального изображения и не отражается обратно"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
@@ -12143,14 +12147,16 @@ msgstr ""
 "можно настроить смещение, масштаб и вращение."
 
 #: data/effects/frei0r/frei0r_ndvi.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "NDVI"
-msgstr "NDVI,VI"
+msgstr "NDVI"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:5
 #, kde-format
 msgid "This filter creates a false image from a visible + infrared source"
 msgstr ""
+"Этот фильтр создаёт ложное изображение на основе данных источника в видимом "
+"и инфракрасном диапазоне"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:8
 #, kde-format
@@ -12484,20 +12490,22 @@ msgstr ""
 "    Этот эффект был заменён на <em>frei0r.measure_pr0file</em>."
 
 #: data/effects/frei0r/frei0r_premultiply.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Premultiply or Unpremultiply"
-msgstr "Умножение"
+msgstr "Предварительное умножение или отмена предварительного умножения"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:5
 #: data/effects/frei0r/frei0r_spillsupress.xml:5
 #, kde-format
 msgid "Multiply (or divide) each color component by the pixel's alpha value"
 msgstr ""
+"Умножение (или деление) каждого цветового компонента на значение альфа "
+"пиксела"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unpremultiply"
-msgstr "Умножение"
+msgstr "Отмена предварительного умножения"
 
 #: data/effects/frei0r/frei0r_premultiply.xml:9
 #, kde-format
@@ -13057,7 +13065,7 @@ msgid "Interval"
 msgstr "Интервал"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "3-Point Balance"
 msgstr "Баланс по трём точкам"
 
@@ -13067,17 +13075,17 @@ msgid "Adjust color balance with 3 color points"
 msgstr "Балансировка цвета по трём точкам"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Black Color"
 msgstr "Чёрный цвет"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gray Color"
 msgstr "Серый цвет"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "White Color"
 msgstr "Белый цвет"
 
@@ -14604,7 +14612,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:4
 #, kde-format
 msgid "TAP Equalizer/BW"
-msgstr "Эквалайзер TAP/BW"
+msgstr "Эквалайзер/Полоса пропускания TAP"
 
 #: data/effects/ladspa/ladspa_2151.xml:6
 #, kde-format
@@ -14624,12 +14632,12 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:60
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "BW"
-msgstr "B"
+msgstr "Полоса пропускания"
 
 #: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "<Gain"
 msgstr "Усиление"
 
@@ -15022,7 +15030,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
 msgid "Declipper"
-msgstr "Удаление клиппинга"
+msgstr "Удаление треска"
 
 #: data/effects/ladspa/ladspa_declipper.xml:5
 #, kde-format
@@ -15442,7 +15450,7 @@ msgstr "Для применения эффекта необходимо выпо
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Luma"
-msgstr "Каше"
+msgstr "Яркость"
 
 #: data/effects/lumakey.xml:4
 #, kde-format
@@ -15457,6 +15465,11 @@ msgid ""
 "together with a compositor to combine two images so that bright or dark "
 "areas of source image are overwritten on top of the destination image."
 msgstr ""
+"Этот фильтр изменяет<br>\n"
+"   альфа-канал как функцию от значения яркости изображения. Используется "
+"совместно со средством композитинга для сочетания двух изображений таким "
+"образом, чтобы светлые или тёмные области оригинального изображения "
+"перезаписывались поверх целевого изображения."
 
 #: data/effects/lumakey.xml:11
 #, kde-format
@@ -15685,12 +15698,12 @@ msgstr "Использовать значение, обратное значен
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
 msgid "Use Luma"
-msgstr "Использовать каше"
+msgstr "Использовать яркость"
 
 #: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, kde-format
 msgid "Use the image luma instead of the alpha channel."
-msgstr "Использовать изображение каше вместо альфа-канала."
+msgstr "Использовать яркость изображения вместо альфа-канала."
 
 #: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
 #, kde-format
@@ -15703,9 +15716,9 @@ msgid ""
 "Whether to apply a threshold filter to the luma or alpha or not. If not, "
 "luma or alpha value of the resource (File) is copied to the alpha channel."
 msgstr ""
-"Определяет необходимость применения фильтра порога к каналу яркости или "
-"альфа. Если фильтр применяться не будет, то значение канала яркости или "
-"альфа ресурса (файла) копируется в альфа-канал."
+"Следует ли применять фильтр порога к каналу яркости или альфа. Если фильтр "
+"применяться не будет, то значение канала яркости или альфа ресурса (файла) "
+"копируется в альфа-канал."
 
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
@@ -17373,22 +17386,22 @@ msgstr "Устаревшие"
 #: data/profiles.xml:4
 #, kde-format
 msgid "Generic (HD for web, mobile devices...)"
-msgstr ""
+msgstr "Обычный (HD для Интернета, мобильных устройств...)"
 
 #: data/profiles.xml:27
 #, kde-format
 msgid "Ultra-High Definition (4K)"
-msgstr ""
+msgstr "Наивысшее разрешение (4K)"
 
 #: data/profiles.xml:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video with Alpha"
-msgstr "Растушёвка альфа-канала"
+msgstr "Видео с альфа-каналом"
 
 #: data/profiles.xml:58
 #, kde-format
 msgid "Old-TV definition (DVD...)"
-msgstr ""
+msgstr "Разрешение старого ТВ (DVD...)"
 
 #: data/profiles.xml:75
 #, fuzzy, kde-format
@@ -18091,7 +18104,7 @@ msgstr "Вытеснение снизу вверх"
 #, kde-format
 msgctxt "Luma Transition Name"
 msgid "Luma"
-msgstr "Каше"
+msgstr "Яркость"
 
 #: data/transitions/luma.xml:5 data/transitions/mix.xml:5
 #: data/transitions/wipe.xml:5
@@ -18358,9 +18371,9 @@ msgid "Show all custom effects"
 msgstr "Показать все пользовательские эффекты"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:161
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show lumas only"
-msgstr "Показать только точки"
+msgstr "Показать только яркости"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:169
 #, kde-format
@@ -19229,7 +19242,7 @@ msgid "None (Dissolve)"
 msgstr "Нет (наплыв)"
 
 #: src/assets/view/widgets/pointparamwidget.cpp:51
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Position as the x,y coordinate for a point"
 msgid "Position:"
 msgstr "Позиция:"
@@ -20871,9 +20884,9 @@ msgid "Subtitle %1"
 msgstr "Субтитр %1"
 
 #: src/bin/model/subtitlemodel.cpp:2002
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "Не удалось разрезать накладывающиеся субтитры"
+msgstr "Невозможно создать более %1 слоёв в субтитрах."
 
 #: src/bin/model/subtitlemodel.cpp:2194
 #, kde-format
@@ -22871,14 +22884,14 @@ msgid "Stereo (2 channels)"
 msgstr "Стерео (2 канала)"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:511
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 channels"
 msgstr "%1 каналов "
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 Hz"
-msgstr "311 Гц"
+msgstr "%1 Гц"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:525
 #, kde-format
@@ -22891,29 +22904,29 @@ msgid "48000 Hz"
 msgstr "48000 Гц"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:531
-#, fuzzy, kde-format
+#, kde-format
 msgid "96000 Hz"
-msgstr "5000 Гц"
+msgstr "96000 Гц"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:544
 #, kde-format
 msgid "Unsigned 8 bit"
-msgstr ""
+msgstr "8-битное без знака"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:547
 #, kde-format
 msgid "Signed 16 bit"
-msgstr ""
+msgstr "16-битное со знаком"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:550
 #, kde-format
 msgid "Signed 32 bit"
-msgstr ""
+msgstr "32-битное со знаком"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:553
 #, kde-format
 msgid "Float"
-msgstr ""
+msgstr "С плавающей запятой"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:604
 #, kde-format
@@ -25130,7 +25143,7 @@ msgstr "Шрифт титров"
 #: src/doc/documentchecker.cpp:1892
 #, kde-format
 msgid "Luma file"
-msgstr "Файл каше"
+msgstr "Файл яркости"
 
 #: src/doc/documentchecker.cpp:1894
 #, kde-format
@@ -26324,17 +26337,17 @@ msgstr "Не удалось обработать список воспроизв
 msgid "Creating proxy"
 msgstr "Создание прокси"
 
-#: src/jobs/proxytask.cpp:222
+#: src/jobs/proxytask.cpp:230
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Не удалось загрузить изображение %1."
 
-#: src/jobs/proxytask.cpp:242
+#: src/jobs/proxytask.cpp:250
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Изображение слишком мало для создания прокси."
 
-#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:258 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -26342,7 +26355,7 @@ msgstr ""
 "Не удалось найти FFmpeg, укажите правильный путь в разделе «Окружение» "
 "настройки параметров приложения Kdenlive"
 
-#: src/jobs/proxytask.cpp:434 src/jobs/proxytask.cpp:448
+#: src/jobs/proxytask.cpp:442 src/jobs/proxytask.cpp:456
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Не удалось создать прокси-клип."
@@ -30210,9 +30223,9 @@ msgstr ""
 "Устраните их."
 
 #: src/monitor/view/AudioView.qml:326
-#, fuzzy, kde-format
+#, kde-format
 msgid "Click to refresh audio waveform"
-msgstr "Масштабирование звукового спектра"
+msgstr "Нажмите для обновления звукового спектра"
 
 #: src/monitor/view/ClipMonitor.qml:366 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
@@ -30995,7 +31008,7 @@ msgstr "Прочие клипы"
 #: src/project/dialogs/archivewidget.cpp:95
 #, kde-format
 msgid "Luma Files"
-msgstr "Файлы каше"
+msgstr "Файлы яркости"
 
 #: src/project/dialogs/archivewidget.cpp:232
 #, kde-format
@@ -34733,9 +34746,9 @@ msgstr "Нет элемента для редактирования"
 
 #: src/timeline2/view/timelinecontroller.cpp:3033
 #: src/timeline2/view/timelinecontroller.cpp:3170
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot change speed of item(s)"
-msgstr "Не удалось создать клип"
+msgstr "Не удалось изменить скорость элементов"
 
 #: src/timeline2/view/timelinecontroller.cpp:3230
 #: src/timeline2/view/timelinecontroller.cpp:5623
@@ -35670,19 +35683,19 @@ msgid "<small>No additional information available for this character.</small>"
 msgstr "<small>Дополнительные сведения о данном символе отсутствуют.</small>"
 
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lumas"
-msgstr "Каше"
+msgstr "Яркости"
 
 #: src/transitions/transitionlist/view/transitionicondelegate.cpp:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "No Preview"
-msgstr "Предпросмотр"
+msgstr "Без предварительного просмотра"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "Generate Previews"
-msgstr "Создать сценарий"
+msgstr "Генерировать предварительный просмотр"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
@@ -35690,21 +35703,26 @@ msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
+"Не удалось найти сценарий генерации предварительного просмотра. Убедитесь, "
+"что он корректно установлен."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
 msgid "Python interpreter not found. Please make sure Python is installed."
 msgstr ""
+"Интерпретатор Python не найден. Убедитесь, что установка Python выполнена."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
 msgstr ""
+"Генерация предварительного просмотра переходов. Это может занять несколько "
+"минут…"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
-msgstr ""
+msgstr "Предварительный просмотр переходов успешно сгенерирован."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
@@ -35712,6 +35730,8 @@ msgid ""
 "Failed to generate transition previews. Check the application log for "
 "details."
 msgstr ""
+"Не удалось сгенерировать предварительный просмотр переходов. Подробные "
+"сведения доступны в журнале приложения."
 
 #: src/transitions/transitionsrepository.cpp:39
 #, kde-format
@@ -35719,9 +35739,9 @@ msgid "Some of your favorite compositions are invalid and were removed: %1"
 msgstr "Некоторые из избранных композиций недопустимы и были удалены: %1"
 
 #: src/transitions/transitionsrepository.cpp:59
-#, fuzzy, kde-format
+#, kde-format
 msgid "Luma file :"
-msgstr "Файл каше"
+msgstr "Файл яркости:"
 
 #: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:123
 #, kde-format
