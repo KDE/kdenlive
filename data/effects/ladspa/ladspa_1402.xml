@@ -7,7 +7,7 @@
    <parameter name="0" type="constant" default="0" max="1000" min="0" decimals="0">
       <name>Random Seed</name>
       <comment><![CDATA[Controls the random numbers that<br>
-      will be used to stagger the delays and amplitudes if random is turned up on them. Changing this forces the random values to be recalulated.]]></comment>
+      will be used to stagger the delays and amplitudes if random is turned up on them. Changing this forces the random values to be recalculated.]]></comment>
    </parameter>
    <parameter name="1" type="constant" decimals="1" default="0.0" max="24.0" min="-96.0" suffix="dB">
       <name>Input Gain</name>
