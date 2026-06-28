@@ -1101,9 +1101,10 @@ bool Monitor::monitorIsFullScreen(bool considerMirror) const
 
 const QScreen *Monitor::getScreenForFullscreen(bool *multipleScreens)
 {
-    if (qApp->screens().count() == 1) {
+    const QList<QScreen *> screens = qApp->screens();
+    if (screens.count() == 1) {
         *multipleScreens = false;
-        return qApp->screens().first();
+        return screens.constFirst();
     }
     *multipleScreens = true;
     QString requestedMonitor = KdenliveSettings::fullscreen_monitor();
@@ -1119,7 +1120,7 @@ const QScreen *Monitor::getScreenForFullscreen(bool *multipleScreens)
     int ix = -1;
     if (!requestedMonitor.isEmpty()) {
         // If the platform does not provide screen serial number, use indexes
-        for (const QScreen *screen : qApp->screens()) {
+        for (auto screen : screens) {
             ix++;
             QString screenId = QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber());
             bool match = requestedMonitor == screenId;
@@ -1139,7 +1140,7 @@ const QScreen *Monitor::getScreenForFullscreen(bool *multipleScreens)
     }
 
     ix = 0;
-    for (const QScreen *screen : qApp->screens()) {
+    for (auto screen : screens) {
         // Autodetect second monitor
         QRect screenRect = screen->geometry();
         if (screenRect.contains(pCore->window()->geometry().center())) {
@@ -1148,7 +1149,7 @@ const QScreen *Monitor::getScreenForFullscreen(bool *multipleScreens)
             continue;
         }
         QString screenId = QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber());
-        if (qApp->screens().count() > 2) {
+        if (screens.count() > 2) {
             // We have 3 monitors, use each
             if (m_id == Kdenlive::ProjectMonitor) {
                 if (KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
@@ -1177,8 +1178,8 @@ const QScreen *Monitor::getScreenForFullscreen(bool *multipleScreens)
         }
         return screen;
     }
-
-    return nullptr;
+    *multipleScreens = false;
+    return screens.constFirst();
 }
 
 void Monitor::destroyFullscreenMirror()
@@ -1209,7 +1210,13 @@ void Monitor::createFullscreenMirror()
     if (m_monitorMirror || m_fullscreenWindow) {
         return;
     }
-
+    bool ok;
+    const QScreen *screen = getScreenForFullscreen(&ok);
+    if (!ok) {
+        // Don't mirror screen when there is only one monitor
+        qWarning() << "Cannot enable screen mirroring with only 1 monitor";
+        return;
+    }
     // Create top-level window
     m_fullscreenWindow = new QWidget(this);
     m_fullscreenWindow->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -1280,15 +1287,11 @@ void Monitor::createFullscreenMirror()
     // Mirror frames: listen to VideoWidget::frameDisplayed and forward to the fullscreen widget
     connect(m_glMonitor, &VideoWidget::frameDisplayed, m_monitorMirror, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
 
-    // Show it full screen
-    bool ok;
-    const QScreen *screen = getScreenForFullscreen(&ok);
-    if (screen) {
-        m_fullscreenWindow->setParent(nullptr);
-        qDebug() << "Got screen" << screen;
-        m_fullscreenWindow->move(screen->geometry().topLeft());
-        m_fullscreenWindow->resize(screen->geometry().size());
-    }
+    // Now show it full screen
+    m_fullscreenWindow->setParent(nullptr);
+    qDebug() << "Got screen" << screen;
+    m_fullscreenWindow->move(screen->geometry().topLeft());
+    m_fullscreenWindow->resize(screen->geometry().size());
     m_monitorMirror->switchRuler(false);
     m_monitorMirror->enableMouseTimer(true);
     m_fullscreenWindow->showFullScreen();
@@ -1301,15 +1304,12 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         // Make monitor fullscreen
         bool multipleScreen = false;
         const QScreen *screen = getScreenForFullscreen(&multipleScreen);
-
         if (KdenliveSettings::mirrorMonitorOnFullscreen() && multipleScreen) {
             createFullscreenMirror();
         } else {
             m_glWidget->setParent(nullptr);
-            if (screen) {
-                m_glWidget->move(screen->geometry().topLeft());
-                m_glWidget->resize(screen->geometry().size());
-            }
+            m_glWidget->move(screen->geometry().topLeft());
+            m_glWidget->resize(screen->geometry().size());
             m_glWidget->showFullScreen();
             m_glMonitor->enableMouseTimer(true);
         }
