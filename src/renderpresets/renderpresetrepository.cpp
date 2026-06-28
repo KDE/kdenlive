@@ -39,7 +39,10 @@ static std::map<QString, QString> categoryMap{{QStringLiteral("Generic (HD for w
                                               {QStringLiteral("10 Bit"), QStringLiteral("10bit")},
                                               {QStringLiteral("Lossless/HQ"), QStringLiteral("lossless")}};
 
-RenderPresetRepository::RenderPresetRepository() {}
+RenderPresetRepository::RenderPresetRepository()
+{
+    refresh();
+}
 
 std::unique_ptr<RenderPresetRepository> &RenderPresetRepository::get()
 {
@@ -86,7 +89,6 @@ void RenderPresetRepository::checkCodecs(bool forceRefresh)
 void RenderPresetRepository::refresh(bool fullRefresh)
 {
     QWriteLocker locker(&m_mutex);
-
     if (fullRefresh) {
         // Reset all profiles
         m_profiles.clear();

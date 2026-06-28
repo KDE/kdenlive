@@ -26,7 +26,6 @@ std::shared_ptr<RenderPresetTreeModel> RenderPresetTreeModel::construct(QObject 
     QList<QVariant> rootData;
     rootData << "Name";
     self->rootItem = TreeItem::construct(rootData, self, true);
-    RenderPresetRepository::get()->refresh();
     // First create categories
     QMap<QString, QString> categories = RenderPresetRepository::get()->getAllCategories();
     std::vector<std::shared_ptr<TreeItem>> cats{};
