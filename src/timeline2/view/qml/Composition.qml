@@ -475,6 +475,7 @@ Item {
             anchors.fill: parent
             active: compositionRoot.visible
             asynchronous: true
+            property bool hasKeyframes:  status == Loader.Ready ? compositionRoot.keyframeModel === undefined ? false : (effectRow.item as KeyframeView).kfrCount > 1 : 0
             visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * K.UiUtils.baseSizeMedium
             source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {

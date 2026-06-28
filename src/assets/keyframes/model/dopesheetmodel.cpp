@@ -1371,7 +1371,7 @@ void DopeSheetModel::addRemoveKeyframe(const QModelIndex ix, int pos)
     }
 }
 
-int DopeSheetModel::getRowFromEffectIndex(const QPersistentModelIndex ix)
+QModelIndex DopeSheetModel::getRowFromEffectIndex(const QPersistentModelIndex ix)
 {
     // Find master for active effect
     std::shared_ptr<TreeItem> master{nullptr};
@@ -1387,10 +1387,10 @@ int DopeSheetModel::getRowFromEffectIndex(const QPersistentModelIndex ix)
     for (int j = 0; j < master->childCount(); ++j) {
         auto current = master->child(j);
         if (current->dataColumn(1).toInt() == ix.row()) {
-            return j;
+            return getIndexFromItem(current);
         }
     }
-    return -1;
+    return QModelIndex();
 }
 
 void DopeSheetModel::copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData)

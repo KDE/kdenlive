@@ -30,7 +30,6 @@ class QGroupBox;
 class QCheckBox;
 class QButtonGroup;
 class QSpinBox;
-class QSortFilterProxyModel;
 class QHBoxLayout;
 class QVBoxLayout;
 

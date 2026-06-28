@@ -6,6 +6,7 @@
 #include "dopewidget.hpp"
 #include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "core.h"
+#include "dopefilter.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "monitor/monitor.h"
 #include "monitor/monitorproxy.h"
@@ -23,17 +24,34 @@ DopeWidget::DopeWidget(QQmlEngine *engine, QWidget *parent)
 {
     setClearColor(palette().base().color());
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-
-    setInitialProperties({{"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()}, {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())}});
+    m_proxyModel.reset(new DopeFilter(this));
+    m_proxyModel->setSourceModel(pCore->dopeSheetModel().get());
+    setInitialProperties({{"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()},
+                          {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())},
+                          {"dopesheetFilterModel", QVariant::fromValue(m_proxyModel.get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("DopeSheetView"));
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::activateEffect, this, &DopeWidget::activateEffect);
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, this, &DopeWidget::checkModelUpdate, Qt::QueuedConnection);
+    connect(rootObject(), SIGNAL(filterDopeView(QVariant)), this, SLOT(slotUpdateFilter(QVariant)));
+    connect(m_proxyModel.get(), &DopeFilter::expandAll, this, &DopeWidget::expandAll);
+}
+
+void DopeWidget::slotUpdateFilter(QVariant text)
+{
+    m_proxyModel->setFilterName(text.toString());
 }
 
 void DopeWidget::deleteItem()
 {
     if (rootObject()) {
         QMetaObject::invokeMethod(rootObject(), "deleteSelection");
+    }
+}
+
+void DopeWidget::expandAll()
+{
+    if (rootObject()) {
+        QMetaObject::invokeMethod(rootObject(), "expandAll");
     }
 }
 
@@ -194,19 +212,17 @@ void DopeWidget::slotAddRemoveKeyframe()
 
 void DopeWidget::activateEffect(QPersistentModelIndex ix)
 {
-    int dopeRow = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
-    if (dopeRow >= 0) {
-        QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(dopeRow)));
+    const QModelIndex dopeRow = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
+    if (dopeRow.isValid()) {
+        const QModelIndex mapped = m_proxyModel->mapFromSource(dopeRow);
+        QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(mapped.row())));
     }
 }
 
 void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active)
 {
     if (active) {
-        int dopeRow = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
-        if (dopeRow >= 0) {
-            QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(dopeRow)));
-        }
+        activateEffect(ix);
     }
 }
 

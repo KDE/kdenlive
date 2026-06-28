@@ -11,6 +11,7 @@
 
 class AssetParameterModel;
 class EffectStackModel;
+class DopeFilter;
 
 class DopeWidget : public QQuickWidget
 {
@@ -42,8 +43,11 @@ private Q_SLOTS:
     void updateActiveEffect(QPersistentModelIndex ix, bool active);
     /** @brief The model was updated, ensure we enable/disable parameters depending on the keyframes positions */
     void checkModelUpdate();
+    void slotUpdateFilter(QVariant text);
+    void expandAll();
 
 private:
     QModelIndex m_activeIndex;
     QMetaObject::Connection m_activeEffectConnection;
+    std::unique_ptr<DopeFilter> m_proxyModel;
 };

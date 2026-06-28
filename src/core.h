@@ -130,7 +130,7 @@ public:
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
     /** @brief Returns a pointer to the dopesheet model. */
-    std::shared_ptr<DopeSheetModel> dopeSheetModel();
+    Q_INVOKABLE std::shared_ptr<DopeSheetModel> dopeSheetModel();
     /** @brief Returns a pointer to the current project. */
     KdenliveDoc *currentDoc();
     /** @brief Returns project's timecode. */

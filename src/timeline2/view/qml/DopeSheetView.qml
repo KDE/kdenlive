@@ -22,11 +22,12 @@ Rectangle {
     // Effects duration
     property int inPoint: dopesheetmodel.dopeInPoint
     property int frameDuration: dopesheetmodel.dopeDuration
-    property int toolbarHeight: Math.max(28, K.UiUtils.baseSizeMedium * 1.8)
+    property int toolbarHeight: K.UiUtils.baseSizeMedium * 1.5
     property int mouseFramePos: -1
     property int hoverKeyframe: -1
     required property var keyframeTypes
     required property K.DopeSheetModel dopesheetmodel
+    required property K.DopeFilter dopesheetFilterModel
     property K.MonitorProxy proxy
     property var keyframeType
     property int ownerType
@@ -70,6 +71,13 @@ Rectangle {
     }
     onConsumerPositionChanged: {
         rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveCppParamIndex())
+    }
+
+    signal filterDopeView(var searchText)
+
+    function expandAll()
+    {
+        treeView.expandRecursively()
     }
 
     function updateOverKeyframeFromModel(overKeyframe) {
@@ -188,7 +196,7 @@ Rectangle {
         var ix = 0
         while (ix < dopeRoot.allSelectedKeyframes.length) {
             var elem = dopeRoot.allSelectedKeyframes[ix]
-            if (elem.index === itemIndex) {
+            if (elem.index === treeView.model.mapToSource(itemIndex)) {
                 return elem.kfrs
             } else {
                 ix++
@@ -201,7 +209,7 @@ Rectangle {
         var ix = 0
         while (ix < dopeRoot.grabbedKeyframes.length) {
             var elem = dopeRoot.grabbedKeyframes[ix]
-            if (elem.index === itemIndex) {
+            if (elem.index === treeView.model.mapToSource(itemIndex)) {
                 return elem.kfrs
             } else {
                 ix++
@@ -258,7 +266,7 @@ Rectangle {
         bottomPos.y = Math.min(treeView.contentHeight - 1, bottomPos.y)
         var topRow = treeView.cellAtPosition(topPos)
         var bottomRow = treeView.cellAtPosition(bottomPos)
-        var result = dopesheetmodel.selectKeyframeRange(treeView.modelIndex(topRow), treeView.modelIndex(bottomRow), startFrame, endFrame)
+        var result = dopesheetmodel.selectKeyframeRange(treeView.model.mapToSource(treeView.modelIndex(topRow)), treeView.model.mapToSource(treeView.modelIndex(bottomRow)), startFrame, endFrame)
         updateSelectedKeyframesFromModel(result, addToSelection)
     }
 
@@ -301,7 +309,7 @@ Rectangle {
     function getActiveCppParamIndex() {
         var item = treeView.itemAtIndex(treeView.selectionModel.currentIndex)
         if (item) {
-            return treeView.model.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column, treeView.selectionModel.currentIndex.parent)
+            return treeView.model.mapToSource(treeView.model.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column, treeView.selectionModel.currentIndex.parent))
         }
         console.log('NO ACTIVE ITEM FOUND IN DOPESHEET...')
         return treeView.index(-1, -1)
@@ -433,21 +441,27 @@ Rectangle {
         anchors.right: parent.right
         anchors.leftMargin: 4
         anchors.rightMargin: 4
+        property int buttonHeight: dopeRoot.toolbarHeight
+        property int iconHeight: buttonHeight - 4
         RowLayout {
-            //anchors.fill: parent
+            anchors.fill: parent
             ToolButton {
                 id: kfTypeButton
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: "application-menu"
-                implicitWidth: dopeRoot.toolbarHeight
-                implicitHeight: width
                 onClicked: {
                     // Check required kfr type
                     defaultTypeMenu.popup()
                 }
             }
             ToolButton {
-                implicitWidth: dopeRoot.toolbarHeight
-                implicitHeight: width
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: rulerCursor.overKeyframe ? "keyframe-remove" : "keyframe-add"
                 ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
                 ToolTip.delay: 1000
@@ -455,8 +469,10 @@ Rectangle {
                 onClicked: K.Core.triggerAction('keyframe_add')
             }
             ToolButton {
-                implicitWidth: dopeRoot.toolbarHeight
-                implicitHeight: width
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: "align-horizontal-center"
                 enabled: dopeRoot.allSelectedKeyframes.length > 0
                 ToolTip.text: KI18n.i18n("Align Keyframe to Playhead")
@@ -465,8 +481,10 @@ Rectangle {
                 onClicked: dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, -1, dopeRoot.consumerPosition, true)
             }
             ToolButton {
-                implicitWidth: dopeRoot.toolbarHeight
-                implicitHeight: width
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: "edit-copy"
                 enabled: dopeRoot.allSelectedKeyframes.length > 0
                 ToolTip.text: KI18n.i18n("Copy Keyframe")
@@ -475,8 +493,10 @@ Rectangle {
                 onClicked: copyKeyframes()
             }
             ToolButton {
-                implicitWidth: dopeRoot.toolbarHeight
-                implicitHeight: width
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: "edit-paste"
                 ToolTip.text: KI18n.i18n("Paste Keyframe")
                 ToolTip.delay: 1000
@@ -484,9 +504,11 @@ Rectangle {
                 onClicked: dopeRoot.pasteKeyframes()
             }
             ToolButton {
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: "arrow-left"
-                implicitWidth: dopeRoot.toolbarHeight
-                implicitHeight: width
                 enabled: dopeRoot.consumerPosition > 0
                 ToolTip.text: KI18n.i18n("Go to Previous Keyframe")
                 ToolTip.delay: 1000
@@ -494,9 +516,11 @@ Rectangle {
                 onClicked: K.Core.triggerAction('monitor_seek_snap_backward')
             }
             ToolButton {
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: "arrow-right"
-                implicitWidth: dopeRoot.toolbarHeight
-                implicitHeight: width
                 enabled: dopeRoot.consumerPosition < dopeRoot.frameDuration - 1
                 ToolTip.text: KI18n.i18n("Go to Next Keyframe")
                 ToolTip.delay: 1000
@@ -508,6 +532,7 @@ Rectangle {
                 model: keyframeTypes
                 textRole: "text"
                 valueRole: "value"
+                implicitHeight: dopeBar.buttonHeight
                 currentValue: dopeRoot.keyframeType
                 enabled: dopeRoot.allSelectedKeyframes.length > 0
                 ToolTip.text: KI18n.i18n("Type for selected keyframe")
@@ -517,6 +542,14 @@ Rectangle {
                     console.log('changing kf type to: ', currentValue, ' current: ', dopeRoot.keyframeType)
                     dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, currentValue)
                     dopeRoot.keyframeType = currentValue
+                }
+            }
+            SearchField {
+                id: dopeSearch
+                implicitWidth: baseUnit * 10
+                implicitHeight: dopeBar.buttonHeight
+                onTextChanged: {
+                    filterDopeView(text)
                 }
             }
         }
@@ -745,7 +778,7 @@ Rectangle {
     TreeView {
         // The model needs to be a QAbstractItemModel
         id: treeView
-        model: dopesheetmodel
+        model: dopesheetFilterModel
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: keyframeContainer.top
@@ -758,7 +791,7 @@ Rectangle {
         // Disable flicking
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
-            model: dopesheetmodel
+            model: dopesheetFilterModel
             onCurrentChanged: (current, previous) => {
                 rulerCursor.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveCppParamIndex())
                 if (current.valid && current.parent) {
@@ -919,10 +952,12 @@ Rectangle {
                             }
                             return
                         }
+                        console.log('QML PRESSED 1')
                         dopeRoot.keyframeType = dopeModel.getKeyframeTypeAtFrame(clickFrame)
                         var selectedKeyframes = getSelectedKeyframesForIndex(parameterIndex)
                         var alreadySelected = selectedKeyframes.indexOf(currentIndex) > -1
                         var actionList = typeActions.actions
+                        console.log('QML PRESSED 2')
                         if (mouse.buttons === Qt.RightButton) {
                             if (alreadySelected) {
                                 // keyframe already selected, just show menu
@@ -962,13 +997,15 @@ Rectangle {
                             }
                             if (contentRect.hasChildren) {
                                 // Top level item, build index of related kf to select
-                                dopesheetmodel.buildMasterSelection(parameterIndex, clickIndex)
-                                var result = dopesheetmodel.selectKeyframeAtPos(parameterIndex, clickFrame)
+                                var mapped = treeView.model.mapToSource(parameterIndex)
+                                dopesheetmodel.buildMasterSelection(mapped, clickIndex)
+                                var result = dopesheetmodel.selectKeyframeAtPos(mapped, clickFrame)
                                 updateSelectedKeyframesFromModel(result, shiftClick)
                                 return
                             }
-
-                            updateSelectedKeyframesForIndex(parameterIndex, selectedKeyframes, shiftClick)
+                            console.log('QML PRESSED 3')
+                            updateSelectedKeyframesForIndex(treeView.model.mapToSource(parameterIndex), selectedKeyframes, shiftClick)
+                            console.log('QML PRESSED 4')
                             dopeRoot.allSelectedKeyframesChanged()
                         }
                         if (ctrlClick) {
@@ -1178,7 +1215,7 @@ Rectangle {
             id: keyframeCurve
             anchors.fill: parent
             property var model: undefined
-            property bool hasKeyframes: false
+            property bool hasKeyframes:  status == Loader.Ready ? keyframeCurve.model === undefined ? false : (keyframeCurve.item as KeyframeView).kfrCount > 1 : 0
             property bool isPanning: false
             asynchronous: true
             visible: status == Loader.Ready

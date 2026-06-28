@@ -94,7 +94,7 @@ public:
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
     Q_INVOKABLE KeyframeModel *getKeyframeModel(QPersistentModelIndex activeIndex);
-    Q_INVOKABLE int getRowFromEffectIndex(const QPersistentModelIndex ix);
+    QModelIndex getRowFromEffectIndex(const QPersistentModelIndex ix);
     int dopeDuration() const;
     int dopeInPoint() const;
     int dopePosition() const;

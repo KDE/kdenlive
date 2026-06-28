@@ -1473,11 +1473,11 @@ Rectangle {
                 clip: true
                 anchors.fill: parent
                 asynchronous: true
-                property bool hasKeyframes: false
+                property bool hasKeyframes: status == Loader.Ready ? clipRoot.keyframeModel === undefined ? false : (effectRow.item as KeyframeView).kfrCount > 1 : 0
 
                 active: clipRoot.visible
                 visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
-                source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
+                source: clipRoot.hideClipViews || clipRoot.keyframeModel === undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item
                     property: "kfrModel"

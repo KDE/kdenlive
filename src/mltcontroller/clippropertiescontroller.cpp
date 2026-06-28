@@ -49,7 +49,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProcess>
 #include <QResizeEvent>
 #include <QScrollArea>
-#include <QSortFilterProxyModel>
 #include <QTextEdit>
 #include <QToolBar>
 #include <QUrl>
