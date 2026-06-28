@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-27 00:43+0000\n"
-"PO-Revision-Date: 2026-06-13 18:39+0200\n"
+"PO-Revision-Date: 2026-06-27 13:09+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2640,7 +2640,8 @@ msgid "Adjust RGB color curves per channel."
 msgstr "Liczba wartości (barw) na kanał"
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "All"
 msgid "All"
 msgstr "Wszystkie"
 
@@ -15063,6 +15064,9 @@ msgid ""
 "   Simulates aliasing using nyquist frequency modulation. Produces wacky "
 "results if the blocks aren't even numbers of samples long."
 msgstr ""
+"Aliasowanie (LADSPA 1407)<br>\n"
+"   Symuluje aliasowanie przy użyciu modulacji częstotliwości nyquista. Daje "
+"dziwne wyniki, jeśli bloków nie zawierają parzystej liczby próbek."
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, fuzzy, kde-format
@@ -15930,6 +15934,9 @@ msgid ""
 "      to the input stage. Can be used to trim gain to bring it roughly under "
 "the limit or to push the signal against the limit."
 msgstr ""
+"Wzmocnienie, które jest stosowane<br>\n"
+"      na etapie wejściowym. Można tego użyć do przycięcia wzmocnienia, aby z "
+"grubsza ściągnąć je poniżej granicy lub aby pchnąć sygnał w kierunku granicy."
 
 #: data/effects/ladspa/ladspa_1913.xml:16
 #, kde-format
@@ -15938,6 +15945,9 @@ msgid ""
 "      Peaks over this level will be attenuated as smoothly as possible to "
 "bring them as close as possible to this level."
 msgstr ""
+"Największa amplituda wyjściowa.<br>\n"
+"      Szczyty powyżej tego poziomu będą tłumione tak gładko jak to możliwe, "
+"aby je ściągnąć tak blisko jak to możliwe do tego poziomu."
 
 #: data/effects/ladspa/ladspa_1913.xml:21
 #, kde-format

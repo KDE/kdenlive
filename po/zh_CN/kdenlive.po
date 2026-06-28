@@ -2544,22 +2544,19 @@ msgid "Enable clipping"
 msgstr "Enable Clipping/启用剪辑"
 
 #: data/effects/avfilter/avfilter_curves.xml:4
-#, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
+#, kde-format
 msgid "Curves (avfilter)"
-msgstr "压缩器 (avfilter)"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_curves.xml:5
-#, fuzzy, kde-format
-#| msgid "Number of (color) values per channel"
+#, kde-format
 msgid "Adjust RGB color curves per channel."
-msgstr "每个通道的 (颜色) 值。"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, fuzzy, kde-format
-#| msgid "Allpass"
+#, kde-format
 msgid "All"
-msgstr "全通"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
 #: data/effects/avfilter/avfilter_curves.xml:11
@@ -13795,10 +13792,9 @@ msgid "Invert colors"
 msgstr "对颜色进行反相处理"
 
 #: data/effects/ladspa/ladspa_1185.xml:4
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Diode Processor"
-msgstr "处理"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1185.xml:6
 #, kde-format
@@ -13884,10 +13880,9 @@ msgid "Dry/Wet"
 msgstr "干/湿"
 
 #: data/effects/ladspa/ladspa_1190.xml:4
-#, fuzzy, kde-format
-#| msgid "Comb Filters"
+#, kde-format
 msgid "Comb Filter"
-msgstr "梳状滤波器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
@@ -13895,16 +13890,14 @@ msgid "Comb Filter (LADSPA 1190)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Band Separation"
-msgstr "饱和度"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:9
-#, fuzzy, kde-format
-#| msgid "The distance between the track points"
+#, kde-format
 msgid "Controls the distance between the filters peaks"
-msgstr "跟踪点之间的距离"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:12
 #: data/effects/ladspa/ladspa_1191.xml:24
@@ -13932,10 +13925,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:9
-#, fuzzy, kde-format
-#| msgid "Delay time"
+#, kde-format
 msgid "Delay Base"
-msgstr "延迟时间"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:11
 #, kde-format
@@ -13945,10 +13937,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:14
-#, fuzzy, kde-format
-#| msgid "Mixdown"
+#, kde-format
 msgid "Max Slowdown"
-msgstr "Mixdown - 缩混"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:16
 #, kde-format
@@ -13959,10 +13950,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:19
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "LFO Frequency"
-msgstr "最低频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:21
 #, kde-format
@@ -14007,10 +13997,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:4
-#, fuzzy, kde-format
-#| msgid "Fast conversion"
+#, kde-format
 msgid "Fast Overdrive"
-msgstr "快速转换"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:6
 #, kde-format
@@ -14021,10 +14010,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:9
-#, fuzzy, kde-format
-#| msgid "Dry Level"
+#, kde-format
 msgid "Drive Level"
-msgstr "干声电平"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:11
 #, kde-format
@@ -14048,10 +14036,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:9
-#, fuzzy, kde-format
-#| msgid "Depth"
+#, kde-format
 msgid "Bit Depth"
-msgstr "深度"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:10
 #, kde-format
@@ -14059,16 +14046,14 @@ msgid "The bit depth that the signal will be reduced to"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:13
-#, fuzzy, kde-format
-#| msgid "Sample Rate:"
+#, kde-format
 msgid "Sample Rate"
-msgstr "采样频率："
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:14
-#, fuzzy, kde-format
-#| msgid "The radius of the square that the stabilizer will sample"
+#, kde-format
 msgid "The sample rate that the signal will be resampled at"
-msgstr "稳定器方形采样区域半径"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:4
 #, kde-format
@@ -14083,10 +14068,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:9
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Gain (dB)"
-msgstr "输入增益 (dB)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:10
 #, kde-format
@@ -14094,10 +14078,9 @@ msgid "The attenuation/gain of the eq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:13
-#, fuzzy, kde-format
-#| msgid "Frequency in Hz"
+#, kde-format
 msgid "Frequency (Hz)"
-msgstr "频率(Hz)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:15
 #, kde-format
@@ -14121,10 +14104,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1207.xml:4
-#, fuzzy, kde-format
-#| msgid "Offset Red"
+#, kde-format
 msgid "DC Offset Remover"
-msgstr "偏移-红通道"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1207.xml:6
 #, kde-format
@@ -14135,10 +14117,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens distortion A"
+#, kde-format
 msgid "Foldover Distortion"
-msgstr "镜头畸变 A"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:6
 #, kde-format
@@ -14155,10 +14136,9 @@ msgid "Drive"
 msgstr "驱动"
 
 #: data/effects/ladspa/ladspa_1213.xml:10
-#, fuzzy, kde-format
-#| msgid "Controls the color of the TubeWarmth sound"
+#, kde-format
 msgid "Controls the degree of distortion"
-msgstr "控制 TubeWarmth 的音色"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:13
 #, kde-format
@@ -14166,16 +14146,14 @@ msgid "Skew"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:14
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "Controls the asymmetry of the waveform"
-msgstr "波形图颜色"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:4
-#, fuzzy, kde-format
-#| msgid "Allpass"
+#, kde-format
 msgid "4x4 Pole Allpass"
-msgstr "全通"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:6
 #, kde-format
@@ -14186,58 +14164,49 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 1"
-msgstr "频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 1"
-msgstr "反馈"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:15
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 2"
-msgstr "频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:18
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 2"
-msgstr "反馈"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:21
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 3"
-msgstr "频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:24
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 3"
-msgstr "反馈"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:27
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 4"
-msgstr "频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:30
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 4"
-msgstr "反馈"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Phaser"
+#, kde-format
 msgid "Auto Phaser"
-msgstr "Sox 移相器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:5
 #, kde-format
@@ -14245,10 +14214,9 @@ msgid "Auto Phaser (LADSPA 1219)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:8
-#, fuzzy, kde-format
-#| msgid "Attack"
+#, kde-format
 msgid "Attack Time"
-msgstr "抑制"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:11 data/effects/ladspa/ladspa_1886.xml:8
 #: data/effects/ladspa/ladspa_1887.xml:18
@@ -14257,16 +14225,14 @@ msgstr "抑制"
 #: data/effects/ladspa/ladspa_1895.xml:15
 #: data/effects/ladspa/ladspa_1896.xml:15
 #: data/effects/ladspa/ladspa_1897.xml:15
-#, fuzzy, kde-format
-#| msgid "Decay"
+#, kde-format
 msgid "Decay Time"
-msgstr "衰减"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:14
-#, fuzzy, kde-format
-#| msgid "Modulation type"
+#, kde-format
 msgid "Modulation Depth"
-msgstr "调制类型"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:20
 #, kde-format
@@ -14274,10 +14240,9 @@ msgid "Spread (octaves)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:4
-#, fuzzy, kde-format
-#| msgid "Delay grab"
+#, kde-format
 msgid "Delayorama"
-msgstr "Delay grab - 延迟捕获"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:5
 #, kde-format
@@ -14298,10 +14263,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:14
-#, fuzzy, kde-format
-#| msgid "Controls the color of the TubeWarmth sound"
+#, kde-format
 msgid "Controls the gain of the input signal"
-msgstr "控制 TubeWarmth 的音色"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:18
 #, kde-format
@@ -14309,10 +14273,9 @@ msgid "Controls the amount of output signal fed back into the input"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:21
-#, fuzzy, kde-format
-#| msgid "Number of curve points"
+#, kde-format
 msgid "Number of Taps"
-msgstr "曲线点数量"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:22
 #, kde-format
@@ -14320,22 +14283,19 @@ msgid "Controls the number of taps in the delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:25
-#, fuzzy, kde-format
-#| msgid "First Field"
+#, kde-format
 msgid "First Delay"
-msgstr "首场优先"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:26
-#, fuzzy, kde-format
-#| msgid "Date and time of the video file."
+#, kde-format
 msgid "The time of the first delay"
-msgstr "视频文件的日期和时间。"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:29
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Delay Range"
-msgstr "设置范围"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
@@ -14343,10 +14303,9 @@ msgid "The time difference between the first and last delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:33
-#, fuzzy, kde-format
-#| msgid "Speed Change"
+#, kde-format
 msgid "Delay Change"
-msgstr "速度更改"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
@@ -14354,22 +14313,19 @@ msgid "The scaling factor between one delay and the next"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:37
-#, fuzzy, kde-format
-#| msgid "Random"
+#, kde-format
 msgid "Delay Random"
-msgstr "Random - 随机"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:38
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the delay"
-msgstr "应用到 X 轴的缩放比例因子"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:41
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Change"
-msgstr "振幅"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
@@ -14377,34 +14333,29 @@ msgid "The scaling factor between one amplitude and the next"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:45
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Random"
-msgstr "振幅"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:46
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the amplitude"
-msgstr "应用到 X 轴的缩放比例因子"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:49
-#, fuzzy, kde-format
-#| msgid "Dry/Wet"
+#, kde-format
 msgid "Dry/Wet Mix"
-msgstr "干/湿"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:50
-#, fuzzy, kde-format
-#| msgid "The amount of delay for each sample from the input to the output."
+#, kde-format
 msgid "The level of delayed sound mixed into the output"
-msgstr "每个采样从输入到输出的延迟量。"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Compressor"
+#, kde-format
 msgid "Dyson Compressor"
-msgstr "音频压缩器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:5
 #, kde-format
@@ -14412,10 +14363,9 @@ msgid "Dyson Compressor (LADSPA 1403)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:8
-#, fuzzy, kde-format
-#| msgid "Limit"
+#, kde-format
 msgid "Peak Limit"
-msgstr "限制"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:10
 #, kde-format
@@ -14426,10 +14376,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:19
-#, fuzzy, kde-format
-#| msgid "Release time (s)"
+#, kde-format
 msgid "Release Time"
-msgstr "释放时间 (s)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:15
 #, kde-format
@@ -14439,16 +14388,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:18
-#, fuzzy, kde-format
-#| msgid "Insert Composition"
+#, kde-format
 msgid "Fast Compression Ratio"
-msgstr "插入合成"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:21
-#, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
+#, kde-format
 msgid "Compression Ratio"
-msgstr "压缩器 (avfilter)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1404.xml:4
 #, kde-format
@@ -14464,10 +14411,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1404.xml:9
-#, fuzzy, kde-format
-#| msgid "Wave Amplitude"
+#, kde-format
 msgid "Crossover Amplitude"
-msgstr "波浪振幅"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
@@ -14480,10 +14426,9 @@ msgid "Controls degree of smoothing of the crossover point"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:4
-#, fuzzy, kde-format
-#| msgid "Anti-aliasing"
+#, kde-format
 msgid "Aliasing"
-msgstr "抗锯齿"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:6
 #, kde-format
@@ -14494,10 +14439,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:9
-#, fuzzy, kde-format
-#| msgid "Antibanding Level"
+#, kde-format
 msgid "Aliasing Level"
-msgstr "抗条带级别"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:10
 #, kde-format
@@ -14519,22 +14463,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:9
-#, fuzzy, kde-format
-#| msgid "Real Time (drop frames)"
+#, kde-format
 msgid "Decay Time (samples)"
-msgstr "实时 (跳帧)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:10
-#, fuzzy, kde-format
-#| msgid "Set the envelope mode"
+#, kde-format
 msgid "Controls the envelope decay time."
-msgstr "设置包络模式"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:13
-#, fuzzy, kde-format
-#| msgid "In Point"
+#, kde-format
 msgid "Knee Point"
-msgstr "入点"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:15
 #, kde-format
@@ -14545,10 +14486,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:4
-#, fuzzy, kde-format
-#| msgid "Hue Gate"
+#, kde-format
 msgid "Gate"
-msgstr "色相阈值"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
@@ -14556,10 +14496,9 @@ msgid "Gate (LADSPA 1410)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:8
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "LF Key Filter"
-msgstr "过滤"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:10
 #, kde-format
@@ -14569,10 +14508,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:13
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "HF Key Filter"
-msgstr "过滤"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:15
 #, kde-format
@@ -14596,10 +14534,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:28
-#, fuzzy, kde-format
-#| msgid "HSV Hold"
+#, kde-format
 msgid "Hold"
-msgstr "HSV 保留"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:30
 #, kde-format
@@ -14623,16 +14560,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:43
-#, fuzzy, kde-format
-#| msgid "Mute Monitor"
+#, kde-format
 msgid "Output Monitor"
-msgstr "监视器静音"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:44
-#, fuzzy, kde-format
-#| msgid "Zoom Out Monitor"
+#, kde-format
 msgid "Controls output monitor"
-msgstr "缩小监视器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:45
 #, kde-format
@@ -14640,10 +14575,9 @@ msgid "Key (listen),Gate (normal output),Bypass"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1411.xml:4
-#, fuzzy, kde-format
-#| msgid "RGB Splitter"
+#, kde-format
 msgid "Comb Splitter"
-msgstr "RGB 分离器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1411.xml:6
 #, kde-format
@@ -14655,16 +14589,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1411.xml:10
-#, fuzzy, kde-format
-#| msgid "The distance between the track points"
+#, kde-format
 msgid "The distance between the frequency peaks"
-msgstr "跟踪点之间的距离"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1415.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscillation"
+#, kde-format
 msgid "FM Oscillator"
-msgstr "振荡"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1415.xml:5
 #, kde-format
@@ -14677,22 +14609,19 @@ msgid "Waveform"
 msgstr "波形图"
 
 #: data/effects/ladspa/ladspa_1415.xml:9
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The shape of the waveform"
-msgstr "波形图颜色"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1415.xml:10
-#, fuzzy, kde-format
-#| msgid "sine,triangle,square,sawup,sawdown"
+#, kde-format
 msgid "Sine,Triangle,Square,Saw"
-msgstr "正弦波,三角波,方波,上升锯齿波,下降锯齿波"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Reverb"
+#, kde-format
 msgid "SWH Plate Reverb"
-msgstr "Sox 混响"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:6
 #, kde-format
@@ -14703,10 +14632,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:9
-#, fuzzy, kde-format
-#| msgid "Reverb time"
+#, kde-format
 msgid "Reverb Time"
-msgstr "混响时间"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:12
 #: data/effects/ladspa/ladspa_reverb.xml:11
@@ -14716,16 +14644,14 @@ msgid "Damping"
 msgstr "衰减"
 
 #: data/effects/ladspa/ladspa_1423.xml:15
-#, fuzzy, kde-format
-#| msgid "Dry/Wet"
+#, kde-format
 msgid "Dry/wet mix"
-msgstr "干/湿"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens distortion A"
+#, kde-format
 msgid "Chebyshev Distortion"
-msgstr "镜头畸变 A"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:6
 #, kde-format
@@ -14737,22 +14663,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:9
-#, fuzzy, kde-format
-#| msgid "Distort"
+#, kde-format
 msgid "Distortion"
-msgstr "畸变"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:10
-#, fuzzy, kde-format
-#| msgid "Set the opacity of the graticule"
+#, kde-format
 msgid "Sets the sensitivity of the input"
-msgstr "设置网格的不透明度"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Bode Frequency Shifter"
-msgstr "最低频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:6
 #, kde-format
@@ -14768,10 +14691,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency Shift"
-msgstr "频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:10
 #: data/effects/ladspa/ladspa_1432.xml:20
@@ -14798,10 +14720,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:9
-#, fuzzy, kde-format
-#| msgid "Rate Shift"
+#, kde-format
 msgid "Base Shift"
-msgstr "速率移调"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:13
 #, kde-format
@@ -14809,22 +14730,19 @@ msgid "Down,Both,Up"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:16
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgid "CV Attenuation"
-msgstr "HSV 饱和度"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:19
-#, fuzzy, kde-format
-#| msgid "Shift"
+#, kde-format
 msgid "Shift CV"
-msgstr "位移"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:4
-#, fuzzy, kde-format
-#| msgid "TAP Pitch Shifter"
+#, kde-format
 msgid "AM Pitch Shifter"
-msgstr "TAP 音高移调器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:6
 #, kde-format
@@ -14849,10 +14767,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:14
-#, fuzzy, kde-format
-#| msgid "Buffer Size:"
+#, kde-format
 msgid "Buffer Size"
-msgstr "缓冲区大小："
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:16
 #, kde-format
@@ -14863,10 +14780,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:4
-#, fuzzy, kde-format
-#| msgid "Flanger"
+#, kde-format
 msgid "DJ Flanger"
-msgstr "Flanger - 翻边器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:6
 #, kde-format
@@ -14889,10 +14805,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:14
-#, fuzzy, kde-format
-#| msgid "Strobe period"
+#, kde-format
 msgid "LFO period"
-msgstr "频闪周期"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
@@ -14905,16 +14820,14 @@ msgid "The maximum delay the LFO will use to flange in milliseconds"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:23
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of the delays output that is mixed back into the delay"
-msgstr "添加到图像中的模拟灰尘颗粒数量"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1886.xml:4
-#, fuzzy, kde-format
-#| msgid "Exponential In"
+#, kde-format
 msgid "Exponential Signal Decay"
-msgstr "指数切入"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
@@ -14937,10 +14850,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
-#, fuzzy, kde-format
-#| msgid "L Delay"
+#, kde-format
 msgid "Max Delay"
-msgstr "左延迟"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
@@ -14958,10 +14870,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:12
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
-#, fuzzy, kde-format
-#| msgid "Delay time"
+#, kde-format
 msgid "Delay Time"
-msgstr "延迟时间"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:20
 #: data/effects/ladspa/ladspa_1888.xml:20
@@ -14998,10 +14909,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:4
-#, fuzzy, kde-format
-#| msgid "High-pass"
+#, kde-format
 msgid "GLAME Highpass"
-msgstr "高通滤镜"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:6
 #, kde-format
@@ -15015,18 +14925,16 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
 #: data/effects/ladspa/ladspa_1904.xml:8
-#, fuzzy, kde-format
-#| msgid "Rotor Frequency"
+#, kde-format
 msgid "Cutoff Frequency"
-msgstr "转子频率"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:12
 #: data/effects/ladspa/ladspa_1891.xml:12
 #: data/effects/ladspa/ladspa_1892.xml:15
-#, fuzzy, kde-format
-#| msgid "Images"
+#, kde-format
 msgid "Stages"
-msgstr "图像"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:14
 #: data/effects/ladspa/ladspa_1891.xml:14
@@ -15038,10 +14946,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1891.xml:4
-#, fuzzy, kde-format
-#| msgid "Low-pass"
+#, kde-format
 msgid "GLAME Lowpass"
-msgstr "低通滤波器"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1891.xml:6
 #, kde-format
@@ -15053,10 +14960,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1892.xml:4
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "GLAME Bandpass"
-msgstr "带通滤波"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1892.xml:6
 #, kde-format
@@ -15075,10 +14981,9 @@ msgstr "中心频率"
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
-#| msgid "Band Width"
+#, kde-format
 msgid "Bandwidth"
-msgstr "频带宽度"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
@@ -15167,10 +15072,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
-#| msgid "LFE Gain"
+#, kde-format
 msgid "Lo Gain"
-msgstr "LFE 增益"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
@@ -15180,10 +15084,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Gain"
-msgstr "中置增益"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:14
 #: data/effects/ladspa/ladspa_1907.xml:14
@@ -15193,10 +15096,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Hi Gain"
-msgstr "Gain - 增益"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
@@ -15217,10 +15119,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
 #: data/effects/ladspa/ladspa_1904.xml:11
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Resonance"
-msgstr "红平衡"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
@@ -15243,22 +15144,16 @@ msgid "Butterworth Highpass Filter (LADSPA 1904)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:4
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "VyNil (Vinyl Effect)"
-msgstr "禁用素材箱效果"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "TAP Reflector (LADSPA 2154)<br>\n"
-#| "    Creates a psychedelic reverse audio effect."
+#, kde-format
 msgid ""
 "Vynil Effect (LADSPA 1905)<br>\n"
 "   Simulates an old vynil effect"
 msgstr ""
-"TAP 反射器 (LADSPA 2154)<br>\n"
-"    创建一种迷幻的反向音频效果。"
 
 #: data/effects/ladspa/ladspa_1905.xml:9
 #: src/project/dialogs/projectsettings.cpp:242
@@ -15280,10 +15175,9 @@ msgid "RPM"
 msgstr "RPM"
 
 #: data/effects/ladspa/ladspa_1905.xml:15
-#, fuzzy, kde-format
-#| msgid "The rotation angle to be applied to the waveform."
+#, kde-format
 msgid "The rotational speed of the platter"
-msgstr "波形图的旋转角度"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
@@ -15291,10 +15185,9 @@ msgid "33 1/3,45,78"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:19
-#, fuzzy, kde-format
-#| msgid "Surface warping"
+#, kde-format
 msgid "Surface Warping"
-msgstr "表面扭曲"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:21
 #, kde-format
@@ -15323,16 +15216,14 @@ msgid "Wear"
 msgstr "磨损"
 
 #: data/effects/ladspa/ladspa_1905.xml:30
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of wear on the grooves"
-msgstr "添加到图像中的模拟灰尘颗粒数量"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1907.xml:4
-#, fuzzy, kde-format
-#| msgid "1 (mono)"
+#, kde-format
 msgid "DJ EQ (mono)"
-msgstr "1 (单声道)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1907.xml:6
 #, kde-format
@@ -15343,10 +15234,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio lookahead limiter."
+#, kde-format
 msgid "Fast Lookahead Limiter"
-msgstr "音频查找限制器。"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:6
 #, kde-format
@@ -15381,10 +15271,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:24
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Attenuation"
-msgstr "动画"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format

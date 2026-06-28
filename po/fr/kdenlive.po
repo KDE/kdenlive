@@ -2682,7 +2682,8 @@ msgid "Adjust RGB color curves per channel."
 msgstr "Nombre de valeurs (De couleurs) par canal."
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "All"
 msgid "All"
 msgstr "Tous"
 

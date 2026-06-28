@@ -2495,7 +2495,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_curves.xml:8
 #, kde-format
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
 #: data/effects/avfilter/avfilter_curves.xml:11
@@ -13605,10 +13605,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:9
-#, fuzzy, kde-format
-#| msgid "Depth"
+#, kde-format
 msgid "Bit Depth"
-msgstr "Hloubka"
+msgstr "Bitová hloubka"
 
 #: data/effects/ladspa/ladspa_1202.xml:10
 #, kde-format
@@ -13616,10 +13615,9 @@ msgid "The bit depth that the signal will be reduced to"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:13
-#, fuzzy, kde-format
-#| msgid "Sample Rate:"
+#, kde-format
 msgid "Sample Rate"
-msgstr "Vzorkovací frekvence:"
+msgstr "Vzorkovací frekvence"
 
 #: data/effects/ladspa/ladspa_1202.xml:14
 #, kde-format
@@ -13718,7 +13716,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1213.xml:13
 #, kde-format
 msgid "Skew"
-msgstr ""
+msgstr "Zkosit"
 
 #: data/effects/ladspa/ladspa_1213.xml:14
 #, kde-format
@@ -14092,7 +14090,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1410.xml:4
 #, kde-format
 msgid "Gate"
-msgstr ""
+msgstr "Brána"
 
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
@@ -14142,7 +14140,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1410.xml:28
 #, kde-format
 msgid "Hold"
-msgstr ""
+msgstr "Pozdržet"
 
 #: data/effects/ladspa/ladspa_1410.xml:30
 #, kde-format
@@ -14275,10 +14273,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:9
-#, fuzzy, kde-format
-#| msgid "Distort"
+#, kde-format
 msgid "Distortion"
-msgstr "Deformovat"
+msgstr "Zkreslení"
 
 #: data/effects/ladspa/ladspa_1430.xml:10
 #, fuzzy, kde-format
@@ -14609,10 +14606,9 @@ msgstr "Středová frekvence"
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
-#| msgid "Border width"
+#, kde-format
 msgid "Bandwidth"
-msgstr "Šířka čáry"
+msgstr "Šířka pásma"
 
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
