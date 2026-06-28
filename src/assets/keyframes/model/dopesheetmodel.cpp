@@ -97,7 +97,7 @@ DopeSheetModel::DopeSheetModel(QObject *parent)
 std::shared_ptr<DopeSheetModel> DopeSheetModel::construct(QObject *parent)
 {
     std::shared_ptr<DopeSheetModel> self(new DopeSheetModel(parent));
-    QList<QVariant> rootData{"Name"};
+    QList<QVariant> rootData{"Name", "Row"};
     self->rootItem = TreeItem::construct(rootData, self, true);
     return self;
 }
@@ -138,6 +138,7 @@ QHash<int, QByteArray> DopeSheetModel::roleNames() const
     roles[EffectIndexRole] = "dopeEffectIndex";
     roles[SelectedRole] = "dopeSelected";
     roles[RecapRole] = "dopeRecap";
+    roles[EnabledRole] = "effectEnabled";
     return roles;
 }
 
@@ -165,6 +166,17 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
         return QVariant::fromValue(m_paramsList.at(itemId).second.get());
     case RecapRole:
         return m_paramsList.at(itemId).first.row < 0;
+    case EnabledRole: {
+        if (!m_model) {
+            return true;
+        }
+        int row = item->dataColumn(1).toInt();
+        if (row < 0) {
+            return true;
+        }
+        std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(row);
+        return item->isAssetEnabled();
+    }
     /*case AssetTypeRole:
         return QVariant::fromValue(it->second.first.second);
     case SelectedRole:
@@ -232,6 +244,7 @@ void DopeSheetModel::loadEffects()
         }
     }
     updateMasterRecap(master);
+    Q_EMIT modelChanged();
 }
 
 std::shared_ptr<TreeItem> DopeSheetModel::createTopLevelItem(std::shared_ptr<EffectStackModel> model)
@@ -304,6 +317,7 @@ bool DopeSheetModel::registerComposition(std::shared_ptr<AssetParameterModel> as
     } else {
         clearModel();
     }
+    Q_EMIT modelChanged();
     return true;
 }
 
@@ -333,7 +347,6 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
         qDebug() << "// ALL PARAMETERS BLOCKED: " << blockedParams << " / " << indexes.size();
         return false;
     }
-    const QString displayRole = effectModel->data(QModelIndex(), Qt::DisplayRole).toString();
     auto effectItem = TreeItem::construct({assetName, row}, shared_from_this(), false);
     if (master == nullptr) {
         master = getRoot();
@@ -357,6 +370,16 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
             }
         });
         m_assetConnectionList << conn;
+        if (master) {
+            auto conn2 = connect(effectModel.get(), &AssetParameterModel::enabledChange, this, [this, row, master, id = effectItem->getId()] {
+                qDebug() << ":::: ITEM ENABLED CHANGED!!!";
+                auto ix = index(row, 0, getIndexFromItem(master));
+                Q_EMIT this->dataChanged(ix, ix, {EnabledRole});
+                Q_EMIT this->updateFiltering();
+            });
+            m_assetConnectionList << conn2;
+        }
+
         m_paramsList.insert({effectItem->getId(), {pInfo, recap}});
     }
 
@@ -376,6 +399,13 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
             treeItemId = paramItem->getId();
         } else {
             treeItemId = effectItem->getId();
+            auto conn2 = connect(effectModel.get(), &AssetParameterModel::enabledChange, this, [this, row, master, id = effectItem->getId()] {
+                qDebug() << ":::: ITEM ENABLED CHANGED!!!";
+                auto ix = index(row, 0, getIndexFromItem(master));
+                Q_EMIT this->dataChanged(ix, ix, {EnabledRole});
+                Q_EMIT this->updateFiltering();
+            });
+            m_assetConnectionList << conn2;
             auto conn1 = connect(km.get(), &KeyframeModel::modelChanged, this, [this, master]() {
                 if (!m_recapToRefresh.contains(master)) {
                     m_recapToRefresh << master;
@@ -405,7 +435,7 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
         m_paramsList.insert({treeItemId, {pInfo, km}});
     }
     auto connection = connect(effectModel.get(), &AssetParameterModel::dataChanged, this,
-                              [this, effectItem, effectModel](const QModelIndex &ix1, const QModelIndex & /*ix2*/, const QList<int> &roles) {
+                              [this, effectItem, row, effectModel](const QModelIndex &ix1, const QModelIndex & /*ix2*/, const QList<int> &roles) {
                                   if (roles.contains(AssetParameterModel::ParentDurationRole)) {
                                       Q_EMIT dopeDurationChanged();
                                   }
@@ -432,7 +462,8 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
                                               qDebug() << "::::::: HIDDEN PARAM: " << effectModel->data(ix, AssetParameterModel::NameRole).toString();
                                               continue;
                                           }
-                                          auto paramItem = TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString()}, shared_from_this(), false);
+                                          auto paramItem =
+                                              TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString(), row}, shared_from_this(), false);
                                           effectItem->appendChild(paramItem);
                                           qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString() << " / "
                                                    << effectModel->data(ix, AssetParameterModel::NameRole).toString();

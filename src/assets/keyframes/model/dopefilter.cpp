@@ -4,9 +4,9 @@
 */
 
 #include "dopefilter.hpp"
-
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
+#include "dopesheetmodel.hpp"
 #include <KLocalizedString>
 
 DopeFilter::DopeFilter(QObject *parent)
@@ -36,12 +36,12 @@ bool DopeFilter::lessThan(const QModelIndex &left, const QModelIndex &right) con
     return QString::localeAwareCompare(leftData, rightData) < 0;
 }
 
-bool DopeFilter::filterName(const std::shared_ptr<TreeItem> &item) const
+bool DopeFilter::filterName(const QModelIndex &index) const
 {
     if (m_nameFilter.isEmpty()) {
         return true;
     }
-    QString itemText = i18n(item->dataColumn(0).toString().toUtf8().constData());
+    QString itemText = sourceModel()->data(index).toString();
     itemText = normalizeText(itemText);
     QString patt = normalizeText(m_nameFilter);
     return itemText.contains(patt, Qt::CaseInsensitive);
@@ -60,8 +60,6 @@ QString DopeFilter::normalizeText(const QString &text)
 bool DopeFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
-    auto *model = static_cast<AbstractTreeModel *>(sourceModel());
-    std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
     if (sourceModel()->rowCount(row) == 0) {
         // This is a parameter
     } else {
@@ -76,7 +74,7 @@ bool DopeFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent
         }
         return accepted;
     }
-    return applyAll(item);
+    return applyAll(row);
 }
 
 bool DopeFilter::isVisible(const QModelIndex &sourceIndex)
@@ -88,9 +86,13 @@ bool DopeFilter::isVisible(const QModelIndex &sourceIndex)
     return filterAcceptsRow(sourceIndex.row(), parent);
 }
 
-bool DopeFilter::applyAll(std::shared_ptr<TreeItem> item) const
+bool DopeFilter::applyAll(const QModelIndex &index) const
 {
-    return filterName(item);
+    bool enabled = sourceModel()->data(index, DopeSheetModel::EnabledRole).toBool();
+    if (!enabled) {
+        return false;
+    }
+    return filterName(index);
 }
 
 QModelIndex DopeFilter::getNextChild(const QModelIndex &current)
@@ -159,4 +161,10 @@ QModelIndex DopeFilter::getProxyIndex(const QModelIndex &current)
 {
     QModelIndex sourceIndex = mapFromSource(current);
     return sourceIndex; // this returns an integer
+}
+
+void DopeFilter::refreshFilter()
+{
+    beginFilterChange();
+    endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }

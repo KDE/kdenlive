@@ -54,7 +54,7 @@ public:
     Q_PROPERTY(int dopeDuration READ dopeDuration NOTIFY dopeDurationChanged)
     Q_PROPERTY(int dopePosition READ dopePosition NOTIFY dopePositionChanged)
     static std::shared_ptr<DopeSheetModel> construct(QObject *parent = nullptr);
-    enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, SelectedRole, RecapRole, EffectIndexRole };
+    enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, SelectedRole, RecapRole, EffectIndexRole, EnabledRole };
     friend class KeyframeModel;
     friend class KeyframeContainer;
     friend class KeyframeImport;
@@ -167,4 +167,5 @@ Q_SIGNALS:
     void matchingKeyframes(QList<QPersistentModelIndex>);
     /** @brief Update effect stack values for animated params on position change */
     void refreshAnimatedValues();
+    void updateFiltering();
 };

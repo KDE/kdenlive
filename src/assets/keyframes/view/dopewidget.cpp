@@ -34,6 +34,8 @@ DopeWidget::DopeWidget(QQmlEngine *engine, QWidget *parent)
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, this, &DopeWidget::checkModelUpdate, Qt::QueuedConnection);
     connect(rootObject(), SIGNAL(filterDopeView(QVariant)), this, SLOT(slotUpdateFilter(QVariant)));
     connect(m_proxyModel.get(), &DopeFilter::expandAll, this, &DopeWidget::expandAll);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::updateFiltering, m_proxyModel.get(), &DopeFilter::refreshFilter);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, m_proxyModel.get(), &DopeFilter::refreshFilter);
 }
 
 void DopeWidget::slotUpdateFilter(QVariant text)
@@ -130,10 +132,6 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
     rootObject()->setProperty("proxy", monitorProxy);
     QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(monitorProxy), QQmlEngine::CppOwnership);
     m_activeEffectConnection = connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::QueuedConnection);
-    // Check if we are on a keyframe
-    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->getItemPosition(model->getOwnerId());
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
                               Q_ARG(QVariant, model->getOwnerId().itemId));
 }
@@ -215,7 +213,11 @@ void DopeWidget::activateEffect(QPersistentModelIndex ix)
     const QModelIndex dopeRow = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
     if (dopeRow.isValid()) {
         const QModelIndex mapped = m_proxyModel->mapFromSource(dopeRow);
-        QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(mapped.row())));
+        if (mapped.row() >= 0) {
+            QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(mapped.row())));
+        } else {
+            qDebug() << "==== ACTIVATING INVALID EFFECT ROW: " << mapped.row() << " / FROM: " << ix;
+        }
     }
 }
 

@@ -37,6 +37,8 @@ public Q_SLOTS:
        @param pattern to match against effects' names
     */
     void setFilterName(const QString &pattern);
+    /** @brief Filter again when something changed in the model */
+    void refreshFilter();
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
@@ -46,12 +48,12 @@ protected:
      * @return true if either ID or Name contains the filtered name as a
      * substring, false otherwise
      */
-    bool filterName(const std::shared_ptr<TreeItem> &item) const;
+    bool filterName(const QModelIndex &index) const;
     /** @brief Returns a copy of the input string with any characters that are
      * not letters, numbers, or spaces removed. */
     static QString normalizeText(const QString &text);
     /** @brief Apply all filter and returns true if the object should be kept after filtering */
-    virtual bool applyAll(std::shared_ptr<TreeItem> item) const;
+    virtual bool applyAll(const QModelIndex &index) const;
     QString m_nameFilter;
 
 Q_SIGNALS:
