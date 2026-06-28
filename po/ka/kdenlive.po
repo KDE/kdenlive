@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-27 02:42+0000\n"
-"PO-Revision-Date: 2026-05-02 01:15+0200\n"
+"PO-Revision-Date: 2026-06-27 06:12+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3425,7 +3425,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
 #, kde-format
 msgid "Edge detection"
-msgstr "კიდეების ამოცნობა"
+msgstr "წიბოს ამოცნობა"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:5
 #, kde-format
@@ -7335,7 +7335,7 @@ msgstr "სადამდე"
 #: data/effects/crop.xml:4
 #, kde-format
 msgid "Edge Crop"
-msgstr "კიდის ამოჭრა"
+msgstr "წიბოს ამოჭრა"
 
 #: data/effects/crop.xml:5
 #, kde-format
@@ -7543,9 +7543,10 @@ msgid "Geometry"
 msgstr "გეომეტრია"
 
 #: data/effects/dynamictext.xml:11 data/effects/timer.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<u>Font</u> Family"
 msgid "Font Family"
-msgstr "ფონტების ოჯახი"
+msgstr "<u>ფონტის</u> ოჯახი"
 
 #: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
@@ -7560,12 +7561,12 @@ msgstr "ფონტის სისქე"
 #: data/effects/dynamictext.xml:26 data/effects/timer.xml:29
 #, kde-format
 msgid "Outline Color"
-msgstr "კიდის ფერი"
+msgstr "კონტურის ფერი"
 
 #: data/effects/dynamictext.xml:29 data/effects/timer.xml:32
 #, kde-format
 msgid "Outline Width"
-msgstr "კიდის სიგანე"
+msgstr "კონტურის სიგანე"
 
 #: data/effects/dynamictext.xml:32 data/effects/timer.xml:35
 #, kde-format
@@ -7575,7 +7576,7 @@ msgstr "შევსება"
 #: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
 #, kde-format
 msgid "Horizontal Alignment"
-msgstr "ჰორიზონტალური  შეთანხმება"
+msgstr "ჰორიზონტალური სწორება"
 
 #: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #: data/transitions/composite.xml:21
@@ -7617,9 +7618,10 @@ msgid ""
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"დროის კოდი, კადრი, ფაილის თარიღი (GMT), ფაილის მონაცემები (ლოკალური), წყაროს "
-"კადრების სიხშირე, წყაროს კოდეკი, წყაროს ბიტური სიხშირე, წყაროს სიგანე, "
-"წყაროს სიმაღლე, წყაროს კომენტარი"
+"დროის კოდი, კადრის ნომერი, ფაილის სახელი, საბაზისო სახელი, სრული ბილიკი, "
+"შექმნის თარიღი, ფაილის თარიღი (GMT), ფაილის თარიღი (ლოკალური), წყარო "
+"კადრების სიხშირე, წყარო ბიტური სიჩქარე, წყაროს სიგანე, წყაროს სიმაღლე, "
+"წყაროს კომენტარი"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -13346,7 +13348,16 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "GPS-ის ტექსტის დადება ვიდეოზე."
 
 #: data/effects/gpstext.xml:9
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,"
+#| "Date and time of current GPS point,Date and time of current frame in "
+#| "video file,Heart rate,Current GPS bearing,Current GPS direction,Total GPS "
+#| "altitude gain so far,Total GPS altitude loss so far,Total distance "
+#| "travelled uphill so far,Total distance travelled downhill so far,Total "
+#| "distance travelled on flat area so far,(Bike) cadence (in revs per "
+#| "minute),Ambient temperature,Power in watts,Gradient of GPS track,Gradient "
+#| "of GPS track in degrees"
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date and "
 "time of current gps point,date and time of current frame in video file,heart "
@@ -13358,7 +13369,9 @@ msgstr ""
 "GPS წერტილის თარიღი და დრო, ვიდეოფაილში მიმდინარე კადრის დრო და თარიღი, "
 "გულისცემის სიხშირე, GPS-ის მიმდინარე აზიმუტი, მიმდინარე GPS მიმართულება, GPS "
 "სიმაღლის მიმდინარე მიმატება, GPS სიმაღლის მიმდინარე დაკლება, აღმართზე "
-"გავლილი მანძილი, დაღმართზე გავლილი მანძილი, სწორ ზედაპირზე გავლილი მანძილი"
+"გავლილი მანძილი, დაღმართზე გავლილი მანძილი, სწორ ზედაპირზე გავლილი მანძილი,"
+"(ველოსიპედი) რიტმი (ბრუნვა წუთში),გარემოს ტემპერატურა,სიმძლავრე ვატებში,GPS "
+"ბილიკის გრადიენტი,GPS ბილიკის გრადიენტი გრადუსებში"
 
 #: data/effects/gpstext.xml:21
 #, kde-format
@@ -15080,7 +15093,7 @@ msgstr "ხმის სიძლიერის დინამიკური 
 #: data/effects/normalise.xml:11 data/effects/sox/sox.xml:27
 #, kde-format
 msgid "Maximum gain"
-msgstr "მაქსიმალურ ი გაძლიერება"
+msgstr "მაქსიმალური გაძლიერება"
 
 #: data/effects/normalise.xml:14 data/effects/sox/sox_stretch.xml:11
 #, kde-format
@@ -16025,7 +16038,13 @@ msgstr ""
 "ტექსტი გაიყინება ხანგრძლივობის დროით, როცა ეს ხანგრძლივობა ამოიწურება."
 
 #: data/effects/timer.xml:63
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "An offset to be added to the timer value.\n"
+#| "When the direction is <i>Down</i>, the timer will count down to "
+#| "<i>Offset</i> instead of 00:00:00.000.\n"
+#| "When the direction is <i>Up</i>, the timer will count up starting from "
+#| "<i>Offset</i>."
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is \"down\", the timer will count down to \"offset\" "
@@ -16033,22 +16052,24 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset\"."
 msgstr ""
 "წანაცვლება ტაიმერის მნიშვნელობაზე მისამამატებლად.\n"
-"როცა მიმართულებაა \"ქვემოთ\", ტაიმერი 00:00:00.000-ის მაგიერ \"წანაცვლებამდე"
-"\" ათვლას დაწყებს.\n"
-"როცა მიმართულებაა \"მაღლა\", ტაიმერი \"წანაცვლებიდან\" ზემოთ ათვლას დაიწყებს."
+"როცა მიმართულებაა <i>ქვემოთ</i>, ტაიმერი 00:00:00.000-ის მაგიერ "
+"<i>წანაცვლებამდე</i> ათვლას დაწყებს.\n"
+"როცა მიმართულებაა <i>მაღლა</i>, ტაიმერი <i>წანაცვლებიდან</i> ზემოთ ათვლას "
+"დაიწყებს."
 
 #: data/effects/timer.xml:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Whether the counter should count up from 00:00:00.000 or down from the "
+#| "duration time."
 msgid ""
 "\n"
 "            Whether the counter should count up from 00:00:00.000 or down "
 "from the duration time.\n"
 "        "
 msgstr ""
-"\n"
-"            ათვლა 00:00:00.000-დან უნდა დაიწყოს და ზრდადობით თუ კლიპის "
-"ხანგრძლივობიდან, კლებადობით.\n"
-"        "
+"ათვლა 00:00:00.000-დან უნდა დაიწყოს და ზრდადობით თუ კლიპის ხანგრძლივობიდან, "
+"კლებადობით."
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -23283,9 +23304,10 @@ msgid "Donate…"
 msgstr "შეწირვა…"
 
 #: src/dialogs/Splash.qml:784
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<h3>Welcome to Kdenlive Quick Setup</h3>"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
-msgstr "<b>მოგესალმებათ Kdenlive-ის სწრაფი მორგება</b>"
+msgstr "<h3>მოგესალმებათ Kdenlive-ის სწრაფი მორგება</h3>"
 
 #: src/dialogs/Splash.qml:790
 #, kde-format
@@ -24222,17 +24244,19 @@ msgstr[0] "ერთი ნაკლული პროქსი"
 msgstr[1] "%1 ნაკლული პროქსი"
 
 #: src/doc/dcresolvedialog.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "One proxy can be recreated"
+#| msgid_plural "%1 proxies can be recreated"
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] "აღდგება, მხოლოდ, 1 პროქსი"
-msgstr[1] "აღდგება, მხოლოდ, %1 პროქსი"
+msgstr[0] "შესაძლებელია ერთი პროქსის თავიდან შექმნა"
+msgstr[1] "შესაძლებელია %1 პროქსის თავიდან შექმნა"
 
 #: src/doc/dcresolvedialog.cpp:238
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
-msgstr "კლიპების საქაღლდე"
+msgstr "კლიპების საქაღალდე"
 
 #: src/doc/documentchecker.cpp:138
 #, kde-format
@@ -27570,7 +27594,7 @@ msgstr "დროის თავიდან ასახვა"
 #: src/mainwindow.cpp:2005
 #, kde-format
 msgid "Clip in Project Bin"
-msgstr "კლიპის გადატანა პროექტის კალათაში"
+msgstr "კლიპი პროექტის კალათაში"
 
 #: src/mainwindow.cpp:2010
 #, kde-format
@@ -29952,7 +29976,7 @@ msgstr "Full HD 1080"
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD Ready 768p"
-msgstr ""
+msgstr "HD Ready 768p"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, kde-format
@@ -34089,7 +34113,7 @@ msgstr "ტექსტის კლიპები განახლდა"
 #: src/titler/titlewidget.cpp:138
 #, kde-format
 msgid "Outline width"
-msgstr "კიდის სიგანე"
+msgstr "კონტურის სიგანე"
 
 #: src/titler/titlewidget.cpp:145
 #, kde-format
@@ -34270,7 +34294,13 @@ msgid "Unselect all"
 msgstr "მონიშვნის ყველაფერზე მოხსნა"
 
 #: src/titler/titlewidget.cpp:408
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
+#| "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to "
+#| "center resize, Ctrl+Drag to pan. Disable snapping while moving an item "
+#| "with Ctrl."
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
@@ -34280,7 +34310,8 @@ msgstr ""
 "დააწკაპუნეთ ელემენტის მოსანიშნად, Alt+Click მონიშვნის გადასართავად. Shift"
 "+გადათრევა ვერტიკალურად გადაადგილებისთვის, Alt+Shift+გადათრევა ჰორიზონტალური "
 "გადაადგილებისთვის, Shift+გადათრევა ზომის შეცვლა წიბოდან ცენტრისკენ, Ctrl"
-"+გადათრევა პანორამირებისთვის."
+"+გადათრევა პანორამირებისთვის. მიმაგრება გაითიშება, თუ ელემენტს Ctrl-ით "
+"გადაათრევთ."
 
 #: src/titler/titlewidget.cpp:417
 #, kde-format
@@ -37718,7 +37749,7 @@ msgstr "მეორე ფერი"
 #: src/ui/managesubtitles_ui.ui:394
 #, kde-format
 msgid "OutlineColor"
-msgstr "კიდის ფერი"
+msgstr "კონტურისფერი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
@@ -39486,6 +39517,827 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
 
+#~ msgid "Curves (avfilter)"
+#~ msgstr "მრუდები (avfilter)"
+
+#~ msgid "Adjust RGB color curves per channel."
+#~ msgstr "RGB ფერის მრუდების გასწორება თითოეული არხისთვის."
+
+#~ msgid "All"
+#~ msgstr "ყველა"
+
+#~ msgid "Normal,Italic"
+#~ msgstr "ნორმალური, კურსივი"
+
+#~ msgid "Weight"
+#~ msgstr "წონა"
+
+#~ msgid "<u>Text</u> Color"
+#~ msgstr "<u>ტექსტის</u> ფერი"
+
+#~ msgid "Strikethrough"
+#~ msgstr "გადახაზული"
+
+#~ msgid "Color Enhance"
+#~ msgstr "ფერის გაძლიერება"
+
+#~ msgid "Enhances the color contrast for vivid images"
+#~ msgstr "აძლიერებს ფერის კონტრასტს ნათელი სურათებისთვის"
+
+#~ msgid "Channel A Base"
+#~ msgstr "არხის A ბაზა"
+
+#~ msgid "Midpoint of sigmoidal curve for A channel."
+#~ msgstr "სიგმოიდური მრუდის შუა წერტილი A არხისთვის."
+
+#~ msgid "Channel B Base"
+#~ msgstr "არხის B ბაზა"
+
+#~ msgid "Midpoint of sigmoidal curve for B channel."
+#~ msgstr "სიგმოიდური მრუდის შუა წერტილი B არხისთვის."
+
+#~ msgid "Channel A Slope"
+#~ msgstr "A არხის ფერდობი"
+
+#~ msgid "Steepness of the sigmoidal curve for A channel."
+#~ msgstr "სიგმოიდური მრუდის დახრა A არხისთვის."
+
+#~ msgid "Channel B Slope"
+#~ msgstr "B არხის ფერდობი"
+
+#~ msgid "Steepness of the sigmoidal curve for B channel."
+#~ msgstr "სიგმოიდური მრუდის დახრა B არხისთვის."
+
+#~ msgid "See the online documentation about additional qualifiers"
+#~ msgstr "დამატებითი შესარჩევების ინფორმაციისთვის შესახებ იხილეთ დოკუმენტაცია"
+
+#~ msgid ""
+#~ "If the video file is a timelapse<br>\n"
+#~ "        (or slow motion), use this value to set the speed up/slow down "
+#~ "ratio.<br>\n"
+#~ "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
+#~ "footage."
+#~ msgstr ""
+#~ "თუ ვიდეოფაილი დროის ხაზია<br> \n"
+#~ "       (ან შენელებული), ამ მნიშვნელობის გამოყენება სიჩქარის მოსამატებლად/"
+#~ "შესანელებლად.<br>\n"
+#~ "       მაგ: გამოიყენეთ 30 30x ასაჩქარებლად ან 0.25 4x შენელებული "
+#~ "ვიდეოსთვის."
+
+#~ msgid "The typeface of the font."
+#~ msgstr "ფონტის მოხაზულობა."
+
+#~ msgid "The size in pixels of the font."
+#~ msgstr "შრიფტის ზომა პიქსელებში."
+
+#~ msgid "The weight of the font."
+#~ msgstr "ფონტის წონა."
+
+#~ msgid "The style of the font."
+#~ msgstr "ფონტის სტილი."
+
+#~ msgid "Background color"
+#~ msgstr "ფონის ფერი"
+
+#~ msgid "Outline color"
+#~ msgstr "კონტურის ფერი"
+
+#~ msgid "The width of the outline in pixels"
+#~ msgstr "კონტურის სიგანე პიქსელებში"
+
+#~ msgid "Apply underline decoration to the text."
+#~ msgstr "ხაზის გასმის დეკორაციის გადატარება ტექსტზე."
+
+#~ msgid "Apply strikethrough decoration to the text."
+#~ msgstr "ხაზის გადასმის დეკორაციის გადატარება ტექსტზე."
+
+#~ msgid "Set the horizontal alignment"
+#~ msgstr "ჰორიზონტალური სწორების დაყენება"
+
+#~ msgid "Set the vertical alignment"
+#~ msgstr "ვერტიკალური სწორების დაყენება"
+
+#~ msgid "Opacity of all elements - text, outline, and background"
+#~ msgstr "ყველა ელემენტის გაუმჭვირვალობა - ტექსტის, კონტურის და ფორნის"
+
+#~ msgid "Diode Processor"
+#~ msgstr "დიოდური პროცესორი"
+
+#, fuzzy
+#~| msgid "Comb Filters"
+#~ msgid "Comb Filter"
+#~ msgstr "ფილტრების გაერთ"
+
+#~ msgid "Band Separation"
+#~ msgstr "ზოლის განცალკევება"
+
+#~ msgid "Controls the distance between the filters peaks"
+#~ msgstr "მართავს დაშორებას ფილტრის პიკებს შორის"
+
+#~ msgid "Delay Base"
+#~ msgstr "დაყოვნების ბაზა"
+
+#~ msgid "Max Slowdown"
+#~ msgstr "მაქსიმალური შენელება"
+
+#~ msgid "LFO Frequency"
+#~ msgstr "LFO სიხშირე"
+
+#~ msgid "Fast Overdrive"
+#~ msgstr "სწრაფი ოვერდრაივი"
+
+#, fuzzy
+#~| msgid "Dry Level"
+#~ msgid "Drive Level"
+#~ msgstr "სიმშრალის დონე"
+
+#~ msgid "Bit Depth"
+#~ msgstr "ბიტური სიღრმე"
+
+#~ msgid "Sample Rate"
+#~ msgstr "დისკრეტიზაციის სიხშირე"
+
+#~ msgid "The sample rate that the signal will be resampled at"
+#~ msgstr "დისკრეტიზაციის სიხშირე, რომელზეც სიგნალის რედისტრეტიზაცია მოხდება"
+
+#~ msgid "Gain (dB)"
+#~ msgstr "გაძლიერება (დბ)"
+
+#~ msgid "Frequency (Hz)"
+#~ msgstr "სიხშირე (ჰც)"
+
+#~ msgid "DC Offset Remover"
+#~ msgstr "DC წანაცვლების მომცილებელი"
+
+#, fuzzy
+#~| msgid "Lens distortion A"
+#~ msgid "Foldover Distortion"
+#~ msgstr "ლინზის დამახინჯება A"
+
+#~ msgid "Controls the degree of distortion"
+#~ msgstr "მართავს დამახინჯების ხარისხს"
+
+#~ msgid "Skew"
+#~ msgstr "გადახრა"
+
+#~ msgid "Controls the asymmetry of the waveform"
+#~ msgstr "აკონტროლებს ტალღის ფორმის ასიმეტრიას"
+
+#, fuzzy
+#~| msgid "Allpass"
+#~ msgid "4x4 Pole Allpass"
+#~ msgstr "ყველა გავლა"
+
+#~ msgid "Frequency 1"
+#~ msgstr "სიხშირე 1"
+
+#~ msgid "Feedback 1"
+#~ msgstr "უკუკავშირი 1"
+
+#~ msgid "Frequency 2"
+#~ msgstr "სიხშირე 2"
+
+#~ msgid "Feedback 2"
+#~ msgstr "უკუკავშირი 2"
+
+#~ msgid "Frequency 3"
+#~ msgstr "სიხშირე 3"
+
+#~ msgid "Feedback 3"
+#~ msgstr "უკუკავშირი 3"
+
+#~ msgid "Frequency 4"
+#~ msgstr "სიხშირე 4"
+
+#~ msgid "Feedback 4"
+#~ msgstr "უკუკავშირი 4"
+
+#~ msgid "Auto Phaser"
+#~ msgstr "ავტომატური ფეიზერი"
+
+#~ msgid "Attack Time"
+#~ msgstr "შეტევის დრო"
+
+#~ msgid "Decay Time"
+#~ msgstr "დაშლის დრო"
+
+#~ msgid "Modulation Depth"
+#~ msgstr "მოდულაციის სიღრმე"
+
+#~ msgid "Spread (octaves)"
+#~ msgstr "სპრედი (ოქტავა)"
+
+#~ msgid "Delayorama"
+#~ msgstr "დეიორამა"
+
+#~ msgid "Delayorama (LADSPA 1402)"
+#~ msgstr "Delayorama (LADSPA 1402)"
+
+#~ msgid "Controls the gain of the input signal"
+#~ msgstr "მართავს შეყვანის სიგნალის გაძლიერებას"
+
+#, fuzzy
+#~| msgid "Number of curve points"
+#~ msgid "Number of Taps"
+#~ msgstr "მრუდის წერტილების რაოდენობა"
+
+#~ msgid "First Delay"
+#~ msgstr "პირველი დაყოვნება"
+
+#~ msgid "The time of the first delay"
+#~ msgstr "პირველი დაყოვნების დრო"
+
+#~ msgid "Delay Range"
+#~ msgstr "დაყოვნების შუალედი"
+
+#~ msgid "Delay Change"
+#~ msgstr "დაყოვნების შეცვლა"
+
+#~ msgid "Delay Random"
+#~ msgstr "შემთხვევითი დაყოვნება"
+
+#~ msgid "The random factor applied to the delay"
+#~ msgstr "დაყოვნებაზე გადატარებული შემთხვევითი კოეფიციენტი"
+
+#~ msgid "Amplitude Change"
+#~ msgstr "ამპლიტუდის ცვლილება"
+
+#~ msgid "Amplitude Random"
+#~ msgstr "ამპლიტუდა შემთხვევითი"
+
+#~ msgid "The random factor applied to the amplitude"
+#~ msgstr "ამპლიტუდაზე გადატარებული შემთხვევითი კოეფიციენტი"
+
+#~ msgid "Dry/Wet Mix"
+#~ msgstr "მშრალი/ნოტიო შერევა"
+
+#~ msgid "The level of delayed sound mixed into the output"
+#~ msgstr "დონე, რომლითაც დაყოვნებული ხმის შერევა ხდება გამოტანაში"
+
+#~ msgid "Dyson Compressor"
+#~ msgstr "Dyson-ის კომპრესორი"
+
+#~ msgid "Peak Limit"
+#~ msgstr "პიკის ზღვარი"
+
+#~ msgid "Release Time"
+#~ msgstr "გათავისუფლების დრო"
+
+#~ msgid "Fast Compression Ratio"
+#~ msgstr "სწრაფი შეკუმშვის კოეფიციენტი"
+
+#~ msgid "Compression Ratio"
+#~ msgstr "შეკუმშვის დონე"
+
+#, fuzzy
+#~| msgid "Wave Amplitude"
+#~ msgid "Crossover Amplitude"
+#~ msgstr "ტალღის ამპლტუდა"
+
+#, fuzzy
+#~| msgid "Anti-aliasing"
+#~ msgid "Aliasing"
+#~ msgstr "მომრგვალება"
+
+#~ msgid "Aliasing Level"
+#~ msgstr "Aliasing-ის დონე"
+
+#~ msgid "Decay Time (samples)"
+#~ msgstr "დაშლის დრო (ნიმუშები)"
+
+#~ msgid "Controls the envelope decay time."
+#~ msgstr "აკონტროლებს კონვერტის დაშლის დროს."
+
+#~ msgid "Knee Point"
+#~ msgstr "მუხლის წერტილი"
+
+#~ msgid "Gate"
+#~ msgstr "გეითი"
+
+#~ msgid "LF Key Filter"
+#~ msgstr "დაბალსიხშირული გასაღების ფილტრი"
+
+#~ msgid "HF Key Filter"
+#~ msgstr "მაღალსიხშირული გასაღების ფილტრი"
+
+#~ msgid "Hold"
+#~ msgstr "შეყოვნება"
+
+#~ msgid "Output Monitor"
+#~ msgstr "გამოტანის მონიტორი"
+
+#~ msgid "Controls output monitor"
+#~ msgstr "აკონტროლებს გამომავალი მონიტორს"
+
+#, fuzzy
+#~| msgid "RGB Splitter"
+#~ msgid "Comb Splitter"
+#~ msgstr "RGB გამყოფი"
+
+#~ msgid "The distance between the frequency peaks"
+#~ msgstr "დაშორება სიხშირის პიკებს შორის"
+
+#~ msgid "FM Oscillator"
+#~ msgstr "FM ოსცილატორი"
+
+#~ msgid "FM Oscillator (LADSPA 1415)"
+#~ msgstr "FM ოსცილატორი (LADSPA 1415)"
+
+#~ msgid "The shape of the waveform"
+#~ msgstr "ტალღის ფორმის მოხაზულობა"
+
+#~ msgid "Sine,Triangle,Square,Saw"
+#~ msgstr "სინუსი,სამკუთხედი,კვადრატი,ხერხი"
+
+#, fuzzy
+#~| msgid "Sox Reverb"
+#~ msgid "SWH Plate Reverb"
+#~ msgstr "Sox ექო"
+
+#~ msgid "Reverb Time"
+#~ msgstr "რევერბერაციის დრო"
+
+#~ msgid "Dry/wet mix"
+#~ msgstr "მშრალი/ნოტიო შერევა"
+
+#~ msgid "Chebyshev Distortion"
+#~ msgstr "ჩებიშევის დამახინჯება"
+
+#~ msgid "Distortion"
+#~ msgstr "დამახინჯება"
+
+#~ msgid "Sets the sensitivity of the input"
+#~ msgstr "დააყენებს შეყვანის მგრძნობელობას"
+
+#~ msgid "Bode Frequency Shifter"
+#~ msgstr "Bode-ის სიხშირის წამნაცვლებელი"
+
+#~ msgid "Frequency Shift"
+#~ msgstr "სიხშირის წანაცვლება"
+
+#~ msgid "Controls the frequency shift applied to the input signal"
+#~ msgstr "აკონტროლებს შეყვანის სიგნალზე გადატარებულ სიხშირის წანაცვლებას"
+
+#~ msgid "Bode Frequency Shifter (CV)"
+#~ msgstr "Bode-ის სიხშირის წამნაცვლებელი (CV)"
+
+#~ msgid "Base Shift"
+#~ msgstr "ბაზის წანაცვლება"
+
+#~ msgid "Down,Both,Up"
+#~ msgstr "ქვემოთ,ორივე,ზემოT"
+
+#~ msgid "CV Attenuation"
+#~ msgstr "CV-ის ატენუაცია"
+
+#~ msgid "Shift CV"
+#~ msgstr "CV-ის წანაცვლება"
+
+#~ msgid "AM Pitch Shifter"
+#~ msgstr "AM ტონის წამნაცვლებელი"
+
+#~ msgid "Buffer Size"
+#~ msgstr "ბუფერის ზომა"
+
+#~ msgid "DJ Flanger"
+#~ msgstr "DJ ფლანგერი"
+
+#~ msgid "LFO sync"
+#~ msgstr "LFO სინქრონიზაცია"
+
+#~ msgid "LFO period"
+#~ msgstr "LFO პერიოდი"
+
+#~ msgid "The cycle period of the LFO in seconds"
+#~ msgstr "LFO-ის ციკლის პერიოდი წამებში"
+
+#~ msgid "The amount of the delays output that is mixed back into the delay"
+#~ msgstr ""
+#~ "დაყოვნების გამოტანის რაოდენობა, რომლის შერწყმაც ისევ დაყოვნებაში ხდება"
+
+#~ msgid "Exponential Signal Decay"
+#~ msgstr "ექსპონენციალური სიგნალის დაშლა"
+
+#~ msgid "Max Delay"
+#~ msgstr "მაქს. დაყოვნება"
+
+#~ msgid "Delay Time"
+#~ msgstr "დაყოვნების დრო"
+
+#~ msgid "GLAME Highpass"
+#~ msgstr "GLAME მაღალსიხშირული ფილტრი"
+
+#~ msgid "Cutoff Frequency"
+#~ msgstr "წაჭრის სიხშირე"
+
+#~ msgid "Stages"
+#~ msgstr "ფაზები"
+
+#~ msgid "GLAME Lowpass"
+#~ msgstr "GLAME დაბალსიხშირული ფილტრი"
+
+#~ msgid "GLAME Bandpass"
+#~ msgstr "GLAME გატარების ზოლი"
+
+#~ msgid "Bandwidth"
+#~ msgstr "გამტარობა"
+
+#~ msgid "Simple Delay Line (Cubic Spline Interpolation)"
+#~ msgstr "მარტივი დაყოვნების ხაზი (კუბური სპლაინის ინტერპოლაცია)"
+
+#~ msgid "DJ EQ"
+#~ msgstr "DJ EQ"
+
+#~ msgid "Lo Gain"
+#~ msgstr "მცირე გაძლიერება"
+
+#~ msgid "Mid Gain"
+#~ msgstr "საშუალო გაძლიერება"
+
+#~ msgid "Hi Gain"
+#~ msgstr "მაღალი გაძლიერებa"
+
+#~ msgid "Resonance"
+#~ msgstr "რეზონანსი"
+
+#~ msgid "GLAME Butterworth Lowpass"
+#~ msgstr "GLAME დაბალსიხშირული ბათერვორთი"
+
+#~ msgid "Butterworth Lowpass Filter (LADSPA 1903)"
+#~ msgstr "დაბალსიხშირული ბათერვორთის ფილტრი (LADSPA 1903)"
+
+#~ msgid "GLAME Butterworth Highpass"
+#~ msgstr "GLAME მაღალსიხშირული ბათერვორთი"
+
+#~ msgid "Butterworth Highpass Filter (LADSPA 1904)"
+#~ msgstr "მაღალსიხშირული ბათერვორთის ფილტრი (LADSPA 1903)"
+
+#~ msgid "VyNil (Vinyl Effect)"
+#~ msgstr "VyNil (ვინილის ეფექტი)"
+
+#~| msgid ""
+#~| "TAP Reflector (LADSPA 2154)<br>\n"
+#~| "    Creates a psychedelic reverse audio effect."
+#~ msgid ""
+#~ "Vynil Effect (LADSPA 1905)<br>\n"
+#~ "   Simulates an old vynil effect"
+#~ msgstr ""
+#~ "Vynil Effect (LADSPA 1905)<br>\n"
+#~ "   ახდენს ძველი ვინილის ეფექტის სიმულაციას"
+
+#~ msgid "The rotational speed of the platter"
+#~ msgstr "თეფშის ბრუნვის სიჩქარე"
+
+#~ msgid "33 1/3,45,78"
+#~ msgstr "33 1/3,45,78"
+
+#~ msgid "Surface Warping"
+#~ msgstr "ზედაპირის დეფორმაცია"
+
+#, fuzzy
+#~| msgid "The amount of dust particles added to the image"
+#~ msgid "The amount of wear on the grooves"
+#~ msgstr "გამოსახულებაზე დამატებული მტვრის ნაწილაკების რაოდენობა"
+
+#~ msgid "DJ EQ (mono)"
+#~ msgstr "DJ EQ (მონო)"
+
+#~ msgid "Fast Lookahead Limiter"
+#~ msgstr "სწრაფი წინასწარი ანალიზის შემზღუდავი"
+
+#~ msgid "Attenuation"
+#~ msgstr "ატენუაცია"
+
+#~ msgid "Rotation Point"
+#~ msgstr "შემობრუნების წერტილი"
+
+#~ msgid "Start (HH:MM:SS.SSS)"
+#~ msgstr "დაწყება (HH:MM:SS.SSS)"
+
+#~ msgid ""
+#~ "The time that the timer will start counting up or down.<br>\n"
+#~ "        The text will be frozen at 00:00:00.000 from the start of the "
+#~ "filter until the start time has elapsed."
+#~ msgstr ""
+#~ "დრო, საიდანაც ტაიმერმა თვლა ზრდადობით ან კლებადობით დაიწყებს.\n"
+#~ "        ტექსტი გაყინული იქნება 00:00:00.000 ფილტრის დასაწყისიდან, სანამ "
+#~ "დაწყების დრო არ გავა."
+
+#~ msgid "HH:MM:SS.SSS"
+#~ msgstr "HH:MM:SS.SSS"
+
+#~ msgid "Duration (HH:MM:SS.SSS)"
+#~ msgstr "ხანგრძლივობა (HH:MM:SS.SSS)"
+
+#~ msgid ""
+#~ "The maximum elapsed duration of the timer after the start time has "
+#~ "elapsed.<br>\n"
+#~ "The text will be frozen at the duration time after the duration has "
+#~ "elapsed."
+#~ msgstr ""
+#~ "მაქსიმალური გასული ხანგრძლივობა ტაიმერისთვის, როცა დაწყების დრო "
+#~ "ამოიწურება.\n"
+#~ "ტექსტი გაიყინება ხანგრძლივობის დროით, როცა ეს ხანგრძლივობა ამოიწურება."
+
+#~ msgid "Offset (HH:MM:SS.SSS)"
+#~ msgstr "წანაცვლება (HH:MM:SS.SSS)"
+
+#~ msgid ""
+#~ "An offset to be added to the timer value.<br>\n"
+#~ "        When the direction is <i>Down</i>, the timer will count down to "
+#~ "<i>Offset</i> instead of 00:00:00.000.<br>\n"
+#~ "        When the direction is <i>Up</i>, the timer will count up starting "
+#~ "from <i>Offset</i>."
+#~ msgstr ""
+#~ "წანაცვლება ტაიმერის მნიშვნელობაზე მისამამატებლად.\n"
+#~ "         როცა მიმართულებაა <i>ქვემოთ</i>, ტაიმერი 00:00:00.000-ის მაგიერ "
+#~ "<i>წანაცვლებამდე</i> ათვლას დაწყებს.<br>\n"
+#~ "         როცა მიმართულებაა <i>მაღლა</i>, ტაიმერი <i>წანაცვლებიდან</i> "
+#~ "ზემოთ ათვლას დაიწყებს."
+
+#~ msgid "Up,Down"
+#~ msgstr "ზემოთ,ქვემოთ"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "When selected mutes all other audio tracks.\n"
+#~ "Use Shift+Click to select multiple tracks to play at the same time."
+#~ msgstr ""
+#~ "როცა არჩეულია, დაადუმებს ყველა სხვა აუდიობილიკს.\n"
+#~ "ერთზე მეტი ბილიკის ერთდროულად დასაკრავად ისინი Shift+წკაპით მონიშნეთ."
+
+#~ msgid "Insert at Timecode"
+#~ msgstr "ჩასმა დროის კოდთან"
+
+#~ msgid "No audio device found"
+#~ msgstr "აუდიომოწყობილობები აღმოჩენილი არაა"
+
+#~ msgid ""
+#~ "Your proxy parameters contains forbidden keywords, please remove them: <b>"
+#~ "%1</b>."
+#~ msgstr ""
+#~ "თქვენი პროქსის პარამეტრები აკრძალულ საკვანძო სიტყვებს შეიცავს. წაშალეთ "
+#~ "ისინი: <b>%1</b>."
+
+#~ msgid ""
+#~ "Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do "
+#~ "you want to always allow them ?"
+#~ msgstr ""
+#~ "თქვენი პროქსის პარამეტრები შეიცავს უცნობ პარამეტრებს: <br><b>%1</"
+#~ "b><br>გნებავთ მათი ყოველთვის დაშვება?"
+
+#~ msgid "Always Allow Parameters"
+#~ msgstr "ყოველთვის დაშვება პარამეტრების"
+
+#~ msgid ""
+#~ "This project is trying to load sources from the internet.<br> <b><i>This "
+#~ "can pose a security risk</i></b>!<br> Abort loading the project unless "
+#~ "this is intentional and you fully trust the remote sources."
+#~ msgstr ""
+#~ "ეს პროექტი ცდილობს, წყაროები ინტერნეტიდან ჩატვირთოს.<br> <b><i>ეს, "
+#~ "შეიძლება, უსაფრთხოების რისკს შეიცავდეს</i></b>!<br> შეწყვიტეთ პროექტის "
+#~ "ჩატვირთვა, თუ ეს მიზანმიმართულად არ ხდება და თქვენ ენდობით დაშორებულ "
+#~ "წყაროებს."
+
+#~ msgid "Proxy clips can be recreated."
+#~ msgstr "შესაძლებელია პროქსი კლიპების თავიდან შექმნა."
+
+#~ msgctxt "@title:window"
+#~ msgid "Proxy Clips Folder"
+#~ msgstr "პროქსი კლიპების საქაღალდე"
+
+#~ msgid ""
+#~ "The project's storage folder <b>%1</b> was not found. Please enter an "
+#~ "updated location to store files for this project."
+#~ msgstr ""
+#~ "პროექტის საცავის საქაღალდე <b>%1</b> აღმოჩენილი არაა. შეიყვანეთ "
+#~ "განახლებული მდებარეობა ამ პროექტის ფაილების შესანახად."
+
+#~ msgctxt "status of a remote clip"
+#~ msgid "Remote"
+#~ msgstr "დაშორებული"
+
+#~ msgid ""
+#~ "Project file <b>%1</b> contains suspicious proxy parameters. This command "
+#~ "might be executed:<br><br><code style=\"background-color:darkred;color:"
+#~ "white\"><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>These parameters "
+#~ "will be discarded."
+#~ msgstr ""
+#~ "პროექტის ფაილი <b>%1</b> საეჭვო პროქსის პარამეტრებს შეიცავს. შესრულდებოდა "
+#~ "ბრძანება:<br><br><code style=\"background-color:darkred;color:white\"><b>"
+#~ "%2 -i input.mp4 %3 out.%4</b></code><br><br>ეს პარამეტრები გამოყენებული "
+#~ "არ იქნება."
+
+#~ msgctxt "@title:window"
+#~ msgid "Warning"
+#~ msgstr "გაფრთხილება"
+
+#~ msgid ""
+#~ "Project file <b>%1</b> contains unexpected parameters for proxy creation. "
+#~ "This command might be executed:<br><br><code><b>%2 -i input.mp4 %3 out."
+#~ "%4</b></code><br><br>These parameters will be discarded unless you allow "
+#~ "them."
+#~ msgstr ""
+#~ "პროექტის ფაილი <b>%1</b> შეიცავს მოულოდნელ პარამეტრებს პროქსის "
+#~ "შექმნისთვის. შესრულდება ბრძანება:<br><br><code><b>%2 -i input.mp4 %3 out."
+#~ "%4</b></code><br><br>ეს პარამეტრები გამოყენებული არ იქნება, სანამ მათ არ "
+#~ "დაუშვებთ."
+
+#~ msgid "Save a json report about components in the given path."
+#~ msgstr ""
+#~ "მითითებულ ბილიკზე არსებული კომპონენტების შესახებ json ანგარიშის შენახვა."
+
+#~ msgid "Identify Gaps"
+#~ msgstr "შუალედების იდენტიფიკაცია"
+
+#~ msgid "All Tracks"
+#~ msgstr "ყველა ტრეკი"
+
+#~ msgid "Selected Track"
+#~ msgstr "მონიშნული ტრეკი"
+
+#~ msgid "Replace with Bin Selection"
+#~ msgstr "ჩანაცვლება კალათში მონიშნულით"
+
+#~ msgid "Copy Selection to New Sequence"
+#~ msgstr "მონიშნულის კოპირება ახალ მიმდევრობაში"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "Copy the clip(s) currently selected in the timeline to a new sequence "
+#~ "clip that can be opened in another timeline tab."
+#~ msgstr ""
+#~ "დროის ხაზზე ამჟამად მონიშნული კლიპ(ებ)-ის კოპირება ახალი მიმდევრობის "
+#~ "კლიპში, რომელიც სხვა დროის ხაზის ჩანართში შეგიძლიათ, გახსნათ."
+
+#~ msgid "Move Track Up"
+#~ msgstr "ტრეკის ატანა"
+
+#~ msgid "Move Track Down"
+#~ msgstr "ტრეკის ჩამოტანა"
+
+#~ msgid "Raise %1"
+#~ msgstr "%1-ის აწევა"
+
+#~ msgid "Subtitle streams:"
+#~ msgstr "სუბტიტრის ნაკადები:"
+
+#~ msgid "Copy clips to new Sequence"
+#~ msgstr "კლიპების კოპირება ახალ მიმდევრობაზე"
+
+#~ msgid "No clips found in timeline"
+#~ msgstr "დროის ხაზზე კლიპები აღმოჩენილი არაა"
+
+#~ msgid "No gaps found in timeline"
+#~ msgstr "დროის ხაზზე დაშორებები აღმოჩენილი არაა"
+
+#~ msgid "Gap"
+#~ msgstr "შუალედი"
+
+#~ msgid "No gaps found on selected track"
+#~ msgstr "მონიშნულ ტრეკზე დაშორებები აღმოჩენილი არაა"
+
+#~ msgid "Failed to create audio tracks"
+#~ msgstr "აუდიობილიკების შექმნა ჩავარდა"
+
+#~ msgid "Cannot resize this clip"
+#~ msgstr "ამ კლიპის ზომის შეცვლა შეუძლებელია"
+
+#~ msgid "Cannot resize the corresponding split clip"
+#~ msgstr "შესაბამისი გაყოფილის კლიპის ზომის შეცვლა შეუძლებელია"
+
+#~ msgid "Cannot resize one or more clips in the selection"
+#~ msgstr "მონიშნულში ერთი, ან მეტი კლიპის ზომის შეცვლა შეუძლებელია"
+
+#~ msgid "Move Track"
+#~ msgstr "ტრეკის გადაადგილება"
+
+#~ msgid ""
+#~ "The video track needs %1 additional track before creating mirror track."
+#~ msgid_plural ""
+#~ "The video track needs %1 additional tracks before creating mirror track."
+#~ msgstr[0] ""
+#~ "ვიდეოტრეკს ანარეკლი ტრეკის შექმნამდე %1 დამატებითი ტრეკი სჭირდება."
+#~ msgstr[1] ""
+#~ "ვიდეოტრეკს ანარეკლი ტრეკის შექმნამდე %1 დამატებითი ტრეკი სჭირდება."
+
+#~ msgid ""
+#~ "The selected clip needs %1 additional audio track for %2 audio stream."
+#~ msgid_plural ""
+#~ "The selected clip needs %1 additional audio tracks for %2 audio streams."
+#~ msgstr[0] ""
+#~ "მონიშნულ კლიპს სჭირდება %1 დამატებითი აუდიობილიკი %2 აუდიონაკადისთვის."
+#~ msgstr[1] ""
+#~ "მონიშნულ კლიპს სჭირდება %1 დამატებითი აუდიობილიკი %2 აუდიონაკადისთვის."
+
+#~ msgid "Create all required tracks (%1)"
+#~ msgstr "ყველა საჭირო ტრეკის (%1) შექმნა"
+
+#~ msgid "Warning: %1 clip will be deleted."
+#~ msgid_plural "Warning: %1 clips will be deleted."
+#~ msgstr[0] "გაფრთხილება: წაიშლება %1 კლიპი."
+#~ msgstr[1] "გაფრთხილება: წაიშლება %1 კლიპი."
+
+#~ msgid "Audio: %1 track for %2 streams"
+#~ msgid_plural "Audio: %1 tracks for %2 streams"
+#~ msgstr[0] "აუდიო: %1 ტრეკი %2 ნაკადისთვის"
+#~ msgstr[1] "აუდიო: %1 ტრეკი %2 ნაკადისთვის"
+
+#~ msgid "Clip not found in project bin"
+#~ msgstr "პროექტის კალათაში კლიპი აღმოჩენილი არაა"
+
+#~ msgid "No timecode metadata found in clip"
+#~ msgstr "კლიპში დროის კოდის მეტამონაცემები ვერ მოიძებნა"
+
+#~ msgid "Please select a target track"
+#~ msgstr "აირჩიეთ სამიზნე ტრეკი"
+
+#~ msgid "Failed to insert clip at %1 on track %2"
+#~ msgstr "კლიპის ჩასმა %1-ზე ტრეკზე %2 შეუძლებელია"
+
+#~ msgctxt "@title:window"
+#~ msgid "Replace Clip"
+#~ msgstr "კლიპის ჩანაცვლება"
+
+#~ msgid "Import New Clip"
+#~ msgstr "ახალი კლიპის შემოტანა"
+
+#~ msgid "Incompatible clip types for replacement"
+#~ msgstr "შეუთავსებელი კლიპების ტიპები ჩანაცვლებისთვის"
+
+#~ msgid "Replace clip <b>%1</b> with <b>%2</b>?"
+#~ msgstr "ჩანაცვლდეს კლიპი <b>%1</b><br/> კლიპით <b>%2</b>?"
+
+#~ msgid "Replace <b>%1</b> clip with <b>%2</b>?"
+#~ msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
+#~ msgstr[0] "ჩანაცვლდეს <b>%1</b> კლიპი <b>%2</b>-ით?"
+#~ msgstr[1] "ჩანაცვლდეს <b>%1</b> კლიპი <b>%2</b>-ით?"
+
+#~ msgid "Replace Clip"
+#~ msgstr "კლიპის ჩანაცვლება"
+
+#~ msgid "Missing Audio Tracks"
+#~ msgstr "ნაკლული აუდიობილიკები"
+
+#~ msgid ""
+#~ "This video track has missing audio tracks before creating mirror track."
+#~ msgstr "ვიდეოტრეკს ანარეკლი ტრეკის შექმნამდე აუდიოტრეკები აკლია."
+
+#~ msgid "The selected clip requires additional audio tracks."
+#~ msgstr "მონიშნულ კლიპს დამატებითი აუდიობილიკები სჭირდება."
+
+#~ msgid "Create all required tracks"
+#~ msgstr "ყველა საჭირო ტრეკის შექმნა"
+
+#~ msgid "Create custom number of tracks:"
+#~ msgstr "მორგებული რაოდენობის ტრეკების შექმნა:"
+
+#~ msgid "Video clip color:"
+#~ msgstr "ვიდეოკლიპის ფერი:"
+
+#~ msgid "Audio clip color:"
+#~ msgstr "აუდიოკლიპის ფერი:"
+
+#~ msgid "Title clip color:"
+#~ msgstr "ტიტრის კლიპის ფერი:"
+
+#~ msgid "Image clip color:"
+#~ msgstr "გამოსახულების კლიპის ფერი:"
+
+#~ msgid "Slideshow clip color:"
+#~ msgstr "სლაიდშოუ კლიპი ფერი:"
+
+#~ msgid "Reset clip colors to default"
+#~ msgstr "კლიპის ფერების ნაგულისხმევზე ჩამოყრა"
+
+#~ msgid "Allowed FFmpeg parameters for proxy clips"
+#~ msgstr "დასაშვები FFmpeg-ის პარამეტრები პროქსი კლიპებისთვის"
+
+#~ msgid "Return playhead to start position on stop"
+#~ msgstr "გაჩერებისას დაკვრის მაჩვენებლის დაბრუნება დაწყების მდებარეობაზე"
+
+#~ msgid "Search Proxies"
+#~ msgstr "პროქსიების ძებნა"
+
+#~ msgid "Allow using these parameters for this project"
+#~ msgstr "ამ პროექტისთვის ამ პარამეტრების გამოყენების ნების დართვა"
+
+#~ msgid "Always allow these parameters"
+#~ msgstr "ყოველთვის დაშვება ამ პარამეტრების"
+
+#~ msgid ""
+#~ "If you are not the author of this project or don't understand the "
+#~ "parameters, this might compromise your system's security."
+#~ msgstr ""
+#~ "თუ თქვენ არ ბრძანდებით ამ პროექტის ავტორი, ან არ გესმით პარამეტრები, ამან "
+#~ "შეიძლება, ზიანი მიაყენოს თქვენი სისტემის უსაფრთხოებას."
+
+#~ msgid "Corner radius"
+#~ msgstr "კუთხის რადიუსი"
+
+#~ msgid "Replace Timeline Clip"
+#~ msgstr "დროის ხაზის კლიპის ჩანაცვლება"
+
 #~ msgid "Timeline Markers Locked"
 #~ msgstr "დროის ხაზის მარკერები ჩაკეტილია"
 
@@ -39754,9 +40606,6 @@ msgstr "%1სთ"
 
 #~ msgid "Arrange Dock Areas In Columns"
 #~ msgstr "მისამაგრებელი ადგილების დალაგება სვეტებში"
-
-#~ msgid "Raise %1"
-#~ msgstr "%1-ის აწევა"
 
 #~ msgid "<Select a Keyword>"
 #~ msgstr "<აირჩიეთ საკვანძო სიტყვა>"
@@ -40028,9 +40877,6 @@ msgstr "%1სთ"
 
 #~ msgid "Denoiser"
 #~ msgstr "დენოიზერი"
-
-#~ msgid "Background color"
-#~ msgstr "ფონის ფერი"
 
 #~ msgid "LetterB0xed"
 #~ msgstr "LetterB0xed"
