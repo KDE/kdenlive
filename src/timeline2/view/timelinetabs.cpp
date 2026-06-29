@@ -3,10 +3,6 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-// KLocalizedQmlContext include has to be before mlt includes,
-// because it breaks due to some macros in MLT
-#include <KLocalizedQmlContext>
-
 #include "assets/model/assetparametermodel.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/projectclip.h"
@@ -28,8 +24,6 @@
 #include <QInputDialog>
 #include <QMenu>
 #include <QPainter>
-#include <QQmlContext>
-#include <QQmlEngine>
 
 TimelineContainer::TimelineContainer(QWidget *parent)
     : QWidget(parent)
@@ -45,10 +39,6 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
     , m_activeTimeline(nullptr)
 {
-    m_qmlEngine = new QQmlEngine(this);
-    KLocalization::setupLocalizedContext(m_qmlEngine);
-    m_qmlEngine->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
-
     setTabBarAutoHide(true);
     setTabsClosable(false);
     setDocumentMode(true);
@@ -135,7 +125,7 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QStrin
         m_activeTimeline->model()->updateVisibleSequenceName(QString());
     }
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
-    TimelineWidget *newTimeline = new TimelineWidget(uuid, m_qmlEngine, this);
+    TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
                                  m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu, m_timelineAddClipMenu);
     newTimeline->setModel(timelineModel, proxy);

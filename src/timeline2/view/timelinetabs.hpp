@@ -15,7 +15,6 @@ class AssetParameterModel;
 class EffectStackModel;
 class MonitorProxy;
 class QMenu;
-class QQmlEngine;
 
 /** @class TimelineContainer
     @brief This is a class that extends QTabWidget to provide additional functionality related to timeline tabs
@@ -99,7 +98,6 @@ private Q_SLOTS:
     void saveTimelinePreview(const QString &path);
 
 private:
-    QQmlEngine *m_qmlEngine{nullptr};
     TimelineWidget *m_activeTimeline;
     QMenu *m_timelineClipMenu{nullptr};
     QMenu *m_timelineCompositionMenu;
