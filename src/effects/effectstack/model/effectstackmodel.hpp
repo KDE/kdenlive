@@ -72,7 +72,7 @@ public:
     bool moveEffectWithUndo(int destRow, const std::shared_ptr<AbstractEffectItem> &item, Fun &undo, Fun &redo);
 
     /** @brief Set effect in row as current one */
-    void setActiveEffect(int ix);
+    void setActiveEffect(int ix, int paramIx = -1);
     /** @brief Get currently active effect row */
     int getActiveEffect() const;
     /** @brief Get currently active effect assetparametermodel */
@@ -227,6 +227,6 @@ Q_SIGNALS:
     /** @brief: The master effect stack zones changed, update */
     void updateMasterZones();
     /** @brief: Currently active effect changed */
-    void currentChanged(QPersistentModelIndex ix, bool active);
+    void currentChanged(QPersistentModelIndex ix, bool active, int paramRow = -1);
     void customDataChanged(const QModelIndex &, const QModelIndex &, const QList<int> &roles = QList<int>());
 };

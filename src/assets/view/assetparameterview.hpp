@@ -100,6 +100,8 @@ Q_SIGNALS:
     void updatePresets(const QString &presetName = QString());
     void updateHeight();
     void activateEffect();
+    void activateEffectParam(int row);
+    void activateEffectParamAndSeek(int row, bool forwards);
     void nextKeyframe();
     void previousKeyframe();
     void addRemoveKeyframe(bool addOnly = false);

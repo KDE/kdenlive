@@ -857,7 +857,7 @@ KeyframeModel *DopeSheetModel::getKeyframeModel(QPersistentModelIndex activeInde
 {
     int effectIndex = data(activeIndex, EffectIndexRole).toInt();
     if (m_model && effectIndex >= 0) {
-        m_model->setActiveEffect(effectIndex);
+        m_model->setActiveEffect(effectIndex, -1);
     }
 
     if (data(activeIndex, RecapRole).toBool() == true) {
@@ -1415,13 +1415,41 @@ QModelIndex DopeSheetModel::getRowFromEffectIndex(const QPersistentModelIndex ix
     if (master == nullptr) {
         master = rootItem;
     }
-    for (int j = 0; j < master->childCount(); ++j) {
+    for (int j = 0; j < master->childCount(); j++) {
         auto current = master->child(j);
         if (current->dataColumn(1).toInt() == ix.row()) {
             return getIndexFromItem(current);
         }
     }
     return QModelIndex();
+}
+
+int DopeSheetModel::getParamRowFromEffectIndex(const QPersistentModelIndex ix, int paramRow)
+{
+    // Find master for active effect
+    std::shared_ptr<TreeItem> master{nullptr};
+    for (auto i = m_masterList.cbegin(), end = m_masterList.cend(); i != end; ++i) {
+        if (i.key().first == m_currentOwner.type && i.key().second == m_currentOwner.itemId) {
+            master = i.value();
+            break;
+        }
+    }
+    if (master == nullptr) {
+        master = rootItem;
+    }
+    for (int j = 0; j < master->childCount(); ++j) {
+        auto current = master->child(j);
+        if (current->dataColumn(1).toInt() == ix.row()) {
+            // Found effect, parse child params
+            for (int k = 0; k < current->childCount(); k++) {
+                auto paramItem = current->child(k);
+                if (m_paramsList.at(paramItem->getId()).first.row == paramRow) {
+                    return getIndexFromItem(paramItem).row();
+                }
+            }
+        }
+    }
+    return -1;
 }
 
 void DopeSheetModel::copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData)
@@ -1468,4 +1496,11 @@ bool DopeSheetModel::isRecap(std::shared_ptr<TreeItem> item) const
 {
     Q_ASSERT(m_paramsList.contains(item->getId()));
     return m_paramsList.at(item->getId()).first.row < 0;
+}
+
+QModelIndex DopeSheetModel::getQmlSelectionIndex(QAbstractItemModel *model, int row, int paramRow)
+{
+    auto masterIndex = m_activeMaster ? model->index(0, 0) : QModelIndex();
+    QModelIndex parentIdx = model->index(row, 0, masterIndex);
+    return model->index(paramRow, 0, parentIdx);
 }

@@ -307,16 +307,21 @@ Rectangle {
     }
 
     function getActiveCppParamIndex() {
-        var item = treeView.itemAtIndex(treeView.selectionModel.currentIndex)
-        if (item) {
+        if (treeView.selectionModel.currentIndex.valid) {
             return treeView.model.mapToSource(treeView.model.index(treeView.selectionModel.currentIndex.row, treeView.selectionModel.currentIndex.column, treeView.selectionModel.currentIndex.parent))
         }
         console.log('NO ACTIVE ITEM FOUND IN DOPESHEET...')
         return treeView.index(-1, -1)
     }
 
-    function setActiveIndexFromModel(row) {
-        console.log('READY TO SET MODEINDEX FROM C++: ', row)
+    function activateParamFromModel(paramIndex) {
+        console.log('Setting active from model: ', paramIndex)
+        treeView.selectionModel.setCurrentIndex(paramIndex, ItemSelectionModel.SelectCurrent);
+        treeView.expand(paramIndex)
+    }
+
+    function setActiveIndexFromModel(row, paramRow) {
+        console.log('READY TO SET MODEINDEX FROM C++: ', row, ' / ', paramRow)
         // Ensure item is visible
         let modelIndex = treeView.model.index(row, 0, treeView.model.index(0, 0, treeView.rootIndex))
         if (!modelIndex.valid) {
@@ -326,17 +331,26 @@ Rectangle {
         var currentIx = treeView.selectionModel.currentIndex
         if (currentIx.parent && currentIx.parent.parent && currentIx.parent.parent != treeView.rootIndex) {
             // We are on an effect param with a recap
-            if (currentIx.parent.row === modelIndex.row) {
+            if (currentIx.parent.row === modelIndex.row && (paramRow < 0)) {
                 return
             }
         } else if (currentIx.parent.parent === treeView.rootIndex) {
             // We are on an effect recap
-            if (currentIx.row === modelIndex.row) {
+            if (currentIx.row === modelIndex.row && paramRow < 0) {
                 return
             }
         }
-        console.log('Setting index from C++: ', modelIndex)
-        treeView.selectionModel.setCurrentIndex(modelIndex, ItemSelectionModel.SelectCurrent);
+        console.log('Setting index from C++: ', modelIndex, ' on PARAMM: ', paramRow)
+        if (paramRow < 0 || treeView.model.rowCount(modelIndex) === 0) {
+            treeView.selectionModel.setCurrentIndex(modelIndex, ItemSelectionModel.SelectCurrent);
+        } else {
+            let paramIndex = dopesheetmodel.getQmlSelectionIndex(treeView.model, row, paramRow)
+            if (currentIx === paramIndex) {
+                return
+            }
+            treeView.expandToIndex(paramIndex)
+            treeView.selectionModel.setCurrentIndex(paramIndex, ItemSelectionModel.SelectCurrent);
+        }
     }
 
     function pasteKeyframes(position=undefined) {
@@ -513,7 +527,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Go to Previous Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
-                onClicked: K.Core.triggerAction('monitor_seek_snap_backward')
+                onClicked: K.Core.triggerAction('monitor_seek_kf_backward')
             }
             ToolButton {
                 implicitWidth: dopeBar.buttonHeight
@@ -525,7 +539,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Go to Next Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
-                onClicked: K.Core.triggerAction('monitor_seek_snap_forward')
+                onClicked: K.Core.triggerAction('monitor_seek_kf_forward')
             }
             ComboBox {
                 id: keyframeTypeCombo

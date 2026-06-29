@@ -910,6 +910,8 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         factor = qFuzzyIsNull(factor) ? 1 : factor;
         QWidget *container = new QWidget(m_parent);
         auto lay = new QHBoxLayout(container);
+        lay->setSpacing(0);
+        lay->setContentsMargins(0, 0, 0, 0);
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(),
                                              m_model->data(index, AssetParameterModel::CompactRole).toBool(), m_parent);
@@ -980,6 +982,12 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         lay->addWidget(cb);
         */
         lay->addWidget(doubleWidget);
+        QToolButton *goPrev = new QToolButton(m_parent);
+        goPrev->setIcon(QIcon::fromTheme("arrow-left"));
+        goPrev->setAutoRaise(true);
+        goPrev->setMaximumWidth(goPrev->height() * 0.6);
+        lay->addWidget(goPrev);
+        connect(goPrev, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), false); });
         KDualAction *kfAction = new KDualAction(m_parent);
         kfAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
         kfAction->setActiveText(i18n("Remove Keyframe"));
@@ -989,11 +997,20 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         tb->setAutoRaise(true);
         tb->setDefaultAction(kfAction);
         lay->addWidget(tb);
+        QToolButton *goNext = new QToolButton(m_parent);
+        goNext->setIcon(QIcon::fromTheme("arrow-right"));
+        goNext->setAutoRaise(true);
+        goNext->setMaximumWidth(goNext->height() * 0.6);
+        connect(goNext, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), true); });
+        lay->addWidget(goNext);
+
         connect(kfAction, &KDualAction::activeChangedByUser, this, [this, index](bool activated) {
             auto km = m_keyframes->getKeyModel(index);
             if (activated) {
+                Q_EMIT activateEffectParam(index.row());
                 km->addKeyframe(getPosition());
             } else {
+                Q_EMIT activateEffectParam(index.row());
                 km->removeKeyframe(getPosition());
             }
         });
@@ -1021,6 +1038,12 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         QWidget *container = new QWidget(m_parent);
         auto lay = new QHBoxLayout(container);
         lay->addWidget(paramWidget);
+        QToolButton *goPrev = new QToolButton(m_parent);
+        goPrev->setIcon(QIcon::fromTheme("arrow-left"));
+        goPrev->setAutoRaise(true);
+        goPrev->setMaximumWidth(goPrev->height() * 0.6);
+        connect(goPrev, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), false); });
+        lay->addWidget(goPrev);
         KDualAction *kfAction = new KDualAction(m_parent);
         kfAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
         kfAction->setActiveText(i18n("Remove Keyframe"));
@@ -1030,11 +1053,20 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         tb->setAutoRaise(true);
         tb->setDefaultAction(kfAction);
         lay->addWidget(tb);
+        QToolButton *goNext = new QToolButton(m_parent);
+        goNext->setIcon(QIcon::fromTheme("arrow-right"));
+        goNext->setAutoRaise(true);
+        goNext->setMaximumWidth(goNext->height() * 0.6);
+        connect(goNext, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), true); });
+        lay->addWidget(goNext);
+
         connect(kfAction, &KDualAction::activeChangedByUser, this, [this, index](bool activated) {
             auto km = m_keyframes->getKeyModel(index);
             if (activated) {
+                Q_EMIT activateEffectParam(index.row());
                 km->addKeyframe(getPosition());
             } else {
+                Q_EMIT activateEffectParam(index.row());
                 km->removeKeyframe(getPosition());
             }
         });

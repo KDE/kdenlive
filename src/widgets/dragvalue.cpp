@@ -846,6 +846,8 @@ int DragValue::spinSize()
 
 void DragValue::setSpinSize(int width)
 {
+    qDebug() << "::: SETTING SPIN SIZE: " << width;
+    Q_ASSERT(false);
     if (m_intEdit) {
         m_intEdit->setMinimumWidth(width);
     } else {
@@ -962,16 +964,20 @@ void DragValue::slotSetValue(double value)
 void DragValue::resizeEvent(QResizeEvent *ev)
 {
     if (m_label) {
-        if (m_intEdit) {
-            if (ev->size().width() <= 2.3 * m_intEdit->minimumWidth()) {
+        if (ev->size().width() <= 2 * m_label->sizeHint().width()) {
+            m_label->setVisible(false);
+        } else {
+            if (m_intEdit) {
+                if (ev->size().width() < 2.5 * m_intEdit->minimumWidth()) {
+                    m_label->setVisible(false);
+                } else {
+                    m_label->setVisible(true);
+                }
+            } else if (ev->size().width() < 2.5 * m_doubleEdit->minimumWidth()) {
                 m_label->setVisible(false);
             } else {
                 m_label->setVisible(true);
             }
-        } else if (ev->size().width() <= 2.3 * m_doubleEdit->minimumWidth()) {
-            m_doubleEdit->setVisible(false);
-        } else {
-            m_doubleEdit->setVisible(true);
         }
     }
     QWidget::resizeEvent(ev);

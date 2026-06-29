@@ -131,7 +131,7 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
         pCore->getMonitor(model->getOwnerId().type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->getControllerProxy());
     rootObject()->setProperty("proxy", monitorProxy);
     QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(monitorProxy), QQmlEngine::CppOwnership);
-    m_activeEffectConnection = connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::QueuedConnection);
+    m_activeEffectConnection = connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::DirectConnection);
     QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
                               Q_ARG(QVariant, model->getOwnerId().itemId));
 }
@@ -208,23 +208,28 @@ void DopeWidget::slotAddRemoveKeyframe()
     pCore->dopeSheetModel()->addRemoveKeyframe(activeIndex, pos);
 }
 
-void DopeWidget::activateEffect(QPersistentModelIndex ix)
+void DopeWidget::activateEffect(QPersistentModelIndex ix, int paramRow)
 {
-    const QModelIndex dopeRow = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
-    if (dopeRow.isValid()) {
-        const QModelIndex mapped = m_proxyModel->mapFromSource(dopeRow);
+    const QModelIndex dopeIndex = pCore->dopeSheetModel()->getRowFromEffectIndex(ix);
+    if (dopeIndex.isValid()) {
+        const QModelIndex mapped = m_proxyModel->mapFromSource(dopeIndex);
         if (mapped.row() >= 0) {
-            QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(mapped.row())));
+            int mappedParamRow = -1;
+            if (paramRow >= 0) {
+                mappedParamRow = pCore->dopeSheetModel()->getParamRowFromEffectIndex(ix, paramRow);
+            }
+            QMetaObject::invokeMethod(rootObject(), "setActiveIndexFromModel", Qt::DirectConnection, Q_ARG(QVariant, QVariant(mapped.row())),
+                                      Q_ARG(QVariant, QVariant(mappedParamRow)));
         } else {
             qDebug() << "==== ACTIVATING INVALID EFFECT ROW: " << mapped.row() << " / FROM: " << ix;
         }
     }
 }
 
-void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active)
+void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active, int paramRow)
 {
     if (active) {
-        activateEffect(ix);
+        activateEffect(ix, paramRow);
     }
 }
 
@@ -254,5 +259,20 @@ void DopeWidget::sendStandardCommand(int command)
     default:
         qDebug() << ":::: UNKNOWN COMMAND: " << command;
         break;
+    }
+}
+
+void DopeWidget::activateParamIndex(const QPersistentModelIndex &index, int row)
+{
+    if (index.isValid()) {
+        const QModelIndex effectIndex = pCore->dopeSheetModel()->getRowFromEffectIndex(index);
+        QModelIndex mapped;
+        if (pCore->dopeSheetModel()->rowCount(effectIndex) == 0) {
+            mapped = m_proxyModel->mapFromSource(effectIndex);
+        } else {
+            const QModelIndex paramIndex = pCore->dopeSheetModel()->index(row, 0, effectIndex);
+            mapped = m_proxyModel->mapFromSource(paramIndex);
+        }
+        QMetaObject::invokeMethod(rootObject(), "activateParamFromModel", Qt::DirectConnection, Q_ARG(QVariant, QVariant(mapped)));
     }
 }

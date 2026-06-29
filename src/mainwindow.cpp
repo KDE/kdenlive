@@ -1861,6 +1861,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
               QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT | Qt::Key_Right, QStringLiteral("navandplayback"));
 
+    addAction(QStringLiteral("monitor_seek_kf_backward"), i18n("Go to Previous Keyframe"), this, SLOT(slotKeyframeRewind()),
+              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::SHIFT | Qt::ALT | Qt::Key_Left, QStringLiteral("navandplayback"));
+    addAction(QStringLiteral("monitor_seek_kf_forward"), i18n("Go to Next Keyframe"), this, SLOT(slotKeyframeForward()),
+              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::SHIFT | Qt::ALT | Qt::Key_Right, QStringLiteral("navandplayback"));
+
     addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme(QStringLiteral("media-seek-backward")),
               Qt::Key_Home, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
@@ -3724,6 +3729,16 @@ void MainWindow::slotSnapForward()
     } else {
         m_clipMonitor->slotSeekToNextSnap();
     }
+}
+
+void MainWindow::slotKeyframeRewind()
+{
+    m_dopeWidget->gotoPreviousSnap();
+}
+
+void MainWindow::slotKeyframeForward()
+{
+    m_dopeWidget->gotoNextSnap();
 }
 
 void MainWindow::slotGuideRewind()

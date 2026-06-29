@@ -284,6 +284,18 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
             qDebug() << "///// TRYING TO ACTIVATE EFFECT.... DONE";
         }
     });
+    connect(m_view, &AssetParameterView::activateEffectParam, this, [this](int row) {
+        if (!m_isActive || !m_model->isAssetEnabled() || row >= 0) {
+            // Activate effect if not already active
+            Q_EMIT activateEffect(m_model->row(), row);
+        }
+    });
+    connect(m_view, &AssetParameterView::activateEffectParamAndSeek, this, [this](int row, bool forwards) {
+        if (!m_isActive || !m_model->isAssetEnabled() || row >= 0) {
+            // Activate effect if not already active
+            Q_EMIT activateEffectAndSeek(m_model->row(), row, forwards);
+        }
+    });
 
     if (effectModel->rowCount() == 0) {
         // Effect has no parameter

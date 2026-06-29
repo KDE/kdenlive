@@ -529,6 +529,8 @@ private Q_SLOTS:
     void slotSetTool(ToolType::ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
+    void slotKeyframeForward();
+    void slotKeyframeRewind();
     void slotGuideForward();
     void slotGuideRewind();
     void slotClipStart();

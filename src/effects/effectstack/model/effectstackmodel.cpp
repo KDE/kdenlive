@@ -1619,15 +1619,19 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
     Q_EMIT modelChanged();
 }
 
-void EffectStackModel::setActiveEffect(int ix)
+void EffectStackModel::setActiveEffect(int ix, int paramIx)
 {
     QWriteLocker locker(&m_lock);
+    qDebug() << ":::: SETTING ACTIVE EFFECT FROM STACK MODEL: " << ix << " == " << paramIx;
     int current = -1;
     if (auto ptr = m_masterService.lock()) {
         current = ptr->get_int("kdenlive:activeeffect");
         ptr->set("kdenlive:activeeffect", ix);
     }
     if (ix == current) {
+        if (current > -1 && paramIx >= 0) {
+            Q_EMIT currentChanged(index(current, 0), true, paramIx);
+        }
         return;
     }
     // Deactivate previous effect
@@ -1647,7 +1651,7 @@ void EffectStackModel::setActiveEffect(int ix)
             effect->setActive(true);
             pCore->updateItemKeyframes(m_ownerId);
             locker.unlock();
-            Q_EMIT currentChanged(getIndexFromItem(effect), true);
+            Q_EMIT currentChanged(getIndexFromItem(effect), true, paramIx);
         }
     }
 }

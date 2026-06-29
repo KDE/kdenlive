@@ -94,7 +94,9 @@ public:
     Q_INVOKABLE void resetScaledInfo();
     Q_INVOKABLE void setScaledInfo(const QVariantMap kfData, int sourcePos);
     Q_INVOKABLE KeyframeModel *getKeyframeModel(QPersistentModelIndex activeIndex);
+    Q_INVOKABLE QModelIndex getQmlSelectionIndex(QAbstractItemModel *model, int row, int column);
     QModelIndex getRowFromEffectIndex(const QPersistentModelIndex ix);
+    int getParamRowFromEffectIndex(const QPersistentModelIndex ix, int paramRow);
     int dopeDuration() const;
     int dopeInPoint() const;
     int dopePosition() const;
@@ -162,10 +164,11 @@ Q_SIGNALS:
     void dopeInPointChanged();
     void dopePositionChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
-    void activateEffect(QPersistentModelIndex ix);
+    void activateEffect(QPersistentModelIndex ix, int effectRow = -1);
     /** @brief The keyframe state per parameter changed, inform effect stack */
     void matchingKeyframes(QList<QPersistentModelIndex>);
     /** @brief Update effect stack values for animated params on position change */
     void refreshAnimatedValues();
     void updateFiltering();
+    void activate(const QPersistentModelIndex &);
 };

@@ -448,7 +448,15 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::collapseAllEffects, this, &EffectStackView::slotCollapseAllEffects);
-        connect(view, &CollapsibleEffectView::activateEffect, this, [this](int row) { m_model->setActiveEffect(row); });
+        connect(view, &CollapsibleEffectView::activateEffect, this, [this](int effectRow, int paramRow) { m_model->setActiveEffect(effectRow, paramRow); });
+        connect(view, &CollapsibleEffectView::activateEffectAndSeek, this, [this](int effectRow, int paramRow, bool forwards) {
+            m_model->setActiveEffect(effectRow, paramRow);
+            if (forwards) {
+                pCore->triggerAction(QStringLiteral("monitor_seek_kf_forward"));
+            } else {
+                pCore->triggerAction(QStringLiteral("monitor_seek_kf_backward"));
+            }
+        });
         connect(view, &CollapsibleEffectView::effectNamesUpdated, this,
                 [this]() { Q_EMIT m_model->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole}); });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);

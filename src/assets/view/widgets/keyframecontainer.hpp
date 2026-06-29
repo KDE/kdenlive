@@ -152,6 +152,8 @@ Q_SIGNALS:
     void onKeyframeView();
     void seekToPos(int);
     void activateEffect();
+    void activateEffectParam(int row);
+    void activateEffectParamAndSeek(int row, bool forwards);
     void updateHeight();
     void updateAnimCheckBox();
     void disableCurrentFilter(bool);

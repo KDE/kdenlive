@@ -172,7 +172,8 @@ Q_SIGNALS:
     void deleteGroup(const QDomDocument &);
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
-    void activateEffect(int row);
+    void activateEffect(int effectRow, int paramRow = -1);
+    void activateEffectAndSeek(int effectRow, int paramRow, bool forwards);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     /** @brief A built in effect was enabled/disabled, udate effect names. */
     void effectNamesUpdated();
