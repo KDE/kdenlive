@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 00:43+0000\n"
+"POT-Creation-Date: 2026-06-29 00:44+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -14912,7 +14912,7 @@ msgstr ""
 msgid ""
 "Controls the random numbers that<br>\n"
 "      will be used to stagger the delays and amplitudes if random is turned "
-"up on them. Changing this forces the random values to be recalulated."
+"up on them. Changing this forces the random values to be recalculated."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:14
@@ -19193,7 +19193,7 @@ msgstr "VAAPI riistvaraline kiirendus"
 msgid "Audio only"
 msgstr "Ainult heli"
 
-#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:297
+#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:299
 #, fuzzy, kde-format
 #| msgctxt "Category Name"
 #| msgid "Images sequence"
@@ -21570,8 +21570,8 @@ msgstr "Lähteklipp puudub"
 
 #: src/bin/bin.cpp:2189 src/bin/bin.cpp:2893
 #: src/effects/effectlist/view/effectlistwidget.cpp:184
-#: src/renderpresets/renderpresetrepository.cpp:168
-#: src/renderpresets/renderpresetrepository.cpp:476
+#: src/renderpresets/renderpresetrepository.cpp:170
+#: src/renderpresets/renderpresetrepository.cpp:478
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Faili %1 kirjutamine nurjus"
@@ -22180,7 +22180,7 @@ msgstr "Palun määra seadistustedialoogis helifailide avamise vaikerakendus"
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
-#: src/renderpresets/renderpresetrepository.cpp:420
+#: src/renderpresets/renderpresetrepository.cpp:422
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Faili %1 avamine nurjus"
@@ -23903,8 +23903,8 @@ msgstr "Impordi abijooned"
 #: src/project/dialogs/archivewidget.cpp:940
 #: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
-#: src/renderpresets/renderpresetrepository.cpp:426
-#: src/renderpresets/renderpresetrepository.cpp:482
+#: src/renderpresets/renderpresetrepository.cpp:428
+#: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5748
 #: src/timeline2/view/timelinecontroller.cpp:5753
 #: src/titler/titlewidget.cpp:2350
@@ -24002,7 +24002,7 @@ msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
 #: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
-#: src/renderpresets/renderpresetrepository.cpp:359
+#: src/renderpresets/renderpresetrepository.cpp:361
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid "Cannot read file %1"
@@ -35425,51 +35425,51 @@ msgstr ""
 "See renderdamisprofiil kasutab parameetrit 'profile'.<br />Kui sa just väga "
 "täpselt ei tea, mida teed, peaks selle asemel olema 'mlt_profile'."
 
-#: src/renderpresets/renderpresetrepository.cpp:96
+#: src/renderpresets/renderpresetrepository.cpp:98
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category"
 msgid "Custom"
 msgstr "Kohandatud"
 
-#: src/renderpresets/renderpresetrepository.cpp:97
+#: src/renderpresets/renderpresetrepository.cpp:99
 #, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr ""
 
-#: src/renderpresets/renderpresetrepository.cpp:98
+#: src/renderpresets/renderpresetrepository.cpp:100
 #, fuzzy, kde-format
 #| msgid "Lossless/HQ"
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Kadudeta/kõrge kvaliteediga"
 
-#: src/renderpresets/renderpresetrepository.cpp:147
+#: src/renderpresets/renderpresetrepository.cpp:149
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Kohandatud"
 
-#: src/renderpresets/renderpresetrepository.cpp:232
+#: src/renderpresets/renderpresetrepository.cpp:234
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category name"
 msgid "Custom"
 msgstr "Kohandatud"
 
-#: src/renderpresets/renderpresetrepository.cpp:285
+#: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
 msgid "10 Bit"
 msgstr ""
 
-#: src/renderpresets/renderpresetrepository.cpp:395
+#: src/renderpresets/renderpresetrepository.cpp:397
 #, fuzzy, kde-format
 #| msgid "File already exists"
 msgid "Preset already exists"
 msgstr "Fail on juba olemas"
 
-#: src/renderpresets/renderpresetrepository.cpp:396
+#: src/renderpresets/renderpresetrepository.cpp:398
 #, fuzzy, kde-format
 #| msgid ""
 #| "This profile name already exists. Change the name if you do not want to "

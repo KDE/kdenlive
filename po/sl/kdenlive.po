@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 00:43+0000\n"
-"PO-Revision-Date: 2026-06-27 12:50+0200\n"
+"POT-Creation-Date: 2026-06-29 00:44+0000\n"
+"PO-Revision-Date: 2026-06-28 11:43+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -14232,15 +14232,15 @@ msgstr ""
 "i>, razen če želite ta odmik ohraniti."
 
 #: data/effects/ladspa/ladspa_1185.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The <i>Mode</i> parameter is<br>\n"
 "      continuously variable from thru to half-wave (1) rectification to full-"
 "wave (2) to silence (0)"
 msgstr ""
 "Parameter <i>Način</i> je<br>\n"
-"      neprekinjeno spremenljiv od skozi do polvalnega (1) usmerjanja do "
-"polnovalnega (2) usmerjanja do tišine (0)"
+"      neprekinjeno spremenljiv od prehodnega do polvalovnega (1) usmerjanja "
+"do polnovalovnega (2) usmerjanja do tišine (0)"
 
 #: data/effects/ladspa/ladspa_1185.xml:14
 #: data/effects/ladspa/ladspa_1190.xml:16
@@ -14358,18 +14358,18 @@ msgstr ""
 "zmanjšalo ponavljanje in opaznost modulacije."
 
 #: data/effects/ladspa/ladspa_1191.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delay Base"
 msgstr "Zakasnitev osnove"
 
 #: data/effects/ladspa/ladspa_1191.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This is the offset from<br>\n"
 "      the input time that the detune delay moves around"
 msgstr ""
 "To je odmik od<br>\n"
-"      vhodnega časa, za katerega se zamik detune premika"
+"      vhodnega časa, za katerega se zamik razglašenosti premika"
 
 #: data/effects/ladspa/ladspa_1191.xml:14
 #, kde-format
@@ -14404,7 +14404,7 @@ msgstr ""
 "periodično spreminja."
 
 #: data/effects/ladspa/ladspa_1191.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Feedback applied from the<br>\n"
 "      output to the input, increases the depth of the effect, but makes it "
@@ -14447,23 +14447,23 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1196.xml:4
 #, kde-format
 msgid "Fast Overdrive"
-msgstr "Hitro pretiravanje"
+msgstr "Hitro prekoračenje"
 
 #: data/effects/ladspa/ladspa_1196.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Fast Overdrive (LADSPA 1196)<br>\n"
 "   A simple overdrive. Compresses the extreme peaks to make a sound similar "
 "to an overdriven amplifier."
 msgstr ""
-"Fast Overdrive (LADSPA 1196)<br>\n"
-"   Preprost overdrive. Komprimira ekstremne vrhove, da ustvari zvok, podoben "
+"Hitro prekoračenje (LADSPA 1196)<br>\n"
+"   Preprosto pretiravanje. Stisne ekstremne vrhove, da ustvari zvok, podoben "
 "preobremenjenemu ojačevalcu."
 
 #: data/effects/ladspa/ladspa_1196.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Drive Level"
-msgstr "Nivo pogona"
+msgstr "Raven pogona"
 
 #: data/effects/ladspa/ladspa_1196.xml:11
 #, kde-format
@@ -14534,7 +14534,7 @@ msgstr "Ojačitev (dB)"
 #: data/effects/ladspa/ladspa_1203.xml:10
 #, kde-format
 msgid "The attenuation/gain of the eq"
-msgstr "Dušenje/ojačanje izenačevalnika"
+msgstr "Oslabitev/ojačanje izenačevalnika"
 
 #: data/effects/ladspa/ladspa_1203.xml:13
 #, kde-format
@@ -14731,11 +14731,16 @@ msgid "Random Seed"
 msgstr "Naključno seme"
 
 #: data/effects/ladspa/ladspa_1402.xml:10
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Controls the random numbers that<br>\n"
+#| "      will be used to stagger the delays and amplitudes if random is "
+#| "turned up on them. Changing this forces the random values to be "
+#| "recalulated."
 msgid ""
 "Controls the random numbers that<br>\n"
 "      will be used to stagger the delays and amplitudes if random is turned "
-"up on them. Changing this forces the random values to be recalulated."
+"up on them. Changing this forces the random values to be recalculated."
 msgstr ""
 "Nadzoruje naključna števila, ki se<br>\n"
 "      uporabljajo za razporejanje zakasnitev in amplitud, če se na njih "
@@ -14753,15 +14758,14 @@ msgid "Controls the amount of output signal fed back into the input"
 msgstr "Nadzoruje količino izhodnega signala, ki se vrača na vhod"
 
 #: data/effects/ladspa/ladspa_1402.xml:21
-#, fuzzy, kde-format
-#| msgid "Number of curve points"
+#, kde-format
 msgid "Number of Taps"
-msgstr "Število točk krivulje"
+msgstr "Število udarcev"
 
 #: data/effects/ladspa/ladspa_1402.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Controls the number of taps in the delay"
-msgstr "Nadzira število tapov v zamiku?"
+msgstr "Nadzira število udarcev v zamiku"
 
 #: data/effects/ladspa/ladspa_1402.xml:25
 #, kde-format
@@ -14844,7 +14848,7 @@ msgid "Dyson Compressor (LADSPA 1403)"
 msgstr "Dysonov kompresor (LADSPA 1403)"
 
 #: data/effects/ladspa/ladspa_1403.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Peak Limit"
 msgstr "Omejitev vrha"
 
@@ -14899,9 +14903,9 @@ msgstr ""
 "ko signal prečka 0."
 
 #: data/effects/ladspa/ladspa_1404.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Crossover Amplitude"
-msgstr "Amplituda prehoda"
+msgstr "Amplituda prečenja"
 
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
@@ -14968,20 +14972,20 @@ msgid "Controls the envelope decay time."
 msgstr "Nadzira čas upada ovojnice."
 
 #: data/effects/ladspa/ladspa_1408.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Knee Point"
 msgstr "Točka kolena"
 
 #: data/effects/ladspa/ladspa_1408.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Controls the knee roll-off point,<br>\n"
 "      ie. the point above which the compression kicks in. 0 will have no "
 "effect, -90 will remove virtually all dynamic range."
 msgstr ""
-"Nadzoruje točko zvijanja kolena,<br>npr. točka, nad katero se kompresija "
-"začne. 0 ne bo imelo učinka, -90 bo praktično odstranilo ves dinamični "
-"razpon."
+"Nadzoruje točko odvijanja kolena,<br>\n"
+"      t.j. točko, nad katero se začne stiskanje. 0 ne bo imelo učinka, -90 "
+"bo praktično odstranilo ves dinamični razpon."
 
 #: data/effects/ladspa/ladspa_1410.xml:4
 #, kde-format
@@ -14994,7 +14998,7 @@ msgid "Gate (LADSPA 1410)"
 msgstr "Vrata (LADSPA 1410)"
 
 #: data/effects/ladspa/ladspa_1410.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "LF Key Filter"
 msgstr "Filter ključenja LF"
 
@@ -15008,7 +15012,7 @@ msgstr ""
 "      nizkofrekvenčnega filtra (visokoprepustnega)"
 
 #: data/effects/ladspa/ladspa_1410.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "HF Key Filter"
 msgstr "Filter ključenja HF"
 
@@ -15072,17 +15076,17 @@ msgstr ""
 "      med odprtim in zaprtim stanjem vrat"
 
 #: data/effects/ladspa/ladspa_1410.xml:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Output Monitor"
-msgstr "Izhodni ogled"
+msgstr "Izhodni pregled"
 
 #: data/effects/ladspa/ladspa_1410.xml:44
-#, fuzzy, kde-format
+#, kde-format
 msgid "Controls output monitor"
-msgstr "Nadzira izhodni ogled"
+msgstr "Nadzira izhodni pregled"
 
 #: data/effects/ladspa/ladspa_1410.xml:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "Key (listen),Gate (normal output),Bypass"
 msgstr "Ključ (poslušaj),Vrata (navadni izhod),Obhod"
 
@@ -15092,16 +15096,17 @@ msgid "Comb Splitter"
 msgstr "Razdelilnik s prečesavanjem"
 
 #: data/effects/ladspa/ladspa_1411.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Comb Splitter (LADSPA 1411)<br>\n"
 "   Divides the input up into two parts with frequency peaks at f Hz "
 "intervals, skewed by f/2 Hz between the two outputs. Mixing the two outputs "
 "will get you exactly the input signal."
 msgstr ""
-"Cepilnik glavnika (LADSPA 1411)<br>Vhod razdeli na dva dela s frekvenčnimi "
-"vrhovi na f Hz intervalih, ki so med dvema izhodoma pomaknjeni za f/2 Hz. "
-"Mešanje obeh izhodov ti bo dalo točno tisti vhodni signal."
+"Razdelilnik s prečesavanjem (LADSPA 1411)<br>\n"
+"   Vhod razdeli na dva dela s frekvenčnimi vrhovi na f Hz intervalih, ki so "
+"med dvema izhodoma nagnjeni za f/2 Hz. Mešanje obeh izhodov daje ravno tisti "
+"vhodni signal."
 
 #: data/effects/ladspa/ladspa_1411.xml:10
 #, kde-format
@@ -15134,19 +15139,20 @@ msgid "Sine,Triangle,Square,Saw"
 msgstr "sinus,trikotnik,kvadrat,žaga"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "SWH Plate Reverb"
 msgstr "Odmev plošče SWH"
 
 #: data/effects/ladspa/ladspa_1423.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "SWH Plate Reverb (LADSPA 1423)<br>\n"
 "   Automatically adapts to the number of channels and sampling rate of the "
 "audio stream"
 msgstr ""
-"SWH ploščni reverb (LADSPA 1423)<br>Samodejno se prilagaja številu kanalov "
-"in frekvenci vzorčenja avdio toka"
+"Odmev plošče SWH (LADSPA 1423)<br>\n"
+"   Samodejno se prilagaja številu kanalov in frekvenci vzorčenja zvočnega "
+"toka"
 
 #: data/effects/ladspa/ladspa_1423.xml:9
 #, kde-format
@@ -15259,7 +15265,7 @@ msgstr ""
 "sistemih."
 
 #: data/effects/ladspa/ladspa_1432.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Base Shift"
 msgstr "Zamik osnove"
 
@@ -15284,7 +15290,7 @@ msgid "AM Pitch Shifter"
 msgstr "Zamik višine tona AM"
 
 #: data/effects/ladspa/ladspa_1433.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "AM Pitch Shifter (LADSPA 1433)<br>\n"
 "   This effect works by running a single write pointer (monotonic) and two "
@@ -15292,10 +15298,10 @@ msgid ""
 "the two readpointers according to the sine of the distance from the write "
 "pointer."
 msgstr ""
-"AM menjalnik nagiba (LADSPA 1433)<br>Ta učinek deluje tako, da nad "
-"obročastim medpomnilnikom teče en pisalni kazalec (monotono) in dva bralna "
-"kazalca (z višino tona). Izhod se med obema bralcema zbledi glede na sinus "
-"razdalje od kazalca za pisanje."
+"Zamik višine tona AM (LADSPA 1433)<br>\n"
+"   Ta učinek deluje tako, da nad krožnim medpomnilnikom teče en pisalni "
+"kazalec (monotono) in dva bralna kazalca (z višino tona). Izhod se med obema "
+"bralnima kazalcema utiša glede na sinus razdalje od kazalca za pisanje."
 
 #: data/effects/ladspa/ladspa_1433.xml:9 data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
@@ -15317,14 +15323,15 @@ msgid "Buffer Size"
 msgstr "Velikost medpomnilnika"
 
 #: data/effects/ladspa/ladspa_1433.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The order of magnitude of the buffer size.<br>\n"
 "      Small buffers will sound fluttery, large buffers will have flangy "
 "sounding echos."
 msgstr ""
-"Red velikosti velikosti medpomnilnika.<br>Majhni bufferji bodo zveneli "
-"trepetajoče, veliki bufferji pa bodo imeli flangy odmeve."
+"Red velikosti velikosti medpomnilnika.<br>\n"
+"      Majhni medpomnilniki bodo zveneli trepetajoče, veliki medpomnilniki pa "
+"bodo imeli prirobljene odmeve."
 
 #: data/effects/ladspa/ladspa_1438.xml:4
 #, kde-format
@@ -15332,28 +15339,29 @@ msgid "DJ Flanger"
 msgstr "Prirobnik DJ (flanger DJ)"
 
 #: data/effects/ladspa/ladspa_1438.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "DJ Flanger (LADSPA 1438)<br>\n"
 "   This is a flanger which is more or less typical of DJ mixing desks"
 msgstr ""
 "Prirobnik DJ (LADSPA 1438)<br>\n"
-"   To je prirobnik, ki je bolj ali manj značilen za mešalne mize za DJ"
+"   To je prirobnik, ki je bolj ali manj značilen za mešalne mize za DJ-je"
 
 #: data/effects/ladspa/ladspa_1438.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "LFO sync"
 msgstr "Sinhronizacija LFO"
 
 #: data/effects/ladspa/ladspa_1438.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "When turned from off to on<br>\n"
 "      it resets the phase of the LFO back to the start of the cycle. Used to "
 "sync the LFO to the track."
 msgstr ""
-"Ko je preklopljeno iz izklopa na vklop<br>ponastavi fazo LFO nazaj na "
-"začetek cikla. Uporabljal sem za sinhronizacijo LFO s skladbo."
+"Ko je preklopljeno iz izklopljenega na vklopljeno,<br>\n"
+"      ponastavi fazo LFO nazaj na začetek cikla. Uporabljeno za "
+"sinhronizacijo LFO s stezo."
 
 #: data/effects/ladspa/ladspa_1438.xml:14
 #, kde-format
@@ -15366,9 +15374,10 @@ msgid "The cycle period of the LFO in seconds"
 msgstr "Perioda cikličnosti LFO v sekundah"
 
 #: data/effects/ladspa/ladspa_1438.xml:19
-#, fuzzy, kde-format
+#, kde-format
 msgid "The maximum delay the LFO will use to flange in milliseconds"
-msgstr "Največja zakasnitev, ki jo LFO uporabi za flanger, je v milisekundah"
+msgstr ""
+"Največja zakasnitev, ki jo LFO uporabi za prirobnik, izražena v milisekundah"
 
 #: data/effects/ladspa/ladspa_1438.xml:23
 #, kde-format
@@ -15410,13 +15419,14 @@ msgstr "Najv. zamik"
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
 #: data/effects/ladspa/ladspa_1889.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Maximum delay.<br>\n"
 "      Used to set the delay buffer size upon activation. Cannot be modulated."
 msgstr ""
-"Največja zamuda.<br>Uporablja se za nastavitev velikosti zakasnitvenega "
-"medpomnilnika ob aktivaciji. Ni ga mogoče modulirati."
+"Največja zamuda.<br>\n"
+"      Uporablja se za nastavitev velikosti zakasnitvenega medpomnilnika ob "
+"aktivaciji. Ni ga možno modulirati."
 
 #: data/effects/ladspa/ladspa_1887.xml:14
 #: data/effects/ladspa/ladspa_1888.xml:14
@@ -15432,29 +15442,30 @@ msgstr "Čas zakasnitve"
 #: data/effects/ladspa/ladspa_1887.xml:20
 #: data/effects/ladspa/ladspa_1888.xml:20
 #: data/effects/ladspa/ladspa_1889.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Time for the echoes to decay<br>\n"
 "      by 60 decibels. If this time is negative then the feedback coefficient "
 "will be negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
-"Čas je, da odmevi utihnejo<br>za 60 decibelov. Če je ta čas negativen, bo "
-"povratni koeficient negativen, kar poudarja le lihe harmonike za oktavo "
-"nižje."
+"Čas utišanja odmevov<br>\n"
+"      za 60 decibelov. Če je ta čas negativen, bo povratni koeficient "
+"negativen, kar poudarja le lihe harmonije za oktavo nižje."
 
 #: data/effects/ladspa/ladspa_1888.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Comb Delay Line (cubic spline interpolation)"
-msgstr "Zamikovna črta glavnika (kubična interpolacija s spline)"
+msgstr "Linija zamika prečesavanja (interpolacija kubičnih zlepkov)"
 
 #: data/effects/ladspa/ladspa_1888.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Comb Delay Line (cubic spline interpolation) (LADSPA 1888)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
-"Zamikovna črta glavnika (kubična interpolacija z utorom) (LADSPA "
-"1888)<br>Temelji na delu Jamesa McCartneyja v SuperColliderju."
+"Linija zamika prečesavanja (interpolacija kubičnih zlepkov) (LADSPA "
+"1888)<br>\n"
+"   Temelji na delu Jamesa McCartneyja v SuperColliderju."
 
 #: data/effects/ladspa/ladspa_1889.xml:4
 #, kde-format
@@ -15476,17 +15487,17 @@ msgid "GLAME Highpass"
 msgstr "Visokopasovni filter GLAME"
 
 #: data/effects/ladspa/ladspa_1890.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "GLAME Highpass Filter (LADSPA 1890)<br>\n"
 "   IIR highpass filter based using Chebishev coefficients. The filter allows "
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
-"GLAME visokoprepustni filter (LADSPA 1890)<br>IIR visokoprepustni filter "
-"temelji na Chebishevovih koeficientih. Filter vam omogoča prilagajanje "
-"števila stopenj, ki se uporabljajo za filtriranje. Vsaka etapa doda še dva "
-"stebra, kar vodi do strmejega padca."
+"Visoko prepustni filter GLAME (LADSPA 1890)<br>\n"
+"   Visokoprepustni filter IIR temelji na Čebiševih koeficientih. Filter vam "
+"omogoča prilagajanje števila stopenj, ki se uporabljajo za filtriranje. "
+"Vsaka stopnja doda še dva stebra, kar vodi do strmejšega padca."
 
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
@@ -15505,11 +15516,13 @@ msgstr "Faze"
 #: data/effects/ladspa/ladspa_1890.xml:14
 #: data/effects/ladspa/ladspa_1891.xml:14
 #: data/effects/ladspa/ladspa_1892.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Every stage adds two more<br>\n"
 "      poles, which leads to a steeper dropoff."
-msgstr "Vsaka stopnja doda še dve<br>drogov, kar vodi do strmejšega padca."
+msgstr ""
+"Vsaka stopnja doda še dva<br>\n"
+"      Stebra, kar vodi do strmejšega padca."
 
 #: data/effects/ladspa/ladspa_1891.xml:4
 #, kde-format
@@ -15517,17 +15530,17 @@ msgid "GLAME Lowpass"
 msgstr "Nizkopasovni filter GLAME"
 
 #: data/effects/ladspa/ladspa_1891.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "GLAME Lowpass Filter (LADSPA 1891)<br>\n"
 "   IIR lowpass filter based using Chebishev coefficients. The filter allows "
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
-"GLAME nizkoprepustni filter (LADSPA 1891)<br>IIR nizkoprepustni filter "
-"temelji na Chebishevovih koeficientih. Filter vam omogoča prilagajanje "
-"števila stopenj, ki se uporabljajo za filtriranje. Vsaka etapa doda še dva "
-"stebra, kar vodi do strmejega padca."
+"Nizkoprepustni filter GLAME (LADSPA 1891)<br>\n"
+"   Nizkoprepustni filter IIR temelji na Čebišvih koeficientih. Filter vam "
+"omogoča prilagajanje števila stopenj, ki se uporabljajo za filtriranje. "
+"Vsaka stopnja doda še dva stebra, kar vodi do strmejšega padca."
 
 #: data/effects/ladspa/ladspa_1892.xml:4
 #, kde-format
@@ -15535,17 +15548,17 @@ msgid "GLAME Bandpass"
 msgstr "Pasovni filter GLAME"
 
 #: data/effects/ladspa/ladspa_1892.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "GLAME Bandpass Filter (LADSPA 1892)<br>\n"
 "   IIR bandpass filter based using Chebishev coefficients. The filter allows "
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
-"GLAME pasovni filter (LADSPA 1892)<br>IIR pasovni filter temelji na "
-"Chebishevovih koeficientih. Filter vam omogoča prilagajanje števila stopenj, "
-"ki se uporabljajo za filtriranje. Vsaka etapa doda še dva stebra, kar vodi "
-"do strmejega padca."
+"Pasovno prepustni filter GLAME (LADSPA 1892)<br>\n"
+"   Pasovno-prepustni filter IIR temelji na Čebiševih koeficientih. Filter "
+"vam omogoča prilagajanje števila stopenj, ki se uporabljajo za filtriranje. "
+"Vsaka stopnja doda še dva stebra, kar vodi do strmejšega padca."
 
 #: data/effects/ladspa/ladspa_1892.xml:9 data/effects/ladspa/ladspa_1893.xml:9
 #: data/effects/sox/sox_band.xml:8
@@ -15565,13 +15578,13 @@ msgid "GLAME Bandpass Analog"
 msgstr "Pasovno-prepustni filter GLAME"
 
 #: data/effects/ladspa/ladspa_1893.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "GLAME Bandpass Analog Filter (LADSPA 1893)<br>\n"
 "   IIR bandpass filter modeled after an analog circuit"
 msgstr ""
-"GLAME analogni pasovni filter (LADSPA 1893)<br>IIR pasovni filter, modeliran "
-"po analognem vezju"
+"Analogni pasovno prepustni filter GLAME (LADSPA 1893)<br>\n"
+"   Pasovno prepustni filter IIR, modeliran po analognem vezju"
 
 #: data/effects/ladspa/ladspa_1895.xml:4
 #, kde-format
@@ -15591,13 +15604,13 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1895.xml:17
 #: data/effects/ladspa/ladspa_1896.xml:17
 #: data/effects/ladspa/ladspa_1897.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Time for the echoes to decay by 60 dB.<br>\n"
 "      If this time is negative, then the feedback coefficient will be "
 "negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
-"Čas, da odmevi upadejo za 60 dB.<br>\n"
+"Čas upada odmevov za 60 dB.<br>\n"
 "      Če je ta čas negativen, bo povratni koeficient negativen, s čimer bo "
 "poudarek le na lihih harmonijah za oktavo nižje."
 
@@ -15617,7 +15630,7 @@ msgstr ""
 "   Samodejno se prilagodi številu kanalov in hitrosti vzorčenja potrošnika."
 
 #: data/effects/ladspa/ladspa_1897.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Allpass Delay Line (Cubic Spline Interpolation)"
 msgstr "Vseprepustna linija zakasnitve (interpolacija kubičnih zlepkov)"
 
@@ -15632,12 +15645,12 @@ msgstr ""
 "   Samodejno se prilagodi številu kanalov in hitrosti vzorčenja potrošnika."
 
 #: data/effects/ladspa/ladspa_1900.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Simple Delay Line (Cubic Spline Interpolation)"
 msgstr "Enostavna linija zakasnitve (interpolacija kubičnih zlepkov)"
 
 #: data/effects/ladspa/ladspa_1900.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Simple Delay Line (LADSPA 1900)<br>\n"
 "   Uses cubic spline interpolation"
@@ -15668,7 +15681,7 @@ msgstr "Ojačitev nizkih"
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
-#, fuzzy, kde-format
+#, kde-format
 msgid "Controls the gain of the low (100Hz) peak/dip band"
 msgstr "Nadzoruje ojačanje nizkega pasu vrhov/padcev (100 Hz)"
 
@@ -15680,7 +15693,7 @@ msgstr "Ojačitev srednjih"
 
 #: data/effects/ladspa/ladspa_1901.xml:14
 #: data/effects/ladspa/ladspa_1907.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Controls the gain of the mid (1,000Hz) peak/dip band"
 msgstr "Nadzoruje ojačanje srednjega pasu vrhov/padcev (1000 Hz)"
 
@@ -15692,19 +15705,19 @@ msgstr "Ojačitev visokih"
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Controls the gain of the high (10,000Hz) shelf band"
 msgstr "Nadzoruje ojačanje visokega pasu police (10.000 Hz)"
 
 #: data/effects/ladspa/ladspa_1902.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "GLAME Butterworth X-Over"
-msgstr "Butterworthov X-Over GLAME"
+msgstr "Butterworthovo X-prečenje GLAME"
 
 #: data/effects/ladspa/ladspa_1902.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Butterworth Crossover Filter (LADSPA 1902)"
-msgstr "Butterworthov prečni filter (LADSPA 1902)"
+msgstr "Butterworthov filter prečenja (LADSPA 1902)"
 
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
@@ -15814,9 +15827,9 @@ msgid "Wear"
 msgstr "Obraba"
 
 #: data/effects/ladspa/ladspa_1905.xml:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "The amount of wear on the grooves"
-msgstr "Količina obrabe na utorih/brazdah"
+msgstr "Količina obrabe na utoru"
 
 #: data/effects/ladspa/ladspa_1907.xml:4
 #, kde-format
@@ -15839,38 +15852,39 @@ msgid "Fast Lookahead Limiter"
 msgstr "Hitri omejevalnik s pogledom naprej"
 
 #: data/effects/ladspa/ladspa_1913.xml:6
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Fast Lookahead Limiter (LADSPA 1913)<br>\n"
 "   This is a limiter with an attack time of 5ms. It adds just over 5ms of "
 "latency to the input signal, but it guarantees that there will be no signals "
 "over the limit, and tries to get the minimum amount of distortion."
 msgstr ""
-"Hitri omejevalnik pogleda vnaprej (LADSPA 1913)<br>To je omejevalnik s časom "
-"napada 5 ms. Doda nekaj več kot 5 ms zakasnitve vhodnemu signalu, vendar "
-"zagotavlja, da ne bo signalov nad omejitvijo in poskuša doseči najmanjšo "
-"količino popačenja."
+"Hitri omejevalnik s pogledom naprej (LADSPA 1913)<br>\n"
+"   To je omejevalnik s časom napada 5 ms. Doda nekaj več kot 5 ms zakasnitve "
+"vhodnemu signalu, vendar zagotavlja, da ne bo signalov nad omejitvijo in "
+"poskuša doseči najmanjšo količino popačenja."
 
 #: data/effects/ladspa/ladspa_1913.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Gain that is applied<br>\n"
 "      to the input stage. Can be used to trim gain to bring it roughly under "
 "the limit or to push the signal against the limit."
 msgstr ""
-"Ojačitev, ki se uporablja<br>do vhodne faze. Lahko se uporablja za "
-"zmanjšanje ojačanja, da se približa meja, ali za potiskanje signala proti "
-"meji."
+"Ojačitev, ki se uporablja<br>\n"
+"      do vhodne faze. Lahko se uporablja za zmanjšanje ojačitve, da se "
+"približa meji, ali za potiskanje signala proti meji."
 
 #: data/effects/ladspa/ladspa_1913.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The maximum output amplitude.<br>\n"
 "      Peaks over this level will be attenuated as smoothly as possible to "
 "bring them as close as possible to this level."
 msgstr ""
-"Največja izhodna amplituda.<br>Vrhovi nad to raven bodo čim bolj gladko "
-"zmanjšani, da se čim bolj približajo tej ravni."
+"Največja izhodna amplituda.<br>\n"
+"      Vrhovi nad to ravnjo bodo čim bolj gladko oslabljeni, da se čim bolj "
+"približajo tej ravni."
 
 #: data/effects/ladspa/ladspa_1913.xml:21
 #, kde-format
@@ -15879,12 +15893,12 @@ msgid ""
 "      limiters attenuation to return to 0 dB"
 msgstr ""
 "Čas, potreben za<br>\n"
-"      dušenje omejevalnika, da se povrne na 0 dB"
+"      Oslabitev omejevalnika, da se povrne na 0 dB"
 
 #: data/effects/ladspa/ladspa_1913.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Attenuation"
-msgstr "Dušenje/Oslabitev"
+msgstr "Oslabitev"
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format
@@ -15892,7 +15906,7 @@ msgid ""
 "The current attenuation<br>\n"
 "      of the signal coming out of the delay buffer"
 msgstr ""
-"Trenutno dušenje<br>\n"
+"Trenutna oslabitev<br>\n"
 "      signala, ki prihaja iz zakasnitvenega medpomnilnika"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
@@ -19144,7 +19158,7 @@ msgstr "S strojnim pospeševanjem (poskusno)"
 msgid "Audio only"
 msgstr "Samo zvok"
 
-#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:297
+#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:299
 #, kde-format
 msgid "Images sequence"
 msgstr "Zaporedje slik"
@@ -21428,8 +21442,8 @@ msgstr "Manjkajoči izvorni posnetek"
 
 #: src/bin/bin.cpp:2189 src/bin/bin.cpp:2893
 #: src/effects/effectlist/view/effectlistwidget.cpp:184
-#: src/renderpresets/renderpresetrepository.cpp:168
-#: src/renderpresets/renderpresetrepository.cpp:476
+#: src/renderpresets/renderpresetrepository.cpp:170
+#: src/renderpresets/renderpresetrepository.cpp:478
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni možno pisati"
@@ -22005,7 +22019,7 @@ msgstr "Nastavite privzeti program za odpiranje video datotek"
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
-#: src/renderpresets/renderpresetrepository.cpp:420
+#: src/renderpresets/renderpresetrepository.cpp:422
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Ni možno odpreti datoteke %1"
@@ -23632,8 +23646,8 @@ msgstr "Izvozi podatke označevalnikov"
 #: src/project/dialogs/archivewidget.cpp:940
 #: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
-#: src/renderpresets/renderpresetrepository.cpp:426
-#: src/renderpresets/renderpresetrepository.cpp:482
+#: src/renderpresets/renderpresetrepository.cpp:428
+#: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5748
 #: src/timeline2/view/timelinecontroller.cpp:5753
 #: src/titler/titlewidget.cpp:2350
@@ -23724,7 +23738,7 @@ msgstr "Če niste prepričani, poskusite:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
 #: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
-#: src/renderpresets/renderpresetrepository.cpp:359
+#: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Datoteke %1 ni možno prebrati"
@@ -34713,47 +34727,47 @@ msgstr ""
 "da tega niste spremenili namenoma, ga boste najbrž morali spremeniti v "
 "»mlt_profile«."
 
-#: src/renderpresets/renderpresetrepository.cpp:96
+#: src/renderpresets/renderpresetrepository.cpp:98
 #, kde-format
 msgctxt "Custom render preset category"
 msgid "Custom"
 msgstr "Po meri"
 
-#: src/renderpresets/renderpresetrepository.cpp:97
+#: src/renderpresets/renderpresetrepository.cpp:99
 #, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr "10-bitno"
 
-#: src/renderpresets/renderpresetrepository.cpp:98
+#: src/renderpresets/renderpresetrepository.cpp:100
 #, kde-format
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Brez izgub / visoka kakovost"
 
-#: src/renderpresets/renderpresetrepository.cpp:147
+#: src/renderpresets/renderpresetrepository.cpp:149
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Po meri"
 
-#: src/renderpresets/renderpresetrepository.cpp:232
+#: src/renderpresets/renderpresetrepository.cpp:234
 #, kde-format
 msgctxt "Custom render preset category name"
 msgid "Custom"
 msgstr "Po meri"
 
-#: src/renderpresets/renderpresetrepository.cpp:285
+#: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
 msgid "10 Bit"
 msgstr "10-bitno"
 
-#: src/renderpresets/renderpresetrepository.cpp:395
+#: src/renderpresets/renderpresetrepository.cpp:397
 #, kde-format
 msgid "Preset already exists"
 msgstr "Prednastavitev že obstaja"
 
-#: src/renderpresets/renderpresetrepository.cpp:396
+#: src/renderpresets/renderpresetrepository.cpp:398
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "

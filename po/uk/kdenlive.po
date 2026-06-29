@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 00:43+0000\n"
-"PO-Revision-Date: 2026-06-27 10:22+0300\n"
+"POT-Creation-Date: 2026-06-29 00:44+0000\n"
+"PO-Revision-Date: 2026-06-28 19:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2618,10 +2618,9 @@ msgid "Enable clipping"
 msgstr "Уможливити обрізання"
 
 #: data/effects/avfilter/avfilter_curves.xml:4
-#, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
+#, kde-format
 msgid "Curves (avfilter)"
-msgstr "Стискання (avfilter)"
+msgstr "Криві (avfilter)"
 
 #: data/effects/avfilter/avfilter_curves.xml:5
 #, fuzzy, kde-format
@@ -2630,8 +2629,7 @@ msgid "Adjust RGB color curves per channel."
 msgstr "Кількість значень (кольору) на канал"
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, fuzzy, kde-format
-#| msgid "Allpass"
+#, kde-format
 msgid "All"
 msgstr "Усі"
 
@@ -14693,52 +14691,44 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 1"
-msgstr "Частота"
+msgstr "Частота 1"
 
 #: data/effects/ladspa/ladspa_1218.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 1"
-msgstr "Зворотній зв’язок"
+msgstr "Відгук 1"
 
 #: data/effects/ladspa/ladspa_1218.xml:15
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 2"
-msgstr "Частота"
+msgstr "Частота 2"
 
 #: data/effects/ladspa/ladspa_1218.xml:18
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 2"
-msgstr "Зворотній зв’язок"
+msgstr "Відгук 2"
 
 #: data/effects/ladspa/ladspa_1218.xml:21
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 3"
-msgstr "Частота"
+msgstr "Частота 3"
 
 #: data/effects/ladspa/ladspa_1218.xml:24
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 3"
-msgstr "Зворотній зв’язок"
+msgstr "Відгук 3"
 
 #: data/effects/ladspa/ladspa_1218.xml:27
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 4"
-msgstr "Частота"
+msgstr "Частота 4"
 
 #: data/effects/ladspa/ladspa_1218.xml:30
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 4"
-msgstr "Зворотній зв’язок"
+msgstr "Відгук 4"
 
 #: data/effects/ladspa/ladspa_1219.xml:4
 #, fuzzy, kde-format
@@ -14763,16 +14753,14 @@ msgstr "Час наростання"
 #: data/effects/ladspa/ladspa_1895.xml:15
 #: data/effects/ladspa/ladspa_1896.xml:15
 #: data/effects/ladspa/ladspa_1897.xml:15
-#, fuzzy, kde-format
-#| msgid "Decay"
+#, kde-format
 msgid "Decay Time"
-msgstr "Розпад"
+msgstr "Час спадання"
 
 #: data/effects/ladspa/ladspa_1219.xml:14
-#, fuzzy, kde-format
-#| msgid "Modulation type"
+#, kde-format
 msgid "Modulation Depth"
-msgstr "Тип модуляції"
+msgstr "Глибина модуляції"
 
 #: data/effects/ladspa/ladspa_1219.xml:20
 #, kde-format
@@ -14799,7 +14787,7 @@ msgstr "База випадковості"
 msgid ""
 "Controls the random numbers that<br>\n"
 "      will be used to stagger the delays and amplitudes if random is turned "
-"up on them. Changing this forces the random values to be recalulated."
+"up on them. Changing this forces the random values to be recalculated."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:14
@@ -14811,93 +14799,82 @@ msgstr "Керує кольором звуку лампової теплоти"
 #: data/effects/ladspa/ladspa_1402.xml:18
 #, kde-format
 msgid "Controls the amount of output signal fed back into the input"
-msgstr ""
+msgstr "Керує величиною відгуку вихідного сигналу до вхідного сигналу"
 
 #: data/effects/ladspa/ladspa_1402.xml:21
-#, fuzzy, kde-format
-#| msgid "Number of curve points"
+#, kde-format
 msgid "Number of Taps"
-msgstr "Кількість точок на кривій"
+msgstr "Кількість перехоплень"
 
 #: data/effects/ladspa/ladspa_1402.xml:22
 #, kde-format
 msgid "Controls the number of taps in the delay"
-msgstr ""
+msgstr "Керує кількістю перехоплень у затримці"
 
 #: data/effects/ladspa/ladspa_1402.xml:25
-#, fuzzy, kde-format
-#| msgid "First Field"
+#, kde-format
 msgid "First Delay"
-msgstr "Перше поле"
+msgstr "Перша затримка"
 
 #: data/effects/ladspa/ladspa_1402.xml:26
-#, fuzzy, kde-format
-#| msgid "The style of the font."
+#, kde-format
 msgid "The time of the first delay"
-msgstr "Стиль шрифту."
+msgstr "Час першої затримки"
 
 #: data/effects/ladspa/ladspa_1402.xml:29
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Delay Range"
-msgstr "Встановити діапазон"
+msgstr "Діапазон затримок"
 
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
 msgid "The time difference between the first and last delay"
-msgstr ""
+msgstr "Часова різниця між першою і останньою затримкою"
 
 #: data/effects/ladspa/ladspa_1402.xml:33
-#, fuzzy, kde-format
-#| msgid "Speed Change"
+#, kde-format
 msgid "Delay Change"
-msgstr "Зміна швидкості"
+msgstr "Зміна затримки"
 
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
 msgid "The scaling factor between one delay and the next"
-msgstr ""
+msgstr "Коефіцієнт масштабування між затримкою і наступною затримкою"
 
 #: data/effects/ladspa/ladspa_1402.xml:37
-#, fuzzy, kde-format
-#| msgid "Random"
+#, kde-format
 msgid "Delay Random"
-msgstr "Випадковий"
+msgstr "Випадковість затримка"
 
 #: data/effects/ladspa/ladspa_1402.xml:38
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the delay"
-msgstr "Коефіцієнт масштабування для вісі X"
+msgstr "Коефіцієнт випадковості для затримки"
 
 #: data/effects/ladspa/ladspa_1402.xml:41
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Change"
-msgstr "Амплітуда"
+msgstr "Зміна амплітуди"
 
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
 msgid "The scaling factor between one amplitude and the next"
-msgstr ""
+msgstr "Коефіцієнт масштабування між амплітудою і наступною амплітудою"
 
 #: data/effects/ladspa/ladspa_1402.xml:45
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Random"
-msgstr "Амплітуда"
+msgstr "Випадковість амплітуди"
 
 #: data/effects/ladspa/ladspa_1402.xml:46
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the amplitude"
-msgstr "Коефіцієнт масштабування для вісі X"
+msgstr "Коефіцієнт випадковості для амплітуди"
 
 #: data/effects/ladspa/ladspa_1402.xml:49
-#, fuzzy, kde-format
-#| msgid "Dry/Wet"
+#, kde-format
 msgid "Dry/Wet Mix"
-msgstr "Холодний-Теплий"
+msgstr "Мікшування «Холодний-Теплий»"
 
 #: data/effects/ladspa/ladspa_1402.xml:50
 #, fuzzy, kde-format
@@ -14906,15 +14883,14 @@ msgid "The level of delayed sound mixed into the output"
 msgstr "Величина затримки семплу результату відносно вхідних даних."
 
 #: data/effects/ladspa/ladspa_1403.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Compressor"
+#, kde-format
 msgid "Dyson Compressor"
-msgstr "Dyson compressor"
+msgstr "Стискання Дайсона"
 
 #: data/effects/ladspa/ladspa_1403.xml:5
 #, kde-format
 msgid "Dyson Compressor (LADSPA 1403)"
-msgstr ""
+msgstr "Стискання Дайсона (LADSPA 1403)"
 
 #: data/effects/ladspa/ladspa_1403.xml:8
 #, kde-format
@@ -14927,6 +14903,8 @@ msgid ""
 "Controls the desired limit<br>\n"
 "      of the output signal"
 msgstr ""
+"Керує бажаним обмеженням<br>\n"
+"      вихідного сигналу"
 
 #: data/effects/ladspa/ladspa_1403.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:19
@@ -15050,7 +15028,7 @@ msgstr "Шлюз"
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
 msgid "Gate (LADSPA 1410)"
-msgstr ""
+msgstr "Шлюз (LADSPA 1410)"
 
 #: data/effects/ladspa/ladspa_1410.xml:8
 #, fuzzy, kde-format
@@ -15233,8 +15211,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:9
-#, fuzzy, kde-format
-#| msgid "Distort"
+#, kde-format
 msgid "Distortion"
 msgstr "Викривлення"
 
@@ -15782,7 +15759,7 @@ msgstr "Кут обертання форми хвилі."
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
 msgid "33 1/3,45,78"
-msgstr ""
+msgstr "33 1/3,45,78"
 
 #: data/effects/ladspa/ladspa_1905.xml:19
 #, fuzzy, kde-format
@@ -19151,7 +19128,7 @@ msgstr "Апаратне прискорення (експериментальн�
 msgid "Audio only"
 msgstr "Лише звук"
 
-#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:297
+#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:299
 #, kde-format
 msgid "Images sequence"
 msgstr "Послідовність зображень"
@@ -21445,8 +21422,8 @@ msgstr "Не вистачає початкового кліпу"
 
 #: src/bin/bin.cpp:2189 src/bin/bin.cpp:2893
 #: src/effects/effectlist/view/effectlistwidget.cpp:184
-#: src/renderpresets/renderpresetrepository.cpp:168
-#: src/renderpresets/renderpresetrepository.cpp:476
+#: src/renderpresets/renderpresetrepository.cpp:170
+#: src/renderpresets/renderpresetrepository.cpp:478
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
@@ -22021,7 +21998,7 @@ msgstr "Будь ласка, вкажіть типову програму для
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
-#: src/renderpresets/renderpresetrepository.cpp:420
+#: src/renderpresets/renderpresetrepository.cpp:422
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Не вдалося відкрити файл %1"
@@ -23661,8 +23638,8 @@ msgstr "Експортування даних позначок"
 #: src/project/dialogs/archivewidget.cpp:940
 #: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
-#: src/renderpresets/renderpresetrepository.cpp:426
-#: src/renderpresets/renderpresetrepository.cpp:482
+#: src/renderpresets/renderpresetrepository.cpp:428
+#: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5748
 #: src/timeline2/view/timelinecontroller.cpp:5753
 #: src/titler/titlewidget.cpp:2350
@@ -23753,7 +23730,7 @@ msgstr "якщо не певні, скористайтеся таким:<br/><b>
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
 #: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
-#: src/renderpresets/renderpresetrepository.cpp:359
+#: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Не вдалося прочитати файл %1"
@@ -34824,47 +34801,47 @@ msgstr ""
 "ви не впевнені, що саме це вам потрібно, вам варто змінити цей параметр на "
 "«mlt_profile»."
 
-#: src/renderpresets/renderpresetrepository.cpp:96
+#: src/renderpresets/renderpresetrepository.cpp:98
 #, kde-format
 msgctxt "Custom render preset category"
 msgid "Custom"
 msgstr "Нетипові"
 
-#: src/renderpresets/renderpresetrepository.cpp:97
+#: src/renderpresets/renderpresetrepository.cpp:99
 #, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr "10-бітові"
 
-#: src/renderpresets/renderpresetrepository.cpp:98
+#: src/renderpresets/renderpresetrepository.cpp:100
 #, kde-format
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Без втрат/HQ"
 
-#: src/renderpresets/renderpresetrepository.cpp:147
+#: src/renderpresets/renderpresetrepository.cpp:149
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Нетипові"
 
-#: src/renderpresets/renderpresetrepository.cpp:232
+#: src/renderpresets/renderpresetrepository.cpp:234
 #, kde-format
 msgctxt "Custom render preset category name"
 msgid "Custom"
 msgstr "Нетипові"
 
-#: src/renderpresets/renderpresetrepository.cpp:285
+#: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
 msgid "10 Bit"
 msgstr "10-бітова"
 
-#: src/renderpresets/renderpresetrepository.cpp:395
+#: src/renderpresets/renderpresetrepository.cpp:397
 #, kde-format
 msgid "Preset already exists"
 msgstr "Набір з такою назвою вже існує"
 
-#: src/renderpresets/renderpresetrepository.cpp:396
+#: src/renderpresets/renderpresetrepository.cpp:398
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "

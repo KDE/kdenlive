@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 00:43+0000\n"
+"POT-Creation-Date: 2026-06-29 00:44+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -14268,7 +14268,7 @@ msgstr ""
 msgid ""
 "Controls the random numbers that<br>\n"
 "      will be used to stagger the delays and amplitudes if random is turned "
-"up on them. Changing this forces the random values to be recalulated."
+"up on them. Changing this forces the random values to be recalculated."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:14
@@ -18486,7 +18486,7 @@ msgstr ""
 msgid "Audio only"
 msgstr "Samo zvuk"
 
-#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:297
+#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:299
 #, fuzzy, kde-format
 msgid "Images sequence"
 msgstr "Veličina slike"
@@ -20839,8 +20839,8 @@ msgstr "Nedostajući isječci"
 
 #: src/bin/bin.cpp:2189 src/bin/bin.cpp:2893
 #: src/effects/effectlist/view/effectlistwidget.cpp:184
-#: src/renderpresets/renderpresetrepository.cpp:168
-#: src/renderpresets/renderpresetrepository.cpp:476
+#: src/renderpresets/renderpresetrepository.cpp:170
+#: src/renderpresets/renderpresetrepository.cpp:478
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Ne mogu zapisati u datoteku %1"
@@ -21432,7 +21432,7 @@ msgstr ""
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
-#: src/renderpresets/renderpresetrepository.cpp:420
+#: src/renderpresets/renderpresetrepository.cpp:422
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot open file %1"
@@ -23124,8 +23124,8 @@ msgstr "Dodaj oznaku"
 #: src/project/dialogs/archivewidget.cpp:940
 #: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
-#: src/renderpresets/renderpresetrepository.cpp:426
-#: src/renderpresets/renderpresetrepository.cpp:482
+#: src/renderpresets/renderpresetrepository.cpp:428
+#: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5748
 #: src/timeline2/view/timelinecontroller.cpp:5753
 #: src/titler/titlewidget.cpp:2350
@@ -23220,7 +23220,7 @@ msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
 #: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
-#: src/renderpresets/renderpresetrepository.cpp:359
+#: src/renderpresets/renderpresetrepository.cpp:361
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot read file %1"
@@ -34349,52 +34349,52 @@ msgid ""
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
 
-#: src/renderpresets/renderpresetrepository.cpp:96
+#: src/renderpresets/renderpresetrepository.cpp:98
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category"
 msgid "Custom"
 msgstr "Prilagođeno"
 
-#: src/renderpresets/renderpresetrepository.cpp:97
+#: src/renderpresets/renderpresetrepository.cpp:99
 #, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr ""
 
-#: src/renderpresets/renderpresetrepository.cpp:98
+#: src/renderpresets/renderpresetrepository.cpp:100
 #, fuzzy, kde-format
 #| msgid "Lossless / HQ"
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Lossless / HQ"
 
-#: src/renderpresets/renderpresetrepository.cpp:147
+#: src/renderpresets/renderpresetrepository.cpp:149
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Prilagođeno"
 
-#: src/renderpresets/renderpresetrepository.cpp:232
+#: src/renderpresets/renderpresetrepository.cpp:234
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category name"
 msgid "Custom"
 msgstr "Prilagođeno"
 
-#: src/renderpresets/renderpresetrepository.cpp:285
+#: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
 msgid "10 Bit"
 msgstr ""
 
-#: src/renderpresets/renderpresetrepository.cpp:395
+#: src/renderpresets/renderpresetrepository.cpp:397
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Preset already exists"
 msgstr "Profil već postoji"
 
-#: src/renderpresets/renderpresetrepository.cpp:396
+#: src/renderpresets/renderpresetrepository.cpp:398
 #, fuzzy, kde-format
 #| msgid ""
 #| "This profile name already exists. Change the name if you don't want to "

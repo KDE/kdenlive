@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 00:43+0000\n"
+"POT-Creation-Date: 2026-06-29 00:44+0000\n"
 "PO-Revision-Date: 2025-12-11 23:38+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -15196,7 +15196,7 @@ msgstr "Ausazko Hazia"
 msgid ""
 "Controls the random numbers that<br>\n"
 "      will be used to stagger the delays and amplitudes if random is turned "
-"up on them. Changing this forces the random values to be recalulated."
+"up on them. Changing this forces the random values to be recalculated."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:14
@@ -19579,7 +19579,7 @@ msgstr "AMF hardware azelerazioa"
 msgid "Audio only"
 msgstr "Audioa soilik"
 
-#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:297
+#: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:299
 #, kde-format
 msgid "Images sequence"
 msgstr "Irudien sekuentzia"
@@ -21878,8 +21878,8 @@ msgstr "Jatorrizko klipa falta da"
 
 #: src/bin/bin.cpp:2189 src/bin/bin.cpp:2893
 #: src/effects/effectlist/view/effectlistwidget.cpp:184
-#: src/renderpresets/renderpresetrepository.cpp:168
-#: src/renderpresets/renderpresetrepository.cpp:476
+#: src/renderpresets/renderpresetrepository.cpp:170
+#: src/renderpresets/renderpresetrepository.cpp:478
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Ezin du %1 fitxategian idatzi"
@@ -22456,7 +22456,7 @@ msgstr "Mesedez, ezarri audio fitxategiak irekitzeko aplikazio lehenetsia"
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
-#: src/renderpresets/renderpresetrepository.cpp:420
+#: src/renderpresets/renderpresetrepository.cpp:422
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Ezin du %1 fitxategia ireki"
@@ -24101,8 +24101,8 @@ msgstr "Esportatu marken datuak"
 #: src/project/dialogs/archivewidget.cpp:940
 #: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
 #: src/render/renderrequest.cpp:325
-#: src/renderpresets/renderpresetrepository.cpp:426
-#: src/renderpresets/renderpresetrepository.cpp:482
+#: src/renderpresets/renderpresetrepository.cpp:428
+#: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5748
 #: src/timeline2/view/timelinecontroller.cpp:5753
 #: src/titler/titlewidget.cpp:2350
@@ -24193,7 +24193,7 @@ msgstr "Ziur ez badago, saiatu honekin:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
 #: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
-#: src/renderpresets/renderpresetrepository.cpp:359
+#: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Ezin du %1 fitxategia irakurri"
@@ -35232,51 +35232,51 @@ msgstr ""
 "Errendatze profil honek, 'profil' parametro bat erabiltzen du.<br />Zehazki "
 "egiten ari zarena ez badakizu onena 'mlt_profile' aukerarara aldatzea da."
 
-#: src/renderpresets/renderpresetrepository.cpp:96
+#: src/renderpresets/renderpresetrepository.cpp:98
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category"
 msgid "Custom"
 msgstr "Pertsonalizatua"
 
-#: src/renderpresets/renderpresetrepository.cpp:97
+#: src/renderpresets/renderpresetrepository.cpp:99
 #, fuzzy, kde-format
 #| msgid "10 Bit"
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr "10 bit"
 
-#: src/renderpresets/renderpresetrepository.cpp:98
+#: src/renderpresets/renderpresetrepository.cpp:100
 #, fuzzy, kde-format
 #| msgid "Lossless/HQ"
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Galerarik gabe/HQ"
 
-#: src/renderpresets/renderpresetrepository.cpp:147
+#: src/renderpresets/renderpresetrepository.cpp:149
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Pertsonalizatua"
 
-#: src/renderpresets/renderpresetrepository.cpp:232
+#: src/renderpresets/renderpresetrepository.cpp:234
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "Custom render preset category name"
 msgid "Custom"
 msgstr "Pertsonalizatua"
 
-#: src/renderpresets/renderpresetrepository.cpp:285
+#: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
 msgid "10 Bit"
 msgstr "10 bit"
 
-#: src/renderpresets/renderpresetrepository.cpp:395
+#: src/renderpresets/renderpresetrepository.cpp:397
 #, kde-format
 msgid "Preset already exists"
 msgstr "Aurrezarpena badago lehendik ere"
 
-#: src/renderpresets/renderpresetrepository.cpp:396
+#: src/renderpresets/renderpresetrepository.cpp:398
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
