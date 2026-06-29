@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1411" tag="ladspa.1411" ladspaid="1411" type="audio">
+<name>Comb Splitter</name>
+   <description><![CDATA[Comb Splitter (LADSPA 1411)<br>
+   Divides the input up into two parts with frequency peaks at f Hz intervals, skewed by f/2 Hz between the two outputs. Mixing the two outputs will get you exactly the input signal.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="172.000" max="640.000" min="16.000" suffix="Hz">
+      <name>Band Separation</name>
+      <comment><![CDATA[The distance between the frequency peaks]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

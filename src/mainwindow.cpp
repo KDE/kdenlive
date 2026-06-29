@@ -233,13 +233,8 @@ void MainWindow::init()
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
 
-    // Keyframe stuff
-    m_qmlEngine = new QQmlEngine(this);
-    KLocalization::setupLocalizedContext(m_qmlEngine);
-    m_qmlEngine->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
-
     m_assetPanel = new AssetPanel(this);
-    m_dopeWidget = new DopeWidget(m_qmlEngine, this);
+    m_dopeWidget = new DopeWidget(this);
     setupActions();
 
     auto *layoutManager = new LayoutManagement(this);
@@ -270,7 +265,7 @@ void MainWindow::init()
     installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
 
-    m_timelineTabs = new TimelineTabs(m_qmlEngine, this);
+    m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
 
     // Timeline dock

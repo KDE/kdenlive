@@ -10,6 +10,10 @@
 #include "cubic/kis_curve_widget.h"
 #include "ui_bezierspline_ui.h"
 #include "widgets/dragvalue.h"
+#include <QColor>
+#include <QDoubleSpinBox>
+#include <QTabBar>
+#include <map>
 
 template <typename CurveWidget_t> class ValueLabel;
 
@@ -45,6 +49,8 @@ public:
     */
     static ColorTools::ColorsRGB modeToColorsRGB(CurveModes mode);
 
+    void addAvCurveTab(const QModelIndex &index) override;
+
 protected:
     void deleteIrrelevantItems();
     void setupLayoutPoint();
@@ -59,6 +65,7 @@ protected:
     void slotSetHandlesLinked(bool linked);
     void slotShowAllHandles(bool show);
     void resizeEvent(QResizeEvent *event) override;
+    void slotTabChanged(int index);
 
 public Q_SLOTS:
     /** @brief Toggle the comments on or off
@@ -80,6 +87,14 @@ private:
     CurveWidget_t *m_edit;
     CurveModes m_mode;
     bool m_showPixmap;
+    QTabBar *m_tabBar{nullptr};
+    // For AvCurve: one persistent index per tab (tab 0 = first param, etc.)
+    QList<QPersistentModelIndex> m_tabIndexes;
+    // Curve line colors per tab, parallel to m_tabIndexes (invalid QColor = use default)
+    QList<QColor> m_tabColors;
+    // Point In/Out spinboxes for AvCurve (nullptr for non-AvCurve)
+    QDoubleSpinBox *m_inSpin{nullptr};
+    QDoubleSpinBox *m_outSpin{nullptr};
 
     ValueLabel<CurveWidget_t> *m_leftParam, *m_bottomParam;
 };

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1905" tag="ladspa.1905" ladspaid="1905" type="audio">
+<name>VyNil (Vinyl Effect)</name>
+   <description><![CDATA[Vynil Effect (LADSPA 1905)<br>
+   Simulates an old vynil effect]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter type="constant" name="0" min="1900" max="1990" default="1990">
+      <name>Year</name>
+      <comment><![CDATA[The date of the recording/<br>
+      playback equipment to be simulated]]></comment>
+   </parameter>
+   <parameter type="list" name="1" default="33.33" paramlist="33.33;45;78">
+      <name>RPM</name>
+      <comment><![CDATA[The rotational speed of the platter]]></comment>
+      <paramlistdisplay>33 1/3,45,78</paramlistdisplay>
+   </parameter>
+   <parameter type="constant" name="2" min="0" max="1" decimals="2">
+      <name>Surface Warping</name>
+      <comment><![CDATA[The degree of variation in<br>
+      height of the record surfaced]]></comment>
+   </parameter>
+   <parameter type="constant" name="3" min="0" max="1" decimals="2">
+      <name>Crackle</name>
+      <comment><![CDATA[The number of scratches on<br>
+      the record surface]]></comment>
+   </parameter>
+   <parameter type="constant" name="4" min="0" max="1" decimals="2">
+      <name>Wear</name>
+      <comment><![CDATA[The amount of wear on the grooves]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

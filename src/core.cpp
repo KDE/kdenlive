@@ -3,7 +3,10 @@ SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#include "core.h"
+// KLocalizedQmlContext include has to be before mlt includes,
+// because it breaks due to some macros in MLT
+#include <KLocalizedQmlContext>
+
 #include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "audiomixer/mixermanager.hpp"
@@ -13,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectitemmodel.h"
 #include "capture/mediacapture.h"
 #include "config-kdenlive.h"
+#include "core.h"
 #include "dialogs/proxytest.h"
 #include "dialogs/splash.hpp"
 #include "dialogs/subtitleedit.h"
@@ -31,6 +35,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 #include "project/dialogs/guideslist.h"
 #include "project/projectmanager.h"
+#include "qmltypes/thumbnailprovider.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
@@ -775,6 +780,17 @@ Core *Core::create(QQmlEngine *, QJSEngine *)
     // otherwise it will cause crashes when closing the app
     QQmlEngine::setObjectOwnership(self().get(), QQmlEngine::CppOwnership);
     return self().get();
+}
+
+QQmlEngine *Core::sharedQmlEngine()
+{
+    static QQmlEngine *s_engine = nullptr;
+    if (!s_engine) {
+        s_engine = new QQmlEngine;
+        KLocalization::setupLocalizedContext(s_engine);
+        s_engine->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
+    }
+    return s_engine;
 }
 
 MainWindow *Core::window()

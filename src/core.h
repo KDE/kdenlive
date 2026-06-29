@@ -85,6 +85,7 @@ public:
     Core(Core &&) = delete;
     Core &operator=(Core &&) = delete;
     static Core *create(QQmlEngine *, QJSEngine *);
+    static QQmlEngine *sharedQmlEngine();
 
     QReadWriteLock xmlMutex;
     bool closing{false};

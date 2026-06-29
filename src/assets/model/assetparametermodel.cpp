@@ -175,6 +175,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 converted = false;
                 break;
             case ParamType::Curve:
+            case ParamType::AvCurve:
             case ParamType::Geometry:
             case ParamType::FakeRect:
             case ParamType::Switch:
@@ -401,6 +402,27 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                 }
                 m_params[name].value = paramValue;
             }
+            return;
+        } else if (type == ParamType::AvCurve) {
+            // paramValue is a KisCubicCurve string "x/y;x/y;..."
+            // convert to avfilter space-separated format "x/y x/y" for MLT
+            // avfilter requires consecutive x values to differ by strictly more than 1/375 (~0.00267);
+            // use 0.004 as a safe margin and snap rather than reject
+            constexpr double minXDist = 0.004;
+            QStringList pts = paramValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+            double prevX = -1.0;
+            for (QString &pt : pts) {
+                double x = pt.section(QLatin1Char('/'), 0, 0).toDouble();
+                double y = pt.section(QLatin1Char('/'), 1, 1).toDouble();
+                if (x - prevX < minXDist) {
+                    x = qMin(prevX + minXDist, 1.0);
+                    pt = QStringLiteral("%1/%2").arg(x, 0, 'f', 6).arg(y, 0, 'f', 6);
+                }
+                prevX = x;
+            }
+            const QString avVal = pts.join(QLatin1Char(' '));
+            m_asset->set(name.toLatin1().constData(), avVal.toUtf8().constData());
+            m_params[name].value = paramValue;
             return;
         }
     }
@@ -786,6 +808,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         auto type = m_params.at(paramName).type;
         return type == ParamType::AnimatedRect || type == ParamType::KeyframeParam || type == ParamType::KeyframeParam || type == ParamType::Roto_spline;
     }
+    case CurveColorRole:
+        return element.attribute(QStringLiteral("color"));
     case FakePointRole: {
         return AssetPointInfo::buildPointFromXml(element);
     }
@@ -820,6 +844,15 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
                                                                             : element.attribute(QStringLiteral("value")));
             }
             return values.join(QLatin1Char('\n'));
+        }
+        if (m_params.at(paramName).type == ParamType::AvCurve) {
+            // return stored KisCubicCurve string directly (avfilter format lives in MLT only)
+            const QVariant stored = m_params.at(paramName).value;
+            if (!stored.isNull() && !stored.toString().isEmpty()) {
+                return stored;
+            }
+            return (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element)
+                                                                        : element.attribute(QStringLiteral("value")));
         }
         QString value(m_asset->get(paramName.toUtf8().constData()));
         if (value.isEmpty()) {
@@ -961,6 +994,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::Position;
     } else if (type == QLatin1String("curve")) {
         return ParamType::Curve;
+    } else if (type == QLatin1String("av_curve")) {
+        return ParamType::AvCurve;
     } else if (type == QLatin1String("bezier_spline")) {
         return ParamType::Bezier_spline;
     } else if (type == QLatin1String("roto-spline")) {

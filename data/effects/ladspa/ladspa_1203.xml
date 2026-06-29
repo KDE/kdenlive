@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1203" tag="ladspa.1203" ladspaid="1203" type="audio">
+<name>Single Band Parametric</name>
+   <description><![CDATA[Single Band Parametric (LADSPA 1203)<br>
+   A single band of a parametric filter.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="1" default="0" max="30" min="-70" suffix="dB">
+      <name>Gain (dB)</name>
+      <comment><![CDATA[The attenuation/gain of the eq]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="2" default="1000" max="19200" min="0" suffix="Hz">
+      <name>Frequency (Hz)</name>
+      <comment><![CDATA[The centre frequency (i.e. point of<br>
+      most/least attenuation). Beware of high values for <i>Frequency</i> and <i>Bandwidth</i>: if the high pitch (<i>Frequency</i> * 2^<i>Bandwidth</i>) goes over half the sample rate, you will get aliasing.]]></comment>
+   </parameter>
+   <parameter name="2" type="constant" decimals="1" default="1.0" max="4" min="0">
+      <name>Bandwidth (octaves)</name>
+      <comment><![CDATA[The pitch difference from the<br>
+      centre before the attenuation has reached half the <i>Gain</i>.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

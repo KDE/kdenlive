@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1423" tag="ladspa.1423" ladspaid="1423" type="audio">
+   <name>SWH Plate Reverb</name>
+   <description><![CDATA[SWH Plate Reverb (LADSPA 1423)<br>
+   Automatically adapts to the number of channels and sampling rate of the audio stream]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="constant" max="8.500" min="0.010" decimals="3" default="4.255">
+      <name>Reverb Time</name>
+   </parameter>
+   <parameter name="1" type="constant" max="1.000" min="0.000" decimals="3" default="0.250">
+      <name>Damping</name>
+   </parameter>
+   <parameter name="2" type="constant" max="1.000" min="0.000" decimals="3" default="0.250">
+      <name>Dry/wet mix</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1887" tag="ladspa.1887" ladspaid="1887" type="audio">
+<name>Comb Delay Line (linear interpolation)</name>
+   <description><![CDATA[Comb Delay Line (linear interpolation) (LADSPA 1887)<br>
+   Based on work by James McCartney in SuperCollider.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="2" type="constant" decimals="3" default="0.000" min="0.000" max="5.000" suffix="s">
+      <name>Max Delay</name>
+      <comment><![CDATA[Maximum delay.<br>
+      Used to set the delay buffer size upon activation. Cannot be modulated.]]></comment>
+   </parameter>
+   <parameter name="3" type="constant" decimals="3" default="0.000" min="0.000" max="5.000" suffix="s">
+      <name>Delay Time</name>
+      <comment><![CDATA[]]></comment>
+   </parameter>
+   <parameter name="4" type="constant" decimals="3" default="0.000" min="-5.000" max="5.000" suffix="s">
+      <name>Decay Time</name>
+      <comment><![CDATA[Time for the echoes to decay<br>
+      by 60 decibels. If this time is negative then the feedback coefficient will be negative, thus emphasizing only odd harmonics at an octave lower.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -9,6 +9,7 @@
 
 // Qt includes.
 
+#include <QColor>
 #include <QWidget>
 
 #include "../abstractcurvewidget.h"
@@ -62,6 +63,20 @@ public:
 
     QList<QPointF> getPoints() const override;
 
+    /** @brief Set the color used to draw the curve line. An invalid/default-constructed QColor means "use palette text". */
+    void setCurveColor(const QColor &color)
+    {
+        m_curveColor = color;
+        update();
+    }
+
+    /** @brief Set ghost curves (other channels) to draw faintly behind the active curve. */
+    void setGhostCurves(const QList<QPair<KisCubicCurve, QColor>> &curves)
+    {
+        m_ghostCurves = curves;
+        update();
+    }
+
 private:
     double io2sp(int x) const;
     int sp2io(double x) const;
@@ -78,4 +93,6 @@ private:
 
     bool m_guideVisible;
     QColor m_colorGuide;
+    QColor m_curveColor;
+    QList<QPair<KisCubicCurve, QColor>> m_ghostCurves;
 };

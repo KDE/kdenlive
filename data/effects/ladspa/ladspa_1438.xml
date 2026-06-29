@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1438" tag="ladspa.1438" ladspaid="1438" type="audio">
+<name>DJ Flanger</name>
+   <description><![CDATA[DJ Flanger (LADSPA 1438)<br>
+   This is a flanger which is more or less typical of DJ mixing desks]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="bool" min="0" max="1" default="0">
+      <name>LFO sync</name>
+      <comment><![CDATA[When turned from off to on<br>
+      it resets the phase of the LFO back to the start of the cycle. Used to sync the LFO to the track.]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="3" default="1.000" max="32.000" min="0.100" suffix="s">
+      <name>LFO period</name>
+      <comment><![CDATA[The cycle period of the LFO in seconds]]></comment>
+   </parameter>
+   <parameter name="2" type="constant" decimals="0" default="4" max="5" min="1" suffix="ms">
+      <name>LFO depth</name>
+      <comment><![CDATA[The maximum delay the LFO will use to flange in milliseconds]]></comment>
+   </parameter>
+   <parameter name="3" type="constant" decimals="1" default="0.0" max="100.0" min="-100.0" suffix="%">
+      <name>Feedback</name>
+      <comment><![CDATA[The amount of the delays output that is mixed back into the delay]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

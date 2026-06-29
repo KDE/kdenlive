@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1432" tag="ladspa.1432" ladspaid="1432" type="audio">
+<name>Bode Frequency Shifter (CV)</name>
+   <description><![CDATA[<b>Bode Frequency Shifter (CV)</b> (LADSPA 1432)<br>
+   A Bode/Moog Frequency Shifter is a popular analogue synth module that works by shifting all the frequencies of an input signal up or down by a specified frequency. This effect shifts in both directions at the same time as it is almost no extra work and is often useful to have both directions. In contrast to the analogue Bode/Moog, which use Dome filters as the core, it uses a Hilbert Transformer, which is much simpler to implement in digital systems.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="0.000" max="5000.000" min="0.000" suffix="Hz">
+      <name>Base Shift</name>
+   </parameter>
+   <parameter name="1" type="list" default="0" paramlist="-1;0;1">
+      <name>Mix</name>
+      <paramlistdisplay>Down,Both,Up</paramlistdisplay>
+   </parameter>
+   <parameter name="3" type="constant" decimals="0" default="1" max="100" min="0" factor="100" suffix="%">
+      <name>CV Attenuation</name>
+   </parameter>
+   <parameter name="4" type="constant" decimals="3" default="0.000" min="0.000" max="5.000" suffix="kHz">
+      <name>Shift CV</name>
+      <comment><![CDATA[Controls the frequency shift applied to the input signal]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -38,8 +38,8 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
-TimelineWidget::TimelineWidget(const QUuid uuid, QQmlEngine *engine, QWidget *parent)
-    : QQuickWidget(engine, parent)
+TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
+    : QQuickWidget(Core::sharedQmlEngine(), parent)
     , timelineController(this)
     , m_uuid(uuid)
 {

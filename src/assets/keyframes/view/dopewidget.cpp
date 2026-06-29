@@ -19,8 +19,8 @@
 
 #include <KStandardAction>
 
-DopeWidget::DopeWidget(QQmlEngine *engine, QWidget *parent)
-    : QQuickWidget(engine, parent)
+DopeWidget::DopeWidget(QWidget *parent)
+    : QQuickWidget(pCore->sharedQmlEngine(), parent)
 {
     setClearColor(palette().base().color());
     setResizeMode(QQuickWidget::SizeRootObjectToView);

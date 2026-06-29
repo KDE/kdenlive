@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1185" tag="ladspa.1185" ladspaid="1185" type="audio">
+<name>Diode Processor</name>
+   <description><![CDATA[Diode Processor (LADSPA 1185)<br>
+   Mangles the signal as if it had been passed through a diode rectifier network. You should probably follow this with a <i>DC Offset Remover</i>, unless you want the offset.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="0.000" max="2.000" min="0.000">
+      <name>Mode</name>
+      <comment><![CDATA[The <i>Mode</i> parameter is<br>
+      continuously variable from thru to half-wave (1) rectification to full-wave (2) to silence (0)]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -23,8 +23,6 @@
 #include <QInputDialog>
 #include <QMenu>
 #include <QPainter>
-#include <QQmlContext>
-#include <QQmlEngine>
 
 TimelineContainer::TimelineContainer(QWidget *parent)
     : QWidget(parent)
@@ -36,11 +34,10 @@ QSize TimelineContainer::sizeHint() const
     return QSize(800, pCore->window()->height() / 2);
 }
 
-TimelineTabs::TimelineTabs(QQmlEngine *engine, QWidget *parent)
+TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
     , m_activeTimeline(nullptr)
 {
-    m_qmlEngine = engine;
     setTabBarAutoHide(true);
     setTabsClosable(false);
     setDocumentMode(true);
@@ -127,7 +124,7 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QStrin
         m_activeTimeline->model()->updateVisibleSequenceName(QString());
     }
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
-    TimelineWidget *newTimeline = new TimelineWidget(uuid, m_qmlEngine, this);
+    TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
                                  m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu, m_timelineAddClipMenu);
     newTimeline->setModel(timelineModel, proxy);

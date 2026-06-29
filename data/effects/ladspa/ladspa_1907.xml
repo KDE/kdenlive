@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1907" tag="ladspa.1907" ladspaid="1907" type="audio">
+<name>DJ EQ (mono)</name>
+   <description><![CDATA[DJ EQ (mono) (LADSPA 1907)<br>
+   The design for this plugin is taken from the Allen & Heath Xone 32 DJ mixer.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter decimals="1" default="0.0" max="6.0" min="-70.0" name="0" type="constant" suffix="dB">
+      <name>Lo Gain</name>
+      <comment><![CDATA[Controls the gain of the low (100Hz) peak/dip band]]></comment>
+   </parameter>
+   <parameter decimals="1" default="0.0" max="6.0" min="-70.0" name="1" type="constant" suffix="dB">
+      <name>Mid Gain</name>
+      <comment><![CDATA[Controls the gain of the mid (1,000Hz) peak/dip band]]></comment>
+   </parameter>
+   <parameter decimals="1" default="0.0" max="6.0" min="-70.0" name="2" type="constant" suffix="dB">
+      <name>Hi Gain</name>
+      <comment><![CDATA[Controls the gain of the high (10,000Hz) shelf band]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1893" tag="ladspa.1893" ladspaid="1893" type="audio">
+<name>GLAME Bandpass Analog</name>
+   <description><![CDATA[GLAME Bandpass Analog Filter (LADSPA 1893)<br>
+   IIR bandpass filter modeled after an analog circuit]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="3" default="39.314" max="21600.000" min="4.800" suffix="Hz">
+      <name>Center Frequency</name>
+   </parameter>
+   <parameter name="1" type="constant" decimals="3" default="321.994" max="21600.000" min="4.800" suffix="Hz">
+      <name>Bandwidth</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

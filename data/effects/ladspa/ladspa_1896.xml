@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1896" tag="ladspa.1896" ladspaid="1896" type="audio">
+   <name>Allpass Delay Line (Linear Interpolation)</name>
+   <description><![CDATA[Allpass Delay Line (LADSPA 1896)<br>
+   Automatically adapts to the number of channels and sampling rate of the consumer.]]></description>
+   <author>Andy Wingo (http://www.ladspa.org)</author>
+   <parameter name="2" type="constant" decimals="3" default="0.000" min="0.000" max="5.000" suffix="s">
+      <name>Max Delay</name>
+   </parameter>
+   <parameter name="3" type="constant" decimals="3" default="0.000" min="0.000" max="5.000" suffix="s">
+      <name>Delay Time</name>
+   </parameter>
+   <parameter name="4" type="constant" decimals="3" default="0.000" min="-5.000" max="5.000" suffix="s">
+      <name>Decay Time</name>
+      <comment><![CDATA[Time for the echoes to decay by 60 dB.<br>
+      If this time is negative, then the feedback coefficient will be negative, thus emphasizing only odd harmonics at an octave lower.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+       <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

@@ -263,7 +263,6 @@ private:
     KDDockWidgets::QtWidgets::DockWidget *m_compositionListDock{nullptr};
     TransitionListWidget *m_compositionList{nullptr};
     EffectListWidget *m_effectList2{nullptr};
-    QQmlEngine *m_qmlEngine{nullptr};
 
     AssetPanel *m_assetPanel{nullptr};
     KDDockWidgets::QtWidgets::DockWidget *m_effectStackDock{nullptr};

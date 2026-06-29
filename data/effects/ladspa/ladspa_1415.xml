@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1415" tag="ladspa.1415" ladspaid="1415" type="audio">
+<name>FM Oscillator</name>
+   <description><![CDATA[FM Oscillator (LADSPA 1415)]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="list" default="1" max="4" min="1" paramlist="1;2;3;4">
+      <name>Waveform</name>
+      <comment><![CDATA[The shape of the waveform]]></comment>
+      <paramlistdisplay>Sine,Triangle,Square,Saw</paramlistdisplay>
+   </parameter>
+<!--- Documentation says there is a frequency input but this parameter does nothing
+   <parameter name="1" min="0" max="40000" default="440" suffix="Hz">
+      <name>Frequency</name>
+   </parameter>
+-->
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

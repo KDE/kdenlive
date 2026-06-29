@@ -44,6 +44,7 @@ enum class ParamType {
     Position,
     Curve,
     Bezier_spline,
+    AvCurve,
     Roto_spline,
     Wipe,
     Url,
@@ -339,7 +340,8 @@ public:
         Enum13Role,
         Enum14Role,
         Enum15Role,
-        Enum16Role
+        Enum16Role,
+        CurveColorRole
     };
 
     /** @brief Returns true if @param type is animated */

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1403" tag="ladspa.1403" ladspaid="1403" type="audio">
+<name>Dyson Compressor</name>
+   <description><![CDATA[Dyson Compressor (LADSPA 1403)]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="1" default="0.0" max="0.0" min="-30.0" suffix="dB">
+      <name>Peak Limit</name>
+      <comment><![CDATA[Controls the desired limit<br>
+      of the output signal]]></comment>
+   </parameter>
+   <parameter name="1" type="constant" decimals="0" default="250" max="1000" min="0" suffix="ms">
+      <name>Release Time</name>
+      <comment><![CDATA[Controls the time taken for<br>
+      the compressor to relax its gain control over the input signal]]></comment>
+   </parameter>
+   <parameter name="2" type="constant" decimals="0" default="50" max="100" min="0" suffix="%">
+      <name>Fast Compression Ratio</name>
+   </parameter>
+   <parameter name="3" type="constant" decimals="0" default="50" max="100" min="0" suffix="%">
+      <name>Compression Ratio</name>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

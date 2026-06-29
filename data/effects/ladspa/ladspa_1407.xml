@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1407" tag="ladspa.1407" ladspaid="1407" type="audio">
+<name>Aliasing</name>
+   <description><![CDATA[Aliasing (LADSPA 1407)<br>
+   Simulates aliasing using nyquist frequency modulation. Produces wacky results if the blocks aren't even numbers of samples long.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter name="0" type="constant" decimals="1" default="0.0" max="100.0" min="0.0" factor="100" suffix="%">
+      <name>Aliasing Level</name>
+      <comment><![CDATA[Controls the amount of simulated aliasing in the output.]]></comment>
+   </parameter>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

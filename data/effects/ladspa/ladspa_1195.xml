@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.1195" tag="ladspa.1195" ladspaid="1195" type="audio">
+<name>Declipper</name>
+   <description><![CDATA[Declipper (LADSPA 1195)<br>
+   Removes nasty clicks from input signals, not very kind to them though.]]></description>
+   <author>Steve Harris (http://www.ladspa.org)</author>
+   <parameter type="constant" name="wetness" max="100" min="0" default="1" factor="100" decimals="0">
+      <name><![CDATA[Dry/Wet]]></name>
+   </parameter>
+</effect>

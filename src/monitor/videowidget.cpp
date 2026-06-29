@@ -74,7 +74,7 @@
 using namespace Mlt;
 
 VideoWidget::VideoWidget(int id, QObject *parent)
-    : QQuickWidget((QWidget *)parent)
+    : QQuickWidget(Core::sharedQmlEngine(), (QWidget *)parent)
     , sendFrameForAnalysis(false)
     , m_consumer(nullptr)
     , m_producer(nullptr)
