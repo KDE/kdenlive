@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-29 00:44+0000\n"
+"POT-Creation-Date: 2026-06-30 00:42+0000\n"
 "PO-Revision-Date: 2026-06-16 09:32+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -6996,7 +6996,7 @@ msgstr "משך"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:82
-#: src/core.cpp:1112 src/kdenliveui.rc:195 src/mainwindow.cpp:267
+#: src/core.cpp:1128 src/kdenliveui.rc:195 src/mainwindow.cpp:267
 #: src/project/dialogs/archivewidget.cpp:100
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -21096,7 +21096,7 @@ msgstr "נא למלא את הנתיב ליישום עריכת הווידאו ש�
 msgid "Please set a default application to open video files"
 msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי וידאו"
 
-#: src/bin/bin.cpp:5196 src/core.cpp:638 src/core.cpp:666
+#: src/bin/bin.cpp:5196 src/core.cpp:643 src/core.cpp:671
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:491
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -21958,7 +21958,7 @@ msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "צילום"
 
-#: src/core.cpp:162
+#: src/core.cpp:167
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -21967,18 +21967,18 @@ msgstr ""
 "Kdenlive קרס בהפעלה התחתונה.\n"
 "להשבית את עיבוד המעבד הגרפי הניסיוני (Movit)?"
 
-#: src/core.cpp:163
+#: src/core.cpp:168
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "השבתת עיבוד במעבד גרפי"
 
-#: src/core.cpp:261 src/core.cpp:304 src/core.cpp:478
+#: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
 #: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Loading project…"
 msgstr "המיזם נטען…"
 
-#: src/core.cpp:438
+#: src/core.cpp:443
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -21987,19 +21987,19 @@ msgstr ""
 "פרופיל ברירת המחדל של Kdenlive לא מוגדר או שהוא שגוי, יש ללחוץ על אישור כדי "
 "להגדיר אותו לערך הנכון."
 
-#: src/core.cpp:450
+#: src/core.cpp:455
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "בחירת פרופיל ברירת מחדל"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:450 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:455 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "פרופיל:"
 
-#: src/core.cpp:463
+#: src/core.cpp:468
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -22008,262 +22008,262 @@ msgstr ""
 "הפרופיל שסופק שגוי. אנו נסוגים לפרופיל „dv_pal” כברירת מחדל, אך ניתן לשנות "
 "את זה מלוח ההגדרות של Kdenlive"
 
-#: src/core.cpp:718
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "ריבוע 2 עמודות"
 
-#: src/core.cpp:719
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "לוח שחמט קטן"
 
-#: src/core.cpp:720
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "תריסים אופקיים"
 
-#: src/core.cpp:721
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "מעגלי"
 
-#: src/core.cpp:722
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "X קווי"
 
-#: src/core.cpp:723
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "X דו־קווי"
 
-#: src/core.cpp:724
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Y קווי"
 
-#: src/core.cpp:725
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Y דו־קווי"
 
-#: src/core.cpp:726
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "ריבוע"
 
-#: src/core.cpp:727
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "ריבוע 2"
 
-#: src/core.cpp:728
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "ענן"
 
-#: src/core.cpp:729
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "שעון סימטרי"
 
-#: src/core.cpp:730
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "עמודות מעגליות"
 
-#: src/core.cpp:731
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "ספירלה"
 
-#: src/core.cpp:732
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "ספירלה 2"
 
-#: src/core.cpp:733
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "וילון"
 
-#: src/core.cpp:734
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "התפרצות"
 
-#: src/core.cpp:735
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "שעון"
 
-#: src/core.cpp:737
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "עמודה אופקית"
 
-#: src/core.cpp:738
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "עמודה אנכית"
 
-#: src/core.cpp:739
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "דלת אורווה אופקית"
 
-#: src/core.cpp:740
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "דלת אורווה אנכית"
 
-#: src/core.cpp:741
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "דלת אסם אלכסונית דר׳ מע׳-צפ׳ מז׳"
 
-#: src/core.cpp:742
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "דלת אסם אלכסונית צפ׳ מע׳-דר׳ מז׳"
 
-#: src/core.cpp:743
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "אלכסון שמאל למעלה"
 
-#: src/core.cpp:744
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "אלכסון ימינה למעלה"
 
-#: src/core.cpp:745
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "מפל מטריקס אופקי"
 
-#: src/core.cpp:746
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "מפל מטריקס אנכי"
 
-#: src/core.cpp:747
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "נחש מטריקס אופקי"
 
-#: src/core.cpp:748
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "נחש מטריקס מקבילי אופקי"
 
-#: src/core.cpp:749
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "נחש מטריקס אנכי"
 
-#: src/core.cpp:750
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "נחש מטריקס מקבילי אנכי"
 
-#: src/core.cpp:751
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "V למעלה של אסם"
 
-#: src/core.cpp:752
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "עיגול קשתית"
 
-#: src/core.cpp:753
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "קשתית כפולה"
 
-#: src/core.cpp:754
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "תיבת קשתית"
 
-#: src/core.cpp:755
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "תיבה מימין למטה"
 
-#: src/core.cpp:756
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "תיבה משמאל למטה"
 
-#: src/core.cpp:757
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "תיבה מימין במרכז"
 
-#: src/core.cpp:758
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "שעון מלמעלה"
 
-#: src/core.cpp:1058
+#: src/core.cpp:1074
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "פרופיל המיזם שלך שגוי, התיצוג עלול להיכשל."
 
-#: src/core.cpp:1422
+#: src/core.cpp:1438
 #, kde-format
 msgid "Loading clips"
 msgstr "סרטונים נטענים"
 
-#: src/core.cpp:1917
+#: src/core.cpp:1933
 #, kde-format
 msgid "Marker %1"
 msgstr "סמן %1"
 
-#: src/core.cpp:2279
+#: src/core.cpp:2295
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -22273,12 +22273,12 @@ msgstr ""
 "הפעולה הזאת תפתח דפדפן כדי להציג את התיעוד המקוון של Kdenlive בכתובת הבאה:\n"
 " %1"
 
-#: src/core.cpp:2280 src/core.cpp:2291
+#: src/core.cpp:2296 src/core.cpp:2307
 #, kde-format
 msgid "Open Browser"
 msgstr "פתיחת דפדפן"
 
-#: src/core.cpp:2290
+#: src/core.cpp:2306
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -35700,12 +35700,12 @@ msgstr "ניהול כתוביות"
 msgid "No range guide found at position"
 msgstr "לא נמצאה הנחיית טווח במקום הזה"
 
-#: src/timeline2/view/timelinetabs.cpp:59
+#: src/timeline2/view/timelinetabs.cpp:49
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "הוספת רצף ציר זמן"
 
-#: src/timeline2/view/timelinetabs.cpp:61
+#: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -35714,7 +35714,7 @@ msgstr ""
 "הוספת רצף ציר זמן. הפעולה הזאת תיצור ציר זמן חדש לעריכה. כל ציר זמן מקושר "
 "לסרטון רצף בסל המיזם"
 
-#: src/timeline2/view/timelinetabs.cpp:183
+#: src/timeline2/view/timelinetabs.cpp:173
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -35724,29 +35724,29 @@ msgstr ""
 "רצף ציר הזמן <b>%1</b> קוצר.<br/>לשנות את גודל כל המופעים בצירי זמן אחרים?"
 "<br>בחירה שלא לשנות תשאיר את המשך הנוכחי בכל שאר הרצפים."
 
-#: src/timeline2/view/timelinetabs.cpp:186
+#: src/timeline2/view/timelinetabs.cpp:176
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "לשנות גודל"
 
-#: src/timeline2/view/timelinetabs.cpp:187
+#: src/timeline2/view/timelinetabs.cpp:177
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "לא לשנות גודל"
 
-#: src/timeline2/view/timelinetabs.cpp:270
+#: src/timeline2/view/timelinetabs.cpp:260
 #, kde-format
 msgid "Close %1"
 msgstr "סגירת %1"
 
-#: src/timeline2/view/timelinetabs.cpp:393
+#: src/timeline2/view/timelinetabs.cpp:383
 #, kde-format
 msgid "Align to Reference"
 msgstr "יישור לסימוכין"
 
-#: src/timeline2/view/timelinetabs.cpp:470
+#: src/timeline2/view/timelinetabs.cpp:460
 #, kde-format
 msgid "Rename Sequence"
 msgstr "שינוי שם רצף"

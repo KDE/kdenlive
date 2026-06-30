@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-29 00:44+0000\n"
-"PO-Revision-Date: 2026-06-27 21:57+0200\n"
+"POT-Creation-Date: 2026-06-30 00:42+0000\n"
+"PO-Revision-Date: 2026-06-29 17:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 25.04.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -773,6 +773,7 @@ msgstr "Antialiàsing"
 msgid "Sample reduction"
 msgstr "Reducció de mostres"
 
+# NdT: LFO = https://en.wikipedia.org/wiki/Low-frequency_oscillation
 #: data/effects/avfilter/avfilter_acrusher.xml:36
 #, kde-format
 msgid "Enable LFO"
@@ -819,7 +820,7 @@ msgstr "Normalitza a 0 dB"
 #: data/effects/avfilter/avfilter_allpass.xml:4
 #, kde-format
 msgid "Allpass"
-msgstr "Passa tot"
+msgstr "Passatot"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
 #, kde-format
@@ -828,8 +829,8 @@ msgid ""
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"Aplica un filtre de passa tot de dos pols amb freqüència central i amplària "
-"de filtre. Un filtre passa tot canvia la freqüència de l'àudio a la relació "
+"Aplica un filtre de passatot de dos pols amb freqüència central i amplària "
+"de filtre. Un filtre passatot canvia la freqüència de l'àudio a la relació "
 "de fase sense canviar la seua freqüència a la relació d'amplitud."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
@@ -3316,7 +3317,7 @@ msgstr "Establix l'escala del blau"
 #: data/effects/frei0r/frei0r_softglow.xml:18 data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
-msgstr "Lluminositat"
+msgstr "Brillantor"
 
 #: data/effects/avfilter/avfilter_dilation.xml:4
 #, kde-format
@@ -7431,7 +7432,7 @@ msgstr "Duració"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:82
-#: src/core.cpp:1112 src/kdenliveui.rc:195 src/mainwindow.cpp:267
+#: src/core.cpp:1128 src/kdenliveui.rc:195 src/mainwindow.cpp:267
 #: src/project/dialogs/archivewidget.cpp:100
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -9645,7 +9646,7 @@ msgstr "Distància al color"
 #, kde-format
 msgctxt "Brightness Effect Name"
 msgid "Brightness"
-msgstr "Lluminositat"
+msgstr "Brillantor"
 
 #: data/effects/frei0r/frei0r_brightness.xml:5
 #, kde-format
@@ -14461,12 +14462,12 @@ msgstr "Assecament/Humitat"
 #: data/effects/ladspa/ladspa_1190.xml:4
 #, kde-format
 msgid "Comb Filter"
-msgstr "Filtres comb"
+msgstr "Filtres de pinta («comb»)"
 
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
 msgid "Comb Filter (LADSPA 1190)"
-msgstr "Filtres comb (LADSPA 1190)"
+msgstr "Filtres de pinta (LADSPA 1190)"
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
 #, kde-format
@@ -14549,6 +14550,9 @@ msgid ""
 "      that the 'LFO' will move at. The LFO isn't actually an oscillator, but "
 "it does vary periodically."
 msgstr ""
+"Esta és la freqüència central<br>\n"
+"      a la qual es mourà la «LFO». Realment, la LFO no és un oscil·lador, "
+"però varia periòdicament."
 
 #: data/effects/ladspa/ladspa_1191.xml:26
 #, kde-format
@@ -14557,12 +14561,16 @@ msgid ""
 "      output to the input, increases the depth of the effect, but makes it "
 "sound less like a real flanger."
 msgstr ""
+"Retroalimentació aplicada des de la<br>\n"
+"      eixida cap a l'entrada, augmenta la profunditat de l'efecte, però fa "
+"que sone menys com un flanger real."
 
 #: data/effects/ladspa/ladspa_1192.xml:4
 #, kde-format
 msgid "Fractionally Addressed Delay Line"
 msgstr ""
-"Fractionally Addressed Delay Line (Línia de retard amb direcció fraccionada)"
+"Línia de retard amb direcció fraccionada («Fractionally Addressed Delay "
+"Line»)"
 
 #: data/effects/ladspa/ladspa_1192.xml:6
 #, kde-format
@@ -14571,12 +14579,15 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Línia de retard amb direcció fraccionada (LADSPA 1192)<br>\n"
+"   Adapta automàticament el nombre de canals i freqüència de mostreig del "
+"consumidor."
 
 #: data/effects/ladspa/ladspa_1195.xml:4
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
 msgid "Declipper"
-msgstr "Declipper (Eliminació de talls)"
+msgstr "Eliminació de talls («Declipper»)"
 
 #: data/effects/ladspa/ladspa_1195.xml:6
 #, kde-format
@@ -14584,11 +14595,14 @@ msgid ""
 "Declipper (LADSPA 1195)<br>\n"
 "   Removes nasty clicks from input signals, not very kind to them though."
 msgstr ""
+"Eliminació de talls (LADSPA 1195)<br>\n"
+"   Elimina els clics desagradables dels senyals d'entrada, però no és gaire "
+"amable amb ells."
 
 #: data/effects/ladspa/ladspa_1196.xml:4
 #, kde-format
 msgid "Fast Overdrive"
-msgstr "Sobremarxa ràpida («Fast Overdrive»)"
+msgstr "Saturació ràpida («Fast Overdrive»)"
 
 #: data/effects/ladspa/ladspa_1196.xml:6
 #, kde-format
@@ -14597,6 +14611,9 @@ msgid ""
 "   A simple overdrive. Compresses the extreme peaks to make a sound similar "
 "to an overdriven amplifier."
 msgstr ""
+"Saturació ràpida (LADSPA 1196)<br>\n"
+"   Una saturació senzilla. Comprimix els pics extrems per a fer un so "
+"similar a un amplificador amb saturació."
 
 #: data/effects/ladspa/ladspa_1196.xml:9
 #, kde-format
@@ -14609,6 +14626,8 @@ msgid ""
 "Controls the point at<br>\n"
 "      which the signal starts to distort, and the degree of distortion."
 msgstr ""
+"Controla el punt al<br>\n"
+"      qual el senyal comença a distorsionar, i el grau de distorsió."
 
 #: data/effects/ladspa/ladspa_1202.xml:4
 #, kde-format
@@ -14623,6 +14642,10 @@ msgid ""
 "of the input signal, allows non integer values for smooth transitions "
 "between clean and lo-fi signals."
 msgstr ""
+"Decimator (LADSPA 1202)<br>\n"
+"   Trunca (reduïx la freqüència de mostreig efectiva), i reduïx la "
+"profunditat de bits del senyal d'entrada, permet valors no enters per a "
+"transicions suaus entre els senyals nets i baixa fidelitat."
 
 #: data/effects/ladspa/ladspa_1202.xml:9
 #, kde-format
@@ -14632,7 +14655,7 @@ msgstr "Profunditat de bits"
 #: data/effects/ladspa/ladspa_1202.xml:10
 #, kde-format
 msgid "The bit depth that the signal will be reduced to"
-msgstr ""
+msgstr "La profunditat de bits al qual es reduirà el senyal"
 
 #: data/effects/ladspa/ladspa_1202.xml:13
 #, kde-format
@@ -14647,7 +14670,7 @@ msgstr "La freqüència de mostreig al qual el senyal es tornarà a mostrejar"
 #: data/effects/ladspa/ladspa_1203.xml:4
 #, kde-format
 msgid "Single Band Parametric"
-msgstr ""
+msgstr "Paramètric de banda individual («Single Band Parametric»)"
 
 #: data/effects/ladspa/ladspa_1203.xml:6
 #, kde-format
@@ -14655,6 +14678,8 @@ msgid ""
 "Single Band Parametric (LADSPA 1203)<br>\n"
 "   A single band of a parametric filter."
 msgstr ""
+"Paramètric de banda individual (LADSPA 1203)<br>\n"
+"   Una banda individual d'un filtre paramètric."
 
 #: data/effects/ladspa/ladspa_1203.xml:9
 #, kde-format
@@ -14664,13 +14689,14 @@ msgstr "Guany (dB)"
 #: data/effects/ladspa/ladspa_1203.xml:10
 #, kde-format
 msgid "The attenuation/gain of the eq"
-msgstr ""
+msgstr "L'atenuació/guany de l'equalitzador"
 
 #: data/effects/ladspa/ladspa_1203.xml:13
 #, kde-format
 msgid "Frequency (Hz)"
 msgstr "Freqüència (Hz)"
 
+# skip-rule: tags-spaces-start
 #: data/effects/ladspa/ladspa_1203.xml:15
 #, kde-format
 msgid ""
@@ -14679,18 +14705,26 @@ msgid ""
 "and <i>Bandwidth</i>: if the high pitch (<i>Frequency</i> * 2^<i>Bandwidth</"
 "i>) goes over half the sample rate, you will get aliasing."
 msgstr ""
+"La freqüència central (és a dir, el punt de<br>\n"
+"      més/menys atenuació). Compte amb els valors alts de la <i>Freqüència</"
+"i> i l'<i>Amplada de banda</i>: si el to alt (<i>Freqüència</i> * "
+"2^<i>Amplada de banda</i>) supera la meitat de la freqüència de mostreig, "
+"obtindreu aliàsing."
 
 #: data/effects/ladspa/ladspa_1203.xml:18
 #, kde-format
 msgid "Bandwidth (octaves)"
-msgstr ""
+msgstr "Amplada de banda (octaves)"
 
+# skip-rule: tags-spaces-start
 #: data/effects/ladspa/ladspa_1203.xml:20
 #, kde-format
 msgid ""
 "The pitch difference from the<br>\n"
 "      centre before the attenuation has reached half the <i>Gain</i>."
 msgstr ""
+"La diferència de to des del<br>\n"
+"      centre abans que l'atenuació arribe a la meitat del <i>Guany</i>."
 
 #: data/effects/ladspa/ladspa_1207.xml:4
 #, kde-format
@@ -14750,7 +14784,7 @@ msgstr "«Control» l'asimetria de la forma d'ona"
 #: data/effects/ladspa/ladspa_1218.xml:4
 #, kde-format
 msgid "4x4 Pole Allpass"
-msgstr "Passa tot al pal 4x4"
+msgstr "Passatot de pol 4x4"
 
 #: data/effects/ladspa/ladspa_1218.xml:6
 #, kde-format
@@ -14759,6 +14793,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Passatot de pol 4x4 (LADSPA 1218)<br>\n"
+"   Adapta automàticament el nombre de canals i la freqüència de mostreig del "
+"consumidor."
 
 #: data/effects/ladspa/ladspa_1218.xml:9
 #, kde-format
@@ -14858,6 +14895,9 @@ msgid ""
 "      will be used to stagger the delays and amplitudes if random is turned "
 "up on them. Changing this forces the random values to be recalculated."
 msgstr ""
+"Controla els números aleatoris que<br>\n"
+"      s'utilitzaran per a escalonar els retards i amplituds si es mostren "
+"aleatoris. Canviar açò força que es recalculen els valors aleatoris."
 
 #: data/effects/ladspa/ladspa_1402.xml:14
 #, kde-format
@@ -14867,17 +14907,17 @@ msgstr "Controla el guany del senyal d'entrada"
 #: data/effects/ladspa/ladspa_1402.xml:18
 #, kde-format
 msgid "Controls the amount of output signal fed back into the input"
-msgstr ""
+msgstr "Controla la quantitat de senyal d'eixida retornada a l'entrada"
 
 #: data/effects/ladspa/ladspa_1402.xml:21
 #, kde-format
 msgid "Number of Taps"
-msgstr "Nombre de vegades"
+msgstr "Nombre de tocs"
 
 #: data/effects/ladspa/ladspa_1402.xml:22
 #, kde-format
 msgid "Controls the number of taps in the delay"
-msgstr ""
+msgstr "Controla el nombre de tocs en el retard"
 
 #: data/effects/ladspa/ladspa_1402.xml:25
 #, kde-format
@@ -14897,7 +14937,7 @@ msgstr "Interval de retard"
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
 msgid "The time difference between the first and last delay"
-msgstr ""
+msgstr "La diferència de temps entre el primer i l'últim retard"
 
 #: data/effects/ladspa/ladspa_1402.xml:33
 #, kde-format
@@ -14907,7 +14947,7 @@ msgstr "Canvi de retard"
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
 msgid "The scaling factor between one delay and the next"
-msgstr ""
+msgstr "El factor d'escalat entre un retard i el següent"
 
 #: data/effects/ladspa/ladspa_1402.xml:37
 #, kde-format
@@ -14927,7 +14967,7 @@ msgstr "Canvi d'amplitud"
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
 msgid "The scaling factor between one amplitude and the next"
-msgstr ""
+msgstr "El factor d'escalat entre una amplitud i la següent"
 
 #: data/effects/ladspa/ladspa_1402.xml:45
 #, kde-format
@@ -14970,6 +15010,8 @@ msgid ""
 "Controls the desired limit<br>\n"
 "      of the output signal"
 msgstr ""
+"Controla el límit desitjat<br>\n"
+"      del senyal d'eixida"
 
 #: data/effects/ladspa/ladspa_1403.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:19
@@ -14983,6 +15025,9 @@ msgid ""
 "Controls the time taken for<br>\n"
 "      the compressor to relax its gain control over the input signal"
 msgstr ""
+"Controla el temps que tarda<br>\n"
+"      el compressor per relaxar el seu control de guany sobre el senyal "
+"d'entrada"
 
 #: data/effects/ladspa/ladspa_1403.xml:18
 #, kde-format
@@ -14997,7 +15042,7 @@ msgstr "Relació de compressió"
 #: data/effects/ladspa/ladspa_1404.xml:4
 #, kde-format
 msgid "Crossover Distortion"
-msgstr "Distorsió creuada"
+msgstr "Distorsió creuada («Crossover Distortion»)"
 
 #: data/effects/ladspa/ladspa_1404.xml:6
 #, kde-format
@@ -15006,21 +15051,24 @@ msgid ""
 "   This is a simulation of the distortion that happens in class B and AB "
 "power amps when the signal crosses 0."
 msgstr ""
+"Distorsió creuada (LADSPA 1404)<br>\n"
+"   Esta és una simulació de la distorsió que succeïx en els amplificadors de "
+"potència de classe B i AB quan el senyal creua 0."
 
 #: data/effects/ladspa/ladspa_1404.xml:9
 #, kde-format
 msgid "Crossover Amplitude"
-msgstr "Amplitud de distorsió creuada"
+msgstr "Amplitud de l'encreuament"
 
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
 msgid "Controls the point at which the output signal becomes linear"
-msgstr ""
+msgstr "Controla el punt en què el senyal d'eixida es torna lineal"
 
 #: data/effects/ladspa/ladspa_1404.xml:14
 #, kde-format
 msgid "Controls degree of smoothing of the crossover point"
-msgstr ""
+msgstr "Controla el grau de suavitzat del punt d'encreuament"
 
 #: data/effects/ladspa/ladspa_1407.xml:4
 #, kde-format
@@ -15034,6 +15082,10 @@ msgid ""
 "   Simulates aliasing using nyquist frequency modulation. Produces wacky "
 "results if the blocks aren't even numbers of samples long."
 msgstr ""
+"Aliàsing (LADSPA 1407)<br>\n"
+"   Simula l'aliàsing utilitzant la modulació de freqüència «nyquist». "
+"Produïx resultats errònies si els blocs no són un nombre parell de ni tan "
+"sols un nombre de mostres."
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, kde-format
@@ -15043,12 +15095,12 @@ msgstr "Nivell d'aliàsing"
 #: data/effects/ladspa/ladspa_1407.xml:10
 #, kde-format
 msgid "Controls the amount of simulated aliasing in the output."
-msgstr ""
+msgstr "Controla la quantitat d'aliàsing simulat a l'eixida."
 
 #: data/effects/ladspa/ladspa_1408.xml:4
 #, kde-format
 msgid "Barry's Satan Maximiser"
-msgstr "Maximitzador de Satanàs de Barry"
+msgstr "Maximitzador de Satanàs de Barry («Barry's Satan Maximiser»)"
 
 #: data/effects/ladspa/ladspa_1408.xml:6
 #, kde-format
@@ -15058,6 +15110,10 @@ msgid ""
 "and hard knee. Not really as a compressor, but good harsh (non-musical) "
 "distortion."
 msgstr ""
+"Maximitzador de Satanàs de Barry (LADSPA 1408)<br>\n"
+"   Comprimix els senyals amb un atac i un decaïment estúpidament curts, una "
+"relació infinita i un amortidor dur. En realitat no com un compressor, sinó "
+"una distorsió dura bona (no musical)."
 
 #: data/effects/ladspa/ladspa_1408.xml:9
 #, kde-format
@@ -15072,7 +15128,7 @@ msgstr "Controla el temps de decaïment de l'envolupant."
 #: data/effects/ladspa/ladspa_1408.xml:13
 #, kde-format
 msgid "Knee Point"
-msgstr "Punt d'articulació"
+msgstr "Punt d'amortiment"
 
 #: data/effects/ladspa/ladspa_1408.xml:15
 #, kde-format
@@ -15081,6 +15137,9 @@ msgid ""
 "      ie. the point above which the compression kicks in. 0 will have no "
 "effect, -90 will remove virtually all dynamic range."
 msgstr ""
+"Controla el punt d'eixida de l'amortiment,<br>\n"
+"      és a dir, el punt per damunt el qual es produïx la compressió. 0 no "
+"tindrà cap efecte, -90 eliminarà virtualment tot el marge dinàmic."
 
 #: data/effects/ladspa/ladspa_1410.xml:4
 #, kde-format
@@ -15103,6 +15162,8 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the low frequency filter (highpass)"
 msgstr ""
+"Controla el tall del<br>\n"
+"      filtre de baixa freqüència (passaalt)"
 
 #: data/effects/ladspa/ladspa_1410.xml:13
 #, kde-format
@@ -15115,6 +15176,8 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the high frequency filter (lowpass)"
 msgstr ""
+"Controla el tall del<br>\n"
+"      filtre d'alta freqüència (passabaix)"
 
 #: data/effects/ladspa/ladspa_1410.xml:20
 #, kde-format
@@ -15122,6 +15185,8 @@ msgid ""
 "Controls the level at<br>\n"
 "      which the gate will open"
 msgstr ""
+"Controla el nivell al<br>\n"
+"      qual s'obrirà la porta"
 
 #: data/effects/ladspa/ladspa_1410.xml:25
 #, kde-format
@@ -15129,6 +15194,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to open fully"
 msgstr ""
+"Controla els temps que<br>\n"
+"      tardarà la porta a obrir-se completament"
 
 #: data/effects/ladspa/ladspa_1410.xml:28
 #, kde-format
@@ -15141,6 +15208,8 @@ msgid ""
 "Controls the minimum<br>\n"
 "      time the gate will stay open for"
 msgstr ""
+"Controla el temps mínim<br>\n"
+"      que la porta romandrà oberta"
 
 #: data/effects/ladspa/ladspa_1410.xml:35
 #, kde-format
@@ -15148,6 +15217,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to close fully"
 msgstr ""
+"Controla els temps que<br>\n"
+"      tardarà la porta a tancar-se completament"
 
 #: data/effects/ladspa/ladspa_1410.xml:40
 #, kde-format
@@ -15155,6 +15226,8 @@ msgid ""
 "Controls the difference<br>\n"
 "      between the gate's open and closed state"
 msgstr ""
+"Controla la diferència<br>\n"
+"      entre l'estat obert i tancat de la porta"
 
 #: data/effects/ladspa/ladspa_1410.xml:43
 #, kde-format
@@ -15169,7 +15242,7 @@ msgstr "Controla el monitor d'eixida"
 #: data/effects/ladspa/ladspa_1410.xml:45
 #, kde-format
 msgid "Key (listen),Gate (normal output),Bypass"
-msgstr ""
+msgstr "Clau (escolta),Porta (eixida normal),Derivació"
 
 #: data/effects/ladspa/ladspa_1411.xml:4
 #, kde-format
@@ -15184,6 +15257,10 @@ msgid ""
 "intervals, skewed by f/2 Hz between the two outputs. Mixing the two outputs "
 "will get you exactly the input signal."
 msgstr ""
+"Divisor de pinta (LADSPA 1411)<br>\n"
+"   Dividix l'entrada en dues parts amb pics de freqüència a intervals de «f» "
+"Hz, esbiaixats per f/2 Hz entre les dues eixides. Mesclant les dues eixides "
+"obtindreu exactament el senyal d'entrada."
 
 #: data/effects/ladspa/ladspa_1411.xml:10
 #, kde-format
@@ -15218,7 +15295,7 @@ msgstr "Sinus,Triangle,Quadrat,Serra"
 #: data/effects/ladspa/ladspa_1423.xml:4
 #, kde-format
 msgid "SWH Plate Reverb"
-msgstr "Reverberació de placa SWH"
+msgstr "Reverberació de placa SWH («SWH Plate Reverb»)"
 
 #: data/effects/ladspa/ladspa_1423.xml:6
 #, kde-format
@@ -15227,6 +15304,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "audio stream"
 msgstr ""
+"Reverberació de placa SWH (LADSPA 1423)<br>\n"
+"   S'adapta automàticament al nombre de canals i a la freqüència de mostreig "
+"del flux d'àudio"
 
 #: data/effects/ladspa/ladspa_1423.xml:9
 #, kde-format
@@ -15248,7 +15328,7 @@ msgstr "Mescla assecament/humitat"
 #: data/effects/ladspa/ladspa_1430.xml:4
 #, kde-format
 msgid "Chebyshev Distortion"
-msgstr "Distorsió de Txebixev"
+msgstr "Distorsió de Txebixev («Chebyshev Distortion»)"
 
 #: data/effects/ladspa/ladspa_1430.xml:6
 #, kde-format
@@ -15258,6 +15338,11 @@ msgid ""
 "signal rises more and more harmonics will for added to the output signal. "
 "The distortion control sets the sensitivity of the input."
 msgstr ""
+"Distorsió de Txebixev (LADSPA 1430)<br>\n"
+"   Este efecte se sembra a partir de l'envolupant del senyal entrant. A "
+"mesura que el nivell del senyal augmenta cada vegada s'afigen més harmònics "
+"al senyal d'eixida. El control de distorsió establix la sensibilitat de "
+"l'entrada."
 
 #: data/effects/ladspa/ladspa_1430.xml:9
 #, kde-format
@@ -15272,7 +15357,7 @@ msgstr "Establix la sensibilitat de l'entrada"
 #: data/effects/ladspa/ladspa_1431.xml:4
 #, kde-format
 msgid "Bode Frequency Shifter"
-msgstr "Desplaçador de freqüència Bode"
+msgstr "Desplaçador de freqüència Bode («Bode Frequency Shifter»)"
 
 #: data/effects/ladspa/ladspa_1431.xml:6
 #, kde-format
@@ -15286,6 +15371,15 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>Desplaçador de freqüència Bode</b> (LADSPA 1431)<br>\n"
+"   Un desplaçador de freqüència Bode/Moog és un mòdul de síntesi analògica "
+"popular que funciona desplaçant totes les freqüències d'un senyal d'entrada "
+"amunt o avall segons una freqüència especificada. Este efecte canvia en "
+"ambdues direccions al mateix temps i que quasi no és una faena extra i "
+"sovint és útil per a tindre ambdues direccions. En contrast amb l'analògic "
+"Bode/Moog, que utilitza els filtres Dome com a nucli, utilitza un "
+"transformador de Hilbert, que és molt més senzill d'implementar en sistemes "
+"digitals."
 
 #: data/effects/ladspa/ladspa_1431.xml:9
 #, kde-format
@@ -15315,6 +15409,15 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>Desplaçador de freqüència Bode (CV)</b> (LADSPA 1432)<br>\n"
+"   Un desplaçador de freqüència Bode/Moog és un mòdul de síntesi analògica "
+"popular que funciona desplaçant totes les freqüències d'un senyal d'entrada "
+"amunt o avall segons una freqüència especificada. Este efecte canvia en "
+"ambdues direccions al mateix temps i que quasi no és una faena extra i "
+"sovint és útil per a tindre ambdues direccions. En contrast amb l'analògic "
+"Bode/Moog, que utilitza els filtres Dome com a nucli, utilitza un "
+"transformador de Hilbert, que és molt més senzill d'implementar en sistemes "
+"digitals."
 
 #: data/effects/ladspa/ladspa_1432.xml:9
 #, kde-format
@@ -15324,7 +15427,7 @@ msgstr "Desplaçament de base"
 #: data/effects/ladspa/ladspa_1432.xml:13
 #, kde-format
 msgid "Down,Both,Up"
-msgstr ""
+msgstr "Avall,Ambdós,Amunt"
 
 #: data/effects/ladspa/ladspa_1432.xml:16
 #, kde-format
@@ -15339,7 +15442,7 @@ msgstr "Desplaçament CV"
 #: data/effects/ladspa/ladspa_1433.xml:4
 #, kde-format
 msgid "AM Pitch Shifter"
-msgstr "Desplaçament de to AM"
+msgstr "Desplaçament de to AM («AM Pitch Shifter»)"
 
 #: data/effects/ladspa/ladspa_1433.xml:6
 #, kde-format
@@ -15350,6 +15453,11 @@ msgid ""
 "the two readpointers according to the sine of the distance from the write "
 "pointer."
 msgstr ""
+"Desplaçament de to AM (LADSPA 1433)<br>\n"
+"   Este efecte funciona executant un punter d'escriptura individual "
+"(monotònic) i dos punters de lectura (escala de punt) sobre una memòria "
+"intermèdia circular. L'eixida s'esvaïx entre els dos punters de lectura "
+"segons el sinus de la distància del punter d'escriptura."
 
 #: data/effects/ladspa/ladspa_1433.xml:9 data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
@@ -15362,6 +15470,8 @@ msgid ""
 "The multiple of the output pitch.<br>\n"
 "      For example, 2.00 will increase the pitch by one octave."
 msgstr ""
+"El múltiple del to d'eixida.<br>\n"
+"      Per exemple, 2,00 augmentarà el to en una octava."
 
 #: data/effects/ladspa/ladspa_1433.xml:14
 #, kde-format
@@ -15375,6 +15485,9 @@ msgid ""
 "      Small buffers will sound fluttery, large buffers will have flangy "
 "sounding echos."
 msgstr ""
+"L'ordre de magnitud de la mida de la memòria intermèdia.<br>\n"
+"      Les memòries intermèdies xicotetes sonaran de manera vibrant, les "
+"memòries intermèdies grans ecos sonors esponjosos."
 
 #: data/effects/ladspa/ladspa_1438.xml:4
 #, kde-format
@@ -15387,6 +15500,9 @@ msgid ""
 "DJ Flanger (LADSPA 1438)<br>\n"
 "   This is a flanger which is more or less typical of DJ mixing desks"
 msgstr ""
+"DJ flanger (LADSPA 1438)<br>\n"
+"   Este és un «flanger» que és més o menys típic dels escriptoris de mescla "
+"de DJ"
 
 #: data/effects/ladspa/ladspa_1438.xml:9
 #, kde-format
@@ -15400,6 +15516,9 @@ msgid ""
 "      it resets the phase of the LFO back to the start of the cycle. Used to "
 "sync the LFO to the track."
 msgstr ""
+"Quan està activada des d'apagat a encés<br>\n"
+"      restablix la fase de la LFO a l'inici del cicle. S'utilitza per a "
+"sincronitzar la LFO a la pista."
 
 #: data/effects/ladspa/ladspa_1438.xml:14
 #, kde-format
@@ -15409,12 +15528,13 @@ msgstr "Període de LFO"
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
 msgid "The cycle period of the LFO in seconds"
-msgstr ""
+msgstr "El període de cicle de la LFO en segons"
 
 #: data/effects/ladspa/ladspa_1438.xml:19
 #, kde-format
 msgid "The maximum delay the LFO will use to flange in milliseconds"
 msgstr ""
+"El retard màxim que utilitzarà el LFO per a fer «flange» en mil·lisegons"
 
 #: data/effects/ladspa/ladspa_1438.xml:23
 #, kde-format
@@ -15434,7 +15554,7 @@ msgstr "Decaïment exponencial del senyal (LADSPA 1886)"
 #: data/effects/ladspa/ladspa_1887.xml:4
 #, kde-format
 msgid "Comb Delay Line (linear interpolation)"
-msgstr ""
+msgstr "Línia de retard de pinta (interpolació lineal) («Comb Delay Line»)"
 
 #: data/effects/ladspa/ladspa_1887.xml:6
 #, kde-format
@@ -15442,6 +15562,8 @@ msgid ""
 "Comb Delay Line (linear interpolation) (LADSPA 1887)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Línia de retard de pinta (interpolació lineal) (LADSPA 1887)<br>\n"
+"   Es basa en la faena de James McCartney al SuperCollider."
 
 #: data/effects/ladspa/ladspa_1887.xml:9 data/effects/ladspa/ladspa_1888.xml:9
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
@@ -15459,6 +15581,9 @@ msgid ""
 "Maximum delay.<br>\n"
 "      Used to set the delay buffer size upon activation. Cannot be modulated."
 msgstr ""
+"Retard màxim.<br>\n"
+"      S'utilitza per a establir la mida de la memòria intermèdia de retard "
+"en activar-se. No es pot modular."
 
 #: data/effects/ladspa/ladspa_1887.xml:14
 #: data/effects/ladspa/ladspa_1888.xml:14
@@ -15480,11 +15605,16 @@ msgid ""
 "      by 60 decibels. If this time is negative then the feedback coefficient "
 "will be negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"Temps que tarden els ecos a decaure<br>\n"
+"      60 decibels. Si este temps és negatiu, llavors el coeficient de "
+"retroalimentació serà negatiu, posant així èmfasi només en harmònics "
+"imparells a una octava inferior."
 
 #: data/effects/ladspa/ladspa_1888.xml:4
 #, kde-format
 msgid "Comb Delay Line (cubic spline interpolation)"
 msgstr ""
+"Línia de retard de pinta (interpolació cúbica spline) («Comb Delay Line»)"
 
 #: data/effects/ladspa/ladspa_1888.xml:6
 #, kde-format
@@ -15492,11 +15622,13 @@ msgid ""
 "Comb Delay Line (cubic spline interpolation) (LADSPA 1888)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Línia de retard de pinta (interpolació cúbica spline) (LADSPA 1888)<br>\n"
+"   Es basa en la faena de James McCartney al SuperCollider."
 
 #: data/effects/ladspa/ladspa_1889.xml:4
 #, kde-format
 msgid "Comb Delay Line (non-interpolating)"
-msgstr ""
+msgstr "Línia de retard de pinta (sense interpolació)"
 
 #: data/effects/ladspa/ladspa_1889.xml:6
 #, kde-format
@@ -15504,11 +15636,13 @@ msgid ""
 "Comb Delay Line (non-interpolating) (LADSPA 1889)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Línia de retard de pinta (sense interpolació) (LADSPA 1889)<br>\n"
+"   Es basa en la faena de James McCartney al SuperCollider."
 
 #: data/effects/ladspa/ladspa_1890.xml:4
 #, kde-format
 msgid "GLAME Highpass"
-msgstr "Passaalt GLAME"
+msgstr "Passaalt GLAME («GLAME Highpass»)"
 
 #: data/effects/ladspa/ladspa_1890.xml:6
 #, kde-format
@@ -15518,6 +15652,10 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"Filtre passaalt GLAME (LADSPA 1890)<br>\n"
+"   Filtre passaalt basat en IIR que utilitza coeficients de Txebishev. El "
+"filtre permet ajustar el nombre d'etapes utilitzades per al filtratge. Cada "
+"etapa afig dos pols més, el que conduïx a un descens més pronunciat."
 
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
@@ -15541,11 +15679,13 @@ msgid ""
 "Every stage adds two more<br>\n"
 "      poles, which leads to a steeper dropoff."
 msgstr ""
+"Cada etapa afig dos pols<br>\n"
+"      més, el que conduïx a un descens més pronunciat."
 
 #: data/effects/ladspa/ladspa_1891.xml:4
 #, kde-format
 msgid "GLAME Lowpass"
-msgstr "Passabaix GLAME"
+msgstr "Passabaix GLAME («GLAME Lowpass»)"
 
 #: data/effects/ladspa/ladspa_1891.xml:6
 #, kde-format
@@ -15555,11 +15695,15 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"Filtre passabaix GLAME (LADSPA 1891)<br>\n"
+"   Filtre passabaix basat en IIR que utilitza coeficients de Txebishev. El "
+"filtre permet ajustar el nombre d'etapes utilitzades per al filtratge. Cada "
+"etapa afig dos pols més, el que conduïx a un descens més pronunciat."
 
 #: data/effects/ladspa/ladspa_1892.xml:4
 #, kde-format
 msgid "GLAME Bandpass"
-msgstr "Passabanda GLAME"
+msgstr "Passabanda GLAME («GLAME Bandpass»)"
 
 #: data/effects/ladspa/ladspa_1892.xml:6
 #, kde-format
@@ -15569,6 +15713,10 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"Filtre passabanda GLAME (LADSPA 1892)<br>\n"
+"   Filtre passabanda basat en IIR que utilitza coeficients de Txebishev. El "
+"filtre permet ajustar el nombre d'etapes utilitzades per al filtratge. Cada "
+"etapa afig dos pols més, el que conduïx a un descens més pronunciat."
 
 #: data/effects/ladspa/ladspa_1892.xml:9 data/effects/ladspa/ladspa_1893.xml:9
 #: data/effects/sox/sox_band.xml:8
@@ -15585,7 +15733,7 @@ msgstr "Amplada de banda"
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
 msgid "GLAME Bandpass Analog"
-msgstr ""
+msgstr "Passabanda analògic GLAME («GLAME Bandpass Analog»)"
 
 #: data/effects/ladspa/ladspa_1893.xml:6
 #, kde-format
@@ -15593,11 +15741,13 @@ msgid ""
 "GLAME Bandpass Analog Filter (LADSPA 1893)<br>\n"
 "   IIR bandpass filter modeled after an analog circuit"
 msgstr ""
+"Passabanda analògic GLAME (LADSPA 1893)<br>\n"
+"   Filtre passabanda IIR modelat després d'un circuit analògic"
 
 #: data/effects/ladspa/ladspa_1895.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Non-interpolating)"
-msgstr ""
+msgstr "Línia de retard passatot (sense interpolació) («Allpass Delay Line»)"
 
 #: data/effects/ladspa/ladspa_1895.xml:6
 #, kde-format
@@ -15606,6 +15756,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Línia de retard passatot (sense interpolació) (LADSPA 1895)<br>\n"
+"   Adapta automàticament el nombre de canals i la freqüència de mostreig del "
+"consumidor."
 
 #: data/effects/ladspa/ladspa_1895.xml:17
 #: data/effects/ladspa/ladspa_1896.xml:17
@@ -15616,11 +15769,15 @@ msgid ""
 "      If this time is negative, then the feedback coefficient will be "
 "negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"Temps que tarden els ecos a decaure 60 dB.\n"
+"       Si este temps és negatiu, llavors el coeficient de retroalimentació "
+"serà negatiu, posant així èmfasi només en harmònics imparells a una octava "
+"inferior."
 
 #: data/effects/ladspa/ladspa_1896.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Linear Interpolation)"
-msgstr ""
+msgstr "Línia de retard passatot (interpolació lineal) («Allpass Delay Line»)"
 
 #: data/effects/ladspa/ladspa_1896.xml:6
 #, kde-format
@@ -15629,11 +15786,15 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Línia de retard passatot (LADSPA 1896)<br>\n"
+"   Adapta automàticament el nombre de canals i la freqüència de mostreig del "
+"consumidor."
 
 #: data/effects/ladspa/ladspa_1897.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Cubic Spline Interpolation)"
 msgstr ""
+"Línia de retard passatot (interpolació cúbica spline) («Allpass Delay Line»)"
 
 #: data/effects/ladspa/ladspa_1897.xml:6
 #, kde-format
@@ -15642,11 +15803,15 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Línia de retard passatot (LADSPA 1897)<br>\n"
+"   Adapta automàticament el nombre de canals i la freqüència de mostreig del "
+"consumidor."
 
 #: data/effects/ladspa/ladspa_1900.xml:4
 #, kde-format
 msgid "Simple Delay Line (Cubic Spline Interpolation)"
 msgstr ""
+"Línia de retard simple (interpolació cúbica spline) («Simple Delay Line»)"
 
 #: data/effects/ladspa/ladspa_1900.xml:6
 #, kde-format
@@ -15654,6 +15819,8 @@ msgid ""
 "Simple Delay Line (LADSPA 1900)<br>\n"
 "   Uses cubic spline interpolation"
 msgstr ""
+"Línia de retard simple (LADSPA 1900)<br>\n"
+"   Utilitza una interpolació cúbica spline"
 
 #: data/effects/ladspa/ladspa_1901.xml:4
 #, kde-format
@@ -15667,6 +15834,9 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (LADSPA 1901)<br>\n"
+"   El disseny d'este connector està pres del mesclador de DJ Allen & Heath "
+"Xone 32."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
 #, kde-format
@@ -15677,7 +15847,7 @@ msgstr "Guany baix («Lo Gain»)"
 #: data/effects/ladspa/ladspa_1907.xml:10
 #, kde-format
 msgid "Controls the gain of the low (100Hz) peak/dip band"
-msgstr ""
+msgstr "Controla el guany de la banda baixa (100 Hz) de pics/sots"
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
@@ -15689,7 +15859,7 @@ msgstr "Guany mig («Mid Gain»)"
 #: data/effects/ladspa/ladspa_1907.xml:14
 #, kde-format
 msgid "Controls the gain of the mid (1,000Hz) peak/dip band"
-msgstr ""
+msgstr "Controla el guany de la banda mitja (1.000 Hz) de pics/sots"
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
@@ -15701,17 +15871,17 @@ msgstr "Guany alt («Hi Gain»)"
 #: data/effects/ladspa/ladspa_1907.xml:18
 #, kde-format
 msgid "Controls the gain of the high (10,000Hz) shelf band"
-msgstr ""
+msgstr "Controla el guany de la banda alta (10.000 Hz) de prestatge"
 
 #: data/effects/ladspa/ladspa_1902.xml:4
 #, kde-format
 msgid "GLAME Butterworth X-Over"
-msgstr ""
+msgstr "Butterworth X-Over GLAME"
 
 #: data/effects/ladspa/ladspa_1902.xml:5
 #, kde-format
 msgid "Butterworth Crossover Filter (LADSPA 1902)"
-msgstr ""
+msgstr "Filtre creuat de Butterworth (LADSPA 1902)"
 
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
@@ -15723,22 +15893,22 @@ msgstr "Ressonància («Resonance»)"
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
 msgid "GLAME Butterworth Lowpass"
-msgstr ""
+msgstr "Passabaix de Butterworth GLAME («GLAME Butterworth Lowpass»)"
 
 #: data/effects/ladspa/ladspa_1903.xml:5
 #, kde-format
 msgid "Butterworth Lowpass Filter (LADSPA 1903)"
-msgstr ""
+msgstr "Filtre passabaix de Butterworth (LADSPA 1903)"
 
 #: data/effects/ladspa/ladspa_1904.xml:4
 #, kde-format
 msgid "GLAME Butterworth Highpass"
-msgstr ""
+msgstr "Passaalt de Butterworth GLAME («GLAME Butterworth Highpass»)"
 
 #: data/effects/ladspa/ladspa_1904.xml:5
 #, kde-format
 msgid "Butterworth Highpass Filter (LADSPA 1904)"
-msgstr ""
+msgstr "Filtre passaalt de Butterworth (LADSPA 1904)"
 
 #: data/effects/ladspa/ladspa_1905.xml:4
 #, kde-format
@@ -15766,6 +15936,8 @@ msgid ""
 "The date of the recording/<br>\n"
 "      playback equipment to be simulated"
 msgstr ""
+"La data de l'equip<br>\n"
+"       de gravació/reproducció a simular"
 
 #: data/effects/ladspa/ladspa_1905.xml:14
 #: data/effects/ladspa/ladspa_vinyl.xml:11
@@ -15794,6 +15966,8 @@ msgid ""
 "The degree of variation in<br>\n"
 "      height of the record surfaced"
 msgstr ""
+"El grau de variació a<br>\n"
+"      l'alçària de la superfície del registre"
 
 #: data/effects/ladspa/ladspa_1905.xml:24
 #: data/effects/ladspa/ladspa_vinyl.xml:17
@@ -15807,6 +15981,8 @@ msgid ""
 "The number of scratches on<br>\n"
 "      the record surface"
 msgstr ""
+"El nombre de ratllades a<br>\n"
+"      superfície del registre"
 
 #: data/effects/ladspa/ladspa_1905.xml:29
 #: data/effects/ladspa/ladspa_vinyl.xml:20
@@ -15831,11 +16007,14 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (mono) (LADSPA 1907)<br>\n"
+"   El disseny d'este connector està pres del mesclador de DJ Allen & Heath "
+"Xone 32."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
 #, kde-format
 msgid "Fast Lookahead Limiter"
-msgstr "Limitador d'anticipació ràpid"
+msgstr "Limitador d'anticipació ràpid («Fast Lookahead Limiter»)"
 
 #: data/effects/ladspa/ladspa_1913.xml:6
 #, kde-format
@@ -15845,6 +16024,10 @@ msgid ""
 "latency to the input signal, but it guarantees that there will be no signals "
 "over the limit, and tries to get the minimum amount of distortion."
 msgstr ""
+"Limitador d'anticipació ràpid (LADSPA 1913)<br>\n"
+"   Este és un limitador amb un temps d'atac de 5 ms. Afig una mica més de 5 "
+"ms de latència al senyal d'entrada, però garantix que no hi haurà senyals "
+"sobre el límit, i intenta obtindre la quantitat mínima de distorsió."
 
 #: data/effects/ladspa/ladspa_1913.xml:11
 #, kde-format
@@ -15853,6 +16036,10 @@ msgid ""
 "      to the input stage. Can be used to trim gain to bring it roughly under "
 "the limit or to push the signal against the limit."
 msgstr ""
+"Guany que s'aplica<br>\n"
+"      a l'etapa d'entrada. Es pot utilitzar per retallar el guany per a "
+"portar-lo més o menys davall el límit o per empényer el senyal contra el "
+"límit."
 
 #: data/effects/ladspa/ladspa_1913.xml:16
 #, kde-format
@@ -15861,6 +16048,9 @@ msgid ""
 "      Peaks over this level will be attenuated as smoothly as possible to "
 "bring them as close as possible to this level."
 msgstr ""
+"L'amplitud màxima de l'eixida.<br>\n"
+"      Els pics per damunt d'este nivell s'atenuaran el més suaument possible "
+"per acostar-los el més possible a este nivell."
 
 #: data/effects/ladspa/ladspa_1913.xml:21
 #, kde-format
@@ -15868,6 +16058,8 @@ msgid ""
 "The time taken for the<br>\n"
 "      limiters attenuation to return to 0 dB"
 msgstr ""
+"El temps necessari<br>\n"
+"      perquè l'atenuació dels limitadors torne a 0 dB"
 
 #: data/effects/ladspa/ladspa_1913.xml:24
 #, kde-format
@@ -15880,6 +16072,8 @@ msgid ""
 "The current attenuation<br>\n"
 "      of the signal coming out of the delay buffer"
 msgstr ""
+"L'atenuació actual<br>\n"
+"      del senyal eixint de la memòria intermèdia de retard"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
 #, kde-format
@@ -15989,7 +16183,7 @@ msgstr "Filtres comb"
 #: data/effects/ladspa/ladspa_2142.xml:21
 #, kde-format
 msgid "Allpass Filters"
-msgstr "Filtres passa tot"
+msgstr "Filtres passatot"
 
 #: data/effects/ladspa/ladspa_2142.xml:24
 #, kde-format
@@ -16672,10 +16866,10 @@ msgid ""
 "phase; when set to 180 degrees, the two LFO's are is counter-phase to create "
 "the widest stereo effect."
 msgstr ""
-"Controla el desplaçament de fase entre els dos<br>\n"
+"Controla el desplaçament de fase entre les dues<br>\n"
 "      LFO. Com més alta siga esta opció, més forta serà l'estèreo de "
 "l'efecte. Quan s'establix a 0, el processament dels dos canals serà en fase; "
-"quan s'establix a 180 graus, els dos LFO són en contrafase per a crear un "
+"quan s'establix a 180 graus, les dues LFO són en contrafase per a crear un "
 "efecte estèreo més ample."
 
 #: data/effects/ladspa/ladspa_2159.xml:21
@@ -22028,7 +22222,7 @@ msgstr "Introduïu el camí cap a l'aplicació d'edició de vídeo"
 msgid "Please set a default application to open video files"
 msgstr "Establiu l'aplicació predeterminada per a obrir fitxers de vídeo"
 
-#: src/bin/bin.cpp:5196 src/core.cpp:638 src/core.cpp:666
+#: src/bin/bin.cpp:5196 src/core.cpp:643 src/core.cpp:671
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:491
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22888,7 +23082,7 @@ msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "captura"
 
-#: src/core.cpp:162
+#: src/core.cpp:167
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -22897,18 +23091,18 @@ msgstr ""
 "Kdenlive va fallar en l'últim inici.\n"
 "Voleu desactivar el processament experimental de la GPU (Movit)?"
 
-#: src/core.cpp:163
+#: src/core.cpp:168
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "Desactiva el processament de la GPU"
 
-#: src/core.cpp:261 src/core.cpp:304 src/core.cpp:478
+#: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
 #: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Loading project…"
 msgstr "S'està carregant el projecte…"
 
-#: src/core.cpp:438
+#: src/core.cpp:443
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -22917,19 +23111,19 @@ msgstr ""
 "No s'ha definit cap perfil predeterminat de Kdenlive o no és vàlid. Premeu "
 "d'Acord per a establir el seu valor correcte."
 
-#: src/core.cpp:450
+#: src/core.cpp:455
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Trieu el perfil predeterminat"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:450 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:455 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Perfil:"
 
-#: src/core.cpp:463
+#: src/core.cpp:468
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -22938,262 +23132,262 @@ msgstr ""
 "El perfil indicat no és vàlid. S'establix el perfil predeterminat «dv_pal», "
 "però podeu canviar-ho en el quadro de configuració de Kdenlive"
 
-#: src/core.cpp:718
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Barres de quadrat 2"
 
-#: src/core.cpp:719
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Tauler d'escacs xicotet"
 
-#: src/core.cpp:720
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Persianes horitzontals"
 
-#: src/core.cpp:721
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial"
 
-#: src/core.cpp:722
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineal X"
 
-#: src/core.cpp:723
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilineal X"
 
-#: src/core.cpp:724
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineal Y"
 
-#: src/core.cpp:725
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilineal Y"
 
-#: src/core.cpp:726
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Quadrat"
 
-#: src/core.cpp:727
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Quadrat 2"
 
-#: src/core.cpp:728
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Núvol"
 
-#: src/core.cpp:729
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Rellotge simètric"
 
-#: src/core.cpp:730
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barres radials"
 
-#: src/core.cpp:731
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Espiral"
 
-#: src/core.cpp:732
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Espiral 2"
 
-#: src/core.cpp:733
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Cortina"
 
-#: src/core.cpp:734
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Ràfega"
 
-#: src/core.cpp:735
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Rellotge"
 
-#: src/core.cpp:737
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barra horitzontal"
 
-#: src/core.cpp:738
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barra vertical"
 
-#: src/core.cpp:739
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Porta de graner horitzontal"
 
-#: src/core.cpp:740
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Porta de graner vertical"
 
-#: src/core.cpp:741
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Porta doble de graner diagonal SO-NE"
 
-#: src/core.cpp:742
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Porta doble de graner diagonal NO-SE"
 
-#: src/core.cpp:743
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal a dalt a l'esquerra"
 
-#: src/core.cpp:744
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal a dalt a la dreta"
 
-#: src/core.cpp:745
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Cascada de matriu horitzontal"
 
-#: src/core.cpp:746
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Cascada de matriu vertical"
 
-#: src/core.cpp:747
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Serp de matriu horitzontal"
 
-#: src/core.cpp:748
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Serp de matriu paral·lela i horitzontal"
 
-#: src/core.cpp:749
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Serp de matriu vertical"
 
-#: src/core.cpp:750
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Serp de matriu paral·lela i vertical"
 
-#: src/core.cpp:751
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "V de graner amunt"
 
-#: src/core.cpp:752
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris de cercle"
 
-#: src/core.cpp:753
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Iris doble"
 
-#: src/core.cpp:754
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris de quadro"
 
-#: src/core.cpp:755
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Quadro inferior dret"
 
-#: src/core.cpp:756
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Quadro inferior esquerre"
 
-#: src/core.cpp:757
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Quadro central dret"
 
-#: src/core.cpp:758
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Rellotge a dalt"
 
-#: src/core.cpp:1058
+#: src/core.cpp:1074
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "El perfil del projecte no és vàlid, la renderització podria fallar."
 
-#: src/core.cpp:1422
+#: src/core.cpp:1438
 #, kde-format
 msgid "Loading clips"
 msgstr "S'estan carregant els clips"
 
-#: src/core.cpp:1917
+#: src/core.cpp:1933
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcador %1"
 
-#: src/core.cpp:2279
+#: src/core.cpp:2295
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23204,12 +23398,12 @@ msgstr ""
 "l'URL següent:\n"
 " %1"
 
-#: src/core.cpp:2280 src/core.cpp:2291
+#: src/core.cpp:2296 src/core.cpp:2307
 #, kde-format
 msgid "Open Browser"
 msgstr "Obri en un navegador"
 
-#: src/core.cpp:2290
+#: src/core.cpp:2306
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -36886,12 +37080,12 @@ msgstr "Gestiona els subtítols"
 msgid "No range guide found at position"
 msgstr "No s'ha trobat cap guia d'interval a la posició"
 
-#: src/timeline2/view/timelinetabs.cpp:59
+#: src/timeline2/view/timelinetabs.cpp:49
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "Afig una seqüència de la línia de temps"
 
-#: src/timeline2/view/timelinetabs.cpp:61
+#: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -36901,7 +37095,7 @@ msgstr ""
 "per a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
 "safata del projecte"
 
-#: src/timeline2/view/timelinetabs.cpp:183
+#: src/timeline2/view/timelinetabs.cpp:173
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -36912,29 +37106,29 @@ msgstr ""
 "la mida de totes les instàncies d'altres línies de temps?<br>No canviar la "
 "mida mantindrà temporalment la duració actual en totes les altres seqüències."
 
-#: src/timeline2/view/timelinetabs.cpp:186
+#: src/timeline2/view/timelinetabs.cpp:176
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Redimensiona"
 
-#: src/timeline2/view/timelinetabs.cpp:187
+#: src/timeline2/view/timelinetabs.cpp:177
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "No redimensiones"
 
-#: src/timeline2/view/timelinetabs.cpp:270
+#: src/timeline2/view/timelinetabs.cpp:260
 #, kde-format
 msgid "Close %1"
 msgstr "Tanca %1"
 
-#: src/timeline2/view/timelinetabs.cpp:393
+#: src/timeline2/view/timelinetabs.cpp:383
 #, kde-format
 msgid "Align to Reference"
 msgstr "Alinea amb la referència"
 
-#: src/timeline2/view/timelinetabs.cpp:470
+#: src/timeline2/view/timelinetabs.cpp:460
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Canvia el nom de la seqüència"
