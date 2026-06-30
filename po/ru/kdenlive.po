@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-27 02:42+0000\n"
-"PO-Revision-Date: 2026-06-26 17:14+0300\n"
+"PO-Revision-Date: 2026-06-29 17:02+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1246,6 +1246,9 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Усиление или срез басовых (нижних) частот звуковых данных с помощью "
+"двухполюсного полочного фильтра с ответом, похожим на ответ стандартных "
+"регуляторов тембра Hi-Fi. Также называется полочным эквалайзером."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3742,6 +3745,11 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Применение двухполюсного фильтра пикового выравнивания. С помощью этого "
+"фильтра можно увеличивать или уменьшать уровень сигнала на выбранной частоте "
+"и рядом с ней, и при этом (в отличие от полосно-пропускающего и полосно-"
+"задерживающего фильтров) его значение на всех остальных частотах остаётся "
+"неизменным."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -4322,7 +4330,7 @@ msgstr "Серый мир"
 #: data/effects/avfilter/avfilter_grayworld.xml:5
 #, kde-format
 msgid "Adjust white balance using LAB gray world algorithm"
-msgstr ""
+msgstr "Настройка баланса белого с помощью алгоритма «серого мира» LAB"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
@@ -7940,15 +7948,15 @@ msgstr ""
 "например: #createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:45
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"тайм-код,кадр,дата создания,дата файла (GMT),дата файла (локальная),исходная "
-"кадровая частота,исходный кодек,исходный битрейт,исходная ширина,исходная "
-"высота,исходные комментарии"
+"тайм-код,номер кадра,имя файла,базовое имя,дата создания,дата файла (GMT),"
+"дата файла (локальная),исходная кадровая частота,исходный кодек,исходный "
+"битрейт,исходная ширина,исходная высота,исходный комментарий"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -12171,7 +12179,7 @@ msgstr "Земля,Оттенки серого,Жара,Радуга"
 #: data/effects/frei0r/frei0r_ndvi.xml:13
 #, kde-format
 msgid "The number of color levels to use in the false image"
-msgstr ""
+msgstr "Количество цветовых уровней для использования в ложном изображении"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:16
 #, kde-format
@@ -12510,7 +12518,7 @@ msgstr "Отмена предварительного умножения"
 #: data/effects/frei0r/frei0r_premultiply.xml:9
 #, kde-format
 msgid "Whether to unpremultiply instead"
-msgstr ""
+msgstr "Следует ли вместо этого отменить предварительное умножение"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -13070,9 +13078,9 @@ msgid "3-Point Balance"
 msgstr "Баланс по трём точкам"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Adjust color balance with 3 color points"
-msgstr "Балансировка цвета по трём точкам"
+msgstr "Настройка цветового баланса по 3 цветовым точкам"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
 #, kde-format
@@ -14282,7 +14290,7 @@ msgstr "Всепропускающие фильтры"
 #: data/effects/ladspa/ladspa_2142.xml:24
 #, kde-format
 msgid "Bandpass Filter"
-msgstr "Полосовой фильтр"
+msgstr "Полосно-пропускающий фильтр"
 
 #: data/effects/ladspa/ladspa_2142.xml:27
 #, kde-format
@@ -14495,7 +14503,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2147.xml:18
 #, kde-format
 msgid "Highpass,Bandpass"
-msgstr "Высокочастотный,Полосный"
+msgstr "Высокочастотный,Полосно-пропускающий"
 
 #: data/effects/ladspa/ladspa_2147.xml:21
 #, kde-format
@@ -17404,9 +17412,9 @@ msgid "Old-TV definition (DVD...)"
 msgstr "Разрешение старого ТВ (DVD...)"
 
 #: data/profiles.xml:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hardware Accelerated (experimental)"
-msgstr "Аппаратное ускорение AMF"
+msgstr "Аппаратное ускорение (экспериментальная возможность)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, profile_audioonly)
 #: data/profiles.xml:116 src/ui/configtranscode_ui.ui:76
@@ -17735,7 +17743,7 @@ msgid "Euclid Eraser"
 msgstr "Евклидово стирание"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove background using euclidean distance."
 msgstr "Удаление фона с помощью евклидового расстояния"
 
@@ -18388,7 +18396,7 @@ msgstr "Показать избранные элементы"
 #: src/assets/assetlist/view/assetlistwidget.cpp:189
 #, kde-format
 msgid "Toggle between list and icon view"
-msgstr ""
+msgstr "Переключение между просмотром в виде списка и в виде значков"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:206
 #, kde-kuit-format
@@ -20284,11 +20292,11 @@ msgid "Enter path for your video editing application"
 msgstr "Введите путь к своему приложению для редактирования видео"
 
 #: src/bin/bin.cpp:5161
-#, fuzzy, kde-format
+#, kde-format
 msgid "Please set a default application to open video files"
 msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
-"звуковых файлов"
+"видеофайлов"
 
 #: src/bin/bin.cpp:5171 src/core.cpp:644 src/doc/kdenlivedoc.cpp:170
 #: src/jobs/cliploadtask.cpp:488 src/jobs/cliploadtask.cpp:500
@@ -23310,14 +23318,14 @@ msgid "Start Normally"
 msgstr "Обычный запуск"
 
 #: src/dialogs/Simplesplash.qml:276 src/dialogs/Splash.qml:675
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
-"Программа Kdenlive обновлена. Чтобы поддержать проект, можно <a href="
-"\"https://kdenlive.org/get-involved/\">принять участие</a> в разработке "
-"программы или её <a href=\"https://kdenlive.org/fund/\">финансировании</a>."
+"Программа Kdenlive обновлена. Чтобы поддержать проект, можно принять участие "
+"в <a href=\"%1\">разработке программы</a> или её <a href="
+"\"%2\">финансировании</a>."
 
 #: src/dialogs/Simplesplash.qml:292 src/dialogs/Splash.qml:692
 #, kde-format
@@ -26848,13 +26856,13 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "Этот макет содержит горизонтальные и вертикальные профили"
 
 #: src/layouts/layoutmanagerdialog.cpp:336
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a horizontal profile"
 msgstr "Этот макет содержит горизонтальный профиль"
 
 #: src/layouts/layoutmanagerdialog.cpp:340
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
 msgstr "Этот макет содержит вертикальный профиль"
@@ -28659,9 +28667,9 @@ msgid "Delete Timeline Marker"
 msgstr "Удалить маркер монтажного стола"
 
 #: src/mainwindow.cpp:2149
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delete All Timeline Markers"
-msgstr "Поиск прерван"
+msgstr "Удалить все маркеры монтажного стола"
 
 #: src/mainwindow.cpp:2151
 #, kde-format
@@ -33002,19 +33010,19 @@ msgstr ""
 "значение на «mlt_profile»."
 
 #: src/renderpresets/renderpresetrepository.cpp:99
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Custom render preset category"
 msgid "Custom"
-msgstr "Пользовательские"
+msgstr "Другое"
 
 #: src/renderpresets/renderpresetrepository.cpp:100
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr "10 бит"
 
 #: src/renderpresets/renderpresetrepository.cpp:101
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Без потерь/В высоком качестве"
@@ -33023,13 +33031,13 @@ msgstr "Без потерь/В высоком качестве"
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
-msgstr "Пользовательский"
+msgstr "Другое"
 
 #: src/renderpresets/renderpresetrepository.cpp:229
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Custom render preset category name"
 msgid "Custom"
-msgstr "Пользовательские"
+msgstr "Другое"
 
 #: src/renderpresets/renderpresetrepository.cpp:280
 #, kde-format
@@ -33878,7 +33886,7 @@ msgid "Could not add bin clip"
 msgstr "Не удалось добавить клип из корзины"
 
 #: src/timeline2/model/timelinefunctions.cpp:2582
-#, fuzzy, kde-format
+#, kde-format
 msgid "Not all clips were copied successfully"
 msgstr "Не все клипы были успешно скопированы"
 
@@ -36505,15 +36513,15 @@ msgstr "Отключить обратный отсчёт перед запись
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configcapture_ui.ui:434
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sample format:"
-msgstr "Частота дискретизации:"
+msgstr "Формат дискретизации:"
 
 #. i18n: ectx: property (text), widget (QPushButton, audiocapturedefaults)
 #: src/ui/configcapture_ui.ui:441
 #, kde-format
 msgid "Use Device Default Settings"
-msgstr ""
+msgstr "Использовать параметры устройства по умолчанию"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
@@ -36615,13 +36623,13 @@ msgstr "Не переходить в спящий режим при воспро
 #: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "Drag window from titlebar only"
-msgstr ""
+msgstr "Перетаскивание только за заголовок окна"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configenv_ui.ui:135
 #, kde-format
 msgid "This will apply to all KDE applications using the Breeze style."
-msgstr ""
+msgstr "Применяется ко всем приложениям KDE, использующим стиль Breeze."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:161
@@ -37293,9 +37301,9 @@ msgstr "Устройство вывода:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configsdl_ui.ui:196
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "Монитор для полноэкранного вывода:"
+msgstr "Зеркальное отражение монитора в полноэкранном режиме:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -39507,9 +39515,9 @@ msgstr "Сохранять файлы журнала"
 
 #. i18n: ectx: property (text), widget (QCheckBox, add_to_bin)
 #: src/ui/renderwidget_ui.ui:892
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add to Project Bin"
-msgstr "Корзина проекта"
+msgstr "Добавить в корзину проекта"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:914
