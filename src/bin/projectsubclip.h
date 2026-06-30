@@ -56,6 +56,7 @@ public:
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
+    void reloadThumb();
     QPixmap thumbnail(int width, int height);
     /** @brief Sets a seeking thumbnail for this subclip. */
     void getThumbFromPercent(int percent);
