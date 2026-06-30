@@ -229,6 +229,7 @@ Rectangle {
                 var elem = dopeRoot.allSelectedKeyframes[ix]
                 if (elem.index === itemIndex) {
                     dopeRoot.allSelectedKeyframes.splice(ix, 1);
+                    break
                 } else {
                     ix++
                 }
@@ -267,10 +268,10 @@ Rectangle {
         var topRow = treeView.cellAtPosition(topPos)
         var bottomRow = treeView.cellAtPosition(bottomPos)
         var result = dopesheetmodel.selectKeyframeRange(treeView.model.mapToSource(treeView.modelIndex(topRow)), treeView.model.mapToSource(treeView.modelIndex(bottomRow)), startFrame, endFrame)
-        updateSelectedKeyframesFromModel(result, addToSelection)
+        updateSelectedKeyframesFromModel(result, addToSelection, false)
     }
 
-    function updateSelectedKeyframesFromModel(result, addToSelection) {
+    function updateSelectedKeyframesFromModel(result, addToSelection, removeFromSelection) {
         if (!addToSelection) {
             dopeRoot.allSelectedKeyframes = []
         }
@@ -284,14 +285,34 @@ Rectangle {
                 console.log('ERROR, ABORTING: key ', id, ' not found in MAP...')
                 break;
             }
-            var kf = result[id.internalId.toString()]
+            // insertedKF is the list of new keyframes to add/remove
+            var insertedKF = result[id.internalId.toString()]
             if (addToSelection) {
-                var existingKF = getSelectedKeyframesForIndex(id)
-                if (existingKF.length > 0) {
-                    kf = kf.concat(existingKF)
+                var existingKF = getSelectedKeyframesForIndex(treeView.model.mapFromSource(id))
+                let currentPos = existingKF.indexOf(insertedKF[0])
+                if (removeFromSelection) {
+                    console.log('remove op, found at: ', currentPos)
+                    if (currentPos > -1) {
+                        existingKF.splice(currentPos, 1)
+                        insertedKF = existingKF
+                    } else {
+                        // Nothing to to
+                        continue
+                    }
+                } else if (existingKF.length > 0) {
+                    if (currentPos === -1) {
+                        // Keyframe was not previously selected
+                        insertedKF = insertedKF.concat(existingKF)
+                    } else {
+                        // Nothing to to
+                        continue
+                    }
                 }
             }
-            updateSelectedKeyframesForIndex(id, kf, true)
+            // Remove duplicates
+            let s = new Set(insertedKF);
+            let deduplicated = [...s]
+            updateSelectedKeyframesForIndex(id, deduplicated, true)
         }
         dopeRoot.allSelectedKeyframesChanged()
     }
@@ -966,12 +987,10 @@ Rectangle {
                             }
                             return
                         }
-                        console.log('QML PRESSED 1')
                         dopeRoot.keyframeType = dopeModel.getKeyframeTypeAtFrame(clickFrame)
                         var selectedKeyframes = getSelectedKeyframesForIndex(parameterIndex)
                         var alreadySelected = selectedKeyframes.indexOf(currentIndex) > -1
                         var actionList = typeActions.actions
-                        console.log('QML PRESSED 2')
                         if (mouse.buttons === Qt.RightButton) {
                             if (alreadySelected) {
                                 // keyframe already selected, just show menu
@@ -996,30 +1015,33 @@ Rectangle {
                                 return
                             }
                         }
-                        if (!alreadySelected) {
-                            if (mouse.modifiers & Qt.ShiftModifier) {
-                                const selectionIndex = selectedKeyframes.indexOf(currentIndex);
-                                if (selectionIndex > -1) {
-                                    // Remove from selection
-                                    selectedKeyframes.splice(selectionIndex, 1);
-                                } else {
-                                    // Add to selection
-                                    selectedKeyframes.push(currentIndex)
-                                }
+                        let updateKeyframeSelection = false
+                        let removeFromSelection = false
+                        if (mouse.modifiers & Qt.ShiftModifier) {
+                            if (alreadySelected) {
+                                // Remove from selection
+                                let selectionIndex = selectedKeyframes.indexOf(currentIndex);
+                                selectedKeyframes.splice(selectionIndex, 1);
+                                removeFromSelection = true
                             } else {
-                                selectedKeyframes = [currentIndex]
+                                // Add to selection
+                                selectedKeyframes.push(currentIndex)
                             }
+                            updateKeyframeSelection = true
+                        } else if (!alreadySelected) {
+                            selectedKeyframes = [currentIndex]
+                            updateKeyframeSelection = true
+                        }
+                        if (updateKeyframeSelection) {
                             if (contentRect.hasChildren) {
                                 // Top level item, build index of related kf to select
                                 var mapped = treeView.model.mapToSource(parameterIndex)
-                                dopesheetmodel.buildMasterSelection(mapped, clickIndex)
                                 var result = dopesheetmodel.selectKeyframeAtPos(mapped, clickFrame)
-                                updateSelectedKeyframesFromModel(result, shiftClick)
+                                updateSelectedKeyframesFromModel(result, shiftClick, removeFromSelection)
                                 return
                             }
-                            console.log('QML PRESSED 3')
+                            console.log('UPDATING SELECTED KEYFRAMES: ', selectedKeyframes)
                             updateSelectedKeyframesForIndex(treeView.model.mapToSource(parameterIndex), selectedKeyframes, shiftClick)
-                            console.log('QML PRESSED 4')
                             dopeRoot.allSelectedKeyframesChanged()
                         }
                         if (ctrlClick) {
@@ -1127,7 +1149,7 @@ Rectangle {
                             console.log('Removing keyframe')
                             // Double click on a keyframe, remove it
                             if (contentRect.hasChildren) {
-                                dopesheetmodel.removeKeyframe(parameterIndex, kfMoveArea.currentFrame)
+                                dopesheetmodel.removeKeyframe(treeView.model.mapToSource(parameterIndex), kfMoveArea.currentFrame)
                             } else {
                                 dopeModel.removeKeyframe(kfMoveArea.currentFrame)
                             }
@@ -1138,7 +1160,7 @@ Rectangle {
                             return
                         }
                         if (contentRect.hasChildren) {
-                            dopesheetmodel.addKeyframe(parameterIndex, dopeRoot.mouseFramePos)
+                            dopesheetmodel.addKeyframe(treeView.model.mapToSource(parameterIndex), dopeRoot.mouseFramePos)
                         } else {
                             dopeModel.addKeyframe(dopeRoot.mouseFramePos)
                         }

@@ -1442,7 +1442,17 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
 
 std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row, const std::shared_ptr<TreeItem> &parentItem)
 {
-    return std::static_pointer_cast<AbstractEffectItem>(parentItem ? parentItem->child(row) : rootItem->child(row));
+    if (parentItem) {
+        if (row >= parentItem->childCount()) {
+            return nullptr;
+        }
+        return std::static_pointer_cast<AbstractEffectItem>(parentItem->child(row));
+    } else {
+        if (row >= rootItem->childCount()) {
+            return nullptr;
+        }
+        return std::static_pointer_cast<AbstractEffectItem>(rootItem->child(row));
+    }
 }
 
 bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state)

@@ -497,26 +497,6 @@ void DopeSheetModel::deregisterItem(int id, TreeItem *item)
     AbstractTreeModel::deregisterItem(id, item);
 }
 
-void DopeSheetModel::buildMasterSelection(const QModelIndex &ix, int index)
-{
-    m_relatedMove.clear();
-    if (index == -1) {
-        return;
-    }
-    KeyframeModel *master = data(ix, ModelRole).value<KeyframeModel *>();
-    GenTime position = master->getPosAtIndex(index);
-    int itemId = int(ix.internalId());
-    auto tItem = getItemById(itemId);
-    for (int j = 0; j < tItem->childCount(); ++j) {
-        auto current = tItem->child(j);
-        auto ix2 = getIndexFromItem(current);
-        KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
-        if (km->hasKeyframe(position)) {
-            m_relatedMove.insert(ix2, km->getIndexForPos(position));
-        }
-    }
-}
-
 void DopeSheetModel::slotPasteKeyframeFromClipBoard(int position)
 {
     QClipboard *clipboard = QApplication::clipboard();
@@ -1193,7 +1173,7 @@ QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex,
 
 QVariantList DopeSheetModel::selectedIndexes() const
 {
-    // qDebug() << "::::: REQUESTING INDEXES: " << m_selectedIndexes << "\n**************************";
+    qDebug() << "::::: REQUESTING INDEXES: " << m_selectedIndexes << "\n**************************";
     return m_selectedIndexes;
 }
 
