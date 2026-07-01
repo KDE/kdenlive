@@ -17722,7 +17722,7 @@ msgstr "Determina el percentatge de fotogrames amb moviment vertical"
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr "Augmenta la lluminositat"
+msgstr "Augmenta la brillantor"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
