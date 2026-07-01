@@ -33,9 +33,10 @@ Rectangle {
     property int ownerType
     property int ownerId
     property bool viewHasFocus: false
+    property bool showTimelineTime: false
     // The position in frame of the stack owner
     property int offset: dopesheetmodel.dopePosition
-    property color hoverColor: "#cc9900"
+    property color hoverColor: "#bb8800"
     // Ruler scaling, 1 means view is fully visible, 2 means zoomed twice
     property real timeScale: 1
     // The maximum timeScale factor, where the full item width is visible
@@ -497,6 +498,20 @@ Rectangle {
                 implicitHeight: dopeBar.buttonHeight
                 icon.width: dopeBar.iconHeight
                 icon.height: dopeBar.iconHeight
+                icon.name: "smallclock"
+                ToolTip.text: KI18n.i18n("Show absolute timecode")
+                ToolTip.delay: 1000
+                ToolTip.visible: hovered
+                checkable: true
+                checked: dopeRoot.showTimelineTime
+                onClicked: dopeRoot.showTimelineTime = !dopeRoot.showTimelineTime
+            }
+
+            ToolButton {
+                implicitWidth: dopeBar.buttonHeight
+                implicitHeight: dopeBar.buttonHeight
+                icon.width: dopeBar.iconHeight
+                icon.height: dopeBar.iconHeight
                 icon.name: rulerCursor.overKeyframe ? "keyframe-remove" : "keyframe-add"
                 ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
                 ToolTip.delay: 1000
@@ -625,7 +640,7 @@ Rectangle {
         visible: dopeRoot.isInView(dopeRoot.consumerPosition)
         anchors.top: rulercontainer.top
         anchors.horizontalCenter: rulerCursor.horizontalCenter
-        text: dopeRoot.consumerPosition
+        text: K.Core.timecodeString(dopeRoot.consumerPosition + (dopeRoot.showTimelineTime ? dopeRoot.offset : 0))
         leftPadding: 6
         rightPadding: 6
     }
@@ -658,7 +673,7 @@ Rectangle {
         visible: !ruler.pressed && (backgroundArea.containsMouse || treeView.hoveredParam > -1)
         anchors.top: rulercontainer.top
         anchors.horizontalCenter: mouseLine.horizontalCenter
-        text: dopeRoot.mouseFramePos
+        text: K.Core.timecodeString(dopeRoot.mouseFramePos + (dopeRoot.showTimelineTime ? dopeRoot.offset : 0))
         leftPadding: 6
         rightPadding: 6
     }

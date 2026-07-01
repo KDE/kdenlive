@@ -1422,6 +1422,11 @@ Timecode Core::timecode() const
     return m_timecode;
 }
 
+const QString Core::timecodeString(int frame)
+{
+    return m_timecode.getDisplayTimecodeFromFrames(frame, KdenliveSettings::frametimecode());
+}
+
 void Core::setDocumentModified()
 {
     m_projectManager->current()->setModified();

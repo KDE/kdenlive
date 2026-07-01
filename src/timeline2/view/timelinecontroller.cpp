@@ -942,11 +942,6 @@ bool TimelineController::pasteItem(int position, int tid)
     return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
 
-QString TimelineController::timecode(int frames) const
-{
-    return KdenliveSettings::frametimecode() ? QString::number(frames) : m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
-}
-
 QString TimelineController::framesToClock(int frames) const
 {
     return m_model->tractor()->frames_to_time(frames, mlt_time_clock);
@@ -957,7 +952,7 @@ QString TimelineController::simplifiedTC(int frames) const
     if (KdenliveSettings::frametimecode()) {
         return QString::number(frames);
     }
-    QString s = m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
+    QString s = pCore->timecodeString(frames);
     return s.startsWith(QLatin1String("00:")) ? s.remove(0, 3) : s;
 }
 

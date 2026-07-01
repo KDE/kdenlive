@@ -114,7 +114,7 @@ Rectangle {
             id: inLabel
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
-            text: rzone.timeline.timecode(rzone.frameIn)
+            text: K.Core.timecodeString(rzone.frameIn)
             font: K.UiUtils.smallestReadableFont
             color: activePalette.highlightedText
         }
@@ -130,7 +130,7 @@ Rectangle {
             id: outLabel
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
-            text: rzone.timeline.timecode(rzone.frameOut)
+            text: K.Core.timecodeString(rzone.frameOut)
             font: K.UiUtils.smallestReadableFont
             color: activePalette.highlightedText
         }
@@ -149,7 +149,7 @@ Rectangle {
             id: durationLabel
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
-            text: rzone.timeline.timecode(rzone.frameOut - rzone.frameIn)
+            text: K.Core.timecodeString(rzone.frameOut - rzone.frameIn)
             font: K.UiUtils.smallestReadableFont
             color: activePalette.highlightedText
         }

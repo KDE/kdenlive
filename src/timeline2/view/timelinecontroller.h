@@ -232,7 +232,6 @@ public:
     Q_INVOKABLE void setPosition(int position);
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
-    Q_INVOKABLE QString timecode(int frames) const;
     QString framesToClock(int frames) const;
     Q_INVOKABLE QString simplifiedTC(int frames) const;
     /** @brief Request inserting a new clip in timeline (dragged from bin or monitor)

@@ -122,6 +122,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_layout(layout)
 {
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingKeyframes, this, &KeyframeContainer::updatedPosition);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingNoKeyframes, this, &KeyframeContainer::updatedNotOnPosition);
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::refreshAnimatedValues, this, &KeyframeContainer::slotRefresh);
 
     bool ok = false;
@@ -590,6 +591,37 @@ int KeyframeContainer::getPosition() const
     int itemPos = pCore->getItemPosition(m_keyframes->getOwnerId());
     return pos - itemPos;
     // return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
+}
+
+void KeyframeContainer::updatedNotOnPosition(QList<QPersistentModelIndex> indexes)
+{
+    int pos = pCore->getMonitorPosition(m_model->monitorId);
+    for (const auto &w : m_parameters) {
+        qDebug() << "::: COMPARING IXES: " << w.first << " IS IN: " << indexes;
+        if (indexes.contains(w.first) && w.second) {
+            auto tb = m_keyframeActions[w.first];
+            tb->setActive(false);
+            auto abstractParam = qobject_cast<AbstractParamWidget *>(w.second);
+            if (abstractParam) {
+                abstractParam->setParamState(false, m_keyframes->keyframesCount(w.first) == 1);
+            } else {
+                auto doubleParam = qobject_cast<DoubleWidget *>(w.second);
+                if (doubleParam) {
+                    Q_EMIT doubleParam->setParamState(false, m_keyframes->keyframesCount(w.first) == 1);
+                } else {
+                    qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT...";
+                    doubleParam->setEnabled(false);
+                }
+            }
+        } else {
+            qDebug() << "::: MISSING WIDGET FOR IX: " << w.first << " / GEOM: " << m_geometryIndex;
+        }
+    }
+    if (m_geom) {
+        bool inside = pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
+        m_geom->setEnabled(inside && indexes.contains(m_geometryIndex));
+    }
+    slotRefreshParams();
 }
 
 void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)

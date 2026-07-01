@@ -1872,7 +1872,7 @@ function getTrackColor(audio, header) {
                         visible: true
                         font: K.UiUtils.smallestReadableFont
                         x: root.mouseFrame * root.timeScale - width / 2
-                        text: timeline.timecode(root.mouseFrame + timeline.timecodeOffset)
+                        text: K.Core.timecodeString(root.mouseFrame + timeline.timecodeOffset)
                         color: ruler.dimmedColor
                         leftPadding: 4
                         rightPadding: 4

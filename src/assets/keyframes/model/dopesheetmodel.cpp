@@ -854,10 +854,27 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
     }
     int max = m_model->rowCount();
     QList<QPersistentModelIndex> matchingIndexes;
+    QList<QPersistentModelIndex> notOnKeyframeIndexes;
     bool matching = false;
     bool foundActive = false;
+    if (force) {
+        qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\nCHECKING IS ON KEYFRAME DOPE POS: " << framePosition
+                 << "\n\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+    }
     if (m_masterRecap) {
         if (!m_masterRecap->hasKeyframe(framePosition)) {
+            if (force) {
+                // Ensure we send a message to all indexes
+                // Send info that not on keyframe
+                for (auto &p : m_paramsList) {
+                    if (p.second.first.row > -1) {
+                        QPersistentModelIndex ix = p.second.first.index;
+                        matchingIndexes << p.second.first.index;
+                    }
+                }
+                Q_EMIT matchingNoKeyframes(matchingIndexes);
+                return false;
+            }
             if (m_indexesOnKeyframe.isEmpty()) {
                 // Only position changed
                 Q_EMIT refreshAnimatedValues();
@@ -888,12 +905,26 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
                             foundActive = true;
                         }
                         matchingIndexes << m_paramsList.at(current->getId()).first.index;
+                    } else if (force) {
+                        notOnKeyframeIndexes << m_paramsList.at(current->getId()).first.index;
                     }
                 }
             matching = true;
+        } else if (force) {
+            // Send info that not on keyframe
+            int itemId = int(ix.internalId());
+            auto tItem = getItemById(itemId);
+            if (tItem->childCount() == 0) {
+                notOnKeyframeIndexes << m_paramsList.at(itemId).first.index;
+            } else
+                for (int j = 0; j < tItem->childCount(); ++j) {
+                    auto current = tItem->child(j);
+                    notOnKeyframeIndexes << m_paramsList.at(current->getId()).first.index;
+                }
         }
     }
-    if (force || m_indexesOnKeyframe != matchingIndexes) {
+    if (force || m_indexesOnKeyframe != matchingIndexes || !notOnKeyframeIndexes.isEmpty()) {
+        Q_EMIT matchingNoKeyframes(notOnKeyframeIndexes);
         Q_EMIT matchingKeyframes(matchingIndexes);
         m_indexesOnKeyframe = matchingIndexes;
     } else {

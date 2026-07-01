@@ -770,8 +770,9 @@ void DragValue::setParamState(bool isOnKeyframe, bool singleKeyframe)
         m_singleKeyframe = singleKeyframe;
         KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
         QColor col = m_singleKeyframe ? scheme.background(KColorScheme::LinkBackground).color()
-                     : m_onKeyframe   ? scheme.background(KColorScheme::NeutralBackground).color()
-                                      : scheme.background(KColorScheme::PositiveBackground).color();
+                     : m_onKeyframe
+                         ? KColorUtils::mix(palette().base().color(), QColor("#bb8800"), 0.6) /*scheme.background(KColorScheme::NeutralBackground).color()*/
+                         : scheme.background(KColorScheme::PositiveBackground).color();
         QPalette pal = palette();
         bool readOnly = !isOnKeyframe && !singleKeyframe;
         if (m_intEdit) {

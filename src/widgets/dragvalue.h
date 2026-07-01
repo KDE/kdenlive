@@ -218,7 +218,7 @@ private:
     int m_decimals;
     double m_default;
     bool m_onKeyframe{false};
-    bool m_singleKeyframe{false};
+    bool m_singleKeyframe{true};
     int m_id;
     QString m_labelText;
     MySpinBox *m_intEdit{nullptr};

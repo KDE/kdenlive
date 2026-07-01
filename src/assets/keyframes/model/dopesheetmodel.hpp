@@ -101,7 +101,7 @@ public:
     void updateItemPosition(ObjectId itemId);
     /** @brief True if we have grabbed keyframes for a move */
     bool stateGrabbed() const;
-    /** @brief True if we have grabbed keyframes for a move */
+    /** @brief True if we havematchin grabbed keyframes for a move */
     void setGrabbed(bool grabbed);
     int getPreviousSnap(const QModelIndex ix, int pos);
     int getNextSnap(const QModelIndex ix, int pos);
@@ -165,6 +165,7 @@ Q_SIGNALS:
     void activateEffect(QPersistentModelIndex ix, int effectRow = -1);
     /** @brief The keyframe state per parameter changed, inform effect stack */
     void matchingKeyframes(QList<QPersistentModelIndex>);
+    void matchingNoKeyframes(QList<QPersistentModelIndex>);
     /** @brief Update effect stack values for animated params on position change */
     void refreshAnimatedValues();
     void updateFiltering();
