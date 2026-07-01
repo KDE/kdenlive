@@ -4397,7 +4397,7 @@ void TimelineController::editTitleClip(int id)
         pCore->displayMessage(i18n("Item is not a title clip"), ErrorMessage, 500);
         return;
     }
-    pCore->bin()->showTitleWidget(binClip);
+    pCore->bin()->showTitleWidget(binClip, id, m_model->uuid());
 }
 
 void TimelineController::editAnimationClip(int id)

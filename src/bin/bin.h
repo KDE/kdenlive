@@ -538,7 +538,7 @@ public Q_SLOTS:
      * @param minimumTracksCount the number of active streams for this clip
      */
     void checkProjectAudioTracks(QString clipId, int minimumTracksCount);
-    void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
+    void showTitleWidget(const std::shared_ptr<ProjectClip> &clip, int timelineClipId = -1, const QUuid &sequenceUuid = QUuid());
     /** @brief Add a clip in a specially named folder */
     bool addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId);
     /** @brief Add a filter with some presets to a clip */
