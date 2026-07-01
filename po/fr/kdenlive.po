@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 02:42+0000\n"
+"POT-Creation-Date: 2026-07-01 02:42+0000\n"
 "PO-Revision-Date: 2026-04-15 22:57+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
@@ -19986,7 +19986,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Remplacer dans la frise chronologique"
 
-#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6262 src/bin/clipcreator.cpp:351
+#: src/bin/bin.cpp:2445 src/bin/bin.cpp:6268 src/bin/clipcreator.cpp:351
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -20360,7 +20360,7 @@ msgid "Edit Tags"
 msgstr "Modifier des étiquettes"
 
 #: src/bin/bin.cpp:5049 src/bin/projectclip.cpp:196
-#: src/bin/projectclip.cpp:1997 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:2011 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -20465,35 +20465,35 @@ msgstr "Activer les intermédiaires"
 msgid "Disable proxies"
 msgstr "Désactiver les intermédiaires"
 
-#: src/bin/bin.cpp:5594
+#: src/bin/bin.cpp:5600
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruire les intermédiaires"
 
-#: src/bin/bin.cpp:5860
+#: src/bin/bin.cpp:5866
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Dossier du projet"
 
-#: src/bin/bin.cpp:5876
+#: src/bin/bin.cpp:5882
 #, kde-format
 msgid "Add Tracks"
 msgstr "Ajouter des pistes"
 
-#: src/bin/bin.cpp:5878
+#: src/bin/bin.cpp:5884
 #, kde-format
 msgid "Edit Streams"
 msgstr "Modifier les flux"
 
-#: src/bin/bin.cpp:5897
+#: src/bin/bin.cpp:5903
 #, kde-format
 msgid "Don't ask again"
 msgstr "Ne plus demander"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5901
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -20502,7 +20502,7 @@ msgstr ""
 "Votre projet nécessite plus de pistes audio pour gérer tous les flux. "
 "Ajouter %1 pistes audio ?"
 
-#: src/bin/bin.cpp:5913 src/mainwindow.cpp:3050
+#: src/bin/bin.cpp:5919 src/mainwindow.cpp:3050
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Impossible de trouver le clip pour ajouter un repère"
@@ -20510,7 +20510,7 @@ msgstr "Impossible de trouver le clip pour ajouter un repère"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5927 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:5933 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1442
 #: src/timeline2/view/timelinecontroller.cpp:1632
@@ -20520,34 +20520,34 @@ msgstr "Impossible de trouver le clip pour ajouter un repère"
 msgid "Marker"
 msgstr "Repère"
 
-#: src/bin/bin.cpp:6017
+#: src/bin/bin.cpp:6023
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Impossible de trouver la vidéo principale"
 
-#: src/bin/bin.cpp:6284
+#: src/bin/bin.cpp:6290
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> vidéos | "
 
-#: src/bin/bin.cpp:6286
+#: src/bin/bin.cpp:6292
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> vidéos (%2 sélectionnés) | "
 
-#: src/bin/bin.cpp:6355 src/bin/bin.cpp:6433
+#: src/bin/bin.cpp:6361 src/bin/bin.cpp:6439
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Ajouter un flux supplémentaire pour une vidéo"
 msgstr[1] "Ajouter des flux supplémentaires pour une vidéo"
 
-#: src/bin/bin.cpp:6376
+#: src/bin/bin.cpp:6382
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importer les clips sélectionnés"
 
-#: src/bin/bin.cpp:6378
+#: src/bin/bin.cpp:6384
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -20556,22 +20556,22 @@ msgstr ""
 "Flux supplémentaires pour le clip\n"
 " %1"
 
-#: src/bin/bin.cpp:6392 src/mltcontroller/clippropertiescontroller.cpp:754
+#: src/bin/bin.cpp:6398 src/mltcontroller/clippropertiescontroller.cpp:754
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flux vidéo %1"
 
-#: src/bin/bin.cpp:6407
+#: src/bin/bin.cpp:6413
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Flux audio %1"
 
-#: src/bin/bin.cpp:6460
+#: src/bin/bin.cpp:6466
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Supprimer les repères de vidéos"
 
-#: src/bin/bin.cpp:6657
+#: src/bin/bin.cpp:6663
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
@@ -20579,30 +20579,30 @@ msgstr ""
 "Nous vous recommandons d'enregistrer le projet avant l'opération de "
 "conversion."
 
-#: src/bin/bin.cpp:6658
+#: src/bin/bin.cpp:6664
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Enregistrer un projet"
 
-#: src/bin/bin.cpp:6659
+#: src/bin/bin.cpp:6665
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Convertir sans enregistrement"
 
-#: src/bin/bin.cpp:6817 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6823 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1128
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Supprimer l'effet %1"
 
-#: src/bin/bin.cpp:6883 src/mainwindow.cpp:265
+#: src/bin/bin.cpp:6889 src/mainwindow.cpp:265
 #, kde-format
 msgid "Project Bin"
 msgstr "Sources du projet"
 
-#: src/bin/bin.cpp:6886 src/bin/bin.cpp:6889 src/mainwindow.cpp:5286
+#: src/bin/bin.cpp:6892 src/bin/bin.cpp:6895 src/mainwindow.cpp:5286
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Environnement du projet %1"
@@ -21079,7 +21079,7 @@ msgstr[1] "%1 pistes audio"
 msgid "Timeline sequence"
 msgstr "Séquence de la frise chronologique"
 
-#: src/bin/projectclip.cpp:618
+#: src/bin/projectclip.cpp:632
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -21088,39 +21088,39 @@ msgstr ""
 "Image de dimension inférieure à 8 pixels.\n"
 "Ceci n'est pas pris en charge par notre moteur vidéo."
 
-#: src/bin/projectclip.cpp:1117 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1131 src/jobs/cliploadtask.cpp:270
 #, kde-format
 msgid "Invalid"
 msgstr "Non valable"
 
-#: src/bin/projectclip.cpp:1367 src/dialogs/clipcreationdialog.cpp:139
+#: src/bin/projectclip.cpp:1381 src/dialogs/clipcreationdialog.cpp:139
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1527
 #, kde-format
 msgid "File already exists"
 msgstr "Le fichier existe déjà"
 
-#: src/bin/projectclip.cpp:2614 src/bin/projectclip.cpp:2653
+#: src/bin/projectclip.cpp:2635 src/bin/projectclip.cpp:2674
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajuster les vidéo sur la frise chronologique"
 
-#: src/bin/projectclip.cpp:2843
+#: src/bin/projectclip.cpp:2864
 #, kde-format
 msgid "Add stream effect"
 msgstr "Ajouter un effet de flux"
 
-#: src/bin/projectclip.cpp:2868
+#: src/bin/projectclip.cpp:2889
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Supprimer un effet de flux"
 
-#: src/bin/projectclip.cpp:3211
+#: src/bin/projectclip.cpp:3232
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Masque ajouté à la séquence"
 
-#: src/bin/projectclip.cpp:3215
+#: src/bin/projectclip.cpp:3236
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Séquence manquante pour le masque"
