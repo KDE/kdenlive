@@ -54,6 +54,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectsortproxymodel.h"
 #include "projectsubclip.h"
 #include "tagwidget.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "titler/titlewidget.h"
 #include "ui_newtimeline_ui.h"
 #include "ui_qtextclip_ui.h"
@@ -5198,7 +5199,7 @@ void Bin::slotOpenClipExtern()
 }
 
 // TODO: move title editing into a better place...
-void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
+void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip, int timelineClipId, const QUuid &sequenceUuid)
 {
     QString path = clip->getProducerProperty(QStringLiteral("resource"));
     QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
@@ -5267,8 +5268,30 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
             std::unordered_map<QString, QString> properties;
             properties[QStringLiteral("xmldata")] = dia_ui.xml().toString();
             QString titleSuggestion = dia_ui.titleSuggest();
-            ClipCreator::createTitleClip(properties, dia_ui.duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion,
-                                         clip->parent()->clipId(), m_itemModel);
+            // If the title was opened for editing from a timeline clip, offer to replace that timeline
+            // clip with the newly created title as well (BUG: 498136).
+            const QString originalBinId = clip->AbstractProjectItem::clipId();
+            ClipCreator::createTitleClip(
+                properties, dia_ui.duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, clip->parent()->clipId(), m_itemModel,
+                [this, timelineClipId, sequenceUuid, originalBinId](const QString &newBinId) {
+                    if (timelineClipId == -1 || newBinId.isEmpty() || newBinId == QLatin1String("-1")) {
+                        // Edited from the Project Bin (not the timeline): keep previous behavior, no replacement.
+                        return;
+                    }
+                    if (KMessageBox::questionTwoActions(pCore->window(), i18n("Replace the title clip in the timeline with the new one?"),
+                                                        i18n("Replace Title Clip"), KGuiItem(i18n("Replace")), KGuiItem(i18n("Keep Existing")),
+                                                        QStringLiteral("replace_timeline_title_on_add_new")) != KMessageBox::PrimaryAction) {
+                        return;
+                    }
+                    std::shared_ptr<TimelineItemModel> timeline = m_doc->getTimeline(sequenceUuid);
+                    if (!timeline) {
+                        return;
+                    }
+                    std::shared_ptr<ProjectClip> newClip = m_itemModel->getClipByBinID(newBinId);
+                    const int maxDuration = newClip ? newClip->frameDuration() : 0;
+                    // Re-point only the single edited timeline clip; preserves position, in/out, effects; undoable.
+                    timeline->processTimelineReplacement({timelineClipId}, originalBinId, newBinId, maxDuration, false, true);
+                });
         }
     }
 }
