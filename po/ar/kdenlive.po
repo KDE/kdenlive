@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-30 00:42+0000\n"
-"PO-Revision-Date: 2026-06-30 22:38+0400\n"
+"PO-Revision-Date: 2026-07-01 17:55+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -14232,6 +14232,8 @@ msgid ""
 "Declipper (LADSPA 1195)<br>\n"
 "   Removes nasty clicks from input signals, not very kind to them though."
 msgstr ""
+"مزيل التقليم (LADSPA 1195)<br>\n"
+"   يزيل الطقطقات المزعجة من إشارات الدخل، ولكنه ليس لطيفًا معها تمامًا."
 
 #: data/effects/ladspa/ladspa_1196.xml:4
 #, kde-format
@@ -14245,6 +14247,9 @@ msgid ""
 "   A simple overdrive. Compresses the extreme peaks to make a sound similar "
 "to an overdriven amplifier."
 msgstr ""
+"دفع مفرط سريع (LADSPA 1196)<br>\n"
+"   دفع مفرط بسيط. يضغط الذرى القصوى ليجعل الصوت شبيهًا بمضخم صوت مدفوع بشكل "
+"مفرط."
 
 #: data/effects/ladspa/ladspa_1196.xml:9
 #, kde-format
@@ -14257,6 +14262,8 @@ msgid ""
 "Controls the point at<br>\n"
 "      which the signal starts to distort, and the degree of distortion."
 msgstr ""
+"يتعلم في النقطة التي<br>\n"
+"      تبدأ عندها الإشارة بالتشوه، ودرجة التشوه."
 
 #: data/effects/ladspa/ladspa_1202.xml:4
 #, kde-format
@@ -14271,6 +14278,9 @@ msgid ""
 "of the input signal, allows non integer values for smooth transitions "
 "between clean and lo-fi signals."
 msgstr ""
+"مُهلك (LADSPA 1202)<br>\n"
+"   يُهلك (يقلل معدل العينات الفعلي)، ويقلل عمق البت لإشارة الدخل، ويسمح "
+"بالقيم غير الصحيحة للانتقال السلس بين الإشارات النظيفة ومنخفضة الدقة (lo-fi)."
 
 #: data/effects/ladspa/ladspa_1202.xml:9
 #, kde-format
@@ -14303,6 +14313,8 @@ msgid ""
 "Single Band Parametric (LADSPA 1203)<br>\n"
 "   A single band of a parametric filter."
 msgstr ""
+"محدد معلمات أحادي النطاق (LADSPA 1203)<br>\n"
+"   نطاق واحد لمرشح محدد المعلمات."
 
 #: data/effects/ladspa/ladspa_1203.xml:9
 #, kde-format
@@ -14327,6 +14339,10 @@ msgid ""
 "and <i>Bandwidth</i>: if the high pitch (<i>Frequency</i> * 2^<i>Bandwidth</"
 "i>) goes over half the sample rate, you will get aliasing."
 msgstr ""
+"التردد المركزي (أي نقطة التوهين<br>\n"
+"      الأكبر/الأقل). احذر من القيم العالية لـ <i>التردد</i> و<i>عرض النطاق</"
+"i>: إذا تجاوزت حدة الصوت العالية (<i>التردد</i> * 2^<i>عرض النطاق</i>) نصف "
+"معدل العينات، فسيحدث تداخل في الترددات (aliasing)."
 
 #: data/effects/ladspa/ladspa_1203.xml:18
 #, kde-format
@@ -14339,6 +14355,8 @@ msgid ""
 "The pitch difference from the<br>\n"
 "      centre before the attenuation has reached half the <i>Gain</i>."
 msgstr ""
+"فرق حدة الصوت عن<br>\n"
+"      المركز قبل أن يصل التوهين إلى نصف <i>الكسب</i>."
 
 #: data/effects/ladspa/ladspa_1207.xml:4
 #, kde-format
@@ -14352,6 +14370,9 @@ msgid ""
 "   Simply removes the DC (0 Hz) component from an audio signal, uses a high "
 "pass filter, so has some side effects, but they should be minimal."
 msgstr ""
+"مزيل إزاحة التيار المستمر (LADSPA 1207)<br>\n"
+"   يزيل ببساطة مكون التيار المستمر (0 هرتز) من الإشارة الصوتية، ويستخدم مرشح "
+"تمرين العالي، لذا له بعض الآثار الجانبية، لكنها ستكون في حدها الأدنى."
 
 #: data/effects/ladspa/ladspa_1213.xml:4
 #, kde-format
@@ -14366,6 +14387,10 @@ msgid ""
 "distortion. Probably should have a <i>DC Offset Remover</i> on the output, "
 "but it's not always necessary."
 msgstr ""
+"تشويه الالتفاف (LADSPA 1213)<br>\n"
+"   يستخدم تقريب موجة جيبية لمحاكاة تشويه الالتفاف بأسلوب الصمامات. من "
+"المحتمل أنه يحتاج إلى <i>مزيل إزاحة التيار المستمر</i> على الخرج، ولكنه ليس "
+"ضروريًا دائمًا."
 
 #: data/effects/ladspa/ladspa_1213.xml:9 data/effects/ladspa/ladspa_2158.xml:9
 #, kde-format
@@ -14399,6 +14424,8 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"أربعة أقطاب لجميع التمريرات 4x4 (LADSPA 1218)<br>\n"
+"   يتكيف آليًا مع عدد القنوات ومعدل العينات للمستهلك."
 
 #: data/effects/ladspa/ladspa_1218.xml:9
 #, kde-format
@@ -14498,6 +14525,9 @@ msgid ""
 "      will be used to stagger the delays and amplitudes if random is turned "
 "up on them. Changing this forces the random values to be recalculated."
 msgstr ""
+"يتحكم في الأرقام العشوائية التي<br>\n"
+"      ستُستخدم لمباعدة التأخيرات والسعات إذا فُعّل الخيار العشوائي عليها. تغيير "
+"هذا يجبر على إعادة حساب القيم العشوائية."
 
 #: data/effects/ladspa/ladspa_1402.xml:14
 #, kde-format
@@ -14610,6 +14640,8 @@ msgid ""
 "Controls the desired limit<br>\n"
 "      of the output signal"
 msgstr ""
+"يتحكم في الحد المطلوب<br>\n"
+"      لإشارة الخرج"
 
 #: data/effects/ladspa/ladspa_1403.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:19
@@ -14623,6 +14655,8 @@ msgid ""
 "Controls the time taken for<br>\n"
 "      the compressor to relax its gain control over the input signal"
 msgstr ""
+"يتحكم في الوقت الذي يستغرقه<br>\n"
+"      الضاغط لإرخاء تحكمه في الكسب على إشارة الدخل"
 
 #: data/effects/ladspa/ladspa_1403.xml:18
 #, kde-format
@@ -14646,6 +14680,9 @@ msgid ""
 "   This is a simulation of the distortion that happens in class B and AB "
 "power amps when the signal crosses 0."
 msgstr ""
+"تشويه العبور (LADSPA 1404)<br>\n"
+"   هذا محاكاة للتشويه الذي يحدث في مضخمات الطاقة من الفئة B و AB عندما تعبر "
+"الإشارة الصفر."
 
 #: data/effects/ladspa/ladspa_1404.xml:9
 #, kde-format
@@ -14674,6 +14711,9 @@ msgid ""
 "   Simulates aliasing using nyquist frequency modulation. Produces wacky "
 "results if the blocks aren't even numbers of samples long."
 msgstr ""
+"تداخل الترددات (LADSPA 1407)<br>\n"
+"   يحاكي تداخل الترددات باستخدام تضمين تردد نايغويست. ينتج نتائج غريبة إذا "
+"لم تكن الكتل ذات أعداد زوجية من طول العينات."
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, kde-format
@@ -14698,6 +14738,9 @@ msgid ""
 "and hard knee. Not really as a compressor, but good harsh (non-musical) "
 "distortion."
 msgstr ""
+"معظم شيطان باري (LADSPA 1408)<br>\n"
+"   يضغط الإشارات بزمن هجوم واضمحلال قصير للغاية، ونسبة لانهائية وركبة صلبة. "
+"لا يعمل كضاغط حقًا، ولكنه تشويه خشن جيد (غير موسيقي)."
 
 #: data/effects/ladspa/ladspa_1408.xml:9
 #, kde-format
@@ -14721,6 +14764,9 @@ msgid ""
 "      ie. the point above which the compression kicks in. 0 will have no "
 "effect, -90 will remove virtually all dynamic range."
 msgstr ""
+"يتحكم في نقطة هبوط الركبة،<br>\n"
+"      أي النطاق الذي يبدأ عنده الضاغط بالعمل. القيمة 0 لن يكون لها تأثير، "
+"والقيمة -90 ستزيل كامل النطاق الديناميكي تقريبًا."
 
 #: data/effects/ladspa/ladspa_1410.xml:4
 #, kde-format
@@ -14743,6 +14789,8 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the low frequency filter (highpass)"
 msgstr ""
+"يتحكم في قطع<br>\n"
+"      مرشح الترددات المنخفضة (تمرير عالي)"
 
 #: data/effects/ladspa/ladspa_1410.xml:13
 #, kde-format
@@ -14755,6 +14803,8 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the high frequency filter (lowpass)"
 msgstr ""
+"يتحكم في قطع<br>\n"
+"      مرشح الترددات العالية (تمرير منخفض)"
 
 #: data/effects/ladspa/ladspa_1410.xml:20
 #, kde-format
@@ -14762,6 +14812,8 @@ msgid ""
 "Controls the level at<br>\n"
 "      which the gate will open"
 msgstr ""
+"يتحكم في المستوى الذي<br>\n"
+"      تفتح عنده البوابة"
 
 #: data/effects/ladspa/ladspa_1410.xml:25
 #, kde-format
@@ -14769,6 +14821,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to open fully"
 msgstr ""
+"يتحكم في الوقت الذي تستغرقه<br>\n"
+"      البوابة لتفتح بالكامل"
 
 #: data/effects/ladspa/ladspa_1410.xml:28
 #, kde-format
@@ -14781,6 +14835,8 @@ msgid ""
 "Controls the minimum<br>\n"
 "      time the gate will stay open for"
 msgstr ""
+"يتحكم في الحد الأدنى للوقت<br>\n"
+"      الذي ستبقى فيه البوابة مفتوحة"
 
 #: data/effects/ladspa/ladspa_1410.xml:35
 #, kde-format
@@ -14788,6 +14844,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to close fully"
 msgstr ""
+"يتحكم في الوقت الذي تستغرقه<br>\n"
+"      البوابة لتغلق بالكامل"
 
 #: data/effects/ladspa/ladspa_1410.xml:40
 #, kde-format
@@ -14795,6 +14853,8 @@ msgid ""
 "Controls the difference<br>\n"
 "      between the gate's open and closed state"
 msgstr ""
+"يتحكم في الفرق<br>\n"
+"      بين حالة البوابة المفتوحة والمغلقة"
 
 #: data/effects/ladspa/ladspa_1410.xml:43
 #, kde-format
@@ -14824,6 +14884,9 @@ msgid ""
 "intervals, skewed by f/2 Hz between the two outputs. Mixing the two outputs "
 "will get you exactly the input signal."
 msgstr ""
+"مقسم مشطي (LADSPA 1411)<br>\n"
+"   يقسم الدخل إلى جزءين مع ذرى ترددية عند فواصل f هرتز، مائلة بمقدار f/2 "
+"هرتز بين الخرجين. خلط الخرجين سيعطيك إشارة الدخل تمامًا."
 
 #: data/effects/ladspa/ladspa_1411.xml:10
 #, kde-format
@@ -14867,6 +14930,8 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "audio stream"
 msgstr ""
+"تردد صفيحي SWH ‏(LADSPA 1423)<br>\n"
+"   يتكيف آليًا مع عدد القنوات ومعدل العينات لدفق الصوت"
 
 #: data/effects/ladspa/ladspa_1423.xml:9
 #, kde-format
@@ -14898,6 +14963,10 @@ msgid ""
 "signal rises more and more harmonics will for added to the output signal. "
 "The distortion control sets the sensitivity of the input."
 msgstr ""
+"تشويه تشيبيشيف (LADSPA 1430)<br>\n"
+"   هذا التأثير يبذر من غلاف الإشارة الواردة. مع ارتفاع مستوى الإشارة، ستُضاف "
+"المزيد والمزيد من التوافقيات إلى إشارة الخرج. يحدد التحكم بالتشويه حساسية "
+"الدخل."
 
 #: data/effects/ladspa/ladspa_1430.xml:9
 #, kde-format
@@ -14926,6 +14995,13 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>مزيح التردد بودي</b> (LADSPA 1431)<br>\n"
+"   مزيح التردد بودي/موغ هو وحدة توليد تناظرية شائعة تعمل عن طريق إزاحة جميع "
+"ترددات إشارة الدخل لأعلى أو لأسفل بتردد محدد. يزيح هذا التأثير في كلا "
+"الاتجاهين في نفس الوقت لأنه لا يتطلب عملًا إضافيًا تقريبًا وغالبًا ما يكون من "
+"المفيد الحصول على كلا الاتجاهين. على النقيض من بودي/موغ التناظري، الذي "
+"يستخدم مرشحات القبة كأصل له، فإنه يستخدم محول هيلبرت، وهو أسهل بكثير في "
+"التطبيق في الأنظمة الرقمية."
 
 #: data/effects/ladspa/ladspa_1431.xml:9
 #, kde-format
@@ -14955,6 +15031,13 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>مزيح التردد بودي (CV)</b> (LADSPA 1432)<br>\n"
+"   مزيح التردد بودي/موغ هو وحدة توليد تناظرية شائعة تعمل عن طريق إزاحة جميع "
+"ترددات إشارة الدخل لأعلى أو لأسفل بتردد محدد. يزيح هذا التأثير في كلا "
+"الاتجاهين في نفس الوقت لأنه لا يتطلب عملًا إضافيًا تقريبًا وغالبًا ما يكون من "
+"المفيد الحصول على كلا الاتجاهين. على النقيض من بودي/موغ التناظري، الذي "
+"يستخدم مرشحات القبة كأصل له، فإنه يستخدم محول هيلبرت، وهو أسهل بكثير في "
+"التطبيق في الأنظمة الرقمية."
 
 #: data/effects/ladspa/ladspa_1432.xml:9
 #, kde-format
@@ -14990,6 +15073,10 @@ msgid ""
 "the two readpointers according to the sine of the distance from the write "
 "pointer."
 msgstr ""
+"مزيح حدة الصوت AM ‏(LADSPA 1433)<br>\n"
+"   يعمل هذا التأثير عن طريق تشغيل مؤشر كتابة واحد (أحادي النبرة) ومؤشري "
+"قراءة (مقيسين بالحدة) على مخزن مؤقت حلقي. يتلاشى الخرج بين مؤشري القراءة "
+"وفقًا لجيب المسافة من مؤشر الكتابة."
 
 #: data/effects/ladspa/ladspa_1433.xml:9 data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
@@ -15002,6 +15089,9 @@ msgid ""
 "The multiple of the output pitch.<br>\n"
 "      For example, 2.00 will increase the pitch by one octave."
 msgstr ""
+"مضاعف حدة صوت الخرج.<br>\n"
+"      على سبيل المثال، ستزيد القيمة 2.00 حدة الصوت بمقدار ديوان واحد "
+"(أوكتاف)."
 
 #: data/effects/ladspa/ladspa_1433.xml:14
 #, kde-format
@@ -15015,6 +15105,9 @@ msgid ""
 "      Small buffers will sound fluttery, large buffers will have flangy "
 "sounding echos."
 msgstr ""
+"رتبة مقدار حجم المخزن المؤقت.<br>\n"
+"      ستبدو المخازن المؤقتة الصغيرة مرتعشة، بينما ستحتوي المخازن المؤقتة "
+"الكبيرة على أصداء صوتية مشفهة (flangy)."
 
 #: data/effects/ladspa/ladspa_1438.xml:4
 #, kde-format
@@ -15027,6 +15120,8 @@ msgid ""
 "DJ Flanger (LADSPA 1438)<br>\n"
 "   This is a flanger which is more or less typical of DJ mixing desks"
 msgstr ""
+"مشفّه ملقي الأغاني DJ Flanger (LADSPA 1438)<br>\n"
+"   هذا مشفّه نموذجي إلى حد ما لوحدات خلط ملقي الأغاني"
 
 #: data/effects/ladspa/ladspa_1438.xml:9
 #, kde-format
@@ -15040,6 +15135,9 @@ msgid ""
 "      it resets the phase of the LFO back to the start of the cycle. Used to "
 "sync the LFO to the track."
 msgstr ""
+"عند التحويل من الإيقاف إلى التشغيل<br>\n"
+"      فإنه يعيد ضبط طور الـ LFO إلى بداية الدورة. يُستخدم لمزامنة الـ LFO مع "
+"المقطوعة."
 
 #: data/effects/ladspa/ladspa_1438.xml:14
 #, kde-format
@@ -15082,6 +15180,8 @@ msgid ""
 "Comb Delay Line (linear interpolation) (LADSPA 1887)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"خط تأخير مشطي (استيفاء خطي) (LADSPA 1887)<br>\n"
+"   مبني على عمل جيمس مكارتني في سيلفر كولايدر."
 
 #: data/effects/ladspa/ladspa_1887.xml:9 data/effects/ladspa/ladspa_1888.xml:9
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
@@ -15099,6 +15199,8 @@ msgid ""
 "Maximum delay.<br>\n"
 "      Used to set the delay buffer size upon activation. Cannot be modulated."
 msgstr ""
+"التأخير الأقصى.<br>\n"
+"      يُستخدم لضبط حجم المخزن المؤقت للتأخير عند التنشيط. لا يمكن تضمينه."
 
 #: data/effects/ladspa/ladspa_1887.xml:14
 #: data/effects/ladspa/ladspa_1888.xml:14
@@ -15120,6 +15222,9 @@ msgid ""
 "      by 60 decibels. If this time is negative then the feedback coefficient "
 "will be negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"الوقت اللازم لاضمحلال الأصداء<br>\n"
+"      بمقدار 60 ديسيبل. إذا كان هذا الوقت سالبًا، فستكون معامل التغذية "
+"الراجعة سالبة، وبالتالي التأكيد على التوافقية الفردية فقط عند أوكتاف أقل."
 
 #: data/effects/ladspa/ladspa_1888.xml:4
 #, kde-format
@@ -15132,6 +15237,8 @@ msgid ""
 "Comb Delay Line (cubic spline interpolation) (LADSPA 1888)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"خط تأخير مشطي (استيفاء شريحة تكعيبية) (LADSPA 1888)<br>\n"
+"   مبني على عمل جيمس مكارتني في سيلفر كولايدر."
 
 #: data/effects/ladspa/ladspa_1889.xml:4
 #, kde-format
@@ -15144,6 +15251,8 @@ msgid ""
 "Comb Delay Line (non-interpolating) (LADSPA 1889)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"خط تأخير مشطي (دون استيفاء) (LADSPA 1889)<br>\n"
+"   مبني على عمل جيمس مكارتني في سيلفر كولايدر."
 
 #: data/effects/ladspa/ladspa_1890.xml:4
 #, kde-format
@@ -15158,6 +15267,10 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"مرشح تمرير عالي GLAME ‏(LADSPA 1890)<br>\n"
+"   مرشح تمرير عالي الاستجابة الاندفاعية اللانهائية (IIR) مبني باستخدام "
+"معاملات تشيبيشيف. يتيح لك المرشح ضبط عدد المراحل المستخدمة للترشيح. تضيف كل "
+"مرحلة قطبين إضافيين، مما يؤدي إلى انخفاض حاد."
 
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
@@ -15181,6 +15294,8 @@ msgid ""
 "Every stage adds two more<br>\n"
 "      poles, which leads to a steeper dropoff."
 msgstr ""
+"تضيف كل مرحلة قطبين<br>\n"
+"      إضافيين، مما يؤدي إلى انخفاض حاد."
 
 #: data/effects/ladspa/ladspa_1891.xml:4
 #, kde-format
@@ -15195,6 +15310,10 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"مرشح تمرير منخفض GLAME ‏(LADSPA 1891)<br>\n"
+"   مرشح تمرير منخفض الاستجابة الاندفاعية اللانهائية (IIR) مبني باستخدام "
+"معاملات تشيبيشيف. يتيح لك المرشح ضبط عدد المراحل المستخدمة للترشيح. تضيف كل "
+"مرحلة قطبين إضافيين، مما يؤدي إلى انخفاض حاد."
 
 #: data/effects/ladspa/ladspa_1892.xml:4
 #, kde-format
@@ -15209,6 +15328,10 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"مرشح تمرير نطاق GLAME ‏(LADSPA 1892)<br>\n"
+"   مرشح تمرير نطاق الاستجابة الاندفاعية اللانهائية (IIR) مبني باستخدام "
+"معاملات تشيبيشيف. يتيح لك المرشح ضبط عدد المراحل المستخدمة للترشيح. تضيف كل "
+"مرحلة قطبين إضافيين، مما يؤدي إلى انخفاض حاد."
 
 #: data/effects/ladspa/ladspa_1892.xml:9 data/effects/ladspa/ladspa_1893.xml:9
 #: data/effects/sox/sox_band.xml:8
@@ -15233,6 +15356,9 @@ msgid ""
 "GLAME Bandpass Analog Filter (LADSPA 1893)<br>\n"
 "   IIR bandpass filter modeled after an analog circuit"
 msgstr ""
+"مرشح تناظري لتمرير النطاق GLAME ‏(LADSPA 1893)<br>\n"
+"   مرشح تمرير نطاق الاستجابة الاندفاعية اللانهائية (IIR) مصمم على غرار دارة "
+"تناظرية"
 
 #: data/effects/ladspa/ladspa_1895.xml:4
 #, kde-format
@@ -15246,6 +15372,8 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"خط تأخير لجميع التمريرات (دون استيفاء) (LADSPA 1895)<br>\n"
+"   يتكيف آليًا مع عدد القنوات ومعدل العينات للمستهلك."
 
 #: data/effects/ladspa/ladspa_1895.xml:17
 #: data/effects/ladspa/ladspa_1896.xml:17
@@ -15256,6 +15384,9 @@ msgid ""
 "      If this time is negative, then the feedback coefficient will be "
 "negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"الوقت اللازم لاضمحلال الأصداء بمقدار 60 ديسيبل.<br>\n"
+"      إذا كان هذا الوقت سالبًا، فستكون معامل التغذية الراجعة سالبة، وبالتالي "
+"التأكيد على التوافقية الفردية فقط عند أوكتاف أقل."
 
 #: data/effects/ladspa/ladspa_1896.xml:4
 #, kde-format
@@ -15269,6 +15400,8 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"خط تأخير لجميع التمريرات (LADSPA 1896)<br>\n"
+"   يتكيف آليًا مع عدد القنوات ومعدل العينات للمستهلك."
 
 #: data/effects/ladspa/ladspa_1897.xml:4
 #, kde-format
@@ -15282,6 +15415,8 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"خط تأخير لجميع التمريرات (LADSPA 1897)<br>\n"
+"   يتكيف آليًا مع عدد القنوات ومعدل العينات للمستهلك."
 
 #: data/effects/ladspa/ladspa_1900.xml:4
 #, kde-format
@@ -15411,6 +15546,8 @@ msgid ""
 "The date of the recording/<br>\n"
 "      playback equipment to be simulated"
 msgstr ""
+"تاريخ التسجيل/<br>\n"
+"      معدات التشغيل المراد محاكاتها"
 
 #: data/effects/ladspa/ladspa_1905.xml:14
 #: data/effects/ladspa/ladspa_vinyl.xml:11
@@ -15439,6 +15576,8 @@ msgid ""
 "The degree of variation in<br>\n"
 "      height of the record surfaced"
 msgstr ""
+"درجة التباين في<br>\n"
+"      ارتفاع سطح التسجيل"
 
 #: data/effects/ladspa/ladspa_1905.xml:24
 #: data/effects/ladspa/ladspa_vinyl.xml:17
@@ -15452,6 +15591,8 @@ msgid ""
 "The number of scratches on<br>\n"
 "      the record surface"
 msgstr ""
+"عدد الخدوش على<br>\n"
+"      سطح التسجيل"
 
 #: data/effects/ladspa/ladspa_1905.xml:29
 #: data/effects/ladspa/ladspa_vinyl.xml:20
@@ -15493,6 +15634,10 @@ msgid ""
 "latency to the input signal, but it guarantees that there will be no signals "
 "over the limit, and tries to get the minimum amount of distortion."
 msgstr ""
+"محدد استشرافي سريع (LADSPA 1913)<br>\n"
+"   هذا محدد بزمن هجوم يبلغ 5 ميلي ثانية. يضيف ما يزيد قليلاً عن 5 ميلي ثانية "
+"من الكمون إلى إشارة الدخل، ولكنه يضمن عدم وجود إشارات تتجاوز الحد، ويحاول "
+"الحصول على الحد الأدنى من التشويه."
 
 #: data/effects/ladspa/ladspa_1913.xml:11
 #, kde-format
@@ -15501,6 +15646,9 @@ msgid ""
 "      to the input stage. Can be used to trim gain to bring it roughly under "
 "the limit or to push the signal against the limit."
 msgstr ""
+"الكسب الذي يُطبّق<br>\n"
+"      على مرحلة الدخل. يمكن استخدامه لتهذيب الكسب لجعله تحت الحد تقريبًا أو "
+"لدفع الإشارة باتجاه الحد."
 
 #: data/effects/ladspa/ladspa_1913.xml:16
 #, kde-format
@@ -15509,6 +15657,9 @@ msgid ""
 "      Peaks over this level will be attenuated as smoothly as possible to "
 "bring them as close as possible to this level."
 msgstr ""
+"سعة الخرج القصوى.<br>\n"
+"      الذرى التي تتجاوز هذا المستوى ستُوهّن بسلاسة قدر الإمكان لتقريبها قدر "
+"الإمكان من هذا المستوى."
 
 #: data/effects/ladspa/ladspa_1913.xml:21
 #, kde-format
@@ -15516,6 +15667,8 @@ msgid ""
 "The time taken for the<br>\n"
 "      limiters attenuation to return to 0 dB"
 msgstr ""
+"الوقت الذي يستغرقه توهين<br>\n"
+"      المحدد للعودة إلى 0 ديسيبل"
 
 #: data/effects/ladspa/ladspa_1913.xml:24
 #, kde-format
@@ -15528,6 +15681,8 @@ msgid ""
 "The current attenuation<br>\n"
 "      of the signal coming out of the delay buffer"
 msgstr ""
+"التوهين الحالي<br>\n"
+"      للإشارة الخارجة من مخزن التأخير المؤقت"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
 #, kde-format
@@ -36121,12 +36276,12 @@ msgstr "أاستبدال المقطع <b>%1</b> بـ <b>%2</b>؟"
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "أأستبدل مقطع <b>%1</b> بمقطع <b>%2</b>؟"
+msgstr[1] "أأستبدل مقطع بـ<b>%2</b>؟"
+msgstr[2] "أأستبدل مقطعين بـ <b>%2</b>؟"
+msgstr[3] "أأستبدل <b>%1</b> مقاطع  بـ <b>%2</b>؟"
+msgstr[4] "أأستبدل <b>%1</b> مقطعًا بـ<b>%2</b>؟"
+msgstr[5] "أأستبدل <b>%1</b> مقطع  بـ <b>%2</b>؟"
 
 #: src/timeline2/view/timelinecontroller.cpp:4537
 #, kde-format
