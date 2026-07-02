@@ -643,8 +643,8 @@ void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)
                 if (doubleParam) {
                     doubleParam->setParamState(onKeyframe, m_keyframes->keyframesCount(w.first) == 1);
                 } else {
-                    qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT...";
-                    doubleParam->setEnabled(onKeyframe);
+                    qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT ON: " << m_model->getAssetId();
+                    w.second->setEnabled(onKeyframe);
                 }
             }
         } else {
