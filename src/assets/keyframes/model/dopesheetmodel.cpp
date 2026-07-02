@@ -448,13 +448,22 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
                                       // Remove and reload keyframable params
                                       QStringList blockedParams = effectModel->data(ix1, AssetParameterModel::BlockedKeyframesRole).toStringList();
                                       qDebug() << "::::: BLOCKED KEYFRAMES: " << blockedParams;
-                                      while (effectItem->childCount() > 0) {
-                                          std::shared_ptr<TreeItem> item = effectItem->child(0);
-                                          m_paramsList.erase(item->getId());
-                                          effectItem->removeChild(item);
+                                      const QModelIndex effectIndex = getIndexFromItem(effectItem);
+                                      if (effectItem->childCount() == 0) {
+                                          // Single param effect
+                                      } else {
+                                          beginRemoveRows(effectIndex, 0, effectItem->childCount() - 1);
+                                          while (effectItem->childCount() > 0) {
+                                              std::shared_ptr<TreeItem> item = effectItem->child(0);
+                                              m_paramsList.erase(item->getId());
+                                              effectItem->removeChild(item);
+                                          }
+                                          endRemoveRows();
                                       }
                                       std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
                                       std::vector<QPersistentModelIndex> indexes = keyframes->getIndexes();
+                                      qDebug() << "REBUILDING KF FOR PARAMETERS: " << indexes.size();
+                                      beginInsertRows(effectIndex, 0, indexes.size() - blockedParams.size());
                                       for (unsigned i = indexes.size(); i-- > 0;) {
                                           const QPersistentModelIndex ix = indexes.at(i);
                                           auto km = keyframes->getKeyModel(ix);
@@ -472,8 +481,10 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
                                           pInfo.mltId = effectModel->data(ix, AssetParameterModel::NameRole).toString();
                                           pInfo.type = effectModel->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
                                           pInfo.row = ix.row();
+                                          pInfo.index = ix;
                                           m_paramsList.insert({paramItem->getId(), {pInfo, km}});
                                       }
+                                      endInsertRows();
                                   }
                               });
     m_assetConnectionList << connection;

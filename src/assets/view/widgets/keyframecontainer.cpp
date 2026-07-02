@@ -947,27 +947,23 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(),
                                              m_model->data(index, AssetParameterModel::CompactRole).toBool(), m_parent);
-        /*QCheckBox *cb = new QCheckBox(m_parent);
-        cb->setToolTip(i18n("Enable keyframes"));
-        cb->setChecked(!m_model->data(index, AssetParameterModel::BlockedKeyframesRole)
-                            .toStringList()
-                            .contains(m_model->data(index, AssetParameterModel::NameRole).toString()));
+        QToolButton *keyframable = new QToolButton(m_parent);
+        keyframable->setCheckable(true);
+        keyframable->setIcon(QIcon::fromTheme(QStringLiteral("smallclock")));
+        keyframable->setToolTip(i18n("Enable keyframes"));
+        keyframable->setChecked(!m_model->data(index, AssetParameterModel::BlockedKeyframesRole)
+                                     .toStringList()
+                                     .contains(m_model->data(index, AssetParameterModel::NameRole).toString()));
         // Update status on change
-        connect(this, &KeyframeContainer::updateAnimCheckBox, this, [this, cb, index]() {
-            QSignalBlocker bk(cb);
-            cb->setChecked(!m_model->data(index, AssetParameterModel::BlockedKeyframesRole)
-                                .toStringList()
-                                .contains(m_model->data(index, AssetParameterModel::NameRole).toString()));
+        connect(this, &KeyframeContainer::updateAnimCheckBox, this, [this, keyframable, index]() {
+            QSignalBlocker bk(keyframable);
+            keyframable->setChecked(!m_model->data(index, AssetParameterModel::BlockedKeyframesRole)
+                                         .toStringList()
+                                         .contains(m_model->data(index, AssetParameterModel::NameRole).toString()));
         });
 
         // React on user toggle
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(cb, &QCheckBox::checkStateChanged, this, [this, index](Qt::CheckState state) {
-            bool checked = state == Qt::Checked;
-#else
-        connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this, index](int state) {
-            bool checked = state == 2;
-#endif
+        connect(keyframable, &QToolButton::toggled, this, [this, index](bool checked) {
             if (checked) {
                 // Re-enable keyframes, we only need to discard the blocking flag
                 QStringList currentBlocked = m_model->data(index, AssetParameterModel::BlockedKeyframesRole).toStringList();
@@ -1011,8 +1007,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 pCore->pushUndo(undo, redo, i18n("Remove and Disable Keyframes"));
             }
         });
-        lay->addWidget(cb);
-        */
+        lay->addWidget(keyframable);
         lay->addWidget(doubleWidget);
         QToolButton *goPrev = new QToolButton(m_parent);
         goPrev->setIcon(QIcon::fromTheme("arrow-left"));

@@ -920,7 +920,7 @@ Rectangle {
                 text: dopeName
                 rightPadding: 4
                 leftPadding: 4
-                font.bold: depth == 0
+                font.bold: depth < 2
                 Component.onCompleted: {
                     if (treeView.headerWidth < (paramLabel.width + indicator.width + contentRect.padding)) {
                         treeView.headerWidth = paramLabel.width + indicator.width + contentRect.padding
