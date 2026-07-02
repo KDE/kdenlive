@@ -62,6 +62,11 @@ ProjectSubClip::~ProjectSubClip()
     // controller is deleted in bincontroller
 }
 
+void ProjectSubClip::reloadThumb()
+{
+    ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_parentClipId.toInt(), QUuid()), QDomElement(), true, m_inPoint, m_outPoint, this);
+}
+
 const QString ProjectSubClip::cutClipId() const
 {
     return QStringLiteral("%1/%2/%3").arg(m_parentClipId).arg(m_inPoint).arg(m_outPoint);

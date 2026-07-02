@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-29 00:44+0000\n"
-"PO-Revision-Date: 2026-06-28 23:28+0200\n"
+"POT-Creation-Date: 2026-06-30 00:42+0000\n"
+"PO-Revision-Date: 2026-06-29 14:40+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7381,7 +7381,7 @@ msgstr "Tijdsduur"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:82
-#: src/core.cpp:1112 src/kdenliveui.rc:195 src/mainwindow.cpp:267
+#: src/core.cpp:1128 src/kdenliveui.rc:195 src/mainwindow.cpp:267
 #: src/project/dialogs/archivewidget.cpp:100
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -14453,6 +14453,11 @@ msgid ""
 "bandwidth modulation function, which should make the modulation less "
 "repetitive and noticeable."
 msgstr ""
+"Flanger (LADSPA 1191)<br>\n"
+"   Een digitale flanger-implementatie. Maakt gebruik van een innovatieve "
+"modulatiefunctie met gecontroleerde bandbreedte en zonder uitwijking naar "
+"nul (zero excursion), waardoor de modulatie minder repetitief en minder "
+"opvallend zou moeten zijn."
 
 #: data/effects/ladspa/ladspa_1191.xml:9
 #, kde-format
@@ -14465,6 +14470,8 @@ msgid ""
 "This is the offset from<br>\n"
 "      the input time that the detune delay moves around"
 msgstr ""
+"Dit is de offset ten opzichte van<br>\n"
+"      de invoertijd waarbinnen de detune-vertraging varieert"
 
 #: data/effects/ladspa/ladspa_1191.xml:14
 #, kde-format
@@ -14478,6 +14485,9 @@ msgid ""
 "      delay that will be applied to the delayed signal, relative to the dry "
 "signal."
 msgstr ""
+"Dit is de maximale<br>\n"
+"      vertraging die op het vertraagde signaal wordt toegepast, ten opzichte "
+"van het droge signaal."
 
 #: data/effects/ladspa/ladspa_1191.xml:19
 #, kde-format
@@ -14491,6 +14501,9 @@ msgid ""
 "      that the 'LFO' will move at. The LFO isn't actually an oscillator, but "
 "it does vary periodically."
 msgstr ""
+"Dit is de basisfrequentie<br>\n"
+"      waarnaar de 'LFO' beweegt. De LFO is niet echt een oscillator, maar "
+"hij varieert wel periodiek."
 
 #: data/effects/ladspa/ladspa_1191.xml:26
 #, kde-format
@@ -14499,6 +14512,9 @@ msgid ""
 "      output to the input, increases the depth of the effect, but makes it "
 "sound less like a real flanger."
 msgstr ""
+"Terugkoppeling van de<br>\n"
+"      uitgang naar de ingang vergroot de diepte van het effect, maar zorgt "
+"ervoor dat het minder klinkt als een echte flanger."
 
 #: data/effects/ladspa/ladspa_1192.xml:4
 #, kde-format
@@ -14512,6 +14528,8 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Vertragingslijn met fractionele adressering (LADSPA 1192)<br>   Past zich "
+"automatisch aan het aantal kanalen en de samplefrequentie van de afnemer aan."
 
 #: data/effects/ladspa/ladspa_1195.xml:4
 #: data/effects/ladspa/ladspa_declipper.xml:4
@@ -14525,6 +14543,8 @@ msgid ""
 "Declipper (LADSPA 1195)<br>\n"
 "   Removes nasty clicks from input signals, not very kind to them though."
 msgstr ""
+"Declipper (LADSPA 1195)<br>   Verwijdert storende tikken uit "
+"ingangssignalen, al gaat dit niet al te zachtzinnig met de signalen om."
 
 #: data/effects/ladspa/ladspa_1196.xml:4
 #, kde-format
@@ -14538,6 +14558,9 @@ msgid ""
 "   A simple overdrive. Compresses the extreme peaks to make a sound similar "
 "to an overdriven amplifier."
 msgstr ""
+"Snelle overdrive (LADSPA 1196)<br>   Een eenvoudige overdrive. Comprimeert "
+"de extreme pieken voor een geluid dat lijkt op dat van een overstuurde "
+"versterker."
 
 #: data/effects/ladspa/ladspa_1196.xml:9
 #, kde-format
@@ -14550,6 +14573,8 @@ msgid ""
 "Controls the point at<br>\n"
 "      which the signal starts to distort, and the degree of distortion."
 msgstr ""
+"Regelt het punt waarop<br>\n"
+"      het signaal begint te vervormen, en de mate van vervorming."
 
 #: data/effects/ladspa/ladspa_1202.xml:4
 #, kde-format
@@ -14564,6 +14589,10 @@ msgid ""
 "of the input signal, allows non integer values for smooth transitions "
 "between clean and lo-fi signals."
 msgstr ""
+"Decimator (LADSPA 1202)<br>\n"
+"   Voert decimering uit (verlaagt de effectieve samplefrequentie) en "
+"vermindert de bitdiepte van het ingangssignaal; ondersteunt niet-gehele "
+"waarden voor vloeiende overgangen tussen zuivere en lo-fi signalen."
 
 #: data/effects/ladspa/ladspa_1202.xml:9
 #, kde-format
@@ -14597,6 +14626,8 @@ msgid ""
 "Single Band Parametric (LADSPA 1203)<br>\n"
 "   A single band of a parametric filter."
 msgstr ""
+"Parametrisch filter met één band (LADSPA 1203)<br>   Eén band van een "
+"parametrisch filter."
 
 #: data/effects/ladspa/ladspa_1203.xml:9
 #, kde-format
@@ -14621,6 +14652,11 @@ msgid ""
 "and <i>Bandwidth</i>: if the high pitch (<i>Frequency</i> * 2^<i>Bandwidth</"
 "i>) goes over half the sample rate, you will get aliasing."
 msgstr ""
+"De middenfrequentie (d.w.z. het punt van<br>\n"
+"      maximale/minimale verzwakking). Let op bij hoge waarden voor "
+"<i>Frequentie</i> en <i>Bandbreedte</i>: als de hoge frequentie "
+"(<i>Frequentie</i> * 2^<i>Bandbreedte</i>) de helft van de samplefrequentie "
+"overschrijdt, treedt aliasing op."
 
 #: data/effects/ladspa/ladspa_1203.xml:18
 #, kde-format
@@ -14649,6 +14685,10 @@ msgid ""
 "   Simply removes the DC (0 Hz) component from an audio signal, uses a high "
 "pass filter, so has some side effects, but they should be minimal."
 msgstr ""
+"DC-offsetverwijderaar (LADSPA 1207)<br>\n"
+"   Verwijdert eenvoudig de DC-component (0 Hz) uit een audiosignaal; maakt "
+"gebruik van een hoogdoorlaatfilter en heeft daardoor enkele bijwerkingen, al "
+"zouden deze minimaal moeten zijn."
 
 #: data/effects/ladspa/ladspa_1213.xml:4
 #, kde-format
@@ -14663,6 +14703,10 @@ msgid ""
 "distortion. Probably should have a <i>DC Offset Remover</i> on the output, "
 "but it's not always necessary."
 msgstr ""
+"Foldover-vervorming (LADSPA 1213)<br>   Gebruikt een sinusgolfbenadering om "
+"foldover-vervorming in buizenstijl te simuleren. Idealiter zou er een <i>DC-"
+"offsetverwijderaar</i> op de uitgang moeten zitten, maar dat is niet altijd "
+"noodzakelijk."
 
 #: data/effects/ladspa/ladspa_1213.xml:9 data/effects/ladspa/ladspa_2158.xml:9
 #, kde-format
@@ -14696,6 +14740,8 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"4x4-polig allesdoorlaatfilter (LADSPA 1218)<br>   Past zich automatisch aan "
+"het aantal kanalen en de samplefrequentie van de afnemer aan."
 
 #: data/effects/ladspa/ladspa_1218.xml:9
 #, kde-format
@@ -14745,7 +14791,7 @@ msgstr "Auto-phaser"
 #: data/effects/ladspa/ladspa_1219.xml:5
 #, kde-format
 msgid "Auto Phaser (LADSPA 1219)"
-msgstr ""
+msgstr "Auto-phaser (LADSPA 1219)"
 
 #: data/effects/ladspa/ladspa_1219.xml:8
 #, kde-format
@@ -14771,7 +14817,7 @@ msgstr "Modulatiediepte"
 #: data/effects/ladspa/ladspa_1219.xml:20
 #, kde-format
 msgid "Spread (octaves)"
-msgstr ""
+msgstr "Spreiding (octaven)"
 
 #: data/effects/ladspa/ladspa_1402.xml:4
 #, kde-format
@@ -14781,7 +14827,7 @@ msgstr "Delayorama"
 #: data/effects/ladspa/ladspa_1402.xml:5
 #, kde-format
 msgid "Delayorama (LADSPA 1402)"
-msgstr ""
+msgstr "Delayorama (LADSPA 1402)"
 
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
 #, kde-format
@@ -14795,6 +14841,10 @@ msgid ""
 "      will be used to stagger the delays and amplitudes if random is turned "
 "up on them. Changing this forces the random values to be recalculated."
 msgstr ""
+"Bepaalt de toevalsgetallen die<br>\n"
+"      worden gebruikt om de vertragingen en amplitudes te variëren wanneer "
+"de random-functie hiervoor is ingeschakeld. Het wijzigen hiervan zorgt "
+"ervoor dat de toevalswaarden opnieuw worden berekend."
 
 #: data/effects/ladspa/ladspa_1402.xml:14
 #, kde-format
@@ -14805,6 +14855,7 @@ msgstr "Regelt de versterking van het invoersignaal"
 #, kde-format
 msgid "Controls the amount of output signal fed back into the input"
 msgstr ""
+"Regelt de hoeveelheid uitgangssignaal die naar de ingang wordt teruggevoerd"
 
 #: data/effects/ladspa/ladspa_1402.xml:21
 #, kde-format
@@ -14834,7 +14885,7 @@ msgstr "Vertragingsbereik"
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
 msgid "The time difference between the first and last delay"
-msgstr ""
+msgstr "Het tijdsverschil tussen de eerste en de laatste vertraging"
 
 #: data/effects/ladspa/ladspa_1402.xml:33
 #, kde-format
@@ -14844,7 +14895,7 @@ msgstr "Vertragingswijziging"
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
 msgid "The scaling factor between one delay and the next"
-msgstr ""
+msgstr "De schaalfactor tussen de ene vertraging en de volgende"
 
 #: data/effects/ladspa/ladspa_1402.xml:37
 #, kde-format
@@ -14864,7 +14915,7 @@ msgstr "Amplitudewijziging"
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
 msgid "The scaling factor between one amplitude and the next"
-msgstr ""
+msgstr "De schaalfactor tussen de ene amplitude en de volgende"
 
 #: data/effects/ladspa/ladspa_1402.xml:45
 #, kde-format
@@ -14894,7 +14945,7 @@ msgstr "Dyson-compressor"
 #: data/effects/ladspa/ladspa_1403.xml:5
 #, kde-format
 msgid "Dyson Compressor (LADSPA 1403)"
-msgstr ""
+msgstr "Dyson-compressor (LADSPA 1403)"
 
 #: data/effects/ladspa/ladspa_1403.xml:8
 #, kde-format
@@ -14907,6 +14958,8 @@ msgid ""
 "Controls the desired limit<br>\n"
 "      of the output signal"
 msgstr ""
+"Regelt de gewenste limiet<br>\n"
+"      van het uitgangssignaal"
 
 #: data/effects/ladspa/ladspa_1403.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:19
@@ -14920,6 +14973,8 @@ msgid ""
 "Controls the time taken for<br>\n"
 "      the compressor to relax its gain control over the input signal"
 msgstr ""
+"Regelt de tijd die de compressor nodig heeft om<br>\n"
+"      de versterkingsregeling op het ingangssignaal los te laten"
 
 #: data/effects/ladspa/ladspa_1403.xml:18
 #, kde-format
@@ -14943,6 +14998,9 @@ msgid ""
 "   This is a simulation of the distortion that happens in class B and AB "
 "power amps when the signal crosses 0."
 msgstr ""
+"Crossover-vervorming (LADSPA 1404)<br>\n"
+"    Dit is een simulatie van de vervorming die optreedt in klasse B- en AB-"
+"eindversterkers wanneer het signaal de nulgrens passeert."
 
 #: data/effects/ladspa/ladspa_1404.xml:9
 #, kde-format
@@ -14952,12 +15010,12 @@ msgstr "Crossover-amplitude"
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
 msgid "Controls the point at which the output signal becomes linear"
-msgstr ""
+msgstr "Bepaalt het punt waarop het uitgangssignaal lineair wordt"
 
 #: data/effects/ladspa/ladspa_1404.xml:14
 #, kde-format
 msgid "Controls degree of smoothing of the crossover point"
-msgstr ""
+msgstr "Regelt de mate van afvlakking van het crossover-punt"
 
 #: data/effects/ladspa/ladspa_1407.xml:4
 #, kde-format
@@ -14971,6 +15029,9 @@ msgid ""
 "   Simulates aliasing using nyquist frequency modulation. Produces wacky "
 "results if the blocks aren't even numbers of samples long."
 msgstr ""
+"Aliasing (LADSPA 1407)<br>   Simuleert aliasing door middel van Nyquist-"
+"frequentiemodulatie. Levert eigenzinnige resultaten op als de blokken niet "
+"uit een even aantal samples bestaan."
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, kde-format
@@ -14980,7 +15041,7 @@ msgstr "Aliasing-niveau"
 #: data/effects/ladspa/ladspa_1407.xml:10
 #, kde-format
 msgid "Controls the amount of simulated aliasing in the output."
-msgstr ""
+msgstr "Regelt de hoeveelheid gesimuleerde aliasing in de uitvoer."
 
 #: data/effects/ladspa/ladspa_1408.xml:4
 #, kde-format
@@ -14995,6 +15056,10 @@ msgid ""
 "and hard knee. Not really as a compressor, but good harsh (non-musical) "
 "distortion."
 msgstr ""
+"Barry's Satan Maximiser (LADSPA 1408)<br>\n"
+"   Comprimeert signalen met een absurd korte attack en decay, een oneindige "
+"ratio en een 'hard knee'. Niet echt bedoeld als compressor, maar wel goed "
+"voor rauwe, harde (niet-muzikale) vervorming."
 
 #: data/effects/ladspa/ladspa_1408.xml:9
 #, kde-format
@@ -15075,6 +15140,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to open fully"
 msgstr ""
+"Regelt de tijd die de<br>\n"
+"      poort nodig heeft om volledig te openen"
 
 #: data/effects/ladspa/ladspa_1410.xml:28
 #, kde-format
@@ -15087,6 +15154,8 @@ msgid ""
 "Controls the minimum<br>\n"
 "      time the gate will stay open for"
 msgstr ""
+"Regel de tijd die de<br>\n"
+"      poort nodig heeft om volledig te openen"
 
 #: data/effects/ladspa/ladspa_1410.xml:35
 #, kde-format
@@ -15094,6 +15163,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to close fully"
 msgstr ""
+"Regelt de tijd die de<br>\n"
+"      poort nodig heeft om volledig te sluiten"
 
 #: data/effects/ladspa/ladspa_1410.xml:40
 #, kde-format
@@ -15101,6 +15172,8 @@ msgid ""
 "Controls the difference<br>\n"
 "      between the gate's open and closed state"
 msgstr ""
+"Regelt het verschil<br>\n"
+"      tussen de open en gesloten stand van de poort"
 
 #: data/effects/ladspa/ladspa_1410.xml:43
 #, kde-format
@@ -15115,7 +15188,7 @@ msgstr "Regelt uitvoermonitor"
 #: data/effects/ladspa/ladspa_1410.xml:45
 #, kde-format
 msgid "Key (listen),Gate (normal output),Bypass"
-msgstr ""
+msgstr "Key (luisteren), Gate (normale uitgang), Bypass"
 
 #: data/effects/ladspa/ladspa_1411.xml:4
 #, kde-format
@@ -15130,6 +15203,11 @@ msgid ""
 "intervals, skewed by f/2 Hz between the two outputs. Mixing the two outputs "
 "will get you exactly the input signal."
 msgstr ""
+"Kamsplitter (LADSPA 1411)<br>\n"
+"   Verdeelt het ingangssignaal in twee delen met frequentiepieken met "
+"intervallen van f Hz, waarbij de pieken van de twee uitgangen ten opzichte "
+"van elkaar met f/2 Hz zijn verschoven. Door de twee uitgangen te mengen, "
+"verkrijg je precies het oorspronkelijke ingangssignaal."
 
 #: data/effects/ladspa/ladspa_1411.xml:10
 #, kde-format
@@ -15144,7 +15222,7 @@ msgstr "FM Oscillator"
 #: data/effects/ladspa/ladspa_1415.xml:5
 #, kde-format
 msgid "FM Oscillator (LADSPA 1415)"
-msgstr ""
+msgstr "FM-oscillator (LADSPA 1415)"
 
 #: data/effects/ladspa/ladspa_1415.xml:8 src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -15207,6 +15285,10 @@ msgid ""
 "signal rises more and more harmonics will for added to the output signal. "
 "The distortion control sets the sensitivity of the input."
 msgstr ""
+"Chebyshev-vervorming (LADSPA 1430)<br>   Dit effect wordt aangestuurd door "
+"de envelop van het inkomende signaal. Naarmate het signaalniveau stijgt, "
+"worden er steeds meer harmonischen aan het uitgangssignaal toegevoegd. De "
+"vervormingsregelaar bepaalt de gevoeligheid van de ingang."
 
 #: data/effects/ladspa/ladspa_1430.xml:9
 #, kde-format
@@ -15235,6 +15317,15 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>Bode Frequentie-shifter</b> (LADSPA 1431)<br>\n"
+"   Een Bode/Moog Frequentie-shifter is een populaire analoge synthesizer-"
+"module die werkt door alle frequenties van een ingangssignaal met een "
+"bepaalde waarde omhoog of omlaag te verschuiven. Dit effect verschuift het "
+"signaal gelijktijdig in beide richtingen; dit vergt nauwelijks extra "
+"rekenkracht en het is vaak nuttig om over beide richtingen te beschikken. In "
+"tegenstelling tot de analoge Bode/Moog, die gebruikmaakt van Dome-filters "
+"als kern, maakt deze module gebruik van een Hilbert-transformator, die veel "
+"eenvoudiger te implementeren is in digitale systemen."
 
 #: data/effects/ladspa/ladspa_1431.xml:9
 #, kde-format
@@ -15246,6 +15337,7 @@ msgstr "Frequentie-shift"
 #, kde-format
 msgid "Controls the frequency shift applied to the input signal"
 msgstr ""
+"Regelt de frequentieverschuiving die op het ingangssignaal wordt toegepast"
 
 #: data/effects/ladspa/ladspa_1432.xml:4
 #, kde-format
@@ -15264,6 +15356,15 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>Bode Frequentie-shifter (CV)</b> (LADSPA 1432)<br>\n"
+"   Een Bode/Moog Frequentie-shifter is een populaire analoge synthesizer-"
+"module die werkt door alle frequenties van een ingangssignaal met een "
+"bepaalde waarde omhoog of omlaag te verschuiven. Dit effect verschuift het "
+"signaal in beide richtingen tegelijk; dit vergt nauwelijks extra rekenkracht "
+"en het is vaak handig om over beide richtingen te beschikken. In "
+"tegenstelling tot de analoge Bode/Moog, die gebruikmaakt van Dome-filters "
+"als kern, maakt deze versie gebruik van een Hilbert-transformator, die veel "
+"eenvoudiger te implementeren is in digitale systemen."
 
 #: data/effects/ladspa/ladspa_1432.xml:9
 #, kde-format
@@ -15299,6 +15400,11 @@ msgid ""
 "the two readpointers according to the sine of the distance from the write "
 "pointer."
 msgstr ""
+"AM toonhoogte-shifter (LADSPA 1433)<br>\n"
+"   Dit effect werkt door één enkele schrijfwijzer (monotoon) en twee "
+"leeswijzers (met aangepaste toonhoogte) over een ringbuffer te laten lopen. "
+"De uitvoer wordt tussen de twee leeswijzers in elkaar overgevloeid op basis "
+"van de sinus van de afstand tot de schrijfwijzer."
 
 #: data/effects/ladspa/ladspa_1433.xml:9 data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
@@ -15311,6 +15417,8 @@ msgid ""
 "The multiple of the output pitch.<br>\n"
 "      For example, 2.00 will increase the pitch by one octave."
 msgstr ""
+"De vermenigvuldiger van de uitvoer-toonhoogte.<br>\n"
+"      Een waarde van bijvoorbeeld 2,00 verhoogt de toonhoogte met een octaaf."
 
 #: data/effects/ladspa/ladspa_1433.xml:14
 #, kde-format
@@ -15324,6 +15432,9 @@ msgid ""
 "      Small buffers will sound fluttery, large buffers will have flangy "
 "sounding echos."
 msgstr ""
+"De grootteorde van de bufferomvang.<br>\n"
+"      Kleine buffers klinken 'flutterig', grote buffers geven echo's met een "
+"flanger-achtig geluid."
 
 #: data/effects/ladspa/ladspa_1438.xml:4
 #, kde-format
@@ -15336,11 +15447,13 @@ msgid ""
 "DJ Flanger (LADSPA 1438)<br>\n"
 "   This is a flanger which is more or less typical of DJ mixing desks"
 msgstr ""
+"DJ Flanger (LADSPA 1438)<br>\n"
+"   Dit is een flanger die min of meer typerend is voor DJ-mengpanelen."
 
 #: data/effects/ladspa/ladspa_1438.xml:9
 #, kde-format
 msgid "LFO sync"
-msgstr ""
+msgstr "LFO-sync"
 
 #: data/effects/ladspa/ladspa_1438.xml:11
 #, kde-format
@@ -15349,6 +15462,9 @@ msgid ""
 "      it resets the phase of the LFO back to the start of the cycle. Used to "
 "sync the LFO to the track."
 msgstr ""
+"Bij het inschakelen<br>\n"
+"      wordt de fase van de LFO teruggezet naar het begin van de cyclus. Dit "
+"wordt gebruikt om de LFO te synchroniseren met het nummer."
 
 #: data/effects/ladspa/ladspa_1438.xml:14
 #, kde-format
@@ -15358,12 +15474,14 @@ msgstr "LFO-periode"
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
 msgid "The cycle period of the LFO in seconds"
-msgstr ""
+msgstr "De cyclusduur van de LFO in seconden"
 
 #: data/effects/ladspa/ladspa_1438.xml:19
 #, kde-format
 msgid "The maximum delay the LFO will use to flange in milliseconds"
 msgstr ""
+"De maximale vertraging in milliseconden die de LFO voor het flanger-effect "
+"gebruikt."
 
 #: data/effects/ladspa/ladspa_1438.xml:23
 #, kde-format
@@ -15372,21 +15490,19 @@ msgstr ""
 "De hoeveelheid van de vertragingen die terug gemengd wordt in de vertraging"
 
 #: data/effects/ladspa/ladspa_1886.xml:4
-#, fuzzy, kde-format
-#| msgid "Exponential In"
+#, kde-format
 msgid "Exponential Signal Decay"
-msgstr "Exponential signal decay"
+msgstr "Exponentiële signaalverval"
 
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
 msgid "Exponential Signal Decay (LADSPA 1886)"
-msgstr ""
+msgstr "Exponentieel signaalverval (LADSPA 1886)"
 
 #: data/effects/ladspa/ladspa_1887.xml:4
-#, fuzzy, kde-format
-#| msgid "Default interpolation"
+#, kde-format
 msgid "Comb Delay Line (linear interpolation)"
-msgstr "Standaard interpolatie"
+msgstr "Kamvertragingslijn (lineaire interpolatie)"
 
 #: data/effects/ladspa/ladspa_1887.xml:6
 #, kde-format
@@ -15394,15 +15510,16 @@ msgid ""
 "Comb Delay Line (linear interpolation) (LADSPA 1887)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Kamfilter-vertragingslijn (lineaire interpolatie) (LADSPA 1887)<br>\n"
+"   Gebaseerd op werk van James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1887.xml:9 data/effects/ladspa/ladspa_1888.xml:9
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
-#, fuzzy, kde-format
-#| msgid "L Delay"
+#, kde-format
 msgid "Max Delay"
-msgstr "L-vertraging"
+msgstr "Maximale vertraging"
 
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
@@ -15412,6 +15529,9 @@ msgid ""
 "Maximum delay.<br>\n"
 "      Used to set the delay buffer size upon activation. Cannot be modulated."
 msgstr ""
+"Maximale vertraging.<br>\n"
+"      Wordt gebruikt om de grootte van de vertragingsbuffer bij activering "
+"in te stellen. Kan niet worden gemoduleerd."
 
 #: data/effects/ladspa/ladspa_1887.xml:14
 #: data/effects/ladspa/ladspa_1888.xml:14
@@ -15420,8 +15540,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:12
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
-#, fuzzy, kde-format
-#| msgid "Delay time"
+#, kde-format
 msgid "Delay Time"
 msgstr "Vertragingstijd"
 
@@ -15434,11 +15553,15 @@ msgid ""
 "      by 60 decibels. If this time is negative then the feedback coefficient "
 "will be negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"De tijd die de echo's nodig hebben om<br>\n"
+"      met 60 decibel af te nemen. Als deze tijd negatief is, zal de "
+"terugkoppelingscoëfficiënt negatief zijn, waardoor alleen oneven "
+"harmonischen een octaaf lager worden benadrukt."
 
 #: data/effects/ladspa/ladspa_1888.xml:4
 #, kde-format
 msgid "Comb Delay Line (cubic spline interpolation)"
-msgstr ""
+msgstr "Kamvertragingslijn (kubische spline-interpolatie)"
 
 #: data/effects/ladspa/ladspa_1888.xml:6
 #, kde-format
@@ -15446,11 +15569,13 @@ msgid ""
 "Comb Delay Line (cubic spline interpolation) (LADSPA 1888)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Comb-vertragingslijn (kubische spline-interpolatie) (LADSPA 1888)<br>\n"
+"   Gebaseerd op werk van James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1889.xml:4
 #, kde-format
 msgid "Comb Delay Line (non-interpolating)"
-msgstr ""
+msgstr "Kamvertragingslijn (niet-interpolerend)"
 
 #: data/effects/ladspa/ladspa_1889.xml:6
 #, kde-format
@@ -15458,12 +15583,13 @@ msgid ""
 "Comb Delay Line (non-interpolating) (LADSPA 1889)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Kamvertragingslijn (zonder interpolatie) (LADSPA 1889)<br>\n"
+"   Gebaseerd op werk van James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1890.xml:4
-#, fuzzy, kde-format
-#| msgid "High-pass"
+#, kde-format
 msgid "GLAME Highpass"
-msgstr "Hoog doorlaten"
+msgstr "GLAME hoog-doorlaatfilter"
 
 #: data/effects/ladspa/ladspa_1890.xml:6
 #, kde-format
@@ -15473,22 +15599,24 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"GLAME-hoogdoorlaatfilter (LADSPA 1890)<br>\n"
+"   IIR-hoogdoorlaatfilter op basis van Chebyshev-coëfficiënten. U kunt het "
+"aantal filtertrappen aanpassen. Elke trap voegt twee polen toe, wat leidt "
+"tot een steilere afval."
 
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
 #: data/effects/ladspa/ladspa_1904.xml:8
-#, fuzzy, kde-format
-#| msgid "Rotor Frequency"
+#, kde-format
 msgid "Cutoff Frequency"
-msgstr "Afsnijfrequentie: "
+msgstr "Afsnijfrequentie"
 
 #: data/effects/ladspa/ladspa_1890.xml:12
 #: data/effects/ladspa/ladspa_1891.xml:12
 #: data/effects/ladspa/ladspa_1892.xml:15
-#, fuzzy, kde-format
-#| msgid "Images"
+#, kde-format
 msgid "Stages"
-msgstr "Stappen:"
+msgstr "Stappen"
 
 #: data/effects/ladspa/ladspa_1890.xml:14
 #: data/effects/ladspa/ladspa_1891.xml:14
@@ -15498,12 +15626,13 @@ msgid ""
 "Every stage adds two more<br>\n"
 "      poles, which leads to a steeper dropoff."
 msgstr ""
+"Elke fase voegt twee extra<br>\n"
+"      polen toe, wat leidt tot een steilere daling."
 
 #: data/effects/ladspa/ladspa_1891.xml:4
-#, fuzzy, kde-format
-#| msgid "Low-pass"
+#, kde-format
 msgid "GLAME Lowpass"
-msgstr "Laag doorlaat"
+msgstr "GLAME laag-doorlaatfilter"
 
 #: data/effects/ladspa/ladspa_1891.xml:6
 #, kde-format
@@ -15513,12 +15642,15 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"GLAME-laagdoorlaatfilter (LADSPA 1891)<br>\n"
+"   IIR-laagdoorlaatfilter op basis van Chebyshev-coëfficiënten. U kunt het "
+"aantal filtertrappen aanpassen. Elke trap voegt twee polen toe, wat leidt "
+"tot een steilere afval."
 
 #: data/effects/ladspa/ladspa_1892.xml:4
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "GLAME Bandpass"
-msgstr "Banddoorlaatfilter"
+msgstr "GLAME band-doorlaatfilter"
 
 #: data/effects/ladspa/ladspa_1892.xml:6
 #, kde-format
@@ -15528,6 +15660,9 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"GLAME-banddoorlaatfilter (LADSPA 1892)<br>   IIR-banddoorlaatfilter op basis "
+"van Chebyshev-coëfficiënten. U kunt het aantal filtertrappen aanpassen. Elke "
+"trap voegt twee polen toe, wat leidt tot een steil verloop."
 
 #: data/effects/ladspa/ladspa_1892.xml:9 data/effects/ladspa/ladspa_1893.xml:9
 #: data/effects/sox/sox_band.xml:8
@@ -15544,7 +15679,7 @@ msgstr "Bandbreedte"
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
 msgid "GLAME Bandpass Analog"
-msgstr ""
+msgstr "GLAME band-doorlaatfilter analoog"
 
 #: data/effects/ladspa/ladspa_1893.xml:6
 #, kde-format
@@ -15552,11 +15687,13 @@ msgid ""
 "GLAME Bandpass Analog Filter (LADSPA 1893)<br>\n"
 "   IIR bandpass filter modeled after an analog circuit"
 msgstr ""
+"GLAME analoog banddoorlaatfilter (LADSPA 1893)<br>\n"
+"   IIR-banddoorlaatfilter gemodelleerd naar een analoog circuit"
 
 #: data/effects/ladspa/ladspa_1895.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Non-interpolating)"
-msgstr ""
+msgstr "Allesdoorlaatfilter-vertragingslijn (zonder interpolatie)"
 
 #: data/effects/ladspa/ladspa_1895.xml:6
 #, kde-format
@@ -15565,6 +15702,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Allesdoorlaatfilter-vertragingslijn (zonder interpolatie) (LADSPA 1895)<br>\n"
+"   Past zich automatisch aan het aantal kanalen en de samplefrequentie van "
+"de afnemer aan."
 
 #: data/effects/ladspa/ladspa_1895.xml:17
 #: data/effects/ladspa/ladspa_1896.xml:17
@@ -15575,11 +15715,14 @@ msgid ""
 "      If this time is negative, then the feedback coefficient will be "
 "negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"De tijd die nodig is voor de echo's om met 60 dB af te nemen.<br>\n"
+"      Als deze tijd negatief is, zal de terugkoppelingscoëfficiënt negatief "
+"zijn, waardoor alleen oneven harmonischen een octaaf lager worden benadrukt."
 
 #: data/effects/ladspa/ladspa_1896.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Linear Interpolation)"
-msgstr ""
+msgstr "Allesdoorlaatfilter-vertragingslijn (lineaire interpolatie)"
 
 #: data/effects/ladspa/ladspa_1896.xml:6
 #, kde-format
@@ -15588,11 +15731,14 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Allesdoorlaatfilter-vertragingslijn (LADSPA 1896)<br>\n"
+"   Past zich automatisch aan het aantal kanalen en de samplefrequentie van "
+"de afnemer aan."
 
 #: data/effects/ladspa/ladspa_1897.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Cubic Spline Interpolation)"
-msgstr ""
+msgstr "Allesdoorlaatfilter-vertragingslijn (kubische spline-interpolatie)"
 
 #: data/effects/ladspa/ladspa_1897.xml:6
 #, kde-format
@@ -15601,11 +15747,13 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Allesdoorlaatfilter-vertragingslijn (LADSPA 1897)<br>   Past zich "
+"automatisch aan het aantal kanalen en de samplefrequentie van de afnemer aan."
 
 #: data/effects/ladspa/ladspa_1900.xml:4
 #, kde-format
 msgid "Simple Delay Line (Cubic Spline Interpolation)"
-msgstr ""
+msgstr "Eenvoudige vertragingslijn (kubische spline-interpolatie)"
 
 #: data/effects/ladspa/ladspa_1900.xml:6
 #, kde-format
@@ -15613,6 +15761,8 @@ msgid ""
 "Simple Delay Line (LADSPA 1900)<br>\n"
 "   Uses cubic spline interpolation"
 msgstr ""
+"Eenvoudige vertragingslijn (LADSPA 1900)<br>   Maakt gebruik van kubische "
+"spline-interpolatie"
 
 #: data/effects/ladspa/ladspa_1901.xml:4
 #, kde-format
@@ -15626,82 +15776,80 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (LADSPA 1901)<br>   Het ontwerp van deze plug-in is gebaseerd op de "
+"Allen & Heath Xone 32 DJ-mixer."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
-#| msgid "LFE Gain"
+#, kde-format
 msgid "Lo Gain"
-msgstr "Lage tonen"
+msgstr "Lage versterking"
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
 #, kde-format
 msgid "Controls the gain of the low (100Hz) peak/dip band"
-msgstr ""
+msgstr "Regelt de versterking van de laagfrequente (100 Hz) piek/dip-band"
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Gain"
-msgstr "Midden tonen"
+msgstr "Midden versterking"
 
 #: data/effects/ladspa/ladspa_1901.xml:14
 #: data/effects/ladspa/ladspa_1907.xml:14
 #, kde-format
 msgid "Controls the gain of the mid (1,000Hz) peak/dip band"
-msgstr ""
+msgstr "Regelt de versterking van de middenfrequente (1.000 Hz) piek/dip-band"
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Hi Gain"
-msgstr "Hoge tonen"
+msgstr "Hoge versterking"
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
 #, kde-format
 msgid "Controls the gain of the high (10,000Hz) shelf band"
-msgstr ""
+msgstr "Regelt de versterking van de hoogfrequente (10.000 Hz) shelf-band"
 
 #: data/effects/ladspa/ladspa_1902.xml:4
 #, kde-format
 msgid "GLAME Butterworth X-Over"
-msgstr ""
+msgstr "GLAME Butterworth crossoverfilter"
 
 #: data/effects/ladspa/ladspa_1902.xml:5
 #, kde-format
 msgid "Butterworth Crossover Filter (LADSPA 1902)"
-msgstr ""
+msgstr "Butterworth-crossoverfilter (LADSPA 1902)"
 
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
 #: data/effects/ladspa/ladspa_1904.xml:11
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Resonance"
-msgstr "Roodbalans"
+msgstr "Resonantie"
 
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
 msgid "GLAME Butterworth Lowpass"
-msgstr ""
+msgstr "GLAME Butterworth laagdoorlaatfilter"
 
 #: data/effects/ladspa/ladspa_1903.xml:5
 #, kde-format
 msgid "Butterworth Lowpass Filter (LADSPA 1903)"
-msgstr ""
+msgstr "Butterworth laagdoorlaatfilter (LADSPA 1903)"
 
 #: data/effects/ladspa/ladspa_1904.xml:4
 #, kde-format
 msgid "GLAME Butterworth Highpass"
-msgstr ""
+msgstr "GLAME Butterworth hoogdoorlaatfilter"
 
 #: data/effects/ladspa/ladspa_1904.xml:5
 #, kde-format
 msgid "Butterworth Highpass Filter (LADSPA 1904)"
-msgstr ""
+msgstr "Butterworth hoogdoorlaatfilter (LADSPA 1904)"
 
 #: data/effects/ladspa/ladspa_1905.xml:4
 #, kde-format
@@ -15709,16 +15857,13 @@ msgid "VyNil (Vinyl Effect)"
 msgstr "VyNil (Vinyleffect)"
 
 #: data/effects/ladspa/ladspa_1905.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "TAP Reflector (LADSPA 2154)<br>\n"
-#| "    Creates a psychedelic reverse audio effect."
+#, kde-format
 msgid ""
 "Vynil Effect (LADSPA 1905)<br>\n"
 "   Simulates an old vynil effect"
 msgstr ""
-"TAP-reflector (LADSPA 2154)<br>\n"
-"    Maakt een psychedelisch omgekeerd audio-effect."
+"Vinyl-effect (LADSPA 1905)<br>\n"
+"   Simuleert een oud vinyl-effect"
 
 #: data/effects/ladspa/ladspa_1905.xml:9
 #: src/project/dialogs/projectsettings.cpp:242
@@ -15732,6 +15877,8 @@ msgid ""
 "The date of the recording/<br>\n"
 "      playback equipment to be simulated"
 msgstr ""
+"De datum van de opname/<br>\n"
+"      de te simuleren afspeelapparatuur"
 
 #: data/effects/ladspa/ladspa_1905.xml:14
 #: data/effects/ladspa/ladspa_vinyl.xml:11
@@ -15740,19 +15887,17 @@ msgid "RPM"
 msgstr "RPM"
 
 #: data/effects/ladspa/ladspa_1905.xml:15
-#, fuzzy, kde-format
-#| msgid "The rotation angle to be applied to the waveform."
+#, kde-format
 msgid "The rotational speed of the platter"
-msgstr "De draaihoek toe te passen op de golfvorm."
+msgstr "De draaisnelheid van de plaat"
 
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
 msgid "33 1/3,45,78"
-msgstr ""
+msgstr "33 1/3,45,78"
 
 #: data/effects/ladspa/ladspa_1905.xml:19
-#, fuzzy, kde-format
-#| msgid "Surface warping"
+#, kde-format
 msgid "Surface Warping"
 msgstr "Oppervlakte vervorming"
 
@@ -15762,6 +15907,8 @@ msgid ""
 "The degree of variation in<br>\n"
 "      height of the record surfaced"
 msgstr ""
+"De mate van variatie in<br>\n"
+"      de hoogte van het bewerkte oppervlak"
 
 #: data/effects/ladspa/ladspa_1905.xml:24
 #: data/effects/ladspa/ladspa_vinyl.xml:17
@@ -15775,6 +15922,8 @@ msgid ""
 "The number of scratches on<br>\n"
 "      the record surface"
 msgstr ""
+"Het aantal krassen op<br>\n"
+"      het oppervlak van de plaat"
 
 #: data/effects/ladspa/ladspa_1905.xml:29
 #: data/effects/ladspa/ladspa_vinyl.xml:20
@@ -15783,16 +15932,14 @@ msgid "Wear"
 msgstr "Draag"
 
 #: data/effects/ladspa/ladspa_1905.xml:30
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of wear on the grooves"
-msgstr "De hoeveelheid stofdeeltjes toegevoegd op de afbeelding"
+msgstr "De hoeveelheid slijtage in de groeven"
 
 #: data/effects/ladspa/ladspa_1907.xml:4
-#, fuzzy, kde-format
-#| msgid "1 (mono)"
+#, kde-format
 msgid "DJ EQ (mono)"
-msgstr "1 (mono)"
+msgstr "DJ EQ (mono)"
 
 #: data/effects/ladspa/ladspa_1907.xml:6
 #, kde-format
@@ -15801,12 +15948,13 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (mono) (LADSPA 1907)<br>   Het ontwerp van deze plug-in is afkomstig "
+"van de Allen & Heath Xone 32 DJ-mixer."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio lookahead limiter."
+#, kde-format
 msgid "Fast Lookahead Limiter"
-msgstr "Fast Lookahead limiter"
+msgstr "Snelle lookahead-begrenzer"
 
 #: data/effects/ladspa/ladspa_1913.xml:6
 #, kde-format
@@ -15816,6 +15964,10 @@ msgid ""
 "latency to the input signal, but it guarantees that there will be no signals "
 "over the limit, and tries to get the minimum amount of distortion."
 msgstr ""
+"Snelle Lookahead-limiter (LADSPA 1913)<br>   Dit is een limiter met een "
+"attack-tijd van 5 ms. Hij voegt iets meer dan 5 ms latentie toe aan het "
+"ingangssignaal, maar garandeert dat er geen signalen boven de limiet "
+"uitkomen en streeft naar minimale vervorming."
 
 #: data/effects/ladspa/ladspa_1913.xml:11
 #, kde-format
@@ -15824,6 +15976,10 @@ msgid ""
 "      to the input stage. Can be used to trim gain to bring it roughly under "
 "the limit or to push the signal against the limit."
 msgstr ""
+"Versterking die toegepast<br>\n"
+"      op de ingangstrap. Kan worden gebruikt om de versterking bij te "
+"regelen, zodat deze ongeveer onder de limiet blijft of het signaal tot tegen "
+"de limiet wordt gestuurd."
 
 #: data/effects/ladspa/ladspa_1913.xml:16
 #, kde-format
@@ -15832,6 +15988,9 @@ msgid ""
 "      Peaks over this level will be attenuated as smoothly as possible to "
 "bring them as close as possible to this level."
 msgstr ""
+"De maximale uitgangsamplitude.<br>\n"
+"      Pieken die boven dit niveau uitkomen, worden zo vloeiend mogelijk "
+"verzwakt om ze zo dicht mogelijk bij dit niveau te brengen."
 
 #: data/effects/ladspa/ladspa_1913.xml:21
 #, kde-format
@@ -15839,12 +15998,13 @@ msgid ""
 "The time taken for the<br>\n"
 "      limiters attenuation to return to 0 dB"
 msgstr ""
+"De tijd die nodig is voor de<br>\n"
+"      verzwakking van de begrenzer om terug te keren naar 0 dB"
 
 #: data/effects/ladspa/ladspa_1913.xml:24
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Attenuation"
-msgstr "Animatie"
+msgstr "Verzwakking"
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format
@@ -15852,6 +16012,8 @@ msgid ""
 "The current attenuation<br>\n"
 "      of the signal coming out of the delay buffer"
 msgstr ""
+"De huidige verzwakking<br>\n"
+"      van het signaal dat uit de vertragingsbuffer komt"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
 #, kde-format
@@ -21968,7 +22130,7 @@ msgstr "Pad naar uw toepassing voor video bewerken invoeren"
 msgid "Please set a default application to open video files"
 msgstr "Stel een standaard toepassing in om videobestanden te openen"
 
-#: src/bin/bin.cpp:5196 src/core.cpp:638 src/core.cpp:666
+#: src/bin/bin.cpp:5196 src/core.cpp:643 src/core.cpp:671
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:491
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22828,7 +22990,7 @@ msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "opname"
 
-#: src/core.cpp:162
+#: src/core.cpp:167
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -22837,18 +22999,18 @@ msgstr ""
 "Kdenlive is gecrasht bij laatste keer opstarten.\n"
 "Wilt u de experimentele verwerking door de GPU uitschakelen (Movit)?"
 
-#: src/core.cpp:163
+#: src/core.cpp:168
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "Verwerking door GPU uitschakelen"
 
-#: src/core.cpp:261 src/core.cpp:304 src/core.cpp:478
+#: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
 #: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Loading project…"
 msgstr "Project wordt geladen…"
 
-#: src/core.cpp:438
+#: src/core.cpp:443
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -22857,19 +23019,19 @@ msgstr ""
 "Het standaard profiel van Kdenlive is niet ingesteld of ongeldig, druk op OK "
 "om een juiste waarde in te stellen."
 
-#: src/core.cpp:450
+#: src/core.cpp:455
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Standaard profiel selecteren"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:450 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:455 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profiel:"
 
-#: src/core.cpp:463
+#: src/core.cpp:468
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -22878,262 +23040,262 @@ msgstr ""
 "Het gegeven profiel is ongeldig. De standaard zal zijn het profiel \"dv_pal"
 "\", maar u kunt dit wijzigen in het paneel voor instellingen van Kdenlive"
 
-#: src/core.cpp:718
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Vierkant 2 balken"
 
-#: src/core.cpp:719
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Klein schaakbord"
 
-#: src/core.cpp:720
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontale strepen"
 
-#: src/core.cpp:721
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radiaal"
 
-#: src/core.cpp:722
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineair X"
 
-#: src/core.cpp:723
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-lineair X"
 
-#: src/core.cpp:724
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineair Y"
 
-#: src/core.cpp:725
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-lineair Y"
 
-#: src/core.cpp:726
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Vierkant"
 
-#: src/core.cpp:727
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Vierkant 2"
 
-#: src/core.cpp:728
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Wolk"
 
-#: src/core.cpp:729
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetrische klok"
 
-#: src/core.cpp:730
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radiale balken"
 
-#: src/core.cpp:731
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiraal"
 
-#: src/core.cpp:732
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiraal 2"
 
-#: src/core.cpp:733
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Gordijn"
 
-#: src/core.cpp:734
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Uitbarsting"
 
-#: src/core.cpp:735
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Klok"
 
-#: src/core.cpp:737
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Balk horizontaal"
 
-#: src/core.cpp:738
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Balk verticaal"
 
-#: src/core.cpp:739
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Schuurdeur horizontaal"
 
-#: src/core.cpp:740
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Schuurdeur verticaal"
 
-#: src/core.cpp:741
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Schuurdeur diagonaal ZW-NO"
 
-#: src/core.cpp:742
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Schuurdeur diagonaal NW-ZO"
 
-#: src/core.cpp:743
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonaal linksboven"
 
-#: src/core.cpp:744
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonaal rechtsboven"
 
-#: src/core.cpp:745
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix waterval horizontaal"
 
-#: src/core.cpp:746
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix waterval verticaal"
 
-#: src/core.cpp:747
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix slang horizontaal"
 
-#: src/core.cpp:748
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix slang parallel horizontaal"
 
-#: src/core.cpp:749
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix slang verticaal"
 
-#: src/core.cpp:750
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix slang parallel verticaal"
 
-#: src/core.cpp:751
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Schuur V omhoog"
 
-#: src/core.cpp:752
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iriscirkel"
 
-#: src/core.cpp:753
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Dubbele iris"
 
-#: src/core.cpp:754
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Irisvak"
 
-#: src/core.cpp:755
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Vak rechtsonder"
 
-#: src/core.cpp:756
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Vak linksonder"
 
-#: src/core.cpp:757
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Vak rechts midden"
 
-#: src/core.cpp:758
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Klok bovenaan"
 
-#: src/core.cpp:1058
+#: src/core.cpp:1074
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Uw projectprofiel is ongeldig, renderen kan mislukken."
 
-#: src/core.cpp:1422
+#: src/core.cpp:1438
 #, kde-format
 msgid "Loading clips"
 msgstr "Bezig met laden van clips"
 
-#: src/core.cpp:1917
+#: src/core.cpp:1933
 #, kde-format
 msgid "Marker %1"
 msgstr "Markering %1"
 
-#: src/core.cpp:2279
+#: src/core.cpp:2295
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23144,12 +23306,12 @@ msgstr ""
 "op de volgende url:\n"
 " %1"
 
-#: src/core.cpp:2280 src/core.cpp:2291
+#: src/core.cpp:2296 src/core.cpp:2307
 #, kde-format
 msgid "Open Browser"
 msgstr "Browser openen"
 
-#: src/core.cpp:2290
+#: src/core.cpp:2306
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -24023,6 +24185,8 @@ msgid ""
 "The render profile contains unsupported parameters, like <i>%1</i> please "
 "remove them."
 msgstr ""
+"Het renderprofiel bevat niet-ondersteunde parameters, zoals <i>%1</i>; "
+"verwijder deze."
 
 #: src/dialogs/renderpresetdialog.cpp:899
 #, kde-kuit-format
@@ -36742,12 +36906,12 @@ msgstr "Ondertiteling beheren"
 msgid "No range guide found at position"
 msgstr "Geen reekshulplijn op positie gevonden"
 
-#: src/timeline2/view/timelinetabs.cpp:59
+#: src/timeline2/view/timelinetabs.cpp:49
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "Tijdlijnsequentie toevoegen"
 
-#: src/timeline2/view/timelinetabs.cpp:61
+#: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -36756,7 +36920,7 @@ msgstr ""
 "Tijdlijnsequentie toevoegen. Dit zal een nieuwe tijdlijn aanmaken voor "
 "bewerking. Elke tijdlijn komt overeen met een sequentieclip in de project-bin"
 
-#: src/timeline2/view/timelinetabs.cpp:183
+#: src/timeline2/view/timelinetabs.cpp:173
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -36767,29 +36931,29 @@ msgstr ""
 "tijdlijnen aanpassen ?<br>Als er niet wordt aangepast zal op dit moment alle "
 "andere sequenties de huidige tijdsduur houden."
 
-#: src/timeline2/view/timelinetabs.cpp:186
+#: src/timeline2/view/timelinetabs.cpp:176
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Verschaal"
 
-#: src/timeline2/view/timelinetabs.cpp:187
+#: src/timeline2/view/timelinetabs.cpp:177
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "Verschaal niet"
 
-#: src/timeline2/view/timelinetabs.cpp:270
+#: src/timeline2/view/timelinetabs.cpp:260
 #, kde-format
 msgid "Close %1"
 msgstr "%1 sluiten"
 
-#: src/timeline2/view/timelinetabs.cpp:393
+#: src/timeline2/view/timelinetabs.cpp:383
 #, kde-format
 msgid "Align to Reference"
 msgstr "In lijn brengen met referentie"
 
-#: src/timeline2/view/timelinetabs.cpp:470
+#: src/timeline2/view/timelinetabs.cpp:460
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Sequentie hernoemen"

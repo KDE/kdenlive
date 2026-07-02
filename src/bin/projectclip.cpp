@@ -539,6 +539,20 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
         // Title clips always use the same thumb as bin, refresh
         updateTimelineClips({TimelineModel::ClipThumbRole});
     }
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Video) {
+        // Also update zone thumbs
+        int zonesCount = childCount();
+        if (zonesCount > 0) {
+            for (int i = 0; i < zonesCount; ++i) {
+                std::shared_ptr<AbstractProjectItem> subclip = std::static_pointer_cast<AbstractProjectItem>(child(i));
+                auto subClipItem = std::static_pointer_cast<ProjectSubClip>(subclip);
+                if (subClipItem) {
+                    subClipItem->reloadThumb();
+                }
+            }
+        }
+        updateTimelineClips({TimelineModel::ClipThumbRole});
+    }
 }
 
 void ProjectClip::setSequenceThumbnail(const QImage &, const QUuid &, bool) {}
@@ -2095,6 +2109,13 @@ int ProjectClip::audioChannels(int stream) const
         return 0;
     }
     return audioInfo()->channels(stream);
+}
+
+void ProjectClip::discardVideoThumbs()
+{
+    m_uuid = QUuid::createUuid();
+    m_thumbXml.clear();
+    ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
 }
 
 void ProjectClip::discardAudioThumb(bool recreate)

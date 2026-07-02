@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-29 00:44+0000\n"
-"PO-Revision-Date: 2026-06-26 17:14+0300\n"
+"POT-Creation-Date: 2026-06-30 00:42+0000\n"
+"PO-Revision-Date: 2026-06-29 17:02+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1256,6 +1256,9 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Усиление или срез басовых (нижних) частот звуковых данных с помощью "
+"двухполюсного полочного фильтра с ответом, похожим на ответ стандартных "
+"регуляторов тембра Hi-Fi. Также называется полочным эквалайзером."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -2650,19 +2653,16 @@ msgstr "Включить обрезку"
 
 #: data/effects/avfilter/avfilter_curves.xml:4
 #, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
 msgid "Curves (avfilter)"
 msgstr "Сжиматель (avfilter)"
 
 #: data/effects/avfilter/avfilter_curves.xml:5
 #, fuzzy, kde-format
-#| msgid "Number of (color) values per channel"
 msgid "Adjust RGB color curves per channel."
 msgstr "Количество значений (цвета) на канал"
 
 #: data/effects/avfilter/avfilter_curves.xml:8
 #, fuzzy, kde-format
-#| msgid "Allpass"
 msgid "All"
 msgstr "Всепропускающий"
 
@@ -3729,6 +3729,11 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Применение двухполюсного фильтра пикового выравнивания. С помощью этого "
+"фильтра можно увеличивать или уменьшать уровень сигнала на выбранной частоте "
+"и рядом с ней, и при этом (в отличие от полосно-пропускающего и полосно-"
+"задерживающего фильтров) его значение на всех остальных частотах остаётся "
+"неизменным."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -4310,7 +4315,7 @@ msgstr "Серый мир"
 #: data/effects/avfilter/avfilter_grayworld.xml:5
 #, kde-format
 msgid "Adjust white balance using LAB gray world algorithm"
-msgstr ""
+msgstr "Настройка баланса белого с помощью алгоритма «серого мира» LAB"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
@@ -7434,7 +7439,7 @@ msgstr "Длительность"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:82
-#: src/core.cpp:1112 src/kdenliveui.rc:195 src/mainwindow.cpp:267
+#: src/core.cpp:1128 src/kdenliveui.rc:195 src/mainwindow.cpp:267
 #: src/project/dialogs/archivewidget.cpp:100
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -7979,15 +7984,15 @@ msgstr ""
 "например: #createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:58
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"тайм-код,кадр,дата создания,дата файла (GMT),дата файла (локальная),исходная "
-"кадровая частота,исходный кодек,исходный битрейт,исходная ширина,исходная "
-"высота,исходные комментарии"
+"тайм-код,номер кадра,имя файла,базовое имя,дата создания,дата файла (GMT),"
+"дата файла (локальная),исходная кадровая частота,исходный кодек,исходный "
+"битрейт,исходная ширина,исходная высота,исходный комментарий"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -12300,7 +12305,7 @@ msgstr "Земля,Оттенки серого,Жара,Радуга"
 #: data/effects/frei0r/frei0r_ndvi.xml:13
 #, kde-format
 msgid "The number of color levels to use in the false image"
-msgstr ""
+msgstr "Количество цветовых уровней для использования в ложном изображении"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:16
 #, kde-format
@@ -12639,7 +12644,7 @@ msgstr "Отмена предварительного умножения"
 #: data/effects/frei0r/frei0r_premultiply.xml:9
 #, kde-format
 msgid "Whether to unpremultiply instead"
-msgstr ""
+msgstr "Следует ли вместо этого отменить предварительное умножение"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -13199,9 +13204,9 @@ msgid "3-Point Balance"
 msgstr "Баланс по трём точкам"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Adjust color balance with 3 color points"
-msgstr "Балансировка цвета по трём точкам"
+msgstr "Настройка цветового баланса по 3 цветовым точкам"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
 #, kde-format
@@ -14375,7 +14380,6 @@ msgstr "Инверсия цвета"
 
 #: data/effects/ladspa/ladspa_1185.xml:4
 #, fuzzy, kde-format
-#| msgid "Process"
 msgid "Diode Processor"
 msgstr "Обработать"
 
@@ -14464,7 +14468,6 @@ msgstr "«Сухой»/«Мокрый»"
 
 #: data/effects/ladspa/ladspa_1190.xml:4
 #, fuzzy, kde-format
-#| msgid "Comb Filters"
 msgid "Comb Filter"
 msgstr "Гребенчатые фильтры"
 
@@ -14475,13 +14478,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
 #, fuzzy, kde-format
-#| msgid "Saturation"
 msgid "Band Separation"
 msgstr "Насыщенность"
 
 #: data/effects/ladspa/ladspa_1190.xml:9
 #, fuzzy, kde-format
-#| msgid "The distance between the track points"
 msgid "Controls the distance between the filters peaks"
 msgstr "Расстояние между точками отслеживания"
 
@@ -14512,7 +14513,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:9
 #, fuzzy, kde-format
-#| msgid "Delay time"
 msgid "Delay Base"
 msgstr "Время задержки"
 
@@ -14525,7 +14525,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:14
 #, fuzzy, kde-format
-#| msgid "Mixdown"
 msgid "Max Slowdown"
 msgstr "Смешивание"
 
@@ -14539,7 +14538,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:19
 #, fuzzy, kde-format
-#| msgid "Low Frequency"
 msgid "LFO Frequency"
 msgstr "Низкие частоты"
 
@@ -14587,7 +14585,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:4
 #, fuzzy, kde-format
-#| msgid "Fast conversion"
 msgid "Fast Overdrive"
 msgstr "Быстрое преобразование"
 
@@ -14601,7 +14598,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:9
 #, fuzzy, kde-format
-#| msgid "Dry Level"
 msgid "Drive Level"
 msgstr "Уровень «сухого»"
 
@@ -14628,7 +14624,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:9
 #, fuzzy, kde-format
-#| msgid "Depth"
 msgid "Bit Depth"
 msgstr "Глубина"
 
@@ -14639,13 +14634,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:13
 #, fuzzy, kde-format
-#| msgid "Sample Rate:"
 msgid "Sample Rate"
 msgstr "Частота дискретизации:"
 
 #: data/effects/ladspa/ladspa_1202.xml:14
 #, fuzzy, kde-format
-#| msgid "The radius of the square that the stabilizer will sample"
 msgid "The sample rate that the signal will be resampled at"
 msgstr "Радиус квадрата для дискретизации стабилизатором"
 
@@ -14663,7 +14656,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:9
 #, fuzzy, kde-format
-#| msgid "Input gain (dB)"
 msgid "Gain (dB)"
 msgstr "Усиление на входе (дБ)"
 
@@ -14674,7 +14666,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:13
 #, fuzzy, kde-format
-#| msgid "Frequency in Hz"
 msgid "Frequency (Hz)"
 msgstr "Частота (Гц)"
 
@@ -14701,7 +14692,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1207.xml:4
 #, fuzzy, kde-format
-#| msgid "Offset Red"
 msgid "DC Offset Remover"
 msgstr "Смещение красного канала"
 
@@ -14715,7 +14705,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:4
 #, fuzzy, kde-format
-#| msgid "Lens distortion A"
 msgid "Foldover Distortion"
 msgstr "Дисторсия объектива, A"
 
@@ -14735,7 +14724,6 @@ msgstr "Драйв"
 
 #: data/effects/ladspa/ladspa_1213.xml:10
 #, fuzzy, kde-format
-#| msgid "Controls the color of the TubeWarmth sound"
 msgid "Controls the degree of distortion"
 msgstr "Управляет цветом звука ламповой теплоты"
 
@@ -14746,13 +14734,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:14
 #, fuzzy, kde-format
-#| msgid "The color of the waveform."
 msgid "Controls the asymmetry of the waveform"
 msgstr "Цвет звукового спектра."
 
 #: data/effects/ladspa/ladspa_1218.xml:4
 #, fuzzy, kde-format
-#| msgid "Allpass"
 msgid "4x4 Pole Allpass"
 msgstr "Всепропускающий"
 
@@ -14766,55 +14752,46 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:9
 #, fuzzy, kde-format
-#| msgid "Frequency"
 msgid "Frequency 1"
 msgstr "Частота"
 
 #: data/effects/ladspa/ladspa_1218.xml:12
 #, fuzzy, kde-format
-#| msgid "Feedback"
 msgid "Feedback 1"
 msgstr "Обратная связь"
 
 #: data/effects/ladspa/ladspa_1218.xml:15
 #, fuzzy, kde-format
-#| msgid "Frequency"
 msgid "Frequency 2"
 msgstr "Частота"
 
 #: data/effects/ladspa/ladspa_1218.xml:18
 #, fuzzy, kde-format
-#| msgid "Feedback"
 msgid "Feedback 2"
 msgstr "Обратная связь"
 
 #: data/effects/ladspa/ladspa_1218.xml:21
 #, fuzzy, kde-format
-#| msgid "Frequency"
 msgid "Frequency 3"
 msgstr "Частота"
 
 #: data/effects/ladspa/ladspa_1218.xml:24
 #, fuzzy, kde-format
-#| msgid "Feedback"
 msgid "Feedback 3"
 msgstr "Обратная связь"
 
 #: data/effects/ladspa/ladspa_1218.xml:27
 #, fuzzy, kde-format
-#| msgid "Frequency"
 msgid "Frequency 4"
 msgstr "Частота"
 
 #: data/effects/ladspa/ladspa_1218.xml:30
 #, fuzzy, kde-format
-#| msgid "Feedback"
 msgid "Feedback 4"
 msgstr "Обратная связь"
 
 #: data/effects/ladspa/ladspa_1219.xml:4
 #, fuzzy, kde-format
-#| msgid "Sox Phaser"
 msgid "Auto Phaser"
 msgstr "Фейзер (SoX)"
 
@@ -14825,7 +14802,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:8
 #, fuzzy, kde-format
-#| msgid "Attack"
 msgid "Attack Time"
 msgstr "Атака"
 
@@ -14837,13 +14813,11 @@ msgstr "Атака"
 #: data/effects/ladspa/ladspa_1896.xml:15
 #: data/effects/ladspa/ladspa_1897.xml:15
 #, fuzzy, kde-format
-#| msgid "Decay"
 msgid "Decay Time"
 msgstr "Спад"
 
 #: data/effects/ladspa/ladspa_1219.xml:14
 #, fuzzy, kde-format
-#| msgid "Modulation type"
 msgid "Modulation Depth"
 msgstr "Тип модуляции"
 
@@ -14854,7 +14828,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:4
 #, fuzzy, kde-format
-#| msgid "Delay grab"
 msgid "Delayorama"
 msgstr "Захват с задержкой"
 
@@ -14878,7 +14851,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:14
 #, fuzzy, kde-format
-#| msgid "Controls the color of the TubeWarmth sound"
 msgid "Controls the gain of the input signal"
 msgstr "Управляет цветом звука ламповой теплоты"
 
@@ -14889,7 +14861,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:21
 #, fuzzy, kde-format
-#| msgid "Number of curve points"
 msgid "Number of Taps"
 msgstr "Число точек кривой"
 
@@ -14900,18 +14871,16 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:25
 #, fuzzy, kde-format
-#| msgid "First Field"
 msgid "First Delay"
 msgstr "Первое поле"
 
 #: data/effects/ladspa/ladspa_1402.xml:26
 #, fuzzy, kde-format
 msgid "The time of the first delay"
-msgstr "Цвет звукового спектра."
+msgstr "Дата и время создания видеофайла."
 
 #: data/effects/ladspa/ladspa_1402.xml:29
 #, fuzzy, kde-format
-#| msgid "Set Range"
 msgid "Delay Range"
 msgstr "Заданный диапазон"
 
@@ -14922,7 +14891,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:33
 #, fuzzy, kde-format
-#| msgid "Speed Change"
 msgid "Delay Change"
 msgstr "Изменение скорости"
 
@@ -14933,19 +14901,16 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:37
 #, fuzzy, kde-format
-#| msgid "Random"
 msgid "Delay Random"
 msgstr "Случайный"
 
 #: data/effects/ladspa/ladspa_1402.xml:38
 #, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
 msgid "The random factor applied to the delay"
 msgstr "Коэффициент масштабирования, применяемый к оси X"
 
 #: data/effects/ladspa/ladspa_1402.xml:41
 #, fuzzy, kde-format
-#| msgid "Amplitude"
 msgid "Amplitude Change"
 msgstr "Амплитуда"
 
@@ -14956,31 +14921,26 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:45
 #, fuzzy, kde-format
-#| msgid "Amplitude"
 msgid "Amplitude Random"
 msgstr "Амплитуда"
 
 #: data/effects/ladspa/ladspa_1402.xml:46
 #, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
 msgid "The random factor applied to the amplitude"
 msgstr "Коэффициент масштабирования, применяемый к оси X"
 
 #: data/effects/ladspa/ladspa_1402.xml:49
 #, fuzzy, kde-format
-#| msgid "Dry/Wet"
 msgid "Dry/Wet Mix"
 msgstr "«Сухой»/«Мокрый»"
 
 #: data/effects/ladspa/ladspa_1402.xml:50
 #, fuzzy, kde-format
-#| msgid "The amount of delay for each sample from the input to the output."
 msgid "The level of delayed sound mixed into the output"
 msgstr "Величина задержки от входа до выхода для каждого семпла."
 
 #: data/effects/ladspa/ladspa_1403.xml:4
 #, fuzzy, kde-format
-#| msgid "Audio Compressor"
 msgid "Dyson Compressor"
 msgstr "Сжиматель звука"
 
@@ -14991,7 +14951,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:8
 #, fuzzy, kde-format
-#| msgid "Limit"
 msgid "Peak Limit"
 msgstr "Ограничение"
 
@@ -15005,7 +14964,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1403.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:19
 #, fuzzy, kde-format
-#| msgid "Release time (s)"
 msgid "Release Time"
 msgstr "Время восстановления (с)"
 
@@ -15018,13 +14976,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:18
 #, fuzzy, kde-format
-#| msgid "Insert Composition"
 msgid "Fast Compression Ratio"
 msgstr "Добавить композицию"
 
 #: data/effects/ladspa/ladspa_1403.xml:21
 #, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
 msgid "Compression Ratio"
 msgstr "Сжиматель (avfilter)"
 
@@ -15043,7 +14999,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1404.xml:9
 #, fuzzy, kde-format
-#| msgid "Wave Amplitude"
 msgid "Crossover Amplitude"
 msgstr "Амплитуда волны"
 
@@ -15059,7 +15014,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:4
 #, fuzzy, kde-format
-#| msgid "Anti-aliasing"
 msgid "Aliasing"
 msgstr "Сглаживание"
 
@@ -15073,7 +15027,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, fuzzy, kde-format
-#| msgid "Antibanding Level"
 msgid "Aliasing Level"
 msgstr "Уровень антиступенчатости"
 
@@ -15098,19 +15051,16 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:9
 #, fuzzy, kde-format
-#| msgid "Real Time (drop frames)"
 msgid "Decay Time (samples)"
 msgstr "Режим реального времени (с пропуском кадров)"
 
 #: data/effects/ladspa/ladspa_1408.xml:10
 #, fuzzy, kde-format
-#| msgid "Set the envelope mode"
 msgid "Controls the envelope decay time."
 msgstr "Установить режим обёртки"
 
 #: data/effects/ladspa/ladspa_1408.xml:13
 #, fuzzy, kde-format
-#| msgid "In Point"
 msgid "Knee Point"
 msgstr "Точка входа"
 
@@ -15124,7 +15074,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:4
 #, fuzzy, kde-format
-#| msgid "Hue Gate"
 msgid "Gate"
 msgstr "Диапазон оттенков"
 
@@ -15135,7 +15084,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:8
 #, fuzzy, kde-format
-#| msgid "Filter"
 msgid "LF Key Filter"
 msgstr "Фильтр"
 
@@ -15148,7 +15096,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:13
 #, fuzzy, kde-format
-#| msgid "Filter"
 msgid "HF Key Filter"
 msgstr "Фильтр"
 
@@ -15175,7 +15122,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:28
 #, fuzzy, kde-format
-#| msgid "HSV Hold"
 msgid "Hold"
 msgstr "Фиксация HSV"
 
@@ -15202,13 +15148,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:43
 #, fuzzy, kde-format
-#| msgid "Mute Monitor"
 msgid "Output Monitor"
 msgstr "Отключить звук монитора"
 
 #: data/effects/ladspa/ladspa_1410.xml:44
 #, fuzzy, kde-format
-#| msgid "Zoom Out Monitor"
 msgid "Controls output monitor"
 msgstr "Уменьшить масштаб"
 
@@ -15219,7 +15163,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1411.xml:4
 #, fuzzy, kde-format
-#| msgid "RGB Splitter"
 msgid "Comb Splitter"
 msgstr "Разделитель RGB"
 
@@ -15234,13 +15177,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1411.xml:10
 #, fuzzy, kde-format
-#| msgid "The distance between the track points"
 msgid "The distance between the frequency peaks"
 msgstr "Расстояние между точками отслеживания"
 
 #: data/effects/ladspa/ladspa_1415.xml:4
 #, fuzzy, kde-format
-#| msgid "Oscillation"
 msgid "FM Oscillator"
 msgstr "Колебания"
 
@@ -15256,20 +15197,17 @@ msgstr "Форма сигнала"
 
 #: data/effects/ladspa/ladspa_1415.xml:9
 #, fuzzy, kde-format
-#| msgid "The color of the waveform."
 msgid "The shape of the waveform"
 msgstr "Цвет звукового спектра."
 
 #: data/effects/ladspa/ladspa_1415.xml:10
 #, fuzzy, kde-format
-#| msgid "sine,triangle,square,sawup,sawdown"
 msgid "Sine,Triangle,Square,Saw"
 msgstr ""
 "синусоидальная,треугольная,квадратная,пилообразная вверх,пилообразная вниз"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
 #, fuzzy, kde-format
-#| msgid "Sox Reverb"
 msgid "SWH Plate Reverb"
 msgstr "Реверберация (SoX)"
 
@@ -15283,7 +15221,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:9
 #, fuzzy, kde-format
-#| msgid "Reverb time"
 msgid "Reverb Time"
 msgstr "Время реверберации"
 
@@ -15296,13 +15233,11 @@ msgstr "Демпфирование"
 
 #: data/effects/ladspa/ladspa_1423.xml:15
 #, fuzzy, kde-format
-#| msgid "Dry/Wet"
 msgid "Dry/wet mix"
 msgstr "«Сухой»/«Мокрый»"
 
 #: data/effects/ladspa/ladspa_1430.xml:4
 #, fuzzy, kde-format
-#| msgid "Lens distortion A"
 msgid "Chebyshev Distortion"
 msgstr "Дисторсия объектива, A"
 
@@ -15317,19 +15252,16 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:9
 #, fuzzy, kde-format
-#| msgid "Distort"
 msgid "Distortion"
 msgstr "Искажение"
 
 #: data/effects/ladspa/ladspa_1430.xml:10
 #, fuzzy, kde-format
-#| msgid "Set the opacity of the graticule"
 msgid "Sets the sensitivity of the input"
 msgstr "Установить непрозрачность сетки"
 
 #: data/effects/ladspa/ladspa_1431.xml:4
 #, fuzzy, kde-format
-#| msgid "Low Frequency"
 msgid "Bode Frequency Shifter"
 msgstr "Низкие частоты"
 
@@ -15348,7 +15280,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:9
 #, fuzzy, kde-format
-#| msgid "Frequency"
 msgid "Frequency Shift"
 msgstr "Частота"
 
@@ -15378,7 +15309,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:9
 #, fuzzy, kde-format
-#| msgid "Rate Shift"
 msgid "Base Shift"
 msgstr "Смещение частоты"
 
@@ -15389,19 +15319,16 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:16
 #, fuzzy, kde-format
-#| msgid "HSV Saturation"
 msgid "CV Attenuation"
 msgstr "Насыщенность в HSV"
 
 #: data/effects/ladspa/ladspa_1432.xml:19
 #, fuzzy, kde-format
-#| msgid "Shift"
 msgid "Shift CV"
 msgstr "Сдвиг"
 
 #: data/effects/ladspa/ladspa_1433.xml:4
 #, fuzzy, kde-format
-#| msgid "TAP Pitch Shifter"
 msgid "AM Pitch Shifter"
 msgstr "Изменение высоты тона TAP"
 
@@ -15429,7 +15356,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:14
 #, fuzzy, kde-format
-#| msgid "Buffer Size:"
 msgid "Buffer Size"
 msgstr "Размер буфера:"
 
@@ -15443,7 +15369,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:4
 #, fuzzy, kde-format
-#| msgid "Flanger"
 msgid "DJ Flanger"
 msgstr "Флэнжер"
 
@@ -15469,7 +15394,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:14
 #, fuzzy, kde-format
-#| msgid "Strobe period"
 msgid "LFO period"
 msgstr "Период стробирования"
 
@@ -15485,13 +15409,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:23
 #, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
 msgid "The amount of the delays output that is mixed back into the delay"
 msgstr "Количество частиц пыли на изображении"
 
 #: data/effects/ladspa/ladspa_1886.xml:4
 #, fuzzy, kde-format
-#| msgid "Exponential In"
 msgid "Exponential Signal Decay"
 msgstr "Экспоненциальная на входе"
 
@@ -15502,7 +15424,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:4
 #, fuzzy, kde-format
-#| msgid "Default interpolation"
 msgid "Comb Delay Line (linear interpolation)"
 msgstr "Интерполяция по умолчанию"
 
@@ -15518,7 +15439,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
 #, fuzzy, kde-format
-#| msgid "L Delay"
 msgid "Max Delay"
 msgstr "Задержка Л"
 
@@ -15539,7 +15459,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
 #, fuzzy, kde-format
-#| msgid "Delay time"
 msgid "Delay Time"
 msgstr "Время задержки"
 
@@ -15579,7 +15498,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:4
 #, fuzzy, kde-format
-#| msgid "High-pass"
 msgid "GLAME Highpass"
 msgstr "Высокие частоты"
 
@@ -15596,7 +15514,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
 #: data/effects/ladspa/ladspa_1904.xml:8
 #, fuzzy, kde-format
-#| msgid "Rotor Frequency"
 msgid "Cutoff Frequency"
 msgstr "Частота НЧ-динамика"
 
@@ -15604,7 +15521,6 @@ msgstr "Частота НЧ-динамика"
 #: data/effects/ladspa/ladspa_1891.xml:12
 #: data/effects/ladspa/ladspa_1892.xml:15
 #, fuzzy, kde-format
-#| msgid "Images"
 msgid "Stages"
 msgstr "Изображения"
 
@@ -15619,7 +15535,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1891.xml:4
 #, fuzzy, kde-format
-#| msgid "Low-pass"
 msgid "GLAME Lowpass"
 msgstr "Низкие частоты"
 
@@ -15634,7 +15549,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1892.xml:4
 #, fuzzy, kde-format
-#| msgid "Band-pass"
 msgid "GLAME Bandpass"
 msgstr "Пропуск полосы частот"
 
@@ -15656,7 +15570,6 @@ msgstr "Центральная частота"
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
 #, fuzzy, kde-format
-#| msgid "Band Width"
 msgid "Bandwidth"
 msgstr "Ширина полосы"
 
@@ -15748,7 +15661,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
 #, fuzzy, kde-format
-#| msgid "LFE Gain"
 msgid "Lo Gain"
 msgstr "Усиление низкочастотных эффектов (LFE)"
 
@@ -15761,7 +15673,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
 #, fuzzy, kde-format
-#| msgid "Mid gain"
 msgid "Mid Gain"
 msgstr "Среднее усиление"
 
@@ -15774,7 +15685,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
 #, fuzzy, kde-format
-#| msgid "Gain"
 msgid "Hi Gain"
 msgstr "Усиление"
 
@@ -15798,7 +15708,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1903.xml:11
 #: data/effects/ladspa/ladspa_1904.xml:11
 #, fuzzy, kde-format
-#| msgid "Red balance"
 msgid "Resonance"
 msgstr "Баланс красного"
 
@@ -15824,15 +15733,11 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:4
 #, fuzzy, kde-format
-#| msgid "Edit Bin Effect"
 msgid "VyNil (Vinyl Effect)"
 msgstr "Изменить эффект"
 
 #: data/effects/ladspa/ladspa_1905.xml:6
 #, fuzzy, kde-format
-#| msgid ""
-#| "TAP Reflector (LADSPA 2154)<br>\n"
-#| "    Creates a psychedelic reverse audio effect."
 msgid ""
 "Vynil Effect (LADSPA 1905)<br>\n"
 "   Simulates an old vynil effect"
@@ -15861,7 +15766,6 @@ msgstr "Оборотов в минуту"
 
 #: data/effects/ladspa/ladspa_1905.xml:15
 #, fuzzy, kde-format
-#| msgid "The rotation angle to be applied to the waveform."
 msgid "The rotational speed of the platter"
 msgstr "Угол вращения, применяемый к звуковому спектру."
 
@@ -15872,7 +15776,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:19
 #, fuzzy, kde-format
-#| msgid "Surface warping"
 msgid "Surface Warping"
 msgstr "Деформация поверхности"
 
@@ -15904,13 +15807,11 @@ msgstr "Изношенность"
 
 #: data/effects/ladspa/ladspa_1905.xml:30
 #, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
 msgid "The amount of wear on the grooves"
 msgstr "Количество частиц пыли на изображении"
 
 #: data/effects/ladspa/ladspa_1907.xml:4
 #, fuzzy, kde-format
-#| msgid "1 (mono)"
 msgid "DJ EQ (mono)"
 msgstr "1 (моно)"
 
@@ -15924,7 +15825,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:4
 #, fuzzy, kde-format
-#| msgid "Audio lookahead limiter."
 msgid "Fast Lookahead Limiter"
 msgstr "Ограничитель опережающего анализа звука"
 
@@ -15962,7 +15862,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:24
 #, fuzzy, kde-format
-#| msgid "Animation"
 msgid "Attenuation"
 msgstr "Анимация"
 
@@ -16086,7 +15985,7 @@ msgstr "Всепропускающие фильтры"
 #: data/effects/ladspa/ladspa_2142.xml:24
 #, kde-format
 msgid "Bandpass Filter"
-msgstr "Полосовой фильтр"
+msgstr "Полосно-пропускающий фильтр"
 
 #: data/effects/ladspa/ladspa_2142.xml:27
 #, kde-format
@@ -16299,7 +16198,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2147.xml:18
 #, kde-format
 msgid "Highpass,Bandpass"
-msgstr "Высокочастотный,Полосный"
+msgstr "Высокочастотный,Полосно-пропускающий"
 
 #: data/effects/ladspa/ladspa_2147.xml:21
 #, kde-format
@@ -19235,9 +19134,9 @@ msgid "Old-TV definition (DVD...)"
 msgstr "Разрешение старого ТВ (DVD...)"
 
 #: data/profiles.xml:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hardware Accelerated (experimental)"
-msgstr "Аппаратное ускорение AMF"
+msgstr "Аппаратное ускорение (экспериментальная возможность)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, profile_audioonly)
 #: data/profiles.xml:116 src/ui/configtranscode_ui.ui:76
@@ -19566,7 +19465,7 @@ msgid "Euclid Eraser"
 msgstr "Евклидово стирание"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove background using euclidean distance."
 msgstr "Удаление фона с помощью евклидового расстояния"
 
@@ -20220,7 +20119,7 @@ msgstr "Показать избранные элементы"
 #: src/assets/assetlist/view/assetlistwidget.cpp:190
 #, kde-format
 msgid "Toggle between list and icon view"
-msgstr ""
+msgstr "Переключение между просмотром в виде списка и в виде значков"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:207
 #, kde-kuit-format
@@ -22122,13 +22021,13 @@ msgid "Enter path for your video editing application"
 msgstr "Введите путь к своему приложению для редактирования видео"
 
 #: src/bin/bin.cpp:5186
-#, fuzzy, kde-format
+#, kde-format
 msgid "Please set a default application to open video files"
 msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
-"звуковых файлов"
+"видеофайлов"
 
-#: src/bin/bin.cpp:5196 src/core.cpp:638 src/core.cpp:666
+#: src/bin/bin.cpp:5196 src/core.cpp:643 src/core.cpp:671
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:491
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22994,7 +22893,7 @@ msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "запись"
 
-#: src/core.cpp:162
+#: src/core.cpp:167
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -23004,18 +22903,18 @@ msgstr ""
 "Отключить экспериментальную функцию обработки с применением графического "
 "процессора (Movit)?"
 
-#: src/core.cpp:163
+#: src/core.cpp:168
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "Отключить обработку с применением графического процессора"
 
-#: src/core.cpp:261 src/core.cpp:304 src/core.cpp:478
+#: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
 #: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Loading project…"
 msgstr "Загрузка проекта…"
 
-#: src/core.cpp:438
+#: src/core.cpp:443
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -23024,19 +22923,19 @@ msgstr ""
 "Профиль Kdenlive по умолчанию не настроен или недействителен, нажмите OK "
 "чтобы установить допустимые значения его параметров."
 
-#: src/core.cpp:450
+#: src/core.cpp:455
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Выбор профиля по умолчанию"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:450 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:455 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Профиль:"
 
-#: src/core.cpp:463
+#: src/core.cpp:468
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -23045,262 +22944,262 @@ msgstr ""
 "Указан недопустимый профиль. По умолчанию используется профиль «dv_pal», но "
 "его можно изменить в окне настройки параметров Kdenlive"
 
-#: src/core.cpp:718
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Квадрат 2, полосы"
 
-#: src/core.cpp:719
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "В мелкую клетку"
 
-#: src/core.cpp:720
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Горизонтальные жалюзи"
 
-#: src/core.cpp:721
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Радиальный"
 
-#: src/core.cpp:722
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Линейный по X"
 
-#: src/core.cpp:723
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Билинейный по X"
 
-#: src/core.cpp:724
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Линейный по Y"
 
-#: src/core.cpp:725
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Билинейный по Y"
 
-#: src/core.cpp:726
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Квадрат"
 
-#: src/core.cpp:727
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Квадрат 2"
 
-#: src/core.cpp:728
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Облако"
 
-#: src/core.cpp:729
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Симметричные часы"
 
-#: src/core.cpp:730
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Радиальные полосы"
 
-#: src/core.cpp:731
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Спираль"
 
-#: src/core.cpp:732
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Спираль 2"
 
-#: src/core.cpp:733
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Завеса"
 
-#: src/core.cpp:734
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Разрыв"
 
-#: src/core.cpp:735
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Часы"
 
-#: src/core.cpp:737
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Линейный, по горизонтали"
 
-#: src/core.cpp:738
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Линейный, по вертикали"
 
-#: src/core.cpp:739
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Ворота по горизонтали"
 
-#: src/core.cpp:740
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Ворота по вертикали"
 
-#: src/core.cpp:741
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Ворота по диагонали с юго-запада на северо-восток"
 
-#: src/core.cpp:742
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Ворота по диагонали с северо-запада на юго-восток"
 
-#: src/core.cpp:743
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "По диагонали, сверху слева"
 
-#: src/core.cpp:744
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "По диагонали, сверху справа"
 
-#: src/core.cpp:745
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Матричный водопад, по горизонтали"
 
-#: src/core.cpp:746
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Матричный водопад, по вертикали"
 
-#: src/core.cpp:747
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Матричная змея, по горизонтали"
 
-#: src/core.cpp:748
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Матричная змея, параллельно по горизонтали"
 
-#: src/core.cpp:749
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Матричная змея, по вертикали"
 
-#: src/core.cpp:750
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Матричная змея, параллельно по вертикали"
 
-#: src/core.cpp:751
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Билинейный V сверху"
 
-#: src/core.cpp:752
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Ирисовая диафрагма"
 
-#: src/core.cpp:753
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Двойная ирисовая диафрагма"
 
-#: src/core.cpp:754
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Прямоугольная ирисовая диафрагма"
 
-#: src/core.cpp:755
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Прямоугольник снизу справа"
 
-#: src/core.cpp:756
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Прямоугольник снизу слева"
 
-#: src/core.cpp:757
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Прямоугольник справа от центра"
 
-#: src/core.cpp:758
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Часы"
 
-#: src/core.cpp:1058
+#: src/core.cpp:1074
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Недопустимый профиль проекта, возможен сбой во время сборки."
 
-#: src/core.cpp:1422
+#: src/core.cpp:1438
 #, kde-format
 msgid "Loading clips"
 msgstr "Загрузка клипов"
 
-#: src/core.cpp:1917
+#: src/core.cpp:1933
 #, kde-format
 msgid "Marker %1"
 msgstr "Маркер %1"
 
-#: src/core.cpp:2279
+#: src/core.cpp:2295
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23311,12 +23210,12 @@ msgstr ""
 "по следующему адресу:\n"
 " %1"
 
-#: src/core.cpp:2280 src/core.cpp:2291
+#: src/core.cpp:2296 src/core.cpp:2307
 #, kde-format
 msgid "Open Browser"
 msgstr "Открыть браузер"
 
-#: src/core.cpp:2290
+#: src/core.cpp:2306
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -25184,14 +25083,14 @@ msgid "Start Normally"
 msgstr "Обычный запуск"
 
 #: src/dialogs/Simplesplash.qml:278 src/dialogs/Splash.qml:686
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
-"Программа Kdenlive обновлена. Чтобы поддержать проект, можно <a href="
-"\"https://kdenlive.org/get-involved/\">принять участие</a> в разработке "
-"программы или её <a href=\"https://kdenlive.org/fund/\">финансировании</a>."
+"Программа Kdenlive обновлена. Чтобы поддержать проект, можно принять участие "
+"в <a href=\"%1\">разработке программы</a> или её <a href="
+"\"%2\">финансировании</a>."
 
 #: src/dialogs/Simplesplash.qml:294 src/dialogs/Splash.qml:703
 #, kde-format
@@ -28777,13 +28676,13 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "Этот макет содержит горизонтальные и вертикальные профили"
 
 #: src/layouts/layoutmanagerdialog.cpp:336
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a horizontal profile"
 msgstr "Этот макет содержит горизонтальный профиль"
 
 #: src/layouts/layoutmanagerdialog.cpp:340
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
 msgstr "Этот макет содержит вертикальный профиль"
@@ -30634,9 +30533,9 @@ msgid "Delete Timeline Marker"
 msgstr "Удалить маркер монтажного стола"
 
 #: src/mainwindow.cpp:2183
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delete All Timeline Markers"
-msgstr "Поиск прерван"
+msgstr "Удалить все маркеры монтажного стола"
 
 #: src/mainwindow.cpp:2187
 #, kde-format
@@ -34890,19 +34789,19 @@ msgstr ""
 "значение на «mlt_profile»."
 
 #: src/renderpresets/renderpresetrepository.cpp:98
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Custom render preset category"
 msgid "Custom"
-msgstr "Пользовательские"
+msgstr "Другое"
 
 #: src/renderpresets/renderpresetrepository.cpp:99
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
 msgstr "10 бит"
 
 #: src/renderpresets/renderpresetrepository.cpp:100
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Без потерь/В высоком качестве"
@@ -34911,13 +34810,13 @@ msgstr "Без потерь/В высоком качестве"
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
-msgstr "Пользовательский"
+msgstr "Другое"
 
 #: src/renderpresets/renderpresetrepository.cpp:234
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Custom render preset category name"
 msgid "Custom"
-msgstr "Пользовательские"
+msgstr "Другое"
 
 #: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
@@ -35734,7 +35633,7 @@ msgid "Could not add bin clip"
 msgstr "Не удалось добавить клип из корзины"
 
 #: src/timeline2/model/timelinefunctions.cpp:2620
-#, fuzzy, kde-format
+#, kde-format
 msgid "Not all clips were copied successfully"
 msgstr "Не все клипы были успешно скопированы"
 
@@ -37010,12 +36909,12 @@ msgstr "Управление субтитрами"
 msgid "No range guide found at position"
 msgstr "В позиции нет направляющей диапазона"
 
-#: src/timeline2/view/timelinetabs.cpp:59
+#: src/timeline2/view/timelinetabs.cpp:49
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "Добавить последовательность монтажного стола"
 
-#: src/timeline2/view/timelinetabs.cpp:61
+#: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -37025,7 +36924,7 @@ msgstr ""
 "монтажный стол для внесения изменений. Каждый монтажный стол соответствует "
 "клипу последовательности в корзине проекта."
 
-#: src/timeline2/view/timelinetabs.cpp:183
+#: src/timeline2/view/timelinetabs.cpp:173
 #, kde-format
 msgid ""
 "The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
@@ -37037,29 +36936,29 @@ msgstr ""
 "размер, текущая длительность временно сохранится во всех других "
 "последовательностях."
 
-#: src/timeline2/view/timelinetabs.cpp:186
+#: src/timeline2/view/timelinetabs.cpp:176
 #, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Изменить размер"
 
-#: src/timeline2/view/timelinetabs.cpp:187
+#: src/timeline2/view/timelinetabs.cpp:177
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
 msgstr "Не изменять размер"
 
-#: src/timeline2/view/timelinetabs.cpp:270
+#: src/timeline2/view/timelinetabs.cpp:260
 #, kde-format
 msgid "Close %1"
 msgstr "Закрыть %1"
 
-#: src/timeline2/view/timelinetabs.cpp:393
+#: src/timeline2/view/timelinetabs.cpp:383
 #, kde-format
 msgid "Align to Reference"
 msgstr "Выровнять по привязке"
 
-#: src/timeline2/view/timelinetabs.cpp:470
+#: src/timeline2/view/timelinetabs.cpp:460
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Переименовать последовательность"
@@ -38590,15 +38489,15 @@ msgstr "Отключить обратный отсчёт перед запись
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configcapture_ui.ui:434
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sample format:"
-msgstr "Частота дискретизации:"
+msgstr "Формат дискретизации:"
 
 #. i18n: ectx: property (text), widget (QPushButton, audiocapturedefaults)
 #: src/ui/configcapture_ui.ui:441
 #, kde-format
 msgid "Use Device Default Settings"
-msgstr ""
+msgstr "Использовать параметры устройства по умолчанию"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
@@ -38736,13 +38635,13 @@ msgstr "Не переходить в спящий режим при воспро
 #: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "Drag window from titlebar only"
-msgstr ""
+msgstr "Перетаскивание только за заголовок окна"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configenv_ui.ui:135
 #, kde-format
 msgid "This will apply to all KDE applications using the Breeze style."
-msgstr ""
+msgstr "Применяется ко всем приложениям KDE, использующим стиль Breeze."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:161
@@ -39412,9 +39311,9 @@ msgstr "Устройство вывода:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configsdl_ui.ui:196
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mirror monitor on fullscreen:"
-msgstr "Монитор для полноэкранного вывода:"
+msgstr "Зеркальное отражение монитора в полноэкранном режиме:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -41638,9 +41537,9 @@ msgstr "Сохранять файлы журнала"
 
 #. i18n: ectx: property (text), widget (QCheckBox, add_to_bin)
 #: src/ui/renderwidget_ui.ui:892
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add to Project Bin"
-msgstr "Корзина проекта"
+msgstr "Добавить в корзину проекта"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:914

@@ -5546,7 +5546,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         if (!xml.isNull()) {
             clip->discardAudioThumb();
             if (reloadThumbs) {
-                ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
+                clip->discardVideoThumbs();
             }
             clip->setClipStatus(FileStatus::StatusWaiting);
             ObjectId oid(KdenliveObjectType::BinClip, clip->clipId().toInt(), QUuid());
@@ -5554,6 +5554,12 @@ void Bin::reloadAllProducers(bool reloadThumbs)
                                            {AbstractTask::TRANSCODEJOB, AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB});
             ClipLoadTask::start(oid, xml, false, -1, -1, this);
         }
+    }
+    const QList<QUuid> allSequences = m_itemModel->getAllSequenceClips().keys();
+    for (auto &u : allSequences) {
+        auto seq = m_itemModel->getSequenceClip(u);
+        seq->discardVideoThumbs();
+        ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, seq->clipId().toInt(), QUuid()), QDomElement(), true, -1, -1, this);
     }
 }
 
