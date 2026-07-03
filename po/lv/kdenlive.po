@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-30 00:42+0000\n"
+"POT-Creation-Date: 2026-07-03 00:44+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -22250,7 +22250,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Aizvietot laika joslā"
 
-#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6287 src/bin/clipcreator.cpp:350
+#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6293 src/bin/clipcreator.cpp:350
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
@@ -22629,7 +22629,7 @@ msgid "Edit Tags"
 msgstr "Rediģēt birkas"
 
 #: src/bin/bin.cpp:5074 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:2023 src/onlineresources/resourcewidget.cpp:292
+#: src/bin/projectclip.cpp:2037 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
 #, kde-format
@@ -22732,35 +22732,35 @@ msgstr "Ieslēgt starpniekus"
 msgid "Disable proxies"
 msgstr "Izslēgt starpniekus"
 
-#: src/bin/bin.cpp:5619
+#: src/bin/bin.cpp:5625
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Pārbūvēt starpniekus"
 
-#: src/bin/bin.cpp:5885
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projekta lāde"
 
-#: src/bin/bin.cpp:5901
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "Add Tracks"
 msgstr "Pievienot celiņus"
 
-#: src/bin/bin.cpp:5903
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid "Edit Streams"
 msgstr "Rediģēt straumes"
 
-#: src/bin/bin.cpp:5922
+#: src/bin/bin.cpp:5928
 #, kde-format
 msgid "Don't ask again"
 msgstr "Vairāk nejautāt"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5926
+#: src/bin/bin.cpp:5932
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -22769,7 +22769,7 @@ msgstr ""
 "Jūsu projektam vajadzīgi papildu audio celiņi, lai apstrādātu visas "
 "straumes. Vai pievienot %1 audio celiņus?"
 
-#: src/bin/bin.cpp:5938 src/mainwindow.cpp:3071
+#: src/bin/bin.cpp:5944 src/mainwindow.cpp:3071
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nevar atrast klipu, kam pievienot marķieri"
@@ -22777,7 +22777,7 @@ msgstr "Nevar atrast klipu, kam pievienot marķieri"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5952 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:5958 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1486
 #: src/timeline2/view/timelinecontroller.cpp:1686
@@ -22787,22 +22787,22 @@ msgstr "Nevar atrast klipu, kam pievienot marķieri"
 msgid "Marker"
 msgstr "Marķieris"
 
-#: src/bin/bin.cpp:6042
+#: src/bin/bin.cpp:6048
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Nevar atrast pamata klipu"
 
-#: src/bin/bin.cpp:6309
+#: src/bin/bin.cpp:6315
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klipi | "
 
-#: src/bin/bin.cpp:6311
+#: src/bin/bin.cpp:6317
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klipi (%2 atlasīti) | "
 
-#: src/bin/bin.cpp:6380 src/bin/bin.cpp:6458
+#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6464
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -22810,12 +22810,12 @@ msgstr[0] "Klipam pievienot papildu straumi"
 msgstr[1] "Klipam pievienot papildu straumes"
 msgstr[2] "Klipam pievienot papildu straumju"
 
-#: src/bin/bin.cpp:6401
+#: src/bin/bin.cpp:6407
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importēt atlasītos klipus"
 
-#: src/bin/bin.cpp:6403
+#: src/bin/bin.cpp:6409
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -22824,51 +22824,51 @@ msgstr ""
 "Papildu straumes klipam\n"
 " %1"
 
-#: src/bin/bin.cpp:6417 src/mltcontroller/clippropertiescontroller.cpp:732
+#: src/bin/bin.cpp:6423 src/mltcontroller/clippropertiescontroller.cpp:732
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video straume %1"
 
-#: src/bin/bin.cpp:6432
+#: src/bin/bin.cpp:6438
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Audio straume %1"
 
-#: src/bin/bin.cpp:6485
+#: src/bin/bin.cpp:6491
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Noņemt klipa marķierus"
 
-#: src/bin/bin.cpp:6682
+#: src/bin/bin.cpp:6688
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Iesakām pirms transkodēšanas projektu saglabāt"
 
-#: src/bin/bin.cpp:6683
+#: src/bin/bin.cpp:6689
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Projektu saglabāt"
 
-#: src/bin/bin.cpp:6684
+#: src/bin/bin.cpp:6690
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodēt bez saglabāšanas"
 
-#: src/bin/bin.cpp:6842 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6848 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1128
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Dzēst efektu „%1“"
 
-#: src/bin/bin.cpp:6908 src/mainwindow.cpp:262
+#: src/bin/bin.cpp:6914 src/mainwindow.cpp:262
 #, kde-format
 msgid "Project Bin"
 msgstr "Projekta lāde"
 
-#: src/bin/bin.cpp:6911 src/bin/bin.cpp:6914 src/mainwindow.cpp:5368
+#: src/bin/bin.cpp:6917 src/bin/bin.cpp:6920 src/mainwindow.cpp:5368
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projekta lāde „%1“"
@@ -23363,7 +23363,7 @@ msgstr[2] "A&udio celiņš"
 msgid "Timeline sequence"
 msgstr "Laika joslas sekvence"
 
-#: src/bin/projectclip.cpp:612
+#: src/bin/projectclip.cpp:626
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -23372,39 +23372,39 @@ msgstr ""
 "Attēla izmērs ir mazāks par astoņiem pikseļiem.\n"
 "Video satvars to pilnībā neatbalsta."
 
-#: src/bin/projectclip.cpp:1143 src/jobs/cliploadtask.cpp:273
+#: src/bin/projectclip.cpp:1157 src/jobs/cliploadtask.cpp:273
 #, kde-format
 msgid "Invalid"
 msgstr "Nederīgs"
 
-#: src/bin/projectclip.cpp:1393 src/dialogs/clipcreationdialog.cpp:137
+#: src/bin/projectclip.cpp:1407 src/dialogs/clipcreationdialog.cpp:137
 #: src/jobs/cuttask.cpp:169 src/jobs/speedtask.cpp:117
 #: src/timeline2/model/timelinefunctions.cpp:1565
 #, kde-format
 msgid "File already exists"
 msgstr "Datne jau pastāv"
 
-#: src/bin/projectclip.cpp:2640 src/bin/projectclip.cpp:2679
+#: src/bin/projectclip.cpp:2661 src/bin/projectclip.cpp:2700
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Regulēt laika joslas klipus"
 
-#: src/bin/projectclip.cpp:2869
+#: src/bin/projectclip.cpp:2890
 #, kde-format
 msgid "Add stream effect"
 msgstr "Pievienot straumes efektu"
 
-#: src/bin/projectclip.cpp:2894
+#: src/bin/projectclip.cpp:2915
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Noņemt straumes efektu"
 
-#: src/bin/projectclip.cpp:3237
+#: src/bin/projectclip.cpp:3258
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Klipam pievienota maska"
 
-#: src/bin/projectclip.cpp:3241
+#: src/bin/projectclip.cpp:3262
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Klipam trūkst maskas"

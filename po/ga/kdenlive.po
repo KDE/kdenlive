@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-30 00:42+0000\n"
+"POT-Creation-Date: 2026-07-03 00:44+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -21685,7 +21685,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Athsholáthar san amlíne"
 
-#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6287 src/bin/clipcreator.cpp:350
+#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6293 src/bin/clipcreator.cpp:350
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
@@ -22069,7 +22069,7 @@ msgid "Edit Tags"
 msgstr "Cuir Clibeanna in Eagar"
 
 #: src/bin/bin.cpp:5074 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:2023 src/onlineresources/resourcewidget.cpp:292
+#: src/bin/projectclip.cpp:2037 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
 #, kde-format
@@ -22174,35 +22174,35 @@ msgstr "Cumasaigh seachfhreastalaithe"
 msgid "Disable proxies"
 msgstr "Díchumasaigh seachfhreastalaithe"
 
-#: src/bin/bin.cpp:5619
+#: src/bin/bin.cpp:5625
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Athchruthaigh seachfhreastalaithe"
 
-#: src/bin/bin.cpp:5885
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Bosca Tionscadail"
 
-#: src/bin/bin.cpp:5901
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "Add Tracks"
 msgstr "Cuir Rianta leis"
 
-#: src/bin/bin.cpp:5903
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid "Edit Streams"
 msgstr "Sruthanna a Chur in Eagar"
 
-#: src/bin/bin.cpp:5922
+#: src/bin/bin.cpp:5928
 #, kde-format
 msgid "Don't ask again"
 msgstr "Ná fiafraigh arís"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5926
+#: src/bin/bin.cpp:5932
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -22211,7 +22211,7 @@ msgstr ""
 "Teastaíonn níos mó rianta fuaime ó do thionscadal chun gach sruth a "
 "láimhseáil. An bhfuil tú ag iarraidh %1 rian fuaime a chur leis?"
 
-#: src/bin/bin.cpp:5938 src/mainwindow.cpp:3071
+#: src/bin/bin.cpp:5944 src/mainwindow.cpp:3071
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ní féidir gearrthóg a aimsiú chun marcóir a chur leis"
@@ -22219,7 +22219,7 @@ msgstr "Ní féidir gearrthóg a aimsiú chun marcóir a chur leis"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5952 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:5958 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1486
 #: src/timeline2/view/timelinecontroller.cpp:1686
@@ -22229,22 +22229,22 @@ msgstr "Ní féidir gearrthóg a aimsiú chun marcóir a chur leis"
 msgid "Marker"
 msgstr "Marcóir"
 
-#: src/bin/bin.cpp:6042
+#: src/bin/bin.cpp:6048
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Níorbh fhéidir an máistir-ghearrthóg a aimsiú"
 
-#: src/bin/bin.cpp:6309
+#: src/bin/bin.cpp:6315
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "gearrthóga <b>%1</b> | "
 
-#: src/bin/bin.cpp:6311
+#: src/bin/bin.cpp:6317
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> gearrthóga (%2 roghnaithe) | "
 
-#: src/bin/bin.cpp:6380 src/bin/bin.cpp:6458
+#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6464
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -22254,12 +22254,12 @@ msgstr[2] "Cuir sruthanna breise leis don ghearrthóg"
 msgstr[3] "Cuir sruthanna breise leis don ghearrthóg"
 msgstr[4] "Cuir sruthanna breise leis don ghearrthóg"
 
-#: src/bin/bin.cpp:6401
+#: src/bin/bin.cpp:6407
 #, kde-format
 msgid "Import selected clips"
 msgstr "Iompórtáil gearrthóga roghnaithe"
 
-#: src/bin/bin.cpp:6403
+#: src/bin/bin.cpp:6409
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -22268,51 +22268,51 @@ msgstr ""
 "Sruthanna breise don ghearrthóg\n"
 "%1"
 
-#: src/bin/bin.cpp:6417 src/mltcontroller/clippropertiescontroller.cpp:732
+#: src/bin/bin.cpp:6423 src/mltcontroller/clippropertiescontroller.cpp:732
 #, kde-format
 msgid "Video stream %1"
 msgstr "Sruth físe %1"
 
-#: src/bin/bin.cpp:6432
+#: src/bin/bin.cpp:6438
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Sruth fuaime %1"
 
-#: src/bin/bin.cpp:6485
+#: src/bin/bin.cpp:6491
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Bain marcóirí gearrthóg"
 
-#: src/bin/bin.cpp:6682
+#: src/bin/bin.cpp:6688
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Molaimid duit an tionscadal a shábháil roimh an oibríocht traschódála"
 
-#: src/bin/bin.cpp:6683
+#: src/bin/bin.cpp:6689
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Sábháil an Tionscadal"
 
-#: src/bin/bin.cpp:6684
+#: src/bin/bin.cpp:6690
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Traschódáil Gan Sábháil"
 
-#: src/bin/bin.cpp:6842 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6848 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1128
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Scrios éifeacht %1"
 
-#: src/bin/bin.cpp:6908 src/mainwindow.cpp:262
+#: src/bin/bin.cpp:6914 src/mainwindow.cpp:262
 #, kde-format
 msgid "Project Bin"
 msgstr "Bosca Tionscadail"
 
-#: src/bin/bin.cpp:6911 src/bin/bin.cpp:6914 src/mainwindow.cpp:5368
+#: src/bin/bin.cpp:6917 src/bin/bin.cpp:6920 src/mainwindow.cpp:5368
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bosca Tionscadail %1"
@@ -22796,7 +22796,7 @@ msgstr[4] "%1 rian fuaime"
 msgid "Timeline sequence"
 msgstr "Seicheamh ama"
 
-#: src/bin/projectclip.cpp:612
+#: src/bin/projectclip.cpp:626
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -22805,39 +22805,39 @@ msgstr ""
 "Toise íomhá níos lú ná 8 picteilín.\n"
 "Ní thacaíonn ár gcreat físe leis seo i gceart."
 
-#: src/bin/projectclip.cpp:1143 src/jobs/cliploadtask.cpp:273
+#: src/bin/projectclip.cpp:1157 src/jobs/cliploadtask.cpp:273
 #, kde-format
 msgid "Invalid"
 msgstr "Neamhbhailí"
 
-#: src/bin/projectclip.cpp:1393 src/dialogs/clipcreationdialog.cpp:137
+#: src/bin/projectclip.cpp:1407 src/dialogs/clipcreationdialog.cpp:137
 #: src/jobs/cuttask.cpp:169 src/jobs/speedtask.cpp:117
 #: src/timeline2/model/timelinefunctions.cpp:1565
 #, kde-format
 msgid "File already exists"
 msgstr "Tá an comhad ann cheana féin"
 
-#: src/bin/projectclip.cpp:2640 src/bin/projectclip.cpp:2679
+#: src/bin/projectclip.cpp:2661 src/bin/projectclip.cpp:2700
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Coigeartaigh gearrthóga líne ama"
 
-#: src/bin/projectclip.cpp:2869
+#: src/bin/projectclip.cpp:2890
 #, kde-format
 msgid "Add stream effect"
 msgstr "Cuir éifeacht sruthaithe leis"
 
-#: src/bin/projectclip.cpp:2894
+#: src/bin/projectclip.cpp:2915
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Bain éifeacht sruthaithe"
 
-#: src/bin/projectclip.cpp:3237
+#: src/bin/projectclip.cpp:3258
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Masc curtha leis an ngearrthóg"
 
-#: src/bin/projectclip.cpp:3241
+#: src/bin/projectclip.cpp:3262
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Gearrthóg ar iarraidh don masc"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-30 00:42+0000\n"
-"PO-Revision-Date: 2026-06-29 19:39+0300\n"
+"POT-Creation-Date: 2026-07-03 00:44+0000\n"
+"PO-Revision-Date: 2026-07-02 12:00+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -15139,7 +15139,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1411.xml:4
 #, kde-format
 msgid "Comb Splitter"
-msgstr ""
+msgstr "Гребінчастий роздільник"
 
 #: data/effects/ladspa/ladspa_1411.xml:6
 #, kde-format
@@ -15149,6 +15149,10 @@ msgid ""
 "intervals, skewed by f/2 Hz between the two outputs. Mixing the two outputs "
 "will get you exactly the input signal."
 msgstr ""
+"Гребінчастий осцилятор (LADSPA 1411)<br>\n"
+"   Розділяє вхідний сигнал на дві частини з частотними піками з інтервалом f "
+"Гц, зміщеними на f/2 Гц між двома виходами. Змішування двох виходів дасть "
+"вам точно такий самий вхідний сигнал."
 
 #: data/effects/ladspa/ladspa_1411.xml:10
 #, kde-format
@@ -15158,12 +15162,12 @@ msgstr "Відстань між піками частоти"
 #: data/effects/ladspa/ladspa_1415.xml:4
 #, kde-format
 msgid "FM Oscillator"
-msgstr "FM Oscillator"
+msgstr "Осцилятор FM"
 
 #: data/effects/ladspa/ladspa_1415.xml:5
 #, kde-format
 msgid "FM Oscillator (LADSPA 1415)"
-msgstr ""
+msgstr "Осцилятор FM (LADSPA 1415)"
 
 #: data/effects/ladspa/ladspa_1415.xml:8 src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -15176,16 +15180,14 @@ msgid "The shape of the waveform"
 msgstr "Форма хвилі"
 
 #: data/effects/ladspa/ladspa_1415.xml:10
-#, fuzzy, kde-format
-#| msgid "sine,triangle,square,sawup,sawdown"
+#, kde-format
 msgid "Sine,Triangle,Square,Saw"
-msgstr "синус,трикутник,квадрат,пилка_вгору,пилка_вниз"
+msgstr "синус,трикутник,квадрат,пилка"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Reverb"
+#, kde-format
 msgid "SWH Plate Reverb"
-msgstr "Реверберація Sox"
+msgstr "Плоска ревербація SWH"
 
 #: data/effects/ladspa/ladspa_1423.xml:6
 #, kde-format
@@ -15232,16 +15234,14 @@ msgid "Distortion"
 msgstr "Викривлення"
 
 #: data/effects/ladspa/ladspa_1430.xml:10
-#, fuzzy, kde-format
-#| msgid "Set the opacity of the graticule"
+#, kde-format
 msgid "Sets the sensitivity of the input"
-msgstr "Встановити непрозорість градуювання"
+msgstr "Встановити чутливість вхідного сигналу"
 
 #: data/effects/ladspa/ladspa_1431.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Bode Frequency Shifter"
-msgstr "Найнижча частота"
+msgstr "Зсування частоти Боде"
 
 #: data/effects/ladspa/ladspa_1431.xml:6
 #, kde-format
@@ -15257,10 +15257,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency Shift"
-msgstr "Частота"
+msgstr "Зсув частоти"
 
 #: data/effects/ladspa/ladspa_1431.xml:10
 #: data/effects/ladspa/ladspa_1432.xml:20
@@ -15269,9 +15268,9 @@ msgid "Controls the frequency shift applied to the input signal"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bode Frequency Shifter (CV)"
-msgstr "Bode frequency shifter (CV)"
+msgstr "Зсування частоти Боде (CV)"
 
 #: data/effects/ladspa/ladspa_1432.xml:6
 #, kde-format
@@ -15287,33 +15286,29 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:9
-#, fuzzy, kde-format
-#| msgid "Rate Shift"
+#, kde-format
 msgid "Base Shift"
-msgstr "Зсув частоти"
+msgstr "Зсув бази"
 
 #: data/effects/ladspa/ladspa_1432.xml:13
 #, kde-format
 msgid "Down,Both,Up"
-msgstr ""
+msgstr "вниз,обидва,вгору"
 
 #: data/effects/ladspa/ladspa_1432.xml:16
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgid "CV Attenuation"
-msgstr "Насиченість HSV"
+msgstr "Затримування CV"
 
 #: data/effects/ladspa/ladspa_1432.xml:19
-#, fuzzy, kde-format
-#| msgid "Shift"
+#, kde-format
 msgid "Shift CV"
-msgstr "Зсув"
+msgstr "Зсув CV"
 
 #: data/effects/ladspa/ladspa_1433.xml:4
-#, fuzzy, kde-format
-#| msgid "TAP Pitch Shifter"
+#, kde-format
 msgid "AM Pitch Shifter"
-msgstr "TAP Pitch Shifter"
+msgstr "Зсув тону AM"
 
 #: data/effects/ladspa/ladspa_1433.xml:6
 #, kde-format
@@ -15351,10 +15346,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:4
-#, fuzzy, kde-format
-#| msgid "Flanger"
+#, kde-format
 msgid "DJ Flanger"
-msgstr "DJ flanger"
+msgstr "DJ-фленджер"
 
 #: data/effects/ladspa/ladspa_1438.xml:6
 #, kde-format
@@ -15377,10 +15371,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:14
-#, fuzzy, kde-format
-#| msgid "Strobe period"
+#, kde-format
 msgid "LFO period"
-msgstr "Період стробоскопа"
+msgstr "Період LFO"
 
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
@@ -15393,16 +15386,14 @@ msgid "The maximum delay the LFO will use to flange in milliseconds"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:23
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of the delays output that is mixed back into the delay"
-msgstr "Питома кількість часток пилу, які буде додано до зображення"
+msgstr "Частка вихідного сигналу затримки, який мікшується назад у затримку"
 
 #: data/effects/ladspa/ladspa_1886.xml:4
-#, fuzzy, kde-format
-#| msgid "Exponential In"
+#, kde-format
 msgid "Exponential Signal Decay"
-msgstr "Exponential signal decay"
+msgstr "Експоненційне згасання сигналу"
 
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
@@ -15410,10 +15401,9 @@ msgid "Exponential Signal Decay (LADSPA 1886)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:4
-#, fuzzy, kde-format
-#| msgid "Default interpolation"
+#, kde-format
 msgid "Comb Delay Line (linear interpolation)"
-msgstr "Типова інтерполяція"
+msgstr "Лінія гребінцевої затримки (лінійна інтерполяція)"
 
 #: data/effects/ladspa/ladspa_1887.xml:6
 #, kde-format
@@ -15426,10 +15416,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
-#, fuzzy, kde-format
-#| msgid "L Delay"
+#, kde-format
 msgid "Max Delay"
-msgstr "Ліва затримка"
+msgstr "Макс. затримка"
 
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
@@ -15447,8 +15436,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:12
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
-#, fuzzy, kde-format
-#| msgid "Delay time"
+#, kde-format
 msgid "Delay Time"
 msgstr "Час затримки"
 
@@ -15487,10 +15475,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:4
-#, fuzzy, kde-format
-#| msgid "High-pass"
+#, kde-format
 msgid "GLAME Highpass"
-msgstr "Високі частоти"
+msgstr "Високі частоти GLAME"
 
 #: data/effects/ladspa/ladspa_1890.xml:6
 #, kde-format
@@ -15504,10 +15491,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
 #: data/effects/ladspa/ladspa_1904.xml:8
-#, fuzzy, kde-format
-#| msgid "Rotor Frequency"
+#, kde-format
 msgid "Cutoff Frequency"
-msgstr "частота обрізання"
+msgstr "Частота обрізання"
 
 #: data/effects/ladspa/ladspa_1890.xml:12
 #: data/effects/ladspa/ladspa_1891.xml:12
@@ -15526,10 +15512,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1891.xml:4
-#, fuzzy, kde-format
-#| msgid "Low-pass"
+#, kde-format
 msgid "GLAME Lowpass"
-msgstr "Нижні частоти"
+msgstr "Нижні частоти GLAME"
 
 #: data/effects/ladspa/ladspa_1891.xml:6
 #, kde-format
@@ -15541,10 +15526,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1892.xml:4
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "GLAME Bandpass"
-msgstr "Смуга пропускання"
+msgstr "Смуга пропускання GLAME"
 
 #: data/effects/ladspa/ladspa_1892.xml:6
 #, kde-format
@@ -15563,10 +15547,9 @@ msgstr "Центральна частота"
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
-#| msgid "Band Width"
+#, kde-format
 msgid "Bandwidth"
-msgstr "Ширина каналу"
+msgstr "Смуга"
 
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
@@ -15655,10 +15638,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
-#| msgid "LFE Gain"
+#, kde-format
 msgid "Lo Gain"
-msgstr "Низькі"
+msgstr "Підсилення низьких"
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
@@ -15668,10 +15650,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Gain"
-msgstr "Середні"
+msgstr "Підсилення середніх"
 
 #: data/effects/ladspa/ladspa_1901.xml:14
 #: data/effects/ladspa/ladspa_1907.xml:14
@@ -15681,10 +15662,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Hi Gain"
-msgstr "Високі"
+msgstr "Підсилення високих"
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
@@ -15730,22 +15710,18 @@ msgid "Butterworth Highpass Filter (LADSPA 1904)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:4
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "VyNil (Vinyl Effect)"
 msgstr "VyNil (ефект вінілу)"
 
 #: data/effects/ladspa/ladspa_1905.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "TAP Reflector (LADSPA 2154)<br>\n"
-#| "    Creates a psychedelic reverse audio effect."
+#, kde-format
 msgid ""
 "Vynil Effect (LADSPA 1905)<br>\n"
 "   Simulates an old vynil effect"
 msgstr ""
-"Рефлектор TAP (LADSPA 2154)<br>\n"
-"    Створює психоделічний ефект реверсу для звукових даних."
+"Ефект вінілу (LADSPA 1905)<br>\n"
+"   Імітує ефект старих вінілових платівок"
 
 #: data/effects/ladspa/ladspa_1905.xml:9
 #: src/project/dialogs/projectsettings.cpp:242
@@ -15767,10 +15743,9 @@ msgid "RPM"
 msgstr "RPM"
 
 #: data/effects/ladspa/ladspa_1905.xml:15
-#, fuzzy, kde-format
-#| msgid "The rotation angle to be applied to the waveform."
+#, kde-format
 msgid "The rotational speed of the platter"
-msgstr "Кут обертання форми хвилі."
+msgstr "Швидкість обертання диска"
 
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
@@ -15778,8 +15753,7 @@ msgid "33 1/3,45,78"
 msgstr "33 1/3,45,78"
 
 #: data/effects/ladspa/ladspa_1905.xml:19
-#, fuzzy, kde-format
-#| msgid "Surface warping"
+#, kde-format
 msgid "Surface Warping"
 msgstr "Викривлення поверхні"
 
@@ -15789,6 +15763,8 @@ msgid ""
 "The degree of variation in<br>\n"
 "      height of the record surfaced"
 msgstr ""
+"Ступінь варіації у<br>\n"
+"      висоті поверхні запису"
 
 #: data/effects/ladspa/ladspa_1905.xml:24
 #: data/effects/ladspa/ladspa_vinyl.xml:17
@@ -15802,6 +15778,8 @@ msgid ""
 "The number of scratches on<br>\n"
 "      the record surface"
 msgstr ""
+"Кількість подряпин на<br>\n"
+"      поверхні запису"
 
 #: data/effects/ladspa/ladspa_1905.xml:29
 #: data/effects/ladspa/ladspa_vinyl.xml:20
@@ -15810,16 +15788,14 @@ msgid "Wear"
 msgstr "Зношеність"
 
 #: data/effects/ladspa/ladspa_1905.xml:30
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of wear on the grooves"
-msgstr "Питома кількість часток пилу, які буде додано до зображення"
+msgstr "Питомий знос на заглибинах"
 
 #: data/effects/ladspa/ladspa_1907.xml:4
-#, fuzzy, kde-format
-#| msgid "1 (mono)"
+#, kde-format
 msgid "DJ EQ (mono)"
-msgstr "1 (моно)"
+msgstr "DJ-еквалайзер (моно)"
 
 #: data/effects/ladspa/ladspa_1907.xml:6
 #, kde-format
@@ -15830,10 +15806,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio lookahead limiter."
+#, kde-format
 msgid "Fast Lookahead Limiter"
-msgstr "Fast Lookahead limiter"
+msgstr "Швидкий обмежувач випереджального пошуку"
 
 #: data/effects/ladspa/ladspa_1913.xml:6
 #, kde-format
@@ -15870,7 +15845,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1913.xml:24
 #, kde-format
 msgid "Attenuation"
-msgstr "Анімація"
+msgstr "Затримування"
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format
@@ -21590,7 +21565,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Замінити на монтажному столі"
 
-#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6287 src/bin/clipcreator.cpp:350
+#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6293 src/bin/clipcreator.cpp:350
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
@@ -21972,7 +21947,7 @@ msgid "Edit Tags"
 msgstr "Змінити мітки"
 
 #: src/bin/bin.cpp:5074 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:2023 src/onlineresources/resourcewidget.cpp:292
+#: src/bin/projectclip.cpp:2037 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
 #, kde-format
@@ -22073,35 +22048,35 @@ msgstr "Увімкнути проміжні"
 msgid "Disable proxies"
 msgstr "Вимкнути проміжні"
 
-#: src/bin/bin.cpp:5619
+#: src/bin/bin.cpp:5625
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Перебудувати проміжні"
 
-#: src/bin/bin.cpp:5885
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:5901
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "Add Tracks"
 msgstr "Додати доріжки"
 
-#: src/bin/bin.cpp:5903
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid "Edit Streams"
 msgstr "Редагування потоків"
 
-#: src/bin/bin.cpp:5922
+#: src/bin/bin.cpp:5928
 #, kde-format
 msgid "Don't ask again"
 msgstr "Більше не питати"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5926
+#: src/bin/bin.cpp:5932
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -22110,7 +22085,7 @@ msgstr ""
 "Вашому проєкту потрібно більше звукових доріжок, щоб можна було обробляти "
 "усі потоки звукових даних. Додати %1 звукові доріжки?"
 
-#: src/bin/bin.cpp:5938 src/mainwindow.cpp:3071
+#: src/bin/bin.cpp:5944 src/mainwindow.cpp:3071
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Не вдалося знайти кліп для додавання позначки"
@@ -22118,7 +22093,7 @@ msgstr "Не вдалося знайти кліп для додавання по
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5952 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:5958 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1486
 #: src/timeline2/view/timelinecontroller.cpp:1686
@@ -22128,22 +22103,22 @@ msgstr "Не вдалося знайти кліп для додавання по
 msgid "Marker"
 msgstr "Позначка"
 
-#: src/bin/bin.cpp:6042
+#: src/bin/bin.cpp:6048
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Не вдалося знайти основний кліп"
 
-#: src/bin/bin.cpp:6309
+#: src/bin/bin.cpp:6315
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> кліпів | "
 
-#: src/bin/bin.cpp:6311
+#: src/bin/bin.cpp:6317
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> кліпів (позначено %2) | "
 
-#: src/bin/bin.cpp:6380 src/bin/bin.cpp:6458
+#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6464
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -22152,12 +22127,12 @@ msgstr[1] "Додати до кліпу додаткові потоки"
 msgstr[2] "Додати до кліпу додаткові потоки"
 msgstr[3] "Додати до кліпу додаткові потоки"
 
-#: src/bin/bin.cpp:6401
+#: src/bin/bin.cpp:6407
 #, kde-format
 msgid "Import selected clips"
 msgstr "Імпортувати позначені кліпи"
 
-#: src/bin/bin.cpp:6403
+#: src/bin/bin.cpp:6409
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -22166,52 +22141,52 @@ msgstr ""
 "Додаткові потоки даних для кліпу\n"
 " %1"
 
-#: src/bin/bin.cpp:6417 src/mltcontroller/clippropertiescontroller.cpp:732
+#: src/bin/bin.cpp:6423 src/mltcontroller/clippropertiescontroller.cpp:732
 #, kde-format
 msgid "Video stream %1"
 msgstr "Відеопотік %1"
 
-#: src/bin/bin.cpp:6432
+#: src/bin/bin.cpp:6438
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Потік звукових даних %1"
 
-#: src/bin/bin.cpp:6485
+#: src/bin/bin.cpp:6491
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Вилучити позначки кліпів"
 
-#: src/bin/bin.cpp:6682
+#: src/bin/bin.cpp:6688
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Ми рекомендуємо зберегти проєкт перед використанням дії з перекодування"
 
-#: src/bin/bin.cpp:6683
+#: src/bin/bin.cpp:6689
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Зберегти проєкт"
 
-#: src/bin/bin.cpp:6684
+#: src/bin/bin.cpp:6690
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодувати без збереження"
 
-#: src/bin/bin.cpp:6842 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6848 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1128
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Вилучити ефект %1"
 
-#: src/bin/bin.cpp:6908 src/mainwindow.cpp:262
+#: src/bin/bin.cpp:6914 src/mainwindow.cpp:262
 #, kde-format
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:6911 src/bin/bin.cpp:6914 src/mainwindow.cpp:5368
+#: src/bin/bin.cpp:6917 src/bin/bin.cpp:6920 src/mainwindow.cpp:5368
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Контейнер проєкту %1"
@@ -22689,7 +22664,7 @@ msgstr[3] "%1 звукова доріжка"
 msgid "Timeline sequence"
 msgstr "Послідовність монтажного столу"
 
-#: src/bin/projectclip.cpp:612
+#: src/bin/projectclip.cpp:626
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -22699,39 +22674,39 @@ msgstr ""
 "Підтримку зображень такої розмірності не передбачено у нашій бібліотеці "
 "обробки."
 
-#: src/bin/projectclip.cpp:1143 src/jobs/cliploadtask.cpp:273
+#: src/bin/projectclip.cpp:1157 src/jobs/cliploadtask.cpp:273
 #, kde-format
 msgid "Invalid"
 msgstr "Некоректний"
 
-#: src/bin/projectclip.cpp:1393 src/dialogs/clipcreationdialog.cpp:137
+#: src/bin/projectclip.cpp:1407 src/dialogs/clipcreationdialog.cpp:137
 #: src/jobs/cuttask.cpp:169 src/jobs/speedtask.cpp:117
 #: src/timeline2/model/timelinefunctions.cpp:1565
 #, kde-format
 msgid "File already exists"
 msgstr "Файл з такою назвою вже існує"
 
-#: src/bin/projectclip.cpp:2640 src/bin/projectclip.cpp:2679
+#: src/bin/projectclip.cpp:2661 src/bin/projectclip.cpp:2700
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Скоригувати кліпи монтажного стола"
 
-#: src/bin/projectclip.cpp:2869
+#: src/bin/projectclip.cpp:2890
 #, kde-format
 msgid "Add stream effect"
 msgstr "Додати ефект потоку"
 
-#: src/bin/projectclip.cpp:2894
+#: src/bin/projectclip.cpp:2915
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Вилучити ефект потоку"
 
-#: src/bin/projectclip.cpp:3237
+#: src/bin/projectclip.cpp:3258
 #, kde-format
 msgid "Mask added to clip"
 msgstr "До кліпу додано маску"
 
-#: src/bin/projectclip.cpp:3241
+#: src/bin/projectclip.cpp:3262
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Немає кліпу для маскування"
