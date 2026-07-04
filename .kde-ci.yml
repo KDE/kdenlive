@@ -41,4 +41,5 @@ Options:
   require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6' ]
   cppcheck-arguments: ['-i', 'tests/', '--suppress=*:tests/fakeit.hpp', '--suppress=*:tests/catch.hpp', '--suppress=*:fuzzer/fakeit_standalone.hpp']
   require-cppcheck-clean: True
+  run-qmllint: True
   core-usage-limit: 8
