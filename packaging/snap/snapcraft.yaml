@@ -126,21 +126,18 @@ parts:
       - -DQT_MAJOR_VERSION=6
       - -DBUILD_WITH_QT6=ON
       - -DBUILD_TESTING=OFF
-      - -DCMAKE_INSTALL_SYSCONFDIR=/etc
-      - -DCMAKE_INSTALL_LOCALSTATEDIR=/var
-      - -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON
-      - -DCMAKE_FIND_USE_PACKAGE_REGISTRY=OFF
-      - -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON
-      - -DCMAKE_INSTALL_RUNSTATEDIR=/run
-      - -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=ON
-      - -DCMAKE_VERBOSE_MAKEFILE=ON
-      - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
-      - --log-level=STATUS
-      - -DCMAKE_LIBRARY_PATH=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
       - -DCMAKE_FIND_ROOT_PATH="$CRAFT_STAGE;/snap/ffmpeg-2404-sdk/current;/snap/kde-qt6-core24-sdk/current;/snap/kf6-core24-sdk/current"
     build-environment:
+      - LIBCLANG_LIBDIR: /snap/kde-qt6-core24-sdk/current/usr/lib/llvm-19/lib
+      - LIBCLANG_PATH: /snap/kde-qt6-core24-sdk/current/usr/lib/llvm-19/bin
+      - LLVM_INSTALL_DIR: /snap/kde-qt6-core24-sdk/current/usr/lib/llvm-19
+      - PATH: /snap/kde-qt6-core24-sdk/current/usr/bin:/snap/kde-qt6-core24-sdk/current/usr/lib/llvm-19/bin:/snap/kde-pyside6-core24-sdk/current/usr/bin${PATH:+:$PATH}
       - PKG_CONFIG_PATH: "/snap/ffmpeg-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig"
       - LD_LIBRARY_PATH: "${LD_LIBRARY_PATH}:/snap/ffmpeg-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+      - LDFLAGS: "-Wl,-Bdynamic"
+      - QT_PLUGIN_PATH: "$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/plugins:/snap/kf6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/plugins:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/plugins"
+      - QML_IMPORT_PATH: "$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qml:/snap/kf6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qml:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qml"
+      - QT_INSTALL_QML: $QML_IMPORT_PATH
     override-build: |
       craftctl default
       if [ "$CRAFT_TARGET_ARCH" = amd64 ]; then
@@ -148,6 +145,7 @@ parts:
       fi
     stage:
       - -usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libprotobuf*
+      - -usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libc.a
     prime:
       - -usr/lib/*/cmake/*
       - -usr/include/*
