@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-03 00:44+0000\n"
-"PO-Revision-Date: 2026-06-28 06:41+0200\n"
+"PO-Revision-Date: 2026-07-03 05:17+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -13867,7 +13867,7 @@ msgstr "ფილტრის გაერთ"
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
 msgid "Comb Filter (LADSPA 1190)"
-msgstr ""
+msgstr "უჯრედული ფილტრი (LADSPA 1190)"
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
 #, kde-format
@@ -13990,9 +13990,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Drive Level"
-msgstr "სიმშრალის დონე"
+msgstr "ამძრავის დონე"
 
 #: data/effects/ladspa/ladspa_1196.xml:11
 #, kde-format
@@ -14004,7 +14004,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1202.xml:4
 #, kde-format
 msgid "Decimator"
-msgstr ""
+msgstr "Decimator"
 
 #: data/effects/ladspa/ladspa_1202.xml:6
 #, kde-format
@@ -14097,10 +14097,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens distortion A"
+#, kde-format
 msgid "Foldover Distortion"
-msgstr "ლინზის დამახინჯება A"
+msgstr "გაღუნვის დამახინჯება"
 
 #: data/effects/ladspa/ladspa_1213.xml:6
 #, kde-format
@@ -14132,10 +14131,9 @@ msgid "Controls the asymmetry of the waveform"
 msgstr "აკონტროლებს ტალღის ფორმის ასიმეტრიას"
 
 #: data/effects/ladspa/ladspa_1218.xml:4
-#, fuzzy, kde-format
-#| msgid "Allpass"
+#, kde-format
 msgid "4x4 Pole Allpass"
-msgstr "ყველა გავლა"
+msgstr "4x4 პოლუსი, ყველა დიაპაზონი"
 
 #: data/effects/ladspa/ladspa_1218.xml:6
 #, kde-format
@@ -14193,7 +14191,7 @@ msgstr "ავტომატური ფეიზერი"
 #: data/effects/ladspa/ladspa_1219.xml:5
 #, kde-format
 msgid "Auto Phaser (LADSPA 1219)"
-msgstr ""
+msgstr "ავტოფაზერი (LADSPA 1219)"
 
 #: data/effects/ladspa/ladspa_1219.xml:8
 #, kde-format
@@ -14255,10 +14253,9 @@ msgid "Controls the amount of output signal fed back into the input"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:21
-#, fuzzy, kde-format
-#| msgid "Number of curve points"
+#, kde-format
 msgid "Number of Taps"
-msgstr "მრუდის წერტილების რაოდენობა"
+msgstr "ჩაჭერების რაოდენობა"
 
 #: data/effects/ladspa/ladspa_1402.xml:22
 #, kde-format
@@ -14394,10 +14391,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1404.xml:9
-#, fuzzy, kde-format
-#| msgid "Wave Amplitude"
+#, kde-format
 msgid "Crossover Amplitude"
-msgstr "ტალღის ამპლტუდა"
+msgstr "ჯვარედინი ამპლიტუდა"
 
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
@@ -14410,10 +14406,9 @@ msgid "Controls degree of smoothing of the crossover point"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:4
-#, fuzzy, kde-format
-#| msgid "Anti-aliasing"
+#, kde-format
 msgid "Aliasing"
-msgstr "მომრგვალება"
+msgstr "Aliasing"
 
 #: data/effects/ladspa/ladspa_1407.xml:6
 #, kde-format
@@ -14478,7 +14473,7 @@ msgstr "გეითი"
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
 msgid "Gate (LADSPA 1410)"
-msgstr ""
+msgstr "კვანძი (LADSPA 1410)"
 
 #: data/effects/ladspa/ladspa_1410.xml:8
 #, kde-format
@@ -14604,10 +14599,9 @@ msgid "Sine,Triangle,Square,Saw"
 msgstr "სინუსი,სამკუთხედი,კვადრატი,ხერხი"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Reverb"
+#, kde-format
 msgid "SWH Plate Reverb"
-msgstr "Sox ექო"
+msgstr "SWH Plate Reverb"
 
 #: data/effects/ladspa/ladspa_1423.xml:6
 #, kde-format
@@ -15058,10 +15052,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
-#| msgid "LFE Gain"
+#, kde-format
 msgid "Lo Gain"
-msgstr "LFE გაძლიერება"
+msgstr "ბასის გაძლიერება"
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
@@ -15205,10 +15198,9 @@ msgid "Wear"
 msgstr "გაცვეთილობა"
 
 #: data/effects/ladspa/ladspa_1905.xml:30
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of wear on the grooves"
-msgstr "გამოსახულებაზე დამატებული მტვრის ნაწილაკების რაოდენობა"
+msgstr "ცვეთის რაოდენობა ჩაღრმავებებზე"
 
 #: data/effects/ladspa/ladspa_1907.xml:4
 #, kde-format

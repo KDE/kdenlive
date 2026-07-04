@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-03 00:44+0000\n"
-"PO-Revision-Date: 2026-07-02 12:00+0300\n"
+"PO-Revision-Date: 2026-07-03 21:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -14659,11 +14659,13 @@ msgid ""
 "The pitch difference from the<br>\n"
 "      centre before the attenuation has reached half the <i>Gain</i>."
 msgstr ""
+"Різниця у тоні від<br>\n"
+"      центру до того, як згасання досягає половини <i>Підсилення</i>."
 
 #: data/effects/ladspa/ladspa_1207.xml:4
 #, kde-format
 msgid "DC Offset Remover"
-msgstr "DC Offset Remover"
+msgstr "Усування відхилення від центру"
 
 #: data/effects/ladspa/ladspa_1207.xml:6
 #, kde-format
@@ -14672,6 +14674,10 @@ msgid ""
 "   Simply removes the DC (0 Hz) component from an audio signal, uses a high "
 "pass filter, so has some side effects, but they should be minimal."
 msgstr ""
+"Усування відхилення від центру (LADSPA 1207)<br>\n"
+"   Просто вилучає сталу складову (0 Гц) зі звукового сигналу, використовує "
+"фільтр високих частот, тому має деякі побічні ефекти, але вони мають бути "
+"мінімальними."
 
 #: data/effects/ladspa/ladspa_1213.xml:4
 #, kde-format
@@ -14686,6 +14692,10 @@ msgid ""
 "distortion. Probably should have a <i>DC Offset Remover</i> on the output, "
 "but it's not always necessary."
 msgstr ""
+"Спотворення згинання (LADSPA 1213)<br>\n"
+"   Використовує наближення синусоїди для імітації спотворення, створюваного "
+"за допомогою клапана. Ймовірно, на виході має бути **Усування відхилення від "
+"центру**, але це не завжди необхідно."
 
 #: data/effects/ladspa/ladspa_1213.xml:9 data/effects/ladspa/ladspa_2158.xml:9
 #, kde-format
@@ -14719,6 +14729,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"4 x 4 полюсів, усі діапазони (LADSPA 1218)<br>\n"
+"   Автоматично адаптується до кількості каналів і частоти дискретизації "
+"споживача."
 
 #: data/effects/ladspa/ladspa_1218.xml:9
 #, kde-format
@@ -14804,7 +14817,7 @@ msgstr "Delayorama"
 #: data/effects/ladspa/ladspa_1402.xml:5
 #, kde-format
 msgid "Delayorama (LADSPA 1402)"
-msgstr ""
+msgstr "Затриморама (LADSPA 1402)"
 
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
 #, kde-format
@@ -14818,6 +14831,10 @@ msgid ""
 "      will be used to stagger the delays and amplitudes if random is turned "
 "up on them. Changing this forces the random values to be recalculated."
 msgstr ""
+"Керує випадковими числами, які<br>\n"
+"      буде використано буде використано для розподілу затримок та амплітуд, "
+"якщо для них увімкнено випадковий режим. Зміна цього параметра призводить до "
+"примусового повторного обчислення випадкових значень."
 
 #: data/effects/ladspa/ladspa_1402.xml:14
 #, kde-format
@@ -14907,7 +14924,7 @@ msgstr "Мікшування «Холодний-Теплий»"
 #: data/effects/ladspa/ladspa_1402.xml:50
 #, kde-format
 msgid "The level of delayed sound mixed into the output"
-msgstr ""
+msgstr "Рівень затриманого звуку, який буде мікшовано з виведеними даними"
 
 #: data/effects/ladspa/ladspa_1403.xml:4
 #, kde-format
@@ -14945,6 +14962,8 @@ msgid ""
 "Controls the time taken for<br>\n"
 "      the compressor to relax its gain control over the input signal"
 msgstr ""
+"Контролює час, необхідний<br>\n"
+"засобу стискання для послаблення регулювання посилення вхідного сигналу"
 
 #: data/effects/ladspa/ladspa_1403.xml:18
 #, kde-format
@@ -14968,6 +14987,9 @@ msgid ""
 "   This is a simulation of the distortion that happens in class B and AB "
 "power amps when the signal crosses 0."
 msgstr ""
+"Перехресне викривлення (LADSPA 1404)<br>\n"
+"   Це імітація викривлення, яке трапляється у підсилювачах потужності класів "
+"B і AB, якщо сигнал перетинає 0."
 
 #: data/effects/ladspa/ladspa_1404.xml:9
 #, kde-format
@@ -14977,12 +14999,12 @@ msgstr "Перехресна амплітуда"
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
 msgid "Controls the point at which the output signal becomes linear"
-msgstr ""
+msgstr "Керує точкою, у якій вихідних сигнал стає лінійним"
 
 #: data/effects/ladspa/ladspa_1404.xml:14
 #, kde-format
 msgid "Controls degree of smoothing of the crossover point"
-msgstr ""
+msgstr "Керує ступенем згладжування у точці перехрещення"
 
 #: data/effects/ladspa/ladspa_1407.xml:4
 #, kde-format
@@ -14996,6 +15018,9 @@ msgid ""
 "   Simulates aliasing using nyquist frequency modulation. Produces wacky "
 "results if the blocks aren't even numbers of samples long."
 msgstr ""
+"Згладжування (LADSPA 1407)<br>\n"
+"   Імітує згладжування за допомогою частотної модуляції Найквіста. Видає "
+"дивні результати, якщо блоки не мають парної кількості семплів."
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, kde-format
@@ -15005,12 +15030,12 @@ msgstr "Рівень згладжування"
 #: data/effects/ladspa/ladspa_1407.xml:10
 #, kde-format
 msgid "Controls the amount of simulated aliasing in the output."
-msgstr ""
+msgstr "Керує величиною імітованого згладжування у вихідних даних."
 
 #: data/effects/ladspa/ladspa_1408.xml:4
 #, kde-format
 msgid "Barry's Satan Maximiser"
-msgstr "Barry's Satan Maximiser"
+msgstr "Сатанинський максимізатор Беррі"
 
 #: data/effects/ladspa/ladspa_1408.xml:6
 #, kde-format
@@ -15020,6 +15045,10 @@ msgid ""
 "and hard knee. Not really as a compressor, but good harsh (non-musical) "
 "distortion."
 msgstr ""
+"Сатанинський максимізатор Беррі (LADSPA 1408)<br>\n"
+"   Стискає сигнали з неймовірно короткою атакою та загасанням, нескінченним "
+"співвідношенням частоти та жорстким коефіцієнтом зміни частоти. Не зовсім "
+"компресор, але непогане жорстке (немузичний) викривлення."
 
 #: data/effects/ladspa/ladspa_1408.xml:9
 #, kde-format
@@ -15060,7 +15089,7 @@ msgstr "Шлюз (LADSPA 1410)"
 #: data/effects/ladspa/ladspa_1410.xml:8
 #, kde-format
 msgid "LF Key Filter"
-msgstr ""
+msgstr "Фільтр низьких частот за ключем"
 
 #: data/effects/ladspa/ladspa_1410.xml:10
 #, kde-format
@@ -15068,11 +15097,13 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the low frequency filter (highpass)"
 msgstr ""
+"Керує обрізанням<br>\n"
+"      фільтра низьких частот (високий діапазон)"
 
 #: data/effects/ladspa/ladspa_1410.xml:13
 #, kde-format
 msgid "HF Key Filter"
-msgstr ""
+msgstr "Фільтр високих частот за ключем"
 
 #: data/effects/ladspa/ladspa_1410.xml:15
 #, kde-format
@@ -15080,6 +15111,8 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the high frequency filter (lowpass)"
 msgstr ""
+"Керує обрізанням<br>\n"
+"      фільтра високих частот (низький діапазон)"
 
 #: data/effects/ladspa/ladspa_1410.xml:20
 #, kde-format
@@ -15087,6 +15120,8 @@ msgid ""
 "Controls the level at<br>\n"
 "      which the gate will open"
 msgstr ""
+"Керує рівнем, на якому<br>\n"
+"      відкривається шлюз"
 
 #: data/effects/ladspa/ladspa_1410.xml:25
 #, kde-format
@@ -15094,6 +15129,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to open fully"
 msgstr ""
+"Керує часом, протягом<br>\n"
+"      якого шлюз лишатиметься повністю відкритим"
 
 #: data/effects/ladspa/ladspa_1410.xml:28
 #, kde-format
@@ -15106,6 +15143,8 @@ msgid ""
 "Controls the minimum<br>\n"
 "      time the gate will stay open for"
 msgstr ""
+"Керує мінімумом часу, протягом<br>\n"
+"      якого шлюз лишатиметься відкритим"
 
 #: data/effects/ladspa/ladspa_1410.xml:35
 #, kde-format
@@ -15113,6 +15152,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to close fully"
 msgstr ""
+"Керує часом, протягом<br>\n"
+"      якого шлюз лишатиметься повністю закритим"
 
 #: data/effects/ladspa/ladspa_1410.xml:40
 #, kde-format
@@ -15120,6 +15161,8 @@ msgid ""
 "Controls the difference<br>\n"
 "      between the gate's open and closed state"
 msgstr ""
+"Керує різницею між<br>\n"
+"      станами відкритого і закритого шлюзів"
 
 #: data/effects/ladspa/ladspa_1410.xml:43
 #, kde-format
@@ -15134,7 +15177,7 @@ msgstr "Керує монітором результатів"
 #: data/effects/ladspa/ladspa_1410.xml:45
 #, kde-format
 msgid "Key (listen),Gate (normal output),Bypass"
-msgstr ""
+msgstr "Ключ (слухання),Шлюз (звичайне виведення),Пропускання"
 
 #: data/effects/ladspa/ladspa_1411.xml:4
 #, kde-format
@@ -15265,7 +15308,7 @@ msgstr "Зсув частоти"
 #: data/effects/ladspa/ladspa_1432.xml:20
 #, kde-format
 msgid "Controls the frequency shift applied to the input signal"
-msgstr ""
+msgstr "Керує зсувом частоти, який буде застосовано до вхідного сигналу"
 
 #: data/effects/ladspa/ladspa_1432.xml:4
 #, kde-format
@@ -15360,7 +15403,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1438.xml:9
 #, kde-format
 msgid "LFO sync"
-msgstr ""
+msgstr "Синхронізація LFO"
 
 #: data/effects/ladspa/ladspa_1438.xml:11
 #, kde-format
@@ -15378,12 +15421,14 @@ msgstr "Період LFO"
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
 msgid "The cycle period of the LFO in seconds"
-msgstr ""
+msgstr "Період циклу LFO у секундах"
 
 #: data/effects/ladspa/ladspa_1438.xml:19
 #, kde-format
 msgid "The maximum delay the LFO will use to flange in milliseconds"
 msgstr ""
+"Максимальна затримка, яку LFO використовуватиме для розгортання у "
+"мілісекундах"
 
 #: data/effects/ladspa/ladspa_1438.xml:23
 #, kde-format
@@ -15398,7 +15443,7 @@ msgstr "Експоненційне згасання сигналу"
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
 msgid "Exponential Signal Decay (LADSPA 1886)"
-msgstr ""
+msgstr "Експоненційне згасання сигналу (LADSPA 1886)"
 
 #: data/effects/ladspa/ladspa_1887.xml:4
 #, kde-format
