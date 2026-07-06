@@ -365,7 +365,7 @@ void Core::initHeadless(const QUrl &url)
 {
     MltConnection::construct(QString());
     m_projectManager = new ProjectManager(this);
-    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
+    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::DirectConnection, Q_ARG(QUrl, url));
     connect(this, &Core::displayBinMessage, this,
             [](QString text, int, QList<QAction *>, bool, BinMessage::BinCategory) { qInfo() << QStringLiteral("Bin message: ") << text; });
     connect(this, &Core::displayBinLogMessage, this, [](QString text, int, QString) { qInfo() << QStringLiteral("Bin message: ") << text; });
