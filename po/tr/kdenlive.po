@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-03 00:44+0000\n"
-"PO-Revision-Date: 2026-06-27 20:12+0300\n"
+"PO-Revision-Date: 2026-07-05 19:12+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -14251,6 +14251,9 @@ msgid ""
 "      continuously variable from thru to half-wave (1) rectification to full-"
 "wave (2) to silence (0)"
 msgstr ""
+"<i>Mod</i> parametresi,<br>\n"
+"tam dalga (1) düzeltmesinden tam dalga (2) düzeltmesine ve sessizliğe (0) "
+"kadar sürekli olarak değişkendir."
 
 #: data/effects/ladspa/ladspa_1185.xml:14
 #: data/effects/ladspa/ladspa_1190.xml:16
@@ -14319,27 +14322,24 @@ msgid "Dry/Wet"
 msgstr "Kuru/Islak"
 
 #: data/effects/ladspa/ladspa_1190.xml:4
-#, fuzzy, kde-format
-#| msgid "Comb Filters"
+#, kde-format
 msgid "Comb Filter"
-msgstr "Tarak Süzgeçleri"
+msgstr "Tarak Süzgeci"
 
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
 msgid "Comb Filter (LADSPA 1190)"
-msgstr ""
+msgstr "Tarak Süzgeci (LADSPA 1190)"
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Band Separation"
-msgstr "Doygunluk"
+msgstr "Bant Ayrımı"
 
 #: data/effects/ladspa/ladspa_1190.xml:9
-#, fuzzy, kde-format
-#| msgid "The distance between the track points"
+#, kde-format
 msgid "Controls the distance between the filters peaks"
-msgstr "İz noktalarının arasındaki uzaklık"
+msgstr "Süzgeç tepe noktaları arasındaki uzaklığı denetler."
 
 #: data/effects/ladspa/ladspa_1190.xml:12
 #: data/effects/ladspa/ladspa_1191.xml:24
