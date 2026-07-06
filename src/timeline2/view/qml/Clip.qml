@@ -400,6 +400,7 @@ Rectangle {
         Component {
             id: videoThumb
             ClipThumbs {
+                parentClip: clipRoot
                 initialSpeed: clipRoot.speed
             }
         }

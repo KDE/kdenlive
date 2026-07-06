@@ -16,7 +16,10 @@ Row {
     anchors.fill: parent
     visible: !isAudio
     clip: true
-    property Clip parentClip: clipRoot
+    // On Qt 6.10.x, using Clip type creates a dependency loop between Clip and ClipThumbs.
+    // When increasing the Qt dependency, we can revert to use :
+    // required property Clip parentClip
+    required property var parentClip
     property real initialSpeed: 1
     opacity: clipState === K.PlaylistState.Disabled ? 0.2 : 1
     property bool fixedThumbs: parentClip.itemType === K.ClipType.Image || parentClip.itemType === K.ClipType.Text || parentClip.itemType === K.ClipType.TextTemplate
