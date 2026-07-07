@@ -1590,7 +1590,123 @@ void TimelineController::deleteAllMarkers(int cid)
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     clip->getMarkerModel()->removeAllMarkers();
 }
+Q_INVOKABLE bool TimelineController::moveClipMarker(int cid, int oldFrame, int newFrame)
+{
+    if (oldFrame == newFrame) return false;
+    QMutexLocker lk(&m_metaMutex);
+    if (!m_model) {
+        qWarning() << "moveClipMarker: timeline model not set";
+        return false;
+    }
+    if (cid == -1) {
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            qWarning() << "moveClipMarker: no clip id provided and no clip selected";
+            return false;
+        }
+    }
+    if (!m_model->isClip(cid)) {
+        qWarning() << "moveClipMarker: item is not a clip:" << cid;
+        return false;
+    }
 
+    auto clip = pCore->bin()->getBinClip(getClipBinId(cid));
+
+    if (!clip) {
+        qWarning() << "moveClipMarker: could not find bin clip for cid" << cid;
+        return false;
+    }
+
+    auto markerModel = clip->getMarkerModel();
+
+    if (!markerModel) {
+        qWarning() << "moveClipMarker: clip has no marker model";
+        return false;
+    }
+
+    const int clipIn = m_model->getClipIn(cid);
+    const int clipPlaytime = m_model->getClipPlaytime(cid);
+    const int clipOut = clipIn + clipPlaytime;
+
+    if (newFrame < clipIn || newFrame > clipOut) {
+        qWarning() << "moveClipMarker: newFrame out of clip bounds, clamping:" << newFrame << "-> [" << clipIn << "," << clipOut << "]";
+        newFrame = qBound(clipIn, newFrame, clipOut);
+    }
+
+    bool ok = false;
+    CommentedTime marker = markerModel->getMarker(oldFrame, &ok);
+    if (!ok) {
+        qWarning() << "moveClipMarker: no marker at oldFrame" << oldFrame;
+        return false;
+    }
+
+    GenTime fromPos(oldFrame, pCore->getCurrentFps());
+    GenTime toPos(newFrame, pCore->getCurrentFps());
+    QList<CommentedTime> markers;
+    markers.append(marker);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = markerModel->moveMarkers(markers, fromPos, toPos, undo, redo);
+
+    if (res) {
+        if (undo && redo) {
+            pCore->pushUndo(undo, redo, i18n("Move marker"));
+        } else {
+            Fun safeUndo = []() { return true; };
+            Fun safeRedo = []() { return true; };
+            pCore->pushUndo(safeUndo, safeRedo, i18n("Move marker"));
+        }
+    }
+
+    return res;
+}
+
+Q_INVOKABLE bool TimelineController::moveClipMarkerWithoutUndo(int cid, int mid, int newFrame)
+{
+    QMutexLocker lk(&m_metaMutex);
+    if (!m_model) {
+        qWarning() << "moveClipMarker: timeline model not set";
+        return false;
+    }
+    if (cid == -1) {
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            qWarning() << "moveClipMarker: no clip id provided and no clip selected";
+            return false;
+        }
+    }
+    if (!m_model->isClip(cid)) {
+        qWarning() << "moveClipMarker: item is not a clip:" << cid;
+        return false;
+    }
+
+    auto clip = pCore->bin()->getBinClip(getClipBinId(cid));
+
+    if (!clip) {
+        qWarning() << "moveClipMarker: could not find bin clip for cid" << cid;
+        return false;
+    }
+
+    auto markerModel = clip->getMarkerModel();
+
+    if (!markerModel) {
+        qWarning() << "moveClipMarker: clip has no marker model";
+        return false;
+    }
+
+    const int clipIn = m_model->getClipIn(cid);
+    const int clipPlaytime = m_model->getClipPlaytime(cid);
+    const int clipOut = clipIn + clipPlaytime;
+
+    if (newFrame < clipIn || newFrame > clipOut) {
+        qWarning() << "moveClipMarker: newFrame out of clip bounds, clamping:" << newFrame << "-> [" << clipIn << "," << clipOut << "]";
+        newFrame = qBound(clipIn, newFrame, clipOut);
+    }
+
+    GenTime toPos(newFrame, pCore->getCurrentFps());
+    bool result = markerModel->moveMarker(mid, toPos);
+    return result;
+}
 void TimelineController::editGuide(int frame)
 {
     if (frame == -1) {

@@ -346,6 +346,8 @@ public:
     /** @brief Ask for all markers delete
      */
     Q_INVOKABLE void deleteAllMarkers(int cid = -1);
+    Q_INVOKABLE bool moveClipMarker(int cid, int oldFrame, int newFrame);
+    Q_INVOKABLE bool moveClipMarkerWithoutUndo(int cid, int mid, int newFrame);
     /** @brief Ask for edit timeline guide dialog
      */
     Q_INVOKABLE void editGuide(int frame = -1);

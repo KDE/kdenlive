@@ -672,11 +672,12 @@ Rectangle {
                     property int position
                     property bool hasRange: false
                     property real duration: 0
+                    property int id
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
                     height: hasRange ? textMetrics.height + 2 : container.height
                     x: clipRoot.speed < 0
-                       ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
-                       : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
+                    ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
+                    : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
                     y: hasRange ? Math.min(label.height, container.height - textMetrics.height) : 0
                     color: hasRange ? Qt.rgba(markerColor.r, markerColor.g, markerColor.b, 0.7) : markerColor
                     border.color: hasRange ? markerColor : "transparent"
@@ -691,7 +692,7 @@ Rectangle {
                         height: container.height
                         color: markerBase.markerColor
                     }
-                    
+                                        
                     // Tapered end effect for range markers
                     Rectangle {
                         id: clipRangeEndTaper
@@ -706,7 +707,7 @@ Rectangle {
                             GradientStop { position: 1.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.1) }
                         }
                     }
-                    
+                                        
                     TextMetrics {
                         id: textMetrics
                         font: K.UiUtils.smallestReadableFont
@@ -714,6 +715,7 @@ Rectangle {
                         elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
                         elideWidth: root.maxLabelWidth
                     }
+
                     Rectangle {
                         id: labelRectangle
                         width: textMetrics.width + 4
@@ -722,12 +724,13 @@ Rectangle {
                         radius: 2
                         opacity: 0.7
                         visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > K.UiUtils.baseSizeMedium && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
-
+                        
                         anchors {
                             top: parent.top
                             left: parent.left
                             topMargin: markerBase.hasRange ? (parent.height - height) / 2 : Math.min(label.height, container.height - height)
                         }
+
                         Text {
                             id: mlabel
                             text: textMetrics.elidedText
@@ -738,24 +741,71 @@ Rectangle {
                             color: '#FFF'
                         }
                         MouseArea {
-                            z: 10
                             id: markerArea
+                            z: 10
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton
-                            cursorShape: Qt.PointingHandCursor
                             property bool shiftTrim: false
                             hoverEnabled: !clipRoot.isPanning
                             enabled: !clipRoot.isPanning
+                            cursorShape: pressed ? Qt.ClosedHandCursor : Qt.PointingHandCursor
                             ToolTip.visible: containsMouse
                             ToolTip.text: markerBase.markerText
                             ToolTip.delay: 1000
                             ToolTip.timeout: 5000
+                            property int startPosition: 0
+                            property real startX: 0
+                            property int movingMarkerId: -1
+                            property int destFrame: 0
                             onDoubleClicked: clipRoot.timeline.editMarker(clipRoot.clipId, markerBase.position)
-                            onPressed: mouse => {
+                            onPressed: (mouse) => {
+                                startPosition = markerBase.position
+                                var pressedPoint = mapToItem(clipRoot, mouse.x, 0)
+                                startX = pressedPoint.x
                                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                                movingMarkerId = markerBase.id
+                                destFrame = startPosition
+                                console.log('Trying to move marker mid: ', movingMarkerId)
                             }
+                            onPositionChanged: (mouse) => {
+                                if (pressed && movingMarkerId > -1) {
+                                    var currentPoint = mapToItem(clipRoot, mouse.x, 0)
+                                    var deltaPx = currentPoint.x - startX
+                                    var deltaFrames = Math.round(deltaPx / clipRoot.timeScale * clipRoot.speed)
+                                    var newFrame = startPosition + deltaFrames
+                                    var timelineFrame = clipRoot.modelStart + (clipRoot.speed < 0
+                                        ? (clipRoot.maxDuration - clipRoot.inPoint + Math.round(newFrame / clipRoot.speed))
+                                        : (Math.round(newFrame / clipRoot.speed) - clipRoot.inPoint))
+                                    var snappedTimelineFrame = clipRoot.timeline.suggestSnapPoint(timelineFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                                    if (snappedTimelineFrame === clipRoot.modelStart || snappedTimelineFrame === (clipRoot.modelStart + clipRoot.clipDuration)) {
+                                        snappedTimelineFrame = timelineFrame
+                                    }
+                                    if (clipRoot.speed < 0) {
+                                        newFrame = Math.round((snappedTimelineFrame - clipRoot.modelStart) * clipRoot.speed) + clipRoot.maxDuration - clipRoot.inPoint
+                                    } else {
+                                        newFrame = Math.round((snappedTimelineFrame - clipRoot.modelStart) * clipRoot.speed) + clipRoot.inPoint
+                                    }
+                                    newFrame = Math.max(clipRoot.inPoint + 1, Math.min(newFrame, clipRoot.outPoint - 1))
+                                    if (newFrame !== destFrame) {
+                                        var success = clipRoot.timeline.moveClipMarkerWithoutUndo(clipRoot.clipId, movingMarkerId, newFrame)
+                                        if (success) {
+                                            destFrame = newFrame
+                                        }
+                                    }
+                                }
+                            }
+                            onReleased: (mouse) => {
+                                if (movingMarkerId > -1) {
+                                    if (destFrame !== startPosition) {
+                                        clipRoot.timeline.moveClipMarkerWithoutUndo(clipRoot.clipId, movingMarkerId, startPosition)
+                                        clipRoot.timeline.moveClipMarker(clipRoot.clipId, startPosition, destFrame)
+                                    }
 
+                                }
+                                movingMarkerId = -1
+                            }
                             onClicked: (mouse) => {
+                                if (destFrame !== startPosition) return
                                 if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                     mouse.accepted = false
                                     return
@@ -767,7 +817,6 @@ Rectangle {
                             }
                         }
                     }
-                    
                     // Left resize handle for range markers
                     Rectangle {
                         id: leftResizeHandle
@@ -971,6 +1020,12 @@ Rectangle {
                             target: loader.item
                             property: "duration"
                             value: loader.modelData.duration || 0
+                            when: loader.isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "id"
+                            value: loader.modelData.id
                             when: loader.isInside && loader.status == Loader.Ready
                         }
                         sourceComponent: markerComponent
