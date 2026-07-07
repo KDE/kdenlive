@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-03 00:44+0000\n"
+"POT-Creation-Date: 2026-07-07 00:42+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -20823,7 +20823,7 @@ msgstr "ລາກເພື່ອເພີ່ມສະເພາະສຽງໃສ
 msgid "Drag to add only video to timeline"
 msgstr "ລາກເພື່ອເພີ່ມສະເພາະວິດີໂອໃສ່ເສັ້ນເວລາ"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1430
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1431
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -35404,7 +35404,7 @@ msgstr "ຢຸດ"
 msgid "Paused"
 msgstr "ຢຸດຊົ່ວຄາວ"
 
-#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1212
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), ຕຳແໜ່ງ: %4, ໄລຍະເວລາ: %5"
@@ -35416,84 +35416,84 @@ msgstr "%1 (%2-%3), ຕຳແໜ່ງ: %4, ໄລຍະເວລາ: %5"
 msgid "Position: %1"
 msgstr "ຕຳແໜ່ງ: %1"
 
-#: src/timeline2/view/qml/Clip.qml:565
+#: src/timeline2/view/qml/Clip.qml:566
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "ໄລຍະເວລາ Mix: %1, ຕັດທີ່: %2"
 
-#: src/timeline2/view/qml/Clip.qml:619
+#: src/timeline2/view/qml/Clip.qml:620
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, ໄລຍະເວລາ Mix: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621
+#: src/timeline2/view/qml/Clip.qml:622
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, ໄລຍະເວລາ Mix: %2"
 
-#: src/timeline2/view/qml/Clip.qml:624 src/timeline2/view/qml/Clip.qml:639
+#: src/timeline2/view/qml/Clip.qml:625 src/timeline2/view/qml/Clip.qml:640
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "ໄລຍະເວລາ Mix: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1093
+#: src/timeline2/view/qml/Clip.qml:1094
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "In:%1, ຕຳແໜ່ງ:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1096 src/timeline2/view/qml/Clip.qml:1201
+#: src/timeline2/view/qml/Clip.qml:1097 src/timeline2/view/qml/Clip.qml:1202
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr "<b>Ctrl ລາກ</b> ເພື່ອປ່ຽນຄວາມໄວ, <b>ດັບເບິລຄລິກ</b> ເພື່ອ mix ກັບຄລິບທີ່ຢູ່ຕິດກັນ"
 
-#: src/timeline2/view/qml/Clip.qml:1098
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>ລາກ</b> ເພື່ອປ່ຽນໄລຍະເວລາ mix"
 
-#: src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1199
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Out:%1, ຕຳແໜ່ງ:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1338
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Offset: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1338
+#: src/timeline2/view/qml/Clip.qml:1339
 #, kde-format
 msgid "Offset: %1"
 msgstr "Offset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1339
+#: src/timeline2/view/qml/Clip.qml:1340
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>ຄລິກ</b> ເພື່ອຈັດລຽງຄລິບ"
 
-#: src/timeline2/view/qml/Clip.qml:1584 src/timeline2/view/qml/Clip.qml:1625
+#: src/timeline2/view/qml/Clip.qml:1585 src/timeline2/view/qml/Clip.qml:1626
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>ຄລິກ</b> ເພື່ອເພີ່ມ composition"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
+#: src/timeline2/view/qml/Clip.qml:1705 src/timeline2/view/qml/Clip.qml:1712
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fade out: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1824
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1825
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b>ລາກ</b> ເພື່ອປັບ fade, <b>ຄລິກ</b> ເພື່ອເພີ່ມໄລຍະເວລາ fade ເລີ່ມຕົ້ນ"
 
-#: src/timeline2/view/qml/Clip.qml:1813 src/timeline2/view/qml/Clip.qml:1820
+#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fade in: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1908
+#: src/timeline2/view/qml/Clip.qml:1909
 #, kde-format
 msgid "Slip Clip"
 msgstr "Slip Clip"

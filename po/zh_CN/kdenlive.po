@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-03 00:44+0000\n"
+"POT-Creation-Date: 2026-07-07 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -20438,7 +20438,7 @@ msgstr "拖动以向时间轴中添加纯音频"
 msgid "Drag to add only video to timeline"
 msgstr "拖动以向时间轴中添加纯视频"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1430
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1431
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -34971,7 +34971,7 @@ msgstr "停止"
 msgid "Paused"
 msgstr "已暂停"
 
-#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1212
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3)，位置：%4，持续时间：%5"
@@ -34983,84 +34983,84 @@ msgstr "%1 (%2-%3)，位置：%4，持续时间：%5"
 msgid "Position: %1"
 msgstr "位置：%1"
 
-#: src/timeline2/view/qml/Clip.qml:565
+#: src/timeline2/view/qml/Clip.qml:566
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "混合持续时间：%1，切割位置：%2"
 
-#: src/timeline2/view/qml/Clip.qml:619
+#: src/timeline2/view/qml/Clip.qml:620
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1，混合持续时间：%2"
 
-#: src/timeline2/view/qml/Clip.qml:621
+#: src/timeline2/view/qml/Clip.qml:622
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1，混合持续时间：%2"
 
-#: src/timeline2/view/qml/Clip.qml:624 src/timeline2/view/qml/Clip.qml:639
+#: src/timeline2/view/qml/Clip.qml:625 src/timeline2/view/qml/Clip.qml:640
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "混合持续时间：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1093
+#: src/timeline2/view/qml/Clip.qml:1094
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "入点：%1，位置：%2"
 
-#: src/timeline2/view/qml/Clip.qml:1096 src/timeline2/view/qml/Clip.qml:1201
+#: src/timeline2/view/qml/Clip.qml:1097 src/timeline2/view/qml/Clip.qml:1202
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr "<b>Ctrl+拖动</b>更改速度，<b>双击</b>与相邻片段混合"
 
-#: src/timeline2/view/qml/Clip.qml:1098
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>拖动</b> 以更改混合持续时间"
 
-#: src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1199
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "出点：%1，位置：%2"
 
-#: src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1338
 #, kde-format
 msgid "Offset: -%1"
 msgstr "偏移：-%1"
 
-#: src/timeline2/view/qml/Clip.qml:1338
+#: src/timeline2/view/qml/Clip.qml:1339
 #, kde-format
 msgid "Offset: %1"
 msgstr "偏移：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1339
+#: src/timeline2/view/qml/Clip.qml:1340
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>点击</b>以对其剪辑"
 
-#: src/timeline2/view/qml/Clip.qml:1584 src/timeline2/view/qml/Clip.qml:1625
+#: src/timeline2/view/qml/Clip.qml:1585 src/timeline2/view/qml/Clip.qml:1626
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>点击</b>以添加合成"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
+#: src/timeline2/view/qml/Clip.qml:1705 src/timeline2/view/qml/Clip.qml:1712
 #, kde-format
 msgid "Fade out: %1"
 msgstr "淡出： %1"
 
-#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1824
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1825
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b>拖动</b>以调整渐隐渐显，<b>点击</b>以添加渐隐渐显默认持续时间"
 
-#: src/timeline2/view/qml/Clip.qml:1813 src/timeline2/view/qml/Clip.qml:1820
+#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
 #, kde-format
 msgid "Fade in: %1"
 msgstr "渐显：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1908
+#: src/timeline2/view/qml/Clip.qml:1909
 #, kde-format
 msgid "Slip Clip"
 msgstr "滑移片段"

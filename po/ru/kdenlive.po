@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-03 00:44+0000\n"
+"POT-Creation-Date: 2026-07-07 00:42+0000\n"
 "PO-Revision-Date: 2026-06-29 17:02+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -21219,7 +21219,7 @@ msgstr "Переместите, чтобы добавить на монтажн�
 msgid "Drag to add only video to timeline"
 msgstr "Переместите, чтобы добавить на монтажный стол только видео"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1430
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1431
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -36227,7 +36227,7 @@ msgstr "Остановить"
 msgid "Paused"
 msgstr "Приостановлено"
 
-#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1212
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Позиция: %4, Длительность: %5"
@@ -36239,32 +36239,32 @@ msgstr "%1 (%2-%3), Позиция: %4, Длительность: %5"
 msgid "Position: %1"
 msgstr "Позиция: %1"
 
-#: src/timeline2/view/qml/Clip.qml:565
+#: src/timeline2/view/qml/Clip.qml:566
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Продолжительность соединения: %1, обрезано на: %2"
 
-#: src/timeline2/view/qml/Clip.qml:619
+#: src/timeline2/view/qml/Clip.qml:620
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, длительность соединения: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621
+#: src/timeline2/view/qml/Clip.qml:622
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, длительность соединения: %2"
 
-#: src/timeline2/view/qml/Clip.qml:624 src/timeline2/view/qml/Clip.qml:639
+#: src/timeline2/view/qml/Clip.qml:625 src/timeline2/view/qml/Clip.qml:640
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Длительность соединения: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1093
+#: src/timeline2/view/qml/Clip.qml:1094
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Вход: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1096 src/timeline2/view/qml/Clip.qml:1201
+#: src/timeline2/view/qml/Clip.qml:1097 src/timeline2/view/qml/Clip.qml:1202
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36273,54 +36273,54 @@ msgstr ""
 "<b>Ctrl + перемещение</b>: изменение скорости, <b> Двойной щелчок</b>: "
 "соединение с соседним клипом"
 
-#: src/timeline2/view/qml/Clip.qml:1098
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Перемещение</b>: изменение длительности соединения"
 
-#: src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1199
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Выход: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1338
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Смещение: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1338
+#: src/timeline2/view/qml/Clip.qml:1339
 #, kde-format
 msgid "Offset: %1"
 msgstr "Смещение: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1339
+#: src/timeline2/view/qml/Clip.qml:1340
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Щелчок</b>: выравнивание клипов"
 
-#: src/timeline2/view/qml/Clip.qml:1584 src/timeline2/view/qml/Clip.qml:1625
+#: src/timeline2/view/qml/Clip.qml:1585 src/timeline2/view/qml/Clip.qml:1626
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Щелчок</b>: вставка композиции"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
+#: src/timeline2/view/qml/Clip.qml:1705 src/timeline2/view/qml/Clip.qml:1712
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Исчезание: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1824
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1825
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Перемещение</b>: настройка исчезания, <b>Щелчок</b>: установка "
 "продолжительности исчезания по умолчанию"
 
-#: src/timeline2/view/qml/Clip.qml:1813 src/timeline2/view/qml/Clip.qml:1820
+#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Появление: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1908
+#: src/timeline2/view/qml/Clip.qml:1909
 #, kde-format
 msgid "Slip Clip"
 msgstr "Прокрутить клип"

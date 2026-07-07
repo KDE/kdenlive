@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-03 00:44+0000\n"
+"POT-Creation-Date: 2026-07-07 00:42+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -21249,7 +21249,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1430
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1431
 #, fuzzy, kde-format
 #| msgctxt "The first letter of Proxy, used as abbreviation"
 #| msgid "P"
@@ -36383,7 +36383,7 @@ msgstr "Hentikan"
 msgid "Paused"
 msgstr "Jeda"
 
-#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1212
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posisi: %4, Durasi: %5"
@@ -36395,32 +36395,32 @@ msgstr "%1 (%2-%3), Posisi: %4, Durasi: %5"
 msgid "Position: %1"
 msgstr "Posisi: %1"
 
-#: src/timeline2/view/qml/Clip.qml:565
+#: src/timeline2/view/qml/Clip.qml:566
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Durasi campur: %1, Potong di: %2"
 
-#: src/timeline2/view/qml/Clip.qml:619
+#: src/timeline2/view/qml/Clip.qml:620
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Durasi campur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:621
+#: src/timeline2/view/qml/Clip.qml:622
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Durasi campur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:624 src/timeline2/view/qml/Clip.qml:639
+#: src/timeline2/view/qml/Clip.qml:625 src/timeline2/view/qml/Clip.qml:640
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Durasi campur: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1093
+#: src/timeline2/view/qml/Clip.qml:1094
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Dalam:%1, Posisi:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1096 src/timeline2/view/qml/Clip.qml:1201
+#: src/timeline2/view/qml/Clip.qml:1097 src/timeline2/view/qml/Clip.qml:1202
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36429,55 +36429,55 @@ msgstr ""
 "<b>Ctrl sèrèt</b> untuk mengubah kecepatan, <b>Klik dua kali</b> untuk "
 "mencampur dengan klip sebelahnya"
 
-#: src/timeline2/view/qml/Clip.qml:1098
+#: src/timeline2/view/qml/Clip.qml:1099
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Sèrèt</b> untuk mengubah durasi mix"
 
-#: src/timeline2/view/qml/Clip.qml:1198
+#: src/timeline2/view/qml/Clip.qml:1199
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Luar:%1, Posisi:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1338
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Offset: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1338
+#: src/timeline2/view/qml/Clip.qml:1339
 #, kde-format
 msgid "Offset: %1"
 msgstr "Ofset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1339
+#: src/timeline2/view/qml/Clip.qml:1340
 #, fuzzy, kde-format
 #| msgid "<b>Click</b> to add composition"
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Klik</b> untuk menambahkan komposisi"
 
-#: src/timeline2/view/qml/Clip.qml:1584 src/timeline2/view/qml/Clip.qml:1625
+#: src/timeline2/view/qml/Clip.qml:1585 src/timeline2/view/qml/Clip.qml:1626
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> untuk menambahkan komposisi"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1711
+#: src/timeline2/view/qml/Clip.qml:1705 src/timeline2/view/qml/Clip.qml:1712
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Lesap out: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1715 src/timeline2/view/qml/Clip.qml:1824
+#: src/timeline2/view/qml/Clip.qml:1716 src/timeline2/view/qml/Clip.qml:1825
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Sèrèt</b> untuk menyetel lesap, <b>Klick</b> untuk menambahkan durasi "
 "lesap baku"
 
-#: src/timeline2/view/qml/Clip.qml:1813 src/timeline2/view/qml/Clip.qml:1820
+#: src/timeline2/view/qml/Clip.qml:1814 src/timeline2/view/qml/Clip.qml:1821
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Lesap in: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1908
+#: src/timeline2/view/qml/Clip.qml:1909
 #, kde-format
 msgid "Slip Clip"
 msgstr "Klip Selip"
