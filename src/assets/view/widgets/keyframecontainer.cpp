@@ -965,12 +965,12 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
     }
     int framePos = getPosition();
     GenTime pos(framePos, pCore->getCurrentFps());
-    if (!m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == SceneType::MonitorSceneRoto) {
+    if (KdenliveSettings::autoKeyframe() && m_neededScene != SceneType::MonitorSceneDefault) {
         if (!m_keyframes->hasKeyframe(framePos)) {
-            // Auto add keyframe only if there already is more than 1 keyframe
+            // Auto add keyframe
             m_keyframes->addKeyframe(pos, KeyframeType::Linear);
         } else if (m_monitorHelper && m_monitorHelper->isPlaying()) {
-            // Don't try to modify a keyframe when playing in roto monitor
+            // Don't try to modify a keyframe when playing in monitor
             return;
         }
     }

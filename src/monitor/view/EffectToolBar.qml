@@ -125,7 +125,7 @@ MouseArea {
             K.MonitorToolButton {
                 iconName: "keyframe-record"
                 toolTipText: KI18n.i18n("Automatic Keyframes")
-                onClicked: () => { K.KdenliveSettings.autoKeyframe = K.KdenliveSettings.autoKeyframe }
+                onClicked: { K.KdenliveSettings.autoKeyframe = !K.KdenliveSettings.autoKeyframe }
                 checkable: true
                 checked: K.KdenliveSettings.autoKeyframe
                 visible: barZone.showAutoKeyframe
@@ -150,6 +150,35 @@ MouseArea {
                     barZone.rightSide = !barZone.rightSide
                     effecttoolbar.fadeBar()
                 }
+            }
+        }
+    }
+
+    Rectangle {
+        id: autoKeyframeIndicator
+        anchors {
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+            topMargin: 8
+        }
+        width: 14
+        height: 14
+        radius: 7
+        color: "#ff3b30"
+        border.color: "#ffffff"
+        border.width: 1.5
+        visible: K.KdenliveSettings.autoKeyframe
+        
+        ToolTip.visible: indicatorMouseArea.containsMouse
+        ToolTip.delay: 100
+        ToolTip.text: KI18n.i18n("Automatic Keyframes is ON")
+
+        MouseArea {
+            id: indicatorMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: {
+                K.KdenliveSettings.autoKeyframe = false
             }
         }
     }

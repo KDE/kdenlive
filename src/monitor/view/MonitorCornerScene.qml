@@ -97,7 +97,7 @@ Item {
             //console.log('paint' + p1);
 
           // Handles
-          if (root.controller.isKeyframe && !root.cursorOutsideEffect) {
+          if ((root.controller.isKeyframe || K.KdenliveSettings.autoKeyframe) && !root.cursorOutsideEffect) {
             if (root.requestedKeyFrame == 0) {
                 ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
@@ -234,7 +234,7 @@ Item {
         }
 
         onPositionChanged: {
-            if (root.controller.isKeyframe == false) return;
+            if (root.controller.isKeyframe == false && !K.KdenliveSettings.autoKeyframe) return;
             if (pressed && root.requestedKeyFrame >= 0) {
                 var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
                 var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
