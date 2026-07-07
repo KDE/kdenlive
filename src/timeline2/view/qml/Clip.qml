@@ -692,7 +692,7 @@ Rectangle {
                         height: container.height
                         color: markerBase.markerColor
                     }
-                                        
+
                     // Tapered end effect for range markers
                     Rectangle {
                         id: clipRangeEndTaper
@@ -707,7 +707,7 @@ Rectangle {
                             GradientStop { position: 1.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.1) }
                         }
                     }
-                                        
+
                     TextMetrics {
                         id: textMetrics
                         font: K.UiUtils.smallestReadableFont
@@ -724,7 +724,7 @@ Rectangle {
                         radius: 2
                         opacity: 0.7
                         visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > K.UiUtils.baseSizeMedium && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
-                        
+
                         anchors {
                             top: parent.top
                             left: parent.left
