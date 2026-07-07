@@ -9,6 +9,8 @@
     - Tick marks are always visible but no tick dB labels
 */
 
+pragma ComponentBehavior: Bound
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
@@ -16,6 +18,9 @@ import org.kde.ki18n
 
 Rectangle {
     id: levelsContainer
+
+    SystemPalette { id: activePalette }
+
     width: parent.width
     height: parent.height - 1
     x: 1

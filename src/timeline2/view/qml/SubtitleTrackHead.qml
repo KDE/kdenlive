@@ -26,6 +26,12 @@ Rectangle {
     required property bool collapsed
     required property bool isDisabled
     required property bool isLocked
+    required property color trackColor
+    required property color trackHeaderColor
+    required property color selectedTrackColor
+    required property color frameColor
+
+    signal toogleExpandTrack()
 
     SystemPalette { id: activePalette }
 
@@ -34,7 +40,7 @@ Rectangle {
     }
 
     visible: height > 0
-    color: (controller && controller.isSubtitleTrack(timeline.activeTrack)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+    color: (controller && controller.isSubtitleTrack(timeline.activeTrack)) ? Qt.tint(trackColor, selectedTrackColor) : trackColor
     MouseArea {
         anchors.fill: parent
         onClicked: {
@@ -50,11 +56,7 @@ Rectangle {
         height: trackHeader.collapsedHeight
         icon.name: trackHeader.collapsed ? "go-next" : "go-down"
         onClicked: {
-            if (subtitleTrack.height > trackHeader.collapsedHeight) {
-                subtitleTrack.height = trackHeader.collapsedHeight
-            } else {
-                subtitleTrack.height = K.UiUtils.baseSizeMedium * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
-            }
+            trackHeader.toogleExpandTrack()
         }
     }
     ComboBox {
@@ -67,7 +69,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: expandSubButton.bottom
         anchors.left: subtitleLayerIndicator.right
-        visible: (subtitleTrack.visible && subtitleTrack.height !== trackHeader.collapsedHeight)
+        visible: (subtitleTrack.visible && !trackHeader.collapsed)
         flat: true
         onActivated: index => {
             trackHeader.timeline.subtitlesMenuActivatedAsync(index)
@@ -81,7 +83,7 @@ Rectangle {
         spacing: 0
         ToolButton {
             id: warningButton
-            visible: subtitlesWarning
+            visible: trackHeader.timeline.subtitlesWarning
             focusPolicy: Qt.NoFocus
             icon.name: "data-warning"
             width: trackHeader.collapsedHeight
@@ -157,8 +159,8 @@ Rectangle {
         anchors.left: expandSubButton.right
         anchors.top: trackHeader.top
         anchors.bottom: trackHeader.bottom
-        property color bgColor: Qt.darker(getTrackColor(false, true), 0.55)
-        visible: maxSubLayer > 0 && subtitleTrack.visible && subtitleTrack.height !== trackHeader.collapsedHeight
+        property color bgColor: Qt.darker(trackHeader.trackHeaderColor, 0.55)
+        visible: maxSubLayer > 0 && subtitleTrack.visible && !trackHeader.collapsed
 
         Repeater {
             model: subtitleLayerIndicator.visible ? maxSubLayer + 1 : 0
@@ -169,7 +171,7 @@ Rectangle {
                 height: trackHeader.height / subLayerRepeater.count
                 width: subtitleLayerIndicator.width
                 color: subtitleLayerIndicator.bgColor
-                border.color: root.frameColor
+                border.color: trackHeader.frameColor
                 Text {
                     id: name
                     font: K.UiUtils.smallestReadableFont

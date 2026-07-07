@@ -286,7 +286,7 @@ Rectangle {
         onEntered: drag => {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
-            updateDrag()
+            clipRoot.updateDrag()
         }
         onDropped: drag => {
             console.log("Add effect: ", dropData)
@@ -378,7 +378,7 @@ Rectangle {
                 var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                 initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
             }
-            showClipInfo()
+            clipRoot.showClipInfo()
         }
 
         onExited: {
@@ -512,7 +512,7 @@ Rectangle {
                 width: clipRoot.mixDuration * clipRoot.timeScale
                 onWidthChanged: {
                     if (clipRoot.visible) {
-                        updateLabelOffset()
+                        clipRoot.updateLabelOffset()
                     }
                 }
                 
@@ -1088,7 +1088,7 @@ Rectangle {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
                         if (!controlTrim && K.Core.activeTool !== K.ToolType.RippleTool) {
-                            updateDrag()
+                            clipRoot.updateDrag()
                         } else {
                             root.endDrag()
                         }
@@ -1215,7 +1215,7 @@ Rectangle {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
                         if (!controlTrim && K.Core.activeTool !== K.ToolType.RippleTool) {
-                            updateDrag()
+                            clipRoot.updateDrag()
                         } else {
                             root.endDrag()
                         }
@@ -1387,7 +1387,7 @@ Rectangle {
                         cursorShape: Qt.PointingHandCursor
                         anchors.fill: parent
                         onClicked: {
-                            clearAndMove(clipRoot.positionOffset)
+                            clipRoot.clearAndMove(clipRoot.positionOffset)
                         }
                         onEntered: {
                             var text = clipRoot.positionOffset < 0 ? KI18n.i18n("Offset: -%1", clipRoot.timeline.simplifiedTC(-clipRoot.positionOffset))

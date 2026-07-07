@@ -34,7 +34,14 @@ Rectangle {
     required property string trackTag
     required property int thumbsFormat
     required property int collapsedHeight
+    required property int trackTagWidth
+    readonly property int resizeInProgress: trimInMouseArea.pressed
     border.width: 1
+
+    signal showHeaderMenu()
+    signal showTargetMenu(int ix)
+    signal autofitTrackHeight()
+    signal handBackFocus()
 
     SystemPalette { id: activePalette }
 
@@ -76,13 +83,6 @@ Rectangle {
         }
     ]
 
-    Keys.onDownPressed: {
-        root.moveSelectedTrack(1)
-    }
-    Keys.onUpPressed: {
-        root.moveSelectedTrack(-1)
-    }
-
     MouseArea {
         id: headerMouseArea
         anchors.fill: parent
@@ -90,15 +90,15 @@ Rectangle {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: mouse => {
             trackHeadRoot.timeline.activeTrack = trackHeadRoot.trackId
-            if (mouse.button == Qt.RightButton) {
-                root.showHeaderMenu()
+            if (mouse.button === Qt.RightButton) {
+                trackHeadRoot.showHeaderMenu()
             }
         }
         onClicked: mouse => {
             console.log('TRACK ID: ', trackHeadRoot.trackId)
             parent.forceActiveFocus()
             nameEdit.visible = false
-            if (mouse.button == Qt.LeftButton) {
+            if (mouse.button === Qt.LeftButton) {
                 trackHeadRoot.timeline.showTrackAsset(trackHeadRoot.trackId)
             }
         }
@@ -129,9 +129,9 @@ Rectangle {
             onClicked: mouse => {
                 if (mouse.button == Qt.RightButton) {
                     if (trackHeadRoot.isAudio) {
-                        root.showTargetMenu(trackHeadRoot.trackId)
+                        trackHeadRoot.showTargetMenu(trackHeadRoot.trackId)
                     } else {
-                        root.showHeaderMenu()
+                        trackHeadRoot.showHeaderMenu()
                     }
                 }
                 else {
@@ -159,7 +159,7 @@ Rectangle {
                 height: width
                 icon.name: "go-down"
                 onClicked: {
-                    root.showTargetMenu(trackHeadRoot.trackId)
+                    trackHeadRoot.showTargetMenu(trackHeadRoot.trackId)
                 }
                 ToolTip {
                     visible: targetMouse.hovered
@@ -235,7 +235,7 @@ Rectangle {
                     }
                 }
                 if (trackHeadRoot.timeline.autotrackHeight) {
-                    trackHeadRoot.timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, trackHeadRoot.collapsedHeight)
+                    trackHeadRoot.autofitTrackHeight()
                 }
             }
             MouseArea {
@@ -273,7 +273,7 @@ Rectangle {
             background: Rectangle {
                 color: trackLed.bgColor
             }
-            width: root.trackTagWidth
+            width: trackHeadRoot.trackTagWidth
             height: trackHeadRoot.collapsedHeight - 2
             y: 1
             verticalAlignment: Text.AlignVCenter
@@ -331,7 +331,7 @@ Rectangle {
                 color: 'magenta'
             }
             anchors.leftMargin: 2
-            width: root.trackTagWidth * 2
+            width: trackHeadRoot.trackTagWidth * 2
             height: trackHeadRoot.collapsedHeight - 2
             y: 1
             text: trackHeadRoot.trackId
@@ -454,7 +454,7 @@ Rectangle {
                 sourceComponent: AudioRecordingControls {
                     trackId: trackHeadRoot.trackId
                     timeline: trackHeadRoot.timeline
-                    audiorec: root.audiorec
+                    audiorec: K.Core.audioCapture
                 }
             }
         }
@@ -479,7 +479,7 @@ Rectangle {
                     hoverEnabled: true
                     propagateComposedEvents: true
                     cursorShape: Qt.IBeamCursor
-                    onDoubleClicked: editName()
+                    onDoubleClicked: trackHeadRoot.editName()
                     onClicked: {
                         trackHeadRoot.timeline.showTrackAsset(trackHeadRoot.trackId)
                         trackHeadRoot.timeline.activeTrack = trackHeadRoot.trackId
@@ -530,7 +530,7 @@ Rectangle {
                     }*/
                     onEditingFinished: {
                         trackHeadRoot.controller.setTrackName(trackHeadRoot.trackId, text)
-                        tracksArea.focus = true
+                        trackHeadRoot.handBackFocus()
                         visible = false
                     }
                 }
@@ -561,13 +561,11 @@ Rectangle {
                 property bool dragStarted: false
 
                 onPressed: {
-                    root.blockAutoScroll = true
                     dragStarted = false
                     startY = mapToItem(null, x, y).y
                     originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
                 }
                 onReleased: mouse => {
-                    root.blockAutoScroll = false
                     if (!trimInMouseArea.containsMouse) {
                         parent.opacity = 0
                     }

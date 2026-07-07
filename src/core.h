@@ -74,6 +74,7 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(ToolType::ProjectTool activeTool READ activeTool NOTIFY activeToolChanged FINAL)
+    Q_PROPERTY(MediaCapture *audioCapture READ audioCapture CONSTANT)
 
 public:
     friend class KdenliveDoc;
@@ -390,6 +391,9 @@ private:
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
     void initLocale();
+
+    /** @brief Same as getAudioDevice, but without shared_ptr for Q_PROPERTY */
+    MediaCapture *audioCapture();
 
     MainWindow *m_mainWindow{nullptr};
     ProjectManager *m_projectManager{nullptr};

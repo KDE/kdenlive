@@ -258,7 +258,7 @@ Item {
             anchors.fill: parent
             //visible: timeScale >= 6
             enabled: parent.textEditBegin
-            opacity: root.subtitlesDisabled ? 0.5 : 1
+            opacity: subtitleRoot.timeline.subtitlesDisabled ? 0.5 : 1
             onEnabledChanged: {
                 if (enabled) {
                     selectAll()
@@ -272,7 +272,7 @@ Item {
             wrapMode: TextField.WordWrap
             horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
             background: Rectangle {
-                color: root.subtitlesLocked ? "#ff6666" : enabled ? "#fff" : '#ccccff'
+                color: subtitleRoot.timeline.subtitlesLocked ? "#ff6666" : enabled ? "#fff" : '#ccccff'
                 border {
                     color: subtitleRoot.selected ? subtitleRoot.timeline.selectionColor : "#000"
                     width: subtitleRoot.isGrabbed ? 8 : 2

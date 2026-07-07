@@ -2,6 +2,7 @@
     SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
+pragma ComponentBehavior: Bound
 
 import QtQuick 2.15
 
@@ -106,7 +107,30 @@ Rectangle
             id: keyframes
             model: keyframeContainer.kfrModel
             KeyframeDelegate {
+                id: keyframe
                 timeScale: root.timeScale
+                kfrModel: keyframeContainer.kfrModel
+                timeline: root.timeline
+                parentInPoint: keyframeContainer.inPoint
+                allowUserInteraction: !root.isPanning
+
+                onRequestRepaint: {
+                    keyframecanvas.requestPaint()
+                }
+
+                onSeek: (position) => {
+                    keyframeContainer.seek(position)
+                }
+
+                onKeyframeSelected: (index, add, setActive) => {
+                    keyframeContainer.kfrModel.setActiveKeyframe(setActive ? keyframe.index : -1)
+                    keyframeContainer.activeIndex = setActive ? index : -1
+                    keyframeContainer.kfrModel.setSelectedKeyframe(keyframe.index, add)
+                }
+
+                onResetSelection: { keyframeContainer.resetSelection() }
+
+                onIsUserInteractingChanged: { root.blockAutoScroll = isUserInteracting }
             }
         }
     }

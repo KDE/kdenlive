@@ -26,7 +26,6 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: activePalette.window
 
-    required property K.MediaCapture audiorec
     required property K.TimelineController timeline
     required property K.TimelineItemModel controller
     required property K.MarkerSortModel guidesModel
@@ -131,7 +130,7 @@ Rectangle {
         var startFrame = root.consumerPosition
         recordStartPlaceHolder.x = Qt.binding(function() { return startFrame * root.timeScale })
         recordPlaceHolder.visible = true
-        recordPlaceHolder.width = Qt.binding(function() { return root.audiorec.recDuration * root.timeScale })
+        recordPlaceHolder.width = Qt.binding(function() { return K.Core.audioCapture.recDuration * root.timeScale })
     }
 
     function stopAudioRecord() {
@@ -571,9 +570,6 @@ function getTrackColor(audio, header) {
     property bool paletteUnchanged: true
     property int maxLabelWidth: 20 * K.UiUtils.baseSizeMedium * Math.sqrt(root.timeScale)
     property bool showSubtitles: K.KdenliveSettings.showSubtitles
-    property bool subtitlesWarning: root.timeline.subtitlesWarning
-    property bool subtitlesLocked: root.timeline.subtitlesLocked
-    property bool subtitlesDisabled: root.timeline.subtitlesDisabled
     readonly property int maxSubLayer: root.timeline.maxSubLayer
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property int spacerMinPos: 0
@@ -1248,10 +1244,22 @@ function getTrackColor(audio, header) {
                     height: subtitleTrack.height
                     timeline: root.timeline
                     controller: root.controller
-                    isDisabled: root.subtitlesDisabled
-                    isLocked: root.subtitlesLocked
+                    isDisabled: root.timeline.subtitlesDisabled
+                    isLocked: root.timeline.subtitlesLocked
                     collapsedHeight: root.collapsedHeight
                     collapsed: subtitleTrack.height === subtitleTrackHeader.collapsedHeight
+                    frameColor: root.frameColor
+                    trackColor: root.getTrackColor(false, false)
+                    selectedTrackColor: root.selectedTrackColor
+                    trackHeaderColor: root.getTrackColor(false, true)
+
+                    onToogleExpandTrack: {
+                        if (subtitleTrack.height > root.collapsedHeight) {
+                            subtitleTrack.height = root.collapsedHeight
+                        } else {
+                            subtitleTrack.height = K.UiUtils.baseSizeMedium * 2.5 * ((root.maxSubLayer == 0)? 2: (root.maxSubLayer + 1))
+                        }
+                    }
                 }
                 Column {
                     id: trackHeaders
@@ -1286,12 +1294,35 @@ function getTrackColor(audio, header) {
                             timeline: root.timeline
                             controller: root.controller
                             collapsedHeight: root.collapsedHeight
+                            trackTagWidth: root.trackTagWidth
 
                             border.color: root.frameColor
                             color: root.getTrackColor(isAudio, true)
 
                             onHeightChanged: {
                                 collapsed = height <= root.collapsedHeight
+                            }
+
+                            onAutofitTrackHeight: {
+                                root.timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
+                            }
+
+                            onHandBackFocus: {
+                                tracksArea.focus = true
+                            }
+
+                            onResizeInProgressChanged: {
+                                root.blockAutoScroll = resizeInProgress
+                            }
+
+                            onShowHeaderMenu: { root.showHeaderMenu() }
+                            onShowTargetMenu: (ix) => { root.showTargetMenu(ix) }
+
+                            Keys.onDownPressed: {
+                                root.moveSelectedTrack(1)
+                            }
+                            Keys.onUpPressed: {
+                                root.moveSelectedTrack(-1)
                             }
                         }
                     }
@@ -2302,7 +2333,7 @@ function getTrackColor(audio, header) {
                                 }
                             }
                             Text {
-                                property int recState: root.audiorec.recordState
+                                property int recState: K.Core.audioCapture.recordState
                                 text: KI18n.i18n("Recording")
                                 anchors.right: parent.right
                                 anchors.rightMargin: 2

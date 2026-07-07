@@ -1802,6 +1802,11 @@ void Core::switchCapture()
     Q_EMIT recordAudio(-1, !isMediaCapturing());
 }
 
+MediaCapture *Core::audioCapture()
+{
+    return m_capture.get();
+}
+
 std::shared_ptr<MediaCapture> Core::getAudioDevice()
 {
     return m_capture;

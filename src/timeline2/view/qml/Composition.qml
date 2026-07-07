@@ -253,7 +253,7 @@ Item {
                 }
             }
             onEntered: {
-                updateDrag()
+                compositionRoot.updateDrag()
                 var s = KI18n.i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.modelStart)).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.clipDuration)))
                 compositionRoot.timeline.showToolTip(s)
             }
@@ -304,7 +304,7 @@ Item {
                     anchors.left = parent.left
                     compositionRoot.trimmedIn(compositionRoot)
                     trimIn.opacity = 0
-                    updateDrag()
+                    compositionRoot.updateDrag()
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -374,7 +374,7 @@ Item {
                     trimOut.opacity = 0
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
-                    updateDrag()
+                    compositionRoot.updateDrag()
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
