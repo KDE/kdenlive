@@ -103,7 +103,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KToggleFullScreenAction>
 #include <KToolBar>
 #include <KXMLGUIFactory>
-#include <kddockwidgets/kddockwidgets_version.h>
 
 #include <KConfigGroup>
 #include <QAction>
