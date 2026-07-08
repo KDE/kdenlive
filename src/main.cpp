@@ -1,4 +1,4 @@
-/*
+ /*
     SPDX-FileCopyrightText: 2007 Marco Gittler <g.marco@freenet.de>
     SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
@@ -275,23 +275,26 @@ int main(int argc, char *argv[])
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
                          i18n("Copyright © 2007–2025 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
-    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
+    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"), QStringLiteral("jb@kdenlive.org"));
     // active developers with major involvement
-    aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite (2019)"), QStringLiteral("french.ebook.lover@gmail.com"));
-    aboutData.addAuthor(i18n("Julius Künzel"), i18n("Feature development, packaging, bug fixing"), QStringLiteral("julius.kuenzel@kde.org"));
+    aboutData.addAuthor(i18n("Julius Künzel"), i18n("Core team member, feature development, packaging, bug fixing"), QStringLiteral("julius.kuenzel@kde.org"));
     aboutData.addAuthor(i18n("Vincent Pinon"), i18n("KF5 port, Windows cross-build, packaging, bug fixing"), QStringLiteral("vpinon@kde.org"));
     // other active developers (alphabetical)
-    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("MLT maintainer, Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
-    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
-    aboutData.addAuthor(i18n("Eric Jiang"), i18n("Bug fixing and test improvements"), QStringLiteral("erjiang@alumni.iu.edu"));
+     aboutData.addAuthor(i18n("Eric Jiang"), i18n("Bug fixing and test improvements"), QStringLiteral("erjiang@alumni.iu.edu"));
     // non active developers with major improvement (alphabetical)
+    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, decimal separator issue, bug fixing"), QStringLiteral("simon.eu@gmail.com"));
     aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), QStringLiteral("jasonwood@blueyonder.co.uk"));
     // non developers (alphabetical)
-    aboutData.addCredit(i18n("Farid Abdelnour"), i18n("Logo, Promotion, testing"));
-    aboutData.addCredit(i18n("Eugen Mohr"), i18n("Bug triage, testing, documentation maintainer"));
+    aboutData.addCredit(i18n("Farid Abdelnour"), i18n("Logo, promotion, testing"));
+    aboutData.addCredit(i18n("balooii"),  i18n("Monitor, scopes, and timeline QOL improvements"));
+    aboutData.addCredit(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite (2019)"));
+    aboutData.addCredit(i18n("Dan Dennedy"), i18n("MLT maintainer, Bug fixing, etc."));
+    aboutData.addCredit(i18n("Darby Johnston"), i18n("OTIO rewrite"));
+    aboutData.addCredit(i18n("Bernd Jordan"), i18n("Core team member, documentation, effect UI and testing, community support"));
+    aboutData.addCredit(i18n("Eugen Mohr"), i18n("Core team member, documentation maintainer, bug triaging, testing"));
     aboutData.addCredit(i18n("Nara Oliveira"), i18n("Logo"));
     aboutData.addCredit(i18n("Bruno Santos"), i18n("Testing"));
-    aboutData.addCredit(i18n("Massimo Stella"), i18n("Expert advice, testing"));
+    aboutData.addCredit(i18n("Massimo Stella"), i18n("Core team member, expert advice, testing"));
 
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
