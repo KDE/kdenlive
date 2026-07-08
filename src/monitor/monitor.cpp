@@ -54,8 +54,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KSelectAction>
 #include <KWindowConfig>
 
-#include <kwidgetsaddons_version.h>
-
 #include "kdenlive_debug.h"
 #include <QApplication>
 #include <QCheckBox>

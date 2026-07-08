@@ -75,7 +75,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KService>
 #include <KUrlRequesterDialog>
 #include <KXMLGUIFactory>
-#include <kwidgetsaddons_version.h>
 
 #include <QCryptographicHash>
 #include <QDrag>

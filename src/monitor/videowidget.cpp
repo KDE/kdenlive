@@ -37,8 +37,6 @@
 #include <QtGlobal>
 #include <memory>
 
-#include <ki18n_version.h>
-
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 #include <KMessageBox>
