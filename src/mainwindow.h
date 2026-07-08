@@ -27,11 +27,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIO/Global>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
-#include <kconfigwidgets_version.h>
 #include <kddockwidgets/DockWidget.h>
 #include <kddockwidgets/MainWindow.h>
 #include <kddockwidgets/core/Layout.h>
-#include <kiconthemes_version.h>
 
 #include <mlt++/Mlt.h>
 #include <utility>

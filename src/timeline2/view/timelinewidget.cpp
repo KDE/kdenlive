@@ -4,8 +4,6 @@
 */
 
 #include <KLocalizedQmlContext>
-#include <QtVersionChecks>
-#include <ki18n_version.h>
 
 #include "../model/builders/meltBuilder.hpp"
 
