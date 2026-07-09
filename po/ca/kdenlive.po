@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 02:43+0000\n"
-"PO-Revision-Date: 2026-06-29 17:36+0200\n"
+"PO-Revision-Date: 2026-07-08 07:50+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -22267,29 +22267,24 @@ msgid "Title clip"
 msgstr "Clip de títol"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "Actualitza la visualització dels subtítols a la línia de temps."
+msgstr "Substitueixo el clip de títol a la línia de temps amb el nou?"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace Timeline Clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "Substitueix un clip de la línia de temps"
+msgstr "Substitueix el clip de títol"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "Substitueix el clip"
+msgstr "Substitueix"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "Proves"
+msgstr "Mantén l'existent"
 
 #: src/bin/bin.cpp:5342
 #, kde-format
@@ -32391,10 +32386,9 @@ msgid "Move Toolbar"
 msgstr "Barra d'eines de moviments"
 
 #: src/monitor/view/EffectToolBar.qml:174
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "Fotogrames clau automàtics"
+msgstr "Els fotogrames clau automàtics estan activats (ON)"
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format

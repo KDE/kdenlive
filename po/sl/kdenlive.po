@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 02:43+0000\n"
-"PO-Revision-Date: 2026-06-29 18:17+0200\n"
+"PO-Revision-Date: 2026-07-08 10:44+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22054,29 +22054,24 @@ msgid "Title clip"
 msgstr "Posnetek naslova"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "Posodobi prikaz podnaslova v časovnici."
+msgstr "Ali želite zamenjati posnetek napisa na časovnici z novim?"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace Clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "Zamenjaj posnetek"
+msgstr "Zamenjaj posnetek naslova"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "Zamenjaj posnetek"
+msgstr "Zamenjaj"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "Preizkušanje"
+msgstr "Ohrani obstoječega"
 
 #: src/bin/bin.cpp:5342
 #, kde-format
@@ -32129,10 +32124,9 @@ msgid "Move Toolbar"
 msgstr "Premakni orodno letvico"
 
 #: src/monitor/view/EffectToolBar.qml:174
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "Samodejne ključne sličice"
+msgstr "Samodejne ključne sličice so VKLOPLJENE"
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format

@@ -20789,10 +20789,9 @@ msgid "Replace Title Clip"
 msgstr "Nahradit klip..."
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "Nahradit klip"
+msgstr "Nahradit"
 
 #: src/bin/bin.cpp:5282
 #, fuzzy, kde-format
