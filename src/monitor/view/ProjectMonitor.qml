@@ -260,7 +260,7 @@ Item {
                 background: Rectangle {
                     color: root.controller.markerColor
                 }
-                color: "#000"
+                color: "#000000"
                 padding: 0
                 maximumLength: 25
             }

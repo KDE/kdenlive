@@ -2260,7 +2260,7 @@ function getTrackColor(audio, header) {
                             }
                             Rectangle {
                                 id: sameTrackIndicator
-                                border.color: '#FFF'
+                                border.color: '#ffffff'
                                 border.width: 2
                                 radius: 2
                                 color: Qt.rgba(1, 1, 1, 0.3)
@@ -2339,7 +2339,7 @@ function getTrackColor(audio, header) {
                                 anchors.rightMargin: 2
                                 anchors.top: parent.top
                                 font: K.UiUtils.smallestReadableFont
-                                color: '#FFF'
+                                color: '#ffffff'
                                 onRecStateChanged: {
                                     if (recState == 1) {
                                         // Recording
@@ -2442,7 +2442,7 @@ function getTrackColor(audio, header) {
                         leftPadding: 2
                         rightPadding: 2
                         font: K.UiUtils.smallestReadableFont
-                        color: '#FFF'
+                        color: '#ffffff'
                     }
                 }
             }

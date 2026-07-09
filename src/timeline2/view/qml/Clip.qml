@@ -738,7 +738,7 @@ Rectangle {
                             leftPadding: 2
                             rightPadding: 2
                             font: K.UiUtils.smallestReadableFont
-                            color: '#FFF'
+                            color: '#ffffff'
                         }
                         MouseArea {
                             id: markerArea

@@ -186,7 +186,7 @@ Item {
                         leftPadding: 2
                         rightPadding: 2
                         font: K.UiUtils.smallestReadableFont
-                        color: '#000'
+                        color: '#000000'
                     }
                 }
                 
@@ -473,7 +473,7 @@ Item {
                         leftPadding: 2
                         rightPadding: 2
                         font: K.UiUtils.smallestReadableFont
-                        color: '#000'
+                        color: '#000000'
                     }
                     MouseArea {
                         z: 10

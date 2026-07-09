@@ -442,7 +442,7 @@ Rectangle {
                         left: parent.left
                         right: parent.right
                     }
-                    color: '#000'
+                    color: '#000000'
                 }
                 MouseArea {
                     z: 10
