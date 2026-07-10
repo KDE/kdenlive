@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 02:43+0000\n"
-"PO-Revision-Date: 2026-07-03 05:17+0200\n"
+"PO-Revision-Date: 2026-07-09 07:14+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -21251,29 +21251,24 @@ msgid "Title clip"
 msgstr "ტიტრის კლიპი"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "სუბტიტრის ჩვენების განახლება დროის ხაზზე."
+msgstr "ჩანაცვლდეს სათაურის კლიპი დროის ხაზზე ახლით?"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace Clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "კლიპის ჩანაცვლება"
+msgstr "სათაურის კლიპის ჩანაცვლება"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "კლიპის ჩანაცვლება"
+msgstr "ჩანაცვლება"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "ტესტირება"
+msgstr "არსებულის შენარჩუნება"
 
 #: src/bin/bin.cpp:5342
 #, kde-format
@@ -31270,10 +31265,9 @@ msgid "Move Toolbar"
 msgstr "ინსტრუმენტების პანელის გადატანა"
 
 #: src/monitor/view/EffectToolBar.qml:174
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "ავტომატური საკვანძო კადრები"
+msgstr "ავტომატური საკვანძო კადრები ჩართულია"
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format
