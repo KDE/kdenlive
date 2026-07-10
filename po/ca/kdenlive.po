@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-09 00:42+0000\n"
-"PO-Revision-Date: 2026-07-08 07:50+0200\n"
+"PO-Revision-Date: 2026-07-09 09:06+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -29109,6 +29109,8 @@ msgstr "Jean-Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"Membre de l'equip principal, desenvolupador i mantenidor principal, MLT i "
+"adaptació a KDE SC 4 / KF5"
 
 #: src/main.cpp:280
 #, kde-format
@@ -29116,10 +29118,11 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:280
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "Desenvolupament de característiques, empaquetatge, correcció d'errors"
+msgstr ""
+"Membre de l'equip principal, desenvolupament de característiques, "
+"empaquetatge, correcció d'errors"
 
 #: src/main.cpp:281
 #, kde-format
@@ -29149,10 +29152,10 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:285
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "Electroscopis de color, esmena d'errors, etc."
+msgstr ""
+"Electroscopis de color, problema dels separadors decimals, correcció d'errors"
 
 #: src/main.cpp:286
 #, kde-format
@@ -29170,20 +29173,19 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:288
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
 msgstr "Logotip, promoció, proves"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "Monitor, electroscopis i millores de QOL de la línia de temps"
 
 #: src/main.cpp:290
 #, kde-format
@@ -29208,24 +29210,25 @@ msgstr "Mantenidor del MLT, correcció d'errors, etc."
 #: src/main.cpp:292
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "Darby Johnston"
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "Sobreescriu"
+msgstr "Reescriptura OTIO"
 
 #: src/main.cpp:293
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "Bernd Jordan"
 
 #: src/main.cpp:293
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"Membre de l'equip principal, documentació, IU d'efectes i proves, ajuda a la "
+"comunitat"
 
 #: src/main.cpp:294
 #, kde-format
@@ -29236,6 +29239,8 @@ msgstr "Eugen Mohr"
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
+"Membre de l'equip principal, mantenidor de la documentació, triatge "
+"d'errors, proves"
 
 #: src/main.cpp:295
 #, kde-format
@@ -29258,10 +29263,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "Assessorament expert, proves"
+msgstr "Membre de l'equip principal, assessorament expert, proves"
 
 #: src/main.cpp:299
 #, kde-format

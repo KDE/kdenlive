@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-09 00:42+0000\n"
-"PO-Revision-Date: 2026-07-08 08:20+0300\n"
+"PO-Revision-Date: 2026-07-09 11:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -29053,6 +29053,8 @@ msgstr "Jean-Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"Учасник основної команди, основний розробник і супровідник, MLT і портування "
+"на KDE SC 4 / KF5"
 
 #: src/main.cpp:280
 #, kde-format
@@ -29060,10 +29062,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:280
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "Розробка можливостей, пакування, виправлення вад"
+msgstr ""
+"Учасник основної команди, розробка можливостей, пакування, виправлення вад"
 
 #: src/main.cpp:281
 #, kde-format
@@ -29093,10 +29095,10 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:285
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "Контексти кольорів, виправлення вад тощо."
+msgstr ""
+"Контексти кольорів, проблема з роздільником дробової частини, виправлення вад"
 
 #: src/main.cpp:286
 #, kde-format
@@ -29114,20 +29116,19 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:288
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
 msgstr "Логотип, просування, тестування"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "Монітор, області і удосконалення QOL монтажного столу"
 
 #: src/main.cpp:290
 #, kde-format
@@ -29152,24 +29153,25 @@ msgstr "Супровідника MLT, виправлення вад тощо."
 #: src/main.cpp:292
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "Darby Johnston"
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "Перезаписати"
+msgstr "Переписування OTIO"
 
 #: src/main.cpp:293
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "Bernd Jordan"
 
 #: src/main.cpp:293
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"Учасник основної команди, документація, інтерфейс ефектів та тестування, "
+"підтримка спільноти"
 
 #: src/main.cpp:294
 #, kde-format
@@ -29180,6 +29182,8 @@ msgstr "Eugen Mohr"
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
+"Учасник основної команди, супровідник документації, пошук причин вад, "
+"тестування"
 
 #: src/main.cpp:295
 #, kde-format
@@ -29202,10 +29206,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "Експертні поради, тестування"
+msgstr "Учасник основної команди, експертні поради, тестування"
 
 #: src/main.cpp:299
 #, kde-format
