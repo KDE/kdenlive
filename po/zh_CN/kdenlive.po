@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 49324\n"
+"X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 49586\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5790,7 +5790,7 @@ msgstr "Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg"
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
 msgid "Shear"
-msgstr "斜切"
+msgstr "Shear - 斜切"
 
 #: data/effects/avfilter/avfilter_shear.xml:5
 #, kde-format
@@ -21251,29 +21251,24 @@ msgid "Title clip"
 msgstr "标题片段"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "更新时间轴中的字幕显示。"
+msgstr ""
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Template title clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "模板字幕片段"
+msgstr ""
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "替换片段"
+msgstr ""
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "测试"
+msgstr ""
 
 #: src/bin/bin.cpp:5342
 #, kde-format
@@ -27515,7 +27510,7 @@ msgstr "效果"
 #, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
-msgstr "色彩"
+msgstr "颜色"
 
 #: src/layouts/layoutmanagement.cpp:45
 #, kde-format
@@ -31092,10 +31087,9 @@ msgid "Move Toolbar"
 msgstr "移动工具栏"
 
 #: src/monitor/view/EffectToolBar.qml:174
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "自动关键帧"
+msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format
