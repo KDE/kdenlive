@@ -21251,29 +21251,24 @@ msgid "Title clip"
 msgstr "标题片段"
 
 #: src/bin/bin.cpp:5280
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "更新时间轴中的字幕显示。"
+msgstr ""
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Template title clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "模板字幕片段"
+msgstr ""
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "替换片段"
+msgstr ""
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "测试"
+msgstr ""
 
 #: src/bin/bin.cpp:5342
 #, kde-format
@@ -27917,10 +27912,9 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:280
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "功能开发、打包、程序缺陷修复"
+msgstr ""
 
 #: src/main.cpp:281
 #, kde-format
@@ -27948,10 +27942,9 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:285
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "颜色示波器、程序缺陷修复等。"
+msgstr ""
 
 #: src/main.cpp:286
 #, kde-format
@@ -27969,10 +27962,9 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:288
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
-msgstr "图标、推广、测试"
+msgstr ""
 
 #: src/main.cpp:289
 #, kde-format
@@ -28010,10 +28002,9 @@ msgid "Darby Johnston"
 msgstr ""
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "覆盖"
+msgstr ""
 
 #: src/main.cpp:293
 #, kde-format
@@ -28057,10 +28048,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "专业建议、测试"
+msgstr ""
 
 #: src/main.cpp:299
 #, kde-format
@@ -31129,10 +31119,9 @@ msgid "Move Toolbar"
 msgstr "移动工具栏"
 
 #: src/monitor/view/EffectToolBar.qml:174
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "自动关键帧"
+msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format
@@ -41203,9 +41192,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
-#~ msgstr "MLT 和 KDE SC 4 / KF5 移植，主要开发人员和项目负责人"
-
-#~ msgid "Bug triage, testing, documentation maintainer"
-#~ msgstr "程序缺陷分拣、测试、文档维护者"
