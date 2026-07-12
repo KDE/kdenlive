@@ -14,7 +14,8 @@ Item {
     required property K.TimelineController timeline
     required property int trackId
     required property K.MediaCapture audiorec
-    property int recState: audiorec.recordState
+    required property bool isLocked
+    readonly property int recState: audiorec.recordState
     width: parent.width
     implicitHeight: K.UiUtils.baseSizeMedium * 1.5 + 4  // +4 for tick marks below levels
     
@@ -26,7 +27,7 @@ Item {
             timeline: recContainer.timeline
             recState: recContainer.recState
             trackId: recContainer.trackId
-            isLocked: trackHeadRoot.isLocked
+            isLocked: recContainer.isLocked
         }
         
         AudioLevels {
@@ -34,7 +35,7 @@ Item {
             Layout.fillHeight: true
             Layout.rightMargin: 5
             Layout.bottomMargin: 1
-            audioLevels: audiorec.levels !== undefined ? audiorec.levels : []
+            audioLevels: recContainer.audiorec.levels !== undefined ? recContainer.audiorec.levels : []
         }
     }
 }

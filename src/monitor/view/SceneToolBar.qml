@@ -29,6 +29,11 @@ MouseArea {
         }
     }
 
+    FontMetrics {
+        id: fontMetrics
+        font: K.UiUtils.fixedFont
+    }
+
     Rectangle {
         id: scenetoolbar
         objectName: "scenetoolbar"
@@ -62,7 +67,7 @@ MouseArea {
                 iconName: "view-fullscreen"
                 toolTipText: KI18n.i18n("Switch Full Screen")
                 onClicked: {
-                    barZone.monitorController.activateClipMonitor(root.isClipMonitor)
+                    barZone.monitorController.activateClipMonitor(barZone.isClipMonitor)
                     K.Core.triggerAction('monitor_fullscreen')
                 }
             }

@@ -93,6 +93,14 @@ void MonitorProxy::seek(int delta, uint modifiers)
     Q_EMIT q->mouseSeek(delta, modifiers);
 }
 
+QString MonitorProxy::thumbPath(int frame) const
+{
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::SlideShow) {
+        return QStringLiteral("image://thumbnail/%1%2").arg(pCore->bin()->getBinClip(QString::number(m_clipId))->baseThumbPath(), QString::number(frame));
+    }
+    return {};
+}
+
 int MonitorProxy::maskOpacity() const
 {
     return KdenliveSettings::maskOpacity();

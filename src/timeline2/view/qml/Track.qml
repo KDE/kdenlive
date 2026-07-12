@@ -25,8 +25,13 @@ Item {
     required property int trackThumbsFormat
     required property var effectZones
     required property bool isPanning
+    required property bool isItemDragInProgress
 
     signal blockAutoScroll(bool enabled)
+    signal seek(int pos)
+    signal zoomByWheel(var wheel)
+    signal showMixMenu(int clipId, int clickFrame)
+    signal showClipMenu(int clipId, int clickFrame)
 
     property alias trackModel: trackModel.model
     property alias rootIndex : trackModel.rootIndex
@@ -171,8 +176,11 @@ Item {
             Loader {
                 id: clipLoader
                 active: trackRoot.isClip(itemOnTrack.model.clipType)
-                sourceComponent: Clip {
+                sourceComponent: Clip {                    
                     height: trackRoot.height
+
+                    enabled: !trackRoot.isItemDragInProgress
+                    visible: fakeTid > -1 || (scrollView.lastVisibleFrame > modelStart && scrollView.firstVisibleFrame <= (modelStart + clipDuration))
 
                     parentTrack: trackRoot
                     timeline: trackRoot.timeline
@@ -200,6 +208,7 @@ Item {
                     fadeOutMethod: itemOnTrack.model.fadeOutMethod
                     showKeyframes: itemOnTrack.model.showKeyframes
                     isGrabbed: itemOnTrack.model.isGrabbed
+                    isMainItem: root.mainItemId == clipId
                     keyframeModel: itemOnTrack.model.keyframeModel
                     clipDuration: itemOnTrack.model.duration
                     inPoint: itemOnTrack.model.in
@@ -225,6 +234,8 @@ Item {
                     itemType: itemOnTrack.model.clipType
                     trackId: itemOnTrack.model.trackId
                     isPanning: trackRoot.isPanning
+                    dragInProgress: dragProxyArea.drag.active && dragProxy.draggedItem === clipId
+                    snapping: trackRoot.snapping
 
                     onInitGroupTrim: clipId => {
                         // We are resizing a group, remember coordinates of all elements
@@ -236,6 +247,14 @@ Item {
                     onTrimmedOut: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, true) }
                     onIsUserInteractingChanged: { trackRoot.blockAutoScroll(isUserInteracting) }
                     onTrimInProgressChanged: { root.trimInProgress = trimInProgress }
+
+                    onShowMixMenu: (clipId, clickFrame) => trackRoot.showMixMenu(clipId, clickFrame)
+                    onShowClipMenu: (clipId, clickFrame) => trackRoot.showClipMenu(clipId, clickFrame)
+                    onMakeMainItem: (enabled) => { root.mainItemId = enabled ? clipId : -1 }
+
+
+                    onSeek: (pos) => { trackRoot.seek(pos) }
+                    onZoomByWheel: (wheel) => { trackRoot.zoomByWheel(wheel) }
                 }
                 onLoaded: {
                     console.log('loaded clip: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', itemOnTrack.model.clipType)
@@ -247,6 +266,8 @@ Item {
                 active: itemOnTrack.model.clipType == K.ClipType.Composition
                 sourceComponent: Composition {
                     opacity: 0.8
+
+                    enabled: !trackRoot.isItemDragInProgress
 
                     parentTrack: trackRoot
                     timeScale: trackRoot.timeline.scaleFactor
@@ -314,6 +335,9 @@ Item {
 
                     onIsUserInteractingChanged: { trackRoot.blockAutoScroll(isUserInteracting) }
                     onTrimInProgressChanged: { root.trimInProgress = trimInProgress }
+
+                    onSeek: (pos) => { trackRoot.seek(pos) }
+                    onZoomByWheel: (wheel) => { trackRoot.zoomByWheel(wheel) }
                 }
                 onLoaded: {
                     console.log('loaded composition: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)

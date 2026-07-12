@@ -44,6 +44,8 @@ Rectangle {
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
 
+    readonly property bool isItemDragInProgress: compoArea.containsDrag || clipDropArea.containsDrag
+
     function screenForGlobalPos(globalPos) {
         const screens = Application.screens
         if (!screens || screens.length === 0) {
@@ -398,10 +400,12 @@ function getTrackColor(audio, header) {
     }
 
     function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
+        var mappedItemCoord = itemObject.mapToItem(tracksContainerArea, itemCoord)
+
         dragProxy.x = itemObject.modelStart * root.timeScale
-        dragProxy.y = itemCoord.y
+        dragProxy.y = mappedItemCoord.y
         dragProxy.width = itemObject.clipDuration * root.timeScale
-        dragProxy.height = itemCoord.height
+        dragProxy.height = mappedItemCoord.height
         dragProxy.masterObject = itemObject
         dragProxy.draggedItem = itemId
         dragProxy.sourceTrack = itemTrack
@@ -568,10 +572,9 @@ function getTrackColor(audio, header) {
     property int scrollMax: scrollMin + scrollView.contentItem.width / root.timeScale
     property double dar: 16/9
     property bool paletteUnchanged: true
-    property int maxLabelWidth: 20 * K.UiUtils.baseSizeMedium * Math.sqrt(root.timeScale)
     property bool showSubtitles: K.KdenliveSettings.showSubtitles
     readonly property int maxSubLayer: root.timeline.maxSubLayer
-    property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
+    readonly property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property int spacerMinPos: 0
     property int spacerMaxPos: -1
 
@@ -1252,6 +1255,7 @@ function getTrackColor(audio, header) {
                     trackColor: root.getTrackColor(false, false)
                     selectedTrackColor: root.selectedTrackColor
                     trackHeaderColor: root.getTrackColor(false, true)
+                    trackTagWidth: root.trackTagWidth
 
                     onToogleExpandTrack: {
                         if (subtitleTrack.height > root.collapsedHeight) {
@@ -1935,8 +1939,8 @@ function getTrackColor(audio, header) {
                         clip: true
                         interactive: false
                         pixelAligned: true
-                        property int firstVisibleFrame: Math.floor(scrollView.contentX / root.timeScale)
-                        property int lastVisibleFrame: firstVisibleFrame + Math.ceil(scrollView.width / root.timeScale)
+                        readonly property int firstVisibleFrame: Math.floor(scrollView.contentX / root.timeScale)
+                        readonly property int lastVisibleFrame: firstVisibleFrame + Math.ceil(scrollView.width / root.timeScale)
                         onContentXChanged: {
                             root.timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                         }
@@ -2523,9 +2527,21 @@ function getTrackColor(audio, header) {
             controller: root.controller
             snapping: root.snapping
             isPanning: root.isPanning
+            isItemDragInProgress: root.isItemDragInProgress
             z: tracksRepeater.count - index
 
             onBlockAutoScroll: (enabled) => { root.blockAutoScroll = enabled }
+            onSeek: (pos) => { root.proxy.position = pos }
+            onZoomByWheel: (wheel) => { root.zoomByWheel(wheel) }
+
+            onShowMixMenu: (clipId, clickFrame) => {
+                root.clickFrame = clickFrame
+                root.showMixMenu(clipId)
+            }
+            onShowClipMenu: (clipId, clickFrame) => {
+                root.clickFrame = clickFrame
+                root.showClipMenu(clipId)
+            }
         }
     }
 

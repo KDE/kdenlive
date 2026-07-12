@@ -455,6 +455,7 @@ Rectangle {
                     trackId: trackHeadRoot.trackId
                     timeline: trackHeadRoot.timeline
                     audiorec: K.Core.audioCapture
+                    isLocked: trackHeadRoot.isLocked
                 }
             }
         }

@@ -54,6 +54,7 @@ Rectangle {
     required property int aStreamIndex
     required property bool showKeyframes
     required property bool isGrabbed
+    required property bool isMainItem
     required property bool grouped
     required property var markers
     required property var keyframeModel
@@ -78,6 +79,10 @@ Rectangle {
     required property double speed
     required property string clipThumbId
     required property bool forceReloadAudioThumb
+    required property bool dragInProgress
+    required property bool snapping
+
+    readonly property int maxLabelWidth: 20 * K.UiUtils.baseSizeMedium * Math.sqrt(timeScale)
 
     property int originalTrackId: -1
     property int originalX: x
@@ -85,25 +90,29 @@ Rectangle {
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property double xIntegerOffset: 0
-    property bool isLocked: parentTrack && parentTrack.isLocked === true
+    readonly property bool isLocked: parentTrack && parentTrack.isLocked === true
     property color borderColor: "#000000"
     property bool isComposition: false
-    property int slipOffset: boundValue(outPoint - maxDuration + 1, root.trimmingOffset, inPoint)
-    visible: fakeTid > -1 || (scrollView.lastVisibleFrame > clipRoot.modelStart && scrollView.firstVisibleFrame <= (clipRoot.modelStart + clipRoot.clipDuration))
+    readonly property int slipOffset: boundValue(outPoint - maxDuration + 1, root.trimmingOffset, inPoint)
     property int scrollStart: visible ? scrollView.contentX - (clipRoot.modelStart * timeScale) : 0
     readonly property bool trimInProgress: trimInMixArea.pressed || trimInMouseArea.pressed || trimOutMouseArea.pressed
     readonly property bool isUserInteracting: mouseArea.pressed || mixArea.pressed || trimInProgress || fadeInMouseArea.pressed || fadeOutMouseArea.pressed
     readonly property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
     readonly property bool hideDecorations: !K.KdenliveSettings.showClipOverlays || !visible || trimInMouseArea.drag.active || trimOutMouseArea.drag.active || fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active
     width : Math.round(clipDuration * timeScale)
-    opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
-    enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
+    opacity: dragInProgress ? 0.8 : 1.0
 
     signal trimmingIn(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedIn(var clip, bool shiftTrim, bool controlTrim)
     signal initGroupTrim(int clipId)
     signal trimmingOut(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
+
+    signal showMixMenu(int clipId, int clickFrame)
+    signal showClipMenu(int clipId, int clickFrame)
+    signal makeMainItem(bool enabled)
+    signal seek(int pos)
+    signal zoomByWheel(var wheel)
 
     onVisibleChanged: {
         if (clipRoot.visible) {
@@ -236,7 +245,7 @@ Rectangle {
     }
 
     function updateDrag() {
-        var itemPos = mapToItem(tracksContainerArea, 0, 0, clipRoot.width, clipRoot.height)
+        var itemPos = Qt.rect(0, 0, clipRoot.width, clipRoot.height)
         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
     }
     
@@ -298,7 +307,7 @@ Rectangle {
             }
             if (K.KdenliveSettings.seekonaddeffect && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
                 // If timeline cursor is not inside clip, seek to drop position
-                proxy.position = clipRoot.modelStart + drag.x / clipRoot.timeScale
+                clipRoot.seek(clipRoot.modelStart + drag.x / clipRoot.timeScale)
             }
             dropSource = ''
             drag.acceptProposedAction()
@@ -317,13 +326,12 @@ Rectangle {
         hoverEnabled: !clipRoot.isPanning && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: mouse => {
-            root.mainItemId = clipRoot.clipId
+            clipRoot.makeMainItem(true)
             if (mouse.button == Qt.RightButton) {
                 if (clipRoot.timeline.selection.indexOf(clipRoot.clipId) === -1) {
                     clipRoot.controller.requestAddToSelection(clipRoot.clipId, true)
                 }
-                root.clickFrame = Math.round(mouse.x / clipRoot.timeline.scaleFactor)
-                root.showClipMenu(clipRoot.clipId)
+                clipRoot.showClipMenu(clipRoot.clipId, Math.round(mouse.x / clipRoot.timeline.scaleFactor))
             }
         }
         Keys.onShortcutOverride: event => {event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
@@ -375,7 +383,7 @@ Rectangle {
                 return
             }
             if (clipRoot.clipId > -1) {
-                var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+                var itemPos = Qt.rect(0, 0, width, height)
                 initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
             }
             clipRoot.showClipInfo()
@@ -395,11 +403,14 @@ Rectangle {
             }
             clipRoot.timeline.showToolTip()
         }
-        onWheel: wheel => zoomByWheel(wheel)
+        onWheel: wheel => clipRoot.zoomByWheel(wheel)
 
         Component {
             id: videoThumb
             ClipThumbs {
+                visible: !clipRoot.isAudio
+                opacity: clipRoot.clipState === K.PlaylistState.Disabled ? 0.2 : 1
+
                 parentClip: clipRoot
                 initialSpeed: clipRoot.speed
             }
@@ -558,8 +569,7 @@ Rectangle {
                             }
                             clipRoot.controller.requestMixSelection(clipRoot.clipId);
                             if (mouse.button == Qt.RightButton) {
-                                root.clickFrame = Math.round(mouse.x / clipRoot.timeline.scaleFactor)
-                                root.showMixMenu(clipRoot.clipId)
+                                clipRoot.showMixMenu(clipRoot.clipId, Math.round(mouse.x / clipRoot.timeline.scaleFactor))
                             }
                         }
                         onEntered: {
@@ -673,6 +683,9 @@ Rectangle {
                     property bool hasRange: false
                     property real duration: 0
                     property int id
+
+                    signal restorePositionBindings()
+
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
                     height: hasRange ? textMetrics.height + 2 : container.height
                     x: clipRoot.speed < 0
@@ -713,7 +726,7 @@ Rectangle {
                         font: K.UiUtils.smallestReadableFont
                         text: markerBase.markerText
                         elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
-                        elideWidth: root.maxLabelWidth
+                        elideWidth: clipRoot.maxLabelWidth
                     }
 
                     Rectangle {
@@ -723,7 +736,7 @@ Rectangle {
                         color: markerBase.hasRange ? "transparent" : markerBase.markerColor
                         radius: 2
                         opacity: 0.7
-                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > K.UiUtils.baseSizeMedium && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
+                        visible: K.KdenliveSettings.showmarkers && clipRoot.maxLabelWidth > K.UiUtils.baseSizeMedium && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
                         
                         anchors {
                             top: parent.top
@@ -776,7 +789,7 @@ Rectangle {
                                     var timelineFrame = clipRoot.modelStart + (clipRoot.speed < 0
                                         ? (clipRoot.maxDuration - clipRoot.inPoint + Math.round(newFrame / clipRoot.speed))
                                         : (Math.round(newFrame / clipRoot.speed) - clipRoot.inPoint))
-                                    var snappedTimelineFrame = clipRoot.timeline.suggestSnapPoint(timelineFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                                    var snappedTimelineFrame = clipRoot.timeline.suggestSnapPoint(timelineFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : clipRoot.snapping)
                                     if (snappedTimelineFrame === clipRoot.modelStart || snappedTimelineFrame === (clipRoot.modelStart + clipRoot.clipDuration)) {
                                         snappedTimelineFrame = timelineFrame
                                     }
@@ -810,9 +823,9 @@ Rectangle {
                                     mouse.accepted = false
                                     return
                                 }
-                                proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
-                                ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
-                                : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
+                                clipRoot.seek(clipRoot.modelStart + (clipRoot.speed < 0
+                                    ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
+                                    : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint)))
                                 clipRoot.controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
                             }
                         }
@@ -880,8 +893,7 @@ Rectangle {
                                 if (isResizing) {
                                     clipRoot.timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, true, markerBase.position)
                                     isResizing = false
-                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
-                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    markerBase.restorePositionBindings()
                                     
                                     cursorShape = Qt.SizeHorCursor
                                 }
@@ -890,8 +902,7 @@ Rectangle {
                             onCanceled: {
                                 if (isResizing) {
                                     isResizing = false
-                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
-                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    markerBase.restorePositionBindings()
                                 }
                             }
                         }
@@ -957,8 +968,7 @@ Rectangle {
                                 if (isResizing) {
                                     clipRoot.timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, false)
                                     isResizing = false
-                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
-                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    markerBase.restorePositionBindings()
                                     
                                     cursorShape = Qt.SizeHorCursor
                                 }
@@ -967,8 +977,7 @@ Rectangle {
                             onCanceled: {
                                 if (isResizing) {
                                     isResizing = false
-                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
-                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    markerBase.restorePositionBindings()
                                 }
                             }
                         }
@@ -1028,6 +1037,14 @@ Rectangle {
                             value: loader.modelData.id
                             when: loader.isInside && loader.status == Loader.Ready
                         }
+                        Connections {
+                            target: loader.item
+                            function onRestorePositionBindings() {
+                                loader.item.position = Qt.binding(function() { return loader.modelData.frame })
+                                loader.item.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                            }
+                        }
+
                         sourceComponent: markerComponent
                     }
                 }
@@ -1144,7 +1161,7 @@ Rectangle {
                 onEntered: {
                     if (!pressed && !root.isDragging()) {
                         trimIn.opacity = 1
-                        var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+                        var itemPos = Qt.rect(0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                         var s = KI18n.i18n("In:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.inPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart))
                         clipRoot.timeline.showToolTip(s)
@@ -1249,7 +1266,7 @@ Rectangle {
                 onEntered: {
                     if (!pressed && !root.isDragging()) {
                         trimOut.opacity = 1
-                        var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+                        var itemPos = Qt.rect(0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                         var s = KI18n.i18n("Out:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.outPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
                         clipRoot.timeline.showToolTip(s)
@@ -1348,7 +1365,7 @@ Rectangle {
                 Rectangle {
                     // Clip name background
                     id: labelRect
-                    color: clipRoot.selected ? (root.mainItemId == clipRoot.clipId ? '#FFCC0000' : '#FF800000') : '#66000000'
+                    color: clipRoot.selected ? (clipRoot.isMainItem ? '#FFCC0000' : '#FF800000') : '#66000000'
                     width: label.width + (2 * itemBorder.border.width)
                     height: label.height
                     visible: clipRoot.width > K.UiUtils.baseSizeMedium
@@ -1585,7 +1602,7 @@ Rectangle {
             }
             Connections {
                 target: effectRow.item
-                function onSeek(position) { proxy.position = position }
+                function onSeek(position) { clipRoot.seek(position) }
             }
         }
 
@@ -1627,13 +1644,13 @@ Rectangle {
             hoverEnabled: !clipRoot.isPanning
             cursorShape: Qt.PointingHandCursor
             visible: !clipRoot.isAudio
-            enabled: !clipRoot.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
+            enabled: !clipRoot.isPanning && !clipRoot.isAudio
             onPressed: mouse => {
                 if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
-                root.mainItemId = -1
+                clipRoot.makeMainItem(false)
                 clipRoot.timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
             onEntered: {
@@ -1650,7 +1667,7 @@ Rectangle {
                 width: compInArea.containsMouse ? parent.width : 5
                 height: width
                 radius: width / 2
-                visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !dragProxyArea.pressed
+                visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !clipRoot.dragInProgress
                 color: Qt.darker('mediumpurple')
                 border.width: 3
                 border.color: 'mediumpurple'
@@ -1667,14 +1684,14 @@ Rectangle {
             height: width
             hoverEnabled: !clipRoot.isPanning
             cursorShape: Qt.PointingHandCursor
-            enabled: !clipRoot.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
+            enabled: !clipRoot.isPanning && !clipRoot.isAudio && compositionOut.visible
             visible: !clipRoot.isAudio
             onPressed: mouse => {
                 if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                     mouse.accepted = false
                     return
                 }
-                root.mainItemId = -1
+                clipRoot.makeMainItem(false)
                 clipRoot.timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             onEntered: {
@@ -1691,7 +1708,7 @@ Rectangle {
                 width: compOutArea.containsMouse ? parent.height : 5
                 height: width
                 radius: width / 2
-                visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !dragProxyArea.pressed
+                visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !clipRoot.dragInProgress
                 color: Qt.darker('mediumpurple')
                 border.width: 3
                 border.color: 'mediumpurple'
@@ -1713,7 +1730,7 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.minimumX: - Math.ceil(width / 2)
             drag.maximumX: container.width + Math.ceil(width / 4)
-            visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
+            visible: container.handleVisible && mouseArea.containsMouse && !clipRoot.dragInProgress
             property int startFadeOut
             property int lastDuration: -1
             property int startMousePos
@@ -1829,7 +1846,7 @@ Rectangle {
             property int startMousePos
             property bool dragStarted: false
             property string fadeString: clipRoot.timeline.simplifiedTC(clipRoot.fadeIn)
-            visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
+            visible: container.handleVisible && mouseArea.containsMouse && !clipRoot.dragInProgress
             onClicked: {
                 if (clipRoot.fadeIn == 0) {
                     clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadein', 0, -2)

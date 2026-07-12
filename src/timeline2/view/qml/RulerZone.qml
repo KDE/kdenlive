@@ -13,9 +13,12 @@ import org.kde.kdenlive as K
 Rectangle {
     id: rzone
     required property K.TimelineController timeline
+
     property int frameIn: 0
     property int frameOut: 0
     property bool resizeActive: false
+
+    signal updateZone(point start, point end, bool update)
 
     x:  frameIn * timeline.scaleFactor
     width: (frameOut - frameIn) * timeline.scaleFactor
@@ -74,7 +77,7 @@ Rectangle {
                 }
             }
             onReleased: {
-                updateZone(startZone, Qt.point(rzone.frameIn, rzone.frameOut), true)
+                rzone.updateZone(startZone, Qt.point(rzone.frameIn, rzone.frameOut), true)
                 rzone.resizeActive = false
                 anchors.left= parent.left
             }
@@ -189,7 +192,7 @@ Rectangle {
                 onReleased: {
                     rzone.resizeActive = false
                     parent.anchors.left = rzone.left
-                    updateZone(startZone, Qt.point(rzone.frameIn, rzone.frameOut), true)
+                    rzone.updateZone(startZone, Qt.point(rzone.frameIn, rzone.frameOut), true)
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -238,7 +241,7 @@ Rectangle {
                 onReleased: {
                     rzone.resizeActive = false
                     parent.anchors.right = rzone.right
-                    updateZone(startZone, Qt.point(rzone.frameIn, rzone.frameOut), true)
+                    rzone.updateZone(startZone, Qt.point(rzone.frameIn, rzone.frameOut), true)
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {

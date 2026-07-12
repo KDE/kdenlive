@@ -815,7 +815,7 @@ Monitor *Core::getMonitor(int id)
     return m_monitorManager->projectMonitor();
 }
 
-void Core::seekMonitor(int id, int position)
+void Core::seekMonitor(Kdenlive::MonitorId id, int position)
 {
     if (!m_guiConstructed) {
         return;

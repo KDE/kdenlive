@@ -113,6 +113,7 @@ Rectangle
                 timeline: root.timeline
                 parentInPoint: keyframeContainer.inPoint
                 allowUserInteraction: !root.isPanning
+                parentItemId: keyframeContainer.clipId
 
                 onRequestRepaint: {
                     keyframecanvas.requestPaint()

@@ -105,6 +105,7 @@ public:
     Q_INVOKABLE QByteArray getUuid() const;
     Q_INVOKABLE void selectClip(int ix);
     Q_INVOKABLE const QPoint clipBoundary(int ix);
+    Q_INVOKABLE QString thumbPath(int frame) const;
     void positionFromConsumer(int pos, bool playing);
     void setMarker(const QString &comment, const QColor &color);
     int zoneIn() const;
@@ -148,6 +149,7 @@ public:
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced,
                            std::shared_ptr<MarkerSortModel> markerModel);
+
     void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
     void setAudioStream(const QString &name);
     void setRulerHeight(int height);

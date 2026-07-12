@@ -57,7 +57,6 @@ Item {
     property int maskEnd: -1
     property bool isClipMonitor: true
     property int dragType: 0
-    property string baseThumbPath
     property int maskMode: controller.maskMode
     Component.onCompleted: {
         controller.rulerHeight = 0

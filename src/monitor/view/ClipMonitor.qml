@@ -51,7 +51,6 @@ Item {
     property double timeScale: 1
     property bool isClipMonitor: true
     property int dragType: 0
-    property string baseThumbPath
     property bool inLowerThird: (audioView.containsMyMouse || clipMonitorRuler.containsMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
     property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? audioView.height : 0
 

@@ -30,6 +30,7 @@ Rectangle {
     required property color trackHeaderColor
     required property color selectedTrackColor
     required property color frameColor
+    required property int trackTagWidth
 
     signal toogleExpandTrack()
 
@@ -154,16 +155,16 @@ Rectangle {
     }
     Column {
         id: subtitleLayerIndicator
-        width: root.trackTagWidth
+        width: trackHeader.trackTagWidth
         height: trackHeader.height
         anchors.left: expandSubButton.right
         anchors.top: trackHeader.top
         anchors.bottom: trackHeader.bottom
         property color bgColor: Qt.darker(trackHeader.trackHeaderColor, 0.55)
-        visible: maxSubLayer > 0 && subtitleTrack.visible && !trackHeader.collapsed
+        visible: trackHeader.timeline.maxSubLayer > 0 && subtitleTrack.visible && !trackHeader.collapsed
 
         Repeater {
-            model: subtitleLayerIndicator.visible ? maxSubLayer + 1 : 0
+            model: subtitleLayerIndicator.visible ? trackHeader.timeline.maxSubLayer + 1 : 0
             id: subLayerRepeater
             delegate: Rectangle {
                 id: layerLabel

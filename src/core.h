@@ -197,7 +197,7 @@ public:
     /** @brief Returns a reference to a monitor (clip or project monitor) */
     Monitor *getMonitor(int id);
     /** @brief Seek a monitor to position */
-    void seekMonitor(int id, int position);
+    void seekMonitor(Kdenlive::MonitorId id, int position);
     void setMonitorZone(int id, QPoint zone);
     /** @brief Returns timeline's active track info (position and tag) */
     QPair<int, QString> currentTrackInfo() const;

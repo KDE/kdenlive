@@ -14,16 +14,15 @@ import org.kde.kdenlive as K
 Row {
     id: thumbRow
     anchors.fill: parent
-    visible: !isAudio
+
     clip: true
     // On Qt 6.10.x, using Clip type creates a dependency loop between Clip and ClipThumbs.
     // When increasing the Qt dependency, we can revert to use :
     // required property Clip parentClip
     required property var parentClip
     property real initialSpeed: 1
-    opacity: clipState === K.PlaylistState.Disabled ? 0.2 : 1
     property bool fixedThumbs: parentClip.itemType === K.ClipType.Image || parentClip.itemType === K.ClipType.Text || parentClip.itemType === K.ClipType.TextTemplate
-    property int thumbWidth: container.height * K.Core.getCurrentDar()
+    property int thumbWidth: parent.height * K.Core.getCurrentDar()
     property bool enableCache: parentClip.itemType === K.ClipType.Video || parentClip.itemType === K.ClipType.AV
 
     Repeater {
@@ -69,24 +68,23 @@ Row {
             id: thumbImage
             required property int index
             width: thumbRepeater.imageWidth
-            height: container.height
+            height: thumbRow.height
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: thumbRow.enableCache
             //sourceSize.width: width
             //sourceSize.height: height
+            readonly property string thumbPath: thumbRow.parentClip.baseThumbPath + currentThumbFrame
             property int currentThumbFrame: thumbRow.fixedThumbs
                                        ? 0
                                        : thumbRepeater.count < 3
                                          ? (index === 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame)
-                                         : Math.floor(clipRoot.inPoint * thumbRow.initialSpeed + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
+                                         : Math.floor(thumbRow.parentClip.inPoint * thumbRow.initialSpeed + Math.round((index) * width / timeline.scaleFactor)* thumbRow.parentClip.speed)
             horizontalAlignment: thumbRepeater.count < 3
                                  ? (index === 0 ? Image.AlignLeft : Image.AlignRight)
                                  : Image.AlignLeft
-            source: thumbRepeater.count < 3
-                    ? (thumbRow.parentClip.baseThumbPath + currentThumbFrame)
-                    : (index * width < thumbRow.parentClip.scrollStart - width || index * width > thumbRow.parentClip.scrollStart + scrollView.width)
-                      ? '' : thumbRow.parentClip.baseThumbPath + currentThumbFrame
+            source: thumbRepeater.count < 3 ? thumbPath
+                                            : (index * width < thumbRow.parentClip.scrollStart - width || index * width > thumbRow.parentClip.scrollStart + scrollView.width)? '' : thumbPath
             onStatusChanged: {
                 if (status === Image.Ready && (index === 0  || index === thumbRepeater.count - 1)) {
                     thumbPlaceholder.source = source
