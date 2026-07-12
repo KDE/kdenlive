@@ -49,12 +49,18 @@ Item {
     property string clipName: controller.clipName
     property int duration: 300 // last selectable frame of the timecode display
     property double timeScale: 1
-    property int overlayType: controller.overlayType
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
     property bool inLowerThird: (audioView.containsMyMouse || clipMonitorRuler.containsMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || overlayFPS.containsMouse || overlayTC.containsMouse || outPointArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= barOverArea.height / 2)))
     property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? audioView.height : 0
+
+    readonly property int audioStreamCount: controller.audioStreams.length
+
+    onAudioStreamCountChanged: () => {
+        thumbTimer.start()
+    }
+
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
@@ -199,6 +205,7 @@ Item {
                 id: audioView
                 monitorController: root.controller
                 timeScale: clipMonitorRuler.timeScale
+                forceVisible: thumbTimer.running
                 duration: root.duration
                 onZoomInRuler: xpos => clipMonitorRuler.zoomInRuler(xpos)
                 onZoomOutRuler: xpos => clipMonitorRuler.zoomOutRuler(xpos)
