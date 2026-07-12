@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-09 00:42+0000\n"
-"PO-Revision-Date: 2026-07-08 10:44+0200\n"
+"PO-Revision-Date: 2026-07-11 11:51+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -28867,6 +28867,8 @@ msgstr "Jean-Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"Član jedrne ekipe, osrednji razvijalec in vzdrževalec, MLT ter prenos na KDE "
+"SC 4/ KF5"
 
 #: src/main.cpp:280
 #, kde-format
@@ -28874,10 +28876,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:280
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "Razvoj zmožnosti, pakiranje, odpravljanje napak"
+msgstr ""
+"Član jedrne ekipe, razvoj funkcionalnosti, pakiranje, odpravljanje napak"
 
 #: src/main.cpp:281
 #, kde-format
@@ -28905,10 +28907,9 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:285
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "Barvni obsegi, odpravljanje hroščev itn."
+msgstr "Barvni merilniki, težava z decimalnim ločilom, odpravljanje hroščev"
 
 #: src/main.cpp:286
 #, kde-format
@@ -28926,20 +28927,19 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:288
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
 msgstr "Logotip, promocija, preizkušanje"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "Ogledi, merilniki in izboljšave časovnice QOL"
 
 #: src/main.cpp:290
 #, kde-format
@@ -28964,24 +28964,25 @@ msgstr "Vzdrževalec MLT, odpravljanje hroščev itn."
 #: src/main.cpp:292
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "Darby Johnston"
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "Prepiši"
+msgstr "Ponovno napisani OTIO"
 
 #: src/main.cpp:293
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "Bernd Jordan"
 
 #: src/main.cpp:293
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"Član jedrne ekipe, dokumentacija, vmesnik učinkov, preizkušanje, podpora "
+"skupnosti"
 
 #: src/main.cpp:294
 #, kde-format
@@ -28992,6 +28993,7 @@ msgstr "Eugen Mohr"
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
+"Član jedrne ekipe, vzdrževalec dokumentacije, triaža hroščev, preizkušanje"
 
 #: src/main.cpp:295
 #, kde-format
@@ -29014,10 +29016,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "Strokovni nasveti, preizkušanje"
+msgstr "Član jedrne ekipe, strokovni nasveti, preizkušanje"
 
 #: src/main.cpp:299
 #, kde-format
@@ -42449,9 +42450,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
-#~ msgstr "Predelava za MLT in KDE SC 4/KF5, glavni razvijalec in vzdrževalec"
-
-#~ msgid "Bug triage, testing, documentation maintainer"
-#~ msgstr "Triaža napak, preizkušanje, vzdrževanje dokumentacije"
