@@ -180,7 +180,6 @@ ecm_target_qml_sources(kdenliveLib
     timeline2/view/qml/KeyframeDelegate.qml
     timeline2/view/qml/Composition.qml
     timeline2/view/qml/PulsingAnimation.qml
-    timeline2/view/qml/AssetMenu.qml
     timeline2/view/qml/GuidesMenu.qml
     dialogs/Splash.qml
     dialogs/Simplesplash.qml
