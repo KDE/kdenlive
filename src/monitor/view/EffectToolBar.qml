@@ -95,14 +95,7 @@ MouseArea {
                 objectName: "switchOverlay"
                 iconName: "view-grid"
                 toolTipText: KI18n.i18n("Composition Guides")
-                onClicked: {
-                    if (barZone.monitorController.overlayType >= 5) {
-                        barZone.monitorController.overlayType = 0
-                    } else {
-                        barZone.monitorController.overlayType = barZone.monitorController.overlayType + 1;
-                    }
-                    root.overlayType = barZone.monitorController.overlayType
-                }
+                onClicked: barZone.monitorController.nextOverlay()
             }
             K.MonitorToolButton {
                 objectName: "nextKeyframe"

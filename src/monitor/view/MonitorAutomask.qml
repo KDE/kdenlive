@@ -55,7 +55,6 @@ Item {
     property var keyframes: []
     property int maskStart: -1
     property int maskEnd: -1
-    property int overlayType: controller.overlayType
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
@@ -112,15 +111,6 @@ Item {
         clipMonitorRuler.forceRepaint()
     }
 
-    function switchOverlay() {
-        if (controller.overlayType >= 5) {
-            controller.overlayType = 0
-        } else {
-            controller.overlayType = controller.overlayType + 1;
-        }
-        root.overlayType = controller.overlayType
-    }
-
     Item {
         id: monitorframe
         height: root.height - root.controller.rulerHeight
@@ -136,7 +126,7 @@ Item {
             K.MonitorOverlay {
                 anchors.fill: frame
                 color: K.KdenliveSettings.overlayColor
-                overlayType: root.overlayType
+                overlayType: root.controller.overlayType
             }
             K.MonitorSafeZone {
                 id: safeZone

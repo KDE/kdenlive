@@ -36,7 +36,6 @@ Item {
     property double offsetx : 0
     property double offsety : 0
     property int duration: 300
-    property int overlayType: root.controller.overlayType
     property bool isClipMonitor: false
     Component.onCompleted: {
         root.controller.rulerHeight = 0
@@ -62,14 +61,6 @@ Item {
         countDownLoader.source = ""
     }
 
-    function switchOverlay() {
-        if (controller.overlayType >= 5) {
-            controller.overlayType = 0
-        } else {
-            controller.overlayType = controller.overlayType + 1;
-        }
-        root.overlayType = controller.overlayType
-    }
     MouseArea {
         id: barOverArea
         hoverEnabled: true
@@ -130,7 +121,7 @@ Item {
             K.MonitorOverlay {
                 anchors.fill: frame
                 color: K.KdenliveSettings.overlayColor
-                overlayType: root.overlayType
+                overlayType: root.controller.overlayType
             }
 
             K.MonitorSafeZone {

@@ -135,6 +135,15 @@ MaskModeType::MaskCreationMode MonitorProxy::maskMode() const
     return m_maskMode;
 }
 
+void MonitorProxy::nextOverlay()
+{
+    if (overlayType() >= 5) {
+        setOverlayType(0);
+    } else {
+        setOverlayType(overlayType() + 1);
+    }
+}
+
 int MonitorProxy::overlayType() const
 {
     return (q->m_id == int(Kdenlive::ClipMonitor) ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides());
@@ -147,6 +156,7 @@ void MonitorProxy::setOverlayType(int ix)
     } else {
         KdenliveSettings::setProjectMonitorOverlayGuides(ix);
     }
+    Q_EMIT overlayTypeChanged();
 }
 
 bool MonitorProxy::showSafezone() const

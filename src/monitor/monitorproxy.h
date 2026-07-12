@@ -79,6 +79,7 @@ public:
     /** brief: Returns true if we are still in a seek operation
      * */
     int rulerHeight() const;
+    Q_INVOKABLE void nextOverlay();
     int overlayType() const;
     bool showSafezone() const;
     void setOverlayType(int ix);

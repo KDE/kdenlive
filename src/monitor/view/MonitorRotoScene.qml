@@ -24,7 +24,6 @@ Item {
     property string framenum
     property point profile: controller.profile
     property point center
-    property int overlayType: controller.overlayType
     property double scalex : 1
     property double scaley : 1
     property double stretch : 1
@@ -385,7 +384,7 @@ Item {
         K.MonitorOverlay {
             anchors.fill: frame
             color: K.KdenliveSettings.overlayColor
-            overlayType: root.overlayType
+            overlayType: root.controller.overlayType
         }
         K.MonitorSafeZone {
             id: safeZone
