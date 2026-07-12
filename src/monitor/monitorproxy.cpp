@@ -13,6 +13,7 @@
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "markersortmodel.h"
 #include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
 
@@ -488,17 +489,28 @@ void MonitorProxy::selectClip(int ix)
     }
 }
 
-void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced)
+MarkerSortModel *MonitorProxy::markersModel()
+{
+    return m_markerModel.get();
+}
+
+void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced,
+                                     std::shared_ptr<MarkerSortModel> markerModel)
 {
     bool idChanged = clipId != m_clipId;
     bool avChanged = hasAV != m_hasAV;
     bool typeChanged = type != m_clipType;
     bool audioChanged = audioSynced != m_audioSynced;
+    bool markersChanged = markerModel != m_markerModel;
+    m_markerModel = markerModel;
     m_clipId = clipId;
     m_hasAV = hasAV;
     m_clipType = type;
     m_audioSynced = audioSynced;
 
+    if (markersChanged) {
+        Q_EMIT markersModelChanged();
+    }
     if (idChanged) {
         Q_EMIT clipIdChanged();
     }

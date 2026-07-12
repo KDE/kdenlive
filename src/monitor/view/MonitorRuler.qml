@@ -371,7 +371,7 @@ Rectangle {
 
     // markers
     Repeater {
-        model: markersModel
+        model: ruler.monitorController.markersModel
         delegate:
         Item {
             id: guideRoot

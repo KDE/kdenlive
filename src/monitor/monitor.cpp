@@ -838,7 +838,7 @@ void Monitor::buildBackgroundedProducer(int pos)
         maxDuration = int(m_controller->sequenceFrameDuration(m_activeSequence) - 1);
     }
     m_timePos->setRange(0, maxDuration);
-    m_glMonitor->setRulerInfo(maxDuration, m_controller->getFilteredMarkerModel());
+    m_glMonitor->setRulerInfo(maxDuration);
     QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
     if (oldZone.y() > maxDuration + 1) {
         m_glMonitor->getControllerProxy()->setZone(oldZone.x(), maxDuration + 1, true);
@@ -1836,7 +1836,7 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel>
     if (m_controller != nullptr) {
         m_glMonitor->setRulerInfo(length);
     } else {
-        m_glMonitor->setRulerInfo(length, markerModel);
+        m_glMonitor->setRulerInfo(length);
     }
     m_timePos->setRange(0, INT_MAX);
 
@@ -2182,8 +2182,8 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->resetTimeZoom();
         m_audioMeterWidget->audioChannels = 0;
         m_timePos->setRange(0, 0);
-        m_glMonitor->setRulerInfo(0, nullptr);
-        m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString(), true);
+        m_glMonitor->setRulerInfo(0);
+        m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString(), true, nullptr);
         pCore->guidesList()->setClipMarkerModel(nullptr);
         // m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
@@ -2210,13 +2210,6 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_activeSequence = sequenceUuid;
         if (pCore->currentRemap(m_controller->clipId())) {
             connect(this, &Monitor::seekPosition, this, &Monitor::seekRemap, Qt::UniqueConnection);
-        }
-        ClipType::ProducerType type = m_controller->clipType();
-        if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
-            m_glMonitor->rootObject()->setProperty(
-                "baseThumbPath", QStringLiteral("image://thumbnail/%1/%2/#").arg(m_controller->clipId(), pCore->currentDoc()->uuid().toString()));
-        } else {
-            m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
         }
         m_audioChannels->clear();
         if (m_controller->audioInfo()) {
@@ -2310,7 +2303,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_audioMeterWidget->audioChannels = m_controller->audioInfo() ? m_controller->audioInfo()->channels() : 0;
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(m_controller->clipId().toInt(), m_controller->clipType(), m_controller->hasAudioAndVideo(),
-                                                                 m_controller->clipName(), m_controller->audioSynced());
+                                                                 m_controller->clipName(), m_controller->audioSynced(), m_controller->getFilteredMarkerModel());
             if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & Monitor::AudioWaveformOverlay) {
                 if (m_audioMeterWidget->audioChannels == 0 || !m_controller->hasAudio()) {
                     qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR EMPTY!!!";
@@ -2404,7 +2397,7 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
     m_markerModel = nullptr;
     m_glMonitor->setProducer(path);
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
-    m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title, true);
+    m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title, true, nullptr);
     m_glMonitor->setRulerInfo(m_glMonitor->producer()->get_length() - 1);
     loadQmlScene(SceneType::MonitorSceneDefault);
     checkOverlay();
@@ -2819,7 +2812,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     delete original;
     m_splitProducer = std::make_shared<Mlt::Producer>(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
-    m_glMonitor->setRulerInfo(int(m_controller->frameDuration()), m_controller->getFilteredMarkerModel());
+    m_glMonitor->setRulerInfo(int(m_controller->frameDuration()));
     loadQmlScene(SceneType::MonitorSceneSplit);
 }
 

@@ -74,6 +74,8 @@ class MonitorProxy : public QObject
     Q_PROPERTY(bool isKeyframe READ isKeyframe WRITE setIsKeyframe NOTIFY isKeyframeChanged)
     Q_PROPERTY(bool cursorOutsideEffect READ cursorOutsideEffect WRITE setCursorOutsideEffect NOTIFY cursorOutsideEffectChanged)
 
+    Q_PROPERTY(MarkerSortModel *markersModel READ markersModel NOTIFY markersModelChanged)
+
 public:
     MonitorProxy(VideoWidget *parent);
     /** brief: Returns true if we are still in a seek operation
@@ -144,7 +146,8 @@ public:
     Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
     QPoint profile();
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
-    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced);
+    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced,
+                           std::shared_ptr<MarkerSortModel> markerModel);
     void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
     void setAudioStream(const QString &name);
     void setRulerHeight(int height);
@@ -206,6 +209,7 @@ Q_SIGNALS:
     void clipStreamChanged();
     void clipTypeChanged();
     void clipIdChanged();
+    void markersModelChanged();
     void audioThumbChanged();
     void audioThumbFormatChanged();
     void audioThumbNormalizeChanged();
@@ -251,6 +255,7 @@ private:
     int m_clipId;
     bool m_seekFinished;
     bool m_audioSynced{false};
+    std::shared_ptr<MarkerSortModel> m_markerModel;
     QPoint m_undoZone;
     TimecodeDisplay *m_td;
     int m_trimmingFrames1;
@@ -266,6 +271,9 @@ private:
     bool m_switchFlag{false};
     bool m_isKeyframe{false};
     bool m_cursorOutsideEffect{true};
+
+    /** @brief Without shared_ptr for Q_PROPERTY */
+    MarkerSortModel *markersModel();
 
 protected:
     QUrl m_previewOverlay;
