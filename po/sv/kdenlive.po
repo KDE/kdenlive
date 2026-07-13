@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 02:43+0000\n"
-"PO-Revision-Date: 2026-07-11 20:10+0200\n"
+"PO-Revision-Date: 2026-07-12 06:40+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -28870,10 +28870,9 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:283
-#, fuzzy, kde-format
-#| msgid "Core team member, feature development, packaging, bug fixing"
+#, kde-format
 msgid "Feature development, packaging, bug fixing"
-msgstr "Medlem i kärnteamet, utveckling av funktioner, paketering, felrättning"
+msgstr "Utveckling av funktioner, paketering, felrättning"
 
 #: src/main.cpp:284
 #, kde-format
@@ -28901,10 +28900,9 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:287
-#, fuzzy, kde-format
-#| msgid "Bug fixing, etc."
+#, kde-format
 msgid "Color scopes, bug fixing, etc."
-msgstr "Felrättning, etc."
+msgstr "Färgoscilloskop, felrättning, etc."
 
 #: src/main.cpp:288
 #, kde-format
@@ -28932,8 +28930,7 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Logo, promotion, testing"
+#, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logotyp, marknadsföring, testning"
 
@@ -28968,10 +28965,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:296
-#, fuzzy, kde-format
-#| msgid "Core team member, expert advice, testing"
+#, kde-format
 msgid "Expert advice, testing"
-msgstr "Medlem i kärnteamet, expertråd, testning"
+msgstr "Expertråd, testning"
 
 #: src/main.cpp:298
 #, kde-format
