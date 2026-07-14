@@ -21,6 +21,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMessageWidget>
+#include <KNotification>
 #include <QButtonGroup>
 #include <QDir>
 #include <QFontDatabase>
@@ -444,12 +445,14 @@ void SpeechDialog::slotProcessSpeechStatus(int exitCode, QProcess::ExitStatus st
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Speech recognition failed:\n%1", m_speechJob->readAllStandardError()));
         speech_info->animatedShow();
+        KNotification::event(QStringLiteral("SpeechRecognitionFinished"), i18n("Speech recognition failed"), QPixmap());
         return;
     }
 
     m_timeline->getSubtitleModel()->importSubtitle(m_tmpSrtPath, m_zone.x(), true);
     speech_info->setMessageType(KMessageWidget::Positive);
     speech_info->setText(i18n("Subtitles imported"));
+    KNotification::event(QStringLiteral("SpeechRecognitionFinished"), i18n("Speech recognition finished, subtitles imported"), QPixmap());
     QFile::remove(m_tmpSrtPath);
     frame_progress->setVisible(false);
 }
