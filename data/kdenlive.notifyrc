@@ -552,3 +552,9 @@ Name[zh_CN]=保存成功
 Name[zh_TW]=成功儲存
 Sound=outcome-success
 Action=None
+
+[Event/SpeechRecognitionFinished]
+Name=Speech recognition finished
+Comment=A speech recognition job (such as automatic subtitling) has finished
+Sound=dialog-information
+Action=Sound|Popup
