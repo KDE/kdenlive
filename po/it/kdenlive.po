@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 02:43+0000\n"
-"PO-Revision-Date: 2026-06-07 16:36+0200\n"
+"PO-Revision-Date: 2026-07-08 15:38+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.04.1\n"
+"X-Generator: Lokalize 26.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7757,10 +7757,9 @@ msgstr "Geometria"
 
 #: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
 #: data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "Famiglia di caratteri"
+msgstr "Famiglia di <u>caratteri</u>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
@@ -7778,16 +7777,14 @@ msgstr "Scala normale"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
-#, fuzzy, kde-format
-#| msgid "Weight:"
+#, kde-format
 msgid "Weight"
-msgstr "Peso:"
+msgstr "Peso"
 
 #: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "Colore testo"
+msgstr "Colore del <u>testo</u>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7826,8 +7823,7 @@ msgstr "Sottolinea"
 
 #: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
 #: data/effects/timer.xml:39
-#, fuzzy, kde-format
-#| msgid "StrikeOut"
+#, kde-format
 msgid "Strikethrough"
 msgstr "Barrato"
 
@@ -13943,10 +13939,9 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "Sovrapponi il testo relativo al GPS sul video."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "Vedi la documentazione sui vari stili disponibili"
+msgstr "Consulta la documentazione in linea sui qualificatori aggiuntivi"
 
 #: data/effects/gpstext.xml:10
 #, fuzzy, kde-format
@@ -14008,6 +14003,10 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"Controlla quante volte al secondo<br>\n"
+"        viene aggiornato il testo del GPS nel video (interpolato).<br>\n"
+"        Un valore di 0 lo aggiornerà solo quando è stato registrato un punto "
+"GPS reale."
 
 #: data/effects/gpstext.xml:63
 #, fuzzy, kde-format
@@ -14044,8 +14043,7 @@ msgid "Outline Color"
 msgstr "Colore contorno"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
 msgstr "Colore contorno"
 
@@ -14081,7 +14079,7 @@ msgstr "Allineamento verticale"
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "Opacità di tutti gli elementi: testo, contorno e sfondo"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -14269,10 +14267,9 @@ msgid "Invert colors"
 msgstr "Inverti i colori"
 
 #: data/effects/ladspa/ladspa_1185.xml:4
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Diode Processor"
-msgstr "Elabora"
+msgstr "Elaboratore diodi"
 
 #: data/effects/ladspa/ladspa_1185.xml:6
 #, kde-format
@@ -14358,10 +14355,9 @@ msgid "Dry/Wet"
 msgstr "Dry/Wet"
 
 #: data/effects/ladspa/ladspa_1190.xml:4
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "Comb Filter"
-msgstr "Annulla filtri"
+msgstr "Filtro combinato"
 
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
@@ -14458,7 +14454,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1192.xml:4
 #, kde-format
 msgid "Fractionally Addressed Delay Line"
-msgstr ""
+msgstr "Linea di ritardo indirizzata in modo frazionale"
 
 #: data/effects/ladspa/ladspa_1192.xml:6
 #, kde-format
@@ -14482,10 +14478,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:4
-#, fuzzy, kde-format
-#| msgid "Fast conversion"
+#, kde-format
 msgid "Fast Overdrive"
-msgstr "Conversione veloce"
+msgstr "Overdrive veloce"
 
 #: data/effects/ladspa/ladspa_1196.xml:6
 #, kde-format
@@ -14511,7 +14506,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1202.xml:4
 #, kde-format
 msgid "Decimator"
-msgstr ""
+msgstr "Decimatore"
 
 #: data/effects/ladspa/ladspa_1202.xml:6
 #, kde-format
@@ -14523,10 +14518,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:9
-#, fuzzy, kde-format
-#| msgid "Depth"
+#, kde-format
 msgid "Bit Depth"
-msgstr "Profondità"
+msgstr "Profondità in bit"
 
 #: data/effects/ladspa/ladspa_1202.xml:10
 #, kde-format
@@ -14534,10 +14528,9 @@ msgid "The bit depth that the signal will be reduced to"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:13
-#, fuzzy, kde-format
-#| msgid "Sample Rate:"
+#, kde-format
 msgid "Sample Rate"
-msgstr "Frequenza di campionamento:"
+msgstr "Campionamento"
 
 #: data/effects/ladspa/ladspa_1202.xml:14
 #, fuzzy, kde-format
@@ -14548,7 +14541,7 @@ msgstr "Il raggio del quadrato che lo stabilizzatore campionerà"
 #: data/effects/ladspa/ladspa_1203.xml:4
 #, kde-format
 msgid "Single Band Parametric"
-msgstr ""
+msgstr "Parametrico a banda singola"
 
 #: data/effects/ladspa/ladspa_1203.xml:6
 #, kde-format
@@ -14569,10 +14562,9 @@ msgid "The attenuation/gain of the eq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:13
-#, fuzzy, kde-format
-#| msgid "Frequency in Hz"
+#, kde-format
 msgid "Frequency (Hz)"
-msgstr "Frequenza in Hz"
+msgstr "Frequenza (Hz)"
 
 #: data/effects/ladspa/ladspa_1203.xml:15
 #, kde-format
@@ -14586,7 +14578,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1203.xml:18
 #, kde-format
 msgid "Bandwidth (octaves)"
-msgstr ""
+msgstr "Larghezza di banda (ottave)"
 
 #: data/effects/ladspa/ladspa_1203.xml:20
 #, kde-format
@@ -14596,10 +14588,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1207.xml:4
-#, fuzzy, kde-format
-#| msgid "Offset Red"
+#, kde-format
 msgid "DC Offset Remover"
-msgstr "Scostamento del rosso"
+msgstr "Rimozione scarto DC"
 
 #: data/effects/ladspa/ladspa_1207.xml:6
 #, kde-format
@@ -14610,10 +14601,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1213.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens distortion A"
+#, kde-format
 msgid "Foldover Distortion"
-msgstr "Distorsione della lente A"
+msgstr "Distorsione di ripiegatura"
 
 #: data/effects/ladspa/ladspa_1213.xml:6
 #, kde-format
@@ -14647,10 +14637,9 @@ msgid "Controls the asymmetry of the waveform"
 msgstr "Il colore della forma d'onda."
 
 #: data/effects/ladspa/ladspa_1218.xml:4
-#, fuzzy, kde-format
-#| msgid "Allpass"
+#, kde-format
 msgid "4x4 Pole Allpass"
-msgstr "Passa tutto"
+msgstr "Passa tutto polo 4 x 4"
 
 #: data/effects/ladspa/ladspa_1218.xml:6
 #, kde-format
@@ -14659,12 +14648,14 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Passa tutto polo 4 x 4 (LADSPA 1218)<br>\n"
+"   Si adatta automaticamente al numero di canali e alla frequenza di "
+"campionamento del dispositivo collegato."
 
 #: data/effects/ladspa/ladspa_1218.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 1"
-msgstr "Frequenza"
+msgstr "Frequenza 1"
 
 #: data/effects/ladspa/ladspa_1218.xml:12
 #, fuzzy, kde-format
@@ -14673,10 +14664,9 @@ msgid "Feedback 1"
 msgstr "Feedback"
 
 #: data/effects/ladspa/ladspa_1218.xml:15
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 2"
-msgstr "Frequenza"
+msgstr "Frequenza 2"
 
 #: data/effects/ladspa/ladspa_1218.xml:18
 #, fuzzy, kde-format
@@ -14685,10 +14675,9 @@ msgid "Feedback 2"
 msgstr "Feedback"
 
 #: data/effects/ladspa/ladspa_1218.xml:21
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 3"
-msgstr "Frequenza"
+msgstr "Frequenza 3"
 
 #: data/effects/ladspa/ladspa_1218.xml:24
 #, fuzzy, kde-format
@@ -14697,10 +14686,9 @@ msgid "Feedback 3"
 msgstr "Feedback"
 
 #: data/effects/ladspa/ladspa_1218.xml:27
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 4"
-msgstr "Frequenza"
+msgstr "Frequenza 4"
 
 #: data/effects/ladspa/ladspa_1218.xml:30
 #, fuzzy, kde-format
@@ -14709,15 +14697,14 @@ msgid "Feedback 4"
 msgstr "Feedback"
 
 #: data/effects/ladspa/ladspa_1219.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Phaser"
+#, kde-format
 msgid "Auto Phaser"
-msgstr "Phaser Sox"
+msgstr "Phaser automatico"
 
 #: data/effects/ladspa/ladspa_1219.xml:5
 #, kde-format
 msgid "Auto Phaser (LADSPA 1219)"
-msgstr ""
+msgstr "Phaser automatico 1219 (LADSPA 1219)"
 
 #: data/effects/ladspa/ladspa_1219.xml:8
 #, fuzzy, kde-format
@@ -14746,18 +14733,17 @@ msgstr "Tipo di modulazione"
 #: data/effects/ladspa/ladspa_1219.xml:20
 #, kde-format
 msgid "Spread (octaves)"
-msgstr ""
+msgstr "Estensione (ottave)"
 
 #: data/effects/ladspa/ladspa_1402.xml:4
-#, fuzzy, kde-format
-#| msgid "Delay grab"
+#, kde-format
 msgid "Delayorama"
-msgstr "Ritardo presa"
+msgstr "Delayorama"
 
 #: data/effects/ladspa/ladspa_1402.xml:5
 #, kde-format
 msgid "Delayorama (LADSPA 1402)"
-msgstr ""
+msgstr "Delayorama 1402 (LADSPA 1402)"
 
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
 #, kde-format
@@ -14771,6 +14757,10 @@ msgid ""
 "      will be used to stagger the delays and amplitudes if random is turned "
 "up on them. Changing this forces the random values to be recalculated."
 msgstr ""
+"Controlla i numeri casuali che verranno<br>\n"
+"      utilizzati per variare i ritardi e le ampiezze qualora l'opzione "
+"“casuale” sia attivata per tali parametri. Modificando questo valore, i "
+"valori casuali vengono ricalcolati."
 
 #: data/effects/ladspa/ladspa_1402.xml:14
 #, fuzzy, kde-format
@@ -14815,7 +14805,7 @@ msgstr "Imposta intervallo"
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
 msgid "The time difference between the first and last delay"
-msgstr ""
+msgstr "La differenza di tempo tra il primo e l'ultimo ritardo"
 
 #: data/effects/ladspa/ladspa_1402.xml:33
 #, fuzzy, kde-format
@@ -14826,42 +14816,37 @@ msgstr "Cambio di velocità"
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
 msgid "The scaling factor between one delay and the next"
-msgstr ""
+msgstr "Il fattore di scala tra un ritardo e il successivo"
 
 #: data/effects/ladspa/ladspa_1402.xml:37
-#, fuzzy, kde-format
-#| msgid "Random"
+#, kde-format
 msgid "Delay Random"
-msgstr "Casuale"
+msgstr "Ritardo casuale"
 
 #: data/effects/ladspa/ladspa_1402.xml:38
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the delay"
-msgstr "Fattore di scala applicato all'asse X"
+msgstr "Il fattore casuale applicato al ritardo"
 
 #: data/effects/ladspa/ladspa_1402.xml:41
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Change"
-msgstr "Ampiezza"
+msgstr "Variazione dell'ampiezza"
 
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
 msgid "The scaling factor between one amplitude and the next"
-msgstr ""
+msgstr "Il fattore di scala tra un'ampiezza e la successiva"
 
 #: data/effects/ladspa/ladspa_1402.xml:45
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Random"
-msgstr "Ampiezza"
+msgstr "Ampiezza casuale"
 
 #: data/effects/ladspa/ladspa_1402.xml:46
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the amplitude"
-msgstr "Fattore di scala applicato all'asse X"
+msgstr "Il fattore casuale applicato all'ampiezza"
 
 #: data/effects/ladspa/ladspa_1402.xml:49
 #, fuzzy, kde-format
@@ -14870,21 +14855,19 @@ msgid "Dry/Wet Mix"
 msgstr "Dry/Wet"
 
 #: data/effects/ladspa/ladspa_1402.xml:50
-#, fuzzy, kde-format
-#| msgid "The amount of delay for each sample from the input to the output."
+#, kde-format
 msgid "The level of delayed sound mixed into the output"
-msgstr "La quantità di ritardo per ciascun campione dall'ingresso all'uscita."
+msgstr "Il livello del suono ritardato miscelato nell'uscita"
 
 #: data/effects/ladspa/ladspa_1403.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Compressor"
+#, kde-format
 msgid "Dyson Compressor"
-msgstr "Compressore audio"
+msgstr "Compressore Dyson"
 
 #: data/effects/ladspa/ladspa_1403.xml:5
 #, kde-format
 msgid "Dyson Compressor (LADSPA 1403)"
-msgstr ""
+msgstr "Compressore Dyson 1403 (LADSPA 140)"
 
 #: data/effects/ladspa/ladspa_1403.xml:8
 #, fuzzy, kde-format
@@ -14898,13 +14881,14 @@ msgid ""
 "Controls the desired limit<br>\n"
 "      of the output signal"
 msgstr ""
+"Regola il limite desiderato<br>\n"
+"      del segnale di uscita"
 
 #: data/effects/ladspa/ladspa_1403.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:19
-#, fuzzy, kde-format
-#| msgid "Release time (s)"
+#, kde-format
 msgid "Release Time"
-msgstr "Ora di rilascio (s)"
+msgstr "Data di pubblicazione"
 
 #: data/effects/ladspa/ladspa_1403.xml:15
 #, kde-format
@@ -14912,6 +14896,9 @@ msgid ""
 "Controls the time taken for<br>\n"
 "      the compressor to relax its gain control over the input signal"
 msgstr ""
+"Determina il tempo necessario al<br>\n"
+"      compressore per allentare il controllo del guadagno sul segnale in "
+"ingresso"
 
 #: data/effects/ladspa/ladspa_1403.xml:18
 #, fuzzy, kde-format
@@ -14920,15 +14907,14 @@ msgid "Fast Compression Ratio"
 msgstr "Inserisci composizione"
 
 #: data/effects/ladspa/ladspa_1403.xml:21
-#, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
+#, kde-format
 msgid "Compression Ratio"
-msgstr "Compressore (avfilter)"
+msgstr "Rapporto di compressione"
 
 #: data/effects/ladspa/ladspa_1404.xml:4
 #, kde-format
 msgid "Crossover Distortion"
-msgstr ""
+msgstr "Distorsione crossover"
 
 #: data/effects/ladspa/ladspa_1404.xml:6
 #, kde-format
@@ -14937,6 +14923,9 @@ msgid ""
 "   This is a simulation of the distortion that happens in class B and AB "
 "power amps when the signal crosses 0."
 msgstr ""
+"Distorsione crossover (LADSPA 1404)<br>\n"
+"   È una simulazione della distorsione che si verifica negli amplificatori "
+"di potenza di classe B e AB quando il segnale attraversa lo zero."
 
 #: data/effects/ladspa/ladspa_1404.xml:9
 #, fuzzy, kde-format
@@ -14947,7 +14936,7 @@ msgstr "Ampiezza dell'onda"
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
 msgid "Controls the point at which the output signal becomes linear"
-msgstr ""
+msgstr "Determina il punto in cui il segnale di uscita diventa lineare"
 
 #: data/effects/ladspa/ladspa_1404.xml:14
 #, kde-format
@@ -14955,10 +14944,9 @@ msgid "Controls degree of smoothing of the crossover point"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:4
-#, fuzzy, kde-format
-#| msgid "Anti-aliasing"
+#, kde-format
 msgid "Aliasing"
-msgstr "Anti-aliasing"
+msgstr "Aliasing"
 
 #: data/effects/ladspa/ladspa_1407.xml:6
 #, kde-format
@@ -14967,6 +14955,10 @@ msgid ""
 "   Simulates aliasing using nyquist frequency modulation. Produces wacky "
 "results if the blocks aren't even numbers of samples long."
 msgstr ""
+"Aliasing (LADSPA 1407)<br>\n"
+"   Simula l'aliasing utilizzando la modulazione di frequenza di Nyquist. "
+"Produce risultati bizzarri se i blocchi non hanno una lunghezza pari a un "
+"numero pari di campioni."
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, fuzzy, kde-format
@@ -14977,12 +14969,12 @@ msgstr "Livello di antibanding"
 #: data/effects/ladspa/ladspa_1407.xml:10
 #, kde-format
 msgid "Controls the amount of simulated aliasing in the output."
-msgstr ""
+msgstr "Regola l'entità dell'aliasing simulato nell'ouscita."
 
 #: data/effects/ladspa/ladspa_1408.xml:4
 #, kde-format
 msgid "Barry's Satan Maximiser"
-msgstr ""
+msgstr "Massimizzatore satanico di Barry"
 
 #: data/effects/ladspa/ladspa_1408.xml:6
 #, kde-format
@@ -14992,6 +14984,10 @@ msgid ""
 "and hard knee. Not really as a compressor, but good harsh (non-musical) "
 "distortion."
 msgstr ""
+"Massimizzatore satanico di Barry (LADSPA 1408)<br>\n"
+"   Comprime i segnali con un attacco e un decadimento incredibilmente brevi, "
+"un rapporto infinito e un hard knee. Non proprio come compressore, ma è "
+"ottimo per ottenere una distorsione aggressiva (non musicale)."
 
 #: data/effects/ladspa/ladspa_1408.xml:9
 #, fuzzy, kde-format
@@ -15042,6 +15038,8 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the low frequency filter (highpass)"
 msgstr ""
+"Regola la frequenza di taglio del filtro<br>\n"
+"      alle basse frequenze (filtro passa-alto)"
 
 #: data/effects/ladspa/ladspa_1410.xml:13
 #, fuzzy, kde-format
@@ -15055,6 +15053,8 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the high frequency filter (lowpass)"
 msgstr ""
+"Regola la frequenza di taglio del filtro<br>\n"
+"      alle alte frequenze (filtro passa-basso)"
 
 #: data/effects/ladspa/ladspa_1410.xml:20
 #, kde-format
@@ -15115,10 +15115,9 @@ msgid "Key (listen),Gate (normal output),Bypass"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1411.xml:4
-#, fuzzy, kde-format
-#| msgid "RGB Splitter"
+#, kde-format
 msgid "Comb Splitter"
-msgstr "Divisore RGB"
+msgstr "Splitter combinato"
 
 #: data/effects/ladspa/ladspa_1411.xml:6
 #, kde-format
@@ -15130,21 +15129,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1411.xml:10
-#, fuzzy, kde-format
-#| msgid "The distance between the track points"
+#, kde-format
 msgid "The distance between the frequency peaks"
-msgstr "La distanza tra i punti di tracciamento"
+msgstr "La distanza tra i picchi di frequenza"
 
 #: data/effects/ladspa/ladspa_1415.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscillation"
+#, kde-format
 msgid "FM Oscillator"
-msgstr "Oscillazione"
+msgstr "Oscillatore FM"
 
 #: data/effects/ladspa/ladspa_1415.xml:5
 #, kde-format
 msgid "FM Oscillator (LADSPA 1415)"
-msgstr ""
+msgstr "Oscillatore FM 1415 (LADSPA 1415)"
 
 #: data/effects/ladspa/ladspa_1415.xml:8 src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -15152,15 +15149,14 @@ msgid "Waveform"
 msgstr "Forma d'onda"
 
 #: data/effects/ladspa/ladspa_1415.xml:9
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The shape of the waveform"
-msgstr "Il colore della forma d'onda."
+msgstr "La forma dell'onda"
 
 #: data/effects/ladspa/ladspa_1415.xml:10
 #, kde-format
 msgid "Sine,Triangle,Square,Saw"
-msgstr ""
+msgstr "Senus,Triangolo,Quadrato,A denti di sega"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
 #, fuzzy, kde-format
@@ -15177,8 +15173,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:9
-#, fuzzy, kde-format
-#| msgid "Reverb time"
+#, kde-format
 msgid "Reverb Time"
 msgstr "Tempo di riverbero"
 
@@ -15196,10 +15191,9 @@ msgid "Dry/wet mix"
 msgstr "Dry/Wet"
 
 #: data/effects/ladspa/ladspa_1430.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens distortion A"
+#, kde-format
 msgid "Chebyshev Distortion"
-msgstr "Distorsione della lente A"
+msgstr "Distorsione di Čebyšëv"
 
 #: data/effects/ladspa/ladspa_1430.xml:6
 #, kde-format
@@ -15211,16 +15205,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:9
-#, fuzzy, kde-format
-#| msgid "Distort"
+#, kde-format
 msgid "Distortion"
-msgstr "Distorci"
+msgstr "Distorsione"
 
 #: data/effects/ladspa/ladspa_1430.xml:10
-#, fuzzy, kde-format
-#| msgid "Set the opacity of the graticule"
+#, kde-format
 msgid "Sets the sensitivity of the input"
-msgstr "Imposta l'opacità del reticolo"
+msgstr "Imposta la sensibilità dell'ingresso"
 
 #: data/effects/ladspa/ladspa_1431.xml:4
 #, fuzzy, kde-format
@@ -15251,12 +15243,12 @@ msgstr "Frequenza"
 #: data/effects/ladspa/ladspa_1432.xml:20
 #, kde-format
 msgid "Controls the frequency shift applied to the input signal"
-msgstr ""
+msgstr "Regola la variazione di frequenza applicata al segnale in ingresso"
 
 #: data/effects/ladspa/ladspa_1432.xml:4
 #, kde-format
 msgid "Bode Frequency Shifter (CV)"
-msgstr ""
+msgstr "Cambio di frequenza Bode (CV)"
 
 #: data/effects/ladspa/ladspa_1432.xml:6
 #, kde-format
@@ -15323,10 +15315,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:14
-#, fuzzy, kde-format
-#| msgid "Buffer Size:"
+#, kde-format
 msgid "Buffer Size"
-msgstr "Dimensione buffer:"
+msgstr "Dimensione buffer"
 
 #: data/effects/ladspa/ladspa_1433.xml:16
 #, kde-format
@@ -15335,12 +15326,14 @@ msgid ""
 "      Small buffers will sound fluttery, large buffers will have flangy "
 "sounding echos."
 msgstr ""
+"L'ordine di grandezza della dimensione del buffer.<br>\n"
+"      I buffer piccoli producono un suono tremolante, mentre quelli grandi "
+"generano echi con un effetto flanger."
 
 #: data/effects/ladspa/ladspa_1438.xml:4
-#, fuzzy, kde-format
-#| msgid "Flanger"
+#, kde-format
 msgid "DJ Flanger"
-msgstr "Flanger"
+msgstr "DJ flanger"
 
 #: data/effects/ladspa/ladspa_1438.xml:6
 #, kde-format
@@ -15348,6 +15341,8 @@ msgid ""
 "DJ Flanger (LADSPA 1438)<br>\n"
 "   This is a flanger which is more or less typical of DJ mixing desks"
 msgstr ""
+"DJ flanger (LADSPA 1438)<br>\n"
+"   Si tratta di un flanger più o meno tipico dei mixer da DJ"
 
 #: data/effects/ladspa/ladspa_1438.xml:9
 #, kde-format
@@ -15385,15 +15380,14 @@ msgid "The amount of the delays output that is mixed back into the delay"
 msgstr "La quantità di particelle di polvere aggiunte all'immagine"
 
 #: data/effects/ladspa/ladspa_1886.xml:4
-#, fuzzy, kde-format
-#| msgid "Exponential In"
+#, kde-format
 msgid "Exponential Signal Decay"
-msgstr "Ingresso esponenziale"
+msgstr "Decadimento esponenziale del segnale"
 
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
 msgid "Exponential Signal Decay (LADSPA 1886)"
-msgstr ""
+msgstr "Decadimento esponenziale del segnale (LADSPA 1886)"
 
 #: data/effects/ladspa/ladspa_1887.xml:4
 #, fuzzy, kde-format
@@ -15425,6 +15419,9 @@ msgid ""
 "Maximum delay.<br>\n"
 "      Used to set the delay buffer size upon activation. Cannot be modulated."
 msgstr ""
+"Ritardo massimo.<br>\n"
+"      Serve a impostare la dimensione del buffer di ritardo al momento "
+"dell'attivazione. Non può essere modulato."
 
 #: data/effects/ladspa/ladspa_1887.xml:14
 #: data/effects/ladspa/ladspa_1888.xml:14
@@ -15433,8 +15430,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:12
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
-#, fuzzy, kde-format
-#| msgid "Delay time"
+#, kde-format
 msgid "Delay Time"
 msgstr "Tempo di ritardo"
 
@@ -15447,11 +15443,15 @@ msgid ""
 "      by 60 decibels. If this time is negative then the feedback coefficient "
 "will be negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"Tempo necessario affinché gli echi si attenuino<br>\n"
+"      di 60 decibel. Se questo tempo è negativo il coefficiente di "
+"retroazione sarà negativo, accentuando così solo le armoniche dispari a "
+"un'ottava più bassa."
 
 #: data/effects/ladspa/ladspa_1888.xml:4
 #, kde-format
 msgid "Comb Delay Line (cubic spline interpolation)"
-msgstr ""
+msgstr "Linea combinata di ritardo (interpolazione spline cubica)"
 
 #: data/effects/ladspa/ladspa_1888.xml:6
 #, kde-format
@@ -15459,11 +15459,13 @@ msgid ""
 "Comb Delay Line (cubic spline interpolation) (LADSPA 1888)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Linea combinata di ritardo (interpolazione spline cubica) (LADSPA 1888)<br>\n"
+"   Basato sul lavoro di James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1889.xml:4
 #, kde-format
 msgid "Comb Delay Line (non-interpolating)"
-msgstr ""
+msgstr "Linea combinata di ritardo (senza interpolazione)"
 
 #: data/effects/ladspa/ladspa_1889.xml:6
 #, kde-format
@@ -15471,6 +15473,8 @@ msgid ""
 "Comb Delay Line (non-interpolating) (LADSPA 1889)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Linea combinata di ritardo (senza interpolazione) (LADSPA 1889)<br>\n"
+"   Basato sul lavoro di James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1890.xml:4
 #, fuzzy, kde-format
@@ -15490,18 +15494,16 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
 #: data/effects/ladspa/ladspa_1904.xml:8
-#, fuzzy, kde-format
-#| msgid "Rotor Frequency"
+#, kde-format
 msgid "Cutoff Frequency"
-msgstr "Frequenza del rotore"
+msgstr "Frequenza di taglio"
 
 #: data/effects/ladspa/ladspa_1890.xml:12
 #: data/effects/ladspa/ladspa_1891.xml:12
 #: data/effects/ladspa/ladspa_1892.xml:15
-#, fuzzy, kde-format
-#| msgid "Images"
+#, kde-format
 msgid "Stages"
-msgstr "Immagini"
+msgstr "Passaggi"
 
 #: data/effects/ladspa/ladspa_1890.xml:14
 #: data/effects/ladspa/ladspa_1891.xml:14
@@ -15513,10 +15515,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1891.xml:4
-#, fuzzy, kde-format
-#| msgid "Low-pass"
+#, kde-format
 msgid "GLAME Lowpass"
-msgstr "Passa basso"
+msgstr "Passa basso GLAME"
 
 #: data/effects/ladspa/ladspa_1891.xml:6
 #, kde-format
@@ -15528,10 +15529,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1892.xml:4
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "GLAME Bandpass"
-msgstr "Passa banda"
+msgstr "Passa banda GLAME"
 
 #: data/effects/ladspa/ladspa_1892.xml:6
 #, kde-format
@@ -15550,8 +15550,7 @@ msgstr "Centra frequenza"
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
-#| msgid "Band Width"
+#, kde-format
 msgid "Bandwidth"
 msgstr "Larghezza di banda"
 
@@ -15631,7 +15630,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1901.xml:4
 #, kde-format
 msgid "DJ EQ"
-msgstr ""
+msgstr "DJ EQ"
 
 #: data/effects/ladspa/ladspa_1901.xml:6
 #, kde-format
@@ -15642,10 +15641,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
-#| msgid "LFE Gain"
+#, kde-format
 msgid "Lo Gain"
-msgstr "Guadagno LFE"
+msgstr "Guadagno dei bassi"
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
@@ -15655,8 +15653,7 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Gain"
 msgstr "Guadagno dei medi"
 
@@ -15668,10 +15665,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Hi Gain"
-msgstr "Guadagno"
+msgstr "Guadagno degli acuti"
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
@@ -15692,10 +15688,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
 #: data/effects/ladspa/ladspa_1904.xml:11
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Resonance"
-msgstr "Bilanciamento rosso"
+msgstr "Risonanza"
 
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
@@ -15718,22 +15713,18 @@ msgid "Butterworth Highpass Filter (LADSPA 1904)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:4
-#, fuzzy, kde-format
-#| msgid "Edit Bin Effect"
+#, kde-format
 msgid "VyNil (Vinyl Effect)"
-msgstr "Modifica il contenitore degli effetti"
+msgstr "VyNil (effetto vinile)"
 
 #: data/effects/ladspa/ladspa_1905.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "TAP Reflector (LADSPA 2154)<br>\n"
-#| "    Creates a psychedelic reverse audio effect."
+#, kde-format
 msgid ""
 "Vynil Effect (LADSPA 1905)<br>\n"
 "   Simulates an old vynil effect"
 msgstr ""
-"Riflettore TAP (LADSPA 2154)<br>\n"
-"    Crea un effetto audio psichedelico al contrario."
+"Effetto vinile (LADSPA 1905)<br>\n"
+"   Simula l'effetto di un vecchio disco in vinile"
 
 #: data/effects/ladspa/ladspa_1905.xml:9
 #: src/project/dialogs/projectsettings.cpp:242
@@ -15755,21 +15746,19 @@ msgid "RPM"
 msgstr "giri/min"
 
 #: data/effects/ladspa/ladspa_1905.xml:15
-#, fuzzy, kde-format
-#| msgid "The rotation angle to be applied to the waveform."
+#, kde-format
 msgid "The rotational speed of the platter"
-msgstr "L'angolo di rotazione da applicare alla forma d'onda."
+msgstr "La velocità di rotazione del piatto"
 
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
 msgid "33 1/3,45,78"
-msgstr ""
+msgstr "33 1/3,45,78"
 
 #: data/effects/ladspa/ladspa_1905.xml:19
-#, fuzzy, kde-format
-#| msgid "Surface warping"
+#, kde-format
 msgid "Surface Warping"
-msgstr "Avvolgimento della superficie"
+msgstr "Deformazione della superficie"
 
 #: data/effects/ladspa/ladspa_1905.xml:21
 #, kde-format
@@ -15798,16 +15787,14 @@ msgid "Wear"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:30
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of wear on the grooves"
-msgstr "La quantità di particelle di polvere aggiunte all'immagine"
+msgstr "Il grado di usura dei solchi"
 
 #: data/effects/ladspa/ladspa_1907.xml:4
-#, fuzzy, kde-format
-#| msgid "1 (mono)"
+#, kde-format
 msgid "DJ EQ (mono)"
-msgstr "1 (mono)"
+msgstr "EQ DJ (mono)"
 
 #: data/effects/ladspa/ladspa_1907.xml:6
 #, kde-format
@@ -15818,10 +15805,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio lookahead limiter."
+#, kde-format
 msgid "Fast Lookahead Limiter"
-msgstr "Limitatore audio lookahead."
+msgstr "Limitatore lookahead veloce"
 
 #: data/effects/ladspa/ladspa_1913.xml:6
 #, kde-format
@@ -15856,10 +15842,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:24
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Attenuation"
-msgstr "Animazione"
+msgstr "Attenuazione"
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format
@@ -18335,24 +18320,19 @@ msgid "HH:MM:SS.SSS"
 msgstr ""
 
 #: data/effects/timer.xml:66
-#, fuzzy, kde-format
-#| msgid "Duration (s)"
+#, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr "Durata (s)"
+msgstr "Durata (OO:MM:SS.SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"La durata massima trascorsa del timer dopo che è passato il tempo di avvio.\n"
+"La durata massima trascorsa del timer dopo che è passato il tempo di avvio."
+"<br>\n"
 "Il testo verrà immobilizzato a 00:00:00.000 dall'inizio del filtro finché "
 "non è trascorsa l'ora di inizio."
 
@@ -18446,26 +18426,18 @@ msgid ""
 msgstr ""
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            Se il contatore dovrebbe contare in avanti da 00: 00: 00.000 o "
-"indietro dal tempo di durata.\n"
-"        "
+"Se il contatore deve contare in avanti da 00:00:00.000 o all'indietro dal "
+"tempo di durata."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "Giù"
+msgstr "Su,Giù"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -21806,10 +21778,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "Transcodifica in un formato adatto al montaggio..."
 
 #: src/bin/bin.cpp:4102
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "Inserisci il codice temporale corrente"
+msgstr "Inserisci nel codice temporale"
 
 #: src/bin/bin.cpp:4107
 #, kde-format
@@ -21997,29 +21968,24 @@ msgid "Title clip"
 msgstr "Clip titolatrice"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "Aggiorna la vista dei sottotitoli nella linea temporale."
+msgstr "Sostituire la clip titolatrice nella linea temporale con quella nuova?"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace Timeline Clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "Sostituisci clip della linea temporale"
+msgstr "Sostituisci clip titolatrice"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "Sostituisci clip"
+msgstr "Sostituisci"
 
 #: src/bin/bin.cpp:5282
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "Prove"
+msgstr "Mantiene quella esistente"
 
 #: src/bin/bin.cpp:5342
 #, kde-format
@@ -22820,10 +22786,9 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Formato di registrazione regolato su %1 canali, %2Hz."
 
 #: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
-#, fuzzy, kde-format
-#| msgid "No audio track found"
+#, kde-format
 msgid "No audio device found"
-msgstr "Non è stata trovata nessuna traccia audio"
+msgstr "Nessun dispositivo audio trovato"
 
 #: src/capture/mediacapture.cpp:247
 #, kde-format
@@ -32146,10 +32111,9 @@ msgid "Move Toolbar"
 msgstr "Sposta barra degli strumenti"
 
 #: src/monitor/view/EffectToolBar.qml:174
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "Fotogrammi chiave automatici"
+msgstr "I fotogrammi chiave automatici sono ATTIVI"
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format
@@ -36627,31 +36591,26 @@ msgstr ""
 "destinazione della traccia"
 
 #: src/timeline2/view/timelinecontroller.cpp:3693
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "Clip nel contenitore del progetto"
+msgstr "Clip non trovata nel contenitore del progetto"
 
 #: src/timeline2/view/timelinecontroller.cpp:3701
-#, fuzzy, kde-format
-#| msgid "No keyframe data found in clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "Nessun fotogramma chiave trovato nella clip"
+msgstr ""
+"Non sono stati trovati metadati relativi al codice temporale nella clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:3707
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "Seleziona un profilo video"
+msgstr "Seleziona una traccia di destinazione"
 
 # , kde-format
 #: src/timeline2/view/timelinecontroller.cpp:3713
-#, fuzzy, kde-format
-#| msgid "Error removing clip at %1 on track %2"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr ""
-"Si è verificato un errore nella rimozione della clip alla posizione: %1 "
-"nella traccia %2"
+msgstr "Impossibile inserire la clip in %1 nella traccia %2"
 
 #: src/timeline2/view/timelinecontroller.cpp:3765
 #, kde-format
@@ -36751,17 +36710,15 @@ msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4597
 #: src/timeline2/view/timelinecontroller.cpp:4653
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "Sostituisci clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:4597
-#, fuzzy, kde-format
-#| msgid "Import selected clips"
+#, kde-format
 msgid "Import New Clip"
-msgstr "Importa le clip selezionate"
+msgstr "Importa nuova clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:4640
 #, kde-format
@@ -36769,14 +36726,9 @@ msgid "Incompatible clip types for replacement"
 msgstr "Tipi di clip non compatibili con la sostituzione"
 
 #: src/timeline2/view/timelinecontroller.cpp:4647
-#, fuzzy, kde-format
-#| msgid ""
-#| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
-#| "with clip <b>%2</b>"
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
-msgstr ""
-"Sostituzione nella linea temporale attiva delle istanze della clip\n"
-"<b>%1</b><br/> con la clip <b>%2</b>"
+msgstr "Sostituire la clip <b>%1</b> con <b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4650
 #, kde-format
@@ -36786,8 +36738,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4653
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
 msgstr "Sostituisci clip"
 
@@ -39575,10 +39526,10 @@ msgstr "Salta alla clip quando aggiungi un effetto"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "Allinea l'indicatore di riproduzione alla posizione del mouse"
+msgstr ""
+"Al termine, riporta l'indicatore di riproduzione nella posizione iniziale"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101
