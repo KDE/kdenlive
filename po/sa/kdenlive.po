@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-09 00:42+0000\n"
+"POT-Creation-Date: 2026-07-15 00:44+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -4016,7 +4016,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/timer.xml:97
-#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:68
+#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:73
 #: src/ui/clipspeed_ui.ui:36 src/ui/editsub_ui.ui:557
 #, kde-format
 msgid "Speed"
@@ -7351,8 +7351,8 @@ msgstr "तथा"
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:339
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
-#: src/timeline2/view/qml/Track.qml:70 src/timeline2/view/qml/Track.qml:96
-#: src/timeline2/view/qml/Track.qml:104 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:75 src/timeline2/view/qml/Track.qml:101
+#: src/timeline2/view/qml/Track.qml:109 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
@@ -7950,8 +7950,7 @@ msgstr "कृष्णवर्णात् विडियो फीका"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:101
-#: src/timeline2/view/qml/Track.qml:102
+#: src/monitor/view/MonitorTrimming.qml:92 src/timeline2/view/qml/Track.qml:107
 #, kde-format
 msgid "In"
 msgstr "इत्यस्मिन्‌"
@@ -7973,7 +7972,7 @@ msgid "Fade video to black"
 msgstr "विडियो कृष्णवर्णे फीका कुर्वन्तु"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:135
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:126
 #, kde-format
 msgid "Out"
 msgstr "बहिः"
@@ -21446,17 +21445,17 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1486
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1503
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -28567,7 +28566,7 @@ msgid "Clip in Timeline"
 msgstr "Timeline इत्यत्र क्लिप् कुर्वन्तु"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1192
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1195
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -30719,7 +30718,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "प्रभाव कीफ्रेम्स"
 
-#: src/mainwindow.cpp:2095 src/monitor/view/EffectToolBar.qml:122
+#: src/mainwindow.cpp:2095 src/monitor/view/EffectToolBar.qml:115
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Keyframe योजयतु/निष्कासयतु"
@@ -31647,7 +31646,7 @@ msgid "Audio streams"
 msgstr "श्रव्यधारा"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:858
-#: src/monitor/monitor.cpp:2244
+#: src/monitor/monitor.cpp:2237
 #, kde-format
 msgid "Merge all streams"
 msgstr "सर्वाणि धाराः विलीनयन्तु"
@@ -32101,19 +32100,19 @@ msgstr "स्रोतसंकल्पस्य उपयोगेन चि�
 msgid "Exit Mask Mode ?"
 msgstr "मास्क निर्माणात् निर्गच्छन्तु"
 
-#: src/monitor/monitor.cpp:2229 src/monitor/monitor.cpp:2359
+#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2352
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 श्रव्यप्रवाहः"
 msgstr[1] "%1 श्रव्यप्रवाहाः"
 
-#: src/monitor/monitor.cpp:2687
+#: src/monitor/monitor.cpp:2680
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit इत्यस्य GLSL प्रबन्धकं प्रारम्भं कर्तुं न शक्यते, कृपया Movit अक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:2729 src/monitor/monitor.cpp:2786
+#: src/monitor/monitor.cpp:2722 src/monitor/monitor.cpp:2779
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -32122,17 +32121,17 @@ msgstr ""
 "तस्य विशेषतायाः कृते alphagrad फ़िल्टर आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2749
+#: src/monitor/monitor.cpp:2742
 #, kde-format
 msgid "Clip has no effects"
 msgstr "क्लिप् इत्यस्य कोऽपि प्रभावः नास्ति"
 
-#: src/monitor/monitor.cpp:2751
+#: src/monitor/monitor.cpp:2744
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "प्रभावस्य तुलनां कर्तुं project bin मध्ये एकं क्लिप् चिनोतु"
 
-#: src/monitor/monitor.cpp:2793
+#: src/monitor/monitor.cpp:2786
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -32141,40 +32140,40 @@ msgstr ""
 "तस्य विशेषतायाः कृते cairoblend संक्रमणम् आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2873
+#: src/monitor/monitor.cpp:2866
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभावं सम्पादयितुं मॉनिटरे सम्पादनविधिं सक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:3377
+#: src/monitor/monitor.cpp:3370
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "प्रोजेक्ट् बिन् मध्ये कोऽपि क्लिप् चयनितः नास्ति"
 
-#: src/monitor/monitor.cpp:3398
+#: src/monitor/monitor.cpp:3391
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3480 src/monitor/monitor.cpp:3511
+#: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3504
 #: src/timeline2/view/timelinecontroller.cpp:6388
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3490
+#: src/monitor/monitor.cpp:3483
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3496 src/monitor/monitor.cpp:3517
+#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
 #: src/timeline2/view/timelinecontroller.cpp:6403
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3498 src/monitor/monitor.cpp:3519
+#: src/monitor/monitor.cpp:3491 src/monitor/monitor.cpp:3512
 #: src/timeline2/view/timelinecontroller.cpp:6406
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -32322,7 +32321,7 @@ msgstr "Zone Start इत्यत्र गच्छन्तु"
 msgid "Go to Zone End"
 msgstr "Zone End इति गच्छन्तु"
 
-#: src/monitor/monitorproxy.cpp:773
+#: src/monitor/monitorproxy.cpp:803
 #: src/timeline2/view/timelinecontroller.cpp:6395
 #, fuzzy, kde-format
 #| msgid "Rename marker"
@@ -32388,17 +32387,17 @@ msgstr "Audio Spectrum सक्षमीकरणाय MLT libfftw3 इत्�
 msgid "Enable Audio Spectrum"
 msgstr "ऑडियो स्पेक्ट्रम् सक्षमं कुर्वन्तु"
 
-#: src/monitor/videowidget.cpp:1221
+#: src/monitor/videowidget.cpp:1218
 #, kde-format
 msgid "Select a zone to play"
 msgstr "क्रीडितुं क्षेत्रं चिनोतु"
 
-#: src/monitor/videowidget.cpp:1230
+#: src/monitor/videowidget.cpp:1227
 #, kde-format
 msgid "Select a clip to play"
 msgstr "वादयितुं क्लिप् चिनोतु"
 
-#: src/monitor/videowidget.cpp:1340
+#: src/monitor/videowidget.cpp:1333
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -32409,40 +32408,40 @@ msgstr ""
 "भवतः Kdenlive संस्थापने अथवा भवतः चालकसेटिंग्स् इत्यत्र किमपि दोषः अस्ति, कृपया तत् "
 "समाधात ।"
 
-#: src/monitor/view/AudioView.qml:344
+#: src/monitor/view/AudioView.qml:342
 #, fuzzy, kde-format
 #| msgid "Audio Waveform Filter"
 msgid "Click to refresh audio waveform"
 msgstr "श्रव्य तरंगरूप फ़िल्टर"
 
-#: src/monitor/view/ClipMonitor.qml:346 src/monitor/view/ProjectMonitor.qml:186
+#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:177
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:385 src/monitor/view/ProjectMonitor.qml:217
+#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:208
 #, kde-format
 msgid "In Point"
 msgstr "In Point इति"
 
-#: src/monitor/view/ClipMonitor.qml:385
+#: src/monitor/view/ClipMonitor.qml:382
 #, kde-format
 msgid "In/Out Point"
 msgstr "अन्तः/बहिः बिन्दुः"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:233
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:224
 #, kde-format
 msgid "Out Point"
 msgstr "आउट प्वाइण्ट्"
 
-#: src/monitor/view/ClipMonitor.qml:591
+#: src/monitor/view/ClipMonitor.qml:588
 #, kde-format
 msgid "Terminate Job"
 msgstr "कार्य समाप्त करें"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
-#: src/monitor/view/MultiScreenToolBar.qml:63
-#: src/monitor/view/SceneToolBar.qml:63
+#: src/monitor/view/MultiScreenToolBar.qml:68
+#: src/monitor/view/SceneToolBar.qml:68
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "पूर्ण स्क्रीन स्विच करें"
@@ -32452,41 +32451,41 @@ msgstr "पूर्ण स्क्रीन स्विच करें"
 msgid "Show Grid"
 msgstr "ग्रिड् दर्शयतु"
 
-#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:72
+#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:77
 #, fuzzy, kde-format
 #| msgid "Set Zone"
 msgid "Show Safe Areas"
 msgstr "क्षेत्रं सेट् कुर्वन्तु"
 
-#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:85
+#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:90
 #, fuzzy, kde-format
 #| msgid "Compositions"
 msgid "Composition Guides"
 msgstr "रचनाः"
 
-#: src/monitor/view/EffectToolBar.qml:110
+#: src/monitor/view/EffectToolBar.qml:103
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Next Keyframe इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/EffectToolBar.qml:116
+#: src/monitor/view/EffectToolBar.qml:109
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Previous Keyframe इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/EffectToolBar.qml:127
+#: src/monitor/view/EffectToolBar.qml:120
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "स्वचालित कीफ्रेम्स"
 
-#: src/monitor/view/EffectToolBar.qml:141 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:77
-#: src/monitor/view/SceneToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:134 src/monitor/view/MaskToolBar.qml:123
+#: src/monitor/view/MultiScreenToolBar.qml:82
+#: src/monitor/view/SceneToolBar.qml:110
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Toolbar चालयन्तु"
 
-#: src/monitor/view/EffectToolBar.qml:174
+#: src/monitor/view/EffectToolBar.qml:167
 #, fuzzy, kde-format
 #| msgid "Automatic Keyframes"
 msgid "Automatic Keyframes is ON"
@@ -32517,7 +32516,7 @@ msgstr "मास्क निर्माणात् निर्गच्छ�
 msgid "Exit Preview Mode"
 msgstr "पूर्वावलोकनमोडतः निर्गच्छन्तु"
 
-#: src/monitor/view/MonitorAutomask.qml:254
+#: src/monitor/view/MonitorAutomask.qml:243
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Click on an object to start a mask.\n"
@@ -32533,23 +32532,23 @@ msgstr ""
 "अन्यं क्षेत्रं समावेशयितुं Shift+क्लिक् कुर्वन्तु।\n"
 "क्षेत्रं बहिष्कृत्य Ctrl+क्लिक् कुर्वन्तु ।"
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:343
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "प्रभावस्य तुलनां कर्तुं project bin मध्ये एकं क्लिप् चिनोतु"
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:343
 #, kde-format
 msgid "Generating image mask"
 msgstr "इमेज मास्क जननम्"
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:343
 #, kde-format
 msgid "Generating video mask"
 msgstr "विडियो मास्क जननम्"
 
-#: src/monitor/view/MonitorAutomask.qml:365
+#: src/monitor/view/MonitorAutomask.qml:354
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click on an object to start a mask.\n"
@@ -32564,12 +32563,12 @@ msgstr ""
 "अन्यं क्षेत्रं समावेशयितुं Shift+क्लिक् कुर्वन्तु।\n"
 "क्षेत्रं बहिष्कृत्य Ctrl+क्लिक् कुर्वन्तु ।"
 
-#: src/monitor/view/MonitorAutomask.qml:365
+#: src/monitor/view/MonitorAutomask.qml:354
 #, kde-format
 msgid "Previewing video mask"
 msgstr "विडियो मास्क पूर्वावलोकनम्v"
 
-#: src/monitor/view/MonitorAutomask.qml:376
+#: src/monitor/view/MonitorAutomask.qml:365
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -32578,19 +32577,19 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:386
+#: src/monitor/view/MonitorAutomask.qml:375
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "Clip Start इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/MonitorAutomask.qml:392
+#: src/monitor/view/MonitorAutomask.qml:381
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
 msgstr "Clip End इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/MonitorGeometryScene.qml:337
+#: src/monitor/view/MonitorGeometryScene.qml:336
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32604,7 +32603,7 @@ msgstr ""
 "shortcut>, <shortcut>दक्षिणरूपेण स्थापयन्तु</shortcut > साधनपट्टिकायाः कृते "
 "<shortcut>क्लिक्</shortcut> कुर्वन्तु तस्य कीफ्रेम् अन्वेष्टुं केन्द्रम्"
 
-#: src/monitor/view/MonitorRotoScene.qml:63
+#: src/monitor/view/MonitorRotoScene.qml:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32614,7 +32613,7 @@ msgstr ""
 "<shortcut>बिन्दून् योजयितुं</shortcut> नुदन्तु, आकारं बन्दं कर्तुं <shortcut>राइट् क्लिक् "
 "कुर्वन्तु</shortcut> ।"
 
-#: src/monitor/view/MonitorRotoScene.qml:64
+#: src/monitor/view/MonitorRotoScene.qml:63
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32628,14 +32627,14 @@ msgstr ""
 "shortcut> बिन्दुः, <shortcut>द्विवारं क्लिक्</shortcut> पृष्ठभूमिं नूतनं कीलफ्रेम् निर्मातुं, "
 "<shortcut>Hover साधनपट्टिकायाः कृते right</shortcut> इति।"
 
-#: src/monitor/view/MonitorRotoScene.qml:65
+#: src/monitor/view/MonitorRotoScene.qml:64
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>केन्द्र-आधारित-आकार-परिवर्तनार्थं drag handle</shortcut> शिफ्ट् कुर्वन्तु"
 
-#: src/monitor/view/MonitorRotoScene.qml:407
+#: src/monitor/view/MonitorRotoScene.qml:406
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -32685,7 +32684,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "%1 पुनः सेट् कुर्वन्तु"
 
-#: src/monitor/view/ProjectMonitor.qml:82
+#: src/monitor/view/ProjectMonitor.qml:73
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -32695,14 +32694,14 @@ msgstr ""
 "<b>दक्षिणतः Hover कुर्वन्तु</b> , अन्वेष्टुं <b>चक्रं</b> वा <b>बाणं</b> , जूम कर्तुं <b>Ctrl "
 "चक्रं</b> कुर्वन्तु"
 
-#: src/monitor/view/ProjectMonitor.qml:286
+#: src/monitor/view/ProjectMonitor.qml:277
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "परिवर्तनं कुरुत"
 
-#: src/monitor/view/SceneToolBar.qml:103
+#: src/monitor/view/SceneToolBar.qml:101
 #, fuzzy, kde-format
 #| msgid "Remove Marker"
 msgid "Add/Remove Marker"
@@ -36319,14 +36318,14 @@ msgid "Change clip speed"
 msgstr "क्लिप् गतिं परिवर्तयन्तु"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:142
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "लॉक ट्रैक"
 
 #: src/timeline2/model/timelinemodel.cpp:7763
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:142
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
@@ -36514,49 +36513,49 @@ msgid "Stop"
 msgstr "विरमतु"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2348
+#: src/timeline2/view/qml/Timeline.qml:2352
 #, kde-format
 msgid "Paused"
 msgstr "विरामः कृतः"
 
-#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1267
+#: src/timeline2/view/qml/Clip.qml:253 src/timeline2/view/qml/Clip.qml:1284
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), स्थितिः %4, अवधिः %5"
 
-#: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
+#: src/timeline2/view/qml/Clip.qml:349 src/timeline2/view/qml/Clip.qml:363
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "स्थितिः %1"
 
-#: src/timeline2/view/qml/Clip.qml:566
+#: src/timeline2/view/qml/Clip.qml:576
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "मिश्रण अवधि: %1, कट: %2"
 
-#: src/timeline2/view/qml/Clip.qml:620
+#: src/timeline2/view/qml/Clip.qml:630
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, मिश्रण अवधिः %2"
 
-#: src/timeline2/view/qml/Clip.qml:622
+#: src/timeline2/view/qml/Clip.qml:632
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, मिश्रण अवधिः %2"
 
-#: src/timeline2/view/qml/Clip.qml:625 src/timeline2/view/qml/Clip.qml:640
+#: src/timeline2/view/qml/Clip.qml:635 src/timeline2/view/qml/Clip.qml:650
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "मिश्रण अवधिः %1"
 
-#: src/timeline2/view/qml/Clip.qml:1149
+#: src/timeline2/view/qml/Clip.qml:1166
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "In:%1, स्थितिः:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1152 src/timeline2/view/qml/Clip.qml:1257
+#: src/timeline2/view/qml/Clip.qml:1169 src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36565,65 +36564,65 @@ msgstr ""
 "गतिं परिवर्तयितुं <b>Ctrl drag</b> , समीपस्थेन क्लिप् इत्यनेन सह मिश्रणं कर्तुं <b>डबल क्लिक् "
 "कुर्वन्तु</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1154
+#: src/timeline2/view/qml/Clip.qml:1171
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "मिश्रणस्य अवधिं परिवर्तयितुं <b>कर्षयन्तु</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1254
+#: src/timeline2/view/qml/Clip.qml:1271
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "बहिः:%1, स्थितिः:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1393
+#: src/timeline2/view/qml/Clip.qml:1410
 #, kde-format
 msgid "Offset: -%1"
 msgstr "ऑफसेटः -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1394
+#: src/timeline2/view/qml/Clip.qml:1411
 #, kde-format
 msgid "Offset: %1"
 msgstr "ऑफसेट्: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1395
+#: src/timeline2/view/qml/Clip.qml:1412
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " क्लिप्स् संरेखयितुं <b>क्लिक् कुर्वन्तु</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1640 src/timeline2/view/qml/Clip.qml:1681
+#: src/timeline2/view/qml/Clip.qml:1657 src/timeline2/view/qml/Clip.qml:1698
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "रचनां योजयितुं <b>क्लिक् कुर्वन्तु</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1760 src/timeline2/view/qml/Clip.qml:1767
+#: src/timeline2/view/qml/Clip.qml:1777 src/timeline2/view/qml/Clip.qml:1784
 #, kde-format
 msgid "Fade out: %1"
 msgstr "फीका भवति: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1771 src/timeline2/view/qml/Clip.qml:1880
+#: src/timeline2/view/qml/Clip.qml:1788 src/timeline2/view/qml/Clip.qml:1897
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "फीका समायोजयितुं <b>कर्षयन्तु</b> , पूर्वनिर्धारित अवधिः फीका योजयितुं <b>क्लिक् कुर्वन्तु</"
 "b>"
 
-#: src/timeline2/view/qml/Clip.qml:1869 src/timeline2/view/qml/Clip.qml:1876
+#: src/timeline2/view/qml/Clip.qml:1886 src/timeline2/view/qml/Clip.qml:1893
 #, kde-format
 msgid "Fade in: %1"
 msgstr "फीका भवति: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1964
+#: src/timeline2/view/qml/Clip.qml:1981
 #, kde-format
 msgid "Slip Clip"
 msgstr "स्लिप क्लिप्"
 
-#: src/timeline2/view/qml/Composition.qml:257
+#: src/timeline2/view/qml/Composition.qml:256
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, स्थितिः %2, अवधिः %3"
 
-#: src/timeline2/view/qml/Composition.qml:324
-#: src/timeline2/view/qml/Composition.qml:388
+#: src/timeline2/view/qml/Composition.qml:323
+#: src/timeline2/view/qml/Composition.qml:387
 #: src/timeline2/view/qml/SubTitle.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:460
 #, kde-format
@@ -36653,31 +36652,31 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "पाठं सम्पादयितुं <b>द्विवारं क्लिक् कुर्वन्तु</b>"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:103
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:104
 #, kde-format
 msgid "Click to see details"
 msgstr "विवरणं द्रष्टुं क्लिक् कुर्वन्तु"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:117
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:118
 #, kde-format
 msgid "Speech recognition"
 msgstr "वाक्परिचयः"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:129
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
 #: src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Show"
 msgstr "दर्शयतु"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:129
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
 #: src/timeline2/view/qml/TrackHead.qml:413 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "गोपयतु"
 
-#: src/timeline2/view/qml/Timeline.qml:899
-#: src/timeline2/view/qml/Timeline.qml:909
+#: src/timeline2/view/qml/Timeline.qml:902
+#: src/timeline2/view/qml/Timeline.qml:912
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -36685,39 +36684,39 @@ msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "सर्वेषां धाराणां कृते पर्याप्तं श्रव्यपटलं नास्ति (%1) ।"
 msgstr[1] "सर्वेषां धाराणां कृते पर्याप्तं श्रव्यपटलं नास्ति (%1) ।"
 
-#: src/timeline2/view/qml/Timeline.qml:1186
+#: src/timeline2/view/qml/Timeline.qml:1189
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "मास्टर इफेक्ट्स् दर्शयतु"
 
-#: src/timeline2/view/qml/Timeline.qml:1973
+#: src/timeline2/view/qml/Timeline.qml:1977
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "उपशीर्षकं योजयितुं <b>द्विवारं क्लिक् कुर्वन्तु</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2167
+#: src/timeline2/view/qml/Timeline.qml:2171
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "ऑफसेट्: %1, स्थितिः: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2337
-#: src/timeline2/view/qml/Timeline.qml:2346
+#: src/timeline2/view/qml/Timeline.qml:2341
+#: src/timeline2/view/qml/Timeline.qml:2350
 #, kde-format
 msgid "Recording"
 msgstr "रिकार्डिङ्ग"
 
-#: src/timeline2/view/qml/Timeline.qml:2440
+#: src/timeline2/view/qml/Timeline.qml:2444
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicam In"
 
-#: src/timeline2/view/qml/Track.qml:285 src/timeline2/view/qml/Track.qml:303
+#: src/timeline2/view/qml/Track.qml:306 src/timeline2/view/qml/Track.qml:324
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, अवधिः = %3"
 
-#: src/timeline2/view/qml/Track.qml:344
+#: src/timeline2/view/qml/Track.qml:368
 #, fuzzy, kde-format
 #| msgid "Adjusting speed"
 msgid "%1% | Adjusting speed"
@@ -36780,7 +36779,7 @@ msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "समानप्रकारस्य सर्वाणि पटलानि (श्रव्य/वीडियो) संकुचनं/विस्तारं कर्तुं <b>शिफ्टं कुर्वन्तु</b>"
 
-#: src/timeline2/view/qml/TrackHead.qml:502
+#: src/timeline2/view/qml/TrackHead.qml:503
 #, kde-format
 msgid "Edit track name"
 msgstr "ट्रैक नाम सम्पादयतु"

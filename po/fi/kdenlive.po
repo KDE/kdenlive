@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-09 00:42+0000\n"
+"POT-Creation-Date: 2026-07-15 00:44+0000\n"
 "PO-Revision-Date: 2026-02-09 16:55+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4055,7 +4055,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/timer.xml:97
-#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:68
+#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:73
 #: src/ui/clipspeed_ui.ui:36 src/ui/editsub_ui.ui:557
 #, kde-format
 msgid "Speed"
@@ -7420,8 +7420,8 @@ msgstr "Y"
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:339
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
-#: src/timeline2/view/qml/Track.qml:70 src/timeline2/view/qml/Track.qml:96
-#: src/timeline2/view/qml/Track.qml:104 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:75 src/timeline2/view/qml/Track.qml:101
+#: src/timeline2/view/qml/Track.qml:109 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
@@ -8018,8 +8018,7 @@ msgstr "Häivytä mustasta videoon"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:101
-#: src/timeline2/view/qml/Track.qml:102
+#: src/monitor/view/MonitorTrimming.qml:92 src/timeline2/view/qml/Track.qml:107
 #, kde-format
 msgid "In"
 msgstr "Sisään"
@@ -8041,7 +8040,7 @@ msgid "Fade video to black"
 msgstr "Häivytä video mustaan"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:135
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:126
 #, kde-format
 msgid "Out"
 msgstr "Ulos"
@@ -21515,18 +21514,18 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
 #, fuzzy, kde-format
 #| msgid "Cannot add an audio effect to this clip"
 msgid "Drag to add only audio to timeline"
 msgstr "Äänitehostetta ei voitu lisätä tähän leikkeeseen"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1486
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1503
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -28628,7 +28627,7 @@ msgid "Clip in Timeline"
 msgstr "Leike aikajanalla"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1192
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1195
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -30764,7 +30763,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "Leikekehyksien tehoste"
 
-#: src/mainwindow.cpp:2095 src/monitor/view/EffectToolBar.qml:122
+#: src/mainwindow.cpp:2095 src/monitor/view/EffectToolBar.qml:115
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Lisää/poista leikekehys"
@@ -31696,7 +31695,7 @@ msgid "Audio streams"
 msgstr "Äänikanava"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:858
-#: src/monitor/monitor.cpp:2244
+#: src/monitor/monitor.cpp:2237
 #, kde-format
 msgid "Merge all streams"
 msgstr "Yhdistä kaikki kanavat"
@@ -32151,19 +32150,19 @@ msgstr "Vie kuva alkuperäisellä tarkkuudella"
 msgid "Exit Mask Mode ?"
 msgstr "Lopeta maskin luominen"
 
-#: src/monitor/monitor.cpp:2229 src/monitor/monitor.cpp:2359
+#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2352
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 äänen toisto"
 msgstr[1] "%1 äänien toisto"
 
-#: src/monitor/monitor.cpp:2687
+#: src/monitor/monitor.cpp:2680
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movitin GLSL-hallintaa ei voi alustaa: poista Movit käytöstä"
 
-#: src/monitor/monitor.cpp:2729 src/monitor/monitor.cpp:2786
+#: src/monitor/monitor.cpp:2722 src/monitor/monitor.cpp:2779
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -32172,17 +32171,17 @@ msgstr ""
 "Ominaisuutta varten tarvitaan alphagrad-suodatin, asenna frei0r ja käynnistä "
 "Kdenlive uudelleen"
 
-#: src/monitor/monitor.cpp:2749
+#: src/monitor/monitor.cpp:2742
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Leikkeellä ei ole tehosteita"
 
-#: src/monitor/monitor.cpp:2751
+#: src/monitor/monitor.cpp:2744
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Valitse leike tehosteen vertaamiseksi"
 
-#: src/monitor/monitor.cpp:2793
+#: src/monitor/monitor.cpp:2786
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -32191,41 +32190,41 @@ msgstr ""
 "Ominaisuutta varten tarvitaan Cairoblend-siirtymä, asenna frei0r ja "
 "käynnistä Kdenlive uudelleen"
 
-#: src/monitor/monitor.cpp:2873
+#: src/monitor/monitor.cpp:2866
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ota käyttöön muokkaustila näytöllä tehosteen muokkaamiseksi"
 
-#: src/monitor/monitor.cpp:3377
+#: src/monitor/monitor.cpp:3370
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "Leikettä ei ole valittu projektista"
 
-#: src/monitor/monitor.cpp:3398
+#: src/monitor/monitor.cpp:3391
 #, fuzzy, kde-format
 #| msgid "Cannot get duration for file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Tiedoston %1 kestoa ei saada"
 
-#: src/monitor/monitor.cpp:3480 src/monitor/monitor.cpp:3511
+#: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3504
 #: src/timeline2/view/timelinecontroller.cpp:6388
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3490
+#: src/monitor/monitor.cpp:3483
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3496 src/monitor/monitor.cpp:3517
+#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
 #: src/timeline2/view/timelinecontroller.cpp:6403
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3498 src/monitor/monitor.cpp:3519
+#: src/monitor/monitor.cpp:3491 src/monitor/monitor.cpp:3512
 #: src/timeline2/view/timelinecontroller.cpp:6406
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -32375,7 +32374,7 @@ msgstr "Siirry alueen alkuun"
 msgid "Go to Zone End"
 msgstr "Siirry alueen loppuun"
 
-#: src/monitor/monitorproxy.cpp:773
+#: src/monitor/monitorproxy.cpp:803
 #: src/timeline2/view/timelinecontroller.cpp:6395
 #, fuzzy, kde-format
 #| msgid "Rename marker"
@@ -32443,17 +32442,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Ota ääniasteikko käyttöön"
 
-#: src/monitor/videowidget.cpp:1221
+#: src/monitor/videowidget.cpp:1218
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Valitse toistettava vyöhyke"
 
-#: src/monitor/videowidget.cpp:1230
+#: src/monitor/videowidget.cpp:1227
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Valitse toistettava leike"
 
-#: src/monitor/videowidget.cpp:1340
+#: src/monitor/videowidget.cpp:1333
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -32463,41 +32462,41 @@ msgstr ""
 "Esikatseluikkunan luominen videolle epäonnistui.\n"
 "Kdenlive-asennuksessa tai ajureissa on jotain vikaa."
 
-#: src/monitor/view/AudioView.qml:344
+#: src/monitor/view/AudioView.qml:342
 #, fuzzy, kde-format
 #| msgid "Audio Waveform Filter"
 msgid "Click to refresh audio waveform"
 msgstr "Äänen aaltomuotosuodatin"
 
-#: src/monitor/view/ClipMonitor.qml:346 src/monitor/view/ProjectMonitor.qml:186
+#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:177
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:385 src/monitor/view/ProjectMonitor.qml:217
+#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:208
 #, kde-format
 msgid "In Point"
 msgstr "Sisääntulopiste"
 
-#: src/monitor/view/ClipMonitor.qml:385
+#: src/monitor/view/ClipMonitor.qml:382
 #, kde-format
 msgid "In/Out Point"
 msgstr "Piste sisään/ulos"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:233
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:224
 #, kde-format
 msgid "Out Point"
 msgstr "Päätepiste"
 
-#: src/monitor/view/ClipMonitor.qml:591
+#: src/monitor/view/ClipMonitor.qml:588
 #, kde-format
 msgid "Terminate Job"
 msgstr "Keskeytä työ"
 
 # skip-rule: kde-term-full-screen
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
-#: src/monitor/view/MultiScreenToolBar.qml:63
-#: src/monitor/view/SceneToolBar.qml:63
+#: src/monitor/view/MultiScreenToolBar.qml:68
+#: src/monitor/view/SceneToolBar.qml:68
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "Vaihda näyttö koko ruudulle"
@@ -32507,42 +32506,42 @@ msgstr "Vaihda näyttö koko ruudulle"
 msgid "Show Grid"
 msgstr "Näytä ruudukko"
 
-#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:72
+#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:77
 #, fuzzy, kde-format
 #| msgid "Save Zone"
 msgid "Show Safe Areas"
 msgstr "Tallenna alue"
 
 # Jälkituotanto valittu kun se oli eräässä muussa ohjelmassa. Voisi olla myös koostaminen, sommittelu, yhdistäminen. Composition on  "laitetaan yhteen" videota, ääntä, kuvaa, tekstiä. Jälkituotannon efektit laitoin "laajennuksiksi" koska niitä voi ladata lisää ja ohjelmassa on muutenkin lisäksi efektejä "tehosteita" erikseen.
-#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:85
+#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:90
 #, fuzzy, kde-format
 #| msgid "Compositions"
 msgid "Composition Guides"
 msgstr "Koostaminen"
 
-#: src/monitor/view/EffectToolBar.qml:110
+#: src/monitor/view/EffectToolBar.qml:103
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Siirry seuraavaan leikekehykseen"
 
-#: src/monitor/view/EffectToolBar.qml:116
+#: src/monitor/view/EffectToolBar.qml:109
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Siirry edelliseen leikekehykseen"
 
-#: src/monitor/view/EffectToolBar.qml:127
+#: src/monitor/view/EffectToolBar.qml:120
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "Automaattiset leikekehykset"
 
-#: src/monitor/view/EffectToolBar.qml:141 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:77
-#: src/monitor/view/SceneToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:134 src/monitor/view/MaskToolBar.qml:123
+#: src/monitor/view/MultiScreenToolBar.qml:82
+#: src/monitor/view/SceneToolBar.qml:110
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Siirrä työkalupalkki"
 
-#: src/monitor/view/EffectToolBar.qml:174
+#: src/monitor/view/EffectToolBar.qml:167
 #, fuzzy, kde-format
 #| msgid "Automatic Keyframes"
 msgid "Automatic Keyframes is ON"
@@ -32574,7 +32573,7 @@ msgstr "Lopeta maskin luominen"
 msgid "Exit Preview Mode"
 msgstr "Poistu esikatselusta"
 
-#: src/monitor/view/MonitorAutomask.qml:254
+#: src/monitor/view/MonitorAutomask.qml:243
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Click on an object to start a mask.\n"
@@ -32590,23 +32589,23 @@ msgstr ""
 "Vaihto+painallus tuo toisen vyöhykkeen.\n"
 "Ctrl+painallus sulkee alueen pois."
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:343
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "Valitse leike tehosteen vertaamiseksi"
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:343
 #, kde-format
 msgid "Generating image mask"
 msgstr "Luodaan kuvamaskia"
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:343
 #, kde-format
 msgid "Generating video mask"
 msgstr "Luodaan videomaskia"
 
-#: src/monitor/view/MonitorAutomask.qml:365
+#: src/monitor/view/MonitorAutomask.qml:354
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click on an object to start a mask.\n"
@@ -32621,12 +32620,12 @@ msgstr ""
 "Vaihto+painallus tuo toisen vyöhykkeen.\n"
 "Ctrl+painallus sulkee alueen pois."
 
-#: src/monitor/view/MonitorAutomask.qml:365
+#: src/monitor/view/MonitorAutomask.qml:354
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Videomaskin esikatselu"
 
-#: src/monitor/view/MonitorAutomask.qml:376
+#: src/monitor/view/MonitorAutomask.qml:365
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -32635,17 +32634,17 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:386
+#: src/monitor/view/MonitorAutomask.qml:375
 #, kde-format
 msgid "Go to mask start"
 msgstr "Siirry peitteen alkuun"
 
-#: src/monitor/view/MonitorAutomask.qml:392
+#: src/monitor/view/MonitorAutomask.qml:381
 #, kde-format
 msgid "Go to mask end"
 msgstr "Siirry peitteen loppuun"
 
-#: src/monitor/view/MonitorGeometryScene.qml:337
+#: src/monitor/view/MonitorGeometryScene.qml:336
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32659,7 +32658,7 @@ msgstr ""
 "for keskialueen kokoa varten, <shortcut>Leijuta oikealla</shortcut> "
 "työkalupalkkiin, <shortcut>Napsauta</shortcut> keskellä kelaa leikekehystä"
 
-#: src/monitor/view/MonitorRotoScene.qml:63
+#: src/monitor/view/MonitorRotoScene.qml:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32669,7 +32668,7 @@ msgstr ""
 "<shortcut>Napsauta</shortcut> lisää pisteitä, <shortcut>Napsauta oikea</"
 "shortcut> sulkee muodon."
 
-#: src/monitor/view/MonitorRotoScene.qml:64
+#: src/monitor/view/MonitorRotoScene.qml:63
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32684,13 +32683,13 @@ msgstr ""
 "<shortcut>kaksoisnapsauttamalla</shortcut> taustaa, avaa työkalurivi "
 "<shortcut>leijumalla oikealla</shortcut>"
 
-#: src/monitor/view/MonitorRotoScene.qml:65
+#: src/monitor/view/MonitorRotoScene.qml:64
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift - vedä ja pudota</shortcut> keskikoon muutosta varten"
 
-#: src/monitor/view/MonitorRotoScene.qml:407
+#: src/monitor/view/MonitorRotoScene.qml:406
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -32739,7 +32738,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr "Palauta lähennys"
 
-#: src/monitor/view/ProjectMonitor.qml:82
+#: src/monitor/view/ProjectMonitor.qml:73
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -32749,14 +32748,14 @@ msgstr ""
 "<b>Leijuta oikealla</b> työkaluriville, <b>Rulla</b> tai <b>nuolet</b> "
 "kelaamiseen, <b>Ctrl-rulla</b> lähentää"
 
-#: src/monitor/view/ProjectMonitor.qml:286
+#: src/monitor/view/ProjectMonitor.qml:277
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "Muunna"
 
-#: src/monitor/view/SceneToolBar.qml:103
+#: src/monitor/view/SceneToolBar.qml:101
 #, fuzzy, kde-format
 #| msgid "Remove Marker"
 msgid "Add/Remove Marker"
@@ -36392,7 +36391,7 @@ msgid "Change clip speed"
 msgstr "Muuta leikkeen nopeutta"
 
 #: src/timeline2/model/timelinemodel.cpp:7758
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:142
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
@@ -36400,7 +36399,7 @@ msgstr "Lukitse raita"
 
 # Avaa lukitus parempi kuin avaa raidan lukitus
 #: src/timeline2/model/timelinemodel.cpp:7763
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:142
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
@@ -36595,49 +36594,49 @@ msgid "Stop"
 msgstr "Pysäytä"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2348
+#: src/timeline2/view/qml/Timeline.qml:2352
 #, kde-format
 msgid "Paused"
 msgstr "Tauko"
 
-#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1267
+#: src/timeline2/view/qml/Clip.qml:253 src/timeline2/view/qml/Clip.qml:1284
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Sijainti: %4, Kesto: %5"
 
-#: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
+#: src/timeline2/view/qml/Clip.qml:349 src/timeline2/view/qml/Clip.qml:363
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "Sijainti: %1"
 
-#: src/timeline2/view/qml/Clip.qml:566
+#: src/timeline2/view/qml/Clip.qml:576
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Sekoituksen kesto: %1, leikkaa: %2"
 
-#: src/timeline2/view/qml/Clip.qml:620
+#: src/timeline2/view/qml/Clip.qml:630
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Sekoituksen kesto: %2"
 
-#: src/timeline2/view/qml/Clip.qml:622
+#: src/timeline2/view/qml/Clip.qml:632
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Sekoituksen kesto: %2"
 
-#: src/timeline2/view/qml/Clip.qml:625 src/timeline2/view/qml/Clip.qml:640
+#: src/timeline2/view/qml/Clip.qml:635 src/timeline2/view/qml/Clip.qml:650
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Sekoituksen kesto: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1149
+#: src/timeline2/view/qml/Clip.qml:1166
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Sisään:%1, Sijainti:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1152 src/timeline2/view/qml/Clip.qml:1257
+#: src/timeline2/view/qml/Clip.qml:1169 src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36646,65 +36645,65 @@ msgstr ""
 "<b>Ctrl-vedä</b> voit muuttaa nopeutta, <b>Napsauta kahdesti</b> jos haluat "
 "yhdistää viereiseen leikkeeseen"
 
-#: src/timeline2/view/qml/Clip.qml:1154
+#: src/timeline2/view/qml/Clip.qml:1171
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "Muuta sekoituksen kestoa <b>vetämällä</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1254
+#: src/timeline2/view/qml/Clip.qml:1271
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Ulos:%1, Sijainti:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1393
+#: src/timeline2/view/qml/Clip.qml:1410
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Siirtymä: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1394
+#: src/timeline2/view/qml/Clip.qml:1411
 #, kde-format
 msgid "Offset: %1"
 msgstr "Siirtymä: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1395
+#: src/timeline2/view/qml/Clip.qml:1412
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "Tasaa leikkeet <b>painamalla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1640 src/timeline2/view/qml/Clip.qml:1681
+#: src/timeline2/view/qml/Clip.qml:1657 src/timeline2/view/qml/Clip.qml:1698
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Lisää koostaminen <b>napsauttamalla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1760 src/timeline2/view/qml/Clip.qml:1767
+#: src/timeline2/view/qml/Clip.qml:1777 src/timeline2/view/qml/Clip.qml:1784
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Häivytä ulos: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1771 src/timeline2/view/qml/Clip.qml:1880
+#: src/timeline2/view/qml/Clip.qml:1788 src/timeline2/view/qml/Clip.qml:1897
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Säädä häivytystä <b>vetämällä</b>, <b>napsauttamalla</b> lisää häivytystä "
 "oletuksen verran"
 
-#: src/timeline2/view/qml/Clip.qml:1869 src/timeline2/view/qml/Clip.qml:1876
+#: src/timeline2/view/qml/Clip.qml:1886 src/timeline2/view/qml/Clip.qml:1893
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Häivytä sisään: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1964
+#: src/timeline2/view/qml/Clip.qml:1981
 #, kde-format
 msgid "Slip Clip"
 msgstr "Liukuleike"
 
-#: src/timeline2/view/qml/Composition.qml:257
+#: src/timeline2/view/qml/Composition.qml:256
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Sijainti: %2, Kesto: %3"
 
-#: src/timeline2/view/qml/Composition.qml:324
-#: src/timeline2/view/qml/Composition.qml:388
+#: src/timeline2/view/qml/Composition.qml:323
+#: src/timeline2/view/qml/Composition.qml:387
 #: src/timeline2/view/qml/SubTitle.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:460
 #, kde-format
@@ -36734,31 +36733,31 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "Muokkaa tekstiä <b>napsauttamalla kahdesti</b>"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:103
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:104
 #, kde-format
 msgid "Click to see details"
 msgstr "Katso yksityiskohdat napsauttamalla"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:117
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:118
 #, kde-format
 msgid "Speech recognition"
 msgstr "Puheentunnistus"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:129
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
 #: src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Show"
 msgstr "Näytä"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:129
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
 #: src/timeline2/view/qml/TrackHead.qml:413 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/timeline2/view/qml/Timeline.qml:899
-#: src/timeline2/view/qml/Timeline.qml:909
+#: src/timeline2/view/qml/Timeline.qml:902
+#: src/timeline2/view/qml/Timeline.qml:912
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -36766,39 +36765,39 @@ msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Ääniraitoja ei ole tarpeeksi kaikille kanaville (%1)"
 msgstr[1] "Ääniraitoja ei ole tarpeeksi kaikille kanaville (%1)"
 
-#: src/timeline2/view/qml/Timeline.qml:1186
+#: src/timeline2/view/qml/Timeline.qml:1189
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "Näytä alkuperäiset tehosteet"
 
-#: src/timeline2/view/qml/Timeline.qml:1973
+#: src/timeline2/view/qml/Timeline.qml:1977
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Lisää tekstitys <b>napsauttamalla kahdesti</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2167
+#: src/timeline2/view/qml/Timeline.qml:2171
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Siirtymä:%1, Paikka: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2337
-#: src/timeline2/view/qml/Timeline.qml:2346
+#: src/timeline2/view/qml/Timeline.qml:2341
+#: src/timeline2/view/qml/Timeline.qml:2350
 #, kde-format
 msgid "Recording"
 msgstr "Nauhoitus"
 
-#: src/timeline2/view/qml/Timeline.qml:2440
+#: src/timeline2/view/qml/Timeline.qml:2444
 #, kde-format
 msgid "Multicam In"
 msgstr "Useampi kamera sisään"
 
-#: src/timeline2/view/qml/Track.qml:285 src/timeline2/view/qml/Track.qml:303
+#: src/timeline2/view/qml/Track.qml:306 src/timeline2/view/qml/Track.qml:324
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Kesto = %3"
 
-#: src/timeline2/view/qml/Track.qml:344
+#: src/timeline2/view/qml/Track.qml:368
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1 % | Säädetään nopeutta"
@@ -36860,7 +36859,7 @@ msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Vaihto</b> näyttää tai piilottaa kaikki samantyyppiset raidat (ääni/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:502
+#: src/timeline2/view/qml/TrackHead.qml:503
 #, kde-format
 msgid "Edit track name"
 msgstr "Muokkaa raidan nimeä"
