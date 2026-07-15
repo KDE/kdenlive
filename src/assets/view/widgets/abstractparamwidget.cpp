@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effectbuttonsparamwidget.hpp"
 #include "fontparamwidget.hpp"
 #include "geometryeditwidget.hpp"
+#include "gradienteditwidget.hpp"
 #include "hideparamwidget.hpp"
 #include "keyframecontainer.hpp"
 #include "keywordparamwidget.hpp"
@@ -158,6 +159,10 @@ std::pair<AbstractParamWidget *, KeyframeContainer *> AbstractParamWidget::const
     }
     case ParamType::Keywords: {
         widget = new KeywordParamWidget(model, index, parent);
+        break;
+    }
+    case ParamType::GradientEditor: {
+        widget = new GradientEditWidget(model, index, parent);
         break;
     }
     default:
