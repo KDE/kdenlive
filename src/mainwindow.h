@@ -489,6 +489,7 @@ private Q_SLOTS:
      * This can be useful to mark something during playback. */
     void slotAddMarkerGuideQuickly();
     void slotAddMarkerWithCategory();
+    void slotDuplicateTimelineClip();
     void slotCutTimelineClip();
     void slotReplaceTimelineClip();
     void slotCutTimelineAllClips();
