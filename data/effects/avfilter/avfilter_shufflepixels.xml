@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.shufflepixels" id="avfilter.shufflepixels" type="video">
+    <name>Shuffle Pixels</name>
+    <description>Reorder pixels in video frames.</description>
+    <author>libavfilter</author>
+    <parameter type="list" name="av.direction" paramlist="forward;inverse" default="forward">
+        <name>Direction</name>
+        <comment><![CDATA[Set shuffle direction.<br>
+        A forward shuffle can be reversed by using <b>inverse</b>, setting the same parameters, and the exact same seed value.]]></comment>
+        <paramlistdisplay>Forward,Inverse</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="av.mode" paramlist="horizontal;vertical;block" default="horizontal">
+        <name>Mode</name>
+        <comment><![CDATA[Set shuffle mode]]></comment>
+        <paramlistdisplay>Horizontal,Vertical,Block</paramlistdisplay>
+    </parameter>
+    <parameter type="constant" name="av.width" max="320" min="1" default="10" decimals="0">
+        <name>Block Width</name>
+        <comment><![CDATA[Set shuffle block width size]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.height" max="180" min="1" default="10" decimals="0">
+        <name>Block Height</name>
+        <comment><![CDATA[Set shuffle block height size]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.seed" max="4294967" min="1" default="1" decimals="0">
+        <name>Random Seed</name>
+        <comment><![CDATA[Set random seed used with shuffling pixels.<br>
+        Mainly useful to set to be able to reverse filtering process to get original input. For example, to reverse forward shuffle you need to use the same parameters and exact same seed and to set direction to inverse.]]></comment>
+    </parameter>
+</effect>

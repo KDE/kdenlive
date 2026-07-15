@@ -2,7 +2,8 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="avfilter.lagfun" id="avfilter.lagfun">
     <name>Lag Fun</name>
-    <description>Slowly update darker pixels.</description>
+    <description><![CDATA[Slowly update darker pixels.<br>
+        <b><i>Note</i></b>: This effect does not reset during playback due to frame buffer issues but renders correctly.]]></description>
     <author>libavfilter</author>
     <parameter type="fixed" name="av.planes" default="1">
         <name>Planes</name>

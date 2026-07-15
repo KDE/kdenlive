@@ -2,6 +2,7 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="frei0r.baltan" id="frei0r.baltan">
     <name>Baltan</name>
-    <description>Delayed alpha smoothed blit of time</description>
+    <description><![CDATA[Delayed alpha smoothed blit of time.<br>
+        <b><i>Note</i></b>: This effect does not reset during playback due to frame buffer issues but renders correctly.]]></description>
     <author>Kentaro, Jaromil</author>
 </effect>
