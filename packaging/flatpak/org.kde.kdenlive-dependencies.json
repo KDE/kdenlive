@@ -613,10 +613,12 @@
             "config-opts": [
                 "-DMOD_OPENCV=ON",
                 "-DMOD_GLAXNIMATE=OFF",
+                "-DUSE_LV2=OFF",
                 "-DMOD_QT=OFF",
                 "-DMOD_QT6=ON",
                 "-DMOD_GLAXNIMATE_QT6=ON",
                 "-DMOD_MOVIT=OFF",
+                "-DMOD_PLACEBO=OFF",
                 "-DMOD_RNNOISE=OFF",
                 "-DCMAKE_PREFIX_PATH=/app",
                 "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
