@@ -190,6 +190,9 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 // Not sure if fine
                 converted = false;
                 break;
+            case ParamType::GradientEditor:
+                converted = false;
+                break;
             case ParamType::Unknown:
                 qWarning() << "//// WARNING UNKNOWN PARAM TYPE REQUESTED IN: " << m_assetId;
                 break;
@@ -384,6 +387,30 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                 m_asset->set(pName.toLatin1().constData(), val);
                 m_params[pName].value = val;
             }
+        } else if (type == ParamType::GradientEditor) {
+            QStringList stops = paramValue.split(QLatin1Char('|'), Qt::SkipEmptyParts);
+            // MLT's gradientmap only accepts stop.1 … stop.32; a hand-edited or
+            // corrupted project file could carry more, bypassing the widget cap
+            constexpr int maxStops = 32;
+            QString storedValue = paramValue;
+            if (stops.size() > maxStops) {
+                qWarning() << "GradientEditor param" << name << "has" << stops.size() << "stops, truncating to" << maxStops;
+                stops = stops.mid(0, maxStops);
+                storedValue = stops.join(QLatin1Char('|'));
+            }
+            const int stopCount = stops.size();
+            for (int i = 0; i < stopCount; i++) {
+                const QString key = QStringLiteral("stop.%1").arg(i + 1);
+                m_asset->set(key.toLatin1().constData(), stops.at(i).toUtf8().constData());
+            }
+            for (int i = stopCount + 1; i <= maxStops; i++) {
+                const QString key = QStringLiteral("stop.%1").arg(i);
+                if (m_asset->get(key.toLatin1().constData()) != nullptr) {
+                    m_asset->set(key.toLatin1().constData(), "");
+                }
+            }
+            m_params[name].value = storedValue;
+            return;
         } else if (type == ParamType::MultiSwitch) {
             QStringList names = name.split(QLatin1Char('\n'));
             QStringList values = paramValue.split(QLatin1Char('\n'));
@@ -845,6 +872,17 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
             return (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element)
                                                                         : element.attribute(QStringLiteral("value")));
         }
+        if (m_params.at(paramName).type == ParamType::GradientEditor) {
+            // Read back from stored value in model (stop.N params are write-only to MLT)
+            const QVariant stored = m_params.at(paramName).value;
+            if (!stored.isNull() && !stored.toString().isEmpty()) {
+                return stored;
+            }
+            if (element.hasAttribute(QStringLiteral("default"))) {
+                return parseAttribute(QStringLiteral("default"), element);
+            }
+            return element.attribute(QStringLiteral("value"));
+        }
         QString value(m_asset->get(paramName.toUtf8().constData()));
         if (value.isEmpty()) {
             if (element.hasAttribute(QStringLiteral("default"))) {
@@ -1005,6 +1043,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::Readonly;
     } else if (type == QLatin1String("hidden")) {
         return ParamType::Hidden;
+    } else if (type == QLatin1String("gradient_editor")) {
+        return ParamType::GradientEditor;
     }
     qDebug() << "WARNING: Unknown type :" << type;
     return ParamType::Double;

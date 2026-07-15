@@ -118,6 +118,7 @@ SPDX-License-Identifier: CC0-1.0
             <xs:enumeration value="wipe"/>
             <xs:enumeration value="curve"/>
             <xs:enumeration value="av_curve"/>
+            <xs:enumeration value="gradient_editor"/>
             <xs:enumeration value="bezier_spline"/>
             <xs:enumeration value="roto-spline"/>
             <xs:enumeration value="keywords"/>
