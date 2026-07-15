@@ -2021,6 +2021,11 @@ void MainWindow::setupActions()
     act->setData('C');
     addAction(QStringLiteral("search_bin"), i18n("Search Bin Clip…"), this, SLOT(slotSearchBin()), QIcon::fromTheme(QStringLiteral("edit-find")));
 
+    QAction *duplicateClip = addAction(QStringLiteral("duplicate_timeline_clip"), i18n("Duplicate Clip"), this, SLOT(slotDuplicateTimelineClip()),
+                                       QIcon::fromTheme(QStringLiteral("edit-copy")), QKeySequence(Qt::CTRL | Qt::Key_D), clipActionCategory);
+    duplicateClip->setData('C');
+    duplicateClip->setEnabled(false);
+
     addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
               Qt::SHIFT | Qt::Key_R);
 
@@ -3381,6 +3386,11 @@ void MainWindow::slotDeleteGuide()
 void MainWindow::slotDeleteAllGuides()
 {
     pCore->currentDoc()->getGuideModel(getCurrentTimeline()->getUuid())->removeAllMarkers();
+}
+
+void MainWindow::slotDuplicateTimelineClip()
+{
+    getCurrentTimeline()->controller()->duplicateClip();
 }
 
 void MainWindow::slotCutTimelineClip()

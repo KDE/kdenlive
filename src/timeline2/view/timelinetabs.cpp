@@ -362,6 +362,7 @@ void TimelineTabs::buildClipMenu()
     m_timelineClipMenu = new QMenu(this);
     KActionCollection *coll = pCore->window()->actionCollection();
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_copy")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("duplicate_timeline_clip")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("paste_effects")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("delete_effects")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("group_clip")));
