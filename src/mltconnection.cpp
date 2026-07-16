@@ -12,7 +12,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <KUrlRequester>
 #include <KUrlRequesterDialog>
+#include <QDir>
 #include <QDirIterator>
+#include <QFile>
+#include <QTextStream>
 #include <QtConcurrent/QtConcurrentRun>
 
 #include <clocale>
@@ -49,6 +52,22 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
     qDebug() << "MLT:" << message;
 }
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+static QString getShortPath(const QString &longPath)
+{
+    std::wstring longPathStd = QDir::toNativeSeparators(longPath).toStdWString();
+    DWORD size = GetShortPathNameW(longPathStd.c_str(), nullptr, 0);
+    if (size > 0) {
+        std::vector<wchar_t> buffer(size);
+        if (GetShortPathNameW(longPathStd.c_str(), buffer.data(), size) > 0) {
+            return QString::fromWCharArray(buffer.data());
+        }
+    }
+    return longPath;
+}
+#endif
+
 std::unique_ptr<MltConnection> MltConnection::m_self;
 MltConnection::MltConnection(const QString &mltPath)
 {
@@ -59,6 +78,20 @@ MltConnection::MltConnection(const QString &mltPath)
         qputenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8());
     }
 
+    locateMeltAndProfilesPath(mltPath);
+
+#ifdef Q_OS_WIN
+    {
+        QString profilesDir = KdenliveSettings::mltpath();
+        if (QFile::exists(profilesDir)) {
+            QString shortProfilePath = getShortPath(profilesDir);
+            QString shortMltDataPath = getShortPath(QDir(profilesDir).absoluteFilePath(QStringLiteral("..")));
+            _wputenv_s(L"MLT_PROFILES_PATH", shortProfilePath.toStdWString().c_str());
+            _wputenv_s(L"MLT_DATA", shortMltDataPath.toStdWString().c_str());
+        }
+    }
+#endif
+
     // After initialising the MLT factory, set the locale back from user default to C
     // to ensure numbers are always serialised with . as decimal point.
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
@@ -68,8 +101,6 @@ MltConnection::MltConnection(const QString &mltPath)
 #else
     std::setlocale(MLT_LC_CATEGORY, nullptr);
 #endif
-
-    locateMeltAndProfilesPath(mltPath);
 
     // Retrieve the list of available producers.
     QScopedPointer<Mlt::Properties> producers(m_repository->producers());

@@ -60,10 +60,23 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUrl> //new
 
 #ifdef Q_OS_WIN
+#include <windows.h>
 extern "C" {
 // Inform the driver we could make use of the discrete gpu
 // __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+static QString getShortPath(const QString &longPath)
+{
+    std::wstring longPathStd = QDir::toNativeSeparators(longPath).toStdWString();
+    DWORD size = GetShortPathNameW(longPathStd.c_str(), nullptr, 0);
+    if (size > 0) {
+        std::vector<wchar_t> buffer(size);
+        if (GetShortPathNameW(longPathStd.c_str(), buffer.data(), size) > 0) {
+            return QString::fromWCharArray(buffer.data());
+        }
+    }
+    return longPath;
 }
 #endif
 
@@ -514,8 +527,9 @@ int main(int argc, char *argv[])
     }
 
 #ifdef Q_OS_WIN
-    QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
-    qputenv("PATH", path.toUtf8().constData());
+#include <stdlib.h>
+    QString path = getShortPath(qApp->applicationDirPath()) + QLatin1Char(';') + qEnvironmentVariable("PATH");
+    _wputenv_s(L"PATH", path.toStdWString().c_str());
 #endif
 
     if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
