@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-15 00:44+0000\n"
+"POT-Creation-Date: 2026-07-16 00:43+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -630,7 +630,7 @@ msgid "Delay"
 msgstr "ຄວາມໜ່ວງ"
 
 #: data/effects/avfilter/aecho.xml:17
-#: data/effects/avfilter/avfilter_lagfun.xml:11
+#: data/effects/avfilter/avfilter_lagfun.xml:12
 #: data/effects/ladspa/ladspa_1410.xml:33 data/effects/ladspa/ladspa_2142.xml:9
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
@@ -723,6 +723,7 @@ msgstr "ການຫຼຸດບິດ"
 #: data/effects/avfilter/avfilter_histogram.xml:18
 #: data/effects/avfilter/avfilter_mcdeint.xml:8
 #: data/effects/avfilter/avfilter_phase.xml:8
+#: data/effects/avfilter/avfilter_shufflepixels.xml:14
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #: data/effects/avfilter/avfilter_yadif.xml:8
@@ -1108,7 +1109,7 @@ msgstr "ຂະໜາດ Y"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
 #: data/effects/avfilter/avfilter_gblur.xml:13
 #: data/effects/avfilter/avfilter_kirsch.xml:16
-#: data/effects/avfilter/avfilter_lagfun.xml:8
+#: data/effects/avfilter/avfilter_lagfun.xml:9
 #: data/effects/avfilter/avfilter_limiter.xml:16
 #: data/effects/avfilter/avfilter_median.xml:22
 #: data/effects/avfilter/avfilter_pixelize.xml:18
@@ -2673,6 +2674,7 @@ msgstr "ສະແດງແກນ"
 #: data/effects/avfilter/avfilter_datascope.xml:29
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
+#: data/effects/avfilter/avfilter_pseudocolor.xml:16
 #: data/effects/dynamictext.xml:53 data/effects/gpstext.xml:116
 #: data/effects/timer.xml:53
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
@@ -2878,6 +2880,7 @@ msgstr ""
 "ທີ່ແນ່ນອນຈະຖືກໃຊ້. ຊ່ວງກຳນົດສີ່ຫຼ່ຽມຂອງສີ່ພິກເຊວອ້ອມຮອບພິກເຊວປັດຈຸບັນ."
 
 #: data/effects/avfilter/avfilter_deband.xml:33
+#: data/effects/avfilter/avfilter_shufflepixels.xml:8
 #: data/effects/avfilter/avfilter_transpose.xml:8
 #: data/effects/frei0r/frei0r_aech0r.xml:12 data/effects/timer.xml:103
 #: data/transitions/slide.xml:8
@@ -4840,10 +4843,13 @@ msgstr "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,ທັງໝົ
 msgid "Lag Fun"
 msgstr "Lag Fun"
 
-#: data/effects/avfilter/avfilter_lagfun.xml:5
+#: data/effects/avfilter/avfilter_lagfun.xml:6
 #, kde-format
-msgid "Slowly update darker pixels."
-msgstr "ອັບເດດພິກເຊວທີ່ມືດກວ່າຢ່າງຊ້າໆ."
+msgid ""
+"Slowly update darker pixels.<br>\n"
+"        <b><i>Note</i></b>: This effect does not reset during playback due "
+"to frame buffer issues but renders correctly."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -5544,12 +5550,14 @@ msgid "Pixelize video"
 msgstr "Pixelize ວິດີໂອ"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
+#: data/effects/avfilter/avfilter_shufflepixels.xml:19
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
 #, kde-format
 msgid "Block Width"
 msgstr "ຄວາມກວ້າງບລັອກ"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
+#: data/effects/avfilter/avfilter_shufflepixels.xml:23
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
@@ -5576,6 +5584,42 @@ msgstr "Prewitt"
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
 msgstr "ໃຊ້ຕົວດຳເນີນການ Prewitt ກັບສະຕຣີມວິດີໂອຂາເຂົ້າ"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:4
+#, kde-format
+msgid "Pseudocolor"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:5
+#, kde-format
+msgid "Alter frame colors in video with pseudocolors."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:8
+#, fuzzy, kde-format
+#| msgid "Components"
+msgid "Base Component"
+msgstr "ອົງປະກອບ"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:9
+#, fuzzy, kde-format
+#| msgid "Red,Green,Blue,Luma"
+msgid "Red,Green,Blue,Alpha"
+msgstr "ແດງ,ຂຽວ,ນ້ຳເງິນ,Luma"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:12
+#, fuzzy, kde-format
+#| msgid "Presets"
+msgid "Preset"
+msgstr "ຄ່າທີ່ຕັ້ງໄວ້ (Presets)"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:13
+#, kde-format
+msgid ""
+"None,Magma,Inferno,Plasma,Viridis,Turbo,Cividis,Range 1,Range 2,Shadows,"
+"Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
+"Green,Helix"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5892,6 +5936,71 @@ msgstr "ສີຕື່ມພື້ນຫຼັງ"
 #, kde-format
 msgid "Nearest,Bilinear"
 msgstr "Nearest,Bilinear"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:4
+#, fuzzy, kde-format
+#| msgid "Shuffle planes"
+msgid "Shuffle Pixels"
+msgstr "Shuffle planes"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:5
+#, fuzzy, kde-format
+#| msgid "Exporting video frames"
+msgid "Reorder pixels in video frames."
+msgstr "ກຳລັງສົ່ງອອກເຟຣມວິດີໂອ"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:10
+#, kde-format
+msgid ""
+"Set shuffle direction.<br>\n"
+"        A forward shuffle can be reversed by using <b>inverse</b>, setting "
+"the same parameters, and the exact same seed value."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:11
+#, fuzzy, kde-format
+#| msgid "Forward"
+msgid "Forward,Inverse"
+msgstr "ໄປໜ້າ"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:15
+#, fuzzy, kde-format
+#| msgid "Set the filter mode"
+msgid "Set shuffle mode"
+msgstr "ຕັ້ງຄ່າໂໝດຟິວເຕີ"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:16
+#, fuzzy, kde-format
+#| msgid "Horizontal multiplicator"
+msgid "Horizontal,Vertical,Block"
+msgstr "ຕົວຄູນທາງນອນ"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:20
+#, fuzzy, kde-format
+#| msgid "Set size of block in pixels"
+msgid "Set shuffle block width size"
+msgstr "ຕັ້ງຂະໜາດຂອງບລັອກເປັນພິກເຊວ"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:24
+#, fuzzy, kde-format
+#| msgid "Set size of block in pixels"
+msgid "Set shuffle block height size"
+msgstr "ຕັ້ງຂະໜາດຂອງບລັອກເປັນພິກເຊວ"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:27
+#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
+#, kde-format
+msgid "Random Seed"
+msgstr "Random Seed"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:29
+#, kde-format
+msgid ""
+"Set random seed used with shuffling pixels.<br>\n"
+"        Mainly useful to set to be able to reverse filtering process to get "
+"original input. For example, to reverse forward shuffle you need to use the "
+"same parameters and exact same seed and to set direction to inverse."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -8326,10 +8435,13 @@ msgstr "ຄວາມສົມດຸນແສງຂາວ"
 msgid "Baltan"
 msgstr "Baltan"
 
-#: data/effects/frei0r/frei0r_baltan.xml:5
+#: data/effects/frei0r/frei0r_baltan.xml:6
 #, kde-format
-msgid "Delayed alpha smoothed blit of time"
-msgstr "Delayed alpha smoothed blit of time"
+msgid ""
+"Delayed alpha smoothed blit of time.<br>\n"
+"        <b><i>Note</i></b>: This effect does not reset during playback due "
+"to frame buffer issues but renders correctly."
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -10501,7 +10613,7 @@ msgstr "ແຕ້ມແບບລົບຮອຍຢັກບໍ່?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/frei0r/frei0r_facedetect.xml:43 data/effects/gpsgraphic.xml:96
-#: data/effects/gradientmap.xml:8 src/ui/gradientedit_ui.ui:120
+#: src/ui/gradientedit_ui.ui:120
 #, kde-format
 msgid "Color 1"
 msgstr "ສີ 1"
@@ -10513,7 +10625,7 @@ msgstr "ຕັ້ງຄ່າສີຮູບຊົງຂອງໃບໜ້າທ
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/frei0r/frei0r_facedetect.xml:48 data/effects/gpsgraphic.xml:100
-#: data/effects/gradientmap.xml:12 src/ui/gradientedit_ui.ui:24
+#: src/ui/gradientedit_ui.ui:24
 #, kde-format
 msgid "Color 2"
 msgstr "ສີ 2"
@@ -13836,6 +13948,11 @@ msgstr "ແຜນທີ່ການໄລ່ລະດັບສີ (Gradient Map)
 msgid "Apply a gradient map to the video"
 msgstr "ໃຊ້ແຜນທີ່ການໄລ່ລະດັບສີກັບວິດີໂອ"
 
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3459
+#, kde-format
+msgid "Gradient"
+msgstr "ການໄລ່ສີ"
+
 #: data/effects/grain.xml:4
 #, kde-format
 msgctxt "Grain Effect Name"
@@ -14498,11 +14615,6 @@ msgstr "Delay grab"
 #, kde-format
 msgid "Delayorama (LADSPA 1402)"
 msgstr ""
-
-#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
-#, kde-format
-msgid "Random Seed"
-msgstr "Random Seed"
 
 #: data/effects/ladspa/ladspa_1402.xml:10
 #, kde-format
@@ -19937,7 +20049,7 @@ msgid "Bin %1 effects"
 msgstr "ເອັບເຟັກ %1 ໃນຄັງ"
 
 #: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4259
-#: src/dialogs/speechdialog.cpp:49 src/dialogs/textbasededit.cpp:765
+#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:115
 #: src/monitor/recmanager.cpp:41
 #, kde-format
@@ -20106,7 +20218,7 @@ msgid "Delete keyframes"
 msgstr "ລຶບຄີເຟຣມ"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1822
+#: src/assets/model/assetparametermodel.cpp:1862
 #, kde-format
 msgid "Update effect"
 msgstr "ອັບເດດເອັບເຟັກ"
@@ -20180,13 +20292,13 @@ msgstr "ແກ້ໄຂຄີເຟຣມ %1"
 msgid "Update %1"
 msgstr "ອັບເດດ %1"
 
-#: src/assets/model/assetparametermodel.cpp:1659
-#: src/assets/model/assetparametermodel.cpp:1706
+#: src/assets/model/assetparametermodel.cpp:1699
+#: src/assets/model/assetparametermodel.cpp:1746
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "ບໍ່ສາມາດເປີດໄຟລພຣີເຊັດ (Preset) %1"
 
-#: src/assets/model/assetparametermodel.cpp:1796
+#: src/assets/model/assetparametermodel.cpp:1836
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -20262,13 +20374,13 @@ msgid "Switch to curve editor view"
 msgstr "ສະລັບໄປມຸມມອງຕົວແກ້ໄຂເສັ້ນໂຄ້ງ"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:156
-#: src/dialogs/timeremap.cpp:1606 src/mainwindow.cpp:2099
+#: src/dialogs/timeremap.cpp:1606 src/mainwindow.cpp:2104
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "ໄປທີ່ຄີເຟຣມກ່ອນໜ້າ"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:160
-#: src/dialogs/timeremap.cpp:1603 src/mainwindow.cpp:2097
+#: src/dialogs/timeremap.cpp:1603 src/mainwindow.cpp:2102
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "ໄປທີ່ຄີເຟຣມຖັດໄປ"
@@ -21208,6 +21320,7 @@ msgid "%1 (copy)"
 msgstr "%1 (ສຳເນົາ)"
 
 #: src/bin/bin.cpp:2589 src/bin/bin.cpp:2610
+#: src/timeline2/view/timelinecontroller.cpp:938
 #, kde-format
 msgid "Duplicate clip"
 msgstr "ສຳເນົາຄລິບ"
@@ -21461,7 +21574,7 @@ msgstr "ແທນທີ່ຄລິບ..."
 msgid "Replace Clip In Timeline…"
 msgstr "ແທນທີ່ຄລິບໃນເສັ້ນເວລາ..."
 
-#: src/bin/bin.cpp:4117
+#: src/bin/bin.cpp:4117 src/mainwindow.cpp:2024
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "ສຳເນົາຄລິບ"
@@ -21522,8 +21635,8 @@ msgstr[0] "ຍ້າຍຄລິບ"
 msgid "No valid clip to insert"
 msgstr "ບໍ່ມີຄລິບທີ່ໃຊ້ໄດ້ເພື່ອແຊກ"
 
-#: src/bin/bin.cpp:4446 src/timeline2/view/timelinecontroller.cpp:1838
-#: src/timeline2/view/timelinecontroller.cpp:3940
+#: src/bin/bin.cpp:4446 src/timeline2/view/timelinecontroller.cpp:1863
+#: src/timeline2/view/timelinecontroller.cpp:3965
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "ເລືອກຄລິບເພື່ອໃສ່ເອັບເຟັກ"
@@ -21714,7 +21827,7 @@ msgid ""
 "tracks ?"
 msgstr "ໂຄງການຂອງເຈົ້າຕ້ອງການແທຣັກສຽງເພີ່ມເພື່ອຮອງຮັບສະຕຣີມທັງໝົດ. ເພີ່ມ %1 ແທຣັກສຽງບໍ່?"
 
-#: src/bin/bin.cpp:5966 src/mainwindow.cpp:3068
+#: src/bin/bin.cpp:5966 src/mainwindow.cpp:3073
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "ບໍ່ສາມາດຊອກຫາຄລິບເພື່ອເພີ່ມເຄື່ອງໝາຍ"
@@ -21724,8 +21837,8 @@ msgstr "ບໍ່ສາມາດຊອກຫາຄລິບເພື່ອເພ
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
 #: src/bin/bin.cpp:5980 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:1486
-#: src/timeline2/view/timelinecontroller.cpp:1802
+#: src/timeline2/view/timelinecontroller.cpp:1511
+#: src/timeline2/view/timelinecontroller.cpp:1827
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
@@ -21811,7 +21924,7 @@ msgstr "ລຶບເອັບເຟັກ %1"
 msgid "Project Bin"
 msgstr "ຄັງໂຄງການ"
 
-#: src/bin/bin.cpp:6939 src/bin/bin.cpp:6942 src/mainwindow.cpp:5365
+#: src/bin/bin.cpp:6939 src/bin/bin.cpp:6942 src/mainwindow.cpp:5375
 #, kde-format
 msgid "Project Bin %1"
 msgstr "ຄັງໂຄງການ %1"
@@ -22039,8 +22152,8 @@ msgid "Delete marker"
 msgstr "ລຶບເຄື່ອງໝາຍ"
 
 #: src/bin/model/markerlistmodel.cpp:437
-#: src/timeline2/view/timelinecontroller.cpp:1653
-#: src/timeline2/view/timelinecontroller.cpp:1657
+#: src/timeline2/view/timelinecontroller.cpp:1678
+#: src/timeline2/view/timelinecontroller.cpp:1682
 #, kde-format
 msgid "Move marker"
 msgstr "ຍ້າຍເຄື່ອງໝາຍ"
@@ -22073,7 +22186,7 @@ msgstr "ລຶບເຄື່ອງໝາຍທັງໝົດ"
 #: src/bin/model/markerlistmodel.cpp:1076
 #: src/bin/model/markerlistmodel.cpp:1118
 #: src/bin/model/markerlistmodel.cpp:1148
-#: src/timeline2/view/timelinecontroller.cpp:1792
+#: src/timeline2/view/timelinecontroller.cpp:1817
 #, kde-format
 msgid "No marker found at current position"
 msgstr "ບໍ່ພົບເຄື່ອງໝາຍໃນຕຳແໜ່ງປັດຈຸບັນ"
@@ -22411,7 +22524,7 @@ msgstr "ເຂດ %1"
 msgid "Tag %1"
 msgstr "ແທັກ %1"
 
-#: src/bin/tagwidget.cpp:116 src/dialogs/speechdialog.cpp:44
+#: src/bin/tagwidget.cpp:116 src/dialogs/speechdialog.cpp:45
 #: src/dialogs/textbasededit.cpp:683
 #: src/effects/effectstack/view/maskmanager.cpp:77
 #, kde-format
@@ -23225,8 +23338,8 @@ msgstr "ສົ່ງອອກຂໍ້ມູນຕົວໝາຍ"
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5864
-#: src/timeline2/view/timelinecontroller.cpp:5869
+#: src/timeline2/view/timelinecontroller.cpp:5889
+#: src/timeline2/view/timelinecontroller.cpp:5894
 #: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
@@ -24628,69 +24741,69 @@ msgstr "ມີຫຍັງໃໝ່"
 msgid "Continue"
 msgstr "ສືບຕໍ່"
 
-#: src/dialogs/speechdialog.cpp:43
+#: src/dialogs/speechdialog.cpp:44
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "ຄຳບັນຍາຍອັດຕະໂນມັດ"
 
-#: src/dialogs/speechdialog.cpp:51
+#: src/dialogs/speechdialog.cpp:52
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "Log ການຈື່ຈຳສຽງເວົ້າ"
 
-#: src/dialogs/speechdialog.cpp:66
+#: src/dialogs/speechdialog.cpp:67
 #, kde-format
 msgid "Process"
 msgstr "ປະມວນຜົນ"
 
-#: src/dialogs/speechdialog.cpp:108
+#: src/dialogs/speechdialog.cpp:109
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "ບໍ່ມີແທຣັກສຽງສຳລັບຄລິບທີ່ເລືອກ"
 
-#: src/dialogs/speechdialog.cpp:118
+#: src/dialogs/speechdialog.cpp:119
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "ເລືອກຄລິບໃນເສັ້ນເວລາເພື່ອທຳການວິເຄາະ"
 
-#: src/dialogs/speechdialog.cpp:132
+#: src/dialogs/speechdialog.cpp:133
 #, kde-format
 msgid "No audio track found"
 msgstr "ບໍ່ພົບແທຣັກສຽງ"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/speechdialog.cpp:189 src/dialogs/textbasededit.cpp:1081
 #: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "ກະລຸນາຕັ້ງຄ່າສຽງເປັນຂໍ້ຄວາມ."
 
-#: src/dialogs/speechdialog.cpp:209 src/dialogs/textbasededit.cpp:971
+#: src/dialogs/speechdialog.cpp:210 src/dialogs/textbasededit.cpp:971
 #: src/dialogs/textbasededit.cpp:1008
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "ກະລຸນາຕິດຕັ້ງໂມເດວການຈື່ຈຳສຽງເວົ້າ"
 
-#: src/dialogs/speechdialog.cpp:288
+#: src/dialogs/speechdialog.cpp:289
 #, kde-format
 msgid "Starting audio export"
 msgstr "ກຳລັງເລີ່ມສົ່ງອອກສຽງ"
 
-#: src/dialogs/speechdialog.cpp:353
+#: src/dialogs/speechdialog.cpp:354
 #, kde-format
 msgid "Audio export failed"
 msgstr "ການສົ່ງອອກສຽງລົ້ມເຫຼວ"
 
-#: src/dialogs/speechdialog.cpp:376 src/dialogs/textbasededit.cpp:1115
+#: src/dialogs/speechdialog.cpp:377 src/dialogs/textbasededit.cpp:1115
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "ກຳລັງເລີ່ມການຈື່ຈຳສຽງເວົ້າ"
 
-#: src/dialogs/speechdialog.cpp:439 src/dialogs/textbasededit.cpp:1302
+#: src/dialogs/speechdialog.cpp:440 src/dialogs/textbasededit.cpp:1302
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "ການຈື່ຈຳສຽງເວົ້າຖືກຍົກເລີກ."
 
-#: src/dialogs/speechdialog.cpp:445
+#: src/dialogs/speechdialog.cpp:446
 #, kde-format
 msgid ""
 "Speech recognition failed:\n"
@@ -24699,565 +24812,581 @@ msgstr ""
 "ການຈື່ຈຳສຽງເວົ້າລົ້ມເຫຼວ:\n"
 "%1"
 
-#: src/dialogs/speechdialog.cpp:452
+#: src/dialogs/speechdialog.cpp:448
+#, fuzzy, kde-format
+#| msgid ""
+#| "Speech recognition failed:\n"
+#| "%1"
+msgid "Speech recognition failed"
+msgstr ""
+"ການຈື່ຈຳສຽງເວົ້າລົ້ມເຫຼວ:\n"
+"%1"
+
+#: src/dialogs/speechdialog.cpp:454
 #, kde-format
 msgid "Subtitles imported"
 msgstr "ນຳເຂົ້າຄຳບັນຍາຍແລ້ວ"
 
-#: src/dialogs/speechdialog.cpp:484
+#: src/dialogs/speechdialog.cpp:455
+#, fuzzy, kde-format
+#| msgid "Speech recognition finished."
+msgid "Speech recognition finished, subtitles imported"
+msgstr "ການຈື່ຈຳສຽງເວົ້າສຳເລັດແລ້ວ."
+
+#: src/dialogs/speechdialog.cpp:487
 #, kde-format
 msgid "Translating text to %1"
 msgstr "ກຳລັງແປຂໍ້ຄວາມເປັນ %1"
 
-#: src/dialogs/speechdialog.cpp:486
+#: src/dialogs/speechdialog.cpp:489
 #, kde-format
 msgid "Initializing translation model"
 msgstr "ກຳລັງເລີ່ມຕົ້ນໂມເດວການແປພາສາ"
 
-#: src/dialogs/speechdialog.cpp:497
+#: src/dialogs/speechdialog.cpp:500
 #: src/pythoninterfaces/speechtotextwhisper.cpp:58
 #, kde-format
 msgid "Afrikaans"
 msgstr "Afrikaans"
 
-#: src/dialogs/speechdialog.cpp:498
+#: src/dialogs/speechdialog.cpp:501
 #: src/pythoninterfaces/speechtotextwhisper.cpp:60
 #, kde-format
 msgid "Amharic"
 msgstr "Amharic"
 
-#: src/dialogs/speechdialog.cpp:499
+#: src/dialogs/speechdialog.cpp:502
 #: src/pythoninterfaces/speechtotextwhisper.cpp:62
 #, kde-format
 msgid "Armenian"
 msgstr "Armenian"
 
-#: src/dialogs/speechdialog.cpp:500
+#: src/dialogs/speechdialog.cpp:503
 #: src/pythoninterfaces/speechtotextwhisper.cpp:63
 #, kde-format
 msgid "Assamese"
 msgstr "Assamese"
 
-#: src/dialogs/speechdialog.cpp:501
+#: src/dialogs/speechdialog.cpp:504
 #: src/pythoninterfaces/speechtotextwhisper.cpp:66
 #, kde-format
 msgid "Basque"
 msgstr "Basque"
 
-#: src/dialogs/speechdialog.cpp:502
+#: src/dialogs/speechdialog.cpp:505
 #: src/pythoninterfaces/speechtotextwhisper.cpp:67
 #, kde-format
 msgid "Belarusian"
 msgstr "Belarusian"
 
-#: src/dialogs/speechdialog.cpp:503
+#: src/dialogs/speechdialog.cpp:506
 #: src/pythoninterfaces/speechtotextwhisper.cpp:68
 #, kde-format
 msgid "Bengali"
 msgstr "Bengali"
 
-#: src/dialogs/speechdialog.cpp:504
+#: src/dialogs/speechdialog.cpp:507
 #: src/pythoninterfaces/speechtotextwhisper.cpp:69
 #, kde-format
 msgid "Bosnian"
 msgstr "Bosnian"
 
-#: src/dialogs/speechdialog.cpp:505
+#: src/dialogs/speechdialog.cpp:508
 #: src/pythoninterfaces/speechtotextwhisper.cpp:71
 #, kde-format
 msgid "Bulgarian"
 msgstr "Bulgarian"
 
-#: src/dialogs/speechdialog.cpp:506
+#: src/dialogs/speechdialog.cpp:509
 #: src/pythoninterfaces/speechtotextwhisper.cpp:72
 #, kde-format
 msgid "Burmese"
 msgstr "Burmese"
 
-#: src/dialogs/speechdialog.cpp:507
+#: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Cantonese"
 msgstr "Cantonese"
 
-#: src/dialogs/speechdialog.cpp:508
+#: src/dialogs/speechdialog.cpp:511
 #: src/pythoninterfaces/speechtotextwhisper.cpp:74
 #, kde-format
 msgid "Catalan"
 msgstr "Catalan"
 
-#: src/dialogs/speechdialog.cpp:509
+#: src/dialogs/speechdialog.cpp:512
 #, kde-format
 msgid "Cebuano"
 msgstr "Cebuano"
 
-#: src/dialogs/speechdialog.cpp:510
+#: src/dialogs/speechdialog.cpp:513
 #, kde-format
 msgid "Central Kurdish"
 msgstr "Central Kurdish"
 
-#: src/dialogs/speechdialog.cpp:511
+#: src/dialogs/speechdialog.cpp:514
 #: src/pythoninterfaces/speechtotextwhisper.cpp:76
 #, kde-format
 msgid "Croatian"
 msgstr "Croatian"
 
-#: src/dialogs/speechdialog.cpp:512
+#: src/dialogs/speechdialog.cpp:515
 #: src/pythoninterfaces/speechtotextwhisper.cpp:77
 #, kde-format
 msgid "Czech"
 msgstr "Czech"
 
-#: src/dialogs/speechdialog.cpp:513
+#: src/dialogs/speechdialog.cpp:516
 #: src/pythoninterfaces/speechtotextwhisper.cpp:78
 #, kde-format
 msgid "Danish"
 msgstr "Danish"
 
-#: src/dialogs/speechdialog.cpp:514
+#: src/dialogs/speechdialog.cpp:517
 #: src/pythoninterfaces/speechtotextwhisper.cpp:79
 #, kde-format
 msgid "Dutch"
 msgstr "Dutch"
 
-#: src/dialogs/speechdialog.cpp:515
+#: src/dialogs/speechdialog.cpp:518
 #, kde-format
 msgid "Egyptian Arabic"
 msgstr "Egyptian Arabic"
 
-#: src/dialogs/speechdialog.cpp:516
+#: src/dialogs/speechdialog.cpp:519
 #: src/pythoninterfaces/speechtotextwhisper.cpp:80
 #, kde-format
 msgid "English"
 msgstr "ອັງກິດ"
 
-#: src/dialogs/speechdialog.cpp:517
+#: src/dialogs/speechdialog.cpp:520
 #: src/pythoninterfaces/speechtotextwhisper.cpp:81
 #, kde-format
 msgid "Estonian"
 msgstr "Estonian"
 
-#: src/dialogs/speechdialog.cpp:518
+#: src/dialogs/speechdialog.cpp:521
 #: src/pythoninterfaces/speechtotextwhisper.cpp:83
 #, kde-format
 msgid "Finnish"
 msgstr "Finnish"
 
-#: src/dialogs/speechdialog.cpp:519
+#: src/dialogs/speechdialog.cpp:522
 #: src/pythoninterfaces/speechtotextwhisper.cpp:85
 #, kde-format
 msgid "French"
 msgstr "ຝຣັ່ງ"
 
-#: src/dialogs/speechdialog.cpp:520
+#: src/dialogs/speechdialog.cpp:523
 #: src/pythoninterfaces/speechtotextwhisper.cpp:86
 #, kde-format
 msgid "Galician"
 msgstr "Galician"
 
-#: src/dialogs/speechdialog.cpp:521
+#: src/dialogs/speechdialog.cpp:524
 #, kde-format
 msgid "Ganda"
 msgstr "Ganda"
 
-#: src/dialogs/speechdialog.cpp:522
+#: src/dialogs/speechdialog.cpp:525
 #: src/pythoninterfaces/speechtotextwhisper.cpp:87
 #, kde-format
 msgid "Georgian"
 msgstr "Georgian"
 
-#: src/dialogs/speechdialog.cpp:523
+#: src/dialogs/speechdialog.cpp:526
 #: src/pythoninterfaces/speechtotextwhisper.cpp:88
 #, kde-format
 msgid "German"
 msgstr "ເຢຍລະມັນ"
 
-#: src/dialogs/speechdialog.cpp:524
+#: src/dialogs/speechdialog.cpp:527
 #: src/pythoninterfaces/speechtotextwhisper.cpp:89
 #, kde-format
 msgid "Greek"
 msgstr "Greek"
 
-#: src/dialogs/speechdialog.cpp:525
+#: src/dialogs/speechdialog.cpp:528
 #: src/pythoninterfaces/speechtotextwhisper.cpp:90
 #, kde-format
 msgid "Gujarati"
 msgstr "Gujarati"
 
-#: src/dialogs/speechdialog.cpp:526
+#: src/dialogs/speechdialog.cpp:529
 #, kde-format
 msgid "Halh Mongolian"
 msgstr "Halh Mongolian"
 
-#: src/dialogs/speechdialog.cpp:527
+#: src/dialogs/speechdialog.cpp:530
 #: src/pythoninterfaces/speechtotextwhisper.cpp:95
 #, kde-format
 msgid "Hebrew"
 msgstr "Hebrew"
 
-#: src/dialogs/speechdialog.cpp:528
+#: src/dialogs/speechdialog.cpp:531
 #: src/pythoninterfaces/speechtotextwhisper.cpp:96
 #, kde-format
 msgid "Hindi"
 msgstr "Hindi"
 
-#: src/dialogs/speechdialog.cpp:529
+#: src/dialogs/speechdialog.cpp:532
 #: src/pythoninterfaces/speechtotextwhisper.cpp:97
 #, kde-format
 msgid "Hungarian"
 msgstr "Hungarian"
 
-#: src/dialogs/speechdialog.cpp:530
+#: src/dialogs/speechdialog.cpp:533
 #: src/pythoninterfaces/speechtotextwhisper.cpp:98
 #, kde-format
 msgid "Icelandic"
 msgstr "Icelandic"
 
-#: src/dialogs/speechdialog.cpp:531
+#: src/dialogs/speechdialog.cpp:534
 #, kde-format
 msgid "Igbo"
 msgstr "Igbo"
 
-#: src/dialogs/speechdialog.cpp:532
+#: src/dialogs/speechdialog.cpp:535
 #: src/pythoninterfaces/speechtotextwhisper.cpp:99
 #, kde-format
 msgid "Indonesian"
 msgstr "Indonesian"
 
-#: src/dialogs/speechdialog.cpp:533
+#: src/dialogs/speechdialog.cpp:536
 #, kde-format
 msgid "Irish"
 msgstr "Irish"
 
-#: src/dialogs/speechdialog.cpp:534
+#: src/dialogs/speechdialog.cpp:537
 #: src/pythoninterfaces/speechtotextwhisper.cpp:100
 #, kde-format
 msgid "Italian"
 msgstr "ອິຕາລີ"
 
-#: src/dialogs/speechdialog.cpp:535
+#: src/dialogs/speechdialog.cpp:538
 #: src/pythoninterfaces/speechtotextwhisper.cpp:101
 #, kde-format
 msgid "Japanese"
 msgstr "ຍີ່ປຸ່ນ"
 
-#: src/dialogs/speechdialog.cpp:536
+#: src/dialogs/speechdialog.cpp:539
 #: src/pythoninterfaces/speechtotextwhisper.cpp:102
 #, kde-format
 msgid "Javanese"
 msgstr "Javanese"
 
-#: src/dialogs/speechdialog.cpp:537
+#: src/dialogs/speechdialog.cpp:540
 #: src/pythoninterfaces/speechtotextwhisper.cpp:103
 #, kde-format
 msgid "Kannada"
 msgstr "Kannada"
 
-#: src/dialogs/speechdialog.cpp:538
+#: src/dialogs/speechdialog.cpp:541
 #: src/pythoninterfaces/speechtotextwhisper.cpp:104
 #, kde-format
 msgid "Kazakh"
 msgstr "Kazakh"
 
-#: src/dialogs/speechdialog.cpp:539
+#: src/dialogs/speechdialog.cpp:542
 #: src/pythoninterfaces/speechtotextwhisper.cpp:105
 #, kde-format
 msgid "Khmer"
 msgstr "Khmer"
 
-#: src/dialogs/speechdialog.cpp:540
+#: src/dialogs/speechdialog.cpp:543
 #: src/pythoninterfaces/speechtotextwhisper.cpp:106
 #, kde-format
 msgid "Korean"
 msgstr "ເກົາຫຼີ"
 
-#: src/dialogs/speechdialog.cpp:541
+#: src/dialogs/speechdialog.cpp:544
 #, kde-format
 msgid "Kyrgyz"
 msgstr "Kyrgyz"
 
-#: src/dialogs/speechdialog.cpp:542
+#: src/dialogs/speechdialog.cpp:545
 #: src/pythoninterfaces/speechtotextwhisper.cpp:107
 #, kde-format
 msgid "Lao"
 msgstr "ລາວ"
 
-#: src/dialogs/speechdialog.cpp:543
+#: src/dialogs/speechdialog.cpp:546
 #: src/pythoninterfaces/speechtotextwhisper.cpp:112
 #, kde-format
 msgid "Lithuanian"
 msgstr "Lithuanian"
 
-#: src/dialogs/speechdialog.cpp:544
+#: src/dialogs/speechdialog.cpp:547
 #, kde-format
 msgid "Luo"
 msgstr "Luo"
 
-#: src/dialogs/speechdialog.cpp:545
+#: src/dialogs/speechdialog.cpp:548
 #: src/pythoninterfaces/speechtotextwhisper.cpp:114
 #, kde-format
 msgid "Macedonian"
 msgstr "Macedonian"
 
-#: src/dialogs/speechdialog.cpp:546
+#: src/dialogs/speechdialog.cpp:549
 #, kde-format
 msgid "Maithili"
 msgstr "Maithili"
 
-#: src/dialogs/speechdialog.cpp:547
+#: src/dialogs/speechdialog.cpp:550
 #: src/pythoninterfaces/speechtotextwhisper.cpp:117
 #, kde-format
 msgid "Malayalam"
 msgstr "Malayalam"
 
-#: src/dialogs/speechdialog.cpp:548
+#: src/dialogs/speechdialog.cpp:551
 #: src/pythoninterfaces/speechtotextwhisper.cpp:118
 #, kde-format
 msgid "Maltese"
 msgstr "Maltese"
 
-#: src/dialogs/speechdialog.cpp:549 src/dialogs/speechdialog.cpp:550
+#: src/dialogs/speechdialog.cpp:552 src/dialogs/speechdialog.cpp:553
 #, kde-format
 msgid "Mandarin Chinese"
 msgstr "ຈີນກາງ"
 
-#: src/dialogs/speechdialog.cpp:551
+#: src/dialogs/speechdialog.cpp:554
 #: src/pythoninterfaces/speechtotextwhisper.cpp:120
 #, kde-format
 msgid "Marathi"
 msgstr "Marathi"
 
-#: src/dialogs/speechdialog.cpp:552
+#: src/dialogs/speechdialog.cpp:555
 #, kde-format
 msgid "Meitei"
 msgstr "Meitei"
 
-#: src/dialogs/speechdialog.cpp:553
+#: src/dialogs/speechdialog.cpp:556
 #, kde-format
 msgid "Modern Standard Arabic"
 msgstr "Modern Standard Arabic"
 
-#: src/dialogs/speechdialog.cpp:554
+#: src/dialogs/speechdialog.cpp:557
 #, kde-format
 msgid "Moroccan Arabic"
 msgstr "Moroccan Arabic"
 
-#: src/dialogs/speechdialog.cpp:555
+#: src/dialogs/speechdialog.cpp:558
 #: src/pythoninterfaces/speechtotextwhisper.cpp:125
 #, kde-format
 msgid "Nepali"
 msgstr "Nepali"
 
-#: src/dialogs/speechdialog.cpp:556
+#: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "Nigerian Fulfulde"
 msgstr "Nigerian Fulfulde"
 
-#: src/dialogs/speechdialog.cpp:557
+#: src/dialogs/speechdialog.cpp:560
 #, kde-format
 msgid "North Azerbaijani"
 msgstr "North Azerbaijani"
 
-#: src/dialogs/speechdialog.cpp:558
+#: src/dialogs/speechdialog.cpp:561
 #, kde-format
 msgid "Northern Uzbek"
 msgstr "Northern Uzbek"
 
-#: src/dialogs/speechdialog.cpp:559
+#: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Norwegian Bokmål"
 msgstr "Norwegian Bokmål"
 
-#: src/dialogs/speechdialog.cpp:560
+#: src/dialogs/speechdialog.cpp:563
 #, kde-format
 msgid "Norwegian Nynorsk"
 msgstr "Norwegian Nynorsk"
 
-#: src/dialogs/speechdialog.cpp:561
+#: src/dialogs/speechdialog.cpp:564
 #, kde-format
 msgid "Nyanja"
 msgstr "Nyanja"
 
-#: src/dialogs/speechdialog.cpp:562
+#: src/dialogs/speechdialog.cpp:565
 #, kde-format
 msgid "Odia"
 msgstr "Odia"
 
-#: src/dialogs/speechdialog.cpp:563
+#: src/dialogs/speechdialog.cpp:566
 #: src/pythoninterfaces/speechtotextwhisper.cpp:132
 #, kde-format
 msgid "Polish"
 msgstr "Polish"
 
-#: src/dialogs/speechdialog.cpp:564
+#: src/dialogs/speechdialog.cpp:567
 #: src/pythoninterfaces/speechtotextwhisper.cpp:133
 #, kde-format
 msgid "Portuguese"
 msgstr "Portuguese"
 
-#: src/dialogs/speechdialog.cpp:565
+#: src/dialogs/speechdialog.cpp:568
 #: src/pythoninterfaces/speechtotextwhisper.cpp:134
 #, kde-format
 msgid "Punjabi"
 msgstr "Punjabi"
 
-#: src/dialogs/speechdialog.cpp:566
+#: src/dialogs/speechdialog.cpp:569
 #: src/pythoninterfaces/speechtotextwhisper.cpp:136
 #, kde-format
 msgid "Romanian"
 msgstr "Romanian"
 
-#: src/dialogs/speechdialog.cpp:567
+#: src/dialogs/speechdialog.cpp:570
 #: src/pythoninterfaces/speechtotextwhisper.cpp:137
 #, kde-format
 msgid "Russian"
 msgstr "ລັດເຊຍ"
 
-#: src/dialogs/speechdialog.cpp:568
+#: src/dialogs/speechdialog.cpp:571
 #: src/pythoninterfaces/speechtotextwhisper.cpp:139
 #, kde-format
 msgid "Serbian"
 msgstr "Serbian"
 
-#: src/dialogs/speechdialog.cpp:569
+#: src/dialogs/speechdialog.cpp:572
 #: src/pythoninterfaces/speechtotextwhisper.cpp:140
 #, kde-format
 msgid "Shona"
 msgstr "Shona"
 
-#: src/dialogs/speechdialog.cpp:570
+#: src/dialogs/speechdialog.cpp:573
 #: src/pythoninterfaces/speechtotextwhisper.cpp:141
 #, kde-format
 msgid "Sindhi"
 msgstr "Sindhi"
 
-#: src/dialogs/speechdialog.cpp:571
+#: src/dialogs/speechdialog.cpp:574
 #: src/pythoninterfaces/speechtotextwhisper.cpp:144
 #, kde-format
 msgid "Slovak"
 msgstr "Slovak"
 
-#: src/dialogs/speechdialog.cpp:572
+#: src/dialogs/speechdialog.cpp:575
 #: src/pythoninterfaces/speechtotextwhisper.cpp:145
 #, kde-format
 msgid "Slovenian"
 msgstr "Slovenian"
 
-#: src/dialogs/speechdialog.cpp:573
+#: src/dialogs/speechdialog.cpp:576
 #: src/pythoninterfaces/speechtotextwhisper.cpp:146
 #, kde-format
 msgid "Somali"
 msgstr "Somali"
 
-#: src/dialogs/speechdialog.cpp:574
+#: src/dialogs/speechdialog.cpp:577
 #, kde-format
 msgid "Southern Pashto"
 msgstr "Southern Pashto"
 
-#: src/dialogs/speechdialog.cpp:575
+#: src/dialogs/speechdialog.cpp:578
 #: src/pythoninterfaces/speechtotextwhisper.cpp:147
 #, kde-format
 msgid "Spanish"
 msgstr "ສະເປນ"
 
-#: src/dialogs/speechdialog.cpp:576
+#: src/dialogs/speechdialog.cpp:579
 #, kde-format
 msgid "Standard Latvian"
 msgstr "Standard Latvian"
 
-#: src/dialogs/speechdialog.cpp:577
+#: src/dialogs/speechdialog.cpp:580
 #, kde-format
 msgid "Standard Malay"
 msgstr "Standard Malay"
 
-#: src/dialogs/speechdialog.cpp:578
+#: src/dialogs/speechdialog.cpp:581
 #: src/pythoninterfaces/speechtotextwhisper.cpp:149
 #, kde-format
 msgid "Swahili"
 msgstr "Swahili"
 
-#: src/dialogs/speechdialog.cpp:579
+#: src/dialogs/speechdialog.cpp:582
 #: src/pythoninterfaces/speechtotextwhisper.cpp:150
 #, kde-format
 msgid "Swedish"
 msgstr "Swedish"
 
-#: src/dialogs/speechdialog.cpp:580
+#: src/dialogs/speechdialog.cpp:583
 #: src/pythoninterfaces/speechtotextwhisper.cpp:151
 #, kde-format
 msgid "Tagalog"
 msgstr "Tagalog"
 
-#: src/dialogs/speechdialog.cpp:581
+#: src/dialogs/speechdialog.cpp:584
 #: src/pythoninterfaces/speechtotextwhisper.cpp:152
 #, kde-format
 msgid "Tajik"
 msgstr "Tajik"
 
-#: src/dialogs/speechdialog.cpp:582
+#: src/dialogs/speechdialog.cpp:585
 #: src/pythoninterfaces/speechtotextwhisper.cpp:153
 #, kde-format
 msgid "Tamil"
 msgstr "Tamil"
 
-#: src/dialogs/speechdialog.cpp:583
+#: src/dialogs/speechdialog.cpp:586
 #: src/pythoninterfaces/speechtotextwhisper.cpp:155
 #, kde-format
 msgid "Telugu"
 msgstr "Telugu"
 
-#: src/dialogs/speechdialog.cpp:584
+#: src/dialogs/speechdialog.cpp:587
 #: src/pythoninterfaces/speechtotextwhisper.cpp:156
 #, kde-format
 msgid "Thai"
 msgstr "ໄທ"
 
-#: src/dialogs/speechdialog.cpp:585
+#: src/dialogs/speechdialog.cpp:588
 #: src/pythoninterfaces/speechtotextwhisper.cpp:158
 #, kde-format
 msgid "Turkish"
 msgstr "Turkish"
 
-#: src/dialogs/speechdialog.cpp:586
+#: src/dialogs/speechdialog.cpp:589
 #: src/pythoninterfaces/speechtotextwhisper.cpp:160
 #, kde-format
 msgid "Ukrainian"
 msgstr "Ukrainian"
 
-#: src/dialogs/speechdialog.cpp:587
+#: src/dialogs/speechdialog.cpp:590
 #: src/pythoninterfaces/speechtotextwhisper.cpp:161
 #, kde-format
 msgid "Urdu"
 msgstr "Urdu"
 
-#: src/dialogs/speechdialog.cpp:588
+#: src/dialogs/speechdialog.cpp:591
 #: src/pythoninterfaces/speechtotextwhisper.cpp:164
 #, kde-format
 msgid "Vietnamese"
 msgstr "ຫວຽດນາມ"
 
-#: src/dialogs/speechdialog.cpp:589
+#: src/dialogs/speechdialog.cpp:592
 #: src/pythoninterfaces/speechtotextwhisper.cpp:165
 #, kde-format
 msgid "Welsh"
 msgstr "Welsh"
 
-#: src/dialogs/speechdialog.cpp:590
+#: src/dialogs/speechdialog.cpp:593
 #, kde-format
 msgid "West Central Oromo"
 msgstr "West Central Oromo"
 
-#: src/dialogs/speechdialog.cpp:591
+#: src/dialogs/speechdialog.cpp:594
 #, kde-format
 msgid "Western Persian"
 msgstr "Western Persian"
 
-#: src/dialogs/speechdialog.cpp:592
+#: src/dialogs/speechdialog.cpp:595
 #: src/pythoninterfaces/speechtotextwhisper.cpp:167
 #, kde-format
 msgid "Yoruba"
 msgstr "Yoruba"
 
-#: src/dialogs/speechdialog.cpp:593
+#: src/dialogs/speechdialog.cpp:596
 #, kde-format
 msgid "Zulu"
 msgstr "Zulu"
@@ -26590,7 +26719,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "ໄຟລ໌ຄຳບັນຍາຍ:<br/>%1<br/>ມີຢູ່ແລ້ວ. ທ່ານຕ້ອງການຂຽນທັບມັນບໍ່?"
 
-#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3863
+#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3873
 #, kde-format
 msgid "Overwrite"
 msgstr "ຂຽນທັບ"
@@ -26956,17 +27085,17 @@ msgstr "ສົ່ງອອກເອັບເຟັກກຳນົດເອງ"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "ເອັບເຟັກທີ່ທ່ານມັກບາງອັນບໍ່ຖືກຕ້ອງ ແລະ ຖືກລຶບອອກແລ້ວ: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:385
+#: src/effects/effectstack/model/effectitemmodel.cpp:398
 #, kde-format
 msgid "Hide keyframes"
 msgstr "ເຊື່ອງຄີເຟຣມ"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:385
+#: src/effects/effectstack/model/effectitemmodel.cpp:398
 #, kde-format
 msgid "Show keyframes"
 msgstr "ສະແດງຄີເຟຣມ"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:470
+#: src/effects/effectstack/model/effectitemmodel.cpp:483
 #, kde-format
 msgid "Update zone for %1"
 msgstr "ອັບເດດເຂດສຳລັບ %1"
@@ -27218,13 +27347,13 @@ msgid "Exporting…"
 msgstr "ກຳລັງສົ່ງອອກ…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3791
+#: src/timeline2/view/timelinecontroller.cpp:3816
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "ເປີດໃຊ້ງານຊັ້ນເອັບເຟັກ"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3791
+#: src/timeline2/view/timelinecontroller.cpp:3816
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "ປິດໃຊ້ງານຊັ້ນເອັບເຟັກ"
@@ -27746,7 +27875,7 @@ msgid "Generators"
 msgstr "ຕົວສ້າງ"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:4248
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:4258
 #, kde-format
 msgid "Extract Audio"
 msgstr "ແຍກສຽງ"
@@ -27813,7 +27942,7 @@ msgstr "&ແຖບປັດຈຸບັນ"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:171 src/mainwindow.cpp:2110
+#: src/kdenliveui.rc:171 src/mainwindow.cpp:2115
 #: src/ui/configtimeline_ui.ui:265
 #, kde-format
 msgid "Tracks"
@@ -28732,7 +28861,7 @@ msgstr "ເພີ່ມເອັບເຟັກ"
 msgid "Add Transition"
 msgstr "ເພີ່ມການປ່ຽນ Scene"
 
-#: src/mainwindow.cpp:566 src/mainwindow.cpp:2312
+#: src/mainwindow.cpp:566 src/mainwindow.cpp:2317
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:37
 #, kde-format
 msgid "Transitions"
@@ -28770,7 +28899,7 @@ msgstr "ປຸ່ມປະມວນຜົນ"
 msgid "Rendering preview"
 msgstr "ກຳລັງປະມວນຜົນຕົວຢ່າງ"
 
-#: src/mainwindow.cpp:675 src/mainwindow.cpp:757 src/mainwindow.cpp:2182
+#: src/mainwindow.cpp:675 src/mainwindow.cpp:757 src/mainwindow.cpp:2187
 #, kde-format
 msgid "Identify Gaps"
 msgstr ""
@@ -28898,7 +29027,7 @@ msgstr "ເລີ່ມພວກມັນດຽວນີ້"
 msgid "Delete them"
 msgstr "ລຶບພວກມັນ"
 
-#: src/mainwindow.cpp:1193 src/timeline2/view/timelinecontroller.cpp:2499
+#: src/mainwindow.cpp:1193 src/timeline2/view/timelinecontroller.cpp:2524
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "ເລືອກຄລິບເພື່ອປຽບທຽບເອັບເຟັກ"
@@ -29211,7 +29340,7 @@ msgstr "ປັບລະດັບການຊູມເພື່ອໃຫ້ເຫ
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "ເປີດໃຊ້ການປະມວນຜົນ GPU ແບບທົດລອງ - ບໍ່ແມ່ນສຳລັບການໃຊ້ງານຈິງ"
 
-#: src/mainwindow.cpp:1596 src/mainwindow.cpp:3846
+#: src/mainwindow.cpp:1596 src/mainwindow.cpp:3856
 #, kde-format
 msgid "Multicam"
 msgstr "ຫຼາຍກ້ອງ"
@@ -29734,63 +29863,63 @@ msgid "Search Bin Clip…"
 msgstr "ຄົ້ນຫາຄລິບໃນຖັງ..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:2024 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:2029 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "ຕັດຄລິບ"
 
-#: src/mainwindow.cpp:2027
+#: src/mainwindow.cpp:2032
 #, fuzzy, kde-format
 #| msgid "Replace in timeline"
 msgid "Replace with Bin Selection"
 msgstr "ແທນທີ່ໃນເສັ້ນເວລາ"
 
-#: src/mainwindow.cpp:2031
+#: src/mainwindow.cpp:2036
 #, kde-format
 msgid "Cut All Clips"
 msgstr "ຕັດຄລິບທັງໝົດ"
 
-#: src/mainwindow.cpp:2034
+#: src/mainwindow.cpp:2039
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "ລຶບລາຍການທີ່ເລືອກ"
 
-#: src/mainwindow.cpp:2037
+#: src/mainwindow.cpp:2042
 #, kde-format
 msgid "Resize Item Start"
 msgstr "ປັບຂະໜາດຈຸດເລີ່ມຕົ້ນລາຍການ"
 
-#: src/mainwindow.cpp:2041
+#: src/mainwindow.cpp:2046
 #, kde-format
 msgid "Resize Item End"
 msgstr "ປັບຂະໜາດຈຸດສິ້ນສຸດລາຍການ"
 
-#: src/mainwindow.cpp:2045
+#: src/mainwindow.cpp:2050
 #, kde-format
 msgid "Paste Effects"
 msgstr "ວາງເອັບເຟັກ"
 
-#: src/mainwindow.cpp:2051
+#: src/mainwindow.cpp:2056
 #, kde-format
 msgid "Remove Effects"
 msgstr "ລຶບເອັບເຟັກ"
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2063
 #, kde-format
 msgid "Group Clips"
 msgstr "ຈັດກຸ່ມຄລິບ"
 
-#: src/mainwindow.cpp:2064
+#: src/mainwindow.cpp:2069
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "ຍົກເລີກການຈັດກຸ່ມຄລິບ"
 
-#: src/mainwindow.cpp:2070
+#: src/mainwindow.cpp:2075
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "ສ້າງຊີເຄວນຈາກສິ່ງທີ່ເລືອກ"
 
-#: src/mainwindow.cpp:2073
+#: src/mainwindow.cpp:2078
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29798,14 +29927,14 @@ msgid ""
 "that can be opened in another timeline tab."
 msgstr "ເພີ່ມຄລິບທີ່ເລືອກໃນເສັ້ນເວລາປະຈຸບັນ ໄປຍັງຄລິບຊີເຄວນໃໝ່ ທີ່ສາມາດເປີດໃນແຖບເສັ້ນເວລາອື່ນໄດ້."
 
-#: src/mainwindow.cpp:2077
+#: src/mainwindow.cpp:2082
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Create New Sequence"
 msgid "Copy Selection to New Sequence"
 msgstr "ສ້າງຊີເຄວນໃໝ່"
 
-#: src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2085
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -29817,136 +29946,136 @@ msgid ""
 "that can be opened in another timeline tab."
 msgstr "ເພີ່ມຄລິບທີ່ເລືອກໃນເສັ້ນເວລາປະຈຸບັນ ໄປຍັງຄລິບຊີເຄວນໃໝ່ ທີ່ສາມາດເປີດໃນແຖບເສັ້ນເວລາອື່ນໄດ້."
 
-#: src/mainwindow.cpp:2094
+#: src/mainwindow.cpp:2099
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "ຄີເຟຣມຂອງເອັບເຟັກ"
 
-#: src/mainwindow.cpp:2095 src/monitor/view/EffectToolBar.qml:115
+#: src/mainwindow.cpp:2100 src/monitor/view/EffectToolBar.qml:115
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "ເພີ່ມ/ລຶບ ຄີເຟຣມ"
 
-#: src/mainwindow.cpp:2104
+#: src/mainwindow.cpp:2109
 #, kde-format
 msgid "Insert Space…"
 msgstr "ແຊກຊ່ອງຫວ່າງ..."
 
-#: src/mainwindow.cpp:2105
+#: src/mainwindow.cpp:2110
 #, kde-format
 msgid "Remove Space"
 msgstr "ລຶບຊ່ອງຫວ່າງ"
 
-#: src/mainwindow.cpp:2106
+#: src/mainwindow.cpp:2111
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "ລຶບຊ່ອງຫວ່າງທັງໝົດຫຼັງເຄີເຊີ"
 
-#: src/mainwindow.cpp:2107
+#: src/mainwindow.cpp:2112
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "ລຶບຄລິບທັງໝົດຫຼັງເຄີເຊີ"
 
-#: src/mainwindow.cpp:2108
+#: src/mainwindow.cpp:2113
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "ລຶບຊ່ອງຫວ່າງໃນທຸກແທຣັກ"
 
-#: src/mainwindow.cpp:2111
+#: src/mainwindow.cpp:2116
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "ແຊກແທຣັກ..."
 
-#: src/mainwindow.cpp:2115
+#: src/mainwindow.cpp:2120
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "ປັບທຸກແທຣັກໃຫ້ພໍດີກັບມຸມມອງ"
 
-#: src/mainwindow.cpp:2121 src/timeline2/view/timelinecontroller.cpp:5591
+#: src/mainwindow.cpp:2126 src/timeline2/view/timelinecontroller.cpp:5616
 #, kde-format
 msgid "Sequence effects"
 msgstr "ເອັບເຟັກຂອງຊີເຄວນ"
 
-#: src/mainwindow.cpp:2128
+#: src/mainwindow.cpp:2133
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "ສະລັບສະຕຣີມສຽງເປົ້າໝາຍຂອງແທຣັກ"
 
-#: src/mainwindow.cpp:2133
+#: src/mainwindow.cpp:2138
 #, kde-format
 msgid "Delete Track…"
 msgstr "ລຶບແທຣັກ..."
 
-#: src/mainwindow.cpp:2138
+#: src/mainwindow.cpp:2143
 #, fuzzy, kde-format
 #| msgid "Move clip"
 msgid "Move Track Up"
 msgstr "ຍ້າຍຄລິບ"
 
-#: src/mainwindow.cpp:2142
+#: src/mainwindow.cpp:2147
 #, fuzzy, kde-format
 #| msgid "Move effect down"
 msgid "Move Track Down"
 msgstr "ຍ້າຍເອັບເຟັກລົງ"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2151
 #, kde-format
 msgid "Show Record Controls"
 msgstr "ສະແດງການຄວບຄຸມການບັນທຶກ"
 
-#: src/mainwindow.cpp:2152
+#: src/mainwindow.cpp:2157
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "ເລືອກທັງໝົດໃນແທຣັກປະຈຸບັນ"
 
-#: src/mainwindow.cpp:2169
+#: src/mainwindow.cpp:2174
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "ຈັດການຂໍ້ມູນແຄຊ໌..."
 
-#: src/mainwindow.cpp:2172
+#: src/mainwindow.cpp:2177
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "ປິດການສະແດງຕົວຢ່າງເສັ້ນເວລາ"
 
-#: src/mainwindow.cpp:2176
+#: src/mainwindow.cpp:2181
 #, kde-format
 msgid "Add/Remove Timeline Marker"
 msgstr "ເພີ່ມ/ລຶບ ຕົວໝາຍເສັ້ນເວລາ"
 
-#: src/mainwindow.cpp:2178
+#: src/mainwindow.cpp:2183
 #, kde-format
 msgid "Delete Timeline Marker"
 msgstr "ລຶບຕົວໝາຍເສັ້ນເວລາ"
 
-#: src/mainwindow.cpp:2180
+#: src/mainwindow.cpp:2185
 #, fuzzy, kde-format
 #| msgid "Delete Timeline Marker"
 msgid "Delete All Timeline Markers"
 msgstr "ລຶບຕົວໝາຍເສັ້ນເວລາ"
 
-#: src/mainwindow.cpp:2184
+#: src/mainwindow.cpp:2189
 #, kde-format
 msgid "Edit Timeline Marker…"
 msgstr "ແກ້ໄຂຕົວໝາຍເສັ້ນເວລາ..."
 
-#: src/mainwindow.cpp:2187
+#: src/mainwindow.cpp:2192
 #, kde-format
 msgid "Export Markers…"
 msgstr "ສົ່ງອອກຕົວໝາຍ..."
 
-#: src/mainwindow.cpp:2188
+#: src/mainwindow.cpp:2193
 #, kde-format
 msgid "Search Marker…"
 msgstr "ຄົ້ນຫາຕົວໝາຍ..."
 
-#: src/mainwindow.cpp:2191 src/mainwindow.cpp:2194
+#: src/mainwindow.cpp:2196 src/mainwindow.cpp:2199
 #, kde-format
 msgid "Lock Timeline Markers"
 msgstr "ລັອກຕົວໝາຍເສັ້ນເວລາ"
 
-#: src/mainwindow.cpp:2196
+#: src/mainwindow.cpp:2201
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29956,47 +30085,47 @@ msgstr ""
 "ລັອກຕົວໝາຍເສັ້ນເວລາ. ເມື່ອລັອກແລ້ວ, ຕົວໝາຍຈະບໍ່ຍ້າຍເມື່ອໃຊ້ເຄື່ອງມືຍະຫວ່າງ ຫຼື ການແຊກ/ລຶບ "
 "ທີ່ວ່າງໃນແທຣັກ."
 
-#: src/mainwindow.cpp:2198
+#: src/mainwindow.cpp:2203
 #, kde-format
 msgid "Add Subtitle"
 msgstr "ເພີ່ມຄຳບັນຍາຍ"
 
-#: src/mainwindow.cpp:2200
+#: src/mainwindow.cpp:2205
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "ປິດຄຳບັນຍາຍ"
 
-#: src/mainwindow.cpp:2201
+#: src/mainwindow.cpp:2206
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "ລັອກຄຳບັນຍາຍ"
 
-#: src/mainwindow.cpp:2203
+#: src/mainwindow.cpp:2208
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "ຈັດການຄຳບັນຍາຍ"
 
-#: src/mainwindow.cpp:2205
+#: src/mainwindow.cpp:2210
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "ນຳເຂົ້າໄຟລ໌ຄຳບັນຍາຍ..."
 
-#: src/mainwindow.cpp:2207
+#: src/mainwindow.cpp:2212
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "ສົ່ງອອກໄຟລ໌ຄຳບັນຍາຍ..."
 
-#: src/mainwindow.cpp:2209 src/timeline2/model/timelinemodel.cpp:2626
+#: src/mainwindow.cpp:2214 src/timeline2/model/timelinemodel.cpp:2626
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "ລຶບຄຳບັນຍາຍ"
 
-#: src/mainwindow.cpp:2210
+#: src/mainwindow.cpp:2215
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "ການຈົດຈຳສຽງເວົ້າ..."
 
-#: src/mainwindow.cpp:2217
+#: src/mainwindow.cpp:2222
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30006,115 +30135,115 @@ msgstr ""
 "ສິ່ງນີ້ຈະສະລັບລະຫວ່າງການມີ <emphasis>ແຖບເມນູ</emphasis> ແລະ ການມີປຸ່ມ "
 "<interface>ເມນູແຮມເບີເກີ</interface> ໃນແຖບເຄື່ອງມືຫຼັກ."
 
-#: src/mainwindow.cpp:2245
+#: src/mainwindow.cpp:2250
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "ຄັດລອກຂໍ້ມູນດີບັກ"
 
-#: src/mainwindow.cpp:2247
+#: src/mainwindow.cpp:2252
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "ປິດເອັບເຟັກເສັ້ນເວລາ"
 
-#: src/mainwindow.cpp:2269
+#: src/mainwindow.cpp:2274
 #, kde-format
 msgid "Track menu"
 msgstr "ເມນູແຖບ"
 
-#: src/mainwindow.cpp:2273
+#: src/mainwindow.cpp:2278
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "ເປີດ/ປິດ ການໃຊ້ງານແທຣັກ"
 
-#: src/mainwindow.cpp:2275
+#: src/mainwindow.cpp:2280
 #, kde-format
 msgid "Toggle All Tracks Disabled"
 msgstr "ເປີດ/ປິດ ການໃຊ້ງານທຸກແທຣັກ"
 
-#: src/mainwindow.cpp:2277
+#: src/mainwindow.cpp:2282
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "ເປີດ/ປິດ ການລັອກແທຣັກ"
 
-#: src/mainwindow.cpp:2279
+#: src/mainwindow.cpp:2284
 #, kde-format
 msgid "Toggle All Tracks Lock"
 msgstr "ເປີດ/ປິດ ການລັອກທຸກແທຣັກ"
 
-#: src/mainwindow.cpp:2281
+#: src/mainwindow.cpp:2286
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "ເປີດ/ປິດ ເປົ້າໝາຍແທຣັກ"
 
-#: src/mainwindow.cpp:2283
+#: src/mainwindow.cpp:2288
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "ເປີດ/ປິດ ການເຄື່ອນໄຫວແທຣັກ"
 
-#: src/mainwindow.cpp:2285
+#: src/mainwindow.cpp:2290
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "ເປີດ/ປິດ ການເຄື່ອນໄຫວທຸກແທຣັກ"
 
-#: src/mainwindow.cpp:2287
+#: src/mainwindow.cpp:2292
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "ສະລັບການເຄື່ອນໄຫວທຸກແທຣັກ"
 
-#: src/mainwindow.cpp:2289
+#: src/mainwindow.cpp:2294
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "ກູ້ຄືນແທຣັກເປົ້າໝາຍຂອງຄລິບປະຈຸບັນ"
 
-#: src/mainwindow.cpp:2291
+#: src/mainwindow.cpp:2296
 #, kde-format
 msgid "Add Project Note"
 msgstr "ເພີ່ມບັນທຶກໂຄງການ"
 
-#: src/mainwindow.cpp:2297
+#: src/mainwindow.cpp:2302
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "ເລືອກແທຣັກສຽງ %1"
 
-#: src/mainwindow.cpp:2301
+#: src/mainwindow.cpp:2306
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "ເລືອກແທຣັກວິດີໂອ %1"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2310
 #, kde-format
 msgid "Select Target %1"
 msgstr "ເລືອກເປົ້າໝາຍ %1"
 
-#: src/mainwindow.cpp:2322
+#: src/mainwindow.cpp:2327
 #, kde-format
 msgid "Extract Frame…"
 msgstr "ແຍກເຟຣມອອກ..."
 
-#: src/mainwindow.cpp:2325
+#: src/mainwindow.cpp:2330
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "ແຍກເຟຣມເຂົ້າໂຄງການ..."
 
-#: src/mainwindow.cpp:2328
+#: src/mainwindow.cpp:2333
 #, kde-format
 msgid "Extract Frame to Clipboard"
 msgstr "ແຍກເຟຣມລົງຄລິບບອດ"
 
-#: src/mainwindow.cpp:2463
+#: src/mainwindow.cpp:2468
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr "ເຈົ້າໄດ້ປ່ຽນພາຣາມິເຕີຂອງພຣັອກຊີ. ເຈົ້າຕ້ອງການສ້າງຄລິບພຣັອກຊີທັງໝົດໃໝ່ສຳລັບໂຄງການນີ້ບໍ່?"
 
-#: src/mainwindow.cpp:2464
+#: src/mainwindow.cpp:2469
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "ສ້າງໃໝ່"
 
-#: src/mainwindow.cpp:2465 src/onlineresources/resourcewidget.cpp:706
+#: src/mainwindow.cpp:2470 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2333
 #, kde-format
@@ -30122,7 +30251,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "ດຳເນີນການຕໍ່ໂດຍບໍ່ມີ"
 
-#: src/mainwindow.cpp:2521
+#: src/mainwindow.cpp:2526
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -30132,7 +30261,7 @@ msgstr ""
 "ໂຄງການປະຈຸບັນຍັງບໍ່ທັນໄດ້ບັນທຶກ.<br/>ລະບົບຈະບັນທຶກໂຄງການກ່ອນ, ຈາກນັ້ນຍ້າຍໄຟລ໌ຊົ່ວຄາວທັງໝົດຈາກ <br/"
 "><b>%1</b> ໄປຍັງ <b>%2</b>,<br>ແລະ ໄຟລ໌ໂຄງການຈະຖືກໂຫຼດໃໝ່"
 
-#: src/mainwindow.cpp:2529
+#: src/mainwindow.cpp:2534
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -30141,38 +30270,38 @@ msgstr ""
 "ລະບົບຈະຍ້າຍໄຟລ໌ຊົ່ວຄາວທັງໝົດຈາກ<br/><b>%1</b> ໄປຍັງ <b>%2</b>,<br/"
 ">ຈາກນັ້ນໄຟລ໌ໂຄງການຈະຖືກໂຫຼດໃໝ່"
 
-#: src/mainwindow.cpp:2538 src/project/projectmanager.cpp:607
+#: src/mainwindow.cpp:2543 src/project/projectmanager.cpp:607
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "ບໍ່ສາມາດດຳເນີນການໄດ້, ລະຫັດເອກະສານບໍ່ຖືກຕ້ອງ: %1"
 
-#: src/mainwindow.cpp:2543 src/project/projectmanager.cpp:613
+#: src/mainwindow.cpp:2548 src/project/projectmanager.cpp:613
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ບໍ່ສາມາດດຳເນີນການໄດ້, ໄດເຣັກທໍຣີປາຍທາງມີຢູ່ແລ້ວ: %1"
 
-#: src/mainwindow.cpp:2693
+#: src/mainwindow.cpp:2698
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "ລະບົບຈະລຶບຄລິບທີ່ບໍ່ໄດ້ໃຊ້ທັງໝົດອອກຈາກໂຄງການຂອງເຈົ້າ."
 
-#: src/mainwindow.cpp:2693
+#: src/mainwindow.cpp:2698
 #, kde-format
 msgid "Clean up project"
 msgstr "ທຳຄວາມສະອາດໂຄງການ"
 
-#: src/mainwindow.cpp:2821
+#: src/mainwindow.cpp:2826
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "ດາວໂຫຼດຮູບແບບແປ້ນພິມໃໝ່..."
 
-#: src/mainwindow.cpp:2865
+#: src/mainwindow.cpp:2870
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "ທົ່ວໄປ"
 
-#: src/mainwindow.cpp:2938
+#: src/mainwindow.cpp:2943
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -30180,77 +30309,77 @@ msgid ""
 msgstr ""
 "ລະບົບຈະລຶບໄຟລ໌ການຕັ້ງຄ່າຂອງ Kdenlive ແລະ ເປີດແອັບພລິເຄຊັນໃໝ່. ເຈົ້າຕ້ອງການດຳເນີນການຕໍ່ບໍ່?"
 
-#: src/mainwindow.cpp:2939
+#: src/mainwindow.cpp:2944
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "ຣີເຊັດການຕັ້ງຄ່າ"
 
-#: src/mainwindow.cpp:3086 src/mainwindow.cpp:3113
+#: src/mainwindow.cpp:3091 src/mainwindow.cpp:3118
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະລຶບຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3096 src/mainwindow.cpp:3152
+#: src/mainwindow.cpp:3101 src/mainwindow.cpp:3157
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "ບໍ່ພົບຕົວໝາຍຢູ່ທີ່ເວລາຂອງເຄີເຊີ"
 
-#: src/mainwindow.cpp:3118 src/mainwindow.cpp:3128
+#: src/mainwindow.cpp:3123 src/mainwindow.cpp:3133
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "ເກີດຂໍ້ຜິດພາດຂະນະທີ່ລຶບຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3145 src/timeline2/view/timelinecontroller.cpp:1412
-#: src/timeline2/view/timelinecontroller.cpp:1420
-#: src/timeline2/view/timelinecontroller.cpp:1441
-#: src/timeline2/view/timelinecontroller.cpp:1481
-#: src/timeline2/view/timelinecontroller.cpp:1516
-#: src/timeline2/view/timelinecontroller.cpp:1536
+#: src/mainwindow.cpp:3150 src/timeline2/view/timelinecontroller.cpp:1437
+#: src/timeline2/view/timelinecontroller.cpp:1445
+#: src/timeline2/view/timelinecontroller.cpp:1466
+#: src/timeline2/view/timelinecontroller.cpp:1506
+#: src/timeline2/view/timelinecontroller.cpp:1541
+#: src/timeline2/view/timelinecontroller.cpp:1561
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະແກ້ໄຂຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3197
+#: src/mainwindow.cpp:3202
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "ບໍ່ມີໝວດໝູ່ຂອງຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3412 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3621
+#: src/mainwindow.cpp:3422 src/timeline2/model/timelinefunctions.cpp:818
+#: src/timeline2/view/timelinecontroller.cpp:3646
 #, kde-format
 msgid "Overwrite zone"
 msgstr "ຂຽນທັບເຂດ"
 
-#: src/mainwindow.cpp:3414 src/mainwindow.cpp:3433
+#: src/mainwindow.cpp:3424 src/mainwindow.cpp:3443
 #: src/timeline2/model/timelinefunctions.cpp:820
-#: src/timeline2/view/timelinecontroller.cpp:3623
+#: src/timeline2/view/timelinecontroller.cpp:3648
 #, kde-format
 msgid "Could not insert zone"
 msgstr "ບໍ່ສາມາດແຊກເຂດໄດ້"
 
-#: src/mainwindow.cpp:3424
+#: src/mainwindow.cpp:3434
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "ບໍ່ມີຄລິບຖືກເລືອກໃນຖັງໂຄງການ"
 
-#: src/mainwindow.cpp:3431 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3621
+#: src/mainwindow.cpp:3441 src/timeline2/model/timelinefunctions.cpp:818
+#: src/timeline2/view/timelinecontroller.cpp:3646
 #, kde-format
 msgid "Insert zone"
 msgstr "ແຊກເຂດ"
 
-#: src/mainwindow.cpp:3598
+#: src/mainwindow.cpp:3608
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "ບໍ່ສາມາດເພີ່ມເອັບເຟັກໃສ່ລາຍການທີ່ໃຊ້ງານຢູ່"
 
-#: src/mainwindow.cpp:3660
+#: src/mainwindow.cpp:3670
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "ລະດັບການຊູມ: %1/%2"
 
-#: src/mainwindow.cpp:3814
+#: src/mainwindow.cpp:3824
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30262,7 +30391,7 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Meta ລາກ</shortcut> "
 "ເພື່ອຍ້າຍຄລິບທີ່ຈັດກຸ່ມໄປຍັງແທຣັກອື່ນ, <shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:3818
+#: src/mainwindow.cpp:3828
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30275,24 +30404,24 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Meta + Alt ລາກ</shortcut> "
 "ເພື່ອຍ້າຍຄລິບທີ່ຈັດກຸ່ມໄປຍັງແທຣັກອື່ນ, <shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:3821
+#: src/mainwindow.cpp:3831
 #, kde-format
 msgid "Select"
 msgstr "ເລືອກ"
 
-#: src/mainwindow.cpp:3823
+#: src/mainwindow.cpp:3833
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> ເພື່ອເບິ່ງຕົວຢ່າງເຟຣມທີ່ຕັດ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3824 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3834 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "ມີດຕັດ"
 
-#: src/mainwindow.cpp:3828
+#: src/mainwindow.cpp:3838
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30302,12 +30431,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> ເພື່ອໃຊ້ກັບແທຣັກປະຈຸບັນເທົ່ານັ້ນ, <shortcut>Shift</shortcut> "
 "ເພື່ອຍ້າຍເສັ້ນນຳທາງນຳ. ເຈົ້າສາມາດໃຊ້ປຸ່ມທັງສອງຮ່ວມກັນໄດ້."
 
-#: src/mainwindow.cpp:3829
+#: src/mainwindow.cpp:3839
 #, kde-format
 msgid "Spacer"
 msgstr "ຕົວຍະຫວ່າງ"
 
-#: src/mainwindow.cpp:3831
+#: src/mainwindow.cpp:3841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30317,13 +30446,13 @@ msgstr ""
 "<shortcut>ຄລິກ</shortcut> ໃສ່ລາຍການເພື່ອເລື່ອນ (slip), <shortcut>Shift ຄລິກ</"
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ"
 
-#: src/mainwindow.cpp:3832
+#: src/mainwindow.cpp:3842
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Slip"
 
-#: src/mainwindow.cpp:3837
+#: src/mainwindow.cpp:3847
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30335,13 +30464,13 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Alt ຄລິກ</shortcut> ເພື່ອເລືອກລາຍການໃນກຸ່ມ, "
 "<shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:3839
+#: src/mainwindow.cpp:3849
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Ripple"
 
-#: src/mainwindow.cpp:3845
+#: src/mainwindow.cpp:3855
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30351,145 +30480,145 @@ msgstr ""
 "<shortcut>ຄລິກ</shortcut> ໃສ່ມຸມມອງແທຣັກໃນຈໍມໍນິເຕີໂຄງການ ເພື່ອທຳການຍົກທຸກແທຣັກອອກ "
 "ຍົກເວັ້ນແທຣັກທີ່ໃຊ້ງານຢູ່"
 
-#: src/mainwindow.cpp:3861
+#: src/mainwindow.cpp:3871
 #, kde-format
 msgid "Insert"
 msgstr "ແຊກ"
 
-#: src/mainwindow.cpp:4138 src/mainwindow.cpp:4140
+#: src/mainwindow.cpp:4148 src/mainwindow.cpp:4150
 #, kde-format
 msgid "Scopes"
 msgstr "ສະໂຄບ"
 
-#: src/mainwindow.cpp:4145
+#: src/mainwindow.cpp:4155
 #, kde-format
 msgid "Project Bins"
 msgstr "ຖັງໂຄງການ"
 
-#: src/mainwindow.cpp:4222
+#: src/mainwindow.cpp:4232
 #, kde-format
 msgid "Clip Jobs"
 msgstr "ວຽກຂອງຄລິບ"
 
-#: src/mainwindow.cpp:4241
+#: src/mainwindow.cpp:4251
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "ຕັ້ງຄ່າວຽກຂອງຄລິບ..."
 
-#: src/mainwindow.cpp:4247
+#: src/mainwindow.cpp:4257
 #, kde-format
 msgid "Transcoders"
 msgstr "ຕົວປ່ຽນລະຫັດ"
 
-#: src/mainwindow.cpp:4314
+#: src/mainwindow.cpp:4324
 #, kde-format
 msgid "-merged"
 msgstr "-ຮວມແລ້ວ"
 
-#: src/mainwindow.cpp:4317
+#: src/mainwindow.cpp:4327
 #, kde-format
 msgid "-stream-%1"
 msgstr "-ສະຕຣີມ-%1"
 
-#: src/mainwindow.cpp:4350 src/mainwindow.cpp:4678
+#: src/mainwindow.cpp:4360 src/mainwindow.cpp:4688
 #, kde-format
 msgid "Interface"
 msgstr "ອິນເຕີເຟດ"
 
-#: src/mainwindow.cpp:4421
+#: src/mainwindow.cpp:4431
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "ໄຟລ໌ທີ່ຈະປ່ຽນລະຫັດ"
 
-#: src/mainwindow.cpp:4585
+#: src/mainwindow.cpp:4595
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "ບໍ່ສາມາດບັນທຶກໄຟລ໌ໂຄງການສຳລັບການຈັດເກັບໄດ້."
 
-#: src/mainwindow.cpp:4593
+#: src/mainwindow.cpp:4603
 #, kde-format
 msgid "Archiving project"
 msgstr "ກຳລັງຈັດເກັບໂຄງການ"
 
-#: src/mainwindow.cpp:4692
+#: src/mainwindow.cpp:4702
 #, fuzzy, kde-format
 #| msgid "Disable %1"
 msgid "Raise %1"
 msgstr "ປິດໃຊ້ງານ %1"
 
-#: src/mainwindow.cpp:4753
+#: src/mainwindow.cpp:4763
 #, kde-format
 msgid "Icon Size"
 msgstr "ຂະໜາດໄອຄອນ"
 
-#: src/mainwindow.cpp:4757
+#: src/mainwindow.cpp:4767
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ຄ່າເລີ່ມຕົ້ນ"
 
-#: src/mainwindow.cpp:4778 src/mainwindow.cpp:4806
+#: src/mainwindow.cpp:4788 src/mainwindow.cpp:4816
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "ນ້ອຍ (%1x%2)"
 
-#: src/mainwindow.cpp:4780 src/mainwindow.cpp:4808
+#: src/mainwindow.cpp:4790 src/mainwindow.cpp:4818
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "ກາງ (%1x%2)"
 
-#: src/mainwindow.cpp:4782 src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4792 src/mainwindow.cpp:4820
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "ໃຫຍ່ (%1x%2)"
 
-#: src/mainwindow.cpp:4784 src/mainwindow.cpp:4812
+#: src/mainwindow.cpp:4794 src/mainwindow.cpp:4822
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ໃຫຍ່ຫຼາຍ (%1x%2)"
 
-#: src/mainwindow.cpp:4868
+#: src/mainwindow.cpp:4878
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "ສິ່ງນີ້ຈະເຊື່ອງແຖບເມນູທັງໝົດ. ເຈົ້າສາມາດສະແດງມັນໄດ້ອີກຄັ້ງໂດຍການກົດ Ctrl+M."
 
-#: src/mainwindow.cpp:4868
+#: src/mainwindow.cpp:4878
 #, kde-format
 msgid "Hide menu bar"
 msgstr "ເຊື່ອງແຖບເມນູ"
 
-#: src/mainwindow.cpp:5210 src/timeline2/view/timelinecontroller.cpp:5822
+#: src/mainwindow.cpp:5220 src/timeline2/view/timelinecontroller.cpp:5847
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "ບໍ່ມີຄຳບັນຍາຍໃນໂຄງການປະຈຸບັນ"
 
-#: src/mainwindow.cpp:5533
+#: src/mainwindow.cpp:5543
 #, kde-format
 msgid "Go to download page"
 msgstr "ໄປທີ່ໜ້າດາວໂຫຼດ"
 
-#: src/mainwindow.cpp:5539
+#: src/mainwindow.cpp:5549
 #, kde-format
 msgid "Never check again"
 msgstr "ບໍ່ຕ້ອງກວດສອບອີກ"
 
-#: src/mainwindow.cpp:5542
+#: src/mainwindow.cpp:5552
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "ເວີຊັນ Kdenlive ຂອງເຈົ້າເກົ່າກວ່າ 1 ປີ, ພວກເຮົາຂໍແນະນຳໃຫ້ເຈົ້າອັບເກຣດ"
 
-#: src/mainwindow.cpp:5546
+#: src/mainwindow.cpp:5556
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "ເວີຊັນ Kdenlive ຂອງເຈົ້າເກົ່າກວ່າ 6 ເດືອນ, ພວກເຮົາແນະນຳໃຫ້ເຈົ້າອັບເກຣດ"
 
-#: src/mainwindow.cpp:5588
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid "Checking cached data size"
 msgstr "ກຳລັງກວດສອບຂະໜາດຂໍ້ມູນແຄຊ໌"
@@ -31140,7 +31269,7 @@ msgid "Cannot change zone when creating a mask"
 msgstr "ບໍ່ສາມາດປ່ຽນເຂດເມື່ອກຳລັງສ້າງໜ້າກາກ"
 
 #: src/monitor/monitor.cpp:969 src/monitor/monitor.cpp:1005
-#: src/timeline2/view/timelinecontroller.cpp:2118
+#: src/timeline2/view/timelinecontroller.cpp:2143
 #, kde-format
 msgid "Set Zone"
 msgstr "ຕັ້ງເຂດ"
@@ -31218,7 +31347,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "ບໍ່ສາມາດຮັບ producer ສຳລັບຈໍມໍນິເຕີຄລິບ"
 
 #: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3504
-#: src/timeline2/view/timelinecontroller.cpp:6388
+#: src/timeline2/view/timelinecontroller.cpp:6413
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "ບໍ່ມີເຂດທີ່ຖືກຕ້ອງ. ກະລຸນາຕັ້ງຈຸດເຂົ້າ/ອອກກ່ອນ."
@@ -31229,13 +31358,13 @@ msgid "Create Range Marker from Zone"
 msgstr "ສ້າງຕົວໝາຍຊ່ວງຈາກເຂດ"
 
 #: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
-#: src/timeline2/view/timelinecontroller.cpp:6403
+#: src/timeline2/view/timelinecontroller.cpp:6428
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "ສ້າງຕົວໝາຍຊ່ວງຈາກເຂດແລ້ວ"
 
 #: src/monitor/monitor.cpp:3491 src/monitor/monitor.cpp:3512
-#: src/timeline2/view/timelinecontroller.cpp:6406
+#: src/timeline2/view/timelinecontroller.cpp:6431
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "ລົ້ມເຫຼວໃນການສ້າງຕົວໝາຍຊ່ວງຈາກເຂດ"
@@ -31378,7 +31507,7 @@ msgid "Go to Zone End"
 msgstr "ໄປທີ່ຈຸດສິ້ນສຸດເຂດ"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6395
+#: src/timeline2/view/timelinecontroller.cpp:6420
 #, kde-format
 msgid "Zone marker"
 msgstr "ຕົວໝາຍເຂດ"
@@ -32660,7 +32789,7 @@ msgid "Select some timecodes to reassign"
 msgstr "ເລືອກລະຫັດເວລາເພື່ອມອບໝາຍໃໝ່"
 
 #: src/project/dialogs/noteswidget.cpp:259
-#: src/timeline2/view/timelinecontroller.cpp:4582
+#: src/timeline2/view/timelinecontroller.cpp:4607
 #, kde-format
 msgid "No clip selected in timeline"
 msgstr "ບໍ່ມີຄລິບຖືກເລືອກໃນເສັ້ນເວລາ"
@@ -34708,27 +34837,27 @@ msgid "Cut all clips"
 msgstr "ຕັດຄລິບທັງໝົດ"
 
 #: src/timeline2/model/timelinefunctions.cpp:712
-#: src/timeline2/view/timelinecontroller.cpp:1763
+#: src/timeline2/view/timelinecontroller.cpp:1788
 #, kde-format
 msgid "Insert space"
 msgstr "ແຊກພື້ນທີ່ວ່າງ"
 
 #: src/timeline2/model/timelinefunctions.cpp:714
-#: src/timeline2/view/timelinecontroller.cpp:1765
+#: src/timeline2/view/timelinecontroller.cpp:1790
 #, kde-format
 msgid "Remove space"
 msgstr "ເອົາພື້ນທີ່ວ່າງອອກ"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3426
+#: src/timeline2/view/timelinecontroller.cpp:3451
 #, kde-format
 msgid "Lift zone"
 msgstr "ຍົກເຂດ"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
 #: src/timeline2/view/timelinecontroller.cpp:796
-#: src/timeline2/view/timelinecontroller.cpp:3426
-#: src/timeline2/view/timelinecontroller.cpp:3499
+#: src/timeline2/view/timelinecontroller.cpp:3451
+#: src/timeline2/view/timelinecontroller.cpp:3524
 #, kde-format
 msgid "Extract zone"
 msgstr "ສະກັດເຂດ"
@@ -34739,31 +34868,32 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr "ກະລຸນາເປີດໃຊ້ງານແທຣັກໂດຍການຄລິກໃສ່ປ້າຍຊື່ແທຣັກ"
 
 #: src/timeline2/model/timelinefunctions.cpp:997
-#: src/timeline2/view/timelinecontroller.cpp:1310
-#: src/timeline2/view/timelinecontroller.cpp:1390
-#: src/timeline2/view/timelinecontroller.cpp:1400
-#: src/timeline2/view/timelinecontroller.cpp:1429
-#: src/timeline2/view/timelinecontroller.cpp:1469
-#: src/timeline2/view/timelinecontroller.cpp:1504
+#: src/timeline2/view/timelinecontroller.cpp:924
+#: src/timeline2/view/timelinecontroller.cpp:1335
+#: src/timeline2/view/timelinecontroller.cpp:1415
+#: src/timeline2/view/timelinecontroller.cpp:1425
+#: src/timeline2/view/timelinecontroller.cpp:1454
+#: src/timeline2/view/timelinecontroller.cpp:1494
 #: src/timeline2/view/timelinecontroller.cpp:1529
-#: src/timeline2/view/timelinecontroller.cpp:1585
-#: src/timeline2/view/timelinecontroller.cpp:2662
-#: src/timeline2/view/timelinecontroller.cpp:3444
-#: src/timeline2/view/timelinecontroller.cpp:3508
-#: src/timeline2/view/timelinecontroller.cpp:3753
-#: src/timeline2/view/timelinecontroller.cpp:3799
-#: src/timeline2/view/timelinecontroller.cpp:3840
-#: src/timeline2/view/timelinecontroller.cpp:3847
-#: src/timeline2/view/timelinecontroller.cpp:3875
-#: src/timeline2/view/timelinecontroller.cpp:3949
-#: src/timeline2/view/timelinecontroller.cpp:3966
-#: src/timeline2/view/timelinecontroller.cpp:4228
-#: src/timeline2/view/timelinecontroller.cpp:4243
+#: src/timeline2/view/timelinecontroller.cpp:1554
+#: src/timeline2/view/timelinecontroller.cpp:1610
+#: src/timeline2/view/timelinecontroller.cpp:2687
+#: src/timeline2/view/timelinecontroller.cpp:3469
+#: src/timeline2/view/timelinecontroller.cpp:3533
+#: src/timeline2/view/timelinecontroller.cpp:3778
+#: src/timeline2/view/timelinecontroller.cpp:3824
+#: src/timeline2/view/timelinecontroller.cpp:3865
+#: src/timeline2/view/timelinecontroller.cpp:3872
+#: src/timeline2/view/timelinecontroller.cpp:3900
+#: src/timeline2/view/timelinecontroller.cpp:3974
+#: src/timeline2/view/timelinecontroller.cpp:3991
+#: src/timeline2/view/timelinecontroller.cpp:4253
 #: src/timeline2/view/timelinecontroller.cpp:4268
-#: src/timeline2/view/timelinecontroller.cpp:4283
-#: src/timeline2/view/timelinecontroller.cpp:4337
-#: src/timeline2/view/timelinecontroller.cpp:4390
-#: src/timeline2/view/timelinecontroller.cpp:4413
+#: src/timeline2/view/timelinecontroller.cpp:4293
+#: src/timeline2/view/timelinecontroller.cpp:4308
+#: src/timeline2/view/timelinecontroller.cpp:4362
+#: src/timeline2/view/timelinecontroller.cpp:4415
+#: src/timeline2/view/timelinecontroller.cpp:4438
 #, kde-format
 msgid "No clip selected"
 msgstr "ບໍ່ມີຄລິບຖືກເລືອກ"
@@ -34776,7 +34906,7 @@ msgstr "ບໍ່ສາມາດຍ້າຍກຸ່ມທີ່ເລືອກ
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4554
+#: src/timeline2/view/timelinecontroller.cpp:4579
 #, kde-format
 msgid "Enable clip"
 msgstr "ເປີດໃຊ້ງານຄລິບ"
@@ -34784,7 +34914,7 @@ msgstr "ເປີດໃຊ້ງານຄລິບ"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4554
+#: src/timeline2/view/timelinecontroller.cpp:4579
 #, kde-format
 msgid "Disable clip"
 msgstr "ປິດໃຊ້ງານຄລິບ"
@@ -35034,7 +35164,7 @@ msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "ເຟຣມບໍ່ພຽງພໍທີ່ຄລິບ %1 ເພື່ອໃຊ້ງານ mix"
 
 #: src/timeline2/model/timelinemodel.cpp:1327
-#: src/timeline2/view/timelinecontroller.cpp:1995
+#: src/timeline2/view/timelinecontroller.cpp:2020
 #, kde-format
 msgid "No active track"
 msgstr "ບໍ່ມີແທຣັກທີ່ເຄື່ອນໄຫວ"
@@ -35061,7 +35191,7 @@ msgstr "ຍ້າຍຄລິບ"
 #: src/timeline2/model/timelinemodel.cpp:2256
 #: src/timeline2/model/timelinemodel.cpp:2269
 #: src/timeline2/model/timelinemodel.cpp:2277
-#: src/timeline2/view/timelinecontroller.cpp:3825
+#: src/timeline2/view/timelinecontroller.cpp:3850
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "ບໍ່ມີແທຣັກທີ່ສາມາດໃຊ້ໄດ້ສຳລັບການແຊກ"
@@ -35114,7 +35244,7 @@ msgstr "ລຶບ Composition"
 
 #: src/timeline2/model/timelinemodel.cpp:2863
 #: src/timeline2/model/timelinemodel.cpp:3164
-#: src/timeline2/view/timelinecontroller.cpp:4898
+#: src/timeline2/view/timelinecontroller.cpp:4923
 #, kde-format
 msgid "Move group"
 msgstr "ຍ້າຍກຸ່ມ"
@@ -35204,7 +35334,7 @@ msgid "Ungroup clips"
 msgstr "ຍົກເລີກການຈັດກຸ່ມຄລິບ"
 
 #: src/timeline2/model/timelinemodel.cpp:5316
-#: src/timeline2/view/timelinecontroller.cpp:997
+#: src/timeline2/view/timelinecontroller.cpp:1022
 #, kde-format
 msgid "Delete Track"
 msgstr "ລຶບແທຣັກ"
@@ -35271,7 +35401,7 @@ msgid "Change speed failed"
 msgstr "ການປ່ຽນຄວາມໄວລົ້ມເຫຼວ"
 
 #: src/timeline2/model/timelinemodel.cpp:7310
-#: src/timeline2/view/timelinecontroller.cpp:3344
+#: src/timeline2/view/timelinecontroller.cpp:3369
 #, kde-format
 msgid "Change clip speed"
 msgstr "ປ່ຽນຄວາມໄວຄລິບ"
@@ -35751,130 +35881,136 @@ msgid "Could not add composition at selected position"
 msgstr "ບໍ່ສາມາດເພີ່ມການປະສົມໃນຕຳແໜ່ງທີ່ເລືອກໄດ້"
 
 #: src/timeline2/view/timelinecontroller.cpp:742
-#: src/timeline2/view/timelinecontroller.cpp:1194
-#: src/timeline2/view/timelinecontroller.cpp:1211
-#: src/timeline2/view/timelinecontroller.cpp:1235
-#: src/timeline2/view/timelinecontroller.cpp:1319
+#: src/timeline2/view/timelinecontroller.cpp:1219
+#: src/timeline2/view/timelinecontroller.cpp:1236
+#: src/timeline2/view/timelinecontroller.cpp:1260
+#: src/timeline2/view/timelinecontroller.cpp:1344
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "ບໍ່ສາມາດດຳເນີນການໄດ້ໃນຂະນະທີ່ກຳລັງລາກໃນເສັ້ນເວລາ"
 
-#: src/timeline2/view/timelinecontroller.cpp:974
-#: src/timeline2/view/timelinecontroller.cpp:5752
+#: src/timeline2/view/timelinecontroller.cpp:941
+#, fuzzy, kde-format
+#| msgid "Could not find master clip"
+msgid "Could not duplicate clip"
+msgstr "ບໍ່ສາມາດຊອກຫາຄລິບຫຼັກ"
+
+#: src/timeline2/view/timelinecontroller.cpp:999
+#: src/timeline2/view/timelinecontroller.cpp:5777
 #, kde-format
 msgid "Could not insert track"
 msgstr "ບໍ່ສາມາດແຊກຮ່ອງໄດ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:997
+#: src/timeline2/view/timelinecontroller.cpp:1022
 #, kde-format
 msgid "Delete Tracks"
 msgstr "ລຶບຮ່ອງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:1062
+#: src/timeline2/view/timelinecontroller.cpp:1087
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "ເລືອກຮ່ອງສຽງເພື່ອສະແດງການຄວບຄຸມການບັນທຶກ"
 
-#: src/timeline2/view/timelinecontroller.cpp:1199
+#: src/timeline2/view/timelinecontroller.cpp:1224
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "ເລືອກຢ່າງໜ້ອຍ 2 ລາຍການເພື່ອຈັດກຸ່ມ"
 
-#: src/timeline2/view/timelinecontroller.cpp:1546
+#: src/timeline2/view/timelinecontroller.cpp:1571
 #, kde-format
 msgid "No range marker found at position"
 msgstr "ບໍ່ພົບຕົວໝາຍຊ່ວງທີ່ຕຳແໜ່ງນີ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:1718
+#: src/timeline2/view/timelinecontroller.cpp:1743
 #, kde-format
 msgid "No marker at frame %1"
 msgstr "ບໍ່ມີຕົວໝາຍຢູ່ທີ່ເຟຣມ %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:2079
+#: src/timeline2/view/timelinecontroller.cpp:2104
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "ບໍ່ມີລາຍການທີ່ຖືກເລືອກໃນເສັ້ນເວລາ"
 
-#: src/timeline2/view/timelinecontroller.cpp:2217
+#: src/timeline2/view/timelinecontroller.cpp:2242
 #, kde-format
 msgid "No clip to cut"
 msgstr "ບໍ່ມີຄລິບທີ່ຈະຕັດ"
 
-#: src/timeline2/view/timelinecontroller.cpp:2581
+#: src/timeline2/view/timelinecontroller.cpp:2606
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "ເຂົ້າ:%1, ອອກ:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2669
+#: src/timeline2/view/timelinecontroller.cpp:2694
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr "ການ Slip ສາມາດເຮັດໄດ້ກັບຄລິບວິດີໂອ, ສຽງ ຫຼື ແອນິເມຊັນເທົ່ານັ້ນ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3065
+#: src/timeline2/view/timelinecontroller.cpp:3090
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະແຊກຍະຫວ່າງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3083
+#: src/timeline2/view/timelinecontroller.cpp:3108
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "ບໍ່ສາມາດລຶບຍະຫວ່າງທີ່ຕຳແໜ່ງທີ່ກຳນົດໄດ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:3097
+#: src/timeline2/view/timelinecontroller.cpp:3122
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "ບໍ່ສາມາດລຶບຍະຫວ່າງທັງໝົດໄດ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:3111
+#: src/timeline2/view/timelinecontroller.cpp:3136
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "ບໍ່ສາມາດລຶບຄລິບທັງໝົດໄດ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:3161
-#: src/timeline2/view/timelinecontroller.cpp:3166
-#: src/timeline2/view/timelinecontroller.cpp:3192
-#: src/timeline2/view/timelinecontroller.cpp:3197
+#: src/timeline2/view/timelinecontroller.cpp:3186
+#: src/timeline2/view/timelinecontroller.cpp:3191
+#: src/timeline2/view/timelinecontroller.cpp:3217
+#: src/timeline2/view/timelinecontroller.cpp:3222
 #, kde-format
 msgid "No item to edit"
 msgstr "ບໍ່ມີລາຍການໃຫ້ແກ້ໄຂ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3203
-#: src/timeline2/view/timelinecontroller.cpp:3340
+#: src/timeline2/view/timelinecontroller.cpp:3228
+#: src/timeline2/view/timelinecontroller.cpp:3365
 #, fuzzy, kde-format
 #| msgid "Change speed failed"
 msgid "Cannot change speed of item(s)"
 msgstr "ການປ່ຽນຄວາມໄວລົ້ມເຫຼວ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3400
-#: src/timeline2/view/timelinecontroller.cpp:6017
+#: src/timeline2/view/timelinecontroller.cpp:3425
+#: src/timeline2/view/timelinecontroller.cpp:6042
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "ກະລຸນາເປີດໃຊ້ງານຮ່ອງສຳລັບການດຳເນີນການນີ້ ໂດຍການຄິກທີ່ປ້າຍຊື່ຂອງມັນ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3666
+#: src/timeline2/view/timelinecontroller.cpp:3691
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "ກະລຸນາເລືອກຮ່ອງເປົ້າໝາຍ ໂດຍການຄິກທີ່ເຂດເປົ້າໝາຍຂອງຮ່ອງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3693
+#: src/timeline2/view/timelinecontroller.cpp:3718
 #, fuzzy, kde-format
 #| msgid "Clip in Project Bin"
 msgid "Clip not found in project bin"
 msgstr "ຄລິບໃນຖັງໂຄງການ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3701
+#: src/timeline2/view/timelinecontroller.cpp:3726
 #, fuzzy, kde-format
 #| msgid "No timecode for clip"
 msgid "No timecode metadata found in clip"
 msgstr "ບໍ່ມີລະຫັດເວລາສຳລັບຄລິບ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3707
+#: src/timeline2/view/timelinecontroller.cpp:3732
 #, fuzzy, kde-format
 #| msgid "Please select a video profile"
 msgid "Please select a target track"
 msgstr "ກະລຸນາເລືອກໂປຣໄຟລ໌ວິດີໂອ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3713
+#: src/timeline2/view/timelinecontroller.cpp:3738
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
@@ -35884,118 +36020,118 @@ msgstr ""
 "ບໍ່ສາມາດສ້າງຄລິບໄດ້:\n"
 "%1"
 
-#: src/timeline2/view/timelinecontroller.cpp:3765
+#: src/timeline2/view/timelinecontroller.cpp:3790
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "ເລືອກການປະສົມທີ່ມັກ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3831
+#: src/timeline2/view/timelinecontroller.cpp:3856
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະດຳເນີນການແຍກ AV"
 
-#: src/timeline2/view/timelinecontroller.cpp:3859
-#: src/timeline2/view/timelinecontroller.cpp:3927
-#: src/timeline2/view/timelinecontroller.cpp:3983
+#: src/timeline2/view/timelinecontroller.cpp:3884
+#: src/timeline2/view/timelinecontroller.cpp:3952
+#: src/timeline2/view/timelinecontroller.cpp:4008
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "ບໍ່ສາມາດຍ້າຍຄລິບໄປທີ່ເຟຣມ %1 ໄດ້."
 
-#: src/timeline2/view/timelinecontroller.cpp:3880
+#: src/timeline2/view/timelinecontroller.cpp:3905
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "ກຳນົດສຽງອ້າງອີງກ່ອນທີ່ຈະພະຍາຍາມຈັດລຽງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3954
-#: src/timeline2/view/timelinecontroller.cpp:3976
+#: src/timeline2/view/timelinecontroller.cpp:3979
+#: src/timeline2/view/timelinecontroller.cpp:4001
 #, kde-format
 msgid "No timecode for clip"
 msgstr "ບໍ່ມີລະຫັດເວລາສຳລັບຄລິບ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3971
+#: src/timeline2/view/timelinecontroller.cpp:3996
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr "ກຳນົດລະຫັດເວລາອ້າງອີງກ່ອນທີ່ຈະພະຍາຍາມຈັດລຽງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4092
+#: src/timeline2/view/timelinecontroller.cpp:4117
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr "ສະຕຣີມທັງໝົດຖືກມອບໝາຍແລ້ວ, ຍົກເລີກການເລືອກເປົ້າໝາຍສຽງອື່ນກ່ອນ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4251
+#: src/timeline2/view/timelinecontroller.cpp:4276
 #, kde-format
 msgid "Delete effects"
 msgstr "ລຶບເອັບເຟັກ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4289
-#: src/timeline2/view/timelinecontroller.cpp:4295
-#: src/timeline2/view/timelinecontroller.cpp:4301
+#: src/timeline2/view/timelinecontroller.cpp:4314
+#: src/timeline2/view/timelinecontroller.cpp:4320
+#: src/timeline2/view/timelinecontroller.cpp:4326
 #, kde-format
 msgid "No information in clipboard"
 msgstr "ບໍ່ມີຂໍ້ມູນໃນຄລິບບອດ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4326
+#: src/timeline2/view/timelinecontroller.cpp:4351
 #, kde-format
 msgid "Paste effects"
 msgstr "ວາງເອັບເຟັກ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4328
+#: src/timeline2/view/timelinecontroller.cpp:4353
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "ບໍ່ສາມາດວາງເອັບເຟັກໃສ່ຄລິບທີ່ເລືອກໄດ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:4375
+#: src/timeline2/view/timelinecontroller.cpp:4400
 #, kde-format
 msgid "Open sequence"
 msgstr "ເປີດຊີເຄວນ (Sequence)"
 
-#: src/timeline2/view/timelinecontroller.cpp:4397
+#: src/timeline2/view/timelinecontroller.cpp:4422
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "ລາຍການບໍ່ແມ່ນຄລິບຫົວຂໍ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:4495
+#: src/timeline2/view/timelinecontroller.cpp:4520
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "ເລືອກ %1 ລາຍການ (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4549
+#: src/timeline2/view/timelinecontroller.cpp:4574
 #, kde-format
 msgid "Restore video"
 msgstr "ກູ້ຄືນວິດີໂອ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4549
+#: src/timeline2/view/timelinecontroller.cpp:4574
 #, kde-format
 msgid "Restore audio"
 msgstr "ກູ້ຄືນສຽງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4596
+#: src/timeline2/view/timelinecontroller.cpp:4621
 #, kde-format
 msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4597
-#: src/timeline2/view/timelinecontroller.cpp:4653
+#: src/timeline2/view/timelinecontroller.cpp:4622
+#: src/timeline2/view/timelinecontroller.cpp:4678
 #, fuzzy, kde-format
 #| msgid "Replace clip"
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "ແທນທີ່ຄລິບ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4597
+#: src/timeline2/view/timelinecontroller.cpp:4622
 #, fuzzy, kde-format
 #| msgid "Import selected clips"
 msgid "Import New Clip"
 msgstr "ນຳເຂົ້າຄລິບທີ່ເລືອກ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4640
+#: src/timeline2/view/timelinecontroller.cpp:4665
 #, kde-format
 msgid "Incompatible clip types for replacement"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4647
+#: src/timeline2/view/timelinecontroller.cpp:4672
 #, fuzzy, kde-format
 #| msgid ""
 #| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -36005,29 +36141,29 @@ msgstr ""
 "ກຳລັງແທນທີ່ instance ຂອງຄລິບ <b>%1</b><br/>ໃນເສັ້ນເວລາທີ່ໃຊ້ງານ\n"
 "ດ້ວຍຄລິບ <b>%2</b>"
 
-#: src/timeline2/view/timelinecontroller.cpp:4650
+#: src/timeline2/view/timelinecontroller.cpp:4675
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
 msgstr[0] ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4653
+#: src/timeline2/view/timelinecontroller.cpp:4678
 #, fuzzy, kde-format
 #| msgid "Replace clip"
 msgid "Replace Clip"
 msgstr "ແທນທີ່ຄລິບ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4877
+#: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
 msgid "Move item"
 msgstr "ຍ້າຍລາຍການ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5443
+#: src/timeline2/view/timelinecontroller.cpp:5468
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "ບໍ່ສາມາດຈັບພາບໃນຮ່ອງທີ່ຖືກລັອກໄດ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:5454
+#: src/timeline2/view/timelinecontroller.cpp:5479
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -36035,38 +36171,38 @@ msgid ""
 msgstr ""
 "ບໍ່ສາມາດຈັບພາບທີ່ນີ້ໄດ້: ການຈັບພາບອາດຈະທັບຄລິບທີ່ມີຢູ່. ກະລຸນາລຶບຄລິບຫຼັງຈາກຕຳແໜ່ງປັດຈຸບັນ ຫຼື ເລືອກຮ່ອງອື່ນ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5545
+#: src/timeline2/view/timelinecontroller.cpp:5570
 #, kde-format
 msgid "Record audio"
 msgstr "ບັນທຶກສຽງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5692
+#: src/timeline2/view/timelinecontroller.cpp:5717
 #, kde-format
 msgid "Expand clip"
 msgstr "ຂະຫຍາຍຄລິບ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5695
+#: src/timeline2/view/timelinecontroller.cpp:5720
 #, kde-format
 msgid "Could not expand clip"
 msgstr "ບໍ່ສາມາດຂະຫຍາຍຄລິບໄດ້"
 
-#: src/timeline2/view/timelinecontroller.cpp:5750
+#: src/timeline2/view/timelinecontroller.cpp:5775
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "ແຊກຮ່ອງ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5829
+#: src/timeline2/view/timelinecontroller.cpp:5854
 #, kde-format
 msgid "Export subtitle file"
 msgstr "ສົ່ງອອກໄຟລ໌ຄຳບັນຍາຍ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5830
+#: src/timeline2/view/timelinecontroller.cpp:5855
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "ໄຟລ໌ Sub Station Alpha v4.00+ (*.ass);;ໄຟລ໌ຄຳບັນຍາຍ SubRip (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5844
+#: src/timeline2/view/timelinecontroller.cpp:5869
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -36078,12 +36214,12 @@ msgstr ""
 "ຈະເກັບຮັກສາສະເພາະຄຳບັນຍາຍຈາກຊັ້ນຕ່ຳສຸດເທົ່ານັ້ນ. "
 "ສິ່ງນີ້ອາດເຮັດໃຫ້ຄຳບັນຍາຍບາງສ່ວນເສຍໄປໃນໄຟລ໌ທີ່ສົ່ງອອກ. ເຈົ້າຕ້ອງການດຳເນີນການຕໍ່ບໍ່?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5849
+#: src/timeline2/view/timelinecontroller.cpp:5874
 #, kde-format
 msgid "Warning"
 msgstr "ຄຳເຕືອນ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5887
+#: src/timeline2/view/timelinecontroller.cpp:5912
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -36091,40 +36227,40 @@ msgid ""
 msgstr ""
 "ຕ້ອງການຟິວເຕີ avfilter.subtitles, ແຕ່ບໍ່ພົບ. ຄຸນສົມບັດຄຳບັນຍາຍອາດຈະບໍ່ເຮັດວຽກຕາມທີ່ຄາດໄວ້."
 
-#: src/timeline2/view/timelinecontroller.cpp:5904
+#: src/timeline2/view/timelinecontroller.cpp:5929
 #, kde-format
 msgid "Show subtitle track"
 msgstr "ສະແດງຮ່ອງຄຳບັນຍາຍ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5904
+#: src/timeline2/view/timelinecontroller.cpp:5929
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "ເຊື່ອງຮ່ອງຄຳບັນຍາຍ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5927
+#: src/timeline2/view/timelinecontroller.cpp:5952
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "ປົດລັອກຮ່ອງຄຳບັນຍາຍ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5927
+#: src/timeline2/view/timelinecontroller.cpp:5952
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "ລັອກຮ່ອງຄຳບັນຍາຍ"
 
-#: src/timeline2/view/timelinecontroller.cpp:6094
-#: src/timeline2/view/timelinecontroller.cpp:6103
+#: src/timeline2/view/timelinecontroller.cpp:6119
+#: src/timeline2/view/timelinecontroller.cpp:6128
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "ຄຳບັນຍາຍ"
 
-#: src/timeline2/view/timelinecontroller.cpp:6105
+#: src/timeline2/view/timelinecontroller.cpp:6130
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "ຈັດການຄຳບັນຍາຍ"
 
-#: src/timeline2/view/timelinecontroller.cpp:6336
+#: src/timeline2/view/timelinecontroller.cpp:6361
 #, kde-format
 msgid "No range guide found at position"
 msgstr "ບໍ່ພົບເສັ້ນນຳທາງຊ່ວງທີ່ຕຳແໜ່ງນີ້"
@@ -36170,12 +36306,12 @@ msgstr "ບໍ່ປັບຂະໜາດ"
 msgid "Close %1"
 msgstr "ປິດ %1"
 
-#: src/timeline2/view/timelinetabs.cpp:383
+#: src/timeline2/view/timelinetabs.cpp:384
 #, kde-format
 msgid "Align to Reference"
 msgstr "ຈັດລຽງຕາມຕົວອ້າງອີງ"
 
-#: src/timeline2/view/timelinetabs.cpp:460
+#: src/timeline2/view/timelinetabs.cpp:461
 #, kde-format
 msgid "Rename Sequence"
 msgstr "ປ່ຽນຊື່ຊີເຄວນ"
@@ -36589,11 +36725,6 @@ msgstr "ຈຸດເລີ່ມຕົ້ນ Viewport"
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "ຈຸດສິ້ນສຸດ Viewport"
-
-#: src/titler/titlewidget.cpp:3459
-#, kde-format
-msgid "Gradient"
-msgstr "ການໄລ່ສີ"
 
 #: src/titler/unicodedialog.cpp:77
 #, kde-format
@@ -41691,6 +41822,12 @@ msgstr "%1ນ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ຊມ"
+
+#~ msgid "Slowly update darker pixels."
+#~ msgstr "ອັບເດດພິກເຊວທີ່ມືດກວ່າຢ່າງຊ້າໆ."
+
+#~ msgid "Delayed alpha smoothed blit of time"
+#~ msgstr "Delayed alpha smoothed blit of time"
 
 #~ msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 #~ msgstr "MLT ແລະ KDE SC 4 / KF5 port, ຜູ້ພັດທະນາຫຼັກ ແລະ ຜູ້ບຳລຸງຮັກສາ"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-15 00:44+0000\n"
+"POT-Creation-Date: 2026-07-16 00:43+0000\n"
 "PO-Revision-Date: 2026-06-16 09:32+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -636,7 +636,7 @@ msgid "Delay"
 msgstr "שיהוי"
 
 #: data/effects/avfilter/aecho.xml:17
-#: data/effects/avfilter/avfilter_lagfun.xml:11
+#: data/effects/avfilter/avfilter_lagfun.xml:12
 #: data/effects/ladspa/ladspa_1410.xml:33 data/effects/ladspa/ladspa_2142.xml:9
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
@@ -729,6 +729,7 @@ msgstr "הפחתת סיביות"
 #: data/effects/avfilter/avfilter_histogram.xml:18
 #: data/effects/avfilter/avfilter_mcdeint.xml:8
 #: data/effects/avfilter/avfilter_phase.xml:8
+#: data/effects/avfilter/avfilter_shufflepixels.xml:14
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #: data/effects/avfilter/avfilter_yadif.xml:8
@@ -1106,7 +1107,7 @@ msgstr "גודל Y"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
 #: data/effects/avfilter/avfilter_gblur.xml:13
 #: data/effects/avfilter/avfilter_kirsch.xml:16
-#: data/effects/avfilter/avfilter_lagfun.xml:8
+#: data/effects/avfilter/avfilter_lagfun.xml:9
 #: data/effects/avfilter/avfilter_limiter.xml:16
 #: data/effects/avfilter/avfilter_median.xml:22
 #: data/effects/avfilter/avfilter_pixelize.xml:18
@@ -2617,6 +2618,7 @@ msgstr "הצגת ציר"
 #: data/effects/avfilter/avfilter_datascope.xml:29
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
+#: data/effects/avfilter/avfilter_pseudocolor.xml:16
 #: data/effects/dynamictext.xml:53 data/effects/gpstext.xml:116
 #: data/effects/timer.xml:53
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
@@ -2809,6 +2811,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:33
+#: data/effects/avfilter/avfilter_shufflepixels.xml:8
 #: data/effects/avfilter/avfilter_transpose.xml:8
 #: data/effects/frei0r/frei0r_aech0r.xml:12 data/effects/timer.xml:103
 #: data/transitions/slide.xml:8
@@ -4702,10 +4705,13 @@ msgstr ""
 msgid "Lag Fun"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_lagfun.xml:5
+#: data/effects/avfilter/avfilter_lagfun.xml:6
 #, kde-format
-msgid "Slowly update darker pixels."
-msgstr "לעדכן פיקסלים כהים יותר לאט."
+msgid ""
+"Slowly update darker pixels.<br>\n"
+"        <b><i>Note</i></b>: This effect does not reset during playback due "
+"to frame buffer issues but renders correctly."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -5383,12 +5389,14 @@ msgid "Pixelize video"
 msgstr "פיקסול הסרטון"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
+#: data/effects/avfilter/avfilter_shufflepixels.xml:19
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
 #, kde-format
 msgid "Block Width"
 msgstr "עובי ריבוע"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
+#: data/effects/avfilter/avfilter_shufflepixels.xml:23
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
@@ -5415,6 +5423,41 @@ msgstr "פרוויט"
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
 msgstr "החלת אופטור פרוויט על קלט תזרים וידאו"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:4
+#, kde-format
+msgid "Pseudocolor"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:5
+#, kde-format
+msgid "Alter frame colors in video with pseudocolors."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:8
+#, fuzzy, kde-format
+#| msgid "Components"
+msgid "Base Component"
+msgstr "רכיבים"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:9
+#, fuzzy, kde-format
+#| msgid "Red,Green,Blue"
+msgid "Red,Green,Blue,Alpha"
+msgstr "אדום,ירוק,כחול"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:12
+#, fuzzy, kde-format
+msgid "Preset"
+msgstr "אפס"
+
+#: data/effects/avfilter/avfilter_pseudocolor.xml:13
+#, kde-format
+msgid ""
+"None,Magma,Inferno,Plasma,Viridis,Turbo,Cividis,Range 1,Range 2,Shadows,"
+"Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
+"Green,Helix"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5732,6 +5775,71 @@ msgstr "צבע מילוי רקע"
 #, kde-format
 msgid "Nearest,Bilinear"
 msgstr "שכן קרוב,ביליניארי"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:4
+#, fuzzy, kde-format
+#| msgid "Shuffle planes"
+msgid "Shuffle Pixels"
+msgstr "מישור ערבוב"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:5
+#, fuzzy, kde-format
+#| msgid "Exporting video frames"
+msgid "Reorder pixels in video frames."
+msgstr "תמוניות וידאו מיוצאות"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:10
+#, kde-format
+msgid ""
+"Set shuffle direction.<br>\n"
+"        A forward shuffle can be reversed by using <b>inverse</b>, setting "
+"the same parameters, and the exact same seed value."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:11
+#, fuzzy, kde-format
+#| msgid "Forward"
+msgid "Forward,Inverse"
+msgstr "קדימה"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:15
+#, fuzzy, kde-format
+#| msgid "Set the filter mode"
+msgid "Set shuffle mode"
+msgstr "הגדרת מצב המסנן"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:16
+#, fuzzy, kde-format
+#| msgid "Horizontal multiplicator"
+msgid "Horizontal,Vertical,Block"
+msgstr "מכפיל אופקי"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:20
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "Set shuffle block width size"
+msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:24
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "Set shuffle block height size"
+msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:27
+#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
+#, kde-format
+msgid "Random Seed"
+msgstr "גורם אקראיות"
+
+#: data/effects/avfilter/avfilter_shufflepixels.xml:29
+#, kde-format
+msgid ""
+"Set random seed used with shuffling pixels.<br>\n"
+"        Mainly useful to set to be able to reverse filtering process to get "
+"original input. For example, to reverse forward shuffle you need to use the "
+"same parameters and exact same seed and to set direction to inverse."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -8096,9 +8204,12 @@ msgstr "איזון צבע לבן"
 msgid "Baltan"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_baltan.xml:5
+#: data/effects/frei0r/frei0r_baltan.xml:6
 #, kde-format
-msgid "Delayed alpha smoothed blit of time"
+msgid ""
+"Delayed alpha smoothed blit of time.<br>\n"
+"        <b><i>Note</i></b>: This effect does not reset during playback due "
+"to frame buffer issues but renders correctly."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
@@ -10174,7 +10285,7 @@ msgstr "לצייר עם החלקת קצוות?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/frei0r/frei0r_facedetect.xml:43 data/effects/gpsgraphic.xml:96
-#: data/effects/gradientmap.xml:8 src/ui/gradientedit_ui.ui:120
+#: src/ui/gradientedit_ui.ui:120
 #, kde-format
 msgid "Color 1"
 msgstr "צבע 1"
@@ -10186,7 +10297,7 @@ msgstr "הגדרת צבע צורת הפנים הראשונים שמזוהים."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/frei0r/frei0r_facedetect.xml:48 data/effects/gpsgraphic.xml:100
-#: data/effects/gradientmap.xml:12 src/ui/gradientedit_ui.ui:24
+#: src/ui/gradientedit_ui.ui:24
 #, kde-format
 msgid "Color 2"
 msgstr "צבע 2"
@@ -13417,6 +13528,11 @@ msgstr "מפת מדרג"
 msgid "Apply a gradient map to the video"
 msgstr "החלפת מפת מדרג על הסרטון"
 
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3459
+#, kde-format
+msgid "Gradient"
+msgstr "מדרג"
+
 #: data/effects/grain.xml:4
 #, kde-format
 msgctxt "Grain Effect Name"
@@ -14073,11 +14189,6 @@ msgstr "שיהוי"
 #, kde-format
 msgid "Delayorama (LADSPA 1402)"
 msgstr ""
-
-#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
-#, kde-format
-msgid "Random Seed"
-msgstr "גורם אקראיות"
 
 #: data/effects/ladspa/ladspa_1402.xml:10
 #, kde-format
@@ -19411,7 +19522,7 @@ msgid "Bin %1 effects"
 msgstr "אפקטים לסל %1"
 
 #: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4259
-#: src/dialogs/speechdialog.cpp:49 src/dialogs/textbasededit.cpp:765
+#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:115
 #: src/monitor/recmanager.cpp:41
 #, kde-format
@@ -19580,7 +19691,7 @@ msgid "Delete keyframes"
 msgstr "מחיקת תמוניות מפתח"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
-#: src/assets/model/assetparametermodel.cpp:1822
+#: src/assets/model/assetparametermodel.cpp:1862
 #, kde-format
 msgid "Update effect"
 msgstr "עדכון אפקט"
@@ -19657,13 +19768,13 @@ msgstr "עריכת תמונית מפתח %1"
 msgid "Update %1"
 msgstr "עדכון %1"
 
-#: src/assets/model/assetparametermodel.cpp:1659
-#: src/assets/model/assetparametermodel.cpp:1706
+#: src/assets/model/assetparametermodel.cpp:1699
+#: src/assets/model/assetparametermodel.cpp:1746
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "לא ניתן לפתוח את קובץ הערכה %1"
 
-#: src/assets/model/assetparametermodel.cpp:1796
+#: src/assets/model/assetparametermodel.cpp:1836
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -19739,13 +19850,13 @@ msgid "Switch to curve editor view"
 msgstr "החלפת לתצוגת עורך עקומות"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:156
-#: src/dialogs/timeremap.cpp:1606 src/mainwindow.cpp:2099
+#: src/dialogs/timeremap.cpp:1606 src/mainwindow.cpp:2104
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "מעבר לתמונית המפתח הקודמת"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:160
-#: src/dialogs/timeremap.cpp:1603 src/mainwindow.cpp:2097
+#: src/dialogs/timeremap.cpp:1603 src/mainwindow.cpp:2102
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "מעבר לתמונית המפתח הבאה"
@@ -20707,6 +20818,7 @@ msgid "%1 (copy)"
 msgstr "%1 (עותק)"
 
 #: src/bin/bin.cpp:2589 src/bin/bin.cpp:2610
+#: src/timeline2/view/timelinecontroller.cpp:938
 #, kde-format
 msgid "Duplicate clip"
 msgstr "שכפול סרטון"
@@ -20964,7 +21076,7 @@ msgstr "החלפת סרטון…"
 msgid "Replace Clip In Timeline…"
 msgstr "החלפת סרטון בציר הזמן…"
 
-#: src/bin/bin.cpp:4117
+#: src/bin/bin.cpp:4117 src/mainwindow.cpp:2024
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "שכפול סרטון"
@@ -21029,8 +21141,8 @@ msgstr[3] "העברת סרטונים"
 msgid "No valid clip to insert"
 msgstr "אין סרטון תקף להוספה"
 
-#: src/bin/bin.cpp:4446 src/timeline2/view/timelinecontroller.cpp:1838
-#: src/timeline2/view/timelinecontroller.cpp:3940
+#: src/bin/bin.cpp:4446 src/timeline2/view/timelinecontroller.cpp:1863
+#: src/timeline2/view/timelinecontroller.cpp:3965
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "נא לבחור סרטון כדי להחיל אפקט"
@@ -21220,7 +21332,7 @@ msgid ""
 msgstr ""
 "המיזם שלך צריך יותר רצועות שמע כדי לטפל בכל התזרימים. להוסיף %1 רצועות שמע?"
 
-#: src/bin/bin.cpp:5966 src/mainwindow.cpp:3068
+#: src/bin/bin.cpp:5966 src/mainwindow.cpp:3073
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "לא נמצא סרטון להוספת סמן"
@@ -21230,8 +21342,8 @@ msgstr "לא נמצא סרטון להוספת סמן"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
 #: src/bin/bin.cpp:5980 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:1486
-#: src/timeline2/view/timelinecontroller.cpp:1802
+#: src/timeline2/view/timelinecontroller.cpp:1511
+#: src/timeline2/view/timelinecontroller.cpp:1827
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
@@ -21320,7 +21432,7 @@ msgstr "מחיקת אפקט %1"
 msgid "Project Bin"
 msgstr "סל מיזם"
 
-#: src/bin/bin.cpp:6939 src/bin/bin.cpp:6942 src/mainwindow.cpp:5365
+#: src/bin/bin.cpp:6939 src/bin/bin.cpp:6942 src/mainwindow.cpp:5375
 #, kde-format
 msgid "Project Bin %1"
 msgstr "סל המיזם %1"
@@ -21551,8 +21663,8 @@ msgid "Delete marker"
 msgstr "מחיקת סמן"
 
 #: src/bin/model/markerlistmodel.cpp:437
-#: src/timeline2/view/timelinecontroller.cpp:1653
-#: src/timeline2/view/timelinecontroller.cpp:1657
+#: src/timeline2/view/timelinecontroller.cpp:1678
+#: src/timeline2/view/timelinecontroller.cpp:1682
 #, kde-format
 msgid "Move marker"
 msgstr "העברת סמן"
@@ -21585,7 +21697,7 @@ msgstr "מחיקת כל הסמנים"
 #: src/bin/model/markerlistmodel.cpp:1076
 #: src/bin/model/markerlistmodel.cpp:1118
 #: src/bin/model/markerlistmodel.cpp:1148
-#: src/timeline2/view/timelinecontroller.cpp:1792
+#: src/timeline2/view/timelinecontroller.cpp:1817
 #, kde-format
 msgid "No marker found at current position"
 msgstr "לא נמצא סמן במקום הנוכחי"
@@ -21927,7 +22039,7 @@ msgstr "קטע %1"
 msgid "Tag %1"
 msgstr "תגית %1"
 
-#: src/bin/tagwidget.cpp:116 src/dialogs/speechdialog.cpp:44
+#: src/bin/tagwidget.cpp:116 src/dialogs/speechdialog.cpp:45
 #: src/dialogs/textbasededit.cpp:683
 #: src/effects/effectstack/view/maskmanager.cpp:77
 #, kde-format
@@ -22744,8 +22856,8 @@ msgstr "ייצוא נתוני סמנים"
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5864
-#: src/timeline2/view/timelinecontroller.cpp:5869
+#: src/timeline2/view/timelinecontroller.cpp:5889
+#: src/timeline2/view/timelinecontroller.cpp:5894
 #: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
@@ -24158,69 +24270,69 @@ msgstr "מה חדש"
 msgid "Continue"
 msgstr "להמשיך"
 
-#: src/dialogs/speechdialog.cpp:43
+#: src/dialogs/speechdialog.cpp:44
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "הוספת כתוביות אוטומטית"
 
-#: src/dialogs/speechdialog.cpp:51
+#: src/dialogs/speechdialog.cpp:52
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "יומן זיהוי קולי"
 
-#: src/dialogs/speechdialog.cpp:66
+#: src/dialogs/speechdialog.cpp:67
 #, kde-format
 msgid "Process"
 msgstr "עיבוד"
 
-#: src/dialogs/speechdialog.cpp:108
+#: src/dialogs/speechdialog.cpp:109
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "אין רצועות שמע זמינות לסרטון הנבחר"
 
-#: src/dialogs/speechdialog.cpp:118
+#: src/dialogs/speechdialog.cpp:119
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "נא לבחור סרטון בציר הזמן כדי לבצע אבחון"
 
-#: src/dialogs/speechdialog.cpp:132
+#: src/dialogs/speechdialog.cpp:133
 #, kde-format
 msgid "No audio track found"
 msgstr "לא נמצאה רצועת שמע"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/speechdialog.cpp:189 src/dialogs/textbasededit.cpp:1081
 #: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "נא להגדיר מנגנון הכתבה."
 
-#: src/dialogs/speechdialog.cpp:209 src/dialogs/textbasededit.cpp:971
+#: src/dialogs/speechdialog.cpp:210 src/dialogs/textbasededit.cpp:971
 #: src/dialogs/textbasededit.cpp:1008
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "נא להתקין דגמי זיהוי קולי"
 
-#: src/dialogs/speechdialog.cpp:288
+#: src/dialogs/speechdialog.cpp:289
 #, kde-format
 msgid "Starting audio export"
 msgstr "ייצוא שמע מתחיל"
 
-#: src/dialogs/speechdialog.cpp:353
+#: src/dialogs/speechdialog.cpp:354
 #, kde-format
 msgid "Audio export failed"
 msgstr "ייצוא שמע נכשל"
 
-#: src/dialogs/speechdialog.cpp:376 src/dialogs/textbasededit.cpp:1115
+#: src/dialogs/speechdialog.cpp:377 src/dialogs/textbasededit.cpp:1115
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "זיהוי דיבור מופעל"
 
-#: src/dialogs/speechdialog.cpp:439 src/dialogs/textbasededit.cpp:1302
+#: src/dialogs/speechdialog.cpp:440 src/dialogs/textbasededit.cpp:1302
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "זיהוי קולי בוטל."
 
-#: src/dialogs/speechdialog.cpp:445
+#: src/dialogs/speechdialog.cpp:446
 #, kde-format
 msgid ""
 "Speech recognition failed:\n"
@@ -24229,565 +24341,581 @@ msgstr ""
 "זיהוי הדיבור נכשל:\n"
 "%1"
 
-#: src/dialogs/speechdialog.cpp:452
+#: src/dialogs/speechdialog.cpp:448
+#, fuzzy, kde-format
+#| msgid ""
+#| "Speech recognition failed:\n"
+#| "%1"
+msgid "Speech recognition failed"
+msgstr ""
+"זיהוי הדיבור נכשל:\n"
+"%1"
+
+#: src/dialogs/speechdialog.cpp:454
 #, kde-format
 msgid "Subtitles imported"
 msgstr "כתוביות יובאו"
 
-#: src/dialogs/speechdialog.cpp:484
+#: src/dialogs/speechdialog.cpp:455
+#, fuzzy, kde-format
+#| msgid "Speech recognition finished."
+msgid "Speech recognition finished, subtitles imported"
+msgstr "הזיהוי הקולי הסתיים."
+
+#: src/dialogs/speechdialog.cpp:487
 #, kde-format
 msgid "Translating text to %1"
 msgstr "הטקסט מתורגם ל%1"
 
-#: src/dialogs/speechdialog.cpp:486
+#: src/dialogs/speechdialog.cpp:489
 #, kde-format
 msgid "Initializing translation model"
 msgstr "מודל התרגום מופעל"
 
-#: src/dialogs/speechdialog.cpp:497
+#: src/dialogs/speechdialog.cpp:500
 #: src/pythoninterfaces/speechtotextwhisper.cpp:58
 #, kde-format
 msgid "Afrikaans"
 msgstr "אפריקאנס"
 
-#: src/dialogs/speechdialog.cpp:498
+#: src/dialogs/speechdialog.cpp:501
 #: src/pythoninterfaces/speechtotextwhisper.cpp:60
 #, kde-format
 msgid "Amharic"
 msgstr "אמהרית"
 
-#: src/dialogs/speechdialog.cpp:499
+#: src/dialogs/speechdialog.cpp:502
 #: src/pythoninterfaces/speechtotextwhisper.cpp:62
 #, kde-format
 msgid "Armenian"
 msgstr "ארמנית"
 
-#: src/dialogs/speechdialog.cpp:500
+#: src/dialogs/speechdialog.cpp:503
 #: src/pythoninterfaces/speechtotextwhisper.cpp:63
 #, kde-format
 msgid "Assamese"
 msgstr "אסאמית"
 
-#: src/dialogs/speechdialog.cpp:501
+#: src/dialogs/speechdialog.cpp:504
 #: src/pythoninterfaces/speechtotextwhisper.cpp:66
 #, kde-format
 msgid "Basque"
 msgstr "בסקית"
 
-#: src/dialogs/speechdialog.cpp:502
+#: src/dialogs/speechdialog.cpp:505
 #: src/pythoninterfaces/speechtotextwhisper.cpp:67
 #, kde-format
 msgid "Belarusian"
 msgstr "בלארוסית"
 
-#: src/dialogs/speechdialog.cpp:503
+#: src/dialogs/speechdialog.cpp:506
 #: src/pythoninterfaces/speechtotextwhisper.cpp:68
 #, kde-format
 msgid "Bengali"
 msgstr "בנגלית"
 
-#: src/dialogs/speechdialog.cpp:504
+#: src/dialogs/speechdialog.cpp:507
 #: src/pythoninterfaces/speechtotextwhisper.cpp:69
 #, kde-format
 msgid "Bosnian"
 msgstr "בוסנית"
 
-#: src/dialogs/speechdialog.cpp:505
+#: src/dialogs/speechdialog.cpp:508
 #: src/pythoninterfaces/speechtotextwhisper.cpp:71
 #, kde-format
 msgid "Bulgarian"
 msgstr "בולגרית"
 
-#: src/dialogs/speechdialog.cpp:506
+#: src/dialogs/speechdialog.cpp:509
 #: src/pythoninterfaces/speechtotextwhisper.cpp:72
 #, kde-format
 msgid "Burmese"
 msgstr "בורמית"
 
-#: src/dialogs/speechdialog.cpp:507
+#: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Cantonese"
 msgstr "קנטונית"
 
-#: src/dialogs/speechdialog.cpp:508
+#: src/dialogs/speechdialog.cpp:511
 #: src/pythoninterfaces/speechtotextwhisper.cpp:74
 #, kde-format
 msgid "Catalan"
 msgstr "קטלאנית"
 
-#: src/dialogs/speechdialog.cpp:509
+#: src/dialogs/speechdialog.cpp:512
 #, kde-format
 msgid "Cebuano"
 msgstr "סבואנו"
 
-#: src/dialogs/speechdialog.cpp:510
+#: src/dialogs/speechdialog.cpp:513
 #, kde-format
 msgid "Central Kurdish"
 msgstr "כורדית מרכזית"
 
-#: src/dialogs/speechdialog.cpp:511
+#: src/dialogs/speechdialog.cpp:514
 #: src/pythoninterfaces/speechtotextwhisper.cpp:76
 #, kde-format
 msgid "Croatian"
 msgstr "קרואטית"
 
-#: src/dialogs/speechdialog.cpp:512
+#: src/dialogs/speechdialog.cpp:515
 #: src/pythoninterfaces/speechtotextwhisper.cpp:77
 #, kde-format
 msgid "Czech"
 msgstr "צ׳כית"
 
-#: src/dialogs/speechdialog.cpp:513
+#: src/dialogs/speechdialog.cpp:516
 #: src/pythoninterfaces/speechtotextwhisper.cpp:78
 #, kde-format
 msgid "Danish"
 msgstr "דנית"
 
-#: src/dialogs/speechdialog.cpp:514
+#: src/dialogs/speechdialog.cpp:517
 #: src/pythoninterfaces/speechtotextwhisper.cpp:79
 #, kde-format
 msgid "Dutch"
 msgstr "הולנדית"
 
-#: src/dialogs/speechdialog.cpp:515
+#: src/dialogs/speechdialog.cpp:518
 #, kde-format
 msgid "Egyptian Arabic"
 msgstr "ערכית מצרית"
 
-#: src/dialogs/speechdialog.cpp:516
+#: src/dialogs/speechdialog.cpp:519
 #: src/pythoninterfaces/speechtotextwhisper.cpp:80
 #, kde-format
 msgid "English"
 msgstr "אנגלית"
 
-#: src/dialogs/speechdialog.cpp:517
+#: src/dialogs/speechdialog.cpp:520
 #: src/pythoninterfaces/speechtotextwhisper.cpp:81
 #, kde-format
 msgid "Estonian"
 msgstr "אסטונית"
 
-#: src/dialogs/speechdialog.cpp:518
+#: src/dialogs/speechdialog.cpp:521
 #: src/pythoninterfaces/speechtotextwhisper.cpp:83
 #, kde-format
 msgid "Finnish"
 msgstr "פינית"
 
-#: src/dialogs/speechdialog.cpp:519
+#: src/dialogs/speechdialog.cpp:522
 #: src/pythoninterfaces/speechtotextwhisper.cpp:85
 #, kde-format
 msgid "French"
 msgstr "צרפתית"
 
-#: src/dialogs/speechdialog.cpp:520
+#: src/dialogs/speechdialog.cpp:523
 #: src/pythoninterfaces/speechtotextwhisper.cpp:86
 #, kde-format
 msgid "Galician"
 msgstr "גליסית"
 
-#: src/dialogs/speechdialog.cpp:521
+#: src/dialogs/speechdialog.cpp:524
 #, kde-format
 msgid "Ganda"
 msgstr "לוגנדה"
 
-#: src/dialogs/speechdialog.cpp:522
+#: src/dialogs/speechdialog.cpp:525
 #: src/pythoninterfaces/speechtotextwhisper.cpp:87
 #, kde-format
 msgid "Georgian"
 msgstr "גאורגית"
 
-#: src/dialogs/speechdialog.cpp:523
+#: src/dialogs/speechdialog.cpp:526
 #: src/pythoninterfaces/speechtotextwhisper.cpp:88
 #, kde-format
 msgid "German"
 msgstr "גרמנית"
 
-#: src/dialogs/speechdialog.cpp:524
+#: src/dialogs/speechdialog.cpp:527
 #: src/pythoninterfaces/speechtotextwhisper.cpp:89
 #, kde-format
 msgid "Greek"
 msgstr "יוונית"
 
-#: src/dialogs/speechdialog.cpp:525
+#: src/dialogs/speechdialog.cpp:528
 #: src/pythoninterfaces/speechtotextwhisper.cpp:90
 #, kde-format
 msgid "Gujarati"
 msgstr "גוג׳ראטית"
 
-#: src/dialogs/speechdialog.cpp:526
+#: src/dialogs/speechdialog.cpp:529
 #, kde-format
 msgid "Halh Mongolian"
 msgstr "מונגולית חאלח"
 
-#: src/dialogs/speechdialog.cpp:527
+#: src/dialogs/speechdialog.cpp:530
 #: src/pythoninterfaces/speechtotextwhisper.cpp:95
 #, kde-format
 msgid "Hebrew"
 msgstr "עברית"
 
-#: src/dialogs/speechdialog.cpp:528
+#: src/dialogs/speechdialog.cpp:531
 #: src/pythoninterfaces/speechtotextwhisper.cpp:96
 #, kde-format
 msgid "Hindi"
 msgstr "הינדי"
 
-#: src/dialogs/speechdialog.cpp:529
+#: src/dialogs/speechdialog.cpp:532
 #: src/pythoninterfaces/speechtotextwhisper.cpp:97
 #, kde-format
 msgid "Hungarian"
 msgstr "הונגרית"
 
-#: src/dialogs/speechdialog.cpp:530
+#: src/dialogs/speechdialog.cpp:533
 #: src/pythoninterfaces/speechtotextwhisper.cpp:98
 #, kde-format
 msgid "Icelandic"
 msgstr "איסלנדית"
 
-#: src/dialogs/speechdialog.cpp:531
+#: src/dialogs/speechdialog.cpp:534
 #, kde-format
 msgid "Igbo"
 msgstr "איגבו"
 
-#: src/dialogs/speechdialog.cpp:532
+#: src/dialogs/speechdialog.cpp:535
 #: src/pythoninterfaces/speechtotextwhisper.cpp:99
 #, kde-format
 msgid "Indonesian"
 msgstr "אינדונזית"
 
-#: src/dialogs/speechdialog.cpp:533
+#: src/dialogs/speechdialog.cpp:536
 #, kde-format
 msgid "Irish"
 msgstr "אירית"
 
-#: src/dialogs/speechdialog.cpp:534
+#: src/dialogs/speechdialog.cpp:537
 #: src/pythoninterfaces/speechtotextwhisper.cpp:100
 #, kde-format
 msgid "Italian"
 msgstr "איטלקית"
 
-#: src/dialogs/speechdialog.cpp:535
+#: src/dialogs/speechdialog.cpp:538
 #: src/pythoninterfaces/speechtotextwhisper.cpp:101
 #, kde-format
 msgid "Japanese"
 msgstr "יפנית"
 
-#: src/dialogs/speechdialog.cpp:536
+#: src/dialogs/speechdialog.cpp:539
 #: src/pythoninterfaces/speechtotextwhisper.cpp:102
 #, kde-format
 msgid "Javanese"
 msgstr "ג׳אווה"
 
-#: src/dialogs/speechdialog.cpp:537
+#: src/dialogs/speechdialog.cpp:540
 #: src/pythoninterfaces/speechtotextwhisper.cpp:103
 #, kde-format
 msgid "Kannada"
 msgstr "קאנדה"
 
-#: src/dialogs/speechdialog.cpp:538
+#: src/dialogs/speechdialog.cpp:541
 #: src/pythoninterfaces/speechtotextwhisper.cpp:104
 #, kde-format
 msgid "Kazakh"
 msgstr "קזחית"
 
-#: src/dialogs/speechdialog.cpp:539
+#: src/dialogs/speechdialog.cpp:542
 #: src/pythoninterfaces/speechtotextwhisper.cpp:105
 #, kde-format
 msgid "Khmer"
 msgstr "חמרית"
 
-#: src/dialogs/speechdialog.cpp:540
+#: src/dialogs/speechdialog.cpp:543
 #: src/pythoninterfaces/speechtotextwhisper.cpp:106
 #, kde-format
 msgid "Korean"
 msgstr "קוריאנית"
 
-#: src/dialogs/speechdialog.cpp:541
+#: src/dialogs/speechdialog.cpp:544
 #, kde-format
 msgid "Kyrgyz"
 msgstr "קירגיזית"
 
-#: src/dialogs/speechdialog.cpp:542
+#: src/dialogs/speechdialog.cpp:545
 #: src/pythoninterfaces/speechtotextwhisper.cpp:107
 #, kde-format
 msgid "Lao"
 msgstr "לאית"
 
-#: src/dialogs/speechdialog.cpp:543
+#: src/dialogs/speechdialog.cpp:546
 #: src/pythoninterfaces/speechtotextwhisper.cpp:112
 #, kde-format
 msgid "Lithuanian"
 msgstr "ליטאית"
 
-#: src/dialogs/speechdialog.cpp:544
+#: src/dialogs/speechdialog.cpp:547
 #, kde-format
 msgid "Luo"
 msgstr "לואו"
 
-#: src/dialogs/speechdialog.cpp:545
+#: src/dialogs/speechdialog.cpp:548
 #: src/pythoninterfaces/speechtotextwhisper.cpp:114
 #, kde-format
 msgid "Macedonian"
 msgstr "מקדונית"
 
-#: src/dialogs/speechdialog.cpp:546
+#: src/dialogs/speechdialog.cpp:549
 #, kde-format
 msgid "Maithili"
 msgstr "מאיטהילית"
 
-#: src/dialogs/speechdialog.cpp:547
+#: src/dialogs/speechdialog.cpp:550
 #: src/pythoninterfaces/speechtotextwhisper.cpp:117
 #, kde-format
 msgid "Malayalam"
 msgstr "מלאיאלאם"
 
-#: src/dialogs/speechdialog.cpp:548
+#: src/dialogs/speechdialog.cpp:551
 #: src/pythoninterfaces/speechtotextwhisper.cpp:118
 #, kde-format
 msgid "Maltese"
 msgstr "מלטית"
 
-#: src/dialogs/speechdialog.cpp:549 src/dialogs/speechdialog.cpp:550
+#: src/dialogs/speechdialog.cpp:552 src/dialogs/speechdialog.cpp:553
 #, kde-format
 msgid "Mandarin Chinese"
 msgstr "סינית מנדרינית"
 
-#: src/dialogs/speechdialog.cpp:551
+#: src/dialogs/speechdialog.cpp:554
 #: src/pythoninterfaces/speechtotextwhisper.cpp:120
 #, kde-format
 msgid "Marathi"
 msgstr "מראטהית"
 
-#: src/dialogs/speechdialog.cpp:552
+#: src/dialogs/speechdialog.cpp:555
 #, kde-format
 msgid "Meitei"
 msgstr "מיטיי"
 
-#: src/dialogs/speechdialog.cpp:553
+#: src/dialogs/speechdialog.cpp:556
 #, kde-format
 msgid "Modern Standard Arabic"
 msgstr "ערבית תקנית מודרנית"
 
-#: src/dialogs/speechdialog.cpp:554
+#: src/dialogs/speechdialog.cpp:557
 #, kde-format
 msgid "Moroccan Arabic"
 msgstr "ערבית מרוקאית"
 
-#: src/dialogs/speechdialog.cpp:555
+#: src/dialogs/speechdialog.cpp:558
 #: src/pythoninterfaces/speechtotextwhisper.cpp:125
 #, kde-format
 msgid "Nepali"
 msgstr "נפאלית"
 
-#: src/dialogs/speechdialog.cpp:556
+#: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "Nigerian Fulfulde"
 msgstr "פולפולדה ניגרית"
 
-#: src/dialogs/speechdialog.cpp:557
+#: src/dialogs/speechdialog.cpp:560
 #, kde-format
 msgid "North Azerbaijani"
 msgstr "אזרית צפונית"
 
-#: src/dialogs/speechdialog.cpp:558
+#: src/dialogs/speechdialog.cpp:561
 #, kde-format
 msgid "Northern Uzbek"
 msgstr "אוזבקית צפונית"
 
-#: src/dialogs/speechdialog.cpp:559
+#: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Norwegian Bokmål"
 msgstr "נורבגית בוקמול"
 
-#: src/dialogs/speechdialog.cpp:560
+#: src/dialogs/speechdialog.cpp:563
 #, kde-format
 msgid "Norwegian Nynorsk"
 msgstr "נורבגית נינורשק"
 
-#: src/dialogs/speechdialog.cpp:561
+#: src/dialogs/speechdialog.cpp:564
 #, kde-format
 msgid "Nyanja"
 msgstr "ניאנז׳ה"
 
-#: src/dialogs/speechdialog.cpp:562
+#: src/dialogs/speechdialog.cpp:565
 #, kde-format
 msgid "Odia"
 msgstr "אורייה"
 
-#: src/dialogs/speechdialog.cpp:563
+#: src/dialogs/speechdialog.cpp:566
 #: src/pythoninterfaces/speechtotextwhisper.cpp:132
 #, kde-format
 msgid "Polish"
 msgstr "פולנית"
 
-#: src/dialogs/speechdialog.cpp:564
+#: src/dialogs/speechdialog.cpp:567
 #: src/pythoninterfaces/speechtotextwhisper.cpp:133
 #, kde-format
 msgid "Portuguese"
 msgstr "פורטוגלית"
 
-#: src/dialogs/speechdialog.cpp:565
+#: src/dialogs/speechdialog.cpp:568
 #: src/pythoninterfaces/speechtotextwhisper.cpp:134
 #, kde-format
 msgid "Punjabi"
 msgstr "פנג׳אבי"
 
-#: src/dialogs/speechdialog.cpp:566
+#: src/dialogs/speechdialog.cpp:569
 #: src/pythoninterfaces/speechtotextwhisper.cpp:136
 #, kde-format
 msgid "Romanian"
 msgstr "רומנית"
 
-#: src/dialogs/speechdialog.cpp:567
+#: src/dialogs/speechdialog.cpp:570
 #: src/pythoninterfaces/speechtotextwhisper.cpp:137
 #, kde-format
 msgid "Russian"
 msgstr "רוסית"
 
-#: src/dialogs/speechdialog.cpp:568
+#: src/dialogs/speechdialog.cpp:571
 #: src/pythoninterfaces/speechtotextwhisper.cpp:139
 #, kde-format
 msgid "Serbian"
 msgstr "סרבית"
 
-#: src/dialogs/speechdialog.cpp:569
+#: src/dialogs/speechdialog.cpp:572
 #: src/pythoninterfaces/speechtotextwhisper.cpp:140
 #, kde-format
 msgid "Shona"
 msgstr "שונה"
 
-#: src/dialogs/speechdialog.cpp:570
+#: src/dialogs/speechdialog.cpp:573
 #: src/pythoninterfaces/speechtotextwhisper.cpp:141
 #, kde-format
 msgid "Sindhi"
 msgstr "סינדית"
 
-#: src/dialogs/speechdialog.cpp:571
+#: src/dialogs/speechdialog.cpp:574
 #: src/pythoninterfaces/speechtotextwhisper.cpp:144
 #, kde-format
 msgid "Slovak"
 msgstr "סלובקית"
 
-#: src/dialogs/speechdialog.cpp:572
+#: src/dialogs/speechdialog.cpp:575
 #: src/pythoninterfaces/speechtotextwhisper.cpp:145
 #, kde-format
 msgid "Slovenian"
 msgstr "סלובנית"
 
-#: src/dialogs/speechdialog.cpp:573
+#: src/dialogs/speechdialog.cpp:576
 #: src/pythoninterfaces/speechtotextwhisper.cpp:146
 #, kde-format
 msgid "Somali"
 msgstr "סומלית"
 
-#: src/dialogs/speechdialog.cpp:574
+#: src/dialogs/speechdialog.cpp:577
 #, kde-format
 msgid "Southern Pashto"
 msgstr "פשטו דרומית"
 
-#: src/dialogs/speechdialog.cpp:575
+#: src/dialogs/speechdialog.cpp:578
 #: src/pythoninterfaces/speechtotextwhisper.cpp:147
 #, kde-format
 msgid "Spanish"
 msgstr "ספרדית"
 
-#: src/dialogs/speechdialog.cpp:576
+#: src/dialogs/speechdialog.cpp:579
 #, kde-format
 msgid "Standard Latvian"
 msgstr "לטבית תקנית"
 
-#: src/dialogs/speechdialog.cpp:577
+#: src/dialogs/speechdialog.cpp:580
 #, kde-format
 msgid "Standard Malay"
 msgstr "מלאית תקנית"
 
-#: src/dialogs/speechdialog.cpp:578
+#: src/dialogs/speechdialog.cpp:581
 #: src/pythoninterfaces/speechtotextwhisper.cpp:149
 #, kde-format
 msgid "Swahili"
 msgstr "סוואהילי"
 
-#: src/dialogs/speechdialog.cpp:579
+#: src/dialogs/speechdialog.cpp:582
 #: src/pythoninterfaces/speechtotextwhisper.cpp:150
 #, kde-format
 msgid "Swedish"
 msgstr "שוודי"
 
-#: src/dialogs/speechdialog.cpp:580
+#: src/dialogs/speechdialog.cpp:583
 #: src/pythoninterfaces/speechtotextwhisper.cpp:151
 #, kde-format
 msgid "Tagalog"
 msgstr "טגלוג"
 
-#: src/dialogs/speechdialog.cpp:581
+#: src/dialogs/speechdialog.cpp:584
 #: src/pythoninterfaces/speechtotextwhisper.cpp:152
 #, kde-format
 msgid "Tajik"
 msgstr "טג׳יקית"
 
-#: src/dialogs/speechdialog.cpp:582
+#: src/dialogs/speechdialog.cpp:585
 #: src/pythoninterfaces/speechtotextwhisper.cpp:153
 #, kde-format
 msgid "Tamil"
 msgstr "טמילית"
 
-#: src/dialogs/speechdialog.cpp:583
+#: src/dialogs/speechdialog.cpp:586
 #: src/pythoninterfaces/speechtotextwhisper.cpp:155
 #, kde-format
 msgid "Telugu"
 msgstr "טלוגו"
 
-#: src/dialogs/speechdialog.cpp:584
+#: src/dialogs/speechdialog.cpp:587
 #: src/pythoninterfaces/speechtotextwhisper.cpp:156
 #, kde-format
 msgid "Thai"
 msgstr "תאי"
 
-#: src/dialogs/speechdialog.cpp:585
+#: src/dialogs/speechdialog.cpp:588
 #: src/pythoninterfaces/speechtotextwhisper.cpp:158
 #, kde-format
 msgid "Turkish"
 msgstr "טורקית"
 
-#: src/dialogs/speechdialog.cpp:586
+#: src/dialogs/speechdialog.cpp:589
 #: src/pythoninterfaces/speechtotextwhisper.cpp:160
 #, kde-format
 msgid "Ukrainian"
 msgstr "אוקראינית"
 
-#: src/dialogs/speechdialog.cpp:587
+#: src/dialogs/speechdialog.cpp:590
 #: src/pythoninterfaces/speechtotextwhisper.cpp:161
 #, kde-format
 msgid "Urdu"
 msgstr "אורדו"
 
-#: src/dialogs/speechdialog.cpp:588
+#: src/dialogs/speechdialog.cpp:591
 #: src/pythoninterfaces/speechtotextwhisper.cpp:164
 #, kde-format
 msgid "Vietnamese"
 msgstr "וייטנאמית"
 
-#: src/dialogs/speechdialog.cpp:589
+#: src/dialogs/speechdialog.cpp:592
 #: src/pythoninterfaces/speechtotextwhisper.cpp:165
 #, kde-format
 msgid "Welsh"
 msgstr "ולשית"
 
-#: src/dialogs/speechdialog.cpp:590
+#: src/dialogs/speechdialog.cpp:593
 #, kde-format
 msgid "West Central Oromo"
 msgstr "אורומו מרכז מערבית"
 
-#: src/dialogs/speechdialog.cpp:591
+#: src/dialogs/speechdialog.cpp:594
 #, kde-format
 msgid "Western Persian"
 msgstr "פרסית מערבית"
 
-#: src/dialogs/speechdialog.cpp:592
+#: src/dialogs/speechdialog.cpp:595
 #: src/pythoninterfaces/speechtotextwhisper.cpp:167
 #, kde-format
 msgid "Yoruba"
 msgstr "יורובה"
 
-#: src/dialogs/speechdialog.cpp:593
+#: src/dialogs/speechdialog.cpp:596
 #, kde-format
 msgid "Zulu"
 msgstr "זולו"
@@ -26137,7 +26265,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "קובץ הכתוביות:<br/>%1<br/>כבר קיים. לשכתב אותו?"
 
-#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3863
+#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3873
 #, kde-format
 msgid "Overwrite"
 msgstr "שכתוב"
@@ -26523,17 +26651,17 @@ msgstr "ייצוא אפקט מותאם אישית"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "חלק מהאפקטים המועדפים עליך שגויים ולכן הוסרו: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:385
+#: src/effects/effectstack/model/effectitemmodel.cpp:398
 #, kde-format
 msgid "Hide keyframes"
 msgstr "הסתר תמוניות מפתח"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:385
+#: src/effects/effectstack/model/effectitemmodel.cpp:398
 #, kde-format
 msgid "Show keyframes"
 msgstr "הצגת תמוניות מפתח"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:470
+#: src/effects/effectstack/model/effectitemmodel.cpp:483
 #, kde-format
 msgid "Update zone for %1"
 msgstr "עדכון קטע עבור %1"
@@ -26785,13 +26913,13 @@ msgid "Exporting…"
 msgstr "מתבצע ייצוא…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3791
+#: src/timeline2/view/timelinecontroller.cpp:3816
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "הפעלת ערמת אפקטים"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3791
+#: src/timeline2/view/timelinecontroller.cpp:3816
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "השבתת ערמת אפקט"
@@ -27314,7 +27442,7 @@ msgid "Generators"
 msgstr "מחוללים"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:4248
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:4258
 #, kde-format
 msgid "Extract Audio"
 msgstr "חילוץ שמע"
@@ -27381,7 +27509,7 @@ msgstr "&רצועה נוכחית"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:171 src/mainwindow.cpp:2110
+#: src/kdenliveui.rc:171 src/mainwindow.cpp:2115
 #: src/ui/configtimeline_ui.ui:265
 #, kde-format
 msgid "Tracks"
@@ -28298,7 +28426,7 @@ msgstr "הוספת אפקט"
 msgid "Add Transition"
 msgstr "הוספת מעברון"
 
-#: src/mainwindow.cpp:566 src/mainwindow.cpp:2312
+#: src/mainwindow.cpp:566 src/mainwindow.cpp:2317
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:37
 #, kde-format
 msgid "Transitions"
@@ -28337,7 +28465,7 @@ msgstr "כפתור תיצוג"
 msgid "Rendering preview"
 msgstr "תצוגה מקדימה לתיצוג"
 
-#: src/mainwindow.cpp:675 src/mainwindow.cpp:757 src/mainwindow.cpp:2182
+#: src/mainwindow.cpp:675 src/mainwindow.cpp:757 src/mainwindow.cpp:2187
 #, kde-format
 msgid "Identify Gaps"
 msgstr "זיהוי מרווחים"
@@ -28481,7 +28609,7 @@ msgstr "התחלתם כעת"
 msgid "Delete them"
 msgstr "מחיקתם"
 
-#: src/mainwindow.cpp:1193 src/timeline2/view/timelinecontroller.cpp:2499
+#: src/mainwindow.cpp:1193 src/timeline2/view/timelinecontroller.cpp:2524
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "בחירת סרטון להשוואת האפקט"
@@ -28798,7 +28926,7 @@ msgstr "מכוון את המרחק כך שכל המיזם יופיע בחלונ�
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "עיבוד מעבד גרפי ניסיוני פעיל - לא מומלץ לעבודה שוטפת עדיין"
 
-#: src/mainwindow.cpp:1596 src/mainwindow.cpp:3846
+#: src/mainwindow.cpp:1596 src/mainwindow.cpp:3856
 #, kde-format
 msgid "Multicam"
 msgstr "ריבוי מצלמות"
@@ -29322,63 +29450,63 @@ msgid "Search Bin Clip…"
 msgstr "חיפוש סרטון סל…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:2024 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:2029 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "חיתוך סרטון"
 
-#: src/mainwindow.cpp:2027
+#: src/mainwindow.cpp:2032
 #, fuzzy, kde-format
 #| msgid "Replace in timeline"
 msgid "Replace with Bin Selection"
 msgstr "החלפה בציר הזמן"
 
-#: src/mainwindow.cpp:2031
+#: src/mainwindow.cpp:2036
 #, kde-format
 msgid "Cut All Clips"
 msgstr "גזירת כל הסרטונים"
 
-#: src/mainwindow.cpp:2034
+#: src/mainwindow.cpp:2039
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "מחיקת פריט נבחר"
 
-#: src/mainwindow.cpp:2037
+#: src/mainwindow.cpp:2042
 #, kde-format
 msgid "Resize Item Start"
 msgstr "שינוי גודל תחילת פריט"
 
-#: src/mainwindow.cpp:2041
+#: src/mainwindow.cpp:2046
 #, kde-format
 msgid "Resize Item End"
 msgstr "שינוי גודל סוף פריט"
 
-#: src/mainwindow.cpp:2045
+#: src/mainwindow.cpp:2050
 #, kde-format
 msgid "Paste Effects"
 msgstr "הדבקת אפקטים"
 
-#: src/mainwindow.cpp:2051
+#: src/mainwindow.cpp:2056
 #, kde-format
 msgid "Remove Effects"
 msgstr "הסרת אפקטים"
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2063
 #, kde-format
 msgid "Group Clips"
 msgstr "קיבוץ סרטונים"
 
-#: src/mainwindow.cpp:2064
+#: src/mainwindow.cpp:2069
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "פירוק קיבוץ סרטונים"
 
-#: src/mainwindow.cpp:2070
+#: src/mainwindow.cpp:2075
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "יצירת רצף מבחירה"
 
-#: src/mainwindow.cpp:2073
+#: src/mainwindow.cpp:2078
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29388,12 +29516,12 @@ msgstr ""
 "מוסיף את הסרטונים הנבחרים בציר הזמן לסרטון רצף חדש שאפשר לבחור בלשונית ציר "
 "זמן אחר."
 
-#: src/mainwindow.cpp:2077
+#: src/mainwindow.cpp:2082
 #, kde-format
 msgid "Copy Selection to New Sequence"
 msgstr "העתקת הבחירה לרצף חדש"
 
-#: src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2085
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29403,133 +29531,133 @@ msgstr ""
 "העתקת הסרטונים הנבחרים בציר הזמן לסרטון רצף חדש שאפשר לבחור בלשונית ציר זמן "
 "אחר."
 
-#: src/mainwindow.cpp:2094
+#: src/mainwindow.cpp:2099
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "תמוניות מפתח של אפקט"
 
-#: src/mainwindow.cpp:2095 src/monitor/view/EffectToolBar.qml:115
+#: src/mainwindow.cpp:2100 src/monitor/view/EffectToolBar.qml:115
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "הוספת/הסרת תמונית מפתח"
 
-#: src/mainwindow.cpp:2104
+#: src/mainwindow.cpp:2109
 #, kde-format
 msgid "Insert Space…"
 msgstr "הוספת רווח…"
 
-#: src/mainwindow.cpp:2105
+#: src/mainwindow.cpp:2110
 #, kde-format
 msgid "Remove Space"
 msgstr "הסרת רווח"
 
-#: src/mainwindow.cpp:2106
+#: src/mainwindow.cpp:2111
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "הסרת כל הרווחים שאחרי הסמן"
 
-#: src/mainwindow.cpp:2107
+#: src/mainwindow.cpp:2112
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "הסרת כל הסרטונים שאחרי הסמן"
 
-#: src/mainwindow.cpp:2108
+#: src/mainwindow.cpp:2113
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "הסרת הרווחים בכל הרצועות"
 
-#: src/mainwindow.cpp:2111
+#: src/mainwindow.cpp:2116
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "הוספת רצועה…"
 
-#: src/mainwindow.cpp:2115
+#: src/mainwindow.cpp:2120
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "התאמת כל הרצועות לתצוגה"
 
-#: src/mainwindow.cpp:2121 src/timeline2/view/timelinecontroller.cpp:5591
+#: src/mainwindow.cpp:2126 src/timeline2/view/timelinecontroller.cpp:5616
 #, kde-format
 msgid "Sequence effects"
 msgstr "אפקטים על רצפים"
 
-#: src/mainwindow.cpp:2128
+#: src/mainwindow.cpp:2133
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "החלפת תזרים שמע לרצועת היעד"
 
-#: src/mainwindow.cpp:2133
+#: src/mainwindow.cpp:2138
 #, kde-format
 msgid "Delete Track…"
 msgstr "מחיקת רצועה…"
 
-#: src/mainwindow.cpp:2138
+#: src/mainwindow.cpp:2143
 #, kde-format
 msgid "Move Track Up"
 msgstr "העלאת רצועה למעלה"
 
-#: src/mainwindow.cpp:2142
+#: src/mainwindow.cpp:2147
 #, kde-format
 msgid "Move Track Down"
 msgstr "הורדת רצועה למטה"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2151
 #, kde-format
 msgid "Show Record Controls"
 msgstr "הצגת פקדי הקלטה"
 
-#: src/mainwindow.cpp:2152
+#: src/mainwindow.cpp:2157
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "בחירה בהכול ברצועה הנוכחית"
 
-#: src/mainwindow.cpp:2169
+#: src/mainwindow.cpp:2174
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "ניהול נתונים במטמון…"
 
-#: src/mainwindow.cpp:2172
+#: src/mainwindow.cpp:2177
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "השבתת תצוגה מקדימה של ציר זמן"
 
-#: src/mainwindow.cpp:2176
+#: src/mainwindow.cpp:2181
 #, kde-format
 msgid "Add/Remove Timeline Marker"
 msgstr "הוספת/הסרת סמן ציר זמן"
 
-#: src/mainwindow.cpp:2178
+#: src/mainwindow.cpp:2183
 #, kde-format
 msgid "Delete Timeline Marker"
 msgstr "מחיקת סמן ציר זמן"
 
-#: src/mainwindow.cpp:2180
+#: src/mainwindow.cpp:2185
 #, kde-format
 msgid "Delete All Timeline Markers"
 msgstr "מחיקת כל סמני ציר הזמן"
 
-#: src/mainwindow.cpp:2184
+#: src/mainwindow.cpp:2189
 #, kde-format
 msgid "Edit Timeline Marker…"
 msgstr "עריכת סמן ציר זמן…"
 
-#: src/mainwindow.cpp:2187
+#: src/mainwindow.cpp:2192
 #, kde-format
 msgid "Export Markers…"
 msgstr "ייצוא סמנים…"
 
-#: src/mainwindow.cpp:2188
+#: src/mainwindow.cpp:2193
 #, kde-format
 msgid "Search Marker…"
 msgstr "חיפוש סמן…"
 
-#: src/mainwindow.cpp:2191 src/mainwindow.cpp:2194
+#: src/mainwindow.cpp:2196 src/mainwindow.cpp:2199
 #, kde-format
 msgid "Lock Timeline Markers"
 msgstr "נעילת סמני ציר זמן"
 
-#: src/mainwindow.cpp:2196
+#: src/mainwindow.cpp:2201
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29539,47 +29667,47 @@ msgstr ""
 "נעילת סמני ציר זמן. כשהם נעולים, הסמנים לא יזוזו בעת שימוש בכללי המרווח או "
 "בהוספת/הסרת קטע ריק ברצועות."
 
-#: src/mainwindow.cpp:2198
+#: src/mainwindow.cpp:2203
 #, kde-format
 msgid "Add Subtitle"
 msgstr "הוספת כתובית"
 
-#: src/mainwindow.cpp:2200
+#: src/mainwindow.cpp:2205
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "השבתת כתובית"
 
-#: src/mainwindow.cpp:2201
+#: src/mainwindow.cpp:2206
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "נעילת כתובית"
 
-#: src/mainwindow.cpp:2203
+#: src/mainwindow.cpp:2208
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "ניהול כתוביות"
 
-#: src/mainwindow.cpp:2205
+#: src/mainwindow.cpp:2210
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "ייבוא קובץ כתוביות…"
 
-#: src/mainwindow.cpp:2207
+#: src/mainwindow.cpp:2212
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "ייצוא קובץ כתוביות…"
 
-#: src/mainwindow.cpp:2209 src/timeline2/model/timelinemodel.cpp:2626
+#: src/mainwindow.cpp:2214 src/timeline2/model/timelinemodel.cpp:2626
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "מחיקת כתובית"
 
-#: src/mainwindow.cpp:2210
+#: src/mainwindow.cpp:2215
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "זיהוי דיבור…"
 
-#: src/mainwindow.cpp:2217
+#: src/mainwindow.cpp:2222
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29589,115 +29717,115 @@ msgstr ""
 "פעולה זו מחליפה בין <emphasis>סרגל תפריטים</emphasis> לבין כפתור "
 "<interface>תפריט המבורגר</interface> בסרגל הכלים הראשי."
 
-#: src/mainwindow.cpp:2245
+#: src/mainwindow.cpp:2250
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "העתקת פרטי ניפוי תקלות"
 
-#: src/mainwindow.cpp:2247
+#: src/mainwindow.cpp:2252
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "השבתת אפקטים בציר הזמן"
 
-#: src/mainwindow.cpp:2269
+#: src/mainwindow.cpp:2274
 #, kde-format
 msgid "Track menu"
 msgstr "תפריט רצועות"
 
-#: src/mainwindow.cpp:2273
+#: src/mainwindow.cpp:2278
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "הפעלה/השבתה של רצועה"
 
-#: src/mainwindow.cpp:2275
+#: src/mainwindow.cpp:2280
 #, kde-format
 msgid "Toggle All Tracks Disabled"
 msgstr "השבתת כל הרצועות"
 
-#: src/mainwindow.cpp:2277
+#: src/mainwindow.cpp:2282
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "נעילה/שחרור רצועה"
 
-#: src/mainwindow.cpp:2279
+#: src/mainwindow.cpp:2284
 #, kde-format
 msgid "Toggle All Tracks Lock"
 msgstr "נעילת כל הרצועות"
 
-#: src/mainwindow.cpp:2281
+#: src/mainwindow.cpp:2286
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "החלפת יעד רצועה"
 
-#: src/mainwindow.cpp:2283
+#: src/mainwindow.cpp:2288
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "החלפת מצב פעילות רצועה"
 
-#: src/mainwindow.cpp:2285
+#: src/mainwindow.cpp:2290
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "החלפת מצב פעילות כל הרצועות"
 
-#: src/mainwindow.cpp:2287
+#: src/mainwindow.cpp:2292
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "החלפת מצב כל הרצועות לפעיל"
 
-#: src/mainwindow.cpp:2289
+#: src/mainwindow.cpp:2294
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "שחזור רצועות היעד של הסרטון הנוכחי"
 
-#: src/mainwindow.cpp:2291
+#: src/mainwindow.cpp:2296
 #, kde-format
 msgid "Add Project Note"
 msgstr "הוספת הערת מיזם"
 
-#: src/mainwindow.cpp:2297
+#: src/mainwindow.cpp:2302
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "בחירת רצועת שמע %1"
 
-#: src/mainwindow.cpp:2301
+#: src/mainwindow.cpp:2306
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "בחירת רצועת וידאו %1"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2310
 #, kde-format
 msgid "Select Target %1"
 msgstr "בחירת יעד %1"
 
-#: src/mainwindow.cpp:2322
+#: src/mainwindow.cpp:2327
 #, kde-format
 msgid "Extract Frame…"
 msgstr "ייצוא תמונית…"
 
-#: src/mainwindow.cpp:2325
+#: src/mainwindow.cpp:2330
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "ייצוא תמונית למיזם…"
 
-#: src/mainwindow.cpp:2328
+#: src/mainwindow.cpp:2333
 #, kde-format
 msgid "Extract Frame to Clipboard"
 msgstr "חילוץ תמונית ללוח הגזירים"
 
-#: src/mainwindow.cpp:2463
+#: src/mainwindow.cpp:2468
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr "שינית את משתני התיווך. ליצור מחדש את כל סרטוני התיווך למיזם הזה?"
 
-#: src/mainwindow.cpp:2464
+#: src/mainwindow.cpp:2469
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "יצירה מחדש"
 
-#: src/mainwindow.cpp:2465 src/onlineresources/resourcewidget.cpp:706
+#: src/mainwindow.cpp:2470 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2333
 #, kde-format
@@ -29705,7 +29833,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "להמשיך ללא"
 
-#: src/mainwindow.cpp:2521
+#: src/mainwindow.cpp:2526
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -29715,7 +29843,7 @@ msgstr ""
 "המיזם הנוכחי לא נשמר.<br/>הפעולה הזאת תשמור קודם א המיזם, לאחר מכן תעביר את "
 "כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>, וקובץ המיזם ייטען מחדש"
 
-#: src/mainwindow.cpp:2529
+#: src/mainwindow.cpp:2534
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -29724,38 +29852,38 @@ msgstr ""
 "הפעולה הזאת תסיר את כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>,<br/"
 ">קובץ המיזם ייטען מחדש"
 
-#: src/mainwindow.cpp:2538 src/project/projectmanager.cpp:607
+#: src/mainwindow.cpp:2543 src/project/projectmanager.cpp:607
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "לא ניתן לבצע את הפעולה, מזהה מסמך שגוי: %1"
 
-#: src/mainwindow.cpp:2543 src/project/projectmanager.cpp:613
+#: src/mainwindow.cpp:2548 src/project/projectmanager.cpp:613
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "לא ניתן לבצע את הפעולה, תיקיית היעד כבר קיימת: %1"
 
-#: src/mainwindow.cpp:2693
+#: src/mainwindow.cpp:2698
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "הפעולה הזאת תסיר מהמיזם שלך את הסרטונים שלא בשימוש."
 
-#: src/mainwindow.cpp:2693
+#: src/mainwindow.cpp:2698
 #, kde-format
 msgid "Clean up project"
 msgstr "ניקוי מיזם"
 
-#: src/mainwindow.cpp:2821
+#: src/mainwindow.cpp:2826
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "הורדות תצורות מקלדת חדשות…"
 
-#: src/mainwindow.cpp:2865
+#: src/mainwindow.cpp:2870
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "כללי"
 
-#: src/mainwindow.cpp:2938
+#: src/mainwindow.cpp:2943
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -29763,77 +29891,77 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את קובץ ההגדרות של Kdenlive ותפעיל את היישום מחדש. להמשיך?"
 
-#: src/mainwindow.cpp:2939
+#: src/mainwindow.cpp:2944
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "איפוס הגדרות"
 
-#: src/mainwindow.cpp:3086 src/mainwindow.cpp:3113
+#: src/mainwindow.cpp:3091 src/mainwindow.cpp:3118
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "לא נמצא סרטון להסרת סמן"
 
-#: src/mainwindow.cpp:3096 src/mainwindow.cpp:3152
+#: src/mainwindow.cpp:3101 src/mainwindow.cpp:3157
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "לא נמצא סימון בנקודת זמן הסמן"
 
-#: src/mainwindow.cpp:3118 src/mainwindow.cpp:3128
+#: src/mainwindow.cpp:3123 src/mainwindow.cpp:3133
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 
-#: src/mainwindow.cpp:3145 src/timeline2/view/timelinecontroller.cpp:1412
-#: src/timeline2/view/timelinecontroller.cpp:1420
-#: src/timeline2/view/timelinecontroller.cpp:1441
-#: src/timeline2/view/timelinecontroller.cpp:1481
-#: src/timeline2/view/timelinecontroller.cpp:1516
-#: src/timeline2/view/timelinecontroller.cpp:1536
+#: src/mainwindow.cpp:3150 src/timeline2/view/timelinecontroller.cpp:1437
+#: src/timeline2/view/timelinecontroller.cpp:1445
+#: src/timeline2/view/timelinecontroller.cpp:1466
+#: src/timeline2/view/timelinecontroller.cpp:1506
+#: src/timeline2/view/timelinecontroller.cpp:1541
+#: src/timeline2/view/timelinecontroller.cpp:1561
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "לא ניתן לאתר את הסרטון לעריכת הסמן"
 
-#: src/mainwindow.cpp:3197
+#: src/mainwindow.cpp:3202
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "קטגוריית הסמנים לא קיימת"
 
-#: src/mainwindow.cpp:3412 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3621
+#: src/mainwindow.cpp:3422 src/timeline2/model/timelinefunctions.cpp:818
+#: src/timeline2/view/timelinecontroller.cpp:3646
 #, kde-format
 msgid "Overwrite zone"
 msgstr "שכתוב קטע"
 
-#: src/mainwindow.cpp:3414 src/mainwindow.cpp:3433
+#: src/mainwindow.cpp:3424 src/mainwindow.cpp:3443
 #: src/timeline2/model/timelinefunctions.cpp:820
-#: src/timeline2/view/timelinecontroller.cpp:3623
+#: src/timeline2/view/timelinecontroller.cpp:3648
 #, kde-format
 msgid "Could not insert zone"
 msgstr "לא ניתן להוסיף קטע"
 
-#: src/mainwindow.cpp:3424
+#: src/mainwindow.cpp:3434
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "לא נבחר אף סרטון בסל המיזם"
 
-#: src/mainwindow.cpp:3431 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3621
+#: src/mainwindow.cpp:3441 src/timeline2/model/timelinefunctions.cpp:818
+#: src/timeline2/view/timelinecontroller.cpp:3646
 #, kde-format
 msgid "Insert zone"
 msgstr "הוספת קטע"
 
-#: src/mainwindow.cpp:3598
+#: src/mainwindow.cpp:3608
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "לא ניתן להוסיף אפקט לפריט פעיל"
 
-#: src/mainwindow.cpp:3660
+#: src/mainwindow.cpp:3670
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "רמת תקריב: %1/%2"
 
-#: src/mainwindow.cpp:3814
+#: src/mainwindow.cpp:3824
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29846,7 +29974,7 @@ msgstr ""
 "כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</shortcut> כדי "
 "להזיז את התצוגה"
 
-#: src/mainwindow.cpp:3818
+#: src/mainwindow.cpp:3828
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29860,24 +29988,24 @@ msgstr ""
 "shortcut> כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</"
 "shortcut> כדי להזיז את התצוגה"
 
-#: src/mainwindow.cpp:3821
+#: src/mainwindow.cpp:3831
 #, kde-format
 msgid "Select"
 msgstr "בחירה"
 
-#: src/mainwindow.cpp:3823
+#: src/mainwindow.cpp:3833
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> לתצוגה מקדימה של תמונית חיתוך"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3824 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3834 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "סכין"
 
-#: src/mainwindow.cpp:3828
+#: src/mainwindow.cpp:3838
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29887,12 +30015,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> כדי להחיל רק על הרצועה הנוכחית, <shortcut>Shift</"
 "shortcut> כדי להסיר גם קווים מנחים. אפשר גם לשלב בין שני מקשי ההחלפה."
 
-#: src/mainwindow.cpp:3829
+#: src/mainwindow.cpp:3839
 #, kde-format
 msgid "Spacer"
 msgstr "מרווח"
 
-#: src/mainwindow.cpp:3831
+#: src/mainwindow.cpp:3841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29902,13 +30030,13 @@ msgstr ""
 "<shortcut>לחיצה</shortcut> על פריט להחלקה, <shortcut>Shift ולחיצה</shortcut> "
 "לבחירה במרוכז"
 
-#: src/mainwindow.cpp:3832
+#: src/mainwindow.cpp:3842
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "הזחה"
 
-#: src/mainwindow.cpp:3837
+#: src/mainwindow.cpp:3847
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29920,13 +30048,13 @@ msgstr ""
 "shortcut> כדי לבחור במרוכז, <shortcut>Alt לחיצה</shortcut> כדי לבחור פריט "
 "בקבוצה, <shortcut>Ctrl גרירה</shortcut> כדי להסיט את התצוגה"
 
-#: src/mainwindow.cpp:3839
+#: src/mainwindow.cpp:3849
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "אדווה"
 
-#: src/mainwindow.cpp:3845
+#: src/mainwindow.cpp:3855
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29936,104 +30064,104 @@ msgstr ""
 "<shortcut>לחיצה</shortcut> על תצוגת רצועה בצג המיזם תגביה את כל הרצועות למעט "
 "אחת"
 
-#: src/mainwindow.cpp:3861
+#: src/mainwindow.cpp:3871
 #, kde-format
 msgid "Insert"
 msgstr "הוספה"
 
-#: src/mainwindow.cpp:4138 src/mainwindow.cpp:4140
+#: src/mainwindow.cpp:4148 src/mainwindow.cpp:4150
 #, kde-format
 msgid "Scopes"
 msgstr "טווחים"
 
-#: src/mainwindow.cpp:4145
+#: src/mainwindow.cpp:4155
 #, kde-format
 msgid "Project Bins"
 msgstr "סלי מיזמים"
 
-#: src/mainwindow.cpp:4222
+#: src/mainwindow.cpp:4232
 #, kde-format
 msgid "Clip Jobs"
 msgstr "משימות סרטונים"
 
-#: src/mainwindow.cpp:4241
+#: src/mainwindow.cpp:4251
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "הגדרת משימות סרטונים…"
 
-#: src/mainwindow.cpp:4247
+#: src/mainwindow.cpp:4257
 #, kde-format
 msgid "Transcoders"
 msgstr "מתמירים"
 
-#: src/mainwindow.cpp:4314
+#: src/mainwindow.cpp:4324
 #, kde-format
 msgid "-merged"
 msgstr "-ממוזג"
 
-#: src/mainwindow.cpp:4317
+#: src/mainwindow.cpp:4327
 #, kde-format
 msgid "-stream-%1"
 msgstr "-תזרים-%1"
 
-#: src/mainwindow.cpp:4350 src/mainwindow.cpp:4678
+#: src/mainwindow.cpp:4360 src/mainwindow.cpp:4688
 #, kde-format
 msgid "Interface"
 msgstr "ממשק"
 
-#: src/mainwindow.cpp:4421
+#: src/mainwindow.cpp:4431
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "קבצים להתמרה"
 
-#: src/mainwindow.cpp:4585
+#: src/mainwindow.cpp:4595
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "לא ניתן לשמור קובץ מיזם לארכיון."
 
-#: src/mainwindow.cpp:4593
+#: src/mainwindow.cpp:4603
 #, kde-format
 msgid "Archiving project"
 msgstr "המיזם מועבר לארכיון"
 
-#: src/mainwindow.cpp:4692
+#: src/mainwindow.cpp:4702
 #, kde-format
 msgid "Raise %1"
 msgstr "הגבהת %1"
 
-#: src/mainwindow.cpp:4753
+#: src/mainwindow.cpp:4763
 #, kde-format
 msgid "Icon Size"
 msgstr "גודל סמל"
 
-#: src/mainwindow.cpp:4757
+#: src/mainwindow.cpp:4767
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: src/mainwindow.cpp:4778 src/mainwindow.cpp:4806
+#: src/mainwindow.cpp:4788 src/mainwindow.cpp:4816
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "קטן (%1×%2)"
 
-#: src/mainwindow.cpp:4780 src/mainwindow.cpp:4808
+#: src/mainwindow.cpp:4790 src/mainwindow.cpp:4818
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "בינוני (%1×%2)"
 
-#: src/mainwindow.cpp:4782 src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4792 src/mainwindow.cpp:4820
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "גדול (%1×%2)"
 
-#: src/mainwindow.cpp:4784 src/mainwindow.cpp:4812
+#: src/mainwindow.cpp:4794 src/mainwindow.cpp:4822
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ענק (%1×%2)"
 
-#: src/mainwindow.cpp:4868
+#: src/mainwindow.cpp:4878
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -30042,40 +30170,40 @@ msgstr ""
 "הפעולה הזאת תסתיר את סרגל התפריטים לחלוטין. אפשר להציג אותו שוב בלחיצה על "
 "Ctrl+M."
 
-#: src/mainwindow.cpp:4868
+#: src/mainwindow.cpp:4878
 #, kde-format
 msgid "Hide menu bar"
 msgstr "הסתרת סרגל תפריטים"
 
-#: src/mainwindow.cpp:5210 src/timeline2/view/timelinecontroller.cpp:5822
+#: src/mainwindow.cpp:5220 src/timeline2/view/timelinecontroller.cpp:5847
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "אין כתוביות במיזם הנוכחי"
 
-#: src/mainwindow.cpp:5533
+#: src/mainwindow.cpp:5543
 #, kde-format
 msgid "Go to download page"
 msgstr "מעבר לעמוד ההורדה"
 
-#: src/mainwindow.cpp:5539
+#: src/mainwindow.cpp:5549
 #, kde-format
 msgid "Never check again"
 msgstr "לא לבדוק שוב"
 
-#: src/mainwindow.cpp:5542
+#: src/mainwindow.cpp:5552
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר משנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:5546
+#: src/mainwindow.cpp:5556
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:5588
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid "Checking cached data size"
 msgstr "גודל הנתונים ששמורים במטמון נבדקים"
@@ -30727,7 +30855,7 @@ msgid "Cannot change zone when creating a mask"
 msgstr "לא ניתן לשנות את אזור בעת יצירת מסכה"
 
 #: src/monitor/monitor.cpp:969 src/monitor/monitor.cpp:1005
-#: src/timeline2/view/timelinecontroller.cpp:2118
+#: src/timeline2/view/timelinecontroller.cpp:2143
 #, kde-format
 msgid "Set Zone"
 msgstr "הגדרת קטע"
@@ -30811,7 +30939,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "לא ניתן לקבל את המפיק לצד הסרטונים"
 
 #: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3504
-#: src/timeline2/view/timelinecontroller.cpp:6388
+#: src/timeline2/view/timelinecontroller.cpp:6413
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "לא הוגדר אזור תקף. נא להגדיר נקודות כניסה/יציאה קודם."
@@ -30822,13 +30950,13 @@ msgid "Create Range Marker from Zone"
 msgstr "יצירת סמן טווח מאזור"
 
 #: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
-#: src/timeline2/view/timelinecontroller.cpp:6403
+#: src/timeline2/view/timelinecontroller.cpp:6428
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "נוצר סמן טווח מאזור"
 
 #: src/monitor/monitor.cpp:3491 src/monitor/monitor.cpp:3512
-#: src/timeline2/view/timelinecontroller.cpp:6406
+#: src/timeline2/view/timelinecontroller.cpp:6431
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "יצירת סמן טווח מאזור נכשלה"
@@ -30970,7 +31098,7 @@ msgid "Go to Zone End"
 msgstr "מעבר לסוף הקטע"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6395
+#: src/timeline2/view/timelinecontroller.cpp:6420
 #, kde-format
 msgid "Zone marker"
 msgstr "סמן אזור"
@@ -32267,7 +32395,7 @@ msgid "Select some timecodes to reassign"
 msgstr "נא לבחור קודים של זמן כדי להקצות מחדש"
 
 #: src/project/dialogs/noteswidget.cpp:259
-#: src/timeline2/view/timelinecontroller.cpp:4582
+#: src/timeline2/view/timelinecontroller.cpp:4607
 #, kde-format
 msgid "No clip selected in timeline"
 msgstr "לא נבחר סרטון בציר הזמן"
@@ -34326,27 +34454,27 @@ msgid "Cut all clips"
 msgstr "גזירת כל הסרטונים"
 
 #: src/timeline2/model/timelinefunctions.cpp:712
-#: src/timeline2/view/timelinecontroller.cpp:1763
+#: src/timeline2/view/timelinecontroller.cpp:1788
 #, kde-format
 msgid "Insert space"
 msgstr "הוספת רווח"
 
 #: src/timeline2/model/timelinefunctions.cpp:714
-#: src/timeline2/view/timelinecontroller.cpp:1765
+#: src/timeline2/view/timelinecontroller.cpp:1790
 #, kde-format
 msgid "Remove space"
 msgstr "הסרת רווח"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3426
+#: src/timeline2/view/timelinecontroller.cpp:3451
 #, kde-format
 msgid "Lift zone"
 msgstr "הגבהת קטע"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
 #: src/timeline2/view/timelinecontroller.cpp:796
-#: src/timeline2/view/timelinecontroller.cpp:3426
-#: src/timeline2/view/timelinecontroller.cpp:3499
+#: src/timeline2/view/timelinecontroller.cpp:3451
+#: src/timeline2/view/timelinecontroller.cpp:3524
 #, kde-format
 msgid "Extract zone"
 msgstr "חילוץ קטע"
@@ -34357,31 +34485,32 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr "נא להפעיל רצועה לחיצה על תווית הרצועה"
 
 #: src/timeline2/model/timelinefunctions.cpp:997
-#: src/timeline2/view/timelinecontroller.cpp:1310
-#: src/timeline2/view/timelinecontroller.cpp:1390
-#: src/timeline2/view/timelinecontroller.cpp:1400
-#: src/timeline2/view/timelinecontroller.cpp:1429
-#: src/timeline2/view/timelinecontroller.cpp:1469
-#: src/timeline2/view/timelinecontroller.cpp:1504
+#: src/timeline2/view/timelinecontroller.cpp:924
+#: src/timeline2/view/timelinecontroller.cpp:1335
+#: src/timeline2/view/timelinecontroller.cpp:1415
+#: src/timeline2/view/timelinecontroller.cpp:1425
+#: src/timeline2/view/timelinecontroller.cpp:1454
+#: src/timeline2/view/timelinecontroller.cpp:1494
 #: src/timeline2/view/timelinecontroller.cpp:1529
-#: src/timeline2/view/timelinecontroller.cpp:1585
-#: src/timeline2/view/timelinecontroller.cpp:2662
-#: src/timeline2/view/timelinecontroller.cpp:3444
-#: src/timeline2/view/timelinecontroller.cpp:3508
-#: src/timeline2/view/timelinecontroller.cpp:3753
-#: src/timeline2/view/timelinecontroller.cpp:3799
-#: src/timeline2/view/timelinecontroller.cpp:3840
-#: src/timeline2/view/timelinecontroller.cpp:3847
-#: src/timeline2/view/timelinecontroller.cpp:3875
-#: src/timeline2/view/timelinecontroller.cpp:3949
-#: src/timeline2/view/timelinecontroller.cpp:3966
-#: src/timeline2/view/timelinecontroller.cpp:4228
-#: src/timeline2/view/timelinecontroller.cpp:4243
+#: src/timeline2/view/timelinecontroller.cpp:1554
+#: src/timeline2/view/timelinecontroller.cpp:1610
+#: src/timeline2/view/timelinecontroller.cpp:2687
+#: src/timeline2/view/timelinecontroller.cpp:3469
+#: src/timeline2/view/timelinecontroller.cpp:3533
+#: src/timeline2/view/timelinecontroller.cpp:3778
+#: src/timeline2/view/timelinecontroller.cpp:3824
+#: src/timeline2/view/timelinecontroller.cpp:3865
+#: src/timeline2/view/timelinecontroller.cpp:3872
+#: src/timeline2/view/timelinecontroller.cpp:3900
+#: src/timeline2/view/timelinecontroller.cpp:3974
+#: src/timeline2/view/timelinecontroller.cpp:3991
+#: src/timeline2/view/timelinecontroller.cpp:4253
 #: src/timeline2/view/timelinecontroller.cpp:4268
-#: src/timeline2/view/timelinecontroller.cpp:4283
-#: src/timeline2/view/timelinecontroller.cpp:4337
-#: src/timeline2/view/timelinecontroller.cpp:4390
-#: src/timeline2/view/timelinecontroller.cpp:4413
+#: src/timeline2/view/timelinecontroller.cpp:4293
+#: src/timeline2/view/timelinecontroller.cpp:4308
+#: src/timeline2/view/timelinecontroller.cpp:4362
+#: src/timeline2/view/timelinecontroller.cpp:4415
+#: src/timeline2/view/timelinecontroller.cpp:4438
 #, kde-format
 msgid "No clip selected"
 msgstr "לא נבחרו סרטונים"
@@ -34394,7 +34523,7 @@ msgstr "לא ניתן להעביר את הקבוצה הנבחרת"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4554
+#: src/timeline2/view/timelinecontroller.cpp:4579
 #, kde-format
 msgid "Enable clip"
 msgstr "הפעלת סרטון"
@@ -34402,7 +34531,7 @@ msgstr "הפעלת סרטון"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4554
+#: src/timeline2/view/timelinecontroller.cpp:4579
 #, kde-format
 msgid "Disable clip"
 msgstr "השבתת סרטון"
@@ -34652,7 +34781,7 @@ msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "אין מספיק תמוניות בסרטון %1 כדי להחיל את התערובת"
 
 #: src/timeline2/model/timelinemodel.cpp:1327
-#: src/timeline2/view/timelinecontroller.cpp:1995
+#: src/timeline2/view/timelinecontroller.cpp:2020
 #, kde-format
 msgid "No active track"
 msgstr "אין רצועה פעילה"
@@ -34679,7 +34808,7 @@ msgstr "העברת סרטון"
 #: src/timeline2/model/timelinemodel.cpp:2256
 #: src/timeline2/model/timelinemodel.cpp:2269
 #: src/timeline2/model/timelinemodel.cpp:2277
-#: src/timeline2/view/timelinecontroller.cpp:3825
+#: src/timeline2/view/timelinecontroller.cpp:3850
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "אין רצועה זמינה לפעולת ההוספה"
@@ -34731,7 +34860,7 @@ msgstr "מחיקת תרכובת"
 
 #: src/timeline2/model/timelinemodel.cpp:2863
 #: src/timeline2/model/timelinemodel.cpp:3164
-#: src/timeline2/view/timelinecontroller.cpp:4898
+#: src/timeline2/view/timelinecontroller.cpp:4923
 #, kde-format
 msgid "Move group"
 msgstr "העברת קבוצה"
@@ -34823,7 +34952,7 @@ msgid "Ungroup clips"
 msgstr "פירוק קיבוץ סרטונים"
 
 #: src/timeline2/model/timelinemodel.cpp:5316
-#: src/timeline2/view/timelinecontroller.cpp:997
+#: src/timeline2/view/timelinecontroller.cpp:1022
 #, kde-format
 msgid "Delete Track"
 msgstr "מחיקת רצועה"
@@ -34889,7 +35018,7 @@ msgid "Change speed failed"
 msgstr "שינוי המהירות נכשלה"
 
 #: src/timeline2/model/timelinemodel.cpp:7310
-#: src/timeline2/view/timelinecontroller.cpp:3344
+#: src/timeline2/view/timelinecontroller.cpp:3369
 #, kde-format
 msgid "Change clip speed"
 msgstr "שינוי מהירות הסרטון"
@@ -35389,246 +35518,252 @@ msgid "Could not add composition at selected position"
 msgstr "לא ניתן להוסיף התרכובת במקום הנוכחי"
 
 #: src/timeline2/view/timelinecontroller.cpp:742
-#: src/timeline2/view/timelinecontroller.cpp:1194
-#: src/timeline2/view/timelinecontroller.cpp:1211
-#: src/timeline2/view/timelinecontroller.cpp:1235
-#: src/timeline2/view/timelinecontroller.cpp:1319
+#: src/timeline2/view/timelinecontroller.cpp:1219
+#: src/timeline2/view/timelinecontroller.cpp:1236
+#: src/timeline2/view/timelinecontroller.cpp:1260
+#: src/timeline2/view/timelinecontroller.cpp:1344
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "לא ניתן לבצע פעולה תוך גרירה בציר הזמן"
 
-#: src/timeline2/view/timelinecontroller.cpp:974
-#: src/timeline2/view/timelinecontroller.cpp:5752
+#: src/timeline2/view/timelinecontroller.cpp:941
+#, fuzzy, kde-format
+#| msgid "Could not find master clip"
+msgid "Could not duplicate clip"
+msgstr "לא ניתן למצוא את סרטון ההורה"
+
+#: src/timeline2/view/timelinecontroller.cpp:999
+#: src/timeline2/view/timelinecontroller.cpp:5777
 #, kde-format
 msgid "Could not insert track"
 msgstr "לא ניתן להוסיף רצועה"
 
-#: src/timeline2/view/timelinecontroller.cpp:997
+#: src/timeline2/view/timelinecontroller.cpp:1022
 #, kde-format
 msgid "Delete Tracks"
 msgstr "מחיקת רצועות"
 
-#: src/timeline2/view/timelinecontroller.cpp:1062
+#: src/timeline2/view/timelinecontroller.cpp:1087
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "נא לבחור רצועת שמע להצגת פקדי הקלטה"
 
-#: src/timeline2/view/timelinecontroller.cpp:1199
+#: src/timeline2/view/timelinecontroller.cpp:1224
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "נא לבחור לפחות 2 פריטים לקיבוץ"
 
-#: src/timeline2/view/timelinecontroller.cpp:1546
+#: src/timeline2/view/timelinecontroller.cpp:1571
 #, kde-format
 msgid "No range marker found at position"
 msgstr "לא נמצא סמן טווח במקום הזה"
 
-#: src/timeline2/view/timelinecontroller.cpp:1718
+#: src/timeline2/view/timelinecontroller.cpp:1743
 #, kde-format
 msgid "No marker at frame %1"
 msgstr "אין סמן בתמונית %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:2079
+#: src/timeline2/view/timelinecontroller.cpp:2104
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "לא נבחר אף פריט בציר הזמן"
 
-#: src/timeline2/view/timelinecontroller.cpp:2217
+#: src/timeline2/view/timelinecontroller.cpp:2242
 #, kde-format
 msgid "No clip to cut"
 msgstr "אין סרטון לגזירה"
 
-#: src/timeline2/view/timelinecontroller.cpp:2581
+#: src/timeline2/view/timelinecontroller.cpp:2606
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "פנימה:%1, החוצה:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2669
+#: src/timeline2/view/timelinecontroller.cpp:2694
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr "אפשר לבצע החלקה רק על סרטוני וידאו, שמע או הנפשה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3065
+#: src/timeline2/view/timelinecontroller.cpp:3090
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "לא נמצאו סרטונים למרווח להוספה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3083
+#: src/timeline2/view/timelinecontroller.cpp:3108
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "לא ניתן להסיר רווח במקום הנתון"
 
-#: src/timeline2/view/timelinecontroller.cpp:3097
+#: src/timeline2/view/timelinecontroller.cpp:3122
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "לא ניתן להסיר את כל הרווחים"
 
-#: src/timeline2/view/timelinecontroller.cpp:3111
+#: src/timeline2/view/timelinecontroller.cpp:3136
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "לא ניתן להסיר את כל הסרטונים"
 
-#: src/timeline2/view/timelinecontroller.cpp:3161
-#: src/timeline2/view/timelinecontroller.cpp:3166
-#: src/timeline2/view/timelinecontroller.cpp:3192
-#: src/timeline2/view/timelinecontroller.cpp:3197
+#: src/timeline2/view/timelinecontroller.cpp:3186
+#: src/timeline2/view/timelinecontroller.cpp:3191
+#: src/timeline2/view/timelinecontroller.cpp:3217
+#: src/timeline2/view/timelinecontroller.cpp:3222
 #, kde-format
 msgid "No item to edit"
 msgstr "אין פריט לעריכה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3203
-#: src/timeline2/view/timelinecontroller.cpp:3340
+#: src/timeline2/view/timelinecontroller.cpp:3228
+#: src/timeline2/view/timelinecontroller.cpp:3365
 #, kde-format
 msgid "Cannot change speed of item(s)"
 msgstr "לא ניתן לשנות את מהירות הפריטים"
 
-#: src/timeline2/view/timelinecontroller.cpp:3400
-#: src/timeline2/view/timelinecontroller.cpp:6017
+#: src/timeline2/view/timelinecontroller.cpp:3425
+#: src/timeline2/view/timelinecontroller.cpp:6042
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "נא להפעיל את הרצועה לפעולה הזאת על ידי לחיצה על התווית שלה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3666
+#: src/timeline2/view/timelinecontroller.cpp:3691
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "נא לבחור רצועת יעד בלחיצה על קטע היעד של הרצועה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3693
+#: src/timeline2/view/timelinecontroller.cpp:3718
 #, fuzzy, kde-format
 #| msgid "Clip in Project Bin"
 msgid "Clip not found in project bin"
 msgstr "סרטון בסל מיזם"
 
-#: src/timeline2/view/timelinecontroller.cpp:3701
+#: src/timeline2/view/timelinecontroller.cpp:3726
 #, fuzzy, kde-format
 #| msgid "No timecode for clip"
 msgid "No timecode metadata found in clip"
 msgstr "אין קוד זמן לסרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:3707
+#: src/timeline2/view/timelinecontroller.cpp:3732
 #, fuzzy, kde-format
 #| msgid "Please select a video profile"
 msgid "Please select a target track"
 msgstr "נא לבחור פרופיל וידאו"
 
-#: src/timeline2/view/timelinecontroller.cpp:3713
+#: src/timeline2/view/timelinecontroller.cpp:3738
 #, fuzzy, kde-format
 #| msgid "Error removing clip at %1 on track %2"
 msgid "Failed to insert clip at %1 on track %2"
 msgstr "שגיאה בהסרת הסרטון בנקודה: %1 ברצועה %2"
 
-#: src/timeline2/view/timelinecontroller.cpp:3765
+#: src/timeline2/view/timelinecontroller.cpp:3790
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "נא לבחור תרכובת מועדפת"
 
-#: src/timeline2/view/timelinecontroller.cpp:3831
+#: src/timeline2/view/timelinecontroller.cpp:3856
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "לא נמצאו סרטונים לביצוע פעולות חיתוך שמע/וידאו"
 
-#: src/timeline2/view/timelinecontroller.cpp:3859
-#: src/timeline2/view/timelinecontroller.cpp:3927
-#: src/timeline2/view/timelinecontroller.cpp:3983
+#: src/timeline2/view/timelinecontroller.cpp:3884
+#: src/timeline2/view/timelinecontroller.cpp:3952
+#: src/timeline2/view/timelinecontroller.cpp:4008
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "לא ניתן להעביר סרטון לתמונית %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3880
+#: src/timeline2/view/timelinecontroller.cpp:3905
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "הגדרת סימוכין לשמע לפני ניסיון היישור"
 
-#: src/timeline2/view/timelinecontroller.cpp:3954
-#: src/timeline2/view/timelinecontroller.cpp:3976
+#: src/timeline2/view/timelinecontroller.cpp:3979
+#: src/timeline2/view/timelinecontroller.cpp:4001
 #, kde-format
 msgid "No timecode for clip"
 msgstr "אין קוד זמן לסרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:3971
+#: src/timeline2/view/timelinecontroller.cpp:3996
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr "הגדרת סימוכין לקוד זמן לפני ניסיון היישור"
 
-#: src/timeline2/view/timelinecontroller.cpp:4092
+#: src/timeline2/view/timelinecontroller.cpp:4117
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr "כל התזרימים כבר מוקצים, יש לבטל בחירה של יעד שמע אחר קודם"
 
-#: src/timeline2/view/timelinecontroller.cpp:4251
+#: src/timeline2/view/timelinecontroller.cpp:4276
 #, kde-format
 msgid "Delete effects"
 msgstr "מחיקת אפקטים"
 
-#: src/timeline2/view/timelinecontroller.cpp:4289
-#: src/timeline2/view/timelinecontroller.cpp:4295
-#: src/timeline2/view/timelinecontroller.cpp:4301
+#: src/timeline2/view/timelinecontroller.cpp:4314
+#: src/timeline2/view/timelinecontroller.cpp:4320
+#: src/timeline2/view/timelinecontroller.cpp:4326
 #, kde-format
 msgid "No information in clipboard"
 msgstr "אין מידע בלוח הגזירים"
 
-#: src/timeline2/view/timelinecontroller.cpp:4326
+#: src/timeline2/view/timelinecontroller.cpp:4351
 #, kde-format
 msgid "Paste effects"
 msgstr "הדבקת אפקטים"
 
-#: src/timeline2/view/timelinecontroller.cpp:4328
+#: src/timeline2/view/timelinecontroller.cpp:4353
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "לא ניתן להדביק את האפקט בסרטון הנבחר"
 
-#: src/timeline2/view/timelinecontroller.cpp:4375
+#: src/timeline2/view/timelinecontroller.cpp:4400
 #, kde-format
 msgid "Open sequence"
 msgstr "פתיחת רצף"
 
-#: src/timeline2/view/timelinecontroller.cpp:4397
+#: src/timeline2/view/timelinecontroller.cpp:4422
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "הפריט אינו סרטון כותר"
 
-#: src/timeline2/view/timelinecontroller.cpp:4495
+#: src/timeline2/view/timelinecontroller.cpp:4520
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 פריטים נבחרו (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4549
+#: src/timeline2/view/timelinecontroller.cpp:4574
 #, kde-format
 msgid "Restore video"
 msgstr "שחזור וידאו"
 
-#: src/timeline2/view/timelinecontroller.cpp:4549
+#: src/timeline2/view/timelinecontroller.cpp:4574
 #, kde-format
 msgid "Restore audio"
 msgstr "שחזור שמע"
 
-#: src/timeline2/view/timelinecontroller.cpp:4596
+#: src/timeline2/view/timelinecontroller.cpp:4621
 #, kde-format
 msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4597
-#: src/timeline2/view/timelinecontroller.cpp:4653
+#: src/timeline2/view/timelinecontroller.cpp:4622
+#: src/timeline2/view/timelinecontroller.cpp:4678
 #, fuzzy, kde-format
 #| msgid "Replace clip"
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "החלפת סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:4597
+#: src/timeline2/view/timelinecontroller.cpp:4622
 #, fuzzy, kde-format
 #| msgid "Import selected clips"
 msgid "Import New Clip"
 msgstr "ייבוא הסרטונים הנבחרים"
 
-#: src/timeline2/view/timelinecontroller.cpp:4640
+#: src/timeline2/view/timelinecontroller.cpp:4665
 #, kde-format
 msgid "Incompatible clip types for replacement"
 msgstr "סוגי סרטונים לא תואמים להחלפה"
 
-#: src/timeline2/view/timelinecontroller.cpp:4647
+#: src/timeline2/view/timelinecontroller.cpp:4672
 #, fuzzy, kde-format
 #| msgid ""
 #| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -35638,7 +35773,7 @@ msgstr ""
 "המופעים של הסרטון <b>%1</b><br/> בציר הזמן הפעיל מוחלפים\n"
 "בסרטון <b>%2</b>"
 
-#: src/timeline2/view/timelinecontroller.cpp:4650
+#: src/timeline2/view/timelinecontroller.cpp:4675
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
@@ -35647,23 +35782,23 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4653
+#: src/timeline2/view/timelinecontroller.cpp:4678
 #, fuzzy, kde-format
 #| msgid "Replace clip"
 msgid "Replace Clip"
 msgstr "החלפת סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:4877
+#: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
 msgid "Move item"
 msgstr "העברת פריט"
 
-#: src/timeline2/view/timelinecontroller.cpp:5443
+#: src/timeline2/view/timelinecontroller.cpp:5468
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "בלתי אפשרי ללכוד ברצועה נעולה"
 
-#: src/timeline2/view/timelinecontroller.cpp:5454
+#: src/timeline2/view/timelinecontroller.cpp:5479
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -35672,22 +35807,22 @@ msgstr ""
 "אי אפשר לצלם לכאן: הצילום עלול לדרוס סרטונים. נא להסיר את הסרטונים אחרי "
 "הנקודה הנוכחית או לבחור ברצועה אחרת"
 
-#: src/timeline2/view/timelinecontroller.cpp:5545
+#: src/timeline2/view/timelinecontroller.cpp:5570
 #, kde-format
 msgid "Record audio"
 msgstr "הקלטת שמע"
 
-#: src/timeline2/view/timelinecontroller.cpp:5692
+#: src/timeline2/view/timelinecontroller.cpp:5717
 #, kde-format
 msgid "Expand clip"
 msgstr "הרחבת סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:5695
+#: src/timeline2/view/timelinecontroller.cpp:5720
 #, kde-format
 msgid "Could not expand clip"
 msgstr "לא ניתן להרחיב סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:5750
+#: src/timeline2/view/timelinecontroller.cpp:5775
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -35696,17 +35831,17 @@ msgstr[1] "הוספת רצועות"
 msgstr[2] "הוספת רצועות"
 msgstr[3] "הוספת רצועות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5829
+#: src/timeline2/view/timelinecontroller.cpp:5854
 #, kde-format
 msgid "Export subtitle file"
 msgstr "ייצוא קובץ כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5830
+#: src/timeline2/view/timelinecontroller.cpp:5855
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "קובץ Sub Station Alpha v4.00+‎‏ (‎*.ass);;קובץ כתוביות SubRip‏ (‎*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5844
+#: src/timeline2/view/timelinecontroller.cpp:5869
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -35718,12 +35853,12 @@ msgstr ""
 "את אותו מקום ההתחלה, רק הכתובית מהשכבה הנמוכה יותר תישמר. עלול לגרום לאובדן "
 "של חלק מהכתוביות בקובץ מיוצא. להמשיך?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5849
+#: src/timeline2/view/timelinecontroller.cpp:5874
 #, kde-format
 msgid "Warning"
 msgstr "אזהרה"
 
-#: src/timeline2/view/timelinecontroller.cpp:5887
+#: src/timeline2/view/timelinecontroller.cpp:5912
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -35731,40 +35866,40 @@ msgid ""
 msgstr ""
 "המסנן avfilter.subtitles נחוץ אך לא נמצא. יכולת הכתוביות לא תעבוד כמצופה."
 
-#: src/timeline2/view/timelinecontroller.cpp:5904
+#: src/timeline2/view/timelinecontroller.cpp:5929
 #, kde-format
 msgid "Show subtitle track"
 msgstr "הצגת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5904
+#: src/timeline2/view/timelinecontroller.cpp:5929
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "הסתרת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5927
+#: src/timeline2/view/timelinecontroller.cpp:5952
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "שחרור רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5927
+#: src/timeline2/view/timelinecontroller.cpp:5952
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "נעילת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:6094
-#: src/timeline2/view/timelinecontroller.cpp:6103
+#: src/timeline2/view/timelinecontroller.cpp:6119
+#: src/timeline2/view/timelinecontroller.cpp:6128
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:6105
+#: src/timeline2/view/timelinecontroller.cpp:6130
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "ניהול כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:6336
+#: src/timeline2/view/timelinecontroller.cpp:6361
 #, kde-format
 msgid "No range guide found at position"
 msgstr "לא נמצאה הנחיית טווח במקום הזה"
@@ -35810,12 +35945,12 @@ msgstr "לא לשנות גודל"
 msgid "Close %1"
 msgstr "סגירת %1"
 
-#: src/timeline2/view/timelinetabs.cpp:383
+#: src/timeline2/view/timelinetabs.cpp:384
 #, kde-format
 msgid "Align to Reference"
 msgstr "יישור לסימוכין"
 
-#: src/timeline2/view/timelinetabs.cpp:460
+#: src/timeline2/view/timelinetabs.cpp:461
 #, kde-format
 msgid "Rename Sequence"
 msgstr "שינוי שם רצף"
@@ -36227,11 +36362,6 @@ msgstr "תחילת אשנב"
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "סוף אשנב"
-
-#: src/titler/titlewidget.cpp:3459
-#, kde-format
-msgid "Gradient"
-msgstr "מדרג"
 
 #: src/titler/unicodedialog.cpp:77
 #, kde-format
@@ -41316,6 +41446,9 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
 
+#~ msgid "Slowly update darker pixels."
+#~ msgstr "לעדכן פיקסלים כהים יותר לאט."
+
 #~ msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 #~ msgstr "הסבה של MLT ו־KDE SC 4 / KF5, מפתח ומתחזק ראשי"
 
@@ -42729,10 +42862,6 @@ msgstr "%1 שע׳"
 #, fuzzy
 #~ msgid "Blackmagic card"
 #~ msgstr "צבע שחור"
-
-#, fuzzy
-#~ msgid "Preset"
-#~ msgstr "אפס"
 
 #, fuzzy
 #~ msgid "Interval Capture"
