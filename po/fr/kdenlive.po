@@ -5798,7 +5798,8 @@ msgid "Red,Green,Blue,Alpha"
 msgstr "Rouge, vert, bleu"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Preset"
 msgid "Preset"
 msgstr "Préréglage"
 

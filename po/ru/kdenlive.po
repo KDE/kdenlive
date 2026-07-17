@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-16 02:39+0000\n"
-"PO-Revision-Date: 2026-06-29 17:02+0300\n"
+"PO-Revision-Date: 2026-07-16 17:12+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -5735,7 +5735,7 @@ msgstr "Применение оператора Прюитт к входному
 #: data/effects/avfilter/avfilter_pseudocolor.xml:4
 #, kde-format
 msgid "Pseudocolor"
-msgstr ""
+msgstr "Псевдоцвет"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:5
 #, kde-format
@@ -5743,16 +5743,14 @@ msgid "Alter frame colors in video with pseudocolors."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "Компоненты"
+msgstr "Основной компонент"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "Красный,Зелёный,Синий"
+msgstr "Красный,Зелёный,Синий,Альфа"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
 #, kde-format
@@ -7989,20 +7987,20 @@ msgstr "Стиль"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Normal,Italic"
-msgstr "Обычный масштаб"
+msgstr "Обычный,Курсив"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "Weight"
-msgstr "Высота:"
+msgstr "Вес"
 
 #: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "Цвет текста"
+msgstr "Цвет <u>текста</u>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -8662,6 +8660,10 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Отсроченный временной блиттинг с альфа-сглаживанием.<br>\n"
+"        <b><i>Примечание</i></b>: этот эффект не сбрасывается во время "
+"воспроизведения из-за проблем с буфером кадров, но обработка выполняется "
+"корректно."
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -14239,24 +14241,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "The typeface of the font."
-msgstr "Цвет звукового спектра."
+msgstr "Гарнитура шрифта."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "Пространство в пикселах между сегментами."
+msgstr "Размер шрифта в пикселах."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
+#, kde-format
 msgid "The weight of the font."
-msgstr "Ширина диапазона оттенков"
+msgstr "Степень жирности шрифта."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "The style of the font."
-msgstr "Цвет звукового спектра."
+msgstr "Стиль шрифта."
 
 #: data/effects/gpstext.xml:84
 #, kde-format
@@ -14269,7 +14271,7 @@ msgid "Outline Color"
 msgstr "Цвет контура"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
+#, kde-format
 msgid "Outline color"
 msgstr "Цвет контура"
 
@@ -14651,6 +14653,9 @@ msgid ""
 "      delay that will be applied to the delayed signal, relative to the dry "
 "signal."
 msgstr ""
+"Это максимальная<br>\n"
+"      задержка, которая будет применяться к задержанному сигналу, "
+"относительно «сухого» сигнала."
 
 #: data/effects/ladspa/ladspa_1191.xml:19
 #, fuzzy, kde-format
@@ -14749,9 +14754,9 @@ msgid "The bit depth that the signal will be reduced to"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sample Rate"
-msgstr "Частота дискретизации:"
+msgstr "Частота дискретизации"
 
 #: data/effects/ladspa/ladspa_1202.xml:14
 #, fuzzy, kde-format
@@ -14771,9 +14776,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gain (dB)"
-msgstr "Усиление на входе (дБ)"
+msgstr "Усиление (дБ)"
 
 #: data/effects/ladspa/ladspa_1203.xml:10
 #, kde-format
@@ -14781,7 +14786,7 @@ msgid "The attenuation/gain of the eq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frequency (Hz)"
 msgstr "Частота (Гц)"
 
@@ -14797,7 +14802,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1203.xml:18
 #, kde-format
 msgid "Bandwidth (octaves)"
-msgstr ""
+msgstr "Полоса пропускания (октавы)"
 
 #: data/effects/ladspa/ladspa_1203.xml:20
 #, kde-format
@@ -15372,9 +15377,9 @@ msgid "Sets the sensitivity of the input"
 msgstr "Установить непрозрачность сетки"
 
 #: data/effects/ladspa/ladspa_1431.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bode Frequency Shifter"
-msgstr "Низкие частоты"
+msgstr "Смещение частоты Бода"
 
 #: data/effects/ladspa/ladspa_1431.xml:6
 #, kde-format
@@ -15390,9 +15395,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frequency Shift"
-msgstr "Частота"
+msgstr "Смещение частоты"
 
 #: data/effects/ladspa/ladspa_1431.xml:10
 #: data/effects/ladspa/ladspa_1432.xml:20
@@ -15403,7 +15408,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1432.xml:4
 #, kde-format
 msgid "Bode Frequency Shifter (CV)"
-msgstr ""
+msgstr "Смещение частоты Бода (CV)"
 
 #: data/effects/ladspa/ladspa_1432.xml:6
 #, kde-format
@@ -15419,14 +15424,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Base Shift"
-msgstr "Смещение частоты"
+msgstr "Базовое смещение"
 
 #: data/effects/ladspa/ladspa_1432.xml:13
 #, kde-format
 msgid "Down,Both,Up"
-msgstr ""
+msgstr "Вниз,Оба,Вверх"
 
 #: data/effects/ladspa/ladspa_1432.xml:16
 #, fuzzy, kde-format
@@ -15680,9 +15685,9 @@ msgstr "Центральная частота"
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bandwidth"
-msgstr "Ширина полосы"
+msgstr "Полоса пропускания"
 
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
@@ -23566,7 +23571,7 @@ msgstr ""
 #: src/dialogs/customcamcorderdialog.cpp:27
 #, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Редактирование пользовательских профилей прокси видеокамеры"
+msgstr "Редактирование пользовательских профилей прокси-клипов видеокамеры"
 
 #: src/dialogs/customcamcorderdialog.cpp:34
 #: src/dialogs/customcamcorderdialog.cpp:196
@@ -23663,6 +23668,8 @@ msgid ""
 "Your proxy parameters contains forbidden keywords, please remove them: <b>"
 "%1</b>."
 msgstr ""
+"Параметры прокси-клипов содержат недопустимые ключевые слова, которые "
+"следует удалить: <b>%1</b>."
 
 #: src/dialogs/encodingprofilesdialog.cpp:164
 #: src/dialogs/encodingprofilesdialog.cpp:233
@@ -23671,12 +23678,14 @@ msgid ""
 "Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you "
 "want to always allow them ?"
 msgstr ""
+"Параметры прокси-клипов содержат неизвестные параметры: <br><b>%1</"
+"b><br>Всегда разрешать их?"
 
 #: src/dialogs/encodingprofilesdialog.cpp:166
 #: src/dialogs/encodingprofilesdialog.cpp:235
-#, fuzzy, kde-format
+#, kde-format
 msgid "Always Allow Parameters"
-msgstr "Дополнительные параметры:"
+msgstr "Всегда разрешать параметры"
 
 #: src/dialogs/encodingprofilesdialog.cpp:280
 #, kde-format
@@ -24126,12 +24135,12 @@ msgstr "Профиль текущего проекта нельзя измени
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
-msgstr "Сравнение профилей прокси"
+msgstr "Сравнение профилей прокси-клипов"
 
 #: src/dialogs/proxytest.cpp:32
 #, kde-format
 msgid "Test Proxy Profiles"
-msgstr "Проверить профили прокси"
+msgstr "Проверить профили прокси-клипов"
 
 #: src/dialogs/proxytest.cpp:35
 #, kde-format
@@ -27010,9 +27019,9 @@ msgstr[2] "%1 отсутствующих прокси"
 msgstr[3] "Один отсутствующий прокси"
 
 #: src/doc/dcresolvedialog.cpp:222
-#, fuzzy, kde-format
+#, kde-format
 msgid "Proxy clips can be recreated."
-msgstr "Можно восстановить %1 прокси"
+msgstr "Прокси-клипы можно восстановить."
 
 #: src/doc/dcresolvedialog.cpp:224
 #, fuzzy, kde-format
@@ -27030,10 +27039,10 @@ msgid "Clips Folder"
 msgstr "Папка с клипами"
 
 #: src/doc/dcresolvedialog.cpp:256
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Proxy Clips Folder"
-msgstr "Папка с клипами"
+msgstr "Папка с прокси-клипами"
 
 #: src/doc/documentchecker.cpp:140
 #, kde-format
@@ -27174,7 +27183,7 @@ msgstr "Файл проекта ссылается на отсутствующи
 #: src/doc/documentchecker.cpp:1981
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
-msgstr "Отсутствующие прокси могут быть восстановлены при открытии."
+msgstr "Отсутствующие прокси-клипы могут быть восстановлены при открытии."
 
 #: src/doc/documentvalidator.cpp:42
 #, kde-format
@@ -27489,6 +27498,10 @@ msgid ""
 "\"><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>These parameters will be "
 "discarded."
 msgstr ""
+"Файл проекта <b>%1</b> содержит подозрительные параметры прокси. Может быть "
+"выполнена эта команда:<br><br><code style=\"background-color:darkred;color:"
+"white\"><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>Эти параметры будут "
+"проигнорированы."
 
 #: src/doc/kdenlivedoc.cpp:1929
 #, fuzzy, kde-format
@@ -27503,6 +27516,10 @@ msgid ""
 "This command might be executed:<br><br><code><b>%2 -i input.mp4 %3 out.%4</"
 "b></code><br><br>These parameters will be discarded unless you allow them."
 msgstr ""
+"Файл проекта <b>%1</b> содержит неожиданные параметры для создания прокси-"
+"клипов. Может быть выполнена эта команда:<br><br><code><b>%2 -i input.mp4 %3 "
+"out.%4</b></code><br><br>Эти параметры будут проигнорированы (за исключением "
+"того случая, когда их использование разрешено пользователем)."
 
 #: src/doc/kdenlivedoc.cpp:1999
 #, kde-format
@@ -30910,8 +30927,8 @@ msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
-"Параметры прокси были изменены. Пересоздать все прокси-клипы для этого "
-"проекта?"
+"Параметры прокси-клипов были изменены. Пересоздать все прокси-клипы для "
+"этого проекта?"
 
 #: src/mainwindow.cpp:2469
 #, kde-format
@@ -33648,17 +33665,17 @@ msgstr "Показать параметры профиля по умолчани
 #: src/project/dialogs/projectsettings.cpp:192
 #, kde-format
 msgid "Manage proxy profiles"
-msgstr "Управление профилями прокси"
+msgstr "Управление профилями прокси-клипов"
 
 #: src/project/dialogs/projectsettings.cpp:194
 #, kde-format
 msgid "Compare proxy profiles efficiency"
-msgstr "Сравнение эффективности профилей прокси"
+msgstr "Сравнение эффективности профилей прокси-клипов"
 
 #: src/project/dialogs/projectsettings.cpp:197
 #, kde-format
 msgid "Select default proxy profile"
-msgstr "Выбрать профиль прокси по умолчанию"
+msgstr "Выбрать профиль прокси-клипов по умолчанию"
 
 #: src/project/dialogs/projectsettings.cpp:204
 #, kde-format
@@ -33934,7 +33951,7 @@ msgstr ""
 #: src/project/dialogs/temporarydata.cpp:452
 #, kde-format
 msgid "No proxies found in the current project."
-msgstr "Не удалось найти прокси в текущем проекте."
+msgstr "Не удалось найти прокси-клипы в текущем проекте."
 
 #: src/project/dialogs/temporarydata.cpp:463
 #, kde-format
@@ -33944,7 +33961,7 @@ msgid ""
 "Proxy folder contains the proxy clips for all your projects. This proxies "
 "can be recreated from the source clips."
 msgstr ""
-"Удалить все данные проекта из папки прокси:\n"
+"Удалить все данные проекта из папки с прокси-клипами:\n"
 "%1\n"
 "Папка содержит прокси-клипы для всех проектов. Эти прокси могут быть "
 "воссозданы из исходных клипов."
@@ -34655,12 +34672,12 @@ msgstr "Распознавание речи"
 #: src/pythoninterfaces/speechtotextvosk.cpp:30
 #, kde-format
 msgid "speech features"
-msgstr "голосовых функций"
+msgstr "голосовые функции"
 
 #: src/pythoninterfaces/speechtotextvosk.cpp:31
 #, kde-format
 msgid "automated subtitling"
-msgstr "автоматического формирования субтитров"
+msgstr "автоматическое формирование субтитров"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:57
 #, kde-format
@@ -38768,7 +38785,7 @@ msgstr "Безопасный участок монитора:"
 #: src/ui/configenv_ui.ui:27
 #, kde-format
 msgid "Proxy and Transcode Jobs"
-msgstr "Задания по созданию прокси и перекодированию:"
+msgstr "Задания по созданию прокси-клипов и перекодированию:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_nice_tasks)
 #: src/ui/configenv_ui.ui:33
@@ -39984,7 +40001,7 @@ msgstr "Суффикс для клипа:"
 #: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:346
 #, kde-format
 msgid "Relative path from proxy to clip:"
-msgstr "Относительный путь от прокси к клипу:"
+msgstr "Относительный путь от прокси-клипа к клипу:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
 #: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:329
@@ -41384,9 +41401,9 @@ msgstr "Выводит параметры выбранного профиля."
 
 #. i18n: ectx: property (text), widget (QCheckBox, allowAlways)
 #: src/ui/proxywarn_ui.ui:88
-#, fuzzy, kde-format
+#, kde-format
 msgid "Always allow these parameters"
-msgstr "Использовать параметры реакции датчика"
+msgstr "Всегда разрешать эти параметры"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, allowWarning)
 #: src/ui/proxywarn_ui.ui:95
@@ -41412,7 +41429,7 @@ msgstr "Шрифт:"
 #: src/ui/qtextclip_ui.ui:74
 #, kde-format
 msgid "Weight:"
-msgstr "Высота:"
+msgstr "Вес:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outline)
 #: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:1027

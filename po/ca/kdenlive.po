@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-16 02:39+0000\n"
-"PO-Revision-Date: 2026-07-08 07:50+0200\n"
+"PO-Revision-Date: 2026-07-16 10:17+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 26.04.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -4975,6 +4975,10 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Actualitza lentament els píxels foscos.<br>\n"
+"        <b><i>Nota</i></b>: Aquest efecte no es reinicia durant la "
+"reproducció a causa de problemes de la memòria intermèdia dels fotogrames, "
+"però es renderitza correctament."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -5743,30 +5747,27 @@ msgstr "Aplica l'operador Prewitt al flux de vídeo d'entrada"
 #: data/effects/avfilter/avfilter_pseudocolor.xml:4
 #, kde-format
 msgid "Pseudocolor"
-msgstr ""
+msgstr "Pseudocolor"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:5
 #, kde-format
 msgid "Alter frame colors in video with pseudocolors."
-msgstr ""
+msgstr "Altera els colors dels fotogrames al vídeo amb pseudocolors."
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "Components"
+msgstr "Component base"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "Vermell,Verd,Blau"
+msgstr "Vermell,Verd,Blau,Alfa"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
-#, fuzzy, kde-format
-#| msgid "Presets"
+#, kde-format
 msgid "Preset"
-msgstr "Valors predefinits"
+msgstr "Predefinit"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:13
 #, kde-format
@@ -5775,6 +5776,9 @@ msgid ""
 "Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
 "Green,Helix"
 msgstr ""
+"Sense,Magma,Inferno,Plasma,Viridis,Turbo,Cividis,Interval 1,Interval 2,"
+"Ombres,Llums intenses,Solar,Nominal,Preferit,Total,Espectral,Fred,Calor,"
+"Fulgurant,Blaus,Verd,Helix"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -6098,16 +6102,14 @@ msgid "Nearest,Bilinear"
 msgstr "Més proper,Bilineal"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:4
-#, fuzzy, kde-format
-#| msgid "Shuffle planes"
+#, kde-format
 msgid "Shuffle Pixels"
-msgstr "Barreja de plans"
+msgstr "Barreja de píxels"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Reorder pixels in video frames."
-msgstr "Exportació de fotogrames de vídeo"
+msgstr "Reordena els píxels en fotogrames de vídeo."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:10
 #, kde-format
@@ -6116,36 +6118,34 @@ msgid ""
 "        A forward shuffle can be reversed by using <b>inverse</b>, setting "
 "the same parameters, and the exact same seed value."
 msgstr ""
+"Estableix la direcció de la barreja.<br>\n"
+"        Es pot revertir una barreja cap endavant utilitzant <b>invers</b>, "
+"establint els mateixos paràmetres i el mateix valor de llavor."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
-#| msgid "Forward"
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "Avança"
+msgstr "Endavant,Invers"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
-#, fuzzy, kde-format
-#| msgid "Set the filter mode"
+#, kde-format
 msgid "Set shuffle mode"
-msgstr "Estableix el mode del filtre"
+msgstr "Estableix el mode de la barreja"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:16
-#, fuzzy, kde-format
-#| msgid "Horizontal multiplicator"
+#, kde-format
 msgid "Horizontal,Vertical,Block"
-msgstr "Multiplicador horitzontal"
+msgstr "Horitzontal,Vertical,Bloc"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:20
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block width size"
-msgstr "Estableix la mida del bloc en píxels"
+msgstr "Estableix la mida de l'amplada del bloc de la barreja"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:24
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block height size"
-msgstr "Estableix la mida del bloc en píxels"
+msgstr "Estableix la mida de l'alçada del bloc de la barreja"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
@@ -6161,6 +6161,11 @@ msgid ""
 "original input. For example, to reverse forward shuffle you need to use the "
 "same parameters and exact same seed and to set direction to inverse."
 msgstr ""
+"Estableix la llavor aleatòria usada amb la barreja de píxels.<br>\n"
+"        Principalment és útil d'establir per a poder invertir el procés de "
+"filtratge per a obtenir l'entrada original. Per exemple, per a revertir la "
+"barreja cap endavant cal utilitzar els mateixos paràmetres i exactament la "
+"mateixa llavor i establir la direcció a la inversa."
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -8665,6 +8670,10 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"«Blit» de temps retardat del suavitzat de l'alfa.<br>\n"
+"        <b><i>Nota</i></b>: Aquest efecte no es reinicia durant la "
+"reproducció a causa de problemes de la memòria intermèdia dels fotogrames, "
+"però es renderitza correctament."
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -25496,14 +25505,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr ""
-"Ha fallat el reconeixement de veu:\n"
-"%1"
+msgstr "Ha fallat el reconeixement de veu"
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -25511,10 +25515,9 @@ msgid "Subtitles imported"
 msgstr "S'han importat els subtítols"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Speech recognition finished."
+#, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "Ha finalitzat el reconeixement de la veu."
+msgstr "Ha finalitzat el reconeixement de la veu, s'han importat els subtítols"
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -29238,6 +29241,8 @@ msgstr "Jean-Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"Membre de l'equip principal, desenvolupador i mantenidor principal, MLT i "
+"adaptació a KDE SC 4 / KF5"
 
 #: src/main.cpp:280
 #, kde-format
@@ -29245,10 +29250,11 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:280
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "Desenvolupament de característiques, empaquetatge, correcció d'errors"
+msgstr ""
+"Membre de l'equip principal, desenvolupament de característiques, "
+"empaquetatge, correcció d'errors"
 
 #: src/main.cpp:281
 #, kde-format
@@ -29278,10 +29284,10 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:285
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "Electroscopis de color, esmena d'errors, etc."
+msgstr ""
+"Electroscopis de color, problema dels separadors decimals, correcció d'errors"
 
 #: src/main.cpp:286
 #, kde-format
@@ -29299,20 +29305,19 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:288
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
 msgstr "Logotip, promoció, proves"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "Monitor, electroscopis i millores de QOL de la línia de temps"
 
 #: src/main.cpp:290
 #, kde-format
@@ -29337,24 +29342,25 @@ msgstr "Mantenidor del MLT, correcció d'errors, etc."
 #: src/main.cpp:292
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "Darby Johnston"
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "Sobreescriu"
+msgstr "Reescriptura OTIO"
 
 #: src/main.cpp:293
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "Bernd Jordan"
 
 #: src/main.cpp:293
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"Membre de l'equip principal, documentació, IU d'efectes i proves, ajuda a la "
+"comunitat"
 
 #: src/main.cpp:294
 #, kde-format
@@ -29365,6 +29371,8 @@ msgstr "Eugen Mohr"
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
+"Membre de l'equip principal, mantenidor de la documentació, triatge "
+"d'errors, proves"
 
 #: src/main.cpp:295
 #, kde-format
@@ -29387,10 +29395,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "Assessorament expert, proves"
+msgstr "Membre de l'equip principal, assessorament expert, proves"
 
 #: src/main.cpp:299
 #, kde-format
@@ -36909,10 +36916,9 @@ msgstr ""
 "No s'ha pogut realitzar l'operació mentre s'arrossegava en la línia de temps"
 
 #: src/timeline2/view/timelinecontroller.cpp:941
-#, fuzzy, kde-format
-#| msgid "Could not find master clip"
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "No s'ha pogut trobar el clip mestre"
+msgstr "No s'ha pogut duplicar el clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:999
 #: src/timeline2/view/timelinecontroller.cpp:5777

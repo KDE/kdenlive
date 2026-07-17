@@ -3,13 +3,13 @@
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026.
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Yuri Chornoivan <yurchor@ukr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-16 02:39+0000\n"
-"PO-Revision-Date: 2026-07-08 08:20+0300\n"
+"PO-Revision-Date: 2026-07-16 19:13+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4935,6 +4935,9 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Повільно оновлювати темніші пікселі.<br>\n"
+"<b><i>Зауваження</i></b>: цей ефект не скидається під час відтворення через "
+"проблеми з буфером кадрів, а показується належним чином."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -5693,24 +5696,22 @@ msgstr "Застосувати оператор Прюїтта до вхідно
 #: data/effects/avfilter/avfilter_pseudocolor.xml:4
 #, kde-format
 msgid "Pseudocolor"
-msgstr ""
+msgstr "Псевдоколір"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:5
 #, kde-format
 msgid "Alter frame colors in video with pseudocolors."
-msgstr ""
+msgstr "Змінити кольори кадру у відео на псевдокольори."
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "Компоненти"
+msgstr "Базовий компонент"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "Червоний,Зелений,Синій"
+msgstr "червоний,зелений,синій,прозорість"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
 #, kde-format
@@ -5724,6 +5725,9 @@ msgid ""
 "Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
 "Green,Helix"
 msgstr ""
+"немає,магма,інферно,плазма,зелень,турбо,сівідіс,діапазон 1,діапазон 2,тіні,"
+"виблиски,сонячний,номінальний,бажаний,загальний,спектральний,холод,спека,"
+"вогонь,блюз,зелений,спіраль"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -6045,16 +6049,14 @@ msgid "Nearest,Bilinear"
 msgstr "Найближчий,Білінійний"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:4
-#, fuzzy, kde-format
-#| msgid "Shuffle planes"
+#, kde-format
 msgid "Shuffle Pixels"
-msgstr "Перемішати площини"
+msgstr "Перемішати пікселі"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Reorder pixels in video frames."
-msgstr "Експортування відеокадрів"
+msgstr "Перевпорядкувати пікселі у кадрах відео."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:10
 #, kde-format
@@ -6063,36 +6065,35 @@ msgid ""
 "        A forward shuffle can be reversed by using <b>inverse</b>, setting "
 "the same parameters, and the exact same seed value."
 msgstr ""
+"Встановити напрям перемішування.<br>\n"
+"        Перемішування вперед можна обернути за допомогою пункту "
+"<b>інвертувати</b>, встановити ті самі параметри і те саме значення основи "
+"випадковості."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
-#| msgid "Forward"
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "Вперед"
+msgstr "вперед,інвертувати"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
-#, fuzzy, kde-format
-#| msgid "Set the filter mode"
+#, kde-format
 msgid "Set shuffle mode"
-msgstr "Встановити режим фільтрування"
+msgstr "Встановити режим перемішування"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:16
-#, fuzzy, kde-format
-#| msgid "Horizontal multiplicator"
+#, kde-format
 msgid "Horizontal,Vertical,Block"
-msgstr "Горизонтальний множник"
+msgstr "горизонтальний,вертикальний,блок"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:20
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block width size"
-msgstr "Встановити розмір блоків у пікселях"
+msgstr "Встановити ширину блоку перемішування"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:24
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block height size"
-msgstr "Встановити розмір блоків у пікселях"
+msgstr "Встановити висоту блоку перемішування"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
@@ -6108,6 +6109,12 @@ msgid ""
 "original input. For example, to reverse forward shuffle you need to use the "
 "same parameters and exact same seed and to set direction to inverse."
 msgstr ""
+"Встановити випадкову основу, яка використовується для перетасовування "
+"пікселів.<br>\n"
+"В основному корисно налаштувати, щоб мати змогу зворотно виконувати процес "
+"фільтрації для отримання початкового вхідного сигналу. Наприклад, щоб "
+"зворотно перетасовувати вперед, слід використовувати ті самі параметри та "
+"точно таку ж основу випадковості, а також поміняти напрямок на інвертований."
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -8607,6 +8614,9 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Затримане копіювання за часом із альфа-згладжуванням.<br>\n"
+"<b><i>Зауваження</i></b>: цей ефект не скидається під час відтворення через "
+"проблеми з буфером кадрів, а показується належним чином."
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -25428,14 +25438,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr ""
-"Не вдалося розпізнати текст:\n"
-"%1"
+msgstr "Не вдалося розпізнати мовлення"
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -25443,10 +25448,9 @@ msgid "Subtitles imported"
 msgstr "Субтитри імпортовано"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Speech recognition finished."
+#, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "Розпізнавання мовлення завершено."
+msgstr "Розпізнавання мовлення завершено, субтитри імпортовано"
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -29181,6 +29185,8 @@ msgstr "Jean-Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"Учасник основної команди, основний розробник і супровідник, MLT і портування "
+"на KDE SC 4 / KF5"
 
 #: src/main.cpp:280
 #, kde-format
@@ -29188,10 +29194,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:280
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "Розробка можливостей, пакування, виправлення вад"
+msgstr ""
+"Учасник основної команди, розробка можливостей, пакування, виправлення вад"
 
 #: src/main.cpp:281
 #, kde-format
@@ -29221,10 +29227,10 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:285
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "Контексти кольорів, виправлення вад тощо."
+msgstr ""
+"Контексти кольорів, проблема з роздільником дробової частини, виправлення вад"
 
 #: src/main.cpp:286
 #, kde-format
@@ -29242,20 +29248,19 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:288
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
 msgstr "Логотип, просування, тестування"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:289
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "Монітор, області і удосконалення QOL монтажного столу"
 
 #: src/main.cpp:290
 #, kde-format
@@ -29280,24 +29285,25 @@ msgstr "Супровідника MLT, виправлення вад тощо."
 #: src/main.cpp:292
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "Darby Johnston"
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "Перезаписати"
+msgstr "Переписування OTIO"
 
 #: src/main.cpp:293
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "Bernd Jordan"
 
 #: src/main.cpp:293
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"Учасник основної команди, документація, інтерфейс ефектів та тестування, "
+"підтримка спільноти"
 
 #: src/main.cpp:294
 #, kde-format
@@ -29308,6 +29314,8 @@ msgstr "Eugen Mohr"
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
+"Учасник основної команди, супровідник документації, пошук причин вад, "
+"тестування"
 
 #: src/main.cpp:295
 #, kde-format
@@ -29330,10 +29338,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "Експертні поради, тестування"
+msgstr "Учасник основної команди, експертні поради, тестування"
 
 #: src/main.cpp:299
 #, kde-format
@@ -36884,10 +36891,9 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Неможливо виконати дію під час перетягування на монтажному столі"
 
 #: src/timeline2/view/timelinecontroller.cpp:941
-#, fuzzy, kde-format
-#| msgid "Could not find master clip"
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "Не вдалося знайти основний кліп"
+msgstr "Не вдалося здублювати кліп"
 
 #: src/timeline2/view/timelinecontroller.cpp:999
 #: src/timeline2/view/timelinecontroller.cpp:5777
