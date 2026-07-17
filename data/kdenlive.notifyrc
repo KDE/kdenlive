@@ -555,6 +555,22 @@ Action=None
 
 [Event/SpeechRecognitionFinished]
 Name=Speech recognition finished
+Name[ca]=Ha finalitzat el reconeixement de la veu
+Name[ca@valencia]=Ha finalitzat el reconeixement de la veu
+Name[es]=Reconocimiento de voz finalizado
+Name[nl]=Spraakherkenning beëindigd
+Name[pt_BR]=Reconhecimento de fala completo
+Name[ru]=Распознавание речи завершено
+Name[sv]=Taligenkänning klar
+Name[uk]=Завершено розпізнавання мовлення
 Comment=A speech recognition job (such as automatic subtitling) has finished
+Comment[ca]=Ha finalitzat un treball de reconeixement de la veu (per exemple, una subtitulació automàtica)
+Comment[ca@valencia]=Ha finalitzat un treball de reconeixement de la veu (per exemple, una subtitulació automàtica)
+Comment[es]=Una tarea de reconocimiento de voz (como las de subtitulado automático) ha finalizado
+Comment[nl]=Een spraakherkenningsjob (zoals automatisch ondertiteling maken) is beëindigd
+Comment[pt_BR]=Uma tarefa de reconhecimento de fala (como legendagem automática) foi concluída
+Comment[ru]=Выполнение задачи по распознаванию речи (например, автоматическое формирование субтитров) завершено
+Comment[sv]=Ett taligenkänningsjobb (såsom automatisk textning) är klart.
+Comment[uk]=Завершено виконання завдання з розпізнавання мовлення (зокрема автоматичного створення субтитрів)
 Sound=dialog-information
 Action=Sound|Popup
