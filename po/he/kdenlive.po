@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-16 00:43+0000\n"
+"POT-Creation-Date: 2026-07-17 00:43+0000\n"
 "PO-Revision-Date: 2026-06-16 09:32+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -3051,7 +3051,7 @@ msgstr "הסרת לוגו"
 msgid "Remove logo from input video"
 msgstr "הסרת לוגו מסרטון קלט"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:295
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:308
 #, kde-format
 msgid "Logo"
 msgstr "לוגו"
@@ -23562,7 +23562,7 @@ msgstr "וידאו ללא רצועת שמע"
 msgid "Audio without video track"
 msgstr "שמע ללא רצועת וידאו"
 
-#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:500
+#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:513
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "התיצוג של %1 התחיל"
@@ -24231,7 +24231,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "נוצר על ידי KDE"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:275
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:288
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -27983,247 +27983,247 @@ msgstr "נתיב הספרייה מוגדר לבחירה אישית: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "לא ניתן לכתוב לנתיב הספרייה: %1, נעשה שימוש בברירת המחדל"
 
-#: src/main.cpp:272
+#: src/main.cpp:285
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "נא לדווח תקלות אל <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:275
+#: src/main.cpp:288
 #, kde-format
 msgid "An open source video editor."
 msgstr "עורך וידאו בקוד פתוח."
 
-#: src/main.cpp:276
+#: src/main.cpp:289
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "כל הזכויות שמורות © 2007–2025 ליוצרי Kdenlive"
 
-#: src/main.cpp:278
+#: src/main.cpp:291
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "ז׳אן־בפטיסט מרדל"
 
-#: src/main.cpp:278
+#: src/main.cpp:291
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
 
-#: src/main.cpp:280
+#: src/main.cpp:293
 #, kde-format
 msgid "Julius Künzel"
 msgstr "יוליוס קונצל"
 
-#: src/main.cpp:280
+#: src/main.cpp:293
 #, fuzzy, kde-format
 #| msgid "Feature development, packaging, bug fixing"
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr "פיתוח יכולות, אריזה, תיקון תקלות"
 
-#: src/main.cpp:281
+#: src/main.cpp:294
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "וינסנט פינון"
 
-#: src/main.cpp:281
+#: src/main.cpp:294
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "הסבה ל־KF5, בנייה צולבת ל־Windows, אריזה, תיקון תקלות"
 
-#: src/main.cpp:283
+#: src/main.cpp:296
 #, kde-format
 msgid "Eric Jiang"
 msgstr "אריק ג׳יאנג"
 
-#: src/main.cpp:283
+#: src/main.cpp:296
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "תיקון תקלות ושיפור הבדיקות"
 
-#: src/main.cpp:285
+#: src/main.cpp:298
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "סיימון א. יוגסטר"
 
-#: src/main.cpp:285
+#: src/main.cpp:298
 #, fuzzy, kde-format
 #| msgid "Color scopes, bug fixing, etc."
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "טווחי צבע, תיקוני תקלות ועוד."
 
-#: src/main.cpp:286
+#: src/main.cpp:299
 #, kde-format
 msgid "Jason Wood"
 msgstr "ג׳ייסון ווד"
 
-#: src/main.cpp:286
+#: src/main.cpp:299
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "יוצר הגרסה המקורית ל־KDE 3 (אינו פעיל עוד)"
 
-#: src/main.cpp:288
+#: src/main.cpp:301
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "פריד עבדלנור"
 
-#: src/main.cpp:288
+#: src/main.cpp:301
 #, fuzzy, kde-format
 #| msgid "Logo, Promotion, testing"
 msgid "Logo, promotion, testing"
 msgstr "לוגו, קידום, בדיקות"
 
-#: src/main.cpp:289
+#: src/main.cpp:302
 #, kde-format
 msgid "balooii"
 msgstr ""
 
-#: src/main.cpp:289
+#: src/main.cpp:302
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr ""
 
-#: src/main.cpp:290
+#: src/main.cpp:303
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "ניקולס קריון"
 
-#: src/main.cpp:290
+#: src/main.cpp:303
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "תכנון ויישום מחודש של קוד ושכתוב של ציר הזמן (2019)"
 
-#: src/main.cpp:291
+#: src/main.cpp:304
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "דן דנדי"
 
-#: src/main.cpp:291
+#: src/main.cpp:304
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "המתחזק של MLT, תיקוני תקלות ועוד."
 
-#: src/main.cpp:292
+#: src/main.cpp:305
 #, kde-format
 msgid "Darby Johnston"
 msgstr ""
 
-#: src/main.cpp:292
+#: src/main.cpp:305
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "OTIO rewrite"
 msgstr "שכתוב"
 
-#: src/main.cpp:293
+#: src/main.cpp:306
 #, kde-format
 msgid "Bernd Jordan"
 msgstr ""
 
-#: src/main.cpp:293
+#: src/main.cpp:306
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
 
-#: src/main.cpp:294
+#: src/main.cpp:307
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "יוג׳ין מוהר"
 
-#: src/main.cpp:294
+#: src/main.cpp:307
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
 
-#: src/main.cpp:295
+#: src/main.cpp:308
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "נארה אוליביירה"
 
-#: src/main.cpp:296
+#: src/main.cpp:309
 #, kde-format
 msgid "Bruno Santos"
 msgstr "ברונו סנטוס"
 
-#: src/main.cpp:296
+#: src/main.cpp:309
 #, kde-format
 msgid "Testing"
 msgstr "בדיקה"
 
-#: src/main.cpp:297
+#: src/main.cpp:310
 #, kde-format
 msgid "Massimo Stella"
 msgstr "מסימו סטלה"
 
-#: src/main.cpp:297
+#: src/main.cpp:310
 #, fuzzy, kde-format
 #| msgid "Expert advice, testing"
 msgid "Core team member, expert advice, testing"
 msgstr "ייעוץ מומחה, בדיקה"
 
-#: src/main.cpp:299
+#: src/main.cpp:312
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Amir S.,צוות התרגום של KDE ישראל"
 
-#: src/main.cpp:299
+#: src/main.cpp:312
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "amir_in@netvision.net.il,kde-l10n-he@kde.org"
 
-#: src/main.cpp:304
+#: src/main.cpp:317
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:304
+#: src/main.cpp:317
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "תשתית מולטימדיה בקוד פתוח."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:306 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:319 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:306
+#: src/main.cpp:319
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "פתרון חוצה פלטפורמות מלא להקלטה, המרה והזרמה של וידאו ושמע."
 
-#: src/main.cpp:324
+#: src/main.cpp:337
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "הגדרת שם משלך לקובץ ההגדרות."
 
-#: src/main.cpp:325
+#: src/main.cpp:338
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "הגדרת הנתיב לסביבת MLT."
 
-#: src/main.cpp:327
+#: src/main.cpp:340
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "הגדרת רמת פירוט היומן של ה־MLT. אם לא יוגדר זה יעבור למצב „אזהרה”."
 
-#: src/main.cpp:330
+#: src/main.cpp:343
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "רשימה מופרדת בפסיקים של קבצים להוספה כסרטונים לסל."
 
-#: src/main.cpp:334
+#: src/main.cpp:347
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "להכין תיצוג של המיזם ישירות ולצאת."
 
-#: src/main.cpp:337
+#: src/main.cpp:350
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "שם ערכת תיצוג של Kdenlive‏ (MP4-H264/AAC תיבחר אם לא סופקה שום ערכה)."
 
-#: src/main.cpp:342
+#: src/main.cpp:355
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -28231,12 +28231,12 @@ msgid ""
 msgstr ""
 "יציאה לאחר שתהליך העיבוד יתחיל (במנותק), אם דגלון זה לא קיים רק לאחר הסיום."
 
-#: src/main.cpp:345
+#: src/main.cpp:358
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr "לא להציג מסך קבלת פנים."
 
-#: src/main.cpp:348
+#: src/main.cpp:361
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
@@ -28244,17 +28244,17 @@ msgid ""
 msgstr ""
 "להציג יכולות נקודתיות לפיתוח בממשק המשתמש, להשבית את כל רשימות ההחרגה לנכסים."
 
-#: src/main.cpp:351
+#: src/main.cpp:364
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr "שמירת דוח json על רכיבים בנתיב שסופק."
 
-#: src/main.cpp:354
+#: src/main.cpp:367
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "מסמך Kdenlive לפתיחה."
 
-#: src/main.cpp:355
+#: src/main.cpp:368
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "קובץ פלט לווידאו שעבר תיצוג."
@@ -30208,12 +30208,12 @@ msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממ�
 msgid "Checking cached data size"
 msgstr "גודל הנתונים ששמורים במטמון נבדקים"
 
-#: src/mltconnection.cpp:291
+#: src/mltconnection.cpp:322
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr "התוכנית melt שנחוצה לתיצוג לא נמצאת (חלק מ־MLT)"
 
-#: src/mltconnection.cpp:351
+#: src/mltconnection.cpp:382
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "פרופילי ה־MLT שלך לא נמצאו, נא לספק את הנתיב"

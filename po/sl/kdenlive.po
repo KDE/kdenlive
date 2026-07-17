@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-16 00:43+0000\n"
+"POT-Creation-Date: 2026-07-17 00:43+0000\n"
 "PO-Revision-Date: 2026-07-11 11:51+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -3177,7 +3177,7 @@ msgstr "Odstrani logotipe"
 msgid "Remove logo from input video"
 msgstr "Odstrani logotip z vhodnega videoposnetka"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:295
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:308
 #, kde-format
 msgid "Logo"
 msgstr "Logotip"
@@ -24491,7 +24491,7 @@ msgstr "Video brez zvočne steze"
 msgid "Audio without video track"
 msgstr "Zvok brez video steze"
 
-#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:500
+#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:513
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Izrisovanje %1 se je pričelo"
@@ -25163,7 +25163,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "Narejeno s KDE"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:275
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:288
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -28970,27 +28970,27 @@ msgstr "Pot knjižnice je bila nastavljena na prilagojeno: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Ni možno pisati v pot knjižnice: %1, uporabljena bo privzeta"
 
-#: src/main.cpp:272
+#: src/main.cpp:285
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "O hroščih poročajte na <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:275
+#: src/main.cpp:288
 #, kde-format
 msgid "An open source video editor."
 msgstr "Odprto-kodni program za montažo videa."
 
-#: src/main.cpp:276
+#: src/main.cpp:289
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2025 avtorji Kdenlive"
 
-#: src/main.cpp:278
+#: src/main.cpp:291
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:278
+#: src/main.cpp:291
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
@@ -28998,113 +28998,113 @@ msgstr ""
 "Član jedrne ekipe, osrednji razvijalec in vzdrževalec, MLT ter prenos na KDE "
 "SC 4/ KF5"
 
-#: src/main.cpp:280
+#: src/main.cpp:293
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:280
+#: src/main.cpp:293
 #, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr ""
 "Član jedrne ekipe, razvoj funkcionalnosti, pakiranje, odpravljanje napak"
 
-#: src/main.cpp:281
+#: src/main.cpp:294
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:281
+#: src/main.cpp:294
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "Prilagoditev na KF5, priprava gradnje za Windows, odprava napak"
 
-#: src/main.cpp:283
+#: src/main.cpp:296
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:283
+#: src/main.cpp:296
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Popravljanje napak in izboljšave preizkusov"
 
-#: src/main.cpp:285
+#: src/main.cpp:298
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:285
+#: src/main.cpp:298
 #, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "Barvni merilniki, težava z decimalnim ločilom, odpravljanje hroščev"
 
-#: src/main.cpp:286
+#: src/main.cpp:299
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:286
+#: src/main.cpp:299
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Avtor izvorne različice za KDE 3 (ni več dejaven)"
 
-#: src/main.cpp:288
+#: src/main.cpp:301
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:288
+#: src/main.cpp:301
 #, kde-format
 msgid "Logo, promotion, testing"
 msgstr "Logotip, promocija, preizkušanje"
 
-#: src/main.cpp:289
+#: src/main.cpp:302
 #, kde-format
 msgid "balooii"
 msgstr "balooii"
 
-#: src/main.cpp:289
+#: src/main.cpp:302
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr "Ogledi, merilniki in izboljšave časovnice QOL"
 
-#: src/main.cpp:290
+#: src/main.cpp:303
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:290
+#: src/main.cpp:303
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Preurejanje kode in ponovno programiranje časovnice (2019)"
 
-#: src/main.cpp:291
+#: src/main.cpp:304
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:291
+#: src/main.cpp:304
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Vzdrževalec MLT, odpravljanje hroščev itn."
 
-#: src/main.cpp:292
+#: src/main.cpp:305
 #, kde-format
 msgid "Darby Johnston"
 msgstr "Darby Johnston"
 
-#: src/main.cpp:292
+#: src/main.cpp:305
 #, kde-format
 msgid "OTIO rewrite"
 msgstr "Ponovno napisani OTIO"
 
-#: src/main.cpp:293
+#: src/main.cpp:306
 #, kde-format
 msgid "Bernd Jordan"
 msgstr "Bernd Jordan"
 
-#: src/main.cpp:293
+#: src/main.cpp:306
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
@@ -29112,69 +29112,69 @@ msgstr ""
 "Član jedrne ekipe, dokumentacija, vmesnik učinkov, preizkušanje, podpora "
 "skupnosti"
 
-#: src/main.cpp:294
+#: src/main.cpp:307
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:294
+#: src/main.cpp:307
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
 "Član jedrne ekipe, vzdrževalec dokumentacije, triaža hroščev, preizkušanje"
 
-#: src/main.cpp:295
+#: src/main.cpp:308
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:296
+#: src/main.cpp:309
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:296
+#: src/main.cpp:309
 #, kde-format
 msgid "Testing"
 msgstr "Preizkušanje"
 
-#: src/main.cpp:297
+#: src/main.cpp:310
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:297
+#: src/main.cpp:310
 #, kde-format
 msgid "Core team member, expert advice, testing"
 msgstr "Član jedrne ekipe, strokovni nasveti, preizkušanje"
 
-#: src/main.cpp:299
+#: src/main.cpp:312
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Martin Srebotnjak,Andrej Mernik,Matjaž Jeran"
 
-#: src/main.cpp:299
+#: src/main.cpp:312
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "miles@filmsi.net,andrejm@ubuntu.si,matjaz.jeran@amis.net"
 
-#: src/main.cpp:304
+#: src/main.cpp:317
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:304
+#: src/main.cpp:317
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Odprto-kodno ogrodje za večpredstavnost."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:306 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:319 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:306
+#: src/main.cpp:319
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -29183,41 +29183,41 @@ msgstr ""
 "Popolna rešitev za snemanje, pretvarjanje in pretakanje zvoka in videa, ki "
 "deluje na več platformah."
 
-#: src/main.cpp:324
+#: src/main.cpp:337
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Nastavi prilagojeno ime nastavitvene datoteke."
 
-#: src/main.cpp:325
+#: src/main.cpp:338
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Nastavite pot za okolje MLT."
 
-#: src/main.cpp:327
+#: src/main.cpp:340
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Nastavite raven beleženja zapisnika MLT. Pustite to nenastavljeno za raven "
 "»opozorilo« (angl. »warning«)."
 
-#: src/main.cpp:330
+#: src/main.cpp:343
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Z vejico ločen seznam datotek, ki bodo dodane v posodo kot posnetki."
 
-#: src/main.cpp:334
+#: src/main.cpp:347
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Neposredno izrišite projekt in ga zapustite."
 
-#: src/main.cpp:337
+#: src/main.cpp:350
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Ime prednastavitve za izrisovanje Kdenlive (če ni navedeno, se uporabi MP4-"
 "H264/AAC)."
 
-#: src/main.cpp:342
+#: src/main.cpp:355
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -29226,12 +29226,12 @@ msgstr ""
 "Izhod po (ločenem) začetku procesa izrisovanje, brez te zastavice obstaja le "
 "po njegovem zaključku."
 
-#: src/main.cpp:345
+#: src/main.cpp:358
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr "Ne prikazujte pozdravnega zaslona."
 
-#: src/main.cpp:348
+#: src/main.cpp:361
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
@@ -29240,17 +29240,17 @@ msgstr ""
 "V uporabniškem vmesniku prikažite nekatere funkcije, specifične za razvoj, "
 "onemogočite vse sezname izključitev za sredstva."
 
-#: src/main.cpp:351
+#: src/main.cpp:364
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr "Shrani poročilo v obliki JSON o komponentah v navedeni poti."
 
-#: src/main.cpp:354
+#: src/main.cpp:367
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Dokument Kdenlive, ki ga želite odpreti."
 
-#: src/main.cpp:355
+#: src/main.cpp:368
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Izhodna datoteka za izrisani videoposnetek."
@@ -31232,13 +31232,13 @@ msgstr ""
 msgid "Checking cached data size"
 msgstr "Preverjanje velikosti predpomnjenih podatkov"
 
-#: src/mltconnection.cpp:291
+#: src/mltconnection.cpp:322
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
 "Programa melt, zahtevanega za izrisovanje, ni možno najti (sicer del MLT)."
 
-#: src/mltconnection.cpp:351
+#: src/mltconnection.cpp:382
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Vaših profilov MLT ni možno najti, podajte pot"

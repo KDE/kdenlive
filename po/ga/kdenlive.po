@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-16 00:43+0000\n"
+"POT-Creation-Date: 2026-07-17 00:43+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -3198,7 +3198,7 @@ msgstr "DeLogo"
 msgid "Remove logo from input video"
 msgstr "Bain lógó den fhíseán ionchuir"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:295
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:308
 #, kde-format
 msgid "Logo"
 msgstr "Lógó"
@@ -24622,7 +24622,7 @@ msgstr "Físeán gan rian fuaime"
 msgid "Audio without video track"
 msgstr "Fuaim gan rian físe"
 
-#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:500
+#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:513
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Tosaíodh ag rindreáil %1"
@@ -25304,7 +25304,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "Déanta ag KDE"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:275
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:288
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -29165,210 +29165,210 @@ msgstr ""
 "Ní féidir scríobh chuig an gcosán Leabharlainne: %1, ag úsáid an "
 "réamhshocraithe"
 
-#: src/main.cpp:272
+#: src/main.cpp:285
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Tuairiscigh fabhtanna chuig <a href=\"%1\">%2</a> le do thoil"
 
-#: src/main.cpp:275
+#: src/main.cpp:288
 #, kde-format
 msgid "An open source video editor."
 msgstr "Eagarthóir físe foinse oscailte."
 
-#: src/main.cpp:276
+#: src/main.cpp:289
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Cóipcheart © 2007–2025 údair Kdenlive"
 
-#: src/main.cpp:278
+#: src/main.cpp:291
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:278
+#: src/main.cpp:291
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
 
-#: src/main.cpp:280
+#: src/main.cpp:293
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:280
+#: src/main.cpp:293
 #, fuzzy, kde-format
 #| msgid "Feature development, packaging, bug fixing"
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr "Forbairt gnéithe, pacáistiú, ceartú fabhtanna"
 
-#: src/main.cpp:281
+#: src/main.cpp:294
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:281
+#: src/main.cpp:294
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "Port KF5, tras-thógáil Windows, pacáistiú, ceartú fabhtanna"
 
-#: src/main.cpp:283
+#: src/main.cpp:296
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:283
+#: src/main.cpp:296
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Ceartú fabhtanna agus feabhsuithe tástála"
 
-#: src/main.cpp:285
+#: src/main.cpp:298
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:285
+#: src/main.cpp:298
 #, fuzzy, kde-format
 #| msgid "Color scopes, bug fixing, etc."
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "Raon feidhme datha, ceartú fabhtanna, srl."
 
-#: src/main.cpp:286
+#: src/main.cpp:299
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:286
+#: src/main.cpp:299
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Údar leagan 3 de KDE bunaidh (níl sé gníomhach a thuilleadh)"
 
-#: src/main.cpp:288
+#: src/main.cpp:301
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:288
+#: src/main.cpp:301
 #, fuzzy, kde-format
 #| msgid "Logo, Promotion, testing"
 msgid "Logo, promotion, testing"
 msgstr "Lógó, Cur Chun Cinn, tástáil"
 
-#: src/main.cpp:289
+#: src/main.cpp:302
 #, kde-format
 msgid "balooii"
 msgstr ""
 
-#: src/main.cpp:289
+#: src/main.cpp:302
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr ""
 
-#: src/main.cpp:290
+#: src/main.cpp:303
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nioclás Cairion"
 
-#: src/main.cpp:290
+#: src/main.cpp:303
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Ath-ailtireacht chód & athscríobh amlíne (2019)"
 
-#: src/main.cpp:291
+#: src/main.cpp:304
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:291
+#: src/main.cpp:304
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Cothaitheoir MLT, Ceartú fabhtanna, srl."
 
-#: src/main.cpp:292
+#: src/main.cpp:305
 #, kde-format
 msgid "Darby Johnston"
 msgstr ""
 
-#: src/main.cpp:292
+#: src/main.cpp:305
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "OTIO rewrite"
 msgstr "Forscríobh"
 
-#: src/main.cpp:293
+#: src/main.cpp:306
 #, kde-format
 msgid "Bernd Jordan"
 msgstr ""
 
-#: src/main.cpp:293
+#: src/main.cpp:306
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
 
-#: src/main.cpp:294
+#: src/main.cpp:307
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:294
+#: src/main.cpp:307
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
 
-#: src/main.cpp:295
+#: src/main.cpp:308
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:296
+#: src/main.cpp:309
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:296
+#: src/main.cpp:309
 #, kde-format
 msgid "Testing"
 msgstr "Tástáil"
 
-#: src/main.cpp:297
+#: src/main.cpp:310
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:297
+#: src/main.cpp:310
 #, fuzzy, kde-format
 #| msgid "Expert advice, testing"
 msgid "Core team member, expert advice, testing"
 msgstr "Comhairle saineolaithe, tástáil"
 
-#: src/main.cpp:299
+#: src/main.cpp:312
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "AINM NA n-ATHRITHEOIRÍ"
 
-#: src/main.cpp:299
+#: src/main.cpp:312
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "RÍOMHPHOST NA n-ATHIRITHEOIRÍ"
 
-#: src/main.cpp:304
+#: src/main.cpp:317
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:304
+#: src/main.cpp:317
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Creat ilmheán foinse oscailte."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:306 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:319 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:306
+#: src/main.cpp:319
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -29377,43 +29377,43 @@ msgstr ""
 "Réiteach tras-ardáin iomlán chun fuaim agus físeán a thaifeadadh, a thiontú "
 "agus a shruthú."
 
-#: src/main.cpp:324
+#: src/main.cpp:337
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Socraigh ainm comhaid chumraíochta saincheaptha."
 
-#: src/main.cpp:325
+#: src/main.cpp:338
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Socraigh an cosán don timpeallacht MLT."
 
-#: src/main.cpp:327
+#: src/main.cpp:340
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Socraigh leibhéal loga an MLT. Fág é seo gan socrú le haghaidh \"rabhaidh\" "
 "leibhéil."
 
-#: src/main.cpp:330
+#: src/main.cpp:343
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Liosta comhad scartha le camóga le cur leis an mbosca bruscair mar "
 "ghearrthóga."
 
-#: src/main.cpp:334
+#: src/main.cpp:347
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Rindreáil an tionscadal go díreach agus scoir."
 
-#: src/main.cpp:337
+#: src/main.cpp:350
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Ainm réamhshocraithe rindreála Kdenlive (úsáidfear MP4-H264/AAC mura dtugtar "
 "aon cheann)."
 
-#: src/main.cpp:342
+#: src/main.cpp:355
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -29422,12 +29422,12 @@ msgstr ""
 "Scoir tar éis don phróiseas rindreála (scoite) tosú, gan an bhratach seo ní "
 "bheidh ann ach amháin tar éis dó a bheith críochnaithe."
 
-#: src/main.cpp:345
+#: src/main.cpp:358
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr "Ná taispeáin aon scáileán fáilte."
 
-#: src/main.cpp:348
+#: src/main.cpp:361
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
@@ -29436,17 +29436,17 @@ msgstr ""
 "Taispeáin roinnt gnéithe forbartha sonracha sa chomhéadan úsáideora, "
 "díchumasaigh gach liosta eisiaimh do shócmhainní."
 
-#: src/main.cpp:351
+#: src/main.cpp:364
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr ""
 
-#: src/main.cpp:354
+#: src/main.cpp:367
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Doiciméad Kdenlive le hoscailt."
 
-#: src/main.cpp:355
+#: src/main.cpp:368
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Comhad aschuir le haghaidh físeán rindreáilte."
@@ -31460,14 +31460,14 @@ msgstr ""
 msgid "Checking cached data size"
 msgstr "Méid sonraí taisceáilte á sheiceáil"
 
-#: src/mltconnection.cpp:291
+#: src/mltconnection.cpp:322
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
 "Ní féidir an clár leáite atá riachtanach le haghaidh rindreála a aimsiú "
 "(cuid de MLT)"
 
-#: src/mltconnection.cpp:351
+#: src/mltconnection.cpp:382
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Ní féidir do phróifílí MLT a aimsiú, tabhair an cosán le do thoil"
