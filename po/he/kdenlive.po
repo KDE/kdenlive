@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-17 00:43+0000\n"
-"PO-Revision-Date: 2026-06-16 09:32+0300\n"
+"PO-Revision-Date: 2026-07-17 12:58+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -13381,10 +13381,9 @@ msgid "Overlay GPS-related text onto the video."
 msgstr "הוספת שכבת על של טקסט שקשור באיכון (GPS) לווידאו."
 
 #: data/effects/gpstext.xml:9
-#, fuzzy, kde-format
-#| msgid "See the documentation about the various styles available"
+#, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr "הצגת התיעוד על מגוון הסגנונות הזמינים"
+msgstr "הצגת התיעוד המקוון על מבחינים נוספים"
 
 #: data/effects/gpstext.xml:10
 #, fuzzy, kde-format
@@ -13445,28 +13444,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "צבע צורת הגל."
+msgstr "סגנון הגופן."
 
 #: data/effects/gpstext.xml:67
-#, fuzzy, kde-format
-#| msgid "The space in pixels between the segments."
+#, kde-format
 msgid "The size in pixels of the font."
-msgstr "הרווח בפיקסלים בין המקטעים."
+msgstr "הגודל בפיקסלים של הגופן."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "עובי טווח הגוון"
+msgstr "משקל הגופן."
 
 #: data/effects/gpstext.xml:75
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The style of the font."
-msgstr "צבע צורת הגל."
+msgstr "סגנון הגופן."
 
 #: data/effects/gpstext.xml:84
 #, kde-format
@@ -13479,8 +13474,7 @@ msgid "Outline Color"
 msgstr "צבע מתאר"
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Outline color"
 msgstr "צבע מתאר"
 
@@ -13956,10 +13950,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:9
-#, fuzzy, kde-format
-#| msgid "Depth"
+#, kde-format
 msgid "Bit Depth"
-msgstr "עומק"
+msgstr "עומק סיביות"
 
 #: data/effects/ladspa/ladspa_1202.xml:10
 #, kde-format
@@ -13967,10 +13960,9 @@ msgid "The bit depth that the signal will be reduced to"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:13
-#, fuzzy, kde-format
-#| msgid "Sample Rate:"
+#, kde-format
 msgid "Sample Rate"
-msgstr "קצב דגימה:"
+msgstr "קצב דגימה"
 
 #: data/effects/ladspa/ladspa_1202.xml:14
 #, kde-format
@@ -13990,10 +13982,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:9
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Gain (dB)"
-msgstr "‫שבח כניסה (dB)"
+msgstr "‫שבח (dB)"
 
 #: data/effects/ladspa/ladspa_1203.xml:10
 #, kde-format
@@ -14001,10 +13992,9 @@ msgid "The attenuation/gain of the eq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:13
-#, fuzzy, kde-format
-#| msgid "Frequency in Hz"
+#, kde-format
 msgid "Frequency (Hz)"
-msgstr "תדירות בהרץ"
+msgstr "תדירות (הרץ)"
 
 #: data/effects/ladspa/ladspa_1203.xml:15
 #, kde-format
@@ -14092,52 +14082,44 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 1"
-msgstr "תדר"
+msgstr "תדירות 1"
 
 #: data/effects/ladspa/ladspa_1218.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 1"
-msgstr "משוב"
+msgstr "משוב 1"
 
 #: data/effects/ladspa/ladspa_1218.xml:15
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 2"
-msgstr "תדר"
+msgstr "תדירות 2"
 
 #: data/effects/ladspa/ladspa_1218.xml:18
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 2"
-msgstr "משוב"
+msgstr "משוב 2"
 
 #: data/effects/ladspa/ladspa_1218.xml:21
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 3"
-msgstr "תדר"
+msgstr "תדירות 3"
 
 #: data/effects/ladspa/ladspa_1218.xml:24
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 3"
-msgstr "משוב"
+msgstr "משוב 3"
 
 #: data/effects/ladspa/ladspa_1218.xml:27
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 4"
-msgstr "תדר"
+msgstr "תדירות 4"
 
 #: data/effects/ladspa/ladspa_1218.xml:30
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 4"
-msgstr "משוב"
+msgstr "משוב 4"
 
 #: data/effects/ladspa/ladspa_1219.xml:4
 #, fuzzy, kde-format
@@ -14163,16 +14145,14 @@ msgstr "מתקפים"
 #: data/effects/ladspa/ladspa_1895.xml:15
 #: data/effects/ladspa/ladspa_1896.xml:15
 #: data/effects/ladspa/ladspa_1897.xml:15
-#, fuzzy, kde-format
-#| msgid "Decay"
+#, kde-format
 msgid "Decay Time"
-msgstr "דעיכה"
+msgstr "‫זמן דעיכה"
 
 #: data/effects/ladspa/ladspa_1219.xml:14
-#, fuzzy, kde-format
-#| msgid "Modulation type"
+#, kde-format
 msgid "Modulation Depth"
-msgstr "סוג מאפנן"
+msgstr "עומק אפנון"
 
 #: data/effects/ladspa/ladspa_1219.xml:20
 #, kde-format
@@ -14209,10 +14189,9 @@ msgid "Controls the amount of output signal fed back into the input"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:21
-#, fuzzy, kde-format
-#| msgid "Number of curve points"
+#, kde-format
 msgid "Number of Taps"
-msgstr "מספר נקודות עיקול"
+msgstr "מספר הנקישות"
 
 #: data/effects/ladspa/ladspa_1402.xml:22
 #, kde-format
@@ -14220,22 +14199,19 @@ msgid "Controls the number of taps in the delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:25
-#, fuzzy, kde-format
-#| msgid "First Field"
+#, kde-format
 msgid "First Delay"
-msgstr "שדה ראשון"
+msgstr "השהיה ראשונה"
 
 #: data/effects/ladspa/ladspa_1402.xml:26
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The time of the first delay"
-msgstr "צבע צורת הגל."
+msgstr "זמן ההשהיה הראשונה"
 
 #: data/effects/ladspa/ladspa_1402.xml:29
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Delay Range"
-msgstr "הגדרת טווח"
+msgstr "טווח השהיה"
 
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
@@ -14243,10 +14219,9 @@ msgid "The time difference between the first and last delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:33
-#, fuzzy, kde-format
-#| msgid "Speed Change"
+#, kde-format
 msgid "Delay Change"
-msgstr "שינוי במהירות"
+msgstr "שינוי השהיה"
 
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
@@ -14254,22 +14229,19 @@ msgid "The scaling factor between one delay and the next"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:37
-#, fuzzy, kde-format
-#| msgid "Random"
+#, kde-format
 msgid "Delay Random"
-msgstr "אקראי"
+msgstr "השהיה אקראית"
 
 #: data/effects/ladspa/ladspa_1402.xml:38
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the delay"
-msgstr "מקדם קנה מידה שחל על ציר X"
+msgstr "המקדם האקראי שחל על ההשהיה"
 
 #: data/effects/ladspa/ladspa_1402.xml:41
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Change"
-msgstr "משרעת"
+msgstr "שינוי משרעת"
 
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
@@ -14277,28 +14249,24 @@ msgid "The scaling factor between one amplitude and the next"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:45
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Random"
-msgstr "משרעת"
+msgstr "משרעת אקראית"
 
 #: data/effects/ladspa/ladspa_1402.xml:46
-#, fuzzy, kde-format
-#| msgid "Scale factor applied to the X axis"
+#, kde-format
 msgid "The random factor applied to the amplitude"
-msgstr "מקדם קנה מידה שחל על ציר X"
+msgstr "המקדם האקראי שחל על המשרעת"
 
 #: data/effects/ladspa/ladspa_1402.xml:49
-#, fuzzy, kde-format
-#| msgid "Dry/Wet"
+#, kde-format
 msgid "Dry/Wet Mix"
-msgstr "יבש/רטוב"
+msgstr "ערבול יבש/רטוב"
 
 #: data/effects/ladspa/ladspa_1402.xml:50
-#, fuzzy, kde-format
-#| msgid "The amount of delay for each sample from the input to the output."
+#, kde-format
 msgid "The level of delayed sound mixed into the output"
-msgstr "זמן ההמתנה לכל דגימה מהקלט לפלט."
+msgstr "רמת השמע המושהה שמעורבל לתוך הפלט"
 
 #: data/effects/ladspa/ladspa_1403.xml:4
 #, fuzzy, kde-format
@@ -14339,16 +14307,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:18
-#, fuzzy, kde-format
-#| msgid "Insert Composition"
+#, kde-format
 msgid "Fast Compression Ratio"
-msgstr "הוספת תרכובת"
+msgstr "יחס דחיסה מהיר"
 
 #: data/effects/ladspa/ladspa_1403.xml:21
-#, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
+#, kde-format
 msgid "Compression Ratio"
-msgstr "דוחס (avfilter)"
+msgstr "יחס דחיסה"
 
 #: data/effects/ladspa/ladspa_1404.xml:4
 #, kde-format
@@ -14364,10 +14330,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1404.xml:9
-#, fuzzy, kde-format
-#| msgid "Wave Amplitude"
+#, kde-format
 msgid "Crossover Amplitude"
-msgstr "משרעת גל"
+msgstr "משרעת צולבת"
 
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
@@ -14380,8 +14345,7 @@ msgid "Controls degree of smoothing of the crossover point"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:4
-#, fuzzy, kde-format
-#| msgid "Anti-aliasing"
+#, kde-format
 msgid "Aliasing"
 msgstr "החלקת קצוות"
 
@@ -14394,10 +14358,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:9
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Aliasing Level"
-msgstr "רמת מיקרופון"
+msgstr "רמת החלקת קצוות"
 
 #: data/effects/ladspa/ladspa_1407.xml:10
 #, kde-format
@@ -14419,10 +14382,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:9
-#, fuzzy, kde-format
-#| msgid "Real Time (drop frames)"
+#, kde-format
 msgid "Decay Time (samples)"
-msgstr "‫זמן אמת (השמטת תמוניות)"
+msgstr "‫זמן דעיכה (דגימות)"
 
 #: data/effects/ladspa/ladspa_1408.xml:10
 #, fuzzy, kde-format
@@ -14445,10 +14407,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:4
-#, fuzzy, kde-format
-#| msgid "Hue Gate"
+#, kde-format
 msgid "Gate"
-msgstr "שער גוון"
+msgstr "שער"
 
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
@@ -14637,8 +14598,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:9
-#, fuzzy, kde-format
-#| msgid "Distort"
+#, kde-format
 msgid "Distortion"
 msgstr "עיוות"
 
@@ -14922,10 +14882,9 @@ msgstr "תדירות מסובב"
 #: data/effects/ladspa/ladspa_1890.xml:12
 #: data/effects/ladspa/ladspa_1891.xml:12
 #: data/effects/ladspa/ladspa_1892.xml:15
-#, fuzzy, kde-format
-#| msgid "Images"
+#, kde-format
 msgid "Stages"
-msgstr "תמונות"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:14
 #: data/effects/ladspa/ladspa_1891.xml:14
@@ -14974,10 +14933,9 @@ msgstr "תדר מרכז"
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
-#| msgid "Band Width"
+#, kde-format
 msgid "Bandwidth"
-msgstr "עובי רצועה"
+msgstr "רוחב פס"
 
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
@@ -15116,10 +15074,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
 #: data/effects/ladspa/ladspa_1904.xml:11
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Resonance"
-msgstr "איזון אדום"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
@@ -15142,9 +15099,9 @@ msgid "Butterworth Highpass Filter (LADSPA 1904)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "VyNil (Vinyl Effect)"
-msgstr "אפקטי שמע"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:6
 #, kde-format
@@ -17667,23 +17624,18 @@ msgid "HH:MM:SS.SSS"
 msgstr ""
 
 #: data/effects/timer.xml:66
-#, fuzzy, kde-format
+#, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr "משך:"
+msgstr "משך (HH:MM:SS.SSS)"
 
 #: data/effects/timer.xml:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "The maximum elapsed duration of the timer after the start time has "
-#| "elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed."
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed."
 "<br>\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"משך הזמן המרבי של המתזמן אחרי שזמן ההתחלה חלף.\n"
+"משך הזמן המרבי של המתזמן אחרי שזמן ההתחלה חלף.<br>\n"
 "הטקסט יוקפא במשך הזמן שאחרי שמשך הזמן המוגדר חלף."
 
 #: data/effects/timer.xml:72
@@ -17770,26 +17722,17 @@ msgid ""
 msgstr ""
 
 #: data/effects/timer.xml:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            Whether the counter should count up from 00:00:00.000 or down "
-#| "from the duration time.\n"
-#| "        "
+#, kde-format
 msgid ""
 "Whether the counter should count up from 00:00:00.000 or down from the "
 "duration time."
 msgstr ""
-"\n"
-"            האם על המתזמן לספור כלפי מעלה החל מ־00:00:00.000 או למטה ממשך "
-"הזמן המוגדר.\n"
-"        "
+"האם על המתזמן לספור כלפי מעלה החל מ־00:00:00.000 או למטה ממשך הזמן המוגדר."
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "למטה"
+msgstr "למעלה,למטה"
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -21061,10 +21004,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "התמרה לתסדיר ידידותי לעריכה…"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "הוספת קוד הזמן הנוכחי"
+msgstr "הוספה בקוד זמן"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -21259,22 +21201,19 @@ msgid "Replace the title clip in the timeline with the new one?"
 msgstr "עדכון תצוגת הכתוביות בציר הזמן."
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Replace Timeline Clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "החלפת סרטון בציר הזמן"
+msgstr "החלפת סרטון כותרת"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "החלפת סרטון"
+msgstr "החלפה"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "בדיקה"
+msgstr "להשאיר את הקיימים"
 
 #: src/bin/bin.cpp:5342
 #, kde-format
@@ -22077,10 +22016,9 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "תסדיר ההקלטה כוון ל־%1 ערוצים, %2 הרץ."
 
 #: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
-#, fuzzy, kde-format
-#| msgid "No audio track found"
+#, kde-format
 msgid "No audio device found"
-msgstr "לא נמצאה רצועת שמע"
+msgstr "לא נמצא התקן שמע"
 
 #: src/capture/mediacapture.cpp:247
 #, kde-format
@@ -24342,14 +24280,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr ""
-"זיהוי הדיבור נכשל:\n"
-"%1"
+msgstr "הזיהוי הקולי נכשל"
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -24357,10 +24290,9 @@ msgid "Subtitles imported"
 msgstr "כתוביות יובאו"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Speech recognition finished."
+#, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "הזיהוי הקולי הסתיים."
+msgstr "הזיהוי הקולי הסתיים, הכתוביות יובאו"
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -28015,10 +27947,9 @@ msgid "Julius Künzel"
 msgstr "יוליוס קונצל"
 
 #: src/main.cpp:293
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "פיתוח יכולות, אריזה, תיקון תקלות"
+msgstr "חברות בצוות הליבה, פיתוח יכולות, אריזה, תיקון תקלות"
 
 #: src/main.cpp:294
 #, kde-format
@@ -28046,10 +27977,9 @@ msgid "Simon A. Eugster"
 msgstr "סיימון א. יוגסטר"
 
 #: src/main.cpp:298
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "טווחי צבע, תיקוני תקלות ועוד."
+msgstr "טווחי צבע, תקלת מפריד עשרוני, תיקוני תקלות ועוד."
 
 #: src/main.cpp:299
 #, kde-format
@@ -28067,15 +27997,14 @@ msgid "Farid Abdelnour"
 msgstr "פריד עבדלנור"
 
 #: src/main.cpp:301
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
 msgstr "לוגו, קידום, בדיקות"
 
 #: src/main.cpp:302
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:302
 #, kde-format
@@ -28105,24 +28034,23 @@ msgstr "המתחזק של MLT, תיקוני תקלות ועוד."
 #: src/main.cpp:305
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "דרבי ג׳ונסטון"
 
 #: src/main.cpp:305
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "שכתוב"
+msgstr "שכתוב OTIO"
 
 #: src/main.cpp:306
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "ברנד ג׳ורדן"
 
 #: src/main.cpp:306
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
-msgstr ""
+msgstr "חבר צוות ליבה, תיעוד, ממשק משתמש לאפקטים ובדיקה, תמיכה בקהילה"
 
 #: src/main.cpp:307
 #, kde-format
@@ -28132,7 +28060,7 @@ msgstr "יוג׳ין מוהר"
 #: src/main.cpp:307
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
-msgstr ""
+msgstr "חבר צוות ליבה, תחזוקת תיעוד, אימות תקלות, בדיקה"
 
 #: src/main.cpp:308
 #, kde-format
@@ -28155,10 +28083,9 @@ msgid "Massimo Stella"
 msgstr "מסימו סטלה"
 
 #: src/main.cpp:310
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "ייעוץ מומחה, בדיקה"
+msgstr "חבר צוות ליבה, יועץ מומחה, בדיקה"
 
 #: src/main.cpp:312
 #, kde-format
@@ -29456,10 +29383,9 @@ msgid "Cut Clip"
 msgstr "חיתוך סרטון"
 
 #: src/mainwindow.cpp:2032
-#, fuzzy, kde-format
-#| msgid "Replace in timeline"
+#, kde-format
 msgid "Replace with Bin Selection"
-msgstr "החלפה בציר הזמן"
+msgstr "החלפה עם הבחירה מהסל"
 
 #: src/mainwindow.cpp:2036
 #, kde-format
@@ -31257,10 +31183,9 @@ msgid "Move Toolbar"
 msgstr "הזזת סרגל כלים"
 
 #: src/monitor/view/EffectToolBar.qml:167
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "תמוניות מפתח אוטומטיות"
+msgstr "תמוניות מפתח אוטומטיות פעילות"
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format
@@ -35527,10 +35452,9 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "לא ניתן לבצע פעולה תוך גרירה בציר הזמן"
 
 #: src/timeline2/view/timelinecontroller.cpp:941
-#, fuzzy, kde-format
-#| msgid "Could not find master clip"
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "לא ניתן למצוא את סרטון ההורה"
+msgstr "לא ניתן לשכפל סרטון"
 
 #: src/timeline2/view/timelinecontroller.cpp:999
 #: src/timeline2/view/timelinecontroller.cpp:5777
@@ -35629,28 +35553,24 @@ msgid "Please select a target track by clicking on a track's target zone"
 msgstr "נא לבחור רצועת יעד בלחיצה על קטע היעד של הרצועה"
 
 #: src/timeline2/view/timelinecontroller.cpp:3718
-#, fuzzy, kde-format
-#| msgid "Clip in Project Bin"
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "סרטון בסל מיזם"
+msgstr "הסרטון לא נמצא בסל המיזם"
 
 #: src/timeline2/view/timelinecontroller.cpp:3726
-#, fuzzy, kde-format
-#| msgid "No timecode for clip"
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "אין קוד זמן לסרטון"
+msgstr "לא נמצאו נתוני על של קוד זמן בסרטון"
 
 #: src/timeline2/view/timelinecontroller.cpp:3732
-#, fuzzy, kde-format
-#| msgid "Please select a video profile"
+#, kde-format
 msgid "Please select a target track"
-msgstr "נא לבחור פרופיל וידאו"
+msgstr "נא לבחור רצועת יעד"
 
 #: src/timeline2/view/timelinecontroller.cpp:3738
-#, fuzzy, kde-format
-#| msgid "Error removing clip at %1 on track %2"
+#, kde-format
 msgid "Failed to insert clip at %1 on track %2"
-msgstr "שגיאה בהסרת הסרטון בנקודה: %1 ברצועה %2"
+msgstr "הוספת הסרטון בנקודה %1 ברצועה %2 נכשלה"
 
 #: src/timeline2/view/timelinecontroller.cpp:3790
 #, kde-format
@@ -35746,17 +35666,15 @@ msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4622
 #: src/timeline2/view/timelinecontroller.cpp:4678
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "החלפת סרטון"
 
 #: src/timeline2/view/timelinecontroller.cpp:4622
-#, fuzzy, kde-format
-#| msgid "Import selected clips"
+#, kde-format
 msgid "Import New Clip"
-msgstr "ייבוא הסרטונים הנבחרים"
+msgstr "ייבוא סרטון חדש"
 
 #: src/timeline2/view/timelinecontroller.cpp:4665
 #, kde-format
@@ -35764,14 +35682,9 @@ msgid "Incompatible clip types for replacement"
 msgstr "סוגי סרטונים לא תואמים להחלפה"
 
 #: src/timeline2/view/timelinecontroller.cpp:4672
-#, fuzzy, kde-format
-#| msgid ""
-#| "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
-#| "with clip <b>%2</b>"
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
-msgstr ""
-"המופעים של הסרטון <b>%1</b><br/> בציר הזמן הפעיל מוחלפים\n"
-"בסרטון <b>%2</b>"
+msgstr "להחליף את הסרטון <b>%1</b> ב־<b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4675
 #, kde-format
@@ -35783,8 +35696,7 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4678
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace Clip"
 msgstr "החלפת סרטון"
 
@@ -38526,10 +38438,9 @@ msgstr "לחתור לסרטון עם הוספת אפקט"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_rewindOnStop)
 #: src/ui/configtimeline_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Align Playhead to Mouse Position"
+#, kde-format
 msgid "Return playhead to start position on stop"
-msgstr "יישור ראש הנגינה למקום העכבר"
+msgstr "החזרת ראש הנגינה למקום ההתחלה בעת עצירה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-17 00:43+0000\n"
-"PO-Revision-Date: 2026-07-11 11:51+0200\n"
+"PO-Revision-Date: 2026-07-17 11:39+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4915,6 +4915,9 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Temnejše piksle posodablja počasi.<br>\n"
+"       <b><i>Opomba</i></b>: Ta učinek se med predvajanjem zaradi težav s "
+"pomnilnikom slik ne ponastavi, vendar se pravilno prikaže."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -5671,30 +5674,27 @@ msgstr "Uporabi Prewittov operater za vhodni video tok"
 #: data/effects/avfilter/avfilter_pseudocolor.xml:4
 #, kde-format
 msgid "Pseudocolor"
-msgstr ""
+msgstr "Psevdobarve"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:5
 #, kde-format
 msgid "Alter frame colors in video with pseudocolors."
-msgstr ""
+msgstr "Spremeni barve sličice v videu s psevdobarvami."
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "Komponente"
+msgstr "Osnovna komponenta"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "rdeča,zelena,modra"
+msgstr "Rdeča,zelena,modra,alfa"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
-#, fuzzy, kde-format
-#| msgid "Presets"
+#, kde-format
 msgid "Preset"
-msgstr "Predloge nastavitev"
+msgstr "Prednastavitev"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:13
 #, kde-format
@@ -5703,6 +5703,9 @@ msgid ""
 "Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
 "Green,Helix"
 msgstr ""
+"Brez,Magma,Inferno,Plazma,Viridis,Turbo,Cividis,Območje 1,Območje 2,Sence,"
+"Svetlobni poudarki,Sončno,Nominalno,Prednostno,Skupaj,Spektralno,Hladno,"
+"Toplo,Ognjeno,Modrine,Zelena,Heliks"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -6023,16 +6026,14 @@ msgid "Nearest,Bilinear"
 msgstr "Najbližji sosed,Bilinearno"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:4
-#, fuzzy, kde-format
-#| msgid "Shuffle planes"
+#, kde-format
 msgid "Shuffle Pixels"
-msgstr "Premešaj ravnine"
+msgstr "Premešaj slik. Točke"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Reorder pixels in video frames."
-msgstr "Izvažanje video sličic"
+msgstr "Prerazvrstite slikovne točke v video sličicah."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:10
 #, kde-format
@@ -6041,36 +6042,34 @@ msgid ""
 "        A forward shuffle can be reversed by using <b>inverse</b>, setting "
 "the same parameters, and the exact same seed value."
 msgstr ""
+"Nastavite smer premešanja.<br>\n"
+"        Napredno premešanje lahko obrnete z uporabo funkcije <b>inverzno</"
+"b>, pri čemer nastavite enake parametre in popolnoma enako vrednost semena."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
-#| msgid "Forward"
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "Previj naprej"
+msgstr "Naprej,Inverzno"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
-#, fuzzy, kde-format
-#| msgid "Set the filter mode"
+#, kde-format
 msgid "Set shuffle mode"
-msgstr "Nastavite načina filtriranja"
+msgstr "Nastavite načina premešanja"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:16
-#, fuzzy, kde-format
-#| msgid "Horizontal multiplicator"
+#, kde-format
 msgid "Horizontal,Vertical,Block"
-msgstr "Vodoravni pomnoževalnik"
+msgstr "Vodoravno,Navpično,Blok"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:20
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block width size"
-msgstr "Nastavi velikost bloka v slikovnih točkah"
+msgstr "Nastavite širino bloka premešanja"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:24
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block height size"
-msgstr "Nastavi velikost bloka v slikovnih točkah"
+msgstr "Nastavite višino bloka premešanja"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
@@ -6086,6 +6085,12 @@ msgid ""
 "original input. For example, to reverse forward shuffle you need to use the "
 "same parameters and exact same seed and to set direction to inverse."
 msgstr ""
+"Nastavi naključno izhodišče, ki se uporablja pri premešavanju slikovnih točk."
+"<br>\n"
+"        To je koristno predvsem za to, da lahko obrnete postopek filtriranja "
+"in tako pridobite izvirni vnos. Če želite na primer obrniti napredno "
+"premešavanje, morate uporabiti iste parametre in popolnoma isto vrednost "
+"semena ter nastaviti smer na obratno."
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -8563,6 +8568,9 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Zakasnjeni trenutek časa z alfa-izravnavo.<br>\n"
+"       <b><i>Opomba</i></b>: Ta učinek se med predvajanjem zaradi težav s "
+"pomnilnikom slik ne ponastavi, vendar se pravilno prikaže."
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -25274,14 +25282,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr ""
-"Razpoznava govora ni uspela:\n"
-"%1"
+msgstr "Razpoznava govora ni uspela"
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -25289,10 +25292,9 @@ msgid "Subtitles imported"
 msgstr "Podnaslovi uvoženi"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Speech recognition finished."
+#, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "Razpoznavanje govora končano."
+msgstr "Razpoznavanje govora končano, podnapisi uvoženi."
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -36637,10 +36639,9 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Opravila ni možno izvesti med vlečenjem po časovnici"
 
 #: src/timeline2/view/timelinecontroller.cpp:941
-#, fuzzy, kde-format
-#| msgid "Could not find master clip"
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "Ni bilo možno najti matičnega posnetka"
+msgstr "Ni bilo možno podvojiti posnetka"
 
 #: src/timeline2/view/timelinecontroller.cpp:999
 #: src/timeline2/view/timelinecontroller.cpp:5777
@@ -42580,9 +42581,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Slowly update darker pixels."
-#~ msgstr "Počasi posodabljajte temnejše slikovne točke"
-
-#~ msgid "Delayed alpha smoothed blit of time"
-#~ msgstr "Zakasnjena alfa, zglajeni bitno-bločni prenos v času"

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-17 00:43+0000\n"
-"PO-Revision-Date: 2026-07-16 17:12+0300\n"
+"PO-Revision-Date: 2026-07-17 17:14+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -2653,19 +2653,19 @@ msgid "Enable clipping"
 msgstr "Включить обрезку"
 
 #: data/effects/avfilter/avfilter_curves.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Curves (avfilter)"
-msgstr "Сжиматель (avfilter)"
+msgstr "Кривые (avfilter)"
 
 #: data/effects/avfilter/avfilter_curves.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Adjust RGB color curves per channel."
-msgstr "Количество значений (цвета) на канал"
+msgstr "Коррекция цветовых RGB-кривых для канала"
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "All"
-msgstr "Всепропускающий"
+msgstr "Все"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
 #: data/effects/avfilter/avfilter_curves.xml:11
@@ -6089,14 +6089,14 @@ msgid "Nearest,Bilinear"
 msgstr "Ближайшее,Билинейное"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shuffle Pixels"
-msgstr "Перемешать плоскости"
+msgstr "Перемешивание пикселов"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reorder pixels in video frames."
-msgstr "Экспорт видеокадров"
+msgstr "Изменение порядка пикселов в видеокадрах"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:10
 #, kde-format
@@ -10162,9 +10162,9 @@ msgid "Midpoint of sigmoidal curve for B channel."
 msgstr "Яркость изображения. Средняя точка сигмоидальной кривой"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Channel A Slope"
-msgstr "Изменить скорость"
+msgstr "Крутизна канала A"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:17
 #, fuzzy, kde-format
@@ -10172,9 +10172,9 @@ msgid "Steepness of the sigmoidal curve for A channel."
 msgstr "Установить уровень входного сигнала исходного канала"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Channel B Slope"
-msgstr "Изменить скорость"
+msgstr "Крутизна канала B"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:21
 #, fuzzy, kde-format
@@ -14576,14 +14576,14 @@ msgid "Dry/Wet"
 msgstr "«Сухой»/«Мокрый»"
 
 #: data/effects/ladspa/ladspa_1190.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Comb Filter"
-msgstr "Гребенчатые фильтры"
+msgstr "Гребенчатый фильтр"
 
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
 msgid "Comb Filter (LADSPA 1190)"
-msgstr ""
+msgstr "Гребенчатый фильтр (LADSPA 1190)"
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
 #, fuzzy, kde-format
@@ -14672,7 +14672,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1192.xml:4
 #, kde-format
 msgid "Fractionally Addressed Delay Line"
-msgstr ""
+msgstr "Дробно-адресуемая линия задержки"
 
 #: data/effects/ladspa/ladspa_1192.xml:6
 #, kde-format
@@ -14681,6 +14681,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Дробно-адресуемая линия задержки (LADSPA 1192).<br>\n"
+"   Автоматически адаптируется к количеству каналов и частоте дискретизации "
+"получателя данных."
 
 #: data/effects/ladspa/ladspa_1195.xml:4
 #: data/effects/ladspa/ladspa_declipper.xml:4
@@ -14694,6 +14697,9 @@ msgid ""
 "Declipper (LADSPA 1195)<br>\n"
 "   Removes nasty clicks from input signals, not very kind to them though."
 msgstr ""
+"Удаление треска (LADSPA 1195).<br>\n"
+"   Удаляет неприятные щелчки во входных сигналах, но не очень бережно к ним "
+"относится."
 
 #: data/effects/ladspa/ladspa_1196.xml:4
 #, fuzzy, kde-format
@@ -14719,11 +14725,13 @@ msgid ""
 "Controls the point at<br>\n"
 "      which the signal starts to distort, and the degree of distortion."
 msgstr ""
+"Управляет точкой, в которой<br>\n"
+"      сигнал начинает искажаться, а также степенью искажения"
 
 #: data/effects/ladspa/ladspa_1202.xml:4
 #, kde-format
 msgid "Decimator"
-msgstr ""
+msgstr "Сократитель"
 
 #: data/effects/ladspa/ladspa_1202.xml:6
 #, kde-format
@@ -14733,6 +14741,10 @@ msgid ""
 "of the input signal, allows non integer values for smooth transitions "
 "between clean and lo-fi signals."
 msgstr ""
+"Сократитель (LADSPA 1202).<br>\n"
+"   Уменьшает эффективную частоту дискретизации и битовую глубину входного "
+"сигнала, разрешает нецелые значения для плавных переходов между чистым и "
+"«ламповым» сигналами."
 
 #: data/effects/ladspa/ladspa_1202.xml:9
 #, fuzzy, kde-format
@@ -14757,7 +14769,7 @@ msgstr "Радиус квадрата для дискретизации стаб
 #: data/effects/ladspa/ladspa_1203.xml:4
 #, kde-format
 msgid "Single Band Parametric"
-msgstr ""
+msgstr "Однополосный параметрический"
 
 #: data/effects/ladspa/ladspa_1203.xml:6
 #, kde-format
@@ -14765,6 +14777,8 @@ msgid ""
 "Single Band Parametric (LADSPA 1203)<br>\n"
 "   A single band of a parametric filter."
 msgstr ""
+"Однополосный параметрический (LADSPA 1203).<br>\n"
+"   Одна полоса параметрического фильтра."
 
 #: data/effects/ladspa/ladspa_1203.xml:9
 #, kde-format
@@ -14924,9 +14938,9 @@ msgstr "Атака"
 #: data/effects/ladspa/ladspa_1895.xml:15
 #: data/effects/ladspa/ladspa_1896.xml:15
 #: data/effects/ladspa/ladspa_1897.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decay Time"
-msgstr "Спад"
+msgstr "Время спада"
 
 #: data/effects/ladspa/ladspa_1219.xml:14
 #, fuzzy, kde-format
@@ -15112,7 +15126,7 @@ msgstr "Амплитуда волны"
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
 msgid "Controls the point at which the output signal becomes linear"
-msgstr ""
+msgstr "Управляет точкой, в которой выходной сигнал становится линейным"
 
 #: data/effects/ladspa/ladspa_1404.xml:14
 #, kde-format
@@ -15314,9 +15328,9 @@ msgstr ""
 "синусоидальная,треугольная,квадратная,пилообразная вверх,пилообразная вниз"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "SWH Plate Reverb"
-msgstr "Реверберация (SoX)"
+msgstr "Реверберация стальной пластины SWH"
 
 #: data/effects/ladspa/ladspa_1423.xml:6
 #, kde-format
@@ -15325,6 +15339,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "audio stream"
 msgstr ""
+"Реверберация стальной пластины SWH (LADSPA 1423).<br>\n"
+"   Автоматически адаптируется к количеству каналов и частоте дискретизации "
+"звукового потока."
 
 #: data/effects/ladspa/ladspa_1423.xml:9
 #, fuzzy, kde-format
@@ -15520,9 +15537,9 @@ msgid "The amount of the delays output that is mixed back into the delay"
 msgstr "Количество частиц пыли на изображении"
 
 #: data/effects/ladspa/ladspa_1886.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Exponential Signal Decay"
-msgstr "Экспоненциальная на входе"
+msgstr "Экспоненциальный спад сигнала"
 
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
@@ -15545,9 +15562,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Max Delay"
-msgstr "Задержка Л"
+msgstr "Макс. задержка"
 
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
@@ -15565,7 +15582,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:12
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delay Time"
 msgstr "Время задержки"
 
@@ -15695,7 +15712,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1895.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Non-interpolating)"
-msgstr ""
+msgstr "Линия задержки для всех частот (без интерполяции)"
 
 #: data/effects/ladspa/ladspa_1895.xml:6
 #, kde-format
@@ -15704,6 +15721,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Линия задержки для всех частот (без интерполяции) (LADSPA 1895).<br>\n"
+"   Автоматически адаптируется к количеству каналов и частоте дискретизации "
+"получателя данных."
 
 #: data/effects/ladspa/ladspa_1895.xml:17
 #: data/effects/ladspa/ladspa_1896.xml:17
@@ -15718,7 +15738,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Linear Interpolation)"
-msgstr ""
+msgstr "Линия задержки для всех частот (линейная интерполяция)"
 
 #: data/effects/ladspa/ladspa_1896.xml:6
 #, kde-format
@@ -15727,11 +15747,14 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Линия задержки для всех частот (LADSPA 1896).<br>\n"
+"   Автоматически адаптируется к количеству каналов и частоте дискретизации "
+"получателя данных."
 
 #: data/effects/ladspa/ladspa_1897.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Cubic Spline Interpolation)"
-msgstr ""
+msgstr "Линия задержки для всех частот (интерполяция кубическим сплайном)"
 
 #: data/effects/ladspa/ladspa_1897.xml:6
 #, kde-format
@@ -15740,11 +15763,14 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Линия задержки для всех частот (LADSPA 1897).<br>\n"
+"   Автоматически адаптируется к количеству каналов и частоте дискретизации "
+"получателя данных."
 
 #: data/effects/ladspa/ladspa_1900.xml:4
 #, kde-format
 msgid "Simple Delay Line (Cubic Spline Interpolation)"
-msgstr ""
+msgstr "Простая линия задержки (интерполяция кубическим сплайном)"
 
 #: data/effects/ladspa/ladspa_1900.xml:6
 #, kde-format
@@ -15752,6 +15778,8 @@ msgid ""
 "Simple Delay Line (LADSPA 1900)<br>\n"
 "   Uses cubic spline interpolation"
 msgstr ""
+"Простая линия задержки (LADSPA 1900).<br>\n"
+"   Использует интерполяцию кубическим сплайном."
 
 #: data/effects/ladspa/ladspa_1901.xml:4
 #, kde-format
@@ -21267,6 +21295,9 @@ msgid ""
 "When selected mutes all other audio tracks.\n"
 "Use Shift+Click to select multiple tracks to play at the same time."
 msgstr ""
+"Отключает все остальные звуковые дорожки.\n"
+"Используйте Shift + щелчок, чтобы выбрать несколько дорожек для "
+"одновременного воспроизведения."
 
 #: src/audiomixer/mixerwidget.cpp:269
 #, kde-format
@@ -36257,18 +36288,22 @@ msgstr[3] ""
 "Выбранные клипы %1 и %2 не совпадают, невозможно заменить аудио или видео"
 
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "The selected clip needs %1 additional audio track for %2 audio stream."
 msgid_plural ""
 "The selected clip needs %1 additional audio tracks for %2 audio streams."
 msgstr[0] ""
-"Выбранные клипы %1 и %2 не совпадают, невозможно заменить аудио или видео"
+"Выбранному клипу необходима %1 дополнительная звуковая дорожка для %2 "
+"звуковых потоков."
 msgstr[1] ""
-"Выбранные клипы %1 и %2 не совпадают, невозможно заменить аудио или видео"
+"Выбранному клипу необходимы %1 дополнительные звуковые дорожки для %2 "
+"звуковых потоков."
 msgstr[2] ""
-"Выбранные клипы %1 и %2 не совпадают, невозможно заменить аудио или видео"
+"Выбранному клипу необходимы %1 дополнительных звуковых дорожек для %2 "
+"звуковых потоков."
 msgstr[3] ""
-"Выбранные клипы %1 и %2 не совпадают, невозможно заменить аудио или видео"
+"Выбранному клипу необходима %1 дополнительная звуковая дорожка для %2 "
+"звукового потока."
 
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:27
 #, fuzzy, kde-format
@@ -36711,9 +36746,9 @@ msgstr ""
 "монтажном столе"
 
 #: src/timeline2/view/timelinecontroller.cpp:941
-#, fuzzy, kde-format
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "Не удалось найти мастер-клип"
+msgstr "Не удалось дублировать клип"
 
 #: src/timeline2/view/timelinecontroller.cpp:999
 #: src/timeline2/view/timelinecontroller.cpp:5777
@@ -37393,7 +37428,7 @@ msgid "Unselect all"
 msgstr "Отменить выбор"
 
 #: src/titler/titlewidget.cpp:409
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
@@ -37403,7 +37438,8 @@ msgstr ""
 "Нажмите для выбора пункта, Alt + щелчок — выделение с перебором. Shift + "
 "перемещение — перемещение по вертикали, Alt + Shift + перемещение — "
 "перемещение по горизонтали, Shift + перемещение от края к центру — изменение "
-"размера, Ctrl + перемещение — панорамирование."
+"размера, Ctrl + перемещение — панорамирование. Отключить прилипание при "
+"перемещении элемента — Ctrl."
 
 #: src/titler/titlewidget.cpp:418
 #, kde-format
