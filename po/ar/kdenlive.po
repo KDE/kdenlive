@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-16 02:39+0000\n"
-"PO-Revision-Date: 2026-07-15 21:59+0400\n"
+"PO-Revision-Date: 2026-07-17 18:12+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -4839,6 +4839,9 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"تحديث البكسلات الداكنة ببطء.<br>\n"
+"        <b><i>ملاحظة</i></b>: لا يعاد ضبط هذا التأثير أثناء التشغيل بسبب "
+"مشكلات في مخزن الإطارات المؤقت، لكنه يُعرض بشكل صحيح."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -5575,28 +5578,25 @@ msgstr "طبق عامل بريوت على دفق الفيديو المدخل"
 #: data/effects/avfilter/avfilter_pseudocolor.xml:4
 #, kde-format
 msgid "Pseudocolor"
-msgstr ""
+msgstr "لون زائف"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:5
 #, kde-format
 msgid "Alter frame colors in video with pseudocolors."
-msgstr ""
+msgstr "غيّر ألوان الإطار في الفيديو بألوان زائفة."
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "المكوّنات"
+msgstr "المكوّن الأساس"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "أحمر,أخضر,أزرق"
+msgstr "أحمر,أخضر,أزرق,ألفا"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
-#, fuzzy, kde-format
-#| msgid "Preset"
+#, kde-format
 msgid "Preset"
 msgstr "الإعداد المسبق"
 
@@ -5607,6 +5607,8 @@ msgid ""
 "Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
 "Green,Helix"
 msgstr ""
+"لا شيء،ماغما،جحيم،بلازما،فيريديس،توربو،سيفيديس،نطاق 1،نطاق  2،ظلال،إبرازات،"
+"شمسي،اسمي،مفضّل،إجمالي،طيفي،بارد،حار،ناري،زرقاوات،أخضر،حلزون"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5925,16 +5927,14 @@ msgid "Nearest,Bilinear"
 msgstr "الأقرب,ثنائي الخط"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:4
-#, fuzzy, kde-format
-#| msgid "Shuffle planes"
+#, kde-format
 msgid "Shuffle Pixels"
-msgstr "خلط الأسطح"
+msgstr "خلط البكسلات"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Reorder pixels in video frames."
-msgstr "يصدر إطارات الفيديو"
+msgstr "أعد ترتيب البكسلات في إطارات الفيديو."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:10
 #, kde-format
@@ -5943,36 +5943,34 @@ msgid ""
 "        A forward shuffle can be reversed by using <b>inverse</b>, setting "
 "the same parameters, and the exact same seed value."
 msgstr ""
+"تعيين اتجاه الترتيب العشوائي.<br>\n"
+"        يمكن عكس الترتيب العشوائي الأمامي باستخدام <b>عكسي</b>، مع تعيين نفس "
+"المعلمات ونفس قيمة البذرة بالضبط."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
-#| msgid "Forward"
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "تقدّم"
+msgstr "أمامي,عكسي"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
-#, fuzzy, kde-format
-#| msgid "Set the filter mode"
+#, kde-format
 msgid "Set shuffle mode"
-msgstr "اضبط وضع المرشح"
+msgstr "اضبط نمط الخلط"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:16
-#, fuzzy, kde-format
-#| msgid "Horizontal multiplicator"
+#, kde-format
 msgid "Horizontal,Vertical,Block"
-msgstr "المضاعف الأفقي"
+msgstr "أفقي,عمودي,كتلة"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:20
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block width size"
-msgstr "اضبط حجم الكتلة بالبكسل"
+msgstr "اضبط حجم عرض كتلة الخلط"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:24
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block height size"
-msgstr "اضبط حجم الكتلة بالبكسل"
+msgstr "اضبط حجم ارتفاع كتلة الخلط"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
@@ -5988,6 +5986,10 @@ msgid ""
 "original input. For example, to reverse forward shuffle you need to use the "
 "same parameters and exact same seed and to set direction to inverse."
 msgstr ""
+"تعيين البذرة العشوائية المستخدمة في خلط البكسلات.<br>\n"
+"        يُعد هذا الإعداد مفيدًا بشكل أساسي للتمكن من عكس عملية التصفية للحصول "
+"على المدخلات الأصلية. على سبيل المثال، لعكس عملية الخلط الأمامي، يتعين عليك "
+"استخدام نفس المعلمات ونفس البذرة بالضبط، وتعيين الاتجاه إلى «عكسي»."
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -8434,6 +8436,9 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"عملية نقل الصور المُخففة بألفا والمؤجلة مع مرور الوقت.<br>\n"
+"        <b><i>ملاحظة</i></b>: لا يعاد ضبط هذا التأثير في أثناء التشغيل بسبب "
+"مشكلات في مخزن الإطارات المؤقت، لكنه يُعرض بشكل صحيح."
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -14148,9 +14153,9 @@ msgid ""
 "      continuously variable from thru to half-wave (1) rectification to full-"
 "wave (2) to silence (0)"
 msgstr ""
-"المعامل <i>Mode</i> هو<br>\n"
-"متغير باستمرار من خلال تقويم نصف الموجة (1) إلىالموجة الكاملة (2) إلى الصمت "
-"(0)"
+"المعامل <i>الوضع</i> هو<br>\n"
+"      متغير باستمرار من خلال تقويم نصف الموجة (1) إلى الموجة الكاملة (2) إلى "
+"الصمت (0)"
 
 #: data/effects/ladspa/ladspa_1185.xml:14
 #: data/effects/ladspa/ladspa_1190.xml:16
@@ -24979,14 +24984,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr ""
-"فشل التعرف على الكلام:\n"
-"%1"
+msgstr "فشل التعرف على الكلام"
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -24994,10 +24994,9 @@ msgid "Subtitles imported"
 msgstr "استوردت الترجمات"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Speech recognition finished."
+#, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "فشل التعرف على الحديث"
+msgstr "انتهى التعرف على الكلام، استُوردت الترجمة"
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -36229,10 +36228,9 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "لا يمكن إجراء عمليّة في أثناء السحب في الخط الزمني"
 
 #: src/timeline2/view/timelinecontroller.cpp:941
-#, fuzzy, kde-format
-#| msgid "Could not find master clip"
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "لم يعثر على المقطع الرئيس"
+msgstr "تعذّر تكرار المقطع"
 
 #: src/timeline2/view/timelinecontroller.cpp:999
 #: src/timeline2/view/timelinecontroller.cpp:5777

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-16 02:39+0000\n"
-"PO-Revision-Date: 2026-07-09 07:14+0200\n"
+"PO-Revision-Date: 2026-07-17 08:52+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5488,30 +5488,27 @@ msgstr "პრიუიტის ოპერატორის გადატ�
 #: data/effects/avfilter/avfilter_pseudocolor.xml:4
 #, kde-format
 msgid "Pseudocolor"
-msgstr ""
+msgstr "ფსევდოფერი"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:5
 #, kde-format
 msgid "Alter frame colors in video with pseudocolors."
-msgstr ""
+msgstr "ვიდეოში კადრის ფერების შეცვლა ფსევდოფერებით."
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "კომპონენტები"
+msgstr "საბაზისო კომპონენტი"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "წითელი,მწვანე,ლურჯი"
+msgstr "წითელი,მწვანე,ლურჯი,ალფა"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
-#, fuzzy, kde-format
-#| msgid "Presets"
+#, kde-format
 msgid "Preset"
-msgstr "პრესეტები"
+msgstr "პრესეტი"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:13
 #, kde-format
@@ -5520,6 +5517,9 @@ msgid ""
 "Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
 "Green,Helix"
 msgstr ""
+"None,Magma,Inferno,Plasma,Viridis,Turbo,Cividis,Range 1,Range 2,Shadows,"
+"Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
+"Green,Helix,ჩრდილები,გამოკვეთა"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5834,16 +5834,14 @@ msgid "Nearest,Bilinear"
 msgstr "უახლოესი,ორხაზოვანი"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:4
-#, fuzzy, kde-format
-#| msgid "Shuffle planes"
+#, kde-format
 msgid "Shuffle Pixels"
-msgstr "სიბრტყეების არევა"
+msgstr "პიქსელების არევა"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Reorder pixels in video frames."
-msgstr "ვიდეოს კადრების გატანა"
+msgstr "პიქსელების გადალაგება ვიდეოს კადრებში."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:10
 #, kde-format
@@ -5854,34 +5852,29 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
-#| msgid "Forward"
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "წინ"
+msgstr "წინ, ინვერსია"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
-#, fuzzy, kde-format
-#| msgid "Set the filter mode"
+#, kde-format
 msgid "Set shuffle mode"
-msgstr "ფილტრის რეჟიმის დაყენება"
+msgstr "არევის რეჟიმის დაყენება"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:16
-#, fuzzy, kde-format
-#| msgid "Horizontal multiplicator"
+#, kde-format
 msgid "Horizontal,Vertical,Block"
-msgstr "ჰორიზონტალური მამრავლი"
+msgstr "ჰორიზონტალური,ვერტიკალური,ბლოკი"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:20
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block width size"
-msgstr "ბლოკის ზომის დაყენება პიქსელებში"
+msgstr "აყენებს არევის ბლოკის სიგანის ზომას"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:24
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block height size"
-msgstr "ბლოკის ზომის დაყენება პიქსელებში"
+msgstr "აყენებს არევის ბლოკის სიმაღლის ზომას"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
@@ -14140,7 +14133,7 @@ msgstr "ბიტური სიღრმე"
 #: data/effects/ladspa/ladspa_1202.xml:10
 #, kde-format
 msgid "The bit depth that the signal will be reduced to"
-msgstr ""
+msgstr "ბიტური სიღრმე, რომლამდეც სიგნალი შემცირდება"
 
 #: data/effects/ladspa/ladspa_1202.xml:13
 #, kde-format
@@ -14155,7 +14148,7 @@ msgstr "დისკრეტიზაციის სიხშირე, რო
 #: data/effects/ladspa/ladspa_1203.xml:4
 #, kde-format
 msgid "Single Band Parametric"
-msgstr ""
+msgstr "ერთზოლიანი პარამეტრული"
 
 #: data/effects/ladspa/ladspa_1203.xml:6
 #, kde-format
@@ -14172,7 +14165,7 @@ msgstr "გაძლიერება (დბ)"
 #: data/effects/ladspa/ladspa_1203.xml:10
 #, kde-format
 msgid "The attenuation/gain of the eq"
-msgstr ""
+msgstr "ეკვალაიზერის ატენუაცია/ხმის გაძლიერება"
 
 #: data/effects/ladspa/ladspa_1203.xml:13
 #, kde-format
@@ -14191,7 +14184,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1203.xml:18
 #, kde-format
 msgid "Bandwidth (octaves)"
-msgstr ""
+msgstr "გამტარობა (ოქტავები)"
 
 #: data/effects/ladspa/ladspa_1203.xml:20
 #, kde-format
@@ -14363,6 +14356,7 @@ msgstr "მართავს შეყვანის სიგნალის 
 #, kde-format
 msgid "Controls the amount of output signal fed back into the input"
 msgstr ""
+"აკონტროლებს გამოტანილი სიგნალის რაოდენობას, რომელიც შეყვანაშია დაბრუნებული"
 
 #: data/effects/ladspa/ladspa_1402.xml:21
 #, kde-format
@@ -14372,7 +14366,7 @@ msgstr "ჩაჭერების რაოდენობა"
 #: data/effects/ladspa/ladspa_1402.xml:22
 #, kde-format
 msgid "Controls the number of taps in the delay"
-msgstr ""
+msgstr "აკონტროლებს შეხებების რაოდენობას დაყოვნებაში"
 
 #: data/effects/ladspa/ladspa_1402.xml:25
 #, kde-format
@@ -14392,7 +14386,7 @@ msgstr "დაყოვნების შუალედი"
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
 msgid "The time difference between the first and last delay"
-msgstr ""
+msgstr "დროის სხვაობა პირველსა და ბოლო დაყოვნებას შორის"
 
 #: data/effects/ladspa/ladspa_1402.xml:33
 #, kde-format
@@ -14402,7 +14396,7 @@ msgstr "დაყოვნების შეცვლა"
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
 msgid "The scaling factor between one delay and the next"
-msgstr ""
+msgstr "გადიდების მასშტაბი ერთ დაყოვნებასა და შემდეგს შორის"
 
 #: data/effects/ladspa/ladspa_1402.xml:37
 #, kde-format
@@ -14422,7 +14416,7 @@ msgstr "ამპლიტუდის ცვლილება"
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
 msgid "The scaling factor between one amplitude and the next"
-msgstr ""
+msgstr "გადიდების მასშტაბი ერთ ამპლიტუდასა და შემდეგს შორის"
 
 #: data/effects/ladspa/ladspa_1402.xml:45
 #, kde-format
@@ -14543,7 +14537,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1408.xml:4
 #, kde-format
 msgid "Barry's Satan Maximiser"
-msgstr ""
+msgstr "ბერის სატანური მაქსიმაიზერი"
 
 #: data/effects/ladspa/ladspa_1408.xml:6
 #, kde-format
@@ -24455,14 +24449,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr ""
-"საუბრის ამოცნობა ჩავარდა\n"
-"%1"
+msgstr "საუბრის ამოცნობის შეცდომა"
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -24470,10 +24459,9 @@ msgid "Subtitles imported"
 msgstr "სუბტიტრები შემოტნილია"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Speech recognition finished."
+#, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "საუბრის ამოცნობა დასრულდა."
+msgstr "საუბრის ამოცნობა დასრულდა. სუბტიტრები შემოტანილია"
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -28163,10 +28151,11 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:280
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "თვისებები, პაკეტები, შეცდომების გასწორება"
+msgstr ""
+"გუნდის ძირითადი წევრები, ფუნქციების განვითარება, პაკეტები, შეცდომების "
+"გასწორება"
 
 #: src/main.cpp:281
 #, kde-format
@@ -28195,10 +28184,9 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:285
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "ფერის შუალედები, შეცდომების გასწორება და ა.შ."
+msgstr "ფერის შუალედები, წილადების გამყოფის პრობლემა და შეცდომების გასწორება"
 
 #: src/main.cpp:286
 #, kde-format
@@ -28216,10 +28204,9 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:288
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
-msgstr "ლოგო, გამოჩენა, დატესტვა"
+msgstr "ლოგო, გამოჩენა, ტესტირება"
 
 #: src/main.cpp:289
 #, kde-format
@@ -28257,10 +28244,9 @@ msgid "Darby Johnston"
 msgstr ""
 
 #: src/main.cpp:292
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "თავზე გადაწერა"
+msgstr "OTIO-ის თავიდან გადაწერა"
 
 #: src/main.cpp:293
 #, kde-format
@@ -28304,10 +28290,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "ექსპერტის რჩევა, დასტესტვა"
+msgstr "გუნდის ძირითადი წევრი, ექსპერტის რჩევები, ტესტირება"
 
 #: src/main.cpp:299
 #, kde-format
@@ -35727,10 +35712,9 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "ოპერაციის ჩატარება დროის ხაზზე გადათრევისას შეუძლებელია"
 
 #: src/timeline2/view/timelinecontroller.cpp:941
-#, fuzzy, kde-format
-#| msgid "Could not find master clip"
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "მთავარი კლიპი ვერ ვიპოვე"
+msgstr "კლიპის დუბლირება შეუძლებელია"
 
 #: src/timeline2/view/timelinecontroller.cpp:999
 #: src/timeline2/view/timelinecontroller.cpp:5777
