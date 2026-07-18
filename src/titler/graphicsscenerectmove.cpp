@@ -1352,6 +1352,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                     if (newRadius > maxRadius) newRadius = maxRadius;
                     auto rectItem = static_cast<MyRectItem *>(m_selectedItem);
                     rectItem->setCornerRadius(newRadius);
+                    Q_EMIT itemMoved();
                     return;
                 }
                 default:
