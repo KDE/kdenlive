@@ -65,8 +65,9 @@ parts:
     stage:
       - "-pyvenv.cfg"
   ffmpeg:
-    plugin: autotools # or nil, depending on your build system setup
-    source: https://ffmpeg.org # Use your desired version
+    plugin: autotools
+    source: https://github.com/ffmpeg/ffmpeg.git
+    source-tag: v0.6.1
     build-packages:
       - yasm
       - pkg-config
