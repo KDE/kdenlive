@@ -5287,9 +5287,8 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip, int timeline
                         return;
                     }
                     std::shared_ptr<ProjectClip> newClip = m_itemModel->getClipByBinID(newBinId);
-                    const int maxDuration = newClip ? newClip->frameDuration() : 0;
                     // Re-point only the single edited timeline clip; preserves position, in/out, effects; undoable.
-                    timeline->processTimelineReplacement({timelineClipId}, originalBinId, newBinId, maxDuration, false, true);
+                    timeline->processTimelineReplacement({timelineClipId}, originalBinId, newBinId, -1, false, true);
                 });
         }
     }

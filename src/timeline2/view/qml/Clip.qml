@@ -410,7 +410,6 @@ Rectangle {
             ClipThumbs {
                 visible: !clipRoot.isAudio
                 opacity: clipRoot.clipState === K.PlaylistState.Disabled ? 0.2 : 1
-
                 parentClip: clipRoot
                 initialSpeed: clipRoot.speed
             }
@@ -683,7 +682,6 @@ Rectangle {
                     property bool hasRange: false
                     property real duration: 0
                     property int id
-
                     signal restorePositionBindings()
 
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
@@ -705,7 +703,7 @@ Rectangle {
                         height: container.height
                         color: markerBase.markerColor
                     }
-                                        
+
                     // Tapered end effect for range markers
                     Rectangle {
                         id: clipRangeEndTaper
@@ -720,7 +718,7 @@ Rectangle {
                             GradientStop { position: 1.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.1) }
                         }
                     }
-                                        
+
                     TextMetrics {
                         id: textMetrics
                         font: K.UiUtils.smallestReadableFont
@@ -1044,7 +1042,6 @@ Rectangle {
                                 loader.item.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
                             }
                         }
-
                         sourceComponent: markerComponent
                     }
                 }
