@@ -713,8 +713,10 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
 
         // Video index
         if (!m_videoStreams.isEmpty()) {
-            QString vix = m_properties->get("video_index");
+            const QString vix = m_properties->get("video_index");
             m_originalProperties.insert(QStringLiteral("video_index"), vix);
+            const QString vStream = m_properties->get("vstream");
+            m_originalProperties.insert(QStringLiteral("vstream"), vStream);
             hlay = new QHBoxLayout;
 
             KDualAction *ac = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
@@ -743,12 +745,16 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
                 int vindx = -1;
                 if (activated) {
                     videoStream->setEnabled(false);
+                    properties.insert(QStringLiteral("video_index"), QStringLiteral("-1"));
+                    properties.insert(QStringLiteral("vstream"), QStringLiteral("-1"));
+                    properties.insert(QStringLiteral("set.test_image"), QStringLiteral("1"));
                 } else {
                     videoStream->setEnabled(true);
                     vindx = videoStream->currentData().toInt();
+                    properties.insert(QStringLiteral("video_index"), QString::number(vindx));
+                    properties.insert(QStringLiteral("vstream"), QString());
+                    properties.insert(QStringLiteral("set.test_image"), QStringLiteral("0"));
                 }
-                properties.insert(QStringLiteral("video_index"), QString::number(vindx));
-                properties.insert(QStringLiteral("set.test_image"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
                 Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
@@ -1507,11 +1513,30 @@ void ClipPropertiesController::fillProperties()
 
         // Find maximum stream index values
         m_videoStreams.clear();
-        int aStreams = m_sourceProperties->get_int("meta.media.nb_streams");
+        int aStreams = qMin(99, m_sourceProperties->get_int("meta.media.nb_streams"));
         for (int ix = 0; ix < aStreams; ++ix) {
             const QString propertName = QStringLiteral("meta.media.%1.stream.type").arg(ix);
             QString type = m_sourceProperties->get(propertName.toUtf8().constData());
             if (type == QLatin1String("video")) {
+                // Discard attached pic streams
+                QString key = QStringLiteral("meta.media.%1.codec.name").arg(ix);
+                QString codec_name = m_properties->get(key.toLatin1().constData());
+                if (codec_name == QLatin1String("png")) {
+                    // This is a cover image, skip
+                    continue;
+                }
+                if (codec_name == QLatin1String("mjpeg")) {
+                    key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(ix);
+                    QString fps = m_properties->get(key.toLatin1().constData());
+                    if (fps.isEmpty()) {
+                        key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(ix);
+                        fps = m_properties->get(key.toLatin1().constData());
+                    }
+                    if (fps == QLatin1String("90000")) {
+                        // This is a cover image, skip
+                        continue;
+                    }
+                }
                 m_videoStreams << ix;
             }
         }

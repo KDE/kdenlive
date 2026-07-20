@@ -257,4 +257,6 @@ private:
     QDomElement m_effectsToLoad;
     /** @brief Build the audio info object */
     void buildAudioInfo(int audioIndex);
+    /** @brief Check if a producer has at least one video stream */
+    bool hasVideoStreams();
 };
