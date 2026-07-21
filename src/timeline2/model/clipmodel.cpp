@@ -998,10 +998,6 @@ void ClipModel::refreshProducerFromBin(int trackId)
 
 bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
 {
-    if (m_endlessResize) {
-        // no timewarp for endless producers
-        return false;
-    }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     int audioStream = getIntProperty(QStringLiteral("audio_index"));

@@ -7257,9 +7257,7 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
-    if (success) {
-        success = m_allClips[clipId]->useTimeRemapProducer(enable, local_undo, local_redo);
-    }
+    success = success && m_allClips[clipId]->useTimeRemapProducer(enable, local_undo, local_redo);
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo, false, false);
         if (success && !enable && previousDuration > 0) {
