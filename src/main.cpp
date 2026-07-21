@@ -21,6 +21,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <mlt++/Mlt.h>
 
+ extern "C" {
+#include <libavutil/avutil.h>
+ }
+
 #include <KAboutData>
 #include <KConfigGroup>
 #ifdef USE_DRMINGW
@@ -316,8 +320,8 @@ int main(int argc, char *argv[])
 
     aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
                            QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
-    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(),
-                           QStringLiteral("https://ffmpeg.org"));
+    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."),
+                           QString::fromLocal8Bit(av_version_info()), QStringLiteral("https://ffmpeg.org"));
 
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
