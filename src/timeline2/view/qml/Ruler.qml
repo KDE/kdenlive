@@ -585,10 +585,12 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
+        property double lastPosition: 0
         z: 1
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
+                lastPosition = mapToGlobal(Qt.point(mouseX, 0)).x
                 var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, root.snapping)
@@ -599,8 +601,21 @@ Item {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton && pressed) {
-                var pos = Math.max(mouseX, 0)
-                var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
+                var frame
+                if (K.KdenliveSettings.centeredplayhead) {
+                    // First calculate the delta between current mouse pos and last one
+                    let pos = mapToGlobal(Qt.point(mouseX, 0)).x
+                    let delta = pos > lastPosition ? Math.max(Math.round((pos - lastPosition) / rulerRoot.timeline.scaleFactor), 1) : Math.min(Math.round((pos - lastPosition) / rulerRoot.timeline.scaleFactor), -1)
+                    // Now calculate how far we are from playhead to apply a multiplicator (father means faster seeking)
+                    let framePos = Math.max(mouseX, 0)
+                    let playheadPos = rulerRoot.monitorProxy.position * rulerRoot.timeline.scaleFactor
+                    let factor = Math.max(1, Math.abs(playheadPos - framePos) / 10)
+                    frame = rulerRoot.monitorProxy.position + delta * factor
+                    lastPosition = pos
+                } else {
+                    let pos = Math.max(mouseX, 0)
+                    frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
+                }
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, root.snapping)
                 }
