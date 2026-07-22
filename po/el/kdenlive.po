@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-21 02:41+0000\n"
+"POT-Creation-Date: 2026-07-22 02:43+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -26721,7 +26721,7 @@ msgstr ""
 msgid "Time remap does not work on clip with B frames."
 msgstr "Εισαγωγή κυμάτων στο κλιπ σας με keyframes"
 
-#: src/dialogs/timeremap.cpp:2070
+#: src/dialogs/timeremap.cpp:2076
 #, fuzzy, kde-format
 #| msgid "Edit Keyframe"
 msgid "Edit Timeremap keyframes"
@@ -36506,70 +36506,70 @@ msgstr "Εμφάνιση/απόκρυψη επιλογών"
 msgid "Enable time remap"
 msgstr "Ενεργοποίηση επιμήκυνσης"
 
-#: src/timeline2/model/timelinemodel.cpp:7300
+#: src/timeline2/model/timelinemodel.cpp:7298
 #, fuzzy, kde-format
 #| msgid "Captured files"
 msgid "Change speed failed"
 msgstr "Αρχεία σύλληψης"
 
-#: src/timeline2/model/timelinemodel.cpp:7310
+#: src/timeline2/model/timelinemodel.cpp:7308
 #: src/timeline2/view/timelinecontroller.cpp:3369
 #, fuzzy, kde-format
 #| msgid "Change clip type"
 msgid "Change clip speed"
 msgstr "Τροποποίηση τύπου κλιπ"
 
-#: src/timeline2/model/timelinemodel.cpp:7758
+#: src/timeline2/model/timelinemodel.cpp:7756
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "Κλείδωμα κομματιού"
 
-#: src/timeline2/model/timelinemodel.cpp:7763
+#: src/timeline2/model/timelinemodel.cpp:7761
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "Ξεκλείδωμα κομματιού"
 
-#: src/timeline2/model/timelinemodel.cpp:7797
-#: src/timeline2/model/timelinemodel.cpp:7859
+#: src/timeline2/model/timelinemodel.cpp:7795
+#: src/timeline2/model/timelinemodel.cpp:7857
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change composition"
 msgstr "Κεντρική θέση (Χ)"
 
-#: src/timeline2/model/timelinemodel.cpp:7811
+#: src/timeline2/model/timelinemodel.cpp:7809
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:8009
-#: src/timeline2/model/timelinemodel.cpp:8048
-#: src/timeline2/model/timelinemodel.cpp:8083
-#: src/timeline2/model/timelinemodel.cpp:8164
+#: src/timeline2/model/timelinemodel.cpp:8007
+#: src/timeline2/model/timelinemodel.cpp:8046
+#: src/timeline2/model/timelinemodel.cpp:8081
+#: src/timeline2/model/timelinemodel.cpp:8162
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Αδυναμία μετακίνησης του κλιπ στη θέση %1"
 
-#: src/timeline2/model/timelinemodel.cpp:8020
-#: src/timeline2/model/timelinemodel.cpp:8056
-#: src/timeline2/model/timelinemodel.cpp:8100
-#: src/timeline2/model/timelinemodel.cpp:8188
+#: src/timeline2/model/timelinemodel.cpp:8018
+#: src/timeline2/model/timelinemodel.cpp:8054
+#: src/timeline2/model/timelinemodel.cpp:8098
+#: src/timeline2/model/timelinemodel.cpp:8186
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Αδυναμία αλλαγής μεγέθους της μετάβασης"
 
-#: src/timeline2/model/timelinemodel.cpp:8204
+#: src/timeline2/model/timelinemodel.cpp:8202
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "Αλλαγή μεγέθους κλιπ"
 
-#: src/timeline2/model/timelinemodel.cpp:8324
+#: src/timeline2/model/timelinemodel.cpp:8322
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-21 02:41+0000\n"
+"POT-Creation-Date: 2026-07-22 02:43+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -26924,7 +26924,7 @@ msgstr "Apaga a imagem-chave na posição de reprodução actual."
 msgid "Time remap does not work on clip with B frames."
 msgstr "O reposicionamento no tempo não funciona num 'clip' com imagens B."
 
-#: src/dialogs/timeremap.cpp:2070
+#: src/dialogs/timeremap.cpp:2076
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Editar as imagens-chave da reconfiguração de tempo"
@@ -36723,65 +36723,65 @@ msgstr "Mover a composição"
 msgid "Enable time remap"
 msgstr "Activar a reconfiguração do tempo"
 
-#: src/timeline2/model/timelinemodel.cpp:7300
+#: src/timeline2/model/timelinemodel.cpp:7298
 #, kde-format
 msgid "Change speed failed"
 msgstr "A mudança de velocidade falhou"
 
-#: src/timeline2/model/timelinemodel.cpp:7310
+#: src/timeline2/model/timelinemodel.cpp:7308
 #: src/timeline2/view/timelinecontroller.cpp:3369
 #, kde-format
 msgid "Change clip speed"
 msgstr "Mudar a velocidade do 'clip'"
 
-#: src/timeline2/model/timelinemodel.cpp:7758
+#: src/timeline2/model/timelinemodel.cpp:7756
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "Bloquear a faixa"
 
-#: src/timeline2/model/timelinemodel.cpp:7763
+#: src/timeline2/model/timelinemodel.cpp:7761
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "Desbloquear a faixa"
 
-#: src/timeline2/model/timelinemodel.cpp:7797
-#: src/timeline2/model/timelinemodel.cpp:7859
+#: src/timeline2/model/timelinemodel.cpp:7795
+#: src/timeline2/model/timelinemodel.cpp:7857
 #, kde-format
 msgid "Change composition"
 msgstr "Mudar a composição"
 
-#: src/timeline2/model/timelinemodel.cpp:7811
+#: src/timeline2/model/timelinemodel.cpp:7809
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Não é possível manipular uma composição agrupada; por favor desagrupe-a"
 
-#: src/timeline2/model/timelinemodel.cpp:8009
-#: src/timeline2/model/timelinemodel.cpp:8048
-#: src/timeline2/model/timelinemodel.cpp:8083
-#: src/timeline2/model/timelinemodel.cpp:8164
+#: src/timeline2/model/timelinemodel.cpp:8007
+#: src/timeline2/model/timelinemodel.cpp:8046
+#: src/timeline2/model/timelinemodel.cpp:8081
+#: src/timeline2/model/timelinemodel.cpp:8162
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Não é possível dimensionar a mistura para menos de 1 trama"
 
-#: src/timeline2/model/timelinemodel.cpp:8020
-#: src/timeline2/model/timelinemodel.cpp:8056
-#: src/timeline2/model/timelinemodel.cpp:8100
-#: src/timeline2/model/timelinemodel.cpp:8188
+#: src/timeline2/model/timelinemodel.cpp:8018
+#: src/timeline2/model/timelinemodel.cpp:8054
+#: src/timeline2/model/timelinemodel.cpp:8098
+#: src/timeline2/model/timelinemodel.cpp:8186
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Não é possível dimensionar a mistura"
 
-#: src/timeline2/model/timelinemodel.cpp:8204
+#: src/timeline2/model/timelinemodel.cpp:8202
 #, kde-format
 msgid "Resize mix"
 msgstr "Dimensionar a mistura"
 
-#: src/timeline2/model/timelinemodel.cpp:8324
+#: src/timeline2/model/timelinemodel.cpp:8322
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Erro ao inicializar a antevisão da linha temporal"

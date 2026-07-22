@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-21 02:41+0000\n"
+"POT-Creation-Date: 2026-07-22 02:43+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -26129,7 +26129,7 @@ msgstr ""
 msgid "Time remap does not work on clip with B frames."
 msgstr "Učini valove na isječku prema ključnim okvirima"
 
-#: src/dialogs/timeremap.cpp:2070
+#: src/dialogs/timeremap.cpp:2076
 #, fuzzy, kde-format
 #| msgid "Edit Keyframe"
 msgid "Edit Timeremap keyframes"
@@ -35759,70 +35759,70 @@ msgstr "Opis"
 msgid "Enable time remap"
 msgstr "Sox Stretch"
 
-#: src/timeline2/model/timelinemodel.cpp:7300
+#: src/timeline2/model/timelinemodel.cpp:7298
 #, fuzzy, kde-format
 #| msgid "Change Clip Speed"
 msgid "Change speed failed"
 msgstr "Promijeni brzinu isječka"
 
-#: src/timeline2/model/timelinemodel.cpp:7310
+#: src/timeline2/model/timelinemodel.cpp:7308
 #: src/timeline2/view/timelinecontroller.cpp:3369
 #, fuzzy, kde-format
 #| msgid "Change Clip Speed"
 msgid "Change clip speed"
 msgstr "Promijeni brzinu isječka"
 
-#: src/timeline2/model/timelinemodel.cpp:7758
+#: src/timeline2/model/timelinemodel.cpp:7756
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "Zaključaj traku"
 
-#: src/timeline2/model/timelinemodel.cpp:7763
+#: src/timeline2/model/timelinemodel.cpp:7761
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "Otključaj traku"
 
-#: src/timeline2/model/timelinemodel.cpp:7797
-#: src/timeline2/model/timelinemodel.cpp:7859
+#: src/timeline2/model/timelinemodel.cpp:7795
+#: src/timeline2/model/timelinemodel.cpp:7857
 #, fuzzy, kde-format
 #| msgid "Change Track"
 msgid "Change composition"
 msgstr "Promijeni traku"
 
-#: src/timeline2/model/timelinemodel.cpp:7811
+#: src/timeline2/model/timelinemodel.cpp:7809
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:8009
-#: src/timeline2/model/timelinemodel.cpp:8048
-#: src/timeline2/model/timelinemodel.cpp:8083
-#: src/timeline2/model/timelinemodel.cpp:8164
+#: src/timeline2/model/timelinemodel.cpp:8007
+#: src/timeline2/model/timelinemodel.cpp:8046
+#: src/timeline2/model/timelinemodel.cpp:8081
+#: src/timeline2/model/timelinemodel.cpp:8162
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ne mogu pouklonjeni isječak na poziciju %1"
 
-#: src/timeline2/model/timelinemodel.cpp:8020
-#: src/timeline2/model/timelinemodel.cpp:8056
-#: src/timeline2/model/timelinemodel.cpp:8100
-#: src/timeline2/model/timelinemodel.cpp:8188
+#: src/timeline2/model/timelinemodel.cpp:8018
+#: src/timeline2/model/timelinemodel.cpp:8054
+#: src/timeline2/model/timelinemodel.cpp:8098
+#: src/timeline2/model/timelinemodel.cpp:8186
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Ne mogu rastegnuti prijelaz"
 
-#: src/timeline2/model/timelinemodel.cpp:8204
+#: src/timeline2/model/timelinemodel.cpp:8202
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "Promjeni veličinu isječka"
 
-#: src/timeline2/model/timelinemodel.cpp:8324
+#: src/timeline2/model/timelinemodel.cpp:8322
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-21 02:41+0000\n"
+"POT-Creation-Date: 2026-07-22 02:43+0000\n"
 "PO-Revision-Date: 2026-02-09 16:55+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -26942,7 +26942,7 @@ msgstr "Poistaa leikekehyksen toistopaikan nykyisestä sijainnista."
 msgid "Time remap does not work on clip with B frames."
 msgstr "Ajan kartoitus ei toimi leikkeessä, jossa on B-kehyksiä."
 
-#: src/dialogs/timeremap.cpp:2070
+#: src/dialogs/timeremap.cpp:2076
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Muokkaa Timeremap-leikekehyksiä"
@@ -36508,18 +36508,18 @@ msgstr "Siirrä koostaminen"
 msgid "Enable time remap"
 msgstr "Ota ajan kartoitus käyttöön"
 
-#: src/timeline2/model/timelinemodel.cpp:7300
+#: src/timeline2/model/timelinemodel.cpp:7298
 #, kde-format
 msgid "Change speed failed"
 msgstr "Nopeuden muutos epäonnistui"
 
-#: src/timeline2/model/timelinemodel.cpp:7310
+#: src/timeline2/model/timelinemodel.cpp:7308
 #: src/timeline2/view/timelinecontroller.cpp:3369
 #, kde-format
 msgid "Change clip speed"
 msgstr "Muuta leikkeen nopeutta"
 
-#: src/timeline2/model/timelinemodel.cpp:7758
+#: src/timeline2/model/timelinemodel.cpp:7756
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
@@ -36527,7 +36527,7 @@ msgid "Lock track"
 msgstr "Lukitse raita"
 
 # Avaa lukitus parempi kuin avaa raidan lukitus
-#: src/timeline2/model/timelinemodel.cpp:7763
+#: src/timeline2/model/timelinemodel.cpp:7761
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:140
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
@@ -36535,39 +36535,39 @@ msgid "Unlock track"
 msgstr "Avaa lukitus"
 
 # Vai keskiön, keskikohdan…?
-#: src/timeline2/model/timelinemodel.cpp:7797
-#: src/timeline2/model/timelinemodel.cpp:7859
+#: src/timeline2/model/timelinemodel.cpp:7795
+#: src/timeline2/model/timelinemodel.cpp:7857
 #, kde-format
 msgid "Change composition"
 msgstr "Muuta koostamista"
 
-#: src/timeline2/model/timelinemodel.cpp:7811
+#: src/timeline2/model/timelinemodel.cpp:7809
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ryhmittettyä ei voi käyttää, poista ryhmitys"
 
-#: src/timeline2/model/timelinemodel.cpp:8009
-#: src/timeline2/model/timelinemodel.cpp:8048
-#: src/timeline2/model/timelinemodel.cpp:8083
-#: src/timeline2/model/timelinemodel.cpp:8164
+#: src/timeline2/model/timelinemodel.cpp:8007
+#: src/timeline2/model/timelinemodel.cpp:8046
+#: src/timeline2/model/timelinemodel.cpp:8081
+#: src/timeline2/model/timelinemodel.cpp:8162
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Käsittelyn kokoa ei voi muuttaa alle 1 ruudun"
 
-#: src/timeline2/model/timelinemodel.cpp:8020
-#: src/timeline2/model/timelinemodel.cpp:8056
-#: src/timeline2/model/timelinemodel.cpp:8100
-#: src/timeline2/model/timelinemodel.cpp:8188
+#: src/timeline2/model/timelinemodel.cpp:8018
+#: src/timeline2/model/timelinemodel.cpp:8054
+#: src/timeline2/model/timelinemodel.cpp:8098
+#: src/timeline2/model/timelinemodel.cpp:8186
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Käsittelyn kokoa ei voi muuttaa"
 
-#: src/timeline2/model/timelinemodel.cpp:8204
+#: src/timeline2/model/timelinemodel.cpp:8202
 #, kde-format
 msgid "Resize mix"
 msgstr "Käsittelyn koko"
 
-#: src/timeline2/model/timelinemodel.cpp:8324
+#: src/timeline2/model/timelinemodel.cpp:8322
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Virhe alustettaessa aikajanan esikatselua"
