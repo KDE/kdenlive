@@ -637,16 +637,20 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, QS
     bool isShortComposition = TransitionsRepository::get()->getType(transitionId) == AssetListType::AssetType::VideoShortComposition;
     if (duration < 0 || (isShortComposition && duration > 1.5 * defaultLength)) {
         duration = defaultLength;
-    } else if (duration <= 1) {
+    } else if (duration <= 1 && duration < clip_duration) {
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
         if (minimumPos + clip_duration - position < 3) {
-            position = minimumPos + clip_duration - duration;
+            position = qMax(minimumPos, minimumPos + clip_duration - duration);
         }
     }
     QPair<int, int> finalPos = m_model->getTrackById_const(tid)->validateCompositionLength(position, offset, duration, endPos);
     position = finalPos.first;
     duration = finalPos.second;
+    if (duration == 0) {
+        pCore->displayMessage(i18n("Could not add composition at selected position"), ErrorMessage, 500);
+        return -1;
+    }
 
     std::unique_ptr<Mlt::Properties> props(nullptr);
     if (TransitionsRepository::get()->isLuma(transitionId)) {

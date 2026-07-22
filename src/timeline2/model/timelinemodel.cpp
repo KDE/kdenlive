@@ -6239,6 +6239,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     // TRACE(transitionId, trackId, position, length, transProps.get(), id, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Q_ASSERT(length > 0);
     bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, std::move(transProps), id, undo, redo, logUndo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
@@ -6282,9 +6283,6 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
         return true;
     };
     bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, finalMove, local_undo, local_redo);
-    if (res) {
-        res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, true);
-    }
     if (!res) {
         bool undone = local_undo();
         Q_ASSERT(undone);
