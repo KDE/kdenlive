@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-21 00:43+0000\n"
+"POT-Creation-Date: 2026-07-22 00:44+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -3190,7 +3190,7 @@ msgstr "प्रतीक चिन्ह"
 msgid "Remove logo from input video"
 msgstr "पसंदीदा से हटाएं"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:308
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:312
 #, kde-format
 msgid "Logo"
 msgstr "प्रतीक चिन्ह"
@@ -24759,7 +24759,7 @@ msgstr "ऑडियो ट्रैक के बिना वीडियो"
 msgid "Audio without video track"
 msgstr "वीडियो ट्रैक के बिना ऑडियो"
 
-#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:513
+#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:517
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25437,7 +25437,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "केडीई द्वारा निर्मित"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:288
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:292
 #, kde-format
 msgid "Kdenlive"
 msgstr "केडेनलाइव"
@@ -26898,7 +26898,7 @@ msgstr "प्लेहेड की वर्तमान स्थिति �
 msgid "Time remap does not work on clip with B frames."
 msgstr "टाइम रीमैप B फ्रेम वाले क्लिप पर काम नहीं करता है।"
 
-#: src/dialogs/timeremap.cpp:2070
+#: src/dialogs/timeremap.cpp:2076
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "टाइमरीमैप कीफ़्रेम संपादित करें"
@@ -29263,211 +29263,211 @@ msgstr "लाइब्रेरी पथ कस्टम पर सेट क�
 msgid "Cannot write to Library path: %1, using default"
 msgstr "लाइब्रेरी पथ पर नहीं लिखा जा सकता: %1, डिफ़ॉल्ट का उपयोग करके"
 
-#: src/main.cpp:285
+#: src/main.cpp:289
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "कृपया बग की रिपोर्ट <a href=\"%1\">%2</a> पर करें"
 
-#: src/main.cpp:288
+#: src/main.cpp:292
 #, kde-format
 msgid "An open source video editor."
 msgstr "एक खुला स्रोत वीडियो संपादक."
 
-#: src/main.cpp:289
+#: src/main.cpp:293
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2024 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "कॉपीराइट © 2007–2024 केडेनलाइव लेखक"
 
-#: src/main.cpp:291
+#: src/main.cpp:295
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "जीन-बैप्टिस्ट मार्डेल"
 
-#: src/main.cpp:291
+#: src/main.cpp:295
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
 
-#: src/main.cpp:293
+#: src/main.cpp:297
 #, kde-format
 msgid "Julius Künzel"
 msgstr "जूलियस कुंजेल"
 
-#: src/main.cpp:293
+#: src/main.cpp:297
 #, fuzzy, kde-format
 #| msgid "Feature development, packaging, bug fixing"
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr "फीचर विकास, पैकेजिंग, बग फिक्सिंग"
 
-#: src/main.cpp:294
+#: src/main.cpp:298
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "विंसेंट पिनोन"
 
-#: src/main.cpp:294
+#: src/main.cpp:298
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 पोर्ट, विंडोज़ क्रॉस-बिल्ड, पैकेजिंग, बग फिक्सिंग"
 
-#: src/main.cpp:296
+#: src/main.cpp:300
 #, kde-format
 msgid "Eric Jiang"
 msgstr "एरिक जियांग"
 
-#: src/main.cpp:296
+#: src/main.cpp:300
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "बग फिक्सिंग और परीक्षण सुधार"
 
-#: src/main.cpp:298
+#: src/main.cpp:302
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "साइमन ए. यूगस्टर"
 
-#: src/main.cpp:298
+#: src/main.cpp:302
 #, fuzzy, kde-format
 #| msgid "Color scopes, bug fixing, etc."
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "रंग क्षेत्र, बग फिक्सिंग, आदि।"
 
-#: src/main.cpp:299
+#: src/main.cpp:303
 #, kde-format
 msgid "Jason Wood"
 msgstr "जेसन वुड"
 
-#: src/main.cpp:299
+#: src/main.cpp:303
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "मूल KDE 3 संस्करण लेखक (अब सक्रिय नहीं)"
 
-#: src/main.cpp:301
+#: src/main.cpp:305
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "फ़रीद अब्देलनौर"
 
-#: src/main.cpp:301
+#: src/main.cpp:305
 #, fuzzy, kde-format
 #| msgid "Logo, Promotion, testing"
 msgid "Logo, promotion, testing"
 msgstr "लोगो, प्रचार, परीक्षण"
 
-#: src/main.cpp:302
+#: src/main.cpp:306
 #, kde-format
 msgid "balooii"
 msgstr ""
 
-#: src/main.cpp:302
+#: src/main.cpp:306
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr ""
 
-#: src/main.cpp:303
+#: src/main.cpp:307
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "निकोलस कैरियन"
 
-#: src/main.cpp:303
+#: src/main.cpp:307
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "कोड पुनः वास्तुकला और समयरेखा पुनर्लेखन (2019)"
 
-#: src/main.cpp:304
+#: src/main.cpp:308
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "डैन डेंडी"
 
-#: src/main.cpp:304
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "एमएलटी अनुरक्षक, बग फिक्सिंग, आदि।"
 
-#: src/main.cpp:305
+#: src/main.cpp:309
 #, kde-format
 msgid "Darby Johnston"
 msgstr ""
 
-#: src/main.cpp:305
+#: src/main.cpp:309
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "OTIO rewrite"
 msgstr "ओवरराइट"
 
-#: src/main.cpp:306
+#: src/main.cpp:310
 #, kde-format
 msgid "Bernd Jordan"
 msgstr ""
 
-#: src/main.cpp:306
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
 
-#: src/main.cpp:307
+#: src/main.cpp:311
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "यूजीन मोहर"
 
-#: src/main.cpp:307
+#: src/main.cpp:311
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
 
-#: src/main.cpp:308
+#: src/main.cpp:312
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "नारा ओलिविरा"
 
-#: src/main.cpp:309
+#: src/main.cpp:313
 #, kde-format
 msgid "Bruno Santos"
 msgstr "ब्रूनो सैंटोस"
 
-#: src/main.cpp:309
+#: src/main.cpp:313
 #, kde-format
 msgid "Testing"
 msgstr "परीक्षण"
 
-#: src/main.cpp:310
+#: src/main.cpp:314
 #, kde-format
 msgid "Massimo Stella"
 msgstr "मास्सिमो स्टेला"
 
-#: src/main.cpp:310
+#: src/main.cpp:314
 #, fuzzy, kde-format
 #| msgid "Expert advice, testing"
 msgid "Core team member, expert advice, testing"
 msgstr "विशेषज्ञ सलाह, परीक्षण"
 
-#: src/main.cpp:312
+#: src/main.cpp:316
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "अनुवादकों का नाम"
 
-#: src/main.cpp:312
+#: src/main.cpp:316
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "अनुवादकों का ईमेल"
 
-#: src/main.cpp:317
+#: src/main.cpp:321
 #, kde-format
 msgid "MLT"
 msgstr "एम एल टी"
 
-#: src/main.cpp:317
+#: src/main.cpp:321
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "खुला स्रोत मल्टीमीडिया फ्रेमवर्क."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:319 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:323 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "एफएफएमपीईजी"
 
-#: src/main.cpp:319
+#: src/main.cpp:323
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -29476,39 +29476,39 @@ msgstr ""
 "ऑडियो और वीडियो को रिकॉर्ड करने, परिवर्तित करने और स्ट्रीम करने के लिए एक पूर्ण, क्रॉस-"
 "प्लेटफ़ॉर्म समाधान।"
 
-#: src/main.cpp:337
+#: src/main.cpp:341
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "कस्टम कॉन्फ़िगरेशन फ़ाइल नाम सेट करें."
 
-#: src/main.cpp:338
+#: src/main.cpp:342
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT वातावरण के लिए पथ निर्धारित करें."
 
-#: src/main.cpp:340
+#: src/main.cpp:344
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT लॉग स्तर सेट करें। स्तर \"चेतावनी\" के लिए इसे अनसेट छोड़ दें।"
 
-#: src/main.cpp:343
+#: src/main.cpp:347
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "बिन में क्लिप के रूप में जोड़ने के लिए फ़ाइलों की अल्पविराम से अलग की गई सूची।"
 
-#: src/main.cpp:347
+#: src/main.cpp:351
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "प्रोजेक्ट को सीधे रेंडर करें और बाहर निकलें."
 
-#: src/main.cpp:350
+#: src/main.cpp:354
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenlive रेंडर प्रीसेट नाम (यदि कोई नहीं दिया गया है तो MP4-H264/AAC का उपयोग किया "
 "जाएगा)।"
 
-#: src/main.cpp:355
+#: src/main.cpp:359
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -29517,29 +29517,29 @@ msgstr ""
 "(अलग) रेंडर प्रक्रिया शुरू होने के बाद बाहर निकलें, इस ध्वज के बिना यह समाप्त होने के बाद "
 "ही मौजूद रहता है।"
 
-#: src/main.cpp:358
+#: src/main.cpp:362
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr ""
 
-#: src/main.cpp:361
+#: src/main.cpp:365
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
 
-#: src/main.cpp:364
+#: src/main.cpp:368
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr ""
 
-#: src/main.cpp:367
+#: src/main.cpp:371
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Kdenlive दस्तावेज़ खोलें."
 
-#: src/main.cpp:368
+#: src/main.cpp:372
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "प्रस्तुत वीडियो के लिए आउटपुट फ़ाइल."
@@ -36466,64 +36466,64 @@ msgstr "रचना ले जाएँ"
 msgid "Enable time remap"
 msgstr "समय रीमैप सक्षम करें"
 
-#: src/timeline2/model/timelinemodel.cpp:7300
+#: src/timeline2/model/timelinemodel.cpp:7298
 #, kde-format
 msgid "Change speed failed"
 msgstr "गति परिवर्तन विफल"
 
-#: src/timeline2/model/timelinemodel.cpp:7310
+#: src/timeline2/model/timelinemodel.cpp:7308
 #: src/timeline2/view/timelinecontroller.cpp:3369
 #, kde-format
 msgid "Change clip speed"
 msgstr "क्लिप की गति बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:7758
+#: src/timeline2/model/timelinemodel.cpp:7756
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "ट्रैक लॉक करें"
 
-#: src/timeline2/model/timelinemodel.cpp:7763
+#: src/timeline2/model/timelinemodel.cpp:7761
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "ट्रैक अनलॉक करें"
 
-#: src/timeline2/model/timelinemodel.cpp:7797
-#: src/timeline2/model/timelinemodel.cpp:7859
+#: src/timeline2/model/timelinemodel.cpp:7795
+#: src/timeline2/model/timelinemodel.cpp:7857
 #, kde-format
 msgid "Change composition"
 msgstr "रचना बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:7811
+#: src/timeline2/model/timelinemodel.cpp:7809
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "समूहीकृत संरचना पर काम नहीं किया जा सकता, कृपया समूह हटाएँ"
 
-#: src/timeline2/model/timelinemodel.cpp:8009
-#: src/timeline2/model/timelinemodel.cpp:8048
-#: src/timeline2/model/timelinemodel.cpp:8083
-#: src/timeline2/model/timelinemodel.cpp:8164
+#: src/timeline2/model/timelinemodel.cpp:8007
+#: src/timeline2/model/timelinemodel.cpp:8046
+#: src/timeline2/model/timelinemodel.cpp:8081
+#: src/timeline2/model/timelinemodel.cpp:8162
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "मिश्रण का आकार 1 फ्रेम से कम नहीं किया जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:8020
-#: src/timeline2/model/timelinemodel.cpp:8056
-#: src/timeline2/model/timelinemodel.cpp:8100
-#: src/timeline2/model/timelinemodel.cpp:8188
+#: src/timeline2/model/timelinemodel.cpp:8018
+#: src/timeline2/model/timelinemodel.cpp:8054
+#: src/timeline2/model/timelinemodel.cpp:8098
+#: src/timeline2/model/timelinemodel.cpp:8186
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "मिश्रण का आकार बदला नहीं जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:8204
+#: src/timeline2/model/timelinemodel.cpp:8202
 #, kde-format
 msgid "Resize mix"
 msgstr "मिश्रण का आकार बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:8324
+#: src/timeline2/model/timelinemodel.cpp:8322
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "टाइमलाइन पूर्वावलोकन आरंभ करने में त्रुटि"

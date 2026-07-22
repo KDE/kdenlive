@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-21 00:43+0000\n"
+"POT-Creation-Date: 2026-07-22 00:44+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -3127,7 +3127,7 @@ msgstr "DeLogo"
 msgid "Remove logo from input video"
 msgstr "ລຶບໂລໂກ້ອອກຈາກວິດີໂອຂາເຂົ້າ"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:308
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:312
 #, kde-format
 msgid "Logo"
 msgstr "ໂລໂກ້"
@@ -24040,7 +24040,7 @@ msgstr "ວິດີໂອທີ່ບໍ່ມີແທຣັກສຽງ"
 msgid "Audio without video track"
 msgstr "ສຽງທີ່ບໍ່ມີແທຣັກວິດີໂອ"
 
-#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:513
+#: src/dialogs/renderwidget.cpp:1206 src/main.cpp:517
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "ການເຣັນເດີ %1 ເລີ່ມຕົ້ນແລ້ວ"
@@ -24702,7 +24702,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "ສ້າງໂດຍ KDE"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:288
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:627 src/main.cpp:292
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -26133,7 +26133,7 @@ msgstr "ລຶບຄີເຟຣມທີ່ຢູ່ຕຳແໜ່ງປັດ
 msgid "Time remap does not work on clip with B frames."
 msgstr "ການປັບເວລາໃໝ່ (Time remap) ໃຊ້ບໍ່ໄດ້ກັບຄລິບທີ່ມີ B frames."
 
-#: src/dialogs/timeremap.cpp:2070
+#: src/dialogs/timeremap.cpp:2076
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "ແກ້ໄຂຄີເຟຣມການປັບເວລາໃໝ່"
@@ -28419,247 +28419,247 @@ msgstr "ທີ່ຢູ່ຫ້ອງສະໝຸດຖືກຕັ້ງເປ
 msgid "Cannot write to Library path: %1, using default"
 msgstr "ບໍ່ສາມາດຂຽນໃສ່ທີ່ຢູ່ຫ້ອງສະໝຸດ: %1, ກຳລັງໃຊ້ຄ່າເລີ່ມຕົ້ນ"
 
-#: src/main.cpp:285
+#: src/main.cpp:289
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "ກະລຸນາລາຍງານຂໍ້ບົກພ່ອງໄປທີ່ <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:288
+#: src/main.cpp:292
 #, kde-format
 msgid "An open source video editor."
 msgstr "ໂປຣແກຣມຕັດຕໍ່ວິດີໂອໂອເພນຊອດ."
 
-#: src/main.cpp:289
+#: src/main.cpp:293
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "ລິຂະສິດ © 2007–2025 ຜູ້ຂຽນ Kdenlive"
 
-#: src/main.cpp:291
+#: src/main.cpp:295
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:291
+#: src/main.cpp:295
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
 
-#: src/main.cpp:293
+#: src/main.cpp:297
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:293
+#: src/main.cpp:297
 #, fuzzy, kde-format
 #| msgid "Feature development, packaging, bug fixing"
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr "ພັດທະນາຟີເຈີ, ຈັດການແພັກເກັດ, ແກ້ໄຂຂໍ້ບົກພ່ອງ"
 
-#: src/main.cpp:294
+#: src/main.cpp:298
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:294
+#: src/main.cpp:298
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 port, Windows cross-build, ຈັດການແພັກເກັດ, ແກ້ໄຂຂໍ້ບົກພ່ອງ"
 
-#: src/main.cpp:296
+#: src/main.cpp:300
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:296
+#: src/main.cpp:300
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "ແກ້ໄຂຂໍ້ບົກພ່ອງ ແລະ ປັບປຸງການທົດສອບ"
 
-#: src/main.cpp:298
+#: src/main.cpp:302
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:298
+#: src/main.cpp:302
 #, fuzzy, kde-format
 #| msgid "Color scopes, bug fixing, etc."
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "ຂອບເຂດສີ, ແກ້ໄຂຂໍ້ບົກພ່ອງ, ແລະອື່ນໆ."
 
-#: src/main.cpp:299
+#: src/main.cpp:303
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:299
+#: src/main.cpp:303
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "ຜູ້ຂຽນເວີຊັນ KDE 3 ຕົ້ນສະບັບ (ບໍ່ໄດ້ເຄື່ອນໄຫວແລ້ວ)"
 
-#: src/main.cpp:301
+#: src/main.cpp:305
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:301
+#: src/main.cpp:305
 #, fuzzy, kde-format
 #| msgid "Logo, Promotion, testing"
 msgid "Logo, promotion, testing"
 msgstr "ໂລໂກ້, ການໂຄສະນາ, ການທົດສອບ"
 
-#: src/main.cpp:302
+#: src/main.cpp:306
 #, kde-format
 msgid "balooii"
 msgstr ""
 
-#: src/main.cpp:302
+#: src/main.cpp:306
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr ""
 
-#: src/main.cpp:303
+#: src/main.cpp:307
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:303
+#: src/main.cpp:307
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "ອອກແບບໂຄງສ້າງໂຄດໃໝ່ & ຂຽນເສັ້ນເວລາໃໝ່ (2019)"
 
-#: src/main.cpp:304
+#: src/main.cpp:308
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:304
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "ຜູ້ບຳລຸງຮັກສາ MLT, ແກ້ໄຂຂໍ້ບົກພ່ອງ, ແລະອື່ນໆ."
 
-#: src/main.cpp:305
+#: src/main.cpp:309
 #, kde-format
 msgid "Darby Johnston"
 msgstr ""
 
-#: src/main.cpp:305
+#: src/main.cpp:309
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "OTIO rewrite"
 msgstr "ຂຽນທັບ"
 
-#: src/main.cpp:306
+#: src/main.cpp:310
 #, kde-format
 msgid "Bernd Jordan"
 msgstr ""
 
-#: src/main.cpp:306
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
 
-#: src/main.cpp:307
+#: src/main.cpp:311
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:307
+#: src/main.cpp:311
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
 
-#: src/main.cpp:308
+#: src/main.cpp:312
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:309
+#: src/main.cpp:313
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:309
+#: src/main.cpp:313
 #, kde-format
 msgid "Testing"
 msgstr "ການທົດສອບ"
 
-#: src/main.cpp:310
+#: src/main.cpp:314
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:310
+#: src/main.cpp:314
 #, fuzzy, kde-format
 #| msgid "Expert advice, testing"
 msgid "Core team member, expert advice, testing"
 msgstr "ຄຳແນະນຳຈາກຜູ້ຊ່ຽວຊານ, ການທົດສອບ"
 
-#: src/main.cpp:312
+#: src/main.cpp:316
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "ຊື່ຂອງນັກແປ"
 
-#: src/main.cpp:312
+#: src/main.cpp:316
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "ອີເມວຂອງນັກແປ"
 
-#: src/main.cpp:317
+#: src/main.cpp:321
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:317
+#: src/main.cpp:321
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "ກອບວຽກມັລຕິມີເດຍໂອເພນຊອດ."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:319 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:323 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:319
+#: src/main.cpp:323
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "ໂຊລູຊັນທີ່ສົມບູນ, ຂ້າມແພລັດຟອມ ເພື່ອບັນທຶກ, ແປງ ແລະ ສະຕຣີມສຽງ ແລະ ວິດີໂອ."
 
-#: src/main.cpp:337
+#: src/main.cpp:341
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "ຕັ້ງຊື່ໄຟລ໌ການຕັ້ງຄ່າທີ່ກຳນົດເອງ."
 
-#: src/main.cpp:338
+#: src/main.cpp:342
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "ຕັ້ງທີ່ຢູ່ສຳລັບສະພາບແວດລ້ອມ MLT."
 
-#: src/main.cpp:340
+#: src/main.cpp:344
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "ຕັ້ງລະດັບບັນທຶກ MLT. ປະໄວ້ບໍ່ຕັ້ງຄ່າສຳລັບລະດັບ \"warning\"."
 
-#: src/main.cpp:343
+#: src/main.cpp:347
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "ລາຍການໄຟລ໌ທີ່ຂັ້ນດ້ວຍຈຸດເພື່ອເພີ່ມເປັນຄລິບໃສ່ Bin."
 
-#: src/main.cpp:347
+#: src/main.cpp:351
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "ປະມວນຜົນໂຄງການໂດຍກົງ ແລະ ອອກ."
 
-#: src/main.cpp:350
+#: src/main.cpp:354
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "ຊື່ preset ການປະມວນຜົນ Kdenlive (ຈະໃຊ້ MP4-H264/AAC ຖ້າບໍ່ມີການລະບຸ)."
 
-#: src/main.cpp:355
+#: src/main.cpp:359
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -28667,12 +28667,12 @@ msgid ""
 msgstr ""
 "ອອກຫຼັງຈາກຂະບວນການປະມວນຜົນ (ທີ່ແຍກອອກ) ເລີ່ມຕົ້ນ, ຖ້າບໍ່ມີທຸງນີ້ ມັນຈະອອກຫຼັງຈາກສຳເລັດເທົ່ານັ້ນ."
 
-#: src/main.cpp:358
+#: src/main.cpp:362
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr "ບໍ່ຕ້ອງສະແດງໜ້າຈໍຕ້ອນຮັບ."
 
-#: src/main.cpp:361
+#: src/main.cpp:365
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
@@ -28680,17 +28680,17 @@ msgid ""
 msgstr ""
 "ສະແດງຟີເຈີສະເພາະການພັດທະນາບາງຢ່າງໃນ UI, ປິດການໃຊ້ລາຍການຍົກເວັ້ນທັງໝົດສຳລັບຊັບພະຍາກອນ."
 
-#: src/main.cpp:364
+#: src/main.cpp:368
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr ""
 
-#: src/main.cpp:367
+#: src/main.cpp:371
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "ເອກະສານ Kdenlive ທີ່ຈະເປີດ."
 
-#: src/main.cpp:368
+#: src/main.cpp:372
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "ໄຟລ໌ຜົນລັບສຳລັບວິດີໂອທີ່ປະມວນຜົນແລ້ວ."
@@ -35395,64 +35395,64 @@ msgstr "ຍ້າຍ composition"
 msgid "Enable time remap"
 msgstr "ເປີດໃຊ້ງານ time remap"
 
-#: src/timeline2/model/timelinemodel.cpp:7300
+#: src/timeline2/model/timelinemodel.cpp:7298
 #, kde-format
 msgid "Change speed failed"
 msgstr "ການປ່ຽນຄວາມໄວລົ້ມເຫຼວ"
 
-#: src/timeline2/model/timelinemodel.cpp:7310
+#: src/timeline2/model/timelinemodel.cpp:7308
 #: src/timeline2/view/timelinecontroller.cpp:3369
 #, kde-format
 msgid "Change clip speed"
 msgstr "ປ່ຽນຄວາມໄວຄລິບ"
 
-#: src/timeline2/model/timelinemodel.cpp:7758
+#: src/timeline2/model/timelinemodel.cpp:7756
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "ລັອກແທຣັກ"
 
-#: src/timeline2/model/timelinemodel.cpp:7763
+#: src/timeline2/model/timelinemodel.cpp:7761
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "ປົດລັອກແທຣັກ"
 
-#: src/timeline2/model/timelinemodel.cpp:7797
-#: src/timeline2/model/timelinemodel.cpp:7859
+#: src/timeline2/model/timelinemodel.cpp:7795
+#: src/timeline2/model/timelinemodel.cpp:7857
 #, kde-format
 msgid "Change composition"
 msgstr "ປ່ຽນ composition"
 
-#: src/timeline2/model/timelinemodel.cpp:7811
+#: src/timeline2/model/timelinemodel.cpp:7809
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "ບໍ່ສາມາດດຳເນີນການກັບ composition ທີ່ຈັດກຸ່ມໄດ້, ກະລຸນາຍົກເລີກການຈັດກຸ່ມ"
 
-#: src/timeline2/model/timelinemodel.cpp:8009
-#: src/timeline2/model/timelinemodel.cpp:8048
-#: src/timeline2/model/timelinemodel.cpp:8083
-#: src/timeline2/model/timelinemodel.cpp:8164
+#: src/timeline2/model/timelinemodel.cpp:8007
+#: src/timeline2/model/timelinemodel.cpp:8046
+#: src/timeline2/model/timelinemodel.cpp:8081
+#: src/timeline2/model/timelinemodel.cpp:8162
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "ບໍ່ສາມາດປັບຂະໜາດ mix ໃຫ້ໜ້ອຍກວ່າ 1 ເຟຣມ"
 
-#: src/timeline2/model/timelinemodel.cpp:8020
-#: src/timeline2/model/timelinemodel.cpp:8056
-#: src/timeline2/model/timelinemodel.cpp:8100
-#: src/timeline2/model/timelinemodel.cpp:8188
+#: src/timeline2/model/timelinemodel.cpp:8018
+#: src/timeline2/model/timelinemodel.cpp:8054
+#: src/timeline2/model/timelinemodel.cpp:8098
+#: src/timeline2/model/timelinemodel.cpp:8186
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "ບໍ່ສາມາດປັບຂະໜາດ mix"
 
-#: src/timeline2/model/timelinemodel.cpp:8204
+#: src/timeline2/model/timelinemodel.cpp:8202
 #, kde-format
 msgid "Resize mix"
 msgstr "ປັບຂະໜາດ mix"
 
-#: src/timeline2/model/timelinemodel.cpp:8324
+#: src/timeline2/model/timelinemodel.cpp:8322
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "ຂໍ້ຜິດພາດໃນການເລີ່ມຕົ້ນຕົວຢ່າງເສັ້ນເວລາ"
