@@ -1954,12 +1954,13 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     return copiedItems.toString();
 }
 
-bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position)
+bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position,
+                                   QString historyText, bool select)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    if (TimelineFunctions::pasteClips(timeline, pasteString, trackId, position, undo, redo)) {
-        pCore->pushUndo(undo, redo, i18n("Paste clips"));
+    if (TimelineFunctions::pasteClips(timeline, pasteString, trackId, position, undo, redo, 0, -1, select)) {
+        pCore->pushUndo(undo, redo, historyText.isEmpty() ? i18n("Paste clips") : historyText);
         return true;
     }
     return false;
@@ -2038,7 +2039,7 @@ bool TimelineFunctions::pasteClipsWithUndo(const std::shared_ptr<TimelineItemMod
 }
 
 bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo,
-                                   Fun &redo, int inPos, int duration)
+                                   Fun &redo, int inPos, int duration, bool select)
 {
     timeline->requestClearSelection();
     if (!semaphore.tryAcquire(1)) {
@@ -2573,7 +2574,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
     if (!clipsImported) {
         // Clips from same document, directly proceed to pasting
-        bool result = TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, undo, redo, false, inPos, duration);
+        bool result = TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, undo, redo, false, inPos, duration, select);
         if (result && updatedPosition > 0) {
             pCore->seekMonitor(Kdenlive::ProjectMonitor, updatedPosition);
         }
@@ -2592,7 +2593,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
 }
 
 bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position, Fun &timeline_undo,
-                                           Fun &timeline_redo, bool pushToStack, int inPos, int duration)
+                                           Fun &timeline_redo, bool pushToStack, int inPos, int duration, bool select)
 {
     // Wait until all bin clips are inserted
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
@@ -2606,6 +2607,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         ratio = copiedItems.documentElement().attribute(QStringLiteral("fps-ratio")).toDouble();
         offset *= ratio;
     }
+
+    std::unordered_set<int> pastedItems;
 
     QDomElement documentMixes = copiedItems.createElement(QStringLiteral("mixes"));
     for (int i = 0; i < clips.count(); i++) {
@@ -2710,6 +2713,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         if (targetPlaylist > 0) {
             timeline->m_allClips[newId]->setSubPlaylistIndex(targetPlaylist, curTrackId);
         }
+        pastedItems.insert(newId);
         correspondingIds[targetId] = newId;
         std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
         destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), timeline_undo, timeline_redo);
@@ -2831,6 +2835,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             if (compoDuration != compoDuration2) {
                 timeline->requestItemResize(newId, compoDuration2, true, true, timeline_undo, timeline_redo, false);
             }
+            pastedItems.insert(newId);
             res = res && timeline->requestCompositionMove(newId, curTrackId, aTrackPos, position + newPos, true, true, timeline_undo, timeline_redo);
         }
     }
@@ -2870,6 +2875,10 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         qDebug() << "after Selection " << timeline->m_currentSelection.size();
         return true;
     };
+    if (select) {
+        // Select all items if requested
+        timeline->requestSetSelection(pastedItems);
+    }
     PUSH_FRONT_LAMBDA(unselect, timeline_undo);
     PUSH_FRONT_LAMBDA(unselect, timeline_redo);
     // UPDATE_UNDO_REDO_NOLOCK(timeline_redo, timeline_undo, undo, redo);
