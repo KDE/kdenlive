@@ -923,25 +923,24 @@ void TimelineController::cutItem()
 
 void TimelineController::duplicateClip()
 {
-    int clipId = getMainSelectedClip();
-    if (clipId == -1) {
+    std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
+    if (selectedIds.empty()) {
         pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         return;
     }
-    int trackId = m_model->getItemTrackId(clipId);
-    int endPos = m_model->getItemPosition(clipId) + m_model->getItemPlaytime(clipId);
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    int newId = -1;
-    PlaylistState::ClipState state = m_model->m_allClips[clipId]->clipState();
-    bool res = TimelineFunctions::cloneClip(m_model, clipId, newId, state, -1, undo, redo);
-    if (res && newId != -1) {
-        res = (m_model->requestClipMove(newId, trackId, endPos, true, true, true, true, undo, redo) == TimelineModel::MoveSuccess);
+    int clipId = getMainSelectedClip();
+    if (clipId == -1) {
+        clipId = *selectedIds.begin();
     }
-    if (res) {
-        pCore->pushUndo(undo, redo, i18n("Duplicate clip"));
-    } else {
-        undo();
+    int trackId = m_model->getItemTrackId(clipId);
+    // Get paste position (last frame of the selection)
+    int lastFrame = 0;
+    for (auto &id : selectedIds) {
+        int last = m_model->getItemPosition(id) + m_model->getItemPlaytime(id);
+        lastFrame = qMax(last, lastFrame);
+    }
+    const QString copyString = TimelineFunctions::copyClips(m_model, selectedIds, clipId);
+    if (!TimelineFunctions::pasteClips(m_model, copyString, trackId, lastFrame, i18n("Duplicate clip"), true)) {
         pCore->displayMessage(i18n("Could not duplicate clip"), ErrorMessage, 500);
     }
 }
