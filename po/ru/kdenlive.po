@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-22 00:44+0000\n"
-"PO-Revision-Date: 2026-07-21 17:17+0300\n"
+"POT-Creation-Date: 2026-07-23 00:43+0000\n"
+"PO-Revision-Date: 2026-07-22 17:15+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -2483,7 +2483,7 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
-"Линия компенсационной задержки — основанная на метрике задержка для "
+"Компенсационная линия задержки — основанная на метрике задержка для "
 "компенсации различного расположения микрофонов или динамиков.\n"
 "Например, при записи гитары использовались два микрофона, расположенные в "
 "разных местах. Так как в обычных условиях фронт звуковой волны имеет "
@@ -2597,7 +2597,7 @@ msgid ""
 "filter for side part of stereo image.\n"
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
-"Установить силу перекрёстного сочетания сигналов.\n"
+"Устанавливает силу перекрёстного сочетания сигналов.\n"
 "Значение по умолчанию: 0.2. Допустимый диапазон: от 0 до 1. Это "
 "устанавливает усиление низкочастотного полочного фильтра для боковой части "
 "стереоизображения.\n"
@@ -2613,7 +2613,7 @@ msgid ""
 "Default is cut off near 1550 Hz. With range set to 1 cut off frequency is "
 "set to 2100 Hz. "
 msgstr ""
-"Установить ширину звуковой сцены.\n"
+"Устанавливает ширину звуковой сцены.\n"
 "По умолчанию: 0.5. Допустимый диапазон: от 0 до 1. Это устанавливает частоту "
 "среза низкочастотного полочного фильтра.\n"
 "По умолчанию срез выполняется на частоте около 1550 Гц. Если диапазон "
@@ -3825,7 +3825,7 @@ msgid ""
 "       \tThis sets denoising strength. Using very high sigma with low "
 "overlap may give blocking artifacts."
 msgstr ""
-"Установить постоянную сигма шума.<br>\n"
+"Устанавливает постоянную сигма шума.<br>\n"
 "       \tЭто значение указывает силу устранения шума. Очень высокое значение "
 "сигма при низком перекрытии может привести к появлению блоковых артефактов."
 
@@ -6110,9 +6110,9 @@ msgstr ""
 "установки таких же параметров и точно такого же начального значения."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "Вперёд"
+msgstr "Вперёд,Инверсия"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
 #, fuzzy, kde-format
@@ -6148,6 +6148,12 @@ msgid ""
 "original input. For example, to reverse forward shuffle you need to use the "
 "same parameters and exact same seed and to set direction to inverse."
 msgstr ""
+"Установить случайное начальное значение, используемое при перемешивании "
+"пикселов.<br>\n"
+"        Предоставляет возможность обратить процесс фильтрации и получить "
+"исходные входные данные. Например, для обращения фильтрации «вперёд» "
+"потребуется использовать те же самые параметры и точно такое же начальное "
+"значение, а также указать обратное направление."
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -10135,9 +10141,9 @@ msgid "Source Color"
 msgstr "Цвет источника"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color Enhance"
-msgstr "Цветовой баланс"
+msgstr "Улучшение цвета"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:5
 #, kde-format
@@ -14660,9 +14666,9 @@ msgstr ""
 "относительно «сухого» сигнала."
 
 #: data/effects/ladspa/ladspa_1191.xml:19
-#, fuzzy, kde-format
+#, kde-format
 msgid "LFO Frequency"
-msgstr "Низкие частоты"
+msgstr "Частота НЧ-модулятора"
 
 #: data/effects/ladspa/ladspa_1191.xml:21
 #, kde-format
@@ -14671,6 +14677,9 @@ msgid ""
 "      that the 'LFO' will move at. The LFO isn't actually an oscillator, but "
 "it does vary periodically."
 msgstr ""
+"Основная частота<br>\n"
+"      движения НЧ-модулятора. НЧ-модулятор фактически не является "
+"осциллятором, но его частота периодически изменяется."
 
 #: data/effects/ladspa/ladspa_1191.xml:26
 #, kde-format
@@ -14679,6 +14688,9 @@ msgid ""
 "      output to the input, increases the depth of the effect, but makes it "
 "sound less like a real flanger."
 msgstr ""
+"Обратная связь, подаваемая от выхода<br>\n"
+"      на вход. Увеличивает глубину эффекта, но делает звучание менее похожим "
+"на настоящий флэнжер."
 
 #: data/effects/ladspa/ladspa_1192.xml:4
 #, kde-format
@@ -14713,9 +14725,9 @@ msgstr ""
 "относится."
 
 #: data/effects/ladspa/ladspa_1196.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Fast Overdrive"
-msgstr "Быстрое преобразование"
+msgstr "Быстрый овердрайв"
 
 #: data/effects/ladspa/ladspa_1196.xml:6
 #, kde-format
@@ -14724,6 +14736,9 @@ msgid ""
 "   A simple overdrive. Compresses the extreme peaks to make a sound similar "
 "to an overdriven amplifier."
 msgstr ""
+"Быстрый овердрайв (LADSPA 1196).<br>\n"
+"   Простой овердрайв. Сжимает экстремальные пики, чтобы звук походил на звук "
+"перегруженного усилителя."
 
 #: data/effects/ladspa/ladspa_1196.xml:9
 #, fuzzy, kde-format
@@ -14884,9 +14899,9 @@ msgid "Controls the asymmetry of the waveform"
 msgstr "Управляет асимметрией звукового спектра"
 
 #: data/effects/ladspa/ladspa_1218.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "4x4 Pole Allpass"
-msgstr "Всепропускающий"
+msgstr "4x4 полюсный всепропускающий"
 
 #: data/effects/ladspa/ladspa_1218.xml:6
 #, kde-format
@@ -14895,6 +14910,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"4x4 полюсный всепропускающий (LADSPA 1218).<br>\n"
+"   Автоматически адаптируется к количеству каналов и частоте дискретизации "
+"получателя данных."
 
 #: data/effects/ladspa/ladspa_1218.xml:9
 #, kde-format
@@ -15021,54 +15039,54 @@ msgid "The time of the first delay"
 msgstr "Дата и время создания видеофайла."
 
 #: data/effects/ladspa/ladspa_1402.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delay Range"
-msgstr "Заданный диапазон"
+msgstr "Диапазон задержки"
 
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
 msgid "The time difference between the first and last delay"
-msgstr ""
+msgstr "Разница по времени между первой и последней задержками"
 
 #: data/effects/ladspa/ladspa_1402.xml:33
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delay Change"
-msgstr "Изменение скорости"
+msgstr "Изменение задержки"
 
 #: data/effects/ladspa/ladspa_1402.xml:34
 #, kde-format
 msgid "The scaling factor between one delay and the next"
-msgstr ""
+msgstr "Коэффициент масштабирования между задержкой и следующей задержкой"
 
 #: data/effects/ladspa/ladspa_1402.xml:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delay Random"
-msgstr "Случайный"
+msgstr "Случайность задержки"
 
 #: data/effects/ladspa/ladspa_1402.xml:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "The random factor applied to the delay"
-msgstr "Коэффициент масштабирования, применяемый к оси X"
+msgstr "Коэффициент случайности, применяемый к задержке"
 
 #: data/effects/ladspa/ladspa_1402.xml:41
-#, fuzzy, kde-format
+#, kde-format
 msgid "Amplitude Change"
-msgstr "Амплитуда"
+msgstr "Изменение амплитуды"
 
 #: data/effects/ladspa/ladspa_1402.xml:42
 #, kde-format
 msgid "The scaling factor between one amplitude and the next"
-msgstr ""
+msgstr "Коэффициент масштабирования между амплитудой и следующей амплитудой"
 
 #: data/effects/ladspa/ladspa_1402.xml:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "Amplitude Random"
-msgstr "Амплитуда"
+msgstr "Случайность амплитуды"
 
 #: data/effects/ladspa/ladspa_1402.xml:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "The random factor applied to the amplitude"
-msgstr "Коэффициент масштабирования, применяемый к оси X"
+msgstr "Коэффициент случайности, применяемый к амплитуде"
 
 #: data/effects/ladspa/ladspa_1402.xml:49
 #, fuzzy, kde-format
@@ -15120,14 +15138,14 @@ msgstr ""
 "      средству сжимания для ослабления регулировки усиления входного сигнала"
 
 #: data/effects/ladspa/ladspa_1403.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Fast Compression Ratio"
-msgstr "Добавить композицию"
+msgstr "Коэффициент быстрого сжатия"
 
 #: data/effects/ladspa/ladspa_1403.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "Compression Ratio"
-msgstr "Сжиматель (avfilter)"
+msgstr "Коэффициент сжатия"
 
 #: data/effects/ladspa/ladspa_1404.xml:4
 #, kde-format
@@ -15172,6 +15190,10 @@ msgid ""
 "   Simulates aliasing using nyquist frequency modulation. Produces wacky "
 "results if the blocks aren't even numbers of samples long."
 msgstr ""
+"Ступенчатость (LADSPA 1407).<br>\n"
+"   Имитирует ступенчатость с помощью модуляции частоты Найквиста. Приводит к "
+"получению странных результатов, если длина блоков не составляет чётное число "
+"семплов."
 
 #: data/effects/ladspa/ladspa_1407.xml:9
 #, kde-format
@@ -15186,7 +15208,7 @@ msgstr "Управляет величиной имитируемой ступе�
 #: data/effects/ladspa/ladspa_1408.xml:4
 #, kde-format
 msgid "Barry's Satan Maximiser"
-msgstr ""
+msgstr "Экстремальный максимизатор Барри"
 
 #: data/effects/ladspa/ladspa_1408.xml:6
 #, kde-format
@@ -15196,16 +15218,20 @@ msgid ""
 "and hard knee. Not really as a compressor, but good harsh (non-musical) "
 "distortion."
 msgstr ""
+"Экстремальный максимизатор Барри (LADSPA 1408).<br>\n"
+"   Сжимает сигналы с невероятно короткой атакой и спадом, бесконечным "
+"соотношением и жёстким коленом. Не столько сжатие, сколько хорошая жёсткая "
+"(немузыкальная) дисторсия."
 
 #: data/effects/ladspa/ladspa_1408.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decay Time (samples)"
-msgstr "Режим реального времени (с пропуском кадров)"
+msgstr "Время спада (в семплах)"
 
 #: data/effects/ladspa/ladspa_1408.xml:10
-#, fuzzy, kde-format
+#, kde-format
 msgid "Controls the envelope decay time."
-msgstr "Установить режим обёртки"
+msgstr "Управляет временем спада обёртки"
 
 #: data/effects/ladspa/ladspa_1408.xml:13
 #, fuzzy, kde-format
@@ -15228,12 +15254,12 @@ msgstr "Диапазон оттенков"
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
 msgid "Gate (LADSPA 1410)"
-msgstr ""
+msgstr "Шлюз (LADSPA 1410)"
 
 #: data/effects/ladspa/ladspa_1410.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "LF Key Filter"
-msgstr "Фильтр"
+msgstr "Фильтр низких частот по ключу"
 
 #: data/effects/ladspa/ladspa_1410.xml:10
 #, kde-format
@@ -15241,13 +15267,13 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the low frequency filter (highpass)"
 msgstr ""
-"Управление отсечкой<br>\n"
+"Управляет отсечкой<br>\n"
 "      фильтра низких частот (высокий диапазон)"
 
 #: data/effects/ladspa/ladspa_1410.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "HF Key Filter"
-msgstr "Фильтр"
+msgstr "Фильтр высоких частот по ключу"
 
 #: data/effects/ladspa/ladspa_1410.xml:15
 #, kde-format
@@ -15255,7 +15281,7 @@ msgid ""
 "Controls the cutoff of<br>\n"
 "      the high frequency filter (lowpass)"
 msgstr ""
-"Управление отсечкой<br>\n"
+"Управляет отсечкой<br>\n"
 "      фильтра высоких частот (низкий диапазон)"
 
 #: data/effects/ladspa/ladspa_1410.xml:20
@@ -15273,9 +15299,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hold"
-msgstr "Фиксация HSV"
+msgstr "Удержание"
 
 #: data/effects/ladspa/ladspa_1410.xml:30
 #, kde-format
@@ -15283,6 +15309,8 @@ msgid ""
 "Controls the minimum<br>\n"
 "      time the gate will stay open for"
 msgstr ""
+"Управляет минимальным<br>\n"
+"      временем, на протяжении которого шлюз будет оставаться открытым"
 
 #: data/effects/ladspa/ladspa_1410.xml:35
 #, kde-format
@@ -15290,6 +15318,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to close fully"
 msgstr ""
+"Управляет временем, требуемым<br>\n"
+"      для полного закрытия шлюза"
 
 #: data/effects/ladspa/ladspa_1410.xml:40
 #, kde-format
@@ -15297,6 +15327,8 @@ msgid ""
 "Controls the difference<br>\n"
 "      between the gate's open and closed state"
 msgstr ""
+"Управляет разницей<br>\n"
+"      между состояниями «открыт» и «закрыт» шлюза"
 
 #: data/effects/ladspa/ladspa_1410.xml:43
 #, kde-format
@@ -15415,9 +15447,9 @@ msgid "Distortion"
 msgstr "Дисторсия"
 
 #: data/effects/ladspa/ladspa_1430.xml:10
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sets the sensitivity of the input"
-msgstr "Установить непрозрачность сетки"
+msgstr "Устанавливает чувствительность входного сигнала"
 
 #: data/effects/ladspa/ladspa_1431.xml:4
 #, kde-format
@@ -15514,9 +15546,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Buffer Size"
-msgstr "Размер буфера:"
+msgstr "Размер буфера"
 
 #: data/effects/ladspa/ladspa_1433.xml:16
 #, kde-format
@@ -15527,9 +15559,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "DJ Flanger"
-msgstr "Флэнжер"
+msgstr "DJ-флэнжер"
 
 #: data/effects/ladspa/ladspa_1438.xml:6
 #, kde-format
@@ -15537,11 +15569,13 @@ msgid ""
 "DJ Flanger (LADSPA 1438)<br>\n"
 "   This is a flanger which is more or less typical of DJ mixing desks"
 msgstr ""
+"DJ-флэнжер (LADSPA 1438).<br>\n"
+"   Флэнжер, который более или менее типичен для DJ-микшеров."
 
 #: data/effects/ladspa/ladspa_1438.xml:9
 #, kde-format
 msgid "LFO sync"
-msgstr ""
+msgstr "Синхронизация НЧ-модулятора"
 
 #: data/effects/ladspa/ladspa_1438.xml:11
 #, kde-format
@@ -15552,9 +15586,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1438.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "LFO period"
-msgstr "Период стробирования"
+msgstr "Период НЧ-модулятора"
 
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
@@ -15565,6 +15599,8 @@ msgstr ""
 #, kde-format
 msgid "The maximum delay the LFO will use to flange in milliseconds"
 msgstr ""
+"Максимальная задержка, используемая НЧ-модулятором для флэнжирования (в "
+"миллисекундах)"
 
 #: data/effects/ladspa/ladspa_1438.xml:23
 #, fuzzy, kde-format
@@ -15582,9 +15618,9 @@ msgid "Exponential Signal Decay (LADSPA 1886)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Comb Delay Line (linear interpolation)"
-msgstr "Интерполяция по умолчанию"
+msgstr "Гребенчатая линия задержки (линейная интерполяция)"
 
 #: data/effects/ladspa/ladspa_1887.xml:6
 #, kde-format
@@ -15592,6 +15628,8 @@ msgid ""
 "Comb Delay Line (linear interpolation) (LADSPA 1887)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Гребенчатая линия задержки (линейная интерполяция) (LADSPA 1887).<br>\n"
+"   Основывается на работе James McCartney в SuperCollider."
 
 #: data/effects/ladspa/ladspa_1887.xml:9 data/effects/ladspa/ladspa_1888.xml:9
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
@@ -15609,6 +15647,9 @@ msgid ""
 "Maximum delay.<br>\n"
 "      Used to set the delay buffer size upon activation. Cannot be modulated."
 msgstr ""
+"Максимальная задержка.<br>\n"
+"      Используется для установки размера буфера задержки при активации. Не "
+"может модулироваться."
 
 #: data/effects/ladspa/ladspa_1887.xml:14
 #: data/effects/ladspa/ladspa_1888.xml:14
@@ -15700,9 +15741,9 @@ msgstr ""
 "      полюса, что приводит к более крутому спаду."
 
 #: data/effects/ladspa/ladspa_1891.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "GLAME Lowpass"
-msgstr "Низкие частоты"
+msgstr "Низкочастотный GLAME"
 
 #: data/effects/ladspa/ladspa_1891.xml:6
 #, kde-format
@@ -16830,7 +16871,7 @@ msgstr "Управляет цветом звука ламповой теплот
 #: data/effects/ladspa/ladspa_2159.xml:4
 #, kde-format
 msgid "TAP Chorus/Flange"
-msgstr "Хор/Фланжер TAP"
+msgstr "Хор/Флэнжер TAP"
 
 #: data/effects/ladspa/ladspa_2159.xml:6
 #, kde-format
@@ -21837,7 +21878,7 @@ msgid "%1 (copy)"
 msgstr "%1 (копия)"
 
 #: src/bin/bin.cpp:2589 src/bin/bin.cpp:2610
-#: src/timeline2/view/timelinecontroller.cpp:938
+#: src/timeline2/view/timelinecontroller.cpp:942
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Дублировать клип"
@@ -22161,8 +22202,8 @@ msgstr[3] "Переместить клип"
 msgid "No valid clip to insert"
 msgstr "Отсутствуют допустимые для вставки клипы"
 
-#: src/bin/bin.cpp:4446 src/timeline2/view/timelinecontroller.cpp:1863
-#: src/timeline2/view/timelinecontroller.cpp:3965
+#: src/bin/bin.cpp:4446 src/timeline2/view/timelinecontroller.cpp:1867
+#: src/timeline2/view/timelinecontroller.cpp:3969
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Выберите клип для применения эффекта"
@@ -22278,24 +22319,24 @@ msgid "Title clip"
 msgstr "Клип титров"
 
 #: src/bin/bin.cpp:5280
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "Обновляет отображение субтитра на монтажном столе."
+msgstr "Заменить клип титров на монтажном столе на новый?"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "Заменить на монтажном столе"
+msgstr "Замена клипа титров"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace"
-msgstr "Заменить клип"
+msgstr "Заменить"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
+#, kde-format
 msgid "Keep Existing"
-msgstr "Тестирование"
+msgstr "Оставить существующий"
 
 #: src/bin/bin.cpp:5341
 #, kde-format
@@ -22364,8 +22405,8 @@ msgstr "Не удалось найти клип для добавления ма
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
 #: src/bin/bin.cpp:5979 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:1511
-#: src/timeline2/view/timelinecontroller.cpp:1827
+#: src/timeline2/view/timelinecontroller.cpp:1515
+#: src/timeline2/view/timelinecontroller.cpp:1831
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
@@ -22688,8 +22729,8 @@ msgid "Delete marker"
 msgstr "Удалить маркер"
 
 #: src/bin/model/markerlistmodel.cpp:437
-#: src/timeline2/view/timelinecontroller.cpp:1678
 #: src/timeline2/view/timelinecontroller.cpp:1682
+#: src/timeline2/view/timelinecontroller.cpp:1686
 #, kde-format
 msgid "Move marker"
 msgstr "Переместить маркер"
@@ -22722,7 +22763,7 @@ msgstr "Удалить все маркеры"
 #: src/bin/model/markerlistmodel.cpp:1076
 #: src/bin/model/markerlistmodel.cpp:1118
 #: src/bin/model/markerlistmodel.cpp:1148
-#: src/timeline2/view/timelinecontroller.cpp:1817
+#: src/timeline2/view/timelinecontroller.cpp:1821
 #, kde-format
 msgid "No marker found at current position"
 msgstr "В текущей позиции нет маркера"
@@ -23899,8 +23940,8 @@ msgstr "Экспорт данных маркеров"
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5889
-#: src/timeline2/view/timelinecontroller.cpp:5894
+#: src/timeline2/view/timelinecontroller.cpp:5893
+#: src/timeline2/view/timelinecontroller.cpp:5898
 #: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
@@ -27526,10 +27567,10 @@ msgstr "Прокси-клипы не предназначены для комп�
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "У клипов есть альфа-канал."
-msgstr[1] "У клипов есть альфа-канал."
-msgstr[2] "У клипов есть альфа-канал."
-msgstr[3] "У клипа есть альфа-канал."
+msgstr[0] "У клипов есть альфа-канал. "
+msgstr[1] "У клипов есть альфа-канал. "
+msgstr[2] "У клипов есть альфа-канал. "
+msgstr[3] "У клипа есть альфа-канал. "
 
 #: src/doc/kdenlivedoc.cpp:1630
 #, kde-format
@@ -28036,13 +28077,13 @@ msgid "Exporting…"
 msgstr "Экспорт…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3816
+#: src/timeline2/view/timelinecontroller.cpp:3820
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Включить стек эффектов"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3816
+#: src/timeline2/view/timelinecontroller.cpp:3820
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Отключить стек эффектов"
@@ -29147,6 +29188,8 @@ msgstr "Jean-Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"Участник основной команды, главный разработчик и сопровождающий, MLT, а "
+"также портирование на KDE SC 4 / KF5"
 
 #: src/main.cpp:297
 #, kde-format
@@ -29168,7 +29211,8 @@ msgstr "Vincent Pinon"
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
-"Перенос на KF5, кросс-сборка для Windows, сборка пакетов, исправление ошибок"
+"Портирование на KF5, кросс-сборка для Windows, сборка пакетов, исправление "
+"ошибок"
 
 #: src/main.cpp:300
 #, kde-format
@@ -29243,17 +29287,17 @@ msgstr "Разработчик MLT, исправление ошибок и то�
 #: src/main.cpp:309
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "Darby Johnston"
 
 #: src/main.cpp:309
-#, fuzzy, kde-format
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "Заменить"
+msgstr "Переписывание OTIO"
 
 #: src/main.cpp:310
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "Bernd Jordan"
 
 #: src/main.cpp:310
 #, kde-format
@@ -29270,6 +29314,8 @@ msgstr "Eugen Mohr"
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
+"Участник основной команды, сопровождение документации, принятие решений по "
+"ошибкам, тестирование"
 
 #: src/main.cpp:312
 #, kde-format
@@ -29292,9 +29338,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:314
-#, fuzzy, kde-format
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "Консультативная помощь, тестирование"
+msgstr "Участник основной команды, консультативная помощь, тестирование"
 
 #: src/main.cpp:316
 #, kde-format
@@ -29302,7 +29348,8 @@ msgid "NAME OF TRANSLATORS"
 msgstr ""
 "Радист, Артур Чувашов, Павел Вишневский, Александр Прокудин, Юрий Кудряшов, "
 "Александр Поташев, Владимир Потапов, Николай Смольянинов, Юлия Дронова, "
-"Виктор Рыжих, Ольга Миронова, Михаил Новосёлов, Сергей Казорин"
+"Виктор Рыжих, Ольга Миронова, Михаил Новосёлов, Сергей Казорин, Олеся "
+"Герасименко"
 
 #: src/main.cpp:316
 #, kde-format
@@ -29312,7 +29359,7 @@ msgstr ""
 "prokoudine@gmail.com, urkud.urkud@gmail.com, aspotashev@gmail.com, vladimir."
 "potapov@rosalab.ru, smolianinow.colya2016@yandex.ru, juliette.tux@gmail.com, "
 "victorr2007@yandex.ru, omiro@basealt.ru, m.novosyolov@rosalinux.ru,"
-"translation-team@basealt.ru"
+"translation-team@basealt.ru, goa@altlinux.org"
 
 #: src/main.cpp:321
 #, kde-format
@@ -29627,7 +29674,7 @@ msgstr "Предпросмотр результата сборки"
 #: src/mainwindow.cpp:675 src/mainwindow.cpp:757 src/mainwindow.cpp:2187
 #, kde-format
 msgid "Identify Gaps"
-msgstr ""
+msgstr "Выявить промежутки"
 
 #: src/mainwindow.cpp:676 src/mainwindow.cpp:758
 #, kde-format
@@ -29768,7 +29815,7 @@ msgstr "Запустить сейчас"
 msgid "Delete them"
 msgstr "Удалить"
 
-#: src/mainwindow.cpp:1193 src/timeline2/view/timelinecontroller.cpp:2524
+#: src/mainwindow.cpp:1193 src/timeline2/view/timelinecontroller.cpp:2528
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Выберите клип для сравнения эффектов"
@@ -30641,9 +30688,9 @@ msgid "Cut Clip"
 msgstr "Разрезать клип"
 
 #: src/mainwindow.cpp:2032
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace with Bin Selection"
-msgstr "Заменить на монтажном столе"
+msgstr "Заменить выбранным в корзине"
 
 #: src/mainwindow.cpp:2036
 #, kde-format
@@ -30697,25 +30744,23 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
-"Добавляет клип(ы) выбранные на монтажном столе в новый клип "
-"последовательности, который может быть открыт в другой вкладке монтажного "
-"стола."
+"Добавляет клипы, выбранные на монтажном столе, в новый клип "
+"последовательности, который можно открыть в другой вкладке монтажного стола."
 
 #: src/mainwindow.cpp:2082
-#, fuzzy, kde-format
+#, kde-format
 msgid "Copy Selection to New Sequence"
-msgstr "Создание новой последовательности"
+msgstr "Копировать выбранное в новую последовательность"
 
 #: src/mainwindow.cpp:2085
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Copy the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
-"Добавляет клип(ы) выбранные на монтажном столе в новый клип "
-"последовательности, который может быть открыт в другой вкладке монтажного "
-"стола."
+"Копирует клипы, выбранные на монтажном столе, в новый клип "
+"последовательности, который можно открыть в другой вкладке монтажного стола."
 
 #: src/mainwindow.cpp:2099
 #, kde-format
@@ -30763,7 +30808,7 @@ msgstr "Добавить дорожку…"
 msgid "Fit all Tracks in View"
 msgstr "Вместить все дорожки в область просмотра"
 
-#: src/mainwindow.cpp:2126 src/timeline2/view/timelinecontroller.cpp:5616
+#: src/mainwindow.cpp:2126 src/timeline2/view/timelinecontroller.cpp:5620
 #, kde-format
 msgid "Sequence effects"
 msgstr "Эффекты последовательности"
@@ -31104,12 +31149,12 @@ msgstr "Не удалось найти маркеры в этом положен
 msgid "An error occurred while deleting markers"
 msgstr "Во время удаления маркеров произошла ошибка"
 
-#: src/mainwindow.cpp:3150 src/timeline2/view/timelinecontroller.cpp:1437
-#: src/timeline2/view/timelinecontroller.cpp:1445
-#: src/timeline2/view/timelinecontroller.cpp:1466
-#: src/timeline2/view/timelinecontroller.cpp:1506
-#: src/timeline2/view/timelinecontroller.cpp:1541
-#: src/timeline2/view/timelinecontroller.cpp:1561
+#: src/mainwindow.cpp:3150 src/timeline2/view/timelinecontroller.cpp:1441
+#: src/timeline2/view/timelinecontroller.cpp:1449
+#: src/timeline2/view/timelinecontroller.cpp:1470
+#: src/timeline2/view/timelinecontroller.cpp:1510
+#: src/timeline2/view/timelinecontroller.cpp:1545
+#: src/timeline2/view/timelinecontroller.cpp:1565
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "Не найден клип для изменения маркера"
@@ -31120,14 +31165,14 @@ msgid "Marker category does not exist"
 msgstr "Категория маркеров не существует"
 
 #: src/mainwindow.cpp:3422 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3646
+#: src/timeline2/view/timelinecontroller.cpp:3650
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Перезаписать участок"
 
 #: src/mainwindow.cpp:3424 src/mainwindow.cpp:3443
 #: src/timeline2/model/timelinefunctions.cpp:820
-#: src/timeline2/view/timelinecontroller.cpp:3648
+#: src/timeline2/view/timelinecontroller.cpp:3652
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Не удалось вставить участок"
@@ -31138,7 +31183,7 @@ msgid "No clip selected in project bin"
 msgstr "В корзине проекта не выбрано ни одного клипа"
 
 #: src/mainwindow.cpp:3441 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3646
+#: src/timeline2/view/timelinecontroller.cpp:3650
 #, kde-format
 msgid "Insert zone"
 msgstr "Вставить участок"
@@ -31367,7 +31412,7 @@ msgstr "Строка меню будет скрыта. Чтобы её верн�
 msgid "Hide menu bar"
 msgstr "Скрыть строку меню"
 
-#: src/mainwindow.cpp:5220 src/timeline2/view/timelinecontroller.cpp:5847
+#: src/mainwindow.cpp:5220 src/timeline2/view/timelinecontroller.cpp:5851
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "В текущем проекте субтитры не найдены"
@@ -32055,7 +32100,7 @@ msgid "Cannot change zone when creating a mask"
 msgstr "Невозможно изменить участок во время создания маски"
 
 #: src/monitor/monitor.cpp:969 src/monitor/monitor.cpp:1005
-#: src/timeline2/view/timelinecontroller.cpp:2143
+#: src/timeline2/view/timelinecontroller.cpp:2147
 #, kde-format
 msgid "Set Zone"
 msgstr "Установка участка"
@@ -32140,7 +32185,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "Не удалось получить средство создания для монитора клипов"
 
 #: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3504
-#: src/timeline2/view/timelinecontroller.cpp:6413
+#: src/timeline2/view/timelinecontroller.cpp:6417
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "Не задан корректный участок. Сначала укажите входную и выходную точки."
@@ -32151,13 +32196,13 @@ msgid "Create Range Marker from Zone"
 msgstr "Создать маркер диапазона из участка"
 
 #: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
-#: src/timeline2/view/timelinecontroller.cpp:6428
+#: src/timeline2/view/timelinecontroller.cpp:6432
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Маркер диапазона, созданный из участка"
 
 #: src/monitor/monitor.cpp:3491 src/monitor/monitor.cpp:3512
-#: src/timeline2/view/timelinecontroller.cpp:6431
+#: src/timeline2/view/timelinecontroller.cpp:6435
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "Не удалось создать маркер диапазона из участка"
@@ -32305,7 +32350,7 @@ msgid "Go to Zone End"
 msgstr "В конец участка"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6420
+#: src/timeline2/view/timelinecontroller.cpp:6424
 #, kde-format
 msgid "Zone marker"
 msgstr "Маркер участка"
@@ -33617,7 +33662,7 @@ msgid "Select some timecodes to reassign"
 msgstr "Выберите тайм-коды для переназначения"
 
 #: src/project/dialogs/noteswidget.cpp:259
-#: src/timeline2/view/timelinecontroller.cpp:4607
+#: src/timeline2/view/timelinecontroller.cpp:4611
 #, kde-format
 msgid "No clip selected in timeline"
 msgstr "На монтажном столе не выбран клип"
@@ -35722,27 +35767,27 @@ msgid "Cut all clips"
 msgstr "Разрезать все клипы"
 
 #: src/timeline2/model/timelinefunctions.cpp:712
-#: src/timeline2/view/timelinecontroller.cpp:1788
+#: src/timeline2/view/timelinecontroller.cpp:1792
 #, kde-format
 msgid "Insert space"
 msgstr "Вставить пробел"
 
 #: src/timeline2/model/timelinefunctions.cpp:714
-#: src/timeline2/view/timelinecontroller.cpp:1790
+#: src/timeline2/view/timelinecontroller.cpp:1794
 #, kde-format
 msgid "Remove space"
 msgstr "Удалить пробел"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3451
+#: src/timeline2/view/timelinecontroller.cpp:3455
 #, kde-format
 msgid "Lift zone"
 msgstr "Удалить участок"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:796
-#: src/timeline2/view/timelinecontroller.cpp:3451
-#: src/timeline2/view/timelinecontroller.cpp:3524
+#: src/timeline2/view/timelinecontroller.cpp:800
+#: src/timeline2/view/timelinecontroller.cpp:3455
+#: src/timeline2/view/timelinecontroller.cpp:3528
 #, kde-format
 msgid "Extract zone"
 msgstr "Извлечь участок"
@@ -35753,32 +35798,32 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr "Активируйте дорожку, щёлкнув по соответствующему значку дорожки"
 
 #: src/timeline2/model/timelinefunctions.cpp:997
-#: src/timeline2/view/timelinecontroller.cpp:924
-#: src/timeline2/view/timelinecontroller.cpp:1335
-#: src/timeline2/view/timelinecontroller.cpp:1415
-#: src/timeline2/view/timelinecontroller.cpp:1425
-#: src/timeline2/view/timelinecontroller.cpp:1454
-#: src/timeline2/view/timelinecontroller.cpp:1494
-#: src/timeline2/view/timelinecontroller.cpp:1529
-#: src/timeline2/view/timelinecontroller.cpp:1554
-#: src/timeline2/view/timelinecontroller.cpp:1610
-#: src/timeline2/view/timelinecontroller.cpp:2687
-#: src/timeline2/view/timelinecontroller.cpp:3469
-#: src/timeline2/view/timelinecontroller.cpp:3533
-#: src/timeline2/view/timelinecontroller.cpp:3778
-#: src/timeline2/view/timelinecontroller.cpp:3824
-#: src/timeline2/view/timelinecontroller.cpp:3865
-#: src/timeline2/view/timelinecontroller.cpp:3872
-#: src/timeline2/view/timelinecontroller.cpp:3900
-#: src/timeline2/view/timelinecontroller.cpp:3974
-#: src/timeline2/view/timelinecontroller.cpp:3991
-#: src/timeline2/view/timelinecontroller.cpp:4253
-#: src/timeline2/view/timelinecontroller.cpp:4268
-#: src/timeline2/view/timelinecontroller.cpp:4293
-#: src/timeline2/view/timelinecontroller.cpp:4308
-#: src/timeline2/view/timelinecontroller.cpp:4362
-#: src/timeline2/view/timelinecontroller.cpp:4415
-#: src/timeline2/view/timelinecontroller.cpp:4438
+#: src/timeline2/view/timelinecontroller.cpp:928
+#: src/timeline2/view/timelinecontroller.cpp:1339
+#: src/timeline2/view/timelinecontroller.cpp:1419
+#: src/timeline2/view/timelinecontroller.cpp:1429
+#: src/timeline2/view/timelinecontroller.cpp:1458
+#: src/timeline2/view/timelinecontroller.cpp:1498
+#: src/timeline2/view/timelinecontroller.cpp:1533
+#: src/timeline2/view/timelinecontroller.cpp:1558
+#: src/timeline2/view/timelinecontroller.cpp:1614
+#: src/timeline2/view/timelinecontroller.cpp:2691
+#: src/timeline2/view/timelinecontroller.cpp:3473
+#: src/timeline2/view/timelinecontroller.cpp:3537
+#: src/timeline2/view/timelinecontroller.cpp:3782
+#: src/timeline2/view/timelinecontroller.cpp:3828
+#: src/timeline2/view/timelinecontroller.cpp:3869
+#: src/timeline2/view/timelinecontroller.cpp:3876
+#: src/timeline2/view/timelinecontroller.cpp:3904
+#: src/timeline2/view/timelinecontroller.cpp:3978
+#: src/timeline2/view/timelinecontroller.cpp:3995
+#: src/timeline2/view/timelinecontroller.cpp:4257
+#: src/timeline2/view/timelinecontroller.cpp:4272
+#: src/timeline2/view/timelinecontroller.cpp:4297
+#: src/timeline2/view/timelinecontroller.cpp:4312
+#: src/timeline2/view/timelinecontroller.cpp:4366
+#: src/timeline2/view/timelinecontroller.cpp:4419
+#: src/timeline2/view/timelinecontroller.cpp:4442
 #, kde-format
 msgid "No clip selected"
 msgstr "Клип не выбран"
@@ -35791,7 +35836,7 @@ msgstr "Нельзя переместить выбранную группу"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4579
+#: src/timeline2/view/timelinecontroller.cpp:4583
 #, kde-format
 msgid "Enable clip"
 msgstr "Включить клип"
@@ -35799,7 +35844,7 @@ msgstr "Включить клип"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4579
+#: src/timeline2/view/timelinecontroller.cpp:4583
 #, kde-format
 msgid "Disable clip"
 msgstr "Отключить клип"
@@ -35951,9 +35996,9 @@ msgid "Delete clips on track"
 msgstr "Удалить клипы на дорожке"
 
 #: src/timeline2/model/timelinefunctions.cpp:3145
-#, fuzzy, kde-format
+#, kde-format
 msgid "No clips found in timeline"
-msgstr "На монтажном столе не выбран клип"
+msgstr "На монтажном столе нет клипов"
 
 #: src/timeline2/model/timelinefunctions.cpp:3174
 #, fuzzy, kde-format
@@ -35964,7 +36009,7 @@ msgstr "На монтажном столе не выбран клип"
 #: src/timeline2/model/timelinefunctions.cpp:3215
 #, kde-format
 msgid "Gap"
-msgstr ""
+msgstr "Промежуток"
 
 #: src/timeline2/model/timelinefunctions.cpp:3208
 #, fuzzy, kde-format
@@ -36052,7 +36097,7 @@ msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "Недостаточно кадров в клипе %1 для соединения"
 
 #: src/timeline2/model/timelinemodel.cpp:1327
-#: src/timeline2/view/timelinecontroller.cpp:2020
+#: src/timeline2/view/timelinecontroller.cpp:2024
 #, kde-format
 msgid "No active track"
 msgstr "Нет активной дорожки"
@@ -36079,7 +36124,7 @@ msgstr "Переместить клип"
 #: src/timeline2/model/timelinemodel.cpp:2256
 #: src/timeline2/model/timelinemodel.cpp:2269
 #: src/timeline2/model/timelinemodel.cpp:2277
-#: src/timeline2/view/timelinecontroller.cpp:3850
+#: src/timeline2/view/timelinecontroller.cpp:3854
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Нет доступной дорожки для операции вставки"
@@ -36131,7 +36176,7 @@ msgstr "Удалить композицию"
 
 #: src/timeline2/model/timelinemodel.cpp:2863
 #: src/timeline2/model/timelinemodel.cpp:3164
-#: src/timeline2/view/timelinecontroller.cpp:4923
+#: src/timeline2/view/timelinecontroller.cpp:4927
 #, kde-format
 msgid "Move group"
 msgstr "Переместить группу"
@@ -36142,9 +36187,9 @@ msgid "Resize group"
 msgstr "Изменить размер группы"
 
 #: src/timeline2/model/timelinemodel.cpp:4012
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot resize this clip"
-msgstr "Не удалось изменить размер соединения"
+msgstr "Не удалось изменить размер этого клипа"
 
 #: src/timeline2/model/timelinemodel.cpp:4015
 #, fuzzy, kde-format
@@ -36223,7 +36268,7 @@ msgid "Ungroup clips"
 msgstr "Разгруппировать клипы"
 
 #: src/timeline2/model/timelinemodel.cpp:5316
-#: src/timeline2/view/timelinecontroller.cpp:1022
+#: src/timeline2/view/timelinecontroller.cpp:1026
 #, kde-format
 msgid "Delete Track"
 msgstr "Удалить дорожку"
@@ -36268,79 +36313,79 @@ msgstr "Не удалось добавить эффект %1 к выбранно
 msgid "Adjust Fade"
 msgstr "Настроить исчезание"
 
-#: src/timeline2/model/timelinemodel.cpp:6244
+#: src/timeline2/model/timelinemodel.cpp:6245
 #, kde-format
 msgid "Insert Composition"
 msgstr "Добавить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:6472
+#: src/timeline2/model/timelinemodel.cpp:6470
 #, kde-format
 msgid "Move composition"
 msgstr "Переместить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:7226
+#: src/timeline2/model/timelinemodel.cpp:7224
 #, kde-format
 msgid "Enable time remap"
 msgstr "Включить переназначение времени"
 
-#: src/timeline2/model/timelinemodel.cpp:7298
+#: src/timeline2/model/timelinemodel.cpp:7296
 #, kde-format
 msgid "Change speed failed"
 msgstr "Не удалось изменить скорость"
 
-#: src/timeline2/model/timelinemodel.cpp:7308
-#: src/timeline2/view/timelinecontroller.cpp:3369
+#: src/timeline2/model/timelinemodel.cpp:7306
+#: src/timeline2/view/timelinecontroller.cpp:3373
 #, kde-format
 msgid "Change clip speed"
 msgstr "Изменить скорость клипа"
 
-#: src/timeline2/model/timelinemodel.cpp:7756
+#: src/timeline2/model/timelinemodel.cpp:7754
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокировать дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:7761
+#: src/timeline2/model/timelinemodel.cpp:7759
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:143
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "Разблокировать дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:7795
-#: src/timeline2/model/timelinemodel.cpp:7857
+#: src/timeline2/model/timelinemodel.cpp:7793
+#: src/timeline2/model/timelinemodel.cpp:7855
 #, kde-format
 msgid "Change composition"
 msgstr "Изменить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:7809
+#: src/timeline2/model/timelinemodel.cpp:7807
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Разгруппируете композицию для дальнейшей работы с ней"
 
-#: src/timeline2/model/timelinemodel.cpp:8007
-#: src/timeline2/model/timelinemodel.cpp:8046
-#: src/timeline2/model/timelinemodel.cpp:8081
-#: src/timeline2/model/timelinemodel.cpp:8162
+#: src/timeline2/model/timelinemodel.cpp:8005
+#: src/timeline2/model/timelinemodel.cpp:8044
+#: src/timeline2/model/timelinemodel.cpp:8079
+#: src/timeline2/model/timelinemodel.cpp:8160
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Невозможно изменить размер соединения меньше, чем на 1 кадр"
 
-#: src/timeline2/model/timelinemodel.cpp:8018
-#: src/timeline2/model/timelinemodel.cpp:8054
-#: src/timeline2/model/timelinemodel.cpp:8098
-#: src/timeline2/model/timelinemodel.cpp:8186
+#: src/timeline2/model/timelinemodel.cpp:8016
+#: src/timeline2/model/timelinemodel.cpp:8052
+#: src/timeline2/model/timelinemodel.cpp:8096
+#: src/timeline2/model/timelinemodel.cpp:8184
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Не удалось изменить размер соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:8202
+#: src/timeline2/model/timelinemodel.cpp:8200
 #, kde-format
 msgid "Resize mix"
 msgstr "Изменить размер соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:8322
+#: src/timeline2/model/timelinemodel.cpp:8320
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Ошибка инициализации предпросмотра монтажного стола"
@@ -36805,232 +36850,233 @@ msgstr "Включить дорожку"
 msgid "No item under timeline cursor in active track"
 msgstr "Нет элемента под курсором монтажного стола на активной дорожке"
 
-#: src/timeline2/view/timelinecontroller.cpp:671
+#: src/timeline2/view/timelinecontroller.cpp:651
+#: src/timeline2/view/timelinecontroller.cpp:675
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "Не удалось добавить композицию в данную позицию"
 
-#: src/timeline2/view/timelinecontroller.cpp:742
-#: src/timeline2/view/timelinecontroller.cpp:1219
-#: src/timeline2/view/timelinecontroller.cpp:1236
-#: src/timeline2/view/timelinecontroller.cpp:1260
-#: src/timeline2/view/timelinecontroller.cpp:1344
+#: src/timeline2/view/timelinecontroller.cpp:746
+#: src/timeline2/view/timelinecontroller.cpp:1223
+#: src/timeline2/view/timelinecontroller.cpp:1240
+#: src/timeline2/view/timelinecontroller.cpp:1264
+#: src/timeline2/view/timelinecontroller.cpp:1348
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr ""
 "Не удалось выполнить операцию при перемещении элемента указателем мыши на "
 "монтажном столе"
 
-#: src/timeline2/view/timelinecontroller.cpp:941
+#: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Could not duplicate clip"
 msgstr "Не удалось дублировать клип"
 
-#: src/timeline2/view/timelinecontroller.cpp:999
-#: src/timeline2/view/timelinecontroller.cpp:5777
+#: src/timeline2/view/timelinecontroller.cpp:1003
+#: src/timeline2/view/timelinecontroller.cpp:5781
 #, kde-format
 msgid "Could not insert track"
 msgstr "Не удалось добавить дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:1022
+#: src/timeline2/view/timelinecontroller.cpp:1026
 #, kde-format
 msgid "Delete Tracks"
 msgstr "Удалить дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:1087
+#: src/timeline2/view/timelinecontroller.cpp:1091
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "Для показа инструментов управления записью выберите звуковую дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:1224
+#: src/timeline2/view/timelinecontroller.cpp:1228
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "Для группировки выберите не менее двух элементов"
 
-#: src/timeline2/view/timelinecontroller.cpp:1571
+#: src/timeline2/view/timelinecontroller.cpp:1575
 #, kde-format
 msgid "No range marker found at position"
 msgstr "В позиции нет маркера диапазона"
 
-#: src/timeline2/view/timelinecontroller.cpp:1743
+#: src/timeline2/view/timelinecontroller.cpp:1747
 #, kde-format
 msgid "No marker at frame %1"
 msgstr "На кадре %1 нет маркера"
 
-#: src/timeline2/view/timelinecontroller.cpp:2104
+#: src/timeline2/view/timelinecontroller.cpp:2108
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "На монтажном столе ничего не выбрано"
 
-#: src/timeline2/view/timelinecontroller.cpp:2242
+#: src/timeline2/view/timelinecontroller.cpp:2246
 #, kde-format
 msgid "No clip to cut"
 msgstr "Нет клипа для резки"
 
-#: src/timeline2/view/timelinecontroller.cpp:2606
+#: src/timeline2/view/timelinecontroller.cpp:2610
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "Вход:%1, Выход:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2694
+#: src/timeline2/view/timelinecontroller.cpp:2698
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 "Прокрутка может быть выполнена только для видеоклипов, звуковых клипов или "
 "клипов анимации"
 
-#: src/timeline2/view/timelinecontroller.cpp:3090
+#: src/timeline2/view/timelinecontroller.cpp:3094
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "Нет клипов для вставки пробела"
 
-#: src/timeline2/view/timelinecontroller.cpp:3108
+#: src/timeline2/view/timelinecontroller.cpp:3112
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Нельзя удалить пробел в данной позиции"
 
-#: src/timeline2/view/timelinecontroller.cpp:3122
+#: src/timeline2/view/timelinecontroller.cpp:3126
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "Не удалось удалить все пробелы"
 
-#: src/timeline2/view/timelinecontroller.cpp:3136
+#: src/timeline2/view/timelinecontroller.cpp:3140
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "Не удалось удалить все клипы"
 
-#: src/timeline2/view/timelinecontroller.cpp:3186
-#: src/timeline2/view/timelinecontroller.cpp:3191
-#: src/timeline2/view/timelinecontroller.cpp:3217
-#: src/timeline2/view/timelinecontroller.cpp:3222
+#: src/timeline2/view/timelinecontroller.cpp:3190
+#: src/timeline2/view/timelinecontroller.cpp:3195
+#: src/timeline2/view/timelinecontroller.cpp:3221
+#: src/timeline2/view/timelinecontroller.cpp:3226
 #, kde-format
 msgid "No item to edit"
 msgstr "Нет элемента для редактирования"
 
-#: src/timeline2/view/timelinecontroller.cpp:3228
-#: src/timeline2/view/timelinecontroller.cpp:3365
+#: src/timeline2/view/timelinecontroller.cpp:3232
+#: src/timeline2/view/timelinecontroller.cpp:3369
 #, kde-format
 msgid "Cannot change speed of item(s)"
 msgstr "Не удалось изменить скорость элементов"
 
-#: src/timeline2/view/timelinecontroller.cpp:3425
-#: src/timeline2/view/timelinecontroller.cpp:6042
+#: src/timeline2/view/timelinecontroller.cpp:3429
+#: src/timeline2/view/timelinecontroller.cpp:6046
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Активируйте дорожку для этой операции, щёлкнув по значку дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:3691
+#: src/timeline2/view/timelinecontroller.cpp:3695
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Выберите целевую дорожку, щёлкнув по целевому участку дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:3718
-#, fuzzy, kde-format
+#: src/timeline2/view/timelinecontroller.cpp:3722
+#, kde-format
 msgid "Clip not found in project bin"
-msgstr "Клип в корзине проекта"
+msgstr "Клип не найден в корзине проекта"
 
-#: src/timeline2/view/timelinecontroller.cpp:3726
+#: src/timeline2/view/timelinecontroller.cpp:3730
 #, fuzzy, kde-format
 msgid "No timecode metadata found in clip"
 msgstr "Данных о ключевых кадрах в клипе не найдено"
 
-#: src/timeline2/view/timelinecontroller.cpp:3732
+#: src/timeline2/view/timelinecontroller.cpp:3736
 #, fuzzy, kde-format
 msgid "Please select a target track"
 msgstr "Выберите видеопрофиль"
 
-#: src/timeline2/view/timelinecontroller.cpp:3738
+#: src/timeline2/view/timelinecontroller.cpp:3742
 #, kde-format
 msgid "Failed to insert clip at %1 on track %2"
 msgstr "Не удалось вставить клип в позиции %1 на дорожке %2"
 
-#: src/timeline2/view/timelinecontroller.cpp:3790
+#: src/timeline2/view/timelinecontroller.cpp:3794
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Выберите избранную композицию"
 
-#: src/timeline2/view/timelinecontroller.cpp:3856
+#: src/timeline2/view/timelinecontroller.cpp:3860
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "Не удалось найти клип для разделения видео и звука"
 
-#: src/timeline2/view/timelinecontroller.cpp:3884
-#: src/timeline2/view/timelinecontroller.cpp:3952
-#: src/timeline2/view/timelinecontroller.cpp:4008
+#: src/timeline2/view/timelinecontroller.cpp:3888
+#: src/timeline2/view/timelinecontroller.cpp:3956
+#: src/timeline2/view/timelinecontroller.cpp:4012
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Не удалось переместить клип на кадр %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3905
+#: src/timeline2/view/timelinecontroller.cpp:3909
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Создайте звуковую привязку перед выравниванием"
 
-#: src/timeline2/view/timelinecontroller.cpp:3979
-#: src/timeline2/view/timelinecontroller.cpp:4001
+#: src/timeline2/view/timelinecontroller.cpp:3983
+#: src/timeline2/view/timelinecontroller.cpp:4005
 #, kde-format
 msgid "No timecode for clip"
 msgstr "Нет тайм-кода для клипа"
 
-#: src/timeline2/view/timelinecontroller.cpp:3996
+#: src/timeline2/view/timelinecontroller.cpp:4000
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr "Создайте привязку тайм-кода перед выравниванием"
 
-#: src/timeline2/view/timelinecontroller.cpp:4117
+#: src/timeline2/view/timelinecontroller.cpp:4121
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Все потоки уже связаны. Сначала снимите отметку с другой цели звуковых данных"
 
-#: src/timeline2/view/timelinecontroller.cpp:4276
+#: src/timeline2/view/timelinecontroller.cpp:4280
 #, kde-format
 msgid "Delete effects"
 msgstr "Удалить эффекты"
 
-#: src/timeline2/view/timelinecontroller.cpp:4314
-#: src/timeline2/view/timelinecontroller.cpp:4320
-#: src/timeline2/view/timelinecontroller.cpp:4326
+#: src/timeline2/view/timelinecontroller.cpp:4318
+#: src/timeline2/view/timelinecontroller.cpp:4324
+#: src/timeline2/view/timelinecontroller.cpp:4330
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Нет информации в буфере обмена"
 
-#: src/timeline2/view/timelinecontroller.cpp:4351
+#: src/timeline2/view/timelinecontroller.cpp:4355
 #, kde-format
 msgid "Paste effects"
 msgstr "Вставить эффекты"
 
-#: src/timeline2/view/timelinecontroller.cpp:4353
+#: src/timeline2/view/timelinecontroller.cpp:4357
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Не удалось применить эффект к выбранному клипу"
 
-#: src/timeline2/view/timelinecontroller.cpp:4400
+#: src/timeline2/view/timelinecontroller.cpp:4404
 #, kde-format
 msgid "Open sequence"
 msgstr "Создать последовательность"
 
-#: src/timeline2/view/timelinecontroller.cpp:4422
+#: src/timeline2/view/timelinecontroller.cpp:4426
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Элемент не является клипом титров"
 
-#: src/timeline2/view/timelinecontroller.cpp:4520
+#: src/timeline2/view/timelinecontroller.cpp:4524
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "Выбрано элементов: %1 (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4574
+#: src/timeline2/view/timelinecontroller.cpp:4578
 #, kde-format
 msgid "Restore video"
 msgstr "Восстановить видео"
 
-#: src/timeline2/view/timelinecontroller.cpp:4574
+#: src/timeline2/view/timelinecontroller.cpp:4578
 #, kde-format
 msgid "Restore audio"
 msgstr "Восстановить звук"
 
-#: src/timeline2/view/timelinecontroller.cpp:4621
+#: src/timeline2/view/timelinecontroller.cpp:4625
 #, kde-format
 msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
@@ -37039,68 +37085,53 @@ msgstr ""
 "В корзине проекта не выбран клип для замены. Выберите клип в корзине и либо "
 "попробуйте выполнить это действие снова, либо импортируйте новый клип."
 
-#: src/timeline2/view/timelinecontroller.cpp:4622
-#: src/timeline2/view/timelinecontroller.cpp:4678
-#, fuzzy, kde-format
+#: src/timeline2/view/timelinecontroller.cpp:4626
+#: src/timeline2/view/timelinecontroller.cpp:4682
+#, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
-msgstr "Заменить клип"
+msgstr "Замена клипа"
 
-#: src/timeline2/view/timelinecontroller.cpp:4622
-#, fuzzy, kde-format
+#: src/timeline2/view/timelinecontroller.cpp:4626
+#, kde-format
 msgid "Import New Clip"
-msgstr "Импорт выбранных клипов"
+msgstr "Импорт нового клипа"
 
-#: src/timeline2/view/timelinecontroller.cpp:4665
+#: src/timeline2/view/timelinecontroller.cpp:4669
 #, kde-format
 msgid "Incompatible clip types for replacement"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4672
-#, fuzzy, kde-format
+#: src/timeline2/view/timelinecontroller.cpp:4676
+#, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
-msgstr ""
-"Замена экземпляров клипа <b>%1</b><br/>на выделенной дорожке монтажного "
-"стола\n"
-"на клип <b>%2</b>"
+msgstr "Заменить клип <b>%1</b> на <b>%2</b>?"
 
-#: src/timeline2/view/timelinecontroller.cpp:4675
-#, fuzzy, kde-format
+#: src/timeline2/view/timelinecontroller.cpp:4679
+#, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
-msgstr[0] ""
-"Замена экземпляров клипа <b>%1</b><br/>на выделенной дорожке монтажного "
-"стола\n"
-"на клип <b>%2</b>"
-msgstr[1] ""
-"Замена экземпляров клипа <b>%1</b><br/>на выделенной дорожке монтажного "
-"стола\n"
-"на клип <b>%2</b>"
-msgstr[2] ""
-"Замена экземпляров клипа <b>%1</b><br/>на выделенной дорожке монтажного "
-"стола\n"
-"на клип <b>%2</b>"
-msgstr[3] ""
-"Замена экземпляров клипа <b>%1</b><br/>на выделенной дорожке монтажного "
-"стола\n"
-"на клип <b>%2</b>"
+msgstr[0] "Заменить <b>%1</b> клип на <b>%2</b>?"
+msgstr[1] "Заменить <b>%1</b> клипа на <b>%2</b>?"
+msgstr[2] "Заменить <b>%1</b> клипов на <b>%2</b>?"
+msgstr[3] "Заменить <b>%1</b> клип на <b>%2</b>?"
 
-#: src/timeline2/view/timelinecontroller.cpp:4678
-#, fuzzy, kde-format
+#: src/timeline2/view/timelinecontroller.cpp:4682
+#, kde-format
 msgid "Replace Clip"
-msgstr "Заменить клип"
+msgstr "Замена клипа"
 
-#: src/timeline2/view/timelinecontroller.cpp:4902
+#: src/timeline2/view/timelinecontroller.cpp:4906
 #, kde-format
 msgid "Move item"
 msgstr "Переместить элемент"
 
-#: src/timeline2/view/timelinecontroller.cpp:5468
+#: src/timeline2/view/timelinecontroller.cpp:5472
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Нельзя выполнить захват на заблокированной дорожке"
 
-#: src/timeline2/view/timelinecontroller.cpp:5479
+#: src/timeline2/view/timelinecontroller.cpp:5483
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -37109,22 +37140,22 @@ msgstr ""
 "Нельзя сохранить захваченное сюда: возможна перезапись клипов. Удалите клипы "
 "за текущей позицией или выберите другую дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:5570
+#: src/timeline2/view/timelinecontroller.cpp:5574
 #, kde-format
 msgid "Record audio"
 msgstr "Записать звук"
 
-#: src/timeline2/view/timelinecontroller.cpp:5717
+#: src/timeline2/view/timelinecontroller.cpp:5721
 #, kde-format
 msgid "Expand clip"
 msgstr "Развернуть клип"
 
-#: src/timeline2/view/timelinecontroller.cpp:5720
+#: src/timeline2/view/timelinecontroller.cpp:5724
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Не удалось развернуть клип"
 
-#: src/timeline2/view/timelinecontroller.cpp:5775
+#: src/timeline2/view/timelinecontroller.cpp:5779
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -37133,18 +37164,18 @@ msgstr[1] "Добавить дорожки"
 msgstr[2] "Добавить дорожки"
 msgstr[3] "Добавить дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:5854
+#: src/timeline2/view/timelinecontroller.cpp:5858
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Экспорт файла с субтитрами"
 
-#: src/timeline2/view/timelinecontroller.cpp:5855
+#: src/timeline2/view/timelinecontroller.cpp:5859
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "Файл Sub Station Alpha v4.00+ (*.ass);;Файл с субтитрами SubRip (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5869
+#: src/timeline2/view/timelinecontroller.cpp:5873
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -37157,12 +37188,12 @@ msgstr ""
 "сохранён только субтитр из самого нижнего слоя, что может привести к утрате "
 "некоторых субтитров в экспортированном файле. Продолжить?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5874
+#: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: src/timeline2/view/timelinecontroller.cpp:5912
+#: src/timeline2/view/timelinecontroller.cpp:5916
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -37171,40 +37202,40 @@ msgstr ""
 "Не удалось найти требующийся фильтр avfilter.subtitles. Возможны проблемы в "
 "работе функции субтитров."
 
-#: src/timeline2/view/timelinecontroller.cpp:5929
+#: src/timeline2/view/timelinecontroller.cpp:5933
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Показать дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:5929
+#: src/timeline2/view/timelinecontroller.cpp:5933
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Скрыть дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:5952
+#: src/timeline2/view/timelinecontroller.cpp:5956
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Разблокировать дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:5952
+#: src/timeline2/view/timelinecontroller.cpp:5956
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Заблокировать дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:6119
-#: src/timeline2/view/timelinecontroller.cpp:6128
+#: src/timeline2/view/timelinecontroller.cpp:6123
+#: src/timeline2/view/timelinecontroller.cpp:6132
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/timeline2/view/timelinecontroller.cpp:6130
+#: src/timeline2/view/timelinecontroller.cpp:6134
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Управление субтитрами"
 
-#: src/timeline2/view/timelinecontroller.cpp:6361
+#: src/timeline2/view/timelinecontroller.cpp:6365
 #, kde-format
 msgid "No range guide found at position"
 msgstr "В позиции нет направляющей диапазона"
@@ -38823,27 +38854,27 @@ msgstr "Сетка монитора"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_color)
 #: src/ui/configcolors_ui.ui:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video clip color:"
-msgstr "Видеоклип"
+msgstr "Цвет видеоклипа:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_color)
 #: src/ui/configcolors_ui.ui:126
-#, fuzzy, kde-format
+#, kde-format
 msgid "Audio clip color:"
-msgstr "Звуковые клипы"
+msgstr "Цвет звукового клипа:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_title_color)
 #: src/ui/configcolors_ui.ui:140
-#, fuzzy, kde-format
+#, kde-format
 msgid "Title clip color:"
-msgstr "Клипы титров:"
+msgstr "Цвет клипа титров:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_image_color)
 #: src/ui/configcolors_ui.ui:154
-#, fuzzy, kde-format
+#, kde-format
 msgid "Image clip color:"
-msgstr "Клипы изображений:"
+msgstr "Цвет клипа изображений:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
 #: src/ui/configcolors_ui.ui:168
@@ -41210,9 +41241,9 @@ msgstr "Использовать заполнители"
 
 #. i18n: ectx: property (text), widget (QPushButton, searchProxies)
 #: src/ui/missingclips_ui.ui:201
-#, fuzzy, kde-format
+#, kde-format
 msgid "Search Proxies"
-msgstr "Найти маркеры"
+msgstr "Найти прокси"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:211
