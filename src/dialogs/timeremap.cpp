@@ -1545,6 +1545,33 @@ void RemapView::paintEvent(QPaintEvent *event)
     }
 
     /*
+     * Time remap curve, drawn between the two rulers. The x axis is the output
+     * position, the y axis is the source position sampled from the time_map
+     * animation, so the curve shape matches what MLT will play back
+     */
+    if (!m_keyframes.isEmpty() && m_remapProps.is_valid() && m_remapProps.property_exists("time_map")) {
+        int maxSource = remapMax();
+        if (maxSource > 0) {
+            double curveTop = m_lineHeight * 1.75;
+            double curveBottom = m_bottomView - m_lineHeight * 1.75;
+            QColor curveColor = m_colSelected;
+            curveColor.setAlpha(160);
+            p.setPen(curveColor);
+            p.setRenderHint(QPainter::Antialiasing);
+            QPolygonF curvePoints;
+            for (int px = 0; px <= maxWidth; px++) {
+                int framePos = int((px / m_zoomFactor + m_zoomStart) / m_scale);
+                double sourcePos = m_remapProps.anim_get_double("time_map", framePos + m_inFrame) * fps - m_inFrame;
+                double ratio = qBound(0., sourcePos / maxSource, 1.);
+                curvePoints << QPointF(px + m_offset, curveBottom - ratio * (curveBottom - curveTop));
+            }
+            p.drawPolyline(curvePoints);
+            p.setRenderHint(QPainter::Antialiasing, false);
+            p.setPen(m_colKeyframe);
+        }
+    }
+
+    /*
      * Keyframes
      */
     QMapIterator<int, int> i(m_keyframes);
