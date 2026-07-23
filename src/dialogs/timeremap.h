@@ -101,6 +101,9 @@ private:
     /** @brief the keyframes for the remap effect. first value is output, second is source time */
     QMap<int, int>m_keyframes;
     QMap<int, int>m_keyframesOrigin;
+    /** @brief the interpolation type of each keyframe, keyed by output position. Absent key means linear */
+    QMap<int, int> m_keyframeTypes;
+    QMap<int, int> m_keyframeTypesOrigin;
     std::shared_ptr<ProjectClip> m_clip;
     std::shared_ptr<Mlt::Producer> m_service;
     QPointF m_lastZoomHandle;
@@ -124,6 +127,11 @@ private:
     QMap<int,int>m_previousSelection;
     std::pair<int,int> getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
+    int keyframeTypeAt(int pos) const;
+    /** @brief Move the interpolation type of the keyframe at oldPos to newPos */
+    void moveKeyframeType(int oldPos, int newPos);
+    /** @brief Shift the interpolation types of all keyframes at or after fromPos by offset */
+    void shiftKeyframeTypes(int fromPos, int offset);
 
 Q_SIGNALS:
     void seekToPos(int,int);
