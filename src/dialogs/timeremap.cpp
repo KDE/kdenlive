@@ -306,15 +306,26 @@ void RemapView::loadKeyframes(const QString &mapData)
         Q_EMIT atKeyframe(true, true);
         Q_EMIT updateKeyframes(false);
     } else {
-        QStringList str = mapData.split(QLatin1Char(';'));
-        for (auto &s : str) {
-            int pos = m_service->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
-            int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+        Mlt::Properties props;
+        props.set("_profile", pCore->getProjectProfile().get_profile(), 0);
+        props.set("key", mapData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)props.anim_get_double("key", 0);
+        std::shared_ptr<Mlt::Animation> anim(props.get_anim("key"));
+        int kfrCount = anim->key_count();
+        for (int ix = 0; ix < kfrCount; ix++) {
+            int pos = 0;
+            mlt_keyframe_type type = mlt_keyframe_linear;
+            anim->key_get(ix, pos, type);
+            int val = GenTime(props.anim_get_double("key", pos)).frames(pCore->getCurrentFps());
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
-            if (s == str.constLast()) {
+            if (ix == kfrCount - 1) {
                 pos--;
             }
             m_keyframes.insert(pos, val);
+            if (type != mlt_keyframe_linear) {
+                m_keyframeTypes.insert(pos, type);
+            }
             m_duration = qMax(m_duration, pos - m_inFrame);
             m_duration = qMax(m_duration, val - m_inFrame);
         }
@@ -1261,25 +1272,33 @@ void RemapView::updateAfterSpeed(double speed)
     }
 }
 
-const QString RemapView::getKeyframesData(QMap<int, int> keyframes) const
+const QString RemapView::getKeyframesData(QMap<int, int> keyframes, QMap<int, int> keyframeTypes) const
 {
-    QStringList result;
     if (keyframes.isEmpty()) {
         keyframes = m_keyframes;
+        keyframeTypes = m_keyframeTypes;
     }
-    QMapIterator<int, int> i(keyframes);
-    int offset = 0;
+    if (keyframes.isEmpty()) {
+        return QString();
+    }
     Mlt::Properties props;
     props.set("_profile", pCore->getProjectProfile().get_profile(), 0);
+    QMapIterator<int, int> i(keyframes);
+    int offset = 0;
     while (i.hasNext()) {
         i.next();
         if (i.key() == keyframes.lastKey()) {
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
             offset = 1;
         }
-        result << QStringLiteral("%1=%2").arg(props.frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
+        mlt_keyframe_type type = mlt_keyframe_type(keyframeTypes.value(i.key(), KeyframeType::Linear));
+        props.anim_set("key", GenTime(i.value(), pCore->getCurrentFps()).seconds(), i.key() + offset, 0, type);
     }
-    return result.join(QLatin1Char(';'));
+    std::shared_ptr<Mlt::Animation> anim(props.get_anim("key"));
+    char *data = anim->serialize_cut(mlt_time_clock);
+    const QString result(data);
+    free(data);
+    return result;
 }
 
 void RemapView::reloadProducer()
@@ -2048,12 +2067,12 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         m_isUpdatingKeyframes = false;
     }
 
-    Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch,
-                      masterIsAudio, splitIsAudio, hadBlend]() {
+    Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, previousTypes = m_view->m_keyframeTypesOrigin, cid = m_cid,
+                      oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch, masterIsAudio, splitIsAudio, hadBlend]() {
         QString oldKfData;
         bool keyframesChanged = false;
         if (!previousKeyframes.isEmpty()) {
-            oldKfData = m_view->getKeyframesData(previousKeyframes);
+            oldKfData = m_view->getKeyframesData(previousKeyframes, previousTypes);
             keyframesChanged = true;
         }
         if (keyframesChanged) {
@@ -2090,12 +2109,12 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         return true;
     };
 
-    Fun local_redo = [this, link = m_remapLink, splitLink = m_splitRemap, updatedKeyframes, cid = m_cid, usePitch, masterIsAudio, splitIsAudio,
-                      in = m_view->m_inFrame, useBlend]() {
+    Fun local_redo = [this, link = m_remapLink, splitLink = m_splitRemap, updatedKeyframes, updatedTypes = m_view->m_keyframeTypes, cid = m_cid, usePitch,
+                      masterIsAudio, splitIsAudio, in = m_view->m_inFrame, useBlend]() {
         QString newKfData;
         bool keyframesChanged = false;
         if (!updatedKeyframes.isEmpty()) {
-            newKfData = m_view->getKeyframesData(updatedKeyframes);
+            newKfData = m_view->getKeyframesData(updatedKeyframes, updatedTypes);
             keyframesChanged = true;
         }
         if (keyframesChanged) {

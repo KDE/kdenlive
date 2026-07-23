@@ -38,7 +38,7 @@ public:
     void setBinClipDuration(std::shared_ptr<ProjectClip> clip, int duration);
     void setDuration(std::shared_ptr<Mlt::Producer> service, int duration, int sourceDuration = 0);
     void loadKeyframes(const QString &mapData);
-    const QString getKeyframesData(QMap<int,int> keyframes = {}) const;
+    const QString getKeyframesData(QMap<int, int> keyframes = {}, QMap<int, int> keyframeTypes = {}) const;
     int position() const;
     int remapDuration() const;
     int remapMax() const;
