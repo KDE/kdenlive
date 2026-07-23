@@ -74,6 +74,8 @@ public Q_SLOTS:
     void goPrev();
     void updateBeforeSpeed(double speed);
     void updateAfterSpeed(double speed);
+    /** @brief Set the interpolation type of the currently selected keyframe */
+    void slotSetKeyframeType(int type);
     void toggleMoveNext(bool moveNext);
     void reloadProducer();
     void centerCurrentKeyframe();

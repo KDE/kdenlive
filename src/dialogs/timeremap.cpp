@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "timeremap.h"
 
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
@@ -1356,6 +1357,25 @@ std::pair<double, double> RemapView::getSpeed(std::pair<int, int> kf)
     return speeds;
 }
 
+void RemapView::slotSetKeyframeType(int type)
+{
+    if (m_currentKeyframe.first == -1 || !m_keyframes.contains(m_currentKeyframe.first)) {
+        return;
+    }
+    if (keyframeTypeAt(m_currentKeyframe.first) == type) {
+        return;
+    }
+    m_keyframesOrigin = m_keyframes;
+    m_keyframeTypesOrigin = m_keyframeTypes;
+    if (type == KeyframeType::Linear) {
+        m_keyframeTypes.remove(m_currentKeyframe.first);
+    } else {
+        m_keyframeTypes.insert(m_currentKeyframe.first, type);
+    }
+    Q_EMIT updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
+    update();
+}
+
 void RemapView::addKeyframe()
 {
     // insert or remove keyframe at interpolated position
@@ -1692,7 +1712,17 @@ TimeRemap::TimeRemap(QWidget *parent)
         speedBefore->setValue(100. * speeds.first);
         speedAfter->setEnabled(!atEnd.second);
         speedAfter->setValue(100. * speeds.second);
+        QSignalBlocker bk5(kfr_type);
+        kfr_type->setCurrentIndex(qMax(0, kfr_type->findData(m_view->keyframeTypeAt(selection.first))));
     });
+    // TODO: the list is restricted to non overshooting interpolation types for
+    // now, pending a decision on how to handle types like bounce and elastic
+    // whose overshoot makes the source time briefly play backwards
+    const QMap<KeyframeType::KeyframeEnum, QString> kfrTypes = KeyframeModel::getKeyframeTypes();
+    for (auto type : {KeyframeType::Linear, KeyframeType::CurveSmooth, KeyframeType::CubicIn, KeyframeType::CubicOut}) {
+        kfr_type->addItem(kfrTypes.value(type), int(type));
+    }
+    connect(kfr_type, &QComboBox::activated, this, [this](int ix) { m_view->slotSetKeyframeType(kfr_type->itemData(ix).toInt()); });
     connect(m_view, &RemapView::updateSpeeds, this, [this](std::pair<double, double> speeds) {
         QSignalBlocker bk3(speedBefore);
         QSignalBlocker bk4(speedAfter);
