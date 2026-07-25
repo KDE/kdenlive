@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-24 00:43+0000\n"
-"PO-Revision-Date: 2026-07-17 00:07+0100\n"
+"PO-Revision-Date: 2026-07-24 11:19+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -22381,7 +22381,7 @@ msgstr "Sustituir medio (secuencia activa)…"
 #: src/bin/bin.cpp:4117 src/mainwindow.cpp:2024
 #, kde-format
 msgid "Duplicate Clip"
-msgstr "Duplicar medio"
+msgstr "Duplicar"
 
 #: src/bin/bin.cpp:4129 src/bin/bin.cpp:4206
 #, kde-format

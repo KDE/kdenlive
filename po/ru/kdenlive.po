@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-24 00:43+0000\n"
-"PO-Revision-Date: 2026-07-23 17:12+0300\n"
+"PO-Revision-Date: 2026-07-24 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -14294,24 +14294,24 @@ msgid "The width of the outline in pixels"
 msgstr "Толщина контура в пикселах"
 
 #: data/effects/gpstext.xml:96
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply underline decoration to the text."
-msgstr "Применение к видео эффекта дефляции"
+msgstr "Применение подчёркивания к тексту."
 
 #: data/effects/gpstext.xml:100
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr "Применение к видео эффекта дефляции"
+msgstr "Применение зачёркивания к тексту."
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "Выравнивание по горизонтали"
+msgstr "Установить выравнивание по горизонтали"
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "Выравнивание по вертикали"
+msgstr "Установить выравнивание по вертикали"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
@@ -14614,9 +14614,9 @@ msgid "Comb Filter (LADSPA 1190)"
 msgstr "Гребенчатый фильтр (LADSPA 1190)"
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Band Separation"
-msgstr "Насыщенность"
+msgstr "Разделение полос"
 
 #: data/effects/ladspa/ladspa_1190.xml:9
 #, kde-format
@@ -14663,6 +14663,8 @@ msgid ""
 "This is the offset from<br>\n"
 "      the input time that the detune delay moves around"
 msgstr ""
+"Это смещение от<br>\n"
+"      времени входа, вокруг которого перемещается задержка расстройки"
 
 #: data/effects/ladspa/ladspa_1191.xml:14
 #, kde-format
@@ -14863,6 +14865,8 @@ msgid ""
 "The pitch difference from the<br>\n"
 "      centre before the attenuation has reached half the <i>Gain</i>."
 msgstr ""
+"Разница высоты тона от<br>\n"
+"      центра до достижения ослаблением половины <i>Усиления</i>."
 
 #: data/effects/ladspa/ladspa_1207.xml:4
 #, kde-format
@@ -15115,9 +15119,9 @@ msgid "The random factor applied to the amplitude"
 msgstr "Коэффициент случайности, применяемый к амплитуде"
 
 #: data/effects/ladspa/ladspa_1402.xml:49
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dry/Wet Mix"
-msgstr "«Сухой»/«Мокрый»"
+msgstr "Микширование «Сухой»/«Мокрый»"
 
 #: data/effects/ladspa/ladspa_1402.xml:50
 #, kde-format
@@ -15135,9 +15139,9 @@ msgid "Dyson Compressor (LADSPA 1403)"
 msgstr "Сжиматель Дайсона (LADSPA 1403)"
 
 #: data/effects/ladspa/ladspa_1403.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Peak Limit"
-msgstr "Ограничение"
+msgstr "Ограничение пика"
 
 #: data/effects/ladspa/ladspa_1403.xml:10
 #, kde-format
@@ -15260,9 +15264,9 @@ msgid "Controls the envelope decay time."
 msgstr "Управляет временем спада обёртки"
 
 #: data/effects/ladspa/ladspa_1408.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Knee Point"
-msgstr "Точка входа"
+msgstr "Точка колена"
 
 #: data/effects/ladspa/ladspa_1408.xml:15
 #, kde-format
@@ -15399,9 +15403,9 @@ msgid "The distance between the frequency peaks"
 msgstr "Расстояние между пиками частоты"
 
 #: data/effects/ladspa/ladspa_1415.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "FM Oscillator"
-msgstr "Колебания"
+msgstr "Осциллятор FM"
 
 #: data/effects/ladspa/ladspa_1415.xml:5
 #, kde-format
@@ -15441,7 +15445,7 @@ msgstr ""
 "звукового потока."
 
 #: data/effects/ladspa/ladspa_1423.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reverb Time"
 msgstr "Время реверберации"
 
@@ -15453,9 +15457,9 @@ msgid "Damping"
 msgstr "Демпфирование"
 
 #: data/effects/ladspa/ladspa_1423.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dry/wet mix"
-msgstr "«Сухой»/«Мокрый»"
+msgstr "Микширование «Сухой»/«Мокрый»"
 
 #: data/effects/ladspa/ladspa_1430.xml:4
 #, kde-format
@@ -15470,6 +15474,11 @@ msgid ""
 "signal rises more and more harmonics will for added to the output signal. "
 "The distortion control sets the sensitivity of the input."
 msgstr ""
+"Дисторсия Чебышева (LADSPA 1430).<br>\n"
+"   Этот эффект использует данные обёртки поступающего сигнала. По мере "
+"возрастания уровня сигнала в выходной сигнал будет добавляться всё больше и "
+"больше гармоник. Параметр управления дисторсией устанавливает "
+"чувствительность входа."
 
 #: data/effects/ladspa/ladspa_1430.xml:9
 #, kde-format
@@ -15484,7 +15493,7 @@ msgstr "Устанавливает чувствительность входно
 #: data/effects/ladspa/ladspa_1431.xml:4
 #, kde-format
 msgid "Bode Frequency Shifter"
-msgstr "Смещение частоты Бода"
+msgstr "Сдвиг частоты Бода"
 
 #: data/effects/ladspa/ladspa_1431.xml:6
 #, kde-format
@@ -15513,7 +15522,7 @@ msgstr "Управляет смещением частоты, применяем
 #: data/effects/ladspa/ladspa_1432.xml:4
 #, kde-format
 msgid "Bode Frequency Shifter (CV)"
-msgstr "Смещение частоты Бода (CV)"
+msgstr "Сдвиг частоты Бода (CV)"
 
 #: data/effects/ladspa/ladspa_1432.xml:6
 #, kde-format
@@ -15544,14 +15553,14 @@ msgid "CV Attenuation"
 msgstr "Ослабление CV"
 
 #: data/effects/ladspa/ladspa_1432.xml:19
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shift CV"
-msgstr "Сдвиг"
+msgstr "Сдвиг CV"
 
 #: data/effects/ladspa/ladspa_1433.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "AM Pitch Shifter"
-msgstr "Изменение высоты тона TAP"
+msgstr "Изменение высоты тона AM"
 
 #: data/effects/ladspa/ladspa_1433.xml:6
 #, kde-format
@@ -15562,11 +15571,16 @@ msgid ""
 "the two readpointers according to the sine of the distance from the write "
 "pointer."
 msgstr ""
+"Изменение высоты тона AM (LADSPA 1433).<br>\n"
+"   Этот эффект работает путём пропускания одного указателя записи "
+"(монотонный) и двух указателей чтения (с масштабированием по высоте тона) "
+"через кольцевой буфер. Выходной сигнал изменяется между двумя указателями "
+"чтения в соответствии с синусоидой расстояния от указателя записи."
 
 #: data/effects/ladspa/ladspa_1433.xml:9 data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
 msgid "Pitch Shift"
-msgstr "Изменение высоты тона (SoX)"
+msgstr "Изменение высоты тона"
 
 #: data/effects/ladspa/ladspa_1433.xml:11
 #, kde-format
@@ -15614,6 +15628,9 @@ msgid ""
 "      it resets the phase of the LFO back to the start of the cycle. Used to "
 "sync the LFO to the track."
 msgstr ""
+"При переводе из состояния «отключено» в состояние «включено»<br>\n"
+"      сбрасывает фазу НЧ-модулятора обратно в начало цикла. Используется для "
+"синхронизации НЧ-модулятора с дорожкой."
 
 #: data/effects/ladspa/ladspa_1438.xml:14
 #, kde-format
@@ -15623,7 +15640,7 @@ msgstr "Период НЧ-модулятора"
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
 msgid "The cycle period of the LFO in seconds"
-msgstr ""
+msgstr "Период цикла НЧ-модулятора в секундах"
 
 #: data/effects/ladspa/ladspa_1438.xml:19
 #, kde-format
@@ -15645,7 +15662,7 @@ msgstr "Экспоненциальный спад сигнала"
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
 msgid "Exponential Signal Decay (LADSPA 1886)"
-msgstr ""
+msgstr "Экспоненциальный спад сигнала (LADSPA 1886)"
 
 #: data/effects/ladspa/ladspa_1887.xml:4
 #, kde-format
@@ -15701,6 +15718,10 @@ msgid ""
 "      by 60 decibels. If this time is negative then the feedback coefficient "
 "will be negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"Время для спада эхо<br>\n"
+"      на 60 децибелов. Если это время имеет отрицательное значение, "
+"коэффициент обратной связи будет отрицательным, что приводит к подчёркиванию "
+"только нечётных гармоник на октаву ниже."
 
 #: data/effects/ladspa/ladspa_1888.xml:4
 #, kde-format
@@ -15865,6 +15886,10 @@ msgid ""
 "      If this time is negative, then the feedback coefficient will be "
 "negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
+"Время для спада эхо на 60 дБ.\n"
+"      Если это время имеет отрицательное значение, коэффициент обратной "
+"связи будет отрицательным, что приводит к подчёркиванию только нечётных "
+"гармоник на октаву ниже."
 
 #: data/effects/ladspa/ladspa_1896.xml:4
 #, kde-format
@@ -15929,39 +15954,44 @@ msgstr ""
 "& Heath."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lo Gain"
-msgstr "Усиление низкочастотных эффектов (LFE)"
+msgstr "Усиление низких"
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
 #, kde-format
 msgid "Controls the gain of the low (100Hz) peak/dip band"
 msgstr ""
+"Управляет усилением для полосного фильтра пиков/провалов в нижнем диапазоне "
+"(100 Гц)"
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mid Gain"
-msgstr "Среднее усиление"
+msgstr "Усиление средних"
 
 #: data/effects/ladspa/ladspa_1901.xml:14
 #: data/effects/ladspa/ladspa_1907.xml:14
 #, kde-format
 msgid "Controls the gain of the mid (1,000Hz) peak/dip band"
 msgstr ""
+"Управляет усилением для полосного фильтра пиков/провалов в среднем диапазоне "
+"(1000 Гц)"
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hi Gain"
-msgstr "Усиление"
+msgstr "Усиление высоких"
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
 #, kde-format
 msgid "Controls the gain of the high (10,000Hz) shelf band"
 msgstr ""
+"Управляет усилением для полочного фильтра в верхнем диапазоне (10000 Гц)"
 
 #: data/effects/ladspa/ladspa_1902.xml:4
 #, kde-format
@@ -15976,9 +16006,9 @@ msgstr "Перекрестный фильтр Баттерворта (LADSPA 190
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
 #: data/effects/ladspa/ladspa_1904.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Resonance"
-msgstr "Баланс красного"
+msgstr "Резонанс"
 
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
@@ -16751,8 +16781,8 @@ msgid ""
 "fractal line generated by the Midpoint Displacement Method."
 msgstr ""
 "Розовый/Фрактальный шум TAP (LADSPA 2155).<br>\n"
-"    Добавляет розовый шум к входящему сигналу с помощью одномерной случайной "
-"фрактальной линии, созданной методом смещения средней точки."
+"    Добавляет розовый шум к поступающему сигналу с помощью одномерной "
+"случайной фрактальной линии, созданной методом смещения средней точки."
 
 #: data/effects/ladspa/ladspa_2155.xml:9
 #, kde-format
@@ -17032,17 +17062,17 @@ msgstr "Эквалайзер (эффект LADSPA)"
 #: data/effects/ladspa/ladspa_equalizer.xml:8
 #, kde-format
 msgid "Lo gain"
-msgstr "Малое усиление"
+msgstr "Усиление низких"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:11
 #, kde-format
 msgid "Mid gain"
-msgstr "Среднее усиление"
+msgstr "Усиление средних"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:14
 #, kde-format
 msgid "Hi gain"
-msgstr "Большое усиление"
+msgstr "Усиление высоких"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:4
 #, kde-format
@@ -17957,9 +17987,9 @@ msgid "Rotate from center"
 msgstr "Вращение относительно центра"
 
 #: data/effects/qtblend.xml:43 data/effects/qtblend.xml:67
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rotation Point"
-msgstr "Вращение"
+msgstr "Точка вращения"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -18682,26 +18712,26 @@ msgid "Start (HH:MM:SS.SSS)"
 msgstr "Начало (ЧЧ:ММ:СС.ССС)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
-"Время, с которого таймер начинает отсчёт вперёд или назад.\n"
-"Со времени начала работы фильтра до момента запуска таймера будет "
+"Время, с которого таймер начинает отсчёт вперёд или назад.<br>\n"
+"        Со времени начала работы фильтра до момента запуска таймера будет "
 "отображаться фиксированное значение 00:00:00.000."
 
 #: data/effects/timer.xml:63 data/effects/timer.xml:69
 #: data/effects/timer.xml:76
-#, fuzzy, kde-format
+#, kde-format
 msgid "HH:MM:SS.SSS"
-msgstr "Длительность (с)"
+msgstr "ЧЧ:ММ:СС.ССС"
 
 #: data/effects/timer.xml:66
-#, fuzzy, kde-format
+#, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr "Длительность (с)"
+msgstr "Длительность (ЧЧ:ММ:СС.ССС)"
 
 #: data/effects/timer.xml:68
 #, kde-format
@@ -18715,9 +18745,9 @@ msgstr ""
 "таймера."
 
 #: data/effects/timer.xml:72
-#, fuzzy, kde-format
+#, kde-format
 msgid "Offset (HH:MM:SS.SSS)"
-msgstr "Длительность (с)"
+msgstr "Смещение (ЧЧ:ММ:СС.ССС)"
 
 #: data/effects/timer.xml:75
 #, kde-format
@@ -18764,7 +18794,7 @@ msgstr ""
 "таймера."
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -18773,9 +18803,10 @@ msgid ""
 "<i>Offset</i>."
 msgstr ""
 "Смещение для добавления к значению таймера.\n"
-"При обратном направлении отсчёт таймера ведётся вниз до значения «смещения», "
-"а не до 00:00:00.000.\n"
-"При прямом направлении отсчёт таймера начинается со значения «смещения»."
+"При обратном направлении отсчёт таймера ведётся <i>Вниз</i> до <i>Смещения</"
+"i>, а не до 00:00:00.000.\n"
+"При прямом направлении отсчёт таймера ведётся <i>Вверх</i>, начиная со "
+"<i>Смещения</i>."
 
 #: data/effects/timer.xml:100
 #, kde-format
@@ -26642,7 +26673,7 @@ msgstr "Создать новую последовательность с тек
 #: src/dialogs/textbasededit.cpp:707
 #, kde-format
 msgid "Insert selection in timeline"
-msgstr "Вставить выделенное на монтажный стол"
+msgstr "Вставить выбранное на монтажный стол"
 
 #: src/dialogs/textbasededit.cpp:708
 #, kde-format
@@ -35873,7 +35904,7 @@ msgstr "Клип не выбран"
 #: src/timeline2/model/timelinefunctions.cpp:1067
 #, kde-format
 msgid "Cannot move selected group"
-msgstr "Нельзя переместить выбранную группу"
+msgstr "Невозможно переместить выбранную группу"
 
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
@@ -36234,14 +36265,14 @@ msgid "Cannot resize this clip"
 msgstr "Не удалось изменить размер этого клипа"
 
 #: src/timeline2/model/timelinemodel.cpp:4015
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot resize the corresponding split clip"
-msgstr "Не удалось изменить размер соединения"
+msgstr "Не удалось изменить размер соответствующего разделённого клипа"
 
 #: src/timeline2/model/timelinemodel.cpp:4018
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
-msgstr ""
+msgstr "Не удалось изменить размер одного или нескольких клипов в выбранном"
 
 #: src/timeline2/model/timelinemodel.cpp:4022
 #, kde-format
@@ -36404,7 +36435,7 @@ msgstr "Изменить композицию"
 #: src/timeline2/model/timelinemodel.cpp:7807
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
-msgstr "Разгруппируете композицию для дальнейшей работы с ней"
+msgstr "Разгруппируйте композицию для дальнейшей работы с ней"
 
 #: src/timeline2/model/timelinemodel.cpp:8005
 #: src/timeline2/model/timelinemodel.cpp:8044
