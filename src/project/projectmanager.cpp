@@ -759,8 +759,9 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
             return true;
         }
     }
-    // remove the stale files
-    for (KAutoSaveFile *stale : staleFiles) {
+    // remove the remaining stale files
+    const QList<KAutoSaveFile *> remainingStaleFiles = KAutoSaveFile::staleFiles(autosaveUrl);
+    for (KAutoSaveFile *stale : remainingStaleFiles) {
         stale->open(QIODevice::ReadWrite);
         delete stale;
     }
