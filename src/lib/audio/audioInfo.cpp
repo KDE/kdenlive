@@ -16,7 +16,7 @@ AudioInfo::AudioInfo(const std::shared_ptr<Mlt::Producer> &producer)
     // Since we already receive an MLT producer, we do not need to initialize MLT:
     // Mlt::Factory::init(nullptr);
     // Get the number of streams and add the information of each of them if it is an audio stream.
-    int streams = producer->get_int("meta.media.nb_streams");
+    int streams = qMin(99, producer->get_int("meta.media.nb_streams"));
     for (int i = 0; i < streams; ++i) {
         QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
         const char *streamtype = producer->get(propertyName.data());

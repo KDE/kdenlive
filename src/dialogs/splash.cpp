@@ -9,7 +9,6 @@
 #include "project/projectmanager.h"
 #include <QDebug>
 #include <QFileInfo>
-#include <ki18n_version.h>
 
 #include <KColorSchemeManager>
 #include <KColorSchemeModel>

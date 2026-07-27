@@ -13,6 +13,7 @@
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "markersortmodel.h"
 #include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
 
@@ -92,6 +93,14 @@ void MonitorProxy::seek(int delta, uint modifiers)
     Q_EMIT q->mouseSeek(delta, modifiers);
 }
 
+QString MonitorProxy::thumbPath(int frame) const
+{
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::SlideShow) {
+        return QStringLiteral("image://thumbnail/%1%2").arg(pCore->bin()->getBinClip(QString::number(m_clipId))->baseThumbPath(), QString::number(frame));
+    }
+    return {};
+}
+
 int MonitorProxy::maskOpacity() const
 {
     return KdenliveSettings::maskOpacity();
@@ -135,6 +144,15 @@ MaskModeType::MaskCreationMode MonitorProxy::maskMode() const
     return m_maskMode;
 }
 
+void MonitorProxy::nextOverlay()
+{
+    if (overlayType() >= 5) {
+        setOverlayType(0);
+    } else {
+        setOverlayType(overlayType() + 1);
+    }
+}
+
 int MonitorProxy::overlayType() const
 {
     return (q->m_id == int(Kdenlive::ClipMonitor) ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides());
@@ -147,6 +165,7 @@ void MonitorProxy::setOverlayType(int ix)
     } else {
         KdenliveSettings::setProjectMonitorOverlayGuides(ix);
     }
+    Q_EMIT overlayTypeChanged();
 }
 
 bool MonitorProxy::showSafezone() const
@@ -478,17 +497,28 @@ void MonitorProxy::selectClip(int ix)
     }
 }
 
-void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced)
+MarkerSortModel *MonitorProxy::markersModel()
+{
+    return m_markerModel.get();
+}
+
+void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced,
+                                     std::shared_ptr<MarkerSortModel> markerModel)
 {
     bool idChanged = clipId != m_clipId;
     bool avChanged = hasAV != m_hasAV;
     bool typeChanged = type != m_clipType;
     bool audioChanged = audioSynced != m_audioSynced;
+    bool markersChanged = markerModel != m_markerModel;
+    m_markerModel = markerModel;
     m_clipId = clipId;
     m_hasAV = hasAV;
     m_clipType = type;
     m_audioSynced = audioSynced;
 
+    if (markersChanged) {
+        Q_EMIT markersModelChanged();
+    }
     if (idChanged) {
         Q_EMIT clipIdChanged();
     }

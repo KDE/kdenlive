@@ -287,6 +287,9 @@ public:
      */
     Q_INVOKABLE void deleteSelectedClips();
 
+    /** @brief Duplicate the currently selected clip, placing the copy immediately after the original on the same track
+     */
+    Q_INVOKABLE void duplicateClip();
     /** @brief Returns id of the timeline selected clip if there is only 1 clip selected
      * or an AVSplit group. If allowComposition is true, returns composition id if
      * only 1 is selected, otherwise returns -1. If restrictToCurrentPos is true, it will
@@ -346,6 +349,8 @@ public:
     /** @brief Ask for all markers delete
      */
     Q_INVOKABLE void deleteAllMarkers(int cid = -1);
+    Q_INVOKABLE bool moveClipMarker(int cid, int oldFrame, int newFrame);
+    Q_INVOKABLE bool moveClipMarkerWithoutUndo(int cid, int mid, int newFrame);
     /** @brief Ask for edit timeline guide dialog
      */
     Q_INVOKABLE void editGuide(int frame = -1);

@@ -29,6 +29,11 @@ MouseArea {
         }
     }
 
+    FontMetrics {
+        id: fontMetrics
+        font: K.UiUtils.fixedFont
+    }
+
     Rectangle {
         id: scenetoolbar
         objectName: "scenetoolbar"
@@ -69,7 +74,7 @@ MouseArea {
             K.MonitorZoomButton {
                 id: zoomButton
                 monitorController: barZone.monitorController
-                isClipMonitor: root.isClipMonitor
+                isClipMonitor: barZone.isClipMonitor
             }
             K.MonitorToolButton {
                 objectName: "moveBar"

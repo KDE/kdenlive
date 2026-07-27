@@ -90,6 +90,19 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             continue;
         }
         QString paramValue = effect->get(paramName.toUtf8().constData());
+        if (paramType == QLatin1String("gradient_editor")) {
+            // Reconstruct internal pipe-separated string from individual stop.N MLT params
+            QStringList stops;
+            for (int s = 1; s <= 32; s++) {
+                const QString key = QStringLiteral("stop.%1").arg(s);
+                const char *val = effect->get(key.toUtf8().constData());
+                if (!val || val[0] == '\0') break;
+                stops << QString::fromUtf8(val);
+            }
+            if (!stops.isEmpty()) {
+                paramValue = stops.join(QLatin1Char('|'));
+            }
+        }
         if (paramValue.isEmpty() && paramType == QLatin1String("animatedfakerect")) {
             // Check if we have existing values for the fake rect individual components
             QDomNodeList children = currentParameter.elementsByTagName(QLatin1String("parammap"));

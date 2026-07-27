@@ -18,7 +18,7 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
     , m_bitRate(0)
 {
     // Fetch audio streams
-    int streams = producer->get_int("meta.media.nb_streams");
+    int streams = qMin(99, producer->get_int("meta.media.nb_streams"));
     if (streams == 0) {
         if (playlist) {
             // Playlist clips do not provide stream info
@@ -198,7 +198,7 @@ void AudioStreamInfo::setAudioIndex(const std::shared_ptr<Mlt::Producer> &produc
 {
     m_audioStreamIndex = ix;
     if (ix > -1) {
-        int streams = producer->get_int("meta.media.nb_streams");
+        int streams = qMin(99, producer->get_int("meta.media.nb_streams"));
         QList<int> audioStreams;
         for (int i = 0; i < streams; ++i) {
             QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();

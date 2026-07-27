@@ -4,8 +4,6 @@
 */
 
 #include <KLocalizedQmlContext>
-#include <QtVersionChecks>
-#include <ki18n_version.h>
 
 #include "../model/builders/meltBuilder.hpp"
 
@@ -172,8 +170,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
     timelineController.setModel(model);
-    setInitialProperties({{"audiorec", QVariant::fromValue(pCore->getAudioDevice().get())},
-                          {"controller", QVariant::fromValue(model.get())},
+    setInitialProperties({{"controller", QVariant::fromValue(model.get())},
                           {"timeline", QVariant::fromValue(&timelineController)},
                           {"multitrack", QVariant::fromValue(m_sortModel.get())},
                           {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},

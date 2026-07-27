@@ -37,8 +37,6 @@
 #include <QtGlobal>
 #include <memory>
 
-#include <ki18n_version.h>
-
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -121,7 +119,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &VideoWidget::refresh);
     m_producer = m_blackClip;
-    rootContext()->setContextProperty("markersModel", nullptr);
     connect(pCore.get(), &Core::switchTimelineRecord, this, &VideoWidget::switchRecordState);
 
     m_proxy = new MonitorProxy(this);
@@ -690,8 +687,6 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
         m_producer = std::move(producer);
     } else {
         m_producer = m_blackClip;
-        // Reset markersModel
-        rootContext()->setContextProperty("markersModel", nullptr);
     }
     setProducerSpeed(0);
     error = reconfigure();
@@ -1306,14 +1301,10 @@ int VideoWidget::getCurrentPos() const
     return m_proxy->getPosition();
 }
 
-void VideoWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model)
+void VideoWidget::setRulerInfo(int duration)
 {
     m_maxProducerPosition = duration;
     rootObject()->setProperty("duration", duration);
-    if (model != nullptr) {
-        // we are resetting marker/snap model, reset zone
-        rootContext()->setContextProperty("markersModel", model.get());
-    }
 }
 
 void VideoWidget::switchRecordState(bool on)

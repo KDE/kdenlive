@@ -19,15 +19,16 @@ Item {
     property int viewType: K.SceneType.MonitorSceneAutoMask
     required property double timeScale
     required property int duration
+    required property bool forceVisible
     property bool isAudioClip: false
     property bool stateVisible: false
     property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
     property bool displayAudioZoom: true
     property bool dragButtonsVisible: false
     property bool dirty: false
-    property bool containsMyMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse || thumbMouseArea.pressed
-    property int clipId: monitorController.clipId
-    property bool alwaysShowMonitorAudio: K.KdenliveSettings.alwaysShowMonitorAudio
+    readonly property bool containsMyMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse || thumbMouseArea.pressed
+    readonly property int clipId: monitorController.clipId
+    readonly property bool alwaysShowMonitorAudio: K.KdenliveSettings.alwaysShowMonitorAudio
     state: stateVisible ? "showAudio" : "hideAudio"
 
     signal zoomOutRuler(int xPos)
@@ -66,7 +67,7 @@ Item {
     function refreshView()
     {
         audioThumb.isAudioClip = monitorController.clipType === K.ClipType.Audio
-        audioThumb.stateVisible = (monitorController.clipHasAV && (K.KdenliveSettings.alwaysShowMonitorAudio || thumbTimer.running)) || audioThumb.isAudioClip
+        audioThumb.stateVisible = (monitorController.clipHasAV && (K.KdenliveSettings.alwaysShowMonitorAudio || audioThumb.forceVisible)) || audioThumb.isAudioClip
         checkAudioThumbState()
     }
 
@@ -173,9 +174,6 @@ Item {
         Repeater {
             id: streamThumb
             model: audioThumb.monitorController.audioStreams.length
-            onCountChanged: {
-                thumbTimer.start()
-            }
             property double streamHeight: mainThumbsContainer.height / streamThumb.count
             Item {
                 id: streamContainer

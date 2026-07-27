@@ -76,6 +76,7 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(ToolType::ProjectTool activeTool READ activeTool NOTIFY activeToolChanged FINAL)
+    Q_PROPERTY(MediaCapture *audioCapture READ audioCapture CONSTANT)
 
 public:
     friend class KdenliveDoc;
@@ -202,8 +203,8 @@ public:
     /** @brief Returns a reference to a monitor (clip or project monitor) */
     Monitor *getMonitor(int id);
     /** @brief Seek a monitor to position */
-    void seekMonitor(int id, int position);
     void seekMonitor(ObjectId owner, int position);
+    void seekMonitor(Kdenlive::MonitorId id, int position);
     void setMonitorZone(int id, QPoint zone);
     /** @brief Returns timeline's active track info (position and tag) */
     QPair<int, QString> currentTrackInfo() const;
@@ -398,6 +399,9 @@ private:
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
     void initLocale();
+
+    /** @brief Same as getAudioDevice, but without shared_ptr for Q_PROPERTY */
+    MediaCapture *audioCapture();
 
     MainWindow *m_mainWindow{nullptr};
     ProjectManager *m_projectManager{nullptr};

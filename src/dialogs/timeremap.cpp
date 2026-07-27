@@ -1739,69 +1739,75 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
     m_lastLength = pCore->getItemDuration(oid);
     m_view->m_startPos = pCore->getItemPosition(oid);
     model->requestClipTimeRemap(cid);
+    prod = model->getClipProducer(cid);
+    if (prod->parent().type() != mlt_service_chain_type) {
+        m_binId.clear();
+        m_view->setDuration(nullptr, -1);
+        remap_box->setEnabled(false);
+        return;
+    }
     connect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     m_view->m_maxLength = prod->get_length();
+
     m_in->setRange(0, m_view->m_maxLength - prod->get_in());
     // m_in->setRange(0, m_lastLength - 1);
     m_out->setRange(0, INT_MAX);
     m_view->setDuration(prod, m_lastLength, prod->parent().get_length());
     bool remapFound = false;
-    if (prod->parent().type() == mlt_service_chain_type) {
-        Mlt::Chain fromChain(prod->parent());
-        int count = fromChain.link_count();
-        QScopedPointer<Mlt::Link> fromLink;
-        for (int i = 0; i < count; i++) {
-            fromLink.reset(fromChain.link(i));
-            if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
-                if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
-                    // Found a timeremap effect, read params
-                    if (!fromLink->property_exists("time_map")) {
-                        fromLink->set("time_map", fromLink->get("map"));
-                    }
-                    QString mapData(fromLink->get("time_map"));
-                    m_remapLink.reset(fromChain.link(i));
-                    m_view->m_remapProps.inherit(*m_remapLink.get());
-                    // This is a fake query to force the animation to be parsed
-                    (void)m_view->m_remapProps.anim_get_double("time_map", 0, m_lastLength + prod->get_in());
-                    m_view->loadKeyframes(mapData);
-                    if (mapData.isEmpty()) {
-                        // We are just adding the remap effect, set default params
-                        if (model->clipIsAudio(cid)) {
-                            fromLink->set("pitch", 1);
-                        }
-                        fromLink->set("image_mode", "nearest");
-                    }
-                    remapFound = true;
-                    break;
+    Mlt::Chain fromChain(prod->parent());
+    int count = fromChain.link_count();
+    QScopedPointer<Mlt::Link> fromLink;
+    for (int i = 0; i < count; i++) {
+        fromLink.reset(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                if (!fromLink->property_exists("time_map")) {
+                    fromLink->set("time_map", fromLink->get("map"));
                 }
+                QString mapData(fromLink->get("time_map"));
+                m_remapLink.reset(fromChain.link(i));
+                m_view->m_remapProps.inherit(*m_remapLink.get());
+                // This is a fake query to force the animation to be parsed
+                (void)m_view->m_remapProps.anim_get_double("time_map", 0, m_lastLength + prod->get_in());
+                qDebug() << ":::: LOADING KF CASE B...";
+                m_view->loadKeyframes(mapData);
+                if (mapData.isEmpty()) {
+                    // We are just adding the remap effect, set default params
+                    if (model->clipIsAudio(cid)) {
+                        fromLink->set("pitch", 1);
+                    }
+                    fromLink->set("image_mode", "nearest");
+                }
+                remapFound = true;
+                break;
             }
         }
-        if (remapFound && m_splitId > -1) {
-            std::shared_ptr<Mlt::Producer> prod2 = model->getClipProducer(m_splitId);
-            if (prod2->parent().type() == mlt_service_chain_type) {
-                Mlt::Chain fromChain2(prod2->parent());
-                count = fromChain2.link_count();
-                for (int j = 0; j < count; j++) {
-                    QScopedPointer<Mlt::Link> fromLink2(fromChain2.link(j));
-                    if (fromLink2 && fromLink2->is_valid() && fromLink2->get("mlt_service")) {
-                        if (fromLink2->get("mlt_service") == QLatin1String("timeremap")) {
-                            m_splitRemap.reset(fromChain2.link(j));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if (remapFound) {
-            QSignalBlocker bk(pitch_compensate);
-            QSignalBlocker bk2(frame_blending);
-            pitch_compensate->setChecked(m_remapLink->get_int("pitch") == 1 || (m_splitRemap && m_splitRemap->get_int("pitch")));
-            frame_blending->setChecked(m_remapLink->get("image_mode") != QLatin1String("nearest"));
-            remap_box->setEnabled(true);
-        }
-    } else {
-        qDebug() << "/// PRODUCER IS NOT A CHAIN!!!!";
     }
+    if (remapFound && m_splitId > -1) {
+        std::shared_ptr<Mlt::Producer> prod2 = model->getClipProducer(m_splitId);
+        if (prod2->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain2(prod2->parent());
+            count = fromChain2.link_count();
+            for (int j = 0; j < count; j++) {
+                QScopedPointer<Mlt::Link> fromLink2(fromChain2.link(j));
+                if (fromLink2 && fromLink2->is_valid() && fromLink2->get("mlt_service")) {
+                    if (fromLink2->get("mlt_service") == QLatin1String("timeremap")) {
+                        m_splitRemap.reset(fromChain2.link(j));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    if (remapFound) {
+        QSignalBlocker bk(pitch_compensate);
+        QSignalBlocker bk2(frame_blending);
+        pitch_compensate->setChecked(m_remapLink->get_int("pitch") == 1 || (m_splitRemap && m_splitRemap->get_int("pitch")));
+        frame_blending->setChecked(m_remapLink->get("image_mode") != QLatin1String("nearest"));
+        remap_box->setEnabled(true);
+    }
+
     if (!m_binId.isEmpty() && pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == m_binId) {
         connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap,
                 Qt::UniqueConnection);

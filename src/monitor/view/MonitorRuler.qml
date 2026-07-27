@@ -371,7 +371,7 @@ Rectangle {
 
     // markers
     Repeater {
-        model: markersModel
+        model: ruler.monitorController.markersModel
         delegate:
         Item {
             id: guideRoot
@@ -420,8 +420,8 @@ Rectangle {
                 color: guideRoot.model.color
                 Image {
                     id: imageTooltip
-                    visible: markerTooltip.visible && root.baseThumbPath != undefined
-                    source: imageTooltip.visible ? root.baseThumbPath + guideRoot.model.frame : ''
+                    visible: markerTooltip.visible && source
+                    source: ruler.monitorController.thumbPath(guideRoot.model.frame)
                     asynchronous: true
                     height: visible ? 4 * mlabel.height : 0
                     fillMode: Image.PreserveAspectFit
@@ -442,7 +442,7 @@ Rectangle {
                         left: parent.left
                         right: parent.right
                     }
-                    color: '#000'
+                    color: '#000000'
                 }
                 MouseArea {
                     z: 10

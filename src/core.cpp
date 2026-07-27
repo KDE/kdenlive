@@ -366,7 +366,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
 void Core::initHeadless(const QUrl &url)
 {
     MltConnection::construct(QString());
-    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
+    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::DirectConnection, Q_ARG(QUrl, url));
     connect(this, &Core::displayBinMessage, this,
             [](QString text, int, QList<QAction *>, bool, BinMessage::BinCategory) { qInfo() << QStringLiteral("Bin message: ") << text; });
     connect(this, &Core::displayBinLogMessage, this, [](QString text, int, QString) { qInfo() << QStringLiteral("Bin message: ") << text; });
@@ -821,7 +821,7 @@ Monitor *Core::getMonitor(int id)
     return m_monitorManager->projectMonitor();
 }
 
-void Core::seekMonitor(int id, int position)
+void Core::seekMonitor(Kdenlive::MonitorId id, int position)
 {
     if (!m_guiConstructed) {
         return;
@@ -1848,6 +1848,11 @@ bool Core::captureShowsCountDown() const
 void Core::switchCapture()
 {
     Q_EMIT recordAudio(-1, !isMediaCapturing());
+}
+
+MediaCapture *Core::audioCapture()
+{
+    return m_capture.get();
 }
 
 std::shared_ptr<MediaCapture> Core::getAudioDevice()

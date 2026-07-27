@@ -31,7 +31,6 @@ Item {
     property rect _framesize
     property rect pendingFramesize // : Qt.rect(0, 0, 0, 0)
     property point profile: controller.profile
-    property int overlayType: controller.overlayType
     property point center
     property double scalex
     property double scaley
@@ -240,7 +239,7 @@ Item {
         K.MonitorOverlay {
             anchors.fill: frame
             color: K.KdenliveSettings.overlayColor
-            overlayType: root.overlayType
+            overlayType: root.controller.overlayType
         }
         K.MonitorSafeZone {
             id: safeZone

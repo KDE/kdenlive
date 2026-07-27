@@ -34,7 +34,6 @@ Item {
     property bool showSafezone: false
     property bool showAudiothumb: false
     property int duration: 300
-    property int overlayType: controller.overlayType
     property bool isClipMonitor: false
 
     FontMetrics {
@@ -44,14 +43,6 @@ Item {
 
     signal editCurrentMarker()
 
-    function switchOverlay() {
-        if (controller.overlayType >= 5) {
-            controller.overlayType = 0
-        } else {
-            controller.overlayType = controller.overlayType + 1;
-        }
-        root.overlayType = controller.overlayType
-    }
     MouseArea {
         id: barOverArea
         hoverEnabled: true

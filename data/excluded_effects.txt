@@ -1,43 +1,43 @@
+#####################
 # CRASHING EFFECTS
-# frei0r.transparency
+#####################
 frei0r.water
 
+#####################
 # WORKING BUT NOT USEFUL OR DUPLICATE EFFECTS
-# avfilter.datascope
+#####################
 avfilter.pixscope
-# avfilter.zoompan
-# avfilter.hflip
-# avfilter.vflip
-# frei0r.bluescreen0r
-# frei0r.bw0r
-# frei0r.gamma
-# frei0r.invert0r
 burningtv
 grayscale
 
+#####################
 # UNUSABLE EFFECTS
+#####################
 frei0r.3dflippo
 frei0r.perspective
 
-#EFFECTS NOT USABLE WITH A SIMPLE GUI OR INTERNAL TO MLT
-# ladspa
-jackrack
-# luma
+#####################
+# EFFECTS NOT USABLE WITH A SIMPLE GUI OR INTERNAL TO MLT
+#####################
 data_show
-# gtkrescale
+# ONLY MLT-INTERNAL TO NORMALIZE PRODUCER LOADER
+gtkrescale
+jackrack
 watermark
-# region
 resize
 rescale
 resample
-# mono
 transition
 
+#####################
 # DEPRECATED
+#####################
 videostab
 videostab2
 
+#####################
 # UNIMPLEMENTED/UNUSABLE AVFILTER EFFECTS
+#####################
 avfilter.abench
 avfilter.adelay
 avfilter.aemphasis
@@ -58,15 +58,14 @@ avfilter.sr_amf
 avfilter.tiltandshift
 avfilter.vpp_amf
 
+#####################
 # NOT WORKING AUDIO AVIFILTER
+#####################
 #audiolevel (it has not to show up in the effects list) 
 avfilter.acue
 avfilter.adeclick
 avfilter.adeclip
-#avfilter.aderivative
 avfilter.afftdn
-#avfilter.aintegral
-#avfilter.allpass
 avfilter.aloop
 avfilter.anlmdn
 avfilter.asidedata
@@ -82,15 +81,16 @@ avfilter.mcompand
 avfilter.rubberband
 avfilter.silencedetect
 avfilter.superequalizer
-#avfilter.sofalizer
 avfilter.tremolo
 fft
-#ladspa
+ladspa
 loudness_meter
 sox_pitch
 sox_reverb
 
+#####################
 # NOT WORKING AUDIO MLT LADSPA
+#####################
 ladspa
 vinyl
 declipper
@@ -125,7 +125,9 @@ ladspa.1427
 ladspa.1212
 
 
+#####################
 # CRASHING AVFILTERS (WOULD REQUIRE AN XML FILE TO CORRECTLY DEFINE PARAMETERS)
+#####################
 avfilter.acompressor
 avfilter.aecho
 avfilter.agate
@@ -143,14 +145,16 @@ avfilter.thumbnail_cuda
 avfilter.volume
 avfilter.volumedetect
 
-
-
+#####################
 # REMOVED FOR 19.04 RELEASE as a result of systematic testing of all the available effects
+#####################
 avfilter.tonemap
 sox.pad
 text
 
+#####################
 # NEED A GPU OPENCL VAAPI SUPPORT
+#####################
 avfilter.avgblur_opencl
 avfilter.boxblur_opencl
 avfilter.colorkey_opencl
@@ -184,8 +188,9 @@ avfilter.vpp_qsv
 avfilter.yadif_cuda
 avfilter.zmq
 
-
+#####################
 # WORKING BUT WARNING OR PARTIALLY WORKING
+#####################
 avfilter.atadenoise
 avfilter.dedot
 avfilter.deflicker
@@ -202,7 +207,9 @@ avfilter.w3fdif
 avfilter.weave
 avfilter.yadif
 
+#####################
 # WORKING BUT NEED CHECKS
+#####################
 avfilter.amplify
 avfilter.bwdif
 avfilter.deblock
@@ -220,60 +227,21 @@ fieldorder
 frei0r.bgsubtract0r
 frei0r.colorhalftone
 frei0r.delaygrab
-frei0r.lightgraffiti
-frei0r.bigsh0t_zenith_correction
-# frei0r.premultiply
 gtkrescale
 region
 resize
 
-# WORKING
-# avfilter.boxblur
-# avfilter.chromashift
-# avfilter.colormatrix
-# avfilter.colorspace
-# avfilter.deband
-# avfilter.dilation
-# avfilter.erosion
-# avfilter.fftfilt
-# avfilter.fieldorder
-# avfilter.kerndeint
-# avfilter.il
-# avfilter.mcdeint
-# avfilter.negate
-# avfilter.stereo3d
-# avfilter.swapuv
-# avfilter.vectorscope
-# avfilter.avgblur
-# avfilter.despill
-# avfilter.drawbox
-# avfilter.drawgrid
-# avfilter.elbg
+#####################
+# NOT NEEDED BY USER
+#####################
+avfilter.dctdnoiz
 avfilter.fspp
-# avfilter.gblur
-# avfilter.hqdn3d
-# avfilter.hqx
-# avfilter.lenscorrection
-# avfilter.limiter
-# avfilter.phase
-# avfilter.prewitt
-# avfilter.setrange
-# avfilter.super2xsai
-# avfilter.xbr
-# avfilter.roberts
-# avfilter.sab
-# avfilter.sobel
-# avfilter.transpose
-# avfilter.unsharp
-# dynamictext
-# frei0r.rgbsplit0r
-# frei0r.vertigo
-# rescale
-# spot_remover
-# timer
-# typewriter #don't blacklist (this is independent from the titler's build in typewriter effect)
+# FREI0R.HQDN3D ALREADY EXISTS
+avfilter.hqdn3d
 
-# NOT WORKING, OR  NOT USEFUL ON THE TIMELINE OR HEAVY
+#####################
+# NOT WORKING, OR NOT USEFUL ON THE TIMELINE OR HEAVY
+#####################
 avfilter.ass
 avfilter.bbox
 avfilter.bench
@@ -321,7 +289,9 @@ motion_est
 vismv
 watermark
 
+#####################
 # COMPLEX UI
+#####################
 avfilter.addroi
 avfilter.crop
 avfilter.cue
@@ -336,9 +306,7 @@ avfilter.lutyuv
 avfilter.nnedi
 avfilter.pad
 avfilter.perspective
-avfilter.pseudocolor
 avfilter.rotate
-avfilter.shuffleframes
 avfilter.swaprect
 avfilter.tlut2
 avfilter.vignette
@@ -346,29 +314,16 @@ avfilter.zscale
 qtext
 rgblut
 
+#####################
 # PRODUCE CRASH OR FREEZE
+#####################
 avfilter.convolution
 
 # RESOLUTION ISSUES
-# avfilter.dctdnoiz
-# avfilter.delogo
-# avfilter.pixscope
-# avfilter.vaguedenoiser
-# BurningTV
-# frei0r.cluster
-# frei0r.dither
-# frei0r.IIRblur
-# frei0r.medians
-# frei0r.rgbnoise
-# frei0r.sharpness
-# grain
-# wave
 
+#####################
 # FRAME BUFFER ISSUES
-avfilter.hqdn3d
-avfilter.lagfun
-frei0r.baltan
+#####################
 frei0r.bgsubtract0r
-frei0r.lightgraffiti
 frei0r.tehroxx0r
 frei0r.tehRoxx0r

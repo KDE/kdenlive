@@ -59,20 +59,19 @@ Item {
     readonly property bool hideCompoViews: !visible || width < root.minClipWidthForViews
     readonly property bool hideDecorations: !K.KdenliveSettings.showClipOverlays || trimInMouseArea.drag.active || trimOutMouseArea.drag.active
     visible: scrollView.lastVisibleFrame > compositionRoot.modelStart && scrollView.firstVisibleFrame <= (compositionRoot.modelStart + compositionRoot.clipDuration)
-    property int scrollStart: visible ? scrollView.contentX - (compositionRoot.modelStart * root.timeScale) : 0
+    property int scrollStart: visible ? scrollView.contentX - (compositionRoot.modelStart * compositionRoot.timeScale) : 0
 
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
     property int trackOffset: 0
     y: trackOffset
     height: 5
-    enabled: !compoArea.containsDrag && !clipDropArea.containsDrag
-
 
     signal trimmingIn(var clip, real newDuration)
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration)
     signal trimmedOut(var clip)
-
+    signal seek(int pos)
+    signal zoomByWheel(var wheel)
 
     onScrollStartChanged: {
         if (!compositionRoot.visible) {
@@ -171,7 +170,7 @@ Item {
 
     function updateDrag() {
         console.log('XXXXXXXXXXXXXXX\n\nXXXXXXXXXXXXX \nUPDATING COMPO DRAG')
-        var itemPos = mapToItem(tracksContainerArea, 0, displayRect.y, displayRect.width, displayRect.height)
+        var itemPos = Qt.rect(0, displayRect.y, displayRect.width, displayRect.height)
         initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)
     }
 
@@ -253,7 +252,7 @@ Item {
                 }
             }
             onEntered: {
-                updateDrag()
+                compositionRoot.updateDrag()
                 var s = KI18n.i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.modelStart)).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.clipDuration)))
                 compositionRoot.timeline.showToolTip(s)
             }
@@ -270,7 +269,7 @@ Item {
                     compositionRoot.timeline.editItemDuration()
                 }
             }
-            onWheel: wheel => zoomByWheel(wheel)
+            onWheel: wheel => compositionRoot.zoomByWheel(wheel)
 
             MouseArea {
                 id: trimInMouseArea
@@ -297,7 +296,7 @@ Item {
                     anchors.left = parent.left
                     compositionRoot.trimmedIn(compositionRoot)
                     trimIn.opacity = 0
-                    updateDrag()
+                    compositionRoot.updateDrag()
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -367,7 +366,7 @@ Item {
                     trimOut.opacity = 0
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
-                    updateDrag()
+                    compositionRoot.updateDrag()
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -542,7 +541,7 @@ Item {
             }
             Connections {
                 target: effectRow.item
-                function onSeek(position) { proxy.position = position }
+                function onSeek(position) { compositionRoot.seek(position) }
             }
         }
     }

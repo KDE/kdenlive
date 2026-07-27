@@ -6226,6 +6226,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     // TRACE(transitionId, trackId, position, length, transProps.get(), id, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Q_ASSERT(length > 0);
     bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, std::move(transProps), id, undo, redo, logUndo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
@@ -6269,9 +6270,6 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
         return true;
     };
     bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, finalMove, local_undo, local_redo);
-    if (res) {
-        res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, true);
-    }
     if (!res) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -7244,9 +7242,7 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
-    if (success) {
-        success = m_allClips[clipId]->useTimeRemapProducer(enable, local_undo, local_redo);
-    }
+    success = success && m_allClips[clipId]->useTimeRemapProducer(enable, local_undo, local_redo);
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo, false, false);
         if (success && !enable && previousDuration > 0) {

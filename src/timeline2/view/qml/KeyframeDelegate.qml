@@ -16,28 +16,36 @@ Rectangle {
     required property var model
     required property int index
 
+    required property K.TimelineController timeline
+    required property var kfrModel
     required property double timeScale
+    required property int parentInPoint
+    required property int parentItemId
+    required property bool allowUserInteraction
+
+    readonly property bool isUserInteracting: kfMouseArea.pressed || kf1MouseArea.pressed
+    readonly property bool isInsideVisibleAreaX: x > K.UiUtils.baseSizeMedium / 2 && x < parent.width - K.UiUtils.baseSizeMedium / 2
+
+    signal requestRepaint()
+    signal seek(int position)
+    signal keyframeSelected(int index, bool add, bool setActive)
+    signal resetSelection()
 
     property int frame : model.frame
     property int frameType : model.type
     property string realValue: model.value
-    x: (model.frame - keyframeContainer.inPoint) * keyframe.timeScale
+    x: (model.frame - parentInPoint) * timeScale
     height: parent.height
     property int value: parent.height * model.normalizedValue
     property int tmpVal : keyframeVal.y + K.UiUtils.baseSizeMedium / 2
     property int tmpPos : x + keyframeVal.x + K.UiUtils.baseSizeMedium / 2
     property int dragPos : -1
     anchors.bottom: parent.bottom
-    onFrameTypeChanged: {
-        keyframecanvas.requestPaint()
-    }
-    onValueChanged: {
-        keyframecanvas.requestPaint()
-    }
-    onFrameChanged: {
-        keyframecanvas.requestPaint()
-        console.log('Frame ', keyframe.index,' MOVED TO: ', keyframe.frame)
-    }
+
+    onFrameTypeChanged: { requestRepaint() }
+    onValueChanged: { requestRepaint() }
+    onFrameChanged: { requestRepaint() }
+
     onRealValueChanged: {
         kf1MouseArea.movingVal = kfrModel.realValue(model.normalizedValue)
     }
@@ -48,19 +56,23 @@ Rectangle {
         anchors.fill: parent
         anchors.leftMargin: - K.UiUtils.baseSizeMedium / 3
         anchors.rightMargin: - K.UiUtils.baseSizeMedium / 3
-        hoverEnabled: !keyframeContainer.isPanning
+
+
+        hoverEnabled: keyframe.allowUserInteraction
         cursorShape: Qt.SizeHorCursor
-        enabled: !keyframeContainer.isPanning && parent.x > K.UiUtils.baseSizeMedium / 2 && parent.x < keyframeContainer.width - K.UiUtils.baseSizeMedium / 2
+        enabled: keyframe.allowUserInteraction && keyframe.isInsideVisibleAreaX
         drag.target: parent
         drag.smoothed: false
         drag.axis: Drag.XAxis
+
         onPressed: {
             setBlockAutoScroll(true)
         }
 
         onReleased: mouse => {
             setBlockAutoScroll(false)
-            if (keyframe.frame != keyframeContainer.inPoint && keyframe.dragPos != keyframe.frame) {
+            setBlockAutoScroll(false)
+            if (keyframe.frame != keyframe.parentInPoint && keyframe.dragPos != keyframe.frame) {
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     // offset all subsequent keyframes
                     kfrModel.offsetKeyframes(keyframe.frame, keyframe.dragPos, true)
@@ -72,8 +84,8 @@ Rectangle {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                if (keyframe.frame == keyframeContainer.inPoint) {
-                    parent.x = keyframeContainer.inPoint * keyframe.timeScale
+                if (keyframe.frame == keyframe.parentInPoint) {
+                    parent.x = keyframe.parentInPoint * keyframe.timeScale
                     return
                 }
                 var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - 1)
@@ -83,17 +95,17 @@ Rectangle {
                 if (newPos != keyframe.dragPos && (newPos == 0 || !kfrModel.hasKeyframe(frame + newPos))) {
                     keyframe.dragPos = newPos
                     parent.x = newPos * keyframe.timeScale
-                    keyframecanvas.requestPaint()
+                    keyframe.requestRepaint()
                 } else {
                     parent.x = keyframe.dragPos * keyframe.timeScale
                 }
             }
         }
         onEntered: {
-            //timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move all keyframes after this one."))
+            keyframe.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move all keyframes after this one."))
         }
         onExited: {
-            //timeline.showKeyBinding()
+            keyframe.timeline.showKeyBinding()
         }
     }
     Item {
@@ -113,13 +125,13 @@ Rectangle {
         MouseArea {
             id: kf1MouseArea
             anchors.fill: parent
-            hoverEnabled: !keyframeContainer.isPanning
-            enabled: !keyframeContainer.isPanning
+            hoverEnabled: keyframe.allowUserInteraction
+            enabled: keyframe.allowUserInteraction
             cursorShape: shiftPressed ? Qt.SizeVerCursor : Qt.PointingHandCursor
             drag.target: parent
             drag.smoothed: false
             drag.threshold: 1
-            property string movingVal: kfrModel.realValue(keyframe.model.normalizedValue)
+            property string movingVal: keyframe.kfrModel.realValue(keyframe.model.normalizedValue)
             property double newVal: NaN
             property bool shiftPressed: false
             onPressed: mouse => {
@@ -129,17 +141,13 @@ Rectangle {
             onClicked: mouse => {
                 keyframeContainer.focus = true
                 if (mouse.modifiers & Qt.ControlModifier && keyframe.model.selected) {
-                    kfrModel.setActiveKeyframe(-1)
-                    keyframeContainer.activeIndex = -1
-                    kfrModel.setSelectedKeyframe(keyframe.index, true)
+                    keyframe.keyframeSelected(keyframe.index, true, false)
                 } else {
-                    kfrModel.setActiveKeyframe(keyframe.index)
-                    keyframeContainer.activeIndex = keyframe.index
-                    kfrModel.setSelectedKeyframe(keyframe.index, mouse.modifiers & Qt.ControlModifier)
+                    keyframe.keyframeSelected(keyframe.index, mouse.modifiers & Qt.ControlModifier, true)
                 }
-                var ix = kfrModel.activeKeyframe()
+                var ix = keyframe.kfrModel.activeKeyframe()
                 if (ix > -1) {
-                    seek(keyframes.itemAt(ix).frame + keyframeContainer.modelStart - keyframeContainer.inPoint)
+                    keyframe.seek(keyframes.itemAt(ix).frame + keyframeContainer.modelStart - keyframe.parentInPoint)
                 }
             }
             onReleased: {
@@ -150,15 +158,15 @@ Rectangle {
                     return
                 }
                 if (keyframe.dragPos == keyframe.frame && keyframe.value == keyframe.height - parent.y - K.UiUtils.baseSizeMedium / 2) {
-                    var pos = keyframeContainer.modelStart + keyframe.frame - keyframeContainer.inPoint
+                    var pos = keyframeContainer.modelStart + keyframe.frame - keyframe.parentInPoint
                     if (proxy.position !== pos) {
-                        seek(pos)
+                        keyframe.seek(pos)
                     }
                     return
                 }
                 if (newVal > 1.5 || newVal < -0.5) {
-                    if (keyframe.frame != keyframeContainer.inPoint) {
-                        keyframeContainer.resetSelection()
+                    if (keyframe.frame != keyframe.parentInPoint) {
+                        keyframe.resetSelection()
                         kfrModel.removeKeyframe(keyframe.frame);
                     } else {
                         if (newVal < 0) {
@@ -178,7 +186,7 @@ Rectangle {
                         kfrModel.moveKeyframe(keyframe.frame, keyframe.dragPos, true)
                     } else {
                         console.log('MOVING KFR TO NEW POS: ', keyframe.dragPos)
-                        kfrModel.moveKeyframe(keyframe.frame, keyframe.frame == keyframeContainer.inPoint ? keyframe.frame : keyframe.dragPos, newVal, true)
+                        kfrModel.moveKeyframe(keyframe.frame, keyframe.frame == keyframe.parentInPoint ? keyframe.frame : keyframe.dragPos, newVal, true)
                     }
                 }
                 keyframe.dragPos = -1
@@ -186,12 +194,12 @@ Rectangle {
             onPositionChanged: mouse => {
                 shiftPressed = (mouse.modifiers & Qt.ShiftModifier)
                 if (mouse.buttons === Qt.LeftButton) {
-                    if (keyframe.frame == keyframeContainer.inPoint) {
+                    if (keyframe.frame == keyframe.parentInPoint) {
                         parent.x = - K.UiUtils.baseSizeMedium / 2
                     } else {
-                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - keyframe.frame + keyframeContainer.inPoint - 1) + keyframe.frame
-                        if (newPos <= keyframeContainer.inPoint) {
-                            newPos = keyframeContainer.inPoint + 1
+                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - keyframe.frame + keyframe.parentInPoint - 1) + keyframe.frame
+                        if (newPos <= keyframe.parentInPoint) {
+                            newPos = keyframe.parentInPoint + 1
                         }
 
                         if (newPos != keyframe.dragPos && !kfrModel.hasKeyframe(newPos)) {
@@ -201,20 +209,20 @@ Rectangle {
                             parent.x = (keyframe.dragPos - keyframe.frame) * keyframe.timeScale - K.UiUtils.baseSizeMedium / 2
                         }
                     }
-                    keyframecanvas.requestPaint()
+                    keyframe.requestRepaint()
                     newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
-                    movingVal = kfrModel.realValue(Math.min(Math.max(newVal, 0), 1))
+                    movingVal = keyframe.kfrModel.realValue(Math.min(Math.max(newVal, 0), 1))
                 }
             }
             onDoubleClicked: {
-                keyframeContainer.resetSelection()
+                keyframe.resetSelection()
                 kfrModel.removeKeyframe(keyframe.frame);
             }
             onEntered: {
-                //timeline.showKeyBinding(KI18n.i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
+                keyframe.timeline.showKeyBinding(KI18n.i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
             }
             onExited: {
-                //timeline.showKeyBinding()
+                keyframe.timeline.showKeyBinding()
             }
             ToolTip.visible: (containsMouse || pressed) && movingVal != ""
             ToolTip.text: movingVal

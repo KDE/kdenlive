@@ -638,16 +638,20 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, QS
     bool isShortComposition = TransitionsRepository::get()->getType(transitionId) == AssetListType::AssetType::VideoShortComposition;
     if (duration < 0 || (isShortComposition && duration > 1.5 * defaultLength)) {
         duration = defaultLength;
-    } else if (duration <= 1) {
+    } else if (duration <= 1 && duration < clip_duration) {
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
         if (minimumPos + clip_duration - position < 3) {
-            position = minimumPos + clip_duration - duration;
+            position = qMax(minimumPos, minimumPos + clip_duration - duration);
         }
     }
     QPair<int, int> finalPos = m_model->getTrackById_const(tid)->validateCompositionLength(position, offset, duration, endPos);
     position = finalPos.first;
     duration = finalPos.second;
+    if (duration == 0) {
+        pCore->displayMessage(i18n("Could not add composition at selected position"), ErrorMessage, 500);
+        return -1;
+    }
 
     std::unique_ptr<Mlt::Properties> props(nullptr);
     if (TransitionsRepository::get()->isLuma(transitionId)) {
@@ -916,6 +920,30 @@ void TimelineController::cutItem()
 {
     copyItem();
     deleteSelectedClips();
+}
+
+void TimelineController::duplicateClip()
+{
+    std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
+    if (selectedIds.empty()) {
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+        return;
+    }
+    int clipId = getMainSelectedClip();
+    if (clipId == -1) {
+        clipId = *selectedIds.begin();
+    }
+    int trackId = m_model->getItemTrackId(clipId);
+    // Get paste position (last frame of the selection)
+    int lastFrame = 0;
+    for (auto &id : selectedIds) {
+        int last = m_model->getItemPosition(id) + m_model->getItemPlaytime(id);
+        lastFrame = qMax(last, lastFrame);
+    }
+    const QString copyString = TimelineFunctions::copyClips(m_model, selectedIds, clipId);
+    if (!TimelineFunctions::pasteClips(m_model, copyString, trackId, lastFrame, i18n("Duplicate clip"), true)) {
+        pCore->displayMessage(i18n("Could not duplicate clip"), ErrorMessage, 500);
+    }
 }
 
 std::pair<int, QString> TimelineController::getCopyItemData()
@@ -1586,7 +1614,123 @@ void TimelineController::deleteAllMarkers(int cid)
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     clip->getMarkerModel()->removeAllMarkers();
 }
+Q_INVOKABLE bool TimelineController::moveClipMarker(int cid, int oldFrame, int newFrame)
+{
+    if (oldFrame == newFrame) return false;
+    QMutexLocker lk(&m_metaMutex);
+    if (!m_model) {
+        qWarning() << "moveClipMarker: timeline model not set";
+        return false;
+    }
+    if (cid == -1) {
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            qWarning() << "moveClipMarker: no clip id provided and no clip selected";
+            return false;
+        }
+    }
+    if (!m_model->isClip(cid)) {
+        qWarning() << "moveClipMarker: item is not a clip:" << cid;
+        return false;
+    }
 
+    auto clip = pCore->bin()->getBinClip(getClipBinId(cid));
+
+    if (!clip) {
+        qWarning() << "moveClipMarker: could not find bin clip for cid" << cid;
+        return false;
+    }
+
+    auto markerModel = clip->getMarkerModel();
+
+    if (!markerModel) {
+        qWarning() << "moveClipMarker: clip has no marker model";
+        return false;
+    }
+
+    const int clipIn = m_model->getClipIn(cid);
+    const int clipPlaytime = m_model->getClipPlaytime(cid);
+    const int clipOut = clipIn + clipPlaytime;
+
+    if (newFrame < clipIn || newFrame > clipOut) {
+        qWarning() << "moveClipMarker: newFrame out of clip bounds, clamping:" << newFrame << "-> [" << clipIn << "," << clipOut << "]";
+        newFrame = qBound(clipIn, newFrame, clipOut);
+    }
+
+    bool ok = false;
+    CommentedTime marker = markerModel->getMarker(oldFrame, &ok);
+    if (!ok) {
+        qWarning() << "moveClipMarker: no marker at oldFrame" << oldFrame;
+        return false;
+    }
+
+    GenTime fromPos(oldFrame, pCore->getCurrentFps());
+    GenTime toPos(newFrame, pCore->getCurrentFps());
+    QList<CommentedTime> markers;
+    markers.append(marker);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = markerModel->moveMarkers(markers, fromPos, toPos, undo, redo);
+
+    if (res) {
+        if (undo && redo) {
+            pCore->pushUndo(undo, redo, i18n("Move marker"));
+        } else {
+            Fun safeUndo = []() { return true; };
+            Fun safeRedo = []() { return true; };
+            pCore->pushUndo(safeUndo, safeRedo, i18n("Move marker"));
+        }
+    }
+
+    return res;
+}
+
+Q_INVOKABLE bool TimelineController::moveClipMarkerWithoutUndo(int cid, int mid, int newFrame)
+{
+    QMutexLocker lk(&m_metaMutex);
+    if (!m_model) {
+        qWarning() << "moveClipMarker: timeline model not set";
+        return false;
+    }
+    if (cid == -1) {
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            qWarning() << "moveClipMarker: no clip id provided and no clip selected";
+            return false;
+        }
+    }
+    if (!m_model->isClip(cid)) {
+        qWarning() << "moveClipMarker: item is not a clip:" << cid;
+        return false;
+    }
+
+    auto clip = pCore->bin()->getBinClip(getClipBinId(cid));
+
+    if (!clip) {
+        qWarning() << "moveClipMarker: could not find bin clip for cid" << cid;
+        return false;
+    }
+
+    auto markerModel = clip->getMarkerModel();
+
+    if (!markerModel) {
+        qWarning() << "moveClipMarker: clip has no marker model";
+        return false;
+    }
+
+    const int clipIn = m_model->getClipIn(cid);
+    const int clipPlaytime = m_model->getClipPlaytime(cid);
+    const int clipOut = clipIn + clipPlaytime;
+
+    if (newFrame < clipIn || newFrame > clipOut) {
+        qWarning() << "moveClipMarker: newFrame out of clip bounds, clamping:" << newFrame << "-> [" << clipIn << "," << clipOut << "]";
+        newFrame = qBound(clipIn, newFrame, clipOut);
+    }
+
+    GenTime toPos(newFrame, pCore->getCurrentFps());
+    bool result = markerModel->moveMarker(mid, toPos);
+    return result;
+}
 void TimelineController::editGuide(int frame)
 {
     if (frame == -1) {
@@ -4277,7 +4421,7 @@ void TimelineController::editTitleClip(int id)
         pCore->displayMessage(i18n("Item is not a title clip"), ErrorMessage, 500);
         return;
     }
-    pCore->bin()->showTitleWidget(binClip);
+    pCore->bin()->showTitleWidget(binClip, id, m_model->uuid());
 }
 
 void TimelineController::editAnimationClip(int id)

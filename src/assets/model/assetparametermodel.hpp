@@ -53,6 +53,7 @@ enum class ParamType {
     Filterjob,
     Readonly,
     Hidden,
+    GradientEditor,
     Unknown
 };
 Q_DECLARE_METATYPE(ParamType)

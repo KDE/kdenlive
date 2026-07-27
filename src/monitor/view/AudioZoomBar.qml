@@ -82,9 +82,6 @@ Rectangle {
             id: streamThumbMini
             anchors.fill: parent
             model: audioSeekZone.monitorController.audioStreams.length
-            onCountChanged: {
-                thumbTimer.start()
-            }
             Item {
                 // Color for the waveform (behind the wave, will be seen by transparency)
                 id: streamContainer

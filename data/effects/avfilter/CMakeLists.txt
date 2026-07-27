@@ -111,6 +111,7 @@ avfilter_phase.xml
 avfilter_photosensitivity.xml
 avfilter_pixelize.xml
 avfilter_prewitt.xml
+avfilter_pseudocolor.xml
 avfilter_random.xml
 avfilter_removegrain.xml
 avfilter_rgbashift.xml
@@ -122,6 +123,7 @@ avfilter_selectivecolor.xml
 avfilter_separatefields.xml
 avfilter_setrange.xml
 avfilter_shear.xml
+avfilter_shufflepixels.xml
 avfilter_shuffleplanes.xml
 avfilter_smartblur.xml
 avfilter_sobel.xml

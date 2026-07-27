@@ -188,7 +188,7 @@ Item {
                         leftPadding: 2
                         rightPadding: 2
                         font: K.UiUtils.smallestReadableFont
-                        color: '#000'
+                        color: '#000000'
                     }
                 }
                 
@@ -479,7 +479,7 @@ Item {
                         leftPadding: 2
                         rightPadding: 2
                         font: K.UiUtils.smallestReadableFont
-                        color: '#000'
+                        color: '#000000'
                     }
                     MouseArea {
                         z: 10
@@ -649,8 +649,7 @@ Item {
         Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
         anchors.bottom: parent.bottom
         height: rulerRoot.zoneHeight
-        function updateZone(start, end, update)
-        {
+        onUpdateZone: (start, end, update) => {
             rulerRoot.timeline.updateZone(start, end, update)
         }
     }
@@ -688,8 +687,7 @@ Item {
         anchors.bottom: parent.bottom
         height: rulerRoot.zoneHeight - 1
         opacity: 0.7
-        function updateZone(start, end, update)
-        {
+        onUpdateZone: (start, end, update) => {
             rulerRoot.timeline.updateEffectZone(start, end, update)
         }
     }

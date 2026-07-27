@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.16)
 
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "26")
-set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MINOR "11")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
@@ -207,6 +207,9 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
   else()
     message(STATUS "Kdenlive Git revision could not be determined")
   endif()
+endif()
+if(NOT KDENLIVE_FULL_VERSION_STRING)
+  set(KDENLIVE_FULL_VERSION_STRING "${KDENLIVE_VERSION}")
 endif()
 
 if(CRASH_AUTO_TEST)

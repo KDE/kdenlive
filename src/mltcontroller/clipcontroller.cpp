@@ -142,7 +142,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         QList<int> videoStreams;
         QList<int> audioStreams;
         QList<int> subtitleStreams;
-        int aStreams = m_properties->get_int("meta.media.nb_streams");
+        int aStreams = qMin(99, m_properties->get_int("meta.media.nb_streams"));
         for (int ix = 0; ix < aStreams; ++ix) {
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
@@ -285,7 +285,7 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
         m_videoIndex = getProducerIntProperty(QStringLiteral("video_index"));
-        if (m_videoIndex == -1) {
+        if (m_videoIndex == -1 && !hasVideoStreams()) {
             m_clipType = ClipType::Audio;
         } else {
             if (audioIndex == -1) {
@@ -863,6 +863,9 @@ void ClipController::checkAudioVideo()
             m_hasVideo = true;
             break;
         }
+        if (m_masterProducer->property_exists("video_index") && m_masterProducer->get_int("video_index") == -1) {
+            m_hasVideo = false;
+        }
         if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
             if (m_audioInfo == nullptr) {
                 if (m_hasAudio) {
@@ -1224,7 +1227,8 @@ std::shared_ptr<MarkerSortModel> ClipController::getFilteredMarkerModel() const
 bool ClipController::isFullRange() const
 {
     bool full = !qstrcmp(m_masterProducer->get("meta.media.color_range"), "full");
-    for (int i = 0; !full && i < m_masterProducer->get_int("meta.media.nb_streams"); i++) {
+    int streams = qMin(99, m_masterProducer->get_int("meta.media.nb_streams"));
+    for (int i = 0; !full && i < streams; i++) {
         QString key = QStringLiteral("meta.media.%1.stream.type").arg(i);
         QString streamType(m_masterProducer->get(key.toLatin1().constData()));
         if (streamType == "video") {
@@ -1273,4 +1277,40 @@ std::shared_ptr<Mlt::Producer> ClipController::sequenceProducer(const QUuid &)
 {
     QReadLocker lock(&m_producerLock);
     return m_masterProducer;
+}
+
+bool ClipController::hasVideoStreams()
+{
+    QReadLocker lock(&m_producerLock);
+    if (!m_properties) {
+        return 0;
+    }
+    int aStreams = qMin(99, m_properties->get_int("meta.media.nb_streams"));
+    for (int ix = 0; ix < aStreams; ++ix) {
+        char property[200];
+        snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+        QString type = m_properties->get(property);
+        if (type == QLatin1String("video")) {
+            QString key = QStringLiteral("meta.media.%1.codec.name").arg(ix);
+            QString codec_name = m_properties->get(key.toLatin1().constData());
+            if (codec_name == QLatin1String("png")) {
+                // This is a cover image, skip
+                continue;
+            }
+            if (codec_name == QLatin1String("mjpeg")) {
+                key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(ix);
+                QString fps = m_properties->get(key.toLatin1().constData());
+                if (fps.isEmpty()) {
+                    key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(ix);
+                    fps = m_properties->get(key.toLatin1().constData());
+                }
+                if (fps == QLatin1String("90000")) {
+                    // This is a cover image, skip
+                    continue;
+                }
+            }
+            return true;
+        }
+    }
+    return false;
 }

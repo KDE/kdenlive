@@ -932,7 +932,7 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
         if ((replaceAudio && m_allClips.at(id)->isAudioOnly()) || (replaceVideo && m_allClips.at(id)->clipState() == PlaylistState::VideoOnly)) {
             // Match, replace
             std::shared_ptr<ClipModel> clip = m_allClips.at(id);
-            if (clip->getOut() > maxDuration || lockedTracks.contains(clip->getCurrentTrackId())) {
+            if ((maxDuration > -1 && clip->getOut() > maxDuration) || lockedTracks.contains(clip->getCurrentTrackId())) {
                 notReplacedIds << id;
             }
         }

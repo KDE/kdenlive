@@ -23,7 +23,6 @@ Item {
     property string framenum
     property rect framesize
     property point profile: controller.profile
-    property int overlayType: controller.overlayType
     property point center
     property double scalex
     property double scaley
@@ -97,7 +96,7 @@ Item {
             //console.log('paint' + p1);
 
           // Handles
-          if (root.controller.isKeyframe && !root.cursorOutsideEffect) {
+          if ((root.controller.isKeyframe || K.KdenliveSettings.autoKeyframe) && !root.cursorOutsideEffect) {
             if (root.requestedKeyFrame == 0) {
                 ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
@@ -209,7 +208,7 @@ Item {
         K.MonitorOverlay {
             anchors.fill: frame
             color: K.KdenliveSettings.overlayColor
-            overlayType: root.overlayType
+            overlayType: root.controller.overlayType
         }
         K.MonitorSafeZone {
             id: safeZone
@@ -234,7 +233,7 @@ Item {
         }
 
         onPositionChanged: {
-            if (root.controller.isKeyframe == false) return;
+            if (root.controller.isKeyframe == false && !K.KdenliveSettings.autoKeyframe) return;
             if (pressed && root.requestedKeyFrame >= 0) {
                 var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
                 var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
