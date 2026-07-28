@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 02:38+0000\n"
+"POT-Creation-Date: 2026-07-28 02:43+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -21271,7 +21271,7 @@ msgstr "Snimak liste izvođenja"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2816 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1704 src/project/projectmanager.cpp:1706
+#: src/project/projectmanager.cpp:1705 src/project/projectmanager.cpp:1707
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
@@ -22587,7 +22587,7 @@ msgid "Disable GPU processing"
 msgstr "Izbriši proxies"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:878
+#: src/project/projectmanager.cpp:879
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -23345,7 +23345,7 @@ msgstr "Učitaj markere"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
+#: src/project/projectmanager.cpp:2018 src/project/projectmanager.cpp:2024
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23443,7 +23443,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1907
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -26945,8 +26945,8 @@ msgstr "Slijedeći efekti su uvezeni iz projekta:"
 msgid "Invalid file path"
 msgstr "Neispravan snimak"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:855
-#: src/project/projectmanager.cpp:907
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:856
+#: src/project/projectmanager.cpp:908
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -27033,8 +27033,8 @@ msgstr ""
 "Vaša projekt datoteka je nadograđena do najnovije Kdenlive dokument verzije, "
 "ali nije bio u mogućnosti da kreira sigurnosnu kopiju %1."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1578
-#: src/project/projectmanager.cpp:1614
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:1615
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -34075,7 +34075,7 @@ msgstr "Otvori rezernu kopiju"
 msgid "Save changes to document?"
 msgstr "Sačuvaj promjene dokumenta?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1843
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1844
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34121,7 +34121,7 @@ msgstr "Postoje automatski spašeni fajlovi. Da li želite da ih obnovite sada?"
 msgid "File Recovery"
 msgstr "Obnavljanje Fajla"
 
-#: src/project/projectmanager.cpp:757 src/project/projectmanager.cpp:893
+#: src/project/projectmanager.cpp:757 src/project/projectmanager.cpp:894
 #, kde-format
 msgid "Recover"
 msgstr "Obnovi"
@@ -34132,18 +34132,18 @@ msgstr "Obnovi"
 msgid "Do not recover"
 msgstr "Ne obnavljaj"
 
-#: src/project/projectmanager.cpp:800
+#: src/project/projectmanager.cpp:801
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "File %1 does not exist"
 msgstr "Kategorija"
 
-#: src/project/projectmanager.cpp:832
+#: src/project/projectmanager.cpp:833
 #, kde-format
 msgid "Opening file %1"
 msgstr "Otvaranje fajla %1"
 
-#: src/project/projectmanager.cpp:892
+#: src/project/projectmanager.cpp:893
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34154,46 +34154,46 @@ msgstr ""
 "%1\n"
 "Da li želite otvoriti rezervnu kopiju?"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1168
+#: src/project/projectmanager.cpp:894 src/project/projectmanager.cpp:1169
 #, kde-format
 msgid "Error opening file"
 msgstr "Greška pri otvaranju datoteke"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:894 src/project/projectmanager.cpp:1170
 #, kde-format
 msgid "Open Backup"
 msgstr "Otvori rezervnu kopiju"
 
-#: src/project/projectmanager.cpp:911
+#: src/project/projectmanager.cpp:912
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Ne mogu otvoriti projektnu datoteku %1"
 
-#: src/project/projectmanager.cpp:926
+#: src/project/projectmanager.cpp:927
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:928
+#: src/project/projectmanager.cpp:929
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:999
+#: src/project/projectmanager.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Loading timeline…"
 msgstr "Skini nove obrise..."
 
-#: src/project/projectmanager.cpp:1022
+#: src/project/projectmanager.cpp:1023
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Building sequences…"
 msgstr "Prikaži sekvencu"
 
-#: src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:1196
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -34201,7 +34201,7 @@ msgid ""
 "%1\n"
 msgstr "Ne mogu otvoriti projektnu datoteku %1"
 
-#: src/project/projectmanager.cpp:1235
+#: src/project/projectmanager.cpp:1236
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -34210,51 +34210,51 @@ msgstr ""
 "Ovo će poništiti sve promjene koje ste napravili nakon što ste posljednji "
 "put sačuvali vaš projekat. Jeste li sigurni da želite nastaviti?"
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1237
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Vrati na posljednju sačuvanu verziju"
 
-#: src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1336
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1556
+#: src/project/projectmanager.cpp:1557
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Datoteka projekta: %1"
 
-#: src/project/projectmanager.cpp:1592
+#: src/project/projectmanager.cpp:1593
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Koristi projekat mape"
 
-#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1739
-#: src/project/projectmanager.cpp:1743
+#: src/project/projectmanager.cpp:1684 src/project/projectmanager.cpp:1740
+#: src/project/projectmanager.cpp:1744
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Ime sekvence"
 
-#: src/project/projectmanager.cpp:1694
+#: src/project/projectmanager.cpp:1695
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1835 src/project/projectmanager.cpp:1848
-#: src/project/projectmanager.cpp:1872 src/project/projectmanager.cpp:1881
+#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1849
+#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1882
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Profil projekta: %1"
 
-#: src/project/projectmanager.cpp:2011
+#: src/project/projectmanager.cpp:2012
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -34262,13 +34262,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Izlazni dokument već postoji. Da li želite pisati preko?"
 
-#: src/project/projectmanager.cpp:2036
+#: src/project/projectmanager.cpp:2037
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Profil projekta: %1"
 
-#: src/project/projectmanager.cpp:2100
+#: src/project/projectmanager.cpp:2101
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -34276,36 +34276,36 @@ msgid ""
 "%1"
 msgstr "Ne može se kreirati potrošač %1."
 
-#: src/project/projectmanager.cpp:2189
+#: src/project/projectmanager.cpp:2190
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2422 src/project/projectmanager.cpp:2474
+#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2475
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Odabrati snimak ako želite primijeniti efekt"
 
-#: src/project/projectmanager.cpp:2432 src/project/projectmanager.cpp:2483
+#: src/project/projectmanager.cpp:2433 src/project/projectmanager.cpp:2484
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Sequence creation failed"
 msgstr "Odaberi prijelaz"
 
-#: src/project/projectmanager.cpp:2459
+#: src/project/projectmanager.cpp:2460
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Nije moguće ubacivanje snimka na vremensku skalu"
 
-#: src/project/projectmanager.cpp:2463
+#: src/project/projectmanager.cpp:2464
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
 msgstr "Napravi novu sekvencu"
 
-#: src/project/projectmanager.cpp:2501
+#: src/project/projectmanager.cpp:2502
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Copy clips to new Sequence"
