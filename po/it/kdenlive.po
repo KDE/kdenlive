@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-24 00:43+0000\n"
-"PO-Revision-Date: 2026-07-22 14:36+0200\n"
+"PO-Revision-Date: 2026-07-26 10:53+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -5685,10 +5685,9 @@ msgid "Base Component"
 msgstr "Componenti"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "Rosso,Verde,Blu"
+msgstr "Rosso,Verde,Blu,Alfa"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
 #, kde-format
@@ -6025,16 +6024,14 @@ msgid "Nearest,Bilinear"
 msgstr "Più vicino,Bilineare"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:4
-#, fuzzy, kde-format
-#| msgid "Shuffle planes"
+#, kde-format
 msgid "Shuffle Pixels"
-msgstr "Mescola i piani"
+msgstr "Mescola i pixel"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Reorder pixels in video frames."
-msgstr "Esportazione dei fotogrammi video"
+msgstr "Riorganizza i pixel nei fotogrammi video."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:10
 #, kde-format
@@ -6043,24 +6040,25 @@ msgid ""
 "        A forward shuffle can be reversed by using <b>inverse</b>, setting "
 "the same parameters, and the exact same seed value."
 msgstr ""
+"Imposta la direzione di mescolamento.<br>\n"
+"        È possibile invertire un'operazione di mescolamento diretto "
+"utilizzando <b>inverso</b>, impostando gli stessi parametri e lo stesso "
+"identico valore di seme."
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
-#| msgid "Forward"
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "Avanti"
+msgstr "Diretta,Inversa"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
-#, fuzzy, kde-format
-#| msgid "Set the filter mode"
+#, kde-format
 msgid "Set shuffle mode"
-msgstr "Imposta la modalità di filtraggio"
+msgstr "Imposta la modalità di mescolamento"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:16
-#, fuzzy, kde-format
-#| msgid "Horizontal multiplicator"
+#, kde-format
 msgid "Horizontal,Vertical,Block"
-msgstr "Moltiplicatore orizzontale"
+msgstr "Orizzontale,Verticale,A blocchi"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:20
 #, fuzzy, kde-format
@@ -12911,7 +12909,7 @@ msgstr "Pesante,Grossa,Normale,Leggera,Graduale"
 #: data/effects/mask_start_frei0r_select0r.xml:38
 #, kde-format
 msgid "Soften"
-msgstr "Sfoca"
+msgstr "Ammorbidisci"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
@@ -14086,21 +14084,17 @@ msgid "GPS processing start time"
 msgstr "Tempo iniziale di elaborazione GPS"
 
 #: data/effects/gpstext.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the video file is a timelapse (or slow motion), use this value to set "
-#| "the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage."
+#, kde-format
 msgid ""
 "If the video file is a timelapse<br>\n"
 "        (or slow motion), use this value to set the speed up/slow down ratio."
 "<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"Se il file video è un time lapse (o una ripresa a rallentatore), usa questo "
-"valore per impostare aumentare o per diminuire la velocità.<br>\n"
-"       Valori campioni: 30 per i time lapse  30x, 0,25 per filmati a "
+"Se il file video è un time lapse<br>\n"
+"        (o una ripresa a rallentatore), usa questo valore per impostare "
+"aumentare o per diminuire la velocità.<br>\n"
+"        Valori campioni: 30 per i time lapse  30x, 0,25 per filmati a "
 "rallentatore 4x."
 
 #: data/effects/gpstext.xml:31
@@ -14549,10 +14543,9 @@ msgstr ""
 "elaborato."
 
 #: data/effects/ladspa/ladspa_1191.xml:19
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "LFO Frequency"
-msgstr "Bassa frequenza"
+msgstr "Frequenza LFO"
 
 #: data/effects/ladspa/ladspa_1191.xml:21
 #, kde-format
@@ -14561,6 +14554,9 @@ msgid ""
 "      that the 'LFO' will move at. The LFO isn't actually an oscillator, but "
 "it does vary periodically."
 msgstr ""
+"È la frequenza principale<br>\n"
+"      a cui si muove il 'LFO'. Il LFO non è in realtà un oscillatore, ma "
+"varia comunque periodicamente."
 
 #: data/effects/ladspa/ladspa_1191.xml:26
 #, kde-format
@@ -15458,7 +15454,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1438.xml:9
 #, kde-format
 msgid "LFO sync"
-msgstr ""
+msgstr "Sincronizzazione LFO"
 
 #: data/effects/ladspa/ladspa_1438.xml:11
 #, kde-format
@@ -15467,22 +15463,26 @@ msgid ""
 "      it resets the phase of the LFO back to the start of the cycle. Used to "
 "sync the LFO to the track."
 msgstr ""
+"Quando passa da spenta ad accesa<br>\n"
+"      reimposta la fase dell'LFO all'inizio del ciclo, Usato per "
+"sincronizzare l'LFO alla traccia."
 
 #: data/effects/ladspa/ladspa_1438.xml:14
-#, fuzzy, kde-format
-#| msgid "Stroke width"
+#, kde-format
 msgid "LFO period"
-msgstr "Larghezza del tratto"
+msgstr "Periodo LFO"
 
 #: data/effects/ladspa/ladspa_1438.xml:15
 #, kde-format
 msgid "The cycle period of the LFO in seconds"
-msgstr ""
+msgstr "Il periodo di ciclo dell'LFO in secondi"
 
 #: data/effects/ladspa/ladspa_1438.xml:19
 #, kde-format
 msgid "The maximum delay the LFO will use to flange in milliseconds"
 msgstr ""
+"Il ritardo massimo che l'LFO utilizzerà per l'effetto flanger, espresso in "
+"millisecondi"
 
 #: data/effects/ladspa/ladspa_1438.xml:23
 #, fuzzy, kde-format
@@ -15512,6 +15512,8 @@ msgid ""
 "Comb Delay Line (linear interpolation) (LADSPA 1887)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
+"Linea combinata di ritardo (interpolazione lineare) (LADSPA 1887)<br>\n"
+"   Basato sul lavoro di James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1887.xml:9 data/effects/ladspa/ladspa_1888.xml:9
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
@@ -15733,7 +15735,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1900.xml:4
 #, kde-format
 msgid "Simple Delay Line (Cubic Spline Interpolation)"
-msgstr ""
+msgstr "Semplice linea di ritardo (interpolazione spline cubica)"
 
 #: data/effects/ladspa/ladspa_1900.xml:6
 #, kde-format
@@ -15741,6 +15743,8 @@ msgid ""
 "Simple Delay Line (LADSPA 1900)<br>\n"
 "   Uses cubic spline interpolation"
 msgstr ""
+"Semplice linea di ritardo (LADSPA 1900)<br>\n"
+"   Utilizza l'interpolazione spline cubica"
 
 #: data/effects/ladspa/ladspa_1901.xml:4
 #, kde-format
@@ -15754,6 +15758,9 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"EQ DJ  (LADSPA 1901)<br>\n"
+"   Il design di questa estensione si ispira al mixer per DJ Xone 32 di Allen "
+"& Heath."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
 #, kde-format
@@ -15922,6 +15929,9 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"EQ DJ (mono) (LADSPA 1907)<br>\n"
+"   Il design di questa estensione si ispira al mixer per DJ Xone 32 di Allen "
+"& Heath."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
 #, kde-format
@@ -16699,6 +16709,9 @@ msgid ""
 "      with which the time-varying delay is modulated. The higher the "
 "frequency, the more intense the effect will be."
 msgstr ""
+"Determina la frequenza dell'LFO<br>\n"
+"      con cui viene modulato il ritardo variabile nel tempo. Maggiore è la "
+"frequenza, più intenso sarà l'effetto."
 
 #: data/effects/ladspa/ladspa_2159.xml:14
 #, kde-format
@@ -18418,17 +18431,13 @@ msgid "Start (HH:MM:SS.SSS)"
 msgstr "Inizio (OO:MM:SS.SSS)"
 
 #: data/effects/timer.xml:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed."
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.<br>\n"
 "        The text will be frozen at 00:00:00.000 from the start of the filter "
 "until the start time has elapsed."
 msgstr ""
-"Il tempo da cui il timer inizierà a contare in avanti o all'indietro.\n"
+"Il tempo da cui il timer inizierà a contare in avanti o all'indietro.<br>\n"
 "Il testo verrà immobilizzato a 00:00:00.000 dall'inizio del filtro finché "
 "non è trascorsa l'ora di inizio."
 
@@ -20228,7 +20237,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Create an object mask"
-msgstr "Crea un oggetto maschera"
+msgstr "Crea una maschera dell'oggetto"
 
 #: src/assets/assetpanel.cpp:109
 #, kde-kuit-format
@@ -39728,7 +39737,7 @@ msgstr "Scorrimento automatico durante la riproduzione"
 #: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid "Fixed centered playhead"
-msgstr ""
+msgstr "Indicatore di riproduzione fisso al centro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
 #: src/ui/configtimeline_ui.ui:136
