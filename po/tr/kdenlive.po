@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-24 00:43+0000\n"
-"PO-Revision-Date: 2026-07-05 19:12+0300\n"
+"PO-Revision-Date: 2026-07-28 21:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -22057,8 +22057,8 @@ msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
-"Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
-"dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
+"Dış başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık dosyasına "
+"mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
 #: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
 #, kde-format
@@ -22081,29 +22081,24 @@ msgid "Title clip"
 msgstr "Başlık klibi"
 
 #: src/bin/bin.cpp:5280
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "Zaman akışındaki altyazı görünümünü günceller."
+msgstr "Zaman akışındaki başlık klibi yenisiyle değiştirilsin mi?"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Replace Timeline Clip"
+#, kde-format
 msgid "Replace Title Clip"
-msgstr "Zaman Akışı Klibini Başkasıyla Değiştir"
+msgstr "Başlık Klibini Başkasıyla Değiştir"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace"
-msgstr "Klibi değiştir"
+msgstr "Değiştir"
 
 #: src/bin/bin.cpp:5281
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "Sınama"
+msgstr "Var Olanı Tut"
 
 #: src/bin/bin.cpp:5341
 #, kde-format
@@ -25182,14 +25177,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr ""
-"Konuşma tanıma başarısız oldu:\n"
-"%1"
+msgstr "Konuşma tanıma başarısız oldu"
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -25197,10 +25187,9 @@ msgid "Subtitles imported"
 msgstr "Altyazılar içe aktarıldı"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Speech recognition finished."
+#, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "Konuşma tanıma bitti."
+msgstr "Konuşma tanıma bitti, altyazılar içe aktarıldı"
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -28884,6 +28873,7 @@ msgstr "Jean–Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"Çekirdek takım üyesi, ana geliştirici ve bakımcı, MLT ve KDE SC 4/KF5 geçişi"
 
 #: src/main.cpp:297
 #, kde-format
@@ -28891,10 +28881,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Feature development, packaging, bug fixing"
+#, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
-msgstr "Özellik geliştirmeleri, paketleme, hata düzeltmeleri"
+msgstr ""
+"Çekirdek takım üyesi, özellik geliştirmeleri, paketleme, hata düzeltmeleri"
 
 #: src/main.cpp:298
 #, kde-format
@@ -28922,10 +28912,9 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:302
-#, fuzzy, kde-format
-#| msgid "Color scopes, bug fixing, etc."
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "Renk kapsamları, hata onarımları, vb."
+msgstr "Renk kapsamları, ondalık ayırıcısı sorunları, hata düzeltmeleri"
 
 #: src/main.cpp:303
 #, kde-format
@@ -28943,20 +28932,19 @@ msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
 #: src/main.cpp:305
-#, fuzzy, kde-format
-#| msgid "Logo, Promotion, testing"
+#, kde-format
 msgid "Logo, promotion, testing"
-msgstr "Logo, Promosyon, Sınama"
+msgstr "Logo, promosyon, sınama"
 
 #: src/main.cpp:306
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:306
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "Monitör, kapsamlar ve zaman akışı kalite iyileştirmeleri"
 
 #: src/main.cpp:307
 #, kde-format
@@ -28967,7 +28955,8 @@ msgstr "Nicolas Carion"
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
-"Kod mimarîsin yeniden düzenlenmesi ve zaman akışının yeniden yazılması (2019)"
+"Kod mimârisinin yeniden düzenlenmesi ve zaman akışının yeniden yazılması "
+"(2019)"
 
 #: src/main.cpp:308
 #, kde-format
@@ -28982,24 +28971,25 @@ msgstr "MLT bakımcısı, hata düzeltmeleri vb."
 #: src/main.cpp:309
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "Darby Johnston"
 
 #: src/main.cpp:309
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "Üzerine Yaz"
+msgstr "OTIO yeniden yazımı"
 
 #: src/main.cpp:310
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "Bernd Jordan"
 
 #: src/main.cpp:310
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"Çekirdek takım üyesi, belgelendirme, efektler arayüzü ve sınama, topluluk "
+"desteği"
 
 #: src/main.cpp:311
 #, kde-format
@@ -29009,7 +28999,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:311
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
-msgstr ""
+msgstr "Çekirdek takım üyesi, belgelendirme bakımcısı, hata triyajı, sınama"
 
 #: src/main.cpp:312
 #, kde-format
@@ -29032,10 +29022,9 @@ msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
 #: src/main.cpp:314
-#, fuzzy, kde-format
-#| msgid "Expert advice, testing"
+#, kde-format
 msgid "Core team member, expert advice, testing"
-msgstr "Uzman görüşü, sınama"
+msgstr "Çekirdek takım üyesi, uzman görüşü, sınama"
 
 #: src/main.cpp:316
 #, kde-format
@@ -32174,10 +32163,9 @@ msgid "Move Toolbar"
 msgstr "Araç çubuğunu taşı"
 
 #: src/monitor/view/EffectToolBar.qml:167
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "Kendiliğinden anahtar kareler"
+msgstr "Kendiliğinden anahtar kareler AÇIK"
 
 #: src/monitor/view/MaskToolBar.qml:70
 #, kde-format
@@ -36464,10 +36452,9 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Zaman akışında sürükleme yapılırken işlem gerçekleştirilemiyor"
 
 #: src/timeline2/view/timelinecontroller.cpp:944
-#, fuzzy, kde-format
-#| msgid "Could not find master clip"
+#, kde-format
 msgid "Could not duplicate clip"
-msgstr "Ana klip bulunamadı"
+msgstr "Klip çoğaltılamadı"
 
 #: src/timeline2/view/timelinecontroller.cpp:1002
 #: src/timeline2/view/timelinecontroller.cpp:5780
