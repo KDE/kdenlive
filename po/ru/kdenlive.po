@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-28 02:43+0000\n"
-"PO-Revision-Date: 2026-07-24 17:16+0300\n"
+"PO-Revision-Date: 2026-07-28 17:20+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -7835,7 +7835,7 @@ msgid ""
 "the magnitude of the audio spectrum."
 msgstr ""
 "Фильтр визуализации звуковых данных, который перемещает изображение "
-"пропорционально амплитуде спектра звуковых частот."
+"пропорционально величине спектра звуковых частот."
 
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
 #, kde-format
@@ -14918,7 +14918,7 @@ msgstr "Управляет степенью дисторсии"
 #: data/effects/ladspa/ladspa_1213.xml:13
 #, kde-format
 msgid "Skew"
-msgstr ""
+msgstr "Асимметрия"
 
 #: data/effects/ladspa/ladspa_1213.xml:14
 #, kde-format
@@ -15276,6 +15276,10 @@ msgid ""
 "      ie. the point above which the compression kicks in. 0 will have no "
 "effect, -90 will remove virtually all dynamic range."
 msgstr ""
+"Управляет точкой спада колена,<br>\n"
+"      то есть точкой, выше которой начинает работать сжатие. При значении "
+"«0» ничего не произойдёт, а при «-90» будет удалён практически весь "
+"динамический диапазон."
 
 #: data/effects/ladspa/ladspa_1410.xml:4
 #, kde-format
@@ -15424,10 +15428,9 @@ msgid "The shape of the waveform"
 msgstr "Форма звукового спектра"
 
 #: data/effects/ladspa/ladspa_1415.xml:10
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sine,Triangle,Square,Saw"
-msgstr ""
-"синусоидальная,треугольная,квадратная,пилообразная вверх,пилообразная вниз"
+msgstr "Синусоидальная,Треугольная,Квадратная,Пилообразная"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
 #, kde-format
@@ -15602,6 +15605,9 @@ msgid ""
 "      Small buffers will sound fluttery, large buffers will have flangy "
 "sounding echos."
 msgstr ""
+"Порядок величины размера буфера.<br>\n"
+"      При маленьких размерах буфера звучание становится дрожащим, а при "
+"больших возникает резонирующее эхо."
 
 #: data/effects/ladspa/ladspa_1438.xml:4
 #, kde-format
@@ -17386,7 +17392,7 @@ msgid ""
 "magnitude of the audio spectrum."
 msgstr ""
 "Фильтр визуализации звуковых данных, который раскрашивает изображение "
-"пропорционально амплитуде спектра звуковых частот."
+"пропорционально величине спектра звуковых частот."
 
 #: data/effects/lightshow.xml:8
 #, kde-format
@@ -18821,6 +18827,15 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"Коэффициент скорости часов.<br>\n"
+"        Например, при скорости 10.0 таймер будет отсчитывать по 10 секунд за "
+"каждую секунду воспроизведения.<br><br>\n"
+"        Этот параметр масштабирует «Длительность», но не влияет на "
+"<i>Начало</i> или <i>Смещение</i>. Например: начало 5 с, длительность 30 с, "
+"смещение 7 с и скорость 10.0 — таймер запустится при времени воспроизведения "
+"00:00:05.000 со значением 00:00:07, будет отсчитывать по 10 секунд за "
+"секунду воспроизведения и остановится при времени воспроизведения "
+"00:00:08.000 со значением 00:00:37."
 
 #: data/effects/timer.xml:104
 #, kde-format
@@ -22197,9 +22212,9 @@ msgid "Transcode to Edit Friendly Format…"
 msgstr "Перекодировать в редактируемый формат…"
 
 #: src/bin/bin.cpp:4101
-#, fuzzy, kde-format
+#, kde-format
 msgid "Insert at Timecode"
-msgstr "Вставить тайм-код в текущую заметку"
+msgstr "Вставить по тайм-коду"
 
 #: src/bin/bin.cpp:4106
 #, kde-format
@@ -23217,9 +23232,9 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Формат записи скорректирован до %1 каналов, %2 Гц."
 
 #: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
-#, fuzzy, kde-format
+#, kde-format
 msgid "No audio device found"
-msgstr "Звуковых дорожек не найдено"
+msgstr "Звуковые устройства не найдены"
 
 #: src/capture/mediacapture.cpp:247
 #, kde-format
@@ -27163,6 +27178,10 @@ msgid ""
 "pose a security risk</i></b>!<br> Abort loading the project unless this is "
 "intentional and you fully trust the remote sources."
 msgstr ""
+"Проект выполняет попытку загрузить исходные данные из Интернета.<br> "
+"<b><i>Это быть небезопасным</i></b>!<br> Загрузку проекта следует продолжать "
+"только в том случае, если это ожидалось и удалённые источники являются "
+"доверенными."
 
 #: src/doc/dcresolvedialog.cpp:195
 #, kde-format
@@ -29304,9 +29323,9 @@ msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
 #: src/main.cpp:298
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
-msgstr "Колорскопы, исправление ошибок и так далее."
+msgstr "Колорскопы, проблема с десятичным разделителем, исправление ошибок"
 
 #: src/main.cpp:299
 #, kde-format
@@ -29331,12 +29350,12 @@ msgstr "Логотип, продвижение, тестирование"
 #: src/main.cpp:302
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:302
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "Улучшение работы с мониторами, приборами и монтажным столом"
 
 #: src/main.cpp:303
 #, kde-format
@@ -29378,6 +29397,8 @@ msgstr "Bernd Jordan"
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"Участник основной команды, документация, интерфейс пользователя для эффектов "
+"и тестирование, поддержка сообщества"
 
 #: src/main.cpp:307
 #, kde-format
@@ -29521,7 +29542,7 @@ msgstr ""
 #: src/main.cpp:364
 #, kde-format
 msgid "Save a json report about components in the given path."
-msgstr ""
+msgstr "Сохранить JSON-отчёт о компонентах по указанному пути."
 
 #: src/main.cpp:367
 #, kde-format
@@ -37050,9 +37071,9 @@ msgid "Clip not found in project bin"
 msgstr "Клип не найден в корзине проекта"
 
 #: src/timeline2/view/timelinecontroller.cpp:3729
-#, fuzzy, kde-format
+#, kde-format
 msgid "No timecode metadata found in clip"
-msgstr "Данных о ключевых кадрах в клипе не найдено"
+msgstr "В клипе не найдено метаданных тайм-кодов"
 
 #: src/timeline2/view/timelinecontroller.cpp:3735
 #, kde-format
@@ -37174,7 +37195,7 @@ msgstr "Импорт нового клипа"
 #: src/timeline2/view/timelinecontroller.cpp:4668
 #, kde-format
 msgid "Incompatible clip types for replacement"
-msgstr ""
+msgstr "Несовместимые типы клипов для замены"
 
 #: src/timeline2/view/timelinecontroller.cpp:4675
 #, kde-format
