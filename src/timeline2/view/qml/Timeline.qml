@@ -1065,7 +1065,6 @@ function getTrackColor(audio, header) {
                 lastYPos = drag.y
                 upMove = 0
             }
-
             root.updateTimelineMousePos(root.mouseFrame, root.timeline.duration)
             if (root.clipBeingMovedId == -1) {
                 if (root.clipBeingDroppedId > -1) {
@@ -1078,8 +1077,8 @@ function getTrackColor(audio, header) {
                     }
                     var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track >= 0  && track < tracksRepeater.count) {
-                        var targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
-                        frame = root.controller.suggestSnapPoint(frame, root.snapping)
+                        let targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
+                        let frame = root.controller.suggestSnapPoint(root.mouseFrame, root.snapping)
                         if (lastCheckedFrame != frame || root.timeline.activeTrack != targetTrack) {
                             root.timeline.activeTrack = targetTrack
                             if (root.controller.normalEdit()) {
