@@ -4603,7 +4603,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (avfilter)"
-msgstr "HQ 3D Débruiteur (avfilter)"
+msgstr "HQ 3D Suppresseur de bruit (avfilter)"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, kde-format
@@ -7059,9 +7059,9 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7."
 msgstr ""
-"Débruiteur reposant sur des ondelettes.<br>\n"
+"Suppresseur de bruit reposant sur des ondelettes.<br>\n"
 "    Il transforme chaque trame de l'entrée vidéo dans le domaine des "
-"ondelettes, en utilisant la méthode de Cohen-Daubechies-Feauveau 9 / 7."
+"ondelettes, en utilisant la méthode de Cohen-Daubechies-Feauveau 9 / 7."
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, kde-format
@@ -7522,8 +7522,8 @@ msgstr ""
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
-"Envoyer une trame, Envoyer un champ, Envoyer une trame nospatial, Envoyer un "
-"champ nospatial"
+"Envoyer une trame, Envoyer un champ, Envoyer une trame non spatial, Envoyer "
+"un champ non spatial"
 
 #: data/effects/avfilter/avfilter_yadif.xml:13
 #, kde-format
@@ -7901,7 +7901,7 @@ msgstr "Ombre portée"
 #: data/effects/dropshadow.xml:5
 #, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Créer un effect d'ombre à partir du canal Alpha"
+msgstr "Créer un effet d'ombre à partir du canal Alpha"
 
 #: data/effects/dropshadow.xml:8
 #, kde-format
@@ -10454,7 +10454,7 @@ msgstr "Corriger l'effet « Grand angle »"
 #: data/effects/frei0r/frei0r_defish0r.xml:15
 #, kde-format
 msgid "Equidistant,Orthographic,Equiarea,Stereographic"
-msgstr "Équidistant, Orthographique, Equi-surfacique, Stéréographique"
+msgstr "Équidistant, Orthographique, Équisurfacique, Stéréographique"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
@@ -10549,7 +10549,7 @@ msgstr "Rafraîchissement d'image retardé calqué sur une image temporelle"
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (frei0r)"
-msgstr "HQ 3D Débruiteur (frei0r)"
+msgstr "Suppresseur de bruit HQ 3D (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
 #, kde-format
@@ -10970,7 +10970,7 @@ msgstr "Couleur 3"
 #: data/effects/frei0r/frei0r_facedetect.xml:54
 #, kde-format
 msgid "Set the shape color of the third detected face."
-msgstr "Régler la couleur de la forme du 3ème visage détecté"
+msgstr "Régler la couleur de la forme du troisième visage détecté"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:58 data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -10980,7 +10980,7 @@ msgstr "Couleur 4"
 #: data/effects/frei0r/frei0r_facedetect.xml:59
 #, kde-format
 msgid "Set the shape color of the fourth detected face."
-msgstr "Régler la couleur de la forme du 4ème visage détecté"
+msgstr "Régler la couleur de la forme du quatrième visage détecté"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:63 data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -10990,7 +10990,7 @@ msgstr "Couleur 5"
 #: data/effects/frei0r/frei0r_facedetect.xml:64
 #, kde-format
 msgid "Set the shape color of the fifth detected face."
-msgstr "Régler la couleur de la forme du 5ème visage détecté"
+msgstr "Régler la couleur de la forme du cinquième visage détecté"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
 #, kde-format
@@ -11322,12 +11322,12 @@ msgstr "Inverser toutes les couleurs d'une image source"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
 msgid "Kaleidoscope"
-msgstr "Kaleidoscope"
+msgstr "Kaléidoscope"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
 #, kde-format
 msgid "Applies a kaleidoscope effect"
-msgstr "Applique une effet de kaleidoscope"
+msgstr "Applique une effet de kaléidoscope"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:8
 #, kde-format
@@ -19267,7 +19267,7 @@ msgid ""
 msgstr ""
 "barres de couleur PAL,barres de couleur PAL avec le rouge,barres de couleur "
 "de la BBC à 95%,barres de couleur EBU à 75%,barres de couleur SMPTE,barres "
-"de couleur Philips PM5544,FuBK,FuBK simplifié"
+"de couleur Phillips PM5544,FuBK,FuBK simplifié"
 
 #: data/generators/frei0r_test_pat_b.xml:8
 #, kde-format
@@ -32089,7 +32089,7 @@ msgstr "EXIF"
 #: src/mltcontroller/clippropertiescontroller.cpp:1776
 #, kde-format
 msgid "Magic Lantern"
-msgstr "Magic Lantern"
+msgstr "Lanterne Magique"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1817
 #, kde-format
@@ -32375,8 +32375,8 @@ msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
-"La transition cairoblend est nécessaire à cette fonction, veuillez installer "
-"les modules frei0r et redémarrer Kdenlive"
+"La transition « cairoblend » est nécessaire à cette fonction, veuillez "
+"installer les modules de frei0r et redémarrer Kdenlive"
 
 #: src/monitor/monitor.cpp:2866
 #, kde-format
@@ -34644,7 +34644,7 @@ msgstr "Déplacement du dossier du projet"
 #: src/project/projectmanager.cpp:1743
 #, kde-format
 msgid "Sequence 1"
-msgstr "Sequence 1"
+msgstr "Séquence 1"
 
 #: src/project/projectmanager.cpp:1694
 #, kde-format
@@ -35076,7 +35076,7 @@ msgstr "Breton"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:73
 #, kde-format
 msgid "Castilian"
-msgstr "Castilian"
+msgstr "Castillan"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:75
 #, kde-format
