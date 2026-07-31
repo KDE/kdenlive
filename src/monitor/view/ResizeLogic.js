@@ -222,33 +222,54 @@ function _calculateResize(handleType, scaledDeltaX, scaledDeltaY, frameSize, loc
         }
     }
     
+    // For aspect ratio with edge handles, center the unchanged dimension
+    let sideForceRescale = 0
+    if ((lockRatio > 0 || modifiers & Qt.ShiftModifier) && !_isCornerHandle(handleType)) {
+        sideForceRescale = 1
+        if (_affectsX(handleType) && Math.abs(effectiveY) > 0) {
+            // X handle changed Y: center vertically
+            if (xDirection < 0) {
+                adjustedFrame.height = Math.max(1, frameSize.height - effectiveY)
+                adjustedFrame.y = frameSize.y + (frameSize.height - adjustedFrame.height) / 2
+            } else {
+                adjustedFrame.height = Math.max(1, frameSize.height + effectiveY)
+            }
+        } else if (_affectsY(handleType) && Math.abs(effectiveX) > 0) {
+            // Y handle changed X: center horizontally
+            if (yDirection < 0) {
+                adjustedFrame.width = Math.max(1, frameSize.width - effectiveX)
+                adjustedFrame.x = frameSize.x + (frameSize.width - adjustedFrame.width) / 2
+            } else {
+                adjustedFrame.width = Math.max(1, frameSize.width + effectiveX)
+            }
+        }
+    }
+
     // center-based scaling (Ctrl modifier)
     if (modifiers & Qt.ControlModifier) {
+        if (sideForceRescale === 1) {
+            // No resize, just center
+            let xDelta = (adjustedFrame.width - frameSize.width) / 2
+            let yDelta = (adjustedFrame.height - frameSize.height) / 2
+            adjustedFrame.x = frameSize.x - xDelta
+            adjustedFrame.y = frameSize.y - yDelta
+            return adjustedFrame
+        }
+
         if (_affectsX(handleType)) {
             // Right handles: rightward movement expands both sides
             // Left handles: rightward movement shrinks both sides
-            var xDelta = effectiveX * xDirection
+            let xDelta = effectiveX * xDirection
             adjustedFrame.width = Math.max(1, frameSize.width + 2 * xDelta)
             adjustedFrame.x = frameSize.x - xDelta
         }
-        
+
         if (_affectsY(handleType)) {
             // Bottom handles: downward movement expands both sides
             // Top handles: downward movement shrinks both sides
-            var yDelta = effectiveY * yDirection
+            let yDelta = effectiveY * yDirection
             adjustedFrame.height = Math.max(1, frameSize.height + 2 * yDelta)
             adjustedFrame.y = frameSize.y - yDelta
-        }
-    }
-    
-    // For aspect ratio with edge handles, center the unchanged dimension
-    if ((lockRatio > 0 || modifiers & Qt.ShiftModifier) && !_isCornerHandle(handleType)) {
-        if (_affectsX(handleType) && Math.abs(effectiveY) > 0) {
-            // X handle changed Y: center vertically
-            adjustedFrame.y = frameSize.y + (frameSize.height - adjustedFrame.height) / 2
-        } else if (_affectsY(handleType) && Math.abs(effectiveX) > 0) {
-            // Y handle changed X: center horizontally  
-            adjustedFrame.x = frameSize.x + (frameSize.width - adjustedFrame.width) / 2
         }
     }
     
