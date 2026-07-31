@@ -3415,7 +3415,7 @@ msgid ""
 msgstr ""
 "Markierung, die das Pixel angibt, auf welches Bezug genommen werden soll."
 "<br>\n"
-"        Der Standardwert ist 255, d. h. alle acht Pixel werden verwendet. "
+"        Der Standardwert ist 255, d. h. alle acht Pixel werden verwendet. "
 "Einstellungen für lokale 3×3-Koordinaten werden wie folgt zugeordnet: 1 2 3 "
 "4 5 6 7 8"
 
