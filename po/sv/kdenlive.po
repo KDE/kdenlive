@@ -39591,7 +39591,7 @@ msgstr "Rulla automatiskt under uppspelning"
 #: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid "Fixed centered playhead"
-msgstr "Fast centrerat uppspelningsposition"
+msgstr "Fast centrerad uppspelningsposition"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
 #: src/ui/configtimeline_ui.ui:136
