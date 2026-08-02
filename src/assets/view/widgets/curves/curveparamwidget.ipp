@@ -13,6 +13,7 @@
 #include <QDoubleSpinBox>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QTimer>
 #include <QToolButton>
 
 /** @brief this label is a pixmap corresponding to a legend of the axis*/
@@ -196,6 +197,14 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    setupDetachButton();
+    auto *detachRow = new QHBoxLayout();
+    detachRow->setContentsMargins(0, 0, 0, 0);
+    detachRow->addStretch(1);
+    detachRow->addWidget(m_popoutButton);
+    layout->addLayout(detachRow);
+
     layout->addWidget(m_edit);
     m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     auto *widget = new QWidget(this);
@@ -511,6 +520,129 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setMaxPo
     m_edit->setMaxPoints(max);
 }
 
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setupDetachButton()
+{
+    if (m_popoutButton) {
+        return;
+    }
+    m_popoutButton = new QToolButton(this);
+    m_popoutButton->setIcon(QIcon::fromTheme(QStringLiteral("window-new"), QIcon::fromTheme(QStringLiteral("view-restore"))));
+    m_popoutButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    m_popoutButton->setToolTip(i18n("Open this curve editor in a separate resizable window"));
+    m_popoutButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens the current curve editor in a separate resizable window for precise editing."));
+    m_popoutButton->setAutoRaise(true);
+    connect(m_popoutButton, &QToolButton::clicked, this, &CurveParamWidget<CurveWidget_t>::slotToggleDetached);
+}
+
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotToggleDetached()
+{
+    if (m_detached) {
+        reattachFromWindow();
+    } else {
+        detachToWindow();
+    }
+}
+
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::detachToWindow()
+{
+    if (m_detached) {
+        return;
+    }
+    QWidget *currentParent = parentWidget();
+    if (!currentParent) {
+        return;
+    }
+    QLayout *currentLayout = currentParent->layout();
+    if (!currentLayout) {
+        return;
+    }
+    m_originalParent = currentParent;
+    m_originalLayout = currentLayout;
+    m_detachPlaceholder = new QWidget(m_originalParent);
+    m_detachPlaceholder->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    auto *placeholderLayout = new QHBoxLayout(m_detachPlaceholder);
+    placeholderLayout->setContentsMargins(6, 2, 6, 2);
+    placeholderLayout->setSpacing(8);
+    auto *placeholderLabel = new QLabel(i18n("Curve editor is detached"), m_detachPlaceholder);
+    auto *reattachButton = new QToolButton(m_detachPlaceholder);
+    reattachButton->setText(i18n("Reattach"));
+    reattachButton->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    reattachButton->setAutoRaise(false);
+    reattachButton->setToolTip(i18n("Reattach the detached curve editor to the effect parameters"));
+    connect(reattachButton, &QToolButton::clicked, this, &CurveParamWidget<CurveWidget_t>::slotToggleDetached);
+    placeholderLayout->addWidget(placeholderLabel);
+    placeholderLayout->addStretch(1);
+    placeholderLayout->addWidget(reattachButton);
+
+    const int contentHeight = qMax(placeholderLabel->sizeHint().height(), reattachButton->sizeHint().height());
+    const int marginsHeight = placeholderLayout->contentsMargins().top() + placeholderLayout->contentsMargins().bottom();
+    const int placeholderHeight = qMax(40, contentHeight + marginsHeight + 4);
+    m_detachPlaceholder->setFixedHeight(placeholderHeight);
+
+    m_originalLayout->replaceWidget(this, m_detachPlaceholder);
+    m_detachPlaceholder->show();
+    m_originalLayout->invalidate();
+    m_originalLayout->activate();
+    m_originalParent->updateGeometry();
+
+    hide();
+    setParent(m_originalParent, Qt::Window);
+    setWindowTitle(i18n("Curve Editor"));
+    if (!m_lastDetachedSize.isValid()) {
+        m_lastDetachedSize = QSize(qMax(width(), 720), qMax(height(), 520));
+    }
+    resize(m_lastDetachedSize);
+    m_detached = true;
+    if (m_popoutButton) {
+        m_popoutButton->setToolTip(i18n("Attach this curve editor back to the effect parameters"));
+    }
+    show();
+    raise();
+    activateWindow();
+    Q_EMIT updateHeight();
+    QTimer::singleShot(0, this, [this]() { Q_EMIT updateHeight(); });
+}
+
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::reattachFromWindow()
+{
+    if (!m_detached) {
+        return;
+    }
+    hide();
+    m_lastDetachedSize = size();
+    setParent(m_originalParent, Qt::Widget);
+    if (m_originalLayout && m_detachPlaceholder) {
+        m_originalLayout->replaceWidget(m_detachPlaceholder, this);
+    }
+    if (m_detachPlaceholder) {
+        m_detachPlaceholder->hide();
+        m_detachPlaceholder->setParent(nullptr);
+        m_detachPlaceholder->deleteLater();
+        m_detachPlaceholder = nullptr;
+    }
+    setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    setEnabled(true);
+    m_edit->setEnabled(true);
+    m_detached = false;
+    if (m_popoutButton) {
+        m_popoutButton->setToolTip(i18n("Open this curve editor in a separate resizable window"));
+    }
+    show();
+    m_edit->setFocus(Qt::OtherFocusReason);
+    Q_EMIT updateHeight();
+}
+
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::closeEvent(QCloseEvent *event)
+{
+    if (m_detached) {
+        reattachFromWindow();
+        event->ignore();
+        return;
+    }
+    QWidget::closeEvent(event);
+}
+
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
@@ -551,6 +683,10 @@ CurveParamWidget<KisCurveWidget>::CurveParamWidget(std::shared_ptr<AssetParamete
     tabRowLayout->setContentsMargins(0, 0, 0, 0);
     tabRowLayout->addWidget(m_tabBar);
     tabRowLayout->addStretch(1);
+
+    setupDetachButton();
+    tabRowLayout->addWidget(m_popoutButton);
+
     layout->addLayout(tabRowLayout);
 
     if (isAvCurve) {
