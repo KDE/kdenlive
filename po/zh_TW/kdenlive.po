@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 00:43+0000\n"
+"POT-Creation-Date: 2026-08-03 00:41+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -27608,8 +27608,7 @@ msgid "No action applied for jog shuttle button %1"
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
-#: src/kdenliveui.rc:24 src/ui/managesubtitles_ui.ui:323
+#: src/kdenliveui.rc:24
 #, kde-format
 msgid "Edit"
 msgstr "編輯"
@@ -39781,6 +39780,13 @@ msgstr "建立圖層"
 #, kde-format
 msgid "Styles"
 msgstr "樣式"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
+#: src/ui/managesubtitles_ui.ui:323
+#, fuzzy, kde-format
+#| msgid "Edit Info…"
+msgid "Edit…"
+msgstr "編輯資訊…"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 00:43+0000\n"
+"POT-Creation-Date: 2026-08-03 00:41+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -28144,8 +28144,7 @@ msgid "No action applied for jog shuttle button %1"
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
-#: src/kdenliveui.rc:24 src/ui/managesubtitles_ui.ui:323
+#: src/kdenliveui.rc:24
 #, kde-format
 msgid "Edit"
 msgstr "Izmjena"
@@ -41197,6 +41196,13 @@ msgstr ""
 #| msgid "Stabilize"
 msgid "Styles"
 msgstr "Stabilizacija"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
+#: src/ui/managesubtitles_ui.ui:323
+#, fuzzy, kde-format
+#| msgid "Edit end"
+msgid "Edit…"
+msgstr "Uredi kraj"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354

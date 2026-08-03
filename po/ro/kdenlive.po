@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 00:43+0000\n"
+"POT-Creation-Date: 2026-08-03 00:41+0000\n"
 "PO-Revision-Date: 2026-03-16 16:10+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -28693,8 +28693,7 @@ msgid "No action applied for jog shuttle button %1"
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
-#: src/kdenliveui.rc:24 src/ui/managesubtitles_ui.ui:323
+#: src/kdenliveui.rc:24
 #, kde-format
 msgid "Edit"
 msgstr "Editare"
@@ -41598,6 +41597,13 @@ msgstr ""
 #| msgid "Stabilize"
 msgid "Styles"
 msgstr "Stabilizare"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
+#: src/ui/managesubtitles_ui.ui:323
+#, fuzzy, kde-format
+#| msgid "Edit end"
+msgid "Edit…"
+msgstr "Modifică sfârșitul"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354

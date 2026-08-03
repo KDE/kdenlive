@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 00:43+0000\n"
-"PO-Revision-Date: 2026-07-26 10:53+0200\n"
+"POT-Creation-Date: 2026-08-03 00:41+0000\n"
+"PO-Revision-Date: 2026-07-30 23:00+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2211,10 +2211,9 @@ msgstr ""
 "BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:12
-#, fuzzy, kde-format
-#| msgid "Output Color Space"
+#, kde-format
 msgid "Output color space"
-msgstr "Output Color Space"
+msgstr "Spazio dei colori di uscita"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #: data/effects/avfilter/avfilter_colorspace.xml:48
@@ -2238,10 +2237,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
-#, fuzzy, kde-format
-#| msgid "Output Color Primaries"
+#, kde-format
 msgid "Output color primaries"
-msgstr "Output Color Primaries"
+msgstr "Colori primari in uscita"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #: data/effects/avfilter/avfilter_colorspace.xml:52
@@ -2254,10 +2252,9 @@ msgstr ""
 "BT.2020,JEDEC P22"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
-#, fuzzy, kde-format
-#| msgid "Output Color Range"
+#, kde-format
 msgid "Output color range"
-msgstr "Output Color Range"
+msgstr "Gamma dei colori in uscita"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
 #: data/effects/avfilter/avfilter_colorspace.xml:60
@@ -2270,10 +2267,9 @@ msgstr ""
 "completo),JPEG (intervallo completo)"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
-#, fuzzy, kde-format
-#| msgid "Output format"
+#, kde-format
 msgid "Output color format"
-msgstr "Formato di uscita"
+msgstr "Formato dei colori in uscita"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
@@ -9906,7 +9902,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_cartoon.xml:8
 #, kde-format
 msgid "Level of trip"
-msgstr ""
+msgstr "Livello di soglia"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:11
 #, kde-format
@@ -14116,10 +14112,9 @@ msgstr ""
 "GPS reale."
 
 #: data/effects/gpstext.xml:63
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The typeface of the font."
-msgstr "Il colore della forma d'onda."
+msgstr "Il tipo di carattere."
 
 #: data/effects/gpstext.xml:67
 #, kde-format
@@ -14127,10 +14122,9 @@ msgid "The size in pixels of the font."
 msgstr "La dimensione in pixel del carattere."
 
 #: data/effects/gpstext.xml:71
-#, fuzzy, kde-format
-#| msgid "The width of the hue range"
+#, kde-format
 msgid "The weight of the font."
-msgstr "L'ampiezza della gamma della tonalità"
+msgstr "Il peso del carattere."
 
 #: data/effects/gpstext.xml:75
 #, kde-format
@@ -14510,10 +14504,9 @@ msgstr ""
 "dovrebbe rendere la modulazione meno ripetitiva e meno evidente."
 
 #: data/effects/ladspa/ladspa_1191.xml:9
-#, fuzzy, kde-format
-#| msgid "Delay time"
+#, kde-format
 msgid "Delay Base"
-msgstr "Tempo di ritardo"
+msgstr "Base del ritardo"
 
 #: data/effects/ladspa/ladspa_1191.xml:11
 #, kde-format
@@ -15077,7 +15070,7 @@ msgstr "Livello di aliasing"
 #: data/effects/ladspa/ladspa_1407.xml:10
 #, kde-format
 msgid "Controls the amount of simulated aliasing in the output."
-msgstr "Regola l'entità dell'aliasing simulato nell'ouscita."
+msgstr "Regola l'entità dell'aliasing simulato nell'uscita."
 
 #: data/effects/ladspa/ladspa_1408.xml:4
 #, kde-format
@@ -17195,6 +17188,12 @@ msgid ""
 "transition in opacity value is threshold - slope and end point is thresholt "
 "+ slope, values are forced in range 0 - 255."
 msgstr ""
+"Definisce l'ampiezza della<br>\n"
+"      transizione dal valore di luma del livello precedente a quello del "
+"livello successivo. Il punto iniziale della transizione nel valore di "
+"opacità è pari a `soglia - inclinazione`, mentre il punto finale è pari a "
+"`soglia + inclinazione`; i valori sono limitati all'intervallo compreso tra "
+"0 e 255."
 
 #: data/effects/lumakey.xml:19
 #, kde-format
@@ -19666,12 +19665,12 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, kde-format
 msgid "Slide Down"
-msgstr "Diapositiva in basso"
+msgstr "Scorri in basso"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:5
 #, kde-format
 msgid "Slide from top to bottom."
-msgstr "Diapositiva dall'alto in basso."
+msgstr "Scorri dall'alto al basso."
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:8
 #: data/transitions/frei0r/frei0r_slide-left.xml:8
@@ -19679,37 +19678,37 @@ msgstr "Diapositiva dall'alto in basso."
 #: data/transitions/frei0r/frei0r_slide-up.xml:8
 #, kde-format
 msgid "Slide position"
-msgstr "Posizione della diapositiva"
+msgstr "Posizione di scorrimento"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
 #, kde-format
 msgid "Slide Left"
-msgstr "Diapositiva a sinistra"
+msgstr "Scorri a sinistra"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:5
 #, kde-format
 msgid "Slide from right to left."
-msgstr "Diapositiva da destra a sinistra."
+msgstr "Scorri da destra a sinistra."
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:4
 #, kde-format
 msgid "Slide Up"
-msgstr "Diapositiva in su"
+msgstr "Scorri in su"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:5
 #, kde-format
 msgid "Slide from bottom to top."
-msgstr "Diapositiva dal basso in alto."
+msgstr "Scorri dal basso in alto."
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:4
 #, kde-format
 msgid "Slide Right"
-msgstr "Diapositiva a destra"
+msgstr "Scorri a destra"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:5
 #, kde-format
 msgid "Slide from left to right."
-msgstr "Diapositiva da sinistra a destra."
+msgstr "Scorri da sinistra a destra."
 
 #: data/transitions/frei0r/frei0r_softlight.xml:4
 #, kde-format
@@ -19877,7 +19876,7 @@ msgstr ""
 #: data/transitions/wipe.xml:8
 #, kde-format
 msgid "Wipe Method"
-msgstr "Metodo per la tendina"
+msgstr "Metodo di dissolvenza"
 
 #: data/transitions/matte.xml:4
 #, kde-format
@@ -19944,7 +19943,7 @@ msgstr "Forza deinterlacciamento"
 #, kde-format
 msgctxt "Slide Transition Name"
 msgid "Slide"
-msgstr "Diapositiva"
+msgstr "Scorri"
 
 #: data/transitions/slide.xml:5
 #, kde-format
@@ -21000,7 +20999,7 @@ msgstr "Inserisci una parola chiave..."
 #: src/assets/view/widgets/urllistparamwidget.cpp:181
 #, kde-format
 msgid "None (Dissolve)"
-msgstr "Nessuno (Dissolvi)"
+msgstr "Nessuno (Dissolvenza)"
 
 #: src/assets/view/widgets/pointparamwidget.cpp:55
 #, kde-format
@@ -28354,8 +28353,7 @@ msgid "No action applied for jog shuttle button %1"
 msgstr "Nessuna azione applicata per il pulsante %1 del jog shuttle"
 
 #. i18n: ectx: Menu (edit)
-#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
-#: src/kdenliveui.rc:24 src/ui/managesubtitles_ui.ui:323
+#: src/kdenliveui.rc:24
 #, kde-format
 msgid "Edit"
 msgstr "Modifica"
@@ -39518,14 +39516,14 @@ msgstr "Seamless"
 #: src/ui/configspeech_ui.ui:328 src/ui/configspeech_ui.ui:947
 #, kde-format
 msgid "Plugin size"
-msgstr "Dimensione estensione"
+msgstr "Dimensione delle estensioni"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:342 src/ui/configspeech_ui.ui:918
 #, kde-format
 msgid "Uninstall plugin"
-msgstr "Disinstalla estensione"
+msgstr "Disinstalla estensioni"
 
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:414
@@ -39610,7 +39608,7 @@ msgstr "Modello"
 #: src/ui/configspeech_ui.ui:784
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
-msgstr "Scarica il video nella CPU per salvare memoria GPU"
+msgstr "Trasferisci il video alla CPU per risparmiare memoria della GPU"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_3)
 #: src/ui/configspeech_ui.ui:791
@@ -39737,7 +39735,7 @@ msgstr "Scorrimento automatico durante la riproduzione"
 #: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid "Fixed centered playhead"
-msgstr "Indicatore di riproduzione fisso al centro"
+msgstr "Indicatore di riproduzione fisso centrato"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
 #: src/ui/configtimeline_ui.ui:136
@@ -40815,6 +40813,13 @@ msgstr "Nuovo livello"
 #, kde-format
 msgid "Styles"
 msgstr "Stili"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
+#: src/ui/managesubtitles_ui.ui:323
+#, fuzzy, kde-format
+#| msgid "Edit Info…"
+msgid "Edit…"
+msgstr "Modifica informazioni…"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
