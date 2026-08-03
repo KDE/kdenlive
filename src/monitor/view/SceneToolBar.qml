@@ -94,6 +94,11 @@ MouseArea {
                 id: zoomButton
                 monitorController: barZone.monitorController
                 isClipMonitor: barZone.isClipMonitor
+                onPopupAboutToHide: {
+                    if (!barZone.containsMouse) {
+                        scenetoolbar.opacity = 0
+                    }
+                }
             }
             K.MonitorToolButton {
                 objectName: "addMarker"

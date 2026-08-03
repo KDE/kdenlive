@@ -31,6 +31,7 @@ Rectangle {
     required property color selectedTrackColor
     required property color frameColor
     required property int trackTagWidth
+    required property bool isSubtitleTrackVisible
 
     signal toogleExpandTrack()
 
@@ -70,7 +71,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: expandSubButton.bottom
         anchors.left: subtitleLayerIndicator.right
-        visible: (subtitleTrack.visible && !trackHeader.collapsed)
+        visible: (trackHeader.isSubtitleTrackVisible && !trackHeader.collapsed)
         flat: true
         onActivated: index => {
             trackHeader.timeline.subtitlesMenuActivatedAsync(index)
@@ -161,7 +162,7 @@ Rectangle {
         anchors.top: trackHeader.top
         anchors.bottom: trackHeader.bottom
         property color bgColor: Qt.darker(trackHeader.trackHeaderColor, 0.55)
-        visible: trackHeader.timeline.maxSubLayer > 0 && subtitleTrack.visible && !trackHeader.collapsed
+        visible: trackHeader.timeline.maxSubLayer > 0 && trackHeader.isSubtitleTrackVisible && !trackHeader.collapsed
 
         Repeater {
             model: subtitleLayerIndicator.visible ? trackHeader.timeline.maxSubLayer + 1 : 0

@@ -20,16 +20,18 @@ Row {
     // When increasing the Qt dependency, we can revert to use :
     // required property Clip parentClip
     required property var parentClip
-    property real initialSpeed: 1
-    property bool fixedThumbs: parentClip.itemType === K.ClipType.Image || parentClip.itemType === K.ClipType.Text || parentClip.itemType === K.ClipType.TextTemplate
-    property int thumbWidth: parent.height * K.Core.getCurrentDar()
-    property bool enableCache: parentClip.itemType === K.ClipType.Video || parentClip.itemType === K.ClipType.AV
+    required property int thumbsFormat
+    required property real timeScale
+    required property int timelineScrollViewWidth
+    readonly property bool fixedThumbs: parentClip.itemType === K.ClipType.Image || parentClip.itemType === K.ClipType.Text || parentClip.itemType === K.ClipType.TextTemplate
+    readonly property int thumbWidth: parent.height * K.Core.getCurrentDar()
+    readonly property bool enableCache: parentClip.itemType === K.ClipType.Video || parentClip.itemType === K.ClipType.AV
 
     Repeater {
         id: thumbRepeater
         // switching the model allows one to have different view modes.
         // We set the model to the number of frames we want to show
-        model: switch (parentTrack.trackThumbsFormat) {
+        model: switch (thumbRow.thumbsFormat) {
                    case 0:
                        // in/out
                        if (parent.width > thumbRow.thumbWidth) {
@@ -57,12 +59,12 @@ Row {
         property real imageWidth: Math.max(thumbRow.thumbWidth, parent.width / thumbRepeater.count)
         property int thumbStartFrame: thumbRow.fixedThumbs ? 0 :
                                                     (thumbRow.parentClip.speed >= 0)
-                                                    ? Math.round(thumbRow.parentClip.inPoint * thumbRow.initialSpeed)
-                                                    : Math.round((thumbRow.parentClip.maxDuration - thumbRow.parentClip.inPoint) * -thumbRow.initialSpeed - 1)
+                                                    ? Math.round(thumbRow.parentClip.inPoint * thumbRow.parentClip.speed)
+                                                    : Math.round((thumbRow.parentClip.maxDuration - thumbRow.parentClip.inPoint) * -thumbRow.parentClip.speed - 1)
         property int thumbEndFrame: thumbRow.fixedThumbs ? 0 :
                                                   (thumbRow.parentClip.speed >= 0)
-                                                  ? Math.round(thumbRow.parentClip.outPoint * thumbRow.initialSpeed)
-                                                  : Math.round((thumbRow.parentClip.maxDuration - thumbRow.parentClip.outPoint) * -thumbRow.initialSpeed - 1)
+                                                  ? Math.round(thumbRow.parentClip.outPoint * thumbRow.parentClip.speed)
+                                                  : Math.round((thumbRow.parentClip.maxDuration - thumbRow.parentClip.outPoint) * -thumbRow.parentClip.speed - 1)
 
         Image {
             id: thumbImage
@@ -79,12 +81,12 @@ Row {
                                        ? 0
                                        : thumbRepeater.count < 3
                                          ? (index === 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame)
-                                         : Math.floor(thumbRow.parentClip.inPoint * thumbRow.initialSpeed + Math.round((index) * width / timeline.scaleFactor)* thumbRow.parentClip.speed)
+                                         : Math.floor((thumbRow.parentClip.inPoint + Math.round(index * width / thumbRow.timeScale))* thumbRow.parentClip.speed)
             horizontalAlignment: thumbRepeater.count < 3
                                  ? (index === 0 ? Image.AlignLeft : Image.AlignRight)
                                  : Image.AlignLeft
             source: thumbRepeater.count < 3 ? thumbPath
-                                            : (index * width < thumbRow.parentClip.scrollStart - width || index * width > thumbRow.parentClip.scrollStart + scrollView.width)? '' : thumbPath
+                                            : (index * width < thumbRow.parentClip.scrollStart - width || index * width > thumbRow.parentClip.scrollStart + thumbRow.timelineScrollViewWidth) ? '' : thumbPath
             onStatusChanged: {
                 if (status === Image.Ready && (index === 0  || index === thumbRepeater.count - 1)) {
                     thumbPlaceholder.source = source

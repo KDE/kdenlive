@@ -19,17 +19,22 @@ Rectangle {
     required property K.TimelineController timeline
     required property var kfrModel
     required property double timeScale
+    required property int keyframeModelOffset
     required property int parentInPoint
     required property int parentItemId
     required property bool allowUserInteraction
+    required property int keyframeContainerHeight
+    required property int keyframeContainerWidth
 
     readonly property bool isUserInteracting: kfMouseArea.pressed || kf1MouseArea.pressed
     readonly property bool isInsideVisibleAreaX: x > K.UiUtils.baseSizeMedium / 2 && x < parent.width - K.UiUtils.baseSizeMedium / 2
 
     signal requestRepaint()
     signal seek(int position)
+    signal seekToIx(int ix)
     signal keyframeSelected(int index, bool add, bool setActive)
     signal resetSelection()
+    signal focusKeyframeContainer()
 
     property int frame : model.frame
     property int frameType : model.type
@@ -50,6 +55,9 @@ Rectangle {
     }
     width: Math.max(1, timeScale / 2)
     color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
+
+    SystemPalette { id: activePalette }
+
     MouseArea {
         id: kfMouseArea
         anchors.fill: parent
@@ -81,7 +89,7 @@ Rectangle {
                     parent.x = keyframe.parentInPoint * keyframe.timeScale
                     return
                 }
-                var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - 1)
+                var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1)
                 if (newPos < 1) {
                     newPos = 1
                 }
@@ -104,12 +112,12 @@ Rectangle {
     Rectangle {
         id: keyframeVal
         x: - K.UiUtils.baseSizeMedium / 2
-        y: keyframeContainer.height - keyframe.value - K.UiUtils.baseSizeMedium / 2
+        y: keyframe.keyframeContainerHeight - keyframe.value - K.UiUtils.baseSizeMedium / 2
         width: K.UiUtils.baseSizeMedium
         height: width
         radius: width / 2
-        color: keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? root.textColor : root.videoColor
-        border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : root.textColor
+        color: keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? activePalette.text : keyframe.timeline.videoColor
+        border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : activePalette.text
 
         MouseArea {
             id: kf1MouseArea
@@ -127,7 +135,7 @@ Rectangle {
                 drag.axis = keyframe.model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
             }
             onClicked: mouse => {
-                keyframeContainer.focus = true
+                keyframe.focusKeyframeContainer()
                 if (mouse.modifiers & Qt.ControlModifier && keyframe.model.selected) {
                     keyframe.keyframeSelected(keyframe.index, true, false)
                 } else {
@@ -135,7 +143,7 @@ Rectangle {
                 }
                 var ix = keyframe.kfrModel.activeKeyframe()
                 if (ix > -1) {
-                    keyframe.seek(keyframes.itemAt(ix).frame + keyframeContainer.modelStart - keyframe.parentInPoint)
+                    keyframe.seekToIx(ix)
                 }
             }
             onReleased: {
@@ -144,7 +152,7 @@ Rectangle {
                 }
                 var newPos = keyframe.frame == keyframe.parentInPoint ? keyframe.parentInPoint : Math.round((keyframe.x + parent.x + K.UiUtils.baseSizeMedium / 2) / keyframe.timeScale) + keyframe.parentInPoint
                 if (newPos === keyframe.frame && keyframe.value == keyframe.height - parent.y - K.UiUtils.baseSizeMedium / 2) {
-                    var pos = keyframeContainer.modelStart + keyframe.frame - keyframe.parentInPoint
+                    var pos = keyframe.keyframeModelOffset + keyframe.frame - keyframe.parentInPoint
                     keyframe.seek(pos)
                     return
                 }
@@ -179,7 +187,7 @@ Rectangle {
                     if (keyframe.frame == keyframe.parentInPoint) {
                         parent.x = - K.UiUtils.baseSizeMedium / 2
                     } else {
-                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / keyframe.timeScale), Math.round(keyframeContainer.width / keyframe.timeScale) - keyframe.frame + keyframeContainer.inPoint - 1)
+                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - keyframe.frame + keyframe.parentInPoint - 1)
                         if (keyframe.frame + newPos <= keyframe.parentInPoint) {
                             newPos = keyframe.parentInPoint + 1 - keyframe.frame
                         }
@@ -192,7 +200,7 @@ Rectangle {
                         }
                     }
                     keyframe.requestRepaint()
-                    newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
+                    newVal = (keyframe.keyframeContainerHeight - (parent.y + mouse.y)) / keyframe.keyframeContainerHeight
                     movingVal = keyframe.kfrModel.realValue(Math.min(Math.max(newVal, 0), 1))
                 }
             }
