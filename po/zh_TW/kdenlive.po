@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-03 00:41+0000\n"
+"POT-Creation-Date: 2026-08-04 00:43+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -3860,7 +3860,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/timer.xml:97
-#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:73
+#: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:96
 #: src/ui/clipspeed_ui.ui:36 src/ui/editsub_ui.ui:557
 #, kde-format
 msgid "Speed"
@@ -7193,8 +7193,8 @@ msgstr "Y"
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:339
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
-#: src/timeline2/view/qml/Track.qml:75 src/timeline2/view/qml/Track.qml:101
-#: src/timeline2/view/qml/Track.qml:109 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:98 src/timeline2/view/qml/Track.qml:124
+#: src/timeline2/view/qml/Track.qml:132 src/ui/clipdurationdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
@@ -7785,7 +7785,7 @@ msgstr "從黑色背景淡入為視訊"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
-#: src/monitor/view/MonitorTrimming.qml:92 src/timeline2/view/qml/Track.qml:107
+#: src/monitor/view/MonitorTrimming.qml:92 src/timeline2/view/qml/Track.qml:130
 #, kde-format
 msgid "In"
 msgstr "起點"
@@ -20675,7 +20675,7 @@ msgstr "拖曳來只將音訊加入時間軸"
 msgid "Drag to add only video to timeline"
 msgstr "拖曳來只將視訊加入時間軸"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1500
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1528
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -21790,12 +21790,12 @@ msgstr "時長："
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT 播放清單 (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:44
+#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:45
 #, kde-format
 msgid "Zoom In"
 msgstr "放大"
 
-#: src/bin/mediabrowser.cpp:56 src/monitor/view/MonitorZoomButton.qml:52
+#: src/bin/mediabrowser.cpp:56 src/monitor/view/MonitorZoomButton.qml:53
 #, kde-format
 msgid "Zoom Out"
 msgstr "縮小"
@@ -27666,7 +27666,7 @@ msgid "Clip in Timeline"
 msgstr "時間軸中的素材"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1195
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1190
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -31412,7 +31412,7 @@ msgstr "終點"
 msgid "Terminate Job"
 msgstr "終止工作"
 
-#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
+#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:59
 #: src/monitor/view/MultiScreenToolBar.qml:68
 #: src/monitor/view/SceneToolBar.qml:68
 #, kde-format
@@ -31451,42 +31451,42 @@ msgstr "跳到上一個關鍵幀"
 msgid "Automatic Keyframes"
 msgstr "自動關鍵幀"
 
-#: src/monitor/view/EffectToolBar.qml:134 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:82
-#: src/monitor/view/SceneToolBar.qml:110
+#: src/monitor/view/EffectToolBar.qml:139 src/monitor/view/MaskToolBar.qml:117
+#: src/monitor/view/MultiScreenToolBar.qml:87
+#: src/monitor/view/SceneToolBar.qml:115
 #, kde-format
 msgid "Move Toolbar"
 msgstr "移動工具列"
 
-#: src/monitor/view/EffectToolBar.qml:167
+#: src/monitor/view/EffectToolBar.qml:172
 #, fuzzy, kde-format
 #| msgid "Automatic Keyframes"
 msgid "Automatic Keyframes is ON"
 msgstr "自動關鍵幀"
 
-#: src/monitor/view/MaskToolBar.qml:70
+#: src/monitor/view/MaskToolBar.qml:65
 #, kde-format
 msgid "Generate Mask"
 msgstr "產生遮罩"
 
-#: src/monitor/view/MaskToolBar.qml:86
+#: src/monitor/view/MaskToolBar.qml:75
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "變更不透明度 (0% - 25% - 50% - 100%)"
 
 # 這不是效果名稱，這是左邊改成右邊的意思，像是鏡像效果：預設會鏡像右邊，但勾選反轉之後會鏡像左邊。
 # --Kisaragi
-#: src/monitor/view/MaskToolBar.qml:100
+#: src/monitor/view/MaskToolBar.qml:89
 #, kde-format
 msgid "Invert Mask"
 msgstr "反轉遮罩"
 
-#: src/monitor/view/MaskToolBar.qml:108
+#: src/monitor/view/MaskToolBar.qml:97
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "離開遮罩建立"
 
-#: src/monitor/view/MaskToolBar.qml:108
+#: src/monitor/view/MaskToolBar.qml:97
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "離開預覽模式"
@@ -31503,23 +31503,23 @@ msgstr ""
 "罩，<shortcut>Shift+點擊</shortcut>來包含另一個區域，<shortcut>Ctrl+點擊</"
 "shortcut>來排除一個區域。"
 
-#: src/monitor/view/MonitorAutomask.qml:343
+#: src/monitor/view/MonitorAutomask.qml:352
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "在專案素材庫中選取素材來比對效果"
 
-#: src/monitor/view/MonitorAutomask.qml:343
+#: src/monitor/view/MonitorAutomask.qml:352
 #, kde-format
 msgid "Generating image mask"
 msgstr "正在建立影像遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:343
+#: src/monitor/view/MonitorAutomask.qml:352
 #, kde-format
 msgid "Generating video mask"
 msgstr "正在建立影片遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:363
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -31530,12 +31530,12 @@ msgstr ""
 "Shift+點擊來包含另一個區域。\n"
 "Ctrl+點擊來排除一個區域。"
 
-#: src/monitor/view/MonitorAutomask.qml:354
+#: src/monitor/view/MonitorAutomask.qml:363
 #, kde-format
 msgid "Previewing video mask"
 msgstr "正在預覽影片遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:365
+#: src/monitor/view/MonitorAutomask.qml:374
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -31544,12 +31544,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:375
+#: src/monitor/view/MonitorAutomask.qml:384
 #, kde-format
 msgid "Go to mask start"
 msgstr "跳到遮罩起點"
 
-#: src/monitor/view/MonitorAutomask.qml:381
+#: src/monitor/view/MonitorAutomask.qml:390
 #, kde-format
 msgid "Go to mask end"
 msgstr "跳到遮罩末尾"
@@ -31640,7 +31640,7 @@ msgstr ""
 "邊移動一邊調整區段終點"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
-#: src/monitor/view/MonitorZoomButton.qml:60 src/ui/vectorscope_ui.ui:68
+#: src/monitor/view/MonitorZoomButton.qml:61 src/ui/vectorscope_ui.ui:68
 #, kde-format
 msgid "Reset Zoom"
 msgstr "重設縮放"
@@ -31661,7 +31661,7 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "簡易變形"
 
-#: src/monitor/view/SceneToolBar.qml:101
+#: src/monitor/view/SceneToolBar.qml:106
 #, fuzzy, kde-format
 #| msgid "Remove Marker"
 msgid "Add/Remove Marker"
@@ -35197,14 +35197,14 @@ msgid "Change clip speed"
 msgstr "變更素材速度"
 
 #: src/timeline2/model/timelinemodel.cpp:7754
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:143
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "鎖定軌道"
 
 #: src/timeline2/model/timelinemodel.cpp:7759
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:143
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
@@ -35388,119 +35388,119 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2352
+#: src/timeline2/view/qml/Timeline.qml:2356
 #, kde-format
 msgid "Paused"
 msgstr "已暫停"
 
-#: src/timeline2/view/qml/Clip.qml:253 src/timeline2/view/qml/Clip.qml:1281
+#: src/timeline2/view/qml/Clip.qml:274 src/timeline2/view/qml/Clip.qml:1309
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3)，位置：%4，時長：%5"
 
-#: src/timeline2/view/qml/Clip.qml:349 src/timeline2/view/qml/Clip.qml:363
-#: src/timeline2/view/qml/SubTitle.qml:219
-#: src/timeline2/view/qml/SubTitle.qml:225
+#: src/timeline2/view/qml/Clip.qml:371 src/timeline2/view/qml/Clip.qml:385
+#: src/timeline2/view/qml/SubTitle.qml:226
+#: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "位置：%1"
 
-#: src/timeline2/view/qml/Clip.qml:575
+#: src/timeline2/view/qml/Clip.qml:600
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "混合長度：%1，裁剪於：%2"
 
-#: src/timeline2/view/qml/Clip.qml:629
+#: src/timeline2/view/qml/Clip.qml:654
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1，混合長度：%2"
 
-#: src/timeline2/view/qml/Clip.qml:631
+#: src/timeline2/view/qml/Clip.qml:656
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1，混合長度：%2"
 
-#: src/timeline2/view/qml/Clip.qml:634 src/timeline2/view/qml/Clip.qml:649
+#: src/timeline2/view/qml/Clip.qml:659 src/timeline2/view/qml/Clip.qml:674
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "混合長度：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1163
+#: src/timeline2/view/qml/Clip.qml:1189
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "輸入：%1，位置：%2"
 
-#: src/timeline2/view/qml/Clip.qml:1166 src/timeline2/view/qml/Clip.qml:1271
+#: src/timeline2/view/qml/Clip.qml:1192 src/timeline2/view/qml/Clip.qml:1299
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr "<b>Ctrl+拖曳</b>來變更速度，<b>雙擊</b>來與週遭素材混合"
 
-#: src/timeline2/view/qml/Clip.qml:1168
+#: src/timeline2/view/qml/Clip.qml:1194
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>拖曳</b>來變更混合長度"
 
-#: src/timeline2/view/qml/Clip.qml:1268
+#: src/timeline2/view/qml/Clip.qml:1296
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "輸出：%1，位置：%2"
 
-#: src/timeline2/view/qml/Clip.qml:1407
+#: src/timeline2/view/qml/Clip.qml:1435
 #, kde-format
 msgid "Offset: -%1"
 msgstr "偏移：-%1"
 
-#: src/timeline2/view/qml/Clip.qml:1408
+#: src/timeline2/view/qml/Clip.qml:1436
 #, kde-format
 msgid "Offset: %1"
 msgstr "偏移：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1409
+#: src/timeline2/view/qml/Clip.qml:1437
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>點擊</b>來對齊素材"
 
-#: src/timeline2/view/qml/Clip.qml:1654 src/timeline2/view/qml/Clip.qml:1695
+#: src/timeline2/view/qml/Clip.qml:1719 src/timeline2/view/qml/Clip.qml:1760
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>點擊</b>來新增合成方案"
 
-#: src/timeline2/view/qml/Clip.qml:1774 src/timeline2/view/qml/Clip.qml:1781
+#: src/timeline2/view/qml/Clip.qml:1839 src/timeline2/view/qml/Clip.qml:1846
 #, kde-format
 msgid "Fade out: %1"
 msgstr "淡出：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1785 src/timeline2/view/qml/Clip.qml:1894
+#: src/timeline2/view/qml/Clip.qml:1850 src/timeline2/view/qml/Clip.qml:1959
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b>拖曳</b>來調整淡入淡出，<b>點擊</b>來加上預設長度的淡入淡出"
 
-#: src/timeline2/view/qml/Clip.qml:1883 src/timeline2/view/qml/Clip.qml:1890
+#: src/timeline2/view/qml/Clip.qml:1948 src/timeline2/view/qml/Clip.qml:1955
 #, kde-format
 msgid "Fade in: %1"
 msgstr "淡入：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1978
+#: src/timeline2/view/qml/Clip.qml:2043
 #, kde-format
 msgid "Slip Clip"
 msgstr "滑動素材"
 
-#: src/timeline2/view/qml/Composition.qml:256
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1，位置：%2，時長：%3"
 
-#: src/timeline2/view/qml/Composition.qml:323
-#: src/timeline2/view/qml/Composition.qml:387
-#: src/timeline2/view/qml/SubTitle.qml:355
-#: src/timeline2/view/qml/SubTitle.qml:460
+#: src/timeline2/view/qml/Composition.qml:335
+#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/SubTitle.qml:362
+#: src/timeline2/view/qml/SubTitle.qml:467
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>拖曳</b>來調整大小"
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:98
+#: src/timeline2/view/qml/KeyframeDelegate.qml:106
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -35509,7 +35509,7 @@ msgstr ""
 "<b>拖曳</b>來移動所選關鍵幀的位置。<b>Shift+拖曳</b>來移動這個關鍵幀後方的所"
 "有關鍵幀。"
 
-#: src/timeline2/view/qml/KeyframeDelegate.qml:204
+#: src/timeline2/view/qml/KeyframeDelegate.qml:212
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -35517,75 +35517,75 @@ msgid ""
 msgstr ""
 "<b>Shift+拖曳</b>來變更所選關鍵幀的數值，<b>Ctrl+點擊</b>來選取多個關鍵幀。"
 
-#: src/timeline2/view/qml/SubTitle.qml:126
+#: src/timeline2/view/qml/SubTitle.qml:135
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>雙擊</b>來編輯文字"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:104
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:105
 #, kde-format
 msgid "Click to see details"
 msgstr "點擊來檢視詳細資料"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:118
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:119
 #, kde-format
 msgid "Speech recognition"
 msgstr "語音辨識"
 
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:131
 #: src/timeline2/view/qml/TrackHead.qml:413
 #, kde-format
 msgid "Show"
 msgstr "顯示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/SubtitleTrackHead.qml:130
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:131
 #: src/timeline2/view/qml/TrackHead.qml:413 src/ui/configcapture_ui.ui:203
 #, kde-format
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/timeline2/view/qml/Timeline.qml:902
-#: src/timeline2/view/qml/Timeline.qml:912
+#: src/timeline2/view/qml/Timeline.qml:897
+#: src/timeline2/view/qml/Timeline.qml:907
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "音訊軌不夠處理所有串流（%1）"
 
-#: src/timeline2/view/qml/Timeline.qml:1189
+#: src/timeline2/view/qml/Timeline.qml:1184
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "顯示 master 效果"
 
-#: src/timeline2/view/qml/Timeline.qml:1977
+#: src/timeline2/view/qml/Timeline.qml:1981
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>雙擊</b>來新增字幕"
 
-#: src/timeline2/view/qml/Timeline.qml:2171
+#: src/timeline2/view/qml/Timeline.qml:2175
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/Timeline.qml:2341
-#: src/timeline2/view/qml/Timeline.qml:2350
+#: src/timeline2/view/qml/Timeline.qml:2345
+#: src/timeline2/view/qml/Timeline.qml:2354
 #, kde-format
 msgid "Recording"
 msgstr "錄製"
 
-#: src/timeline2/view/qml/Timeline.qml:2444
+#: src/timeline2/view/qml/Timeline.qml:2448
 #, kde-format
 msgid "Multicam In"
 msgstr "多相機 入"
 
-#: src/timeline2/view/qml/Track.qml:306 src/timeline2/view/qml/Track.qml:324
+#: src/timeline2/view/qml/Track.qml:363 src/timeline2/view/qml/Track.qml:381
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2，時長 = %3"
 
-#: src/timeline2/view/qml/Track.qml:368
+#: src/timeline2/view/qml/Track.qml:436
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1% | 正在調整速度"
