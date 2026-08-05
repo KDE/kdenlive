@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-28 02:43+0000\n"
-"PO-Revision-Date: 2026-08-03 18:31+0300\n"
+"PO-Revision-Date: 2026-08-04 19:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -213,7 +213,7 @@ msgstr "Gradyan yönelimi"
 #: data/effects/audiolevelgraph.xml:50
 #, kde-format
 msgid "Direction of the color gradient."
-msgstr "Renk gradyanının yönü."
+msgstr "Renk gradyanının yönü"
 
 #: data/effects/audiolevelgraph.xml:51
 #, kde-format
@@ -228,7 +228,7 @@ msgstr "Kanallar"
 #: data/effects/audiolevelgraph.xml:55
 #, kde-format
 msgid "The number of channels to show."
-msgstr "Gösterilecek kanalların sayısı."
+msgstr "Gösterilecek kanalların sayısı"
 
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
@@ -238,7 +238,7 @@ msgstr "Bölüt boşluğu"
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr "Bölütler arasındaki piksel türünden boşluk."
+msgstr "Bölütler arasındaki piksel türünden boşluk"
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
@@ -331,12 +331,12 @@ msgstr "Ses Tayfı Süzgeci"
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
-msgstr "Görsel üzerinde bir ses tayfı çizen bir ses görselleştirme süzgeci."
+msgstr "Görsel üzerinde bir ses tayfı çizen bir ses görselleştirme süzgeci"
 
 #: data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr "Tayfı görüntüleyecek grafik türü."
+msgstr "Tayfı görüntüleyecek grafik türü"
 
 #: data/effects/audiospectrum.xml:11
 #, kde-format
@@ -358,7 +358,7 @@ msgstr "Ön alan rengi"
 #: data/effects/audiospectrum.xml:19
 #, kde-format
 msgid "The color of the waveform."
-msgstr "Dalga biçiminin rengi."
+msgstr "Dalga biçiminin rengi"
 
 #: data/effects/audiospectrum.xml:23
 #, kde-format
@@ -429,7 +429,7 @@ msgstr "Düşük frekans"
 #: data/effects/audiospectrum.xml:55
 #, kde-format
 msgid "The low end of the frequency range to be used for the graph."
-msgstr "Grafik için kullanılacak frekans aralığının alt sınırı."
+msgstr "Grafik için kullanılacak frekans aralığının alt sınırı"
 
 #: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
 #, kde-format
@@ -439,7 +439,7 @@ msgstr "Yüksek frekans"
 #: data/effects/audiospectrum.xml:59
 #, kde-format
 msgid "The high end of the frequency range to be used for the graph."
-msgstr "Grafik için kullanılacak frekans aralığının üst sınırı."
+msgstr "Grafik için kullanılacak frekans aralığının üst sınırı"
 
 #: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, kde-format
@@ -677,7 +677,7 @@ msgstr "Basit Kompresör/Genişletici"
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
 msgid "Simple audio dynamic range compression/expansion filter."
-msgstr "Basit ses devingen erim sıkıştırma/genişletme süzgeci."
+msgstr "Basit ses devingen erim sıkıştırma/genişletme süzgeci"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
 #: data/effects/avfilter/avfilter_ciescope.xml:32
@@ -7625,7 +7625,7 @@ msgstr "Renk Parlaklığı Tutumu"
 #: data/effects/chroma_hold.xml:5
 #, kde-format
 msgid "Make image greyscale except for chosen color"
-msgstr "Seçili renk dışında, görseli gri tonlu yap"
+msgstr "Seçili renk dışında, görseli gri tonlu yapın."
 
 #: data/effects/chroma_hold.xml:13
 #, kde-format
@@ -8249,8 +8249,7 @@ msgid ""
 "        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</em>."
 msgstr ""
 "Alfa kanalının görüntülenmesi ve manipülasyonu.<br>\n"
-"        Bu efektin yerine artık  <em>frei0r.alpha0ps_alpha0ps</em> "
-"kullanılıyor."
+"Bu efektin yerine artık <em>frei0r.alpha0ps_alpha0ps</em> kullanılıyor."
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:11
 #: data/effects/frei0r/frei0r_alpha0ps.xml:37
@@ -8304,8 +8303,7 @@ msgid ""
 "        This effect has been replaced by <em>frei0r.alphaops_alphaops</em>."
 msgstr ""
 "Alfa kanalının görüntülenmesi ve manipülasyonu.<br>\n"
-"        Bu efektin yerine artık  <em>frei0r.alphaops_alphaops</em> "
-"kullanılıyor."
+"Bu efektin yerine artık <em>frei0r.alphaops_alphaops</em> kullanılıyor."
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:44
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
@@ -8496,7 +8494,7 @@ msgid ""
 "    This effect has been replaced by frei0r.alphaops_alphagrad."
 msgstr ""
 "Alfa kanalını belirli bir gradyanla doldurun.<br>\n"
-"    Bu efektin yerine artık <em>frei0r.alphaops_alphagrad</em> kullanılıyor."
+"Bu efektin yerine artık <em>frei0r.alphaops_alphagrad</em> kullanılıyor."
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, kde-format
@@ -8510,7 +8508,7 @@ msgid ""
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>."
 msgstr ""
 "Alfa kanalına basit şekiller çizin.<br>\n"
-"    Bu efektin yerine artık <em>frei0r.alphaops_alphaspot</em> kullanılıyor."
+"Bu efektin yerine artık <em>frei0r.alphaops_alphaspot</em> kullanılıyor."
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -19456,7 +19454,7 @@ msgid ""
 "Perform a darken operation between two sources (minimum value of both "
 "sources)."
 msgstr ""
-"İki kaynak arasında (her iki kaynağın minimum değeri) bir karartma işlemi "
+"İki kaynak arasında (her iki kaynağın en küçük değeri) bir karartma işlemi "
 "gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
