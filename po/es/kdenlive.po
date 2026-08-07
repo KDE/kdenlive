@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-04 00:43+0000\n"
-"PO-Revision-Date: 2026-07-24 11:19+0100\n"
+"PO-Revision-Date: 2026-08-07 00:29+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -41202,10 +41202,9 @@ msgstr "Estilos"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
 #: src/ui/managesubtitles_ui.ui:323
-#, fuzzy, kde-format
-#| msgid "Edit Info…"
+#, kde-format
 msgid "Edit…"
-msgstr "Editar información…"
+msgstr "Editar…"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
