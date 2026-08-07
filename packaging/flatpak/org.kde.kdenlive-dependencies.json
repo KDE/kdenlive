@@ -11,8 +11,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2",
-                    "sha256": "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626",
+                    "url": "https://gitlab.com/libeigen/eigen/-/archive/5.0.1/eigen-5.0.1.tar.bz2",
+                    "sha256": "e4de6b08f33fd8b8985d2f204381408c660bffa6170ac65b68ae1bd3cd575c0a",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 666,
@@ -53,8 +53,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.fftw.org/fftw-3.3.10.tar.gz",
-                    "sha256": "56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467",
+                    "url": "https://www.fftw.org/fftw-3.3.11.tar.gz",
+                    "sha256": "5630c24cdeb33b131612f7eb4b1a9934234754f9f388ff8617458d0be6f239a1",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 803,
@@ -70,8 +70,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.5.tar.gz",
-                    "sha256": "a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf",
+                    "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.6.tar.gz",
+                    "sha256": "be89390f13a5c9b2388ce0f44a5e89364a20c1c57ce46d382b1fcc3967057577",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 13685,
@@ -159,8 +159,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/libass/libass/releases/download/0.17.3/libass-0.17.3.tar.xz",
-                    "sha256": "eae425da50f0015c21f7b3a9c7262a910f0218af469e22e2931462fed3c50959",
+                    "url": "https://github.com/libass/libass/releases/download/0.17.5/libass-0.17.5.tar.xz",
+                    "sha256": "2dca25c0e0c837ddf00b52011b3f82cac1e4ddd3ad018227806b0c2288864acc",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 1560,
@@ -210,8 +210,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v1.10.tar.gz",
-                    "sha256": "6e0c11aeb8392891750b0243c2ba695dab07654bf3f4e01adbed927b36cc690a",
+                    "url": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v1.21.tar.gz",
+                    "sha256": "7c5bb24fa6acbc98a4847b79f5a17a5eb80f81ae30d7e39b039e362d3692d6a3",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 326607,
@@ -248,18 +248,14 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://bitbucket.org/multicoreware/x265_git/downloads/x265_4.1.tar.gz",
-                    "sha256": "a31699c6a89806b74b0151e5e6a7df65de4b49050482fe5ebf8a4379d7af8f29",
+                    "url": "https://bitbucket.org/multicoreware/x265_git/downloads/x265_4.2.tar.gz",
+                    "sha256": "40b1ea0453e0309f0eba934e0ddf533f8f6295966679e8894e8f1c1c8d5e1210",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 7275,
                         "stable-only": true,
                         "url-template": "https://bitbucket.org/multicoreware/x265_git/downloads/x265_$version.tar.gz"
                     }
-                },
-                {
-                    "type": "patch",
-                    "path": "0001-Fix-CMake-build-error-with-latest-CMake-4.0-release.patch"
                 }
             ]
         },
@@ -272,8 +268,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2024.10.24.tar.gz",
-                    "sha256": "159f2a550592bae49859fee83d372acd152328fdf95c0dcd8b9409f8fad5db93",
+                    "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2026.05.29.tar.gz",
+                    "sha256": "d9e6c48357de5002da11ce45de600e0c3ffe6ab4f628a3b9fe2b38603161658a",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 223257,
@@ -292,8 +288,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.36.tar.gz",
-                    "sha256": "240a42033babc7920e5476506d5ac0c5628f67908833168e746406808d0ef146",
+                    "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.5.2.tar.gz",
+                    "sha256": "8a70b6dc85261e6e6e57769bd81ac1e09c0a4c96bbd5e358ffbc2dee51e8e50a",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 138182,
@@ -316,8 +312,8 @@
                 {
                     "type": "git",
                     "url": "https://github.com/FFmpeg/nv-codec-headers.git",
-                    "tag": "n13.0.19.0",
-                    "commit": "e844e5b26f46bb77479f063029595293aa8f812d",
+                    "tag": "n13.1.15.0",
+                    "commit": "0a6fba9a2820628b8103464f4c8753ee05838baa",
                     "x-checker-data": {
                         "type": "git",
                         "tag-pattern": "^n([\\d.]+)$"
@@ -334,8 +330,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/intel/libva/archive/refs/tags/2.22.0.tar.gz",
-                    "sha256": "467c418c2640a178c6baad5be2e00d569842123763b80507721ab87eb7af8735",
+                    "url": "https://github.com/intel/libva/archive/refs/tags/2.24.1.tar.gz",
+                    "sha256": "0b4a3649ee8d683b9cce2ef094df4fb039d276c0cef7e49337c43d3b297b9f42",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 1752,
@@ -354,8 +350,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.22.0.tar.gz",
-                    "sha256": "7b57615c130427ec134bb5d2b80af516ce5bb19a40e89b1dab46a0d59760d96c",
+                    "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.24.0.tar.gz",
+                    "sha256": "bf959a1ced3cde8176a7ff50ad358ee98e93301ac068581a8b2617c5b83afcb3",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 16334,
@@ -381,8 +377,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-25.1.3.tar.gz",
-                    "sha256": "28b1ec37cc747db296e0a8bdd824206aa26d14623737bcd94d245009976cc552",
+                    "url": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-26.3.0.tar.gz",
+                    "sha256": "205f96adb1ace4e853d576eca462d4cbd62b9c65883493d2cd0ec33d484c0120",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 368736,
@@ -467,8 +463,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.ffmpeg.org/releases/ffmpeg-8.0.1.tar.xz",
-                    "sha256": "05ee0b03119b45c0bdb4df654b96802e909e0a752f72e4fe3794f487229e5a41",
+                    "url": "https://www.ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz",
+                    "sha256": "464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 5405,
@@ -520,8 +516,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/opencv/opencv/archive/4.12.0.tar.gz",
-                    "sha256": "44c106d5bb47efec04e531fd93008b3fcd1d27138985c5baf4eafac0e1ec9e9d",
+                    "url": "https://github.com/opencv/opencv/archive/5.0.0.tar.gz",
+                    "sha256": "b0528f5a1d379d59d4701cb28c36e22214cc51cf64594e5b56f2d3e6c0233095",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6615,
@@ -531,8 +527,8 @@
                 },
                 {
                     "type": "archive",
-                    "url": "https://github.com/opencv/opencv_contrib/archive/4.12.0.tar.gz",
-                    "sha256": "4197722b4c5ed42b476d42e29beb29a52b6b25c34ec7b4d589c3ae5145fee98e",
+                    "url": "https://github.com/opencv/opencv_contrib/archive/5.0.0.tar.gz",
+                    "sha256": "c58f6344170c39abf187c56f3843b59cab1fd3e89cf19ba2ce25dc061659b27f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6615,
@@ -547,13 +543,14 @@
             "buildsystem": "cmake-ninja",
             "builddir": true,
             "config-opts": [
-                "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+                "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+                "-DWITHOUT_OPENCV=ON"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/dyne/frei0r/archive/v3.1.2.tar.gz",
-                    "sha256": "2c848c6022a0f1b02be0568b99c7c353df82700235e85888f31ca97efded391c",
+                    "url": "https://github.com/dyne/frei0r/archive/v3.2.3.tar.gz",
+                    "sha256": "898f80e5fdae6108a2d9b2317649af576a4b5e636c73429ee11b64397a596e12",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 10670,
@@ -650,7 +647,7 @@
             "name": "opentimelineio",
             "buildsystem": "cmake-ninja",
             "builddir": true,
-            "config-opts":[
+            "config-opts": [
                 "-DOTIO_FIND_IMATH=ON",
                 "-DOTIO_DEPENDENCIES_INSTALL=OFF",
                 "-DBUILD_TESTING=OFF"
