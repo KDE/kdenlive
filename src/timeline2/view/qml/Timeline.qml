@@ -707,7 +707,7 @@ function getTrackColor(audio, header) {
                 var track = Logic.getTrackIdFromPos(drag.y + voffset + scrollView.contentY - subtitleTrack.height)
                 if (track !== -1) {
                     var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
-                    if (root.controller.isAudioTrack(track) != isAudioDrag) {
+                    if (root.controller.isAudioTrack(track) != compoArea.isAudioDrag) {
                         // Don't allow moving composition to an audio track
                         track = root.controller.getCompositionTrackId(root.clipBeingDroppedId)
                     }
@@ -717,7 +717,7 @@ function getTrackColor(audio, header) {
                     sameCutPos = root.timeline.isOnCut(root.clipBeingDroppedId)
                     if (sameCutPos > -1) {
                         var sourceTrack = Logic.getTrackById(fakeTrack)
-                        if ((drag.y < sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
+                        if ((drag.y < sourceTrack.y + sourceTrack.height / 2) || compoArea.isAudioDrag) {
                             sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
                             sameTrackIndicator.y = sourceTrack.y
                             sameTrackIndicator.height = sourceTrack.height
@@ -746,8 +746,8 @@ function getTrackColor(audio, header) {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                 var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                 root.droppedPosition = frame
-                isAudioDrag = drag.getDataAsString('type') == "audio"
-                if (track >= 0 && root.controller.isAudioTrack(track) == isAudioDrag) {
+                compoArea.isAudioDrag = drag.getDataAsString('type') == "audio"
+                if (track >= 0 && root.controller.isAudioTrack(track) == compoArea.isAudioDrag) {
                     root.clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     root.clipBeingDroppedId = root.timeline.insertComposition(track, frame, root.clipBeingDroppedData, false)
                     root.continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
@@ -777,7 +777,7 @@ function getTrackColor(audio, header) {
                         yOffset = subtitleTrack.height
                     }
                     var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
-                    if (track !== -1 && root.controller.isAudioTrack(track) == isAudioDrag) {
+                    if (track !== -1 && root.controller.isAudioTrack(track) == compoArea.isAudioDrag) {
                         frame = root.controller.suggestSnapPoint(frame, root.snapping)
                         root.clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         root.clipBeingDroppedId = root.timeline.insertComposition(track, frame, root.clipBeingDroppedData , false)
@@ -808,11 +808,8 @@ function getTrackColor(audio, header) {
                 if (sameTrackIndicator.visible) {
                     // We want a same track composition
                     root.timeline.insertNewMix(track, sameCutPos, root.clipBeingDroppedData)
-                } else if (!isAudioDrag) {
-                    root.timeline.insertNewCompositionAtPos(track, frame, root.clipBeingDroppedData)
                 } else {
-                    // Cannot insert an audio mix composition
-                    // TODO: show warning
+                    root.timeline.insertNewCompositionAtPos(track, frame, root.clipBeingDroppedData)
                 }
             }
             root.clearDropData()

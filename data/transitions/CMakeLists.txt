@@ -3,6 +3,7 @@
 
 INSTALL (FILES 
 affine.xml
+autoduck.xml
 composite.xml
 dissolve.xml
 luma.xml
