@@ -7093,7 +7093,7 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     bool timeremap = m_allClips[clipId]->hasTimeRemap();
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    int updatedDuration = qCeil(binClip->frameDuration() / speed);
+    int updatedDuration = qCeil(binClip->frameDuration() / qAbs(speed));
     bool clipIsShorter = oldOut > updatedDuration;
     if (clipIsShorter) {
         // Check if clip should be completely deleted
