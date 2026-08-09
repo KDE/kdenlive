@@ -31,29 +31,28 @@ Row {
         id: thumbRepeater
         // switching the model allows one to have different view modes.
         // We set the model to the number of frames we want to show
-        model: switch (thumbRow.thumbsFormat) {
+        model: {
+            switch (thumbRow.thumbsFormat) {
                    case 0:
                        // in/out
                        if (parent.width > thumbRow.thumbWidth) {
-                           2 // 2: will display start / end thumbs
+                           return 2 // 2: will display start / end thumbs
                        } else {
-                           1 // 1: if the width of the container is to small, only show first thumbnail
+                           return 1 // 1: if the width of the container is to small, only show first thumbnail
                        }
-                       break;
                    case 1:
                        // All frames
                        // display as many thumbnails as can fit into the container
-                       Math.ceil(parent.width / thumbRow.thumbWidth)
-                       break;
+                       return Math.ceil(parent.width / thumbRow.thumbWidth)
                    case 2:
                        // In frame only
-                       1 // 1: only show first thumbnail
-                       break;
+                       return 1 // 1: only show first thumbnail
                    case 3:
                    default:
                        // No thumbs
-                       0 // 0: will disable thumbnails
+                       return 0 // 0: will disable thumbnails
                }
+        }
         property int startFrame: thumbRow.parentClip.inPoint
         property int endFrame: thumbRow.parentClip.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, parent.width / thumbRepeater.count)
