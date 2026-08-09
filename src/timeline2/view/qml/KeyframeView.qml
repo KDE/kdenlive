@@ -121,6 +121,8 @@ Rectangle
                 parentInPoint: keyframeContainer.inPoint
                 allowUserInteraction: !keyframeContainer.isPanning
                 parentItemId: keyframeContainer.clipId
+                keyframeContainerWidth: keyframeContainer.width
+                keyframeContainerHeight: keyframeContainer.height
 
                 onRequestRepaint: {
                     keyframecanvas.requestPaint()
