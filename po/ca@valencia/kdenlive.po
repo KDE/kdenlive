@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-08 00:44+0000\n"
-"PO-Revision-Date: 2026-08-03 09:46+0200\n"
+"PO-Revision-Date: 2026-08-08 12:07+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -19491,10 +19491,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr "Porta a terme una transformació afí per a la composició."
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "Auto"
+msgstr "Auto Duck"
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -19502,29 +19501,28 @@ msgid ""
 "Applies a volume change on the lower track depending on the volume of the "
 "upper track."
 msgstr ""
+"Aplica un canvi de volum a la pista inferior depenent del volum de la pista "
+"superior."
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "High Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "Llindar superior"
+msgstr "Llindar del «ducking»"
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Attenuation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "Atenuació"
+msgstr "Atenuació del «ducking»"
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "Fosa d'entrada"
+msgstr "Fosa d'entrada del «ducking»"
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
 msgid "Ducking Fade Out"
-msgstr ""
+msgstr "Fosa d'eixida del «ducking»"
 
 #: data/transitions/composite.xml:4
 #, kde-format

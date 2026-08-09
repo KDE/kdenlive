@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-08 00:44+0000\n"
-"PO-Revision-Date: 2026-08-03 16:27+0200\n"
+"PO-Revision-Date: 2026-08-08 18:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19412,10 +19412,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr "Een affine transformatie uitvoeren voor compositing."
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "Automatisch"
+msgstr "Automatische duck"
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -19423,29 +19422,28 @@ msgid ""
 "Applies a volume change on the lower track depending on the volume of the "
 "upper track."
 msgstr ""
+"Past een volumewijziging toe op het onderste spoor, afhankelijk van het "
+"volume van het bovenste spoor."
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "High Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "Hoge drempel"
+msgstr "Drempel voor ducking"
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Attenuation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "Verzwakking"
+msgstr "Verzwakking van ducking"
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "Invagen"
+msgstr "Invagen van ducking"
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
 msgid "Ducking Fade Out"
-msgstr ""
+msgstr "Uitvagen van ducking"
 
 #: data/transitions/composite.xml:4
 #, kde-format

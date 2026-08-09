@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-08 00:44+0000\n"
-"PO-Revision-Date: 2026-08-03 05:41+0200\n"
+"PO-Revision-Date: 2026-08-08 06:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -18510,10 +18510,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr "აფინური გადაყვანა კომპოზიციისთვის."
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "ავტომატური"
+msgstr "ავტო დაკინგი"
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -18523,27 +18522,24 @@ msgid ""
 msgstr ""
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "High Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "მაღალი ზღვარი"
+msgstr "დაკინგის ზღვარი"
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Attenuation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "ატენუაცია"
+msgstr "დაკინგის ატენუაცია"
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "გამოჩენა"
+msgstr "დაკინგის გამოჩენა"
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
 msgid "Ducking Fade Out"
-msgstr ""
+msgstr "დაკინგის მინავლება"
 
 #: data/transitions/composite.xml:4
 #, kde-format
