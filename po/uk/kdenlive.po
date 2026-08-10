@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-08 00:44+0000\n"
-"PO-Revision-Date: 2026-08-03 08:27+0300\n"
+"PO-Revision-Date: 2026-08-08 13:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -19409,10 +19409,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr "Виконати афінне перетворення для композиції."
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "Авто"
+msgstr "Автопригнічення"
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -19420,29 +19419,28 @@ msgid ""
 "Applies a volume change on the lower track depending on the volume of the "
 "upper track."
 msgstr ""
+"Застосовує зміну гучності до нижньої доріжки залежно від гучності верхньої "
+"доріжки."
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "High Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "Верхній поріг"
+msgstr "Поріг блокування"
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Attenuation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "Затримування"
+msgstr "Затримування пригнічення"
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "Наростання"
+msgstr "Згасання пригнічення"
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
 msgid "Ducking Fade Out"
-msgstr ""
+msgstr "Наростання пригнічення"
 
 #: data/transitions/composite.xml:4
 #, kde-format
