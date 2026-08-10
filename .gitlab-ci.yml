@@ -17,7 +17,9 @@ include:
       - /gitlab-templates/windows-qt6.yml
       # CD Qt6
       - /gitlab-templates/flatpak.yml
-      - /gitlab-templates/snap-snapcraft-lxd.yml
+      # Snap builds are failing since many days,
+      # feel free to re-enable if you fixed it
+      #- /gitlab-templates/snap-snapcraft-lxd.yml
   - project: sysadmin/craft-ci
     file:
       - /gitlab-templates/appimage-qt6.yml
