@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QPainter>
 
+#include <kddockwidgets/DockWidget.h>
 #include <kddockwidgets/Config.h>
 #include <kddockwidgets/core/Group.h>
 #include <kddockwidgets/core/Separator.h>
