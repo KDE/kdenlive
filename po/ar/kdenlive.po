@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-28 02:43+0000\n"
-"PO-Revision-Date: 2026-07-17 18:12+0400\n"
+"PO-Revision-Date: 2026-08-10 18:21+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -21173,12 +21173,12 @@ msgstr "تفتح قائمة لضبط سلة المشروع (مثل نمط الع
 #: src/bin/bin.cpp:1625
 #, kde-format
 msgid "Show Date"
-msgstr "أعرض التاريخ"
+msgstr "اعرض التاريخ"
 
 #: src/bin/bin.cpp:1629
 #, kde-format
 msgid "Show Description"
-msgstr "أعرض الوصف"
+msgstr "اعرض الوصف"
 
 #: src/bin/bin.cpp:1633
 #, kde-format
@@ -23220,7 +23220,7 @@ msgstr "يفتقد تنفيذي"
 #: src/dialogs/clipjobmanager.cpp:259
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr "البرنامج النصي أو التطبيق %1 الخاص بك غير قابل للتنفيذ،غيّر الأذونات"
+msgstr "البرنامج النصي أو التطبيق %1 الخاص بك غير قابل للتنفيذ،غيّر الأذون"
 
 #: src/dialogs/clipjobmanager.cpp:287
 #, kde-format
@@ -24167,7 +24167,7 @@ msgid ""
 "Please make sure you have the required permissions."
 msgstr ""
 "تعذّر إنشاء الدّليل %1.\n"
-"رجاء تحقّق من امتلاكك الأذونات المطلوبة."
+"رجاء تحقّق من امتلاكك الأذون المطلوبة."
 
 #: src/dialogs/renderwidget.cpp:1052
 #, kde-format
@@ -26992,7 +26992,7 @@ msgid ""
 "Defaulting to system folders"
 msgstr ""
 "تعذّر إنشاء دليل المشروع %1.\n"
-"رجاء تحقّق من امتلاكك الأذونات المطلوبة.\n"
+"رجاء تحقّق من امتلاكك الأذون المطلوبة.\n"
 "سيستخدم مجلدات النظام المبدئية"
 
 #: src/doc/kdenlivedoc.cpp:298
@@ -29545,7 +29545,7 @@ msgstr ""
 #: src/mainwindow.cpp:1540
 #, kde-format
 msgid "Show Clip Names"
-msgstr "أعرض أسماء المقاطع"
+msgstr "اعرض أسماء المقاطع"
 
 #: src/mainwindow.cpp:1541
 #, kde-kuit-format
