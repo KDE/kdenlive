@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-08 00:44+0000\n"
-"PO-Revision-Date: 2026-07-17 18:12+0400\n"
+"PO-Revision-Date: 2026-08-10 18:21+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -19019,10 +19019,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr "إجراء تحويل تآلفي على التركيب."
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "آليّ"
+msgstr "الخفض الآلي للصوت"
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -19030,29 +19029,28 @@ msgid ""
 "Applies a volume change on the lower track depending on the volume of the "
 "upper track."
 msgstr ""
+"يطبّق تغييرًا في مستوى الصوت على المسار السفلي اعتمادًا على مستوى صوت المسار "
+"العلوي."
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "High Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "عتبة عالية"
+msgstr " عتبة خفض الصوت"
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Attenuation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "التوهين"
+msgstr "نسبة خفض/تخفيف الصوت"
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "ظهور تدريجي"
+msgstr "سرعة استعادة الصوت"
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
 msgid "Ducking Fade Out"
-msgstr ""
+msgstr "سرعة خفض الصوت"
 
 #: data/transitions/composite.xml:4
 #, kde-format
@@ -21208,12 +21206,12 @@ msgstr "تفتح قائمة لضبط سلة المشروع (مثل نمط الع
 #: src/bin/bin.cpp:1625
 #, kde-format
 msgid "Show Date"
-msgstr "أعرض التاريخ"
+msgstr "اعرض التاريخ"
 
 #: src/bin/bin.cpp:1629
 #, kde-format
 msgid "Show Description"
-msgstr "أعرض الوصف"
+msgstr "اعرض الوصف"
 
 #: src/bin/bin.cpp:1633
 #, kde-format
@@ -23255,7 +23253,7 @@ msgstr "يفتقد تنفيذي"
 #: src/dialogs/clipjobmanager.cpp:259
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr "البرنامج النصي أو التطبيق %1 الخاص بك غير قابل للتنفيذ،غيّر الأذونات"
+msgstr "البرنامج النصي أو التطبيق %1 الخاص بك غير قابل للتنفيذ،غيّر الأذون"
 
 #: src/dialogs/clipjobmanager.cpp:287
 #, kde-format
@@ -24202,7 +24200,7 @@ msgid ""
 "Please make sure you have the required permissions."
 msgstr ""
 "تعذّر إنشاء الدّليل %1.\n"
-"رجاء تحقّق من امتلاكك الأذونات المطلوبة."
+"رجاء تحقّق من امتلاكك الأذون المطلوبة."
 
 #: src/dialogs/renderwidget.cpp:1052
 #, kde-format
@@ -27027,7 +27025,7 @@ msgid ""
 "Defaulting to system folders"
 msgstr ""
 "تعذّر إنشاء دليل المشروع %1.\n"
-"رجاء تحقّق من امتلاكك الأذونات المطلوبة.\n"
+"رجاء تحقّق من امتلاكك الأذون المطلوبة.\n"
 "سيستخدم مجلدات النظام المبدئية"
 
 #: src/doc/kdenlivedoc.cpp:298
@@ -29579,7 +29577,7 @@ msgstr ""
 #: src/mainwindow.cpp:1540
 #, kde-format
 msgid "Show Clip Names"
-msgstr "أعرض أسماء المقاطع"
+msgstr "اعرض أسماء المقاطع"
 
 #: src/mainwindow.cpp:1541
 #, kde-kuit-format
@@ -40358,10 +40356,9 @@ msgstr "الطُرُز"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
 #: src/ui/managesubtitles_ui.ui:323
-#, fuzzy, kde-format
-#| msgid "Edit Info…"
+#, kde-format
 msgid "Edit…"
-msgstr "حرّر المعلومات…"
+msgstr "حرّر…"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
