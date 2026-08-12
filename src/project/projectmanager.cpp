@@ -733,24 +733,19 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         sourceTime = sourceInfo.lastModified();
     }
     KAutoSaveFile *orphanedFile = nullptr;
-    // Check if we can have a lock on one of the file,
-    // meaning it is not handled by any Kdenlive instance
     if (!staleFiles.isEmpty()) {
         for (KAutoSaveFile *stale : staleFiles) {
-            if (!stale->open(QIODevice::QIODevice::ReadWrite)) {
+            if (!stale->open(QIODevice::ReadWrite)) {
                 delete stale;
                 continue;
             }
-            // Found orphaned autosave file
-            if (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime) {
+            if (!orphanedFile && (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime)) {
                 orphanedFile = stale;
-                break;
             } else {
                 delete stale;
             }
         }
     }
-
     if (orphanedFile) {
         Q_EMIT pCore->GUISetupDone();
         if (KMessageBox::questionTwoActions(nullptr, i18n("Auto-saved file exists. Do you want to recover now?"), i18n("File Recovery"),
@@ -758,11 +753,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
             doOpenFile(url, orphanedFile);
             return true;
         }
-    }
-    // remove the stale files
-    for (KAutoSaveFile *stale : staleFiles) {
-        stale->open(QIODevice::ReadWrite);
-        delete stale;
+        delete orphanedFile;
     }
     return false;
 }
