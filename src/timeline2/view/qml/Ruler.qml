@@ -21,6 +21,9 @@ Item {
     required property K.TimelineItemModel controller
     required property K.MonitorProxy monitorProxy
     required property K.MarkerSortModel guidesModel
+    required property int snapping
+    required property int rulercontainerWidth
+    required property int scrollViewContentX
 
     FontMetrics {
         id: fontMetrics
@@ -35,8 +38,8 @@ Item {
     property real scalingFactor: 1.
     property real tickSpacing: scalingFactor
     property alias rulerZone : zone
-    property int workingPreview : timeline.workingPreview
-    property int timecodeOffset : timeline.timecodeOffset
+    readonly property int workingPreview : timeline.workingPreview
+    readonly property int timecodeOffset : timeline.timecodeOffset
     property int rulerOffset: 0
     property int labelMod: 1
     property int zoneHeight: Math.ceil(K.UiUtils.baseSizeMedium / 2) + 1
@@ -44,13 +47,17 @@ Item {
     readonly property bool resizeActive: zone.resizeActive || effectZone.resizeActive // Used to decide which mouse cursor we should display
     property bool hoverGuide: false
     property bool hoverResizeHandle: false
-    property int cursorShape: resizeActive ? Qt.SizeHorCursor : hoverResizeHandle ? Qt.SizeHorCursor : hoverGuide ? Qt.PointingHandCursor : Qt.ArrowCursor
-    property var effectZones: timeline.masterEffectZones
-    property int guideLabelHeight: K.KdenliveSettings.showmarkers ? fontMetrics.height : 0
-    property int previewHeight: Math.ceil(timecodeContainer.height / 5)
+    readonly property int cursorShape: resizeActive ? Qt.SizeHorCursor : hoverResizeHandle ? Qt.SizeHorCursor : hoverGuide ? Qt.PointingHandCursor : Qt.ArrowCursor
+    readonly property var effectZones: timeline.masterEffectZones
+    readonly property int guideLabelHeight: K.KdenliveSettings.showmarkers ? fontMetrics.height : 0
+    readonly property int previewHeight: Math.ceil(timecodeContainer.height / 5)
     property color dimmedColor: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
     property color dimmedColor2: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 2.2) : Qt.lighter(activePalette.text, 2.2)
     
+    signal showRulerMenu()
+    signal zoomByWheel(var wheel)
+    signal markerActivated(int frame)
+
     function adjustStepSize() {
         if (rulerRoot.scalingFactor > 19) {
             // Frame size >= 20 pixels
@@ -63,7 +70,7 @@ Item {
         }
         rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + K.UiUtils.baseSizeMedium) / rulerRoot.tickSpacing))
         //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing)))
-        tickRepeater.model = Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
+        tickRepeater.model = Math.ceil(rulercontainerWidth / rulerRoot.tickSpacing) + 2
     }
 
     function adjustFormat() {
@@ -75,7 +82,7 @@ Item {
     function repaintRuler() {
         // Enforce repaint
         tickRepeater.model = 0
-        tickRepeater.model = Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
+        tickRepeater.model = Math.ceil(rulercontainerWidth / rulerRoot.tickSpacing) + 2
     }
 
     // Timeline preview stuff
@@ -227,7 +234,7 @@ Item {
                     onPositionChanged: mouse => {
                         if (pressed) {
                             var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
-                            newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                            newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping)
                             if (newFrame != destFrame) {
                                 var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                 if (frame > -1) {
@@ -246,7 +253,7 @@ Item {
                             rulerRoot.monitorProxy.position = guideRoot.model.frame
                         }
                         if (mouse.button == Qt.RightButton) {
-                            root.showRulerMenu()
+                            rulerRoot.showRulerMenu()
                         }
                     }
                     onEntered: {
@@ -305,7 +312,7 @@ Item {
 
                                 var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
                                 var newStartPosition = Math.max(0, startPosition + deltaFrames)
-                                newStartPosition = rulerRoot.controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                                newStartPosition = rulerRoot.controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping)
                                 var newDuration = Math.max(1, originalEndPosition - newStartPosition)
 
                                 currentNewStartPosition = newStartPosition
@@ -393,7 +400,7 @@ Item {
                                 
                                 var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
                                 var newDuration = Math.max(1, startDuration + deltaFrames)
-                                newDuration = rulerRoot.controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping) - startPosition
+                                newDuration = rulerRoot.controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping) - startPosition
                                 
                                 rangeSpan.width = Math.max(1, newDuration * rulerRoot.timeline.scaleFactor)
                                 
@@ -510,7 +517,7 @@ Item {
                                 rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
                                 rulerRoot.timeline.moveGuideById(movingMarkerId, destFrame)
                             } else {
-                                root.markerActivated(prevFrame)
+                                rulerRoot.markerActivated(prevFrame)
                             }
                             rulerRoot.timeline.pauseGuideSorting(false)
                             anchors.left = parent.left
@@ -519,7 +526,7 @@ Item {
                         onPositionChanged: mouse => {
                             if (pressed) {
                                 var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
-                                newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                                newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping)
                                 if (newFrame != destFrame) {
                                     var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                     if (frame > -1) {
@@ -535,7 +542,7 @@ Item {
                                 rulerRoot.monitorProxy.position = guideRoot.model.frame
                             }
                             if (mouse.button == Qt.RightButton) {
-                                root.showRulerMenu()
+                                rulerRoot.showRulerMenu()
                             }
                         }
                         onEntered: {
@@ -561,8 +568,8 @@ Item {
         anchors.right: parent.right
     Repeater {
         id: tickRepeater
-        model: Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
-        property int offset: Math.floor(rulercontainer.contentX /rulerRoot.tickSpacing)
+        model: Math.ceil(rulerRoot.rulercontainerWidth / rulerRoot.tickSpacing) + 2
+        property int offset: Math.floor(rulerRoot.scrollViewContentX / rulerRoot.tickSpacing)
         Item {
             required property int index
             property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / rulerRoot.timeline.scaleFactor
@@ -599,7 +606,7 @@ Item {
                 pos = Math.min(pos, width)
                 var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
-                    frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, root.snapping)
+                    frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
                 }
                 console.log('PRESSED ON FRAME: ', frame, ', OFFSET: ', rulerRoot.rulerOffset)
                 rulerRoot.monitorProxy.position = frame + rulerRoot.rulerOffset
@@ -612,7 +619,7 @@ Item {
                 pos = Math.min(pos, width)
                 var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
-                    frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, root.snapping)
+                    frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
                 }
                 rulerRoot.monitorProxy.position = frame + rulerRoot.rulerOffset
             }
@@ -624,7 +631,7 @@ Item {
         }
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
-                root.zoomByWheel(wheel)
+                rulerRoot.zoomByWheel(wheel)
             } else {
                 wheel.accepted = false
             }
@@ -635,16 +642,10 @@ Item {
         id: zone
         z: 3
         timeline: rulerRoot.timeline
-        Binding {
-            target: zone
-            property: "frameIn"
-            value: rulerRoot.timeline.zoneIn
-        }
-        Binding {
-            target: zone
-            property: "frameOut"
-            value: rulerRoot.timeline.zoneOut
-        }
+        frameIn: rulerRoot.timeline.zoneIn
+        frameOut: rulerRoot.timeline.zoneOut
+        snapping: rulerRoot.snapping
+        showZoneLabels: rulerRoot.showZoneLabels
         color: rulerRoot.timeline.useRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
         Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
         anchors.bottom: parent.bottom
@@ -673,16 +674,10 @@ Item {
         id: effectZone
         z: 2
         timeline: rulerRoot.timeline
-        Binding {
-            target: effectZone
-            property: "frameIn"
-            value: rulerRoot.timeline.effectZone.x
-        }
-        Binding {
-            target: effectZone
-            property: "frameOut"
-            value: rulerRoot.timeline.effectZone.y
-        }
+        frameIn: rulerRoot.timeline.effectZone.x
+        frameOut: rulerRoot.timeline.effectZone.y
+        snapping: rulerRoot.snapping
+        showZoneLabels: rulerRoot.showZoneLabels
         color: "orchid"
         anchors.bottom: parent.bottom
         height: rulerRoot.zoneHeight - 1

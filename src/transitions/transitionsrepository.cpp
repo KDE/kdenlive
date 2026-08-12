@@ -111,7 +111,7 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         if (customAssets.count(result.id) > 0) {
             // qDebug() << "duplicate transition" << result.id;
         }
-        if (m_hiddenList.contains(result.mltId)) {
+        if (m_hiddenList.contains(result.id)) {
             result.type = AssetListType::AssetType::Hidden;
         }
         customAssets[result.id] = result;

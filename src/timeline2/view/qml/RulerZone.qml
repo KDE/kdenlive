@@ -14,8 +14,11 @@ Rectangle {
     id: rzone
     required property K.TimelineController timeline
 
-    property int frameIn: 0
-    property int frameOut: 0
+    required property int frameIn
+    required property int frameOut
+    required property int snapping
+    required property bool showZoneLabels
+
     property bool resizeActive: false
 
     signal updateZone(point start, point end, bool update)
@@ -84,12 +87,12 @@ Rectangle {
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     rzone.resizeActive = true
-                    var offset = Math.round(mouseX/ rzone.timeline.scaleFactor)
+                    var offset = Math.round(mouseX / rzone.timeline.scaleFactor)
                     if (offset != 0) {
-                        var newPos = Math.max(0, controller.suggestSnapPoint(rzone.frameIn + offset,mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping))
+                        var newPos = Math.max(0, rzone.timeline.suggestSnapPoint(rzone.frameIn + offset, mouse.modifiers & Qt.ShiftModifier ? -1 : rzone.snapping))
                         if (newPos == rzone.frameIn + offset) {
                             // No snap at start, check end
-                            var newPos = Math.max(0, controller.suggestSnapPoint(rzone.frameOut + offset,mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping))
+                            var newPos = Math.max(0, rzone.timeline.suggestSnapPoint(rzone.frameOut + offset, mouse.modifiers & Qt.ShiftModifier ? -1 : rzone.snapping))
                             if (newPos == rzone.frameOut + offset) {
                                 newPos = rzone.frameIn + offset
                             } else {
@@ -142,7 +145,7 @@ Rectangle {
         id: durationRect
         anchors.bottom: rzone.top
         visible: (!rzone.timeline.useRuler && moveMouseArea.containsMouse && !moveMouseArea.pressed)
-                 || ((rzone.timeline.useRuler || trimInMouseArea.drag.active || trimOutMouseArea.drag.active) && showZoneLabels && parent.width > 3 * width)
+                 || ((rzone.timeline.useRuler || trimInMouseArea.drag.active || trimOutMouseArea.drag.active) && rzone.showZoneLabels && parent.width > 3 * width)
                  || (rzone.timeline.useRuler && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active)
         anchors.horizontalCenter: parent.horizontalCenter
         width: durationLabel.contentWidth + 4
@@ -197,7 +200,7 @@ Rectangle {
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         rzone.resizeActive = true
-                        var newPos = controller.suggestSnapPoint(rzone.frameIn + Math.round(trimIn.x / rzone.timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
+                        var newPos = rzone.timeline.suggestSnapPoint(rzone.frameIn + Math.round(trimIn.x / rzone.timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : rzone.snapping)
                         if (newPos < 0) {
                             newPos = 0
                         }
@@ -247,8 +250,8 @@ Rectangle {
                     if (mouse.buttons === Qt.LeftButton) {
                         rzone.resizeActive = true
                         rzone.frameOut = Math.max(
-                                               controller.suggestSnapPoint(rzone.frameIn + Math.round((trimOut.x + trimOut.width) / rzone.timeline.scaleFactor),
-                                                                           mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping),
+                                               rzone.timeline.suggestSnapPoint(rzone.frameIn + Math.round((trimOut.x + trimOut.width) / rzone.timeline.scaleFactor),
+                                                                           mouse.modifiers & Qt.ShiftModifier ? -1 : rzone.snapping),
                                                rzone.frameIn + 1)
                     }
                 }

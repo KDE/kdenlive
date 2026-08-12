@@ -1854,7 +1854,7 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
     Q_ASSERT(isTrack(trackId));
     int currentPos = getCompositionPosition(compoId);
     int currentTrack = getCompositionTrackId(compoId);
-    if (getTrackById_const(trackId)->isAudioTrack()) {
+    if (getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(currentTrack)->isAudioTrack()) {
         // Trying move on incompatible track type, stay on same track
         trackId = currentTrack;
     }
@@ -6515,7 +6515,12 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
     if (compositionTrack == -1 || (compositionTrack > 0 && trackId == getTrackIndexFromPosition(compositionTrack - 1))) {
-        compositionTrack = getPreviousVideoTrackPos(trackId);
+        int previousTrack = getPreviousTrackId(trackId);
+        if (previousTrack == trackId) {
+            compositionTrack = 0;
+        } else {
+            compositionTrack = getTrackMltIndex(previousTrack);
+        }
     }
     if (compositionTrack == -1) {
         // it doesn't make sense to insert a composition on the last track
@@ -6645,11 +6650,9 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         resource = transition.get("mlt_service");
         int internal = transition.get_int("internal_added");
         if (internal > 0) {
-            if (resource != QLatin1String("mix")) {
-                trackCompositions << new Mlt::Transition(transition);
-                field->disconnect_service(transition);
-                transition.disconnect_all_producers();
-            }
+            trackCompositions << new Mlt::Transition(transition);
+            field->disconnect_service(transition);
+            transition.disconnect_all_producers();
         }
 
         if (nextservice == nullptr) {
@@ -7080,7 +7083,7 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     bool timeremap = m_allClips[clipId]->hasTimeRemap();
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    int updatedDuration = qCeil(binClip->frameDuration() / speed);
+    int updatedDuration = qCeil(binClip->frameDuration() / qAbs(speed));
     bool clipIsShorter = oldOut > updatedDuration;
     if (clipIsShorter) {
         // Check if clip should be completely deleted

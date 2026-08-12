@@ -13,7 +13,9 @@ Rectangle
     id: keyframeContainer
     property int kfrCount : keyframes.count
     anchors.fill: parent
+    SystemPalette { id: activePalette }
     color: Qt.rgba(1,1,0.8, 0.3)
+    property int consumerPosition
     property int activeIndex
     property int inPoint
     property int outPoint
@@ -23,13 +25,16 @@ Rectangle
     property bool selected
     property var kfrModel
     property int scrollStart
-    property int containerWidth
     property bool isPanning
     property color textColor: activePalette.text
     property color kfColor: activePalette.highlight
+    property int timelineScrollViewWidth
+    property real timeScale
+    property K.TimelineController timeline
     property alias kfrCanvas: keyframecanvas
-    property double timescale
     signal seek(int position)
+    signal updateEffectKeyframe(int clipId, int oldFrame, int newFrame)
+    signal blockAutoScroll(bool enabled)
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
@@ -110,7 +115,7 @@ Rectangle
                  && (keyframeContainer.kfrCount < (keyframeContainer.width / K.UiUtils.baseSizeMedium)) && keyframeContainer.kfrCount > 1
         onDoubleClicked: {
             var newVal = (height - mouseY) / height
-            var newPos = Math.round(mouseX / keyframeContainer.timescale) + keyframeContainer.inPoint
+            var newPos = Math.round(mouseX / keyframeContainer.timeScale) + keyframeContainer.inPoint
             //root.timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
             keyframeContainer.kfrModel.addKeyframe(newPos, newVal);
         }
@@ -119,19 +124,32 @@ Rectangle
             model: keyframeContainer.kfrModel
             KeyframeDelegate {
                 id: keyframe
-                timeScale: root.timeScale
+                timeScale: keyframeContainer.timeScale
                 kfrModel: keyframeContainer.kfrModel
-                timeline: root.timeline
+                timeline: keyframeContainer.timeline
+                keyframeModelOffset: keyframeContainer.modelStart
                 parentInPoint: keyframeContainer.inPoint
-                allowUserInteraction: !root.isPanning
+                allowUserInteraction: !keyframeContainer.isPanning
                 parentItemId: keyframeContainer.ownerId
+                keyframeContainerWidth: keyframeContainer.width
+                keyframeContainerHeight: keyframeContainer.height
+                keyframeColor: keyframeContainer.kfColor
+                consumerPosition: keyframeContainer.consumerPosition
 
                 onRequestRepaint: {
                     keyframecanvas.requestPaint()
                 }
 
+                onBlockAutoScroll: (block) => {
+                    keyframeContainer.blockAutoScroll(block)
+                }
+
                 onSeek: (position) => {
                     keyframeContainer.seek(position)
+                }
+
+                onSeekToIx: (ix) => {
+                    keyframeContainer.seek((keyframes.itemAt(ix) as KeyframeDelegate).frame + keyframe.keyframeModelOffset - keyframe.parentInPoint)
                 }
 
                 onKeyframeSelected: (index, add, setActive) => {
@@ -142,7 +160,9 @@ Rectangle
 
                 onResetSelection: { keyframeContainer.resetSelection() }
 
-                onIsUserInteractingChanged: { root.blockAutoScroll = isUserInteracting }
+                onIsUserInteractingChanged: { keyframeContainer.blockAutoScroll(isUserInteracting) }
+
+                onFocusKeyframeContainer: () => { keyframeContainer.focus = true }
             }
         }
     }
@@ -150,12 +170,11 @@ Rectangle
         id: keyframecanvas
         contextType: "2d"
         renderStrategy: Canvas.Threaded
-        property int offset: keyframeContainer.scrollStart < 0 || parent.width <= keyframeContainer.containerWidth ? 0 : keyframeContainer.scrollStart
+        property int offset: keyframeContainer.scrollStart < 0 || parent.width <= keyframeContainer.timelineScrollViewWidth ? 0 : keyframeContainer.scrollStart
         property bool exitLoop: false
         anchors.left: parent.left
         anchors.leftMargin: offset
-        anchors.right: parent.right
-        //width: keyframeContainer.kfrCount > 0 ? Math.min(keyframeContainer.width, keyframeContainer.containerWidth) : 0
+        width: keyframeContainer.kfrCount > 0 ? Math.min(parent.width, keyframeContainer.timelineScrollViewWidth) : 0
         height: keyframeContainer.kfrCount > 0 ? parent.height : 0
         opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
@@ -178,7 +197,7 @@ Rectangle
         Path {
             id: myPath
             startX: 0
-            startY: parent.height
+            startY: keyframeContainer.parent.height
         }
 
         onPaint: {
@@ -443,7 +462,7 @@ Rectangle
                         paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                         break;
                 }
-                if (xpos > keyframeContainer.containerWidth) {
+                if (xpos > keyframeContainer.timelineScrollViewWidth) {
                     if (exitLoop) {
                         break;
                     }

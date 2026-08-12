@@ -20,6 +20,10 @@ Item {
     required property K.TimelineItemModel controller
     required property bool isPanning
     required property double timeScale
+    required property int snapping
+    required property Flickable timelineScrollView
+    required property int consumerPosition
+    required property var groupTrimData
 
     readonly property bool isUserInteracting: subtitleClipArea.pressed || startMouseArea.pressed || endMouseArea.pressed
 
@@ -33,9 +37,14 @@ Item {
     property bool selected
     property bool isGrabbed: false
     property int subLayer
-    height: subtitleTrack.height / (timeline.maxSubLayer + 1)
     property int handleWidth: Math.max(2, Math.ceil(K.UiUtils.baseSizeMedium / 4))
     y: height * subLayer
+
+    signal subtitleMoving(var subtitleItem)
+    signal setGroupTrimData(var data)
+    signal editSubtitle(int id, string newText, string oldText)
+    signal showSubtitleClipMenu()
+    signal continuousScrolling(int x, int y, int upMove)
 
     function editText()
     {
@@ -135,7 +144,7 @@ Item {
                     return
                 }
                 console.log('ENTERED ITEM CLICKED:', subtitleRoot.subtitle, ' ID: ', subtitleRoot.subId, 'START FRAME: ', subtitleRoot.startFrame)
-                oldStartX = scrollView.contentX + mapToItem(scrollView, mouseX, 0).x
+                subtitleRoot.oldStartX = subtitleRoot.timelineScrollView.contentX + mapToItem(subtitleRoot.timelineScrollView, mouseX, 0).x
                 oldStartFrame = subtitleRoot.startFrame
                 oldLayer = subtitleRoot.subLayer
                 snappedFrame = oldStartFrame
@@ -143,8 +152,7 @@ Item {
                 x = subtitleBase.x
                 startMove = mouse.button & Qt.LeftButton
                 if (startMove) {
-                    root.subtitleMoving = true
-                    root.subtitleItem = subtitleClipArea
+                    subtitleRoot.subtitleMoving(subtitleClipArea)
                     incrementalOffset = 0
                 }
                 if (subtitleRoot.timeline.selection.indexOf(subtitleRoot.subId) === -1) {
@@ -162,9 +170,9 @@ Item {
             function checkOffset(offset) {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
                     incrementalOffset += offset
-                    newStart = Math.max(0, oldStartFrame + (scrollView.contentX + mapToItem(scrollView,mouseX, 0).x + incrementalOffset - subtitleRoot.oldStartX)/ subtitleRoot.timeScale)
-                    snappedFrame = subtitleRoot.controller.suggestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, newStart, root.consumerPosition, root.snapping)
-                    root.continuousScrolling(scrollView.contentX + mapToItem(scrollView, mouseX, 0).x + incrementalOffset, subtitleRoot.timeScale)
+                    newStart = Math.max(0, oldStartFrame + (subtitleRoot.timelineScrollView.contentX + mapToItem(subtitleRoot.timelineScrollView, mouseX, 0).x + incrementalOffset - subtitleRoot.oldStartX)/ subtitleRoot.timeScale)
+                    snappedFrame = subtitleRoot.controller.suggestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, newStart, subtitleRoot.consumerPosition, subtitleRoot.snapping)
+                    subtitleRoot.continuousScrolling(subtitleRoot.timelineScrollView.contentX + mapToItem(subtitleRoot.timelineScrollView, mouseX, 0).x + incrementalOffset, subtitleRoot.timeScale)
                 }
             }
             onPositionChanged: (mouse) => {
@@ -180,8 +188,7 @@ Item {
                 }
             }
             onReleased: mouse => {
-                root.subtitleMoving = false
-                root.subtitleItem = undefined
+                subtitleRoot.subtitleMoving(undefined)
                 if (subtitleBase.textEditBegin) {
                     mouse.accepted = false
                     return
@@ -194,7 +201,7 @@ Item {
                     if (mouse.y > subtitleRoot.height && mouse.modifiers & Qt.ShiftModifier) {
                         snappedLayer++
                     }
-                    console.log("old start frame", oldStartFrame/subtitleRoot.timeline.scaleFactor, "new frame after shifting ", oldStartFrame/subtitleRoot.timeline.scaleFactor + delta)
+                    console.log("old start frame", oldStartFrame/subtitleRoot.timeline.scaleFactor, "new frame after shifting ", oldStartFrame / subtitleRoot.timeline.scaleFactor + delta)
                     subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, oldLayer, oldStartFrame, false, false)
                     subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, true, true)
                     x = snappedFrame * subtitleRoot.timeScale
@@ -204,7 +211,7 @@ Item {
             onClicked: mouse => {
                 if (mouse.button == Qt.RightButton) {
                     //console.log('RIGHT BUTTON CLICKED')
-                    root.showSubtitleClipMenu()
+                    subtitleRoot.showSubtitleClipMenu()
                 }
             }
             onDoubleClicked: {
@@ -252,7 +259,7 @@ Item {
                 subtitleEdit.focus = false
                 parent.textEditBegin = false
                 if (subtitleRoot.subtitle != subtitleEdit.text) {
-                    subtitleModel.editSubtitle(subtitleRoot.subId, subtitleEdit.text, subtitleRoot.subtitle)
+                    subtitleRoot.editSubtitle(subtitleRoot.subId, subtitleEdit.text, subtitleRoot.subtitle)
                 }
             }
             anchors.fill: parent
@@ -320,14 +327,14 @@ Item {
                 newDuration = subtitleRoot.duration
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
                 if (!shiftTrim && (subtitleRoot.controller.isInGroup(subtitleRoot.subId) || subtitleRoot.controller.hasMultipleSelection())) {
-                    root.groupTrimData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                    subtitleRoot.setGroupTrimData(subtitleRoot.controller.getGroupData(subtitleRoot.subId))
                 }
             }
             onPositionChanged: {
                 if (pressed) {
                     newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / subtitleRoot.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
-                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, root.snapping, shiftTrim);
+                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, subtitleRoot.snapping, shiftTrim);
                         if (frame > 0) {
                             newStart = subtitleRoot.endFrame - frame
                         }
@@ -339,15 +346,15 @@ Item {
                 trimIn.opacity = 0
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
-                    if (shiftTrim || (root.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
+                    if (shiftTrim || (subtitleRoot.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true, -1, shiftTrim);
                     } else {
                         var updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
-                        subtitleRoot.controller.processGroupResize(root.groupTrimData, updatedGroupData, false)
+                        subtitleRoot.controller.processGroupResize(subtitleRoot.groupTrimData, updatedGroupData, false)
                     }
                 }
-                root.groupTrimData = undefined
+                subtitleRoot.setGroupTrimData(undefined)
             }
             onEntered: {
                 if (!pressed) {
@@ -418,7 +425,7 @@ Item {
                 oldMouseX = mouseX
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
                 if (!shiftTrim && (subtitleRoot.controller.isInGroup(subtitleRoot.subId) || subtitleRoot.controller.hasMultipleSelection())) {
-                    root.groupTrimData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                    subtitleRoot.setGroupTrimData(subtitleRoot.controller.getGroupData(subtitleRoot.subId))
                 }
             }
             onPositionChanged: {
@@ -426,9 +433,9 @@ Item {
                     if ((mouseX != oldMouseX && subtitleRoot.duration > 1) || (subtitleRoot.duration <= 1 && mouseX > oldMouseX)) {
                         sizeChanged = true
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
-                        newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX)/timeScale)
+                        newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX) / subtitleRoot.timeScale)
                         // Perform resize without changing model
-                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, root.snapping, shiftTrim);
+                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, subtitleRoot.snapping, shiftTrim);
                         if (frame > 0) {
                             newDuration = frame
                         }
@@ -440,18 +447,18 @@ Item {
                 rightend.anchors.right = subtitleBase.right
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
-                    if (shiftTrim || (root.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
+                    if (shiftTrim || (subtitleRoot.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
                         // Restore original size
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
                         // Perform real resize
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, true, -1, shiftTrim)
                     } else {
                         var updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
-                        subtitleRoot.controller.processGroupResize(root.groupTrimData, updatedGroupData, true)
+                        subtitleRoot.controller.processGroupResize(subtitleRoot.groupTrimData, updatedGroupData, true)
                     }
                     sizeChanged = false
                 }
-                root.groupTrimData = undefined
+                subtitleRoot.setGroupTrimData(undefined)
             }
             onEntered: {
                 console.log('ENTER MOUSE END AREA')

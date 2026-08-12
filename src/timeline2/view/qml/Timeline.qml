@@ -35,18 +35,17 @@ Rectangle {
     required property K.SubtitleModel subtitleModel
 
     property bool validMenu: false
-    property bool subtitleMoving: false
-    property var subtitleItem
+    property var subtitleItem: undefined
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
-    property bool isPanning: tracksArea.isCursorHidden
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
+    readonly property bool isPanning: tracksArea.isCursorHidden
+    readonly property bool isItemDragInProgress: compoArea.containsDrag || clipDropArea.containsDrag
+    readonly property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || isItemDragInProgress
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
     property int mouseFrame: 0
 
-    readonly property bool isItemDragInProgress: compoArea.containsDrag || clipDropArea.containsDrag
 
     function screenForGlobalPos(globalPos) {
         const screens = Application.screens
@@ -401,14 +400,10 @@ function getTrackColor(audio, header) {
         sameTrackIndicator.visible = false
     }
 
-    function isDragging() {
-        return dragInProgress
-    }
-
     function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
         var mappedItemCoord = itemObject.mapToItem(tracksContainerArea, itemCoord)
 
-        dragProxy.x = itemObject.modelStart * root.timeScale
+        dragProxy.x = itemPos * root.timeScale
         dragProxy.y = mappedItemCoord.y
         dragProxy.width = itemObject.clipDuration * root.timeScale
         dragProxy.height = mappedItemCoord.height
@@ -718,7 +713,7 @@ function getTrackColor(audio, header) {
                 var track = Logic.getTrackIdFromPos(drag.y + voffset + scrollView.contentY - subtitleTrack.height)
                 if (track !== -1) {
                     var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
-                    if (root.controller.isAudioTrack(track) != isAudioDrag) {
+                    if (root.controller.isAudioTrack(track) != compoArea.isAudioDrag) {
                         // Don't allow moving composition to an audio track
                         track = root.controller.getCompositionTrackId(root.clipBeingDroppedId)
                     }
@@ -728,7 +723,7 @@ function getTrackColor(audio, header) {
                     sameCutPos = root.timeline.isOnCut(root.clipBeingDroppedId)
                     if (sameCutPos > -1) {
                         var sourceTrack = Logic.getTrackById(fakeTrack)
-                        if ((drag.y < sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
+                        if ((drag.y < sourceTrack.y + sourceTrack.height / 2) || compoArea.isAudioDrag) {
                             sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
                             sameTrackIndicator.y = sourceTrack.y
                             sameTrackIndicator.height = sourceTrack.height
@@ -757,8 +752,8 @@ function getTrackColor(audio, header) {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                 var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                 root.droppedPosition = frame
-                isAudioDrag = drag.getDataAsString('type') == "audio"
-                if (track >= 0 && root.controller.isAudioTrack(track) == isAudioDrag) {
+                compoArea.isAudioDrag = drag.getDataAsString('type') == "audio"
+                if (track >= 0 && root.controller.isAudioTrack(track) == compoArea.isAudioDrag) {
                     root.clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     root.clipBeingDroppedId = root.timeline.insertComposition(track, frame, root.clipBeingDroppedData, false)
                     root.continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
@@ -788,7 +783,7 @@ function getTrackColor(audio, header) {
                         yOffset = subtitleTrack.height
                     }
                     var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
-                    if (track !== -1 && root.controller.isAudioTrack(track) == isAudioDrag) {
+                    if (track !== -1 && root.controller.isAudioTrack(track) == compoArea.isAudioDrag) {
                         frame = root.controller.suggestSnapPoint(frame, root.snapping)
                         root.clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         root.clipBeingDroppedId = root.timeline.insertComposition(track, frame, root.clipBeingDroppedData , false)
@@ -819,11 +814,8 @@ function getTrackColor(audio, header) {
                 if (sameTrackIndicator.visible) {
                     // We want a same track composition
                     root.timeline.insertNewMix(track, sameCutPos, root.clipBeingDroppedData)
-                } else if (!isAudioDrag) {
-                    root.timeline.insertNewCompositionAtPos(track, frame, root.clipBeingDroppedData)
                 } else {
-                    // Cannot insert an audio mix composition
-                    // TODO: show warning
+                    root.timeline.insertNewCompositionAtPos(track, frame, root.clipBeingDroppedData)
                 }
             }
             root.clearDropData()
@@ -1266,6 +1258,7 @@ function getTrackColor(audio, header) {
                     selectedTrackColor: root.selectedTrackColor
                     trackHeaderColor: root.getTrackColor(false, true)
                     trackTagWidth: root.trackTagWidth
+                    isSubtitleTrackVisible: subtitleTrack.visible
 
                     onToogleExpandTrack: {
                         if (subtitleTrack.height > root.collapsedHeight) {
@@ -1865,6 +1858,14 @@ function getTrackColor(audio, header) {
                         controller: root.controller
                         monitorProxy: root.proxy
                         guidesModel: root.guidesModel
+                        snapping: root.snapping
+                        rulercontainerWidth: rulercontainer.width
+                        scrollViewContentX: scrollView.contentX
+
+                        onShowRulerMenu: () => { root.showRulerMenu() }
+                        onZoomByWheel: (wheel) => { root.zoomByWheel(wheel) }
+                        onMarkerActivated: (frame) => { root.markerActivated(frame) }
+
                         K.TimelinePlayhead {
                             id: playhead
                             height: Math.round(K.UiUtils.baseSizeMedium * .8)
@@ -2563,6 +2564,22 @@ function getTrackColor(audio, header) {
             snapping: root.snapping
             isPanning: root.isPanning
             isItemDragInProgress: root.isItemDragInProgress
+            groupTrimData: root.groupTrimData
+            timelineDragContainer: dragContainer
+            // timelineDragContainer: dragProxyArea
+            dragProxyCursorShape: dragProxyArea.cursorShape
+            draggedItemId: dragProxy.draggedItem
+            isDragProxyAreaPressed: dragProxyArea.pressed
+            isDragProxyAreaDragActive: dragProxyArea.drag.active
+            playheadPos: root.proxy.position
+            timelineScrollView: scrollView
+            minClipWidthForViews: root.minClipWidthForViews
+            mainItemId: root.mainItemId
+            trimmingOffset: root.trimmingOffset
+            selectedMix: root.selectedMix
+            dragProxyMovesComposition: dragProxy.isComposition
+            isSomeDragInProgress: root.dragInProgress
+
             z: tracksRepeater.count - index
 
             onBlockAutoScroll: (enabled) => { root.blockAutoScroll = enabled }
@@ -2577,6 +2594,23 @@ function getTrackColor(audio, header) {
                 root.clickFrame = clickFrame
                 root.showClipMenu(clipId)
             }
+
+            onShowCompositionMenu: () => { root.showCompositionMenu() }
+
+            onInitDrag:(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) => {
+                root.initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition)
+            }
+
+            onUpdateGroupTrimData: (data) => { root.groupTrimData = data }
+
+            onUpdateTrimInProgress: (trimInProgress) => { root.trimInProgress = trimInProgress }
+
+            onRegainFocus: (x, y) => { root.regainFocus(mapToItem(root, x, y)) }
+
+            onEndDragIfFocused: (itemId) => { root.endDragIfFocused(itemId) }
+
+            onEndDrag: () => { root.endDrag() }
+
         }
     }
 
@@ -2604,6 +2638,9 @@ function getTrackColor(audio, header) {
         model: root.subtitleModel
         delegate: SubTitle {
             required property var model
+
+            height: subtitleTrack.height / (timeline.maxSubLayer + 1)
+
             subId: model.id
             selected: model.selected
             startFrame: model.startframe
@@ -2616,8 +2653,15 @@ function getTrackColor(audio, header) {
             controller: root.controller
             isPanning: root.isPanning
             timeScale: root.timeScale
+            consumerPosition: root.consumerPosition
+            groupTrimData: root.groupTrimData
 
             onIsUserInteractingChanged: { root.blockAutoScroll = isUserInteracting }
+            onSubtitleMoving: (subtitleItem) => { root.subtitleItem = subtitleItem }
+            onSetGroupTrimData: (data) => { root.groupTrimData = data }
+            onEditSubtitle: (id, newText, oldText) => { root.subtitleModel.editSubtitle(id, newText, oldText) }
+            onShowSubtitleClipMenu: () => { root.showSubtitleClipMenu() }
+            onContinuousScrolling: (x, y, upMove) => { root.continuousScrolling(x, y, upMove) }
         }
     }
 
@@ -2684,7 +2728,7 @@ function getTrackColor(audio, header) {
                     dragProxyArea.moveItem()
                 }
                 if (scrollView.contentX == 0 || (root.clipBeingMovedId == -1 && root.clipBeingDroppedId == -1 && !rubberSelect.visible)) {
-                    if (root.subtitleMoving) {
+                    if (root.subtitleItem) {
                         root.subtitleItem.checkOffset(horizontal)
                     } else {
                         horizontal = 0

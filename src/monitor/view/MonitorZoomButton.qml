@@ -18,6 +18,9 @@ K.MonitorToolButton {
     required property K.MonitorProxy monitorController
     required property bool isClipMonitor
     property bool menuVisible: zoomContextMenu.visible
+
+    signal popupAboutToHide()
+
     onClicked: {
         if (zoomContextMenu.visible) {
             zoomContextMenu.close()
@@ -31,9 +34,7 @@ K.MonitorToolButton {
         padding: 0
         margins: 0
         onAboutToHide: {
-            if (!barZone.containsMouse) {
-                scenetoolbar.opacity = 0
-            }
+            zoomButton.popupAboutToHide()
         }
 
         ColumnLayout {

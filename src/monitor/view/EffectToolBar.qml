@@ -127,6 +127,11 @@ MouseArea {
                 id: zoomButton
                 monitorController: barZone.monitorController
                 isClipMonitor: barZone.isClipMonitor
+                onPopupAboutToHide: {
+                    if (!barZone.containsMouse) {
+                        effecttoolbar.opacity = 0
+                    }
+                }
             }
             K.MonitorToolButton {
                 objectName: "moveBar"

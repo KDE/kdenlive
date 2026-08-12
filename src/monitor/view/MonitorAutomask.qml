@@ -333,6 +333,15 @@ Item {
             }
         }
     }
+    Timer {
+        id: hideGenerateLabelTimer
+        interval: 3000
+        running: false
+        repeat: false
+        onTriggered: {
+            generateLabel.visible = false
+        }
+    }
     Label {
         id: generateLabel
         anchors.top: parent.top
@@ -393,6 +402,20 @@ Item {
         }
         monitorController: root.controller
         isClipMonitor: root.isClipMonitor
+        maskMode: root.maskMode
+
+        onExitMaskPreview: () => root.exitMaskPreview()
+        onGenerateMask: () => {
+            generateLabel.visible = true
+
+            var hasObjectSelected = root.keyframes.length > 0 || (root.boxCoords[2] > 0 && root.boxCoords[3] > 0)
+            if (hasObjectSelected) {
+                root.generateMask()
+            } else {
+                // Display the message for 3 seconds
+                hideGenerateLabelTimer.start()
+            }
+        }
     }
     Timer {
         id: firstTimer

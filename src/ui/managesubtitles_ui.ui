@@ -320,7 +320,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Edit</string>
+          <string>Edit…</string>
          </property>
          <property name="icon">
           <iconset theme="document-edit"/>

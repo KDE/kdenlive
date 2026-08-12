@@ -11,7 +11,7 @@
 <author>
 <personname
 ><firstname
->Diese Dokumentation ist veraltet, bitte gehen Sie stattdessen zur neuen <ulink url="https://docs.kdenlive.org/"
+>Diese Dokumentation ist veraltet, bitte gehen Sie stattdessen zur neuen <ulink url="https://docs.kdenlive.org/?mtm_campaign=kdenlive_docbook"
 >Kdenlive-Dokumentation</ulink
 >.</firstname
 > <surname
@@ -151,9 +151,9 @@
 >Zeilensprungverfahren</ulink
 > und fps (Bildfrequenz) gibt die Anzahl der vollständigen Bilder je Sekunde an.</para
 ></footnote
-> Benutzen Sie hier Ihre eigenen Dateien und sind unsicher über das zu verwendende Format, dann erhalten Sie von <application
+> Verwenden Sie hier Ihre eigenen Dateien und sind unsicher über das zu verwendende Format, dann erhalten Sie von <application
 >Kdenlive</application
-> einen Vorschlag, wenn der erste Clip eingelesen ist.  <footnote
+> einen Vorschlag, wenn der erste Clip eingelesen ist. <footnote
 ><para
 >Dazu muss in den Einstellungen zu &kdenlive; auf der Seite <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc"
 >Verschiedenes</ulink
@@ -253,7 +253,7 @@
 >kann</emphasis
 > mit <varname
 >melt yourproject.kdenlive</varname
-> wiedergegeben werden, aber so werden Sie Ihr Video nicht präsentieren wollen, da es so wahrscheinlich zu langsam abgespielt wird. Außerdem muss dazu das Programm melt installiert sein.</para
+> wiedergegeben werden, aber so werden Sie Ihr Video nicht präsentieren möchten, da es so wahrscheinlich zu langsam abgespielt wird. Außerdem muss dazu das Programm melt installiert sein.</para
 ></footnote
 > Der Prozess zur Fertigstellung des Videos wird <emphasis
 >Rendering</emphasis
@@ -289,7 +289,7 @@
 </screenshot>
 </para>
 <para
->Zum Essen brauchen Sie Besteck, also ziehen Sie den Clip mit dem Löffel ebenfalls in die erste Spur. Ziehen Sie dann den Clip Napoli an den Anfang der Zeitleiste, damit das fertige Video nicht mit schwarzen Bildern in der ersten Sekunden beginnt. Ziehen Sie dann den Clip Spoon an das Ende des Clips Napoli, so dass es dann wie im Bild oben aussieht, das mit <keycombo
+>Zum Essen benötigen Sie Besteck, also ziehen Sie den Clip mit dem Löffel ebenfalls in die erste Spur. Ziehen Sie dann den Clip Napoli an den Anfang der Zeitleiste, damit das fertige Video nicht mit schwarzen Bildern in der ersten Sekunden beginnt. Ziehen Sie dann den Clip Spoon an das Ende des Clips Napoli, sodass es dann wie im Bild oben aussieht, das mit <keycombo
 >&Ctrl;<keycap
 >Mausrad</keycap
 ></keycombo
@@ -501,9 +501,9 @@
 <para
 >Die Werte im Eigenschaftsfenster können mit dem Schieberegler oder durch Eingabe einer Zahl eingeben, indem Sie auf das Feld rechts neben dem Schieberegler doppelklicken. Ein Klick mit dem &MMB; setzt Einstellung auf die Voreinstellung zurück. </para>
 <para
->Der Eigenschaftsdialog bezieht sich immer auf den aktuell ausgewählten Zeitleistenclip. Jeder Effekt kann temporär durch Klicken auf das Augen-Symbol deaktiviert werden. Um alle Effekte für einen Clip abzuschalten, benutzen Sie das Ankreuzfeld oben im Eigenschaftsdialog. Diese Einstellung wird jedoch gespeichert.Dies ist &eg; sinnvoll für Effekte, die viel Rechenleistung benötigen, da dass sie bei der Bearbeitung abgeschaltet und für das endgültige Rendern wieder eingeschaltet werden können. </para>
+>Der Eigenschaftsdialog bezieht sich immer auf den aktuell ausgewählten Zeitleistenclip. Jeder Effekt kann temporär durch Klicken auf das Augen-Symbol deaktiviert werden. Um alle Effekte für einen Clip abzuschalten, verwenden Sie das Ankreuzfeld oben im Eigenschaftsdialog. Diese Einstellung wird jedoch gespeichert. Dies ist &eg; sinnvoll für Effekte, die viel Rechenleistung benötigen, sodass sie bei der Bearbeitung deaktiviert und für das endgültige Rendern wieder aktiviert werden können. </para>
 <para
->Für einige Effekte wie den hier benutzten können Keyframes hinzugefügt werden. Das eingerahmte Uhrensymbol zeigt dies an. Keyframes werden benutzt, um die Parameter von Effekten zeitabhängig zu verändern. In Diesem Clip ermöglichen es Keyframes, die Farbe des Pianos von eine warmen Farbe wie an einem Abend zu einer kalten Farbe wie in der Nacht zu ändern. </para>
+>Für einige Effekte, wie den hier verwendeten, können Keyframes hinzugefügt werden. Das eingerahmte Uhrensymbol zeigt dies an. Keyframes werden verwendet, um die Parameter von Effekten zeitabhängig zu verändern. In diesem Clip ermöglichen es Keyframes, die Farbe des Pianos von einer warmen Farbe (wie an einem Abend) zu einer kalten Farbe (wie in der Nacht) zu ändern. </para>
 <para>
 <screenshot>
 <screeninfo
@@ -526,7 +526,7 @@
 <para
 >Nachdem Sie auf das Symbol <guilabel
 >Keyframe</guilabel
->, das eingerahmte Uhrensymbol im vorherigen Bild, geklickt haben, werden die Einträge im Eigenschaftsfenster neu angeordnet. In der Voreinstellung gibt es zwei Keyframes, einen am Anfange des Clips in der Zeitleiste und einen am Ende. Verschieben Sie den Zeitleisten-Cursor zum Ende des Clips in der Zeitleiste, so dass im Projektmonitor wirklich die neuen Farben angezeigt werden, wenn die Parameter des Keyframe am Ende geändert werden. </para>
+>, das eingerahmte Uhrensymbol im vorherigen Bild, geklickt haben, werden die Einträge im Eigenschaftsfenster neu angeordnet. In der Voreinstellung gibt es zwei Keyframes, einen am Anfange des Clips in der Zeitleiste und einen am Ende. Verschieben Sie den Zeitleisten-Cursor zum Ende des Clips in der Zeitleiste, sodass im Projektmonitor wirklich die neuen Farben angezeigt werden, wenn die Parameter des Keyframe am Ende geändert werden. </para>
 <para
 >Überprüfen Sie , dass der letzte Keyframe in der Liste der Eigenschaften ausgewählt ist. Dann können Sie das Piano in tiefblauer Farbe erscheinen lassen. </para>
 <para

@@ -26,12 +26,35 @@ Item {
     required property var effectZones
     required property bool isPanning
     required property bool isItemDragInProgress
+    required property bool isSomeDragInProgress
+    required property var groupTrimData
+    required property Item timelineDragContainer
+    required property var dragProxyCursorShape
+    required property bool dragProxyMovesComposition
+    required property int draggedItemId
+    required property bool isDragProxyAreaPressed
+    required property bool isDragProxyAreaDragActive
+    required property int playheadPos
+    required property var timelineScrollView
+    required property int minClipWidthForViews
+    required property int mainItemId
+    required property int trimmingOffset
+    required property int selectedMix
 
     signal blockAutoScroll(bool enabled)
     signal seek(int pos)
     signal zoomByWheel(var wheel)
     signal showMixMenu(int clipId, int clickFrame)
     signal showClipMenu(int clipId, int clickFrame)
+    signal showCompositionMenu()
+    signal updateGroupTrimData(var data)
+    signal updateTrimInProgress(bool trimInProgress)
+    signal regainFocus(var x, var y)
+    signal endDragIfFocused(int itemId)
+    signal endDrag()
+
+
+    signal initDrag(var itemObject, var itemCoord, var itemId, var itemPos, var itemTrack, var isComposition)
 
     property alias trackModel: trackModel.model
     property alias rootIndex : trackModel.rootIndex
@@ -116,7 +139,7 @@ Item {
     function trimedClip(clip, shiftTrim, controlTrim, right) {
         //bubbleHelp.hide()
         trackRoot.timeline.showToolTip();
-        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || K.Core.activeTool === K.ToolType.RippleTool /* < TODO*/) || controlTrim) {
+        if (shiftTrim || (trackRoot.groupTrimData == undefined/*TODO > */ || K.Core.activeTool === K.ToolType.RippleTool /* < TODO*/) || controlTrim) {
             // We only resize one element
             if (K.Core.activeTool === K.ToolType.RippleTool) {
                 trackRoot.timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
@@ -139,9 +162,9 @@ Item {
             }
         } else {
             var updatedGroupData = trackRoot.controller.getGroupData(clip.clipId)
-            trackRoot.controller.processGroupResize(root.groupTrimData, updatedGroupData, right)
+            trackRoot.controller.processGroupResize(trackRoot.groupTrimData, updatedGroupData, right)
         }
-        root.groupTrimData = undefined
+        trackRoot.updateGroupTrimData(undefined)
     }
 
     width: clipRow.width
@@ -176,11 +199,12 @@ Item {
             Loader {
                 id: clipLoader
                 active: trackRoot.isClip(itemOnTrack.model.clipType)
-                sourceComponent: Clip {                    
+                sourceComponent: Clip {
+                    id: clipItem
                     height: trackRoot.height
 
                     enabled: !trackRoot.isItemDragInProgress
-                    visible: fakeTid > -1 || (scrollView.lastVisibleFrame > modelStart && scrollView.firstVisibleFrame <= (modelStart + clipDuration))
+                    visible: fakeTid > -1 || (trackRoot.timelineScrollView.lastVisibleFrame > modelStart && trackRoot.timelineScrollView.firstVisibleFrame <= (modelStart + clipDuration))
 
                     parentTrack: trackRoot
                     timeline: trackRoot.timeline
@@ -208,7 +232,7 @@ Item {
                     fadeOutMethod: itemOnTrack.model.fadeOutMethod
                     showKeyframes: itemOnTrack.model.showKeyframes
                     isGrabbed: itemOnTrack.model.isGrabbed
-                    isMainItem: root.mainItemId == clipId
+                    isMainItem: trackRoot.mainItemId == clipId
                     keyframeModel: itemOnTrack.model.keyframeModel
                     clipDuration: itemOnTrack.model.duration
                     inPoint: itemOnTrack.model.in
@@ -234,27 +258,52 @@ Item {
                     itemType: itemOnTrack.model.clipType
                     trackId: itemOnTrack.model.trackId
                     isPanning: trackRoot.isPanning
-                    dragInProgress: dragProxyArea.drag.active && dragProxy.draggedItem === clipId
+                    clipDragInProgress: trackRoot.isDragProxyAreaDragActive && trackRoot.draggedItemId === clipId
+                    someDragInProgress: trackRoot.isSomeDragInProgress
                     snapping: trackRoot.snapping
+                    isMixSelected: trackRoot.selectedMix == clipId
+                    isDragProxied: trackRoot.draggedItemId == clipId
+                    thumbsFormat: trackRoot.trackThumbsFormat
+                    dragContainer: trackRoot.timelineDragContainer
+                    dragProxyCursorShape: trackRoot.dragProxyCursorShape
+                    isDragProxyAreaPressed: trackRoot.isDragProxyAreaPressed
+                    isTimlineCursorOnClip: trackRoot.playheadPos > clipItem.modelStart && trackRoot.playheadPos < clipItem.modelStart + clipItem.clipDuration
+                    timelineScrollViewWidth: trackRoot.timelineScrollView.width
+                    minClipWidthForViews: trackRoot.minClipWidthForViews
+                    scrollStart: visible ? trackRoot.timelineScrollView.contentX - (modelStart * timeScale) : 0
+                    dragProxyMovesComposition: trackRoot.dragProxyMovesComposition
+                    trimmingOffset: trackRoot.trimmingOffset
 
                     onInitGroupTrim: clipId => {
                         // We are resizing a group, remember coordinates of all elements
-                        root.groupTrimData = trackRoot.controller.getGroupData(clipId)
+                        trackRoot.updateGroupTrimData(trackRoot.controller.getGroupData(clipId))
                     }
                     onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => { trackRoot.clipTrimming(clip, newDuration, shiftTrim, controlTrim, false) }
                     onTrimmedIn: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, false) }
                     onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => { trackRoot.clipTrimming(clip, newDuration, shiftTrim, controlTrim, true) }
                     onTrimmedOut: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, true) }
                     onIsUserInteractingChanged: { trackRoot.blockAutoScroll(isUserInteracting) }
-                    onTrimInProgressChanged: { root.trimInProgress = trimInProgress }
+                    onBlockAutoScroll: (enabled) => { trackRoot.blockAutoScroll(enabled) }
+
+                    onTrimInProgressChanged: { trackRoot.updateTrimInProgress(trimInProgress) }
 
                     onShowMixMenu: (clipId, clickFrame) => trackRoot.showMixMenu(clipId, clickFrame)
                     onShowClipMenu: (clipId, clickFrame) => trackRoot.showClipMenu(clipId, clickFrame)
-                    onMakeMainItem: (enabled) => { root.mainItemId = enabled ? clipId : -1 }
-
+                    onMakeMainItem: (enabled) => { trackRoot.mainItemId = enabled ? clipId : -1 }
 
                     onSeek: (pos) => { trackRoot.seek(pos) }
                     onZoomByWheel: (wheel) => { trackRoot.zoomByWheel(wheel) }
+
+                    onInitDrag: (itemCoord) => {
+                        trackRoot.initDrag(clipItem, itemCoord, clipItem.clipId, clipItem.modelStart, clipItem.trackId, false)
+                    }
+
+                    onEndDrag: () => { trackRoot.endDrag() }
+                    onEndDragIfFocused: (itemId) => { trackRoot.endDragIfFocused(itemId) }
+
+                    onClearGroupTrimData: () => { trackRoot.updateGroupTrimData(undefined) }
+
+                    onRegainFocus: (x, y) => { trackRoot.regainFocus(x, y) }
                 }
                 onLoaded: {
                     console.log('loaded clip: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', itemOnTrack.model.clipType)
@@ -265,8 +314,8 @@ Item {
                 id: compositionLoader
                 active: itemOnTrack.model.clipType == K.ClipType.Composition
                 sourceComponent: Composition {
+                    id: compositionItem
                     opacity: 0.8
-
                     enabled: !trackRoot.isItemDragInProgress
 
                     parentTrack: trackRoot
@@ -286,7 +335,8 @@ Item {
                     isGrabbed: itemOnTrack.model.isGrabbed
                     keyframeModel: itemOnTrack.model.keyframeModel
                     aTrack: itemOnTrack.model.a_track
-                    visible: !itemOnTrack.model.hideItem
+                    readonly property bool isInViewFrame: trackRoot.timelineScrollView.lastVisibleFrame > modelStart && trackRoot.timelineScrollView.firstVisibleFrame <= (modelStart + clipDuration)
+                    visible: !itemOnTrack.model.hideItem && isInViewFrame
                     clipDuration: itemOnTrack.model.duration
                     inPoint: itemOnTrack.model.in
                     outPoint: itemOnTrack.model.out
@@ -294,6 +344,13 @@ Item {
                     clipName: itemOnTrack.model.name
                     selected: itemOnTrack.model.selected
                     isPanning: trackRoot.isPanning
+                    scrollStart: visible ? trackRoot.timelineScrollView.contentX - (modelStart * timeScale) : 0
+                    minClipWidthForViews: trackRoot.minClipWidthForViews
+                    clipDragInProgress: trackRoot.isDragProxyAreaDragActive && trackRoot.draggedItemId === clipId
+                    dragContainer: trackRoot.timelineDragContainer
+                    dragProxyCursorShape: trackRoot.dragProxyCursorShape
+                    isDragProxyAreaPressed: trackRoot.isDragProxyAreaPressed
+                    timelineScrollViewWidth: trackRoot.timelineScrollView.width
 
                     onTrimmingIn: (clip, newDuration) => {
                         var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)
@@ -334,10 +391,21 @@ Item {
                     }
 
                     onIsUserInteractingChanged: { trackRoot.blockAutoScroll(isUserInteracting) }
-                    onTrimInProgressChanged: { root.trimInProgress = trimInProgress }
+                    onBlockAutoScroll: (enabled) => { trackRoot.blockAutoScroll(enabled) }
+
+                    onTrimInProgressChanged: { trackRoot.updateTrimInProgress(trimInProgress) }
+
+                    onShowCompositionMenu: () => trackRoot.showCompositionMenu()
+                    onMakeMainItem: () => { trackRoot.mainItemId = clipId }
 
                     onSeek: (pos) => { trackRoot.seek(pos) }
                     onZoomByWheel: (wheel) => { trackRoot.zoomByWheel(wheel) }
+
+
+                    onInitDrag: (itemCoord) => {
+                        trackRoot.initDrag(compositionItem, itemCoord, compositionItem.clipId, compositionItem.modelStart, compositionItem.trackId, true)
+                    }
+                    onEndDragIfFocused: (itemId) => { trackRoot.endDragIfFocused(itemId) }
                 }
                 onLoaded: {
                     console.log('loaded composition: ', itemOnTrack.model.start, ', ID: ', itemOnTrack.model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)

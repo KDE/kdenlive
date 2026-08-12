@@ -42,6 +42,14 @@ Item {
     required property int aTrack
     required property int clipId // Id of the clip in the model
     required property int displayHeight
+    required property int scrollStart
+    required property int minClipWidthForViews
+    required property bool clipDragInProgress
+    required property Item dragContainer
+    required property int timelineScrollViewWidth
+    required property var dragProxyCursorShape
+    required property bool isDragProxyAreaPressed
+    required property int consumerPosition
 
     property bool isAudio: false
     property int originalTrackId: trackId
@@ -56,10 +64,8 @@ Item {
     property color borderColor: 'black'
     readonly property bool trimInProgress: trimInMouseArea.pressed || trimOutMouseArea.pressed
     readonly property bool isUserInteracting: mouseArea.pressed || trimInProgress
-    readonly property bool hideCompoViews: !visible || width < root.minClipWidthForViews
+    readonly property bool hideCompoViews: !visible || width < minClipWidthForViews
     readonly property bool hideDecorations: !K.KdenliveSettings.showClipOverlays || trimInMouseArea.drag.active || trimOutMouseArea.drag.active
-    visible: scrollView.lastVisibleFrame > compositionRoot.modelStart && scrollView.firstVisibleFrame <= (compositionRoot.modelStart + compositionRoot.clipDuration)
-    property int scrollStart: visible ? scrollView.contentX - (compositionRoot.modelStart * compositionRoot.timeScale) : 0
 
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
     property int trackOffset: 0
@@ -73,12 +79,19 @@ Item {
     signal seek(int pos)
     signal zoomByWheel(var wheel)
 
+    signal blockAutoScroll(bool enabled)
+    signal showCompositionMenu()
+    signal makeMainItem()
+
+    signal initDrag(var itemCoord)
+    signal endDragIfFocused(int itemId)
+
     onScrollStartChanged: {
         if (!compositionRoot.visible) {
             return
         }
         updateLabelOffset()
-        if (compositionRoot.width > scrollView.width) {
+        if (compositionRoot.width > timelineScrollViewWidth) {
             let kfrView = effectRow.item as KeyframeView
             if (kfrView && kfrView.kfrCanvas) {
                 kfrView.kfrCanvas.requestPaint()
@@ -171,7 +184,7 @@ Item {
     function updateDrag() {
         console.log('XXXXXXXXXXXXXXX\n\nXXXXXXXXXXXXX \nUPDATING COMPO DRAG')
         var itemPos = Qt.rect(0, displayRect.y, displayRect.width, displayRect.height)
-        initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)
+        compositionRoot.initDrag(itemPos)
     }
 
     Rectangle {
@@ -185,7 +198,7 @@ Item {
         color: Qt.darker('mediumpurple')
         border.color: compositionRoot.grouped ? compositionRoot.timeline.groupColor : mouseArea.containsMouse ? activePalette.highlight : compositionRoot.borderColor
         border.width: compositionRoot.isGrabbed ? 8 : 2
-        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == compositionRoot.clipId ? 0.5 : 1.0
+        opacity: compositionRoot.clipDragInProgress ? 0.5 : 1.0
 
         states: [
             State {
@@ -219,7 +232,7 @@ Item {
             id: mouseArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            enabled: !compositionRoot.isPanning && K.Core.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
+            enabled: !compositionRoot.isPanning && K.Core.activeTool === K.ToolType.SelectTool && !compositionRoot.isDragProxyAreaPressed
             hoverEnabled: !compositionRoot.isPanning && K.Core.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
@@ -239,16 +252,16 @@ Item {
             Keys.onEscapePressed: {
                 compositionRoot.timeline.grabCurrent()
             }
-            cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
+            cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active) ? Qt.SizeHorCursor : compositionRoot.dragProxyCursorShape
 
             onPressed: mouse => {           
                 compositionRoot.forceActiveFocus();
-                root.mainItemId = compositionRoot.clipId
+                compositionRoot.makeMainItem()
                 if (mouse.button == Qt.RightButton) {
                     if (compositionRoot.timeline.selection.indexOf(compositionRoot.clipId) === -1) {
                         compositionRoot.controller.requestAddToSelection(compositionRoot.clipId, true)
                     }
-                    root.showCompositionMenu()
+                    compositionRoot.showCompositionMenu()
                 }
             }
             onEntered: {
@@ -257,14 +270,14 @@ Item {
                 compositionRoot.timeline.showToolTip(s)
             }
             onExited: {
-                root.endDragIfFocused(compositionRoot.clipId)
+                compositionRoot.endDragIfFocused(compositionRoot.clipId)
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse) {
                     compositionRoot.timeline.showToolTip()
                 }
             }
             onDoubleClicked: mouse => {
                 if (mouse.modifiers & Qt.ShiftModifier) {
-                    proxy.position = compositionRoot.x / compositionRoot.timeline.scaleFactor
+                    compositionRoot.seek(compositionRoot.x / compositionRoot.timeline.scaleFactor)
                 } else {
                     compositionRoot.timeline.editItemDuration()
                 }
@@ -527,14 +540,36 @@ Item {
                 }
                 Binding {
                     target: effectRow.item
-                    property: "containerWidth"
-                    value: effectRow.width
+                    property: "timelineScrollViewWidth"
+                    value: compositionRoot.timelineScrollViewWidth
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "timeline"
+                    value: compositionRoot.timeline
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "timeScale"
+                    value: compositionRoot.timeScale
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "isPanning"
-                    value: root.isPanning
+                    value: compositionRoot.isPanning
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "consumerPosition"
+                    value: compositionRoot.consumerPosition
                     when: effectRow.status == Loader.Ready && effectRow.item
                     restoreMode: Binding.RestoreBindingOrValue
                 }
@@ -542,6 +577,14 @@ Item {
             Connections {
                 target: effectRow.item
                 function onSeek(position) { compositionRoot.seek(position) }
+            }
+            Connections {
+                target: effectRow.item
+                function onUpdateEffectKeyframe(clipId, oldFrame, newFrame) { compositionRoot.timeline.updateEffectKeyframe(clipId, oldFrame, newFrame) }
+            }
+            Connections {
+                target: effectRow.item
+                function onBlockAutoScroll(enabled) { compositionRoot.blockAutoScroll(enabled) }
             }
         }
     }

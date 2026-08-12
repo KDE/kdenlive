@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<transition tag="mix" id="autoduck" type="audiotransition">
+    <name>Auto Duck</name>
+    <description>Applies a volume change on the lower track depending on the volume of the upper track.</description>
+    <author>Brian Matherly</author>
+    <parameter type="constant" name="duck_threshold" max="0" min="-20" default="-15" decimals="1">
+        <name>Ducking Threshold</name>
+    </parameter>
+    <parameter type="constant" name="duck_attenuation" max="0" min="-60" default="-18" decimals="1">
+        <name>Ducking Attenuation</name>
+    </parameter>
+    <parameter type="constant" name="duck_fade_in" max="5000" min="0" default="1500" suffix="ms">
+        <name>Ducking Fade In</name>
+    </parameter>
+    <parameter type="constant" name="duck_fade_out" max="5000" min="0" default="250" suffix="ms">
+        <name>Ducking Fade Out</name>
+    </parameter>
+    <parameter type="fixed" name="sum" max="1" min="1" default="1"/>
+</transition>
