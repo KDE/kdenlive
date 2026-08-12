@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-28 02:43+0000\n"
-"PO-Revision-Date: 2026-07-30 23:00+0200\n"
+"PO-Revision-Date: 2026-08-10 17:43+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1341,7 +1341,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:8
 #, kde-format
 msgid "Luma Radius"
-msgstr "Raggio di luma"
+msgstr "Raggio luma"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
@@ -7974,20 +7974,16 @@ msgstr ""
 "esempio: #createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:58
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,creation date,file date (GMT),file date (local),source "
-#| "frame rate,source codec,source bit rate,source width,source height,source "
-#| "comment"
+#, kde-format
 msgid ""
 "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
 "date (local),Source frame rate,Source codec,Source bit rate,Source width,"
 "Source height,Source comment"
 msgstr ""
-"codice temporale,fotogramma,data di creazione,data del file(GMT),data del "
-"file(locale),frequenza dei fotogrammi della sorgente,codec della sorgente,"
-"bit rate della sorgente,larghezza della sorgente,altezza della sorgente,"
-"commento della sorgente"
+"codice temporale,Numero fotogramma,Nome del file,Data di creazione,Data del "
+"file (GMT),Data del file (locale),Frequenza dei fotogrammi della sorgente,"
+"Codec della sorgente,Bit rate della sorgente,Larghezza della sorgente,"
+"Altezza della sorgente,Commento della sorgente"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -8214,10 +8210,9 @@ msgid "Influence on Blue channel"
 msgstr "Influenza del canale blu"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
-#, fuzzy, kde-format
-#| msgid "Stroke width"
+#, kde-format
 msgid "Strobe period"
-msgstr "Larghezza del tratto"
+msgstr "Periodo d'intermittenza"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
@@ -8418,7 +8413,7 @@ msgstr "Write on clear,Max,Min,Aggiungi,Sottrai"
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #, kde-format
 msgid "Alpha Shapes"
-msgstr "Forme sul canale alfa"
+msgstr "Forme alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
 #, kde-format
@@ -8489,7 +8484,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
-msgstr "Forme in alfa (SOSTITUITO)"
+msgstr "Forme alfa (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -13368,7 +13363,7 @@ msgstr "Morbidezza"
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha Shapes (Mask)"
-msgstr "Forme nel canale alfa (Maschera)"
+msgstr "Forme alfa (Maschera)"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:5
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
@@ -14463,7 +14458,7 @@ msgstr "Filtro combinato"
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
 msgid "Comb Filter (LADSPA 1190)"
-msgstr ""
+msgstr "Filtro combinato (LADSPA 1190)"
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
 #, kde-format
@@ -14662,6 +14657,8 @@ msgid ""
 "Single Band Parametric (LADSPA 1203)<br>\n"
 "   A single band of a parametric filter."
 msgstr ""
+"Parametrico a banda singola (LADSPA 1203)<br>\n"
+"   Una singola banda di un filtro parametrico."
 
 #: data/effects/ladspa/ladspa_1203.xml:9
 #, kde-format
@@ -14891,16 +14888,14 @@ msgid "Controls the number of taps in the delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:25
-#, fuzzy, kde-format
-#| msgid "First Field"
+#, kde-format
 msgid "First Delay"
-msgstr "Primo campo"
+msgstr "Primo ritardo"
 
 #: data/effects/ladspa/ladspa_1402.xml:26
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The time of the first delay"
-msgstr "Il colore della forma d'onda."
+msgstr "L'orario del primo ritardo"
 
 #: data/effects/ladspa/ladspa_1402.xml:29
 #, kde-format
@@ -14953,10 +14948,9 @@ msgid "The random factor applied to the amplitude"
 msgstr "Il fattore casuale applicato all'ampiezza"
 
 #: data/effects/ladspa/ladspa_1402.xml:49
-#, fuzzy, kde-format
-#| msgid "Dry/Wet"
+#, kde-format
 msgid "Dry/Wet Mix"
-msgstr "Dry/Wet"
+msgstr "Miscela dry e wet"
 
 #: data/effects/ladspa/ladspa_1402.xml:50
 #, kde-format
@@ -15286,10 +15280,9 @@ msgid "Damping"
 msgstr "Smorzamento"
 
 #: data/effects/ladspa/ladspa_1423.xml:15
-#, fuzzy, kde-format
-#| msgid "Dry/Wet"
+#, kde-format
 msgid "Dry/wet mix"
-msgstr "Dry/Wet"
+msgstr "Miscela dry e wet"
 
 #: data/effects/ladspa/ladspa_1430.xml:4
 #, kde-format
@@ -15373,7 +15366,7 @@ msgstr "Scostamento di tonalità"
 #: data/effects/ladspa/ladspa_1432.xml:13
 #, kde-format
 msgid "Down,Both,Up"
-msgstr ""
+msgstr "Giù,Entrambi,Su"
 
 #: data/effects/ladspa/ladspa_1432.xml:16
 #, fuzzy, kde-format
@@ -15479,10 +15472,10 @@ msgstr ""
 "millisecondi"
 
 #: data/effects/ladspa/ladspa_1438.xml:23
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of the delays output that is mixed back into the delay"
-msgstr "La quantità di particelle di polvere aggiunte all'immagine"
+msgstr ""
+"La quantità del ritardo di uscita che viene mescolata nel ritardo stesso"
 
 #: data/effects/ladspa/ladspa_1886.xml:4
 #, kde-format
@@ -15495,10 +15488,9 @@ msgid "Exponential Signal Decay (LADSPA 1886)"
 msgstr "Decadimento esponenziale del segnale (LADSPA 1886)"
 
 #: data/effects/ladspa/ladspa_1887.xml:4
-#, fuzzy, kde-format
-#| msgid "Default interpolation"
+#, kde-format
 msgid "Comb Delay Line (linear interpolation)"
-msgstr "Interpolazione predefinita"
+msgstr "Linea di ritardo combinato (interpolazione lineare)"
 
 #: data/effects/ladspa/ladspa_1887.xml:6
 #, kde-format
@@ -15513,10 +15505,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
-#, fuzzy, kde-format
-#| msgid "L Delay"
+#, kde-format
 msgid "Max Delay"
-msgstr "Ritardo D"
+msgstr "Ritardo massimo"
 
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
@@ -15584,10 +15575,9 @@ msgstr ""
 "   Basato sul lavoro di James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1890.xml:4
-#, fuzzy, kde-format
-#| msgid "High-pass"
+#, kde-format
 msgid "GLAME Highpass"
-msgstr "Passa alto"
+msgstr "Passa alto GLAME"
 
 #: data/effects/ladspa/ladspa_1890.xml:6
 #, kde-format
@@ -15664,7 +15654,7 @@ msgstr "Larghezza di banda"
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
 msgid "GLAME Bandpass Analog"
-msgstr ""
+msgstr "Passa banda analogico GLAME"
 
 #: data/effects/ladspa/ladspa_1893.xml:6
 #, kde-format
@@ -15884,6 +15874,8 @@ msgid ""
 "The degree of variation in<br>\n"
 "      height of the record surfaced"
 msgstr ""
+"Il grado di variazione dell'altezza<br>\n"
+"      della superficie del disco"
 
 #: data/effects/ladspa/ladspa_1905.xml:24
 #: data/effects/ladspa/ladspa_vinyl.xml:17
@@ -15963,6 +15955,8 @@ msgid ""
 "The time taken for the<br>\n"
 "      limiters attenuation to return to 0 dB"
 msgstr ""
+"Il tempo necessario affinché<br>\n"
+"      l'attenuazione dei limitatori ritorni a 0 dB"
 
 #: data/effects/ladspa/ladspa_1913.xml:24
 #, kde-format
@@ -15975,6 +15969,8 @@ msgid ""
 "The current attenuation<br>\n"
 "      of the signal coming out of the delay buffer"
 msgstr ""
+"L'attenuazione della corrente del<br>\n"
+"      segnale in uscita dal buffer di ritardo"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
 #, kde-format
@@ -16248,10 +16244,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:4
-#, fuzzy, kde-format
-#| msgid "Deesser"
+#, kde-format
 msgid "TAP DeEsser"
-msgstr "Deesser"
+msgstr "Deesser TAP"
 
 #: data/effects/ladspa/ladspa_2147.xml:6
 #, kde-format
@@ -16260,6 +16255,9 @@ msgid ""
 "   Used for attenuating higher pitched frequencies in vocals such as those "
 "found in 'ess', 'shh' and 'chh' sounds."
 msgstr ""
+"Deesser TAP (LADSPA 2147)<br>\n"
+"   Utilizzato per attenuare le frequenze più acute nella voce, come quelle "
+"presenti nei suoni 'ess', ‘shh’ e 'chh'."
 
 #: data/effects/ladspa/ladspa_2147.xml:9
 #, kde-format
@@ -16304,6 +16302,10 @@ msgid ""
 "signal. It is useful for guitar and synth tracks, and it can also come handy "
 "if a strange effect is needed."
 msgstr ""
+"Vibrato TAP (LADSPA 2148)<br>\n"
+"   Modula l'intonazione del segnale in ingresso con un segnale sinusoidale a "
+"bassa frequenza. È utile per le tracce di chitarra e sintetizzatore, e può "
+"rivelarsi utile anche quando serve un effetto particolare."
 
 #: data/effects/ladspa/ladspa_2148.xml:10
 #, kde-format
@@ -16518,6 +16520,9 @@ msgid ""
 "      approximately match the tempo of the track, so the Fragment Length is "
 "equal to the time of one measure."
 msgstr ""
+"È consigliabile impostarlo<br>\n"
+"      in modo che corrisponda approssimativamente al tempo della traccia, in "
+"modo che la Lunghezza del frammento sia pari alla durata di una misura."
 
 #: data/effects/ladspa/ladspa_2155.xml:4
 #, kde-format
@@ -16899,7 +16904,7 @@ msgstr "Soglia VAD (%)"
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "Periodo di grazia VAD"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
@@ -17048,52 +17053,52 @@ msgstr "Avvolgimento della superficie"
 #: data/effects/lift_gamma_gain.xml:4
 #, kde-format
 msgid "Lift/gamma/gain"
-msgstr "Ombra/Mezzo tono/Luce"
+msgstr "Lift/gamma/gain"
 
 #: data/effects/lift_gamma_gain.xml:7
 #, kde-format
 msgid "Lift: Red"
-msgstr "Ombra: Rosso"
+msgstr "Lift: Rosso"
 
 #: data/effects/lift_gamma_gain.xml:10
 #, kde-format
 msgid "Lift: Green"
-msgstr "Ombra: Verde"
+msgstr "Lift: Verde"
 
 #: data/effects/lift_gamma_gain.xml:13
 #, kde-format
 msgid "Lift: Blue"
-msgstr "Ombra: Blu"
+msgstr "Lift: Blu"
 
 #: data/effects/lift_gamma_gain.xml:16
 #, kde-format
 msgid "Gamma: Red"
-msgstr "Mezzo tono: Rosso"
+msgstr "Gamma: Rosso"
 
 #: data/effects/lift_gamma_gain.xml:19
 #, kde-format
 msgid "Gamma: Green"
-msgstr "Mezzo tono: Verde"
+msgstr "Gamma: Verde"
 
 #: data/effects/lift_gamma_gain.xml:22
 #, kde-format
 msgid "Gamma: Blue"
-msgstr "Mezzo tono: Blu"
+msgstr "Gamma: Blu"
 
 #: data/effects/lift_gamma_gain.xml:25
 #, kde-format
 msgid "Gain: Red"
-msgstr "Luce: Rosso"
+msgstr "Gain: Rosso"
 
 #: data/effects/lift_gamma_gain.xml:28
 #, kde-format
 msgid "Gain: Green"
-msgstr "Luce: Verde"
+msgstr "Gain: Verde"
 
 #: data/effects/lift_gamma_gain.xml:31
 #, kde-format
 msgid "Gain: Blue"
-msgstr "Luce: Blu"
+msgstr "Gain: Blu"
 
 #: data/effects/lightshow.xml:4
 #, kde-format
@@ -17180,6 +17185,9 @@ msgid ""
 "Luma value that defines the<br>\n"
 "      center point of transition from prelevel to postlevel opacity value."
 msgstr ""
+"Valore di luma che definisce<br>\n"
+"      il punto centrale della transizione dal valore di opacità del livello "
+"precedente a quello del livello successivo."
 
 #: data/effects/lumakey.xml:16
 #, kde-format
@@ -17227,7 +17235,7 @@ msgstr ""
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
 msgid "Luma LiftGainGamma"
-msgstr "LumaOmbraLuceMezzoTono"
+msgstr "LiftGainGamma Luma"
 
 #: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
@@ -17287,7 +17295,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha shapes (Mask)"
-msgstr "Forme nel canale alfa (Maschera)"
+msgstr "Forme alfa (Maschera)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
@@ -17355,7 +17363,7 @@ msgstr "Passaggi di sfumatura"
 #: data/effects/mask_start_shape.xml:4
 #, kde-format
 msgid "Shape Alpha (Mask)"
-msgstr "Forma alfa (Maschera)"
+msgstr "Alfa da forma (Maschera)"
 
 #: data/effects/mask_start_shape.xml:5
 #, kde-format
@@ -18085,7 +18093,7 @@ msgstr "Crominanza V"
 #: data/effects/shape.xml:4
 #, kde-format
 msgid "Shape Alpha"
-msgstr "Forma alfa"
+msgstr "Alfa da forma"
 
 #: data/effects/shape.xml:5
 #, kde-format
@@ -18300,10 +18308,9 @@ msgid "Pre-delay"
 msgstr "Pre-ritardo"
 
 #: data/effects/sox/sox_reverb.xml:23
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Wet gain"
-msgstr "Scostamento X"
+msgstr "Guadagno wet"
 
 #: data/effects/sox/sox_stretch.xml:4
 #, kde-format
@@ -18343,7 +18350,7 @@ msgstr "Definisce il rettangolo dell'area che sarà rimossa."
 #: data/effects/strobe.xml:4
 #, kde-format
 msgid "Alpha Strobing"
-msgstr "Alpha Strobing"
+msgstr "Stroboscopia alfa"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -18351,17 +18358,18 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"Porta il canale alfa a 0 a intermittenza. Molti altri filtri sovrascrivono "
+"il canale alfa: nel caso questo effetto deve essere applicato per ultimo."
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "Se invertire i fotogrammi attivi e quelli inattivi"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "Durata: %1 sec"
+msgstr "Durata dell'intermittenza"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -18520,13 +18528,7 @@ msgstr ""
 "non è trascorsa l'ora di inizio."
 
 #: data/effects/timer.xml:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is <i>Down</i>, the timer will count down to <i>Offset</"
@@ -18535,10 +18537,10 @@ msgid ""
 "<i>Offset</i>."
 msgstr ""
 "Uno scostamento da aggiungere al valore del timer.\n"
-"Se la direzione è \"all'indietro\" il timer conterà indietro fino allo "
-"\"scostamento\" invece che a 00:00:00.000.\n"
-"Se la direzione è \"in avanti\" il timer conterà in avanti a partire dallo "
-"\"scostamento\"."
+"Se la direzione è <i>All'indietro</i> il timer conterà indietro fino allo "
+"<i>Scostamento</i> invece che a 00:00:00.000.\n"
+"Se la direzione è <i>In avanti</i> il timer conterà in avanti a partire "
+"dallo <i>Scostamento</i>."
 
 #: data/effects/timer.xml:100
 #, kde-format
