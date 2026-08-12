@@ -411,12 +411,12 @@ void MainWindow::init()
         }
     });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
-            [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes) {
+            [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes, int timecodeOffset) {
                 if (model == nullptr && m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip) {
                     // Effect stask is currently displaying a bin clip, do nothing
                     return;
                 }
-                m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
+                m_assetPanel->showEffectStack(clipName, model, size, showKeyframes, timecodeOffset);
                 if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
                     // Don't raise if tabbed with timeline
                     return;

@@ -248,7 +248,8 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
     Q_EMIT pCore->registerDopeAsset(transitionModel, m_switchCompoButton->currentText());
 }
 
-void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
+void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes,
+                                 int timecodeOffset)
 {
     if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
         return;
@@ -318,7 +319,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     } else {
         m_effectStackWidget->setVisible(true);
     }
-    Q_EMIT pCore->registerDopeStack(effectsModel);
+    Q_EMIT pCore->registerDopeStack(effectsModel, timecodeOffset);
 }
 
 void AssetPanel::clearAssetPanel(int itemId)

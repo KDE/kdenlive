@@ -199,6 +199,7 @@ public Q_SLOTS:
     Q_INVOKABLE bool addKeyframe(int frame, double normalizedValue);
     bool addKeyframe(int framePos, Fun &undo, Fun &redo);
     Q_INVOKABLE void seekToKeyframe(int index);
+    Q_INVOKABLE void seekToPos(int keyframePos);
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */

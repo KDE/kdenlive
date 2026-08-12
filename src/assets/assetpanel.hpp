@@ -45,7 +45,8 @@ public:
     void showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel, bool refreshOnly);
 
     /** @brief Shows the parameters of the given effect stack model */
-    void showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes);
+    void showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes,
+                         int timecodeOffset);
 
     /** @brief Clear the panel so that it doesn't display anything */
     void clear();

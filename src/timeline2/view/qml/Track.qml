@@ -40,6 +40,7 @@ Item {
     required property int mainItemId
     required property int trimmingOffset
     required property int selectedMix
+    required property int consumerPosition
 
     signal blockAutoScroll(bool enabled)
     signal seek(int pos)
@@ -273,6 +274,7 @@ Item {
                     scrollStart: visible ? trackRoot.timelineScrollView.contentX - (modelStart * timeScale) : 0
                     dragProxyMovesComposition: trackRoot.dragProxyMovesComposition
                     trimmingOffset: trackRoot.trimmingOffset
+                    consumerPosition: trackRoot.consumerPosition
 
                     onInitGroupTrim: clipId => {
                         // We are resizing a group, remember coordinates of all elements
@@ -351,6 +353,7 @@ Item {
                     dragProxyCursorShape: trackRoot.dragProxyCursorShape
                     isDragProxyAreaPressed: trackRoot.isDragProxyAreaPressed
                     timelineScrollViewWidth: trackRoot.timelineScrollView.width
+                    consumerPosition: trackRoot.consumerPosition
 
                     onTrimmingIn: (clip, newDuration) => {
                         var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)

@@ -68,7 +68,7 @@ public:
     void clearModel();
     /** @brief Register all keyframable params for an effect */
     bool registerAsset(std::shared_ptr<TreeItem> master, int row, std::shared_ptr<AssetParameterModel> effectModel, const QString assetName);
-    bool registerStack(std::shared_ptr<EffectStackModel> model);
+    bool registerStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset);
     /** @brief Register all keyframable params for a composition */
     bool registerComposition(std::shared_ptr<AssetParameterModel> effectModel, const QString transitionName);
     /** @brief Remove all keyframes at given indexes (parameter indexes / keyframes indexes) */
@@ -108,6 +108,7 @@ public:
     void addRemoveKeyframe(const QModelIndex ix, int pos);
     Q_INVOKABLE void copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData);
     Q_INVOKABLE void slotPasteKeyframeFromClipBoard(int position);
+    Q_INVOKABLE int timecodeOffset();
     /** @brief get current monitor for item owner */
     Kdenlive::MonitorId getMonitorId() const;
 
@@ -147,6 +148,7 @@ private:
     QMap<std::pair<KdenliveObjectType::ItemType, int>, std::shared_ptr<TreeItem>> m_masterList;
     std::shared_ptr<TreeItem> m_activeMaster{nullptr};
     QTimer m_recapRefreshTimer;
+    int m_timecodeOffset{0};
     bool isRecap(std::shared_ptr<TreeItem> item) const;
     void disconnectModel();
     std::shared_ptr<TreeItem> createTopLevelItem(std::shared_ptr<EffectStackModel> model);

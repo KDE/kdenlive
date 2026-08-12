@@ -541,6 +541,15 @@ void KeyframeModel::seekToKeyframe(int index)
     }
 }
 
+void KeyframeModel::seekToPos(int keyframePos)
+{
+    if (auto ptr = m_model.lock()) {
+        auto owner = ptr->getOwnerId();
+        keyframePos += pCore->getItemPosition(owner);
+        pCore->seekMonitor(owner, keyframePos);
+    }
+}
+
 bool KeyframeModel::addKeyframe(int framePos)
 {
     Fun undo = []() { return true; };

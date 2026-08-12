@@ -146,6 +146,7 @@ public:
      */
     Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
     QPoint profile();
+    Q_INVOKABLE int suggestPlayheadSnapPoint(int frame, int snapDistance) const;
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced,
                            std::shared_ptr<MarkerSortModel> markerModel);

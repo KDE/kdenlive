@@ -115,6 +115,7 @@ void DopeSheetModel::clearModel()
     m_masterRecap.reset();
     m_hasGrabbedKeyframes = false;
     m_indexesOnKeyframe.clear();
+    m_timecodeOffset = 0;
     for (auto &c : m_assetConnectionList) {
         QObject::disconnect(c);
     }
@@ -188,7 +189,7 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
     return AbstractTreeModel::data(index, role);
 }
 
-bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
+bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset)
 {
     if (model == m_model) {
         return false;
@@ -197,6 +198,7 @@ bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
     m_model = std::move(model);
     if (m_model) {
         m_currentOwner = m_model->getOwnerId();
+        m_timecodeOffset = timecodeOffset;
     }
     Q_EMIT dopeDurationChanged();
     Q_EMIT dopePositionChanged();
@@ -1525,4 +1527,15 @@ QModelIndex DopeSheetModel::getQmlSelectionIndex(QAbstractItemModel *model, int 
     auto masterIndex = m_activeMaster ? model->index(0, 0) : QModelIndex();
     QModelIndex parentIdx = model->index(row, 0, masterIndex);
     return model->index(paramRow, 0, parentIdx);
+}
+
+int DopeSheetModel::timecodeOffset()
+{
+    if (!m_model) {
+        return 0;
+    }
+    if (m_currentOwner.type == KdenliveObjectType::NoItem || m_currentOwner.type == KdenliveObjectType::BinClip) {
+        return 0;
+    }
+    return m_timecodeOffset;
 }

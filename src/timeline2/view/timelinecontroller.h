@@ -901,7 +901,7 @@ Q_SIGNALS:
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
     /** @brief Requests that a given mix is displayed in the asset panel */
     void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset, bool refreshOnly);
-    void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
+    void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes, int timecodeOffset);
     void showSubtitle(int id);
     /** @brief notify of chunks change
      */

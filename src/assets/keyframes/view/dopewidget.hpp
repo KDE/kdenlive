@@ -32,7 +32,7 @@ protected:
     virtual void focusOutEvent(QFocusEvent *event) override;
 
 public Q_SLOTS:
-    void registerDopeStack(std::shared_ptr<EffectStackModel> model);
+    void registerDopeStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset);
     void registerDopeAsset(std::shared_ptr<AssetParameterModel> model, const QString assetName);
     void slotAddRemoveKeyframe();
     void activateEffect(QPersistentModelIndex ix, int paramRow = -1);

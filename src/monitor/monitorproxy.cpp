@@ -16,6 +16,7 @@
 #include "markersortmodel.h"
 #include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <QUuid>
 
@@ -857,4 +858,13 @@ void MonitorProxy::setAudioSynced(bool synced)
 void MonitorProxy::refreshAudio()
 {
     Q_EMIT rebuildAudio(m_clipId);
+}
+
+int MonitorProxy::suggestPlayheadSnapPoint(int frame, int snapDistance) const
+{
+    if (q->m_id == int(Kdenlive::ProjectMonitor)) {
+        auto timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
+        return timeline->suggestPlayheadSnapPoint(frame, snapDistance);
+    }
+    return frame;
 }

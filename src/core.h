@@ -562,7 +562,7 @@ Q_SIGNALS:
     /** @brief An MLT warning was issued */
     void mltWarning(const QString &message);
     /** @brief Request display of effect stack for a Bin clip. */
-    void requestShowBinEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
+    void requestShowBinEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes, int offset = 0);
     /** @brief Save guide categories in document properties */
     void saveGuideCategories();
     /** @brief When creating a backup file, also save a thumbnail of current timeline */
@@ -574,7 +574,7 @@ Q_SIGNALS:
     /** Show / hide the automask panel */
     void switchMaskPanel(bool show);
     /** @brief Set the effect stack for the dopesheet model */
-    void registerDopeStack(std::shared_ptr<EffectStackModel> model);
+    void registerDopeStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset = 0);
     void registerDopeAsset(std::shared_ptr<AssetParameterModel> model, const QString assetName);
     void transcodeProgress(ObjectId id, int progress);
     /** Inform of an autosave starting operation */

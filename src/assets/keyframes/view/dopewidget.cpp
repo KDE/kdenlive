@@ -116,9 +116,9 @@ void DopeWidget::registerDopeAsset(std::shared_ptr<AssetParameterModel> model, c
                               Q_ARG(QVariant, model->getOwnerId().itemId));
 }
 
-void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model)
+void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset)
 {
-    if (!pCore->dopeSheetModel()->registerStack(model)) {
+    if (!pCore->dopeSheetModel()->registerStack(model, timecodeOffset)) {
         // model is already active
         return;
     }

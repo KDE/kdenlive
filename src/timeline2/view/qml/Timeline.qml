@@ -784,9 +784,9 @@ function getTrackColor(audio, header) {
                     }
                     var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track !== -1 && root.controller.isAudioTrack(track) == compoArea.isAudioDrag) {
-                        frame = root.controller.suggestSnapPoint(frame, root.snapping)
+                        root.mouseFrame = root.controller.suggestSnapPoint(root.mouseFrame, root.snapping)
                         root.clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
-                        root.clipBeingDroppedId = root.timeline.insertComposition(track, frame, root.clipBeingDroppedData , false)
+                        root.clipBeingDroppedId = root.timeline.insertComposition(track, root.mouseFrame, root.clipBeingDroppedData , false)
                         root.continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, lastYPos, upMove)
                     } else {
                         drag.accepted = false
@@ -1585,7 +1585,7 @@ function getTrackColor(audio, header) {
             onPositionChanged: mouse => {
                 let selectLikeTool = K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool
                 root.mouseFrame = Math.floor((mouse.x + scrollView.contentX) / root.timeScale)
-                root.updateTimelineMousePos(root.mouseFrame, timeline.duration)
+                root.updateTimelineMousePos(root.mouseFrame, root.timeline.fullDuration)
                 if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     if (!isCursorHidden) {
@@ -1907,7 +1907,7 @@ function getTrackColor(audio, header) {
                         visible: true
                         font: K.UiUtils.smallestReadableFont
                         x: root.mouseFrame * root.timeScale - width / 2
-                        text: K.Core.timecodeString(root.mouseFrame + timeline.timecodeOffset)
+                        text: K.Core.timecodeString(root.mouseFrame + root.timeline.timecodeOffset)
                         color: ruler.dimmedColor
                         leftPadding: 4
                         rightPadding: 4
@@ -2579,6 +2579,7 @@ function getTrackColor(audio, header) {
             selectedMix: root.selectedMix
             dragProxyMovesComposition: dragProxy.isComposition
             isSomeDragInProgress: root.dragInProgress
+            consumerPosition: root.consumerPosition
 
             z: tracksRepeater.count - index
 

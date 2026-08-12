@@ -354,12 +354,13 @@ Item {
                     delegateRect.dopeRootItem.keyframeType = -1
                     return
                 }
-                if (delegateRect.hasChildren) {
-                    delegateRect.dopeRootItem.dopesheetmodel.addKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.dopeRootItem.mouseFramePos)
-                } else {
-                    delegateRect.model.dopeModel.addKeyframe(delegateRect.dopeRootItem.mouseFramePos)
-                }
                 delegateRect.currentKFFrame = delegateRect.dopeRootItem.mouseFramePos
+                if (delegateRect.hasChildren) {
+                    delegateRect.dopeRootItem.dopesheetmodel.addKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame)
+                } else {
+                    delegateRect.model.dopeModel.addKeyframe(delegateRect.currentKFFrame)
+                }
+                delegateRect.model.dopeModel.seekToPos(delegateRect.currentKFFrame)
                 delegateRect.dopeRootItem.keyframeType = delegateRect.model.dopeModel.getKeyframeTypeAtFrame(delegateRect.currentKFFrame)
                 delegateRect.dopeRootItem.hoverKeyframe = delegateRect.dopeRootItem.mouseFramePos
             }

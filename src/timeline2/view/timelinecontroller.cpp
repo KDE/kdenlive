@@ -1889,7 +1889,7 @@ void TimelineController::showAsset(int id)
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
         bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
         qDebug() << "-----\n// SHOW KEYFRAMES: " << showKeyframes;
-        Q_EMIT showItemEffectStack(clipName, m_model->getClipEffectStackModel(id), m_model->getClipFrameSize(id), showKeyframes);
+        Q_EMIT showItemEffectStack(clipName, m_model->getClipEffectStackModel(id), m_model->getClipFrameSize(id), showKeyframes, m_timecodeOffset);
     } else if (m_model->isSubTitle(id)) {
         qDebug() << "::: SHOWING SUBTITLE: " << id;
         Q_EMIT showSubtitle(id);
@@ -1898,7 +1898,8 @@ void TimelineController::showAsset(int id)
 
 void TimelineController::showTrackAsset(int trackId)
 {
-    Q_EMIT showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), pCore->getCurrentFrameSize(), false);
+    Q_EMIT showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), pCore->getCurrentFrameSize(), false,
+                               m_timecodeOffset);
 }
 
 void TimelineController::adjustTrackHeight(int trackId, int height)
@@ -4497,7 +4498,7 @@ void TimelineController::updateClipActions()
         }
         Q_EMIT timelineClipSelected(false);
         // nothing selected
-        Q_EMIT showItemEffectStack(QString(), nullptr, QSize(), false);
+        Q_EMIT showItemEffectStack(QString(), nullptr, QSize(), false, m_timecodeOffset);
         pCore->timeRemapWidget()->selectedClip(-1, QUuid());
         Q_EMIT showSubtitle(-1);
         pCore->displaySelectionMessage(QString());
@@ -5620,7 +5621,7 @@ QString TimelineController::audioZoomText() const
 
 void TimelineController::showMasterEffects()
 {
-    Q_EMIT showItemEffectStack(i18n("Sequence effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
+    Q_EMIT showItemEffectStack(i18n("Sequence effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false, m_timecodeOffset);
 }
 
 bool TimelineController::refreshIfVisible(int cid)
