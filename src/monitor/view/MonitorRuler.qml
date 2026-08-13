@@ -62,7 +62,7 @@ Rectangle {
         }
     }
 
-    property double timeScale: ruler.width / (ruler.duration + 1) / monitorController.timeZoomFactor
+    property double timeScale: ruler.duration > 0 ? ruler.width / (ruler.duration + 1) / monitorController.timeZoomFactor : 0
     
     property int playheadPosition: monitorController.position
     SystemPalette { id: activePalette }
@@ -187,7 +187,7 @@ Rectangle {
     // frame ticks
     Repeater {
         id: rulerTicks
-        model: ruler.width / ruler.tickDistance + 2
+        model: (ruler.duration > 0 && ruler.tickDistance > 0) ? (ruler.width / ruler.tickDistance + 2) : 0
         Rectangle {
             required property int index
             x: index * ruler.tickDistance - (ruler.rulerZoomOffset % ruler.tickDistance)

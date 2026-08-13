@@ -10,9 +10,12 @@
 #include "cubic/kis_curve_widget.h"
 #include "ui_bezierspline_ui.h"
 #include "widgets/dragvalue.h"
+#include <QCloseEvent>
 #include <QColor>
 #include <QDoubleSpinBox>
+#include <QLayout>
 #include <QTabBar>
+#include <QToolButton>
 #include <map>
 
 template <typename CurveWidget_t> class ValueLabel;
@@ -66,6 +69,11 @@ protected:
     void slotShowAllHandles(bool show);
     void resizeEvent(QResizeEvent *event) override;
     void slotTabChanged(int index);
+    void setupDetachButton();
+    void slotToggleDetached();
+    void detachToWindow();
+    void reattachFromWindow();
+    void closeEvent(QCloseEvent *event) override;
 
 public Q_SLOTS:
     /** @brief Toggle the comments on or off
@@ -88,6 +96,7 @@ private:
     CurveModes m_mode;
     bool m_showPixmap;
     QTabBar *m_tabBar{nullptr};
+    QToolButton *m_popoutButton{nullptr};
     // For AvCurve: one persistent index per tab (tab 0 = first param, etc.)
     QList<QPersistentModelIndex> m_tabIndexes;
     // Curve line colors per tab, parallel to m_tabIndexes (invalid QColor = use default)
@@ -95,6 +104,11 @@ private:
     // Point In/Out spinboxes for AvCurve (nullptr for non-AvCurve)
     QDoubleSpinBox *m_inSpin{nullptr};
     QDoubleSpinBox *m_outSpin{nullptr};
+    QWidget *m_detachPlaceholder{nullptr};
+    QWidget *m_originalParent{nullptr};
+    QLayout *m_originalLayout{nullptr};
+    bool m_detached{false};
+    QSize m_lastDetachedSize;
 
     ValueLabel<CurveWidget_t> *m_leftParam, *m_bottomParam;
 };
