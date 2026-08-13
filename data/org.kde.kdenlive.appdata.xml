@@ -388,7 +388,29 @@
     </ul>
   </description>
   <releases>
-    <release version="26.08.0" date="2026-08-20"/>
+    <release version="26.08.0" date="2026-08-20">
+      <url>https://kdenlive.org/news/releases/26.08.0/</url>
+      <description>
+        <p>Mostly a bugfix and usability release, here are some of the improvements</p>
+        <ul>
+          <li>Timeline: allow moving tracks up and down</li>
+          <li>Timeline: auto add range markers at gaps</li>
+          <li>Timeline: add insert clip using its embeded timecode</li>
+          <li>Timeline: add option to return playhead to start position on stop</li>
+          <li>Timeline: add option to duplicate clip</li>
+          <li>Timeline: allow moving clip markers with the mouse</li>
+          <li>Timeline: add option to copy selection to new sequence (without modifying original)</li>
+          <li>Timeline: switch default transition to dissolve now that it correctly handles alpha</li>
+          <li>Audio mixer: shift click to listen to multiple selected tracks in solo mode</li>
+          <li>Effects: add avfilter.curves, allowing to adjust all channels in one effect</li>
+          <li>Effects: improve gradientmap filter, allowing up to 32 stops in the gradient</li>
+          <li>Titler: add copy/paste of items</li>
+          <li>Titler: add snapping to other objects</li>
+          <li>Titler: add rectangles with rounded corners</li>
+          <li>Titler: when editing a timeline title, allow saving it as a new bin title to easily modify only this one</li>
+        </ul>
+      </description>
+    </release>
     <release version="26.04.3" date="2026-07-02"/>
     <release version="26.04.2" date="2026-06-04"/>
     <release version="26.04.1" date="2026-05-07"/>
