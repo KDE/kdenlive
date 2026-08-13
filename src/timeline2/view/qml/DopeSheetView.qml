@@ -788,23 +788,33 @@ Rectangle {
                 exclusive: true
             }
             Repeater {
+                id: kfCtxMenu
                 model: dopeRoot.keyframeTypes
-                delegate: MenuItem {
+                property var currentType: dopeRoot.keyframeType
+                function changeKeyframe(type) {
+                    console.log('changing kf type to: ', type, ' current: ', dopeRoot.keyframeType)
+                    dopeRoot.dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, type)
+                    dopeRoot.keyframeType = type
+                }
+
+                MenuItem {
+                    id: kfMenuItem
                     required property var modelData
-                    required property var allSelectedKeyframes
-                    required property var keyframeType
-                    required property var dopesheetmodel
                     text: modelData.text
+                    property bool matches: modelData.value == kfCtxMenu.currentType
                     checkable: true
-                    onTriggered: {
-                        console.log('changing kf type to: ', modelData.value, ' current: ', keyframeType)
-                        dopesheetmodel.changeKeyframeType(allSelectedKeyframes, modelData.value)
-                        keyframeType = modelData.value
+                    function changeKeyframe() {
+                        kfCtxMenu.changeKeyframe(modelData.value)
+                    }
+                    action: Action {
+                        ActionGroup.group: typeActions
+                        checkable: true
+                        checked: kfMenuItem.matches
+                        onTriggered: {
+                            kfMenuItem.changeKeyframe()
+                        }
                     }
                 }
-                property var keyframeType: dopeRoot.keyframeType
-                property var allSelectedKeyframes: dopeRoot.allSelectedKeyframes
-                property var dopesheetmodel: dopeRoot.dopesheetmodel
             }
         }
         MenuItem {
