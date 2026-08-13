@@ -1715,11 +1715,12 @@ TimeRemap::TimeRemap(QWidget *parent)
         QSignalBlocker bk5(kfr_type);
         kfr_type->setCurrentIndex(qMax(0, kfr_type->findData(m_view->keyframeTypeAt(selection.first))));
     });
-    // TODO: the list is restricted to non overshooting interpolation types for
-    // now, pending a decision on how to handle types like bounce and elastic
-    // whose overshoot makes the source time briefly play backwards
+    // Bounce and elastic overshoot the keyframe value, which on a time map means the
+    // source time briefly runs backwards and the clip plays in reverse for a few frames
     const QMap<KeyframeType::KeyframeEnum, QString> kfrTypes = KeyframeModel::getKeyframeTypes();
-    for (auto type : {KeyframeType::Linear, KeyframeType::CurveSmooth, KeyframeType::CubicIn, KeyframeType::CubicOut}) {
+    for (auto type : {KeyframeType::Linear, KeyframeType::Discrete, KeyframeType::CurveSmooth, KeyframeType::CubicIn, KeyframeType::CubicOut,
+                      KeyframeType::ExponentialIn, KeyframeType::ExponentialOut, KeyframeType::CircularIn, KeyframeType::CircularOut, KeyframeType::BounceIn,
+                      KeyframeType::BounceOut, KeyframeType::ElasticIn, KeyframeType::ElasticOut}) {
         kfr_type->addItem(kfrTypes.value(type), int(type));
     }
     connect(kfr_type, &QComboBox::activated, this, [this](int ix) { m_view->slotSetKeyframeType(kfr_type->itemData(ix).toInt()); });
