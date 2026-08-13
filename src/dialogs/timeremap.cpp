@@ -1818,9 +1818,10 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
                 int min = pCore->getItemIn(ObjectId(KdenliveObjectType::TimelineClip, m_cid, m_uuid));
                 int lastLength = pCore->getItemDuration(ObjectId(KdenliveObjectType::TimelineClip, m_cid, m_uuid));
                 int max = min + lastLength;
-                pCore->selectBinClip(m_binId, true, min, {min, max});
+                pCore->selectBinClip(m_binId, true, topPos, {min, max});
+            } else {
+                pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeekIfVisible(topPos);
             }
-            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeekIfVisible(topPos);
         }
         if (bottomPos > -1) {
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(bottomPos + m_view->m_startPos);
