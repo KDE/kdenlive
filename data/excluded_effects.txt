@@ -234,6 +234,8 @@ resize
 #####################
 # NOT NEEDED BY USER
 #####################
+glsl.manager
+avfilter.colordetect
 avfilter.dctdnoiz
 avfilter.fspp
 # FREI0R.HQDN3D ALREADY EXISTS
