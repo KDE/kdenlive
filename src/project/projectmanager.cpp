@@ -1855,8 +1855,8 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     QString convertedFile = QStringUtils::appendToFilename(currentFile, QStringLiteral("-%1").arg(int(newProfile->fps() * 100)));
     QString saveFolder =
         m_project->url().isEmpty() ? QDir::tempPath() : m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
-    QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
-    QTemporaryFile tmpFile2(saveFolder + "/kdenlive-XXXXXX.mlt");
+    QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.kdenlive");
+    QTemporaryFile tmpFile2(saveFolder + "/kdenlive-XXXXXX.kdenlive");
     if (saveInTempFile && m_project->url().isEmpty()) {
         if (!tmpFile2.open()) {
             // Something went wrong
