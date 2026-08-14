@@ -138,7 +138,7 @@ void SceneSplitTask::run()
                               source,
                               QStringLiteral("-filter:v"),
                               QStringLiteral("select='gt(scene,%1)',showinfo").arg(m_threshold),
-                              QStringLiteral("-vsync"),
+                              QStringLiteral("-fps_mode"),
                               QStringLiteral("vfr"),
                               QStringLiteral("-f"),
                               QStringLiteral("null"),
