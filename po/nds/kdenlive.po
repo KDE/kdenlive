@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-08 00:44+0000\n"
+"POT-Creation-Date: 2026-08-14 00:44+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -21713,7 +21713,7 @@ msgstr "Vöransichten warrt laadt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2816 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1704 src/project/projectmanager.cpp:1706
+#: src/project/projectmanager.cpp:1695 src/project/projectmanager.cpp:1697
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
@@ -22993,7 +22993,7 @@ msgid "Disable GPU processing"
 msgstr "Profil wegmaken"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:878
+#: src/project/projectmanager.cpp:869
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -23757,7 +23757,7 @@ msgstr " Biller"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2017 src/project/projectmanager.cpp:2023
+#: src/project/projectmanager.cpp:2008 src/project/projectmanager.cpp:2014
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23857,7 +23857,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1906
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1897
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
@@ -26665,7 +26665,7 @@ msgstr ""
 msgid "Time remap does not work on clip with B frames."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Edit Timeremap keyframes"
@@ -27284,8 +27284,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "Profil sekern"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:855
-#: src/project/projectmanager.cpp:907
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:846
+#: src/project/projectmanager.cpp:898
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr ""
@@ -27353,8 +27353,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1578
-#: src/project/projectmanager.cpp:1614
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1569
+#: src/project/projectmanager.cpp:1605
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
@@ -34215,7 +34215,7 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1843
+#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1834
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34248,38 +34248,38 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Sekern"
 
-#: src/project/projectmanager.cpp:756
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:756
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "File Recovery"
 msgstr ""
 
-#: src/project/projectmanager.cpp:757 src/project/projectmanager.cpp:893
+#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Recover"
 msgstr "Wedderherstellen"
 
-#: src/project/projectmanager.cpp:757
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Do not recover"
 msgstr ""
 
-#: src/project/projectmanager.cpp:800
+#: src/project/projectmanager.cpp:791
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "File %1 does not exist"
 msgstr "Dateiverwiedern:"
 
-#: src/project/projectmanager.cpp:832
+#: src/project/projectmanager.cpp:823
 #, kde-format
 msgid "Opening file %1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/project/projectmanager.cpp:892
+#: src/project/projectmanager.cpp:883
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34287,46 +34287,46 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1168
+#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1159
 #, kde-format
 msgid "Error opening file"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/project/projectmanager.cpp:893 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1160
 #, kde-format
 msgid "Open Backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:911
+#: src/project/projectmanager.cpp:902
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Could not open the backup project file."
 msgstr "Profil wegmaken"
 
-#: src/project/projectmanager.cpp:926
+#: src/project/projectmanager.cpp:917
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:928
+#: src/project/projectmanager.cpp:919
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:999
+#: src/project/projectmanager.cpp:990
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading timeline…"
 msgstr "Projekt warrt laadt"
 
-#: src/project/projectmanager.cpp:1022
+#: src/project/projectmanager.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Building sequences…"
 msgstr "Bildfolg importeren"
 
-#: src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:1186
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid ""
@@ -34334,70 +34334,70 @@ msgid ""
 "%1\n"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/project/projectmanager.cpp:1235
+#: src/project/projectmanager.cpp:1226
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1227
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1326
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1556
+#: src/project/projectmanager.cpp:1547
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/project/projectmanager.cpp:1592
+#: src/project/projectmanager.cpp:1583
 #, fuzzy, kde-format
 #| msgid "Project Tree"
 msgid "Moving project folder"
 msgstr "Projektboom"
 
-#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1739
-#: src/project/projectmanager.cpp:1743
+#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1730
+#: src/project/projectmanager.cpp:1734
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Sequence 1"
 msgstr "Bildfolg importeren"
 
-#: src/project/projectmanager.cpp:1694
+#: src/project/projectmanager.cpp:1685
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1835 src/project/projectmanager.cpp:1848
-#: src/project/projectmanager.cpp:1872 src/project/projectmanager.cpp:1881
+#: src/project/projectmanager.cpp:1826 src/project/projectmanager.cpp:1839
+#: src/project/projectmanager.cpp:1863 src/project/projectmanager.cpp:1872
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2011
+#: src/project/projectmanager.cpp:2002
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2036
+#: src/project/projectmanager.cpp:2027
 #, fuzzy, kde-format
 #| msgid "Project Tree"
 msgid "Project profile changed"
 msgstr "Projektboom"
 
-#: src/project/projectmanager.cpp:2100
+#: src/project/projectmanager.cpp:2091
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid ""
@@ -34405,36 +34405,36 @@ msgid ""
 "%1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/project/projectmanager.cpp:2189
+#: src/project/projectmanager.cpp:2180
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2422 src/project/projectmanager.cpp:2474
+#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2465
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to create sequence"
 msgstr "Utsöök-Warktüüch"
 
-#: src/project/projectmanager.cpp:2432 src/project/projectmanager.cpp:2483
+#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2474
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Sequence creation failed"
 msgstr "Utsöök-Warktüüch"
 
-#: src/project/projectmanager.cpp:2459
+#: src/project/projectmanager.cpp:2450
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Linkerhand utrichten"
 
-#: src/project/projectmanager.cpp:2463
+#: src/project/projectmanager.cpp:2454
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Create Sequence Clip"
 msgstr "Bildfolg importeren"
 
-#: src/project/projectmanager.cpp:2501
+#: src/project/projectmanager.cpp:2492
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Copy clips to new Sequence"
