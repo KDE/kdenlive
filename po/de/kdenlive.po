@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2026-02-13 18:05+0100\n"
 "Last-Translator: anon <emil@wechler.eu>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -26945,7 +26945,7 @@ msgstr ""
 msgid "Time remap does not work on clip with B frames."
 msgstr "Wellen mit Keyframes auf dem Clip erstellen"
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, fuzzy, kde-format
 #| msgid "Edit %1 keyframe"
 msgid "Edit Timeremap keyframes"

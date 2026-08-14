@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2026-07-12 09:49+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -26542,7 +26542,7 @@ msgstr "Usuwa klatkę kluczową w bieżącym miejscu głowicy odtwarzającej."
 msgid "Time remap does not work on clip with B frames."
 msgstr "Przemapowanie czasu nie działa na wycinkach zawierających klatki B."
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Edytuj klatki kluczowe przemapowania czasu"

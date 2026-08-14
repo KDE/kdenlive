@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2026-08-10 17:43+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -26578,7 +26578,7 @@ msgstr ""
 msgid "Time remap does not work on clip with B frames."
 msgstr "La modifica del tempo non funziona sui fotogrammi B."
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Modifica fotogrammi chiave per la modifica del tempo"

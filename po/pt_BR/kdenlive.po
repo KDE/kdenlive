@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2026-07-16 08:18-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -26739,7 +26739,7 @@ msgstr "Exclui o quadro-chave na posição atual do indicador de reprodução."
 msgid "Time remap does not work on clip with B frames."
 msgstr "O remapeamento de tempo não funciona com clipes que contém quadros B."
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Editar quadros-chave da reconfiguração do tempo"

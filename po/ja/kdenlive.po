@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -26703,7 +26703,7 @@ msgstr ""
 msgid "Time remap does not work on clip with B frames."
 msgstr "タイムリマップはBフレーム上で動作していません。"
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, fuzzy, kde-format
 #| msgid "Edit Keyframe"
 msgid "Edit Timeremap keyframes"

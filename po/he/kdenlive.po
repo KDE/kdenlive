@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2026-07-31 12:56+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -25598,7 +25598,7 @@ msgstr "מוחק את תמונית המפתח במקום הנוכחי של רא�
 msgid "Time remap does not work on clip with B frames."
 msgstr "מיפוי זמן מחדש לא עובד על סרטון עם תמוניות B."
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "עריכת תמוניות מפתח של מיפוי זמן מחדש"

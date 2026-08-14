@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2026-07-17 08:52+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -25785,7 +25785,7 @@ msgstr "წაშლის დაკვრის მაჩვენებლი�
 msgid "Time remap does not work on clip with B frames."
 msgstr "დროის თავიდან ასახვა B-კადრების შემცველ კლიპებზე არ მუშაობს."
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "დროის თავიდან ასახვის საკვანძო კადრების ჩასწორება"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -26765,7 +26765,7 @@ msgstr "Scriosann sé an eochairfhráma ag suíomh reatha an cheann imeartha."
 msgid "Time remap does not work on clip with B frames."
 msgstr "Ní oibríonn athmhapáil ama ar ghearrthóg le frámaí B."
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Eagar frámaí eochair-ama-léarscáileáin"

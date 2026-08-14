@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:43+0000\n"
+"POT-Creation-Date: 2026-08-14 02:43+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -26721,7 +26721,7 @@ msgstr ""
 msgid "Time remap does not work on clip with B frames."
 msgstr "Εισαγωγή κυμάτων στο κλιπ σας με keyframes"
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2077
 #, fuzzy, kde-format
 #| msgid "Edit Keyframe"
 msgid "Edit Timeremap keyframes"
