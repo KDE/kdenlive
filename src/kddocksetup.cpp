@@ -24,7 +24,7 @@ public:
         parentWidget->setProperty("_breeze_force_frame", false);
         setContextMenuPolicy(Qt::CustomContextMenu);
         // The constructor of KDDockWidgets::QtWidgets::TabBar makes a QProxyStyle
-        // that ends up taking ownerhsip of the style for the entire application!
+        // that ends up taking ownership of the style for the entire application!
         if (QProxyStyle *proxy_style = qobject_cast<QProxyStyle *>(style())) {
             proxy_style->baseStyle()->setParent(qApp);
             proxy_style->setBaseStyle(QStyleFactory::create(qApp->style()->name()));
