@@ -5367,6 +5367,13 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount, cons
             getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
         }
     });
+    connect(bin, &Bin::requestBinCloseForFolder, this, [this](const QString &folderId) {
+        for (auto &b : m_binWidgets) {
+            if (b->rootFolderId() == folderId) {
+                Q_EMIT removeBinDock(b->parentWidget()->objectName());
+            }
+        }
+    });
     m_binWidgets << bin;
     if (m_binWidgets.size() > 1) {
         // This is a secondary bin widget

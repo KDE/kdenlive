@@ -706,6 +706,8 @@ Q_SIGNALS:
     /** @brief Upon selection, activate timeline target tracks. */
     void setupTargets(bool hasVideo, QMap<int, QString> audioStreams);
     void requestBinClose();
+    /** @brief Request any secondary bin rooted on the folder should close. */
+    void requestBinCloseForFolder(const QString &folderId);
     /** @brief Update a timeline tab name on clip rename. */
     void updateTabName(const QUuid &, const QString &);
     /** @brief Some timeline sequence producers have been updated, refresh their occurrences. */
