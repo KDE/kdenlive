@@ -545,8 +545,9 @@ void ProjectSettings::accept()
     QString params = selectedPreview();
     if (!params.isEmpty()) {
         if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension) {
-            // Timeline preview settings changed, warn if there are existing previews
-            if (pCore->hasTimelinePreview() &&
+            // Timeline preview settings changed, warn if there are existing previews.
+            // Only relevant when editing an already-open project.
+            if (!m_newProject && pCore->hasTimelinePreview() &&
                 KMessageBox::warningContinueCancel(this,
                                                    i18n("You changed the timeline preview profile. This will remove all existing timeline previews for "
                                                         "this project.\n Are you sure you want to proceed?"),
