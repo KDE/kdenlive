@@ -61,6 +61,11 @@ Window {
     width: splashContent.implicitWidth
     height: splashContent.implicitHeight
 
+    onClosing: function(close) {
+      close.accepted = true
+      splash.closeApp()
+    }
+
     function fade()
     {
         fadeAnimation.start()
