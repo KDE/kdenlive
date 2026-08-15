@@ -1363,7 +1363,7 @@ void Core::refreshProjectItem(const ObjectId &id)
 
 bool Core::hasTimelinePreview() const
 {
-    if (!m_guiConstructed) {
+    if (!m_guiConstructed || m_mainWindow->getCurrentTimeline() == nullptr) {
         return false;
     }
     return m_mainWindow->getCurrentTimeline()->controller()->renderedChunks().size() > 0;
