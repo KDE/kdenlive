@@ -34,6 +34,7 @@
 #include <QTimer>
 #include <QXmlStreamWriter>
 
+#include <KAboutData>
 #include <KIO/JobUiDelegateFactory>
 #include <KIO/OpenUrlJob>
 
@@ -709,13 +710,15 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-    auto *job = new KIO::OpenUrlJob(
-        QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html?mtm_campaign=kdenlive_inapp&mtm_kwd=welcome_wizard")));
+    auto *job = new KIO::OpenUrlJob(QUrl(
+        QStringLiteral(
+            "https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html?utm_campaign=kdenlive_inapp&utm_term=welcome_wizard&utm_content=%1")
+            .arg(KAboutData::applicationData().version())));
     job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();
-    // KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html?mtm_campaign=kdenlive_inapp&mtm_kwd=welcome_wizard")),
+    // KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html?utm_campaign=kdenlive_inapp&utm_term=welcome_wizard&utm_content=%1").arg(KAboutData::applicationData().version())),
     // QStringLiteral("text/html"));
 }
 

@@ -684,8 +684,8 @@ Window {
                     anchors.leftMargin: 10
                     anchors.right: notesButton.left
                     text: KI18n.i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
-                               "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
-                               "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
+                               "https://kdenlive.org/get-involved/?utm_campaign=kdenlive_inapp&utm_term=splash_upgraded_contribute&utm_content=" + splash.version,
+                               "https://kdenlive.org/fund/?utm_campaign=kdenlive_inapp&utm_term=splash_upgraded_donate&utm_content=" + splash.version)
                     wrapMode: Text.Wrap
                     onLinkActivated: (link)=> splash.openLink(link)
                     textFormat: Text.RichText
@@ -702,7 +702,7 @@ Window {
                     enabled: splash.actionsEnabled
                     text: KI18n.i18n("What's New")
                     icon.name: "help-contents"
-                    onClicked: splash.openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
+                    onClicked: splash.openLink("https://kdenlive.org/news/releases/" + splash.version + "?utm_campaign=kdenlive_inapp&utm_term=splash_upgraded_notes&utm_content=" + splash.version)
                     KeyNavigation.tab: listView
                 }
             }
@@ -735,14 +735,14 @@ Window {
                         icon.name: "user-group-new"
                         text: KI18n.i18n("Contribute…")
                         enabled: splash.actionsEnabled
-                        onClicked: splash.openLink("https://kdenlive.org/get-involved?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_contribute&mtm_content=" + splash.version)
+                        onClicked: splash.openLink("https://kdenlive.org/get-involved?utm_campaign=kdenlive_inapp&utm_term=splash_donatebar_contribute&utm_content=" + splash.version)
                     }
 
                     ToolButton {
                         text: KI18n.i18n("Donate…")
                         icon.name: "donate"
                         enabled: splash.actionsEnabled
-                        onClicked: splash.openLink("https://kdenlive.org/fund?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_donate&mtm_content=" + splash.version)
+                        onClicked: splash.openLink("https://kdenlive.org/fund?utm_campaign=kdenlive_inapp&utm_term=splash_donatebar_donate&utm_content=" + splash.version)
                         KeyNavigation.tab: listView
                     }
 
@@ -1060,7 +1060,7 @@ Window {
                         text: KI18n.i18n("Check Online Documentation")
                         enabled: splash.actionsEnabled
                         Layout.alignment: Qt.AlignLeft
-                        onClicked: splash.openLink("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_dcumentation")
+                        onClicked: splash.openLink("https://docs.kdenlive.org?utm_campaign=kdenlive_inapp&utm_term=splash_documentation&utm_content=" + splash.version)
                     }
 
                     Button {

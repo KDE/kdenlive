@@ -5554,7 +5554,7 @@ void MainWindow::checkMaxCacheSize()
                             QAction *updateAction = new QAction(i18n("Go to download page"), this);
                             connect(updateAction, &QAction::triggered, this, []() {
                                 QDesktopServices::openUrl(
-                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder&mtm_content=%1")
+                                    QUrl(QStringLiteral("https://kdenlive.org/download?utm_campaign=kdenlive_inapp&utm_term=update_reminder&utm_content=%1")
                                              .arg(KAboutData::applicationData().version())));
                             });
                             QAction *abortAction = new QAction(i18n("Never check again"), this);
@@ -5840,8 +5840,8 @@ void MainWindow::appHelpActivated()
 {
     // Don't use default help, show our website
     // QDesktopServices::openUrl(QUrl(QStringLiteral("help:kdenlive")));
-    const QString helpUrl =
-        QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action&mtm_content=%1").arg(KAboutData::applicationData().version());
+    const QString helpUrl = QStringLiteral("https://docs.kdenlive.org?utm_campaign=kdenlive_inapp&utm_term=help_action&utm_content=%1")
+                                .arg(KAboutData::applicationData().version());
     if (pCore->packageType() == LinuxPackageType::AppImage) {
         qDebug() << "::::: LAUNCHING APPIMAGE BROWSER.........";
         QProcessEnvironment env = getCleanEnvironement();
