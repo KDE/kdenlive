@@ -86,6 +86,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include <kddockwidgets/core/DockRegistry.h>
 #include <kddockwidgets/core/FloatingWindow.h>
 #include <kddockwidgets/core/MainWindow.h>
 
@@ -121,6 +122,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileDialog>
 #include <QMenu>
 #include <QMenuBar>
+#include <QProxyStyle>
 #include <QPushButton>
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -5350,7 +5352,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
             }
         }
         break;
-    case QEvent::ApplicationPaletteChange:
+    case QEvent::ApplicationPaletteChange: {
         if (m_assetPanel) {
             m_assetPanel->clear();
         }
@@ -5369,8 +5371,17 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
         applyToolMessageStyling();
         applyZoomLevelButtonStyling();
 
+        for (KDDockWidgets::Core::Group *group : KDDockWidgets::DockRegistry::self()->groups()) {
+            auto tab_bar = static_cast<KDDockWidgets::QtWidgets::TabBar *>(group->tabBar()->view());
+            if (QProxyStyle *style = qobject_cast<QProxyStyle *>(tab_bar->style())) {
+                style->setBaseStyle(QStyleFactory::create(qApp->style()->name()));
+                tab_bar->setPalette(qApp->palette());
+            }
+        }
+
         Q_EMIT pCore->updatePalette();
         break;
+    }
     default:
         break;
     }

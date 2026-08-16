@@ -392,22 +392,182 @@
       <url>https://kdenlive.org/news/releases/26.08.0/</url>
       <description>
         <p>Mostly a bugfix and usability release, here are some of the improvements</p>
+        <p xml:lang="ca">Principalment, un llançament de correcció d'errors i d'usabilitat, aquí hi ha alguna de les millores</p>
+        <p xml:lang="ca-valencia">Principalment, un llançament d'esmena d'errors i d'usabilitat, ací hi ha alguna de les millores</p>
+        <p xml:lang="es">Se trata mayormente de una versión con correcciones de errores y mejoras en la usabilidad, a continuación algunas de las mejoras</p>
+        <p xml:lang="ka">ძირითადად შეცდომების გამოსწორება და გამოყენებადობის გამოშვება, აქ არის რამდენიმე გაუმჯობესება</p>
+        <p xml:lang="nl">Dit is voornamelijk een uitgave gericht op reparaties van fouten en gebruiksvriendelijkheid; hier zijn enkele van de verbeteringen</p>
+        <p xml:lang="pt-BR">Esta é uma atualização focada principalmente em correções de bugs e usabilidade. Aqui estão algumas das melhorias:</p>
+        <p xml:lang="sk">Prevažne vydanie s opravami chýb a vylepšeniami použiteľnosti, tu sú niektoré z nich</p>
+        <p xml:lang="sv">I huvudsak en felrättnings- och användbarhetsutgåva, här är några av förbättringarna</p>
+        <p xml:lang="tr">Genelde bir hata düzeltmesi ve kullanılabilirlik iyileştirmesi yayımı; iyileştirmelerden bazılarını aşağıda bulabilirsiniz:</p>
+        <p xml:lang="uk">Здебільшого випуск з виправленням вад та зручності користування; нижче наведено деякі з удосконалень</p>
         <ul>
           <li>Timeline: allow moving tracks up and down</li>
+          <li xml:lang="ca">Línia de temps: permet moure les pistes amunt i avall</li>
+          <li xml:lang="ca-valencia">Línia de temps: permet moure les pistes amunt i avall</li>
+          <li xml:lang="es">Línea de tiempo: Ahora es posible mover las pistas hacia arriba/abajo</li>
+          <li xml:lang="ka">ქრონოლოგია: ტრეკების ატანა/ჩამოტანის დაშვება</li>
+          <li xml:lang="nl">Tijdlijn: tracks omhoog en omlaag verplaatsen</li>
+          <li xml:lang="pt-BR">Linha do tempo: permitir mover faixas para cima e para baixo</li>
+          <li xml:lang="sk">Časová os: možnosť presúvať stopy hore a dolu</li>
+          <li xml:lang="sv">Tidslinje: tillåt att flytta spår uppåt och neråt</li>
+          <li xml:lang="tr">Zaman akışı: İzleri aşağı ve yukarı taşımaya olanak tanı</li>
+          <li xml:lang="uk">Монтажний стіл: уможливлено пересування доріжок вище і нижче</li>
           <li>Timeline: auto add range markers at gaps</li>
+          <li xml:lang="ca">Línia de temps: afegeix automàticament marcadors d'interval a les separacions</li>
+          <li xml:lang="ca-valencia">Línia de temps: afig automàticament marcadors d'interval a les separacions</li>
+          <li xml:lang="es">Línea de tiempo: Adición automática de marcadores de rango en huecos</li>
+          <li xml:lang="ka">ქრონოლოგია: შუალედის მარკერების ავტომატური დამატება</li>
+          <li xml:lang="nl">Tijdlijn: automatisch bereikmarkeringen toevoegen bij hiaten</li>
+          <li xml:lang="pt-BR">Linha do tempo: adicionar automaticamente marcadores de intervalo nas lacunas</li>
+          <li xml:lang="sk">Časová os: automatické pridávanie rozsahových značiek pri medzerách</li>
+          <li xml:lang="sv">Tidslinje: lägg till intervallmarkörer automatiskt vid mellanrum</li>
+          <li xml:lang="tr">Zaman akışı: Boşluklarda erim imleyicilerini kendiliğinden ekle</li>
+          <li xml:lang="uk">Монтажний стіл: реалізовано автоматичне додавання позначок діапазону у прогалини</li>
           <li>Timeline: add insert clip using its embeded timecode</li>
+          <li xml:lang="ca">Línia de temps: afegeix la inserció de clip utilitzant el seu codi de temps incrustat</li>
+          <li xml:lang="ca-valencia">Línia de temps: afig la inserció de clip utilitzant el seu codi de temps incrustat</li>
+          <li xml:lang="es">Línea de tiempo: Ahora es posible insertar un clip usando su código de tiempo incorporado</li>
+          <li xml:lang="ka">ქრონოლოგია: დაემატა კლიპის ჩასმა მისი ჩაშენებული დროის კოდით</li>
+          <li xml:lang="nl">Tijdlijn: voeg een clip in met gebruik van de ingebedde tijdcode</li>
+          <li xml:lang="pt-BR">Linha do tempo: adicionar clipe de inserção usando seu código de tempo incorporado</li>
+          <li xml:lang="sk">Časová os: vloženie klipu podľa jeho vnoreného časového kódu</li>
+          <li xml:lang="sv">Tidslinje: lägg till infoga klipp med dess inbäddade tidskod</li>
+          <li xml:lang="tr">Zaman akışı: Klibi gömülü zaman kodunu kullanarak ekle/yerleştir</li>
+          <li xml:lang="uk">Монтажний стіл: реалізовано додавання вставленого кліпу з використанням його вбудованої часової позначки</li>
           <li>Timeline: add option to return playhead to start position on stop</li>
+          <li xml:lang="ca">Línia de temps: afegeix una opció per retornar el capçal de reproducció a la posició d'inici en aturar-se</li>
+          <li xml:lang="ca-valencia">Línia de temps: afig una opció per retornar el capçal de reproducció a la posició d'inici en parar-se</li>
+          <li xml:lang="es">Línea de tiempo: Se agregó un opción para que el cursor de tiempo regrese a la posición inicial al detener la reproducción</li>
+          <li xml:lang="ka">ქრონოლოგია: დაემატა პარამეტრი გაჩერებისას დაკვრის მაჩვენებლის დასაწყისში გადასატანად</li>
+          <li xml:lang="nl">Tijdlijn: optie toevoegen om de afspeelkop bij het stoppen naar de startpositie terug te zetten</li>
+          <li xml:lang="pt-BR">Linha do tempo: adicionar opção para retornar o cursor de reprodução à posição inicial ao parar</li>
+          <li xml:lang="sk">Časová os: možnosť vrátiť prehrávaciu hlavu na začiatok po zastavení</li>
+          <li xml:lang="sv">Tidslinje: lägg till alternativ för att flytta tillbaka uppspelningspositionen till startposition vid stopp</li>
+          <li xml:lang="tr">Zaman akışı: Durdurunca oynatma kafasını başlangıca döndürme seçeneği</li>
+          <li xml:lang="uk">Монтажний стіл: додано можливість повернення позиції відтворення до початкової позиції при зупиненні відтворення</li>
           <li>Timeline: add option to duplicate clip</li>
+          <li xml:lang="ca">Línia de temps: afegeix l'opció de duplicar un clip</li>
+          <li xml:lang="ca-valencia">Línia de temps: afig l'opció de duplicar un clip</li>
+          <li xml:lang="es">Línea de tiempo: Se agregó una opción para duplicar clips</li>
+          <li xml:lang="ka">ქრონოლოგია: დაემატა პარამეტრი კლიპის დუბლირებისთვის</li>
+          <li xml:lang="nl">Tijdlijn: optie toevoegen om een ​​clip te dupliceren</li>
+          <li xml:lang="pt-BR">Linha do tempo: adicionar opção para duplicar clipe</li>
+          <li xml:lang="sk">Časová os: možnosť duplikovať klip</li>
+          <li xml:lang="sv">Tidslinje: lägg till alternativ för att duplicera klipp</li>
+          <li xml:lang="tr">Zaman akışı: Klibi çoğaltmaya olanak tanı</li>
+          <li xml:lang="uk">Монтажний стіл: додано можливість дублювати кліп</li>
           <li>Timeline: allow moving clip markers with the mouse</li>
+          <li xml:lang="ca">Línia de temps: permet moure els marcadors de clip amb el ratolí</li>
+          <li xml:lang="ca-valencia">Línia de temps: permet moure els marcadors de clip amb el ratolí</li>
+          <li xml:lang="es">Línea de tiempo: Ahora es posible mover marcadores de clips con el ratón</li>
+          <li xml:lang="ka">ქრონოლოგია: კლიპის მარკერების თაგუნათი გადაადგილების ხარდაჭერა</li>
+          <li xml:lang="nl">Tijdlijn: verplaatsen van clipmarkeringen met de muis mogelijk maken</li>
+          <li xml:lang="pt-BR">Linha do tempo: permitir mover marcadores de clipe com o mouse</li>
+          <li xml:lang="sk">Časová os: možnosť presúvať značky klipu myšou</li>
+          <li xml:lang="sv">Tidslinje: tillåt att klippmarkörer flyttas med musen</li>
+          <li xml:lang="tr">Zaman akışı: Klip imleyicilerini fareyle taşımaya olanak tanı</li>
+          <li xml:lang="uk">Монтажний стіл: уможливлено пересування позначок кліпу за допомогою миші</li>
           <li>Timeline: add option to copy selection to new sequence (without modifying original)</li>
+          <li xml:lang="ca">Línia de temps: afegeix una opció per copiar la selecció a una seqüència nova (sense modificar l'original)</li>
+          <li xml:lang="ca-valencia">Línia de temps: afig una opció per copiar la selecció a una seqüència nova (sense modificar l'original)</li>
+          <li xml:lang="es">Línea de tiempo: Se agregó una opción para copiar una selección de clips a una nueva secuencia (sin modificar los originales)</li>
+          <li xml:lang="ka">ქრონოლოგია: დაემატა პარამეტრი მონიშნულის დასაკოპირებლად ახალ მიმდევრობაში (ორიგინალის ცვლილების გარეშე)</li>
+          <li xml:lang="nl">Tijdlijn: optie toevoegen om selectie naar een nieuwe sequentie te kopiëren (zonder het origineel te wijzigen)</li>
+          <li xml:lang="pt-BR">Linha do tempo: adicionar opção de copiar a seleção para uma nova sequência (sem modificar a original)</li>
+          <li xml:lang="sk">Časová os: možnosť skopírovať výber do novej sekvencie (bez zmeny originálu)</li>
+          <li xml:lang="sv">Tidslinje:  lägg till alternativ för att kopiera markering till ny sekvens (utan att ändra originalet)</li>
+          <li xml:lang="tr">Zaman akışı: Seçimi yeni sekansa (özgünde değişiklik yapmadan) kopyalamaya olanak tanı</li>
+          <li xml:lang="uk">Монтажний стіл: додано можливість копіювати позначене до нової послідовності (без внесення змін до оригіналу)</li>
           <li>Timeline: switch default transition to dissolve now that it correctly handles alpha</li>
+          <li xml:lang="ca">Línia de temps: canvia la transició predeterminada a dissoldre ara que gestiona correctament l'alfa</li>
+          <li xml:lang="ca-valencia">Línia de temps: canvia la transició predeterminada a dissoldre ara que gestiona correctament l'alfa</li>
+          <li xml:lang="es">Línea de tiempo: Se modificó la transición predeterminada a Disolver, ahora que es capaz de manipular correctamente el canal alfa</li>
+          <li xml:lang="ka">ქრონოლოგია: ნაგულისხმევი გადასვლის გადართვა, რომ გაქრეს, რადგან ის ახლა ალფას სწორად აღიქვამს</li>
+          <li xml:lang="nl">Tijdlijn: wijzig de standaardovergang naar oplossen, nu deze correct met alfa omgaat.</li>
+          <li xml:lang="pt-BR">Linha do tempo: alterar a transição padrão para "dissolver", agora que ela lida corretamente com o canal alfa</li>
+          <li xml:lang="sk">Časová os: predvoleným prechodom je teraz prelínanie, keďže už správne spracúva alfa kanál</li>
+          <li xml:lang="sv">Tidslinje: byt standardövertoningen till Lös upp nu när det hanterar alfa korrekt</li>
+          <li xml:lang="tr">Zaman akışı: Artık alfaları doğru işlediğinden öntanımlı geçişi çözme olarak ayarla</li>
+          <li xml:lang="uk">Монтажний стіл: реалізовано перехід до типового переходу з розчиненням, де належним чином оброблено дані щодо прозорості</li>
           <li>Audio mixer: shift click to listen to multiple selected tracks in solo mode</li>
+          <li xml:lang="ca">Mesclador d'àudio: majúscules i clic per escoltar diverses pistes seleccionades en mode individual</li>
+          <li xml:lang="ca-valencia">Mesclador d'àudio: majúscules i clic per escoltar diverses pistes seleccionades en mode individual</li>
+          <li xml:lang="es">Mezclador de audio: Mayús + clic para escuchar varias pistas seleccionadas en modo Solo</li>
+          <li xml:lang="ka">აუდიოს მიქსერი: Shift+წკაპი ერთზე მეტი მონიშნული ტრეკის სოლო რეჟიმში მოსასმენად</li>
+          <li xml:lang="nl">Audiomixer: Shift-klik om naar meerdere geselecteerde sporen in solomodus te luisteren</li>
+          <li xml:lang="pt-BR">Mixer de áudio: clicar com Shift para ouvir várias faixas selecionadas no modo solo</li>
+          <li xml:lang="sk">Zvukový mixér: kliknutie so Shiftom na počúvanie viacerých vybraných stôp v režime sólo</li>
+          <li xml:lang="sv">Ljudmixer: skift-klicka för att lyssna på flera markerade spår i sololäge</li>
+          <li xml:lang="tr">Ses karıştırıcısı: Solo kipte birden çok seçili izi dinlemek için Üst Karakter düğmesini basılı tut</li>
+          <li xml:lang="uk">Звуковий мікшер: реалізовано Shift-клацання для прослуховування декількох позначених доріжок у режимі соло</li>
           <li>Effects: add avfilter.curves, allowing to adjust all channels in one effect</li>
+          <li xml:lang="ca">Efectes: afegeix avfilter.curves, permetent ajustar tots els canals en un efecte</li>
+          <li xml:lang="ca-valencia">Efectes: afig avfilter.curves, permetent ajustar tots els canals en un efecte</li>
+          <li xml:lang="es">Efectos: Se agregó el efecto Curvas (avfilter), que permite ajustar todos los canales usando un único efecto</li>
+          <li xml:lang="ka">ეფექტი: დაემატა avfilter.curves. საშუალებას გაძლევთ, ყველა არხი ერთ ეფექტში გაასწოროთ</li>
+          <li xml:lang="nl">Effecten: avfilter.curves toegevoegd, waarmee alle kanalen in één effect kunnen worden aangepast</li>
+          <li xml:lang="pt-BR">Efeitos: adição do avfilter.curves, permitindo ajustar todos os canais em um único efeito</li>
+          <li xml:lang="sk">Efekty: pribudol avfilter.curves, ktorý umožňuje upraviť všetky kanály v jednom efekte</li>
+          <li xml:lang="sv">Effekter: lägg till avfilter.curves, vilket tillåter att justera alla kanaler med en effekt</li>
+          <li xml:lang="tr">Efektler: Tüm kanalları tek bir efektte ayarlamaya olanak tanıyan avfilter.curves efektini ekle</li>
+          <li xml:lang="uk">Ефекти: додано avfilter.curves, що надає можливість коригувати усі канали в одному ефекті</li>
           <li>Effects: improve gradientmap filter, allowing up to 32 stops in the gradient</li>
+          <li xml:lang="ca">Efectes: millora el filtre de mapa de degradats, permetent fins a 32 aturades en el degradat</li>
+          <li xml:lang="ca-valencia">Efectes: millora el filtre de mapa de degradats, permetent fins a 32 parades en el degradat</li>
+          <li xml:lang="es">Efectos: Se mejoró el efecto Mapear gradiente, permitiendo hasta 32 paradas en el gradiente</li>
+          <li xml:lang="ka">ეფექტები: გაუმჯობესდა ფილტრი gradientmap. ახლა მას შეუძლია 32 გაჩერება გრადიენტში</li>
+          <li xml:lang="nl">Effecten: verbetering van het kleurverloopfilter, waardoor tot 32 stops in het verloop mogelijk zijn.</li>
+          <li xml:lang="pt-BR">Efeitos: aprimoramento do filtro de mapa de gradiente, permitindo até 32 pontos de parada no gradiente</li>
+          <li xml:lang="sk">Efekty: vylepšený filter gradientmap, prechod môže mať až 32 zarážok</li>
+          <li xml:lang="sv">Effekter: förbättra filtret för toningsavbildning, för att tillåta upp till 32 stopp i toningen</li>
+          <li xml:lang="tr">Efektler: Gradyan eşlemi süzgecini iyileştir; artık gradyanda 32 adede kadar durağa izin veriyor.</li>
+          <li xml:lang="uk">Ефекти: удосконалено фільтр карти градієнта, що уможливлює до 32 опорних точок у градієнті</li>
           <li>Titler: add copy/paste of items</li>
+          <li xml:lang="ca">Creador de títols: afegeix la copia/enganxament d'elements</li>
+          <li xml:lang="ca-valencia">Creador de títols: afig la copia/apegades d'elements</li>
+          <li xml:lang="es">Titulador: Se agregó la posibilidad de copiar/pegar objetos</li>
+          <li xml:lang="ka">სათაური: ელემენტების ჩასმა/კოპირება</li>
+          <li xml:lang="nl">Titelmaker: kopiëren/plakken van items toevoegen</li>
+          <li xml:lang="pt-BR">Titulador: adicionado recurso de copiar/colar itens</li>
+          <li xml:lang="sk">Titulkovač: kopírovanie a vkladanie položiek</li>
+          <li xml:lang="sv">Titelverktyg: lägg till kopiera/klistra in objekt</li>
+          <li xml:lang="tr">Başlıkçı: Ögelerin kopyalanıp yapıştırılmasına olanak tanı</li>
+          <li xml:lang="uk">Титрування: додано копіюванні і вставлення елементів</li>
           <li>Titler: add snapping to other objects</li>
+          <li xml:lang="ca">Creador de títols: afegeix l'ajust a altres elements</li>
+          <li xml:lang="ca-valencia">Creador de títols: afig l'ajust a altres elements</li>
+          <li xml:lang="es">Titulador: Se agregó una función de adherencia a otros objetos</li>
+          <li xml:lang="ka">სათაური: სხვა ობიექტებზე მიმაგრების მხარდაჭერა</li>
+          <li xml:lang="nl">Titelmaker: uitlijning op andere objecten toevoegen</li>
+          <li xml:lang="pt-BR">Titulador: adicionado ajuste (snapping) a outros objetos</li>
+          <li xml:lang="sk">Titulkovač: prichytávanie k iným objektom</li>
+          <li xml:lang="sv">Titelverktyg: lägg till låsning till andra objekt</li>
+          <li xml:lang="tr">Başlıkçı: Diğer ögelere tutturmaya olanak tanı</li>
+          <li xml:lang="uk">Титрування: додано прилипання до інших об'єктів</li>
           <li>Titler: add rectangles with rounded corners</li>
+          <li xml:lang="ca">Creador de títols: afegeix rectangles amb cantonades arrodonides</li>
+          <li xml:lang="ca-valencia">Creador de títols: afig rectangles amb cantons arredonits</li>
+          <li xml:lang="es">Titulador: Se agregó la posibilidad de crear rectángulos con esquinas redondeadas</li>
+          <li xml:lang="ka">სათაური: დაემატა მართკუთხედები მომრგვალებული კუთხეებით</li>
+          <li xml:lang="nl">Titelmaker: rechthoeken met afgeronde hoeken toevoegen</li>
+          <li xml:lang="pt-BR">Titulador: adicionado retângulos com cantos arredondados</li>
+          <li xml:lang="sk">Titulkovač: obdĺžniky so zaoblenými rohmi</li>
+          <li xml:lang="sv">Titelverktyg: lägg till rektanglar med rundade hörn</li>
+          <li xml:lang="tr">Başlıkçı: Yuvarlatılmış köşeli dörtgenler ekle</li>
+          <li xml:lang="uk">Титрування: додано прямокутник з заокругленими кутами</li>
           <li>Titler: when editing a timeline title, allow saving it as a new bin title to easily modify only this one</li>
+          <li xml:lang="ca">Creador de títols: en editar un títol de la línia de temps, permet desar-lo com un títol nou de la safata per a modificar-lo fàcilment només aquest</li>
+          <li xml:lang="ca-valencia">Creador de títols: en editar un títol de la línia de temps, permet guardar-lo com un títol nou de la safata per a modificar-lo amb facilitat només este</li>
+          <li xml:lang="es">Titulador: Al editar un título en la línea de tiempo, ahora se permite guardarlo como un nuevo título en el panel Medios, para poder modificarlo de forma independiente</li>
+          <li xml:lang="ka">სათაური: ქრონოლოგიის სათაურის ჩასწორებისას ახალ სათაურად შენახვის მხარდაჭერა, რომ მისი ჩასწორება იოლი იყოს</li>
+          <li xml:lang="nl">Titelmaker: maak het bij het bewerken van een tijdlijntitel mogelijk deze als nieuwe titel in de opslagmap op te slaan, zodat alleen deze titel eenvoudig kan worden aangepast</li>
+          <li xml:lang="pt-BR">Titulador: ao editar um título da linha do tempo, permitir salvá-lo como um novo título na cesta para modificar facilmente apenas essa instância</li>
+          <li xml:lang="sk">Titulkovač: pri úprave titulku na časovej osi ho možno uložiť ako nový titulok v zásobníku a upraviť tak len tento jeden</li>
+          <li xml:lang="sv">Titelverktyg: vid redigering av titel i en tidslinje, tillåt att spara den som en ny korgtitel för enkel ändring av bara den</li>
+          <li xml:lang="tr">Başlıkçı: Bir zaman akışı başlığını düzenlerken, yalnızca bunda değişiklik yapabilmek için onu yeni bir kova başlığı olarak kaydetmeye olanak tanı</li>
+          <li xml:lang="uk">Титрування: при редагуванні титрів на монтажному столі уможливлено зберігання титрів як новий титр контейнера для спрощення внесення змін саме до нього</li>
         </ul>
       </description>
     </release>
@@ -506,7 +666,7 @@
           <li xml:lang="ar">أُصلح الخط المشوه في بعض أجزاء واجهة المستخدم</li>
           <li xml:lang="ca">Corregeix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
           <li xml:lang="ca-valencia">Corregix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
-          <li xml:lang="es">Se ha corregido la fuente distorsionada en algunas partes de la interfaz de usuario.</li>
+          <li xml:lang="es">Se corrigió la fuente distorsionada en algunas partes de la interfaz de usuario</li>
           <li xml:lang="fr">Correction de la police déformée dans certaines parties de l'interface utilisateur</li>
           <li xml:lang="he">תוקן גופן מעוות בחלקים מסוימים בממשק המשתמש</li>
           <li xml:lang="it">Correzione dei caratteri distorti in alcune parti dell'interfaccia utente</li>
@@ -524,7 +684,7 @@
           <li xml:lang="ar">أُصلح الانهيار عند تحرير التدرجات في أداة العنونة</li>
           <li xml:lang="ca">Corregeix una fallada editant els degradats al creador de títols</li>
           <li xml:lang="ca-valencia">Corregix una fallada editant els degradats al creador de títols</li>
-          <li xml:lang="es">Se ha corregido el bloqueo al editar degradados en el titulador.</li>
+          <li xml:lang="es">Se corrigió un cierre inesperado al editar gradientes en el titulador</li>
           <li xml:lang="fr">Correction du plantage lors de l'édition des dégradés dans l'outil de titrage</li>
           <li xml:lang="he">תוקנה קריסה בעת עריכת מדרגים בעורך הכותרות</li>
           <li xml:lang="it">Correzione del crash durante la modifica dei gradienti nella titolatrice</li>
@@ -542,7 +702,7 @@
           <li xml:lang="ar">أُصلح خلل إضافة مزيج إلى مقطع مجمع كان يؤدي لتحريك القص الموجود</li>
           <li xml:lang="ca">Corregeix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
           <li xml:lang="ca-valencia">Corregix l'addició d'una barreja a un clip agrupat que podria moure un retall existent</li>
-          <li xml:lang="es">Se ha corregido un problema al añadir una mezcla a un clip agrupado, ya que esto podía mover el corte existente.</li>
+          <li xml:lang="es">Se corrigió un problema al agregar una mezcla a un clip agrupado, que podía llegar a mover el corte existente</li>
           <li xml:lang="fr">Correction de l'ajout d'un mixage à une vidéo regroupée, qui pouvait déplacer une coupe existante</li>
           <li xml:lang="he">תוקנה בעיה שהוספת סרטונים מקובצים הייתה עלולה להזיז חיתוך קיים</li>
           <li xml:lang="it">Correzione all'aggiunta di una miscela alle clip raggruppate, che poteva spostare il taglio esistente</li>
@@ -560,7 +720,7 @@
           <li xml:lang="ar">أُصلح تحريك وحذف عنصر واحد في مجموعة</li>
           <li xml:lang="ca">Corregeix el moure i suprimir un element individual en un grup</li>
           <li xml:lang="ca-valencia">Corregix el moure i suprimir un element individual en un grup</li>
-          <li xml:lang="es">Se ha corregido el problema al mover y eliminar un solo elemento de un grupo.</li>
+          <li xml:lang="es">Se corrigió un problema al intentar mover y eliminar un único elemento de un grupo</li>
           <li xml:lang="fr">Correction du déplacement et de la suppression d'un seul élément dans un groupe</li>
           <li xml:lang="he">תוקנה העברה ומחיקה של פריט בודד בקבוצה</li>
           <li xml:lang="it">Correzione dello spostamento e dell'eliminazione di un singolo elemento in un gruppo</li>
@@ -578,7 +738,7 @@
           <li xml:lang="ar">أُصلح الانهيار في أداة المباعدة مع الترجمات المجمعة</li>
           <li xml:lang="ca">Corregeix una fallada a l'eina espaiador amb subtítols agrupats</li>
           <li xml:lang="ca-valencia">Corregix una fallada a l'eina espaiador amb subtítols agrupats</li>
-          <li xml:lang="es">Se ha corregido el fallo en la herramienta de espaciado con subtítulos agrupados.</li>
+          <li xml:lang="es">Se corrigió un cierre inesperado al usar la herramienta Espaciar con subtítulos agrupados</li>
           <li xml:lang="fr">Correction du plantage de l'outil d'espacement avec des sous-titres groupés</li>
           <li xml:lang="he">תוקנה קריסה בכלי ריווח עם כתוביות מקובצות</li>
           <li xml:lang="it">Correzione del crash nello strumento spaziatore con i sottotitoli raggruppati</li>
@@ -871,6 +1031,7 @@
   </provides>
   <custom>
     <value key="KDE::mastodon">https://floss.social/@kdenlive</value>
+    <value key="KDE::matrix">#kdenlive:kde.org</value>
   </custom>
   <content_rating type="oars-1.1"/>
 </component>

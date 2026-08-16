@@ -9,6 +9,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 
 #include <QPainter>
+#include <QProxyStyle>
+#include <QStyleFactory>
 
 class KdenliveDockTabBar : public KDDockWidgets::QtWidgets::TabBar
 {
@@ -21,6 +23,14 @@ public:
         setDocumentMode(true);
         parentWidget->setProperty("_breeze_force_frame", false);
         setContextMenuPolicy(Qt::CustomContextMenu);
+        // The constructor of KDDockWidgets::QtWidgets::TabBar makes a QProxyStyle
+        // that ends up taking ownership of the style for the entire application!
+        if (QProxyStyle *proxy_style = qobject_cast<QProxyStyle *>(style())) {
+            proxy_style->baseStyle()->setParent(qApp);
+            proxy_style->setBaseStyle(QStyleFactory::create(qApp->style()->name()));
+        }
+        setPalette(qApp->palette());
+
         connect(this, &QWidget::customContextMenuRequested, []() { Q_EMIT pCore.get()->switchTitleBars(); });
         connect(this, &KDDockWidgets::QtWidgets::TabBar::countChanged, [&]() {
             if (!KdenliveSettings::showtitlebars()) {
