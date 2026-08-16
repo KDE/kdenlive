@@ -354,6 +354,8 @@ public:
     const QString getAssetMltService();
     void setActive(bool active);
     bool isActive() const;
+    void setExpanded(bool expanded);
+    bool isExpanded() const;
 
     /** @brief Set the parameter with given name to the given value
      */

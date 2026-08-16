@@ -35,6 +35,8 @@ Item {
     required property point rubberTopLeft
     required property color hoverColor
 
+    property bool modelExpanded: model && model.expandedRole ? model.expandedRole : false
+
     implicitWidth: dopeWidth
     implicitHeight: fontMetrics.lineSpacing * 1.3
     readonly property real indentation: 20
@@ -47,8 +49,56 @@ Item {
     property int currentKFIndex: -1
     property bool kfPressed: kfMoveArea.pressed
 
+    function restoreExpandedState() {
+        if (!delegateRect.treeView) {
+            console.log('UNAVAILABLE TREEVIEW; ABORTING...')
+            return
+        }
+
+        if (delegateRect.dopeRootItem.ownerId == -1) {
+            if (delegateRect.depth > 0) {
+                delegateRect.treeView.collapse(delegateRect.row)
+            } else if (!delegateRect.expanded) {
+                delegateRect.treeView.collapse(delegateRect.row)
+            }
+            return
+        }
+
+        if (delegateRect.depth == 0) {
+            if (!delegateRect.expanded) {
+                delegateRect.treeView.expand(delegateRect.row)
+            }
+            return
+        }
+
+        if (delegateRect.depth == 1) {
+            console.log('CHECKING ITEM: ', delegateRect.model.dopeName, ' IS EXPANDED: ', delegateRect.modelExpanded, ' / ', delegateRect.expanded)
+            if (delegateRect.modelExpanded != delegateRect.expanded) {
+                delegateRect.treeView.expandToIndex(delegateRect.treeView.index(delegateRect.row, delegateRect.column))
+                if (delegateRect.modelExpanded) {
+                    delegateRect.treeView.expand(delegateRect.row)
+                } else {
+                    delegateRect.treeView.collapse(delegateRect.row)
+                }
+            }
+        }
+        if (delegateRect.depth > 1 && delegateRect.expanded) {
+            delegateRect.treeView.collapse(delegateRect.row)
+        }
+    }
+
     onCurrentKFFrameChanged: {
        console.log('-----------------\n\nCURRENT KF CHANGED TO: ', currentKFFrame, '\n\n------------------')
+    }
+
+    onModelExpandedChanged: {
+        if (depth == 1 && modelExpanded != expanded) {
+            if (modelExpanded) {
+                delegateRect.treeView.expand(delegateRect.row)
+            } else {
+                delegateRect.treeView.collapse(delegateRect.row)
+            }
+        }
     }
 
     Rectangle {
@@ -76,7 +126,10 @@ Item {
     }
 
     TableView.onPooled: indicatorAnimation.complete()
-    TableView.onReused: if (current) indicatorAnimation.start()
+    TableView.onReused: {
+        if (current) indicatorAnimation.start()
+        restoreExpandedState()
+    }
     onExpandedChanged: {
         indicator.rotation = expanded ? 90 : 0
         if (delegateRect.dopeRootItem.headerWidth < (paramLabel.width + indicator.width + delegateRect.padding)) {
@@ -89,7 +142,11 @@ Item {
         icon.name: "arrow-right"
         visible: delegateRect.hasChildren
         onClicked: {
+            let previouslyExpanded = delegateRect.expanded
             delegateRect.treeView.toggleExpanded(delegateRect.row)
+            if (delegateRect.depth == 1) {
+                delegateRect.model.expandedRole = !previouslyExpanded
+            }
         }
         x: delegateRect.padding
         height: paramLabel.height
@@ -101,7 +158,7 @@ Item {
         id: paramLabel
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: indicator.right
-        text: delegateRect.model.dopeName
+        text: delegateRect.model && delegateRect.model.dopeName ? delegateRect.model.dopeName : ""
         rightPadding: 4
         leftPadding: 4
         font.bold: delegateRect.depth < 2
@@ -403,5 +460,8 @@ Item {
             parent.treeView.expand(0)
             console.log('Loaded TREEVIEW COMPONENT ID: ', delegateRect.treeView.model.index(delegateRect.row, delegateRect.column))
         }
+    }
+    Component.onCompleted: {
+        delegateRect.restoreExpandedState()
     }
 }

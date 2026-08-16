@@ -1629,6 +1629,35 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
     Q_EMIT modelChanged();
 }
 
+void EffectStackModel::setExpandedEffect(int ix, bool expanded)
+{
+    QWriteLocker locker(&m_lock);
+    if (ix < 0 || ix >= rootItem->childCount()) {
+        qDebug() << ":::: Invalid effect index: " << ix;
+        return;
+    }
+    std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    if (effect) {
+        effect->setExpanded(expanded);
+    } else {
+        qDebug() << ":::::: COULD NOT FIND EFFECT AT: " << ix;
+    }
+}
+
+bool EffectStackModel::isExpandedEffect(int ix) const
+{
+    QWriteLocker locker(&m_lock);
+    if (ix < 0 || ix >= rootItem->childCount()) {
+        qDebug() << ":::: Invalid effect index: " << ix;
+        return false;
+    }
+    std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    if (effect) {
+        return effect->isExpanded();
+    }
+    return false;
+}
+
 void EffectStackModel::setActiveEffect(int ix, int paramIx)
 {
     QWriteLocker locker(&m_lock);

@@ -30,9 +30,9 @@ TreeView {
         onCurrentChanged: (current, previous) => {
             treeViewItem.dopeRootItem.overKeyframe = treeViewItem.dopesheetmodel.isOnKeyframe(treeViewItem.dopeRootItem.consumerPosition, false, treeViewItem.dopeRootItem.getActiveCppParamIndex())
             if (current.valid && current.parent) {
-                var activeIndex = treeViewItem.dopeRootItem.getActiveCppParamIndex()
-                if (activeIndex.valid) {
-                    treeViewItem.keyframeCurve.model = treeViewItem.dopesheetmodel.getKeyframeModel(activeIndex)
+                let currentIndex = treeViewItem.dopeRootItem.getActiveCppParamIndex()
+                if (currentIndex.valid) {
+                    treeViewItem.keyframeCurve.model = treeViewItem.dopesheetmodel.getKeyframeModel(currentIndex)
                 }
             }
         }

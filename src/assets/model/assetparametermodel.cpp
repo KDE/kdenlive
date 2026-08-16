@@ -1303,6 +1303,20 @@ void AssetParameterModel::setActive(bool active)
     m_active = active;
 }
 
+void AssetParameterModel::setExpanded(bool expanded)
+{
+    if (expanded) {
+        m_asset->set("kdenlive:paramexpanded", 1);
+    } else {
+        m_asset->clear("kdenlive:paramexpanded");
+    }
+}
+
+bool AssetParameterModel::isExpanded() const
+{
+    return m_asset->property_exists("kdenlive:paramexpanded");
+}
+
 bool AssetParameterModel::isActive() const
 {
     return m_active;

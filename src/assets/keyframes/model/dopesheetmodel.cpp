@@ -140,7 +140,18 @@ QHash<int, QByteArray> DopeSheetModel::roleNames() const
     roles[SelectedRole] = "dopeSelected";
     roles[RecapRole] = "dopeRecap";
     roles[EnabledRole] = "effectEnabled";
+    roles[ExpandedRole] = "expandedRole";
     return roles;
+}
+
+bool DopeSheetModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role == ExpandedRole) {
+        setEffectExpanded(index, value.toBool());
+        Q_EMIT dataChanged(index, index, {role});
+        return true;
+    }
+    return false;
 }
 
 QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
@@ -177,6 +188,9 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
         }
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(row);
         return item->isAssetEnabled();
+    }
+    case ExpandedRole: {
+        return isEffectExpanded(index);
     }
     /*case AssetTypeRole:
         return QVariant::fromValue(it->second.first.second);
@@ -1538,4 +1552,21 @@ int DopeSheetModel::timecodeOffset()
         return 0;
     }
     return m_timecodeOffset;
+}
+
+void DopeSheetModel::setEffectExpanded(const QPersistentModelIndex ix, bool expanded)
+{
+    int effectIndex = data(ix, EffectIndexRole).toInt();
+    if (m_model && effectIndex >= 0) {
+        m_model->setExpandedEffect(effectIndex, expanded);
+    }
+}
+
+bool DopeSheetModel::isEffectExpanded(const QPersistentModelIndex ix) const
+{
+    int effectIndex = data(ix, EffectIndexRole).toInt();
+    if (m_model && effectIndex >= 0) {
+        return m_model->isExpandedEffect(effectIndex);
+    }
+    return false;
 }

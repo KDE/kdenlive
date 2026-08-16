@@ -864,11 +864,13 @@ Rectangle {
         selectionModel: ItemSelectionModel {
             model: dopeRoot.dopesheetFilterModel
             onCurrentChanged: (current, previous) => {
-                dopeRoot.overKeyframe = dopeRoot.dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, dopeRoot.getActiveCppParamIndex())
-                if (current.valid && current.parent) {
+                if (current.valid) {
                     var activeIndex = dopeRoot.getActiveCppParamIndex()
                     if (activeIndex.valid) {
-                        keyframeCurve.model = dopeRoot.dopesheetmodel.getKeyframeModel(activeIndex)
+                        dopeRoot.overKeyframe = dopeRoot.dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, activeIndex)
+                        if (current.parent) {
+                            keyframeCurve.model = dopeRoot.dopesheetmodel.getKeyframeModel(activeIndex)
+                        }
                     }
                 }
             }

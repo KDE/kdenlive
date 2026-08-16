@@ -184,6 +184,9 @@ public Q_SLOTS:
     void moveEffectByRow(int destRow, int srcRow);
     /** @brief Set the size for the bin effect item */
     void setBuildInSize(const QSize size);
+    /** @brief Mark an effect as expanded or not (used in the dopesheet) */
+    void setExpandedEffect(int ix, bool expanded);
+    bool isExpandedEffect(int ix) const;
 
 protected:
     /** @brief Register the existence of a new element

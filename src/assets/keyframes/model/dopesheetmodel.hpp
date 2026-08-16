@@ -54,7 +54,7 @@ public:
     Q_PROPERTY(int dopeDuration READ dopeDuration NOTIFY dopeDurationChanged)
     Q_PROPERTY(int dopePosition READ dopePosition NOTIFY dopePositionChanged)
     static std::shared_ptr<DopeSheetModel> construct(QObject *parent = nullptr);
-    enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, SelectedRole, RecapRole, EffectIndexRole, EnabledRole };
+    enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, SelectedRole, RecapRole, EffectIndexRole, EnabledRole, ExpandedRole };
     friend class KeyframeModel;
     friend class KeyframeContainer;
     friend class KeyframeImport;
@@ -62,6 +62,7 @@ public:
 public:
     // Mandatory overloads
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
+    Q_INVOKABLE bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     QHash<int, QByteArray> roleNames() const override;
     void registerItem(QPersistentModelIndex ix, const QString &name, ParamType type, std::shared_ptr<KeyframeModel> model);
     void deregisterItem(QPersistentModelIndex ix);
@@ -109,6 +110,8 @@ public:
     Q_INVOKABLE void copySelectedKeyframes(const QModelIndex ix, const QVariantMap kfData);
     Q_INVOKABLE void slotPasteKeyframeFromClipBoard(int position);
     Q_INVOKABLE int timecodeOffset();
+    Q_INVOKABLE void setEffectExpanded(const QPersistentModelIndex ix, bool expanded);
+    Q_INVOKABLE bool isEffectExpanded(const QPersistentModelIndex ix) const;
     /** @brief get current monitor for item owner */
     Kdenlive::MonitorId getMonitorId() const;
 
