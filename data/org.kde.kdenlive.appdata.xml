@@ -399,6 +399,7 @@
         <p xml:lang="nl">Dit is voornamelijk een uitgave gericht op reparaties van fouten en gebruiksvriendelijkheid; hier zijn enkele van de verbeteringen</p>
         <p xml:lang="pt-BR">Esta é uma atualização focada principalmente em correções de bugs e usabilidade. Aqui estão algumas das melhorias:</p>
         <p xml:lang="sk">Prevažne vydanie s opravami chýb a vylepšeniami použiteľnosti, tu sú niektoré z nich</p>
+        <p xml:lang="sl">Gre predvsem za izdajo, namenjeno odpravljanju napak in izboljšanju uporabnosti; tukaj je nekaj izboljšav</p>
         <p xml:lang="sv">I huvudsak en felrättnings- och användbarhetsutgåva, här är några av förbättringarna</p>
         <p xml:lang="tr">Genelde bir hata düzeltmesi ve kullanılabilirlik iyileştirmesi yayımı; iyileştirmelerden bazılarını aşağıda bulabilirsiniz:</p>
         <p xml:lang="uk">Здебільшого випуск з виправленням вад та зручності користування; нижче наведено деякі з удосконалень</p>
@@ -411,6 +412,7 @@
           <li xml:lang="nl">Tijdlijn: tracks omhoog en omlaag verplaatsen</li>
           <li xml:lang="pt-BR">Linha do tempo: permitir mover faixas para cima e para baixo</li>
           <li xml:lang="sk">Časová os: možnosť presúvať stopy hore a dolu</li>
+          <li xml:lang="sl">Časovnica: omogočen premik stez navzgor in navzdol</li>
           <li xml:lang="sv">Tidslinje: tillåt att flytta spår uppåt och neråt</li>
           <li xml:lang="tr">Zaman akışı: İzleri aşağı ve yukarı taşımaya olanak tanı</li>
           <li xml:lang="uk">Монтажний стіл: уможливлено пересування доріжок вище і нижче</li>
@@ -422,6 +424,7 @@
           <li xml:lang="nl">Tijdlijn: automatisch bereikmarkeringen toevoegen bij hiaten</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar automaticamente marcadores de intervalo nas lacunas</li>
           <li xml:lang="sk">Časová os: automatické pridávanie rozsahových značiek pri medzerách</li>
+          <li xml:lang="sl">Časovnica: samodejno dodajanje označevalnikov obsega k vrzelim</li>
           <li xml:lang="sv">Tidslinje: lägg till intervallmarkörer automatiskt vid mellanrum</li>
           <li xml:lang="tr">Zaman akışı: Boşluklarda erim imleyicilerini kendiliğinden ekle</li>
           <li xml:lang="uk">Монтажний стіл: реалізовано автоматичне додавання позначок діапазону у прогалини</li>
@@ -433,6 +436,7 @@
           <li xml:lang="nl">Tijdlijn: voeg een clip in met gebruik van de ingebedde tijdcode</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar clipe de inserção usando seu código de tempo incorporado</li>
           <li xml:lang="sk">Časová os: vloženie klipu podľa jeho vnoreného časového kódu</li>
+          <li xml:lang="sl">Časovnica: dodajanje vstavljenega posnetka z uporabo njegove vdelane časovne kode</li>
           <li xml:lang="sv">Tidslinje: lägg till infoga klipp med dess inbäddade tidskod</li>
           <li xml:lang="tr">Zaman akışı: Klibi gömülü zaman kodunu kullanarak ekle/yerleştir</li>
           <li xml:lang="uk">Монтажний стіл: реалізовано додавання вставленого кліпу з використанням його вбудованої часової позначки</li>
@@ -444,6 +448,7 @@
           <li xml:lang="nl">Tijdlijn: optie toevoegen om de afspeelkop bij het stoppen naar de startpositie terug te zetten</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar opção para retornar o cursor de reprodução à posição inicial ao parar</li>
           <li xml:lang="sk">Časová os: možnosť vrátiť prehrávaciu hlavu na začiatok po zastavení</li>
+          <li xml:lang="sl">Časovnica: dodana možnost, da se ob zaustavitvi predvajalna glava vrne na začetni položaj</li>
           <li xml:lang="sv">Tidslinje: lägg till alternativ för att flytta tillbaka uppspelningspositionen till startposition vid stopp</li>
           <li xml:lang="tr">Zaman akışı: Durdurunca oynatma kafasını başlangıca döndürme seçeneği</li>
           <li xml:lang="uk">Монтажний стіл: додано можливість повернення позиції відтворення до початкової позиції при зупиненні відтворення</li>
@@ -455,6 +460,7 @@
           <li xml:lang="nl">Tijdlijn: optie toevoegen om een ​​clip te dupliceren</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar opção para duplicar clipe</li>
           <li xml:lang="sk">Časová os: možnosť duplikovať klip</li>
+          <li xml:lang="sl">Časovnica: dodana možnost podvajanja posnetka</li>
           <li xml:lang="sv">Tidslinje: lägg till alternativ för att duplicera klipp</li>
           <li xml:lang="tr">Zaman akışı: Klibi çoğaltmaya olanak tanı</li>
           <li xml:lang="uk">Монтажний стіл: додано можливість дублювати кліп</li>
@@ -466,6 +472,7 @@
           <li xml:lang="nl">Tijdlijn: verplaatsen van clipmarkeringen met de muis mogelijk maken</li>
           <li xml:lang="pt-BR">Linha do tempo: permitir mover marcadores de clipe com o mouse</li>
           <li xml:lang="sk">Časová os: možnosť presúvať značky klipu myšou</li>
+          <li xml:lang="sl">Časovnica: omogočeno premikanje označevalnikov posnetkov z miško</li>
           <li xml:lang="sv">Tidslinje: tillåt att klippmarkörer flyttas med musen</li>
           <li xml:lang="tr">Zaman akışı: Klip imleyicilerini fareyle taşımaya olanak tanı</li>
           <li xml:lang="uk">Монтажний стіл: уможливлено пересування позначок кліпу за допомогою миші</li>
@@ -477,6 +484,7 @@
           <li xml:lang="nl">Tijdlijn: optie toevoegen om selectie naar een nieuwe sequentie te kopiëren (zonder het origineel te wijzigen)</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar opção de copiar a seleção para uma nova sequência (sem modificar a original)</li>
           <li xml:lang="sk">Časová os: možnosť skopírovať výber do novej sekvencie (bez zmeny originálu)</li>
+          <li xml:lang="sl">Časovnica: dodana možnost kopiranja izbora v novo zaporedje (brez spreminjanja izvirnika)</li>
           <li xml:lang="sv">Tidslinje:  lägg till alternativ för att kopiera markering till ny sekvens (utan att ändra originalet)</li>
           <li xml:lang="tr">Zaman akışı: Seçimi yeni sekansa (özgünde değişiklik yapmadan) kopyalamaya olanak tanı</li>
           <li xml:lang="uk">Монтажний стіл: додано можливість копіювати позначене до нової послідовності (без внесення змін до оригіналу)</li>
@@ -488,6 +496,7 @@
           <li xml:lang="nl">Tijdlijn: wijzig de standaardovergang naar oplossen, nu deze correct met alfa omgaat.</li>
           <li xml:lang="pt-BR">Linha do tempo: alterar a transição padrão para "dissolver", agora que ela lida corretamente com o canal alfa</li>
           <li xml:lang="sk">Časová os: predvoleným prechodom je teraz prelínanie, keďže už správne spracúva alfa kanál</li>
+          <li xml:lang="sl">Časovnica: privzeti prehod preklopljen na preliv, zdaj ko pravilno ravna z alfo</li>
           <li xml:lang="sv">Tidslinje: byt standardövertoningen till Lös upp nu när det hanterar alfa korrekt</li>
           <li xml:lang="tr">Zaman akışı: Artık alfaları doğru işlediğinden öntanımlı geçişi çözme olarak ayarla</li>
           <li xml:lang="uk">Монтажний стіл: реалізовано перехід до типового переходу з розчиненням, де належним чином оброблено дані щодо прозорості</li>
@@ -499,6 +508,7 @@
           <li xml:lang="nl">Audiomixer: Shift-klik om naar meerdere geselecteerde sporen in solomodus te luisteren</li>
           <li xml:lang="pt-BR">Mixer de áudio: clicar com Shift para ouvir várias faixas selecionadas no modo solo</li>
           <li xml:lang="sk">Zvukový mixér: kliknutie so Shiftom na počúvanie viacerých vybraných stôp v režime sólo</li>
+          <li xml:lang="sl">Mešalnik zvoka: s pritisnjeno dvigalko kliknite, da prisluhnete več izbranim stezam v solo načinu</li>
           <li xml:lang="sv">Ljudmixer: skift-klicka för att lyssna på flera markerade spår i sololäge</li>
           <li xml:lang="tr">Ses karıştırıcısı: Solo kipte birden çok seçili izi dinlemek için Üst Karakter düğmesini basılı tut</li>
           <li xml:lang="uk">Звуковий мікшер: реалізовано Shift-клацання для прослуховування декількох позначених доріжок у режимі соло</li>
@@ -510,6 +520,7 @@
           <li xml:lang="nl">Effecten: avfilter.curves toegevoegd, waarmee alle kanalen in één effect kunnen worden aangepast</li>
           <li xml:lang="pt-BR">Efeitos: adição do avfilter.curves, permitindo ajustar todos os canais em um único efeito</li>
           <li xml:lang="sk">Efekty: pribudol avfilter.curves, ktorý umožňuje upraviť všetky kanály v jednom efekte</li>
+          <li xml:lang="sl">Učinki: dodaj avfilter.curves, ki omogoča prilagajanje vseh kanalov z enim učinkom</li>
           <li xml:lang="sv">Effekter: lägg till avfilter.curves, vilket tillåter att justera alla kanaler med en effekt</li>
           <li xml:lang="tr">Efektler: Tüm kanalları tek bir efektte ayarlamaya olanak tanıyan avfilter.curves efektini ekle</li>
           <li xml:lang="uk">Ефекти: додано avfilter.curves, що надає можливість коригувати усі канали в одному ефекті</li>
@@ -521,6 +532,7 @@
           <li xml:lang="nl">Effecten: verbetering van het kleurverloopfilter, waardoor tot 32 stops in het verloop mogelijk zijn.</li>
           <li xml:lang="pt-BR">Efeitos: aprimoramento do filtro de mapa de gradiente, permitindo até 32 pontos de parada no gradiente</li>
           <li xml:lang="sk">Efekty: vylepšený filter gradientmap, prechod môže mať až 32 zarážok</li>
+          <li xml:lang="sl">Učinki: izboljšanje filtra preslikave prelivov, ki omogoča do 32 vrednosti v prelivu</li>
           <li xml:lang="sv">Effekter: förbättra filtret för toningsavbildning, för att tillåta upp till 32 stopp i toningen</li>
           <li xml:lang="tr">Efektler: Gradyan eşlemi süzgecini iyileştir; artık gradyanda 32 adede kadar durağa izin veriyor.</li>
           <li xml:lang="uk">Ефекти: удосконалено фільтр карти градієнта, що уможливлює до 32 опорних точок у градієнті</li>
@@ -532,6 +544,7 @@
           <li xml:lang="nl">Titelmaker: kopiëren/plakken van items toevoegen</li>
           <li xml:lang="pt-BR">Titulador: adicionado recurso de copiar/colar itens</li>
           <li xml:lang="sk">Titulkovač: kopírovanie a vkladanie položiek</li>
+          <li xml:lang="sl">Urejevalnik naslovov: dodano kopiranje/lepljenje elementov</li>
           <li xml:lang="sv">Titelverktyg: lägg till kopiera/klistra in objekt</li>
           <li xml:lang="tr">Başlıkçı: Ögelerin kopyalanıp yapıştırılmasına olanak tanı</li>
           <li xml:lang="uk">Титрування: додано копіюванні і вставлення елементів</li>
@@ -543,6 +556,7 @@
           <li xml:lang="nl">Titelmaker: uitlijning op andere objecten toevoegen</li>
           <li xml:lang="pt-BR">Titulador: adicionado ajuste (snapping) a outros objetos</li>
           <li xml:lang="sk">Titulkovač: prichytávanie k iným objektom</li>
+          <li xml:lang="sl">Urejevalnik naslovov: dodano pripenjanje na druge predmete</li>
           <li xml:lang="sv">Titelverktyg: lägg till låsning till andra objekt</li>
           <li xml:lang="tr">Başlıkçı: Diğer ögelere tutturmaya olanak tanı</li>
           <li xml:lang="uk">Титрування: додано прилипання до інших об'єктів</li>
@@ -554,6 +568,7 @@
           <li xml:lang="nl">Titelmaker: rechthoeken met afgeronde hoeken toevoegen</li>
           <li xml:lang="pt-BR">Titulador: adicionado retângulos com cantos arredondados</li>
           <li xml:lang="sk">Titulkovač: obdĺžniky so zaoblenými rohmi</li>
+          <li xml:lang="sl">Urejevalnik naslovov: dodani pravokotniki z zaobljenimi robovi</li>
           <li xml:lang="sv">Titelverktyg: lägg till rektanglar med rundade hörn</li>
           <li xml:lang="tr">Başlıkçı: Yuvarlatılmış köşeli dörtgenler ekle</li>
           <li xml:lang="uk">Титрування: додано прямокутник з заокругленими кутами</li>
@@ -565,6 +580,7 @@
           <li xml:lang="nl">Titelmaker: maak het bij het bewerken van een tijdlijntitel mogelijk deze als nieuwe titel in de opslagmap op te slaan, zodat alleen deze titel eenvoudig kan worden aangepast</li>
           <li xml:lang="pt-BR">Titulador: ao editar um título da linha do tempo, permitir salvá-lo como um novo título na cesta para modificar facilmente apenas essa instância</li>
           <li xml:lang="sk">Titulkovač: pri úprave titulku na časovej osi ho možno uložiť ako nový titulok v zásobníku a upraviť tak len tento jeden</li>
+          <li xml:lang="sl">Urejevalnik naslovov: pri urejanju naslova na časovnici dovoli njegovo shranjevanje kot novega naslova v posodi, da enostavno spremenite samo tega</li>
           <li xml:lang="sv">Titelverktyg: vid redigering av titel i en tidslinje, tillåt att spara den som en ny korgtitel för enkel ändring av bara den</li>
           <li xml:lang="tr">Başlıkçı: Bir zaman akışı başlığını düzenlerken, yalnızca bunda değişiklik yapabilmek için onu yeni bir kova başlığı olarak kaydetmeye olanak tanı</li>
           <li xml:lang="uk">Титрування: при редагуванні титрів на монтажному столі уможливлено зберігання титрів як новий титр контейнера для спрощення внесення змін саме до нього</li>
