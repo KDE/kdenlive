@@ -847,7 +847,7 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (!m_openMutex.tryLock()) {
         return;
     }
-    if (KdenliveSettings::monitor_background() == "black" || m_controller->clipType() == ClipType::Audio) {
+    if (m_controller->clipType() == ClipType::Audio) {
         // No compositing required
         m_glMonitor->setProducer(producer, isActive(), pos);
     } else {
