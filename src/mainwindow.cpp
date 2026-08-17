@@ -720,6 +720,8 @@ void MainWindow::init()
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("move_track_down")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("fit_all_tracks")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("select_track")));
+
     connect(timelineHeadersMenu, &QMenu::aboutToShow, this, [this]() {
         auto moveUp = actionCollection()->action(QStringLiteral("move_track_up"));
         auto moveDown = actionCollection()->action(QStringLiteral("move_track_down"));
