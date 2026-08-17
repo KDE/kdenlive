@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-15 00:44+0000\n"
+"POT-Creation-Date: 2026-08-17 00:44+0000\n"
 "PO-Revision-Date: 2026-08-08 07:47-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -24963,12 +24963,17 @@ msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:623
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
+#| "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
+#| "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
+#| "documentation</a>."
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
-"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
-"a>."
+"utm_campaign=kdenlive_inapp&utm_term=jogshuttle_settings\">our "
+"documentation</a>."
 msgstr ""
 "Para configuração do dispositivo, consulte <a href=\"https://docs.kdenlive."
 "org/getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
@@ -26792,23 +26797,23 @@ msgstr ""
 msgid "Cannot read file %1."
 msgstr "Não foi possível ler o arquivo %1."
 
-#: src/dialogs/wizard.cpp:62
+#: src/dialogs/wizard.cpp:63
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
 msgstr "Bem-vindo ao Kdenlive"
 
-#: src/dialogs/wizard.cpp:68
+#: src/dialogs/wizard.cpp:69
 #, kde-format
 msgid "Welcome to Kdenlive %1"
 msgstr "Bem-vindo ao Kdenlive %1"
 
-#: src/dialogs/wizard.cpp:69
+#: src/dialogs/wizard.cpp:70
 #, kde-format
 msgid "Using MLT %1"
 msgstr "Usando MLT %1"
 
-#: src/dialogs/wizard.cpp:79 src/doc/kdenlivedoc.cpp:1902
+#: src/dialogs/wizard.cpp:80 src/doc/kdenlivedoc.cpp:1902
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
 #: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:785
 #: src/project/dialogs/archivewidget.cpp:1293
@@ -26816,22 +26821,22 @@ msgstr "Usando MLT %1"
 msgid "Abort"
 msgstr "Cancelar"
 
-#: src/dialogs/wizard.cpp:80
+#: src/dialogs/wizard.cpp:81
 #, kde-format
 msgid "OK"
 msgstr "OK"
 
-#: src/dialogs/wizard.cpp:89
+#: src/dialogs/wizard.cpp:90
 #, kde-format
 msgid "Converting old custom effects successful:"
 msgstr "Conversão de efeitos personalizados antigos com sucesso:"
 
-#: src/dialogs/wizard.cpp:97
+#: src/dialogs/wizard.cpp:98
 #, kde-format
 msgid "Converting old custom effects failed:"
 msgstr "Conversão de antigos efeitos personalizados com falha:"
 
-#: src/dialogs/wizard.cpp:106
+#: src/dialogs/wizard.cpp:107
 #, kde-format
 msgid "Startup error or warning, check our <a href='#'>online manual</a>."
 msgstr ""
@@ -26840,73 +26845,73 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:129 src/project/cliptranscode.cpp:271
+#: src/dialogs/wizard.cpp:130 src/project/cliptranscode.cpp:271
 #: src/ui/renderwidget_ui.ui:362 src/ui/renderwidget_ui.ui:966
 #: src/ui/renderwidget_ui.ui:1123
 #, kde-format
 msgid "Close"
 msgstr "Fechar"
 
-#: src/dialogs/wizard.cpp:155
+#: src/dialogs/wizard.cpp:156
 #, kde-format
 msgid "Codecs have been updated, everything seems fine."
 msgstr "Os codecs foram atualizados, tudo parece em ordem."
 
-#: src/dialogs/wizard.cpp:172
+#: src/dialogs/wizard.cpp:173
 #, kde-format
 msgid "VAAPI hardware acceleration"
 msgstr "Aceleração de hardware VAAPI"
 
-#: src/dialogs/wizard.cpp:175
+#: src/dialogs/wizard.cpp:176
 #, kde-format
 msgid "NVIDIA hardware acceleration"
 msgstr "Aceleração de hardware NVIDIA"
 
-#: src/dialogs/wizard.cpp:178
+#: src/dialogs/wizard.cpp:179
 #, kde-format
 msgid "AMF hardware acceleration"
 msgstr "Aceleração de hardware AMF"
 
-#: src/dialogs/wizard.cpp:181
+#: src/dialogs/wizard.cpp:182
 #, kde-format
 msgid "QSV hardware acceleration"
 msgstr "Aceleração de hardware QSV"
 
-#: src/dialogs/wizard.cpp:184
+#: src/dialogs/wizard.cpp:185
 #, kde-format
 msgid "Video Toolbox hardware acceleration"
 msgstr "Aceleração de hardware Video Toolbox"
 
-#: src/dialogs/wizard.cpp:199 src/dialogs/wizard.cpp:219
-#: src/dialogs/wizard.cpp:252
+#: src/dialogs/wizard.cpp:200 src/dialogs/wizard.cpp:220
+#: src/dialogs/wizard.cpp:253
 #, kde-format
 msgid "Enable hardware decoding"
 msgstr "Ativar decodificação por hardware"
 
-#: src/dialogs/wizard.cpp:202 src/dialogs/wizard.cpp:221
-#: src/dialogs/wizard.cpp:254
+#: src/dialogs/wizard.cpp:203 src/dialogs/wizard.cpp:222
+#: src/dialogs/wizard.cpp:255
 #, kde-format
 msgid "Enable hardware decoding: %1"
 msgstr "Ativar decodificação por hardware: %1"
 
-#: src/dialogs/wizard.cpp:226
+#: src/dialogs/wizard.cpp:227
 #, kde-format
 msgid "Check hardware acceleration"
 msgstr "Verificar a aceleração de hardware"
 
-#: src/dialogs/wizard.cpp:270
+#: src/dialogs/wizard.cpp:271
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
 msgstr ""
 "<li>Não foi possível iniciar a infraestrutura MLT, verifique sua instalação</"
 "li>"
 
-#: src/dialogs/wizard.cpp:276
+#: src/dialogs/wizard.cpp:277
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
 msgstr "<li>Versão MLT não suportada<br/><b>Atualize</b> para %1.%2.%3</li>"
 
-#: src/dialogs/wizard.cpp:303
+#: src/dialogs/wizard.cpp:304
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
@@ -26915,7 +26920,7 @@ msgstr ""
 "<li>Pacote faltante: Efeitos <b>frei0r</b> (frei0r-plugins)<br/>fornece "
 "muitos efeitos e transições. Sua instalação é recomendada</li>"
 
-#: src/dialogs/wizard.cpp:318
+#: src/dialogs/wizard.cpp:319
 #, kde-format
 msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
@@ -26924,7 +26929,7 @@ msgstr ""
 "<li>Pacote faltante: <b>AVFilter</b> <br/>fornece muitos efeitos. Sua "
 "instalação é recomendada</li>"
 
-#: src/dialogs/wizard.cpp:332
+#: src/dialogs/wizard.cpp:333
 #, kde-format
 msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
@@ -26933,7 +26938,7 @@ msgstr ""
 "<li>Filtro faltante: <b>avfilter.subtitles</b><br/>necessário para o recurso "
 "de legendas. Sua instalação é recomendada</li>"
 
-#: src/dialogs/wizard.cpp:352
+#: src/dialogs/wizard.cpp:353
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
@@ -26942,7 +26947,7 @@ msgstr ""
 "<li>Pacote faltante: Ícones <b>Breeze</b> (breeze-icon-theme)<br/>fornece "
 "muitos ícones usados no Kdenlive. Sua instalação é recomendada</li>"
 
-#: src/dialogs/wizard.cpp:381
+#: src/dialogs/wizard.cpp:382
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
@@ -26951,13 +26956,13 @@ msgstr ""
 "<li>Módulo MLT faltante: <b>sdl</b> ou <b>rtaudio</b><br/>necessário para a "
 "saída de áudio</li>"
 
-#: src/dialogs/wizard.cpp:393
+#: src/dialogs/wizard.cpp:394
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
 msgstr ""
 "<li>Módulo MLT faltante: <b>xml</b> <br/>necessário para áudio/vídeo</li>"
 
-#: src/dialogs/wizard.cpp:405
+#: src/dialogs/wizard.cpp:406
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
@@ -26966,7 +26971,7 @@ msgstr ""
 "<li>Módulo MLT faltante: <b>avformat</b> (FFmpeg)<br/>necessário para áudio/"
 "vídeo</li>"
 
-#: src/dialogs/wizard.cpp:414
+#: src/dialogs/wizard.cpp:415
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
@@ -26975,7 +26980,7 @@ msgstr ""
 "<li>Módulo MLT faltante: <b>qimage</b> ou <b>pixbuf</b><br/>necessário para "
 "imagens e títulos</li>"
 
-#: src/dialogs/wizard.cpp:421
+#: src/dialogs/wizard.cpp:422
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
@@ -26984,7 +26989,7 @@ msgstr ""
 "<li>Módulo MLT faltante: <b>kdenlivetitle</b><br/>necessário para criar "
 "títulos</li>"
 
-#: src/dialogs/wizard.cpp:427
+#: src/dialogs/wizard.cpp:428
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
@@ -26993,14 +26998,14 @@ msgstr ""
 "<li>Módulo MLT faltante: <b>glaxnimate</b><br/>necessário para carregar as "
 "animações Lottie</li>"
 
-#: src/dialogs/wizard.cpp:463
+#: src/dialogs/wizard.cpp:464
 #, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
 "<li>Aplicativo faltante: <b>kdenlive_render</b><br/>necessário para "
 "renderizar.</li>"
 
-#: src/dialogs/wizard.cpp:488
+#: src/dialogs/wizard.cpp:489
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
@@ -27009,7 +27014,7 @@ msgstr ""
 "<li>Aplicativo ausente: <b>ffmpeg</b><br />necessário para clipes proxy e "
 "transcodificação </li>"
 
-#: src/dialogs/wizard.cpp:502
+#: src/dialogs/wizard.cpp:503
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
@@ -27017,7 +27022,7 @@ msgstr ""
 "<li>Aplicativo faltante: <b>ffplay</b><br/>recomendado para algumas tarefas "
 "de prévia</li>"
 
-#: src/dialogs/wizard.cpp:516
+#: src/dialogs/wizard.cpp:517
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
@@ -27025,7 +27030,7 @@ msgstr ""
 "<li>Aplicativo faltante: <b>ffprobe</b><br/>recomendado para análise de "
 "clipes extras</li>"
 
-#: src/dialogs/wizard.cpp:681
+#: src/dialogs/wizard.cpp:682
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
@@ -27033,17 +27038,17 @@ msgstr ""
 "A Instalação do MLT não pode ser encontrada. Instale o MLT e reinicie o "
 "Kdenlive.\n"
 
-#: src/dialogs/wizard.cpp:685
+#: src/dialogs/wizard.cpp:686
 #, kde-format
 msgid "Fatal Error"
 msgstr "Erro fatal"
 
-#: src/dialogs/wizard.cpp:865
+#: src/dialogs/wizard.cpp:868
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "Nenhum codificador de hardware encontrado."
 
-#: src/dialogs/wizard.cpp:867
+#: src/dialogs/wizard.cpp:870
 #, kde-format
 msgid "hardware encoders found and enabled (%1)."
 msgstr "Codificadores de hardware encontrados e ativados (%1)."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-15 00:44+0000\n"
+"POT-Creation-Date: 2026-08-17 00:44+0000\n"
 "PO-Revision-Date: 2026-08-08 06:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -24018,12 +24018,17 @@ msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:623
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
+#| "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
+#| "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
+#| "documentation</a>."
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
-"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
-"a>."
+"utm_campaign=kdenlive_inapp&utm_term=jogshuttle_settings\">our "
+"documentation</a>."
 msgstr ""
 "მოწყობილობის მოსარგებად იხილეთ <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
@@ -25836,23 +25841,23 @@ msgstr ""
 msgid "Cannot read file %1."
 msgstr "ვერ წავიკითხე ფაილი %1."
 
-#: src/dialogs/wizard.cpp:62
+#: src/dialogs/wizard.cpp:63
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
 msgstr "მოგესალმებათ Kdenlive"
 
-#: src/dialogs/wizard.cpp:68
+#: src/dialogs/wizard.cpp:69
 #, kde-format
 msgid "Welcome to Kdenlive %1"
 msgstr "მოგესალმებათ Kdenlive %1"
 
-#: src/dialogs/wizard.cpp:69
+#: src/dialogs/wizard.cpp:70
 #, kde-format
 msgid "Using MLT %1"
 msgstr "ვიყენებ MLT %1"
 
-#: src/dialogs/wizard.cpp:79 src/doc/kdenlivedoc.cpp:1902
+#: src/dialogs/wizard.cpp:80 src/doc/kdenlivedoc.cpp:1902
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
 #: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:785
 #: src/project/dialogs/archivewidget.cpp:1293
@@ -25860,22 +25865,22 @@ msgstr "ვიყენებ MLT %1"
 msgid "Abort"
 msgstr "შეწყვეტა"
 
-#: src/dialogs/wizard.cpp:80
+#: src/dialogs/wizard.cpp:81
 #, kde-format
 msgid "OK"
 msgstr "კარგი"
 
-#: src/dialogs/wizard.cpp:89
+#: src/dialogs/wizard.cpp:90
 #, kde-format
 msgid "Converting old custom effects successful:"
 msgstr "ძველი მომხმარებლის ეფექტების გადაყვანა წარმატებულია:"
 
-#: src/dialogs/wizard.cpp:97
+#: src/dialogs/wizard.cpp:98
 #, kde-format
 msgid "Converting old custom effects failed:"
 msgstr "ძველი მომხმარებლის ეფექტების გადაყვანა ჩავარდა:"
 
-#: src/dialogs/wizard.cpp:106
+#: src/dialogs/wizard.cpp:107
 #, kde-format
 msgid "Startup error or warning, check our <a href='#'>online manual</a>."
 msgstr ""
@@ -25885,73 +25890,73 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:129 src/project/cliptranscode.cpp:271
+#: src/dialogs/wizard.cpp:130 src/project/cliptranscode.cpp:271
 #: src/ui/renderwidget_ui.ui:362 src/ui/renderwidget_ui.ui:966
 #: src/ui/renderwidget_ui.ui:1123
 #, kde-format
 msgid "Close"
 msgstr "დახურვა"
 
-#: src/dialogs/wizard.cpp:155
+#: src/dialogs/wizard.cpp:156
 #, kde-format
 msgid "Codecs have been updated, everything seems fine."
 msgstr "კოდეკები განახლდა. როგორც ჩანს, ყველაფერი კარგადაა."
 
-#: src/dialogs/wizard.cpp:172
+#: src/dialogs/wizard.cpp:173
 #, kde-format
 msgid "VAAPI hardware acceleration"
 msgstr "VAAPI აპარატურული აჩქარება"
 
-#: src/dialogs/wizard.cpp:175
+#: src/dialogs/wizard.cpp:176
 #, kde-format
 msgid "NVIDIA hardware acceleration"
 msgstr "NVIDIA აპარატურული აჩქარება"
 
-#: src/dialogs/wizard.cpp:178
+#: src/dialogs/wizard.cpp:179
 #, kde-format
 msgid "AMF hardware acceleration"
 msgstr "AMF აპარატურის აჩქარება"
 
-#: src/dialogs/wizard.cpp:181
+#: src/dialogs/wizard.cpp:182
 #, kde-format
 msgid "QSV hardware acceleration"
 msgstr "QSV აპარატურის აჩქარება"
 
-#: src/dialogs/wizard.cpp:184
+#: src/dialogs/wizard.cpp:185
 #, kde-format
 msgid "Video Toolbox hardware acceleration"
 msgstr "Video Toolbox აპარატურული აჩქარება"
 
-#: src/dialogs/wizard.cpp:199 src/dialogs/wizard.cpp:219
-#: src/dialogs/wizard.cpp:252
+#: src/dialogs/wizard.cpp:200 src/dialogs/wizard.cpp:220
+#: src/dialogs/wizard.cpp:253
 #, kde-format
 msgid "Enable hardware decoding"
 msgstr "აპარატურული დეკოდერის ჩართვა"
 
-#: src/dialogs/wizard.cpp:202 src/dialogs/wizard.cpp:221
-#: src/dialogs/wizard.cpp:254
+#: src/dialogs/wizard.cpp:203 src/dialogs/wizard.cpp:222
+#: src/dialogs/wizard.cpp:255
 #, kde-format
 msgid "Enable hardware decoding: %1"
 msgstr "აპარატურული დეკოდერის ჩართვა: %1"
 
-#: src/dialogs/wizard.cpp:226
+#: src/dialogs/wizard.cpp:227
 #, kde-format
 msgid "Check hardware acceleration"
 msgstr "აპარატურული აჩქარების შემოწმება"
 
-#: src/dialogs/wizard.cpp:270
+#: src/dialogs/wizard.cpp:271
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
 msgstr ""
 "<li>MLT უკანაბოლოს გაშვება შეუძლებელია. შეამოწმეთ პროგრამის ფაილებიn</li>"
 
-#: src/dialogs/wizard.cpp:276
+#: src/dialogs/wizard.cpp:277
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
 msgstr ""
 "<li>მხარდაუჭერელი MLT-ის ვერსია<br/><b>ასწიეთ ის ვერსიამდე</b> %1.%2.%3</li>"
 
-#: src/dialogs/wizard.cpp:303
+#: src/dialogs/wizard.cpp:304
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
@@ -25960,7 +25965,7 @@ msgstr ""
 "<li>ვერ ვიპოვე პაკეტი: <b>Frei0r</b>-ის ეფექტები (frei0r-plugins)<br/>ბევრ "
 "ეფექტს და გადასვლას შეიცავს. რეკომენდებულია, დააყენოთ ის</li>"
 
-#: src/dialogs/wizard.cpp:318
+#: src/dialogs/wizard.cpp:319
 #, kde-format
 msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
@@ -25969,7 +25974,7 @@ msgstr ""
 "<li>აკლია პაკეტი: <b>AVFilter</b><br/>შეიცავს ბევრ ეფექტს. დაყენება "
 "რეკომენდებულია</li>"
 
-#: src/dialogs/wizard.cpp:332
+#: src/dialogs/wizard.cpp:333
 #, kde-format
 msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
@@ -25978,7 +25983,7 @@ msgstr ""
 "<li>ნაკლული ფილტრი: <b>avfilter.subtitles</b><br/>აუცილებელია სუბტიტრის "
 "ფუნქციონალისთვის. დაყენება რეკომენდებულია</li>"
 
-#: src/dialogs/wizard.cpp:352
+#: src/dialogs/wizard.cpp:353
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
@@ -25988,7 +25993,7 @@ msgstr ""
 ">ბევრ ხატულას შეიცავს, რომელსაც Kdenlive იყენებს. დაყენება რეკომენდებულია</"
 "li>"
 
-#: src/dialogs/wizard.cpp:381
+#: src/dialogs/wizard.cpp:382
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
@@ -25997,14 +26002,14 @@ msgstr ""
 "<li>ნაკლული MLT მოდული: <b>sdl</b> ან <b>rtaudio</b><br/>აუცილებელია ხმის "
 "გამოტანისთვის</li>"
 
-#: src/dialogs/wizard.cpp:393
+#: src/dialogs/wizard.cpp:394
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
 msgstr ""
 "<li>ნაკლული MLT მოდული: <b>xml</b> <br/>აუცილებელია აუდიოსთვის/ვიდეოსთვის</"
 "li>"
 
-#: src/dialogs/wizard.cpp:405
+#: src/dialogs/wizard.cpp:406
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
@@ -26013,7 +26018,7 @@ msgstr ""
 "<li>ნაკლული MLT მოდული: <b>avformat</b> (FFmpeg)<br/>აუცილებელია აუდიოსთვის/"
 "ვიდეოსთვის</li>"
 
-#: src/dialogs/wizard.cpp:414
+#: src/dialogs/wizard.cpp:415
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
@@ -26022,7 +26027,7 @@ msgstr ""
 "<li>ნაკლული MLT მოდული: <b>qimage</b> ან <b>pixbuf</b><br/>აუცილებელია "
 "გამოსახულებებისთვის და ტიტრებისთვის</li>"
 
-#: src/dialogs/wizard.cpp:421
+#: src/dialogs/wizard.cpp:422
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
@@ -26031,7 +26036,7 @@ msgstr ""
 "<li>ნაკლული MLT მოდული: <b>kdenlivetitle</b><br/>აუცილებელია ტიტრების "
 "შესაქმნელად</li>"
 
-#: src/dialogs/wizard.cpp:427
+#: src/dialogs/wizard.cpp:428
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
@@ -26040,13 +26045,13 @@ msgstr ""
 "<li>ნაკლული MLT მოდული: <b>glaxnimate</b><br/>აუცილებელია Lottie ანიმაციების "
 "ჩასატვირთად</li>"
 
-#: src/dialogs/wizard.cpp:463
+#: src/dialogs/wizard.cpp:464
 #, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
 "<li>ვერ ვიპოვე აპი: <b>kdenlive_render</b><br/>აუცილებელია რენდერისთვის.</li>"
 
-#: src/dialogs/wizard.cpp:488
+#: src/dialogs/wizard.cpp:489
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
@@ -26055,7 +26060,7 @@ msgstr ""
 "<li>ვერ ვიპოვე აპი: <b>ffmpeg</b><br/>აუცილებელია პროქსი კლიპებისთვის და "
 "გადაკოდირებისთვის</li>"
 
-#: src/dialogs/wizard.cpp:502
+#: src/dialogs/wizard.cpp:503
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
@@ -26063,7 +26068,7 @@ msgstr ""
 "<li>ვერ ვიპოვე აპი: <b>ffplay</b><br/>რეკომენდებულია ზოგიერთი მინიატურის "
 "დავალებებისთვის</li>"
 
-#: src/dialogs/wizard.cpp:516
+#: src/dialogs/wizard.cpp:517
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
@@ -26071,24 +26076,24 @@ msgstr ""
 "<li>ვერ ვიპოვე აპი: <b>ffprobe</b><br/>რეკომენდებულია დამატებითი კლიპის "
 "ანალიზისთვის</li>"
 
-#: src/dialogs/wizard.cpp:681
+#: src/dialogs/wizard.cpp:682
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
 "თქვენი MLT-ის ფაილები ვერ ვიპოვე. დააყენეთ MLT და გადატვირთეთ Kdenlive.\n"
 
-#: src/dialogs/wizard.cpp:685
+#: src/dialogs/wizard.cpp:686
 #, kde-format
 msgid "Fatal Error"
 msgstr "ფატალური შეცდომა"
 
-#: src/dialogs/wizard.cpp:865
+#: src/dialogs/wizard.cpp:868
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "აპარატურული ენკოდერები ვერ ვიპოვე."
 
-#: src/dialogs/wizard.cpp:867
+#: src/dialogs/wizard.cpp:870
 #, kde-format
 msgid "hardware encoders found and enabled (%1)."
 msgstr "აპარატურული ენკოდერები აღმოჩენილი და ჩართულია (%1)."
