@@ -1024,9 +1024,9 @@ void MainWindow::loadContainerActions()
         connect(monitorOverlay, &QMenu::triggered, this, &MainWindow::slotSwitchMonitorOverlay);
 
         m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone,
-                                    m_playZoneFromCursor, m_loopZone, nullptr, m_loopClip);
+                                    m_playZoneFromCursor, m_loopZone, m_loopClip);
         m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone,
-                                 m_playZoneFromCursor, m_loopZone, static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr);
+                                 m_playZoneFromCursor, m_loopZone, nullptr);
     }
 
     QMenu *clipInTimeline = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
