@@ -855,6 +855,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer(const QUuid &)
         cloneProps.pass_list(original, ClipController::getPassPropertiesList());
         thumbProd->set("audio_index", -1);
         thumbProd->set("astream", -1);
+        thumbProd->set("set.test_audio", 1);
         // Required to make get_playtime() return > 1
         thumbProd->set("out", thumbProd->get_length() - 1);
     }
