@@ -1866,6 +1866,8 @@ void Monitor::slotRefreshMonitor(bool visible)
         if (slotActivateMonitor()) {
             start();
         }
+    } else {
+        stop();
     }
 }
 
@@ -3126,7 +3128,7 @@ void Monitor::setProducer(const QUuid uuid, std::shared_ptr<Mlt::Producer> produ
         m_dirty = false;
         m_displayedUuid = uuid;
     }
-    m_glMonitor->setProducer(std::move(producer), isActive(), pos);
+    m_glMonitor->setProducer(std::move(producer), isActive() && isVisible(), pos);
 }
 
 void Monitor::reconfigure()
