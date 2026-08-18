@@ -184,6 +184,13 @@ Q_SIGNALS:
     void showClearButton(bool);
 };
 
+namespace BinColumns {
+inline constexpr int Name = 0;
+inline constexpr int Date = 1;
+inline constexpr int Description = 2;
+inline constexpr int Rating = 3;
+} // namespace BinColumns
+
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -472,11 +479,11 @@ private Q_SLOTS:
     void switchTag(const QString &tag, bool add);
     /** @brief Update project tags
      */
-    void updateTags(const QMap <int, QStringList> &previousTags, const QMap <int, QStringList> &tags);
+    void updateTags(const QMap<int, QStringList> &previousTags, const QMap<int, QStringList> &tags);
     void rebuildFilters(int tagsCount);
     /** @brief Switch a tag on  a clip list
      */
-    void editTags(const QList <QString> &allClips, const QString &tag, bool add);
+    void editTags(const QList<QString> &allClips, const QString &tag, bool add);
     /** @brief Update the string description of the clips count, like: 123 clips (3 selected). */
     void updateClipsCount();
     /** @brief Update the menu entry listing the occurrences of a clip in timeline. */
@@ -526,7 +533,8 @@ public Q_SLOTS:
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
     void doDisplaySimpleMessage(const QString &text, KMessageWidget::MessageType type);
-    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(), bool showCloseButton = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(),
+                          bool showCloseButton = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString logInfo);
     /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint(), bool activateMonitor = true);
@@ -673,6 +681,8 @@ private:
     const QList<QString> getAllClipsWithTag(const QString &tag);
     /** @brief Paste effect on a list of clips. */
     bool doPasteEffect(std::vector<QString> ids, const QStringList &effectData);
+
+    QString generateDuplicateName(const QString &originalName, const QList<std::shared_ptr<AbstractProjectItem>> &existingItems);
 
 Q_SIGNALS:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);
