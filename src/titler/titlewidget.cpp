@@ -435,12 +435,12 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Title…"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
-    connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
+    connect(m_buttonLoad, &QAction::triggered, this, [this]() { loadTitle(); }, Qt::QueuedConnection);
 
     m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Title As…"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL | Qt::Key_S);
-    connect(m_buttonSave, &QAction::triggered, this, [this]() { saveTitle(); });
+    connect(m_buttonSave, &QAction::triggered, this, [this]() { saveTitle(); }, Qt::QueuedConnection);
 
     m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates…"), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
     m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
@@ -457,6 +457,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     // initialize graphic scene
     m_scene = new GraphicsSceneRectMove(TITLERVERSION, m_frameWidth, m_frameHeight, this);
     graphicsView->setScene(m_scene);
+    graphicsView->setAcceptDrops(true);
     graphicsView->setMouseTracking(true);
     graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
@@ -465,6 +466,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_scene, &QGraphicsScene::changed, this, &TitleWidget::slotChanged);
     connect(m_scene, &GraphicsSceneRectMove::copy, this, &TitleWidget::slotCopy);
     connect(m_scene, &GraphicsSceneRectMove::paste, this, &TitleWidget::slotPaste);
+    connect(m_scene, &GraphicsSceneRectMove::addImage, this, &TitleWidget::addImageToScene);
     connect(font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_scene, &GraphicsSceneRectMove::slotUpdateFontSize);
     connect(use_grid, &QAbstractButton::toggled, m_scene, &GraphicsSceneRectMove::slotUseGrid);
 
@@ -949,23 +951,38 @@ void TitleWidget::slotImageTool()
     QUrl url = QUrl::fromLocalFile(dialog.selectedFiles().at(0));
     if (url.isValid()) {
         KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).toLocalFile());
-        if (url.toLocalFile().endsWith(QLatin1String(".svg"))) {
-            MySvgItem *svg = new MySvgItem(url.toLocalFile());
-            svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
-            svg->setZValue(m_count++);
-            svg->setData(Qt::UserRole, url.toLocalFile());
-            m_scene->addNewItem(svg);
-            prepareTools(svg);
-        } else {
-            QPixmap pix(url.toLocalFile());
-            auto *image = new MyPixmapItem(pix);
-            image->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
-            image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
-            image->setData(Qt::UserRole, url.toLocalFile());
-            image->setZValue(m_count++);
-            m_scene->addNewItem(image);
-            prepareTools(image);
+        addImageToScene(url);
+    } else {
+        m_scene->setTool(GraphicsSceneRectMove::TITLE_SELECT);
+        showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
+        checkButton(GraphicsSceneRectMove::TITLE_SELECT);
+    }
+}
+
+void TitleWidget::addImageToScene(const QUrl url, QPoint pos)
+{
+    if (url.toLocalFile().endsWith(QLatin1String(".svg"))) {
+        MySvgItem *svg = new MySvgItem(url.toLocalFile());
+        svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
+        svg->setZValue(m_count++);
+        svg->setData(Qt::UserRole, url.toLocalFile());
+        m_scene->addNewItem(svg);
+        if (!pos.isNull()) {
+            setItemPosition(svg, pos.x(), pos.y());
         }
+        prepareTools(svg);
+    } else {
+        QPixmap pix(url.toLocalFile());
+        auto *image = new MyPixmapItem(pix);
+        image->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
+        image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
+        image->setData(Qt::UserRole, url.toLocalFile());
+        image->setZValue(m_count++);
+        m_scene->addNewItem(image);
+        if (!pos.isNull()) {
+            setItemPosition(image, pos.x(), pos.y());
+        }
+        prepareTools(image);
     }
     m_scene->setTool(GraphicsSceneRectMove::TITLE_SELECT);
     showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
