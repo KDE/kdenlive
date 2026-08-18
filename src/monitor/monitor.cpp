@@ -847,7 +847,7 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (!m_openMutex.tryLock()) {
         return;
     }
-    if (m_controller->clipType() == ClipType::Audio) {
+    if (!m_controller->hasAlpha()) {
         // No compositing required
         m_glMonitor->setProducer(producer, isActive(), pos);
     } else {
