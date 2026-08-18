@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.pixels0rt" id="frei0r.pixels0rt" type="video">
+    <name>Pixels0rt</name>
+    <description>Pixel sorting effect</description>
+    <author>Asterleen</author>
+    <parameter type="animated" name="0" min="0.0" max="1.0" default="0.3" decimals="1">
+        <name>Threshold</name>
+        <comment><![CDATA[Relative size of the line that will be sorted]]></comment>
+    </parameter>
+    <parameter type="list" name="1" default="0" paramlist="0;0.25;0.5;0.75">
+        <name>Direction</name>
+        <comment><![CDATA[Sorting direction]]></comment>
+        <paramlistdisplay>Vertical from top to bottom,Vertical from bottom to top,Horizontal from left to right,Horizontal from right to left</paramlistdisplay>
+    </parameter>
+    <parameter type="bool" name="2" min="0" max="1" default="0">
+        <name>Reversed</name>
+        <comment><![CDATA[Should be pixels sorted in reversed order]]></comment>
+    </parameter>
+    <parameter type="animated" name="3" min="0.0" max="1.0" default="1.0" decimals="1">
+        <name>Transparency Threshold</name>
+        <comment><![CDATA[What transparency level should<br>
+        be bypassed by the filter. 0 processes all pixels, 1 ignores all transparent pixels]]></comment>
+    </parameter>
+</effect>
