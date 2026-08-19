@@ -6,9 +6,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
-import QtQuick.Effects
 import QtQuick 2.15
 
 import org.kde.ki18n

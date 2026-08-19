@@ -4,7 +4,6 @@
 */
 
 import QtQuick
-import org.kde.kdenlive as K
 
 Item {
     id: safeFrame
