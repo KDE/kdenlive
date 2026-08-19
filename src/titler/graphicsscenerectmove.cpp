@@ -18,6 +18,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QGraphicsView>
 #include <QKeyEvent>
 #include <QList>
+#include <QMimeData>
+#include <QMimeDatabase>
 #include <QScrollBar>
 #include <QTextBlock>
 #include <QTextCursor>
@@ -726,6 +728,45 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, int frameWidth, 
 void GraphicsSceneRectMove::contextMenuEvent(QGraphicsSceneContextMenuEvent *)
 {
     // Disable QGraphicsScene standard context menu that was crashing
+}
+
+void GraphicsSceneRectMove::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    m_dragAllowed = false;
+    if (event->mimeData()->hasUrls()) {
+        QList<QUrl> urls = event->mimeData()->urls();
+        bool imageOnly = true;
+        for (auto &u : urls) {
+            auto mime = QMimeDatabase().mimeTypeForFile(u.toLocalFile());
+            if (!mime.name().startsWith(QStringLiteral("image/"))) {
+                imageOnly = false;
+                break;
+            }
+        }
+        if (imageOnly) {
+            m_dragAllowed = true;
+            event->acceptProposedAction();
+        }
+    } else {
+        QGraphicsScene::dragEnterEvent(event);
+    }
+}
+
+void GraphicsSceneRectMove::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->setAccepted(m_dragAllowed);
+}
+
+void GraphicsSceneRectMove::dropEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->setAccepted(m_dragAllowed);
+    QPoint pos = event->scenePos().toPoint();
+    QList<QUrl> urls = event->mimeData()->urls();
+    for (auto &u : urls) {
+        Q_EMIT addImage(u, pos);
+        pos.setX(pos.x() + 10);
+        pos.setY(pos.y() + 10);
+    }
 }
 
 void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)

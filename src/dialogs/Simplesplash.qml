@@ -276,8 +276,8 @@ Window {
                 anchors.right: notesButton.left
                 textFormat: Text.RichText
                 text: KI18n.i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
-                           "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
-                           "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
+                           "https://kdenlive.org/get-involved/?utm_campaign=kdenlive_inapp&utm_term=splash_upgraded_contribute&utm_content=" + splash.version,
+                           "https://kdenlive.org/fund/?utm_campaign=kdenlive_inapp&utm_term=splash_upgraded_donate&utm_content=" + splash.version)
                 wrapMode: Text.Wrap
                 HoverHandler {
                     enabled: upgradedLabel.hoveredLink
@@ -293,7 +293,7 @@ Window {
                 property bool buttonPressed: false
                 text: KI18n.i18n("What's New")
                 icon.name: "help-contents"
-                onClicked: splash.openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes")
+                onClicked: splash.openLink("https://kdenlive.org/news/releases/" + splash.version + "?utm_campaign=kdenlive_inapp&utm_term=splash_upgraded_notes&utm_content=" + splash.version)
                 Keys.onPressed: (event)=> {
                     if (event.key === Qt.Key_Return) {
                         buttonPressed = true

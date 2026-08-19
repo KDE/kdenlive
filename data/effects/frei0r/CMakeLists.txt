@@ -10,6 +10,7 @@ frei0r_alphaspot.xml
 frei0r_alpha0ps_alpha0ps.xml
 frei0r_alpha0ps_alphagrad.xml
 frei0r_alpha0ps_alphaspot.xml
+frei0r_autothresh0ld.xml
 frei0r_B.xml
 frei0r_balanc0r.xml
 frei0r_baltan.xml
@@ -81,6 +82,7 @@ frei0r_ntsc.xml
 frei0r_normaliz0r.xml
 frei0r_nosync0r.xml
 frei0r_pixeliz0r.xml
+frei0r_pixels0rt.xml
 frei0r_pixs0r.xml
 frei0r_posterize.xml
 frei0r_premultiply.xml

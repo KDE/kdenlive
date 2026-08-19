@@ -832,6 +832,7 @@ private:
     int m_videoTarget;
     int m_audioRef{-1};
     int m_timecodeRef{-1};
+    int m_trimmingClip{-1};
     int m_timelineMouseOffset{0};
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};

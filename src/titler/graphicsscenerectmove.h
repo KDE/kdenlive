@@ -157,6 +157,9 @@ protected:
     void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) override;
     void drawForeground(QPainter *painter, const QRectF &rect) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *contextMenuEvent) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 
 private:
     void setCursor(const QCursor &);
@@ -179,6 +182,7 @@ private:
     QList<QGraphicsItem *> m_lastSnapPreviews;
     int m_frameWidth;
     int m_frameHeight;
+    bool m_dragAllowed{false};
 
 Q_SIGNALS:
     void itemMoved();
@@ -191,4 +195,5 @@ Q_SIGNALS:
     void doubleClickEvent();
     void copy();
     void paste();
+    void addImage(const QUrl &url, const QPoint p);
 };

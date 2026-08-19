@@ -421,7 +421,7 @@ const QString PlaylistClip::getPlaylistRoot()
     return m_playlistRoot;
 }
 
-bool PlaylistClip::hasAlpha()
+bool PlaylistClip::hasAlpha() const
 {
     if (clipUrl().isEmpty()) {
         return false;

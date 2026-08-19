@@ -2592,9 +2592,13 @@ int TimelineController::requestItemRippleResize(int itemId, int size, bool right
 void TimelineController::updateTrimmingMode()
 {
     if (trimmingActive()) {
-        requestStartTrimmingMode();
+        if (m_trimmingClip != getMainSelectedClip()) {
+            requestStartTrimmingMode();
+            m_trimmingClip = getMainSelectedClip();
+        }
     } else {
         requestEndTrimmingMode();
+        m_trimmingClip = -1;
     }
 }
 

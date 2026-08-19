@@ -343,6 +343,9 @@ private Q_SLOTS:
 
     void setCurrentItem(QGraphicsItem *item);
 
+    /** @brief Adds an image from its url */
+    void addImageToScene(const QUrl url, QPoint pos = QPoint());
+
     void slotTextTool();
     void slotRectTool();
     void slotEllipseTool();

@@ -855,6 +855,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer(const QUuid &)
         cloneProps.pass_list(original, ClipController::getPassPropertiesList());
         thumbProd->set("audio_index", -1);
         thumbProd->set("astream", -1);
+        thumbProd->set("set.test_audio", 1);
         // Required to make get_playtime() return > 1
         thumbProd->set("out", thumbProd->get_length() - 1);
     }
@@ -3222,19 +3223,25 @@ size_t ProjectClip::sequenceFrameDuration(const QUuid &)
     return frameDuration();
 }
 
-bool ProjectClip::hasAlpha()
+bool ProjectClip::hasAlpha() const
 {
-    const QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
-                                      QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya")};
-    int vindex = m_properties->get_int("video_index");
-    const QString codecInfo = QStringLiteral("meta.media.%1.codec.pix_fmt").arg(vindex);
-    const QString selected = getProducerProperty(codecInfo);
-    if (selected.isEmpty()) {
+    if (m_clipType == ClipType::Audio || m_clipType == ClipType::Color || m_clipType == ClipType::Timeline) {
         return false;
     }
-    for (auto &f : alphaFormats) {
-        if (selected.startsWith(f)) {
-            return true;
+    if (m_clipType == ClipType::Text || m_clipType == ClipType::TextTemplate || m_clipType == ClipType::Image || m_clipType == ClipType::Animation) {
+        return true;
+    }
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Video) {
+        const QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
+                                          QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya")};
+        const QString codecInfo = videoCodecProperty(QStringLiteral("pix_fmt"));
+        if (codecInfo.isEmpty() || !codecInfo.contains(QLatin1Char('a'))) {
+            return false;
+        }
+        for (auto &f : alphaFormats) {
+            if (codecInfo.startsWith(f)) {
+                return true;
+            }
         }
     }
     return false;

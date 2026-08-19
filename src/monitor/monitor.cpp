@@ -124,7 +124,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_markerMenu(nullptr)
     , m_audioChannels(nullptr)
     , m_loopClipTransition(true)
-    , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(SceneType::MonitorSceneDefault)
 {
@@ -666,25 +665,13 @@ void Monitor::slotLockMonitor(bool lock)
     m_monitorManager->lockMonitor(m_id, lock);
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *playZoneFromCursor, QAction *loopZone, QMenu *markerMenu,
-                        QAction *loopClip)
+void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *playZoneFromCursor, QAction *loopZone, QAction *loopClip)
 {
     delete m_contextMenu;
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu) {
         m_contextMenu->addMenu(goMenu);
-    }
-
-    if (markerMenu) {
-        m_contextMenu->addMenu(markerMenu);
-        QList<QAction *> list = markerMenu->actions();
-        for (int i = 0; i < list.count(); ++i) {
-            if (list.at(i)->objectName() == QLatin1String("edit_marker")) {
-                m_editMarker = list.at(i);
-                break;
-            }
-        }
     }
 
     m_playMenu->addAction(playZone);
@@ -847,7 +834,7 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (!m_openMutex.tryLock()) {
         return;
     }
-    if (KdenliveSettings::monitor_background() == "black" || m_controller->clipType() == ClipType::Audio) {
+    if (!m_controller->hasAlpha()) {
         // No compositing required
         m_glMonitor->setProducer(producer, isActive(), pos);
     } else {
@@ -1879,6 +1866,8 @@ void Monitor::slotRefreshMonitor(bool visible)
         if (slotActivateMonitor()) {
             start();
         }
+    } else {
+        stop();
     }
 }
 
@@ -2449,13 +2438,6 @@ void Monitor::switchMonitorInfo(int code)
     if (code == Monitor::InfoOverlay) {
         // Hide/show ruler
         m_glMonitor->switchRuler(currentOverlay & Monitor::InfoOverlay);
-    }
-}
-
-void Monitor::slotEditMarker()
-{
-    if (m_editMarker) {
-        m_editMarker->trigger();
     }
 }
 
@@ -3146,7 +3128,7 @@ void Monitor::setProducer(const QUuid uuid, std::shared_ptr<Mlt::Producer> produ
         m_dirty = false;
         m_displayedUuid = uuid;
     }
-    m_glMonitor->setProducer(std::move(producer), isActive(), pos);
+    m_glMonitor->setProducer(std::move(producer), isActive() && isVisible(), pos);
 }
 
 void Monitor::reconfigure()

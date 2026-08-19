@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "timeremap.h"
 
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
@@ -77,6 +78,7 @@ void RemapView::updateInPos(int pos)
 {
     if (m_currentKeyframe.second > -1) {
         m_keyframesOrigin = m_keyframes;
+        m_keyframeTypesOrigin = m_keyframeTypes;
         if (m_moveNext) {
             int offset = pos - m_currentKeyframe.second;
             QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
@@ -106,6 +108,7 @@ void RemapView::updateOutPos(int pos)
             return;
         }
         m_keyframesOrigin = m_keyframes;
+        m_keyframeTypesOrigin = m_keyframeTypes;
         QMap<int, int> updated;
         int offset = pos - m_currentKeyframe.first;
         if (m_moveNext) {
@@ -114,8 +117,10 @@ void RemapView::updateOutPos(int pos)
                 updated.insert(it.key(), it.value());
                 it++;
             }
+            shiftKeyframeTypes(m_currentKeyframe.first, offset);
             m_currentKeyframe.first = pos;
         } else {
+            moveKeyframeType(m_currentKeyframe.first, pos);
             m_keyframes.remove(m_currentKeyframe.first);
             m_currentKeyframe.first = pos;
             m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
@@ -200,6 +205,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
         m_duration = -1;
         m_selectedKeyframes.clear();
         m_keyframes.clear();
+        m_keyframeTypes.clear();
         return;
     }
     if (service) {
@@ -210,6 +216,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
     bool keyframeAdded = false;
     if (m_duration > 0 && m_service && !m_keyframes.isEmpty()) {
         m_keyframesOrigin = m_keyframes;
+        m_keyframeTypesOrigin = m_keyframeTypes;
         if (duration > m_duration) {
             // The clip was resized, ensure we have a keyframe at the end of the clip will freeze at last keyframe
             QMap<int, int>::iterator it = m_keyframes.end();
@@ -223,6 +230,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
                 // Move last keyframe
                 it--;
                 int updatedVal = it.value() + ((lastPos - it.key()) * speeds.first);
+                moveKeyframeType(lastKeyframePos, lastPos);
                 m_keyframes.remove(lastKeyframePos);
                 m_keyframes.insert(lastPos, updatedVal);
             }
@@ -244,9 +252,12 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
                 if (!m_keyframes.contains(lastPos)) {
                     int lastKeyframeValue = m_keyframes.value(posToMove);
                     std::pair<double, double> speeds = getSpeed({posToMove, lastKeyframeValue});
+                    moveKeyframeType(posToMove, lastPos);
                     m_keyframes.remove(posToMove);
                     while (!toDelete.isEmpty()) {
-                        m_keyframes.remove(toDelete.takeFirst());
+                        int deletedPos = toDelete.takeFirst();
+                        m_keyframes.remove(deletedPos);
+                        m_keyframeTypes.remove(deletedPos);
                     }
                     int updatedVal = m_keyframes.value(m_keyframes.lastKey()) + ((lastPos - m_keyframes.lastKey()) / speeds.first);
                     m_keyframes.insert(lastPos, updatedVal);
@@ -281,6 +292,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
 void RemapView::loadKeyframes(const QString &mapData)
 {
     m_keyframes.clear();
+    m_keyframeTypes.clear();
     if (mapData.isEmpty()) {
         if (m_inFrame > 0) {
             // Necessary otherwise clip will freeze before first keyframe
@@ -295,15 +307,26 @@ void RemapView::loadKeyframes(const QString &mapData)
         Q_EMIT atKeyframe(true, true);
         Q_EMIT updateKeyframes(false);
     } else {
-        QStringList str = mapData.split(QLatin1Char(';'));
-        for (auto &s : str) {
-            int pos = m_service->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
-            int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+        Mlt::Properties props;
+        props.set("_profile", pCore->getProjectProfile().get_profile(), 0);
+        props.set("key", mapData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)props.anim_get_double("key", 0);
+        std::shared_ptr<Mlt::Animation> anim(props.get_anim("key"));
+        int kfrCount = anim->key_count();
+        for (int ix = 0; ix < kfrCount; ix++) {
+            int pos = 0;
+            mlt_keyframe_type type = mlt_keyframe_linear;
+            anim->key_get(ix, pos, type);
+            int val = GenTime(props.anim_get_double("key", pos)).frames(pCore->getCurrentFps());
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
-            if (s == str.constLast()) {
+            if (ix == kfrCount - 1) {
                 pos--;
             }
             m_keyframes.insert(pos, val);
+            if (type != mlt_keyframe_linear) {
+                m_keyframeTypes.insert(pos, type);
+            }
             m_duration = qMax(m_duration, pos - m_inFrame);
             m_duration = qMax(m_duration, val - m_inFrame);
         }
@@ -444,6 +467,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     }
                     i.toFront();
                     QMap<int, int> updated;
+                    QMap<int, int> updatedTypes;
                     while (i.hasNext()) {
                         i.next();
                         if (i.key() < m_currentKeyframe.first) {
@@ -451,6 +475,9 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                         }
                         // m_keyframes.insert(i.key() + delta, i.value());
                         updated.insert(i.key() + delta, i.value());
+                        if (m_keyframeTypes.contains(i.key())) {
+                            updatedTypes.insert(i.key() + delta, m_keyframeTypes.take(i.key()));
+                        }
                         m_keyframes.remove(i.key());
                     }
                     QMapIterator<int, int> j(updated);
@@ -458,6 +485,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                         j.next();
                         m_keyframes.insert(j.key(), j.value());
                     }
+                    m_keyframeTypes.insert(updatedTypes);
                     QMap<int, int> updatedSelection;
                     QMapIterator<int, int> k(m_previousSelection);
                     while (k.hasNext()) {
@@ -661,6 +689,11 @@ void RemapView::centerCurrentKeyframe()
         // no move
         return;
     }
+    if (nextKeyframes.isEmpty()) {
+        moveKeyframeType(m_currentKeyframe.first - offset, m_currentKeyframe.first);
+    } else {
+        shiftKeyframeTypes(m_currentKeyframe.first - offset, offset);
+    }
     m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
     QMapIterator<int, int> i(nextKeyframes);
     while (i.hasNext()) {
@@ -725,6 +758,32 @@ void RemapView::centerCurrentTopKeyframe()
     update();
 }
 
+int RemapView::keyframeTypeAt(int pos) const
+{
+    return m_keyframeTypes.value(pos, KeyframeType::Linear);
+}
+
+void RemapView::moveKeyframeType(int oldPos, int newPos)
+{
+    if (m_keyframeTypes.contains(oldPos)) {
+        m_keyframeTypes.insert(newPos, m_keyframeTypes.take(oldPos));
+    }
+}
+
+void RemapView::shiftKeyframeTypes(int fromPos, int offset)
+{
+    QMap<int, int> shifted;
+    QMutableMapIterator<int, int> i(m_keyframeTypes);
+    while (i.hasNext()) {
+        i.next();
+        if (i.key() >= fromPos) {
+            shifted.insert(i.key() + offset, i.value());
+            i.remove();
+        }
+    }
+    m_keyframeTypes.insert(shifted);
+}
+
 std::pair<int, int> RemapView::getClosestKeyframe(int pos, bool bottomKeyframe) const
 {
     int deltaMin = -1;
@@ -772,6 +831,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
     pos = qBound(0, pos, m_maxLength);
     m_moveKeyframeMode = NoMove;
     m_keyframesOrigin = m_keyframes;
+    m_keyframeTypesOrigin = m_keyframeTypes;
     m_oldInFrame = m_inFrame;
     if (event->button() == Qt::LeftButton) {
         if (event->position().y() < m_centerPos) {
@@ -1119,6 +1179,7 @@ void RemapView::updateBeforeSpeed(double speed)
     QList<int> toDelete;
     if (*it != m_keyframes.first() && it != m_keyframes.end()) {
         m_keyframesOrigin = m_keyframes;
+        m_keyframeTypesOrigin = m_keyframeTypes;
         it--;
         double updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
         int lengthInt = qRound(updatedLength);
@@ -1126,6 +1187,11 @@ void RemapView::updateBeforeSpeed(double speed)
         if (offsetInt == 0) {
             // Rounded target position is identical to the current position; nothing to do.
             return;
+        }
+        if (m_moveNext) {
+            shiftKeyframeTypes(m_currentKeyframe.first, offsetInt);
+        } else {
+            moveKeyframeType(m_currentKeyframe.first, it.key() + lengthInt);
         }
         m_keyframes.remove(m_currentKeyframe.first);
         m_currentKeyframe.first = it.key() + lengthInt;
@@ -1164,6 +1230,7 @@ void RemapView::updateAfterSpeed(double speed)
 {
     QMutexLocker lock(&m_kfrMutex);
     m_keyframesOrigin = m_keyframes;
+    m_keyframeTypesOrigin = m_keyframeTypes;
     QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
     if (*it != m_keyframes.last()) {
         it++;
@@ -1177,12 +1244,14 @@ void RemapView::updateAfterSpeed(double speed)
             return;
         }
         if (m_moveNext) {
+            shiftKeyframeTypes(it.key(), offsetInt);
             while (it != m_keyframes.end()) {
                 toDelete << it.key();
                 updatedKfrs.insert(it.key() + offsetInt, it.value());
                 it++;
             }
         } else {
+            moveKeyframeType(it.key(), m_currentKeyframe.first + lengthInt);
             m_keyframes.insert(m_currentKeyframe.first + lengthInt, it.value());
             m_keyframes.remove(it.key());
         }
@@ -1204,25 +1273,33 @@ void RemapView::updateAfterSpeed(double speed)
     }
 }
 
-const QString RemapView::getKeyframesData(QMap<int, int> keyframes) const
+const QString RemapView::getKeyframesData(QMap<int, int> keyframes, QMap<int, int> keyframeTypes) const
 {
-    QStringList result;
     if (keyframes.isEmpty()) {
         keyframes = m_keyframes;
+        keyframeTypes = m_keyframeTypes;
     }
-    QMapIterator<int, int> i(keyframes);
-    int offset = 0;
+    if (keyframes.isEmpty()) {
+        return QString();
+    }
     Mlt::Properties props;
     props.set("_profile", pCore->getProjectProfile().get_profile(), 0);
+    QMapIterator<int, int> i(keyframes);
+    int offset = 0;
     while (i.hasNext()) {
         i.next();
         if (i.key() == keyframes.lastKey()) {
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
             offset = 1;
         }
-        result << QStringLiteral("%1=%2").arg(props.frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
+        mlt_keyframe_type type = mlt_keyframe_type(keyframeTypes.value(i.key(), KeyframeType::Linear));
+        props.anim_set("key", GenTime(i.value(), pCore->getCurrentFps()).seconds(), i.key() + offset, 0, type);
     }
-    return result.join(QLatin1Char(';'));
+    std::shared_ptr<Mlt::Animation> anim(props.get_anim("key"));
+    char *data = anim->serialize_cut(mlt_time_clock);
+    const QString result(data);
+    free(data);
+    return result;
 }
 
 void RemapView::reloadProducer()
@@ -1280,12 +1357,33 @@ std::pair<double, double> RemapView::getSpeed(std::pair<int, int> kf)
     return speeds;
 }
 
+void RemapView::slotSetKeyframeType(int type)
+{
+    if (m_currentKeyframe.first == -1 || !m_keyframes.contains(m_currentKeyframe.first)) {
+        return;
+    }
+    if (keyframeTypeAt(m_currentKeyframe.first) == type) {
+        return;
+    }
+    m_keyframesOrigin = m_keyframes;
+    m_keyframeTypesOrigin = m_keyframeTypes;
+    if (type == KeyframeType::Linear) {
+        m_keyframeTypes.remove(m_currentKeyframe.first);
+    } else {
+        m_keyframeTypes.insert(m_currentKeyframe.first, type);
+    }
+    Q_EMIT updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
+    update();
+}
+
 void RemapView::addKeyframe()
 {
     // insert or remove keyframe at interpolated position
     m_keyframesOrigin = m_keyframes;
+    m_keyframeTypesOrigin = m_keyframeTypes;
     if (m_keyframes.contains(m_bottomPosition + m_inFrame)) {
         m_keyframes.remove(m_bottomPosition + m_inFrame);
+        m_keyframeTypes.remove(m_bottomPosition + m_inFrame);
         if (m_currentKeyframe.first == m_bottomPosition + m_inFrame) {
             m_currentKeyframe = m_currentKeyframeOriginal = {-1, -1};
             Q_EMIT selectedKf(m_currentKeyframe, {-1, -1});
@@ -1467,6 +1565,33 @@ void RemapView::paintEvent(QPaintEvent *event)
     }
 
     /*
+     * Time remap curve, drawn between the two rulers. The x axis is the output
+     * position, the y axis is the source position sampled from the time_map
+     * animation, so the curve shape matches what MLT will play back
+     */
+    if (!m_keyframes.isEmpty() && m_remapProps.is_valid() && m_remapProps.property_exists("time_map")) {
+        int maxSource = remapMax();
+        if (maxSource > 0) {
+            double curveTop = m_lineHeight * 1.75;
+            double curveBottom = m_bottomView - m_lineHeight * 1.75;
+            QColor curveColor = m_colSelected;
+            curveColor.setAlpha(160);
+            p.setPen(curveColor);
+            p.setRenderHint(QPainter::Antialiasing);
+            QPolygonF curvePoints;
+            for (int px = 0; px <= maxWidth; px++) {
+                int framePos = int((px / m_zoomFactor + m_zoomStart) / m_scale);
+                double sourcePos = m_remapProps.anim_get_double("time_map", framePos + m_inFrame) * fps - m_inFrame;
+                double ratio = qBound(0., sourcePos / maxSource, 1.);
+                curvePoints << QPointF(px + m_offset, curveBottom - ratio * (curveBottom - curveTop));
+            }
+            p.drawPolyline(curvePoints);
+            p.setRenderHint(QPainter::Antialiasing, false);
+            p.setPen(m_colKeyframe);
+        }
+    }
+
+    /*
      * Keyframes
      */
     QMapIterator<int, int> i(m_keyframes);
@@ -1587,7 +1712,18 @@ TimeRemap::TimeRemap(QWidget *parent)
         speedBefore->setValue(100. * speeds.first);
         speedAfter->setEnabled(!atEnd.second);
         speedAfter->setValue(100. * speeds.second);
+        QSignalBlocker bk5(kfr_type);
+        kfr_type->setCurrentIndex(qMax(0, kfr_type->findData(m_view->keyframeTypeAt(selection.first))));
     });
+    // Bounce and elastic overshoot the keyframe value, which on a time map means the
+    // source time briefly runs backwards and the clip plays in reverse for a few frames
+    const QMap<KeyframeType::KeyframeEnum, QString> kfrTypes = KeyframeModel::getKeyframeTypes();
+    for (auto type : {KeyframeType::Linear, KeyframeType::Discrete, KeyframeType::CurveSmooth, KeyframeType::CubicIn, KeyframeType::CubicOut,
+                      KeyframeType::ExponentialIn, KeyframeType::ExponentialOut, KeyframeType::CircularIn, KeyframeType::CircularOut, KeyframeType::BounceIn,
+                      KeyframeType::BounceOut, KeyframeType::ElasticIn, KeyframeType::ElasticOut}) {
+        kfr_type->addItem(kfrTypes.value(type), int(type));
+    }
+    connect(kfr_type, &QComboBox::activated, this, [this](int ix) { m_view->slotSetKeyframeType(kfr_type->itemData(ix).toInt()); });
     connect(m_view, &RemapView::updateSpeeds, this, [this](std::pair<double, double> speeds) {
         QSignalBlocker bk3(speedBefore);
         QSignalBlocker bk4(speedAfter);
@@ -1989,12 +2125,12 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         m_isUpdatingKeyframes = false;
     }
 
-    Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch,
-                      masterIsAudio, splitIsAudio, hadBlend]() {
+    Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, previousTypes = m_view->m_keyframeTypesOrigin, cid = m_cid,
+                      oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch, masterIsAudio, splitIsAudio, hadBlend]() {
         QString oldKfData;
         bool keyframesChanged = false;
         if (!previousKeyframes.isEmpty()) {
-            oldKfData = m_view->getKeyframesData(previousKeyframes);
+            oldKfData = m_view->getKeyframesData(previousKeyframes, previousTypes);
             keyframesChanged = true;
         }
         if (keyframesChanged) {
@@ -2031,12 +2167,12 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         return true;
     };
 
-    Fun local_redo = [this, link = m_remapLink, splitLink = m_splitRemap, updatedKeyframes, cid = m_cid, usePitch, masterIsAudio, splitIsAudio,
-                      in = m_view->m_inFrame, useBlend]() {
+    Fun local_redo = [this, link = m_remapLink, splitLink = m_splitRemap, updatedKeyframes, updatedTypes = m_view->m_keyframeTypes, cid = m_cid, usePitch,
+                      masterIsAudio, splitIsAudio, in = m_view->m_inFrame, useBlend]() {
         QString newKfData;
         bool keyframesChanged = false;
         if (!updatedKeyframes.isEmpty()) {
-            newKfData = m_view->getKeyframesData(updatedKeyframes);
+            newKfData = m_view->getKeyframesData(updatedKeyframes, updatedTypes);
             keyframesChanged = true;
         }
         if (keyframesChanged) {

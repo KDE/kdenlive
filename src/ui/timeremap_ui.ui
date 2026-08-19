@@ -192,6 +192,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              </widget>
             </item>
             <item>
+             <widget class="QLabel" name="label_type">
+              <property name="text">
+               <string>Type</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="kfr_type"/>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_4">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>

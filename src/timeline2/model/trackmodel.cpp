@@ -438,10 +438,10 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             ptr->_endRemoveRows();
         }
         int target_clip = clip_loc.second;
-        // lock MLT playlist so that we don't end up with invalid frames in monitor
-        m_playlists[target_track].lock();
         std::unique_ptr<Mlt::Field> field(m_track->field());
         field->block();
+        // lock MLT playlist so that we don't end up with invalid frames in monitor
+        m_playlists[target_track].lock();
         Q_ASSERT(target_clip < m_playlists[target_track].count());
         Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
@@ -451,8 +451,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             // m_allClips[clipId]->setSubPlaylistIndex(-1);
             m_allClips.erase(clipId);
             delete prod;
-            field->unblock();
             m_playlists[target_track].unlock();
+            field->unblock();
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
@@ -474,8 +474,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             }
             return true;
         }
-        field->unblock();
         m_playlists[target_track].unlock();
+        field->unblock();
         return false;
     };
 }

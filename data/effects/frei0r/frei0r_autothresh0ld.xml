@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.autothresh0ld" id="frei0r.autothresh0ld" type="video">
+    <name>Auto Threshold</name>
+    <description>Segments an image into foreground or background</description>
+    <author>Cynthia2006</author>
+    <parameter type="animated" name="0" min="0.0" max="7.0" default="4.0" decimals="1">
+        <name>Slope</name>
+        <comment><![CDATA[Slope of Sigmoidal Transfer]]></comment>
+    </parameter>
+</effect>

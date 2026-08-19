@@ -323,7 +323,7 @@ public:
     const QString getControlUuid() const;
     virtual size_t sequenceFrameDuration(const QUuid &);
     /** @brief returns true if an avformat producer has an alpha channel */
-    virtual bool hasAlpha();
+    virtual bool hasAlpha() const;
     /** @brief Get a list of masks */
     QVector<MaskInfo> masks() const;
     /** @brief Get a list of masks with only {name, url} */
