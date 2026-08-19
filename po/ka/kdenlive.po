@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 00:45+0000\n"
-"PO-Revision-Date: 2026-08-17 07:33+0200\n"
+"POT-Creation-Date: 2026-08-19 16:04+0000\n"
+"PO-Revision-Date: 2026-08-19 06:21+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -8267,10 +8267,9 @@ msgstr ""
 "    ეს ეფექტი ჩანაცვლდა <em>frei0r.alphaops_alphaspot</em>-ით."
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "დაბალი ზღვარი"
+msgstr "ავტომატური ზღვარი"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
@@ -8284,10 +8283,9 @@ msgid "Slope"
 msgstr "დაქანება"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:9
-#, fuzzy, kde-format
-#| msgid "Sigmoidal Transfer"
+#, kde-format
 msgid "Slope of Sigmoidal Transfer"
-msgstr "სიგმოიდალური გადასვლა"
+msgstr "სიგმოიდალური გადასვლის დაქანება"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -12093,28 +12091,24 @@ msgid "Do not average the alpha channel over each block"
 msgstr "არ მოხდება ალფა არხის გასაშუალოება თითოეული ბლოკისთვის"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels0rt"
-msgstr "პიქსელი"
+msgstr "Pixels0rt"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
-#, fuzzy, kde-format
-#| msgid "Reset effect"
+#, kde-format
 msgid "Pixel sorting effect"
-msgstr "ეფექტის ჩამოყრა"
+msgstr "პიქსელების დალაგების ეფექტი"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
-#, fuzzy, kde-format
-#| msgid "Defines the rectangle of the area that will be removed."
+#, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr "აღწერს მართკუთხედს, რომელიც წაიშლება."
+msgstr "ფარდობითი ზომა ხაზის, რომელიც დალაგდება"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Sorting direction"
-msgstr "ანარეკლის მიმართულება"
+msgstr "დალაგების მიმართულება"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -12124,10 +12118,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "პირიქით"
+msgstr "შებრუნებულია"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
@@ -12135,10 +12128,9 @@ msgid "Should be pixels sorted in reversed order"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency Top"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "გამჭვირვალობის მაქს"
+msgstr "გამჭვირვალობის ზღვარი"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -17542,7 +17534,7 @@ msgid "Process audio using a SoX effect"
 msgstr "დამუშავება SoX-ის ეფექტით"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:78
+#: src/monitor/view/MonitorSplit.qml:77
 #, kde-format
 msgid "Effect"
 msgstr "ეფექტი"
@@ -20618,17 +20610,17 @@ msgstr ""
 "ორი წკაპი, დაყარეთ ფაილები, ან \n"
 "უბრალოდ დააწკაპუნეთ %1-ზე მედიის შემოსატანად"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:524
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "გადაათრიეთ დროის ხაზზე, მხოლოდ, აუდიოს დასამატებლად"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:524
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "გადაათრიეთ დროის ხაზზე, მხოლოდ, ვიდეოს დასამატებლად"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1528
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1527
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -27701,7 +27693,7 @@ msgid "Clip in Timeline"
 msgstr "კლიპი დროის ხაზზე"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1187
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1186
 #, kde-format
 msgid "Sequence"
 msgstr "მიმდევრობა"
@@ -28251,6 +28243,8 @@ msgstr "Jean-Baptiste Mardelle"
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
+"ძირითადი გუნდის წევრი, მთავარი და წამყვანი პროგრამისტი MLT და KDE SC 4 / KF5-"
+"ზე გადატანა"
 
 #: src/main.cpp:297
 #, kde-format
@@ -28323,7 +28317,7 @@ msgstr "balooii"
 #: src/main.cpp:306
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
-msgstr ""
+msgstr "მონიტორინგის, შუალედების და ქრონოლოგიის QOL-ის გაუმჯობესება"
 
 #: src/main.cpp:307
 #, kde-format
@@ -28365,6 +28359,8 @@ msgstr "Bernd Jordan"
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
+"ძირითადი გუნდის წევრი, დოკუმენტაცია, ეფექტის UI და ტესტირება, საზოგადოების "
+"მხარდაჭერა"
 
 #: src/main.cpp:311
 #, kde-format
@@ -28375,6 +28371,8 @@ msgstr "Eugen Mohr"
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
+"ძირითადი გუნდის წევრი, დოკუმენტაციის გუნდის წამყვანი, შეცდომების გასწორება, "
+"შემოწმება"
 
 #: src/main.cpp:312
 #, kde-format
@@ -31452,34 +31450,34 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "დააწკაპუნეთ აუდიოს ტალღის ფორმის განახლებისთვის"
 
-#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:177
+#: src/monitor/view/ClipMonitor.qml:342 src/monitor/view/ProjectMonitor.qml:177
 #, kde-format
 msgid "%1fps"
 msgstr "%1კადრი/წმ"
 
-#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:208
+#: src/monitor/view/ClipMonitor.qml:381 src/monitor/view/ProjectMonitor.qml:208
 #, kde-format
 msgid "In Point"
 msgstr "შესვლის წერტილი"
 
-#: src/monitor/view/ClipMonitor.qml:382
+#: src/monitor/view/ClipMonitor.qml:381
 #, kde-format
 msgid "In/Out Point"
 msgstr "შესვლის/გამოსვლის წერტილი"
 
-#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:224
 #, kde-format
 msgid "Out Point"
 msgstr "გამოსვლის წერტილი"
 
-#: src/monitor/view/ClipMonitor.qml:588
+#: src/monitor/view/ClipMonitor.qml:587
 #, kde-format
 msgid "Terminate Job"
 msgstr "დავალების შეწყვეტა"
 
-#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:68
-#: src/monitor/view/SceneToolBar.qml:68
+#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
+#: src/monitor/view/MultiScreenToolBar.qml:67
+#: src/monitor/view/SceneToolBar.qml:67
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "სრულ ეკრანზე გადართვა"
@@ -31489,12 +31487,12 @@ msgstr "სრულ ეკრანზე გადართვა"
 msgid "Show Grid"
 msgstr "ბადის ჩვენება"
 
-#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:77
+#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:76
 #, kde-format
 msgid "Show Safe Areas"
 msgstr "უსაფრთხო არეების ჩვენება"
 
-#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:90
+#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:89
 #, kde-format
 msgid "Composition Guides"
 msgstr "მიმმართველი ხაზები"
@@ -31514,9 +31512,9 @@ msgstr "გადასვლა წინა საკვანძო კად
 msgid "Automatic Keyframes"
 msgstr "ავტომატური საკვანძო კადრები"
 
-#: src/monitor/view/EffectToolBar.qml:139 src/monitor/view/MaskToolBar.qml:117
-#: src/monitor/view/MultiScreenToolBar.qml:87
-#: src/monitor/view/SceneToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:139 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:86
+#: src/monitor/view/SceneToolBar.qml:114
 #, kde-format
 msgid "Move Toolbar"
 msgstr "ინსტრუმენტების პანელის გადატანა"
@@ -31526,32 +31524,32 @@ msgstr "ინსტრუმენტების პანელის გა�
 msgid "Automatic Keyframes is ON"
 msgstr "ავტომატური საკვანძო კადრები ჩართულია"
 
-#: src/monitor/view/MaskToolBar.qml:65
+#: src/monitor/view/MaskToolBar.qml:64
 #, kde-format
 msgid "Generate Mask"
 msgstr "ნიღბის გენერაცია"
 
-#: src/monitor/view/MaskToolBar.qml:75
+#: src/monitor/view/MaskToolBar.qml:74
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "გაუმჭვირვალობის შეცვლა (0% - 25% - 50% - 100%)"
 
-#: src/monitor/view/MaskToolBar.qml:89
+#: src/monitor/view/MaskToolBar.qml:88
 #, kde-format
 msgid "Invert Mask"
 msgstr "ნიღბის ინვერსია"
 
-#: src/monitor/view/MaskToolBar.qml:97
+#: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "ნიღბის შექმნიდან გასვლა"
 
-#: src/monitor/view/MaskToolBar.qml:97
+#: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "გადახედვის რეჟიმიდან გასვლა"
 
-#: src/monitor/view/MonitorAutomask.qml:243
+#: src/monitor/view/MonitorAutomask.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31563,22 +31561,22 @@ msgstr ""
 "ობიექტზე ნიღბის დასაწყებად. <shortcut>Shift+წკაპი</shortcut> სხვა ზონის "
 "ჩასასმელად. <shortcut>Ctrl+წკაპი</shortcut> ზონის ამოსაღებად."
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "ჯერ აირჩიეთ ობიექტი გამოსახულებაში"
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Generating image mask"
 msgstr "გამოსახულების ნიღბის გენერაცია"
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Generating video mask"
 msgstr "ვიდეოს ნიღბის გენერაცია"
 
-#: src/monitor/view/MonitorAutomask.qml:363
+#: src/monitor/view/MonitorAutomask.qml:361
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -31589,12 +31587,12 @@ msgstr ""
 "Shift+წკაპი სხვა ზონის ჩასასმელად.\n"
 "Ctrl+წკაპი ზონის ამოსაღებად."
 
-#: src/monitor/view/MonitorAutomask.qml:363
+#: src/monitor/view/MonitorAutomask.qml:361
 #, kde-format
 msgid "Previewing video mask"
 msgstr "ვიდეოს ნიღბის მინიატურა"
 
-#: src/monitor/view/MonitorAutomask.qml:374
+#: src/monitor/view/MonitorAutomask.qml:372
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -31607,12 +31605,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:384
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Go to mask start"
 msgstr "ნიღბის დასაწყისში გადასვლა"
 
-#: src/monitor/view/MonitorAutomask.qml:390
+#: src/monitor/view/MonitorAutomask.qml:388
 #, kde-format
 msgid "Go to mask end"
 msgstr "ნიღბის ბოლოში გადასვლა"
@@ -31632,7 +31630,7 @@ msgstr ""
 "<shortcut>გააჩერეთ თაგუნა ზემოდან</shortcut> ხელსაწყოების პანელისთვის, "
 "<shortcut>დააწკაპუნეთ</shortcut> ცენტრში, რომ მის საკვანძო კადრზე გადაახვიოთ"
 
-#: src/monitor/view/MonitorRotoScene.qml:62
+#: src/monitor/view/MonitorRotoScene.qml:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31642,7 +31640,7 @@ msgstr ""
 "<shortcut>წკაპი</shortcut> წერტილების დასამატებლად, <shortcut>მარჯვენა "
 "წკაპი</shortcut> ფიგურის დასასრულებლად."
 
-#: src/monitor/view/MonitorRotoScene.qml:63
+#: src/monitor/view/MonitorRotoScene.qml:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31657,7 +31655,7 @@ msgstr ""
 "<shortcut>ორმაგი წკაპი</shortcut> ფონზ ახალი საკვანძო კადრის შესაქმნელად, "
 "<shortcut>გადაატარეთ მარჯვნივ</shortcut> ხელსაწყოს პანელისთვის"
 
-#: src/monitor/view/MonitorRotoScene.qml:64
+#: src/monitor/view/MonitorRotoScene.qml:63
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -31665,7 +31663,7 @@ msgstr ""
 "<shortcut>Shift სახელურის გადათრევა</shortcut> ცენტრზე დაფუძნებული ზომის "
 "შეცვლისთვის"
 
-#: src/monitor/view/MonitorRotoScene.qml:406
+#: src/monitor/view/MonitorRotoScene.qml:405
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -31730,7 +31728,7 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "ტრასფორმაციის ჩართვა"
 
-#: src/monitor/view/SceneToolBar.qml:106
+#: src/monitor/view/SceneToolBar.qml:105
 #, kde-format
 msgid "Add/Remove Marker"
 msgstr "მარკერის დამატება/წაშლა"
@@ -35517,49 +35515,49 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2353
+#: src/timeline2/view/qml/Timeline.qml:2352
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
 
-#: src/timeline2/view/qml/Clip.qml:274 src/timeline2/view/qml/Clip.qml:1309
+#: src/timeline2/view/qml/Clip.qml:273 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), მდებარეობა: %4, ხანგრძლივობა: %5"
 
-#: src/timeline2/view/qml/Clip.qml:371 src/timeline2/view/qml/Clip.qml:385
+#: src/timeline2/view/qml/Clip.qml:370 src/timeline2/view/qml/Clip.qml:384
 #: src/timeline2/view/qml/SubTitle.qml:226
 #: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "მდებარეობა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:600
+#: src/timeline2/view/qml/Clip.qml:599
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "შერევის ხანგრძლივობა: %1. ამოჭრის დრო: %2"
 
-#: src/timeline2/view/qml/Clip.qml:654
+#: src/timeline2/view/qml/Clip.qml:653
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, შერევის ხანგრძლივობა: %2"
 
-#: src/timeline2/view/qml/Clip.qml:656
+#: src/timeline2/view/qml/Clip.qml:655
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, შერევის ხანგრძლივობა: %2"
 
-#: src/timeline2/view/qml/Clip.qml:659 src/timeline2/view/qml/Clip.qml:674
+#: src/timeline2/view/qml/Clip.qml:658 src/timeline2/view/qml/Clip.qml:673
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "შერევის ხანგრძლივობა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1189
+#: src/timeline2/view/qml/Clip.qml:1188
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "შეყვანა:%1, მდებარეობა:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1192 src/timeline2/view/qml/Clip.qml:1299
+#: src/timeline2/view/qml/Clip.qml:1191 src/timeline2/view/qml/Clip.qml:1298
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -35568,65 +35566,65 @@ msgstr ""
 "<b>Ctrl გადათრევა</b> სიჩქარის შესაცვლელად, <b>ორმაგი წკაპი</b> ახლომდებარე "
 "კლიპთან შესაერთებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1194
+#: src/timeline2/view/qml/Clip.qml:1193
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>გადაათრიეთ</b> შერევის ხანგრძლივობის შესაცვლელად"
 
-#: src/timeline2/view/qml/Clip.qml:1296
+#: src/timeline2/view/qml/Clip.qml:1295
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "გამოყვანა:%1, მდებარეობა:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1435
+#: src/timeline2/view/qml/Clip.qml:1434
 #, kde-format
 msgid "Offset: -%1"
 msgstr "წანაცვლება: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1436
+#: src/timeline2/view/qml/Clip.qml:1435
 #, kde-format
 msgid "Offset: %1"
 msgstr "წანაცვლება: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1437
+#: src/timeline2/view/qml/Clip.qml:1436
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>დააწკაპუნეთ</b> კლიპების გასასწორებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1719 src/timeline2/view/qml/Clip.qml:1760
+#: src/timeline2/view/qml/Clip.qml:1718 src/timeline2/view/qml/Clip.qml:1759
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>დააწკაპუნეთ</b> კომპოზიციის დასამატებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1839 src/timeline2/view/qml/Clip.qml:1846
+#: src/timeline2/view/qml/Clip.qml:1838 src/timeline2/view/qml/Clip.qml:1845
 #, kde-format
 msgid "Fade out: %1"
 msgstr "მინავლება: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1850 src/timeline2/view/qml/Clip.qml:1959
+#: src/timeline2/view/qml/Clip.qml:1849 src/timeline2/view/qml/Clip.qml:1958
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>გადათრიეთ</b> მინავლების მოსარგებად, <b>დააწკაპუნეთ</b> ნაგულისხმევი "
 "მნიშვნელობის ხანგრძლივობის მინავლების დამატება"
 
-#: src/timeline2/view/qml/Clip.qml:1948 src/timeline2/view/qml/Clip.qml:1955
+#: src/timeline2/view/qml/Clip.qml:1947 src/timeline2/view/qml/Clip.qml:1954
 #, kde-format
 msgid "Fade in: %1"
 msgstr "გამოჩენა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:2043
+#: src/timeline2/view/qml/Clip.qml:2042
 #, kde-format
 msgid "Slip Clip"
 msgstr "კლიპის გადახვევა"
 
-#: src/timeline2/view/qml/Composition.qml:268
+#: src/timeline2/view/qml/Composition.qml:266
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, მდებარეობა: %2, ხანგრძლივობა: %3"
 
-#: src/timeline2/view/qml/Composition.qml:335
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:333
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:362
 #: src/timeline2/view/qml/SubTitle.qml:467
 #, kde-format
@@ -35679,36 +35677,36 @@ msgstr "ჩვენება"
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/Timeline.qml:894
-#: src/timeline2/view/qml/Timeline.qml:904
+#: src/timeline2/view/qml/Timeline.qml:893
+#: src/timeline2/view/qml/Timeline.qml:903
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "აუდიო: %1 ტრეკი %2 ნაკადისთვის"
 msgstr[1] "აუდიო: %1 ტრეკი %2 ნაკადისთვის"
 
-#: src/timeline2/view/qml/Timeline.qml:1181
+#: src/timeline2/view/qml/Timeline.qml:1180
 #, kde-format
 msgid "Show sequence effects"
 msgstr "მიმდევრობის ეფექტების ჩვენება"
 
-#: src/timeline2/view/qml/Timeline.qml:1978
+#: src/timeline2/view/qml/Timeline.qml:1977
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ორმაგი წკაპი</b> სუბტიტრის დასამატებლად"
 
-#: src/timeline2/view/qml/Timeline.qml:2172
+#: src/timeline2/view/qml/Timeline.qml:2171
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "წანაცვლება: %1, მდებარეობა: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2342
-#: src/timeline2/view/qml/Timeline.qml:2351
+#: src/timeline2/view/qml/Timeline.qml:2341
+#: src/timeline2/view/qml/Timeline.qml:2350
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/Timeline.qml:2445
+#: src/timeline2/view/qml/Timeline.qml:2444
 #, kde-format
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"

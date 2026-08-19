@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 00:45+0000\n"
-"PO-Revision-Date: 2026-08-17 10:03+0200\n"
+"POT-Creation-Date: 2026-08-19 16:04+0000\n"
+"PO-Revision-Date: 2026-08-19 13:55+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8560,15 +8560,14 @@ msgstr ""
 "        Dit effect is vervangen door <em>frei0r.alpha0ps_alphaspot</em>."
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "Lage drempel"
+msgstr "Automatische drempel"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
 msgid "Segments an image into foreground or background"
-msgstr ""
+msgstr "Segmenteert een afbeelding in voorgrond of achtergrond"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:8
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
@@ -8577,10 +8576,9 @@ msgid "Slope"
 msgstr "Helling"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:9
-#, fuzzy, kde-format
-#| msgid "Sigmoidal Transfer"
+#, kde-format
 msgid "Slope of Sigmoidal Transfer"
-msgstr "Sigmoidale overdracht"
+msgstr "Helling van sigmoïdale overdracht"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -12610,28 +12608,24 @@ msgid "Do not average the alpha channel over each block"
 msgstr "Het alfa-kanaal niet middelen over elk blok"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelate"
+#, kde-format
 msgid "Pixels0rt"
-msgstr "In pixelvorm brengen"
+msgstr "Pixels0rt"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
-#, fuzzy, kde-format
-#| msgid "Problem deleting effect"
+#, kde-format
 msgid "Pixel sorting effect"
-msgstr "Probleem bij verwijderen effect"
+msgstr "Pixelsoorteereffect"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
-#, fuzzy, kde-format
-#| msgid "Defines the rectangle of the area that will be removed."
+#, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr "Definieert de rechthoek van het gebied dat verwijderd zal worden."
+msgstr "Relatieve grootte van de regel die gesorteerd zal worden"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Sorting direction"
-msgstr "Spiegelrichting"
+msgstr "Sorteerrichting"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -12639,23 +12633,23 @@ msgid ""
 "Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
 "to right,Horizontal from right to left"
 msgstr ""
+"Verticaal van boven naar onder,Verticaal van onder naar boven,Horizontaal "
+"van links naar rechts,Horizontal van rechts naar links"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "Omkeren"
+msgstr "Omgekeerd"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
 msgid "Should be pixels sorted in reversed order"
-msgstr ""
+msgstr "Zou op pixel gesorteerd moeten zijn in omgekeerde volgorde"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency Top"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "Transparantie-bovenkant"
+msgstr "Transparantie-drempel"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12664,6 +12658,9 @@ msgid ""
 "        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
 "transparent pixels"
 msgstr ""
+"Welk transparantieniveau zou<br>\n"
+"        door het filter doorgegeven moeten worden. 0 verwerkt alle pixels, 1 "
+"negeert alle transparante pixels"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -18435,7 +18432,7 @@ msgid "Process audio using a SoX effect"
 msgstr "Audio bewerken met een SoX-effect"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:78
+#: src/monitor/view/MonitorSplit.qml:77
 #, kde-format
 msgid "Effect"
 msgstr "Effect"
@@ -21554,17 +21551,17 @@ msgstr ""
 "Dubbelklik, laat bestanden los\n"
 "of klik op %1 om media te importeren"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:524
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Sleep om alleen audio aan de tijdlijn toe te voegen"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:524
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Sleep om alleen video aan de tijdlijn toe te voegen"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1528
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1527
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -28683,7 +28680,7 @@ msgid "Clip in Timeline"
 msgstr "Clip in de tijdlijn"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1187
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1186
 #, kde-format
 msgid "Sequence"
 msgstr "Sequentie"
@@ -32462,34 +32459,34 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Klik om geluidsgolfvorm te vernieuwen"
 
-#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:177
+#: src/monitor/view/ClipMonitor.qml:342 src/monitor/view/ProjectMonitor.qml:177
 #, kde-format
 msgid "%1fps"
 msgstr "%1 fps"
 
-#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:208
+#: src/monitor/view/ClipMonitor.qml:381 src/monitor/view/ProjectMonitor.qml:208
 #, kde-format
 msgid "In Point"
 msgstr "Beginpunt"
 
-#: src/monitor/view/ClipMonitor.qml:382
+#: src/monitor/view/ClipMonitor.qml:381
 #, kde-format
 msgid "In/Out Point"
 msgstr "In/uitpunt"
 
-#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:224
 #, kde-format
 msgid "Out Point"
 msgstr "Eindpunt"
 
-#: src/monitor/view/ClipMonitor.qml:588
+#: src/monitor/view/ClipMonitor.qml:587
 #, kde-format
 msgid "Terminate Job"
 msgstr "Taak beëindigen"
 
-#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:68
-#: src/monitor/view/SceneToolBar.qml:68
+#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
+#: src/monitor/view/MultiScreenToolBar.qml:67
+#: src/monitor/view/SceneToolBar.qml:67
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "Naar volledig scherm overschakelen"
@@ -32499,12 +32496,12 @@ msgstr "Naar volledig scherm overschakelen"
 msgid "Show Grid"
 msgstr "Raster tonen"
 
-#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:77
+#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:76
 #, kde-format
 msgid "Show Safe Areas"
 msgstr "Veilige gebieden tonen"
 
-#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:90
+#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:89
 #, kde-format
 msgid "Composition Guides"
 msgstr "Compositiehulplijnen"
@@ -32524,9 +32521,9 @@ msgstr "Ga naar vorig keyframe"
 msgid "Automatic Keyframes"
 msgstr "Automatische keyframes"
 
-#: src/monitor/view/EffectToolBar.qml:139 src/monitor/view/MaskToolBar.qml:117
-#: src/monitor/view/MultiScreenToolBar.qml:87
-#: src/monitor/view/SceneToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:139 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:86
+#: src/monitor/view/SceneToolBar.qml:114
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Werkbalk verplaatsen"
@@ -32536,32 +32533,32 @@ msgstr "Werkbalk verplaatsen"
 msgid "Automatic Keyframes is ON"
 msgstr "Automatische keyframes is AAN"
 
-#: src/monitor/view/MaskToolBar.qml:65
+#: src/monitor/view/MaskToolBar.qml:64
 #, kde-format
 msgid "Generate Mask"
 msgstr "Masker genereren"
 
-#: src/monitor/view/MaskToolBar.qml:75
+#: src/monitor/view/MaskToolBar.qml:74
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "Dekking wijzigen (0% - 25% - 50% - 100%)"
 
-#: src/monitor/view/MaskToolBar.qml:89
+#: src/monitor/view/MaskToolBar.qml:88
 #, kde-format
 msgid "Invert Mask"
 msgstr "Masker inverteren"
 
-#: src/monitor/view/MaskToolBar.qml:97
+#: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "Aanmaken van masker verlaten"
 
-#: src/monitor/view/MaskToolBar.qml:97
+#: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "Voorbeeldmodus verlaten"
 
-#: src/monitor/view/MonitorAutomask.qml:243
+#: src/monitor/view/MonitorAutomask.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32573,22 +32570,22 @@ msgstr ""
 "masker te beginnen, <shortcut>Shift+klik</shortcut> om een andere zone mee "
 "te nemen, <shortcut>Ctrl+klik</shortcut> om een zone uit te sluiten."
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Selecteer eerst een object in de afbeelding"
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Generating image mask"
 msgstr "Afbeeldingsmasker wordt gegenereerd"
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Generating video mask"
 msgstr "Videomasker wordt gegenereerd"
 
-#: src/monitor/view/MonitorAutomask.qml:363
+#: src/monitor/view/MonitorAutomask.qml:361
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -32599,12 +32596,12 @@ msgstr ""
 "Shift+klik om een andere zone in te voegen.\n"
 "Ctrl+klik om een zone uit te sluiten."
 
-#: src/monitor/view/MonitorAutomask.qml:363
+#: src/monitor/view/MonitorAutomask.qml:361
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Videomasker bekijken"
 
-#: src/monitor/view/MonitorAutomask.qml:374
+#: src/monitor/view/MonitorAutomask.qml:372
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -32617,12 +32614,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:384
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Go to mask start"
 msgstr "Ga naar het begin van het masker"
 
-#: src/monitor/view/MonitorAutomask.qml:390
+#: src/monitor/view/MonitorAutomask.qml:388
 #, kde-format
 msgid "Go to mask end"
 msgstr "Ga naar het einde van het masker"
@@ -32641,7 +32638,7 @@ msgstr ""
 "<shortcut>Rechts zweven</shortcut> voor werkbalk, <shortcut>Klik</shortcut> "
 "op een centrum om te zoeken naar zijn keyframe"
 
-#: src/monitor/view/MonitorRotoScene.qml:62
+#: src/monitor/view/MonitorRotoScene.qml:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32651,7 +32648,7 @@ msgstr ""
 "<shortcut>Klik</shortcut> om punten toe te voegen, <shortcut>rechts klik</"
 "shortcut> om vorm te sluiten."
 
-#: src/monitor/view/MonitorRotoScene.qml:63
+#: src/monitor/view/MonitorRotoScene.qml:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32666,7 +32663,7 @@ msgstr ""
 "<shortcut>Dubbelklik</shortcut> op achtergrond om nieuw keyframe aan te "
 "maken, <shortcut>Rechts zweven</shortcut> voor werkbalk"
 
-#: src/monitor/view/MonitorRotoScene.qml:64
+#: src/monitor/view/MonitorRotoScene.qml:63
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -32674,7 +32671,7 @@ msgstr ""
 "<shortcut>Shift sleephendel</shortcut> voor op centrum gebaseerde wijziging "
 "van grootte"
 
-#: src/monitor/view/MonitorRotoScene.qml:406
+#: src/monitor/view/MonitorRotoScene.qml:405
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -32739,7 +32736,7 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "Transformeren inschakelen"
 
-#: src/monitor/view/SceneToolBar.qml:106
+#: src/monitor/view/SceneToolBar.qml:105
 #, kde-format
 msgid "Add/Remove Marker"
 msgstr "Markering toevoegen/verwijderen"
@@ -36545,49 +36542,49 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2353
+#: src/timeline2/view/qml/Timeline.qml:2352
 #, kde-format
 msgid "Paused"
 msgstr "Gepauzeerd"
 
-#: src/timeline2/view/qml/Clip.qml:274 src/timeline2/view/qml/Clip.qml:1309
+#: src/timeline2/view/qml/Clip.qml:273 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), positie: %4, tijdsduur: %5"
 
-#: src/timeline2/view/qml/Clip.qml:371 src/timeline2/view/qml/Clip.qml:385
+#: src/timeline2/view/qml/Clip.qml:370 src/timeline2/view/qml/Clip.qml:384
 #: src/timeline2/view/qml/SubTitle.qml:226
 #: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "Positie: %1"
 
-#: src/timeline2/view/qml/Clip.qml:600
+#: src/timeline2/view/qml/Clip.qml:599
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Mixduur: %1, knip bij: %2"
 
-#: src/timeline2/view/qml/Clip.qml:654
+#: src/timeline2/view/qml/Clip.qml:653
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Mixduur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:656
+#: src/timeline2/view/qml/Clip.qml:655
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Mixduur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:659 src/timeline2/view/qml/Clip.qml:674
+#: src/timeline2/view/qml/Clip.qml:658 src/timeline2/view/qml/Clip.qml:673
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Mixduur: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1189
+#: src/timeline2/view/qml/Clip.qml:1188
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "In:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1192 src/timeline2/view/qml/Clip.qml:1299
+#: src/timeline2/view/qml/Clip.qml:1191 src/timeline2/view/qml/Clip.qml:1298
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36596,65 +36593,65 @@ msgstr ""
 "<b>Ctrl slepen</b> om snelheid te wijzigen, <b>Dubbelklik</b> om met "
 "naastgelegen clip te mengen"
 
-#: src/timeline2/view/qml/Clip.qml:1194
+#: src/timeline2/view/qml/Clip.qml:1193
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Slepen</b> om duur van mengen te wijzigen"
 
-#: src/timeline2/view/qml/Clip.qml:1296
+#: src/timeline2/view/qml/Clip.qml:1295
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Uit:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1435
+#: src/timeline2/view/qml/Clip.qml:1434
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Verschuiving: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1436
+#: src/timeline2/view/qml/Clip.qml:1435
 #, kde-format
 msgid "Offset: %1"
 msgstr "Verschuiving: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1437
+#: src/timeline2/view/qml/Clip.qml:1436
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Klik</b> om clips uit te lijnen"
 
-#: src/timeline2/view/qml/Clip.qml:1719 src/timeline2/view/qml/Clip.qml:1760
+#: src/timeline2/view/qml/Clip.qml:1718 src/timeline2/view/qml/Clip.qml:1759
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> om een compositie toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1839 src/timeline2/view/qml/Clip.qml:1846
+#: src/timeline2/view/qml/Clip.qml:1838 src/timeline2/view/qml/Clip.qml:1845
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Vervagen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1850 src/timeline2/view/qml/Clip.qml:1959
+#: src/timeline2/view/qml/Clip.qml:1849 src/timeline2/view/qml/Clip.qml:1958
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Slepen</b> om vervagen aan te passen, <b>Klik</b> om standaard duur van "
 "vervagen toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1948 src/timeline2/view/qml/Clip.qml:1955
+#: src/timeline2/view/qml/Clip.qml:1947 src/timeline2/view/qml/Clip.qml:1954
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Opkomen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:2043
+#: src/timeline2/view/qml/Clip.qml:2042
 #, kde-format
 msgid "Slip Clip"
 msgstr "Clip slippen"
 
-#: src/timeline2/view/qml/Composition.qml:268
+#: src/timeline2/view/qml/Composition.qml:266
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, positie: %2, tijdsduur: %3"
 
-#: src/timeline2/view/qml/Composition.qml:335
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:333
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:362
 #: src/timeline2/view/qml/SubTitle.qml:467
 #, kde-format
@@ -36707,36 +36704,36 @@ msgstr "Tonen"
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/timeline2/view/qml/Timeline.qml:894
-#: src/timeline2/view/qml/Timeline.qml:904
+#: src/timeline2/view/qml/Timeline.qml:893
+#: src/timeline2/view/qml/Timeline.qml:903
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Audio: %1 track voor %2 streams"
 msgstr[1] "Audio: %1 tracks voor %2 streams"
 
-#: src/timeline2/view/qml/Timeline.qml:1181
+#: src/timeline2/view/qml/Timeline.qml:1180
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Sequentie-effecten tonen"
 
-#: src/timeline2/view/qml/Timeline.qml:1978
+#: src/timeline2/view/qml/Timeline.qml:1977
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 
-#: src/timeline2/view/qml/Timeline.qml:2172
+#: src/timeline2/view/qml/Timeline.qml:2171
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Verschuiving: %1, positie: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2342
-#: src/timeline2/view/qml/Timeline.qml:2351
+#: src/timeline2/view/qml/Timeline.qml:2341
+#: src/timeline2/view/qml/Timeline.qml:2350
 #, kde-format
 msgid "Recording"
 msgstr "Opname"
 
-#: src/timeline2/view/qml/Timeline.qml:2445
+#: src/timeline2/view/qml/Timeline.qml:2444
 #, kde-format
 msgid "Multicam In"
 msgstr "Multi-camera in"

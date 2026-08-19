@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 00:45+0000\n"
-"PO-Revision-Date: 2026-08-17 19:39+0400\n"
+"POT-Creation-Date: 2026-08-19 16:04+0000\n"
+"PO-Revision-Date: 2026-08-19 17:54+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -8387,10 +8387,9 @@ msgstr ""
 "    هذا التأثير استبدل بـ <em>frei0r.alphaops_alphaspot</em>."
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "عتبة منخفضة"
+msgstr "عتبة آلية"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
@@ -18056,7 +18055,7 @@ msgid "Process audio using a SoX effect"
 msgstr "معالجة الصوت باستخدام تأثير سوكس"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
-#: src/monitor/view/MonitorSplit.qml:78
+#: src/monitor/view/MonitorSplit.qml:77
 #, kde-format
 msgid "Effect"
 msgstr "التّأثير"
@@ -21140,17 +21139,17 @@ msgstr ""
 "انقر نقرًا مزدوجًا، أسقط الملفات\n"
 "أو انقر على %1 لاستيراد الوسائط"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:524
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "اسحب لإضافة الصوت فقط إلى الخط الزمني"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:524
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "اسحب لإضافة الفيديو فقط إلى الخط الزمني"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1528
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1527
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -28231,7 +28230,7 @@ msgid "Clip in Timeline"
 msgstr "المقطع في الخط الزمني"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1187
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1186
 #, kde-format
 msgid "Sequence"
 msgstr "التسلسل"
@@ -31972,34 +31971,34 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "انقر لتحديث شكل الموجة الصوتية"
 
-#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:177
+#: src/monitor/view/ClipMonitor.qml:342 src/monitor/view/ProjectMonitor.qml:177
 #, kde-format
 msgid "%1fps"
 msgstr "%1 إطار/ثا"
 
-#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:208
+#: src/monitor/view/ClipMonitor.qml:381 src/monitor/view/ProjectMonitor.qml:208
 #, kde-format
 msgid "In Point"
 msgstr "نقطة الدخول"
 
-#: src/monitor/view/ClipMonitor.qml:382
+#: src/monitor/view/ClipMonitor.qml:381
 #, kde-format
 msgid "In/Out Point"
 msgstr "نقطة الدخول/الخروج"
 
-#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:224
 #, kde-format
 msgid "Out Point"
 msgstr "نقطة الخروج"
 
-#: src/monitor/view/ClipMonitor.qml:588
+#: src/monitor/view/ClipMonitor.qml:587
 #, kde-format
 msgid "Terminate Job"
 msgstr "أنهِ المهمّة"
 
-#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:68
-#: src/monitor/view/SceneToolBar.qml:68
+#: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
+#: src/monitor/view/MultiScreenToolBar.qml:67
+#: src/monitor/view/SceneToolBar.qml:67
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "بدّل ملء شاشة"
@@ -32009,12 +32008,12 @@ msgstr "بدّل ملء شاشة"
 msgid "Show Grid"
 msgstr "أظهر الشبكة"
 
-#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:77
+#: src/monitor/view/EffectToolBar.qml:84 src/monitor/view/SceneToolBar.qml:76
 #, kde-format
 msgid "Show Safe Areas"
 msgstr "أظهر المناطق الآمنة"
 
-#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:90
+#: src/monitor/view/EffectToolBar.qml:97 src/monitor/view/SceneToolBar.qml:89
 #, kde-format
 msgid "Composition Guides"
 msgstr "أدلة التركيب"
@@ -32034,9 +32033,9 @@ msgstr "انتقل إلى الإطار الرئيس السّابق"
 msgid "Automatic Keyframes"
 msgstr "أطر رئيسة آليّة"
 
-#: src/monitor/view/EffectToolBar.qml:139 src/monitor/view/MaskToolBar.qml:117
-#: src/monitor/view/MultiScreenToolBar.qml:87
-#: src/monitor/view/SceneToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:139 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:86
+#: src/monitor/view/SceneToolBar.qml:114
 #, kde-format
 msgid "Move Toolbar"
 msgstr "حرك شريط الأدوات"
@@ -32046,32 +32045,32 @@ msgstr "حرك شريط الأدوات"
 msgid "Automatic Keyframes is ON"
 msgstr "الأطر الرئيسة الآليّة مفعلة"
 
-#: src/monitor/view/MaskToolBar.qml:65
+#: src/monitor/view/MaskToolBar.qml:64
 #, kde-format
 msgid "Generate Mask"
 msgstr "ولّد القناع"
 
-#: src/monitor/view/MaskToolBar.qml:75
+#: src/monitor/view/MaskToolBar.qml:74
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "غيّر العتمة (0% - 25% - 50% - 100%)"
 
-#: src/monitor/view/MaskToolBar.qml:89
+#: src/monitor/view/MaskToolBar.qml:88
 #, kde-format
 msgid "Invert Mask"
 msgstr "اعكس القناع"
 
-#: src/monitor/view/MaskToolBar.qml:97
+#: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "اخرج من إنشاء القناع"
 
-#: src/monitor/view/MaskToolBar.qml:97
+#: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "اخرج من وضع المعاينة"
 
-#: src/monitor/view/MonitorAutomask.qml:243
+#: src/monitor/view/MonitorAutomask.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32083,22 +32082,22 @@ msgstr ""
 "<shortcut>Shift+انقر</shortcut> لتضمين نطاق آخر، <shortcut>Ctrl+انقر</"
 "shortcut> لاستبعاد نطاق."
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "اختر كائن في الصورة أولًا"
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Generating image mask"
 msgstr "يولد قناع الصورة"
 
-#: src/monitor/view/MonitorAutomask.qml:352
+#: src/monitor/view/MonitorAutomask.qml:350
 #, kde-format
 msgid "Generating video mask"
 msgstr "يولد قناع الفيديو"
 
-#: src/monitor/view/MonitorAutomask.qml:363
+#: src/monitor/view/MonitorAutomask.qml:361
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -32109,12 +32108,12 @@ msgstr ""
 "اضغط على Shift مع النقر لتضمين منطقة أخرى.\n"
 "اضغط على Ctrl مع النقر لاستبعاد منطقة."
 
-#: src/monitor/view/MonitorAutomask.qml:363
+#: src/monitor/view/MonitorAutomask.qml:361
 #, kde-format
 msgid "Previewing video mask"
 msgstr "معاينة قناع الفيديو"
 
-#: src/monitor/view/MonitorAutomask.qml:374
+#: src/monitor/view/MonitorAutomask.qml:372
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -32127,12 +32126,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:384
+#: src/monitor/view/MonitorAutomask.qml:382
 #, kde-format
 msgid "Go to mask start"
 msgstr "انتقل إلى بداية القناع"
 
-#: src/monitor/view/MonitorAutomask.qml:390
+#: src/monitor/view/MonitorAutomask.qml:388
 #, kde-format
 msgid "Go to mask end"
 msgstr "انتقل إلى نهاية القناع"
@@ -32151,7 +32150,7 @@ msgstr ""
 "حول الوسط، <shortcut>الحوم يمينًا</shortcut> لشريط الأدوات، <shortcut>نقر</"
 "shortcut> في الوسط لقصد الإطار الرئيس"
 
-#: src/monitor/view/MonitorRotoScene.qml:62
+#: src/monitor/view/MonitorRotoScene.qml:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32161,7 +32160,7 @@ msgstr ""
 "<shortcut> النقر </shortcut> لإضافة نقاط، <shortcut> انقر بزر الفأرة الأيمن "
 "</shortcut> لإغلاق الشكل."
 
-#: src/monitor/view/MonitorRotoScene.qml:63
+#: src/monitor/view/MonitorRotoScene.qml:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32175,14 +32174,14 @@ msgstr ""
 "shortcut> على نقطة لحذفها، <shortcut>النقر المزدوج</shortcut> على الخلفية "
 "لإنشاء إطار رئيس جديد، <shortcut>الحوم يمينًا</shortcut> لشريط الأدوات"
 
-#: src/monitor/view/MonitorRotoScene.qml:64
+#: src/monitor/view/MonitorRotoScene.qml:63
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>Shift مع سحب المقبض </shortcut> للتغييرات المستندة إلى المركز"
 
-#: src/monitor/view/MonitorRotoScene.qml:406
+#: src/monitor/view/MonitorRotoScene.qml:405
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -32247,7 +32246,7 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "فعّل التحويل"
 
-#: src/monitor/view/SceneToolBar.qml:106
+#: src/monitor/view/SceneToolBar.qml:105
 #, kde-format
 msgid "Add/Remove Marker"
 msgstr "أضف/أزل علامة"
@@ -36038,49 +36037,49 @@ msgid "Stop"
 msgstr "أوقف"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2353
+#: src/timeline2/view/qml/Timeline.qml:2352
 #, kde-format
 msgid "Paused"
 msgstr "مُلبثة"
 
-#: src/timeline2/view/qml/Clip.qml:274 src/timeline2/view/qml/Clip.qml:1309
+#: src/timeline2/view/qml/Clip.qml:273 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3)، الموضع: %4، المدة: %5"
 
-#: src/timeline2/view/qml/Clip.qml:371 src/timeline2/view/qml/Clip.qml:385
+#: src/timeline2/view/qml/Clip.qml:370 src/timeline2/view/qml/Clip.qml:384
 #: src/timeline2/view/qml/SubTitle.qml:226
 #: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "الموضع: %1"
 
-#: src/timeline2/view/qml/Clip.qml:600
+#: src/timeline2/view/qml/Clip.qml:599
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "مدة المزج: %1، قص عند: %2"
 
-#: src/timeline2/view/qml/Clip.qml:654
+#: src/timeline2/view/qml/Clip.qml:653
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1، مدة المزج: %2"
 
-#: src/timeline2/view/qml/Clip.qml:656
+#: src/timeline2/view/qml/Clip.qml:655
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1، مدة المزج: %2"
 
-#: src/timeline2/view/qml/Clip.qml:659 src/timeline2/view/qml/Clip.qml:674
+#: src/timeline2/view/qml/Clip.qml:658 src/timeline2/view/qml/Clip.qml:673
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "مدة المزج: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1189
+#: src/timeline2/view/qml/Clip.qml:1188
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "الدخول:%1، الموضع:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1192 src/timeline2/view/qml/Clip.qml:1299
+#: src/timeline2/view/qml/Clip.qml:1191 src/timeline2/view/qml/Clip.qml:1298
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36089,63 +36088,63 @@ msgstr ""
 "<b>السحب مع Ctrl </b> لتغير السرعة، <b>النقر المزدوج</b> للمزج مع المقطع "
 "المجاورة"
 
-#: src/timeline2/view/qml/Clip.qml:1194
+#: src/timeline2/view/qml/Clip.qml:1193
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>اسحب</b> لتغيير مدة المزج"
 
-#: src/timeline2/view/qml/Clip.qml:1296
+#: src/timeline2/view/qml/Clip.qml:1295
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "الخروج:%1، الموضع:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1435
+#: src/timeline2/view/qml/Clip.qml:1434
 #, kde-format
 msgid "Offset: -%1"
 msgstr "الإزاحة: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1436
+#: src/timeline2/view/qml/Clip.qml:1435
 #, kde-format
 msgid "Offset: %1"
 msgstr "الإزاحة: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1437
+#: src/timeline2/view/qml/Clip.qml:1436
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>انقر</b> لتحاذي المقاطع"
 
-#: src/timeline2/view/qml/Clip.qml:1719 src/timeline2/view/qml/Clip.qml:1760
+#: src/timeline2/view/qml/Clip.qml:1718 src/timeline2/view/qml/Clip.qml:1759
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>انقر</b> لتضيف تركيبًا"
 
-#: src/timeline2/view/qml/Clip.qml:1839 src/timeline2/view/qml/Clip.qml:1846
+#: src/timeline2/view/qml/Clip.qml:1838 src/timeline2/view/qml/Clip.qml:1845
 #, kde-format
 msgid "Fade out: %1"
 msgstr "تلاشٍ للخارج: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1850 src/timeline2/view/qml/Clip.qml:1959
+#: src/timeline2/view/qml/Clip.qml:1849 src/timeline2/view/qml/Clip.qml:1958
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b> السحب </b> لضبط التلاشي، <b>النقر</b> لإضافة تتلاشى المدة المبدئية"
 
-#: src/timeline2/view/qml/Clip.qml:1948 src/timeline2/view/qml/Clip.qml:1955
+#: src/timeline2/view/qml/Clip.qml:1947 src/timeline2/view/qml/Clip.qml:1954
 #, kde-format
 msgid "Fade in: %1"
 msgstr "تلاشٍ للداخل: %1"
 
-#: src/timeline2/view/qml/Clip.qml:2043
+#: src/timeline2/view/qml/Clip.qml:2042
 #, kde-format
 msgid "Slip Clip"
 msgstr "أزلق مقطع"
 
-#: src/timeline2/view/qml/Composition.qml:268
+#: src/timeline2/view/qml/Composition.qml:266
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1، الموضع: %2, المدة: %3"
 
-#: src/timeline2/view/qml/Composition.qml:335
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:333
+#: src/timeline2/view/qml/Composition.qml:397
 #: src/timeline2/view/qml/SubTitle.qml:362
 #: src/timeline2/view/qml/SubTitle.qml:467
 #, kde-format
@@ -36198,8 +36197,8 @@ msgstr "أظهر"
 msgid "Hide"
 msgstr "أخفِ"
 
-#: src/timeline2/view/qml/Timeline.qml:894
-#: src/timeline2/view/qml/Timeline.qml:904
+#: src/timeline2/view/qml/Timeline.qml:893
+#: src/timeline2/view/qml/Timeline.qml:903
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
@@ -36210,28 +36209,28 @@ msgstr[3] "الصوت: %1 مسارات لـ %2 تدفقات"
 msgstr[4] "الصوت: %1 مسارًا لـ %2 تدفقات"
 msgstr[5] "الصوت: %1 مسار لـ %2 تدفقات"
 
-#: src/timeline2/view/qml/Timeline.qml:1181
+#: src/timeline2/view/qml/Timeline.qml:1180
 #, kde-format
 msgid "Show sequence effects"
 msgstr "أظهر تأثيرات التسلسل"
 
-#: src/timeline2/view/qml/Timeline.qml:1978
+#: src/timeline2/view/qml/Timeline.qml:1977
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>انقر مزدوجًا</b> لإضافة ترجمة"
 
-#: src/timeline2/view/qml/Timeline.qml:2172
+#: src/timeline2/view/qml/Timeline.qml:2171
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "الإزاحة: %1, الموضع: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2342
-#: src/timeline2/view/qml/Timeline.qml:2351
+#: src/timeline2/view/qml/Timeline.qml:2341
+#: src/timeline2/view/qml/Timeline.qml:2350
 #, kde-format
 msgid "Recording"
 msgstr "يسجّل"
 
-#: src/timeline2/view/qml/Timeline.qml:2445
+#: src/timeline2/view/qml/Timeline.qml:2444
 #, kde-format
 msgid "Multicam In"
 msgstr "عدة كاميرات في"
