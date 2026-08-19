@@ -6,7 +6,6 @@
 
 pragma ComponentBehavior: Bound
 
-import QtQuick.Controls
 import QtQuick
 
 import org.kde.kdenlive as K

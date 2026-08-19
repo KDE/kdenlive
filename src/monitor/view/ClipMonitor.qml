@@ -13,7 +13,6 @@ import QtQuick
 import org.kde.ki18n
 
 import org.kde.kdenlive as K
-import 'Utils.js' as Utils
 
 Item {
     id: root

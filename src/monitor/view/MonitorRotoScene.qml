@@ -5,7 +5,6 @@
 */
 
 import QtQuick 2.15
-import QtQuick.Controls
 
 import org.kde.ki18n
 

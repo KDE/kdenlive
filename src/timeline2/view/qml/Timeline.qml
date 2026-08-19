@@ -19,7 +19,6 @@ import org.kde.ki18n
 
 import org.kde.kdenlive as K
 import 'TimelineLogic.js' as Logic
-import 'Utils.js' as Utils
 
 Rectangle {
     id: root
