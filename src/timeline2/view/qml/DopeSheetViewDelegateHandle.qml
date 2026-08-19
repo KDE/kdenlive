@@ -7,10 +7,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
-import org.kde.ki18n
-
-import org.kde.kdenlive as K
 
 Rectangle {
     id: handle
