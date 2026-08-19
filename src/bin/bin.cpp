@@ -2110,7 +2110,7 @@ void Bin::slotDeleteClip()
             return;
         }
         for (auto seq : std::as_const(sequences)) {
-            pCore->projectManager()->closeTimeline(seq, true);
+            pCore->projectManager()->closeTimeline(seq, true, true, true);
         }
     }
     if (included && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from the timeline")) != KMessageBox::Continue)) {
