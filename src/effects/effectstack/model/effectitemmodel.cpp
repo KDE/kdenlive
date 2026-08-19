@@ -382,32 +382,6 @@ bool EffectItemModel::isCollapsed() const
     return filter().get_int("kdenlive:collapsed") == 1;
 }
 
-void EffectItemModel::setKeyframesHidden(bool hidden)
-{
-    Fun undo = [this, hidden]() {
-        filter().set("kdenlive:kfrhidden", hidden ? 0 : 1);
-        Q_EMIT hideKeyframesChange(hidden ? false : true);
-        return true;
-    };
-    Fun redo = [this, hidden]() {
-        filter().set("kdenlive:kfrhidden", hidden ? 1 : 0);
-        Q_EMIT hideKeyframesChange(hidden ? true : false);
-        return true;
-    };
-    redo();
-    pCore->pushUndo(undo, redo, hidden ? i18n("Hide keyframes") : i18n("Show keyframes"));
-}
-
-bool EffectItemModel::isKeyframesHidden() const
-{
-    return filter().get_int("kdenlive:kfrhidden") == 1;
-}
-
-bool EffectItemModel::keyframesHiddenUnset() const
-{
-    return filter().property_exists("kdenlive:kfrhidden") == false;
-}
-
 bool EffectItemModel::hasForcedInOut() const
 {
     return filter().get_int("kdenlive:force_in_out") == 1 && filter().get_int("out") > 0;

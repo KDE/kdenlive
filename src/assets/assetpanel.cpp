@@ -78,6 +78,16 @@ AssetPanel::AssetPanel(QWidget *parent)
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     buttonToolbar->addWidget(empty);
 
+    // Dopesheet button
+    m_showDopesheet = new QAction(QIcon::fromTheme(QStringLiteral("keyframe")), i18n("Show Dopesheet"), this);
+    m_showDopesheet->setToolTip(i18n("Show Dopesheet Panel"));
+    m_showDopesheet->setCheckable(true);
+    connect(pCore.get(), &Core::switchDopesheet, m_showDopesheet, &QAction::setChecked);
+    m_showDopesheet->setWhatsThis(xi18nc("@info:whatsthis", "This shows the dopesheet panel to allow working on keyframes."));
+    connect(m_showDopesheet, &QAction::triggered, pCore.get(), &Core::doOpenDopesheet);
+    buttonToolbar->addAction(m_showDopesheet);
+    m_showDopesheet->setVisible(false);
+
     m_applyEffectGroups = new QMenu(this);
     m_applyEffectGroups->setIcon(QIcon::fromTheme(QStringLiteral("link")));
     QAction *applyToSameOnly = new QAction(i18n("Apply only to effects with same value"), this);
@@ -305,6 +315,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     auto avStack = pCore->assetHasAV(id);
     // Only show on item with video
     m_showMaskPanel->setVisible(avStack.second);
+    m_showDopesheet->setVisible(true);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -369,6 +380,7 @@ void AssetPanel::clear()
     m_splitButton->setVisible(false);
     m_saveEffectStack->setVisible(false);
     m_showMaskPanel->setVisible(false);
+    m_showDopesheet->setVisible(false);
     m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
     m_enableStackButton->setVisible(false);

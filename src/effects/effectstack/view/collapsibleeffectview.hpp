@@ -102,7 +102,6 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void enableView(bool enabled);
-    void enableHideKeyframes(bool enabled);
     void slotSwitch(bool expand);
     void slotDeleteEffect();
     void slotEffectUp();
@@ -113,7 +112,6 @@ private Q_SLOTS:
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
     void updateEffectZone();
-    void slotHideKeyframes(bool hide);
     void enableAndExpand();
 
 private:
@@ -131,7 +129,6 @@ private:
     /** @brief The add group action. */
     QAction *m_groupAction;
     KDualAction *m_enabledButton{nullptr};
-    KDualAction *m_keyframesButton;
     QAction *m_inOutButton;
     QLabel *m_colorIcon;
     QPixmap m_iconPix;

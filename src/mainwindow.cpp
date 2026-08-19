@@ -510,10 +510,12 @@ void MainWindow::init()
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
     // DopeSheet
-    addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
+    auto dopeDock = addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
     connect(pCore.get(), &Core::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
     connect(pCore.get(), &Core::registerDopeAsset, m_dopeWidget, &DopeWidget::registerDopeAsset);
     connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
+    connect(dopeDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, pCore.get(), &Core::switchDopesheet);
+    connect(pCore.get(), &Core::doOpenDopesheet, dopeDock->toggleAction(), &QAction::setChecked);
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
@@ -5806,7 +5808,6 @@ void MainWindow::connectTimeline()
         getCurrentTimeline()->model()->getSubtitleModel()->loadProperties({});
         slotShowSubtitles(showSubs);
     }
-    // Dopesheet
 
     QVariantMap propertyList = {{"timeline", QVariant::fromValue(getCurrentTimeline()->controller())},
                                 {"proxy", QVariant::fromValue(m_projectMonitor->getControllerProxy())}};

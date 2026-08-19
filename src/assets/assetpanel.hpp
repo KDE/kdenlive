@@ -90,6 +90,7 @@ private:
     QMenu *m_applyEffectGroups;
     QAction *m_saveEffectStack;
     QAction *m_showMaskPanel;
+    QAction *m_showDopesheet;
     QComboBox *m_switchCompoButton;
     QAction *m_titleAction;
     QAction *m_switchAction;

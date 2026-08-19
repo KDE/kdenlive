@@ -573,6 +573,9 @@ Q_SIGNALS:
     void samConfigUpdated();
     /** Show / hide the automask panel */
     void switchMaskPanel(bool show);
+    /** dopesheet panel was shown / hidden */
+    void switchDopesheet(bool show);
+    void doOpenDopesheet(bool show);
     /** @brief Set the effect stack for the dopesheet model */
     void registerDopeStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset = 0);
     void registerDopeAsset(std::shared_ptr<AssetParameterModel> model, const QString assetName);
