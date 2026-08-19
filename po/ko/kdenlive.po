@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-18 00:44+0000\n"
+"POT-Creation-Date: 2026-08-19 00:45+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -103,7 +103,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57 data/effects/gpstext.xml:83
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:25
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: src/monitor/monitor.cpp:450
+#: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Background Color"
 msgstr "배경색"
@@ -544,6 +544,7 @@ msgstr "입력 게인(dB)"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:21
 #: data/effects/frei0r/frei0r_alpha0ps.xml:47
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:19
+#: data/effects/frei0r/frei0r_pixels0rt.xml:8
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8
 #: data/effects/ladspa/ladspa_1410.xml:18 data/effects/lightshow.xml:14
@@ -2975,7 +2976,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deband.xml:33
 #: data/effects/avfilter/avfilter_shufflepixels.xml:8
 #: data/effects/avfilter/avfilter_transpose.xml:8
-#: data/effects/frei0r/frei0r_aech0r.xml:12 data/effects/timer.xml:103
+#: data/effects/frei0r/frei0r_aech0r.xml:12
+#: data/effects/frei0r/frei0r_pixels0rt.xml:12 data/effects/timer.xml:103
 #: data/transitions/slide.xml:8
 #, kde-format
 msgid "Direction"
@@ -4440,6 +4442,7 @@ msgid ""
 "pole per octave (20dB per pole per decade)."
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_type)
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
 #: data/effects/avfilter/avfilter_lowpass.xml:11
@@ -4454,7 +4457,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #: data/effects/frei0r/frei0r_medians.xml:8 src/bin/bin.cpp:1564
-#: src/bin/projectitemmodel.cpp:333
+#: src/bin/projectitemmodel.cpp:333 src/ui/timeremap_ui.ui:197
 #, kde-format
 msgid "Type"
 msgstr "종류"
@@ -8094,7 +8097,7 @@ msgstr "위,가운데,아래"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:1097 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "텍스트"
@@ -8642,6 +8645,29 @@ msgid ""
 "Draws simple shapes into the alpha channel.<br>\n"
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>."
 msgstr ""
+
+#: data/effects/frei0r/frei0r_autothresh0ld.xml:4
+#, fuzzy, kde-format
+#| msgid "Threshold"
+msgid "Auto Threshold"
+msgstr "임곗값"
+
+#: data/effects/frei0r/frei0r_autothresh0ld.xml:5
+#, kde-format
+msgid "Segments an image into foreground or background"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_autothresh0ld.xml:8
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
+#, kde-format
+msgid "Slope"
+msgstr "경사도"
+
+#: data/effects/frei0r/frei0r_autothresh0ld.xml:9
+#, fuzzy, kde-format
+#| msgid "Sigmoidal Transfer"
+msgid "Slope of Sigmoidal Transfer"
+msgstr "S자 형태 전송"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -11499,11 +11525,6 @@ msgstr "색상 거리,투명도,가장자리 안쪽,가장자리 바깥쪽"
 msgid "Tolerance"
 msgstr "공차"
 
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
-#, kde-format
-msgid "Slope"
-msgstr "경사도"
-
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:24
 #, fuzzy, kde-format
 #| msgid "Hue gate"
@@ -12751,6 +12772,62 @@ msgstr "알파 항적"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:4
+#, fuzzy, kde-format
+#| msgid "Pixelize"
+msgid "Pixels0rt"
+msgstr "픽셀화"
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:5
+#, fuzzy, kde-format
+#| msgid "Reset effect"
+msgid "Pixel sorting effect"
+msgstr "효과 초기화"
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:9
+#, fuzzy, kde-format
+#| msgid "Defines the rectangle that the waveform(s) should be drawn in."
+msgid "Relative size of the line that will be sorted"
+msgstr "파형을 표시할 사각형을 결정합니다."
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:13
+#, fuzzy, kde-format
+#| msgid "Mirroring direction"
+msgid "Sorting direction"
+msgstr "미러링 방향"
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:14
+#, kde-format
+msgid ""
+"Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
+"to right,Horizontal from right to left"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:17
+#, fuzzy, kde-format
+#| msgid "Reverse"
+msgid "Reversed"
+msgstr "반전"
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:18
+#, kde-format
+msgid "Should be pixels sorted in reversed order"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:21
+#, fuzzy, kde-format
+#| msgid "Transparency:"
+msgid "Transparency Threshold"
+msgstr "투명도:"
+
+#: data/effects/frei0r/frei0r_pixels0rt.xml:23
+#, kde-format
+msgid ""
+"What transparency level should<br>\n"
+"        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
+"transparent pixels"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
@@ -14327,7 +14404,7 @@ msgstr "그라디언트"
 msgid "Apply a gradient map to the video"
 msgstr "동영상에 GPS 텍스트 정보를 표시합니다."
 
-#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3459
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3476
 #, kde-format
 msgid "Gradient"
 msgstr "그라디언트"
@@ -20621,7 +20698,7 @@ msgstr " - 사용되지 않음"
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #: src/assets/view/widgets/keyframecontainer.cpp:149
-#: src/dialogs/timeremap.cpp:1600 src/dialogs/timeremap.cpp:1625
+#: src/dialogs/timeremap.cpp:1736 src/dialogs/timeremap.cpp:1761
 #, kde-format
 msgid "Add keyframe"
 msgstr "키프레임 추가"
@@ -20636,7 +20713,7 @@ msgstr "키프레임 형식 변경"
 #: src/assets/keyframes/model/keyframemodel.cpp:291
 #: src/assets/keyframes/model/keyframemodellist.cpp:266
 #: src/assets/view/widgets/keyframecontainer.cpp:151
-#: src/dialogs/timeremap.cpp:1621
+#: src/dialogs/timeremap.cpp:1757
 #, kde-format
 msgid "Delete keyframe"
 msgstr "키프레임 삭제"
@@ -20855,19 +20932,19 @@ msgid "Switch to curve editor view"
 msgstr ""
 
 #: src/assets/view/widgets/keyframecontainer.cpp:156
-#: src/dialogs/timeremap.cpp:1606 src/mainwindow.cpp:2108
+#: src/dialogs/timeremap.cpp:1742 src/mainwindow.cpp:2108
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "이전 키프레임으로 이동"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:160
-#: src/dialogs/timeremap.cpp:1603 src/mainwindow.cpp:2106
+#: src/dialogs/timeremap.cpp:1739 src/mainwindow.cpp:2106
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "다음 키프레임으로 이동"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:165
-#: src/dialogs/timeremap.cpp:1611 src/dialogs/timeremap.cpp:1613
+#: src/dialogs/timeremap.cpp:1747 src/dialogs/timeremap.cpp:1749
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "선택한 키프레임을 커서로 이동"
@@ -22196,7 +22273,7 @@ msgid "No valid clip to insert"
 msgstr "삽입할 유효한 클립이 없음"
 
 #: src/bin/bin.cpp:4446 src/timeline2/view/timelinecontroller.cpp:1878
-#: src/timeline2/view/timelinecontroller.cpp:3980
+#: src/timeline2/view/timelinecontroller.cpp:3984
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "효과를 적용할 클립 선택"
@@ -22225,7 +22302,7 @@ msgid "Edit Tags"
 msgstr "등급 편집"
 
 #: src/bin/bin.cpp:5074 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:2037 src/onlineresources/resourcewidget.cpp:292
+#: src/bin/projectclip.cpp:2038 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
 #, kde-format
@@ -22295,7 +22372,7 @@ msgstr ""
 "외부 타이틀 클립(%1)을 편집하고 있습니다. 변경 사항을 타이틀 파일에 저장하거"
 "나 이 프로젝트의 변경 사항만 저장하시겠습니까?"
 
-#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2337
+#: src/bin/bin.cpp:5246 src/titler/titlewidget.cpp:2354
 #, kde-format
 msgid "Save Title"
 msgstr "타이틀 저장"
@@ -23018,41 +23095,41 @@ msgstr ""
 "이미지 크기가 8픽셀보다 작습니다.\n"
 "동영상 프레임워크에서 올바르게 지원하지 않습니다."
 
-#: src/bin/projectclip.cpp:1157 src/jobs/cliploadtask.cpp:273
+#: src/bin/projectclip.cpp:1158 src/jobs/cliploadtask.cpp:273
 #, kde-format
 msgid "Invalid"
 msgstr "잘못됨"
 
-#: src/bin/projectclip.cpp:1407 src/dialogs/clipcreationdialog.cpp:137
+#: src/bin/projectclip.cpp:1408 src/dialogs/clipcreationdialog.cpp:137
 #: src/jobs/cuttask.cpp:169 src/jobs/speedtask.cpp:117
 #: src/timeline2/model/timelinefunctions.cpp:1565
 #, kde-format
 msgid "File already exists"
 msgstr "파일이 이미 존재함"
 
-#: src/bin/projectclip.cpp:2661 src/bin/projectclip.cpp:2700
+#: src/bin/projectclip.cpp:2662 src/bin/projectclip.cpp:2701
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "타임라인 클립 붙여넣기"
 
-#: src/bin/projectclip.cpp:2890
+#: src/bin/projectclip.cpp:2891
 #, kde-format
 msgid "Add stream effect"
 msgstr "스트림 효과 추가"
 
-#: src/bin/projectclip.cpp:2915
+#: src/bin/projectclip.cpp:2916
 #, kde-format
 msgid "Remove stream effect"
 msgstr "스트림 효과 삭제"
 
-#: src/bin/projectclip.cpp:3258
+#: src/bin/projectclip.cpp:3265
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Mask added to clip"
 msgstr "클립 마스크"
 
-#: src/bin/projectclip.cpp:3262
+#: src/bin/projectclip.cpp:3269
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing clip for mask"
@@ -23969,9 +24046,9 @@ msgstr "안내선 가져오기"
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5904
-#: src/timeline2/view/timelinecontroller.cpp:5909
-#: src/titler/titlewidget.cpp:2350
+#: src/timeline2/view/timelinecontroller.cpp:5908
+#: src/timeline2/view/timelinecontroller.cpp:5913
+#: src/titler/titlewidget.cpp:2367
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "%1 파일에 쓸 수 없음"
@@ -24719,7 +24796,7 @@ msgstr "오디오 트랙이 없는 동영상"
 msgid "Rendering %1 started"
 msgstr "렌더링<i>%1</i>이(가) 시작됨"
 
-#: src/dialogs/renderwidget.cpp:1263 src/monitor/monitor.cpp:1549
+#: src/dialogs/renderwidget.cpp:1263 src/monitor/monitor.cpp:1536
 #, kde-format
 msgid "untitled"
 msgstr "제목 없음"
@@ -25060,7 +25137,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:645
-#: src/dialogs/timeremap.cpp:1567 src/kdenliveui.rc:81
+#: src/dialogs/timeremap.cpp:1692 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:795
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
@@ -26858,55 +26935,55 @@ msgstr "내보낼 텍스트 없음"
 msgid "Enter new playlist path"
 msgstr "새 재생 목록 경로 입력"
 
-#: src/dialogs/timeremap.cpp:501 src/dialogs/timeremap.cpp:701
+#: src/dialogs/timeremap.cpp:529 src/dialogs/timeremap.cpp:734
 #, fuzzy, kde-format
 #| msgid "Cannot remove the last keyframe"
 msgid "Cannot move last source keyframe past clip end"
 msgstr "마지막 키프레임을 삭제할 수 없음"
 
-#: src/dialogs/timeremap.cpp:510 src/dialogs/timeremap.cpp:705
+#: src/dialogs/timeremap.cpp:538 src/dialogs/timeremap.cpp:738
 #, kde-format
 msgid "Cannot move first source keyframe before clip start"
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1601 src/dialogs/timeremap.cpp:1626
+#: src/dialogs/timeremap.cpp:1737 src/dialogs/timeremap.cpp:1762
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1604
+#: src/dialogs/timeremap.cpp:1740
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1607
+#: src/dialogs/timeremap.cpp:1743
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1614
+#: src/dialogs/timeremap.cpp:1748 src/dialogs/timeremap.cpp:1750
 #, fuzzy, kde-kuit-format
 #| msgid "Move selected keyframe to cursor"
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
 msgstr "선택한 키프레임을 커서로 이동"
 
-#: src/dialogs/timeremap.cpp:1622
+#: src/dialogs/timeremap.cpp:1758
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1730
+#: src/dialogs/timeremap.cpp:1866
 #, fuzzy, kde-format
 #| msgid "Make waves on your clip with keyframes"
 msgid "Time remap does not work on clip with B frames."
 msgstr "키프레임을 사용하여 클립에 파도 만들기"
 
-#: src/dialogs/timeremap.cpp:2077
+#: src/dialogs/timeremap.cpp:2213
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "타임 리매핑 키프레임 편집"
@@ -28188,14 +28265,14 @@ msgid "Exporting…"
 msgstr "압축 푸는 중..."
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3831
+#: src/timeline2/view/timelinecontroller.cpp:3835
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "효과 사용"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3831
+#: src/timeline2/view/timelinecontroller.cpp:3835
 #, fuzzy, kde-format
 #| msgid "Disable Effect"
 msgid "Disable Effect Stack"
@@ -28685,7 +28762,7 @@ msgstr "대상 파일"
 #. i18n: ectx: property (text), widget (QCheckBox, pitchCompensate)
 #. i18n: ectx: property (text), widget (QCheckBox, pitch_compensate)
 #: src/jobs/speedtask.cpp:76 src/ui/clipspeed_ui.ui:27
-#: src/ui/timeremap_ui.ui:297
+#: src/ui/timeremap_ui.ui:307
 #, kde-format
 msgid "Pitch compensation"
 msgstr "음 높이 보정"
@@ -29188,7 +29265,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:326
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:325
 #, kde-format
 msgid "Merged streams"
 msgstr "병합된 스트림"
@@ -29853,15 +29930,15 @@ msgstr "트랙 삭제"
 msgid "Go to Marker…"
 msgstr "마커로 이동..."
 
-#: src/mainwindow.cpp:699 src/monitor/monitor.cpp:708
+#: src/mainwindow.cpp:699 src/monitor/monitor.cpp:695
 #, fuzzy, kde-format
 #| msgid "Create marker"
 #| msgid_plural "create markers"
 msgid "Create Marker from Zone"
 msgstr "마커 생성"
 
-#: src/mainwindow.cpp:703 src/monitor/monitor.cpp:713
-#: src/monitor/monitor.cpp:738
+#: src/mainwindow.cpp:703 src/monitor/monitor.cpp:700
+#: src/monitor/monitor.cpp:725
 #, fuzzy, kde-format
 #| msgid "Create markers from selected timecodes"
 msgid "Create Marker from Zone Quickly"
@@ -30448,27 +30525,27 @@ msgstr "시간 코드 모니터 오버레이"
 msgid "Full Resolution (1:1)"
 msgstr "전체 해상도(1:1)"
 
-#: src/mainwindow.cpp:1771 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1771 src/monitor/monitor.cpp:234
 #, kde-format
 msgid "1080p"
 msgstr ""
 
-#: src/mainwindow.cpp:1775 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1775 src/monitor/monitor.cpp:234
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1779 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1779 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1783 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1783 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1787 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1787 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -30976,7 +31053,7 @@ msgstr "트랙 삽입"
 msgid "Fit all Tracks in View"
 msgstr "모든 트랙 활성 변경"
 
-#: src/mainwindow.cpp:2130 src/timeline2/view/timelinecontroller.cpp:5631
+#: src/mainwindow.cpp:2130 src/timeline2/view/timelinecontroller.cpp:5635
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence effects"
@@ -31247,7 +31324,7 @@ msgstr "만들기"
 
 #: src/mainwindow.cpp:2474 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2333
+#: src/titler/titlewidget.cpp:2350
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -31359,14 +31436,14 @@ msgid "Marker category does not exist"
 msgstr "분류"
 
 #: src/mainwindow.cpp:3426 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3661
+#: src/timeline2/view/timelinecontroller.cpp:3665
 #, kde-format
 msgid "Overwrite zone"
 msgstr "영역 덮어 쓰기"
 
 #: src/mainwindow.cpp:3428 src/mainwindow.cpp:3447
 #: src/timeline2/model/timelinefunctions.cpp:820
-#: src/timeline2/view/timelinecontroller.cpp:3663
+#: src/timeline2/view/timelinecontroller.cpp:3667
 #, kde-format
 msgid "Could not insert zone"
 msgstr "영역을 삽입할 수 없음"
@@ -31377,7 +31454,7 @@ msgid "No clip selected in project bin"
 msgstr "프로젝트 보관함에서 선택한 클립이 없음"
 
 #: src/mainwindow.cpp:3445 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3661
+#: src/timeline2/view/timelinecontroller.cpp:3665
 #, kde-format
 msgid "Insert zone"
 msgstr "영역 삽입"
@@ -31632,7 +31709,7 @@ msgstr "메뉴 표시줄을 완전히 숨깁니다. Ctrl+M 키를 눌러서 다�
 msgid "Hide menu bar"
 msgstr "메뉴 표시줄 숨기기"
 
-#: src/mainwindow.cpp:5224 src/timeline2/view/timelinecontroller.cpp:5862
+#: src/mainwindow.cpp:5224 src/timeline2/view/timelinecontroller.cpp:5866
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "현재 프로젝트에 자막 없음"
@@ -31905,13 +31982,13 @@ msgid "Enable audio"
 msgstr "오디오 사용"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:842
-#: src/monitor/monitor.cpp:309
+#: src/monitor/monitor.cpp:308
 #, kde-format
 msgid "Audio streams"
 msgstr "오디오 스트림"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:864
-#: src/monitor/monitor.cpp:2237
+#: src/monitor/monitor.cpp:2226
 #, kde-format
 msgid "Merge all streams"
 msgstr "모든 스트림 병합"
@@ -32158,12 +32235,12 @@ msgstr "오디오 음량"
 msgid "%1%"
 msgstr "%1 %%"
 
-#: src/monitor/monitor.cpp:230
+#: src/monitor/monitor.cpp:229
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "미리 보기 해상도 - 해상도가 낮아질수록 미리 보기가 빨라집니다"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:231
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32172,50 +32249,50 @@ msgid ""
 "faster the preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:235
+#: src/monitor/monitor.cpp:234
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:379 src/monitor/monitormanager.cpp:685
+#: src/monitor/monitor.cpp:378 src/monitor/monitormanager.cpp:685
 #, kde-format
 msgid "Set Zone In"
 msgstr "영역 시점 설정"
 
-#: src/monitor/monitor.cpp:380 src/monitor/monitormanager.cpp:689
+#: src/monitor/monitor.cpp:379 src/monitor/monitormanager.cpp:689
 #, kde-format
 msgid "Set Zone Out"
 msgstr "영역 종점 설정"
 
-#: src/monitor/monitor.cpp:392 src/monitor/monitormanager.cpp:569
+#: src/monitor/monitor.cpp:391 src/monitor/monitormanager.cpp:569
 #, kde-format
 msgid "Rewind"
 msgstr "되감기"
 
-#: src/monitor/monitor.cpp:397 src/monitor/monitor.cpp:400
+#: src/monitor/monitor.cpp:396 src/monitor/monitor.cpp:399
 #: src/monitor/monitormanager.cpp:539
 #, kde-format
 msgid "Play"
 msgstr "재생"
 
-#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:539
+#: src/monitor/monitor.cpp:399 src/monitor/monitormanager.cpp:539
 #: src/monitor/monitormanager.cpp:545
 #, kde-format
 msgid "Pause"
 msgstr "일시 정지"
 
-#: src/monitor/monitor.cpp:420 src/monitor/monitormanager.cpp:582
+#: src/monitor/monitor.cpp:419 src/monitor/monitormanager.cpp:582
 #, kde-format
 msgid "Forward"
 msgstr "빨리감기"
 
-#: src/monitor/monitor.cpp:424
+#: src/monitor/monitor.cpp:423
 #, fuzzy, kde-format
 #| msgid "More options"
 msgid "More Options…"
 msgstr "옵션 더 보기"
 
-#: src/monitor/monitor.cpp:425
+#: src/monitor/monitor.cpp:424
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -32223,40 +32300,40 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:433
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Clip Marker…"
 msgstr "마커로 이동..."
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:433
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Timeline Marker…"
 msgstr "마커로 이동..."
 
-#: src/monitor/monitor.cpp:438
+#: src/monitor/monitor.cpp:437
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "모니터 크기 강제"
 
-#: src/monitor/monitor.cpp:439
+#: src/monitor/monitor.cpp:438
 #, kde-format
 msgid "Force 100%"
 msgstr "강제 100%"
 
-#: src/monitor/monitor.cpp:441
+#: src/monitor/monitor.cpp:440
 #, kde-format
 msgid "Force 50%"
 msgstr "강제 50%"
 
-#: src/monitor/monitor.cpp:443
+#: src/monitor/monitor.cpp:442
 #, kde-format
 msgid "Free Resize"
 msgstr "자유 크기 조정"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:451 src/scopes/colorscopes/vectorscope.cpp:72
+#: src/monitor/monitor.cpp:450 src/scopes/colorscopes/vectorscope.cpp:72
 #: src/scopes/colorscopes/vectorscope.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:288 src/ui/titlewidget_ui.ui:140
 #, kde-format
@@ -32264,129 +32341,129 @@ msgid "Black"
 msgstr "검은색"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:453 src/scopes/colorscopes/rgbparade.cpp:45
+#: src/monitor/monitor.cpp:452 src/scopes/colorscopes/rgbparade.cpp:45
 #: src/scopes/colorscopes/waveform.cpp:51 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "흰색"
 
-#: src/monitor/monitor.cpp:455
+#: src/monitor/monitor.cpp:454
 #, kde-format
 msgid "Pink"
 msgstr "분홍색"
 
-#: src/monitor/monitor.cpp:457
+#: src/monitor/monitor.cpp:456
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Checkerboard Small"
 msgid "Checkerboard"
 msgstr "작은 체크 무늬"
 
-#: src/monitor/monitor.cpp:525
+#: src/monitor/monitor.cpp:524
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:531
+#: src/monitor/monitor.cpp:530
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:537
+#: src/monitor/monitor.cpp:536
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:543
+#: src/monitor/monitor.cpp:542
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:701
+#: src/monitor/monitor.cpp:688
 #, kde-format
 msgid "Extract Zone"
 msgstr "영역 추출"
 
-#: src/monitor/monitor.cpp:728
+#: src/monitor/monitor.cpp:715
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "현재 이미지를 섬네일으로 설정"
 
-#: src/monitor/monitor.cpp:733
+#: src/monitor/monitor.cpp:720
 #, fuzzy, kde-format
 #| msgid "Create markers from selected timecodes"
 msgid "Create Marker from Zone..."
 msgstr "선택한 타임코드에서 마커 만들기"
 
-#: src/monitor/monitor.cpp:745
+#: src/monitor/monitor.cpp:732
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "항상 오디오 미리 듣기 표시"
 
-#: src/monitor/monitor.cpp:759
+#: src/monitor/monitor.cpp:746
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "오디오 레벨 표시"
 
-#: src/monitor/monitor.cpp:766
+#: src/monitor/monitor.cpp:753
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "원본 타임코드 표시"
 
-#: src/monitor/monitor.cpp:803
+#: src/monitor/monitor.cpp:790
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "현재 화면 해상도가 이 작업에 충분하지 않음"
 
-#: src/monitor/monitor.cpp:940 src/monitor/monitor.cpp:976
-#: src/monitor/monitor.cpp:1012
+#: src/monitor/monitor.cpp:927 src/monitor/monitor.cpp:963
+#: src/monitor/monitor.cpp:999
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:969 src/monitor/monitor.cpp:1005
+#: src/monitor/monitor.cpp:956 src/monitor/monitor.cpp:992
 #: src/timeline2/view/timelinecontroller.cpp:2158
 #, kde-format
 msgid "Set Zone"
 msgstr "영역 설정"
 
-#: src/monitor/monitor.cpp:1562
+#: src/monitor/monitor.cpp:1549
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "프로젝트에 이미지 저장"
 
-#: src/monitor/monitor.cpp:1562
+#: src/monitor/monitor.cpp:1549
 #, fuzzy, kde-format
 #| msgid "Save Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "이미지 저장"
 
-#: src/monitor/monitor.cpp:1569
+#: src/monitor/monitor.cpp:1556
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "원본 해상도로 이미지 내보내기"
 
-#: src/monitor/monitor.cpp:2120
+#: src/monitor/monitor.cpp:2109
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "지속 시간 편집"
 
-#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2352
+#: src/monitor/monitor.cpp:2211 src/monitor/monitor.cpp:2341
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "오디오 스트림 %1개"
 
-#: src/monitor/monitor.cpp:2680
+#: src/monitor/monitor.cpp:2662
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit의 GLSL 관리자를 초기화할 수 없습니다. Movit을 비활성화하십시오"
 
-#: src/monitor/monitor.cpp:2722 src/monitor/monitor.cpp:2779
+#: src/monitor/monitor.cpp:2704 src/monitor/monitor.cpp:2761
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -32395,17 +32472,17 @@ msgstr ""
 "해당 기능에 alphagrad 필터가 필요합니다. frei0r를 설치하고 Kdenlive를 다시 시"
 "작하십시오"
 
-#: src/monitor/monitor.cpp:2742
+#: src/monitor/monitor.cpp:2724
 #, kde-format
 msgid "Clip has no effects"
 msgstr "클립 효과 없음"
 
-#: src/monitor/monitor.cpp:2744
+#: src/monitor/monitor.cpp:2726
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "효과를 비교하려면 프로젝트 보관함에서 클립을 선택하십시오"
 
-#: src/monitor/monitor.cpp:2786
+#: src/monitor/monitor.cpp:2768
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -32414,42 +32491,42 @@ msgstr ""
 "해당 기능에는 cairoblend 전환이 필요합니다. frei0r를 설치하고 Kdenlive를 다"
 "시 시작하십시오"
 
-#: src/monitor/monitor.cpp:2866
+#: src/monitor/monitor.cpp:2848
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "효과를 편집하려면 모니터에서 편집 모드 활성화"
 
-#: src/monitor/monitor.cpp:3370
+#: src/monitor/monitor.cpp:3352
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "프로젝트 보관함에서 선택한 클립이 없음"
 
-#: src/monitor/monitor.cpp:3391
+#: src/monitor/monitor.cpp:3373
 #, fuzzy, kde-format
 #| msgid "Cannot get duration for file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "%1 파일의 재생 시간을 가져올 수 없음"
 
-#: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3504
-#: src/timeline2/view/timelinecontroller.cpp:6428
+#: src/monitor/monitor.cpp:3455 src/monitor/monitor.cpp:3486
+#: src/timeline2/view/timelinecontroller.cpp:6432
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3483
+#: src/monitor/monitor.cpp:3465
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3489 src/monitor/monitor.cpp:3510
-#: src/timeline2/view/timelinecontroller.cpp:6443
+#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3492
+#: src/timeline2/view/timelinecontroller.cpp:6447
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3491 src/monitor/monitor.cpp:3512
-#: src/timeline2/view/timelinecontroller.cpp:6446
+#: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3494
+#: src/timeline2/view/timelinecontroller.cpp:6450
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to create range marker from zone"
@@ -32605,7 +32682,7 @@ msgid "Go to Zone End"
 msgstr "영역 끝으로 이동"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6435
+#: src/timeline2/view/timelinecontroller.cpp:6439
 #, fuzzy, kde-format
 #| msgid "Rename marker"
 msgid "Zone marker"
@@ -33979,7 +34056,7 @@ msgid "Select some timecodes to reassign"
 msgstr "다시 할당할 타임코드 선택"
 
 #: src/project/dialogs/noteswidget.cpp:259
-#: src/timeline2/view/timelinecontroller.cpp:4622
+#: src/timeline2/view/timelinecontroller.cpp:4626
 #, fuzzy, kde-format
 #| msgid "Insert selected blocks in timeline"
 msgid "No clip selected in timeline"
@@ -36128,15 +36205,15 @@ msgid "Remove space"
 msgstr "공백 삭제"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3466
+#: src/timeline2/view/timelinecontroller.cpp:3470
 #, kde-format
 msgid "Lift zone"
 msgstr "영역 들어 올리기"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
 #: src/timeline2/view/timelinecontroller.cpp:812
-#: src/timeline2/view/timelinecontroller.cpp:3466
-#: src/timeline2/view/timelinecontroller.cpp:3539
+#: src/timeline2/view/timelinecontroller.cpp:3470
+#: src/timeline2/view/timelinecontroller.cpp:3543
 #, kde-format
 msgid "Extract zone"
 msgstr "영역 추출"
@@ -36156,23 +36233,23 @@ msgstr "트랙의 레이블을 클릭하여 트랙을 활성화하십시오"
 #: src/timeline2/view/timelinecontroller.cpp:1544
 #: src/timeline2/view/timelinecontroller.cpp:1569
 #: src/timeline2/view/timelinecontroller.cpp:1625
-#: src/timeline2/view/timelinecontroller.cpp:2702
-#: src/timeline2/view/timelinecontroller.cpp:3484
-#: src/timeline2/view/timelinecontroller.cpp:3548
-#: src/timeline2/view/timelinecontroller.cpp:3793
-#: src/timeline2/view/timelinecontroller.cpp:3839
-#: src/timeline2/view/timelinecontroller.cpp:3880
-#: src/timeline2/view/timelinecontroller.cpp:3887
-#: src/timeline2/view/timelinecontroller.cpp:3915
-#: src/timeline2/view/timelinecontroller.cpp:3989
-#: src/timeline2/view/timelinecontroller.cpp:4006
-#: src/timeline2/view/timelinecontroller.cpp:4268
-#: src/timeline2/view/timelinecontroller.cpp:4283
-#: src/timeline2/view/timelinecontroller.cpp:4308
-#: src/timeline2/view/timelinecontroller.cpp:4323
-#: src/timeline2/view/timelinecontroller.cpp:4377
-#: src/timeline2/view/timelinecontroller.cpp:4430
-#: src/timeline2/view/timelinecontroller.cpp:4453
+#: src/timeline2/view/timelinecontroller.cpp:2706
+#: src/timeline2/view/timelinecontroller.cpp:3488
+#: src/timeline2/view/timelinecontroller.cpp:3552
+#: src/timeline2/view/timelinecontroller.cpp:3797
+#: src/timeline2/view/timelinecontroller.cpp:3843
+#: src/timeline2/view/timelinecontroller.cpp:3884
+#: src/timeline2/view/timelinecontroller.cpp:3891
+#: src/timeline2/view/timelinecontroller.cpp:3919
+#: src/timeline2/view/timelinecontroller.cpp:3993
+#: src/timeline2/view/timelinecontroller.cpp:4010
+#: src/timeline2/view/timelinecontroller.cpp:4272
+#: src/timeline2/view/timelinecontroller.cpp:4287
+#: src/timeline2/view/timelinecontroller.cpp:4312
+#: src/timeline2/view/timelinecontroller.cpp:4327
+#: src/timeline2/view/timelinecontroller.cpp:4381
+#: src/timeline2/view/timelinecontroller.cpp:4434
+#: src/timeline2/view/timelinecontroller.cpp:4457
 #, kde-format
 msgid "No clip selected"
 msgstr "선택한 클립 없음"
@@ -36185,7 +36262,7 @@ msgstr "선택한 그룹을 이동할 수 없음"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4594
+#: src/timeline2/view/timelinecontroller.cpp:4598
 #, kde-format
 msgid "Enable clip"
 msgstr "클립 활성화"
@@ -36193,7 +36270,7 @@ msgstr "클립 활성화"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4594
+#: src/timeline2/view/timelinecontroller.cpp:4598
 #, kde-format
 msgid "Disable clip"
 msgstr "클립 비활성화"
@@ -36475,7 +36552,7 @@ msgstr "클립 이동"
 #: src/timeline2/model/timelinemodel.cpp:2256
 #: src/timeline2/model/timelinemodel.cpp:2269
 #: src/timeline2/model/timelinemodel.cpp:2277
-#: src/timeline2/view/timelinecontroller.cpp:3865
+#: src/timeline2/view/timelinecontroller.cpp:3869
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "삽입 작업에 사용할 수 있는 트랙 없음"
@@ -36529,7 +36606,7 @@ msgstr "합성 삭제"
 
 #: src/timeline2/model/timelinemodel.cpp:2863
 #: src/timeline2/model/timelinemodel.cpp:3164
-#: src/timeline2/view/timelinecontroller.cpp:4938
+#: src/timeline2/view/timelinecontroller.cpp:4942
 #, kde-format
 msgid "Move group"
 msgstr "그룹 이동"
@@ -36688,7 +36765,7 @@ msgid "Change speed failed"
 msgstr "클립 속도 변경 실패"
 
 #: src/timeline2/model/timelinemodel.cpp:7309
-#: src/timeline2/view/timelinecontroller.cpp:3384
+#: src/timeline2/view/timelinecontroller.cpp:3388
 #, kde-format
 msgid "Change clip speed"
 msgstr "클립 속도 변경"
@@ -37211,7 +37288,7 @@ msgid "Could not duplicate clip"
 msgstr "마스터 클립을 찾을 수 없음"
 
 #: src/timeline2/view/timelinecontroller.cpp:1014
-#: src/timeline2/view/timelinecontroller.cpp:5792
+#: src/timeline2/view/timelinecontroller.cpp:5796
 #, kde-format
 msgid "Could not insert track"
 msgstr "트랙을 삽입할 수 없음"
@@ -37254,83 +37331,83 @@ msgstr "선택한 블록을 타임라인에 삽입"
 msgid "No clip to cut"
 msgstr "잘라낼 클립 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:2621
+#: src/timeline2/view/timelinecontroller.cpp:2625
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "시작:%1, 종료:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2709
+#: src/timeline2/view/timelinecontroller.cpp:2713
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3105
+#: src/timeline2/view/timelinecontroller.cpp:3109
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "공백을 삽입할 클립을 찾을 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3123
+#: src/timeline2/view/timelinecontroller.cpp:3127
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "주어진 위치의 공백을 삭제할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3137
+#: src/timeline2/view/timelinecontroller.cpp:3141
 #, fuzzy, kde-format
 #| msgid "Cannot remove space at given position"
 msgid "Cannot remove all spaces"
 msgstr "주어진 위치의 공백을 삭제할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3151
+#: src/timeline2/view/timelinecontroller.cpp:3155
 #, fuzzy, kde-format
 #| msgid "Cannot create clip"
 msgid "Cannot remove all clips"
 msgstr "클립을 만들 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3201
-#: src/timeline2/view/timelinecontroller.cpp:3206
-#: src/timeline2/view/timelinecontroller.cpp:3232
-#: src/timeline2/view/timelinecontroller.cpp:3237
+#: src/timeline2/view/timelinecontroller.cpp:3205
+#: src/timeline2/view/timelinecontroller.cpp:3210
+#: src/timeline2/view/timelinecontroller.cpp:3236
+#: src/timeline2/view/timelinecontroller.cpp:3241
 #, kde-format
 msgid "No item to edit"
 msgstr "편집할 항목 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3243
-#: src/timeline2/view/timelinecontroller.cpp:3380
+#: src/timeline2/view/timelinecontroller.cpp:3247
+#: src/timeline2/view/timelinecontroller.cpp:3384
 #, fuzzy, kde-format
 #| msgid "Cannot create clip"
 msgid "Cannot change speed of item(s)"
 msgstr "클립을 만들 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3440
-#: src/timeline2/view/timelinecontroller.cpp:6057
+#: src/timeline2/view/timelinecontroller.cpp:3444
+#: src/timeline2/view/timelinecontroller.cpp:6061
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "트랙의 레이블을 클릭하여 이 작업에 사용할 트랙을 활성화하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:3706
+#: src/timeline2/view/timelinecontroller.cpp:3710
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "트랙의 대상 영역을 클릭하여 대상 트랙을 선택하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:3733
+#: src/timeline2/view/timelinecontroller.cpp:3737
 #, fuzzy, kde-format
 #| msgid "Clip in Project Bin"
 msgid "Clip not found in project bin"
 msgstr "프로젝트 보관함의 클립"
 
-#: src/timeline2/view/timelinecontroller.cpp:3741
+#: src/timeline2/view/timelinecontroller.cpp:3745
 #, fuzzy, kde-format
 #| msgid "No timecode found in selection"
 msgid "No timecode metadata found in clip"
 msgstr "선택 항목에 시간코드 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3747
+#: src/timeline2/view/timelinecontroller.cpp:3751
 #, fuzzy, kde-format
 #| msgid "Please select a video profile"
 msgid "Please select a target track"
 msgstr "동영상 프로필을 선택하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:3753
+#: src/timeline2/view/timelinecontroller.cpp:3757
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
@@ -37340,148 +37417,148 @@ msgstr ""
 "클립을 생성하지 못했습니다:\n"
 "%1"
 
-#: src/timeline2/view/timelinecontroller.cpp:3805
+#: src/timeline2/view/timelinecontroller.cpp:3809
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "즐겨찾는 합성 선택"
 
-#: src/timeline2/view/timelinecontroller.cpp:3871
+#: src/timeline2/view/timelinecontroller.cpp:3875
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "AV 분할 작업을 수행할 클립 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:3899
-#: src/timeline2/view/timelinecontroller.cpp:3967
-#: src/timeline2/view/timelinecontroller.cpp:4023
+#: src/timeline2/view/timelinecontroller.cpp:3903
+#: src/timeline2/view/timelinecontroller.cpp:3971
+#: src/timeline2/view/timelinecontroller.cpp:4027
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "%1 프레임으로 클립을 이동할 수 없습니다."
 
-#: src/timeline2/view/timelinecontroller.cpp:3920
+#: src/timeline2/view/timelinecontroller.cpp:3924
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "정렬을 시도하기 전에 오디오 참조를 설정하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:3994
-#: src/timeline2/view/timelinecontroller.cpp:4016
+#: src/timeline2/view/timelinecontroller.cpp:3998
+#: src/timeline2/view/timelinecontroller.cpp:4020
 #, fuzzy, kde-format
 #| msgid "No timecode found in selection"
 msgid "No timecode for clip"
 msgstr "선택 항목에 시간코드 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:4011
+#: src/timeline2/view/timelinecontroller.cpp:4015
 #, fuzzy, kde-format
 #| msgid "Set audio reference before attempting to align"
 msgid "Set timecode reference before attempting to align"
 msgstr "정렬을 시도하기 전에 오디오 참조를 설정하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:4132
+#: src/timeline2/view/timelinecontroller.cpp:4136
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4291
+#: src/timeline2/view/timelinecontroller.cpp:4295
 #, kde-format
 msgid "Delete effects"
 msgstr "효과 삭제"
 
-#: src/timeline2/view/timelinecontroller.cpp:4329
-#: src/timeline2/view/timelinecontroller.cpp:4335
-#: src/timeline2/view/timelinecontroller.cpp:4341
+#: src/timeline2/view/timelinecontroller.cpp:4333
+#: src/timeline2/view/timelinecontroller.cpp:4339
+#: src/timeline2/view/timelinecontroller.cpp:4345
 #, kde-format
 msgid "No information in clipboard"
 msgstr "클립보드에 정보 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:4366
+#: src/timeline2/view/timelinecontroller.cpp:4370
 #, kde-format
 msgid "Paste effects"
 msgstr "효과 붙여넣기"
 
-#: src/timeline2/view/timelinecontroller.cpp:4368
+#: src/timeline2/view/timelinecontroller.cpp:4372
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "선택한 클립에 효과를 붙여넣을 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:4415
+#: src/timeline2/view/timelinecontroller.cpp:4419
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Open sequence"
 msgstr "이미지 시퀀스"
 
-#: src/timeline2/view/timelinecontroller.cpp:4437
+#: src/timeline2/view/timelinecontroller.cpp:4441
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "항목이 타이틀 클립이 아님"
 
-#: src/timeline2/view/timelinecontroller.cpp:4535
+#: src/timeline2/view/timelinecontroller.cpp:4539
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4589
+#: src/timeline2/view/timelinecontroller.cpp:4593
 #, kde-format
 msgid "Restore video"
 msgstr "동영상 복원"
 
-#: src/timeline2/view/timelinecontroller.cpp:4589
+#: src/timeline2/view/timelinecontroller.cpp:4593
 #, kde-format
 msgid "Restore audio"
 msgstr "오디오 복원"
 
-#: src/timeline2/view/timelinecontroller.cpp:4636
+#: src/timeline2/view/timelinecontroller.cpp:4640
 #, kde-format
 msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4637
-#: src/timeline2/view/timelinecontroller.cpp:4693
+#: src/timeline2/view/timelinecontroller.cpp:4641
+#: src/timeline2/view/timelinecontroller.cpp:4697
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "클립 대체"
 
-#: src/timeline2/view/timelinecontroller.cpp:4637
+#: src/timeline2/view/timelinecontroller.cpp:4641
 #, fuzzy, kde-format
 #| msgid "Import selected clips"
 msgid "Import New Clip"
 msgstr "선택한 클립 가져오기"
 
-#: src/timeline2/view/timelinecontroller.cpp:4680
+#: src/timeline2/view/timelinecontroller.cpp:4684
 #, kde-format
 msgid "Incompatible clip types for replacement"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4687
+#: src/timeline2/view/timelinecontroller.cpp:4691
 #, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4690
+#: src/timeline2/view/timelinecontroller.cpp:4694
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
 msgstr[0] ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4693
+#: src/timeline2/view/timelinecontroller.cpp:4697
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip"
 msgstr "클립 대체"
 
-#: src/timeline2/view/timelinecontroller.cpp:4917
+#: src/timeline2/view/timelinecontroller.cpp:4921
 #, kde-format
 msgid "Move item"
 msgstr "항목 이동"
 
-#: src/timeline2/view/timelinecontroller.cpp:5483
+#: src/timeline2/view/timelinecontroller.cpp:5487
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "잠긴 트랙에서 캡처할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:5494
+#: src/timeline2/view/timelinecontroller.cpp:5498
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -37490,38 +37567,38 @@ msgstr ""
 "캡처할 수 없음: 캡처 시 클립을 덮어쓸 수 있습니다. 현재 위치 이후의 클립을 삭"
 "제하거나 다른 트랙을 선택하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:5585
+#: src/timeline2/view/timelinecontroller.cpp:5589
 #, kde-format
 msgid "Record audio"
 msgstr "오디오 녹음"
 
-#: src/timeline2/view/timelinecontroller.cpp:5732
+#: src/timeline2/view/timelinecontroller.cpp:5736
 #, kde-format
 msgid "Expand clip"
 msgstr "클립 펼치기"
 
-#: src/timeline2/view/timelinecontroller.cpp:5735
+#: src/timeline2/view/timelinecontroller.cpp:5739
 #, kde-format
 msgid "Could not expand clip"
 msgstr "클립을 펼칠 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:5790
+#: src/timeline2/view/timelinecontroller.cpp:5794
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "트랙 삽입"
 
-#: src/timeline2/view/timelinecontroller.cpp:5869
+#: src/timeline2/view/timelinecontroller.cpp:5873
 #, kde-format
 msgid "Export subtitle file"
 msgstr "자막 파일 내보내기"
 
-#: src/timeline2/view/timelinecontroller.cpp:5870
+#: src/timeline2/view/timelinecontroller.cpp:5874
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5884
+#: src/timeline2/view/timelinecontroller.cpp:5888
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -37530,55 +37607,55 @@ msgid ""
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5889
+#: src/timeline2/view/timelinecontroller.cpp:5893
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Warning"
 msgstr "스캔라인"
 
-#: src/timeline2/view/timelinecontroller.cpp:5927
+#: src/timeline2/view/timelinecontroller.cpp:5931
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5944
+#: src/timeline2/view/timelinecontroller.cpp:5948
 #, kde-format
 msgid "Show subtitle track"
 msgstr "자막 트랙 표시"
 
-#: src/timeline2/view/timelinecontroller.cpp:5944
+#: src/timeline2/view/timelinecontroller.cpp:5948
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "자막 트랙 숨기기"
 
-#: src/timeline2/view/timelinecontroller.cpp:5967
+#: src/timeline2/view/timelinecontroller.cpp:5971
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "자막 트랙 잠금 해제"
 
-#: src/timeline2/view/timelinecontroller.cpp:5967
+#: src/timeline2/view/timelinecontroller.cpp:5971
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "자막 트랙 잠금"
 
-#: src/timeline2/view/timelinecontroller.cpp:6134
-#: src/timeline2/view/timelinecontroller.cpp:6143
+#: src/timeline2/view/timelinecontroller.cpp:6138
+#: src/timeline2/view/timelinecontroller.cpp:6147
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "자막"
 
-#: src/timeline2/view/timelinecontroller.cpp:6145
+#: src/timeline2/view/timelinecontroller.cpp:6149
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "자막"
 
-#: src/timeline2/view/timelinecontroller.cpp:6376
+#: src/timeline2/view/timelinecontroller.cpp:6380
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No range guide found at position"
@@ -37653,7 +37730,7 @@ msgid "No available stream"
 msgstr "사용할 수 있는 스트림 없음"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
+#: src/titler/titlewidget.cpp:3443 src/titler/titlewidget.cpp:3446
 #, kde-format
 msgid "Gradient %1"
 msgstr "그라디언트 %1"
@@ -37925,72 +38002,72 @@ msgstr "타이틀 저장"
 msgid "Download New Title Templates…"
 msgstr "새 타이틀 템플릿 다운로드..."
 
-#: src/titler/titlewidget.cpp:560
+#: src/titler/titlewidget.cpp:562
 #, kde-format
 msgid "Save and add to project"
 msgstr "저장하고 프로젝트에 추가"
 
-#: src/titler/titlewidget.cpp:561
+#: src/titler/titlewidget.cpp:563
 #, kde-format
 msgid "Create Title"
 msgstr "타이틀 만들기"
 
-#: src/titler/titlewidget.cpp:822
+#: src/titler/titlewidget.cpp:824
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "새 템플릿을 불러오시겠습니까? 이 타이틀의 변경 사항이 손실됩니다!"
 
-#: src/titler/titlewidget.cpp:931
+#: src/titler/titlewidget.cpp:933
 #, kde-format
 msgid "All Images"
 msgstr "모든 이미지"
 
-#: src/titler/titlewidget.cpp:933
+#: src/titler/titlewidget.cpp:935
 #, kde-format
 msgid "%1 Image"
 msgstr "이미지 %1개"
 
-#: src/titler/titlewidget.cpp:943
+#: src/titler/titlewidget.cpp:945
 #, kde-format
 msgid "Add Image"
 msgstr "이미지 추가"
 
-#: src/titler/titlewidget.cpp:1786
+#: src/titler/titlewidget.cpp:1803
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1788 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1805 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1810
+#: src/titler/titlewidget.cpp:1827
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1812 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1829 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2284
+#: src/titler/titlewidget.cpp:2301
 #, kde-format
 msgid "Load Title"
 msgstr "타이틀 불러오기"
 
-#: src/titler/titlewidget.cpp:2285
+#: src/titler/titlewidget.cpp:2302
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2331
+#: src/titler/titlewidget.cpp:2348
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -37999,51 +38076,51 @@ msgstr ""
 "이 타이틀 문서에 이미지를 포함하시겠습니까?\n"
 "타이틀을 공유하려면 필요합니다."
 
-#: src/titler/titlewidget.cpp:2332
+#: src/titler/titlewidget.cpp:2349
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "이미지 추가"
 
-#: src/titler/titlewidget.cpp:2396
+#: src/titler/titlewidget.cpp:2413
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "타이틀에 누락된 요소 %1개가 있습니다"
 
-#: src/titler/titlewidget.cpp:2397 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2414 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "자세히"
 
-#: src/titler/titlewidget.cpp:2400
+#: src/titler/titlewidget.cpp:2417
 #, kde-format
 msgid "Delete missing elements"
 msgstr "유실된 구성 요소 삭제"
 
-#: src/titler/titlewidget.cpp:2460
+#: src/titler/titlewidget.cpp:2477
 #, kde-format
 msgid "Update Title"
 msgstr "타이틀 업데이트"
 
-#: src/titler/titlewidget.cpp:2463
+#: src/titler/titlewidget.cpp:2480
 #, kde-format
 msgid "Add as new Title"
 msgstr "새 타이틀로 추가"
 
-#: src/titler/titlewidget.cpp:2517
+#: src/titler/titlewidget.cpp:2534
 #, kde-format
 msgid "The following files are missing:"
 msgstr "다음 파일이 유실되었습니다:"
 
-#: src/titler/titlewidget.cpp:2714
+#: src/titler/titlewidget.cpp:2731
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "뷰포트 시작"
 
-#: src/titler/titlewidget.cpp:2715
+#: src/titler/titlewidget.cpp:2732
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
@@ -38706,7 +38783,7 @@ msgstr "현재 지점 삭제"
 #: src/ui/textbasededit_ui.ui:273 src/ui/timeremap_ui.ui:84
 #: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
 #: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
-#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:656
+#: src/ui/timeremap_ui.ui:341 src/ui/titlewidget_ui.ui:656
 #: src/ui/titlewidget_ui.ui:669 src/ui/titlewidget_ui.ui:682
 #: src/ui/titlewidget_ui.ui:695 src/ui/titlewidget_ui.ui:708
 #: src/ui/titlewidget_ui.ui:721 src/ui/titlewidget_ui.ui:939
@@ -42825,37 +42902,37 @@ msgid "Output"
 msgstr "출력"
 
 #. i18n: ectx: property (text), widget (QLabel, label_sourceTC)
-#: src/ui/timeremap_ui.ui:238
+#: src/ui/timeremap_ui.ui:248
 #, kde-format
 msgid "Source time"
 msgstr "원본 시간"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outputTC)
-#: src/ui/timeremap_ui.ui:252
+#: src/ui/timeremap_ui.ui:262
 #, kde-format
 msgid "Output time"
 msgstr "출력 시간"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: src/ui/timeremap_ui.ui:266
+#: src/ui/timeremap_ui.ui:276
 #, kde-format
 msgid "Speed before"
 msgstr "이전 속도"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/timeremap_ui.ui:280
+#: src/ui/timeremap_ui.ui:290
 #, kde-format
 msgid "After"
 msgstr "이후"
 
 #. i18n: ectx: property (text), widget (QCheckBox, frame_blending)
-#: src/ui/timeremap_ui.ui:310
+#: src/ui/timeremap_ui.ui:320
 #, kde-format
 msgid "Frame blending"
 msgstr "프레임 혼합"
 
 #. i18n: ectx: property (text), widget (QCheckBox, move_next)
-#: src/ui/timeremap_ui.ui:321
+#: src/ui/timeremap_ui.ui:331
 #, kde-format
 msgid "Preserve speed of next keyframes"
 msgstr "다음 키프레임의 속도 유지"
@@ -45654,11 +45731,6 @@ msgstr "%1시간"
 #~ "일반, 추가, 채도, 곱하기, 화면, 오버레이, 짙은 색, 밝게, 색상 피하다, 색 "
 #~ "화상, 하드 라이트, 부드러운 빛, 차이, 제외, HSL 색상, HSL 채도, HSL 색, "
 #~ "HSL 광도"
-
-#, fuzzy
-#~| msgid "Pixelize"
-#~ msgid "Pixelate"
-#~ msgstr "픽셀화"
 
 #~ msgid "Trim Mode"
 #~ msgstr "자르기 모드"
