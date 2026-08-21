@@ -987,7 +987,10 @@ void PluginsSettings::checkCuda(bool isSam)
                 detectedCuda = QStringLiteral("cuda126");
             } else if (output.contains(QLatin1String("12.8"))) {
                 detectedCuda = QStringLiteral("cuda128");
+            } else if (output.contains(QLatin1String("13.0"))) {
+                detectedCuda = QStringLiteral("cuda130");
             }
+
         }
     }
     QDialog d(this);
@@ -998,7 +1001,7 @@ void PluginsSettings::checkCuda(bool isSam)
     d.setLayout(l);
     const QString featureName = isSam ? m_samInterface->featureName() : m_sttWhisper->featureName();
     l->addWidget(new QLabel(i18n("Nvidia GPU support for %1\nSelect the CUDA version to install.", featureName), &d));
-    const QStringList versions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6"), QStringLiteral("12.8")};
+    const QStringList versions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6"), QStringLiteral("12.8"), QStringLiteral("13.0")};
     QButtonGroup bg;
     for (auto &v : versions) {
         QRadioButton *button = new QRadioButton(i18n("CUDA %1", v), &d);

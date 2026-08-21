@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-INSTALL(FILES 
+INSTALL(FILES
     whispertotext.py
     whispertosrt.py
     whisperquery.py
@@ -12,5 +12,6 @@ INSTALL(FILES
     requirements-cuda124.txt
     requirements-cuda126.txt
     requirements-cuda128.txt
+    requirements-cuda130.txt
 
 DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/scripts/whisper)
