@@ -10,6 +10,7 @@ INSTALL(FILES
     requirements-cuda124.txt
     requirements-cuda126.txt
     requirements-cuda128.txt
+    requirements-cuda130.txt
 DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/scripts/automask)
 
 install(FILES
