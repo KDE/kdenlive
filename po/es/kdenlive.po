@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-19 16:04+0000\n"
-"PO-Revision-Date: 2026-08-18 01:35+0100\n"
+"PO-Revision-Date: 2026-08-21 01:21+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -8651,15 +8651,14 @@ msgstr ""
 "alphaops_alphaspot</em>."
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "Umbral inferior"
+msgstr "Umbral automático"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
 msgid "Segments an image into foreground or background"
-msgstr ""
+msgstr "Permite segmentar una imagen en frente y fondo"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:8
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
@@ -8668,10 +8667,9 @@ msgid "Slope"
 msgstr "Pendiente"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:9
-#, fuzzy, kde-format
-#| msgid "Sigmoidal Transfer"
+#, kde-format
 msgid "Slope of Sigmoidal Transfer"
-msgstr "Transferencia sigmoidea"
+msgstr "Pendiente de la transferencia sigmoidea"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -12736,28 +12734,24 @@ msgid "Do not average the alpha channel over each block"
 msgstr "No promediar el canal alfa entre los distintos bloques"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels0rt"
-msgstr " píxeles"
+msgstr "Reordenar píxeles"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
-#, fuzzy, kde-format
-#| msgid "Reset effect"
+#, kde-format
 msgid "Pixel sorting effect"
-msgstr "Restablecer efecto"
+msgstr "Efecto de reordenamiento de píxeles"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
-#, fuzzy, kde-format
-#| msgid "Defines the rectangle of the area that will be removed."
+#, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr "Define el rectángulo del área a ser corregida."
+msgstr "Tamaño relativo de la línea a ser reordenada"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Sorting direction"
-msgstr "Dirección de reflejo"
+msgstr "Dirección de reordenamiento"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -12765,23 +12759,23 @@ msgid ""
 "Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
 "to right,Horizontal from right to left"
 msgstr ""
+"Vertical de arriba a abajo,Vertical de abajo a arriba,Horizontal de "
+"izquierda a derecha,Horizontal de derecha a izquierda"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "En reversa"
+msgstr "Invertir"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
 msgid "Should be pixels sorted in reversed order"
-msgstr ""
+msgstr "Define si los píxeles deben ser reordenados en orden inverso"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency Top"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "Opacidad arriba"
+msgstr "Umbral de transparencia"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12790,6 +12784,9 @@ msgid ""
 "        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
 "transparent pixels"
 msgstr ""
+"Qué nivel de transparencia debería<br>\n"
+"        ser omitido por el efecto. 0 procesará todos los píxeles, 1 ignorará "
+"todos los píxeles transparentes"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
