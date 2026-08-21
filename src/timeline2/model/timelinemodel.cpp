@@ -367,6 +367,15 @@ int TimelineModel::getClipPosition(int clipId) const
     return pos;
 }
 
+int TimelineModel::getClipKeyframeOffset(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    int pos = clip->getPosition() - clip->getIn();
+    return pos;
+}
+
 int TimelineModel::getClipEnd(int clipId) const
 {
     READ_LOCK();

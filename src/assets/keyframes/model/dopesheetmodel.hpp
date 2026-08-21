@@ -96,9 +96,14 @@ public:
     Q_INVOKABLE QModelIndex getQmlSelectionIndex(QAbstractItemModel *model, int row, int column);
     QModelIndex getRowFromEffectIndex(const QPersistentModelIndex ix);
     int getParamRowFromEffectIndex(const QPersistentModelIndex ix, int paramRow);
+    /** @brief Returns the duration in timeline of the dopesheet owner item */
     int dopeDuration() const;
+    /** @brief Returns the in point of the dopesheet owner item */
     int dopeInPoint() const;
+    /** @brief Returns the position in timeline of the dopesheet owner item */
     int dopePosition() const;
+    /** @brief Returns the offset required to find the absolute position of a keyframe (= position - in) */
+    int dopeKeyframeOffset() const;
     void updateItemPosition(ObjectId itemId);
     /** @brief True if we have grabbed keyframes for a move */
     bool stateGrabbed() const;

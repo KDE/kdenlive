@@ -70,6 +70,10 @@ Rectangle {
         keyframeMenu.popup()
     }
 
+    function getPositionForKeyframe() {
+        return dopeRoot.mouseFramePos + dopeRoot.inPoint
+    }
+
     FontMetrics {
         id: fontMetrics
         font: K.UiUtils.smallestReadableFont
@@ -843,7 +847,7 @@ Rectangle {
             onTriggered: {
                 if (treeViewItem.selectedKeyframe > -1) {
                     console.log('Adding keyframe')
-                    dopeRoot.dopesheetmodel.addKeyframe(treeViewItem.activeIndex, dopeRoot.mouseFramePos)
+                    dopeRoot.dopesheetmodel.addKeyframe(treeViewItem.activeIndex, dopeRoot.getPositionForKeyframe())
                     dopeRoot.hoverKeyframe = dopeRoot.mouseFramePos
                 }
             }

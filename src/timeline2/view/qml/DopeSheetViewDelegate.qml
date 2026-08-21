@@ -238,8 +238,8 @@ Item {
                     return
                 }
                 delegateRect.dopeRootItem.keyframeType = delegateRect.model.dopeModel.getKeyframeTypeAtFrame(clickFrame)
-                var selectedKeyframes = delegateRect.dopeRootItem.getSelectedKeyframesForIndex(parameterIndex)
-                var alreadySelected = selectedKeyframes.indexOf(delegateRect.currentKFIndex) > -1
+                let selectedKeyframes = delegateRect.dopeRootItem.getSelectedKeyframesForIndex(parameterIndex)
+                let alreadySelected = selectedKeyframes.indexOf(delegateRect.currentKFIndex) > -1
                 var actionList = delegateRect.dopeRootItem.typeActionsList
                 if (mouse.buttons === Qt.RightButton) {
                     if (alreadySelected) {
@@ -381,41 +381,40 @@ Item {
                     return
                 }
                 if (mouse.buttons === Qt.LeftButton && dragStarted && clickIndex > -1) {
-                    if (movePosition == delegateRect.dopeRootItem.mouseFramePos) {
+                    let updatedKfPosition = delegateRect.dopeRootItem.getPositionForKeyframe()
+                    if (movePosition == updatedKfPosition) {
                         // No move, abort
                         return
                     }
                     if (ctrlClick) {
-                        delegateRect.dopesheetmodel.moveScaledKeyframe(delegateRect.dopeRootItem.mouseFramePos, false, true)
+                        delegateRect.dopesheetmodel.moveScaledKeyframe(updatedKfPosition, false, true)
                     } else {
-                        delegateRect.dopesheetmodel.moveKeyframe(delegateRect.dopeRootItem.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, delegateRect.dopeRootItem.mouseFramePos, false)
+                        console.log(' . .. MOVING KF TO: ', updatedKfPosition, '\n___________')
+                        delegateRect.dopesheetmodel.moveKeyframe(delegateRect.dopeRootItem.allSelectedKeyframes, movePosition < 0 ? clickFrame : movePosition, updatedKfPosition, false)
                     }
-                    movePosition = delegateRect.dopeRootItem.mouseFramePos
+                    movePosition = updatedKfPosition
                 }
             }
             onDoubleClicked: mouse => {
                 var parameterIndex = delegateRect.treeView.index(delegateRect.row, delegateRect.column)
+                console.log('Double ckick at: ', delegateRect.currentKFFrame)
                 if (delegateRect.currentKFFrame > -1) {
-                    console.log('Removing keyframe')
+                    console.log('Removing keyframe at: ', delegateRect.currentKFFrame)
                     // Double click on a keyframe, remove it
-                    if (delegateRect.hasChildren) {
-                        delegateRect.dopesheetmodel.removeKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame)
-                    } else {
-                        delegateRect.model.dopeModel.removeKeyframe(delegateRect.currentKFFrame)
-                    }
+                    delegateRect.dopesheetmodel.removeKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame + delegateRect.dopeRootItem.inPoint)
                     delegateRect.currentKFFrame = -1
                     delegateRect.currentKFIndex = -1
                     delegateRect.dopeRootItem.hoverKeyframe = -1
                     delegateRect.dopeRootItem.keyframeType = -1
                     return
                 }
-                delegateRect.currentKFFrame = delegateRect.dopeRootItem.mouseFramePos
+                delegateRect.currentKFFrame = delegateRect.dopeRootItem.getPositionForKeyframe()
                 if (delegateRect.hasChildren) {
                     delegateRect.dopeRootItem.dopesheetmodel.addKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame)
                 } else {
                     delegateRect.model.dopeModel.addKeyframe(delegateRect.currentKFFrame)
                 }
-                delegateRect.model.dopeModel.seekToPos(delegateRect.currentKFFrame)
+                delegateRect.model.dopeModel.seekToPos(delegateRect.currentKFFrame - delegateRect.dopeRootItem.inPoint)
                 delegateRect.dopeRootItem.keyframeType = delegateRect.model.dopeModel.getKeyframeTypeAtFrame(delegateRect.currentKFFrame)
                 delegateRect.dopeRootItem.hoverKeyframe = delegateRect.dopeRootItem.mouseFramePos
             }
@@ -423,10 +422,11 @@ Item {
         Repeater {
             id: paramModel
             model: delegateRect.model.dopeModel
+            property int ownerInPoint: delegateRect.dopeRootItem.inPoint
             onCountChanged: {
                 // A keyframe was added/removed, check if playhead position is over a keyframe
                 console.log('&&&&&&&&&&&&&&\n\n', delegateRect.dopeRootItem.getActiveCppParamIndex(),'\n\n&&&&&&&&&&&&&')
-                delegateRect.dopeRootItem.overKeyframe = delegateRect.dopesheetmodel.isOnKeyframe(delegateRect.dopeRootItem.consumerPosition, false, delegateRect.dopeRootItem.getActiveCppParamIndex())
+                delegateRect.dopeRootItem.overKeyframe = delegateRect.dopesheetmodel.isOnKeyframe(delegateRect.dopeRootItem.consumerPosition + ownerInPoint, false, delegateRect.dopeRootItem.getActiveCppParamIndex())
             }
             function getIndex(row, column) {
                 return delegateRect.treeView.index(row, column)
@@ -447,7 +447,7 @@ Item {
                 dopeHoverColor: delegateRect.hoverColor
                 dopeRootItem: delegateRect.dopeRootItem
                 parentScope: paramModel
-                modelFrame: model.frame
+                modelFrame: model.frame - paramModel.ownerInPoint
                 modelDescription: model.description
                 modelPercentPosition: model.percentPosition
                 modelType: model.type

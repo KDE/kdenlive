@@ -204,7 +204,7 @@ void DopeWidget::slotAddRemoveKeyframe()
         pCore->displayMessage(i18n("Select a parameter to add a keyframe"), ErrorMessage);
         return;
     }
-    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopePosition();
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopeKeyframeOffset();
     pCore->dopeSheetModel()->addRemoveKeyframe(activeIndex, pos);
 }
 

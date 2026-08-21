@@ -226,6 +226,7 @@ public:
     int getItemIn(const ObjectId &id);
     int getItemTrack(const ObjectId &id);
     int getItemDuration(const ObjectId &id);
+    int getItemKeyframeOffset(const ObjectId &id);
     QString getItemName(const ObjectId &id);
     QSize getItemFrameSize(const ObjectId &id);
     /** @brief Returns the capabilities of a clip: AudioOnly, VideoOnly or Disabled if both are allowed, and its type */

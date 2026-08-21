@@ -1181,6 +1181,38 @@ int Core::getItemPosition(const ObjectId &id)
     return 0;
 }
 
+int Core::getItemKeyframeOffset(const ObjectId &id)
+{
+    switch (id.type) {
+    case KdenliveObjectType::TimelineClip:
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getClipKeyframeOffset(id.itemId);
+        } else {
+            qWarning() << "querying non clip properties";
+        }
+        break;
+    case KdenliveObjectType::TimelineComposition:
+        if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getCompositionPosition(id.itemId);
+        }
+        break;
+    case KdenliveObjectType::TimelineMix:
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getMixInOut(id.itemId).first;
+        } else {
+            qWarning() << "querying non clip properties";
+        }
+        break;
+    case KdenliveObjectType::BinClip:
+    case KdenliveObjectType::TimelineTrack:
+    case KdenliveObjectType::Master:
+        return 0;
+    default:
+        qWarning() << "unhandled object type";
+    }
+    return 0;
+}
+
 QString Core::getItemName(const ObjectId &id)
 {
     if (!m_guiConstructed) {

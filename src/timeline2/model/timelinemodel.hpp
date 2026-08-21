@@ -304,6 +304,7 @@ public:
        @param clipId Id of the clip to test
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
+    int getClipKeyframeOffset(int clipId) const;
     Q_INVOKABLE QVariantList addClipEffect(int clipId, const QString &effectId, bool notify = true);
     Q_INVOKABLE bool addTrackEffect(int trackId, const QString &effectId);
     bool removeFade(int clipId, bool fromStart);

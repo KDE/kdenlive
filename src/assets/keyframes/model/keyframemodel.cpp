@@ -537,6 +537,7 @@ void KeyframeModel::seekToKeyframe(int index)
         int frame = getPosAtIndex(index).frames(pCore->getCurrentFps());
         auto owner = ptr->getOwnerId();
         frame += pCore->getItemPosition(owner);
+        frame -= pCore->getItemIn(owner);
         pCore->seekMonitor(owner, frame);
     }
 }
@@ -933,7 +934,8 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         break;
     case PercentPositionRole:
         if (auto ptr = m_model.lock()) {
-            return double(it->first.frames(pCore->getCurrentFps())) / ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+            return double(it->first.frames(pCore->getCurrentFps()) - ptr->data(m_index, AssetParameterModel::ParentInRole).toInt()) /
+                   ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         }
         return 0;
     default:

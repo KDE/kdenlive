@@ -53,7 +53,7 @@ Rectangle {
         acceptedButtons: Qt.NoButton
         onEntered: {
             console.log("entered kfr: ", handle.index,' PRESSED: ', handle.delegateProperties.currentKFFrame)
-            handle.delegateProperties.currentKFFrame = handle.modelFrame
+            handle.delegateProperties.currentKFFrame = handle.modelFrame + handle.dopeRootItem.inPoint
             handle.delegateProperties.currentKFIndex = handle.index
             //dopeRoot.keyframeType = type
             handle.dopeRootItem.hoverKeyframe = handle.modelFrame

@@ -589,7 +589,7 @@ int KeyframeContainer::getPosition() const
 {
     int pos = pCore->getMonitorPosition(m_model->monitorId);
     int itemPos = pCore->getItemPosition(m_keyframes->getOwnerId());
-    return pos - itemPos;
+    return pos - itemPos + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
     // return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
 }
 

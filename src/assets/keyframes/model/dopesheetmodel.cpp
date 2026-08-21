@@ -1363,6 +1363,14 @@ int DopeSheetModel::dopePosition() const
     return pCore->getItemPosition(m_currentOwner);
 }
 
+int DopeSheetModel::dopeKeyframeOffset() const
+{
+    if (m_currentOwner.type == KdenliveObjectType::NoItem) {
+        return 0;
+    }
+    return pCore->getItemPosition(m_currentOwner) - pCore->getItemIn(m_currentOwner);
+}
+
 void DopeSheetModel::updateItemPosition(ObjectId itemId)
 {
     if (m_currentOwner == itemId) {
