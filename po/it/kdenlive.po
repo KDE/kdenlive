@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-19 02:42+0000\n"
-"PO-Revision-Date: 2026-08-10 17:43+0200\n"
+"PO-Revision-Date: 2026-08-20 09:24+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -236,7 +236,7 @@ msgstr "Il numero di canali da mostrare."
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr "Spazio tra i segmenti"
+msgstr "Spazio vuoto tra i segmenti"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
@@ -604,10 +604,9 @@ msgid "Peak,Rms"
 msgstr "Picco,Valore efficace"
 
 #: data/effects/avfilter/acompressor.xml:37
-#, fuzzy, kde-format
-#| msgid "Sidechain plugins"
+#, kde-format
 msgid "Sidechain Gain"
-msgstr "Estensioni Sidechain"
+msgstr "Guadagno del sidechain"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -662,16 +661,14 @@ msgid "Decay"
 msgstr "Decadimento"
 
 #: data/effects/avfilter/agate.xml:4
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Gate (avfilter)"
-msgstr "Rate Scaler"
+msgstr "Gate (avfilter)"
 
 #: data/effects/avfilter/agate.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Wave"
+#, kde-format
 msgid "Audio Gate"
-msgstr "Formato d'onda audio"
+msgstr "Gate audio"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
@@ -830,20 +827,15 @@ msgid "Allpass"
 msgstr "Passa tutto"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"Applica un filtro passa-tutto a due poli con frequenza centrale (in Hz) e "
-"larghezza del filtro. Un filtro passa-tutto modifica la relazione frequenza-"
-"fase dell'audio senza modificare la relazione frequenza-ampiezza."
+"Applica un filtro passa-tutto a due poli con frequenza centrale e larghezza "
+"del filtro. Un filtro passa-tutto modifica la relazione frequenza-fase "
+"dell'audio senza modificare la relazione frequenza-ampiezza."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandpass.xml:8
@@ -877,7 +869,7 @@ msgstr "Metodo"
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
 #, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
-msgstr ""
+msgstr "Hz,Fattore Q,Ottava,Pendenza,kHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -947,6 +939,8 @@ msgstr "Tipo di trasformazione"
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
 msgstr ""
+"DI,DII,TDII,LATT,Filtro a variabili di stato (SVF),Filtro a ritardo zero "
+"(ZDF)"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -973,6 +967,8 @@ msgstr "Precisione del filtro"
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 msgstr ""
+"Automatico,Intero con segno a 16 bit,Intero con segno a 32 bit,Virgola "
+"mobile a 32 bit,Virgola mobile a 64 bit"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1010,6 +1006,8 @@ msgstr "Pulsatore audio."
 #, kde-format
 msgid "sine,triangle,square,sawup,sawdown"
 msgstr ""
+"sinusoidale,triangolare,quadra,dente di sega crescente,dente di sega "
+"decrescente"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
 #, kde-format
@@ -1155,10 +1153,9 @@ msgid "Alpha,Y,U,V,Red,Green,Blue,All"
 msgstr "Alfa,Y,U,V,Rosso,Verde,Blu,Tutto"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:4
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background Key"
-msgstr "Sfondo"
+msgstr "Chiave dello sfondo"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:5
 #, kde-format
@@ -1194,10 +1191,9 @@ msgid "Blend"
 msgstr "Miscela"
 
 #: data/effects/avfilter/avfilter_backgroundkey.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the envelope mode]]>"
+#, kde-format
 msgid "Set the blend value"
-msgstr "<![CDATA[Imposta la modalità dell'involucro]]>"
+msgstr "Imposta il valore di miscelazione"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, kde-format
@@ -1212,12 +1208,16 @@ msgid ""
 "gain = Q) instead of the default: constant 0dB peak gain. The filter roll "
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
+"Applica un filtro passa-banda Butterworth a due poli con frequenza centrale "
+"e larghezza di banda (punto a 3 dB). L'opzione CSG seleziona un guadagno "
+"costante dei fianchi (guadagno di picco = Q) invece dell'impostazione "
+"predefinita, ovvero un guadagno di picco costante di 0 dB. L'attenuazione "
+"del filtro è di 6 dB per ottava (20 dB per decade)."
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Don't ask again"
+#, kde-format
 msgid "Constant Skirt Gain"
-msgstr "Non chiedermelo più"
+msgstr "Guadagno costante dei fianchi"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:4
 #, kde-format
@@ -1231,6 +1231,9 @@ msgid ""
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
 "decade)."
 msgstr ""
+"Applica un filtro elimina banda Butterworth a due poli con frequenza "
+"centrale e larghezza di banda (punto a 3 dB). L'attenuazione del filtro è di "
+"6 dB per ottava (20 dB per decade)."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
@@ -1244,6 +1247,10 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Aumenta o attenua le frequenze basse dell'audio utilizzando un filtro a "
+"scaffale a due poli, con una risposta simile a quella dei controlli di tono "
+"di un normale impianto hi-fi. Questa tecnica è nota anche come "
+"equalizzazione a scaffale (EQ)."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -1293,7 +1300,8 @@ msgstr "Bilaterale"
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
-msgstr "Applica il filtro bilaterale, smussatura spaziale preservando i bordi."
+msgstr ""
+"Applica il filtro bilaterale, smussamento spaziale preservando i bordi."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
@@ -1363,24 +1371,24 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:17
 #, kde-format
 msgid "Chroma Radius"
-msgstr "Raggio cromatica"
+msgstr "Raggio crominanza"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
 msgid "Radius of the chroma blurring box"
-msgstr "Raggio del riquadro di sfocatura cromatica"
+msgstr "Raggio del riquadro di sfocatura della crominanza"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
 #, kde-format
 msgid "Chroma Power"
-msgstr "Potenza cromatica"
+msgstr "Potenza crominanza"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
 msgid "How many times should the boxblur be applied to chroma"
 msgstr ""
 "Quante volte il rettangolo di sfocatura dovrebbe essere applicato alla "
-"cromatica"
+"crominanza"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
 #, kde-format
@@ -1416,7 +1424,7 @@ msgstr "Trasformazione da stereo Bauer a binaurale."
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
 msgid "Pre-defined crossfeed level"
-msgstr ""
+msgstr "Livello predefinito di crossfeed"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:9
 #, kde-format
@@ -1433,16 +1441,14 @@ msgid "Lowpass Cut frequency"
 msgstr "Frequenza di taglio passa bassa"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:15
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Feed level"
-msgstr "Livelli audio"
+msgstr "Livello di retroazione"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Bob Weaver Deinterlacer"
-msgstr "De-interlacciamento"
+msgstr "De-interlacciamento di Bob Weaver"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:5
 #, kde-format
@@ -1505,17 +1511,17 @@ msgstr "Applica al flusso video una nitidezza adattiva al contrasto."
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, kde-format
 msgid "Strength"
-msgstr "Forza"
+msgstr "Intensità"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
 msgid "Set the sharpening strength."
-msgstr "Imposta la forza dell'aumento della nitidezza."
+msgstr "Imposta l'intensità dell'aumento della nitidezza."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
 msgid "Chroma Hold"
-msgstr "Mantieni colore"
+msgstr "Mantieni crominanza"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
@@ -1625,11 +1631,9 @@ msgid "Chroma Shift"
 msgstr "Spostamento della crominanza"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
-#, fuzzy, kde-format
-#| msgid "Box blur (separate horizontal and vertical blur)"
+#, kde-format
 msgid "Shift chroma pixels horizontally and/or vertically. "
-msgstr ""
-"Rettangolo di sfocatura (separa la sfocatura orizzontale da quella verticale)"
+msgstr "Sposta orizzontalmente o verticalmente i pixel della crominanza. "
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
 #, kde-format
@@ -1663,7 +1667,7 @@ msgstr "Modalità bordo"
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
 #, kde-format
 msgid "Smear,Wrap"
-msgstr ""
+msgstr "Sbavatura,Avvolgimento"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:4
 #, kde-format
@@ -1768,6 +1772,9 @@ msgid ""
 "Set contrast used to draw<br>\n"
 "       \ttongue colors that are out of active color system gamut"
 msgstr ""
+"Imposta il contrasto utilizzato per<br>\n"
+"      \t disegnare i colori della lingua che si trovano al di fuori del "
+"gamut del sistema di colore attivo"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:37
 #, kde-format
@@ -1878,7 +1885,7 @@ msgstr "Zone luminose blu"
 #: data/effects/avfilter/avfilter_huesaturation.xml:31
 #, kde-format
 msgid "Preserve lightness"
-msgstr "Preserva chiarezza"
+msgstr "Preserva luminosità"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, kde-format
@@ -1982,7 +1989,7 @@ msgstr "Peso blu-giallo"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:26
 #, kde-format
 msgid "Preserving lightness"
-msgstr "Preserva chiarezza"
+msgstr "Preserva luminosità"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
 #, kde-format
@@ -2041,7 +2048,7 @@ msgstr "Modalità di analisi"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, kde-format
 msgid "Manual,Average,Minimax,Median"
-msgstr ""
+msgstr "Manuale,Media,Minimax,Mediana"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, kde-format
@@ -2221,6 +2228,7 @@ msgstr "Spazio dei colori di uscita"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
+"BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 luma non costante"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #, kde-format
@@ -2235,6 +2243,9 @@ msgid ""
 "170M,SMPTE 240M,SRGB,IEC 61966-2-1,IEC 61966-2-4,xvYCC,BT.2020 for 10-bits "
 "content, BT.2020 for 12-bits content"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,Gamma costante di 2,2,Gamma costante di 2,8,SMPTE "
+"170M,SMPTE 240M,sRGB, IEC 61966-2-1,IEC 61966-2-4,xvYCC,BT.2020 per "
+"contenuti a 10 bit,BT.2020 per contenuti a 12 bit"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #, kde-format
@@ -2278,6 +2289,10 @@ msgid ""
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
+"YUV 4:2:0 planare a 8 bit,YUV 4:2:0 planare a 10 bit,YUV 4:2:0 planare a 12 "
+"bit,YUV 4:2:2 planare a 8 bit,YUV 4:2:2 planare a 10 bit,YUV 4:2:2 planare a "
+"12 bit,YUV 4:4:4 planare a 8 bit,YUV 4:4:4 planare a 10 bit,YUV 4:4:4 "
+"planare a 12 bit"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, kde-format
@@ -2305,6 +2320,8 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"Adattamento del punto di bianco Bradford,Adattamento del punto di bianco von "
+"Kries,Adattamento del punto di bianco identità"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:43
 #, kde-format
@@ -2464,6 +2481,25 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
+"La linea di ritardo di compensazione è un ritardo basato sulla distanza "
+"utilizzato per compensare le diverse posizioni dei microfoni o degli "
+"altoparlanti.\n"
+"Per esempio, potresti aver registrato una chitarra con due microfoni "
+"collocati in posizioni diverse. Poiché in condizioni normali il fronte "
+"dell'onda sonora si propaga a velocità costante, la fase dei microfoni può "
+"variare e dipende dalla loro posizione e dalla distanza tra loro. Il miglior "
+"mix sonoro si ottiene quando i microfoni sono in fase (sincronizzati). Si "
+"noti che una distanza di circa 30 cm tra i microfoni fa sì che uno dei "
+"microfoni acquisisca il segnale in opposizione di fase rispetto all'altro. "
+"Questo rende il mix finale poco gradevole. Questo filtro aiuta a risolvere i "
+"problemi di fase, aggiungendo ritardi differenti a ciascuna traccia del "
+"microfono, in modo da sincronizzarle.\n"
+"\n"
+"Il risultato migliore si ottiene prendendo una traccia come riferimento e "
+"sincronizzando con essa, una alla volta, le altre tracce. Tieni presente che "
+"la tolleranza della sincronizzazione/del ritardo dipende anche dalla "
+"frequenza di campionamento. Frequenze di campionamento più elevate offrono "
+"una maggiore tolleranza."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
@@ -2534,7 +2570,7 @@ msgstr "Imposta la temperatura in gradi Celsius. È quella ambientale."
 #: data/effects/avfilter/avfilter_crossfeed.xml:4
 #, kde-format
 msgid "Crossfeed"
-msgstr ""
+msgstr "Crossfeed"
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:7
 #, kde-format
@@ -2560,7 +2596,7 @@ msgid ""
 "filter for side part of stereo image.\n"
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
-"Imposta la forza del crossfeed.\n"
+"Imposta l'intensità del crossfeed.\n"
 "Il valore predefinito è 0.2. L'intervallo permesso va da 0 a 1. Imposta il "
 "guadagno del filtro low shelf per la parte laterale dell'immagine stereo.\n"
 "Il valore predefinito è -6dB. Il massimo consentito è -30db quando la forza "
@@ -2592,6 +2628,8 @@ msgid ""
 "Simple algorithm for audio noise sharpening.\n"
 "This filter linearly increases differences between each audio sample."
 msgstr ""
+"Semplice algoritmo per l'accentuazione del rumore audio.\n"
+"Questo filtro aumenta linearmente le differenze tra i campioni audio."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:12
 #, kde-format
@@ -2689,6 +2727,8 @@ msgid ""
 "None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
 "Alpha"
 msgstr ""
+"Nessuna,Y (Luminanza),U (crominanza differenza rosso),YU,V (crominanza "
+"differenza blu),YV,UV,Tutte,Alfa"
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
@@ -2999,7 +3039,7 @@ msgstr "Rimuove gli artefatti di blocco dal video in ingresso."
 #: data/effects/avfilter/avfilter_deblock.xml:8
 #, kde-format
 msgid "Filter strength"
-msgstr "Forza del filtro"
+msgstr "Intensità del filtro"
 
 #: data/effects/avfilter/avfilter_deblock.xml:9
 #, kde-format
@@ -3068,13 +3108,12 @@ msgstr "Soglia luma temporale"
 #: data/effects/avfilter/avfilter_dedot.xml:18
 #, kde-format
 msgid "Temporal Chroma Variation"
-msgstr ""
+msgstr "Variazione temporale della crominanza"
 
 #: data/effects/avfilter/avfilter_dedot.xml:21
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Temporal Chroma Threshold"
-msgstr "Livello di soglia"
+msgstr "Soglia temporale della crominanza"
 
 #: data/effects/avfilter/avfilter_deesser.xml:4
 #, kde-format
@@ -3103,8 +3142,8 @@ msgstr "Deessing massimo"
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
-"Imposta la quantità di piegatura sui suoni alti. L'intervallo consentito "
-"varia da 0 a 1."
+"Imposta la quantità di ducking sui suoni alti. L'intervallo consentito varia "
+"da 0 a 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
@@ -3255,12 +3294,12 @@ msgstr "Verde,Blu"
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
 msgid "Spillmap Mix"
-msgstr ""
+msgstr "Miscela mappa spill"
 
 #: data/effects/avfilter/avfilter_despill.xml:15
 #, kde-format
 msgid "Spillmap Expand"
-msgstr ""
+msgstr "Espansione mappa spill"
 
 #: data/effects/avfilter/avfilter_despill.xml:18
 #, kde-format
@@ -3357,7 +3396,7 @@ msgid ""
 "        Default is 255 i.e. all eight pixels are used. Flags to local 3x3 "
 "coordinates maps like this: 1 2 3 4 5 6 7 8"
 msgstr ""
-"Contrassegna a quali pixel specifici fare riferimento.<br>\n"
+"Indica a quali pixel specifici fare riferimento.<br>\n"
 "        Il valore predefinito è 255, cioè vengono usati tutti otto. "
 "Contrassegna le coordinate locali 3x3 sulle mappe in questo modo: 1 2 3 4 5 "
 "6 7 8"
@@ -3576,7 +3615,7 @@ msgstr "Modalità"
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
 #, kde-format
 msgid "Wires,Colormix,Canny"
-msgstr ""
+msgstr "Fili,Miscelazione dei colori,Canny"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:19
 #: data/effects/avfilter/avfilter_gblur.xml:16
@@ -3608,10 +3647,9 @@ msgid "Steps"
 msgstr "Passi"
 
 #: data/effects/avfilter/avfilter_elbg.xml:14
-#, fuzzy, kde-format
-#| msgid "Output"
+#, kde-format
 msgid "Pal8 Output"
-msgstr "Risultato"
+msgstr "Uscita PAL8"
 
 #: data/effects/avfilter/avfilter_elbg.xml:17
 #, kde-format
@@ -3693,6 +3731,11 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Applica un filtro di equalizzazione (EQ) a campana a due poli. Con questo "
+"filtro è possibile aumentare o diminuire il livello del segnale alla "
+"frequenza selezionata e nelle sue vicinanze, mentre, a differenza dei filtri "
+"passa-banda e elimina-banda, il livello alle altre frequenze rimane "
+"invariato."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3702,7 +3745,7 @@ msgstr "Tipo di larghezza"
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-msgstr ""
+msgstr "Hertz,Fattore Q,Ottava,Pendenza,kHz"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -3827,7 +3870,7 @@ msgstr "Imposta il metodo di riduzione dei disturbi"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
 msgid "Wiener,Hard"
-msgstr ""
+msgstr "Wiener,Rigido"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -3901,10 +3944,9 @@ msgid "Evaluate"
 msgstr "Vàluta"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "init,frame"
-msgstr "Primo fotogramma"
+msgstr "inizializzazione,fotogramma"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, kde-format
@@ -3925,12 +3967,12 @@ msgstr "Priorità dei campi"
 #: data/effects/avfilter/avfilter_fieldorder.xml:4
 #, kde-format
 msgid "Interlace field order"
-msgstr "Ordine dei campi interlacciati"
+msgstr "Ordine dei semiquadri interlacciati"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:5
 #, kde-format
 msgid "Transform the field order of the input video."
-msgstr "Trasforma l'ordine di campo dell'ingresso video."
+msgstr "Trasforma l'ordine dei semiquadri dell'ingresso video."
 
 #: data/effects/avfilter/avfilter_fillborders.xml:4
 #, kde-format
@@ -3952,7 +3994,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:9
 #, kde-format
 msgid "Smear,Mirror,Color,Reflect,Wrap,Fade,Margins"
-msgstr ""
+msgstr "Sbavatura,Specchio,Colore,Riflesso,Avvolgimento,Dissolvenza,Margini"
 
 #: data/effects/avfilter/avfilter_flanger.xml:4
 #: data/effects/ladspa/ladspa_1191.xml:4
@@ -4171,7 +4213,7 @@ msgid ""
 "        Determines the strength of the horizontal blur. Default is 10."
 msgstr ""
 "Imposta sigma, la deviazione standard della sfocatura gaussiana.<br>\n"
-"         Determina la forza della sfocatura orizzontale. Il valore "
+"         Determina l'intensità della sfocatura orizzontale. Il valore "
 "predefinito è 10."
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
@@ -4186,8 +4228,8 @@ msgid ""
 "        Determines the strength of the vertical blur. Default is 10."
 msgstr ""
 "Imposta la sigma verticale.<br>\n"
-"        Determina la forza della sfocatura verticale. Il valore predefinito "
-"è 10."
+"        Determina l'intensità della sfocatura verticale. Il valore "
+"predefinito è 10."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
@@ -4206,6 +4248,16 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</i></b>."
 msgstr ""
+"Riduce rapidamente il banding nei video utilizzando i gradienti di "
+"colore<br>\n"
+"    Corregge gli artefatti di banding che talvolta sono introdotti in "
+"regioni quasi uniformi dal troncamento a 8 bit della profondità del colore."
+"<br>\n"
+"    Interpola i gradienti che dovrebbero esserci al posto delle bande, ed "
+"esegue il dithering su di essi.<br><br>\n"
+"    <b><i>È stato progettato solo per la riproduzione; non va usato prima di "
+"una compressione con perdita, perché questa tende a perdere dither e a far "
+"ricomparire le bande</i></b>."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -4250,12 +4302,14 @@ msgstr "Compatta,Completa"
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
 msgid "Flags"
-msgstr "Contrassegni"
+msgstr "Indicatori"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"Coda,Numero di fotogrammi in ingresso,Numero di fotogrammi in uscita,PTS,"
+"Tempo,Base dei tempi,Formato,Dimensione,Frequenza"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
 #, kde-format
@@ -4271,6 +4325,7 @@ msgstr "Grayworld"
 #, kde-format
 msgid "Adjust white balance using LAB gray world algorithm"
 msgstr ""
+"Regola il bilanciamento del bianco utilizzando l'algoritmo grayworld di LAB"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
@@ -4382,6 +4437,10 @@ msgid ""
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
+"Applica un filtro passa-alto con frequenza del punto a 3 dB. Il filtro può "
+"essere a un polo oppure a due poli (impostazione predefinita). "
+"L'attenuazione del filtro è di 6 dB per polo per ottava (20 dB per polo per "
+"decade)."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4525,22 +4584,22 @@ msgstr "Applica un riduttore di rumore 3D ad alta qualità"
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
 msgid "Spatial Luma Strength"
-msgstr ""
+msgstr "Intensità della luma spaziale"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:11
 #, kde-format
 msgid "Spatial Chroma Strength"
-msgstr ""
+msgstr "Intensità della crominanza spaziale"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:14
 #, kde-format
 msgid "Temporal Luma Strength"
-msgstr ""
+msgstr "Intensità della luma temporale"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:17
 #, kde-format
 msgid "Temporal Chroma Strength"
-msgstr ""
+msgstr "Intensità della crominanza temporale"
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
 #, kde-format
@@ -4666,7 +4725,7 @@ msgstr "Rossi,Gialli,Verdi,Ciani,Blu,Magenta,Tutti i colori"
 #: data/effects/hsl_range.xml:20
 #, kde-format
 msgid "Hue Shift"
-msgstr "Scostamento di tonalità"
+msgstr "Spostamento tonalità"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
 #, kde-format
@@ -4676,7 +4735,7 @@ msgstr "Imposta lo spostamento della tonalità in gradi da applicare"
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
 #, kde-format
 msgid "Saturation Shift"
-msgstr "Spostamento della saturazione"
+msgstr "Spostamento saturazione"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
 #, kde-format
@@ -4686,7 +4745,7 @@ msgstr "Imposta lo spostamento della saturazione"
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
 #, kde-format
 msgid "Intensity Shift"
-msgstr "Spostamento dell'intensità"
+msgstr "Spostamento intensità"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
 #, kde-format
@@ -4696,17 +4755,17 @@ msgstr "Imposta lo spostamento dell'intensità"
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
 #, kde-format
 msgid "Set strength of filtering"
-msgstr "Imposta la forza del filtraggio"
+msgstr "Imposta l'intensità del filtraggio"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
 #, kde-format
 msgid "Preserve Lightness"
-msgstr "Preserva chiarezza"
+msgstr "Preserva luminosità"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:34
 #, kde-format
 msgid "Red Strength"
-msgstr "Forza del rosso"
+msgstr "Intensità del rosso"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
 #, kde-format
@@ -4721,7 +4780,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
 #, kde-format
 msgid "Green Strength"
-msgstr "Forza del verde"
+msgstr "Intensità del verde"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
 #, kde-format
@@ -4736,7 +4795,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
 #, kde-format
 msgid "Blue Strength"
-msgstr "Forza del blu"
+msgstr "Intensità del blu"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
 #, kde-format
@@ -4788,7 +4847,7 @@ msgstr "Inverti i campi luma"
 #: data/effects/avfilter/avfilter_il.xml:23
 #, kde-format
 msgid "Swap Chroma Fields"
-msgstr "Scambia i canali cromatici"
+msgstr "Scambia i canali della crominanza"
 
 #: data/effects/avfilter/avfilter_il.xml:26
 #, kde-format
@@ -4922,6 +4981,10 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Aggiorna lentamente i pixel più scuri.<br>\n"
+"        <b><i>Nota</i></b>: questo effetto non viene ripristinato durante la "
+"riproduzione a causa di problemi relativi al buffer dei fotogrammi, ma viene "
+"visualizzato correttamente."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -4980,12 +5043,13 @@ msgstr ""
 "        di correzione quadratico"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid "DoubleQuadratic correction coeff."
+#, kde-format
 msgid ""
 "Double Quadratic<br>\n"
 "        Correction Coefficient"
-msgstr "Coeff. correzione DoubleQuadratic"
+msgstr ""
+"Coefficiente di correzione <br>\n"
+"       quadratica doppia"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -5025,22 +5089,22 @@ msgstr "Il valore massimo non deve essere più piccolo del minimo"
 #: data/effects/avfilter/avfilter_loudnorm.xml:4
 #, kde-format
 msgid "Loudness normalization"
-msgstr "Normalizzazione della rumorosità"
+msgstr "Normalizzazione della sonorità"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:5
 #, kde-format
 msgid "EBU R128 loudness normalization"
-msgstr "Normalizzazione della rumorosità EBU R128"
+msgstr "Normalizzazione della sonorità EBU R128"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:8
 #, kde-format
 msgid "Integrated loudness target"
-msgstr ""
+msgstr "Livello obiettivo della sonorità integrata"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:11
 #, kde-format
 msgid "Loudness range target"
-msgstr ""
+msgstr "Intervallo di sonorità obiettivo"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:14
 #, kde-format
@@ -5094,11 +5158,15 @@ msgid ""
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
+"Applica un filtro passa-basso con frequenza del punto a 3 dB. Il filtro può "
+"essere a un polo oppure a due poli (impostazione predefinita). "
+"L'attenuazione del filtro è di 6 dB per polo per ottava (20 dB per polo per "
+"decade)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
 #, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
-msgstr ""
+msgstr "Hz,Fattore Q,Ottava,Pendenza,kHz"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
@@ -5140,7 +5208,7 @@ msgstr "Modalità di interpolazione"
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
 msgid "Nearest, Trilinear, Tetrahedral"
-msgstr ""
+msgstr "Più vicino, trilineare, tetraedrico"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:4
 #, kde-format
@@ -5177,7 +5245,7 @@ msgstr ""
 "Imposta il parametro di quantizzazione per blocco (QP) utilizzato dal "
 "codificatore interno<br>\n"
 "            Valori più elevati producono un campo di vettori di movimento "
-"più morbido ma meno vettori individuali ottimali. Il valore predefinito è 1."
+"più morbido, ma meno vettori individuali ottimali. Il valore predefinito è 1."
 
 #: data/effects/avfilter/avfilter_median.xml:4
 #, kde-format
@@ -5264,7 +5332,7 @@ msgstr "Dimensione del filtro colore"
 #: data/effects/avfilter/avfilter_monochrome.xml:17
 #, kde-format
 msgid "Highlights strength"
-msgstr "Forza delle zone luminose"
+msgstr "Intensità delle alte luci"
 
 #: data/effects/avfilter/avfilter_negate.xml:4
 #, kde-format
@@ -5308,6 +5376,12 @@ msgid ""
 "        <li>Temporal noise (noise pattern changes between frames)</li>\n"
 "        <li>Uniform noise (Gaussian otherwise)</li></ul>"
 msgstr ""
+"Tipi di rumore disponibili:<ul><li>Rumore temporale mediato (più uniforme)</"
+"li>\n"
+"        <li>Miscela il rumore casuale con un modello (semi)regolare</li>\n"
+"        <li>Rumore temporale (il modello del rumore cambia tra i "
+"fotogrammi)</li>\n"
+"        <li>Rumore uniforme (altrimenti gaussiano)</li></ul>"
 
 #: data/effects/avfilter/avfilter_noise.xml:19
 #: data/effects/avfilter/avfilter_noise.xml:33
@@ -5328,7 +5402,7 @@ msgstr "Seme del rumore della <b><u>componente #0</u></b>"
 #: data/effects/avfilter/avfilter_noise.xml:25
 #, kde-format
 msgid " Strength"
-msgstr "Forza"
+msgstr "Intensità"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
 #, kde-format
@@ -5388,7 +5462,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1404.xml:13 data/effects/vidstab.xml:24
 #, kde-format
 msgid "Smoothing"
-msgstr "Smussatura"
+msgstr "Smussamento"
 
 #: data/effects/avfilter/avfilter_normalize.xml:17
 #: data/effects/frei0r/frei0r_normaliz0r.xml:17
@@ -5397,8 +5471,8 @@ msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
 msgstr ""
-"Quantità di smussatura temporale dell'intervallo di ingresso, per ridurre lo "
-"sfarfallio (per impostazione predefinita 0)"
+"Quantità di smussamento temporale dell'intervallo di ingresso, per ridurre "
+"lo sfarfallio (per impostazione predefinita 0)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
@@ -5418,7 +5492,7 @@ msgstr ""
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1)"
 msgstr ""
-"Forza del filtro, da nessun effetto (0) a normalizzazione completa (il "
+"Intensità del filtro, da nessun effetto (0) a normalizzazione completa (il "
 "valore predefinito è 1)"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
@@ -5558,8 +5632,8 @@ msgstr "Visualizza o meno la linea del profilo del tracciato"
 msgid ""
 "Delay interlaced video by one field time so that the field order changes"
 msgstr ""
-"Ritarda i video interlacciati di un tempo di campo, in modo che questo venga "
-"modificato"
+"Ritarda i video interlacciati di un tempo di semiquadro, in modo che "
+"l'ordine dei semiquadri venga modificato"
 
 #: data/effects/avfilter/avfilter_phase.xml:9
 #, kde-format
@@ -5571,6 +5645,14 @@ msgid ""
 "field flags and transfer unknown or varying,Both capture and transfer "
 "unknown or varying"
 msgstr ""
+"Ritarda il semiquadro inferiore,Ritarda il semiquadro superiore,Mantieni "
+"l'ordine dei semiquadri,Rileva automaticamente l'ordine dei semiquadri in "
+"acquisizione e trasferisci in ordine opposto,Acquisizione sconosciuta o "
+"variabile e trasferimento in ordine opposto,Acquisizione con semiquadro "
+"superiore per primo e trasferimento sconosciuto o variabile,Acquisizione con "
+"semiquadro inferiore per primo e trasferimento sconosciuto o variabile,"
+"Acquisizione determinata dai flag dei semiquadri e trasferimento sconosciuto "
+"o variabile,Acquisizione e trasferimento entrambi sconosciuti o variabili"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
@@ -5675,10 +5757,9 @@ msgid "Alter frame colors in video with pseudocolors."
 msgstr "Altera i colori del fotogramma con pseudo colori."
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "Componenti"
+msgstr "Componente di base"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
 #, kde-format
@@ -5697,6 +5778,9 @@ msgid ""
 "Highlights,Solar,Nominal,Preferred,Total,Spectral,Cool,Heat,Fiery,Blues,"
 "Green,Helix"
 msgstr ""
+"Nessuna,Magma,Inferno,Plasma,Viridis,Turbo,Cividis,Intervallo 1,Intervallo 2,"
+"Ombre,Alte luci,Solare,Nominale,Preferita,Totale,Spettrale,Fredda,Calda,"
+"Infuocata,Blu,Verde,Elica"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5815,10 +5899,9 @@ msgid "Roberts"
 msgstr "Roberts"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply Scharr operators for edge detection"
+#, kde-format
 msgid "Apply Roberts cross operator (edge detection)"
-msgstr "Applica l'operatore di Scharr per il rilevamento dei bordi"
+msgstr "Applica l'operatore Roberts Cross (rilevamento dei bordi)"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5834,17 +5917,17 @@ msgstr "Raggio del pre filtro Luma"
 #: data/effects/avfilter/avfilter_sab.xml:14
 #, kde-format
 msgid "Luma Strength"
-msgstr "Forza luma"
+msgstr "Intensità luma"
 
 #: data/effects/avfilter/avfilter_sab.xml:20
 #, kde-format
 msgid "Chroma pre-filter radius"
-msgstr "Imposta la cromatica del pre filtro"
+msgstr "Imposta la crominanza del pre filtro"
 
 #: data/effects/avfilter/avfilter_sab.xml:23
 #, kde-format
 msgid "Chroma Strength"
-msgstr "Forza cromatica"
+msgstr "Intensità cromatica"
 
 #: data/effects/avfilter/avfilter_scharr.xml:4
 #, kde-format
@@ -6057,16 +6140,14 @@ msgid "Horizontal,Vertical,Block"
 msgstr "Orizzontale,Verticale,A blocchi"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:20
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block width size"
-msgstr "Imposta la dimensione del blocco in pixel"
+msgstr "Imposta la larghezza del blocco di rimescolamento"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:24
-#, fuzzy, kde-format
-#| msgid "Set size of block in pixels"
+#, kde-format
 msgid "Set shuffle block height size"
-msgstr "Imposta la dimensione del blocco in pixel"
+msgstr "Imposta l'altezza del blocco di rimescolamento"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
 #: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
@@ -6082,6 +6163,11 @@ msgid ""
 "original input. For example, to reverse forward shuffle you need to use the "
 "same parameters and exact same seed and to set direction to inverse."
 msgstr ""
+"Imposta il seme casuale utilizzato per mescolare i pixel.<br>\n"
+"        È utile soprattutto per poter invertire il processo di filtraggio e "
+"ottenere l'input originale. Ad esempio, per invertire un mescolamento in "
+"avanti è necessario utilizzare gli stessi parametri e lo stesso identico "
+"seme e impostare la direzione su inversa."
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -6143,7 +6229,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_unsharp.xml:17
 #, kde-format
 msgid "Luma strength"
-msgstr "Forza luma"
+msgstr "Intensità luma"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
 #, kde-format
@@ -6152,7 +6238,7 @@ msgid ""
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image."
 msgstr ""
-"Imposta la forza della luma.<br>\n"
+"Imposta l'intensità della luma.<br>\n"
 "            Il valore configura la sfocatura. Se è positivo l'immagine verrà "
 "sfocata, se è invece negativo la nitidezza dell'immagine verrà aumentata."
 
@@ -6196,7 +6282,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_unsharp.xml:30
 #, kde-format
 msgid "Chroma strength"
-msgstr "Forza cromatica"
+msgstr "Intensità cromatica"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:30
 #, kde-format
@@ -6206,7 +6292,7 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
-"Imposta la forza cromatica.<br>\n"
+"Imposta l'intensità cromatica.<br>\n"
 "            Il valore configura la sfocatura. Un valore positivo sfocherà "
 "l'immagine, mentre uno negativo ne aumenterà la nitidezza. Se non è "
 "specificato sarà uguale al valore impostato della <em>Forza Luma</em>."
@@ -6253,7 +6339,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_unsharp.xml:43
 #, kde-format
 msgid "Alpha strength"
-msgstr "Forza di alfa"
+msgstr "Intensità di alfa"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:45
 #, kde-format
@@ -6263,7 +6349,7 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
-"Imposta la forza di alfa.<br>\n"
+"Imposta l'intensità di alfa.<br>\n"
 "            Il valore configura la sfocatura. Un valore positivo sfocherà "
 "l'immagine, mentre uno negativo ne aumenterà la nitidezza. Se non è "
 "specificato sarà uguale al valore impostato della <em>Forza Luma</em>."
@@ -6307,6 +6393,12 @@ msgid ""
 "http://www.sofacoustics.org/ for a database). SOFAlizer is developed at the "
 "Acoustics Research Institute (ARI) of the Austrian Academy of Sciences. "
 msgstr ""
+"SOFAlizer utilizza funzioni di trasferimento relative alla testa (HRTF) per "
+"creare altoparlanti virtuali intorno all'utente e consentire l'ascolto "
+"binaurale tramite cuffie (sono supportati i formati audio fino a 9 canali). "
+"Le HRTF sono memorizzate in file SOFA (per un database, vedi http://www."
+"sofacoustics.org/). SOFAlizer è sviluppato presso l'Acoustics Research "
+"Institute (ARI) dell'Accademia austriaca delle scienze. "
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
 #, kde-format
@@ -6374,7 +6466,7 @@ msgstr "Utilizzato solo se l'opzione interpola è abilitata."
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
 msgid "Radstep"
-msgstr ""
+msgstr "Radstep"
 
 #: data/effects/avfilter/avfilter_sr.xml:4
 #, kde-format
@@ -6441,6 +6533,18 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
+"affiancato parallelo,affiancato incrociato,sopra-sotto, sinistro in alto,"
+"sopra-sotto, destro in alto,righe interlacciate (sinistro in alto),righe "
+"interlacciate (destro in alto),anaglifo rosso/blu grigio,anaglifo rosso/"
+"verde grigio,anaglifo rosso/ciano grigio,anaglifo rosso/ciano semi-colorato,"
+"anaglifo rosso/ciano a colori,anaglifo rosso/ciano Dubois,anaglifo verde/"
+"magenta grigio,anaglifo verde/magenta semi-colorato,anaglifo verde/magenta a "
+"colori,anaglifo verde/magenta Dubois,anaglifo giallo/blu grigio,anaglifo "
+"giallo/blu semi-colorato,anaglifo giallo/blu a colori,anaglifo giallo/blu "
+"Dubois,uscita mono sinistra,uscita mono destra,scacchiera, occhio sinistro "
+"per primo,scacchiera, occhio destro per primo,colonne interlacciate, occhio "
+"sinistro per primo,colonne interlacciate, occhio destro per primo,frame "
+"packing HDMI"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, kde-format
@@ -6559,6 +6663,12 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"Da sinistra/destra a sinistra/destra,Da sinistra/destra a centro/lato,Da "
+"centro/lato a sinistra/destra,Da sinistra/destra a sinistra/sinistra,Da "
+"sinistra/destra a destra/destra,Da sinistra/destra a sinistra + destra,Da "
+"sinistra/destra a destra/sinistra,Da centro/lato a sinistra/sinistra,Da "
+"centro/lato a destra/destra,Da centro/lato a destra/sinistra,Da sinistra/"
+"destra a sinistra - destra"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, kde-format
@@ -6601,15 +6711,16 @@ msgstr ""
 "L'intervallo consentito va da 0,015625 a 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Pan"
-msgstr "Guadagno dei medi"
+msgstr "Pan dei medi"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:61
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Imposta il pan del segnale centrale. Il valore predefinito è 0. L'intervallo "
+"consentito va da -1 a 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, kde-format
@@ -6702,10 +6813,9 @@ msgstr ""
 "viceversa."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback Gain"
-msgstr "Feedback"
+msgstr "Guadagno della retroazione"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -6783,7 +6893,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_transpose.xml:9
 #, kde-format
 msgid "Clock,Clock flip,Counter clock,Counter clock flip"
-msgstr ""
+msgstr "Orario,Orario invertito,Antiorario,Antiorario invertito"
 
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
@@ -6833,7 +6943,7 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. "
 msgstr ""
-"Imposta la forza dell'effetto luma<br>\n"
+"Imposta l'intensità dell'effetto luma<br>\n"
 "            I valori ragionevoli sono compresi tra -1,5 e 1,5; quelli "
 "negativi sfocano il video in ingresso, mentre quelli positivi lo rendono più "
 "nitido. Zero disattiva l'effetto. "
@@ -6866,7 +6976,7 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. "
 msgstr ""
-"Imposta la forza dell'effetto cromatico<br>\n"
+"Imposta l'intensità dell'effetto cromatico<br>\n"
 "            I valori ragionevoli sono compresi tra -1,5 e 1,5; quelli "
 "negativi sfocano il video in ingresso, mentre quelli positivi lo rendono più "
 "nitido. Zero disattiva l'effetto. "
@@ -6899,7 +7009,7 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. "
 msgstr ""
-"Imposta la forza dell'effetto alfa<br>\n"
+"Imposta l'intensità dell'effetto alfa<br>\n"
 "            I valori ragionevoli sono compresi tra -1,5 e 1,5; quelli "
 "negativi sfocano il video in ingresso, mentre quelli positivi lo rendono più "
 "nitido. Zero disattiva l'effetto. "
@@ -6916,11 +7026,14 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7."
 msgstr ""
+"Riduzione del rumore basata sulle wavelet..<br>\n"
+"    Trasforma ogni fotogramma del video di input nel dominio delle wavelet "
+"utilizzando Cohen-Daubechies-Feauveau 9/7."
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, kde-format
 msgid "Hard,Soft,Garrote"
-msgstr ""
+msgstr "Duro,Morbido,Garrote"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
 #, kde-format
@@ -6980,7 +7093,7 @@ msgstr "Componenti su Y"
 #: data/effects/avfilter/avfilter_waveform.xml:35
 #, kde-format
 msgid "Envelope"
-msgstr "Involucro"
+msgstr "Inviluppo"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:28
 #: data/effects/avfilter/avfilter_waveform.xml:37
@@ -7009,7 +7122,7 @@ msgstr "Opacità del reticolo"
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
 msgid "Graticule Flags"
-msgstr "Flag della graticola"
+msgstr "Indicatori del reticolo"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #, kde-format
@@ -7207,7 +7320,7 @@ msgstr "Y,U,YU,V,YV,UV,Tutti"
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "Set the envelope mode"
-msgstr "Imposta la modalità involucro"
+msgstr "Imposta la modalità inviluppo"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -7228,6 +7341,7 @@ msgstr "Imposta la modalità di filtraggio"
 #, kde-format
 msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
 msgstr ""
+"Passa-basso,Piatto,A-piatto,X-piatto,Y-piatto,Crominanza,Colore,A-colore"
 
 #: data/effects/avfilter/avfilter_waveform.xml:46
 #, kde-format
@@ -7247,7 +7361,7 @@ msgstr "Imposta l'opacità del reticolo"
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
 msgid "Set graticule flags"
-msgstr "Imposta i flag del reticolo"
+msgstr "Imposta gli indicatori del reticolo"
 
 #: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
@@ -7315,10 +7429,9 @@ msgid "First available, All"
 msgstr "Primo disponibile,Tutti"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Weave interlacer"
-msgstr "De-interlacciamento"
+msgstr "Interlacciatore con effetto weave"
 
 #: data/effects/avfilter/avfilter_weave.xml:5
 #, kde-format
@@ -7327,6 +7440,10 @@ msgid ""
 "fields into single frame, producing a new double height clip with half the "
 "frame rate and half the frame count."
 msgstr ""
+"Weave prende in ingresso un video basato sui semiquadri e unisce ogni due "
+"semiquadri consecutivi in un singolo fotogramma, producendo una nuova clip "
+"con altezza doppia, metà frequenza dei fotogrammi, e metà del numero di "
+"fotogrammi."
 
 #: data/effects/avfilter/avfilter_weave.xml:9
 #, kde-format
@@ -7375,6 +7492,8 @@ msgstr ""
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
+"Invia fotogramma,Invia semiquadro,Invia fotogramma senza componente spaziale,"
+"Invia semiquadro senza componente spaziale"
 
 #: data/effects/avfilter/avfilter_yadif.xml:13
 #, kde-format
@@ -7586,7 +7705,7 @@ msgstr "Inverti"
 #: data/effects/chroma.xml:4
 #, kde-format
 msgid "Chroma Key: Basic"
-msgstr "Chroma Key: di base"
+msgstr "Chiave cromatica: di base"
 
 #: data/effects/chroma.xml:5
 #, kde-format
@@ -7811,13 +7930,13 @@ msgid ""
 "Designed for live streams. Dynamically correct audio loudness as recommended "
 "by EBU R128"
 msgstr ""
-"Progettato per i flussi dal vivo. Correzione dinamica del volume audio "
+"Progettato per i flussi dal vivo. Correzione dinamica della sonorità audio "
 "secondo le raccomandazioni EBU R128."
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
 msgid "Target Program Loudness"
-msgstr "Rumorosità del programma di destinazione"
+msgstr "Sonorità del programma di destinazione"
 
 #: data/effects/dynamic_loudness.xml:11
 #, kde-format
@@ -7870,10 +7989,9 @@ msgstr "Stile"
 
 #: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
 #: data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "Scala normale"
+msgstr "Normale,Corsivo"
 
 #: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
 #: data/effects/timer.xml:21
@@ -8223,7 +8341,7 @@ msgstr "Velocità dello stroboscopio: da 0 a 8 fotogrammi"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
-msgstr "Operazione su alfa (SOSTITUITO)"
+msgstr "Operazioni su alfa (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -8547,6 +8665,10 @@ msgid ""
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
+"Blit di tempo con alfa ritardato e smussato.<br>\n"
+"        <b><i>Nota</i></b>: questo effetto non viene ripristinato durante la "
+"riproduzione a causa di problemi relativi al buffer dei fotogrammi, ma viene "
+"visualizzato correttamente."
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -8605,7 +8727,7 @@ msgstr "Attenua il rumore"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
 #, kde-format
 msgid "VR360 Cap Top and Bottom"
-msgstr ""
+msgstr "VR360: riempimento superiore e inferiore"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
 #, kde-format
@@ -8614,9 +8736,9 @@ msgid ""
 "data. It samples a band of latitude near the start of the effect and "
 "stretches and blurs it over the pole."
 msgstr ""
-"Tenta di riempire lo zenit e il nadir allungando e sfocando i dati "
-"dell'immagine. Campiona una banda di latitudine vicino all'inizio "
-"dell'effetto, allungandola e sfocandola al polo."
+"Tenta di riempire lo zenit e il nadir allungando e sfocando l'immagine. "
+"Campiona una banda di latitudine vicino all'inizio dell'effetto, "
+"allungandola e sfocandola al polo."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
@@ -8682,10 +8804,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
-#, fuzzy, kde-format
-#| msgid "Blend"
+#, kde-format
 msgid "Blend In"
-msgstr "Miscela"
+msgstr "Fusione in entrata"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
@@ -8695,10 +8816,9 @@ msgstr "Gradi verso l'orizzonte da cui campionare"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
-#, fuzzy, kde-format
-#| msgid "Blend"
+#, kde-format
 msgid "Blend Out"
-msgstr "Miscela"
+msgstr "Fusione in uscita"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
@@ -8977,10 +9097,9 @@ msgid "Nearest-neighbor,Bilinear"
 msgstr "Nearest-neighbor,Bilineare"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
-#, fuzzy, kde-format
-#| msgid "VR360 Transform"
+#, kde-format
 msgid "VR360 Wrap"
-msgstr "Trasforma VR360"
+msgstr "VR360: estensione della panoramica"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
 #, kde-format
@@ -9362,6 +9481,12 @@ msgid ""
 "should also use these parameters, as Hugin's vignetting correction assumes "
 "that the sensor response has been corrected."
 msgstr ""
+"Parametri di risposta del sensore..<br>\n"
+"   \t I parametri EMoR h(x) corrispondono ai parametri Ra -Re di Hugin "
+"relativi alle lenti. Se per la correzione della vignettatura utilizzi i "
+"valori derivati da Hugin, dovresti utilizzare anche questi parametri, poiché "
+"la correzione della vignettatura di Hugin presuppone che la risposta del "
+"sensore sia stata corretta."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
 #, kde-format
@@ -9494,7 +9619,7 @@ msgstr "La distanza tra i punti di tracciamento"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
 msgid "Use backwards-facing track points"
-msgstr ""
+msgstr "Usa i sensori di tracciamento rivolti all'indietro"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:36
 #, kde-format
@@ -9503,6 +9628,10 @@ msgid ""
 "and yaw motion.<br>\n"
 "    \tDisable if, for example, you show up holding the camera there"
 msgstr ""
+"Se questa opzione è attivata, verranno utilizzati anche sei sensori di "
+"tracciamento rivolti all'indietro per rilevare i movimenti di beccheggio e "
+"imbardata. Disattivala se, ad esempio, ti ritrovi a tenere la videocamera in "
+"quella posizione"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
 #, kde-format
@@ -9524,7 +9653,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
 #, kde-format
 msgid "Yaw smoothing"
-msgstr "Smussatura dell'imbardata"
+msgstr "Smussamento dell'imbardata"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:45
 #, kde-format
@@ -9532,8 +9661,8 @@ msgid ""
 "The number of frames to use to smooth out the shakes. The higher the value, "
 "the slower the camera will follow any intended motion."
 msgstr ""
-"Il numero di fotogrammi da utilizzare per attenuare le vibrazioni. Più alto "
-"è il valore, più lentamente la telecamera seguirà qualsiasi movimento "
+"Il numero di fotogrammi da utilizzare per smussare le vibrazioni. Più alto è "
+"il valore, più lentamente la telecamera seguirà qualsiasi movimento "
 "desiderato."
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
@@ -9554,6 +9683,14 @@ msgid ""
 "ahead of the intended camera movement. A value of zero should make the "
 "camera follow the intended path."
 msgstr ""
+"Sposta i fotogrammi utilizzati per smussare le vibrazioni rispetto al "
+"fotogramma stabilizzato.<br>\n"
+"    \tUn valore inferiore a zero darà maggiore peso ai fotogrammi "
+"precedenti, e la videocamera sembrerà rimanere indietro rispetto al "
+"movimento previsto. Un valore superiore a zero darà maggiore peso ai "
+"fotogrammi successivi, e la videocamera sembrerà anticipare il movimento "
+"previsto. Un valore pari a zero dovrebbe far sì che la videocamera segua il "
+"percorso previsto."
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
 #, kde-format
@@ -9574,7 +9711,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:57
 #, kde-format
 msgid "Pitch smoothing"
-msgstr "Smussatura del beccheggio"
+msgstr "Smussamento del beccheggio"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:59
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:74
@@ -9584,7 +9721,7 @@ msgid ""
 "    \tThe higher the value, the slower the camera will follow any intended "
 "motion."
 msgstr ""
-"Il numero di fotogrammi da utilizzare per attenuare le vibrazioni.<br>\n"
+"Il numero di fotogrammi da utilizzare per smussare le vibrazioni.<br>\n"
 "    \tPiù alto è il valore, più lentamente la telecamera seguirà qualsiasi "
 "movimento desiderato.]]>"
 
@@ -9601,7 +9738,7 @@ msgstr "Quantità di rollio"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:72
 #, kde-format
 msgid "Roll smoothing"
-msgstr "Smussatura del rollio"
+msgstr "Smussamento del rollio"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:77
 #, kde-format
@@ -9732,8 +9869,8 @@ msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
 "Lanczos"
 msgstr ""
-"Più vicino,Bilineare,Smussatura bicubica,Bicubic sharp,Spline 4x4,Spline 6x6,"
-"Lanczos"
+"Più vicino,Bilineare,Smussamento bicubico,Bicubic sharp,Spline 4x4,Spline "
+"6x6,Lanczos"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
@@ -10054,10 +10191,9 @@ msgid "Channel A Slope"
 msgstr "Inclinazione del canale A"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:17
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for A channel."
-msgstr "Imposta il livello del segnale di ingresso del canale originale."
+msgstr "Pendenza della curva sigmoide per il canale A."
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:20
 #, kde-format
@@ -10065,10 +10201,9 @@ msgid "Channel B Slope"
 msgstr "Inclinazione del canale B"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:21
-#, fuzzy, kde-format
-#| msgid "Set level of input signal of original channel."
+#, kde-format
 msgid "Steepness of the sigmoidal curve for B channel."
-msgstr "Imposta il livello del segnale di ingresso del canale originale."
+msgstr "Pendenza della curva sigmoide per il canale B."
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
@@ -10095,7 +10230,7 @@ msgstr "Quantità di colore nell'immagine colorata."
 #: data/effects/frei0r/frei0r_colorize.xml:17
 #, kde-format
 msgid "Lightness of the colorized image."
-msgstr "Chiarezza dell'immagine colorata."
+msgstr "Luminosità dell'immagine colorata."
 
 #: data/effects/frei0r/frei0r_colortap.xml:4
 #, kde-format
@@ -10111,6 +10246,7 @@ msgstr "Applica un effetto esistente all'immagine"
 #, kde-format
 msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
 msgstr ""
+"X-Pro,Seppia,Calore,Rosso-verde,Vecchia foto,Raggi X,Esses (Ss),Giallo-blu"
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
 #, kde-format
@@ -10250,8 +10386,8 @@ msgstr ""
 "Rimuove gli artefatti a scalino dai video a 720p delle Nikon D90.\n"
 "        Le linee acute nei video della Nikon D90 mostrano degli scalini ogni "
 "ottava o nona riga,\n"
-"        presumibilmente a causa dello scarso sottocampionamento. Queste "
-"possono essere levigate con questo filtro, se sono troppo fastidiose.\n"
+"        presumibilmente a causa dello scarso sottocampionamento, che, se "
+"sono troppo fastidiose, possono essere smussate con questo filtro.\n"
 "        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
@@ -10928,10 +11064,9 @@ msgid "Extracts Green from Image"
 msgstr "Estrae il verde dall'immagine"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:4
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Gate Weave"
-msgstr "Rate Scaler"
+msgstr "Oscillazione della porta della pellicola"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:5
 #, kde-format
@@ -10943,13 +11078,15 @@ msgstr ""
 #: data/effects/frei0r/frei0r_gateweave.xml:8
 #, kde-format
 msgid "Smoothness"
-msgstr "Smussatura"
+msgstr "Smussamento"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
 msgid ""
 "Factor used to blend between positions. A lower number means a faster effect"
 msgstr ""
+"Fattore utilizzato per la miscelazione tra le posizioni. Un valore più basso "
+"rende l'effetto più rapido."
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
 #, kde-format
@@ -11378,6 +11515,7 @@ msgstr "Operazione 1"
 #, kde-format
 msgid "None,De-Key,Target,Desaturate,Luma adjust"
 msgstr ""
+"Nessuno,Rimozione chiave,Destinazione,Desaturazione,Regolazione della luma"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:34
 #, kde-format
@@ -11762,8 +11900,8 @@ msgid ""
 "image if the video starts with a «clean» background image. (See the α "
 "parameter.)"
 msgstr ""
-"Forza dello sfondo dell'immagine (calcolato). Impostandolo a 100 disegna la "
-"maschera di luce direttamente sopra lo sfondo, senza disegnare le persone "
+"Intensità dello sfondo dell'immagine (calcolato). Impostandolo a 100 disegna "
+"la maschera di luce direttamente sopra lo sfondo, senza disegnare le persone "
 "nell'immagine se il video inizia con un'immagine dello sfondo «pulita» (vedi "
 "il parametro α)."
 
@@ -12296,7 +12434,7 @@ msgstr "Mappa di colori"
 #: data/effects/frei0r/frei0r_ndvi.xml:9
 #, kde-format
 msgid "Earth,Grayscale,Heat,Rainbow"
-msgstr ""
+msgstr "Terra,Scala di grigi,Calore,Arcobaleno"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:13
 #, kde-format
@@ -12446,7 +12584,7 @@ msgstr ""
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
-"Forza del filtro, da nessun effetto (0) a normalizzazione completa (il "
+"Intensità del filtro, da nessun effetto (0) a normalizzazione completa (il "
 "valore predefinito è 1000)"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
@@ -12515,10 +12653,9 @@ msgid "Vertical size of one 'pixel'"
 msgstr "La dimensione verticale di un \"pixel\""
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "Sfumatura alfa"
+msgstr "Passaggio diretto del canale alfa"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
@@ -12751,12 +12888,12 @@ msgstr "Regola la saturazione di un'immagine"
 #: data/effects/frei0r/frei0r_scale0tilt.xml:4
 #, kde-format
 msgid "Crop, Scale, and Tilt"
-msgstr "Ritaglia, scala e trasla"
+msgstr "Ritaglia, scala e inclina"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
 #, kde-format
 msgid "Scales, tilts, and crops an image"
-msgstr "Ritaglia, scala e trasla un'immagine"
+msgstr "Ritaglia, scala e inclina un'immagine"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:8
 #, kde-format
@@ -12797,12 +12934,12 @@ msgstr "Scala Y"
 #: data/effects/frei0r/frei0r_scale0tilt.xml:26
 #, kde-format
 msgid "Tilt X"
-msgstr "Trasla X"
+msgstr "Inclina X"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:29
 #, kde-format
 msgid "Tilt Y"
-msgstr "Trasla Y"
+msgstr "Inclina Y"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:4
 #, kde-format
@@ -12856,7 +12993,7 @@ msgstr "Delta rosso / tonalità"
 #: data/effects/mask_start_frei0r_select0r.xml:32
 #, kde-format
 msgid "Green / Chroma Delta"
-msgstr "Delta verde / croma"
+msgstr "Delta verde / crominanza"
 
 #: data/effects/frei0r/frei0r_select0r.xml:21
 #: data/effects/frei0r/frei0r_select0r.xml:69
@@ -12917,7 +13054,7 @@ msgstr "Maschera di contrasto (portato da Mplayer)"
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:5
 #, kde-format
 msgid "Sigmoidal Transfer"
-msgstr "Trasferimento sigmoidale"
+msgstr "Trasformazione sigmoide"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:6
 #, kde-format
@@ -13454,7 +13591,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:19
 #, kde-format
 msgid "Smoothing level"
-msgstr "Livello di smussatura"
+msgstr "Livello di smussamento"
 
 #: data/effects/gpsgraphic.xml:19
 #, kde-format
@@ -13519,6 +13656,21 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down)."
 msgstr ""
+"<b>Tachimetro</b> è disponibile per tutte le sorgenti dati, ma è consigliato "
+"soltanto per la velocità; per il tipo mappa rappresenta la \"percentuale "
+"completata\" dall'inizio alla fine del tratto ritagliato.<br>\n"
+"Nota: per il tipo 1 (ingrandimento e centratura, detto anche \"segui il punto"
+"\"):<br>\n"
+"*i valori di ritaglio sono validi solo come percentuale, e verranno presi in "
+"considerazione soltanto i valori inferiori (rispettivamente sinistro),\n"
+"poiché entrambi i valori (ovvero superiore/inferiore) devono essere uguali\n"
+"per mantenere il punto centrato;<br>\n"
+"*se la sorgente dati non è la posizione GPS, la centratura verrà effettuata "
+"solo sull'asse orizzontale\n"
+"(tempo), mentre il ritaglio sull'asse verticale si comporterà come nella "
+"linea di base della mappa 2D: manterrà\n"
+"staticamente gli stessi limiti minimo/massimo, consentendo al punto \"Ora\" "
+"di muoversi verso l'alto e verso il basso)."
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -13733,6 +13885,11 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"Un colore,Due colori,Passato pieno - futuro sottile,Futuro pieno - passato "
+"sottile,Gradiente verticale,Gradiente orizzontale,Colore in base alla durata,"
+"Colore in base all'altitudine,Colore in base alla frequenza cardiaca,Colore "
+"in base alla velocità,Colore in base alla velocità (max 100 km/h),Colore in "
+"base alla pendenza (max 90 gradi),Colore in base alla pendenza (max 20 gradi)"
 
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
@@ -13897,9 +14054,9 @@ msgstr ""
 "<br>\n"
 "    \tTCiò mostrerà, di fatto, i punti dati singoli come influenzati dallo "
 "smussamento (ossia, per i dati di posizione mostrerà ogni punto fisso GPS, "
-"se «smussatura» è impostata 1) e può essere utilizzata sia per creare un "
+"se «smussamento» è impostato 1) e può essere utilizzato sia per creare un "
 "effetto carino quando si ingrandisce a sufficienza, sia per eseguire il "
-"debug di salti di linea inaspettati."
+"debug dei salti di linea inaspettati."
 
 #: data/effects/gpsgraphic.xml:154 data/effects/gpstext.xml:57
 #, kde-format
@@ -14047,13 +14204,7 @@ msgid "See the online documentation about additional qualifiers"
 msgstr "Consulta la documentazione in linea sui qualificatori aggiuntivi"
 
 #: data/effects/gpstext.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date "
-#| "and time of current gps point,date and time of current frame in video "
-#| "file,heart rate,current GPS bearing,current GPS direction,GPS altitude "
-#| "gain so far,GPS altitude loss so far,distance travelled uphill so far,"
-#| "distance travelled downhill so far,distance travelled on flat area so far"
+#, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date "
 "and time of current GPS point,Date and time of current frame in video file,"
@@ -14063,12 +14214,15 @@ msgid ""
 "area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in "
 "watts,Gradient of GPS track,Gradient of GPS track in degrees"
 msgstr ""
-"latitudine GPS,longitudine GPS,altitudine GPS,velocità GPS,distanza finora,"
-"data e ora del punto GPS attuale,data e ora del fotogramma attuale nel file "
-"video,frequenza cardiaca,rilevamento GPS attuale,direzione GPS attuale,"
-"guadagno di altitudine GPS finora,perdita di altitudine GPS finora,distanza "
-"percorsa in salita finora,distanza percorsa in discesa finora,distanza "
-"percorsa su un'area pianeggiante finora"
+"Latitudine GPS,Longitudine GPS,Altitudine GPS,Velocità GPS,Distanza totale "
+"percorsa finora,Data e ora del punto GPS corrente,Data e ora del fotogramma "
+"corrente nel file video,Frequenza cardiaca,Rilevamento GPS attuale Direzione "
+"GPS attuale,Dislivello positivo GPS totale percorso finora,Dislivello "
+"negativo GPS totale percorso finora,Distanza totale percorsa in salita "
+"finora Distanza totale percorsa in discesa finora,Distanza totale percorsa "
+"in piano finora,Cadenza (bicicletta) (in giri al minuto),Temperatura "
+"ambiente,Potenza in watt,Pendenza della traccia GPS,Pendenza della traccia "
+"GPS in gradi"
 
 #: data/effects/gpstext.xml:22
 #, kde-format
@@ -14210,6 +14364,8 @@ msgid ""
 "A color constancy filter that applies color correction based on the "
 "grayworld assumption"
 msgstr ""
+"Un filtro di costanza del colore che applica una correzione del colore "
+"basata sull'ipotesi grayworld"
 
 #: data/effects/greyedge.xml:8
 #, kde-format
@@ -14219,7 +14375,7 @@ msgstr "Ordine di differenziazione"
 #: data/effects/greyedge.xml:12
 #, kde-format
 msgid "Minkowski Norm"
-msgstr ""
+msgstr "Norma di Minkowski"
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -14254,7 +14410,7 @@ msgstr "La quantità di sovrapposizione o fusione tra i primari"
 #: data/effects/hsl_primaries.xml:12
 #, kde-format
 msgid "<b><u>Hue Shift</u></b> Red"
-msgstr "<b><u>Scostamento della tonalità</u></b> Rosso"
+msgstr "<b><u>Spostamento della tonalità</u></b> Rosso"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
 #: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2627
@@ -14349,7 +14505,7 @@ msgstr "Scala della luminosità"
 #: data/effects/hsl_range.xml:29
 #, kde-format
 msgid "The amount to scale the lightness in the hue range"
-msgstr "La quantità di luce da scalare nell'intervallo di tonalità"
+msgstr "La quantità di luminosità da scalare nell'intervallo di tonalità"
 
 #: data/effects/invert.xml:4
 #, kde-format
@@ -14365,7 +14521,7 @@ msgstr "Inverti i colori"
 #: data/effects/ladspa/ladspa_1185.xml:4
 #, kde-format
 msgid "Diode Processor"
-msgstr "Elaboratore diodi"
+msgstr "Processore a diodi"
 
 #: data/effects/ladspa/ladspa_1185.xml:6
 #, kde-format
@@ -14375,6 +14531,11 @@ msgid ""
 "network. You should probably follow this with a <i>DC Offset Remover</i>, "
 "unless you want the offset."
 msgstr ""
+"Processore a diodi (LADSPA 1185).<br>\n"
+"   Modifica il segnale come se fosse stato fatto passare attraverso una rete "
+"di raddrizzatori a diodi. Probabilmente è consigliabile applicare "
+"successivamente un <i>Rimozione scarto DC</i>, a meno che non si desideri "
+"mantenere lo scarto."
 
 #: data/effects/ladspa/ladspa_1185.xml:11
 #, kde-format
@@ -14383,6 +14544,9 @@ msgid ""
 "      continuously variable from thru to half-wave (1) rectification to full-"
 "wave (2) to silence (0)"
 msgstr ""
+"Il parametro <i>Modalità</i> varia continuamente dal passaggio diretto alla "
+"rettificazione a semionda (1), alla rettificazione a onda intera (2), fino "
+"al silenzio (0)."
 
 #: data/effects/ladspa/ladspa_1185.xml:14
 #: data/effects/ladspa/ladspa_1190.xml:16
@@ -14479,12 +14643,14 @@ msgstr "Controlla la distanza tra i picchi dei filtri"
 #: data/effects/ladspa/ladspa_phaser.xml:14
 #, kde-format
 msgid "Feedback"
-msgstr "Feedback"
+msgstr "Retroazione"
 
 #: data/effects/ladspa/ladspa_1190.xml:13
 #, kde-format
 msgid "Feedback level, increases the distinctive wooshy phaser sound."
 msgstr ""
+"Livello di retroazione; aumenta il caratteristico suono \"whoosh\" del "
+"phaser."
 
 #: data/effects/ladspa/ladspa_1191.xml:6
 #, kde-format
@@ -14515,10 +14681,9 @@ msgstr ""
 
 # Effetto audio
 #: data/effects/ladspa/ladspa_1191.xml:14
-#, fuzzy, kde-format
-#| msgid "Mixdown"
+#, kde-format
 msgid "Max Slowdown"
-msgstr "Mixdown"
+msgstr "Rallentamento massimo"
 
 #: data/effects/ladspa/ladspa_1191.xml:16
 #, kde-format
@@ -14554,6 +14719,9 @@ msgid ""
 "      output to the input, increases the depth of the effect, but makes it "
 "sound less like a real flanger."
 msgstr ""
+"La retroazione dall'uscita all'ingresso<br>\n"
+"      aumenta la profondità dell'effetto, ma lo rende meno simile al suono "
+"di un vero flanger."
 
 #: data/effects/ladspa/ladspa_1192.xml:4
 #, kde-format
@@ -14567,6 +14735,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Linea di ritardo ad indirizzamento frazionario (LADSPA 1192)<br>\n"
+"   Si adatta automaticamente al numero di canali e alla frequenza di "
+"campionamento del dispositivo collegato."
 
 #: data/effects/ladspa/ladspa_1195.xml:4
 #: data/effects/ladspa/ladspa_declipper.xml:4
@@ -14596,12 +14767,14 @@ msgid ""
 "   A simple overdrive. Compresses the extreme peaks to make a sound similar "
 "to an overdriven amplifier."
 msgstr ""
+"Overdrive veloce (LADSPA 1196)<br>\n"
+"   Un semplice overdrive. Comprime i picchi estremi per rendere il suono "
+"simile a quello di un amplificatore esagerato."
 
 #: data/effects/ladspa/ladspa_1196.xml:9
-#, fuzzy, kde-format
-#| msgid "Dry Level"
+#, kde-format
 msgid "Drive Level"
-msgstr "Livello dry"
+msgstr "Livello di drive"
 
 #: data/effects/ladspa/ladspa_1196.xml:11
 #, kde-format
@@ -14625,6 +14798,10 @@ msgid ""
 "of the input signal, allows non integer values for smooth transitions "
 "between clean and lo-fi signals."
 msgstr ""
+"Decimatore (LADSPA 1202).<br>\n"
+"   Riduce la frequenza di campionamento effettiva e la profondità in bit del "
+"segnale di ingresso; consente di utilizzare valori non interi per ottenere "
+"transizioni livellate tra segnali puliti e segnali lo-fi."
 
 #: data/effects/ladspa/ladspa_1202.xml:9
 #, kde-format
@@ -14683,6 +14860,11 @@ msgid ""
 "and <i>Bandwidth</i>: if the high pitch (<i>Frequency</i> * 2^<i>Bandwidth</"
 "i>) goes over half the sample rate, you will get aliasing."
 msgstr ""
+"La frequenza centrale (ovvero il punto di <br>\n"
+"     massima/minima attenuazione). Presta attenzione ai valori elevati di "
+"<i>Frequenza</i> e <i>Larghezza di banda</i>: se la frequenza più alta "
+"(<i>Frequenza</i> × 2^<i>Larghezza di banda</i>) supera la metà della "
+"frequenza di campionamento, si verifica aliasing."
 
 #: data/effects/ladspa/ladspa_1203.xml:18
 #, kde-format
@@ -14695,6 +14877,8 @@ msgid ""
 "The pitch difference from the<br>\n"
 "      centre before the attenuation has reached half the <i>Gain</i>."
 msgstr ""
+"La differenza di altezza rispetto<br>\n"
+"      al centro prima che l'attenuazione raggiunga metà del <i>Guadagno</i>."
 
 #: data/effects/ladspa/ladspa_1207.xml:4
 #, kde-format
@@ -14716,7 +14900,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1213.xml:4
 #, kde-format
 msgid "Foldover Distortion"
-msgstr "Distorsione di ripiegatura"
+msgstr "Distorsione foldover"
 
 #: data/effects/ladspa/ladspa_1213.xml:6
 #, kde-format
@@ -14726,6 +14910,11 @@ msgid ""
 "distortion. Probably should have a <i>DC Offset Remover</i> on the output, "
 "but it's not always necessary."
 msgstr ""
+"Distorsione foldover (LADSPA 1213).<br>\n"
+"   Utilizza un'approssimazione di un'onda sinusoidale per simulare la "
+"distorsione foldover tipica delle valvole. Probabilmente sarebbe opportuno "
+"applicare una <i>Rimozione scarto DC</i> all'uscita, ma non è sempre "
+"necessaria."
 
 #: data/effects/ladspa/ladspa_1213.xml:9 data/effects/ladspa/ladspa_2158.xml:9
 #, kde-format
@@ -14769,10 +14958,9 @@ msgid "Frequency 1"
 msgstr "Frequenza 1"
 
 #: data/effects/ladspa/ladspa_1218.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 1"
-msgstr "Feedback"
+msgstr "Retroazione 1"
 
 #: data/effects/ladspa/ladspa_1218.xml:15
 #, kde-format
@@ -14780,10 +14968,9 @@ msgid "Frequency 2"
 msgstr "Frequenza 2"
 
 #: data/effects/ladspa/ladspa_1218.xml:18
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 2"
-msgstr "Feedback"
+msgstr "Retroazione 2"
 
 #: data/effects/ladspa/ladspa_1218.xml:21
 #, kde-format
@@ -14791,10 +14978,9 @@ msgid "Frequency 3"
 msgstr "Frequenza 3"
 
 #: data/effects/ladspa/ladspa_1218.xml:24
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 3"
-msgstr "Feedback"
+msgstr "Retroazione 3"
 
 #: data/effects/ladspa/ladspa_1218.xml:27
 #, kde-format
@@ -14802,10 +14988,9 @@ msgid "Frequency 4"
 msgstr "Frequenza 4"
 
 #: data/effects/ladspa/ladspa_1218.xml:30
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 4"
-msgstr "Feedback"
+msgstr "Retroazione 4"
 
 #: data/effects/ladspa/ladspa_1219.xml:4
 #, kde-format
@@ -14818,10 +15003,9 @@ msgid "Auto Phaser (LADSPA 1219)"
 msgstr "Phaser automatico 1219 (LADSPA 1219)"
 
 #: data/effects/ladspa/ladspa_1219.xml:8
-#, fuzzy, kde-format
-#| msgid "Attack"
+#, kde-format
 msgid "Attack Time"
-msgstr "Attacco"
+msgstr "Tempo di attacco"
 
 #: data/effects/ladspa/ladspa_1219.xml:11 data/effects/ladspa/ladspa_1886.xml:8
 #: data/effects/ladspa/ladspa_1887.xml:18
@@ -14877,15 +15061,14 @@ msgid "Controls the amount of output signal fed back into the input"
 msgstr "Regola l'ampiezza del segnale di uscita reimmesso nell'ingresso"
 
 #: data/effects/ladspa/ladspa_1402.xml:21
-#, fuzzy, kde-format
-#| msgid "Number of curve points"
+#, kde-format
 msgid "Number of Taps"
-msgstr "Numero di punti curva"
+msgstr "Numero di tap"
 
 #: data/effects/ladspa/ladspa_1402.xml:22
 #, kde-format
 msgid "Controls the number of taps in the delay"
-msgstr ""
+msgstr "Controlla il numero di tap del ritardo"
 
 #: data/effects/ladspa/ladspa_1402.xml:25
 #, kde-format
@@ -14998,10 +15181,9 @@ msgstr ""
 "ingresso"
 
 #: data/effects/ladspa/ladspa_1403.xml:18
-#, fuzzy, kde-format
-#| msgid "Insert Composition"
+#, kde-format
 msgid "Fast Compression Ratio"
-msgstr "Inserisci composizione"
+msgstr "Rapporto di compressione rapida"
 
 #: data/effects/ladspa/ladspa_1403.xml:21
 #, kde-format
@@ -15025,10 +15207,9 @@ msgstr ""
 "di potenza di classe B e AB quando il segnale attraversa lo zero."
 
 #: data/effects/ladspa/ladspa_1404.xml:9
-#, fuzzy, kde-format
-#| msgid "Wave Amplitude"
+#, kde-format
 msgid "Crossover Amplitude"
-msgstr "Ampiezza dell'onda"
+msgstr "Ampiezza del crossover"
 
 #: data/effects/ladspa/ladspa_1404.xml:10
 #, kde-format
@@ -15038,7 +15219,7 @@ msgstr "Determina il punto in cui il segnale di uscita diventa lineare"
 #: data/effects/ladspa/ladspa_1404.xml:14
 #, kde-format
 msgid "Controls degree of smoothing of the crossover point"
-msgstr ""
+msgstr "Controlla il grado di smussamento del punto di crossover"
 
 #: data/effects/ladspa/ladspa_1407.xml:4
 #, kde-format
@@ -15091,16 +15272,14 @@ msgid "Decay Time (samples)"
 msgstr "Tempo di decadimento (campioni)"
 
 #: data/effects/ladspa/ladspa_1408.xml:10
-#, fuzzy, kde-format
-#| msgid "Set the envelope mode"
+#, kde-format
 msgid "Controls the envelope decay time."
-msgstr "Imposta la modalità involucro"
+msgstr "Controlla il tempo di decadimento dell'inviluppo."
 
 #: data/effects/ladspa/ladspa_1408.xml:13
-#, fuzzy, kde-format
-#| msgid "In Point"
+#, kde-format
 msgid "Knee Point"
-msgstr "Inizio selezione"
+msgstr "Punto di ginocchio"
 
 #: data/effects/ladspa/ladspa_1408.xml:15
 #, kde-format
@@ -15109,23 +15288,25 @@ msgid ""
 "      ie. the point above which the compression kicks in. 0 will have no "
 "effect, -90 will remove virtually all dynamic range."
 msgstr ""
+"Controlla il punto di attenuazione del ginocchio,<br>\n"
+"      ovvero il punto al di sopra del quale entra in azione la compressione. "
+"0 non produce alcun effetto, mentre -90 elimina praticamente tutta la gamma "
+"dinamica."
 
 #: data/effects/ladspa/ladspa_1410.xml:4
-#, fuzzy, kde-format
-#| msgid "Hue Gate"
+#, kde-format
 msgid "Gate"
-msgstr "Porta di tonalità"
+msgstr "Gate"
 
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
 msgid "Gate (LADSPA 1410)"
-msgstr ""
+msgstr "Gate (LADSPA 1410)"
 
 #: data/effects/ladspa/ladspa_1410.xml:8
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "LF Key Filter"
-msgstr "Filtro"
+msgstr "Filtro di controllo delle basse frequenze"
 
 #: data/effects/ladspa/ladspa_1410.xml:10
 #, kde-format
@@ -15137,10 +15318,9 @@ msgstr ""
 "      alle basse frequenze (filtro passa-alto)"
 
 #: data/effects/ladspa/ladspa_1410.xml:13
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "HF Key Filter"
-msgstr "Filtro"
+msgstr "Filtro di controllo delle alte frequenze"
 
 #: data/effects/ladspa/ladspa_1410.xml:15
 #, kde-format
@@ -15157,6 +15337,8 @@ msgid ""
 "Controls the level at<br>\n"
 "      which the gate will open"
 msgstr ""
+"Controlla il livello al<br>\n"
+"      quale il gate si apre"
 
 #: data/effects/ladspa/ladspa_1410.xml:25
 #, kde-format
@@ -15164,12 +15346,13 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to open fully"
 msgstr ""
+"Controlla il tempo impiegato<br>\n"
+"      dal gate per aprirsi completamente"
 
 #: data/effects/ladspa/ladspa_1410.xml:28
-#, fuzzy, kde-format
-#| msgid "HSV Hold"
+#, kde-format
 msgid "Hold"
-msgstr "Tieni HSV"
+msgstr "Mantieni"
 
 #: data/effects/ladspa/ladspa_1410.xml:30
 #, kde-format
@@ -15177,6 +15360,8 @@ msgid ""
 "Controls the minimum<br>\n"
 "      time the gate will stay open for"
 msgstr ""
+"Controlla il tempo minimo<br>\n"
+"      per il quale il gate rimarrà aperto"
 
 #: data/effects/ladspa/ladspa_1410.xml:35
 #, kde-format
@@ -15184,6 +15369,8 @@ msgid ""
 "Controls the time the<br>\n"
 "      gate will take to close fully"
 msgstr ""
+"Controlla il tempo impiegato<br>\n"
+"      dal gate per chiudersi completamente"
 
 #: data/effects/ladspa/ladspa_1410.xml:40
 #, kde-format
@@ -15191,28 +15378,28 @@ msgid ""
 "Controls the difference<br>\n"
 "      between the gate's open and closed state"
 msgstr ""
+"Regola la differenza tra<br>\n"
+"      lo stato aperto e quello chiuso del cancello"
 
 #: data/effects/ladspa/ladspa_1410.xml:43
-#, fuzzy, kde-format
-#| msgid "Mute Monitor"
+#, kde-format
 msgid "Output Monitor"
-msgstr "Silenzia il controllo"
+msgstr "Monitor di uscita"
 
 #: data/effects/ladspa/ladspa_1410.xml:44
-#, fuzzy, kde-format
-#| msgid "Zoom Out Monitor"
+#, kde-format
 msgid "Controls output monitor"
-msgstr "Rimpicciolisci controllo"
+msgstr "Controlla il monitor di uscita"
 
 #: data/effects/ladspa/ladspa_1410.xml:45
 #, kde-format
 msgid "Key (listen),Gate (normal output),Bypass"
-msgstr ""
+msgstr "Key (ascolto),Gate (uscita normale),Bypass"
 
 #: data/effects/ladspa/ladspa_1411.xml:4
 #, kde-format
 msgid "Comb Splitter"
-msgstr "Splitter combinato"
+msgstr "Separatore a pettine"
 
 #: data/effects/ladspa/ladspa_1411.xml:6
 #, kde-format
@@ -15222,6 +15409,10 @@ msgid ""
 "intervals, skewed by f/2 Hz between the two outputs. Mixing the two outputs "
 "will get you exactly the input signal."
 msgstr ""
+"Separatore a pettine (LADSPA 1411).<br>\n"
+"   Divide l'ingresso in due parti con picchi di frequenza a intervalli di f "
+"Hz, sfalsati di f/2 Hz tra le due uscite. Miscelando le due uscite si "
+"ottiene esattamente il segnale di ingresso."
 
 #: data/effects/ladspa/ladspa_1411.xml:10
 #, kde-format
@@ -15254,10 +15445,9 @@ msgid "Sine,Triangle,Square,Saw"
 msgstr "Senus,Triangolo,Quadrato,A denti di sega"
 
 #: data/effects/ladspa/ladspa_1423.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Reverb"
+#, kde-format
 msgid "SWH Plate Reverb"
-msgstr "Riverbero Sox"
+msgstr "Riverbero a piastra SWH"
 
 #: data/effects/ladspa/ladspa_1423.xml:6
 #, kde-format
@@ -15266,6 +15456,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "audio stream"
 msgstr ""
+"Riverbero a piastra SWH (LADSPA 1423).<br>\n"
+"   Si adatta automaticamente al numero di canali e alla frequenza di "
+"campionamento del flusso audio."
 
 #: data/effects/ladspa/ladspa_1423.xml:9
 #, kde-format
@@ -15297,6 +15490,11 @@ msgid ""
 "signal rises more and more harmonics will for added to the output signal. "
 "The distortion control sets the sensitivity of the input."
 msgstr ""
+"Distorsione di Čebyšëv (LADSPA 1430).<br>\n"
+"   Questo effetto viene pilotato dall'inviluppo del segnale in ingresso. Man "
+"mano che il livello del segnale aumenta, vengono aggiunte al segnale in "
+"uscita sempre più armoniche. Il controllo della distorsione determina la "
+"sensibilità dell'ingresso."
 
 #: data/effects/ladspa/ladspa_1430.xml:9
 #, kde-format
@@ -15309,10 +15507,9 @@ msgid "Sets the sensitivity of the input"
 msgstr "Imposta la sensibilità dell'ingresso"
 
 #: data/effects/ladspa/ladspa_1431.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Bode Frequency Shifter"
-msgstr "Bassa frequenza"
+msgstr "Spostatore di frequenza Bode"
 
 #: data/effects/ladspa/ladspa_1431.xml:6
 #, kde-format
@@ -15326,23 +15523,32 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>Spostatore di frequenza Bode</b> (LADSPA 1431)<br>\n"
+"   Uno spostatore di frequenza Bode/Moog è un noto modulo per sintetizzatori "
+"analogici che funziona spostando tutte le frequenze di un segnale in "
+"ingresso verso l'alto o verso il basso di una frequenza specificata. Questo "
+"effetto effettua contemporaneamente lo spostamento in entrambe le direzioni, "
+"poiché ciò richiede un lavoro aggiuntivo minimo ed è spesso utile disporre "
+"di entrambe le direzioni. A differenza dei Bode/Moog analogici, che "
+"utilizzano filtri Dome come elemento principale, questo effetto utilizza un "
+"trasformatore di Hilbert, molto più semplice da implementare nei sistemi "
+"digitali."
 
 #: data/effects/ladspa/ladspa_1431.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency Shift"
-msgstr "Frequenza"
+msgstr "Spostamento di frequenza"
 
 #: data/effects/ladspa/ladspa_1431.xml:10
 #: data/effects/ladspa/ladspa_1432.xml:20
 #, kde-format
 msgid "Controls the frequency shift applied to the input signal"
-msgstr "Regola la variazione di frequenza applicata al segnale in ingresso"
+msgstr "Controlla lo spostamento di frequenza applicato al segnale in ingresso"
 
 #: data/effects/ladspa/ladspa_1432.xml:4
 #, kde-format
 msgid "Bode Frequency Shifter (CV)"
-msgstr "Cambio di frequenza Bode (CV)"
+msgstr "Spostatore di frequenza Bode (CV)"
 
 #: data/effects/ladspa/ladspa_1432.xml:6
 #, kde-format
@@ -15356,12 +15562,21 @@ msgid ""
 "it uses a Hilbert Transformer, which is much simpler to implement in digital "
 "systems."
 msgstr ""
+"<b>Spostatore di frequenza Bode (CV)</b> (LADSPA 1432).<br>\n"
+"   Uno spostatore di frequenza Bode/Moog è un noto modulo per sintetizzatori "
+"analogici che funziona spostando tutte le frequenze di un segnale in "
+"ingresso verso l'alto o verso il basso di una frequenza specificata. Questo "
+"effetto effettua contemporaneamente lo spostamento in entrambe le direzioni, "
+"poiché ciò richiede un lavoro aggiuntivo minimo ed è spesso utile disporre "
+"di entrambe le direzioni. A differenza dei Bode/Moog analogici, che "
+"utilizzano filtri Dome come elemento principale, questo effetto utilizza un "
+"trasformatore di Hilbert, molto più semplice da implementare nei sistemi "
+"digitali."
 
 #: data/effects/ladspa/ladspa_1432.xml:9
-#, fuzzy, kde-format
-#| msgid "Hue Shift"
+#, kde-format
 msgid "Base Shift"
-msgstr "Scostamento di tonalità"
+msgstr "Spostamento di base"
 
 #: data/effects/ladspa/ladspa_1432.xml:13
 #, kde-format
@@ -15369,22 +15584,19 @@ msgid "Down,Both,Up"
 msgstr "Giù,Entrambi,Su"
 
 #: data/effects/ladspa/ladspa_1432.xml:16
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgid "CV Attenuation"
-msgstr "Saturazione HSV"
+msgstr "Attenuazione CV"
 
 #: data/effects/ladspa/ladspa_1432.xml:19
-#, fuzzy, kde-format
-#| msgid "Shift"
+#, kde-format
 msgid "Shift CV"
-msgstr "Sposta"
+msgstr "Spostamento CV"
 
 #: data/effects/ladspa/ladspa_1433.xml:4
-#, fuzzy, kde-format
-#| msgid "TAP Pitch Shifter"
+#, kde-format
 msgid "AM Pitch Shifter"
-msgstr "Modulatore di tonalità TAP"
+msgstr "Modulatore di tonalità AM"
 
 #: data/effects/ladspa/ladspa_1433.xml:6
 #, kde-format
@@ -15395,6 +15607,11 @@ msgid ""
 "the two readpointers according to the sine of the distance from the write "
 "pointer."
 msgstr ""
+"Modulatore di tonalità AM (LADSPA 1433)<br>\n"
+"   Questo effetto funziona facendo scorrere un unico puntatore di scrittura "
+"(monotonico) e due puntatori di lettura (scalati in base all'intonazione) su "
+"un buffer ad anello. L'uscita viene sfumata tra i due puntatori di lettura "
+"in base al seno della distanza dal puntatore di scrittura."
 
 #: data/effects/ladspa/ladspa_1433.xml:9 data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
@@ -15407,6 +15624,8 @@ msgid ""
 "The multiple of the output pitch.<br>\n"
 "      For example, 2.00 will increase the pitch by one octave."
 msgstr ""
+"Il moltiplicatore dell'altezza del suono in uscita.<br>\n"
+"      Ad esempio, 2,00 aumenta l'altezza di un'ottava."
 
 #: data/effects/ladspa/ladspa_1433.xml:14
 #, kde-format
@@ -15498,7 +15717,7 @@ msgid ""
 "Comb Delay Line (linear interpolation) (LADSPA 1887)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
-"Linea combinata di ritardo (interpolazione lineare) (LADSPA 1887)<br>\n"
+"Linea di ritardo combinata (interpolazione lineare) (LADSPA 1887)<br>\n"
 "   Basato sul lavoro di James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1887.xml:9 data/effects/ladspa/ladspa_1888.xml:9
@@ -15549,7 +15768,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1888.xml:4
 #, kde-format
 msgid "Comb Delay Line (cubic spline interpolation)"
-msgstr "Linea combinata di ritardo (interpolazione spline cubica)"
+msgstr "Linea di ritardo combinata (interpolazione spline cubica)"
 
 #: data/effects/ladspa/ladspa_1888.xml:6
 #, kde-format
@@ -15557,13 +15776,13 @@ msgid ""
 "Comb Delay Line (cubic spline interpolation) (LADSPA 1888)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
-"Linea combinata di ritardo (interpolazione spline cubica) (LADSPA 1888)<br>\n"
+"Linea di ritardo combinata (interpolazione spline cubica) (LADSPA 1888)<br>\n"
 "   Basato sul lavoro di James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1889.xml:4
 #, kde-format
 msgid "Comb Delay Line (non-interpolating)"
-msgstr "Linea combinata di ritardo (senza interpolazione)"
+msgstr "Linea di ritardo combinata (senza interpolazione)"
 
 #: data/effects/ladspa/ladspa_1889.xml:6
 #, kde-format
@@ -15571,7 +15790,7 @@ msgid ""
 "Comb Delay Line (non-interpolating) (LADSPA 1889)<br>\n"
 "   Based on work by James McCartney in SuperCollider."
 msgstr ""
-"Linea combinata di ritardo (senza interpolazione) (LADSPA 1889)<br>\n"
+"Linea di ritardo combinata (senza interpolazione) (LADSPA 1889)<br>\n"
 "   Basato sul lavoro di James McCartney in SuperCollider."
 
 #: data/effects/ladspa/ladspa_1890.xml:4
@@ -15587,6 +15806,10 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"Filtro passa-alto GLAME (LADSPA 1890).<br>\n"
+"   Filtro passa-alto IIR basato su coefficienti di Chebyshev. Il filtro "
+"consente di regolare il numero di stadi utilizzati per il filtraggio. Ogni "
+"stadio aggiunge altri due poli, producendo un'attenuazione più ripida."
 
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
@@ -15610,6 +15833,8 @@ msgid ""
 "Every stage adds two more<br>\n"
 "      poles, which leads to a steeper dropoff."
 msgstr ""
+"Ogni stadio aggiunge altri due<br>\n"
+"      poli, producendo un'attenuazione più ripida."
 
 #: data/effects/ladspa/ladspa_1891.xml:4
 #, kde-format
@@ -15624,11 +15849,15 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"Filtro passa-alto GLAME (LADSPA 1891).<br>\n"
+"   Filtro passa-alto IIR basato su coefficienti di Chebyshev. Il filtro "
+"consente di regolare il numero di stadi utilizzati per il filtraggio. Ogni "
+"stadio aggiunge altri due poli, producendo un'attenuazione più ripida."
 
 #: data/effects/ladspa/ladspa_1892.xml:4
 #, kde-format
 msgid "GLAME Bandpass"
-msgstr "Passa banda GLAME"
+msgstr "Passa-banda GLAME"
 
 #: data/effects/ladspa/ladspa_1892.xml:6
 #, kde-format
@@ -15638,6 +15867,10 @@ msgid ""
 "you to tweak the number of stages used for filtering. Every stage adds two "
 "more poles, which leads to a steeper dropoff."
 msgstr ""
+"Filtro passa-banda GLAME (LADSPA 1892).<br>\n"
+"   Filtro passa-banda IIR basato su coefficienti di Chebyshev. Il filtro "
+"consente di regolare il numero di stadi utilizzati per il filtraggio. Ogni "
+"stadio aggiunge altri due poli, producendo un'attenuazione più ripida."
 
 #: data/effects/ladspa/ladspa_1892.xml:9 data/effects/ladspa/ladspa_1893.xml:9
 #: data/effects/sox/sox_band.xml:8
@@ -15654,7 +15887,7 @@ msgstr "Larghezza di banda"
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
 msgid "GLAME Bandpass Analog"
-msgstr "Passa banda analogico GLAME"
+msgstr "Passa-banda analogico GLAME"
 
 #: data/effects/ladspa/ladspa_1893.xml:6
 #, kde-format
@@ -15662,11 +15895,13 @@ msgid ""
 "GLAME Bandpass Analog Filter (LADSPA 1893)<br>\n"
 "   IIR bandpass filter modeled after an analog circuit"
 msgstr ""
+"Filtro passa-banda analogico GLAME (LADSPA 1893).<br>\n"
+"   Filtro passa-banda IIR modellato su un circuito analogico."
 
 #: data/effects/ladspa/ladspa_1895.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Non-interpolating)"
-msgstr ""
+msgstr "Linea di ritardo passa-tutto (senza interpolazione)"
 
 #: data/effects/ladspa/ladspa_1895.xml:6
 #, kde-format
@@ -15675,6 +15910,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Linea di ritardo passa-tutto (senza interpolazione) (LADSPA 1895)<br>\n"
+"   Si adatta automaticamente al numero di canali e alla frequenza di "
+"campionamento del dispositivo collegato."
 
 #: data/effects/ladspa/ladspa_1895.xml:17
 #: data/effects/ladspa/ladspa_1896.xml:17
@@ -15693,7 +15931,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Linear Interpolation)"
-msgstr ""
+msgstr "Linea di ritardo passa-tutto (interpolazione lineare)"
 
 #: data/effects/ladspa/ladspa_1896.xml:6
 #, kde-format
@@ -15702,11 +15940,14 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Linea di ritardo passa-tutto (LADSPA 1896)<br>\n"
+"   Si adatta automaticamente al numero di canali e alla frequenza di "
+"campionamento del dispositivo collegato."
 
 #: data/effects/ladspa/ladspa_1897.xml:4
 #, kde-format
 msgid "Allpass Delay Line (Cubic Spline Interpolation)"
-msgstr ""
+msgstr "Linea di ritardo passa-tutto (interpolazione spline cubica)"
 
 #: data/effects/ladspa/ladspa_1897.xml:6
 #, kde-format
@@ -15715,6 +15956,9 @@ msgid ""
 "   Automatically adapts to the number of channels and sampling rate of the "
 "consumer."
 msgstr ""
+"Linea di ritardo passa-tutto (LADSPA 1897)<br>\n"
+"   Si adatta automaticamente al numero di canali e alla frequenza di "
+"campionamento del dispositivo collegato."
 
 #: data/effects/ladspa/ladspa_1900.xml:4
 #, kde-format
@@ -15756,6 +16000,8 @@ msgstr "Guadagno dei bassi"
 #, kde-format
 msgid "Controls the gain of the low (100Hz) peak/dip band"
 msgstr ""
+"Controlla il guadagno della banda di picco/attenuazione delle basse "
+"frequenze (100 Hz)"
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
@@ -15768,6 +16014,8 @@ msgstr "Guadagno dei medi"
 #, kde-format
 msgid "Controls the gain of the mid (1,000Hz) peak/dip band"
 msgstr ""
+"Controlla il guadagno della banda di picco/attenuazione delle frequenze "
+"medie (1.000 Hz)"
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
@@ -15780,16 +16028,17 @@ msgstr "Guadagno degli acuti"
 #, kde-format
 msgid "Controls the gain of the high (10,000Hz) shelf band"
 msgstr ""
+"Controlla il guadagno della banda a scaffale delle alte frequenze (10.000 Hz)"
 
 #: data/effects/ladspa/ladspa_1902.xml:4
 #, kde-format
 msgid "GLAME Butterworth X-Over"
-msgstr ""
+msgstr "X-Over Butterworth GLAME"
 
 #: data/effects/ladspa/ladspa_1902.xml:5
 #, kde-format
 msgid "Butterworth Crossover Filter (LADSPA 1902)"
-msgstr ""
+msgstr "Filtro crossover Butterworth (LADSPA 1902)"
 
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
@@ -15801,22 +16050,22 @@ msgstr "Risonanza"
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
 msgid "GLAME Butterworth Lowpass"
-msgstr ""
+msgstr "Passa passa-basso Butterworth GLAME"
 
 #: data/effects/ladspa/ladspa_1903.xml:5
 #, kde-format
 msgid "Butterworth Lowpass Filter (LADSPA 1903)"
-msgstr ""
+msgstr "Passa passa-basso Butterworth (LADSPA 1903)"
 
 #: data/effects/ladspa/ladspa_1904.xml:4
 #, kde-format
 msgid "GLAME Butterworth Highpass"
-msgstr ""
+msgstr "Passa passa-alto Butterworth GLAME"
 
 #: data/effects/ladspa/ladspa_1904.xml:5
 #, kde-format
 msgid "Butterworth Highpass Filter (LADSPA 1904)"
-msgstr ""
+msgstr "Passa passa-alto Butterworth (LADSPA 1904)"
 
 #: data/effects/ladspa/ladspa_1905.xml:4
 #, kde-format
@@ -15932,6 +16181,11 @@ msgid ""
 "latency to the input signal, but it guarantees that there will be no signals "
 "over the limit, and tries to get the minimum amount of distortion."
 msgstr ""
+"Fast Lookahead Limiter (LADSPA 1913)<br>\n"
+"   Si tratta di un limitatore con un tempo di attacco di 5 ms. Aggiunge poco "
+"più di 5 ms di latenza al segnale in ingresso, ma garantisce che non vi "
+"siano segnali che superino il limite, e cerca di ridurre al minimo la "
+"distorsione."
 
 #: data/effects/ladspa/ladspa_1913.xml:11
 #, kde-format
@@ -15940,6 +16194,10 @@ msgid ""
 "      to the input stage. Can be used to trim gain to bring it roughly under "
 "the limit or to push the signal against the limit."
 msgstr ""
+"Guadagno applicato<br>\n"
+"      allo stadio di ingresso. Può essere utilizzato per regolare il "
+"guadagno in modo da mantenerlo approssimativamente al di sotto del limite, "
+"oppure per spingere il segnale al limite."
 
 #: data/effects/ladspa/ladspa_1913.xml:16
 #, kde-format
@@ -15948,6 +16206,9 @@ msgid ""
 "      Peaks over this level will be attenuated as smoothly as possible to "
 "bring them as close as possible to this level."
 msgstr ""
+"L'ampiezza massima di uscita.<br>\n"
+"      I picchi superiori a questo livello saranno attenuati nel modo più "
+"graduale possibile, in modo da avvicinarli il più possibile a tale livello."
 
 #: data/effects/ladspa/ladspa_1913.xml:21
 #, kde-format
@@ -16074,10 +16335,9 @@ msgid "Wet Level"
 msgstr "Livello wet"
 
 #: data/effects/ladspa/ladspa_2142.xml:18
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "Comb Filters"
-msgstr "Annulla filtri"
+msgstr "Filtri a pettine"
 
 #: data/effects/ladspa/ladspa_2142.xml:21
 #, kde-format
@@ -16124,6 +16384,16 @@ msgid ""
 "Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
+"AfterBurn,AfterBurn (Long),Ambience,Ambience (Thick),Ambience (Thick) - HD,"
+"Cathedral,Cathedral - HD,Drum Chamber,Garage,Garage (Bright),Gymnasium,"
+"Gymnasium (Bright),Gymnasium (Bright) - HD,Hall (Small),Hall (Medium),Hall "
+"(Large),Hall (Large) - HD,Plate (Small),Plate (Medium),Plate (Large),Plate "
+"(Large) - HD,Pulse Chamber,Pulse Chamber (Reverse),Resonator (96 ms),"
+"Resonator (152 ms),Resonator (208 ms),Room (Small),Room (Medium),Room "
+"(Large),Room (Large) - HD,Slap Chamber,Slap Chamber - HD,Slap Chamber "
+"(Bright),Slap Chamber (Bright) - HD,Smooth Hall (Small),Smooth Hall (Medium),"
+"Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
+"Warble Chamber,Warehouse,Warehouse - HD"
 
 #: data/effects/ladspa/ladspa_2143.xml:4
 #, kde-format
@@ -16137,12 +16407,14 @@ msgid ""
 "   Supports conventional mono and stereo delays, ping-pong delays and the "
 "Haas effect (also known as Cross Delay Stereo)."
 msgstr ""
+"Eco stereo TAP (LADSPA 2143).<br>\n"
+"   Supporta ritardi mono e stereo convenzionali, ritardi ping-pong e "
+"l'effetto Haas (noto anche come Cross Delay Stereo)."
 
 #: data/effects/ladspa/ladspa_2143.xml:9
-#, fuzzy, kde-format
-#| msgid "Colors Mode"
+#, kde-format
 msgid "Cross Mode"
-msgstr "Modalità colori"
+msgstr "Modalità incrociata"
 
 #: data/effects/ladspa/ladspa_2143.xml:12
 #, kde-format
@@ -16160,21 +16432,19 @@ msgid "L Delay"
 msgstr "Ritardo D"
 
 #: data/effects/ladspa/ladspa_2143.xml:21
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "L Feedback"
-msgstr "Feedback"
+msgstr "Retroazione sinistra"
 
 #: data/effects/ladspa/ladspa_2143.xml:24
 #, kde-format
 msgid "R/Haas Delay"
-msgstr ""
+msgstr "Ritardo R/Haas"
 
 #: data/effects/ladspa/ladspa_2143.xml:27
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "R/Haas Feedback"
-msgstr "Feedback"
+msgstr "Retroazione destra/Haas"
 
 #: data/effects/ladspa/ladspa_2143.xml:30
 #, kde-format
@@ -16201,10 +16471,9 @@ msgstr ""
 "   Suona bene soprattutto su tracce di chitarra acustica o elettrica."
 
 #: data/effects/ladspa/ladspa_2145.xml:4
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "TAP Scaling Limiter"
-msgstr "Dimensione di scalatura"
+msgstr "Limitatore scalabile TAP"
 
 #: data/effects/ladspa/ladspa_2145.xml:6
 #, kde-format
@@ -16212,6 +16481,8 @@ msgid ""
 "TAP Scaling Limiter (LADSPA 2145)<br>\n"
 "   Achieves signal level limiting without audible artifacts."
 msgstr ""
+"Limitatore scalabile TAP (LADSPA 2145)<br>\n"
+"   Consente di limitare il livello del segnale senza artefatti udibili."
 
 #: data/effects/ladspa/ladspa_2145.xml:9
 #, kde-format
@@ -16226,7 +16497,7 @@ msgstr "Volume di uscita"
 #: data/effects/ladspa/ladspa_2146.xml:4
 #, kde-format
 msgid "TAP AutoPanner"
-msgstr ""
+msgstr "Auto-pan TAP"
 
 #: data/effects/ladspa/ladspa_2146.xml:6
 #, kde-format
@@ -16234,6 +16505,9 @@ msgid ""
 "TAP AutoPanner (LADSPA 2146)<br>\n"
 "   Main use is to liven up synth tracks in the mix"
 msgstr ""
+"Auto-pan del TAP(LADSPA 2146)<br>\n"
+"   Il suo utilizzo principale è quello di dare vivacità alle tracce di "
+"sintetizzatore nel mix"
 
 #: data/effects/ladspa/ladspa_2146.xml:14
 #, no-c-format, kde-format
@@ -16242,6 +16516,10 @@ msgid ""
 "      A setting of 100% means that mono input signal is panned between the "
 "extreme left and right positions"
 msgstr ""
+"Imposta l'ampiezza del pan.<br>\n"
+"      Un'impostazione del 100% significa che il segnale mono in ingresso "
+"viene distribuito tra le posizioni completamente a sinistra e completamente "
+"a destra."
 
 #: data/effects/ladspa/ladspa_2147.xml:4
 #, kde-format
@@ -16265,10 +16543,9 @@ msgid "Threshold Level"
 msgstr "Livello di soglia"
 
 #: data/effects/ladspa/ladspa_2147.xml:15
-#, fuzzy, kde-format
-#| msgid "Sidechain plugins"
+#, kde-format
 msgid "Sidechain Filter"
-msgstr "Estensioni Sidechain"
+msgstr "Filtro sidechain"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
@@ -16351,7 +16628,7 @@ msgstr "Distanza dal microfono"
 #: data/effects/ladspa/ladspa_2149.xml:18
 #, kde-format
 msgid "Rotor/Horn Mix"
-msgstr ""
+msgstr "Mix Rotor/Horn"
 
 #: data/effects/ladspa/ladspa_2150.xml:4
 #, kde-format
@@ -16370,7 +16647,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2150.xml:9
 #, kde-format
 msgid "Semitone Shift"
-msgstr "Spostamento del semitono"
+msgstr "Spostamento di semitono"
 
 #: data/effects/ladspa/ladspa_2150.xml:11
 #, kde-format
@@ -16378,12 +16655,14 @@ msgid ""
 "Does the same thing as <b>Rate Shift</b></br>\n"
 "      but allows to set musically sensible pitch shift rates."
 msgstr ""
+"Fa la stessa cosa di <b>Spostamento della frequenza,</b></br>\n"
+"      ma consente di impostare dei valori di spostamento dell'intonazione "
+"musicalmente sensati."
 
 #: data/effects/ladspa/ladspa_2150.xml:14
-#, fuzzy, kde-format
-#| msgid "Hue Shift"
+#, kde-format
 msgid "Rate Shift"
-msgstr "Scostamento di tonalità"
+msgstr "Spostamento della frequenza"
 
 #: data/effects/ladspa/ladspa_2150.xml:16
 #, kde-format
@@ -16392,6 +16671,9 @@ msgid ""
 "      but in percentage of the original pitch, so that is closer to a "
 "\"physical\", non-musical approach"
 msgstr ""
+"Fa la stessa cosa di <b>Spostamento di semitono</b>,<br>\n"
+"      ma esprime la variazione come percentuale dell'intonazione originale, "
+"risultando quindi più vicino a un approccio \"fisico\" anziché musicale."
 
 #: data/effects/ladspa/ladspa_2151.xml:4
 #, kde-format
@@ -16447,8 +16729,7 @@ msgstr "Scostamento guadagno"
 
 #: data/effects/ladspa/ladspa_2152.xml:18
 #: data/effects/ladspa/ladspa_2153.xml:18
-#, fuzzy, kde-format
-#| msgid "Make Up Gain"
+#, kde-format
 msgid "Makeup Gain"
 msgstr "Guadagno di compensazione"
 
@@ -16467,6 +16748,11 @@ msgid ""
 "Hard limiter at -6dB;Hard limiter at -12dB;Hard gate at -35dB;Soft limiter;"
 "Soft knee comp/gate;Softgate below -36dB"
 msgstr ""
+"Compressione 2:1 a -6 dB,Compressione 2:1 a -9 dB,Compressione 2:1 a -12 dB,"
+"Compressione 2:1 a -18 dB,Compressione 2,5:1 a -18 dB,Compressione 3:1 a -12 "
+"dB,Compressione 3:1 a -15 dB,Compressore/Gate,Espansore,Limitatore rigido a "
+"-6 dB,Limitatore rigido a -12 dB,ate rigido a -35 dB,Limitatore morbido,"
+"Compressore/Gate a ginocchio morbido,Gate morbido sotto -36 dB"
 
 #: data/effects/ladspa/ladspa_2153.xml:4
 #, kde-format
@@ -16488,6 +16774,9 @@ msgid ""
 "Controls how the envelope levels<br>\n"
 "      are used to determine the needed gain adjustment"
 msgstr ""
+"Controlla come vengono utilizzati<br>\n"
+"      i livelli dell'inviluppo per determinare la regolazione del guadagno "
+"necessaria"
 
 #: data/effects/ladspa/ladspa_2153.xml:24
 #, kde-format
@@ -16527,7 +16816,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2155.xml:4
 #, kde-format
 msgid "TAP Pink/Fractal Noise"
-msgstr ""
+msgstr "Rumore rosa/frattale TAP"
 
 #: data/effects/ladspa/ladspa_2155.xml:6
 #, kde-format
@@ -16536,6 +16825,10 @@ msgid ""
 "    Adds pink noise to the incoming signal using a one-dimensional random "
 "fractal line generated by the Midpoint Displacement Method."
 msgstr ""
+"Rumore rosa/frattale TAP (LADSPA 2155)<br>\n"
+"    Aggiunge rumore rosa al segnale in ingresso utilizzando una linea "
+"frattale casuale monodimensionale generata mediante il metodo dello "
+"spostamento del punto medio."
 
 #: data/effects/ladspa/ladspa_2155.xml:9
 #, kde-format
@@ -16582,12 +16875,16 @@ msgid ""
 "(\"bad backup singer\"). When set to 1, changes are smaller and smoother "
 "(\"better tracking of the original\")."
 msgstr ""
+"Determina quanto sono \"irregolari\" e quanto sono grandi<br>\n"
+"      queste variazioni. Quando è impostato su 0, le variazioni sono "
+"maggiori e più caotiche (\"coro di supporto scadente\"). Quando è impostato "
+"su 1, le variazioni sono più piccole e uniformi (\"migliore aderenza "
+"all'originale\")."
 
 #: data/effects/ladspa/ladspa_2156.xml:14
-#, fuzzy, kde-format
-#| msgid "Pitch smoothing"
+#, kde-format
 msgid "Pitch Tracking"
-msgstr "Smussatura del beccheggio"
+msgstr "Rilevamento dell'intonazione"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
 #, kde-format
@@ -16625,7 +16922,7 @@ msgstr "Posizione destra wet"
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
 msgid "TAP Sigmoid Booster"
-msgstr ""
+msgstr "TAP Booster sigmoide"
 
 #: data/effects/ladspa/ladspa_2157.xml:6
 #, kde-format
@@ -16634,12 +16931,14 @@ msgid ""
 "   Applies a time-invariant nonlinear amplitude transfer function to the "
 "signal."
 msgstr ""
+"TAP Booster sigmoide (LADSPA 2157)<br>\n"
+"   Applica al segnale una funzione di trasferimento di ampiezza non lineare "
+"e invariante nel tempo."
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "Guadagno a sinistra"
+msgstr "Guadagno pre-effetto"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
@@ -16649,10 +16948,9 @@ msgstr ""
 "trasferimento."
 
 #: data/effects/ladspa/ladspa_2157.xml:13
-#, fuzzy, kde-format
-#| msgid "Sox Gain"
+#, kde-format
 msgid "Post Gain"
-msgstr "Guadagno Sox"
+msgstr "Guadagno post-effetto"
 
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
@@ -16662,7 +16960,7 @@ msgstr "Può essere utilizzato per regolare il guadagno in uscita dell'effetto."
 #: data/effects/ladspa/ladspa_2158.xml:4
 #, kde-format
 msgid "TAP TubeWarmth"
-msgstr ""
+msgstr "TAP Calore valvolare"
 
 #: data/effects/ladspa/ladspa_2158.xml:6
 #, kde-format
@@ -16672,6 +16970,11 @@ msgid ""
 "sonically desirable nonlinear characteristics of triodes. It also supports "
 "emulating analog tape saturation."
 msgstr ""
+"TAP Calore valvolare (LADSPA 2158)<br>\n"
+"   Aggiunge il carattere tipico dell'amplificazione valvolare, emulando le "
+"caratteristiche non lineari dei triodi, particolarmente apprezzate dal punto "
+"di vista sonoro. Supporta inoltre l'emulazione della saturazione del nastro "
+"analogico."
 
 #: data/effects/ladspa/ladspa_2158.xml:10
 #, kde-format
@@ -16681,7 +16984,7 @@ msgstr "Regola la quantità dell'effetto"
 #: data/effects/ladspa/ladspa_2158.xml:13
 #, kde-format
 msgid "Tape--Tube Blend"
-msgstr ""
+msgstr "Miscelazione nastro–valvola"
 
 #: data/effects/ladspa/ladspa_2158.xml:14
 #, kde-format
@@ -16691,7 +16994,7 @@ msgstr "Controlla il colore del suono TubeWarmth"
 #: data/effects/ladspa/ladspa_2159.xml:4
 #, kde-format
 msgid "TAP Chorus/Flange"
-msgstr ""
+msgstr "Chorus/Flange TAP"
 
 #: data/effects/ladspa/ladspa_2159.xml:6
 #, kde-format
@@ -16700,6 +17003,10 @@ msgid ""
 "    Creates traditional Chorus and Flanger effects, spiced up a bit to make "
 "use of stereo processing. It sounds best on guitar and synth tracks."
 msgstr ""
+"Chorus/Flange TAP (LADSPA 2159).<br>\n"
+"    Crea i tradizionali effetti chorus e flanger, arricchiti "
+"dall'elaborazione stereo. Dà i risultati migliori sulle tracce di chitarra e "
+"sintetizzatore."
 
 #: data/effects/ladspa/ladspa_2159.xml:11
 #, kde-format
@@ -16726,6 +17033,11 @@ msgid ""
 "phase; when set to 180 degrees, the two LFO's are is counter-phase to create "
 "the widest stereo effect."
 msgstr ""
+"Controlla lo sfasamento tra i due LFO.<br>\n"
+"      Più alto è questo valore, maggiore sarà l'effetto stereo. Quando è "
+"impostato su 0, l'elaborazione dei due canali è in fase; quando è impostato "
+"su 180 gradi, i due LFO sono in controfase, creando il più ampio effetto "
+"stereo."
 
 #: data/effects/ladspa/ladspa_2159.xml:21
 #, kde-format
@@ -16748,6 +17060,13 @@ msgid ""
 "above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a "
 "blend between Chorus and Flanger."
 msgstr ""
+"Determina la quantità di tempo fissa di cui viene<br>\n"
+"      ritardato il segnale dopo l'applicazione del ritardo variabile nel "
+"tempo. L'impostazione di questo controllo determina la distinzione tra gli "
+"effetti Chorus e Flanger. Ritardi inferiori a 10 ms possono essere "
+"considerati Flanger, ritardi superiori a 20 ms producono Chorus, mentre "
+"ritardi compresi tra 10 e 20 ms producono una combinazione di Chorus e "
+"Flanger."
 
 #: data/effects/ladspa/ladspa_2159.xml:29
 #, kde-format
@@ -16760,6 +17079,8 @@ msgid ""
 "The cutoff frequency of a high-pass<br>\n"
 "      filter applied to the now twice-delayed signal."
 msgstr ""
+"La frequenza di taglio di un filtro passa-alto<br>\n"
+"      applicato al segnale ora ritardato due volte."
 
 #: data/effects/ladspa/ladspa_2159.xml:36
 #: data/effects/ladspa/ladspa_2159.xml:41
@@ -16770,6 +17091,11 @@ msgid ""
 "same. Decreasing one of them (preferably the Wet Level, to mitigate any "
 "unwanted side effects) results in a subtler effect."
 msgstr ""
+"Permette una regolazione finale del suono.<br>\n"
+"      L'effetto più intenso si ottiene quando le due impostazioni sono "
+"all'incirca uguali. Diminuendo una delle due (preferibilmente il livello "
+"wet, per attenuare eventuali effetti indesiderati) si ottiene un effetto più "
+"delicato."
 
 #: data/effects/ladspa/ladspa_declipper.xml:5
 #, kde-format
@@ -16909,7 +17235,7 @@ msgstr "Periodo di grazia VAD"
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "Periodo di tolleranza VAD retroattivo (ms)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
 #, kde-format
@@ -17146,7 +17472,7 @@ msgid ""
 "file or an entire track. Correct audio loudness as recommended by EBU R128"
 msgstr ""
 "Progettato per analizzare e applicare la normalizzazione basata su un intero "
-"file audio o un'intera traccia. Correggi il volume audio come raccomandato "
+"file audio o un'intera traccia. Correggi la sonorità audio come raccomandato "
 "dalla norma EBU R128."
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
@@ -17270,13 +17596,7 @@ msgid "Mask Start"
 msgstr "Inizio maschera"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -17285,12 +17605,13 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Questo filtro esegue un'istantanea del fotogramma prima di disegnare delle "
-"forme semplici nel canale alfa. Usalo insieme all'effetto mask_apply, che "
-"utilizza una transizione per rendere composita l'immagine del fotogramma "
-"corrente sull'istantanea. L'utilizzo tipico è quello di aggiungere gli "
-"effetti nella sequenza seguente: questo effetto, zero o più effetti e "
-"mask_apply."
+"Questo filtro funziona in congiunzione con mask_apply, per rendere il "
+"mascheramento del filtro più semplice. Esegue un'istantanea del fotogramma "
+"prima di applicare un filtro, solitamente uno che agisce sul canale alfa che "
+"definisce la maschera. Poi, il filtro mask_apply utilizza una transizione "
+"per rendere composita l'immagine del fotogramma corrente sull'istantanea. "
+"L'utilizzo tipico è quello di aggiungere i filtri nella sequenza seguente: "
+"mask_start, zero o più effetti e mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -17751,7 +18072,7 @@ msgstr "Colore di riempimento"
 #: data/effects/rboctaveshift.xml:4
 #, kde-format
 msgid "Rubberband Octave Shift"
-msgstr "Cambia ottava Rubberband"
+msgstr "Sposta ottava Rubberband"
 
 #: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
@@ -17761,7 +18082,7 @@ msgstr "Regola il tono audio usando la libreria Rubberband."
 #: data/effects/rboctaveshift.xml:8
 #, kde-format
 msgid "Octave Shift"
-msgstr "Cambia ottava"
+msgstr "Sposta ottava"
 
 #: data/effects/rboctaveshift.xml:9
 #, kde-format
@@ -17773,10 +18094,10 @@ msgid ""
 "less than one for downwards) is: o = log(f) / log(2). Ignored if pitchscale "
 "is set."
 msgstr ""
-"Il cambiamento di ottava della frequenza sorgente. Ad esempio, un "
-"cambiamento di +1 raddoppierebbe la frequenza, mentre -1 la dimezzerebbe e 0 "
+"Lo spostamento di ottava della frequenza sorgente. Ad esempio, uno "
+"spostamento di +1 raddoppierebbe la frequenza, mentre -1 la dimezzerebbe e 0 "
 "non modificherebbe il tono. Per metterla in termini di frequenza, uno "
-"cambiamento di frequenza di f (dove f è maggiore di uno per spostamento "
+"spostamento di frequenza di f (dove f è maggiore di uno per spostamento "
 "verso l'alto, e minore di uno per quello verso il basso) è: o = log (f) / "
 "log (2). Viene ignorato se è stata impostata la scala dell'altezza."
 
@@ -17829,9 +18150,9 @@ msgstr ""
 "destinazione con la frequenza di origine. Ad esempio, un rapporto di 2,0 "
 "sposterà in alto di un'ottava, mentre 0,5 in basso da un'ottava; invece 1.0 "
 "lo lascia inalterato. Per metterlo in termini musicali, un rapporto di scala "
-"dell'altezza corrisponde a uno spostamento di o ottave (dove o è positivo "
-"per un spostamento verso l'alto, e negativo per uno verso il basso) è: f = "
-"pow (2,0, o). Sostituisce lo scala altezza."
+"dell'altezza corrisponde a uno spostamento di ottave (dove o è positivo per "
+"un spostamento verso l'alto, e negativo per uno verso il basso) è: f = pow "
+"(2,0, o). Sostituisce lo scala altezza."
 
 #: data/effects/rotate-3-way.xml:4
 #, kde-format
@@ -18185,7 +18506,7 @@ msgstr "Normalizzazione dinamica"
 #: data/effects/sox/sox.xml:24
 #, kde-format
 msgid "Smoothing window size "
-msgstr "Dimensione della finestra di smussatura "
+msgstr "Dimensione della finestra di smussamento "
 
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
@@ -18478,13 +18799,7 @@ msgid "Offset (HH:MM:SS.SSS)"
 msgstr "Scostamento (OO:MM:SS.SSS)"
 
 #: data/effects/timer.xml:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\"."
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.<br>\n"
 "        When the direction is <i>Down</i>, the timer will count down to "
@@ -18492,11 +18807,11 @@ msgid ""
 "        When the direction is <i>Up</i>, the timer will count up starting "
 "from <i>Offset</i>."
 msgstr ""
-"Uno scostamento da aggiungere al valore del timer.\n"
-"Se la direzione è \"all'indietro\" il timer conterà indietro fino allo "
-"\"scostamento\" invece che a 00:00:00.000.\n"
-"Se la direzione è \"in avanti\" il timer conterà in avanti a partire dallo "
-"\"scostamento\"."
+"Uno scostamento da aggiungere al valore del timer.<br>\n"
+"Se la direzione è <i>All'indietro</i>, il timer conterà indietro fino allo "
+"<i>Scostamento</i> invece che a 00:00:00.000.<br>\n"
+"Se la direzione è <i>In avanti</i>, il timer conterà in avanti a partire "
+"dallo <i>Scostamento</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -18554,6 +18869,14 @@ msgid ""
 "seconds per second of playback and stop at playback time 00:00:08.000 with "
 "value 00:00:37."
 msgstr ""
+"Moltiplicatore della velocità dell'orologio.<br>\n"
+"        Ad esempio, una velocità di 10,0 fa avanzare il timer di 10 secondi "
+"per ogni secondo di riproduzione.<br><br>\n"
+"        Scala la durata, ma non influisce su Inizio né su Scostamento. Ad "
+"esempio, con inizio 5 s, durata 30 s, scostamento 7 s, e velocità 10,0, il "
+"timer inizierà al tempo di riproduzione 00:00:05.000 con valore 00:00:07, "
+"avanzerà di 10 secondi per ogni secondo di riproduzione, e si fermerà al "
+"tempo di riproduzione 00:00:08.000 con valore 00:00:37."
 
 #: data/effects/timer.xml:104
 #, kde-format
@@ -19364,6 +19687,9 @@ msgid ""
 "generalised algorithm: D = saturation of 255 or depletion of 0, of ((255 - "
 "A) * 256) / (B + 1)"
 msgstr ""
+"Esegue un'operazione di schiaritura RGB[A] tra le sorgenti dei pixel, "
+"utilizzando l'algoritmo generalizzato: D = saturazione a 255 o limitazione a "
+"0 di ((255 - A) * 256) / (B + 1)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
@@ -19500,6 +19826,9 @@ msgid ""
 "Perform an RGB[A] dodge operation between the pixel sources, using the "
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
 msgstr ""
+"Esegue un'operazione di schiaritura RGB[A] tra le sorgenti dei pixel, "
+"utilizzando l'algoritmo generalizzato: D = saturazione a 255 o (A * 256) / "
+"(256 - B)"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
 #, kde-format
@@ -19664,6 +19993,8 @@ msgid ""
 "Perform an RGB[A] screen operation between the pixel sources, using the "
 "generalised algorithm: D = 255 - (255 - A) * (255 - B)"
 msgstr ""
+"Esegue un'operazione di schermatura RGB[A] tra le sorgenti dei pixel, "
+"utilizzando l'algoritmo generalizzato: D = 255 - (255 - A) * (255 - B)."
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, kde-format
@@ -24395,7 +24726,7 @@ msgstr "Transcodifica"
 #: src/project/dialogs/archivewidget.cpp:928
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
-msgstr "Il file in esportazione esiste già. Vuoi sovrascriverlo?"
+msgstr "Il file in uscita esiste già. Vuoi sovrascriverlo?"
 
 #: src/dialogs/renderwidget.cpp:980 src/monitor/recmanager.cpp:181
 #, kde-format
@@ -29200,8 +29531,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
-"Esci dopo l'avvio del processo (separato) di generazione, senza questo flag "
-"esiste solo dopo che ha finito."
+"Esci dopo l'avvio del processo (separato) di generazione; senza questo "
+"indicatore esce solo alla fine."
 
 #: src/main.cpp:358
 #, kde-format
@@ -29445,7 +29776,7 @@ msgstr "Anteprima della generazione"
 #: src/mainwindow.cpp:677 src/mainwindow.cpp:759 src/mainwindow.cpp:2189
 #, kde-format
 msgid "Identify Gaps"
-msgstr "Identifica gli spazi"
+msgstr "Identifica gli spazi vuoti"
 
 #: src/mainwindow.cpp:678 src/mainwindow.cpp:760
 #, kde-format
@@ -29719,7 +30050,7 @@ msgstr ""
 #: src/mainwindow.cpp:1368
 #, kde-format
 msgid "Ripple Tool"
-msgstr "Strumento per il montaggio con scarto"
+msgstr "Strumento di scorrimento"
 
 #: src/mainwindow.cpp:1371
 #, kde-kuit-format
@@ -30229,7 +30560,7 @@ msgid ""
 msgstr ""
 "Rimuove la zona della linea temporale o della selezione attualmente definita "
 "dalla zona di generazione dell'anteprima. Nota che questo può lasciare degli "
-"spazi nella zona di esportazione dell'anteprima."
+"spazi vuoti nella zona di esportazione dell'anteprima."
 
 #: src/mainwindow.cpp:1871 src/timeline2/view/previewmanager.cpp:503
 #, kde-format
@@ -31064,7 +31395,7 @@ msgstr ""
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
-msgstr "Montaggio con scarto"
+msgstr "Scorrimento"
 
 #: src/mainwindow.cpp:3857
 #, kde-kuit-format
@@ -31391,7 +31722,7 @@ msgstr "Prima la parte superiore"
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
-msgstr "Ordine del campo:"
+msgstr "Ordine dei campi:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:706
 #, kde-format
@@ -35110,7 +35441,7 @@ msgstr "YUV Y piatto"
 #: src/scopes/colorscopes/vectorscope.cpp:115
 #, kde-format
 msgid "Modified YUV (Chroma)"
-msgstr "YUV Modificato (Chroma)"
+msgstr "YUV Modificato (Crominanza)"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:30
 #, kde-format
@@ -35125,7 +35456,7 @@ msgstr "RGB piano, variazione mono-componente"
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
 #, kde-format
 msgid "HSV Hue Shift"
-msgstr "Scostamento di tonalità HSV"
+msgstr "Spostamento di tonalità HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:33
 #: src/scopes/colorscopes/colorplaneexport.cpp:245
@@ -35817,18 +36148,18 @@ msgstr "Nessuna clip trovata nella linea temporale"
 #: src/timeline2/model/timelinefunctions.cpp:3183
 #, kde-format
 msgid "No gaps found in timeline"
-msgstr "Nessuno spazio trovato nella linea temporale"
+msgstr "Nessuno spazio vuoto trovato nella linea temporale"
 
 #: src/timeline2/model/timelinefunctions.cpp:3192
 #: src/timeline2/model/timelinefunctions.cpp:3224
 #, kde-format
 msgid "Gap"
-msgstr "Spazio"
+msgstr "Spazio vuoto"
 
 #: src/timeline2/model/timelinefunctions.cpp:3217
 #, kde-format
 msgid "No gaps found on selected track"
-msgstr "Nessuno spazio trovato nella traccia selezionata"
+msgstr "Nessun spazio vuoto trovato nella traccia selezionata"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
 #: src/timeline2/model/timelinemodel.cpp:5207
@@ -36044,17 +36375,17 @@ msgstr "Ridimensiona composizione"
 #: src/timeline2/model/timelinemodel.cpp:4833
 #, kde-format
 msgid "Ripple resize clip"
-msgstr "Ridimensiona clip con scarto"
+msgstr "Ridimensionamento della clip con scorrimento"
 
 #: src/timeline2/model/timelinemodel.cpp:4835
 #, kde-format
 msgid "Ripple resize composition"
-msgstr "Ridimensiona composizione con scarto"
+msgstr "Ridimensionamento della composizione con scorrimento"
 
 #: src/timeline2/model/timelinemodel.cpp:4837
 #, kde-format
 msgid "Ripple resize subtitle"
-msgstr "Ridimensiona sottotitolo con scarto"
+msgstr "Ridimensionamento del sottotitolo con scorrimento"
 
 #: src/timeline2/model/timelinemodel.cpp:4980
 #, kde-format
@@ -36244,7 +36575,7 @@ msgstr "Durata di modifica per %1 clip."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
 #, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Ridimensionamento in modalità con scarto."
+msgstr "Ridimensionamento in modalità scorrimento."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:315
 #, kde-format
@@ -38263,7 +38594,7 @@ msgstr "Fine del ritaglio:"
 #: src/ui/clipdurationdialog_ui.ui:108
 #, kde-format
 msgid "Ripple resize"
-msgstr "Ridimensiona con scarto"
+msgstr "Ridimensionamento con scorrimento"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -40035,7 +40366,7 @@ msgstr "Prima il campo superiore"
 #: src/ui/editrenderpreset_ui.ui:296
 #, kde-format
 msgid "Field Order:"
-msgstr "Ordine del campo:"
+msgstr "Ordine dei campi:"
 
 #. i18n: ectx: property (text), widget (QLabel, vquality_label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
@@ -40912,7 +41243,7 @@ msgstr "Informazioni"
 #: src/ui/managesubtitles_ui.ui:539
 #, kde-format
 msgid "Key"
-msgstr ""
+msgstr "Chiave"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:40
