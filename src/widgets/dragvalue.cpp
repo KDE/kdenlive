@@ -771,7 +771,7 @@ void DragValue::setParamState(bool isOnKeyframe, bool singleKeyframe)
         KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
         QColor col = m_singleKeyframe ? scheme.background(KColorScheme::LinkBackground).color()
                      : m_onKeyframe
-                         ? KColorUtils::mix(palette().base().color(), QColor("#bb8800"), 0.6) /*scheme.background(KColorScheme::NeutralBackground).color()*/
+                         ? KColorUtils::mix(palette().base().color(), QColor(0xbb8800), 0.6) /*scheme.background(KColorScheme::NeutralBackground).color()*/
                          : scheme.background(KColorScheme::PositiveBackground).color();
         QPalette pal = palette();
         bool readOnly = !isOnKeyframe && !singleKeyframe;
@@ -779,10 +779,12 @@ void DragValue::setParamState(bool isOnKeyframe, bool singleKeyframe)
             pal.setColor(m_intEdit->backgroundRole(), col);
             m_intEdit->setPalette(pal);
             m_intEdit->setReadOnly(readOnly);
+            m_intEdit->setFocusPolicy(readOnly ? Qt::NoFocus : Qt::StrongFocus);
         } else {
             pal.setColor(m_doubleEdit->backgroundRole(), col);
             m_doubleEdit->setPalette(pal);
             m_doubleEdit->setReadOnly(readOnly);
+            m_doubleEdit->setFocusPolicy(readOnly ? Qt::NoFocus : Qt::StrongFocus);
         }
         if (m_label) {
             m_label->setEnabled(!readOnly);

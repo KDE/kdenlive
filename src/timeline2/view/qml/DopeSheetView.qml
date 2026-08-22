@@ -86,7 +86,7 @@ Rectangle {
         }
     }
     onConsumerPositionChanged: {
-        dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, getActiveCppParamIndex())
+        dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
     }
 
     signal filterDopeView(var searchText)
