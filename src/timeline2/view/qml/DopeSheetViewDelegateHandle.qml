@@ -59,6 +59,12 @@ Rectangle {
             handle.dopeRootItem.hoverKeyframe = handle.modelFrame
             handle.dopeRootItem.mouseFramePos = handle.modelFrame
         }
+        onExited: {
+            handle.delegateProperties.currentKFFrame = -1
+            handle.delegateProperties.currentKFIndex = -1
+            handle.dopeRootItem.hoverKeyframe = -1
+        }
+
         ToolTip.text: handle.modelDescription
         ToolTip.delay: 1000
         ToolTip.visible: containsMouse && !handle.kfPressed

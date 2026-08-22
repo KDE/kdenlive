@@ -23,7 +23,7 @@ TreeView {
     selectionModel: ItemSelectionModel {
         model: treeViewItem.dopesheetfiltermodel
         onCurrentChanged: (current, previous) => {
-            treeViewItem.dopeRootItem.overKeyframe = treeViewItem.dopesheetmodel.isOnKeyframe(treeViewItem.dopeRootItem.consumerPosition, false, treeViewItem.dopeRootItem.getActiveCppParamIndex())
+            treeViewItem.dopeRootItem.overKeyframe = treeViewItem.dopesheetmodel.isOnKeyframe(treeViewItem.dopeRootItem.consumerPosition + treeViewItem.dopeRootItem.inPoint, false, treeViewItem.dopeRootItem.getActiveCppParamIndex())
             if (current.valid && current.parent) {
                 let currentIndex = treeViewItem.dopeRootItem.getActiveCppParamIndex()
                 if (currentIndex.valid) {

@@ -358,9 +358,6 @@ Item {
                 var mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.contentScroll * delegateRect.dopeRootItem.timeScale * delegateRect.dopeRootItem.maximumScaleFactor))
                 delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
                 if (!pressed) {
-                    delegateRect.currentKFFrame = -1
-                    delegateRect.currentKFIndex = -1
-                    delegateRect.dopeRootItem.hoverKeyframe = -1
                     return
                 }
                 if (!dragStarted && mouse.buttons === Qt.LeftButton) {

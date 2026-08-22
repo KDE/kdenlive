@@ -274,8 +274,8 @@ Rectangle {
         // Start frame
         var startFrame = Math.min(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         var endFrame = Math.max(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
-        startFrame = viewToFrame(startFrame)
-        endFrame = viewToFrame(endFrame)
+        startFrame = viewToFrame(startFrame) + dopeRoot.inPoint
+        endFrame = viewToFrame(endFrame) + dopeRoot.inPoint
         console.log('SELECTING FRAMES BETWEEN: ', startFrame, '-', endFrame)
         var topPos = mapToItem(treeViewItem, 0, Math.min(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
         topPos.y = Math.max(0, topPos.y)
@@ -871,7 +871,7 @@ Rectangle {
                 if (current.valid) {
                     var activeIndex = dopeRoot.getActiveCppParamIndex()
                     if (activeIndex.valid) {
-                        dopeRoot.overKeyframe = dopeRoot.dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition, false, activeIndex)
+                        dopeRoot.overKeyframe = dopeRoot.dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, activeIndex)
                         if (current.parent) {
                             keyframeCurve.model = dopeRoot.dopesheetmodel.getKeyframeModel(activeIndex)
                         }
