@@ -972,26 +972,30 @@ void PluginsSettings::checkCuda(bool isSam)
 {
     // Determine CUDA version
     QString detectedCuda;
-    const QString nvcc = QStandardPaths::findExecutable(QStringLiteral("nvcc"));
-    if (!nvcc.isEmpty()) {
+    const QStringList acceptedCudaVersions = {"11.8", "12.4", "12.6", "12.8", "13.0", "13.2"};
+    const QString nvidiasmi = QStandardPaths::findExecutable(QStringLiteral("nvidia-smi"));
+    if (!nvidiasmi.isEmpty()) {
         QProcess extractInfo;
-        extractInfo.start(nvcc, {QStringLiteral("--version")});
+        extractInfo.start(nvidiasmi, {QStringLiteral("--version")});
         extractInfo.waitForFinished();
         if (extractInfo.exitStatus() == QProcess::NormalExit) {
             const QString output = extractInfo.readAllStandardOutput();
-            if (output.contains(QLatin1String("11.8"))) {
-                detectedCuda = QStringLiteral("cuda118");
-            } else if (output.contains(QLatin1String("12.4"))) {
-                detectedCuda = QStringLiteral("cuda124");
-            } else if (output.contains(QLatin1String("12.6"))) {
-                detectedCuda = QStringLiteral("cuda126");
-            } else if (output.contains(QLatin1String("12.8"))) {
-                detectedCuda = QStringLiteral("cuda128");
-            } else if (output.contains(QLatin1String("13.0"))) {
-                detectedCuda = QStringLiteral("cuda130");
+            const QStringList lines = output.split("\n");
+            const QStringList cudaLines = lines.filter("CUDA");
+            const QString cudaLine = cudaLines.front();
+            const QStringList cudaParts = cudaLine.split(":");
+            QString cudaVersionRaw = cudaParts.back();
+            QString cudaVersion = cudaVersionRaw.trimmed();
+            qDebug() << "The CUDA version read in nvidia-smi: " << cudaVersion;
+            if (acceptedCudaVersions.contains(cudaVersion)) {
+                cudaVersion.remove(".");
+                detectedCuda = QStringLiteral("cuda");
+                detectedCuda.append(cudaVersion);
+                qDebug() << "The detected CUDA version: " << detectedCuda;
             }
-
         }
+    } else {
+        qDebug() << "!! No nvidia-smi executable was found !!";
     }
     QDialog d(this);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Cancel);
