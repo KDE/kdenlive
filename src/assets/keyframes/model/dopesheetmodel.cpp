@@ -1397,7 +1397,7 @@ int DopeSheetModel::getPreviousSnap(const QModelIndex ix, int pos)
 {
     // Find active model
     KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
-    pos -= dopePosition();
+    pos -= dopeKeyframeOffset();
     if (!km) {
         qDebug() << "// INVALID INDEX PASSED FOR SEEK: " << ix;
         return pos;
@@ -1409,7 +1409,7 @@ int DopeSheetModel::getPreviousSnap(const QModelIndex ix, int pos)
     } else {
         pos = 0;
     }
-    pos += dopePosition();
+    pos += dopeKeyframeOffset();
     return pos;
 }
 
@@ -1417,7 +1417,7 @@ int DopeSheetModel::getNextSnap(const QModelIndex ix, int pos)
 {
     // Find active model
     KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
-    pos -= dopePosition();
+    pos -= dopeKeyframeOffset();
     if (!km) {
         qDebug() << "// INVALID INDEX PASSED FOR SEEK: " << ix;
         return pos;
@@ -1429,7 +1429,7 @@ int DopeSheetModel::getNextSnap(const QModelIndex ix, int pos)
     } else {
         pos = dopeDuration() - 1;
     }
-    pos += dopePosition();
+    pos += dopeKeyframeOffset();
     return pos;
 }
 

@@ -1011,6 +1011,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         lay->addWidget(doubleWidget);
         QToolButton *goPrev = new QToolButton(m_parent);
         goPrev->setIcon(QIcon::fromTheme("arrow-left"));
+        goPrev->setToolTip(i18n("Go to Previous Keyframe"));
         goPrev->setAutoRaise(true);
         goPrev->setMaximumWidth(goPrev->height() * 0.6);
         lay->addWidget(goPrev);
@@ -1028,6 +1029,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         goNext->setIcon(QIcon::fromTheme("arrow-right"));
         goNext->setAutoRaise(true);
         goNext->setMaximumWidth(goNext->height() * 0.6);
+        goNext->setToolTip(i18n("Go to Next Keyframe"));
         connect(goNext, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), true); });
         lay->addWidget(goNext);
 
