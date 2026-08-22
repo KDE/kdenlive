@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-19 16:04+0000\n"
-"PO-Revision-Date: 2026-08-17 18:05+0200\n"
+"PO-Revision-Date: 2026-08-21 19:24+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -8517,15 +8517,14 @@ msgstr ""
 "    Effekten har ersatts av <em>frei0r.alphaops_alphaspot</em>."
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "Låg tröskel"
+msgstr "Automatisk tröskel"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
 msgid "Segments an image into foreground or background"
-msgstr ""
+msgstr "Segmenterar en bild i förgrund eller bakgrund"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:8
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
@@ -8534,10 +8533,9 @@ msgid "Slope"
 msgstr "Lutning"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:9
-#, fuzzy, kde-format
-#| msgid "Sigmoidal Transfer"
+#, kde-format
 msgid "Slope of Sigmoidal Transfer"
-msgstr "Sigmoid överföring"
+msgstr "Lutningen på sigmoid överföring"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -12536,28 +12534,24 @@ msgid "Do not average the alpha channel over each block"
 msgstr "Skapa inte medelvärdet av alfakanalen för varje block"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelate"
+#, kde-format
 msgid "Pixels0rt"
-msgstr "Pixelering"
+msgstr "Pixels0rt"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
-#, fuzzy, kde-format
-#| msgid "Problem deleting effect"
+#, kde-format
 msgid "Pixel sorting effect"
-msgstr "Problem vid borttagning av effekt"
+msgstr "Bildpunktssorteringseffekt"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
-#, fuzzy, kde-format
-#| msgid "Defines the rectangle of the area that will be removed."
+#, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr "Definierar rektangeln för området som ska tas bort."
+msgstr "Relativ storlek på linjen som ska sorteras"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Sorting direction"
-msgstr "Speglingsriktning"
+msgstr "Sorteringsriktning"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -12565,23 +12559,23 @@ msgid ""
 "Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
 "to right,Horizontal from right to left"
 msgstr ""
+"Vertikal uppifrån och ner, Vertikal nerifrån och upp, Horisontell från "
+"vänster till höger, Horisontell från höger till vänster"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "Vänd"
+msgstr "Omvänd"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
 msgid "Should be pixels sorted in reversed order"
-msgstr ""
+msgstr "Ska bildpunkterna sorteras i omvänd ordning"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency Top"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "Övre genomskinlighet"
+msgstr "Genomskinlighetströskel"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12590,6 +12584,9 @@ msgid ""
 "        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
 "transparent pixels"
 msgstr ""
+"Vilken genomskinlighetsnivå ska<br>\n"
+"        filtret kringgå. 0 bearbetar alla bildpunkter, 1 ignorerar alla "
+"genomskinliga bildpunkter"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
