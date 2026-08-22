@@ -397,6 +397,7 @@
         <p xml:lang="ca-valencia">Principalment, un llançament d'esmena d'errors i d'usabilitat, ací hi ha alguna de les millores</p>
         <p xml:lang="es">Se trata mayormente de una versión con correcciones de errores y mejoras en la usabilidad, a continuación algunas de las mejoras</p>
         <p xml:lang="he">מהדורה שעיקרה תיקון תקלות ושיפור שימושיות, הנה כמה מהשיפורים</p>
+        <p xml:lang="it">È principalmente una versione dedicata alla correzione di bug e al miglioramento dell'usabilità; ecco alcuni dei miglioramenti</p>
         <p xml:lang="ka">ძირითადად შეცდომების გამოსწორება და გამოყენებადობის გამოშვება, აქ არის რამდენიმე გაუმჯობესება</p>
         <p xml:lang="nl">Dit is voornamelijk een uitgave gericht op reparaties van fouten en gebruiksvriendelijkheid; hier zijn enkele van de verbeteringen</p>
         <p xml:lang="pt-BR">Esta é uma atualização focada principalmente em correções de bugs e usabilidade. Aqui estão algumas das melhorias:</p>
@@ -412,6 +413,7 @@
           <li xml:lang="ca-valencia">Línia de temps: permet moure les pistes amunt i avall</li>
           <li xml:lang="es">Línea de tiempo: Ahora es posible mover las pistas hacia arriba/abajo</li>
           <li xml:lang="he">ציר זמן: מתן אפשרות להעביר רצועות ולמעלה ולמטה</li>
+          <li xml:lang="it">Linea temporale: viene permesso lo spostamento delle tracce in su e in giù</li>
           <li xml:lang="ka">ქრონოლოგია: ტრეკების ატანა/ჩამოტანის დაშვება</li>
           <li xml:lang="nl">Tijdlijn: tracks omhoog en omlaag verplaatsen</li>
           <li xml:lang="pt-BR">Linha do tempo: permitir mover faixas para cima e para baixo</li>
@@ -426,6 +428,7 @@
           <li xml:lang="ca-valencia">Línia de temps: afig automàticament marcadors d'interval a les separacions</li>
           <li xml:lang="es">Línea de tiempo: Adición automática de marcadores de rango en huecos</li>
           <li xml:lang="he">ציר זמן: להוסיף סמני טווח במרווחים</li>
+          <li xml:lang="it">Linea temporale: i marcatori di intervallo vengono aggiunti automaticamente negli spazi vuoti</li>
           <li xml:lang="ka">ქრონოლოგია: შუალედის მარკერების ავტომატური დამატება</li>
           <li xml:lang="nl">Tijdlijn: automatisch bereikmarkeringen toevoegen bij hiaten</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar automaticamente marcadores de intervalo nas lacunas</li>
@@ -440,6 +443,7 @@
           <li xml:lang="ca-valencia">Línia de temps: afig la inserció de clip utilitzant el seu codi de temps incrustat</li>
           <li xml:lang="es">Línea de tiempo: Ahora es posible insertar un clip usando su código de tiempo incorporado</li>
           <li xml:lang="he">ציר זמן: נוספה אפשרות להוסיף סרטון באמצעות קוד הזמן המובנה שלו</li>
+          <li xml:lang="it">Linea temporale: è stata aggiunto l'inserimento di una clip utilizzando il suo codice temporale incorporato</li>
           <li xml:lang="ka">ქრონოლოგია: დაემატა კლიპის ჩასმა მისი ჩაშენებული დროის კოდით</li>
           <li xml:lang="nl">Tijdlijn: voeg een clip in met gebruik van de ingebedde tijdcode</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar clipe de inserção usando seu código de tempo incorporado</li>
@@ -454,6 +458,7 @@
           <li xml:lang="ca-valencia">Línia de temps: afig una opció per retornar el capçal de reproducció a la posició d'inici en parar-se</li>
           <li xml:lang="es">Línea de tiempo: Se agregó un opción para que el cursor de tiempo regrese a la posición inicial al detener la reproducción</li>
           <li xml:lang="he">ציר זמן: נוספה אפשרות להחזיר את ראש הנגינה להתחלה לאחר עצירה</li>
+          <li xml:lang="it">Linea temporale: è stata aggiunta un'opzione per riportare l'indicatore di riproduzione nella posizione iniziale al termine</li>
           <li xml:lang="ka">ქრონოლოგია: დაემატა პარამეტრი გაჩერებისას დაკვრის მაჩვენებლის დასაწყისში გადასატანად</li>
           <li xml:lang="nl">Tijdlijn: optie toevoegen om de afspeelkop bij het stoppen naar de startpositie terug te zetten</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar opção para retornar o cursor de reprodução à posição inicial ao parar</li>
@@ -468,6 +473,7 @@
           <li xml:lang="ca-valencia">Línia de temps: afig l'opció de duplicar un clip</li>
           <li xml:lang="es">Línea de tiempo: Se agregó una opción para duplicar clips</li>
           <li xml:lang="he">ציר זמן: נוספה אפשרות לשכפל סרטון</li>
+          <li xml:lang="it">Linea temporale: è stata aggiunta un'opzione per duplicare una clip</li>
           <li xml:lang="ka">ქრონოლოგია: დაემატა პარამეტრი კლიპის დუბლირებისთვის</li>
           <li xml:lang="nl">Tijdlijn: optie toevoegen om een ​​clip te dupliceren</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar opção para duplicar clipe</li>
@@ -482,6 +488,7 @@
           <li xml:lang="ca-valencia">Línia de temps: permet moure els marcadors de clip amb el ratolí</li>
           <li xml:lang="es">Línea de tiempo: Ahora es posible mover marcadores de clips con el ratón</li>
           <li xml:lang="he">ציר זמן: מתן אפשרות להעביר סמני סרטונים עם העכבר</li>
+          <li xml:lang="it">Linea temporale: viene permesso lo spostamento dei marcatori delle tracce col mouse</li>
           <li xml:lang="ka">ქრონოლოგია: კლიპის მარკერების თაგუნათი გადაადგილების ხარდაჭერა</li>
           <li xml:lang="nl">Tijdlijn: verplaatsen van clipmarkeringen met de muis mogelijk maken</li>
           <li xml:lang="pt-BR">Linha do tempo: permitir mover marcadores de clipe com o mouse</li>
@@ -496,6 +503,7 @@
           <li xml:lang="ca-valencia">Línia de temps: afig una opció per copiar la selecció a una seqüència nova (sense modificar l'original)</li>
           <li xml:lang="es">Línea de tiempo: Se agregó una opción para copiar una selección de clips a una nueva secuencia (sin modificar los originales)</li>
           <li xml:lang="he">ציר זמן: נוספה אפשרות להעתיק את הבחירה לרצף חדש (מבלי לשנות את המקורי)</li>
+          <li xml:lang="it">Linea temporale: è stata aggiunta un'opzione per copiare la selezione in una nuova sequenza (senza modificare l'originale)</li>
           <li xml:lang="ka">ქრონოლოგია: დაემატა პარამეტრი მონიშნულის დასაკოპირებლად ახალ მიმდევრობაში (ორიგინალის ცვლილების გარეშე)</li>
           <li xml:lang="nl">Tijdlijn: optie toevoegen om selectie naar een nieuwe sequentie te kopiëren (zonder het origineel te wijzigen)</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar opção de copiar a seleção para uma nova sequência (sem modificar a original)</li>
@@ -510,6 +518,7 @@
           <li xml:lang="ca-valencia">Línia de temps: canvia la transició predeterminada a dissoldre ara que gestiona correctament l'alfa</li>
           <li xml:lang="es">Línea de tiempo: Se modificó la transición predeterminada a Disolver, ahora que es capaz de manipular correctamente el canal alfa</li>
           <li xml:lang="he">ציר זמן: מעברון ברירת המחדל הוחלף להתמוססות מעתה כשהוא יודע לטפל בשקיפות בצורה נכונה</li>
+          <li xml:lang="it">Linea temporale: la transizione predefinita passa a dissolvenza, dato che adesso alfa viene gestito correttamente </li>
           <li xml:lang="ka">ქრონოლოგია: ნაგულისხმევი გადასვლის გადართვა, რომ გაქრეს, რადგან ის ახლა ალფას სწორად აღიქვამს</li>
           <li xml:lang="nl">Tijdlijn: wijzig de standaardovergang naar oplossen, nu deze correct met alfa omgaat.</li>
           <li xml:lang="pt-BR">Linha do tempo: alterar a transição padrão para "dissolver", agora que ela lida corretamente com o canal alfa</li>
@@ -524,6 +533,7 @@
           <li xml:lang="ca-valencia">Mesclador d'àudio: majúscules i clic per escoltar diverses pistes seleccionades en mode individual</li>
           <li xml:lang="es">Mezclador de audio: Mayús + clic para escuchar varias pistas seleccionadas en modo Solo</li>
           <li xml:lang="he">מערבל שמע: shift ולחיצה כדי להאזין למגוון רצועות שנבחרו במצב פרטני</li>
+          <li xml:lang="it">Mixer audio: in modalità solitaria fai clic tenendo premuto il tasto Maiusc per ascoltare più brani selezionati</li>
           <li xml:lang="ka">აუდიოს მიქსერი: Shift+წკაპი ერთზე მეტი მონიშნული ტრეკის სოლო რეჟიმში მოსასმენად</li>
           <li xml:lang="nl">Audiomixer: Shift-klik om naar meerdere geselecteerde sporen in solomodus te luisteren</li>
           <li xml:lang="pt-BR">Mixer de áudio: clicar com Shift para ouvir várias faixas selecionadas no modo solo</li>
@@ -538,6 +548,7 @@
           <li xml:lang="ca-valencia">Efectes: afig avfilter.curves, permetent ajustar tots els canals en un efecte</li>
           <li xml:lang="es">Efectos: Se agregó el efecto Curvas (avfilter), que permite ajustar todos los canales usando un único efecto</li>
           <li xml:lang="he">אפקטים: נוסף avfilter.curves (עקומות), מה שמאפשר לכוון את כל הערוצים באפקט אחד</li>
+          <li xml:lang="it">Effetti: è stato aggiunto avfilter.curves, che permette di regolare tutti i canali in un unico effetto</li>
           <li xml:lang="ka">ეფექტი: დაემატა avfilter.curves. საშუალებას გაძლევთ, ყველა არხი ერთ ეფექტში გაასწოროთ</li>
           <li xml:lang="nl">Effecten: avfilter.curves toegevoegd, waarmee alle kanalen in één effect kunnen worden aangepast</li>
           <li xml:lang="pt-BR">Efeitos: adição do avfilter.curves, permitindo ajustar todos os canais em um único efeito</li>
@@ -552,6 +563,7 @@
           <li xml:lang="ca-valencia">Efectes: millora el filtre de mapa de degradats, permetent fins a 32 parades en el degradat</li>
           <li xml:lang="es">Efectos: Se mejoró el efecto Mapear gradiente, permitiendo hasta 32 paradas en el gradiente</li>
           <li xml:lang="he">אפקטים: מסנן מפת מדרגים השתפר, מאפשר עד 32 נקודות עצירה במדרג</li>
+          <li xml:lang="it">Effetti: è stato migliorato il filtro gradientmap, che permette fino a 32 punto di arresto del gradiente</li>
           <li xml:lang="ka">ეფექტები: გაუმჯობესდა ფილტრი gradientmap. ახლა მას შეუძლია 32 გაჩერება გრადიენტში</li>
           <li xml:lang="nl">Effecten: verbetering van het kleurverloopfilter, waardoor tot 32 stops in het verloop mogelijk zijn.</li>
           <li xml:lang="pt-BR">Efeitos: aprimoramento do filtro de mapa de gradiente, permitindo até 32 pontos de parada no gradiente</li>
@@ -566,6 +578,7 @@
           <li xml:lang="ca-valencia">Creador de títols: afig la copia/apegades d'elements</li>
           <li xml:lang="es">Titulador: Se agregó la posibilidad de copiar/pegar objetos</li>
           <li xml:lang="he">עורך הכותרות: נוספה העתקת/הדבקת פריטים</li>
+          <li xml:lang="it">Titolatrice: sono state aggiunte la copia e l'incollaggio degli elementi</li>
           <li xml:lang="ka">სათაური: ელემენტების ჩასმა/კოპირება</li>
           <li xml:lang="nl">Titelmaker: kopiëren/plakken van items toevoegen</li>
           <li xml:lang="pt-BR">Titulador: adicionado recurso de copiar/colar itens</li>
@@ -580,6 +593,7 @@
           <li xml:lang="ca-valencia">Creador de títols: afig l'ajust a altres elements</li>
           <li xml:lang="es">Titulador: Se agregó una función de adherencia a otros objetos</li>
           <li xml:lang="he">עורך הכותרות: נוספה הצמדה לעצמים אחרים</li>
+          <li xml:lang="it">Titolatrice: è stato aggiunto l'aggancio agli altri oggetti</li>
           <li xml:lang="ka">სათაური: სხვა ობიექტებზე მიმაგრების მხარდაჭერა</li>
           <li xml:lang="nl">Titelmaker: uitlijning op andere objecten toevoegen</li>
           <li xml:lang="pt-BR">Titulador: adicionado ajuste (snapping) a outros objetos</li>
@@ -594,6 +608,7 @@
           <li xml:lang="ca-valencia">Creador de títols: afig rectangles amb cantons arredonits</li>
           <li xml:lang="es">Titulador: Se agregó la posibilidad de crear rectángulos con esquinas redondeadas</li>
           <li xml:lang="he">עורך הכותרות: נוספו מרובעים עם פינות מעוגלות</li>
+          <li xml:lang="it">Titolatrice: sono stati aggiunti dei rettangoli con gli angoli arrotondati</li>
           <li xml:lang="ka">სათაური: დაემატა მართკუთხედები მომრგვალებული კუთხეებით</li>
           <li xml:lang="nl">Titelmaker: rechthoeken met afgeronde hoeken toevoegen</li>
           <li xml:lang="pt-BR">Titulador: adicionado retângulos com cantos arredondados</li>
@@ -608,6 +623,7 @@
           <li xml:lang="ca-valencia">Creador de títols: en editar un títol de la línia de temps, permet guardar-lo com un títol nou de la safata per a modificar-lo amb facilitat només este</li>
           <li xml:lang="es">Titulador: Al editar un título en la línea de tiempo, ahora se permite guardarlo como un nuevo título en el panel Medios, para poder modificarlo de forma independiente</li>
           <li xml:lang="he">עורך הכותרות: בעת עריכת כותרת בציר הזמן, יש אפשרות לשמור אותה ככותרת חדשה בסל כדי לשנות את זאת בקלות</li>
+          <li xml:lang="it">Titolatrice: nella modifica di un titolo nella linea temporale adesso è possibile salvarlo come titolo nel contenitore, per poterlo modificare facilmente</li>
           <li xml:lang="ka">სათაური: ქრონოლოგიის სათაურის ჩასწორებისას ახალ სათაურად შენახვის მხარდაჭერა, რომ მისი ჩასწორება იოლი იყოს</li>
           <li xml:lang="nl">Titelmaker: maak het bij het bewerken van een tijdlijntitel mogelijk deze als nieuwe titel in de opslagmap op te slaan, zodat alleen deze titel eenvoudig kan worden aangepast</li>
           <li xml:lang="pt-BR">Titulador: ao editar um título da linha do tempo, permitir salvá-lo como um novo título na cesta para modificar facilmente apenas essa instância</li>
