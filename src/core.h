@@ -524,6 +524,8 @@ Q_SIGNALS:
     void speechModelUpdate(SpeechToTextEngine::EngineType engine, const QStringList models);
     /** @brief Update current effect zone */
     void updateEffectZone(const QPoint p, bool withUndo);
+    /** @brief The effect stask changed, register required stuff */
+    void connectEffectStack();
     /** @brief The effect stask is about to be deleted, disconnect everything */
     void disconnectEffectStack();
     /** @brief Add a time remap effect to clip and show keyframes dialog */

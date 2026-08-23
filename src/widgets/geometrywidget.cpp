@@ -634,7 +634,7 @@ void GeometryWidget::setValue(const QRect r, double opacity, int frame)
     if (!r.isValid()) {
         qDebug() << "::: Setting null rectangle";
     }
-    qDebug() << ":::::: SET VALUE GEOM RECT: " << r;
+    qDebug() << ":::::: SET VALUE GEOM RECT: " << r << " for frame: " << frame;
     QSignalBlocker bk1(m_spinX);
     QSignalBlocker bk2(m_spinY);
     QSignalBlocker bk3(m_spinWidth);

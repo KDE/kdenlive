@@ -653,7 +653,6 @@ void EffectStackView::unsetModel(bool reset)
         disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
         disconnect(m_model.get(), &EffectStackModel::currentChanged, this, &EffectStackView::activateEffect);
         disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
-        Q_EMIT pCore->disconnectEffectStack();
         if (reset) {
             QMutexLocker lock(&m_mutex);
             m_model.reset();

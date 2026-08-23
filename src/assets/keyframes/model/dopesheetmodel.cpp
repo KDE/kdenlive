@@ -6,12 +6,10 @@
 #include "dopesheetmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "macros.hpp"
-#include "profiles/profilemodel.hpp"
-#include "utils/qcolorutils.h"
+#include "monitor/monitor.h"
 
 #include <QDebug>
 #include <QJsonArray>
@@ -102,13 +100,14 @@ std::shared_ptr<DopeSheetModel> DopeSheetModel::construct(QObject *parent)
     return self;
 }
 
-DopeSheetModel::~DopeSheetModel()
-{
-    clearModel();
-}
+DopeSheetModel::~DopeSheetModel() {}
 
 void DopeSheetModel::clearModel()
 {
+    if (!m_model) {
+        // Already cleared
+        return;
+    }
     m_masterList.clear();
     m_activeMaster.reset();
     m_paramsList.clear();
@@ -116,6 +115,7 @@ void DopeSheetModel::clearModel()
     m_hasGrabbedKeyframes = false;
     m_indexesOnKeyframe.clear();
     m_timecodeOffset = 0;
+    Q_EMIT pCore->disconnectEffectStack();
     for (auto &c : m_assetConnectionList) {
         QObject::disconnect(c);
     }
@@ -224,12 +224,19 @@ bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model, int 
         m_connectionList << conn2;
         auto conn3 = connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
         m_connectionList << conn3;
+        auto monitor = pCore->getMonitor(getMonitorId());
+        if (monitor) {
+            auto conn4 = connect(this, &DopeSheetModel::onKeyframeChanged, monitor, &Monitor::setEffectKeyframe, Qt::UniqueConnection);
+            m_connectionList << conn4;
+        }
     }
-    loadEffects();
+    if (loadEffects()) {
+        Q_EMIT pCore->connectEffectStack();
+    }
     return true;
 }
 
-void DopeSheetModel::loadEffects()
+bool DopeSheetModel::loadEffects()
 {
     QWriteLocker locker(&m_lock);
     if (!m_paramsList.empty()) {
@@ -241,13 +248,15 @@ void DopeSheetModel::loadEffects()
     }
     m_assetConnectionList.clear();
     if (!m_model) {
-        return;
+        return false;
     }
     int max = m_model->rowCount();
     int activeEffect = m_model->getActiveEffect();
+    bool foundKeyframeParam = false;
     auto master = createTopLevelItem(m_model);
     m_masterList.insert({m_currentOwner.type, m_currentOwner.itemId}, master);
     m_activeMaster = master;
+    int activeAsset = -1;
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         if (item->childCount() > 0) {
@@ -256,11 +265,16 @@ void DopeSheetModel::loadEffects()
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
         if (registerAsset(master, i, effectModel, effectModel->dataColumn(0).toString()) && i == activeEffect) {
-            Q_EMIT activateEffect(m_model->index(i, 0));
+            activeAsset = i;
+            foundKeyframeParam = true;
         }
     }
     updateMasterRecap(master);
     Q_EMIT modelChanged();
+    if (activeAsset > -1) {
+        Q_EMIT activateEffect(m_model->index(activeAsset, 0));
+    }
+    return foundKeyframeParam;
 }
 
 std::shared_ptr<TreeItem> DopeSheetModel::createTopLevelItem(std::shared_ptr<EffectStackModel> model)
@@ -326,10 +340,17 @@ bool DopeSheetModel::registerComposition(std::shared_ptr<AssetParameterModel> as
         }
         clearModel();
         m_currentOwner = owner;
-        registerAsset(nullptr, 0, assetModel, transitionName);
+        if (registerAsset(nullptr, 0, assetModel, transitionName)) {
+            Q_EMIT pCore->connectEffectStack();
+        }
         Q_EMIT dopeDurationChanged();
         Q_EMIT dopePositionChanged();
         Q_EMIT dopeInPointChanged();
+        auto monitor = pCore->getMonitor(getMonitorId());
+        if (monitor) {
+            auto conn = connect(this, &DopeSheetModel::onKeyframeChanged, monitor, &Monitor::setEffectKeyframe, Qt::UniqueConnection);
+            m_connectionList << conn;
+        }
     } else {
         clearModel();
     }

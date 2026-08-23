@@ -95,6 +95,7 @@ void Core::prepareShutdown()
 {
     m_guiConstructed = false;
     // m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
+    m_dopeSheetModel->clearModel();
     projectItemModel()->blockSignals(true);
     QThreadPool::globalInstance()->clear();
 }

@@ -9,7 +9,6 @@
 #include "assets/view/assetparameterview.hpp"
 #include "assets/view/widgets/colorwheel.h"
 
-#include "assets/view/widgets/keyframecontainer.hpp"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"

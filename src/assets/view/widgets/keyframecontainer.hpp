@@ -75,13 +75,13 @@ public Q_SLOTS:
        If pos is negative, then keyframe is added at current position
     */
     bool slotAddKeyframe(int pos = -1);
+    /** @brief Process monitor seek event */
+    void connectEffectStack();
     void disconnectEffectStack();
 
 private Q_SLOTS:
     /** @brief Update the value of the widgets to reflect keyframe change */
     void slotRefreshParams();
-    void slotAtKeyframe(int frame, bool atKeyframe, bool singleKeyframe);
-    void slotEditKeyframeType(QAction *action);
     void slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res);
     /** @brief Paste a keyframe from clipboard */
     void slotPasteKeyframeFromClipBoard();

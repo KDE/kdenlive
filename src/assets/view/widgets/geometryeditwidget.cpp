@@ -95,15 +95,18 @@ void GeometryEditWidget::monitorSeek(int pos)
 {
     // Update monitor scene for geometry params
     int start = m_model->data(m_index, AssetParameterModel::ParentPositionRole).toInt();
-    int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-    if (pos >= start && pos < end) {
-        m_geom->connectMonitor(true);
-        qDebug() << ":::: MONITOR SEEK INSIDE EFFECT!!!!!\n__________________";
-        pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true, false);
-    } else {
-        if (m_geom->connectMonitor(false)) {
-            pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(false, true);
+    if (pos >= start) {
+        int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        if (pos < end) {
+            m_geom->connectMonitor(true);
+            qDebug() << ":::: MONITOR SEEK INSIDE EFFECT!!!!!\n__________________";
+            pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true, false);
+            return;
         }
+    }
+    qDebug() << ":::: MONITOR SEEK INSIDE OUTSIDE!!!!!\n__________________";
+    if (m_geom->connectMonitor(false)) {
+        pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(false, true);
     }
 }
 

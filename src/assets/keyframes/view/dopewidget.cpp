@@ -105,7 +105,7 @@ void DopeWidget::registerDopeAsset(std::shared_ptr<AssetParameterModel> model, c
     rootObject()->setProperty("proxy", monitorProxy);
     QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(monitorProxy), QQmlEngine::CppOwnership);
     // Check if we are on a keyframe
-    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->getItemPosition(model->getOwnerId());
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopeKeyframeOffset();
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();
@@ -127,8 +127,8 @@ void DopeWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model, int 
         QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, -1), Q_ARG(QVariant, -1));
         return;
     }
-    QVariant monitorProxy = QVariant::fromValue(
-        pCore->getMonitor(model->getOwnerId().type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->getControllerProxy());
+    auto monitor = pCore->getMonitor(model->getOwnerId().type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
+    QVariant monitorProxy = QVariant::fromValue(monitor->getControllerProxy());
     rootObject()->setProperty("proxy", monitorProxy);
     QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(monitorProxy), QQmlEngine::CppOwnership);
     m_activeEffectConnection = connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::DirectConnection);
@@ -236,7 +236,7 @@ void DopeWidget::updateActiveEffect(QPersistentModelIndex ix, bool active, int p
 void DopeWidget::checkModelUpdate()
 {
     // Check if we are on a keyframe
-    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopePosition();
+    int pos = pCore->getMonitorPosition(pCore->dopeSheetModel()->getMonitorId()) - pCore->dopeSheetModel()->dopeKeyframeOffset();
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getActiveCppParamIndex", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     const QPersistentModelIndex activeIndex = returnedValue.toModelIndex();

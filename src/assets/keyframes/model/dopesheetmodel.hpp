@@ -163,7 +163,7 @@ private:
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);
-    void loadEffects();
+    bool loadEffects();
     void updateMasterRecap(std::shared_ptr<TreeItem> topItem);
 
 Q_SIGNALS:
@@ -180,4 +180,5 @@ Q_SIGNALS:
     void refreshAnimatedValues();
     void updateFiltering();
     void activate(const QPersistentModelIndex &);
+    void onKeyframeChanged(bool isOn, bool outside);
 };

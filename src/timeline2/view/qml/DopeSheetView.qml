@@ -61,6 +61,7 @@ Rectangle {
     // Playhead position
     property int headerWidth: 100
     property int consumerPosition: proxy && ownerType >= 0 ? proxy.position - offset: -1
+    property bool insideOwner: dopeRoot.consumerPosition > 0 && dopeRoot.consumerPosition < frameDuration
     property int keyframeContainerWidth: width - headerWidth - (2 * baseUnit)
     property int snapping: (K.KdenliveSettings.snaptopoints && (dopeRoot.timeScale < 2 * K.UiUtils.baseSizeMedium)) ?
                                Math.floor(K.UiUtils.baseSizeMedium / (dopeRoot.timeScale > 3 ? dopeRoot.timeScale / 2 : dopeRoot.timeScale)) : -1
@@ -72,6 +73,10 @@ Rectangle {
 
     function getPositionForKeyframe() {
         return dopeRoot.mouseFramePos + dopeRoot.inPoint
+    }
+
+    onOverKeyframeChanged: {
+        dopesheetmodel.onKeyframeChanged(overKeyframe, false)
     }
 
     FontMetrics {
@@ -87,6 +92,16 @@ Rectangle {
     }
     onConsumerPositionChanged: {
         dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
+    }
+
+    onInsideOwnerChanged: {
+        if (insideOwner) {
+            if (!dopeRoot.overKeyframe) {
+                dopesheetmodel.onKeyframeChanged(false, false)
+            }
+        } else {
+            dopesheetmodel.onKeyframeChanged(false, true)
+        }
     }
 
     signal filterDopeView(var searchText)
@@ -348,7 +363,7 @@ Rectangle {
             return treeViewItem.model.mapToSource(treeViewItem.model.index(treeViewItem.selectionModel.currentIndex.row, treeViewItem.selectionModel.currentIndex.column, treeViewItem.selectionModel.currentIndex.parent))
         }
         console.log('NO ACTIVE ITEM FOUND IN DOPESHEET...')
-        return treeViewItem.index(-1, -1)
+        return {}//treeViewItem.model.index(0, 0, treeViewItem.model.index(0, 0, treeViewItem.rootIndex))
     }
 
     function activateParamFromModel(paramIndex) {

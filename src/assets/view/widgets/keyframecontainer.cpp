@@ -125,6 +125,9 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingNoKeyframes, this, &KeyframeContainer::updatedNotOnPosition);
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::refreshAnimatedValues, this, &KeyframeContainer::slotRefresh);
 
+    connect(pCore.get(), &Core::connectEffectStack, this, &KeyframeContainer::connectEffectStack, Qt::DirectConnection);
+    connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeContainer::disconnectEffectStack, Qt::DirectConnection);
+
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
@@ -463,6 +466,12 @@ void KeyframeContainer::disconnectEffectStack()
     disconnect(monitor, &Monitor::seekPosition, this, &KeyframeContainer::monitorSeek);
 }
 
+void KeyframeContainer::connectEffectStack()
+{
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    connect(monitor, &Monitor::seekPosition, this, &KeyframeContainer::monitorSeek, Qt::DirectConnection);
+}
+
 void KeyframeContainer::monitorSeek(int pos)
 {
     int in = 0;
@@ -480,37 +489,18 @@ void KeyframeContainer::monitorSeek(int pos)
     }
     bool isInRange = pos >= in && pos < out;
     connectMonitor(isInRange && m_model->isActive());
-    m_addDeleteAction->setEnabled(isInRange && pos > in);
     int framePos = qBound(in, pos, out) - in;
-    if (isInRange && framePos != m_time->getValue()) {
+    slotSetPosition(framePos, false);
+    /*if (isInRange && framePos != m_time->getValue()) {
         slotSetPosition(framePos, false);
-    }
-}
-
-void KeyframeContainer::slotEditKeyframeType(QAction *action)
-{
-    int type = action->data().toInt();
-    QList<int> frames;
-    if (m_keyframes->selectedKeyframes().count() > 0) {
-        for (auto &p : m_keyframes->selectedKeyframes()) {
-            frames << m_keyframes->getPosAtIndex(p).frames(pCore->getCurrentFps());
-        }
-    } else {
-        frames << getPosition();
-    }
-    if (frames.isEmpty()) {
-        return;
-    }
-    m_keyframeview->slotEditFramesType(frames, type, m_index);
-    m_selectType->setIcon(action->icon());
-    Q_EMIT activateEffect();
+    }*/
 }
 
 void KeyframeContainer::slotRefreshParams()
 {
     int pos = getPosition();
-    KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
-    int i = 0;
+    /*KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
+    int i = 0;*/
     Q_EMIT updateAnimCheckBox();
     /*while (auto ac = m_selectType->action(i)) {
         if (ac->data().toInt() == int(keyType)) {
@@ -555,14 +545,15 @@ void KeyframeContainer::slotRefreshParams()
             (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
+    qDebug() << ":::: REFRESHING PARAMNS....";
     if (m_monitorHelper && m_model->isActive() /*&& m_curveeditorcontainer->isEnabled()*/) {
+        qDebug() << ":::: REFRESHING MONITORHELPER PARAMNS....";
         m_monitorHelper->refreshParams(pos);
     }
 }
 void KeyframeContainer::slotSetPosition(int pos, bool update)
 {
-    return;
-    bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
+    /*bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
     int offset = 0;
     if (pos < 0) {
         if (canHaveZone) {
@@ -577,12 +568,12 @@ void KeyframeContainer::slotSetPosition(int pos, bool update)
         i->slotSetPosition(pos, true);
     }
     positionUpdated(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId())));
-    m_addDeleteAction->setEnabled(pos > 0);
+    m_addDeleteAction->setEnabled(pos > 0);*/
     slotRefreshParams();
 
-    if (update) {
+    /*if (update) {
         Q_EMIT seekToPos(pos + offset);
-    }
+    }*/
 }
 
 int KeyframeContainer::getPosition() const
@@ -655,28 +646,6 @@ void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)
         m_geom->setEnabled(inside && indexes.contains(m_geometryIndex));
     }
     slotRefreshParams();
-}
-
-void KeyframeContainer::slotAtKeyframe(int frame, bool atKeyframe, bool singleKeyframe)
-{
-    /*m_addDeleteAction->setActive(!atKeyframe);
-    m_centerAction->setEnabled(!atKeyframe && getCurrentView() == 0);
-
-    bool outside = !pCore->itemContainsPos(m_keyframes->getOwnerId(), frame);
-    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, outside);
-    bool enableWidgets = (m_monitorActive && atKeyframe) || singleKeyframe;
-    m_selectType->setEnabled(enableWidgets);
-    bool enableParameter;
-    if (m_geom) {
-        enableParameter = outside ? false : m_keyframes->enableParameter(m_geometryIndex, frame);
-        m_geom->setEnabled(enableParameter);
-    }
-    for (const auto &w : m_parameters) {
-        if (w.second) {
-            enableParameter = outside ? false : m_keyframes->enableParameter(w.first, frame);
-            w.second->setEnabled(enableParameter);
-        }
-    }*/
 }
 
 void KeyframeContainer::positionUpdated(int relativePos)
@@ -1121,31 +1090,33 @@ int KeyframeContainer::minimumHeight() const
 void KeyframeContainer::slotInitMonitor(bool active, bool)
 {
     connectMonitor(active);
-    /*Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    if (m_keyframeview) {
+    /*if (m_keyframeview) {
         m_keyframeview->initKeyframePos();
         connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
     }
     for (auto &i : std::as_const(m_curveeditorview)) {
         connect(monitor, &Monitor::updateScene, i, &KeyframeCurveEditor::slotModelChanged, Qt::UniqueConnection);
-    }
-    if (m_monitorHelper) {
-        m_monitorHelper->refreshParamsWhenReady(getPosition());
     }*/
+    if (m_monitorHelper) {
+        Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+        int framePos = monitor->position() - pCore->getItemKeyframeOffset(m_model->getOwnerId());
+        m_monitorHelper->refreshParamsWhenReady(framePos);
+    }
 }
 
 void KeyframeContainer::connectMonitor(bool active)
 {
     if (m_monitorHelper) {
         if (m_model->isActive()) {
-            connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor,
-                    Qt::UniqueConnection);
             if (m_monitorHelper->connectMonitor(active)) {
+                connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor,
+                        Qt::UniqueConnection);
                 slotRefreshParams();
             }
         } else {
-            m_monitorHelper->connectMonitor(false);
-            disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor);
+            if (m_monitorHelper->connectMonitor(false)) {
+                disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor);
+            }
         }
     }
 
@@ -1156,7 +1127,6 @@ void KeyframeContainer::connectMonitor(bool active)
     if (active) {
         connect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove, Qt::UniqueConnection);
         connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe, Qt::UniqueConnection);
-        connect(this, &KeyframeContainer::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe, Qt::UniqueConnection);
     } else {
         disconnect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove);
         disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe);
@@ -1174,6 +1144,8 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
 {
     Q_EMIT activateEffect();
     QVariant result = res;
+    auto monitor = pCore->getMonitor(m_model->monitorId);
+    int framePos = monitor->position() - pCore->getItemKeyframeOffset(m_model->getOwnerId());
     if (m_keyframes->isEmpty()) {
         QStringList updated = res.toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
         if (updated.count() == 4) {
@@ -1188,7 +1160,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         }
 
         GenTime pos(((m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()))) + m_time->getValue(), pCore->getCurrentFps());
-        if (m_time->getValue() > 0) {
+        if (framePos > 0) {
             // First add keyframe at start of the clip
             GenTime pos0(m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
             m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
@@ -1208,7 +1180,6 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         m_keyframes->updateKeyframe(pos, result, -1, index);
         return;
     }
-    int framePos = getPosition();
     GenTime pos(framePos, pCore->getCurrentFps());
     if (KdenliveSettings::autoKeyframe() && m_neededScene != SceneType::MonitorSceneDefault) {
         if (!m_keyframes->hasKeyframe(framePos)) {
@@ -1667,7 +1638,6 @@ void KeyframeContainer::addCurveEditor(const QPersistentModelIndex &index, QStri
     m_curveeditorview.append(tmpkce);
     connect(this, &KeyframeContainer::onCurveEditorView, m_curveeditorview.last(), &KeyframeCurveEditor::slotOnFocus);
     connect(this, &KeyframeContainer::onKeyframeView, m_curveeditorview.last(), &KeyframeCurveEditor::slotLoseFocus);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::atKeyframe, this, &KeyframeContainer::slotAtKeyframe);
     connect(m_curveeditorview.last(), &KeyframeCurveEditor::modified, this, &KeyframeContainer::slotRefreshParams);
     connect(m_curveeditorview.last(), &KeyframeCurveEditor::activateEffect, this, &KeyframeContainer::activateEffect);
     connect(m_curveeditorview.last(), &KeyframeCurveEditor::seekToPos, this, &KeyframeContainer::slotSeekToPos);
