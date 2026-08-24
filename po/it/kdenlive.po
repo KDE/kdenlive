@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-19 02:42+0000\n"
-"PO-Revision-Date: 2026-08-20 09:24+0200\n"
+"PO-Revision-Date: 2026-08-23 17:25+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1062,13 +1062,13 @@ msgstr "Utilizzato solo se la temporizzazione è impostata su hz."
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
 msgid "Adaptive Temporal Averaging Denoiser"
-msgstr "Riduttore di disturbi adattativo a media temporale"
+msgstr "riduttore del rumore adattativo a media temporale"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:5
 #, kde-format
 msgid "Apply an Adaptive Temporal Averaging Denoiser to the video input. "
 msgstr ""
-"Applica un riduttore di disturbi adattativo a media temporale all'ingresso "
+"Applica un riduttore del rumore adattativo a media temporale all'ingresso "
 "video. "
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
@@ -1301,7 +1301,7 @@ msgstr "Bilaterale"
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
 msgstr ""
-"Applica il filtro bilaterale, smussamento spaziale preservando i bordi."
+"Applica il filtro bilaterale, uniformazione spaziale preservando i bordi."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
@@ -2582,8 +2582,8 @@ msgid ""
 "The intent is to produce more speaker like sound to the listener."
 msgstr ""
 "Applicare il filtro crossfeed delle cuffie.\n"
-"Il crossfeed è il processo di fusione dei canali destro e sinistro di una "
-"registrazione audio stereo. Viene utilizzato principalmente per ridurre "
+"Il crossfeed è il processo di miscelazione dei canali destro e sinistro di "
+"una registrazione audio stereo. Viene utilizzato principalmente per ridurre "
 "l'estrema separazione stereo delle basse frequenze.\n"
 "L'intento è quello di produrre all'ascoltatore un suono più simile a quello "
 "di un diffusore."
@@ -2865,7 +2865,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:4
 #, kde-format
 msgid "DCT Denoiser"
-msgstr "Riduttore di disturbi DCT"
+msgstr "riduttore del rumore DCT"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:5
 #, kde-format
@@ -3809,7 +3809,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:4
 #, kde-format
 msgid "3D FFT Denoiser"
-msgstr "Riduttore di disturbi FFT 3D"
+msgstr "riduttore del rumore FFT 3D"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:5
 #, kde-format
@@ -3844,7 +3844,7 @@ msgid ""
 "Set the amount of denoising.<br>\n"
 "       \tBy default all detected noise is reduced."
 msgstr ""
-"Imposta la quantità di riduzione dei disturbi.<br>\n"
+"Imposta la quantità di riduzione del rumore.<br>\n"
 "       \tPer impostazione predefinita, tutti i rumori vengono ridotti."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
@@ -3865,7 +3865,7 @@ msgstr "Imposta la sovrapposizione del blocco"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #, kde-format
 msgid "Set denoising method"
-msgstr "Imposta il metodo di riduzione dei disturbi"
+msgstr "Imposta il metodo di riduzione del rumore"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
@@ -4574,12 +4574,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (avfilter)"
-msgstr "Riduttore del rumore 3D HQ (avfilter)"
+msgstr "riduttore del rumore 3D HQ (avfilter)"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, kde-format
 msgid "Apply a high quality 3D denoiser"
-msgstr "Applica un riduttore di rumore 3D ad alta qualità"
+msgstr "Applica un riduttore del rumore 3D ad alta qualità"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
@@ -4679,7 +4679,7 @@ msgstr "Imposta la percentuale di somiglianza con il colore chiave"
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
 #, kde-format
 msgid "Blend percentage"
-msgstr "Percentuale di miscela"
+msgstr "Percentuale di miscelazione"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
 #, kde-format
@@ -5815,7 +5815,7 @@ msgstr "Rimozione della grana"
 #, kde-format
 msgid "The removegrain filter is a spatial denoiser for progressive video"
 msgstr ""
-"Il filtro removegrain è un riduttore di disturbi spaziale per i video "
+"Il filtro removegrain è un riduttore del rumore spaziale per i video "
 "progressivi"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:8
@@ -7017,7 +7017,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
 msgid "Wavelet Denoiser"
-msgstr "Riduttore di disturbi wavelet"
+msgstr "Riduzione del rumore tramite wavelet"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:6
 #, kde-format
@@ -7026,7 +7026,7 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7."
 msgstr ""
-"Riduzione del rumore basata sulle wavelet..<br>\n"
+"Riduzione del rumore basata sulle wavelet.<br>\n"
 "    Trasforma ogni fotogramma del video di input nel dominio delle wavelet "
 "utilizzando Cohen-Daubechies-Feauveau 9/7."
 
@@ -8806,7 +8806,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
 #, kde-format
 msgid "Blend In"
-msgstr "Fusione in entrata"
+msgstr "Miscelazione in entrata"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
@@ -8818,7 +8818,7 @@ msgstr "Gradi verso l'orizzonte da cui campionare"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
 #, kde-format
 msgid "Blend Out"
-msgstr "Fusione in uscita"
+msgstr "Miscelazione in uscita"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
@@ -9967,7 +9967,7 @@ msgstr "Scostamento"
 #: data/effects/frei0r/frei0r_softglow.xml:9
 #, kde-format
 msgid "Blend Mode"
-msgstr "Modalità di fusione"
+msgstr "Modalità di miscelazione"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:40
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:26
@@ -10504,7 +10504,7 @@ msgstr "Aggiornamento ritardato del fotogramma mappato su un bitmap di tempo"
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (frei0r)"
-msgstr "Riduttore di rumore 3D HQ (frei0r)"
+msgstr "Riduttore del rumore 3D HQ (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
 #, kde-format
@@ -13106,7 +13106,7 @@ msgstr "Esegue un effetto di bagliore morbido sulle zone luminose"
 #, kde-format
 msgid "Blend mode used to blend highlight blur with input image"
 msgstr ""
-"La modalità di fusione utilizzata per miscelare la sfocatura delle zone "
+"La modalità di miscelazione utilizzata per miscelare la sfocatura delle zone "
 "luminose con l'immagine in ingresso"
 
 #: data/effects/frei0r/frei0r_softglow.xml:11
@@ -13373,7 +13373,7 @@ msgstr "Soglia a 3 livelli"
 #: data/effects/frei0r/frei0r_threelay0r.xml:5
 #, kde-format
 msgid "Dynamic 3-level thresholding"
-msgstr "Soglia dinamica a 3 livelli"
+msgstr "Sogliatura dinamica a 3 livelli"
 
 #: data/effects/frei0r/frei0r_threshold0r.xml:5
 #, kde-format
@@ -13431,7 +13431,7 @@ msgstr "Binarizza dinamicamente"
 #: data/effects/frei0r/frei0r_twolay0r.xml:5
 #, kde-format
 msgid "Dynamic thresholding"
-msgstr "Soglia dinamica"
+msgstr "Sogliatura dinamica"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:4
 #, kde-format
@@ -13454,7 +13454,7 @@ msgstr "Vertigine"
 #: data/effects/frei0r/frei0r_vertigo.xml:17
 #, kde-format
 msgid "Alpha blending with zoomed and rotated images"
-msgstr "Mescolamento di immagini ingrandite e ruotate nel canale alfa"
+msgstr "Miscelazione di immagini ingrandite e ruotate nel canale alfa"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:9
 #: data/effects/frei0r/frei0r_vertigo.xml:20
@@ -14405,7 +14405,7 @@ msgstr ""
 #: data/effects/hsl_primaries.xml:9
 #, kde-format
 msgid "The amount of overlap or blending between primaries"
-msgstr "La quantità di sovrapposizione o fusione tra i primari"
+msgstr "La quantità di sovrapposizione o miscelazione tra i primari"
 
 #: data/effects/hsl_primaries.xml:12
 #, kde-format
@@ -14479,7 +14479,7 @@ msgstr "L'ampiezza della gamma della tonalità"
 #: data/effects/hsl_range.xml:17
 #, kde-format
 msgid "The amount to blend the edges of the hue range"
-msgstr "La quantità di sfumatura dei bordi dell'intervallo di tonalità"
+msgstr "La quantità per miscelare i bordi dell'intervallo di tonalità"
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
@@ -17065,7 +17065,7 @@ msgstr ""
 "tempo. L'impostazione di questo controllo determina la distinzione tra gli "
 "effetti Chorus e Flanger. Ritardi inferiori a 10 ms possono essere "
 "considerati Flanger, ritardi superiori a 20 ms producono Chorus, mentre "
-"ritardi compresi tra 10 e 20 ms producono una combinazione di Chorus e "
+"ritardi compresi tra 10 e 20 ms producono una miscelazione di Chorus e "
 "Flanger."
 
 #: data/effects/ladspa/ladspa_2159.xml:29
@@ -18025,7 +18025,7 @@ msgid ""
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
-"Fusione alfa,Xor,Più,Moltiplica,Scolora,Sovrapponi,Scurisci,Schiarisci,"
+"Miscelazione alfa,Xor,Più,Moltiplica,Scolora,Sovrapponi,Scurisci,Schiarisci,"
 "Colore scherma,Colore brucia,Luce intensa,Luce soffusa,Differenza,Esclusione,"
 "Or binario,And binario,Xor binario,Nor binario,Nand binario,Not xor binario,"
 "Destination in,Destination out"
@@ -19703,7 +19703,7 @@ msgid ""
 "opacity and blend mode."
 msgstr ""
 "Compone il secondo ingresso al primo, applicando la trasformazione, "
-"l'opacità e la modalità di fusione definite dall'utente."
+"l'opacità e la modalità di miscelazione definite dall'utente."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:335
@@ -19737,7 +19737,7 @@ msgstr "Scala di Y"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:12
 #, kde-format
 msgid "Blend mode"
-msgstr "Modalità di fusione"
+msgstr "Modalità di miscelazione"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:30
 #, kde-format
@@ -19760,7 +19760,7 @@ msgid ""
 "Composites second input on the first input with user-defined blend mode and "
 "opacity."
 msgstr ""
-"Compone il secondo ingresso sul primo, con la modalità di fusione e "
+"Compone il secondo ingresso sul primo, con la modalità di miscelazione e "
 "l'opacità definite dall'utente."
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
@@ -20239,8 +20239,8 @@ msgid ""
 "Composites second input on the first input with user-defined blend mode, "
 "opacity and scale."
 msgstr ""
-"Compone il secondo ingresso sul primo, con modalità di fusione, opacità e "
-"scala definite dall'utente."
+"Compone il secondo ingresso sul primo, con modalità di miscelazione, opacità "
+"e scala definite dall'utente."
 
 #: data/transitions/region.xml:4
 #, kde-format
@@ -42372,7 +42372,7 @@ msgstr "Dopo"
 #: src/ui/timeremap_ui.ui:310
 #, kde-format
 msgid "Frame blending"
-msgstr "Fusione dei fotogrammi"
+msgstr "Miscelazione dei fotogrammi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, move_next)
 #: src/ui/timeremap_ui.ui:321
