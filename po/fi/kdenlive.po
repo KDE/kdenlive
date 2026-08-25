@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-19 02:42+0000\n"
-"PO-Revision-Date: 2026-02-09 16:55+0200\n"
+"PO-Revision-Date: 2026-03-05 17:41+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -522,10 +522,9 @@ msgstr "Äänikoodekit"
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8 data/effects/ladspa/ladspa_1402.xml:13
 #: data/effects/ladspa/ladspa_1913.xml:9
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input Gain"
-msgstr "Syöttövahvistus (dB)"
+msgstr "Sisäänmenovahvistus"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_backgroundkey.xml:8
@@ -716,10 +715,9 @@ msgstr "Hahmonna esikatselutarkkuuteen"
 #: data/effects/avfilter/avfilter_aphaser.xml:8
 #: data/effects/avfilter/avfilter_apulsator.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:22
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input gain"
-msgstr "Syöttövahvistus (dB)"
+msgstr "Sisäänmenovahvistus"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:11
 #: data/effects/avfilter/avfilter_alimiter.xml:11
@@ -1837,10 +1835,9 @@ msgid "Show white point on CIE diagram, by default disabled"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input Gamma"
-msgstr "Syöttövahvistus (dB)"
+msgstr "Syötegamma"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:46
 #, kde-format
@@ -2396,10 +2393,9 @@ msgid "Override all input properties at once"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:47
-#, fuzzy, kde-format
-#| msgid "Force colorspace"
+#, kde-format
 msgid "Override input color space"
-msgstr "Pakota väriavaruus"
+msgstr "Ohita syöteväriavaruus"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:51
 #, kde-format
@@ -2412,10 +2408,9 @@ msgid "Override input transfer characteristics"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:59
-#, fuzzy, kde-format
-#| msgid "Render full color range"
+#, kde-format
 msgid "Override input color range"
-msgstr "Hahmonna koko värialue"
+msgstr "Ohita syötevärialue"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:4
 #: data/effects/frei0r/frei0r_colgate.xml:11
@@ -2677,7 +2672,8 @@ msgid "Adjust RGB color curves per channel."
 msgstr "kanavien ulostulon lukumäärä"
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "All"
 msgid "All"
 msgstr "Kaikki"
 
@@ -3221,10 +3217,9 @@ msgid "DeLogo"
 msgstr "Logo"
 
 #: data/effects/avfilter/avfilter_delogo.xml:5
-#, fuzzy, kde-format
-#| msgid "Remove from favorites"
+#, kde-format
 msgid "Remove logo from input video"
-msgstr "Poista suosikeista"
+msgstr "Poista syötevideosta logo"
 
 #: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:308
 #, kde-format
@@ -4410,10 +4405,9 @@ msgid "Flip Horizontally"
 msgstr "Vaaka"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
-#, fuzzy, kde-format
-#| msgid "Horizontal guides."
+#, kde-format
 msgid "Horizontally flip the input video."
-msgstr "Vaakaopasteet."
+msgstr "Pyöräytä syötevideota vaakasuunnassa."
 
 #: data/effects/avfilter/avfilter_highpass.xml:4
 #, fuzzy, kde-format
@@ -5339,10 +5333,9 @@ msgid "Negate"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_negate.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
+#, kde-format
 msgid "Negate (invert) the input video or its alpha channel."
-msgstr "Käytä alfa- tai luma-arvon käänteistä arvoa."
+msgstr "Käännä syötevideo tai sen alfakanava (negatiiviksi)."
 
 #: data/effects/avfilter/avfilter_negate.xml:8
 #, fuzzy, kde-format
@@ -5778,7 +5771,8 @@ msgid "Red,Green,Blue,Alpha"
 msgstr "Punainen,Vihreä,Sininen,Luma"
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Preset"
 msgid "Preset"
 msgstr "Esiasetus"
 
@@ -6515,10 +6509,9 @@ msgid "Convert between different stereoscopic image formats. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
-#, fuzzy, kde-format
-#| msgid "Capture format"
+#, kde-format
 msgid "Input format"
-msgstr "Kaappausmuoto"
+msgstr "Syötemuoto"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
@@ -6993,6 +6986,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. "
 msgstr ""
+"Aseta alfatehosteen voimakkuus.<br>\n"
+"            Mielekkäät arvot ovat väliltä -1,5…1,5. Negatiiviset arvot "
+"sumentavat syötevideota, positiiviset terävöivät sitä, ja 0 poistaa "
+"tehosteen käytöstä. "
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, fuzzy, kde-format
@@ -7007,6 +7004,9 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7."
 msgstr ""
+"Aallokepohjainen kohinanpoistaja.<br>\n"
+"    Muuntaa syötevideon kunkin kuvan Cohen-Daubechies-Feauveau 9/7:lla "
+"aallokealueeksi."
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, kde-format
@@ -7141,7 +7141,7 @@ msgstr "Pysty"
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
 msgid "Vertically flip the input video."
-msgstr ""
+msgstr "Pyöräytä syötevideo pystysuunnassa."
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
 #, fuzzy, kde-format
@@ -7404,16 +7404,14 @@ msgid "None,Size"
 msgstr "Muuta kokoa"
 
 #: data/effects/avfilter/avfilter_waveform.xml:83
-#, fuzzy, kde-format
-#| msgid "Capture format"
+#, kde-format
 msgid "Input Format"
-msgstr "Kaappausmuoto"
+msgstr "Syötemuoto"
 
 #: data/effects/avfilter/avfilter_waveform.xml:84
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "Set input formats for filter to pick from"
-msgstr "Kierrä (X-akseli)"
+msgstr "Aseta valintaa varten suodattimen syötemuodot"
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
 #, kde-format
@@ -7544,10 +7542,9 @@ msgid "Subtitles"
 msgstr "Tekstitys"
 
 #: data/effects/avfilter/subtitles.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Render subtitles onto the video"
-msgstr "Aseta ajastin videolle"
+msgstr "Hahmonna tekstitykset videoon"
 
 #: data/effects/avfilter/subtitles.xml:8
 #, fuzzy, kde-format
@@ -8392,10 +8389,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:14
 #: data/effects/frei0r/frei0r_alpha0ps.xml:40
-#, fuzzy, kde-format
-#| msgid "Display input alpha"
+#, kde-format
 msgid "Display input alpha"
-msgstr "Näytä syötealfa"
+msgstr "Näytä syötteen alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:17
 #: data/effects/frei0r/frei0r_alpha0ps.xml:43
@@ -8456,10 +8452,9 @@ msgid "Display and manipulation of the alpha channel"
 msgstr "Näytä alfakanava ja käsittele sitä"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
-#, fuzzy, kde-format
-#| msgid "Display input alpha"
+#, kde-format
 msgid "Display Input Alpha"
-msgstr "Näytä syötealfa"
+msgstr "Näytä syötteen alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
 #, fuzzy, kde-format
@@ -10308,8 +10303,7 @@ msgstr "Käyrän pisteiden määrä"
 
 #: data/effects/frei0r/frei0r_curves.xml:22
 #: data/effects/frei0r/frei0r_curves.xml:77
-#, fuzzy, kde-format
-#| msgid "Point 1 input value"
+#, kde-format
 msgid "Point 1 input value"
 msgstr "Pisteen 1 syötearvo"
 
@@ -10322,8 +10316,7 @@ msgstr "Pisteen 1 tulosarvo"
 
 #: data/effects/frei0r/frei0r_curves.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:83
-#, fuzzy, kde-format
-#| msgid "Point 2 input value"
+#, kde-format
 msgid "Point 2 input value"
 msgstr "Pisteen 2 syötearvo"
 
@@ -10336,8 +10329,7 @@ msgstr "Pisteen 2 tulosarvo"
 
 #: data/effects/frei0r/frei0r_curves.xml:34
 #: data/effects/frei0r/frei0r_curves.xml:89
-#, fuzzy, kde-format
-#| msgid "Point 3 input value"
+#, kde-format
 msgid "Point 3 input value"
 msgstr "Pisteen 3 syötearvo"
 
@@ -10350,8 +10342,7 @@ msgstr "Pisteen 3 tulosarvo"
 
 #: data/effects/frei0r/frei0r_curves.xml:40
 #: data/effects/frei0r/frei0r_curves.xml:95
-#, fuzzy, kde-format
-#| msgid "Point 4 input value"
+#, kde-format
 msgid "Point 4 input value"
 msgstr "Pisteen 4 syötearvo"
 
@@ -10364,8 +10355,7 @@ msgstr "Pisteen 4 tulosarvo"
 
 #: data/effects/frei0r/frei0r_curves.xml:46
 #: data/effects/frei0r/frei0r_curves.xml:101
-#, fuzzy, kde-format
-#| msgid "Point 5 input value"
+#, kde-format
 msgid "Point 5 input value"
 msgstr "Pisteen 5 syötearvo"
 
@@ -11736,8 +11726,7 @@ msgstr "Säädä tasoja"
 #: data/effects/frei0r/frei0r_levels.xml:44
 #: data/effects/frei0r/frei0r_levels.xml:82
 #: data/effects/frei0r/frei0r_levels.xml:121
-#, fuzzy, kde-format
-#| msgid "Input black level"
+#, kde-format
 msgid "Input black level"
 msgstr "Syötteen mustan taso"
 
@@ -11745,8 +11734,7 @@ msgstr "Syötteen mustan taso"
 #: data/effects/frei0r/frei0r_levels.xml:47
 #: data/effects/frei0r/frei0r_levels.xml:87
 #: data/effects/frei0r/frei0r_levels.xml:126
-#, fuzzy, kde-format
-#| msgid "Input white level"
+#, kde-format
 msgid "Input white level"
 msgstr "Syötteen valkoisen taso"
 
@@ -11945,8 +11933,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:36
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:108
-#, fuzzy, kde-format
-#| msgid "Dimming"
+#, kde-format
 msgid "Dimming"
 msgstr "Himmennys"
 
@@ -11977,8 +11964,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:44
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:116
-#, fuzzy, kde-format
-#| msgid "α"
+#, kde-format
 msgid "α"
 msgstr "α"
 
@@ -12513,7 +12499,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_ndvi.xml:4
 #, kde-format
 msgid "NDVI"
-msgstr ""
+msgstr "NDVI"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:5
 #, kde-format
@@ -12623,7 +12609,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_ndvi.xml:46
 #, kde-format
 msgid "NDVI,VI"
-msgstr ""
+msgstr "NDVI,VI"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:49
 #, fuzzy, kde-format
@@ -12643,15 +12629,14 @@ msgid "Off,Bottom"
 msgstr "Alhaalla"
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
-#, fuzzy, kde-format
-#| msgid "Nervous"
+#, kde-format
 msgid "Nervous"
 msgstr "Hermostunut"
 
 #: data/effects/frei0r/frei0r_nervous.xml:5
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
-msgstr ""
+msgstr "Ravistelee kuvia ajassa hermostuneesti"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:4
 #, fuzzy, kde-format
@@ -12663,7 +12648,7 @@ msgstr "Normalisoi"
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
 msgid "Normalize (aka histogram stretch, contrast stretch)"
-msgstr ""
+msgstr "Normalisoi (l. histogrammin ja kontrastin venytys)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
 #, fuzzy, kde-format
@@ -12696,10 +12681,9 @@ msgid "nosync0r"
 msgstr "nosync0r"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Broken TV"
+#, kde-format
 msgid "Broken TV"
-msgstr "Rikkinäinen TV"
+msgstr "Viallinen TV"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:8
 #, fuzzy, kde-format
@@ -12714,16 +12698,14 @@ msgid "VSync"
 msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
-#, fuzzy, kde-format
-#| msgid "NTSC 4:3"
+#, kde-format
 msgid "NTSC"
-msgstr "NTSC 4:3"
+msgstr "NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:5
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Simulates NTSC analog video"
-msgstr "Kuvaesitysleike"
+msgstr "Simuloi analogista NTSC-videota"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:8
 #, fuzzy, kde-format
@@ -12889,17 +12871,15 @@ msgid "Whether to unpremultiply instead"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
-#, fuzzy, kde-format
-#| msgid "Primaries"
+#, kde-format
 msgctxt "Primaries Effect Name"
 msgid "Primaries"
 msgstr "Päävärit"
 
 #: data/effects/frei0r/frei0r_primaries.xml:5
-#, fuzzy, kde-format
-#| msgid "Reduce image to primary colors"
+#, kde-format
 msgid "Reduce image to primary colors"
-msgstr "Vähennä kuvan värit pääväreiksi"
+msgstr "Vähennä kuva pääväreihin"
 
 #: data/effects/frei0r/frei0r_primaries.xml:8
 #: data/effects/sox/sox_stretch.xml:8
@@ -12923,7 +12903,7 @@ msgstr "Piirrettävä kanava"
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
 msgid "Extracts Red from Image"
-msgstr ""
+msgstr "Irrottaa kuvasta punaisen"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:5
 #, fuzzy, kde-format
@@ -12934,7 +12914,7 @@ msgstr "Kohina"
 #: data/effects/frei0r/frei0r_rgbnoise.xml:6
 #, kde-format
 msgid "Adds RGB noise to image"
-msgstr ""
+msgstr "Lisää kuvaan RGB-kohinaa"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:9 data/effects/grain.xml:8
 #: plugins/sampleplugin/sampleplugin.cpp:23
@@ -12946,10 +12926,9 @@ msgid "Noise"
 msgstr "Kohina"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:10
-#, fuzzy, kde-format
-#| msgid "Amount of clusters"
+#, kde-format
 msgid "Amount of noise added."
-msgstr "Klusterien määrä"
+msgstr "Lisättävän kohinan määrä."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, RGBParade_UI)
 #: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:276
@@ -12959,20 +12938,19 @@ msgid "RGB Parade"
 msgstr "RGB värit"
 
 #: data/effects/frei0r/frei0r_rgbparade.xml:5
-#, fuzzy, kde-format
-#| msgid "Display a histogram of R, G and B components of the video data"
+#, kde-format
 msgid "Display a histogram of R, G and B components of the video data"
-msgstr "Näytä videon R-, G- ja B-komponenttien histogrammi"
+msgstr "Näytä videotiedon R-, G- ja B-osavärien histogrammi."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
 msgid "RGB Splitter"
-msgstr ""
+msgstr "RGB-jakaja"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
 msgid "RGB splitting and shifting"
-msgstr ""
+msgstr "RGB-jako ja -siirto"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
 #, fuzzy, kde-format
@@ -12983,7 +12961,7 @@ msgstr "Vaakasirotus"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
 #, kde-format
 msgid "Values < 0.500 move right, values > 0.500 move left."
-msgstr ""
+msgstr "Arvot < 0,500 siirretään oikealle, > 0,500 vasemmalle."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, fuzzy, kde-format
@@ -12994,7 +12972,7 @@ msgstr "Pystysirotus"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
 #, kde-format
 msgid "Values < 0.5002 move down, values > 0.500 move up."
-msgstr ""
+msgstr "Arvot < 0,5002 siirretään alas-, > 0,500 ylöspäin."
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, fuzzy, kde-format
@@ -13004,20 +12982,17 @@ msgid "Saturation"
 msgstr "Kylläisyys"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Adjusts the saturation of a source image"
+#, kde-format
 msgid "Adjusts the saturation of a source image"
-msgstr "Säädä lähdekuvan saturaatiota"
+msgstr "Säätää lähdekuvan kylläisyyttä"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:4
-#, fuzzy, kde-format
-#| msgid "Crop, Scale and Position"
+#, kde-format
 msgid "Crop, Scale, and Tilt"
-msgstr "Rajaa, skaalaa ja aseta"
+msgstr "Rajaa, skaalaa ja kallista"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
-#, fuzzy, kde-format
-#| msgid "Scales, Tilts and Crops an Image"
+#, kde-format
 msgid "Scales, tilts, and crops an image"
 msgstr "Skaalaa, kallistaa ja rajaa kuvaa"
 
@@ -13248,15 +13223,14 @@ msgid "Screen,Overlay,Add"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_softglow.xml:14
-#, fuzzy, kde-format
-#| msgid "Glow"
+#, kde-format
 msgid "Blur of the Glow"
-msgstr "Hohto"
+msgstr "Hehkun sumennus"
 
 #: data/effects/frei0r/frei0r_softglow.xml:15
 #, kde-format
 msgid "Blur of the glow"
-msgstr ""
+msgstr "Hehkun sumennus"
 
 #: data/effects/frei0r/frei0r_softglow.xml:19
 #, fuzzy, kde-format
@@ -13265,10 +13239,9 @@ msgid "Brightness of highlight areas"
 msgstr "Kirkkauskynnys"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
-#, fuzzy, kde-format
-#| msgid "Brightness Threshold"
+#, kde-format
 msgid "Sharpness of highlight areas"
-msgstr "Kirkkauskynnys"
+msgstr "Korostettujen alueiden terävyys"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -13406,11 +13379,9 @@ msgstr "Kokonaiskylläisyys"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:51
 #: data/effects/frei0r/frei0r_sopsat.xml:101
-#, fuzzy, kde-format
-#| msgid ""
-#| "The overall saturation will be changed in the last step of this filter."
+#, kde-format
 msgid "The overall saturation will be changed in the last step of this filter."
-msgstr "Kokonaiskylläisyyttä muutetaan tämän suodattimen viime vaiheessa."
+msgstr "Kokonaiskylläisyyttä muutetaan suodattimen viimeisessä vaiheessa."
 
 #: data/effects/frei0r/frei0r_spillsupress.xml:4
 #, fuzzy, kde-format
@@ -14710,8 +14681,7 @@ msgstr "Kierrä (X-akseli)"
 #: data/effects/ladspa/ladspa_1402.xml:17
 #: data/effects/ladspa/ladspa_1438.xml:22
 #: data/effects/ladspa/ladspa_phaser.xml:14
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback"
 msgstr "Palaute"
 
@@ -16064,10 +16034,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:14
 #: data/effects/ladspa/ladspa_vinyl.xml:11
-#, fuzzy, kde-format
-#| msgid "RPM"
+#, kde-format
 msgid "RPM"
-msgstr "kierr./min (RPM)"
+msgstr "krs/min"
 
 #: data/effects/ladspa/ladspa_1905.xml:15
 #, fuzzy, kde-format
@@ -17031,20 +17000,17 @@ msgid "100 Hz"
 msgstr "100 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
-#, fuzzy, kde-format
-#| msgid "156 Hz"
+#, kde-format
 msgid "156 Hz"
 msgstr "156 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
-#, fuzzy, kde-format
-#| msgid "220 Hz"
+#, kde-format
 msgid "220 Hz"
 msgstr "220 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
-#, fuzzy, kde-format
-#| msgid "311 Hz"
+#, kde-format
 msgid "311 Hz"
 msgstr "311 Hz"
 
@@ -17055,8 +17021,7 @@ msgid "440 Hz"
 msgstr "440 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
-#, fuzzy, kde-format
-#| msgid "622 Hz"
+#, kde-format
 msgid "622 Hz"
 msgstr "622 Hz"
 
@@ -17116,7 +17081,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_librnnoise.xml:5
 #, kde-format
 msgid "Microphone background noise removal filter"
-msgstr ""
+msgstr "Mikrofonin taustahälyn poistosuodatin"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
 #, fuzzy, no-c-format, kde-format
@@ -17148,22 +17113,19 @@ msgid "LADSPA limiter audio effect"
 msgstr "Aseta viiteääni"
 
 #: data/effects/ladspa/ladspa_limiter.xml:8
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input gain (dB)"
-msgstr "Syöttövahvistus (dB)"
+msgstr "Sisääntulovahvistus (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:11
-#, fuzzy, kde-format
-#| msgid "Limit (dB)"
+#, kde-format
 msgid "Limit (dB)"
-msgstr "Rajoita (db)"
+msgstr "Raja (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:14
-#, fuzzy, kde-format
-#| msgid "Real time (drop frames)"
+#, kde-format
 msgid "Release time (s)"
-msgstr "Reaaliaikainen (pudota ruutuja toistettaessa)"
+msgstr "Vapautusaika (s)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:5
 #, fuzzy, kde-format
@@ -17172,16 +17134,14 @@ msgid "LADSPA phaser audio effect"
 msgstr "Aseta viiteääni"
 
 #: data/effects/ladspa/ladspa_phaser.xml:8
-#, fuzzy, kde-format
-#| msgid "Rate (Hz)"
+#, kde-format
 msgid "Rate (Hz)"
-msgstr "Taso (Hz)"
+msgstr "Taajuus (Hz)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:17
-#, fuzzy, kde-format
-#| msgid "Spread"
+#, kde-format
 msgid "Spread"
-msgstr "Levitä"
+msgstr "Levitys"
 
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, fuzzy, kde-format
@@ -17268,23 +17228,20 @@ msgid "Room size (m)"
 msgstr "Huoneen koko (m)"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:11
-#, fuzzy, kde-format
-#| msgid "Delay (s/10)"
+#, kde-format
 msgid "Delay (s/10)"
-msgstr "Viive (1/10 s)"
+msgstr "Viive (s/10)"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:4
-#, fuzzy, kde-format
-#| msgid "Vinyl"
+#, kde-format
 msgctxt "Vinyl Effect Name"
 msgid "Vinyl"
 msgstr "Vinyyli"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:5
-#, fuzzy, kde-format
-#| msgid "Simulates a vinyl audio player - LADSPA audio effect"
+#, kde-format
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Jäljittele vinyylilevysointinta – LADSPA-äänitehoste"
+msgstr "Simuloi vinyylisoitinta – LADSPA-äänitehoste"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:8
 #, fuzzy, kde-format
@@ -17767,7 +17724,7 @@ msgstr "Alue"
 #: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Old Film Simulator"
-msgstr ""
+msgstr "Vanhan filmin simulointi"
 
 #: data/effects/oldfilm.xml:5
 #, fuzzy, kde-format
@@ -18398,13 +18355,12 @@ msgstr "X-siirtymä"
 #: data/effects/sox/sox.xml:4
 #, kde-format
 msgid "SoX"
-msgstr ""
+msgstr "SoX"
 
 #: data/effects/sox/sox.xml:5
-#, fuzzy, kde-format
-#| msgid "Problem editing effect"
+#, kde-format
 msgid "Process audio using a SoX effect"
-msgstr "Ongelma muokattaessa tehostetta"
+msgstr "Käsittele ääntä SoX-tehosteella"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
 #: src/monitor/view/MonitorSplit.qml:78
@@ -18449,10 +18405,9 @@ msgid "Smoothing window size "
 msgstr "Kartiomainen ikkuna"
 
 #: data/effects/sox/sox_band.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Bass"
+#, kde-format
 msgid "Sox Band"
-msgstr "Sox-basso"
+msgstr "SoX-kaista"
 
 #: data/effects/sox/sox_band.xml:5
 #, fuzzy, kde-format
@@ -18461,10 +18416,9 @@ msgid "Sox band audio effect"
 msgstr "Aseta viiteääni"
 
 #: data/effects/sox/sox_bass.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Bass"
+#, kde-format
 msgid "Sox Bass"
-msgstr "Sox-basso"
+msgstr "SoX-basso"
 
 #: data/effects/sox/sox_bass.xml:5
 #, fuzzy, kde-format
@@ -18473,10 +18427,9 @@ msgid "Sox bass audio effect"
 msgstr "Aseta viiteääni"
 
 #: data/effects/sox/sox_echo.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Echo"
+#, kde-format
 msgid "Sox Echo"
-msgstr "Sox-kaiku"
+msgstr "SoX-kaiku"
 
 #: data/effects/sox/sox_echo.xml:5
 #, fuzzy, kde-format
@@ -18545,8 +18498,7 @@ msgid "Sox change pitch audio effect"
 msgstr "Aseta viiteääni"
 
 #: data/effects/sox/sox_pitch.xml:11
-#, fuzzy, kde-format
-#| msgid "Time window (ms)"
+#, kde-format
 msgid "Time window (ms)"
 msgstr "Aikaikkuna (ms)"
 
@@ -18587,8 +18539,7 @@ msgid "Stereo depth"
 msgstr "Stereosyvyys"
 
 #: data/effects/sox/sox_reverb.xml:20
-#, fuzzy, kde-format
-#| msgid "Pre-delay"
+#, kde-format
 msgid "Pre-delay"
 msgstr "Esiviive"
 
@@ -19475,7 +19426,7 @@ msgstr "VCO-laajennukset"
 #: data/kdenliveeffectscategory.rc:166
 #, kde-format
 msgid "MLT LADSPA"
-msgstr ""
+msgstr "MLT LADSPA"
 
 #: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:104
@@ -19487,12 +19438,12 @@ msgstr "Vanhentunut"
 #: data/profiles.xml:4
 #, kde-format
 msgid "Generic (HD for web, mobile devices...)"
-msgstr ""
+msgstr "Yleinen (hyvä laatu verkkoon, mobiililaitteille…)"
 
 #: data/profiles.xml:27
 #, kde-format
 msgid "Ultra-High Definition (4K)"
-msgstr ""
+msgstr "Erittäin hyvä laatu (4K)"
 
 #: data/profiles.xml:43
 #, fuzzy, kde-format
@@ -19503,7 +19454,7 @@ msgstr "Kuvion leveys"
 #: data/profiles.xml:58
 #, kde-format
 msgid "Old-TV definition (DVD...)"
-msgstr ""
+msgstr "Vanhan TV taso (DVD…)"
 
 #: data/profiles.xml:75
 #, fuzzy, kde-format
@@ -19518,9 +19469,7 @@ msgid "Audio only"
 msgstr "Vain ääni"
 
 #: data/profiles.xml:125 src/renderpresets/renderpresetrepository.cpp:299
-#, fuzzy, kde-format
-#| msgctxt "Category Name"
-#| msgid "Images sequence"
+#, kde-format
 msgid "Images sequence"
 msgstr "Kuvasarja"
 
@@ -19616,7 +19565,7 @@ msgstr "Lisää siirtymä"
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition operation of the pixel sources."
-msgstr ""
+msgstr "Suorittaa kuvapistelähteiden RGB[A]-lisäysoperaation."
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
 #, kde-format
@@ -19689,8 +19638,7 @@ msgid "The alpha XOR operation"
 msgstr "Alfatoiminto"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
-#, fuzzy, kde-format
-#| msgid "Burn"
+#, kde-format
 msgid "Burn"
 msgstr "Polta"
 
@@ -20112,7 +20060,7 @@ msgstr ""
 msgid ""
 "Perform a conversion to value only of the source input1 using the value of "
 "input2."
-msgstr ""
+msgstr "Suorita lähteen sisäänmeno1 muunnos vain arvoksi sisäänmenon2 arvolla."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
 #, fuzzy, kde-format
@@ -20154,7 +20102,7 @@ msgstr "Ympyrä"
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a circle."
-msgstr ""
+msgstr "Pyyhkäise ympyrän muodossa keskeltä reunoilla."
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
 #, fuzzy, kde-format
@@ -20204,7 +20152,7 @@ msgstr "Suorakulmainen ikkuna"
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a rectangle."
-msgstr ""
+msgstr "Pyyhkäise suorakaiteen muodossa keskeltä reunoille."
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
 #, fuzzy, kde-format
@@ -20221,7 +20169,7 @@ msgstr "Yläoikealla"
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
 msgid "Wipe from left to right."
-msgstr ""
+msgstr "Pyyhkäise vasemmalta oikealle."
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
 #, fuzzy, kde-format
@@ -24548,6 +24496,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"Näytä hahmonnukseen käytetty XML-soittolista:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:98
 #, kde-format
@@ -24555,6 +24505,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"Näytä hahmonnuslokitiedosto:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
@@ -24685,6 +24637,10 @@ msgid ""
 "Not compatible with variable bitrate, and only relevant for some video "
 "codecs."
 msgstr ""
+"Kaksivaiheinen hahmonnus sallii paremmin vaikuttaa lopullisen tiedoston "
+"kokoon.\n"
+"Se ei sovi yhteen vaihtuvan bittinopeuden kanssa ja vaikuttaa vain joihinkin "
+"videokoodekkeihin."
 
 #: src/dialogs/renderwidget.cpp:406
 #, kde-format
@@ -24920,7 +24876,7 @@ msgstr "Lisää aikajanalle leikkeitä ennen hahmonnusta"
 #: src/dialogs/renderwidget.cpp:2413
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "Tulossijaintiin ei voi kirjoittaa: valitse toinen"
 
 #: src/dialogs/renderwidget.cpp:2416
 #, kde-format
@@ -24930,7 +24886,7 @@ msgstr "Levy on lähes täynnä, hahmonnus voi epäonnistua"
 #: src/dialogs/renderwidget.cpp:2419
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "Levytila on rajallinen (%1)"
 
 #: src/dialogs/renderwidget.cpp:2429
 #, kde-format
@@ -24939,10 +24895,9 @@ msgstr "Hahmonnetun tiedoston kesto: %1"
 
 #: src/dialogs/renderwidget.cpp:2432
 #: src/mltcontroller/clippropertiescontroller.cpp:626
-#, fuzzy, kde-format
-#| msgid "Time offset:"
+#, kde-format
 msgid "Timecode Offset:"
-msgstr "Siirtymäaika:"
+msgstr "Aikakoodin siirtymä:"
 
 #: src/dialogs/renderwidget.cpp:2437
 #, kde-format
@@ -25230,19 +25185,18 @@ msgstr "Anna äänenmuokkaussovelluksen sijainti"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1012
 #, kde-format
 msgid "Enter path to the image editing application"
-msgstr "Anna kuvanmuokkaussovelluksen sijainti"
+msgstr "Anna kuvankäsittelysovelluksen sijainti"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1020
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
-msgstr "Anna polku Glaxnimate-sovellukseen"
+msgstr "Anna Glaxnimate-sovelluksen sijainti"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1028
-#, fuzzy, kde-format
-#| msgid "Enter path to the audio editing application"
+#, kde-format
 msgid "Enter path to the video editing application"
-msgstr "Anna äänenmuokkaussovelluksen sijainti"
+msgstr "Anna videomuokkaussovelluksen sijainti"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1110
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1157
@@ -25466,7 +25420,7 @@ msgstr ""
 #: src/dialogs/settings/pluginssettings.cpp:1004
 #, kde-format
 msgid "CUDA %1"
-msgstr ""
+msgstr "CUDA %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1017
 #, fuzzy, kde-format
@@ -25527,7 +25481,7 @@ msgstr ""
 #: src/dialogs/Simplesplash.qml:294 src/dialogs/Splash.qml:708
 #, kde-format
 msgid "What's New"
-msgstr ""
+msgstr "Mitä uutta"
 
 #: src/dialogs/Simplesplash.qml:316
 #, kde-format
@@ -26207,22 +26161,22 @@ msgstr "Full HD 1920×1080"
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "HD 1280x720"
-msgstr ""
+msgstr "HD 1280×720"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "SD NTSC Wide 720x480"
-msgstr ""
+msgstr "Leveä SD NTSC 720×480"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "SD NTSC 720x480"
-msgstr ""
+msgstr "SD NTSC 720×480"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "SD PAL Wide 720x576"
-msgstr ""
+msgstr "Leveä SD PAL 720×576"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
@@ -26242,42 +26196,42 @@ msgstr "HD 720×1280"
 #: src/dialogs/Splash.qml:27
 #, kde-format
 msgid "23.98 fps"
-msgstr ""
+msgstr "23,98 fps"
 
 #: src/dialogs/Splash.qml:28
 #, kde-format
 msgid "24 fps"
-msgstr ""
+msgstr "24 fps"
 
 #: src/dialogs/Splash.qml:28 src/dialogs/Splash.qml:29
 #, kde-format
 msgid "25 fps"
-msgstr ""
+msgstr "25 fps"
 
 #: src/dialogs/Splash.qml:28
 #, kde-format
 msgid "29.97 fps"
-msgstr ""
+msgstr "29,97 fps"
 
 #: src/dialogs/Splash.qml:28 src/dialogs/Splash.qml:29
 #, kde-format
 msgid "30 fps"
-msgstr ""
+msgstr "30 fps"
 
 #: src/dialogs/Splash.qml:28
 #, kde-format
 msgid "50 fps"
-msgstr ""
+msgstr "50 fps"
 
 #: src/dialogs/Splash.qml:28
 #, kde-format
 msgid "59.94 fps"
-msgstr ""
+msgstr "59,94 fps"
 
 #: src/dialogs/Splash.qml:28 src/dialogs/Splash.qml:29
 #, kde-format
 msgid "60 fps"
-msgstr ""
+msgstr "60 fps"
 
 #: src/dialogs/Splash.qml:281
 #, kde-format
@@ -26290,10 +26244,9 @@ msgid "Open Recent"
 msgstr "Avaa viimeaikainen"
 
 #: src/dialogs/Splash.qml:316
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Clear History of Recent Projects"
-msgstr "Hahmonna projekti"
+msgstr "Tyhjennä viimeaikaisten projektien historia"
 
 #: src/dialogs/Splash.qml:425
 #, kde-format
@@ -26313,7 +26266,7 @@ msgstr "Uusi profiilista"
 #: src/dialogs/Splash.qml:490
 #, kde-format
 msgid "Clear History of Recent Profiles"
-msgstr ""
+msgstr "Tyhjennä viimeaikaisten profiilien historia"
 
 #: src/dialogs/Splash.qml:583
 #, kde-format
@@ -26335,17 +26288,17 @@ msgstr ""
 #: src/dialogs/Splash.qml:736
 #, kde-format
 msgid "Help us make Kdenlive even better"
-msgstr ""
+msgstr "Auta meitä tekemään Kdenlivesta parempi"
 
 #: src/dialogs/Splash.qml:741
 #, kde-format
 msgid "Contribute…"
-msgstr ""
+msgstr "Avusta…"
 
 #: src/dialogs/Splash.qml:747
 #, kde-format
 msgid "Donate…"
-msgstr ""
+msgstr "Lahjoita…"
 
 #: src/dialogs/Splash.qml:800
 #, fuzzy, kde-format
@@ -26356,7 +26309,7 @@ msgstr "<b>Tervetuloa Kdenliven pika-asetukseen</b>"
 #: src/dialogs/Splash.qml:806
 #, kde-format
 msgid "Always Use Dark Color Theme"
-msgstr ""
+msgstr "Käytä aina tummaa väriteemaa"
 
 #: src/dialogs/Splash.qml:818
 #, kde-format
@@ -26398,7 +26351,7 @@ msgstr "Ääniraitoja"
 #: src/dialogs/Splash.qml:1025
 #, kde-format
 msgid "This can always be changed later in the Settings."
-msgstr ""
+msgstr "Tämän voi muuttaa myöhemmin asetuksista."
 
 #: src/dialogs/Splash.qml:1065
 #, kde-format
@@ -26954,6 +26907,7 @@ msgid ""
 "Template %1 does not contain the <b>%s</b> keyword required to replace the "
 "text."
 msgstr ""
+"Mallissa %1 ei ole tekstin korvaamiseen vaadittua avainsanaa <b>%s</b>."
 
 #: src/dialogs/titletemplatedialog.cpp:98
 #, kde-format
@@ -28264,7 +28218,7 @@ msgstr "Pystykääntö"
 #: src/effects/effectstack/view/effectstackview.cpp:1048
 #, kde-format
 msgid "Remove background using AI model"
-msgstr ""
+msgstr "Poista tausta tekoälymallilla"
 
 #: src/effects/effectstack/view/effectstackview.cpp:1061
 #, kde-format
@@ -28392,7 +28346,7 @@ msgstr "Kaikki tuetut tiedostot"
 #, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
 msgstr ""
-"Sinun on annettava kelvollinen polku, jotta voit muokata Lottie-animaatioita."
+"Jotta voi muokata Lottie-animaatioita, on annettava kelvollinen sijainti"
 
 #: src/glaxnimatelauncher.cpp:62 src/glaxnimatelauncher.cpp:124
 #, kde-format
@@ -28556,7 +28510,7 @@ msgstr "Lähdettä ei voitu suodattaa."
 #: src/jobs/filtertask.cpp:338
 #, kde-format
 msgid "Effect analysis failed for %1"
-msgstr ""
+msgstr "%1: tehosteiden analysointi epäonnistui"
 
 #: src/jobs/masktask.cpp:26
 #, kde-format
@@ -29541,7 +29495,7 @@ msgstr ""
 #: src/main.cpp:358
 #, kde-format
 msgid "Do not show any welcome screen."
-msgstr ""
+msgstr "Älä näytä tervetulonäyttöä."
 
 #: src/main.cpp:361
 #, kde-format
@@ -29668,7 +29622,7 @@ msgstr "Näytä suosikkitehosteet"
 #: src/mainwindow.cpp:463
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "Näytä vain 10 bitin kanssa yhteensopivat kohteet"
 
 #. i18n: file: data/layouts/effects.json
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
@@ -29698,6 +29652,8 @@ msgid ""
 "This will clear all undo history, you will not be able to undo any previous "
 "action."
 msgstr ""
+"Tämä tyhjentää koko kumoamishistorian eikä aiempia toimenpiteitä voi enää "
+"kumota"
 
 #: src/mainwindow.cpp:491
 #, kde-format
@@ -29863,13 +29819,7 @@ msgid "Loading Project"
 msgstr "Avataan projektia"
 
 #: src/mainwindow.cpp:1074
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
+#, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -29877,17 +29827,16 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Yksi hahmonnustyö odottaa jonossa.\n"
+"Yksi hahmonnustyö on käynnissä.\n"
 "Mitä haluat tehdä sille?"
 msgstr[1] ""
-"%1 hahmonnustyötä odottaa jonossa.\n"
+"%1 hahmonnustyötä on käynnissä.\n"
 "Mitä haluat tehdä niille?"
 
 #: src/mainwindow.cpp:1076
-#, fuzzy, kde-format
-#| msgid "Creating menu background"
+#, kde-format
 msgid "Continue rendering in the background"
-msgstr "Luodaan valikon taustakuvaa"
+msgstr "Jatka hahmonnusta taustalla"
 
 #: src/mainwindow.cpp:1076
 #, kde-format
@@ -33232,11 +33181,10 @@ msgid "Rendering video"
 msgstr "Hahmonnetaan videota"
 
 #: src/powermanagementinterface.cpp:354
-#, fuzzy, kde-format
-#| msgid "Play after render"
+#, kde-format
 msgctxt "@info:status explanation for sleep inhibit during rendering"
 msgid "Playing or rendering video"
-msgstr "Toista hahmonnuksen lopuksi"
+msgstr "Toistetaan tai hahmonnetaan videota"
 
 #: src/profiles/profileinfo.cpp:88
 #, kde-format
@@ -35302,6 +35250,8 @@ msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
+"10 bitin värisyvyys muunnetaan 8 bitiksi, jos käytät koostamista tai "
+"tehosteita, joita avfilter ei tarjoa."
 
 #: src/renderpresets/renderpresetmodel.cpp:389
 #, kde-format
@@ -35313,8 +35263,7 @@ msgstr ""
 "teet, se olisi paras muuttaa ”mlt_profile”-muotoon."
 
 #: src/renderpresets/renderpresetrepository.cpp:98
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Custom render preset category"
 msgid "Custom"
 msgstr "Mukautettu"
@@ -35323,14 +35272,13 @@ msgstr "Mukautettu"
 #, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
-msgstr ""
+msgstr "10 bittiä"
 
 #: src/renderpresets/renderpresetrepository.cpp:100
-#, fuzzy, kde-format
-#| msgid "Lossless/HQ"
+#, kde-format
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
-msgstr "Häviötön/HQ"
+msgstr "Häviötön/hyvälaatuinen"
 
 #: src/renderpresets/renderpresetrepository.cpp:149
 #, kde-format
@@ -35339,8 +35287,7 @@ msgid "Custom"
 msgstr "Mukautettu"
 
 #: src/renderpresets/renderpresetrepository.cpp:234
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Custom render preset category name"
 msgid "Custom"
 msgstr "Mukautettu"
@@ -35348,7 +35295,7 @@ msgstr "Mukautettu"
 #: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
 msgid "10 Bit"
-msgstr ""
+msgstr "10 bittiä"
 
 #: src/renderpresets/renderpresetrepository.cpp:397
 #, kde-format
@@ -39125,7 +39072,7 @@ msgstr "Tarkista päivitykset"
 #: src/ui/configenv_ui.ui:119
 #, kde-format
 msgid "Prevent sleep when playing and rendering"
-msgstr ""
+msgstr "Estä valmiustila toistettaessa ja hahmonnettaessa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dragFromTitlebarOnly)
 #: src/ui/configenv_ui.ui:128
@@ -39256,7 +39203,7 @@ msgstr "Kuvan muokkaus:"
 #: src/ui/configenv_ui.ui:380
 #, kde-format
 msgid "Path to image editing application"
-msgstr "Polku käsittelyohjelmaan valokuville"
+msgstr "Kuvankäsittelysovelluksen sijainti"
 
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
@@ -39272,7 +39219,7 @@ msgstr "Muuta…"
 #: src/ui/configenv_ui.ui:401
 #, kde-format
 msgid "Path to audio editing application"
-msgstr "Polku käsittelyohjelmaan äänelle"
+msgstr "Äänenkäsittelysovelluksen sijainti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configenv_ui.ui:420
@@ -39284,7 +39231,7 @@ msgstr "Äänen muokkaus:"
 #: src/ui/configenv_ui.ui:429
 #, kde-format
 msgid "Path to Glaxnimate executable"
-msgstr "Polku Glaxnimate suoritustiedostoon"
+msgstr "Glaxnimate-ohjelmatiedoston sijainti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configenv_ui.ui:445
@@ -39294,17 +39241,15 @@ msgstr "Animoinnin muokkaus:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultvideoapp)
 #: src/ui/configenv_ui.ui:454
-#, fuzzy, kde-format
-#| msgid "Path to Glaxnimate executable"
+#, kde-format
 msgid "Path to video editor executable"
-msgstr "Polku Glaxnimate suoritustiedostoon"
+msgstr "Videomuokkaimen sijainti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: src/ui/configenv_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Audio editing:"
+#, kde-format
 msgid "Video editing:"
-msgstr "Äänen muokkaus:"
+msgstr "Videomuokkaus:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/configenv_ui.ui:491
@@ -39944,10 +39889,9 @@ msgstr "Käännä teksti englanniksi"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
 #: src/ui/configspeech_ui.ui:652 src/ui/configspeech_ui.ui:1067
-#, fuzzy, kde-format
-#| msgid "Use system install"
+#, kde-format
 msgid "Use system packages only"
-msgstr "Käytä asennusta järjestelmään"
+msgstr "Käytä vain järjestelmän paketteja"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_4)
 #: src/ui/configspeech_ui.ui:659
@@ -40002,10 +39946,9 @@ msgstr "Poista kaikki mallit"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, sam_rebuild)
 #: src/ui/configspeech_ui.ui:977
-#, fuzzy, kde-format
-#| msgid "Disabling virtual environment"
+#, kde-format
 msgid "Rebuild Virtual Environment"
-msgstr "Poistetaan virtuaaliympäristöä"
+msgstr "Koosta virtuaaliympäristö uudelleen"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
 #: src/ui/configspeech_ui.ui:1074
@@ -40075,10 +40018,9 @@ msgstr "Aseta toistokohta hiiren sijaintiin"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "On Selection:"
-msgstr "Valinta"
+msgstr "Valittaessa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:115
@@ -40163,10 +40105,9 @@ msgstr "Kaltevuus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "Ota video käyttöön"
+msgstr "Käytä virheenpaikannustilaa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:252
@@ -40208,10 +40149,9 @@ msgstr "Jaa ensi rivin jälkeen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "Keyframes"
-msgstr "ruudut"
+msgstr "Leikekehykset"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
@@ -41292,10 +41232,9 @@ msgstr "Kuvan esikatselu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:158
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "Hahmonnusaika"
+msgstr "Päättymisaika"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:192
