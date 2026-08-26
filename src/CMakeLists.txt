@@ -222,6 +222,11 @@ set_target_properties(kdenlive PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION "${KDENLIVE_VERSION}"
     MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.Kdenlive"
     MACOSX_BUNDLE_COPYRIGHT "2000-2022 The Kdenlive Authors")
+
+# Add entitlements for code signing to allow access to microphone
+set_target_properties(kdenlive PROPERTIES
+    XCODE_ATTRIBUTE_CODE_SIGN_ENTITLEMENTS "${CMAKE_SOURCE_DIR}/kdenlive.entitlements"
+)
 #set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE ON)
 endif()
 
