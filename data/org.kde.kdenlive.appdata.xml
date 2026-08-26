@@ -712,6 +712,7 @@
         <p xml:lang="ca">Aquesta és la primera versió de correcció d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
         <p xml:lang="ca-valencia">Esta és la primera versió d'esmena d'errors de la versió 24.02. Algunes de les esmenes més destacades:</p>
         <p xml:lang="es">Esta es la primera actualización de corrección de errores para la versión 24.02. Algunas de las correcciones más destacadas son:</p>
+        <p xml:lang="fi">Tämä on ensimmäinen viankorjausjulkaisu 24.02-versioon. Huomattavimpia korjauksia:</p>
         <p xml:lang="fr">Il s'agit de la première correction de bogues pour la version 24.02. Voici les corrections les plus remarquables :</p>
         <p xml:lang="he">זאת מהדורת תיקוני התקלות הראשונה לגרסת 24.02. חלק מהתיקונים שהכי ראוי לציין:</p>
         <p xml:lang="it">Questa è la prima versione di correzione dei bug per la versione 24.02. Alcune delle correzioni più importanti:</p>
@@ -731,6 +732,7 @@
           <li xml:lang="ca">Corregeix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
           <li xml:lang="ca-valencia">Corregix la lletra distorsionada en algunes parts de la interfície d'usuari</li>
           <li xml:lang="es">Se corrigió la fuente distorsionada en algunas partes de la interfaz de usuario</li>
+          <li xml:lang="fi">korjattu vääristynyt fontti joissakin käyttöliittymän osissa</li>
           <li xml:lang="fr">Correction de la police déformée dans certaines parties de l'interface utilisateur</li>
           <li xml:lang="he">תוקן גופן מעוות בחלקים מסוימים בממשק המשתמש</li>
           <li xml:lang="it">Correzione dei caratteri distorti in alcune parti dell'interfaccia utente</li>
@@ -839,6 +841,7 @@
           <li xml:lang="ca">Corregeix problemes diversos amb els subtítols (pistes de subtítols múltiples no desades o mostrades correctament)</li>
           <li xml:lang="ca-valencia">Corregix problemes diversos amb els subtítols (pistes de subtítols múltiples no guardades o mostrades correctament)</li>
           <li xml:lang="es">Se han corregido varios problemas con los subtítulos (varias pistas de subtítulos no se guardaban ni se mostraban correctamente).</li>
+          <li xml:lang="fi">korjattu useita tekstitysongelmia (useampia tekstitysraitoja ei tallennettu tai näytetty oikein)</li>
           <li xml:lang="fr">Correction de plusieurs problèmes avec les sous-titres (les pistes de sous-titres multiples n'étaient pas enregistrées ou affichées correctement)</li>
           <li xml:lang="he">תוקנו מגוון תקלות עם כתוביות (ריבוי רצועות כתוביות לא נשמרו או הוצגו כראוי)</li>
           <li xml:lang="it">Correzione di vari problemi relativi ai sottotitoli (tracce multiple di sottotitoli non salvate, o non visualizzate correttamente)</li>
