@@ -12,14 +12,6 @@ include:
       - /gitlab-templates/cppcheck.yml
       # CI Qt6
       - /gitlab-templates/linux-qt6-lts.yml
-      # - /gitlab-templates/linux-qt6-next.yml # disabled until all dependencies are included
-      # CD Qt6
-      - /gitlab-templates/flatpak.yml
-      - /gitlab-templates/craft-appimage-qt6.yml
-      - /gitlab-templates/craft-windows-mingw64-qt6.yml
-      - /gitlab-templates/craft-macos-x86-64-qt6.yml
-      - /gitlab-templates/craft-macos-arm64-qt6.yml
-      - /gitlab-templates/snap-snapcraft-lxd.yml
   
 # Customize the job from /gitlab-templates/xml-lint.yml
 # to use our own validate-xml-files.py which has some advanced
