@@ -28,7 +28,7 @@ public:
      * @brief Set the tick positions that correspond to the gain labels
      * @param tickPositions The gain values (in dB) for which to draw ticks and labels
      */
-    void setTickPositions(const QVector<double> &tickPositions);
+    void setTickPositions(const std::list<int> &tickPositions);
 
     /**
      * @brief Set whether to show tick marks at tick positions
@@ -88,7 +88,7 @@ private:
     bool m_narrowKnob;
     int m_neutralPosition;
     QPointF m_dragStartPosition;
-    QVector<double> m_tickPositions;
+    std::list<int> m_tickPositions;
     bool m_ticksVisible = true;
     bool m_tickLabelsVisible = true;
     QPixmap m_backgroundCache;
@@ -111,7 +111,7 @@ private:
     int valueFromPosition(qreal pos) const;
     qreal positionFromValue(int value) const;
     void updateBackgroundCache();
-    int calculateMaxLabelWidth(const QVector<double> &tickPositions) const;
+    int calculateMaxLabelWidth(const std::list<int> &tickPositions) const;
     QSizeF calculateKnobSize() const;
     QSizeF calculateTickSize() const;
     QRectF getKnobRect(qreal pos) const;

@@ -124,6 +124,9 @@ private:
     // Helper to set value and highlight color for spinboxes
     void updateSpinBoxStyle(QAbstractSpinBox *spin, double neutral);
 
+    // Helper returning default scale value for volume
+    std::list<int> &getGainScaleValues();
+
 Q_SIGNALS:
     void gotLevels(QPair<double, double>);
     void muteTrack(int tid, bool mute);
