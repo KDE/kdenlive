@@ -195,8 +195,10 @@ void MediaCapture::switchMonitorState(bool run)
             m_audioInfo.reset();
         }
         m_audioInput.reset();
-        m_audioSource->reset();
-        m_audioSource.reset(nullptr);
+        if (m_audioSource) {
+            m_audioSource->reset();
+            m_audioSource.reset(nullptr);
+        }
     }
 }
 
@@ -245,6 +247,10 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
     if (record) {
         m_recordingSequence = uuid;
         pCore->displayMessage(i18n("Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to end."), InformationMessage, 8000);
+    } else if (!m_mediaRecorder) {
+        // Previous attempt to record failed, abort
+        qWarning() << "Failed to abort audio session";
+        return;
     }
     if (!m_mediaRecorder) {
 #ifdef Q_OS_MAC
@@ -260,7 +266,7 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
             });
             return;
         case Qt::PermissionStatus::Denied:
-            qDebug() << ":::: REQUESTING MIC PERMISSION... DENIED";
+            qWarning() << ":::: REQUESTING MIC PERMISSION... DENIED";
             m_recordStatus = RecordReady;
             return;
         case Qt::PermissionStatus::Granted:

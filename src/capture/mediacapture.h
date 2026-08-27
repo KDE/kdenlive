@@ -94,7 +94,7 @@ public Q_SLOTS:
 
 private:
     std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
-    std::unique_ptr<QMediaRecorder> m_mediaRecorder;
+    std::unique_ptr<QMediaRecorder> m_mediaRecorder{nullptr};
     std::unique_ptr<QAudioSource> m_audioSource{nullptr};
     std::unique_ptr<QAudioInput> m_audioInput{nullptr};
     QScopedPointer<AudioDevInfo> m_audioInfo{nullptr};
