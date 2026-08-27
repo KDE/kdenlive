@@ -37,6 +37,13 @@
 constexpr double NEUTRAL_VOLUME = 0.0;
 constexpr int NEUTRAL_BALANCE = 0;
 
+std::list<int> &MixerWidget::getGainScaleValues()
+{
+    // Default gain values for labels
+    static std::list<int> gainValues = {-24, -10, -4, 0, 4, 10, 24};
+    return gainValues;
+}
+
 void MixerWidget::property_changed(mlt_service, MixerWidget *widget, mlt_event_data data)
 {
     if (widget && !strcmp(Mlt::EventData(data).to_string(), "_position")) {
@@ -150,9 +157,6 @@ void MixerWidget::buildAudioMeter()
 
 void MixerWidget::buildVolumeControls()
 {
-    // Default gain values for labels
-    QVector<double> gainValues({-24, -10, -4, 0, 4, 10, 24});
-
     // Build volume widget
     // range is from -50dB to +50dB
     double neutralPosition = fromDB(0) * 100;
@@ -162,7 +166,7 @@ void MixerWidget::buildVolumeControls()
     m_volumeSlider->setSingleStep(50);
     m_volumeSlider->setToolTip(i18n("Volume"));
     m_volumeSlider->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output volume of the audio track (affects all audio clips equally)."));
-    m_volumeSlider->setTickPositions(gainValues);
+    m_volumeSlider->setTickPositions(getGainScaleValues());
     m_volumeSlider->setTicksVisible(true);
     m_volumeSlider->setTickLabelsVisible(true);
 
@@ -190,6 +194,8 @@ void MixerWidget::buildVolumeControls()
 
 void MixerWidget::buildBalanceControls()
 {
+    // Default labels for balance
+    static std::list<int> balanceTicks = {0};
     m_balanceSlider = new AudioSlider(Qt::Horizontal, this, true, 0);
     m_balanceSlider->setRange(-50, 50);
     m_balanceSlider->setValue(0);
@@ -199,7 +205,6 @@ void MixerWidget::buildBalanceControls()
     // Show only ticks for balance, no labels
     m_balanceSlider->setTicksVisible(true);
     m_balanceSlider->setTickLabelsVisible(false);
-    QVector<double> balanceTicks = {0};
     m_balanceSlider->setTickPositions(balanceTicks);
     m_balanceSlider->setLabelFormatter([](double v) {
         if (v <= -50.0) return i18nc("Balance left", "L");
@@ -626,7 +631,7 @@ void MixerWidget::updateMonitorState()
         m_volumeSpin->setRange(0, 100);
         m_dbLabel->setText(QStringLiteral("%"));
         m_volumeSlider->setValueToSliderFunction([](double v) { return static_cast<int>(v * 100.0); });
-        QVector<double> tickValues({10, 20, 40, 60, 80, 90});
+        std::list<int> tickValues({10, 20, 40, 60, 80, 90});
         m_volumeSlider->setTickPositions(tickValues);
         m_volumeSlider->setTickLabelsVisible(true);
         m_volumeSlider->setNeutralPosition(KdenliveSettings::audiocapturevolume() * 100);
@@ -642,8 +647,7 @@ void MixerWidget::updateMonitorState()
         m_volumeSpin->setRange(-100, 60);
         m_dbLabel->setText(i18n("dB"));
         m_volumeSlider->setValueToSliderFunction([](double dB) { return static_cast<int>(fromDB(dB) * 100.0); });
-        QVector<double> gainValues({-24, -10, -4, 0, 4, 10, 24});
-        m_volumeSlider->setTickPositions(gainValues);
+        m_volumeSlider->setTickPositions(getGainScaleValues());
         m_volumeSlider->setTickLabelsVisible(true);
         m_volumeSlider->setNeutralPosition(fromDB(NEUTRAL_VOLUME) * 100);
         m_volumeSpin->setNeutralPosition(NEUTRAL_VOLUME);
