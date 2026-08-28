@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 02:42+0000\n"
+"POT-Creation-Date: 2026-08-28 02:44+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -23239,13 +23239,13 @@ msgstr "Yeni etiket"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:307
 #, fuzzy, kde-format
 #| msgid "No audio track found"
 msgid "No audio device found"
 msgstr "Səs cığırı tapılmadı"
 
-#: src/capture/mediacapture.cpp:247
+#: src/capture/mediacapture.cpp:249
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -23255,7 +23255,7 @@ msgstr ""
 "klaviaturada <b>Boşluq</b> düyməsinə, sonlandırmaq üçün <b>Esc</b> düyməsinə "
 "vurun."
 
-#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:427 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"

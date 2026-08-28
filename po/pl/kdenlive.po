@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 02:42+0000\n"
+"POT-Creation-Date: 2026-08-28 02:44+0000\n"
 "PO-Revision-Date: 2026-07-12 09:49+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -22913,12 +22913,12 @@ msgstr "Nowy znacznik"
 msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:307
 #, kde-format
 msgid "No audio device found"
 msgstr "Nie znaleziono żadnego urządzenia dźwiękowego"
 
-#: src/capture/mediacapture.cpp:247
+#: src/capture/mediacapture.cpp:249
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -22927,7 +22927,7 @@ msgstr ""
 "Monitorowanie dźwięku. Naciśnij <b>Spację</b>, aby rozpocząć/wstrzymać "
 "nagrywanie, <b>Esc</b>, aby je zakończyć."
 
-#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:427 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
