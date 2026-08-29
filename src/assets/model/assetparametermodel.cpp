@@ -1306,15 +1306,15 @@ void AssetParameterModel::setActive(bool active)
 void AssetParameterModel::setExpanded(bool expanded)
 {
     if (expanded) {
-        m_asset->set("kdenlive:paramexpanded", 1);
+        m_asset->clear("kdenlive:paramcollapsed");
     } else {
-        m_asset->clear("kdenlive:paramexpanded");
+        m_asset->set("kdenlive:paramcollapsed", 1);
     }
 }
 
 bool AssetParameterModel::isExpanded() const
 {
-    return m_asset->property_exists("kdenlive:paramexpanded");
+    return !m_asset->property_exists("kdenlive:paramcollapsed");
 }
 
 bool AssetParameterModel::isActive() const
