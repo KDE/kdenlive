@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 02:44+0000\n"
+"POT-Creation-Date: 2026-08-29 02:42+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -43,7 +43,7 @@ msgid "Logging"
 msgstr "लॉगिंग"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
+#: src/audiomixer/mixerwidget.cpp:202 src/audiomixer/mixerwidget.cpp:227
 #, kde-format
 msgid "Balance"
 msgstr "संतुलन"
@@ -19083,7 +19083,7 @@ msgstr "रेखीयस्य स्थाने cos इत्यस्य �
 msgid "Smooth"
 msgstr "मसृणः"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Volume"
 msgstr "मात्रा"
@@ -21392,7 +21392,7 @@ msgid "No audio"
 msgstr "श्रव्यं अभिलेखयन्तु"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
+#: src/audiomixer/mixerwidget.cpp:191 src/audiomixer/mixerwidget.cpp:648
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -21403,7 +21403,7 @@ msgstr "dB"
 msgid "Master"
 msgstr "निपुण"
 
-#: src/audiomixer/mixerwidget.cpp:164
+#: src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21412,21 +21412,21 @@ msgid ""
 msgstr ""
 "श्रव्यपट्टिकायाः निर्गमस्य मात्रां समायोजयति (सर्वं श्रव्यक्लिप् समानरूपेण प्रभावितं करोति) ।"
 
-#: src/audiomixer/mixerwidget.cpp:172
+#: src/audiomixer/mixerwidget.cpp:176
 #, fuzzy, kde-format
 #| msgid "%1%"
 msgctxt "Gain in dB, positive"
 msgid "%1"
 msgstr "%1%"
 
-#: src/audiomixer/mixerwidget.cpp:174
+#: src/audiomixer/mixerwidget.cpp:178
 #, fuzzy, kde-format
 #| msgid "%1%"
 msgctxt "Gain in dB, zero or negative"
 msgid "%1"
 msgstr "%1%"
 
-#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
+#: src/audiomixer/mixerwidget.cpp:203 src/audiomixer/mixerwidget.cpp:228
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21437,7 +21437,7 @@ msgstr ""
 "ट्रैकस्य आउटपुट् बैलेन्सं समायोजयति । नकारात्मकमूल्यानि उत्पादनं वामदिशि, सकारात्मकमूल्यानि "
 "दक्षिणदिशि च चालयन्ति । सर्वाणि श्रव्यक्लिप् समानरूपेण प्रभावितं करोति ।"
 
-#: src/audiomixer/mixerwidget.cpp:205
+#: src/audiomixer/mixerwidget.cpp:210
 #, fuzzy, kde-format
 #| msgctxt "Left"
 #| msgid "L"
@@ -21445,71 +21445,71 @@ msgctxt "Balance left"
 msgid "L"
 msgstr "ल"
 
-#: src/audiomixer/mixerwidget.cpp:206
+#: src/audiomixer/mixerwidget.cpp:211
 #, fuzzy, kde-format
 #| msgid "R"
 msgctxt "Balance right"
 msgid "R"
 msgstr "आर"
 
-#: src/audiomixer/mixerwidget.cpp:207
+#: src/audiomixer/mixerwidget.cpp:212
 #, fuzzy, kde-format
 #| msgid "C"
 msgctxt "Balance center"
 msgid "C"
 msgstr "ग"
 
-#: src/audiomixer/mixerwidget.cpp:213
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "ल"
 
-#: src/audiomixer/mixerwidget.cpp:215
+#: src/audiomixer/mixerwidget.cpp:220
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "आर"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Mute track"
 msgstr "म्यूट ट्रैक"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Unmute track"
 msgstr "अनम्यूट ट्रैक"
 
-#: src/audiomixer/mixerwidget.cpp:241
+#: src/audiomixer/mixerwidget.cpp:246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "श्रव्यपट्टिकां म्यूट्/अन-म्यूट् करोति ।"
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:255
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Open Effect Stack इति"
 
-#: src/audiomixer/mixerwidget.cpp:252
+#: src/audiomixer/mixerwidget.cpp:257
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "ऑडियो ट्रैक कृते इफेक्ट् स्टैक् उद्घाटयति ।"
 
-#: src/audiomixer/mixerwidget.cpp:254
+#: src/audiomixer/mixerwidget.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr "audio master कृते effect stack उद्घाटयति ।"
 
-#: src/audiomixer/mixerwidget.cpp:263
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-format
 msgid "Solo mode"
 msgstr "केवलं फैशनाः एव"
 
-#: src/audiomixer/mixerwidget.cpp:264
+#: src/audiomixer/mixerwidget.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21517,23 +21517,23 @@ msgid ""
 "Use Shift+Click to select multiple tracks to play at the same time."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:269
+#: src/audiomixer/mixerwidget.cpp:274
 #, kde-format
 msgid "Monitor audio"
 msgstr "श्रव्यस्य निरीक्षणं कुर्वन्तु"
 
-#: src/audiomixer/mixerwidget.cpp:270
+#: src/audiomixer/mixerwidget.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "श्रव्यपट्टिकां रिकार्डिङ्ग् मोड् मध्ये स्थापयति ।"
 
-#: src/audiomixer/mixerwidget.cpp:276
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-format
 msgid "Show channels"
 msgstr "चैनल्स् दर्शयतु"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23937,7 +23937,7 @@ msgstr "यदा प्रभावः अक्षमः भवति तद�
 
 #: src/dialogs/encodingprofilesdialog.cpp:338
 #: src/dialogs/encodingprofilesdialog.cpp:427
-#: src/project/dialogs/projectsettings.cpp:908
+#: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "स्वचालित (%1)"
@@ -23945,15 +23945,15 @@ msgstr "स्वचालित (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:340
 #: src/dialogs/encodingprofilesdialog.cpp:429
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
-#: src/project/dialogs/projectsettings.cpp:910
+#: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "स्वतः"
 
 #: src/dialogs/encodingprofilesdialog.cpp:408
-#: src/project/dialogs/projectsettings.cpp:945
-#: src/project/dialogs/projectsettings.cpp:975
+#: src/project/dialogs/projectsettings.cpp:946
+#: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "वर्तमान सेटिंग्स्"
@@ -31593,7 +31593,7 @@ msgstr "श्रव्यधारा/दत्तांश/कोडेक् 
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:246
-#: src/project/dialogs/projectsettings.cpp:874 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "मेटाडाटा"
@@ -31980,7 +31980,7 @@ msgstr "विश्लेषणदत्तांशं रक्षन्त�
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1818
 #: src/mltcontroller/clippropertiescontroller.cpp:1831
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "पाठसञ्चिका (*.txt)"
@@ -34006,7 +34006,7 @@ msgstr "प्लेलिस्ट् क्लिप्स्"
 msgid "Other clips"
 msgstr "अन्ये क्लिप्स्"
 
-#: src/project/dialogs/projectsettings.cpp:551
+#: src/project/dialogs/projectsettings.cpp:552
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -34017,13 +34017,13 @@ msgstr ""
 "समयरेखापूर्वावलोकनानि निष्कासितानि भविष्यन्ति ।\n"
 " किं भवन्तः निश्चयेन अग्रे गन्तुम् इच्छन्ति ?"
 
-#: src/project/dialogs/projectsettings.cpp:553
-#: src/project/dialogs/projectsettings.cpp:563
+#: src/project/dialogs/projectsettings.cpp:554
+#: src/project/dialogs/projectsettings.cpp:564
 #, kde-format
 msgid "Confirm profile change"
 msgstr "प्रोफाइल परिवर्तनस्य पुष्टिं कुर्वन्तु"
 
-#: src/project/dialogs/projectsettings.cpp:561
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -34036,8 +34036,8 @@ msgstr ""
 "अनुशंसितम् ।\n"
 "किं भवन्तः निश्चयेन अग्रे गन्तुम् इच्छन्ति ?"
 
-#: src/project/dialogs/projectsettings.cpp:790
-#: src/project/dialogs/projectsettings.cpp:805
+#: src/project/dialogs/projectsettings.cpp:791
+#: src/project/dialogs/projectsettings.cpp:806
 #: src/project/dialogs/slideshowclip.cpp:315
 #, kde-format
 msgid "1 image found"
@@ -34045,27 +34045,27 @@ msgid_plural "%1 images found"
 msgstr[0] "१ चित्रं प्राप्तम्"
 msgstr[1] "%1 चित्राणि प्राप्तानि"
 
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Save As"
 msgstr "As Save As इति"
 
-#: src/project/dialogs/projectsettings.cpp:818
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Project folder: %1"
 msgstr "परियोजनापुटम् : %1"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:820
 #, kde-format
 msgid "Project profile: %1"
 msgstr "परियोजनारूपरेखा: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:821
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "कुलक्लिप्: %1 (%2 समयरेखायां प्रयुक्तम्) ।"
 
-#: src/project/dialogs/projectsettings.cpp:874
+#: src/project/dialogs/projectsettings.cpp:875
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"

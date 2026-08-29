@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 02:44+0000\n"
+"POT-Creation-Date: 2026-08-29 02:42+0000\n"
 "PO-Revision-Date: 2026-08-19 09:35+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -43,7 +43,7 @@ msgid "Logging"
 msgstr "Registre"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
+#: src/audiomixer/mixerwidget.cpp:202 src/audiomixer/mixerwidget.cpp:227
 #, kde-format
 msgid "Balance"
 msgstr "Balanç"
@@ -19106,7 +19106,7 @@ msgstr "Usa el «cos» en lloc del lineal"
 msgid "Smooth"
 msgstr "Suau"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Volume"
 msgstr "Volum"
@@ -21365,7 +21365,7 @@ msgid "No audio"
 msgstr "Sense àudio"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
+#: src/audiomixer/mixerwidget.cpp:191 src/audiomixer/mixerwidget.cpp:648
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -21376,7 +21376,7 @@ msgstr "dB"
 msgid "Master"
 msgstr "Mestre"
 
-#: src/audiomixer/mixerwidget.cpp:164
+#: src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21386,19 +21386,19 @@ msgstr ""
 "Ajusta el volum de la sortida de pista d'àudio (afecta a tots els clips "
 "d'àudio per igual)."
 
-#: src/audiomixer/mixerwidget.cpp:172
+#: src/audiomixer/mixerwidget.cpp:176
 #, kde-format
 msgctxt "Gain in dB, positive"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:174
+#: src/audiomixer/mixerwidget.cpp:178
 #, kde-format
 msgctxt "Gain in dB, zero or negative"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
+#: src/audiomixer/mixerwidget.cpp:203 src/audiomixer/mixerwidget.cpp:228
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21410,75 +21410,75 @@ msgstr ""
 "sortida cap a l'esquerra, els valors positius cap a la dreta. Afecta a tots "
 "els clips d'àudio per igual."
 
-#: src/audiomixer/mixerwidget.cpp:205
+#: src/audiomixer/mixerwidget.cpp:210
 #, kde-format
 msgctxt "Balance left"
 msgid "L"
 msgstr "E"
 
-#: src/audiomixer/mixerwidget.cpp:206
+#: src/audiomixer/mixerwidget.cpp:211
 #, kde-format
 msgctxt "Balance right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:207
+#: src/audiomixer/mixerwidget.cpp:212
 #, kde-format
 msgctxt "Balance center"
 msgid "C"
 msgstr "C"
 
-#: src/audiomixer/mixerwidget.cpp:213
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "E"
 
-#: src/audiomixer/mixerwidget.cpp:215
+#: src/audiomixer/mixerwidget.cpp:220
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Mute track"
 msgstr "Silencia la pista"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Unmute track"
 msgstr "Activa el so de la pista"
 
-#: src/audiomixer/mixerwidget.cpp:241
+#: src/audiomixer/mixerwidget.cpp:246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Silencia/activa el so de la pista d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:255
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Obre la pila d'efectes"
 
-#: src/audiomixer/mixerwidget.cpp:252
+#: src/audiomixer/mixerwidget.cpp:257
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Obre la pila d'efectes per a la pista d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:254
+#: src/audiomixer/mixerwidget.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr "Obre la pila d'efectes per al mestre d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:263
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-format
 msgid "Solo mode"
 msgstr "Mode individual"
 
-#: src/audiomixer/mixerwidget.cpp:264
+#: src/audiomixer/mixerwidget.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21489,23 +21489,23 @@ msgstr ""
 "Feu servir Maj+Clic per a seleccionar diverses pistes per a reproduir-se al "
 "mateix temps."
 
-#: src/audiomixer/mixerwidget.cpp:269
+#: src/audiomixer/mixerwidget.cpp:274
 #, kde-format
 msgid "Monitor audio"
 msgstr "Monitoratge de l'àudio"
 
-#: src/audiomixer/mixerwidget.cpp:270
+#: src/audiomixer/mixerwidget.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Posa la pista d'àudio en mode d'enregistrament."
 
-#: src/audiomixer/mixerwidget.cpp:276
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-format
 msgid "Show channels"
 msgstr "Mostra els canals"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23908,7 +23908,7 @@ msgstr "Mostra els paràmetres del perfil seleccionat"
 
 #: src/dialogs/encodingprofilesdialog.cpp:338
 #: src/dialogs/encodingprofilesdialog.cpp:427
-#: src/project/dialogs/projectsettings.cpp:908
+#: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Automàtic (%1)"
@@ -23916,15 +23916,15 @@ msgstr "Automàtic (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:340
 #: src/dialogs/encodingprofilesdialog.cpp:429
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
-#: src/project/dialogs/projectsettings.cpp:910
+#: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Automàtic"
 
 #: src/dialogs/encodingprofilesdialog.cpp:408
-#: src/project/dialogs/projectsettings.cpp:945
-#: src/project/dialogs/projectsettings.cpp:975
+#: src/project/dialogs/projectsettings.cpp:946
+#: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "Paràmetres actuals"
@@ -31547,7 +31547,7 @@ msgstr "Mostra informació detallada quant als fluxos/dades/còdec d'àudio."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:246
-#: src/project/dialogs/projectsettings.cpp:874 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "Metadades"
@@ -31935,7 +31935,7 @@ msgstr "Desa l'anàlisi de dades"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1818
 #: src/mltcontroller/clippropertiescontroller.cpp:1831
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Fitxer de text (*.txt)"
@@ -33916,7 +33916,7 @@ msgstr "Clips de llista de reproducció"
 msgid "Other clips"
 msgstr "Altres clips"
 
-#: src/project/dialogs/projectsettings.cpp:551
+#: src/project/dialogs/projectsettings.cpp:552
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -33927,13 +33927,13 @@ msgstr ""
 "totes les vistes prèvies de línia de temps per a aquest projecte.\n"
 " Esteu segur que voleu continuar?"
 
-#: src/project/dialogs/projectsettings.cpp:553
-#: src/project/dialogs/projectsettings.cpp:563
+#: src/project/dialogs/projectsettings.cpp:554
+#: src/project/dialogs/projectsettings.cpp:564
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Confirma el canvi de perfil"
 
-#: src/project/dialogs/projectsettings.cpp:561
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -33946,8 +33946,8 @@ msgstr ""
 "qual pot provocar algunes incorreccions a les transicions.\n"
 "Esteu segur que voleu continuar?"
 
-#: src/project/dialogs/projectsettings.cpp:790
-#: src/project/dialogs/projectsettings.cpp:805
+#: src/project/dialogs/projectsettings.cpp:791
+#: src/project/dialogs/projectsettings.cpp:806
 #: src/project/dialogs/slideshowclip.cpp:315
 #, kde-format
 msgid "1 image found"
@@ -33955,27 +33955,27 @@ msgid_plural "%1 images found"
 msgstr[0] "S'ha trobat 1 imatge"
 msgstr[1] "S'han trobat %1 imatges"
 
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Save As"
 msgstr "Desa com a"
 
-#: src/project/dialogs/projectsettings.cpp:818
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Carpeta del projecte: %1"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:820
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Perfil del projecte: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:821
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Clips totals: %1 (%2 usats a la línia de temps)."
 
-#: src/project/dialogs/projectsettings.cpp:874
+#: src/project/dialogs/projectsettings.cpp:875
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 02:44+0000\n"
+"POT-Creation-Date: 2026-08-29 02:42+0000\n"
 "PO-Revision-Date: 2026-08-10 18:21+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -42,7 +42,7 @@ msgid "Logging"
 msgstr "السجل"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
+#: src/audiomixer/mixerwidget.cpp:202 src/audiomixer/mixerwidget.cpp:227
 #, kde-format
 msgid "Balance"
 msgstr "التوازن"
@@ -18640,7 +18640,7 @@ msgstr "استخدام جيب التمام بدلًا من الخطي"
 msgid "Smooth"
 msgstr "سَلِس"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Volume"
 msgstr "المستوى"
@@ -20869,7 +20869,7 @@ msgid "No audio"
 msgstr "لا يوجد صوت"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
+#: src/audiomixer/mixerwidget.cpp:191 src/audiomixer/mixerwidget.cpp:648
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -20880,7 +20880,7 @@ msgstr "دسب"
 msgid "Master"
 msgstr "الرئيس"
 
-#: src/audiomixer/mixerwidget.cpp:164
+#: src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20888,19 +20888,19 @@ msgid ""
 "equally)."
 msgstr "تضبط مستوى صوت الخرج للمسار الصوتي (تأثر على كل المقاطع بشكل متساوي)"
 
-#: src/audiomixer/mixerwidget.cpp:172
+#: src/audiomixer/mixerwidget.cpp:176
 #, kde-format
 msgctxt "Gain in dB, positive"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:174
+#: src/audiomixer/mixerwidget.cpp:178
 #, kde-format
 msgctxt "Gain in dB, zero or negative"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
+#: src/audiomixer/mixerwidget.cpp:203 src/audiomixer/mixerwidget.cpp:228
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20911,75 +20911,75 @@ msgstr ""
 "تضبط توازن الخرج للمسار. القيمة السالبة تحرك الخرج نحو اليسار، القيمة "
 "الموجبة تحركها نحو اليمين. تأثر على كل المقاطع بشكل متساوي."
 
-#: src/audiomixer/mixerwidget.cpp:205
+#: src/audiomixer/mixerwidget.cpp:210
 #, kde-format
 msgctxt "Balance left"
 msgid "L"
 msgstr "يس"
 
-#: src/audiomixer/mixerwidget.cpp:206
+#: src/audiomixer/mixerwidget.cpp:211
 #, kde-format
 msgctxt "Balance right"
 msgid "R"
 msgstr "يم"
 
-#: src/audiomixer/mixerwidget.cpp:207
+#: src/audiomixer/mixerwidget.cpp:212
 #, kde-format
 msgctxt "Balance center"
 msgid "C"
 msgstr "وس"
 
-#: src/audiomixer/mixerwidget.cpp:213
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "يس"
 
-#: src/audiomixer/mixerwidget.cpp:215
+#: src/audiomixer/mixerwidget.cpp:220
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "يم"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Mute track"
 msgstr "اكتم المسار"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Unmute track"
 msgstr "ألغ الكتم المسار"
 
-#: src/audiomixer/mixerwidget.cpp:241
+#: src/audiomixer/mixerwidget.cpp:246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "تكتم/تلغي الكتم مسار الصوت."
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:255
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "افتح كومة التأثيرات"
 
-#: src/audiomixer/mixerwidget.cpp:252
+#: src/audiomixer/mixerwidget.cpp:257
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "تفتح كومة التأثيرات لمسار الصوت."
 
-#: src/audiomixer/mixerwidget.cpp:254
+#: src/audiomixer/mixerwidget.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr "تفتح كومة التأثيرات لمسار الصوت الرئيس."
 
-#: src/audiomixer/mixerwidget.cpp:263
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-format
 msgid "Solo mode"
 msgstr "الوضع المفرد"
 
-#: src/audiomixer/mixerwidget.cpp:264
+#: src/audiomixer/mixerwidget.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20989,23 +20989,23 @@ msgstr ""
 "عند التحديد، يُكتم جميع المسارات الصوتية الأخرى.\n"
 "استخدم Shift+نقرة لاختيار مسارات متعددة للتشغيل في الوقت نفسه."
 
-#: src/audiomixer/mixerwidget.cpp:269
+#: src/audiomixer/mixerwidget.cpp:274
 #, kde-format
 msgid "Monitor audio"
 msgstr "راقب الصوت"
 
-#: src/audiomixer/mixerwidget.cpp:270
+#: src/audiomixer/mixerwidget.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "تضع مسار الصوت في وضع التسجيل."
 
-#: src/audiomixer/mixerwidget.cpp:276
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-format
 msgid "Show channels"
 msgstr "أظهر القنوات"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23396,7 +23396,7 @@ msgstr "يعرض المعاملات للتشكيلة المحددة"
 
 #: src/dialogs/encodingprofilesdialog.cpp:338
 #: src/dialogs/encodingprofilesdialog.cpp:427
-#: src/project/dialogs/projectsettings.cpp:908
+#: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "آليّ (%1)"
@@ -23404,15 +23404,15 @@ msgstr "آليّ (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:340
 #: src/dialogs/encodingprofilesdialog.cpp:429
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
-#: src/project/dialogs/projectsettings.cpp:910
+#: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "آليّ"
 
 #: src/dialogs/encodingprofilesdialog.cpp:408
-#: src/project/dialogs/projectsettings.cpp:945
-#: src/project/dialogs/projectsettings.cpp:975
+#: src/project/dialogs/projectsettings.cpp:946
+#: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "الإعدادات الحاليّة"
@@ -30937,7 +30937,7 @@ msgstr "يعرض معلومات تفصيلية عن دفق الصوت/بيانا
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:246
-#: src/project/dialogs/projectsettings.cpp:874 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "البيانات الوصفيّة"
@@ -31321,7 +31321,7 @@ msgstr "احفظ بيانات التّحليل"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1818
 #: src/mltcontroller/clippropertiescontroller.cpp:1831
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "ملف نصي (‎*.txt)"
@@ -33290,7 +33290,7 @@ msgstr "مقاطع قوائم التّشغيل"
 msgid "Other clips"
 msgstr "مقاطع أخرى"
 
-#: src/project/dialogs/projectsettings.cpp:551
+#: src/project/dialogs/projectsettings.cpp:552
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -33301,13 +33301,13 @@ msgstr ""
 "المشروع.\n"
 " أمتأكّد من المتابعة؟"
 
-#: src/project/dialogs/projectsettings.cpp:553
-#: src/project/dialogs/projectsettings.cpp:563
+#: src/project/dialogs/projectsettings.cpp:554
+#: src/project/dialogs/projectsettings.cpp:564
 #, kde-format
 msgid "Confirm profile change"
 msgstr "أكّد تغيير التشكيلة"
 
-#: src/project/dialogs/projectsettings.cpp:561
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -33319,8 +33319,8 @@ msgstr ""
 "من المستحسن حفظ المشروع قبل تنفيذ هذه العمليّة التي قد تفسد بعض الانتقالات.\n"
 "هل تريد المتابعة حقًا؟"
 
-#: src/project/dialogs/projectsettings.cpp:790
-#: src/project/dialogs/projectsettings.cpp:805
+#: src/project/dialogs/projectsettings.cpp:791
+#: src/project/dialogs/projectsettings.cpp:806
 #: src/project/dialogs/slideshowclip.cpp:315
 #, kde-format
 msgid "1 image found"
@@ -33332,27 +33332,27 @@ msgstr[3] "عُثر على %1 صور"
 msgstr[4] "عُثر على %1 صورة"
 msgstr[5] "عُثر على %1 صورة"
 
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Save As"
 msgstr "احفظ ك‍َ"
 
-#: src/project/dialogs/projectsettings.cpp:818
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Project folder: %1"
 msgstr "مجلّد المشروع: %1"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:820
 #, kde-format
 msgid "Project profile: %1"
 msgstr "تشكيلة المشروع: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:821
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "مجموع المقاطع: %1 (%2 مستخدمة في الخطّ الزّمنيّ)."
 
-#: src/project/dialogs/projectsettings.cpp:874
+#: src/project/dialogs/projectsettings.cpp:875
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"

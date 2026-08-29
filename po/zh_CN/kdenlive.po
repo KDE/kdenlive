@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 02:44+0000\n"
+"POT-Creation-Date: 2026-08-29 02:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -47,7 +47,7 @@ msgid "Logging"
 msgstr "日志"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
+#: src/audiomixer/mixerwidget.cpp:202 src/audiomixer/mixerwidget.cpp:227
 #, kde-format
 msgid "Balance"
 msgstr "平衡"
@@ -18176,7 +18176,7 @@ msgstr "使用余弦函数代替线性函数"
 msgid "Smooth"
 msgstr "平滑"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Volume"
 msgstr "音量"
@@ -20371,7 +20371,7 @@ msgid "No audio"
 msgstr "无音频"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
+#: src/audiomixer/mixerwidget.cpp:191 src/audiomixer/mixerwidget.cpp:648
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -20382,7 +20382,7 @@ msgstr "分贝"
 msgid "Master"
 msgstr "主"
 
-#: src/audiomixer/mixerwidget.cpp:164
+#: src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20390,19 +20390,19 @@ msgid ""
 "equally)."
 msgstr "调整音频轨道的输出音量 (影响所有音频片段)。"
 
-#: src/audiomixer/mixerwidget.cpp:172
+#: src/audiomixer/mixerwidget.cpp:176
 #, kde-format
 msgctxt "Gain in dB, positive"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:174
+#: src/audiomixer/mixerwidget.cpp:178
 #, kde-format
 msgctxt "Gain in dB, zero or negative"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
+#: src/audiomixer/mixerwidget.cpp:203 src/audiomixer/mixerwidget.cpp:228
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20413,75 +20413,75 @@ msgstr ""
 "调整音频轨道的输出声道平衡。负值将输出声道向左移动，正值则向右移动。这将影响"
 "所有音频片段。"
 
-#: src/audiomixer/mixerwidget.cpp:205
+#: src/audiomixer/mixerwidget.cpp:210
 #, kde-format
 msgctxt "Balance left"
 msgid "L"
 msgstr "左"
 
-#: src/audiomixer/mixerwidget.cpp:206
+#: src/audiomixer/mixerwidget.cpp:211
 #, kde-format
 msgctxt "Balance right"
 msgid "R"
 msgstr "右"
 
-#: src/audiomixer/mixerwidget.cpp:207
+#: src/audiomixer/mixerwidget.cpp:212
 #, kde-format
 msgctxt "Balance center"
 msgid "C"
 msgstr "C"
 
-#: src/audiomixer/mixerwidget.cpp:213
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "左"
 
-#: src/audiomixer/mixerwidget.cpp:215
+#: src/audiomixer/mixerwidget.cpp:220
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "右"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Mute track"
 msgstr "静音轨道"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Unmute track"
 msgstr "取消静音轨道"
 
-#: src/audiomixer/mixerwidget.cpp:241
+#: src/audiomixer/mixerwidget.cpp:246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "静音/取消静音该音频轨道。"
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:255
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "打开效果堆栈"
 
-#: src/audiomixer/mixerwidget.cpp:252
+#: src/audiomixer/mixerwidget.cpp:257
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "打开该音频轨道的效果堆栈。"
 
-#: src/audiomixer/mixerwidget.cpp:254
+#: src/audiomixer/mixerwidget.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr "打开该主音频的效果堆栈。"
 
-#: src/audiomixer/mixerwidget.cpp:263
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-format
 msgid "Solo mode"
 msgstr "独奏模式"
 
-#: src/audiomixer/mixerwidget.cpp:264
+#: src/audiomixer/mixerwidget.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20489,23 +20489,23 @@ msgid ""
 "Use Shift+Click to select multiple tracks to play at the same time."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:269
+#: src/audiomixer/mixerwidget.cpp:274
 #, kde-format
 msgid "Monitor audio"
 msgstr "监视音频"
 
-#: src/audiomixer/mixerwidget.cpp:270
+#: src/audiomixer/mixerwidget.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "切换音频轨道到录制模式。"
 
-#: src/audiomixer/mixerwidget.cpp:276
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-format
 msgid "Show channels"
 msgstr "显示声道"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22839,7 +22839,7 @@ msgstr "显示所选编码方案的参数"
 
 #: src/dialogs/encodingprofilesdialog.cpp:338
 #: src/dialogs/encodingprofilesdialog.cpp:427
-#: src/project/dialogs/projectsettings.cpp:908
+#: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "自动 (%1)"
@@ -22847,15 +22847,15 @@ msgstr "自动 (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:340
 #: src/dialogs/encodingprofilesdialog.cpp:429
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
-#: src/project/dialogs/projectsettings.cpp:910
+#: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "自动"
 
 #: src/dialogs/encodingprofilesdialog.cpp:408
-#: src/project/dialogs/projectsettings.cpp:945
-#: src/project/dialogs/projectsettings.cpp:975
+#: src/project/dialogs/projectsettings.cpp:946
+#: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "当前设置"
@@ -30245,7 +30245,7 @@ msgstr "显示关于该音频流/数据/编解码器的详细信息。"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:246
-#: src/project/dialogs/projectsettings.cpp:874 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "元数据"
@@ -30629,7 +30629,7 @@ msgstr "保存分析数据"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1818
 #: src/mltcontroller/clippropertiescontroller.cpp:1831
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "文本文件 (*.txt)"
@@ -32557,7 +32557,7 @@ msgstr "播放列表片段"
 msgid "Other clips"
 msgstr "其他片段"
 
-#: src/project/dialogs/projectsettings.cpp:551
+#: src/project/dialogs/projectsettings.cpp:552
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -32567,13 +32567,13 @@ msgstr ""
 "您更改了时间轴预览编码方案。此操作将移除项目已有的所有时间轴预览。\n"
 "您确定要继续吗？"
 
-#: src/project/dialogs/projectsettings.cpp:553
-#: src/project/dialogs/projectsettings.cpp:563
+#: src/project/dialogs/projectsettings.cpp:554
+#: src/project/dialogs/projectsettings.cpp:564
 #, kde-format
 msgid "Confirm profile change"
 msgstr "确认编码方案更改"
 
-#: src/project/dialogs/projectsettings.cpp:561
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -32585,35 +32585,35 @@ msgstr ""
 "建议您在执行此操作前保存该项目，这可能在转变过程中导致某些问题。\n"
 "您是否要继续？"
 
-#: src/project/dialogs/projectsettings.cpp:790
-#: src/project/dialogs/projectsettings.cpp:805
+#: src/project/dialogs/projectsettings.cpp:791
+#: src/project/dialogs/projectsettings.cpp:806
 #: src/project/dialogs/slideshowclip.cpp:315
 #, kde-format
 msgid "1 image found"
 msgid_plural "%1 images found"
 msgstr[0] "找到 %1 张图像"
 
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Save As"
 msgstr "另存为"
 
-#: src/project/dialogs/projectsettings.cpp:818
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Project folder: %1"
 msgstr "项目文件夹： %1"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:820
 #, kde-format
 msgid "Project profile: %1"
 msgstr "项目编码方案：%1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:821
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "总片段：%1 (%2 已用于时间轴)。"
 
-#: src/project/dialogs/projectsettings.cpp:874
+#: src/project/dialogs/projectsettings.cpp:875
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"

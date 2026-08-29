@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 02:44+0000\n"
+"POT-Creation-Date: 2026-08-29 02:42+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -41,7 +41,7 @@ msgid "Logging"
 msgstr "Logáil"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
+#: src/audiomixer/mixerwidget.cpp:202 src/audiomixer/mixerwidget.cpp:227
 #, kde-format
 msgid "Balance"
 msgstr "Iarmhéid"
@@ -18981,7 +18981,7 @@ msgstr "Úsáid cos in ionad líneach"
 msgid "Smooth"
 msgstr "Mín"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Volume"
 msgstr "Toirt"
@@ -21233,7 +21233,7 @@ msgid "No audio"
 msgstr "Gan aon fhuaim"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:643
+#: src/audiomixer/mixerwidget.cpp:191 src/audiomixer/mixerwidget.cpp:648
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -21244,7 +21244,7 @@ msgstr "dB"
 msgid "Master"
 msgstr "Máistir"
 
-#: src/audiomixer/mixerwidget.cpp:164
+#: src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21254,19 +21254,19 @@ msgstr ""
 "Coigeartaíonn sé toirt aschuir an rian fuaime (bíonn tionchar cothrom ag an "
 "méid céanna ar na gearrthóga fuaime go léir)."
 
-#: src/audiomixer/mixerwidget.cpp:172
+#: src/audiomixer/mixerwidget.cpp:176
 #, kde-format
 msgctxt "Gain in dB, positive"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:174
+#: src/audiomixer/mixerwidget.cpp:178
 #, kde-format
 msgctxt "Gain in dB, zero or negative"
 msgid "%1"
 msgstr "%1"
 
-#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
+#: src/audiomixer/mixerwidget.cpp:203 src/audiomixer/mixerwidget.cpp:228
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21278,75 +21278,75 @@ msgstr ""
 "an t-aschur i dtreo na láimhe clé, luachanna dearfacha ar dheis. Bíonn "
 "tionchar comhionann aige ar gach gearrthóg fuaime."
 
-#: src/audiomixer/mixerwidget.cpp:205
+#: src/audiomixer/mixerwidget.cpp:210
 #, kde-format
 msgctxt "Balance left"
 msgid "L"
 msgstr "C"
 
-#: src/audiomixer/mixerwidget.cpp:206
+#: src/audiomixer/mixerwidget.cpp:211
 #, kde-format
 msgctxt "Balance right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:207
+#: src/audiomixer/mixerwidget.cpp:212
 #, kde-format
 msgctxt "Balance center"
 msgid "C"
 msgstr "L"
 
-#: src/audiomixer/mixerwidget.cpp:213
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "C"
 
-#: src/audiomixer/mixerwidget.cpp:215
+#: src/audiomixer/mixerwidget.cpp:220
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Mute track"
 msgstr "Balbhaigh an rian"
 
-#: src/audiomixer/mixerwidget.cpp:240
+#: src/audiomixer/mixerwidget.cpp:245
 #, kde-format
 msgid "Unmute track"
 msgstr "Díbholg an rian"
 
-#: src/audiomixer/mixerwidget.cpp:241
+#: src/audiomixer/mixerwidget.cpp:246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Balbhaíonn/díbhalbhaíonn an rian fuaime."
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:255
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Oscail Cruach Éifeachtaí"
 
-#: src/audiomixer/mixerwidget.cpp:252
+#: src/audiomixer/mixerwidget.cpp:257
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Osclaíonn sé an cruach éifeachtaí don rian fuaime."
 
-#: src/audiomixer/mixerwidget.cpp:254
+#: src/audiomixer/mixerwidget.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr "Osclaíonn sé an cruach éifeachtaí don mháistir fuaime."
 
-#: src/audiomixer/mixerwidget.cpp:263
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-format
 msgid "Solo mode"
 msgstr "Mód aonair"
 
-#: src/audiomixer/mixerwidget.cpp:264
+#: src/audiomixer/mixerwidget.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21354,23 +21354,23 @@ msgid ""
 "Use Shift+Click to select multiple tracks to play at the same time."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:269
+#: src/audiomixer/mixerwidget.cpp:274
 #, kde-format
 msgid "Monitor audio"
 msgstr "Monatóireacht a dhéanamh ar fhuaim"
 
-#: src/audiomixer/mixerwidget.cpp:270
+#: src/audiomixer/mixerwidget.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Cuireann sé an rian fuaime i mód taifeadta."
 
-#: src/audiomixer/mixerwidget.cpp:276
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-format
 msgid "Show channels"
 msgstr "Taispeáin cainéil"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23804,7 +23804,7 @@ msgstr "Taispeánann na paraiméadair don phróifíl roghnaithe"
 
 #: src/dialogs/encodingprofilesdialog.cpp:338
 #: src/dialogs/encodingprofilesdialog.cpp:427
-#: src/project/dialogs/projectsettings.cpp:908
+#: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Uathoibríoch (%1)"
@@ -23812,15 +23812,15 @@ msgstr "Uathoibríoch (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:340
 #: src/dialogs/encodingprofilesdialog.cpp:429
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:824
-#: src/project/dialogs/projectsettings.cpp:910
+#: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Uathoibríoch"
 
 #: src/dialogs/encodingprofilesdialog.cpp:408
-#: src/project/dialogs/projectsettings.cpp:945
-#: src/project/dialogs/projectsettings.cpp:975
+#: src/project/dialogs/projectsettings.cpp:946
+#: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "Socraithe Reatha"
@@ -31520,7 +31520,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:246
-#: src/project/dialogs/projectsettings.cpp:874 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "Meiteashonraí"
@@ -31909,7 +31909,7 @@ msgstr "Sábháil Sonraí Anailíse"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1818
 #: src/mltcontroller/clippropertiescontroller.cpp:1831
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Comhad Téacs (*.txt)"
@@ -33907,7 +33907,7 @@ msgstr "Gearrthóga seinmliosta"
 msgid "Other clips"
 msgstr "Gearrthóga eile"
 
-#: src/project/dialogs/projectsettings.cpp:551
+#: src/project/dialogs/projectsettings.cpp:552
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -33918,13 +33918,13 @@ msgstr ""
 "atá ann cheana don tionscadal seo leis seo.\n"
 "An bhfuil tú cinnte gur mian leat dul ar aghaidh?"
 
-#: src/project/dialogs/projectsettings.cpp:553
-#: src/project/dialogs/projectsettings.cpp:563
+#: src/project/dialogs/projectsettings.cpp:554
+#: src/project/dialogs/projectsettings.cpp:564
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Deimhnigh athrú próifíle"
 
-#: src/project/dialogs/projectsettings.cpp:561
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -33938,8 +33938,8 @@ msgstr ""
 "haistrithe.\n"
 "An bhfuil tú cinnte gur mian leat dul ar aghaidh?"
 
-#: src/project/dialogs/projectsettings.cpp:790
-#: src/project/dialogs/projectsettings.cpp:805
+#: src/project/dialogs/projectsettings.cpp:791
+#: src/project/dialogs/projectsettings.cpp:806
 #: src/project/dialogs/slideshowclip.cpp:315
 #, kde-format
 msgid "1 image found"
@@ -33950,27 +33950,27 @@ msgstr[2] "%1 íomhá aimsithe"
 msgstr[3] "%1 íomhá aimsithe"
 msgstr[4] "%1 íomhá aimsithe"
 
-#: src/project/dialogs/projectsettings.cpp:812
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Save As"
 msgstr "Sábháil Mar"
 
-#: src/project/dialogs/projectsettings.cpp:818
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Fillteán tionscadail: %1"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:820
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Próifíl tionscadail: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:821
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Gearrthóga iomlána: %1 (%2 in úsáid sa líne ama)."
 
-#: src/project/dialogs/projectsettings.cpp:874
+#: src/project/dialogs/projectsettings.cpp:875
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
