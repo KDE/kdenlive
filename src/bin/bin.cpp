@@ -2110,7 +2110,7 @@ void Bin::slotDeleteClip()
             return;
         }
         for (auto seq : std::as_const(sequences)) {
-            pCore->projectManager()->closeTimeline(seq, true);
+            pCore->projectManager()->closeTimeline(seq, true, true, true);
         }
     }
     if (included && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from the timeline")) != KMessageBox::Continue)) {
@@ -2513,115 +2513,194 @@ void Bin::slotLocateClip()
         }
     }
 }
+QString Bin::generateDuplicateName(const QString &originalName, const QList<std::shared_ptr<AbstractProjectItem>> &existingItems)
+{
+    // Group 1: Base Name
+    // Group 2: Existing Number (if present, e.g. " (2)")
+    static const QRegularExpression regex(QStringLiteral(R"(^(.*?)(?:\s*\((\d+)\))?$)"));
+
+    QRegularExpressionMatch match = regex.match(originalName.trimmed());
+    QString baseName = match.captured(1).trimmed();
+
+    if (baseName.isEmpty()) {
+        baseName = originalName;
+    }
+
+    int maxIndex = 0;
+    bool foundBaseMatch = false;
+
+    // Matches exact baseName followed by optional whitespace and (N)
+    const QString pattern = QStringLiteral(R"(^%1\s*\((?:(\d+))\)$)").arg(QRegularExpression::escape(baseName));
+    const QRegularExpression countRegex(pattern, QRegularExpression::CaseInsensitiveOption);
+
+    for (const auto &item : existingItems) {
+        if (!item) {
+            continue;
+        }
+
+        const QString itemName = item->name().trimmed();
+
+        if (itemName.compare(baseName, Qt::CaseInsensitive) == 0) {
+            foundBaseMatch = true;
+            continue;
+        }
+
+        QRegularExpressionMatch countMatch = countRegex.match(itemName);
+        if (countMatch.hasMatch()) {
+            foundBaseMatch = true;
+            const QString numStr = countMatch.captured(1);
+            if (!numStr.isEmpty()) {
+                maxIndex = std::max(maxIndex, numStr.toInt());
+            }
+        }
+    }
+
+    const int nextIndex = foundBaseMatch ? (maxIndex + 1) : 1;
+    return QStringLiteral("%1 (%2)").arg(baseName).arg(nextIndex);
+}
 
 void Bin::slotDuplicateClip()
 {
-    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    const QModelIndexList selectedIndexes = m_proxyModel->selectionModel()->selectedRows(BinColumns::Name);
+    if (selectedIndexes.isEmpty()) {
+        return;
+    }
+
     QList<std::shared_ptr<AbstractProjectItem>> items;
-    for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+    items.reserve(selectedIndexes.size());
+
+    for (const QModelIndex &index : selectedIndexes) {
+        if (!index.isValid()) {
             continue;
         }
-        items << m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+
+        const QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
+        if (auto item = m_itemModel->getBinItemByIndex(sourceIndex)) {
+            items.append(std::move(item));
+        }
     }
-    int ix = 0;
-    QString lastId;
+
+    if (items.isEmpty()) {
+        return;
+    }
+
+    QString lastProcessedId;
+
     for (const auto &item : std::as_const(items)) {
-        ix++;
+        const bool isLastItem = (item == items.last());
+
         if (item->itemType() == AbstractProjectItem::ClipItem) {
-            std::function<void(const QString &)> callBack = [sourceId = item->clipId(), selectItem = (ix == items.count()), this](const QString &binId) {
-                if (!binId.isEmpty()) {
-                    auto source_clip = m_itemModel->getClipByBinID(sourceId);
-                    auto new_clip = m_itemModel->getClipByBinID(binId);
-                    if (source_clip && new_clip) {
-                        new_clip->getEffectStack()->importEffects(source_clip->getEffectStack(), PlaylistState::Disabled);
-                    }
-                    if (selectItem) {
-                        selectClipById(binId);
-                    }
-                    if (new_clip && new_clip->clipType() == ClipType::Timeline) {
-                        // For duplicated timeline clips, we need to build the timelinemodel otherwise the producer is not correctly saved
-                        const QUuid uuid = new_clip->getSequenceUuid();
-                        return pCore->projectManager()->openTimeline(binId, -1, uuid, -1, true);
-                    }
+            const auto currentItem = std::static_pointer_cast<ProjectClip>(item);
+            const QString sourceId = currentItem->clipId();
+
+            auto callBack = [sourceId, isLastItem, this](const QString &binId) {
+                if (binId.isEmpty()) {
+                    return;
                 }
-                return true;
+
+                auto sourceClip = m_itemModel->getClipByBinID(sourceId);
+                auto newClip = m_itemModel->getClipByBinID(binId);
+
+                if (sourceClip && newClip) {
+                    newClip->getEffectStack()->importEffects(sourceClip->getEffectStack(), PlaylistState::Disabled);
+                }
+
+                if (isLastItem) {
+                    selectClipById(binId);
+                }
+
+                if (newClip && newClip->clipType() == ClipType::Timeline) {
+                    // for duplicated timeline clips build the timelinemodel so the producer saves correctly
+                    const QUuid uuid = newClip->getSequenceUuid();
+                    pCore->projectManager()->openTimeline(binId, -1, uuid, -1, true);
+                }
             };
-            auto currentItem = std::static_pointer_cast<ProjectClip>(item);
-            QString id;
-            if (currentItem) {
-                if (currentItem->clipType() == ClipType::Timeline) {
-                    const QUuid uuid = currentItem->getSequenceUuid();
-                    if (m_doc->getTimelinesUuids().contains(uuid)) {
-                        // Sync last changes for this timeline if it is opened
-                        m_doc->storeGroups(uuid);
-                        pCore->projectManager()->syncTimeline(uuid, true);
-                    }
-                    QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
-                    src.setAutoRemove(false);
-                    if (!src.open()) {
-                        pCore->displayMessage(i18n("Could not create temporary file in %1", QDir::temp().absolutePath()), MessageType::ErrorMessage, 500);
-                        return;
-                    }
-                    // Save playlist to disk
-                    currentItem->cloneProducerToFile(src.fileName());
-                    // extract xml
-                    QDomDocument xml = ClipCreator::getXmlFromUrl(src.fileName());
-                    if (xml.isNull()) {
-                        pCore->displayMessage(i18n("Duplicating sequence failed"), MessageType::ErrorMessage, 500);
-                        return;
-                    }
-                    QDomDocument doc;
-                    if (!Xml::docContentFromFile(doc, src.fileName(), false)) {
-                        return;
-                    }
-                    QReadLocker lock(&pCore->xmlMutex);
-                    const QByteArray result = doc.toString().toUtf8();
-                    std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", result.constData()));
-                    lock.unlock();
-                    Fun undo = []() { return true; };
-                    Fun redo = []() { return true; };
-                    xmlProd->set("kdenlive:clipname", i18n("%1 (copy)", currentItem->clipName()).toUtf8().constData());
-                    xmlProd->set("kdenlive:sequenceproperties.documentuuid", m_doc->uuid().toString().toUtf8().constData());
-                    Mlt::Properties props(xmlProd->get_properties());
-                    props.clear("kdenlive:control_uuid");
-                    m_itemModel->requestAddBinClip(id, xmlProd, item->parent()->clipId(), undo, redo, callBack);
-                    pCore->pushUndo(undo, redo, i18n("Duplicate clip"));
-                } else {
-                    QDomDocument doc;
-                    QDomElement xml = currentItem->toXml(doc);
-                    if (!xml.isNull()) {
-                        QString currentName = Xml::getXmlProperty(xml, QStringLiteral("kdenlive:clipname"));
-                        if (currentName.isEmpty()) {
-                            QUrl url = QUrl::fromLocalFile(Xml::getXmlProperty(xml, QStringLiteral("resource")));
-                            if (url.isValid()) {
-                                currentName = url.fileName();
-                            }
-                        }
-                        if (!currentName.isEmpty()) {
-                            currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
-                            Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
-                        }
-                        if (currentItem->clipType() == ClipType::Text) {
-                            // Remove unique id
-                            Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:uniqueId"));
-                        }
-                        Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:control_uuid"));
-                        m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);
+
+            QString newId;
+            const QString parentFolderId = item->parent() ? item->parent()->clipId() : QString();
+
+            QList<std::shared_ptr<AbstractProjectItem>> siblings;
+            if (auto parentItem = item->parent()) {
+                siblings.reserve(parentItem->childCount());
+                for (int i = 0; i < parentItem->childCount(); ++i) {
+                    if (auto childItem = std::dynamic_pointer_cast<AbstractProjectItem>(parentItem->child(i))) {
+                        siblings.append(childItem);
                     }
                 }
             }
+
+            if (currentItem->clipType() == ClipType::Timeline) {
+                const QUuid uuid = currentItem->getSequenceUuid();
+                if (m_doc->getTimelinesUuids().contains(uuid)) {
+                    m_doc->storeGroups(uuid);
+                    pCore->projectManager()->syncTimeline(uuid, true);
+                }
+
+                QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
+                src.setAutoRemove(false);
+                if (!src.open()) {
+                    pCore->displayMessage(i18n("Could not create temporary file in %1", QDir::temp().absolutePath()), MessageType::ErrorMessage, 500);
+                    return;
+                }
+
+                currentItem->cloneProducerToFile(src.fileName());
+                QDomDocument xml = ClipCreator::getXmlFromUrl(src.fileName());
+                if (xml.isNull()) {
+                    pCore->displayMessage(i18n("Duplicating sequence failed"), MessageType::ErrorMessage, 500);
+                    return;
+                }
+
+                QDomDocument doc;
+                if (!Xml::docContentFromFile(doc, src.fileName(), false)) {
+                    return;
+                }
+
+                QReadLocker lock(&pCore->xmlMutex);
+                const QByteArray result = doc.toString().toUtf8();
+                std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", result.constData()));
+                lock.unlock();
+
+                Fun undo = []() { return true; };
+                Fun redo = []() { return true; };
+
+                const QString newName = generateDuplicateName(item->name(), siblings);
+                xmlProd->set("kdenlive:clipname", newName.toUtf8().constData());
+                xmlProd->set("kdenlive:sequenceproperties.documentuuid", m_doc->uuid().toString().toUtf8().constData());
+
+                Mlt::Properties props(xmlProd->get_properties());
+                props.clear("kdenlive:control_uuid");
+
+                m_itemModel->requestAddBinClip(newId, xmlProd, parentFolderId, undo, redo, callBack);
+                pCore->pushUndo(undo, redo, i18n("Duplicate clip"));
+
+            } else {
+                QDomDocument doc;
+                QDomElement xml = currentItem->toXml(doc);
+                if (!xml.isNull()) {
+                    const QString newName = generateDuplicateName(item->name(), siblings);
+                    Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), newName);
+
+                    if (currentItem->clipType() == ClipType::Text) {
+                        // remove unique id
+                        Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:uniqueId"));
+                    }
+                    Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:control_uuid"));
+
+                    m_itemModel->requestAddBinClip(newId, xml, parentFolderId, i18n("Duplicate clip"), callBack);
+                }
+            }
+
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
-            auto currentItem = std::static_pointer_cast<ProjectSubClip>(item);
             // TODO: manage sequence subclips
-            QPoint clipZone = currentItem->zone();
-            QString id;
-            m_itemModel->requestAddBinSubClip(id, clipZone.x(), clipZone.y(), {}, currentItem->getMasterClip()->clipId());
-            lastId = id;
+            const auto currentSubClip = std::static_pointer_cast<ProjectSubClip>(item);
+            const QPoint clipZone = currentSubClip->zone();
+
+            m_itemModel->requestAddBinSubClip(lastProcessedId, clipZone.x(), clipZone.y(), {}, currentSubClip->getMasterClip()->clipId());
+
+            if (isLastItem && !lastProcessedId.isEmpty()) {
+                selectClipById(lastProcessedId);
+            }
         }
-    }
-    if (!lastId.isEmpty()) {
-        selectClipById(lastId);
     }
 }
 

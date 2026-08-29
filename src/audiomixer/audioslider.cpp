@@ -69,12 +69,12 @@ AudioSlider::AudioSlider(Qt::Orientation orientation, QWidget *parent, bool narr
 
 AudioSlider::~AudioSlider() = default;
 
-void AudioSlider::setTickPositions(const QVector<double> &tickPositions)
+void AudioSlider::setTickPositions(const std::list<int> &tickPositions)
 {
     m_tickPositions = tickPositions;
     // Calculate the maximum label width based on actual tick values
-    if (!tickPositions.isEmpty()) {
-        m_maxLabelWidth = calculateMaxLabelWidth(tickPositions);
+    if (!tickPositions.empty()) {
+        m_maxLabelWidth = calculateMaxLabelWidth(m_tickPositions);
         // If labels are shown, update the widget size
         if (m_tickLabelsVisible && orientation() == Qt::Vertical) {
             int width = kKnobWidth;
@@ -101,9 +101,9 @@ void AudioSlider::setValueToSliderFunction(std::function<int(double)> func)
     update();
 }
 
-int AudioSlider::calculateMaxLabelWidth(const QVector<double> &tickPositions) const
+int AudioSlider::calculateMaxLabelWidth(const std::list<int> &tickPositions) const
 {
-    if (tickPositions.isEmpty()) {
+    if (tickPositions.empty()) {
         return 0;
     }
     int maxWidth = 0;
@@ -473,7 +473,7 @@ QSizeF AudioSlider::calculateTickSize() const
 
 void AudioSlider::drawTicks(QPainter &painter, const QRectF &tickRect)
 {
-    if (!m_ticksVisible || m_tickPositions.isEmpty()) {
+    if (!m_ticksVisible || m_tickPositions.empty()) {
         return;
     }
     QColor textColor = palette().color(QPalette::Text);
@@ -484,7 +484,7 @@ void AudioSlider::drawTicks(QPainter &painter, const QRectF &tickRect)
     QSizeF tickSize = calculateTickSize();
     if (orientation() == Qt::Vertical) {
         const qreal tickStartX = tickRect.left() + (tickRect.width() - tickSize.width()) / 2.0;
-        for (double tickValue : m_tickPositions) {
+        for (int tickValue : m_tickPositions) {
             int sliderValue = valueToSlider(tickValue);
             qreal ratio = static_cast<qreal>(sliderValue - min) / range;
             qreal y = tickRect.bottom() - (tickRect.height() - 1.0) * ratio;
@@ -499,7 +499,7 @@ void AudioSlider::drawTicks(QPainter &painter, const QRectF &tickRect)
         }
     } else {
         const qreal tickStartY = tickRect.top() + (tickRect.height() - tickSize.height()) / 2.0;
-        for (double tickValue : m_tickPositions) {
+        for (int tickValue : m_tickPositions) {
             int sliderValue = valueToSlider(tickValue);
             qreal ratio = static_cast<qreal>(sliderValue - min) / range;
             qreal x = tickRect.left() + (tickRect.width() - 1.0) * ratio;
@@ -517,7 +517,7 @@ void AudioSlider::drawTicks(QPainter &painter, const QRectF &tickRect)
 
 void AudioSlider::drawLabels(QPainter &painter, const QRectF &labelRect, const QRectF &tickRect)
 {
-    if (!m_tickLabelsVisible || m_tickPositions.isEmpty()) {
+    if (!m_tickLabelsVisible || m_tickPositions.empty()) {
         return;
     }
     painter.setFont(font());
@@ -532,7 +532,7 @@ void AudioSlider::drawLabels(QPainter &painter, const QRectF &labelRect, const Q
     qreal labelMargin = 2.0;
     if (orientation() == Qt::Vertical) {
         qreal prevY = -1.0;
-        for (double tickValue : m_tickPositions) {
+        for (int tickValue : m_tickPositions) {
             int sliderValue = valueToSlider(tickValue);
             qreal ratio = static_cast<qreal>(sliderValue - min) / range;
             qreal y = tickRect.bottom() - (tickRect.height() - 1.0) * ratio;
@@ -553,7 +553,7 @@ void AudioSlider::drawLabels(QPainter &painter, const QRectF &labelRect, const Q
         }
     } else {
         qreal prevX = -1.0;
-        for (double tickValue : m_tickPositions) {
+        for (int tickValue : m_tickPositions) {
             int sliderValue = valueToSlider(tickValue);
             qreal ratio = static_cast<qreal>(sliderValue - min) / range;
             qreal x = tickRect.left() + (tickRect.width() - 1.0) * ratio;
