@@ -185,6 +185,8 @@ public:
     bool isFirstParameter(std::shared_ptr<KeyframeModel> param) const;
     /** @brief Get a "fake" keyframe model that recaps all keyframes */
     std::shared_ptr<KeyframeModel> getRecap();
+    /** @brief Set the active param index in timeline */
+    void setKeyModelIndex(const QPersistentModelIndex ix);
 
 protected:
     /** @brief Helper function to apply a given operation on all parameters */
@@ -201,7 +203,7 @@ private:
     std::shared_ptr<KeyframeModel> m_kfrRecap{nullptr};
     std::unordered_map<QPersistentModelIndex, std::shared_ptr<KeyframeModel>> m_parameters;
     /** @brief Index of the parameter that is displayed in timeline */
-    QModelIndex m_inTimelineIndex;
+    QPersistentModelIndex m_inTimelineIndex;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
 private Q_SLOTS:

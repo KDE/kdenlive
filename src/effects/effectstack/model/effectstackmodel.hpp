@@ -170,6 +170,8 @@ public:
     void appendVideoBuildInEffects();
     /** @brief Return true if this clip has a disabled built-in transform */
     bool hasDisabledBuiltInTransform();
+    /** @brief Store the active keyframe parameter index to be displayed in timeline */
+    void setActiveParam(QPersistentModelIndex ix);
 
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */

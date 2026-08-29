@@ -117,6 +117,8 @@ public:
     Q_INVOKABLE int timecodeOffset();
     Q_INVOKABLE void setEffectExpanded(const QPersistentModelIndex ix, bool expanded);
     Q_INVOKABLE bool isEffectExpanded(const QPersistentModelIndex ix) const;
+    /** @brief set the active parameter in effect stack (to be displayed in timeline keyframe view) */
+    Q_INVOKABLE void activateParam(const QPersistentModelIndex ix) const;
     /** @brief get current monitor for item owner */
     Kdenlive::MonitorId getMonitorId() const;
 

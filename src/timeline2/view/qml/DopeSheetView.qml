@@ -890,6 +890,7 @@ Rectangle {
                         dopeRoot.overKeyframe = dopeRoot.dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, activeIndex)
                         if (current.parent) {
                             keyframeCurve.model = dopeRoot.dopesheetmodel.getKeyframeModel(activeIndex)
+                            dopeRoot.dopesheetmodel.activateParam(activeIndex)
                         }
                     }
                 }

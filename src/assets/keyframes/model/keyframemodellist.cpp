@@ -770,9 +770,14 @@ QVariant KeyframeModelList::getInterpolatedValue(const GenTime &pos, const QPers
     return m_parameters.at(index)->getInterpolatedValue(pos);
 }
 
+void KeyframeModelList::setKeyModelIndex(const QPersistentModelIndex ix)
+{
+    m_inTimelineIndex = ix;
+}
+
 KeyframeModel *KeyframeModelList::getKeyModel()
 {
-    if (m_inTimelineIndex.isValid()) {
+    if (m_inTimelineIndex.isValid() && m_parameters.find(m_inTimelineIndex) != m_parameters.end()) {
         return m_parameters.at(m_inTimelineIndex).get();
     }
     if (auto ptr = m_model.lock()) {
@@ -786,7 +791,6 @@ KeyframeModel *KeyframeModelList::getKeyModel()
                 }
             }
             if (ptr->data(param.first, AssetParameterModel::ShowInTimelineRole) == true) {
-                m_inTimelineIndex = param.first;
                 return param.second.get();
             }
         }
