@@ -200,7 +200,6 @@ SPDX-License-Identifier: CC0-1.0
                             <xs:attribute name="max" type="valueType" use="required"/>
                             <xs:attribute name="factor" type="valueType" use="optional"/>
                             <xs:attribute name="default" type="valueType" use="required"/>
-                            <xs:attribute name="curves" type="xs:string" use="optional"/>
                         </xs:extension>
                     </xs:simpleContent>
                 </xs:complexType>
@@ -238,6 +237,7 @@ SPDX-License-Identifier: CC0-1.0
         <xs:attribute name="outpoints" type="curvePoints"/>
         <xs:attribute name="list1" type="curvePoints"/>
         <xs:attribute name="list2" type="curvePoints"/>
+        <xs:attribute name="curves" type="xs:string"/>
         <xs:attribute name="conditional" type="xs:string"/>
         <xs:attribute name="widget">
             <xs:simpleType>
