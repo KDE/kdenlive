@@ -157,6 +157,18 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: indicator.right
         text: delegateRect.model && delegateRect.model.dopeName ? delegateRect.model.dopeName : ""
+        elide: Label.ElideRight
+        readonly property bool isElided: implicitWidth > width
+        width: Math.min(implicitWidth, delegateRect.fontMetrics.averageCharacterWidth * 20)
+        ToolTip {
+            visible: hoverHandler.hovered && paramLabel.isElided
+            text: paramLabel.text
+            delay: 1000
+            timeout: 5000
+        }
+        HoverHandler {
+            id: hoverHandler
+        }
         rightPadding: 4
         leftPadding: 4
         font.bold: delegateRect.depth < 2
