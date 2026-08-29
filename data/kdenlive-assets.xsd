@@ -48,7 +48,7 @@ SPDX-License-Identifier: CC0-1.0
     <xs:simpleType name="keyframedType">
         <xs:restriction base="xs:string">
             <!--TODO: [\s\S]* at start and beginning seems wrong, but keep until verified-->
-            <xs:pattern value="[\s\S]*[0-9]=[0-9\-]+;-1=[0-9\-]+[\s\S]*"/>
+            <xs:pattern value="[\s\S]*[0-9]?=[0-9\-]+;-1?=[0-9\-]+[\s\S]*"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -200,6 +200,7 @@ SPDX-License-Identifier: CC0-1.0
                             <xs:attribute name="max" type="valueType" use="required"/>
                             <xs:attribute name="factor" type="valueType" use="optional"/>
                             <xs:attribute name="default" type="valueType" use="required"/>
+                            <xs:attribute name="curves" type="xs:string" use="optional"/>
                         </xs:extension>
                     </xs:simpleContent>
                 </xs:complexType>
