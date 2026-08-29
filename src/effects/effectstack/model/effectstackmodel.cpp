@@ -2346,7 +2346,6 @@ void EffectStackModel::setActiveParam(QPersistentModelIndex paramIndex)
     if (rootItem->childCount() == 0) return;
     int ix = getActiveEffect();
     if (ix < 0 || ix >= rootItem->childCount()) {
-        qDebug() << ":: NO ACTIVE EFFECT FOUNT; ABORTING: " << ix;
         return;
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
