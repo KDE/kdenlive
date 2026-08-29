@@ -1267,7 +1267,7 @@ function getTrackColor(audio, header) {
                         }
                     }
                 }
-                ColumnLayout {
+                Column {
                     id: trackHeaders
                     y: subtitleTrack.height
                     spacing: 0
