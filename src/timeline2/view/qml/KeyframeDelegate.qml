@@ -112,10 +112,14 @@ Rectangle {
             }
         }
         onEntered: {
-            keyframe.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move all keyframes after this one."))
+            if (keyframe.timeline) {
+                keyframe.timeline.showKeyBinding(KI18n.i18n("<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move all keyframes after this one."))
+            }
         }
         onExited: {
-            keyframe.timeline.showKeyBinding()
+            if (keyframe.timeline) {
+                keyframe.timeline.showKeyBinding()
+            }
         }
     }
     Item {
@@ -229,10 +233,14 @@ Rectangle {
                 keyframe.kfrModel.removeKeyframe(keyframe.frame);
             }
             onEntered: {
-                keyframe.timeline.showKeyBinding(KI18n.i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
+                if (keyframe.timeline) {
+                    keyframe.timeline.showKeyBinding(KI18n.i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
+                }
             }
             onExited: {
-                keyframe.timeline.showKeyBinding()
+                if (keyframe.timeline) {
+                    keyframe.timeline.showKeyBinding()
+                }
             }
             ToolTip.visible: (containsMouse || pressed) && movingVal != ""
             ToolTip.text: movingVal

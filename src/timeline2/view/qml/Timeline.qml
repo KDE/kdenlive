@@ -2272,7 +2272,15 @@ function getTrackColor(audio, header) {
                                         } else if (dragProxy.masterObject.itemType === K.ClipType.Animation) {
                                             root.timeline.editAnimationClip(dragProxy.draggedItem)
                                         } else {
-                                            root.timeline.editItemDuration()
+                                            if (dragProxy.masterObject.keyframeViewDisplayed) {
+                                                if (!doubleClickTimer.running) {
+                                                    var newVal = (dragProxy.height - mouseY) / dragProxy.height
+                                                    var newPos = Math.round(mouseX / root.timeScale) + dragProxy.masterObject.inPoint
+                                                    root.timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
+                                                }
+                                            } else {
+                                                root.timeline.editItemDuration()
+                                            }
                                         }
                                     }
                                     onClicked: {

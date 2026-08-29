@@ -931,6 +931,16 @@ Rectangle {
         interactive: false
 
         clip: true
+        MouseArea {
+            anchors.fill: parent
+            onDoubleClicked: {
+                if (keyframeCurve.model) {
+                    var newVal = (height - mouseY) / height
+                    var newPos = Math.round(mouseX / (dopeRoot.maximumScaleFactor * dopeRoot.timeScale)) + dopeRoot.inPoint + dopeRoot.contentScroll
+                    keyframeCurve.model.addKeyframe(newPos, newVal)
+                }
+            }
+        }
         Loader {
             // Keyframe curve
             id: keyframeCurve

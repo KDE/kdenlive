@@ -94,6 +94,7 @@ Rectangle {
     required property bool dragProxyMovesComposition
     required property int trimmingOffset
     required property int consumerPosition
+    property bool keyframeViewDisplayed: effectRow.hasKeyframes
 
     readonly property int maxLabelWidth: 20 * K.UiUtils.baseSizeMedium * Math.sqrt(timeScale)
 

@@ -48,6 +48,7 @@ Item {
     required property var dragProxyCursorShape
     required property bool isDragProxyAreaPressed
     required property int consumerPosition
+    property bool keyframeViewDisplayed: effectRow.hasKeyframes
 
     property bool isAudio: false
     property int originalTrackId: trackId
