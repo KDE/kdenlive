@@ -1106,9 +1106,9 @@ void CollapsibleEffectView::switchInOut(bool checked)
                     inOut = {in, lastOut};
                 } else {
                     int clipIn = pCore->getItemPosition(owner);
-                    int clipOut = clipIn + pCore->getItemDuration(owner);
+                    int clipOut = pCore->getItemDuration(owner);
                     int in = pCore->getMonitorPosition();
-                    if (in > clipIn && in < clipOut) {
+                    if (in > clipIn && in < clipIn + clipOut) {
                         // Cursor is inside the clip, set zone from here
                         in = in - clipIn;
                     } else {
