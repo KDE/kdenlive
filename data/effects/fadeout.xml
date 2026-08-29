@@ -10,10 +10,7 @@
     <parameter type="fixed" name="out" max="90000" min="0" default="%out">
         <name/>
     </parameter>
-    <parameter type="fixed" name="gain" max="1" min="1" default="1">
-        <name>Start Gain</name>
-    </parameter>
-    <parameter type="fixed" name="end" max="0" min="0" default="0">
-        <name>End Gain</name>
+    <parameter type="multiswitch" name="level" default="0d=0;-1=-60" min="0d=0;-1=-60" max="0d=0;-1=-60" curves="d;g;j;m;p">
+        <name>Fade Out</name>
     </parameter>
 </effect>

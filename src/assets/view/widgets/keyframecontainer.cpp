@@ -180,7 +180,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
 
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), parent);
-    QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles;
+    QMap<mlt_keyframe_type, QAction *> kfTypeHandles;
     const auto cmap = KeyframeModel::getKeyframeTypes();
     for (auto it = cmap.cbegin(); it != cmap.cend(); it++) { // Order is fixed due to the nature of <map>
         QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), parent);
@@ -189,7 +189,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
         kfTypeHandles.insert(it.key(), tmp);
         m_selectType->addAction(kfTypeHandles[it.key()]);
     }
-    m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
+    m_selectType->setCurrentAction(kfTypeHandles[mlt_keyframe_linear]);
     connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeContainer::slotEditKeyframeType);
     m_selectType->setToolBarMode(KSelectAction::MenuMode);
     m_selectType->setToolTip(i18n("Keyframe interpolation"));
@@ -235,27 +235,27 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
 
     // Default kf interpolation
     KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), parent);
-    QAction *discrete2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Discrete)),
-                                     KeyframeModel::getKeyframeTypes().value(KeyframeType::Discrete), parent);
-    discrete2->setData(int(KeyframeType::Discrete));
+    QAction *discrete2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(mlt_keyframe_discrete)),
+                                     KeyframeModel::getKeyframeTypes().value(mlt_keyframe_discrete), parent);
+    discrete2->setData(int(mlt_keyframe_discrete));
     discrete2->setCheckable(true);
     kfType->addAction(discrete2);
-    QAction *linear2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Linear)),
-                                   KeyframeModel::getKeyframeTypes().value(KeyframeType::Linear), parent);
-    linear2->setData(int(KeyframeType::Linear));
+    QAction *linear2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(mlt_keyframe_linear)),
+                                   KeyframeModel::getKeyframeTypes().value(mlt_keyframe_linear), parent);
+    linear2->setData(int(mlt_keyframe_linear));
     linear2->setCheckable(true);
     kfType->addAction(linear2);
-    QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::CurveSmooth)),
-                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::CurveSmooth), parent);
-    curve2->setData(int(KeyframeType::CurveSmooth));
+    QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(mlt_keyframe_smooth_natural)),
+                                  KeyframeModel::getKeyframeTypes().value(mlt_keyframe_smooth_natural), parent);
+    curve2->setData(int(mlt_keyframe_smooth_natural));
     curve2->setCheckable(true);
     kfType->addAction(curve2);
     switch (KdenliveSettings::defaultkeyframeinterp()) {
-    case int(KeyframeType::Discrete):
+    case int(mlt_keyframe_discrete):
         kfType->setCurrentAction(discrete2);
         break;
-    case int(KeyframeType::Curve):
-    case int(KeyframeType::CurveSmooth):
+    case int(mlt_keyframe_smooth):
+    case int(mlt_keyframe_smooth_natural):
         kfType->setCurrentAction(curve2);
         break;
     default:
@@ -267,7 +267,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     // rotoscoping only supports linear keyframes
     if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
         m_selectType->setVisible(false);
-        m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
+        m_selectType->setCurrentAction(kfTypeHandles[mlt_keyframe_linear]);
         kfType->setVisible(false);
         kfType->setCurrentAction(linear2);
     }
@@ -276,7 +276,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     QAction *autoLimit = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")), i18n("Limit automatic keyframes"), parent);
     autoLimit->setCheckable(true);
     autoLimit->setChecked(KdenliveSettings::limitAutoKeyframes() > 0);
-    connect(autoLimit, &QAction::toggled, this, [this](bool toggled) {
+    connect(autoLimit, &QAction::toggled, this, [](bool toggled) {
         if (toggled) {
             KdenliveSettings::setLimitAutoKeyframes(KdenliveSettings::limitAutoKeyframesInterval());
         } else {
@@ -495,7 +495,7 @@ void KeyframeContainer::slotEditKeyframeType(QAction *action)
 void KeyframeContainer::slotRefreshParams()
 {
     int pos = getPosition();
-    KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
+    mlt_keyframe_type keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
     while (auto ac = m_selectType->action(i)) {
         if (ac->data().toInt() == int(keyType)) {
@@ -946,7 +946,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         if (m_time->getValue() > 0) {
             // First add keyframe at start of the clip
             GenTime pos0(m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
-            m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
+            m_keyframes->addKeyframe(pos0, mlt_keyframe_linear);
             m_keyframes->updateKeyframe(pos0, result, -1, index);
             // For rotoscoping, don't add a second keyframe at cursor pos
             auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -959,7 +959,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
             }
         }
         // Next add keyframe at playhead position
-        m_keyframes->addKeyframe(pos, KeyframeType::Linear);
+        m_keyframes->addKeyframe(pos, mlt_keyframe_linear);
         m_keyframes->updateKeyframe(pos, result, -1, index);
         return;
     }
@@ -968,7 +968,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
     if (KdenliveSettings::autoKeyframe() && m_neededScene != SceneType::MonitorSceneDefault) {
         if (!m_keyframes->hasKeyframe(framePos)) {
             // Auto add keyframe
-            m_keyframes->addKeyframe(pos, KeyframeType::Linear);
+            m_keyframes->addKeyframe(pos, mlt_keyframe_linear);
         } else if (m_monitorHelper && m_monitorHelper->isPlaying()) {
             // Don't try to modify a keyframe when playing in monitor
             return;
@@ -1119,8 +1119,7 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
             while (i.hasNext()) {
                 i.next();
                 mlt_keyframe_type type = str_to_keyframe_type(i.key().second);
-                km->addKeyframe(GenTime(destPos + i.key().first - offset, pCore->getCurrentFps()), KeyframeModel::convertFromMltType(type), i.value(), true,
-                                undo, redo);
+                km->addKeyframe(GenTime(destPos + i.key().first - offset, pCore->getCurrentFps()), type, i.value(), true, undo, redo);
             }
         } else {
             qDebug() << "::: NOT FOUND PARAM: " << paramName << " in list: " << storedValues.keys();
@@ -1237,7 +1236,7 @@ bool KeyframeContainer::slotAddKeyframe(int pos)
     if (pos < 0) {
         pos = getPosition();
     }
-    return m_keyframes->addKeyframe(GenTime(pos, pCore->getCurrentFps()), KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
+    return m_keyframes->addKeyframe(GenTime(pos, pCore->getCurrentFps()), mlt_keyframe_type(KdenliveSettings::defaultkeyframeinterp()));
 }
 void KeyframeContainer::slotRemoveKeyframe(const QVector<int> &positions)
 {

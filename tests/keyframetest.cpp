@@ -68,7 +68,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state0();
 
-        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(1.1), KeyframeType::Linear, 42));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(1.1), mlt_keyframe_linear, 42));
         auto state1 = [&]() {
             REQUIRE(model->rowCount() == 2);
             REQUIRE(check_anim_identity(model));
@@ -100,7 +100,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->redo();
         state1();
 
-        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(12.6), KeyframeType::Discrete, 33));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(12.6), mlt_keyframe_discrete, 33));
         auto state2 = [&]() {
             REQUIRE(model->rowCount() == 3);
             REQUIRE(check_anim_identity(model));
@@ -203,7 +203,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state0();
 
-        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(1.1), KeyframeType::Linear, 42));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(1.1), mlt_keyframe_linear, 42));
         auto state1 = [&](double pos) {
             REQUIRE(model->rowCount() == 2);
             REQUIRE(check_anim_identity(model));
@@ -250,7 +250,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->redo();
         state1(6.1);
 
-        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(12.6), KeyframeType::Discrete, 33));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(12.6), mlt_keyframe_discrete, 33));
         // Moving a keyframe past another one another will move it 1 frame before or after.
         REQUIRE(model->moveKeyframe(GenTime(6.1), GenTime(14), -1, true));
         bool ok;

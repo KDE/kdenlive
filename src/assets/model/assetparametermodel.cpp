@@ -412,19 +412,12 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             m_params[name].value = storedValue;
             return;
         } else if (type == ParamType::MultiSwitch) {
-            QStringList names = name.split(QLatin1Char('\n'));
-            QStringList values = paramValue.split(QLatin1Char('\n'));
+            const QStringList names = name.split(QLatin1Char('\n'));
+            const QStringList values = paramValue.split(QLatin1Char('\n'));
             if (names.count() == values.count()) {
                 for (int i = 0; i < names.count(); i++) {
                     const QString currentVal(m_asset->get(names.at(i).toLatin1().constData()));
-                    QString updatedValue = values.at(i);
-                    if (currentVal.contains(QLatin1Char('='))) {
-                        const QChar mod = getKeyframeType(currentVal);
-                        if (!mod.isNull()) {
-                            const QString replacement = mod + QLatin1Char('=');
-                            updatedValue.replace(QLatin1Char('='), replacement);
-                        }
-                    }
+                    const QString updatedValue = values.at(i);
                     m_asset->set(names.at(i).toLatin1().constData(), updatedValue.toLatin1().constData());
                 }
                 m_params[name].value = paramValue;
@@ -577,7 +570,7 @@ void AssetParameterModel::processFakeRect(const QString &name, const QModelIndex
         mlt_keyframe_type type;
         anim.key_get(i, frame, type);
         mlt_rect rect = m_asset->anim_get_rect(name.toLatin1().constData(), frame);
-        const QString separator = KeyframeModel::getSeparatorForKeyframeType(type);
+        const QChar separator = KeyframeModel::getSeparatorForKeyframeType(type);
         for (auto j = mappedParams.cbegin(), end = mappedParams.cend(); j != end; ++j) {
             const AssetRectInfo paramInfo = j.value().value<AssetRectInfo>();
             double val = paramInfo.getValue(rect);
@@ -632,7 +625,7 @@ void AssetParameterModel::processFakePoint(const QString &name, const QModelInde
         mlt_keyframe_type type;
         anim.key_get(i, frame, type);
         mlt_rect rect = m_asset->anim_get_rect(name.toLatin1().constData(), frame);
-        const QString separator = KeyframeModel::getSeparatorForKeyframeType(type);
+        const QChar separator = KeyframeModel::getSeparatorForKeyframeType(type);
         xAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.x);
         yAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.y);
     }
@@ -672,6 +665,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
             }
         }
     }
+    qDebug() << "::: SETTGIN PARAM: " << name << " == " << paramValue;
     bool updateChildRequired = true;
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {
         // Warning, SOX effect, need unplug/replug
@@ -828,6 +822,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
     case CurveColorRole:
         return element.attribute(QStringLiteral("color"));
+    case KeyframeTypesRole:
+        return element.attribute(QStringLiteral("curves")).split(QLatin1Char(';'));
     case FakePointRole: {
         return AssetPointInfo::buildPointFromXml(element);
     }

@@ -922,7 +922,7 @@ void KeyframeImport::importSelectedData()
                     if (frame > m_outPoint->getPosition()) {
                         break;
                     }
-                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType::Linear,
+                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), mlt_keyframe_linear,
                                     json.value(json.keys().at(i)), true, undo, redo);
                 }
                 continue;
@@ -941,8 +941,8 @@ void KeyframeImport::importSelectedData()
                 QVariant current = km->getInterpolatedValue(frame);
                 if (convertMode == ImportRoles::SimpleValue) {
                     double dval = animData->anim_get_double("key", frame);
-                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()),
-                                    KeyframeType::KeyframeEnum(type), dval, true, undo, redo);
+                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), type, dval, true, undo,
+                                    redo);
                     continue;
                 }
                 QStringList kfrData = current.toString().split(QLatin1Char(' '));
@@ -1127,8 +1127,8 @@ void KeyframeImport::importSelectedData()
                 } else {
                     current = kfrData.join(QLatin1Char(' '));
                 }
-                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()),
-                                KeyframeType::KeyframeEnum(type), current, true, undo, redo);
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), type, current, true, undo,
+                                redo);
             }
         } else {
             int frame = 0;
@@ -1143,8 +1143,8 @@ void KeyframeImport::importSelectedData()
                 }
                 // frame += (m_inPoint->getPosition() - m_offsetPoint->getPosition());
                 QVariant current = km->getInterpolatedValue(frame);
-                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()),
-                                KeyframeType::KeyframeEnum(type), current, true, undo, redo);
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), type, current, true, undo,
+                                redo);
             }
         }
     }

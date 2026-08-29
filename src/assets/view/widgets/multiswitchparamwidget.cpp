@@ -14,23 +14,31 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
 {
     setupUi(this);
 
-    const QMap<KeyframeType::KeyframeEnum, QString> keyframeTypes = KeyframeModel::getKeyframeTypes();
     m_widgetComment->setHidden(true);
-    // Linear
-    methodCombo->addItem(keyframeTypes.value(KeyframeType::Linear), QVariant(QChar()));
-    // Cubic In
-    methodCombo->addItem(keyframeTypes.value(KeyframeType::CubicIn), QVariant(QLatin1Char('g')));
-    // Exponential In
-    methodCombo->addItem(keyframeTypes.value(KeyframeType::ExponentialIn), QVariant(QLatin1Char('p')));
-    // Cubic Out
-    methodCombo->addItem(keyframeTypes.value(KeyframeType::CubicOut), QVariant(QLatin1Char('h')));
-    // Exponential Out
-    methodCombo->addItem(keyframeTypes.value(KeyframeType::ExponentialOut), QVariant(QLatin1Char('q')));
+    const QStringList keyframeShortcuts = m_model->data(m_index, AssetParameterModel::KeyframeTypesRole).toStringList();
+    QString desc;
+    for (auto k : keyframeShortcuts) {
+        if (k.isEmpty()) {
+            desc = KeyframeModel::getKeyframeDescriptionFromShortcut(QChar());
+        } else {
+            desc = KeyframeModel::getKeyframeDescriptionFromShortcut(k.at(0));
+        }
+        if (!desc.isEmpty()) {
+            qDebug() << ":: ADDING MULTI ITEM: " << desc << " = " << k;
+            methodCombo->addItem(desc, QVariant(k.at(0)));
+        }
+    }
 
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    QChar mod = value.section(QLatin1Char('='), 0, -2).back();
-    if (mod.isDigit()) {
-        mod = QChar();
+    QChar mod;
+    if (value.contains(QLatin1Char('='))) {
+        const QString cut = value.section(QLatin1Char('='), 0, 0);
+        if (!cut.isEmpty()) {
+            mod = cut.back();
+            if (mod.isDigit()) {
+                mod = QChar();
+            }
+        }
     }
     if (!mod.isNull()) {
         int ix = methodCombo->findData(QVariant(mod));
@@ -48,21 +56,25 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
 
 void MultiSwitchParamWidget::paramChanged(int state)
 {
-    const QString sep = methodCombo->currentData().toChar().isNull() ? QStringLiteral("=") : methodCombo->currentData().toChar() + QLatin1Char('=');
+    QString sep = methodCombo->currentData().toChar();
+    qDebug() << "------- GOT SEPARATOR DATA: " << sep << " == " << methodCombo->currentData();
+    sep.append(QLatin1Char('='));
     QString value;
+    qDebug() << "------- GOT UPDATED SEPARATOR: " << sep;
     if (state == Qt::Checked) {
         value = m_model->data(m_index, AssetParameterModel::MaxRole).toString();
     } else {
         value = m_model->data(m_index, AssetParameterModel::MinRole).toString();
     }
     QStringList vals = value.split(QLatin1Char('='));
-    if (vals.size() > 3) {
-        for (auto &v : vals) {
-            if (!v.back().isDigit()) {
-                // Remove existing separator
-                v.chop(1);
-            }
+    // Remove possible keyframe qualifyer
+    for (auto &v : vals) {
+        if (!v.isEmpty() && !v.back().isDigit()) {
+            v.chop(1);
         }
+    }
+    qDebug() << "::: READY TO SPLIT VALUES: " << vals;
+    if (vals.size() > 3) {
         if (vals.at(0) == QLatin1String("0")) {
             vals[0] = QLatin1String("00:00:00.000");
         }
@@ -89,9 +101,19 @@ void MultiSwitchParamWidget::slotRefresh()
     const QSignalBlocker bk(m_checkBox);
     QString max = m_model->data(m_index, AssetParameterModel::MaxRole).toString();
     QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    QChar mod = value.section(QLatin1Char('='), 0, -2).back();
-    if (mod.isDigit()) {
-        mod = QChar();
+    if (!max.contains(QLatin1Char('\n'))) {
+        m_checkBox->setVisible(false);
+    }
+    qDebug() << "::::: COMPARING MULTISWITCH VAL: " << max << " == " << value;
+    QChar mod;
+    if (value.contains(QLatin1Char('='))) {
+        const QString cut = value.section(QLatin1Char('='), 0, 0);
+        if (!cut.isEmpty()) {
+            mod = cut.back();
+            if (mod.isDigit()) {
+                mod = QChar();
+            }
+        }
     }
     QSignalBlocker bk2(methodCombo);
     if (!mod.isNull()) {

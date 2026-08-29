@@ -87,7 +87,7 @@ void KeyframeMonitorHelper::refreshParams(int pos)
         rectAtPosData = kfr->getInterpolatedValue(pos).toString();
         Keyframe kf = kfr->getNextKeyframe(GenTime(-1), &ok);
         while (ok) {
-            if (kf.second == KeyframeType::Curve) {
+            if (kf.second == mlt_keyframe_smooth_natural) {
                 types << 1;
             } else {
                 types << 0;

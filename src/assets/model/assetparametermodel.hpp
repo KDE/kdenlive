@@ -308,6 +308,7 @@ public:
         ScaleRole,
         OpacityRole,
         RelativePosRole,
+        KeyframeTypesRole,
         // The filter in/out should always be 0 - full length
         RequiresInOut,
         ToTimePosRole,

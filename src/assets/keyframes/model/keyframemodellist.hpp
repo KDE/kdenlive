@@ -41,7 +41,7 @@ public:
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
-    bool addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type);
+    bool addKeyframe(GenTime pos, mlt_keyframe_type type);
     bool addKeyframe(int frame, double val);
 
     /** @brief Removes the keyframe at the given position. */
@@ -79,7 +79,7 @@ public:
                              QUndoCommand *parentCommand = nullptr);
     bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo = true);
-    KeyframeType::KeyframeEnum keyframeType(GenTime pos) const;
+    mlt_keyframe_type keyframeType(GenTime pos) const;
     /** @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
      */

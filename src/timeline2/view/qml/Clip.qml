@@ -1322,20 +1322,21 @@ Rectangle {
             K.TimelineTriangle {
                 // Green fade in triangle
                 id: fadeInTriangle
-                color: 'green'
+                color: Qt.rgba(0, 1, 0, 1)
+                opacity: 0.6
                 curveType: clipRoot.fadeInMethod
                 width: Math.min(clipRoot.fadeIn * clipRoot.timeScale, container.width)
                 height: parent.height
                 visible: width > 2
                 anchors.left: parent.left
                 anchors.top: parent.top
-                opacity: 0.4
             }
 
             K.TimelineTriangle {
                 // Red fade out triangle
                 id: fadeOutCanvas
-                color: 'red'
+                color: Qt.rgba(1, 0, 0, 1)
+                opacity: 0.6
                 curveType: clipRoot.fadeOutMethod
                 width: Math.min(clipRoot.fadeOut * clipRoot.timeScale, container.width)
                 height: parent.height
@@ -1343,7 +1344,6 @@ Rectangle {
                 anchors.top: parent.top
                 visible: width > 2
                 endFade: true
-                opacity: 0.4
                 transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2 }
             }
 
@@ -1812,10 +1812,10 @@ Rectangle {
                 dragStarted = startFadeOut > 0
                 startMousePos = mouse.x
                 anchors.right = undefined
-                fadeOutCanvas.opacity = 0.6
+                fadeOutCanvas.opacity = 1
             }
             onReleased: {
-                fadeOutCanvas.opacity = 0.4
+                fadeOutCanvas.opacity = 0.6
                 anchors.right = parent.right
                 var duration = clipRoot.fadeOut
                 clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
@@ -1922,11 +1922,11 @@ Rectangle {
                 dragStarted = startFadeIn > 0
                 startMousePos = mouse.x
                 anchors.left = undefined
-                fadeInTriangle.opacity = 0.6
+                fadeInTriangle.opacity = 1
                 // parentTrack.clipSelected(clipRoot, parentTrack) TODO
             }
             onReleased: {
-                fadeInTriangle.opacity = 0.4
+                fadeInTriangle.opacity = 0.6
                 clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 //bubbleHelp.hide()
                 clipRoot.timeline.showToolTip()

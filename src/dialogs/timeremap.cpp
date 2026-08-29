@@ -760,7 +760,7 @@ void RemapView::centerCurrentTopKeyframe()
 
 int RemapView::keyframeTypeAt(int pos) const
 {
-    return m_keyframeTypes.value(pos, KeyframeType::Linear);
+    return m_keyframeTypes.value(pos, mlt_keyframe_linear);
 }
 
 void RemapView::moveKeyframeType(int oldPos, int newPos)
@@ -1292,7 +1292,7 @@ const QString RemapView::getKeyframesData(QMap<int, int> keyframes, QMap<int, in
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
             offset = 1;
         }
-        mlt_keyframe_type type = mlt_keyframe_type(keyframeTypes.value(i.key(), KeyframeType::Linear));
+        mlt_keyframe_type type = mlt_keyframe_type(keyframeTypes.value(i.key(), mlt_keyframe_linear));
         props.anim_set("key", GenTime(i.value(), pCore->getCurrentFps()).seconds(), i.key() + offset, 0, type);
     }
     std::shared_ptr<Mlt::Animation> anim(props.get_anim("key"));
@@ -1367,7 +1367,7 @@ void RemapView::slotSetKeyframeType(int type)
     }
     m_keyframesOrigin = m_keyframes;
     m_keyframeTypesOrigin = m_keyframeTypes;
-    if (type == KeyframeType::Linear) {
+    if (type == mlt_keyframe_linear) {
         m_keyframeTypes.remove(m_currentKeyframe.first);
     } else {
         m_keyframeTypes.insert(m_currentKeyframe.first, type);
@@ -1717,10 +1717,10 @@ TimeRemap::TimeRemap(QWidget *parent)
     });
     // Bounce and elastic overshoot the keyframe value, which on a time map means the
     // source time briefly runs backwards and the clip plays in reverse for a few frames
-    const QMap<KeyframeType::KeyframeEnum, QString> kfrTypes = KeyframeModel::getKeyframeTypes();
-    for (auto type : {KeyframeType::Linear, KeyframeType::Discrete, KeyframeType::CurveSmooth, KeyframeType::CubicIn, KeyframeType::CubicOut,
-                      KeyframeType::ExponentialIn, KeyframeType::ExponentialOut, KeyframeType::CircularIn, KeyframeType::CircularOut, KeyframeType::BounceIn,
-                      KeyframeType::BounceOut, KeyframeType::ElasticIn, KeyframeType::ElasticOut}) {
+    const QMap<mlt_keyframe_type, QString> kfrTypes = KeyframeModel::getKeyframeTypes();
+    for (auto type : {mlt_keyframe_linear, mlt_keyframe_discrete, mlt_keyframe_smooth_natural, mlt_keyframe_cubic_in, mlt_keyframe_cubic_out,
+                      mlt_keyframe_exponential_in, mlt_keyframe_exponential_out, mlt_keyframe_circular_in, mlt_keyframe_circular_out, mlt_keyframe_bounce_in,
+                      mlt_keyframe_bounce_out, mlt_keyframe_elastic_in, mlt_keyframe_elastic_out}) {
         kfr_type->addItem(kfrTypes.value(type), int(type));
     }
     connect(kfr_type, &QComboBox::activated, this, [this](int ix) { m_view->slotSetKeyframeType(kfr_type->itemData(ix).toInt()); });

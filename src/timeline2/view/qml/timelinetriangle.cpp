@@ -15,57 +15,91 @@ TimelineTriangle::TimelineTriangle(QQuickItem *parent)
     setAntialiasing(true);
     connect(this, &TimelineTriangle::curveChanged, this, [&]() { update(); });
 }
+
+void TimelineTriangle::buildQuadInPath(QPainterPath &path, double factor)
+{
+    if (m_endFade) {
+        path.quadTo(width() * factor, height() * factor, 0, height());
+    } else {
+        path.quadTo(width() * (1. - factor), height() * (1. - factor), 0, height());
+    }
+}
+
+void TimelineTriangle::buildQuadOutPath(QPainterPath &path, double factor)
+{
+    if (m_endFade) {
+        path.quadTo(width() * (1. - factor), height() * (1. - factor), 0, height());
+    } else {
+        path.quadTo(width() * factor, height() * factor, 0, height());
+    }
+}
+
 void TimelineTriangle::paint(QPainter *painter)
 {
     QPainterPath path;
-    path.moveTo(0, height());
-    path.lineTo(0, 0);
-    path.lineTo(width(), 0);
+    path.moveTo(width(), 0);
     switch (m_curveType) {
-    case int(KeyframeType::CubicIn): {
+    case int(mlt_keyframe_quadratic_in): {
+        buildQuadInPath(path, 0.3);
+        break;
+    }
+    case int(mlt_keyframe_cubic_in): {
+        buildQuadInPath(path, 0.1);
+        break;
+    }
+    case int(mlt_keyframe_quartic_in): {
+        buildQuadInPath(path, 0.05);
+        break;
+    }
+    case int(mlt_keyframe_quintic_in): {
+        buildQuadInPath(path, 0.02);
+        break;
+    }
+    case int(mlt_keyframe_exponential_in): {
+        double offset = height() * 0.15;
         if (m_endFade) {
-            double factor = width() / height();
-            path.quadTo(width() * 0.1, height() * 0.1 * factor, 0, height());
+            path.cubicTo(width() - offset, 0, 0, offset, 0, height());
         } else {
-            double factor = width() / height();
-            path.quadTo(width() - width() * 0.1, height() - height() * 0.1 * factor, 0, height());
+            path.cubicTo(width(), height() - offset, width() - offset, height(), 0, height());
         }
         break;
     }
-    case int(KeyframeType::ExponentialIn): {
-        if (m_endFade) {
-            double factor = width() / height();
-            path.cubicTo(width() * 0.15 * factor, 0, 0, height() * 0.15, 0, height());
-        } else {
-            double factor = width() / height();
-            path.cubicTo(width(), height() - height() * 0.15, width() - width() * 0.15 * factor, height(), 0, height());
-        }
+    case int(mlt_keyframe_quadratic_out): {
+        buildQuadOutPath(path, 0.3);
         break;
     }
-    case int(KeyframeType::CubicOut): {
-        if (m_endFade) {
-            double factor = width() / height();
-            path.quadTo(width() - width() * 0.1, height() - height() * 0.1 * factor, 0, height());
-        } else {
-            double factor = width() / height();
-            path.quadTo(width() * 0.1, height() * 0.1 * factor, 0, height());
-        }
+    case int(mlt_keyframe_cubic_out): {
+        buildQuadOutPath(path, 0.1);
         break;
     }
-    case int(KeyframeType::ExponentialOut): {
+    case int(mlt_keyframe_quartic_out): {
+        buildQuadOutPath(path, 0.05);
+        break;
+    }
+    case int(mlt_keyframe_quintic_out): {
+        buildQuadOutPath(path, 0.02);
+        break;
+    }
+    case int(mlt_keyframe_exponential_out): {
+        double offset = height() * 0.15;
         if (m_endFade) {
-            double factor = width() / height();
-            path.cubicTo(width(), height() - height() * 0.15, width() - width() * 0.15 * factor, height(), 0, height());
+            path.cubicTo(width(), height() - offset, width() - offset, height(), 0, height());
         } else {
-            double factor = width() / height();
-            path.cubicTo(width() * 0.15 * factor, 0, 0, height() * 0.15, 0, height());
+            path.cubicTo(offset, 0, 0, offset, 0, height());
         }
         break;
     }
     default:
+        path.lineTo(0, height());
         break;
     }
+    QPen pen = painter->pen();
+    QPainterPathStroker stroke;
+    stroke.setWidth(2);
+    auto outline = stroke.createStroke(path);
+    path.lineTo(0, 0);
+    painter->setOpacity(0.3);
     painter->fillPath(path, m_color);
-    painter->setPen(Qt::white);
-    // painter->drawLine(int(width()), 0, 0, int(height()));
+    painter->setOpacity(1);
+    painter->fillPath(outline, Qt::white);
 }

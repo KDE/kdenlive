@@ -209,7 +209,7 @@ std::shared_ptr<ClipModel> KdenliveTests::getClipPtr(std::shared_ptr<TimelineIte
     return timeline->getClipPtr(clipId);
 }
 
-bool KdenliveTests::addKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos, KeyframeType::KeyframeEnum type, QVariant value)
+bool KdenliveTests::addKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos, mlt_keyframe_type type, QVariant value)
 {
     return model->addKeyframe(pos, type, value);
 }

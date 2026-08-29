@@ -24,6 +24,8 @@ private:
     QColor m_color;
     int m_curveType{0};
     bool m_endFade{false};
+    void buildQuadInPath(QPainterPath &path, double factor);
+    void buildQuadOutPath(QPainterPath &path, double factor);
 
 Q_SIGNALS:
     void curveChanged();

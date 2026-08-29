@@ -536,7 +536,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         }
 
         // add new keyframe
-        m_model->addKeyframe(position, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
+        m_model->addKeyframe(position, mlt_keyframe_type(KdenliveSettings::defaultkeyframeinterp()));
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }
@@ -676,14 +676,14 @@ void KeyframeView::paintEvent(QPaintEvent *event)
         scaledPos += m_offset;
         p.drawLine(QPointF(scaledPos, headOffset), QPointF(scaledPos, m_lineHeight - 1));
         switch (keyframe.second.first) {
-        case KeyframeType::Linear: {
+        case mlt_keyframe_linear: {
             QPolygonF position = QPolygonF() << QPointF(-headOffset / 2.0, headOffset / 2.0) << QPointF(0, 0) << QPointF(headOffset / 2.0, headOffset / 2.0)
                                              << QPointF(0, headOffset);
             position.translate(scaledPos, 0);
             p.drawPolygon(position);
             break;
         }
-        case KeyframeType::Discrete:
+        case mlt_keyframe_discrete:
             p.drawRect(QRectF(scaledPos - headOffset / 2.0, 0, headOffset, headOffset));
             break;
         default:

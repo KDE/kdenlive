@@ -128,7 +128,6 @@ public:
 
     bool isStackEnabled() const;
     int getFadeMethod(bool fromStart);
-    static int keyframeTypeFromSeparator(const QChar mod);
 
     /** @brief Returns an XML representation of the effect stack with all parameters */
     QDomElement toXml(QDomDocument &document);

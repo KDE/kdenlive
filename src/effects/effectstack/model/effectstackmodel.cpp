@@ -1139,35 +1139,6 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
     return true;
 }
 
-int EffectStackModel::keyframeTypeFromSeparator(const QChar mod)
-{
-    if (mod == '~') {
-        return int(KeyframeType::CurveSmooth);
-    }
-    if (mod == 'g') {
-        return int(KeyframeType::CubicIn);
-    }
-    if (mod == 'h') {
-        return int(KeyframeType::CubicOut);
-    }
-    if (mod == 'p') {
-        return int(KeyframeType::ExponentialIn);
-    }
-    if (mod == 'q') {
-        return int(KeyframeType::ExponentialOut);
-    }
-    if (mod == 's') {
-        return int(KeyframeType::CircularIn);
-    }
-    if (mod == 'y') {
-        return int(KeyframeType::ElasticIn);
-    }
-    if (mod == 'B') {
-        return int(KeyframeType::BounceIn);
-    }
-    return 0;
-}
-
 int EffectStackModel::getFadeMethod(bool fromStart)
 {
     QWriteLocker locker(&m_lock);
@@ -1179,16 +1150,21 @@ int EffectStackModel::getFadeMethod(bool fromStart)
             if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 QString fadeData = effect->filter().get("alpha");
+                qDebug() << ":::: GOT ALPHA: " << fadeData;
                 if (!fadeData.contains(QLatin1Char('='))) {
                     fadeData = effect->filter().get("level");
+                    qDebug() << ":::: GOT LEVEL: " << fadeData;
                     if (!fadeData.contains(QLatin1Char('='))) {
                         return 0;
                     }
                 }
-                QChar mod = fadeData.section(QLatin1Char('='), 0, -2).back();
-                qDebug() << "RRRR GOT FADE METHOD: " << fadeData << "\nMOD: " << mod;
-                if (!mod.isDigit()) {
-                    return keyframeTypeFromSeparator(mod);
+                const QString sep = fadeData.section(QLatin1Char('='), 0, 0);
+                if (!sep.isEmpty()) {
+                    QChar mod = sep.back();
+                    qDebug() << "RRRR GOT FADE METHOD: " << fadeData << "\nMOD: " << mod;
+                    if (!mod.isDigit()) {
+                        return KeyframeModel::getKeyframeTypeFromShortcut(mod);
+                    }
                 }
                 return 0;
             }
@@ -1207,9 +1183,12 @@ int EffectStackModel::getFadeMethod(bool fromStart)
                         return 0;
                     }
                 }
-                QChar mod = fadeData.section(QLatin1Char('='), 0, -2).back();
-                if (!mod.isDigit()) {
-                    return keyframeTypeFromSeparator(mod);
+                const QString sep = fadeData.section(QLatin1Char('='), 0, 0);
+                if (!sep.isEmpty()) {
+                    QChar mod = sep.back();
+                    if (!mod.isDigit()) {
+                        return KeyframeModel::getKeyframeTypeFromShortcut(mod);
+                    }
                 }
                 return 0;
             }
