@@ -122,19 +122,15 @@ Rectangle {
             }
         }
     }
-    Item {
+    Rectangle {
         id: keyframeVal
         x: - K.UiUtils.baseSizeMedium / 2
         y: keyframe.keyframeContainerHeight - keyframe.value - K.UiUtils.baseSizeMedium / 2
         width: K.UiUtils.baseSizeMedium
         height: width
-        Rectangle {
-            anchors.fill: keyframeVal
-            anchors.margins: keyframeVal.width / 4
-            radius: width / 2
-            color: keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? activePalette.text : keyframe.keyframeColor
-            border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : activePalette.text
-        }
+        radius: width / 2
+        color: keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? activePalette.text : keyframe.keyframeColor
+        border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : activePalette.text
 
         MouseArea {
             id: kf1MouseArea
@@ -151,6 +147,7 @@ Rectangle {
             onPressed: mouse => {
                 keyframe.blockAutoScroll(true)
                 drag.axis = keyframe.model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
+                keyframe.dragPos = keyframe.frame
             }
             onClicked: mouse => {
                 keyframe.focusKeyframeContainer()
@@ -199,19 +196,19 @@ Rectangle {
                     if (keyframe.model.moveOnly) {
                         keyframe.kfrModel.moveKeyframe(keyframe.frame, keyframe.dragPos, true)
                     } else {
-                        console.log('MOVING KFR TO NEW POS: ', keyframe.dragPos)
                         keyframe.kfrModel.moveKeyframe(keyframe.frame, keyframe.frame == keyframe.parentInPoint ? keyframe.frame : keyframe.dragPos, newVal, true)
                     }
                 }
                 keyframe.dragPos = -1
             }
+
             onPositionChanged: mouse => {
                 shiftPressed = (mouse.modifiers & Qt.ShiftModifier)
                 if (mouse.buttons === Qt.LeftButton) {
                     if (keyframe.frame == keyframe.parentInPoint) {
                         parent.x = - K.UiUtils.baseSizeMedium / 2
                     } else {
-                        var newPos = Math.min(Math.round((parent.x + K.UiUtils.baseSizeMedium / 2) / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - keyframe.frame + keyframe.parentInPoint - 1) + keyframe.frame
+                        var newPos = Math.min(Math.round((parent.x + (K.UiUtils.baseSizeMedium / 2)) / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1) + keyframe.frame
                         if (newPos <= keyframe.parentInPoint) {
                             newPos = keyframe.parentInPoint + 1
                         }
