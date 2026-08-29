@@ -23,7 +23,7 @@ Rectangle {
     required property int handleWidth
     required property int containerWidth
     required property int keyframeContainerWidth
-    required property int contentScroll
+    required property double contentScroll
     required property real timeScale
     required property var parentScope
     required property var dopeRootItem

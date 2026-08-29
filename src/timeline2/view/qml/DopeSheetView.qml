@@ -642,12 +642,13 @@ Rectangle {
         anchors.rightMargin: K.UiUtils.baseSizeMedium
         height: Math.round(K.UiUtils.baseSizeMedium * 2.5)
         contentWidth: Math.min(parent.width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
-        contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale - width)
+        contentX: dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor
         interactive: false
         clip: true
         onWidthChanged: {
             ruler.adjustStepSize()
         }
+
         DopeRuler {
             id: ruler
             width: rulercontainer.width
