@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-28 00:45+0000\n"
-"PO-Revision-Date: 2026-08-19 17:54+0400\n"
+"PO-Revision-Date: 2026-08-29 17:59+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -8394,7 +8394,7 @@ msgstr "عتبة آلية"
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
 msgid "Segments an image into foreground or background"
-msgstr ""
+msgstr "يقسم صورة إلى مقدمة أو خلفية"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:8
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
@@ -8403,10 +8403,9 @@ msgid "Slope"
 msgstr "انحدار"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:9
-#, fuzzy, kde-format
-#| msgid "Sigmoidal Transfer"
+#, kde-format
 msgid "Slope of Sigmoidal Transfer"
-msgstr "نقل سيجمويدي"
+msgstr "انحدار النقل السيني"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -12353,28 +12352,24 @@ msgid "Do not average the alpha channel over each block"
 msgstr "لا تحسب متوسط قناة ألفا على كل كتلة"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels0rt"
-msgstr " بكسل"
+msgstr "بكسلات0رت"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
-#, fuzzy, kde-format
-#| msgid "Problem deleting effect"
+#, kde-format
 msgid "Pixel sorting effect"
-msgstr "مشكلة في حذف التّأثير"
+msgstr "تأثير فرز البكسلات"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
-#, fuzzy, kde-format
-#| msgid "Defines the rectangle of the area that will be removed."
+#, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr "تعرف منطقة مستطيل الذي سيزال."
+msgstr "الحجم النسبي للخط الذي سيُفرز"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Sorting direction"
-msgstr "اتجاه العكس"
+msgstr "اتجاه الفرز"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -12382,23 +12377,23 @@ msgid ""
 "Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
 "to right,Horizontal from right to left"
 msgstr ""
+"عمودي من الأعلى إلى الأسفل،عمودي من الأسفل إلى الأعلى،أفقي من اليسار إلى "
+"اليمين،أفقي من اليمين إلى اليسار"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "اعكس"
+msgstr "معكوس"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
 msgid "Should be pixels sorted in reversed order"
-msgstr ""
+msgstr "هل ينبغي فرز البكسلات بترتيب معكوس"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency Top"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "شفافية الأعلى"
+msgstr "عتبة الشفافية"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12407,6 +12402,9 @@ msgid ""
 "        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
 "transparent pixels"
 msgstr ""
+"ما هو مستوى الشفافية الذي يجب أن <br>\n"
+"        يتجاهله المرشح؟ 0 يعالج جميع وحدات البكسل، و1 يتجاهل جميع وحدات "
+"البكسل الشفافة"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
