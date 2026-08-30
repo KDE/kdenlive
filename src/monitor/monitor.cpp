@@ -509,9 +509,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioMeterWidget->setVisibility(false);
     } else {
         m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
-        if (id == Kdenlive::ProjectMonitor) {
+        /*if (id == Kdenlive::ProjectMonitor) {
             connect(m_audioMeterWidget, &MonitorAudioLevel::audioLevelsAvailable, pCore.get(), &Core::audioLevelsAvailable);
-        }
+        }*/
     }
 
     // Trimming tool bar buttons
@@ -1696,7 +1696,6 @@ void Monitor::slotSeek(int pos)
         return;
     }
     m_glMonitor->getControllerProxy()->setPosition(pos);
-    Q_EMIT m_monitorManager->cleanMixer();
 }
 
 void Monitor::checkOverlay(int pos)
@@ -2579,9 +2578,6 @@ void Monitor::updateAudioForAnalysis()
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
     Q_EMIT m_monitorManager->frameDisplayed(frame);
-    if (m_id == Kdenlive::ProjectMonitor) {
-        Q_EMIT pCore->updateMixerLevels(frame.get_position());
-    }
     const bool wasPlaying = m_playAction->isActive();
     if (!m_glMonitor->checkFrameNumber(frame.get_position(), wasPlaying)) {
         updatePlayAction(false);
@@ -3087,7 +3083,6 @@ void Monitor::processSeek(int pos, bool noAudioScrub)
         pause();
     }
     m_glMonitor->requestSeek(pos, noAudioScrub);
-    Q_EMIT m_monitorManager->cleanMixer();
 }
 
 void Monitor::requestSeek(int pos)

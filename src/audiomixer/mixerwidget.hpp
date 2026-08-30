@@ -39,8 +39,6 @@ public:
     void buildUI(Mlt::Tractor *service, const QString &trackName);
     /** @brief discard stored audio values and reset vu-meter to 0 if requested */
     void reset();
-    /** @brief discard stored audio values */
-    void clear();
     static void property_changed(mlt_service, MixerWidget *self, mlt_event_data data);
     static void property_changedV2(mlt_service, MixerWidget *widget, mlt_event_data data);
     void setTrackName(const QString &name);
@@ -63,11 +61,11 @@ public:
     void setBackgroundColor(QPalette::ColorRole role);
 
 public Q_SLOTS:
-    void updateAudioLevel(int pos);
     void setRecordState(bool recording);
 
 private Q_SLOTS:
     void gotRecLevels(QVector<qreal> levels);
+    void checkAudioValues(QMap<int, QVector<double>> levels);
 
 protected:
     MixerManager *m_manager;
@@ -75,7 +73,6 @@ protected:
     std::shared_ptr<Mlt::Filter> m_levelFilter;
     std::shared_ptr<Mlt::Filter> m_monitorFilter;
     std::shared_ptr<Mlt::Filter> m_balanceFilter;
-    QMap<int, QVector<double>> m_levels;
     int m_channels;
     KDualAction *m_muteAction;
     StyledSpinBox *m_balanceSpin;
@@ -92,7 +89,6 @@ private:
     QToolButton *m_muteButton;
     QToolButton *m_showEffects;
     KSqueezedTextLabel *m_trackLabel;
-    QMutex m_storeMutex;
     double m_lastVolume;
     QVector<double> m_audioData;
     Mlt::Event *m_listener;

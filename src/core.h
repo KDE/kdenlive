@@ -384,6 +384,7 @@ public:
     bool isVertical() const;
     /** @brief Returns a list of luma files compatible with current project profile */
     const QStringList getLumasForProfile();
+    std::list<int> getAudioTrackIds();
 
 private:
     explicit Core(LinuxPackageType packageType, bool debugMode = false);
@@ -525,11 +526,9 @@ Q_SIGNALS:
     /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
     void clipInstanceResized(const QString &binId);
     /** @brief Contains the project audio levels */
-    void audioLevelsAvailable(const QVector<double> &levels);
+    void audioLevelsAvailable(QMap<int, QVector<double>> levels);
     /** @brief Audio levels config changed, update audio level widgets */
     void audioLevelsConfigChanged();
-    /** @brief A frame was displayed in monitor, update audio mixer */
-    void updateMixerLevels(int pos);
     /** @brief Audio recording was started or stopped*/
     void switchTimelineRecord(bool on);
     /** @brief Launch audio recording on track tid*/

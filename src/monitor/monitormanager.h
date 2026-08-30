@@ -166,8 +166,6 @@ Q_SIGNALS:
     void updateOverlayInfos(int, int);
     /** @brief info is available for audio spectrum widget */
     void frameDisplayed(const SharedFrame &);
-    /** @brief Triggered when the project monitor is paused (used to reset stored audiomixer data */
-    void cleanMixer();
     /** @brief Update monitor preview resolution */
     void updatePreviewScaling();
     /** @brief monitor scaling was changed, update select action */

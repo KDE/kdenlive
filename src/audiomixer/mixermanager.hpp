@@ -56,7 +56,7 @@ private Q_SLOTS:
 Q_SIGNALS:
     void updateLevels(int);
     void purgeCache();
-    void clearMixers();
+
     void updateRecVolume();
     void showEffectStack(int tid);
 

@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "monitoraudiolevel.h"
+#include "core.h"
 
 #include <cmath>
 
@@ -30,13 +31,48 @@ MonitorAudioLevel::MonitorAudioLevel(QWidget *parent)
 
 MonitorAudioLevel::~MonitorAudioLevel() = default;
 
+double MonitorAudioLevel::audioLevelDbFromLinear(double dbValue)
+{
+    if (dbValue <= 0.0) return -100.0;
+
+    double level = 20.0 * log10(qMin(dbValue, 1.0));
+    return qRound(level * 10.0) / 10.0;
+    // return log10(dbValue / 1.18) * 20;
+}
+
 void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
 {
     SharedFrame sFrame;
     while (m_queue.count() > 0) {
         sFrame = m_queue.pop();
         if (sFrame.is_valid()) {
-            int samples = sFrame.get_audio_samples();
+            QMap<int, QVector<double>> levelsMap;
+            // Tracks levels
+            std::list<int> trackIndexes = pCore->getAudioTrackIds();
+            qDebug() << ":: READY FOR TRACK INDEXES: " << trackIndexes;
+            for (auto &tid : trackIndexes) {
+                QVector<double> levels;
+                for (int ix = 0; ix < audioChannels; ix++) {
+                    const QByteArray audioKey = QStringLiteral("meta.audio.track.%1.audio_level.%2").arg(tid).arg(ix).toLatin1();
+                    const double channelData = sFrame.get_double(audioKey.constData());
+                    qDebug() << ":: CHANNEL DATA: " << channelData;
+                    levels << audioLevelDbFromLinear(channelData);
+                }
+                qDebug() << ":::: CHECKING AUDIO LEVELS FOR: " << tid << " = " << levels;
+                levelsMap.insert(tid, levels);
+            }
+            // Master
+            QVector<double> masterLevels;
+            for (int ix = 0; ix < audioChannels; ix++) {
+                const QByteArray audioKey = QStringLiteral("meta.audio.track.%1.audio_level.%2").arg(-1).arg(ix).toLatin1();
+                const double channelData = sFrame.get_double(audioKey.constData());
+                masterLevels << audioLevelDbFromLinear(channelData);
+            }
+            levelsMap.insert(-1, masterLevels);
+            Q_EMIT audioLevelsAvailable(masterLevels);
+            Q_EMIT pCore->audioLevelsAvailable(levelsMap);
+
+            /*int samples = sFrame.get_audio_samples();
             if (samples <= 0) {
                 continue;
             }
@@ -59,7 +95,7 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
                     levels << 20 * log10((double)peak / (double)std::numeric_limits<int16_t>::max());
                 }
             }
-            Q_EMIT audioLevelsAvailable(levels);
+            Q_EMIT audioLevelsAvailable(levels);*/
         }
     }
 }

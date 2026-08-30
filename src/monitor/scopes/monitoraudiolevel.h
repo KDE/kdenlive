@@ -27,6 +27,7 @@ public:
 private:
     std::unique_ptr<AudioLevelWidget> m_audioLevelWidget;
     void refreshScope(const QSize &size, bool full) override;
+    double audioLevelDbFromLinear(double dbValue);
 
 public Q_SLOTS:
     void setAudioValues(const QVector<double> &values);

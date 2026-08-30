@@ -109,6 +109,7 @@ public:
     std::shared_ptr<SubtitleModel> createSubtitleModel();
     void processTimelineReplacement(QList<int> instances, const QString &originalId, const QString &replacementId, int maxDuration, bool replaceAudio,
                                     bool replaceVideo);
+    std::list<int> getAudioTrackIndexes() const;
 
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false) override;

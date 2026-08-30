@@ -1212,3 +1212,15 @@ int TimelineItemModel::getEndMixDuration(int cid) const
     }
     return 0;
 }
+
+std::list<int> TimelineItemModel::getAudioTrackIndexes() const
+{
+    std::list<int> trackIds;
+    std::list<std::shared_ptr<TrackModel>>::const_reverse_iterator it;
+    for (it = m_allTracks.rbegin(); it != m_allTracks.rend(); it++) {
+        if ((*it)->isAudioTrack() && !(*it)->isMute()) {
+            trackIds.push_back((*it)->getId());
+        }
+    }
+    return trackIds;
+}

@@ -585,7 +585,6 @@ void Core::buildDocks()
     m_mixerWidget = new MixerManager(m_mainWindow);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
-    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
     m_mixerWidget->checkAudioLevelVersion();
     connect(m_mixerWidget, &MixerManager::showEffectStack, m_projectManager, &ProjectManager::showTrackEffectStack);
 
@@ -2368,4 +2367,12 @@ const QStringList Core::getLumasForProfile()
         return MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
     }
     return MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
+}
+
+std::list<int> Core::getAudioTrackIds()
+{
+    if (m_mainWindow && m_mainWindow->getCurrentTimeline()) {
+        return m_mainWindow->getCurrentTimeline()->model()->getAudioTrackIndexes();
+    }
+    return {};
 }
