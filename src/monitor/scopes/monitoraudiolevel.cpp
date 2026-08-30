@@ -48,9 +48,7 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
         if (sFrame.is_valid()) {
             QMap<int, QVector<double>> levelsMap;
             // Tracks levels
-            std::list<int> trackIndexes = pCore->getAudioTrackIds();
-            qDebug() << ":: READY FOR TRACK INDEXES: " << trackIndexes;
-            for (auto &tid : trackIndexes) {
+            for (auto &tid : audioTrackIds) {
                 QVector<double> levels;
                 for (int ix = 0; ix < audioChannels; ix++) {
                     const QByteArray audioKey = QStringLiteral("meta.audio.track.%1.audio_level.%2").arg(tid).arg(ix).toLatin1();
@@ -58,18 +56,12 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
                     qDebug() << ":: CHANNEL DATA: " << channelData;
                     levels << audioLevelDbFromLinear(channelData);
                 }
+                if (tid == -1) {
+                    Q_EMIT audioLevelsAvailable(levels);
+                }
                 qDebug() << ":::: CHECKING AUDIO LEVELS FOR: " << tid << " = " << levels;
                 levelsMap.insert(tid, levels);
             }
-            // Master
-            QVector<double> masterLevels;
-            for (int ix = 0; ix < audioChannels; ix++) {
-                const QByteArray audioKey = QStringLiteral("meta.audio.track.%1.audio_level.%2").arg(-1).arg(ix).toLatin1();
-                const double channelData = sFrame.get_double(audioKey.constData());
-                masterLevels << audioLevelDbFromLinear(channelData);
-            }
-            levelsMap.insert(-1, masterLevels);
-            Q_EMIT audioLevelsAvailable(masterLevels);
             Q_EMIT pCore->audioLevelsAvailable(levelsMap);
 
             /*int samples = sFrame.get_audio_samples();

@@ -11,6 +11,7 @@
 #include "mainwindow.h"
 #include "mixerseparator.h"
 #include "mixerwidget.hpp"
+#include "monitor.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 
 #include "mlt++/MltTractor.h"
@@ -102,6 +103,7 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
     }
     std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, this));
     mixer->setContentsMargins(kMarginAroundMixer);
+    pCore->getMonitor(Kdenlive::ProjectMonitor)->registerAudioTrack(tid, true);
 
     // Use alternating background colors for mixers
     int mixerCount = m_mixers.size();
@@ -216,6 +218,7 @@ void MixerManager::deregisterTrack(int tid)
     QWidget *mixerWidget = m_mixers[tid].get();
     m_channelsLayout->removeWidget(mixerWidget);
     mixerWidget->deleteLater();
+    pCore->getMonitor(Kdenlive::ProjectMonitor)->registerAudioTrack(tid, false);
 
     // Remove the separator if it exists
     if (m_separators.count(tid) > 0) {

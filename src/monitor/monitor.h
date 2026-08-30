@@ -194,6 +194,8 @@ public:
     void applyTimecodeDisplayStyling();
     /** @brief Audio thumbnail is outdated, inform view */
     void markAudioDirty(bool dirty);
+    /** @brief Register an audio track for monitoring */
+    void registerAudioTrack(int tid, bool addTrack);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
