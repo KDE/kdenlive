@@ -1601,23 +1601,11 @@ bool DopeSheetModel::isEffectExpanded(const QPersistentModelIndex ix) const
 
 void DopeSheetModel::activateParam(const QPersistentModelIndex activeIndex) const
 {
-    if (m_model) {
-        // TODO: there is probably a better way to get the effectstack index
-        int max = m_model->rowCount();
-        auto masterIndex = m_activeMaster ? getIndexFromItem(m_activeMaster) : QModelIndex();
-        for (int i = 0; i < max; i++) {
-            QModelIndex ix = index(i, 0, masterIndex);
-            int itemId = int(ix.internalId());
-            auto tItem = getItemById(itemId);
-            for (int j = 0; j < tItem->childCount(); ++j) {
-                auto current = tItem->child(j);
-                auto ix2 = getIndexFromItem(current);
-                if (ix2 == activeIndex) {
-                    m_model->setActiveParam(m_paramsList.at(current->getId()).first.index);
-                    pCore->updateItemKeyframes(m_currentOwner);
-                    break;
-                }
-            }
+    if (m_model && activeIndex.isValid()) {
+        auto item = getItemById(activeIndex.internalId());
+        if (item) {
+            m_model->setActiveParam(m_paramsList.at(item->getId()).first.index);
+            pCore->updateItemKeyframes(m_currentOwner);
         }
     }
 }

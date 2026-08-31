@@ -34,6 +34,7 @@ Item {
     required property color hoverColor
 
     property bool modelExpanded: model && model.expandedRole ? model.expandedRole : false
+    property bool isBlankRecap: model && model.dopeRecap && !hasChildren
 
     implicitWidth: dopeWidth
     implicitHeight: fontMetrics.lineSpacing * 1.3
@@ -186,6 +187,7 @@ Item {
         anchors.bottom: delegateRect.bottom
         anchors.leftMargin: K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.headerWidth
         anchors.rightMargin: K.UiUtils.baseSizeMedium / 2 + 2
+        visible: !delegateRect.isBlankRecap
         Rectangle {
             // keyframe slider
             id: keyframeSlider
@@ -407,6 +409,12 @@ Item {
             onDoubleClicked: mouse => {
                 var parameterIndex = delegateRect.treeView.index(delegateRect.row, delegateRect.column)
                 console.log('Double ckick at: ', delegateRect.currentKFFrame)
+                if (delegateRect.isBlankRecap) {
+                    // Clicked on a recap without children, abort
+                    console.log('Clicked on a childless recap, abort')
+                    return
+                }
+
                 if (delegateRect.currentKFFrame > -1) {
                     console.log('Removing keyframe at: ', delegateRect.currentKFFrame)
                     // Double click on a keyframe, remove it
