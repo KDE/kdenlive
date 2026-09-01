@@ -68,9 +68,10 @@ Rectangle {
     property double contentScroll: 0
     // Playhead position
     property int headerWidth: 100
-    property int consumerPosition: proxy && ownerType >= 0 ? proxy.position - offset: -1
+    property int consumerPosition: proxy && ownerType > -1 ? proxy.position - offset: -1
+    property double consumerSpeed: proxy && ownerType > -1 ? proxy.speed : 0
     property bool insideOwner: dopeRoot.consumerPosition > 0 && dopeRoot.consumerPosition < frameDuration
-    property int keyframeContainerWidth: width - headerWidth - (2 * baseUnit)
+    property int keyframeContainerWidth: keyframeContainer.width
     property int snapping: (K.KdenliveSettings.snaptopoints && (dopeRoot.timeScale < 2 * K.UiUtils.baseSizeMedium)) ?
                                Math.floor(K.UiUtils.baseSizeMedium / (dopeRoot.timeScale > 3 ? dopeRoot.timeScale / 2 : dopeRoot.timeScale)) : -1
     focus: true
@@ -80,6 +81,7 @@ Rectangle {
     }
 
     function getPositionForKeyframe() {
+
         return dopeRoot.mouseFramePos + dopeRoot.inPoint
     }
 
@@ -98,8 +100,16 @@ Rectangle {
             keyframeCurve.model = undefined
         }
     }
+    onConsumerSpeedChanged: {
+        if (consumerSpeed == 0) {
+            dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
+        }
+    }
+
     onConsumerPositionChanged: {
-        dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
+        if (consumerSpeed == 0) {
+            dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
+        }
     }
 
     onInsideOwnerChanged: {
@@ -178,6 +188,9 @@ Rectangle {
                 dopeRoot.zoom(factor);
                 dopeRoot.wheelAccumulatedDelta = 0;
             }
+            //TODO: This zoom to mouse calculation is broken
+            //dopeRoot.contentScroll = Math.min(dopeRoot.frameDuration - (dopeRoot.keyframeContainerWidth * dopeRoot.timeScale * dopeRoot.maximumScaleFactor), Math.max(0, dopeRoot.mouseFramePos - (dopeRoot.mouseFramePos - dopeRoot.contentScroll) * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
+
         }/* else if (wheel.modifiers & Qt.ShiftModifier) {
             if (K.KdenliveSettings.scrollvertically || rubberSelect.visible) {
                 horizontalScroll(wheel)
@@ -664,36 +677,26 @@ Rectangle {
         }
     }
 
-    Flickable {
-        // scroll area for the Ruler.
-        id: rulercontainer
+
+    DopeRuler {
+        id: ruler
         anchors.top: dopeBar.bottom
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.leftMargin: K.UiUtils.baseSizeMedium + dopeRoot.headerWidth
         anchors.rightMargin: K.UiUtils.baseSizeMedium
         height: Math.round(K.UiUtils.baseSizeMedium * 2.5)
-        contentWidth: Math.min(parent.width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
-        contentX: dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor
-        interactive: false
-        clip: true
+        rulerOffset: dopeRoot.offset
+        monitorController: dopeRoot.proxy
+        timecodeOffset: dopeRoot.dopesheetmodel ? dopeRoot.dopesheetmodel.timecodeOffset : 0
+        scalingFactor: dopeRoot.timeScale * dopeRoot.maximumScaleFactor
+        rulercontainerWidth: Math.max(width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
+        scrollViewContentX: dopeRoot.contentScroll
+        snapping: dopeRoot.snapping
+        fontMetrics: fontMetrics
+        onZoomByWheel: (wheel) => { dopeRoot.zoomByWheel(wheel) }
         onWidthChanged: {
             ruler.adjustStepSize()
-        }
-
-        DopeRuler {
-            id: ruler
-            width: rulercontainer.width
-            height: rulercontainer.height
-            rulerOffset: dopeRoot.offset
-            monitorController: dopeRoot.proxy
-            timecodeOffset: dopeRoot.dopesheetmodel.timecodeOffset
-            scalingFactor: dopeRoot.timeScale * dopeRoot.maximumScaleFactor
-            rulercontainerWidth: rulercontainer.width
-            scrollViewContentX: rulercontainer.contentX
-            snapping: dopeRoot.snapping
-            fontMetrics: fontMetrics
-            onZoomByWheel: (wheel) => { dopeRoot.zoomByWheel(wheel) }
         }
     }
     Rectangle {
@@ -704,8 +707,8 @@ Rectangle {
     }
     Label {
         id: playheadLabel
-        visible: dopeRoot.isInView(dopeRoot.consumerPosition)
-        anchors.top: rulercontainer.top
+        visible: rulerCursor.visible
+        anchors.top: ruler.top
         anchors.horizontalCenter: rulerCursor.horizontalCenter
         text: K.Core.timecodeString(dopeRoot.consumerPosition + (dopeRoot.showTimelineTime ? dopeRoot.offset : 0))
         leftPadding: 6
@@ -716,7 +719,7 @@ Rectangle {
         id: rulerCursor
         anchors.top: playheadLabel.bottom
         anchors.bottom: parent.bottom
-        visible: playheadLabel.visible
+        visible: dopeRoot.ownerType > -1 && x >= dopeRoot.headerWidth + K.UiUtils.baseSizeMedium && x < parent.width
         z: 4
         x: dopeRoot.headerWidth + K.UiUtils.baseSizeMedium + dopeRoot.frameToView(dopeRoot.consumerPosition)
         color: activePalette.text
@@ -737,7 +740,7 @@ Rectangle {
     Label {
         id: mouseLabel
         visible: !ruler.pressed && (backgroundArea.containsMouse || treeViewItem.hoveredParam > -1)
-        anchors.top: rulercontainer.top
+        anchors.top: ruler.top
         anchors.horizontalCenter: mouseLine.horizontalCenter
         text: K.Core.timecodeString(dopeRoot.mouseFramePos + (dopeRoot.showTimelineTime ? dopeRoot.offset : 0))
         leftPadding: 6
@@ -789,7 +792,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 4
         anchors.bottom: parent.bottom
-        anchors.top: rulercontainer.bottom
+        anchors.top: ruler.bottom
         width: dopeRoot.headerWidth
         color: activePalette.alternateBase
     }
@@ -910,7 +913,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: keyframeContainer.top
-        anchors.top: rulercontainer.bottom
+        anchors.top: ruler.bottom
         // Disable flicking
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
@@ -965,16 +968,6 @@ Rectangle {
         interactive: false
 
         clip: true
-        MouseArea {
-            anchors.fill: parent
-            onDoubleClicked: {
-                if (keyframeCurve.model) {
-                    var newVal = (height - mouseY) / height
-                    var newPos = Math.round(mouseX / (dopeRoot.maximumScaleFactor * dopeRoot.timeScale)) + dopeRoot.inPoint + dopeRoot.contentScroll
-                    keyframeCurve.model.addKeyframe(newPos, newVal)
-                }
-            }
-        }
         Loader {
             // Keyframe curve
             id: keyframeCurve
@@ -1081,7 +1074,7 @@ Rectangle {
             dopeRoot.timeScale = 1. / proposedValue
             dopeRoot.zoomOnBar = true
         }
-        contentPos: 0
+        contentPos: dopeRoot.contentScroll / dopeRoot.frameDuration
         onProposeContentPos: (proposedValue) => {
             // The corresponding pixel offset
             dopeRoot.contentScroll = Math.max(0, proposedValue * dopeRoot.frameDuration)

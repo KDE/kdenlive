@@ -528,7 +528,7 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
     return true;
 }
 
-void DopeSheetModel::updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles)
+void DopeSheetModel::updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &, const QList<int> &roles)
 {
     if (roles.contains(AssetParameterModel::BlockedKeyframesRole)) {
         qDebug() << "KEYFRAMABLE EFFECT CHANGED FOR ROW: " << ix1.row();
@@ -1083,22 +1083,8 @@ void DopeSheetModel::removeKeyframes(QVariantList indexes, QVariantList keyframe
         int itemId = int(ix.internalId());
         auto tItem = getItemById(itemId);
         if (isRecap(tItem)) {
-            // deleting keyframe in all parameters
-            QList<GenTime> positions;
-            KeyframeModel *master = data(ix, ModelRole).value<KeyframeModel *>();
-            for (auto &id : kfrs) {
-                positions << master->getPosAtIndex(id.toInt());
-            }
-            for (int j = 0; j < tItem->childCount(); ++j) {
-                auto current = tItem->child(j);
-                auto ix2 = getIndexFromItem(current);
-                KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
-                for (auto &p : positions) {
-                    if (km->hasKeyframe(p)) {
-                        km->removeKeyframe(p, undo, redo, true);
-                    }
-                }
-            }
+            // Recap children should already be included in the indexes list
+            continue;
         } else {
             KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
             for (auto &id : kfrs) {

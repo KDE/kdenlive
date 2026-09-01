@@ -228,7 +228,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QV
 bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify, bool updateSelection, bool allowedToFail)
 {
     qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps()) << " NOTIFY: " << notify;
-    qDebug() << "before" << getAnimProperty();
+    // qDebug() << "before" << getAnimProperty();
     QWriteLocker locker(&m_lock);
     if (!allowedToFail) {
         Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -272,7 +272,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     if (redo_first()) {
         Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, notify);
         select_redo();
-        qDebug() << "after" << getAnimProperty();
+        // qDebug() << "after" << getAnimProperty();
         UPDATE_UNDO_REDO(redo_first, local_undo, undo, redo);
         UPDATE_UNDO_REDO(select_redo, select_undo, undo, redo);
         return true;
@@ -794,7 +794,7 @@ Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum ty
 {
     QWriteLocker locker(&m_lock);
     return [this, notify, pos, type, value]() {
-        // qDebug() << "add lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
+        qDebug() << "add lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
         Q_ASSERT(m_keyframeList.count(pos) == 0);
         // We determine the row of the newly added marker
         auto insertionIt = m_keyframeList.lower_bound(pos);
@@ -815,14 +815,14 @@ Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos, bool notify)
     QWriteLocker locker(&m_lock);
     return [this, pos, notify]() {
         qDebug() << "delete lambda" << pos.frames(pCore->getCurrentFps()) << notify;
-        qDebug() << "before" << getAnimProperty();
+        // qDebug() << "before" << getAnimProperty();
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         // Q_ASSERT(pos != GenTime()); // cannot delete initial point
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         if (notify) beginRemoveRows(QModelIndex(), row, row);
         m_keyframeList.erase(pos);
         if (notify) endRemoveRows();
-        qDebug() << "after" << getAnimProperty();
+        // qDebug() << "after" << getAnimProperty();
         return true;
     };
 }
@@ -1158,7 +1158,9 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out, Fun 
 {
     disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
     QSignalBlocker bk(this);
-    removeAllKeyframes(undo, redo);
+    if (!prop.isEmpty()) {
+        removeAllKeyframes(undo, redo);
+    }
     if (auto ptr = m_model.lock()) {
         Mlt::Properties *mlt_prop = ptr->getAsset();
         const QByteArray paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString().toUtf8();

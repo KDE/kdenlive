@@ -41,7 +41,7 @@ Item {
     readonly property real indentation: 20
     readonly property real padding: 5
     required property var model
-    property int containerWidth: kfContainer.width
+    property int containerWidth: width - delegateRect.dopeRootItem.headerWidth - (2 * K.UiUtils.baseSizeMedium)//kfContainer.width
     // The frame position of the hovered keyframe, -1 if none
     property int currentKFFrame: -1
     // The index of the hovered keyframe, -1 if none
@@ -414,8 +414,8 @@ Item {
                     console.log('Clicked on a childless recap, abort')
                     return
                 }
-
-                if (delegateRect.currentKFFrame > -1) {
+                let currentMouseFrame = delegateRect.dopeRootItem.getPositionForKeyframe()
+                if (delegateRect.currentKFFrame > -1 && delegateRect.currentKFFrame == currentMouseFrame) {
                     console.log('Removing keyframe at: ', delegateRect.currentKFFrame)
                     // Double click on a keyframe, remove it
                     delegateRect.dopesheetmodel.removeKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame + delegateRect.dopeRootItem.inPoint)
@@ -425,7 +425,7 @@ Item {
                     delegateRect.dopeRootItem.keyframeType = -1
                     return
                 }
-                delegateRect.currentKFFrame = delegateRect.dopeRootItem.getPositionForKeyframe()
+                delegateRect.currentKFFrame = currentMouseFrame
                 if (delegateRect.hasChildren) {
                     delegateRect.dopeRootItem.dopesheetmodel.addKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame)
                 } else {

@@ -14,7 +14,6 @@ import org.kde.kdenlive as K
 
 Item {
     id: rulerRoot
-    anchors.fill: parent
     SystemPalette { id: activePalette }
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(monitorController.toTimecode(36000)).width
@@ -58,8 +57,7 @@ Item {
 
         rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + K.UiUtils.baseSizeMedium) / rulerRoot.tickSpacing))
         //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing)))
-        tickRepeater.model = Math.ceil(rulerRoot.rulercontainerWidth / rulerRoot.tickSpacing) + 2
-        console.log('TICK MODEL DEFINED: ', Math.ceil(rulerRoot.rulercontainerWidth / rulerRoot.tickSpacing), 'RULER WIDTH: ', rulerRoot.rulercontainerWidth, 'TiCK SPACNIOG: ', rulerRoot.tickSpacing)
+        tickRepeater.model = Math.ceil(rulerRoot.width / rulerRoot.tickSpacing) + 2
     }
 
     function adjustFormat() {
@@ -71,7 +69,7 @@ Item {
     function repaintRuler() {
         // Enforce repaint
         tickRepeater.model = 0
-        tickRepeater.model = Math.ceil(rulerRoot.rulercontainerWidth / rulerRoot.tickSpacing) + 2
+        tickRepeater.model = Math.ceil(rulerRoot.width / rulerRoot.tickSpacing) + 2
     }
     
     // Ruler marks
@@ -81,14 +79,16 @@ Item {
         Repeater {
             id: tickRepeater
             model: Math.ceil(timecodeContainer.width / rulerRoot.tickSpacing) + 2
-            property int offset: Math.floor(rulerRoot.scrollViewContentX /rulerRoot.tickSpacing)
+            // Calculate first possible visible tick
+            property int firstTick: Math.floor(rulerRoot.scrollViewContentX * rulerRoot.scalingFactor /rulerRoot.tickSpacing)
             Item {
                 id: tick
                 required property int index
-                property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / rulerRoot.scalingFactor
-                x: Math.round(realPos * rulerRoot.scalingFactor)
+                property int realPos: (tickRepeater.firstTick + index) * rulerRoot.tickSpacing / rulerRoot.scalingFactor
+                x: Math.round((realPos - rulerRoot.scrollViewContentX) * rulerRoot.scalingFactor)
+                visible: x > -1 && x <= rulerRoot.width
                 height: parent.height
-                property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
+                property bool showText: (tickRepeater.firstTick + index)%rulerRoot.labelMod == 0
                 Rectangle {
                     anchors.bottom: parent.bottom
                     height: parent.showText ? K.UiUtils.baseSizeMedium * 0.8 : 4
@@ -115,8 +115,8 @@ Item {
         z: 1
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var pos = Math.max(mouseX, 0)
-                pos = Math.min(pos, width)
+                var pos = Math.max(mouseX + (rulerRoot.scrollViewContentX * rulerRoot.scalingFactor), 0)
+                pos = Math.min(pos, rulerRoot.rulercontainerWidth)
                 var frame = Math.round(pos / rulerRoot.scalingFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.monitorController.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
@@ -128,8 +128,8 @@ Item {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton && pressed) {
-                var pos = Math.max(mouseX, 0)
-                pos = Math.min(pos, width)
+                var pos = Math.max(mouseX + (rulerRoot.scrollViewContentX * rulerRoot.scalingFactor), 0)
+                pos = Math.min(pos, rulerRoot.rulercontainerWidth)
                 var frame = Math.round(pos / rulerRoot.scalingFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.monitorController.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
