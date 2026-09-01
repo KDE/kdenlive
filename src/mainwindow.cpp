@@ -632,7 +632,7 @@ void MainWindow::init()
     connect(this, &MainWindow::setRenderProgress, timelineRender, &ProgressButton::setProgress);
     auto *renderButtonAction = new QWidgetAction(this);
     renderButtonAction->setText(i18nc("@intoolbar the name of the action to place an export/render button in a toolbar", "Render Button"));
-    renderButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("media-record")));
+    renderButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("run-build")));
     renderButtonAction->setDefaultWidget(timelineRender);
     addAction(QStringLiteral("project_render_button"), renderButtonAction);
 
@@ -1701,11 +1701,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("project_settings"), i18n("Project Settings…"), this, SLOT(slotEditProjectSettings()),
               QIcon::fromTheme(QStringLiteral("configure")));
 
-    addAction(QStringLiteral("project_render"), i18n("Render…"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("media-record")),
+    addAction(QStringLiteral("project_render"), i18n("Render…"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("run-build")),
               Qt::CTRL | Qt::Key_Return);
 
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
-              QIcon::fromTheme(QStringLiteral("media-record")));
+              QIcon::fromTheme(QStringLiteral("run-build-prune")));
 
     addAction(QStringLiteral("project_clean"), i18n("Remove Unused Media"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear-all")));
 

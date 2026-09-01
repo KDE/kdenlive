@@ -253,7 +253,7 @@ void RenderJobItem::setStatus(int status)
         setData(1, Qt::UserRole, i18n("Waiting…"));
         break;
     case STARTINGJOB:
-        setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
+        setIcon(0, QIcon::fromTheme(QStringLiteral("run-build")));
         setData(1, Qt::UserRole, i18n("Starting…"));
         break;
     case FINISHEDJOB:
@@ -375,7 +375,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     }
     connect(m_view.interp_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             [&]() { KdenliveSettings::setRenderInterp(m_view.interp_type->currentData().toString()); });
-    
+
     // Aspect Ratio
     m_view.aspect_ratio_type->addItem(i18n("Default"));
     m_view.aspect_ratio_type->addItem(i18n("Horizontal (16:9)"), QStringLiteral("horizontal"));
@@ -1679,7 +1679,7 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
     item->setData(1, ProgressRole, progress);
     if (progress == 0) {
         item->setStatus(STARTINGJOB);
-        item->setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("run-build")));
         slotCheckJob();
     } else {
         item->setStatus(RUNNINGJOB);
