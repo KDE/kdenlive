@@ -70,7 +70,6 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     , m_model(std::move(model))
     , m_undoStack(std::move(undo_stack))
     , m_index(index)
-    , m_lastData()
     , m_lock(QReadWriteLock::Recursive)
 {
     qDebug() << "Construct keyframemodel. Checking model:" << m_model.expired();
@@ -172,7 +171,7 @@ void KeyframeModel::setup()
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
-    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << "; VAL: " << value << notify;
+    // qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << "; VAL: " << value << notify;
     QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -795,7 +794,7 @@ Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum ty
 {
     QWriteLocker locker(&m_lock);
     return [this, notify, pos, type, value]() {
-        qDebug() << "add lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
+        // qDebug() << "add lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
         Q_ASSERT(m_keyframeList.count(pos) == 0);
         // We determine the row of the newly added marker
         auto insertionIt = m_keyframeList.lower_bound(pos);
@@ -1155,89 +1154,89 @@ QString KeyframeModel::getRotoProperty() const
     return doc.toJson();
 }
 
-void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
+void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out, Fun &undo, Fun &redo)
 {
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
+    QSignalBlocker bk(this);
     removeAllKeyframes(undo, redo);
-    bool useOpacity = true;
-    Mlt::Properties mlt_prop;
     if (auto ptr = m_model.lock()) {
+        Mlt::Properties *mlt_prop = ptr->getAsset();
+        const QByteArray paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString().toUtf8();
+        if (!prop.isEmpty()) {
+            mlt_prop->set(paramName.constData(), prop.toUtf8().constData());
+        }
         if (out <= in) {
             in = ptr->data(m_index, AssetParameterModel::RelativePosRole).toBool() ? 0 : ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
             out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         }
-        ptr->passProperties(mlt_prop);
-        useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
-    } else {
-        qDebug() << "###################\n\n/// ERROR LOCKING MODEL!!! ";
-    }
-    mlt_prop.set("key", prop.toUtf8().constData());
-    // This is a fake query to force the animation to be parsed
-    (void)mlt_prop.anim_get_double("key", 0, in + out);
+        bool useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop->anim_get_double(paramName.constData(), 0, in + out);
 
-    Mlt::Animation anim = mlt_prop.get_animation("key");
+        Mlt::Animation anim = mlt_prop->get_animation(paramName.constData());
+        QString animationString(mlt_prop->get(paramName.constData()));
+        bool useDefaultType = !animationString.contains(QLatin1Char('='));
+        bool hasPercentage = animationString.contains(QLatin1Char('%'));
+        animationString.clear();
+        // qDebug() << "Found" << anim.key_count() << ", OUT: " << out << ", animation properties: " << prop;
 
-    qDebug() << "Found" << anim.key_count() << ", OUT: " << out << ", animation properties: " << prop;
-    bool useDefaultType = !prop.contains(QLatin1Char('='));
-    mlt_profile profile = (mlt_profile)mlt_prop.get_data("_profile");
-    for (int i = 0; i < anim.key_count(); ++i) {
-        int frame;
-        mlt_keyframe_type type;
-        anim.key_get(i, frame, type);
-        if (useDefaultType) {
-            // TODO: use a default user defined type
-            type = mlt_keyframe_linear;
-        }
-        QVariant value;
-        switch (m_paramType) {
-        case ParamType::AnimatedRect:
-        case ParamType::AnimatedFakeRect: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.w *= profile->width;
-                rect.y *= profile->height;
-                rect.h *= profile->height;
+        mlt_profile profile = (mlt_profile)mlt_prop->get_data("_profile");
+        for (int i = 0; i < anim.key_count(); ++i) {
+            int frame;
+            mlt_keyframe_type type;
+            anim.key_get(i, frame, type);
+            if (useDefaultType) {
+                // TODO: use a default user defined type
+                type = mlt_keyframe_linear;
             }
-            if (useOpacity) {
-                value = QVariant(
-                    QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
-            } else {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
-            }
-            break;
-        }
-        case ParamType::AnimatedPoint:
-        case ParamType::AnimatedFakePoint: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.y *= profile->height;
-            }
-            value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
-            break;
-        }
-        case ParamType::Color: {
-            mlt_color mltColor = mlt_prop.anim_get_color("key", frame);
-            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
-            value = QVariant(QColorUtils::colorToString(color, true));
-            break;
-        }
+            QVariant value;
+            switch (m_paramType) {
+            case ParamType::AnimatedRect:
+            case ParamType::AnimatedFakeRect: {
 
-        default:
-            value = QVariant(mlt_prop.anim_get_double("key", frame));
-            break;
+                mlt_rect rect = mlt_prop->anim_get_rect(paramName.constData(), frame);
+                if (hasPercentage) {
+                    rect.x *= profile->width;
+                    rect.w *= profile->width;
+                    rect.y *= profile->height;
+                    rect.h *= profile->height;
+                }
+                if (useOpacity) {
+                    value = QVariant(
+                        QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
+                } else {
+                    value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
+                }
+                break;
+            }
+            case ParamType::AnimatedPoint:
+            case ParamType::AnimatedFakePoint: {
+                mlt_rect rect = mlt_prop->anim_get_rect(paramName.constData(), frame);
+                if (hasPercentage) {
+                    rect.x *= profile->width;
+                    rect.y *= profile->height;
+                }
+                value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
+                break;
+            }
+            case ParamType::Color: {
+                mlt_color mltColor = mlt_prop->anim_get_color(paramName.constData(), frame);
+                QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+                value = QVariant(QColorUtils::colorToString(color, true));
+                break;
+            }
+
+            default:
+                value = QVariant(mlt_prop->anim_get_double(paramName.constData(), frame));
+                break;
+            }
+            if (frame == in && hasKeyframe(GenTime(in))) {
+                // First keyframe already exists, adjust its value
+                updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
+                continue;
+            }
+            addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
         }
-        if (frame == in && hasKeyframe(GenTime(in))) {
-            // First keyframe already exists, adjust its value
-            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
-            continue;
-        }
-        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
@@ -1247,80 +1246,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
 
-    // Delete all existing keyframes
-    QSignalBlocker bk(this);
-    removeAllKeyframes(undo, redo);
-
-    Mlt::Properties mlt_prop;
-    int in = 0;
-    bool useOpacity = true;
-    if (auto ptr = m_model.lock()) {
-        in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
-        ptr->passProperties(mlt_prop);
-        if (m_paramType == ParamType::AnimatedRect) {
-            useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
-        } else if (m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
-            useOpacity = false;
-        }
-    }
-    mlt_prop.set("key", prop.toUtf8().constData());
-    // This is a fake query to force the animation to be parsed
-    (void)mlt_prop.anim_get_int("key", 0, 0);
-
-    Mlt::Animation anim = mlt_prop.get_animation("key");
-    mlt_profile profile = (mlt_profile)mlt_prop.get_data("_profile");
-
-    qDebug() << "Found" << anim.key_count() << "animation properties";
-    for (int i = 0; i < anim.key_count(); ++i) {
-        int frame;
-        mlt_keyframe_type type;
-        anim.key_get(i, frame, type);
-        if (!prop.contains(QLatin1Char('='))) {
-            // TODO: use a default user defined type
-            type = mlt_keyframe_linear;
-        }
-        QVariant value;
-        switch (m_paramType) {
-        case ParamType::AnimatedRect:
-        case ParamType::AnimatedFakeRect: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.w *= profile->width;
-                rect.y *= profile->height;
-                rect.h *= profile->height;
-            }
-            if (useOpacity) {
-                value = QVariant(
-                    QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
-            } else {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
-            }
-            break;
-        }
-        case ParamType::AnimatedPoint:
-        case ParamType::AnimatedFakePoint: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.y *= profile->height;
-            }
-            value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
-            break;
-        }
-        default:
-            value = QVariant(mlt_prop.anim_get_double("key", frame));
-            break;
-        }
-        if (frame == in && hasKeyframe(GenTime(in))) {
-            // First keyframe already exists, adjust its value
-            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
-            continue;
-        }
-        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
-    }
+    parseAnimProperty(prop, -1, -1, undo, redo);
     QString effectName;
     if (auto ptr = m_model.lock()) {
         effectName = ptr->data(m_index, Qt::DisplayRole).toString();
@@ -1514,8 +1440,7 @@ void KeyframeModel::sendModification()
     if (auto ptr = m_model.lock()) {
         const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
         if (AssetParameterModel::isAnimated(m_paramType)) {
-            m_lastData = getAnimProperty();
-            ptr->setParameter(name, m_lastData, false, m_index);
+            ptr->setParameter(name, getAnimProperty(), false, m_index);
         } else {
             Q_ASSERT(false); // Not implemented, TODO
         }
@@ -1556,34 +1481,30 @@ QString KeyframeModel::realValue(double normalizedValue) const
 void KeyframeModel::refresh(int in, int out)
 {
     Q_ASSERT(m_index.isValid());
-    QString animData;
     if (auto ptr = m_model.lock()) {
-        animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
+        const QString animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
+        if (m_paramType == ParamType::Roto_spline) {
+            parseRotoProperty(animData);
+        } else if (AssetParameterModel::isAnimated(m_paramType)) {
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            parseAnimProperty(QString(), in, out, undo, redo);
+        } else {
+            // first, try to convert to double
+            bool ok = false;
+            double value = animData.toDouble(&ok);
+            if (ok) {
+                Fun undo = []() { return true; };
+                Fun redo = []() { return true; };
+                addKeyframe(GenTime(), KeyframeType::Linear, QVariant(value), false, undo, redo);
+            } else {
+                Q_ASSERT(false); // Not implemented, TODO
+            }
+        }
     } else {
         qDebug() << "WARNING : unable to access keyframe's model";
         return;
     }
-    if (animData == m_lastData) {
-        // nothing to do
-        return;
-    }
-    if (m_paramType == ParamType::Roto_spline) {
-        parseRotoProperty(animData);
-    } else if (AssetParameterModel::isAnimated(m_paramType)) {
-        parseAnimProperty(animData, in, out);
-    } else {
-        // first, try to convert to double
-        bool ok = false;
-        double value = animData.toDouble(&ok);
-        if (ok) {
-            Fun undo = []() { return true; };
-            Fun redo = []() { return true; };
-            addKeyframe(GenTime(), KeyframeType::Linear, QVariant(value), false, undo, redo);
-        } else {
-            Q_ASSERT(false); // Not implemented, TODO
-        }
-    }
-    m_lastData = animData;
 }
 
 void KeyframeModel::reset()
@@ -1594,11 +1515,6 @@ void KeyframeModel::reset()
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
     } else {
         qDebug() << "WARNING : unable to access keyframe's model";
-        return;
-    }
-    if (animData == m_lastData) {
-        // nothing to do
-        qDebug() << "// DATA WAS ALREADY PARSED, ABORTING\n_________________";
         return;
     }
     if (m_paramType == ParamType::Roto_spline) {
@@ -1620,7 +1536,6 @@ void KeyframeModel::reset()
             Q_ASSERT(false); // Not implemented, TODO
         }
     }
-    m_lastData = animData;
 }
 
 QList<QPoint> KeyframeModel::getRanges(const QString &animData, const std::shared_ptr<AssetParameterModel> &model)

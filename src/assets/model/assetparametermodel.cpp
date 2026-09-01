@@ -463,7 +463,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             m_fixedParams[name] = doubleValue;
         }
     } else {
-        qDebug() << "::::::::::SETTING EFFECT PARAM: " << name << " = " << paramValue;
+        // qDebug() << "::::::::::SETTING EFFECT PARAM: " << name << " = " << paramValue;
         m_asset->set(name.toLatin1().constData(), paramValue.toUtf8().constData());
 
         if (m_fixedParams.count(name) > 0) {

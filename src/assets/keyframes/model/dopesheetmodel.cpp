@@ -919,15 +919,16 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
                         matchingIndexes << p.second.first.index;
                     }
                 }
-                Q_EMIT matchingNoKeyframes(matchingIndexes);
+                Q_EMIT matchingKeyframes({}, matchingIndexes);
+                m_indexesOnKeyframe.clear();
                 return false;
             }
             if (m_indexesOnKeyframe.isEmpty()) {
                 // Only position changed
                 Q_EMIT refreshAnimatedValues();
             } else {
+                Q_EMIT matchingKeyframes({}, m_indexesOnKeyframe);
                 m_indexesOnKeyframe.clear();
-                Q_EMIT matchingKeyframes(matchingIndexes);
             }
             return false;
         }
@@ -952,7 +953,7 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
                             foundActive = true;
                         }
                         matchingIndexes << m_paramsList.at(current->getId()).first.index;
-                    } else if (force) {
+                    } else if (force || m_indexesOnKeyframe.contains(m_paramsList.at(current->getId()).first.index)) {
                         notOnKeyframeIndexes << m_paramsList.at(current->getId()).first.index;
                     }
                 }
@@ -968,11 +969,15 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
                     auto current = tItem->child(j);
                     notOnKeyframeIndexes << m_paramsList.at(current->getId()).first.index;
                 }
+        } else {
+            int itemId = int(ix.internalId());
+            if (m_indexesOnKeyframe.contains(m_paramsList.at(itemId).first.index)) {
+                notOnKeyframeIndexes << m_paramsList.at(itemId).first.index;
+            }
         }
     }
     if (force || m_indexesOnKeyframe != matchingIndexes || !notOnKeyframeIndexes.isEmpty()) {
-        Q_EMIT matchingNoKeyframes(notOnKeyframeIndexes);
-        Q_EMIT matchingKeyframes(matchingIndexes);
+        Q_EMIT matchingKeyframes(matchingIndexes, notOnKeyframeIndexes);
         m_indexesOnKeyframe = matchingIndexes;
     } else {
         // only position changed
@@ -1108,7 +1113,8 @@ QVariantMap DopeSheetModel::selectKeyframeAtPos(const QModelIndex &masterIndex, 
 {
     QVariantMap keyframeIndexes;
     m_selectedIndexes.clear();
-    QVariantMap currentMap = selectKeyframeByRange(masterIndex, frame, -1);
+    QList<QModelIndex> processed;
+    QVariantMap currentMap = selectKeyframeByRange(masterIndex, frame, -1, processed);
     for (auto i = currentMap.cbegin(), end = currentMap.cend(); i != end; ++i) {
         keyframeIndexes.insert(i.key(), i.value());
     }
@@ -1121,10 +1127,14 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
     m_selectedIndexes.clear();
     bool stopParsing = false;
     QModelIndex currentIndex = startIndex;
+    QList<QModelIndex> processed;
     while (!stopParsing && currentIndex.isValid()) {
-        QVariantMap currentMap = selectKeyframeByRange(currentIndex, startFrame, endFrame);
-        for (auto i = currentMap.cbegin(), end = currentMap.cend(); i != end; ++i) {
-            keyframeIndexes.insert(i.key(), i.value());
+        if (!processed.contains(currentIndex)) {
+            processed << currentIndex;
+            QVariantMap currentMap = selectKeyframeByRange(currentIndex, startFrame, endFrame, processed);
+            for (auto i = currentMap.cbegin(), end = currentMap.cend(); i != end; ++i) {
+                keyframeIndexes.insert(i.key(), i.value());
+            }
         }
         if (currentIndex == endIndex) {
             stopParsing = true;
@@ -1188,12 +1198,11 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
     return keyframeIndexes;
 }
 
-QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame)
+QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame, QList<QModelIndex> &processed)
 {
     int itemId = int(startIndex.internalId());
     QVariantMap keyframeIndexes;
     auto tItem = getItemById(itemId);
-    QList<QModelIndex> processed;
     if (isRecap(tItem)) {
         // Top level, select all params
         processed << startIndex;
@@ -1251,7 +1260,6 @@ QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex,
 
 QVariantList DopeSheetModel::selectedIndexes() const
 {
-    qDebug() << "::::: REQUESTING INDEXES: " << m_selectedIndexes << "\n**************************";
     return m_selectedIndexes;
 }
 
@@ -1273,10 +1281,53 @@ QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, 
         }
         return {};
     }
-    for (int k = 0; k < km->keyframesCount(); k++) {
+    int startIndex = 0;
+    int max = km->keyframesCount();
+    if (max > 100 && startFrame > 100) {
+        // Optimize by finding a better start point
+        int interval = max / 2;
+        int mid = interval;
+        int pos = km->getPosAtIndex(mid).frames(pCore->getCurrentFps());
+        int maxLoop = 0;
+        if (pos < startFrame) {
+            while (pos < startFrame && maxLoop < 6) {
+                int tmp = mid + interval / (2 * (maxLoop + 1));
+                pos = km->getPosAtIndex(tmp).frames(pCore->getCurrentFps());
+                if (pos >= startFrame || tmp >= max) {
+                    startIndex = mid;
+                    break;
+                }
+                mid = tmp;
+                maxLoop++;
+                if (maxLoop == 6) {
+                    startIndex = mid;
+                }
+            }
+        } else {
+            while (pos > startFrame && maxLoop < 6) {
+                int tmp = mid - interval / (2 * (maxLoop + 1));
+                pos = km->getPosAtIndex(tmp).frames(pCore->getCurrentFps());
+                if (pos <= 0) {
+                    startIndex = 0;
+                    break;
+                }
+                if (pos <= startFrame) {
+                    startIndex = mid;
+                    break;
+                }
+                mid = tmp;
+                maxLoop++;
+            }
+        }
+    }
+
+    for (int k = startIndex; k < max; k++) {
         int pos = km->getPosAtIndex(k).frames(pCore->getCurrentFps());
         if (pos >= startFrame && pos <= endFrame) {
             currentKeyframeIndexes << k;
+        }
+        if (pos > endFrame) {
+            break;
         }
     }
     return currentKeyframeIndexes;

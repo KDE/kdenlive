@@ -180,7 +180,9 @@ void KdenliveTests::destructGroupItem(std::shared_ptr<TimelineItemModel> timelin
 std::shared_ptr<KeyframeModel> KdenliveTests::cloneModel(std::shared_ptr<KeyframeModel> original)
 {
     std::shared_ptr<KeyframeModel> clone = std::make_shared<KeyframeModel>(original->m_model, original->m_index, original->m_undoStack);
-    clone->parseAnimProperty(original->getAnimProperty());
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    clone->parseAnimProperty(original->getAnimProperty(), -1, -1, undo, redo);
     return clone;
 }
 

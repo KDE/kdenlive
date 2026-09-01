@@ -37,6 +37,14 @@ Rectangle {
     property int ownerId: -1
     property bool viewHasFocus: false
     property bool showTimelineTime: false
+    property bool blockUpdate: false
+    property var rubberStartIndex
+    property var rubberEndIndex
+    property int rubberStartFrame: 0
+    property int rubberEndFrame: 0
+    property bool rubberAddToSelection: false
+    property bool rubberSelectPending: false
+
     // The position in frame of the stack owner
     property int offset: dopesheetmodel.dopePosition
     property color hoverColor: "#bb8800"
@@ -117,6 +125,14 @@ Rectangle {
 
     function switchFocus(hasFocus) {
         viewHasFocus = hasFocus
+    }
+
+    function blockModelUpdate(doBlock) {
+        blockUpdate = doBlock
+        if (!doBlock) {
+            // Trigger refresh
+            dopeRoot.overKeyframe = dopeRoot.dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
+        }
     }
 
     function setBlockAutoScroll(block) {
@@ -289,8 +305,8 @@ Rectangle {
         // Start frame
         var startFrame = Math.min(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         var endFrame = Math.max(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
-        startFrame = viewToFrame(startFrame) + dopeRoot.inPoint
-        endFrame = viewToFrame(endFrame) + dopeRoot.inPoint
+        dopeRoot.rubberStartFrame = viewToFrame(startFrame) + dopeRoot.inPoint
+        dopeRoot.rubberEndFrame = viewToFrame(endFrame) + dopeRoot.inPoint
         console.log('SELECTING FRAMES BETWEEN: ', startFrame, '-', endFrame)
         var topPos = mapToItem(treeViewItem, 0, Math.min(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
         topPos.y = Math.max(0, topPos.y)
@@ -298,8 +314,24 @@ Rectangle {
         bottomPos.y = Math.min(treeViewItem.contentHeight - 1, bottomPos.y)
         var topRow = treeViewItem.cellAtPosition(topPos)
         var bottomRow = treeViewItem.cellAtPosition(bottomPos)
-        var result = dopesheetmodel.selectKeyframeRange(treeViewItem.model.mapToSource(treeViewItem.modelIndex(topRow)), treeViewItem.model.mapToSource(treeViewItem.modelIndex(bottomRow)), startFrame, endFrame)
-        updateSelectedKeyframesFromModel(result, addToSelection, false)
+        dopeRoot.rubberStartIndex = treeViewItem.model.mapToSource(treeViewItem.modelIndex(topRow))
+        dopeRoot.rubberEndIndex = treeViewItem.model.mapToSource(treeViewItem.modelIndex(bottomRow))
+        dopeRoot.rubberAddToSelection = addToSelection
+        scheduleRubberSelect()
+    }
+
+    function processRubberSelect() {
+        var result = dopesheetmodel.selectKeyframeRange(dopeRoot.rubberStartIndex, dopeRoot.rubberEndIndex, dopeRoot.rubberStartFrame, dopeRoot.rubberEndFrame)
+        updateSelectedKeyframesFromModel(result, dopeRoot.rubberAddToSelection, false)
+        dopeRoot.rubberSelectPending = false
+    }
+
+    function scheduleRubberSelect() {
+        if (dopeRoot.rubberSelectPending)
+            return
+
+        dopeRoot.rubberSelectPending = true
+        Qt.callLater(dopeRoot.processRubberSelect)
     }
 
     function updateSelectedKeyframesFromModel(result, addToSelection, removeFromSelection) {

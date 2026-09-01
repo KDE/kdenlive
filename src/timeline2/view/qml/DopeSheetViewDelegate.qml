@@ -443,7 +443,9 @@ Item {
             onCountChanged: {
                 // A keyframe was added/removed, check if playhead position is over a keyframe
                 console.log('&&&&&&&&&&&&&&\n\n', delegateRect.dopeRootItem.getActiveCppParamIndex(),'\n\n&&&&&&&&&&&&&')
-                delegateRect.dopeRootItem.overKeyframe = delegateRect.dopesheetmodel.isOnKeyframe(delegateRect.dopeRootItem.consumerPosition + ownerInPoint, false, delegateRect.dopeRootItem.getActiveCppParamIndex())
+                if (!delegateRect.dopeRootItem.blockUpdate) {
+                    delegateRect.dopeRootItem.overKeyframe = delegateRect.dopesheetmodel.isOnKeyframe(delegateRect.dopeRootItem.consumerPosition + ownerInPoint, false, delegateRect.dopeRootItem.getActiveCppParamIndex())
+                }
             }
             function getIndex(row, column) {
                 return delegateRect.treeView.index(row, column)

@@ -122,7 +122,6 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_layout(layout)
 {
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingKeyframes, this, &KeyframeContainer::updatedPosition);
-    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingNoKeyframes, this, &KeyframeContainer::updatedNotOnPosition);
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::refreshAnimatedValues, this, &KeyframeContainer::slotRefresh);
 
     connect(pCore.get(), &Core::connectEffectStack, this, &KeyframeContainer::connectEffectStack, Qt::DirectConnection);
@@ -584,66 +583,62 @@ int KeyframeContainer::getPosition() const
     // return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
 }
 
-void KeyframeContainer::updatedNotOnPosition(QList<QPersistentModelIndex> indexes)
-{
-    int pos = pCore->getMonitorPosition(m_model->monitorId);
-    for (const auto &w : m_parameters) {
-        qDebug() << "::: COMPARING IXES: " << w.first << " IS IN: " << indexes;
-        if (indexes.contains(w.first) && w.second) {
-            auto tb = m_keyframeActions[w.first];
-            tb->setActive(false);
-            auto abstractParam = qobject_cast<AbstractParamWidget *>(w.second);
-            if (abstractParam) {
-                abstractParam->setParamState(false, m_keyframes->keyframesCount(w.first) == 1);
-            } else {
-                auto doubleParam = qobject_cast<DoubleWidget *>(w.second);
-                if (doubleParam) {
-                    Q_EMIT doubleParam->setParamState(false, m_keyframes->keyframesCount(w.first) == 1);
-                } else {
-                    qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT...";
-                    doubleParam->setEnabled(false);
-                }
-            }
-        } else {
-            qDebug() << "::: MISSING WIDGET FOR IX: " << w.first << " / GEOM: " << m_geometryIndex;
-        }
-    }
-    if (m_geom) {
-        bool inside = pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
-        m_geom->setEnabled(inside && indexes.contains(m_geometryIndex));
-    }
-    slotRefreshParams();
-}
-
-void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> indexes)
+void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> matchingIndexes, QList<QPersistentModelIndex> notMatchingIndexes)
 {
     int pos = pCore->getMonitorPosition(m_model->monitorId);
     bool inside = pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
-    qDebug() << "::: UPDATED POSIITON ON ITEMS: " << m_parameters.size();
-    for (const auto &w : m_parameters) {
-        qDebug() << "::: COMPARING IXES: " << w.first << " IS IN: " << indexes;
-        if (w.second) {
-            auto tb = m_keyframeActions[w.first];
-            bool onKeyframe = inside && indexes.contains(w.first);
-            tb->setActive(onKeyframe);
-            auto abstractParam = qobject_cast<AbstractParamWidget *>(w.second);
+    for (auto &index : matchingIndexes) {
+        if (!m_parameters.contains(index)) {
+            qDebug() << "Dope parameter with index not found: " << index;
+            continue;
+        }
+        auto w = m_parameters[index];
+        if (w) {
+            auto tb = m_keyframeActions[index];
+            tb->setActive(inside);
+            auto abstractParam = qobject_cast<AbstractParamWidget *>(w);
             if (abstractParam) {
-                abstractParam->setParamState(onKeyframe, m_keyframes->keyframesCount(w.first) == 1);
+                abstractParam->setParamState(inside, m_keyframes->keyframesCount(index) == 1);
             } else {
-                auto doubleParam = qobject_cast<DoubleWidget *>(w.second);
+                auto doubleParam = qobject_cast<DoubleWidget *>(w);
                 if (doubleParam) {
-                    doubleParam->setParamState(onKeyframe, m_keyframes->keyframesCount(w.first) == 1);
+                    Q_EMIT doubleParam->setParamState(inside, m_keyframes->keyframesCount(index) == 1);
                 } else {
                     qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT ON: " << m_model->getAssetId();
-                    w.second->setEnabled(onKeyframe);
+                    w->setEnabled(inside);
                 }
             }
         } else {
-            qDebug() << "::: MISSING WIDGET FOR IX: " << w.first << " / GEOM: " << m_geometryIndex;
+            qDebug() << "::: MISSING WIDGET FOR IX: " << index << " / GEOM: " << m_geometryIndex;
+        }
+    }
+    for (auto &index : notMatchingIndexes) {
+        if (!m_parameters.contains(index)) {
+            qDebug() << "Dope parameter with index not found: " << index;
+            continue;
+        }
+        auto w = m_parameters[index];
+        if (w) {
+            auto tb = m_keyframeActions[index];
+            tb->setActive(false);
+            auto abstractParam = qobject_cast<AbstractParamWidget *>(w);
+            if (abstractParam) {
+                abstractParam->setParamState(false, m_keyframes->keyframesCount(index) == 1);
+            } else {
+                auto doubleParam = qobject_cast<DoubleWidget *>(w);
+                if (doubleParam) {
+                    Q_EMIT doubleParam->setParamState(false, m_keyframes->keyframesCount(index) == 1);
+                } else {
+                    qDebug() << "::: COULD NOT CONVERT PARAM TO ABSTRACT ON: " << m_model->getAssetId();
+                    w->setEnabled(false);
+                }
+            }
+        } else {
+            qDebug() << "::: MISSING WIDGET FOR IX: " << index << " / GEOM: " << m_geometryIndex;
         }
     }
     if (m_geom) {
-        m_geom->setEnabled(inside && indexes.contains(m_geometryIndex));
+        m_geom->setEnabled(inside && matchingIndexes.contains(m_geometryIndex));
     }
     slotRefreshParams();
 }
@@ -668,27 +663,6 @@ void KeyframeContainer::positionUpdated(int relativePos)
 void KeyframeContainer::slotRefresh()
 {
     // update duration
-    /*bool ok = false;
-    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
-    Q_ASSERT(ok);
-    int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
-    Q_ASSERT(ok);
-    int out = in + duration;
-    setDuration(duration);
-    m_time->setRange(0, duration - 1);
-    if (m_model->monitorId == Kdenlive::ProjectMonitor) {
-        monitorSeek(pCore->getMonitorPosition());
-    } else {
-        int pos = m_time->getValue();
-        bool isInRange = pos >= in && pos < out;
-        qDebug() << "::: MONITOR SEEK FROM KFRW2: " << (isInRange && m_model->isActive());
-        connectMonitor(isInRange && m_model->isActive());
-        m_addDeleteAction->setEnabled(isInRange && pos > in);
-        int framePos = qBound(in, pos, out) - in;
-        if (isInRange && framePos != m_time->getValue()) {
-            slotSetPosition(framePos, false);
-        }
-    }*/
     slotRefreshParams();
 }
 
@@ -1394,7 +1368,9 @@ void KeyframeContainer::slotImportKeyframes()
     connect(import, &KeyframeImport::updateQmlView, this, [this](QPersistentModelIndex ix, const QString animData) {
         auto kfModel = m_keyframes->getKeyModel(ix);
         if (kfModel) {
-            kfModel->parseAnimProperty(animData);
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            kfModel->parseAnimProperty(animData, -1, -1, undo, redo);
         }
     });
     import->updateView();

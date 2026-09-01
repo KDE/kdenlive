@@ -150,7 +150,7 @@ private:
     /** @brief Returns a list on int indexes of keyframes in a
      *  parameter ix that are placed between startFrame and endFrame */
     QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);
-    QVariantMap selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame);
+    QVariantMap selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame, QList<QModelIndex> &processed);
     /** @brief Ensure selected keyframes contain all child parameters */
     const QMap<QModelIndex, QVariant> sanitizeKeyframesIndexes(const QVariantMap kfData);
     bool m_hasGrabbedKeyframes{false};
@@ -176,8 +176,7 @@ Q_SIGNALS:
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void activateEffect(QPersistentModelIndex ix, int effectRow = -1);
     /** @brief The keyframe state per parameter changed, inform effect stack */
-    void matchingKeyframes(QList<QPersistentModelIndex>);
-    void matchingNoKeyframes(QList<QPersistentModelIndex>);
+    void matchingKeyframes(QList<QPersistentModelIndex> matching, QList<QPersistentModelIndex> notMatching);
     /** @brief Update effect stack values for animated params on position change */
     void refreshAnimatedValues();
     void updateFiltering();

@@ -229,7 +229,7 @@ protected:
     /** @brief this function clears all existing keyframes, and reloads its data from the string passed */
     void resetAnimProperty(const QString &prop);
     /** @brief this function does the opposite of getAnimProperty: given a MLT representation of an animation, build the corresponding model */
-    void parseAnimProperty(const QString &prop, int in = -1, int out = -1);
+    void parseAnimProperty(const QString &prop, int in, int out, Fun &undo, Fun &redo);
     void parseRotoProperty(const QString &prop);
 
 protected:
@@ -238,7 +238,6 @@ protected:
     QPersistentModelIndex m_index;
 
 private:
-    QString m_lastData;
     ParamType m_paramType;
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;

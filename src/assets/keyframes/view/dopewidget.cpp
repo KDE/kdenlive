@@ -254,7 +254,9 @@ void DopeWidget::sendStandardCommand(int command)
         QMetaObject::invokeMethod(rootObject(), "copyKeyframes", Qt::QueuedConnection);
         break;
     case KStandardAction::Paste:
-        QMetaObject::invokeMethod(rootObject(), "pasteKeyframes", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(rootObject(), "blockModelUpdate", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(true)));
+        QMetaObject::invokeMethod(rootObject(), "pasteKeyframes", Qt::QueuedConnection, Q_ARG(QVariant, QVariant()));
+        QMetaObject::invokeMethod(rootObject(), "blockModelUpdate", Qt::QueuedConnection, Q_ARG(QVariant, QVariant(false)));
         break;
     default:
         qDebug() << ":::: UNKNOWN COMMAND: " << command;

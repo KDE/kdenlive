@@ -99,8 +99,7 @@ private Q_SLOTS:
     void slotToggleView();
     void monitorSeek(int pos);
     void positionUpdated(int pos);
-    void updatedPosition(QList<QPersistentModelIndex> indexes);
-    void updatedNotOnPosition(QList<QPersistentModelIndex> indexes);
+    void updatedPosition(QList<QPersistentModelIndex> matchingIndexes, QList<QPersistentModelIndex> notMatchingIndexes);
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
