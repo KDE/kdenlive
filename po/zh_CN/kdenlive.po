@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 00:45+0000\n"
+"POT-Creation-Date: 2026-09-02 00:43+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -21089,7 +21089,7 @@ msgstr "无声视频"
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:685
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:331
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:833
-#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:633
+#: src/ui/projectsettings_ui.ui:205 src/ui/renderwidget_ui.ui:633
 #, kde-format
 msgid "Audio"
 msgstr "音频"
@@ -27656,7 +27656,7 @@ msgstr "监视器配置"
 #. i18n: ectx: Menu (markers)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/kdenliveui.rc:311 src/mainwindow.cpp:283
-#: src/ui/projectsettings_ui.ui:540
+#: src/ui/projectsettings_ui.ui:598
 #, kde-format
 msgid "Markers"
 msgstr "标记"
@@ -30329,7 +30329,7 @@ msgstr "显示关于该音频流/数据/编解码器的详细信息。"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:246
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:603
 #, kde-format
 msgid "Metadata"
 msgstr "元数据"
@@ -30519,14 +30519,14 @@ msgstr "复制轨道："
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1012
-#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
+#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:625
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1013
-#: src/ui/projectsettings_ui.ui:572
+#: src/ui/projectsettings_ui.ui:630
 #, kde-format
 msgid "2"
 msgstr "2"
@@ -30634,7 +30634,7 @@ msgstr "否"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
 #: src/mltcontroller/clippropertiescontroller.cpp:1429
-#: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
+#: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:159
 #, kde-format
 msgid "Audio channels:"
 msgstr "声道："
@@ -31175,7 +31175,7 @@ msgstr "预览"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:44 src/onlineresources/resourcewidget.cpp:687
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
-#: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
+#: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:198
 #: src/ui/renderwidget_ui.ui:486
 #, kde-format
 msgid "Video"
@@ -36953,10 +36953,10 @@ msgstr "删除当前点。"
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
 #: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
 #: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
-#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:470
-#: src/ui/projectsettings_ui.ui:477 src/ui/projectsettings_ui.ui:487
-#: src/ui/projectsettings_ui.ui:504 src/ui/projectsettings_ui.ui:582
-#: src/ui/projectsettings_ui.ui:589 src/ui/qtextclip_ui.ui:94
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:524
+#: src/ui/projectsettings_ui.ui:531 src/ui/projectsettings_ui.ui:541
+#: src/ui/projectsettings_ui.ui:558 src/ui/projectsettings_ui.ui:640
+#: src/ui/projectsettings_ui.ui:647 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:1026 src/ui/resourcewidget_ui.ui:214
 #: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
@@ -37348,7 +37348,7 @@ msgstr "鼠标光标："
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:240 src/ui/configcapture_ui.ui:293
-#: src/ui/configproxy_ui.ui:82 src/ui/projectsettings_ui.ui:277
+#: src/ui/configproxy_ui.ui:82 src/ui/projectsettings_ui.ui:331
 #, kde-format
 msgid "Encoding profile:"
 msgstr "编码方案："
@@ -38047,7 +38047,7 @@ msgstr "这些是新项目的默认设置。要编辑当前项目的参数，请
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
-#: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:53
+#: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:78
 #, kde-format
 msgid "Project folder:"
 msgstr "项目文件夹："
@@ -38066,14 +38066,14 @@ msgstr "自定义项目文件夹："
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_tracks)
 #: src/ui/configproject_ui.ui:97 src/ui/newtimeline_ui.ui:67
-#: src/ui/projectsettings_ui.ui:114
+#: src/ui/projectsettings_ui.ui:139
 #, kde-format
 msgid "Video tracks:"
 msgstr "视频轨道："
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_tracks)
 #: src/ui/configproject_ui.ui:107 src/ui/newtimeline_ui.ui:60
-#: src/ui/projectsettings_ui.ui:124
+#: src/ui/projectsettings_ui.ui:149
 #, kde-format
 msgid "Audio tracks:"
 msgstr "音频轨道："
@@ -38432,7 +38432,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
-#: src/ui/configtimeline_ui.ui:21 src/ui/projectsettings_ui.ui:166
+#: src/ui/configtimeline_ui.ui:21 src/ui/projectsettings_ui.ui:191
 #, kde-format
 msgid "Thumbnails:"
 msgstr "缩略图："
@@ -38667,37 +38667,37 @@ msgid "Delete Profile"
 msgstr "删除编码方案"
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathOrigToProxy)
-#: src/ui/customcamcorderproxy_ui.ui:34 src/ui/projectsettings_ui.ui:387
+#: src/ui/customcamcorderproxy_ui.ui:34 src/ui/projectsettings_ui.ui:441
 #, kde-format
 msgid "Relative path from clip to proxy:"
 msgstr "从片段到代理的相对路径："
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_clip)
-#: src/ui/customcamcorderproxy_ui.ui:44 src/ui/projectsettings_ui.ui:380
+#: src/ui/customcamcorderproxy_ui.ui:44 src/ui/projectsettings_ui.ui:434
 #, kde-format
 msgid "Prefix of clip:"
 msgstr "片段前缀："
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_clip)
-#: src/ui/customcamcorderproxy_ui.ui:54 src/ui/projectsettings_ui.ui:363
+#: src/ui/customcamcorderproxy_ui.ui:54 src/ui/projectsettings_ui.ui:417
 #, kde-format
 msgid "Suffix of clip:"
 msgstr "片段后缀："
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathProxyToOrig)
-#: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:346
+#: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:400
 #, kde-format
 msgid "Relative path from proxy to clip:"
 msgstr "从代理到片段的相对路径："
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
-#: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:329
+#: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:383
 #, kde-format
 msgid "Prefix of proxy:"
 msgstr "代理前缀："
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_proxy)
-#: src/ui/customcamcorderproxy_ui.ui:84 src/ui/projectsettings_ui.ui:312
+#: src/ui/customcamcorderproxy_ui.ui:84 src/ui/projectsettings_ui.ui:366
 #, kde-format
 msgid "Suffix of proxy:"
 msgstr "代理后缀："
@@ -39924,13 +39924,13 @@ msgid "Project Settings"
 msgstr "项目设置"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: src/ui/projectsettings_ui.ui:47
+#: src/ui/projectsettings_ui.ui:72
 #, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
 msgstr " 用于存储代理片段、缩略图和预览"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
-#: src/ui/projectsettings_ui.ui:50
+#: src/ui/projectsettings_ui.ui:75
 #, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
@@ -39938,61 +39938,61 @@ msgid ""
 msgstr " 项目文件夹用于存储项目的各种资源，例如代理片段、缩略图、预览等。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/ui/projectsettings_ui.ui:60
+#: src/ui/projectsettings_ui.ui:85
 #, kde-format
 msgid "Default folder"
 msgstr "默认文件夹"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
-#: src/ui/projectsettings_ui.ui:67
+#: src/ui/projectsettings_ui.ui:92
 #, kde-format
 msgid "Parent folder of the project file"
 msgstr "项目文件的父文件夹"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
-#: src/ui/projectsettings_ui.ui:76
+#: src/ui/projectsettings_ui.ui:101
 #, kde-format
 msgid "Custom:"
 msgstr "自定义："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
-#: src/ui/projectsettings_ui.ui:148
+#: src/ui/projectsettings_ui.ui:173
 #, kde-format
 msgid "2 Channels (Stereo)"
 msgstr "2 声道 (立体声)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
-#: src/ui/projectsettings_ui.ui:153
+#: src/ui/projectsettings_ui.ui:178
 #, kde-format
 msgid "4 Channels"
 msgstr "4 声道"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
-#: src/ui/projectsettings_ui.ui:158
+#: src/ui/projectsettings_ui.ui:183
 #, kde-format
 msgid "6 Channels"
 msgstr "6 声道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: src/ui/projectsettings_ui.ui:193
+#: src/ui/projectsettings_ui.ui:218
 #, kde-format
 msgid "Timeline Preview:"
 msgstr "时间轴预览："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/projectsettings_ui.ui:204
+#: src/ui/projectsettings_ui.ui:233
 #, kde-format
 msgid "Proxy"
 msgstr "代理"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
-#: src/ui/projectsettings_ui.ui:210
+#: src/ui/projectsettings_ui.ui:264
 #, kde-format
 msgid "Proxy clips"
 msgstr "代理片段"
 
 #. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
-#: src/ui/projectsettings_ui.ui:222
+#: src/ui/projectsettings_ui.ui:276
 #, kde-format
 msgid "Generate for videos larger than"
 msgstr "生成代理视频，如果视频尺寸大于："
@@ -40001,74 +40001,74 @@ msgstr "生成代理视频，如果视频尺寸大于："
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_resize)
-#: src/ui/projectsettings_ui.ui:232 src/ui/projectsettings_ui.ui:255
-#: src/ui/projectsettings_ui.ui:416 src/ui/projectsettings_ui.ui:432
+#: src/ui/projectsettings_ui.ui:286 src/ui/projectsettings_ui.ui:309
+#: src/ui/projectsettings_ui.ui:470 src/ui/projectsettings_ui.ui:486
 #, kde-format
 msgid "pixels"
 msgstr "像素"
 
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
-#: src/ui/projectsettings_ui.ui:248
+#: src/ui/projectsettings_ui.ui:302
 #, kde-format
 msgid "Generate for images larger than"
 msgstr "生成代理图像，如果图像尺寸大于："
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/projectsettings_ui.ui:409
+#: src/ui/projectsettings_ui.ui:463
 #, kde-format
 msgid "Proxy video resize (width)"
 msgstr "代理片段视频调整大小 (宽度)"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/projectsettings_ui.ui:448
+#: src/ui/projectsettings_ui.ui:502
 #, kde-format
 msgid "Proxy image size"
 msgstr "代理片段图像尺寸"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/projectsettings_ui.ui:516
+#: src/ui/projectsettings_ui.ui:570
 #, kde-format
 msgid "Camcorder proxy clips"
 msgstr "摄像机代理片段"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/projectsettings_ui.ui:612
+#: src/ui/projectsettings_ui.ui:670
 #, kde-format
 msgid "Project Files"
 msgstr "项目文件"
 
 #. i18n: ectx: property (text), widget (QLabel, label_fonts)
-#: src/ui/projectsettings_ui.ui:618
+#: src/ui/projectsettings_ui.ui:676
 #, kde-format
 msgid "Fonts"
 msgstr "字体"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/projectsettings_ui.ui:673
+#: src/ui/projectsettings_ui.ui:731
 #, kde-format
 msgid "Project files:"
 msgstr "项目文件："
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
-#: src/ui/projectsettings_ui.ui:680
+#: src/ui/projectsettings_ui.ui:738
 #, kde-format
 msgid "Plain Text Export..."
 msgstr "纯文本导出..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/projectsettings_ui.ui:701
+#: src/ui/projectsettings_ui.ui:759
 #, kde-format
 msgid "Unused clips:"
 msgstr "未使用素材："
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_unused)
-#: src/ui/projectsettings_ui.ui:708
+#: src/ui/projectsettings_ui.ui:766
 #, kde-format
 msgid "Delete files"
 msgstr "删除文件"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/projectsettings_ui.ui:715
+#: src/ui/projectsettings_ui.ui:773
 #, kde-format
 msgid "Clips used in project:"
 msgstr "已使用素材："

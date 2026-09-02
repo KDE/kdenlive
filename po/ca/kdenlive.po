@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 00:45+0000\n"
-"PO-Revision-Date: 2026-08-19 09:35+0200\n"
+"POT-Creation-Date: 2026-09-02 00:43+0000\n"
+"PO-Revision-Date: 2026-09-01 13:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -22125,7 +22125,7 @@ msgstr "Vídeo en silenci"
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:685
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:331
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:833
-#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:633
+#: src/ui/projectsettings_ui.ui:205 src/ui/renderwidget_ui.ui:633
 #, kde-format
 msgid "Audio"
 msgstr "Àudio"
@@ -28881,7 +28881,7 @@ msgstr "Configuració del monitor"
 #. i18n: ectx: Menu (markers)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/kdenliveui.rc:311 src/mainwindow.cpp:283
-#: src/ui/projectsettings_ui.ui:540
+#: src/ui/projectsettings_ui.ui:598
 #, kde-format
 msgid "Markers"
 msgstr "Marcadors"
@@ -31642,7 +31642,7 @@ msgstr "Mostra informació detallada quant als fluxos/dades/còdec d'àudio."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:246
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:545
+#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:603
 #, kde-format
 msgid "Metadata"
 msgstr "Metadades"
@@ -31832,14 +31832,14 @@ msgstr "Copia un canal:"
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1012
-#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
+#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:625
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1013
-#: src/ui/projectsettings_ui.ui:572
+#: src/ui/projectsettings_ui.ui:630
 #, kde-format
 msgid "2"
 msgstr "2"
@@ -31951,7 +31951,7 @@ msgstr "No"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
 #: src/mltcontroller/clippropertiescontroller.cpp:1429
-#: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
+#: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:159
 #, kde-format
 msgid "Audio channels:"
 msgstr "Canals d'àudio:"
@@ -32508,7 +32508,7 @@ msgstr "Vista prèvia"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:44 src/onlineresources/resourcewidget.cpp:687
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
-#: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
+#: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:198
 #: src/ui/renderwidget_ui.ui:486
 #, kde-format
 msgid "Video"
@@ -37694,7 +37694,7 @@ msgstr ""
 "selecció. Maj+Arrossegar per a moure verticalment, Alt+Maj+Arrossegar per a "
 "moure horitzontalment, Maj+Arrossegar la vora per a centrar el canvi de "
 "mida, Ctrl+Arrossegar per a desplaçar amb panorama. Desactiveu l'ajustament "
-"en moyre un element amb Ctrl."
+"en moure un element amb Ctrl."
 
 #: src/titler/titlewidget.cpp:418
 #, kde-format
@@ -38495,10 +38495,10 @@ msgstr "Suprimeix el punt actual."
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
 #: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
 #: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
-#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:470
-#: src/ui/projectsettings_ui.ui:477 src/ui/projectsettings_ui.ui:487
-#: src/ui/projectsettings_ui.ui:504 src/ui/projectsettings_ui.ui:582
-#: src/ui/projectsettings_ui.ui:589 src/ui/qtextclip_ui.ui:94
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:524
+#: src/ui/projectsettings_ui.ui:531 src/ui/projectsettings_ui.ui:541
+#: src/ui/projectsettings_ui.ui:558 src/ui/projectsettings_ui.ui:640
+#: src/ui/projectsettings_ui.ui:647 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:1026 src/ui/resourcewidget_ui.ui:214
 #: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
@@ -38896,7 +38896,7 @@ msgstr "Cursor del ratolí:"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:240 src/ui/configcapture_ui.ui:293
-#: src/ui/configproxy_ui.ui:82 src/ui/projectsettings_ui.ui:277
+#: src/ui/configproxy_ui.ui:82 src/ui/projectsettings_ui.ui:331
 #, kde-format
 msgid "Encoding profile:"
 msgstr "Perfil de codificació:"
@@ -39606,7 +39606,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
-#: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:53
+#: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:78
 #, kde-format
 msgid "Project folder:"
 msgstr "Carpeta del projecte:"
@@ -39625,14 +39625,14 @@ msgstr "Carpeta del projecte personalitzada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_tracks)
 #: src/ui/configproject_ui.ui:97 src/ui/newtimeline_ui.ui:67
-#: src/ui/projectsettings_ui.ui:114
+#: src/ui/projectsettings_ui.ui:139
 #, kde-format
 msgid "Video tracks:"
 msgstr "Pistes de vídeo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_tracks)
 #: src/ui/configproject_ui.ui:107 src/ui/newtimeline_ui.ui:60
-#: src/ui/projectsettings_ui.ui:124
+#: src/ui/projectsettings_ui.ui:149
 #, kde-format
 msgid "Audio tracks:"
 msgstr "Pistes d'àudio:"
@@ -39994,7 +39994,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
-#: src/ui/configtimeline_ui.ui:21 src/ui/projectsettings_ui.ui:166
+#: src/ui/configtimeline_ui.ui:21 src/ui/projectsettings_ui.ui:191
 #, kde-format
 msgid "Thumbnails:"
 msgstr "Miniatures:"
@@ -40234,37 +40234,37 @@ msgid "Delete Profile"
 msgstr "Suprimeix el perfil"
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathOrigToProxy)
-#: src/ui/customcamcorderproxy_ui.ui:34 src/ui/projectsettings_ui.ui:387
+#: src/ui/customcamcorderproxy_ui.ui:34 src/ui/projectsettings_ui.ui:441
 #, kde-format
 msgid "Relative path from clip to proxy:"
 msgstr "Camí relatiu del clip a l'intermediari:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_clip)
-#: src/ui/customcamcorderproxy_ui.ui:44 src/ui/projectsettings_ui.ui:380
+#: src/ui/customcamcorderproxy_ui.ui:44 src/ui/projectsettings_ui.ui:434
 #, kde-format
 msgid "Prefix of clip:"
 msgstr "Prefix del clip:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_clip)
-#: src/ui/customcamcorderproxy_ui.ui:54 src/ui/projectsettings_ui.ui:363
+#: src/ui/customcamcorderproxy_ui.ui:54 src/ui/projectsettings_ui.ui:417
 #, kde-format
 msgid "Suffix of clip:"
 msgstr "Sufix del clip:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathProxyToOrig)
-#: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:346
+#: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:400
 #, kde-format
 msgid "Relative path from proxy to clip:"
 msgstr "Camí relatiu de l'intermediari al clip:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
-#: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:329
+#: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:383
 #, kde-format
 msgid "Prefix of proxy:"
 msgstr "Prefix de l'intermediari:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_proxy)
-#: src/ui/customcamcorderproxy_ui.ui:84 src/ui/projectsettings_ui.ui:312
+#: src/ui/customcamcorderproxy_ui.ui:84 src/ui/projectsettings_ui.ui:366
 #, kde-format
 msgid "Suffix of proxy:"
 msgstr "Sufix de l'intermediari:"
@@ -41501,7 +41501,7 @@ msgid "Project Settings"
 msgstr "Paràmetres del projecte"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: src/ui/projectsettings_ui.ui:47
+#: src/ui/projectsettings_ui.ui:72
 #, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
 msgstr ""
@@ -41509,7 +41509,7 @@ msgstr ""
 "prèvies"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
-#: src/ui/projectsettings_ui.ui:50
+#: src/ui/projectsettings_ui.ui:75
 #, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
@@ -41519,61 +41519,61 @@ msgstr ""
 "intermediaris, miniatures o vistes prèvies."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/ui/projectsettings_ui.ui:60
+#: src/ui/projectsettings_ui.ui:85
 #, kde-format
 msgid "Default folder"
 msgstr "Carpeta predeterminada"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
-#: src/ui/projectsettings_ui.ui:67
+#: src/ui/projectsettings_ui.ui:92
 #, kde-format
 msgid "Parent folder of the project file"
 msgstr "Carpeta superior del fitxer de projecte"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
-#: src/ui/projectsettings_ui.ui:76
+#: src/ui/projectsettings_ui.ui:101
 #, kde-format
 msgid "Custom:"
 msgstr "Personalitzada:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
-#: src/ui/projectsettings_ui.ui:148
+#: src/ui/projectsettings_ui.ui:173
 #, kde-format
 msgid "2 Channels (Stereo)"
 msgstr "2 canals (estèreo)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
-#: src/ui/projectsettings_ui.ui:153
+#: src/ui/projectsettings_ui.ui:178
 #, kde-format
 msgid "4 Channels"
 msgstr "4 canals"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
-#: src/ui/projectsettings_ui.ui:158
+#: src/ui/projectsettings_ui.ui:183
 #, kde-format
 msgid "6 Channels"
 msgstr "6 canals"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: src/ui/projectsettings_ui.ui:193
+#: src/ui/projectsettings_ui.ui:218
 #, kde-format
 msgid "Timeline Preview:"
 msgstr "Vista prèvia de la línia de temps:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/projectsettings_ui.ui:204
+#: src/ui/projectsettings_ui.ui:233
 #, kde-format
 msgid "Proxy"
 msgstr "Intermediari"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
-#: src/ui/projectsettings_ui.ui:210
+#: src/ui/projectsettings_ui.ui:264
 #, kde-format
 msgid "Proxy clips"
 msgstr "Clips intermediaris"
 
 #. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
-#: src/ui/projectsettings_ui.ui:222
+#: src/ui/projectsettings_ui.ui:276
 #, kde-format
 msgid "Generate for videos larger than"
 msgstr "Genera'n per als vídeos més grans que"
@@ -41582,74 +41582,74 @@ msgstr "Genera'n per als vídeos més grans que"
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_resize)
-#: src/ui/projectsettings_ui.ui:232 src/ui/projectsettings_ui.ui:255
-#: src/ui/projectsettings_ui.ui:416 src/ui/projectsettings_ui.ui:432
+#: src/ui/projectsettings_ui.ui:286 src/ui/projectsettings_ui.ui:309
+#: src/ui/projectsettings_ui.ui:470 src/ui/projectsettings_ui.ui:486
 #, kde-format
 msgid "pixels"
 msgstr "píxels"
 
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
-#: src/ui/projectsettings_ui.ui:248
+#: src/ui/projectsettings_ui.ui:302
 #, kde-format
 msgid "Generate for images larger than"
 msgstr "Genera'n per a les imatges més grans que"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/projectsettings_ui.ui:409
+#: src/ui/projectsettings_ui.ui:463
 #, kde-format
 msgid "Proxy video resize (width)"
 msgstr "Redimensiona (en amplada) el vídeo de l'intermediari"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/projectsettings_ui.ui:448
+#: src/ui/projectsettings_ui.ui:502
 #, kde-format
 msgid "Proxy image size"
 msgstr "Mida de la imatge de l'intermediari"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/projectsettings_ui.ui:516
+#: src/ui/projectsettings_ui.ui:570
 #, kde-format
 msgid "Camcorder proxy clips"
 msgstr "Clips intermediaris de la càmera de vídeo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/projectsettings_ui.ui:612
+#: src/ui/projectsettings_ui.ui:670
 #, kde-format
 msgid "Project Files"
 msgstr "Fitxers del projecte"
 
 #. i18n: ectx: property (text), widget (QLabel, label_fonts)
-#: src/ui/projectsettings_ui.ui:618
+#: src/ui/projectsettings_ui.ui:676
 #, kde-format
 msgid "Fonts"
 msgstr "Lletres"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/projectsettings_ui.ui:673
+#: src/ui/projectsettings_ui.ui:731
 #, kde-format
 msgid "Project files:"
 msgstr "Fitxers del projecte:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
-#: src/ui/projectsettings_ui.ui:680
+#: src/ui/projectsettings_ui.ui:738
 #, kde-format
 msgid "Plain Text Export..."
 msgstr "Exporta text net..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/projectsettings_ui.ui:701
+#: src/ui/projectsettings_ui.ui:759
 #, kde-format
 msgid "Unused clips:"
 msgstr "Clips sense usar:"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_unused)
-#: src/ui/projectsettings_ui.ui:708
+#: src/ui/projectsettings_ui.ui:766
 #, kde-format
 msgid "Delete files"
 msgstr "Suprimeix fitxers"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/projectsettings_ui.ui:715
+#: src/ui/projectsettings_ui.ui:773
 #, kde-format
 msgid "Clips used in project:"
 msgstr "Clips usats al projecte:"
