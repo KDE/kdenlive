@@ -1383,53 +1383,41 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         }
         return vlist;
     }
-    Mlt::Properties mlt_prop;
-    QString animData;
-    int out = 0;
-    bool useOpacity = false;
-    if (auto ptr = m_model.lock()) {
-        ptr->passProperties(mlt_prop);
-        out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-        useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
-        animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
-    }
 
-    if (!animData.isEmpty() && (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel)) {
-        mlt_prop.set("key", animData.toUtf8().constData());
-        // This is a fake query to force the animation to be parsed
-        (void)mlt_prop.anim_get_double("key", 0, out);
-        return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
-    }
-    if (!animData.isEmpty() && (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect ||
-                                m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint)) {
-        mlt_prop.set("key", animData.toUtf8().constData());
-        // This is a fake query to force the animation to be parsed
-        (void)mlt_prop.anim_get_double("key", 0, out);
-        mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
-        if (animData.contains(QLatin1Char('%'))) {
-            const QSize profileSize = pCore->getCurrentFrameSize();
-            rect.x *= profileSize.width();
-            rect.y *= profileSize.height();
-            rect.w *= profileSize.width();
-            rect.h *= profileSize.height();
-        }
-        if (m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
-            const QString res = QStringLiteral("%1 %2").arg(rect.x).arg(rect.y);
+    if (auto ptr = m_model.lock()) {
+        int out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+        bool useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
+            // This is a fake query to force the animation to be parsed
+            return QVariant(ptr->getAsset()->anim_get_double(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps())));
+        } else if ((m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
+                    m_paramType == ParamType::AnimatedPoint)) {
+            mlt_rect rect = ptr->getAsset()->anim_get_rect(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps()));
+            if (rect.x < 1. && rect.y < 1. && rect.w < 1. && rect.h < 1.) {
+                // Percentage format
+                const QSize profileSize = pCore->getCurrentFrameSize();
+                rect.x *= profileSize.width();
+                rect.y *= profileSize.height();
+                rect.w *= profileSize.width();
+                rect.h *= profileSize.height();
+            }
+            if (m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
+                const QString res = QStringLiteral("%1 %2").arg(rect.x).arg(rect.y);
+                return QVariant(res);
+            }
+            QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
+            if (useOpacity) {
+                res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
+            }
             return QVariant(res);
         }
-        QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
-        if (useOpacity) {
-            res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
+        if (m_paramType == ParamType::Color) {
+            mlt_color mltColor = ptr->getAsset()->anim_get_color(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps()));
+            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+            return QVariant(QColorUtils::colorToString(color, true));
         }
-        return QVariant(res);
-    }
-    if (!animData.isEmpty() && m_paramType == ParamType::Color) {
-        mlt_prop.set("key", animData.toUtf8().constData());
-        // This is a fake query to force the animation to be parsed
-        (void)mlt_prop.anim_get_double("key", 0, out);
-        mlt_color mltColor = mlt_prop.anim_get_color("key", pos.frames(pCore->getCurrentFps()));
-        QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
-        return QVariant(QColorUtils::colorToString(color, true));
     }
     return QVariant();
 }

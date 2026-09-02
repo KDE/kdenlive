@@ -44,6 +44,7 @@ Rectangle {
     property int rubberEndFrame: 0
     property bool rubberAddToSelection: false
     property bool rubberSelectPending: false
+    property bool paramUpdatePending: false
 
     // The position in frame of the stack owner
     property int offset: dopesheetmodel.dopePosition
@@ -69,7 +70,6 @@ Rectangle {
     // Playhead position
     property int headerWidth: 100
     property int consumerPosition: proxy && ownerType > -1 ? proxy.position - offset: -1
-    property double consumerSpeed: proxy && ownerType > -1 ? proxy.speed : 0
     property bool insideOwner: dopeRoot.consumerPosition > 0 && dopeRoot.consumerPosition < frameDuration
     property int keyframeContainerWidth: keyframeContainer.width
     property int snapping: (K.KdenliveSettings.snaptopoints && (dopeRoot.timeScale < 2 * K.UiUtils.baseSizeMedium)) ?
@@ -100,16 +100,25 @@ Rectangle {
             keyframeCurve.model = undefined
         }
     }
-    onConsumerSpeedChanged: {
-        if (consumerSpeed == 0) {
-            dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
-        }
-    }
 
     onConsumerPositionChanged: {
-        if (consumerSpeed == 0) {
+        /*if (consumerSpeed == 0) {
             dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
-        }
+        }*/
+        scheduleParamUpdate()
+    }
+
+    function processParamUpdate() {
+        dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
+        dopeRoot.paramUpdatePending = false
+    }
+
+    function scheduleParamUpdate() {
+        if (dopeRoot.paramUpdatePending)
+            return
+
+        dopeRoot.paramUpdatePending = true
+        Qt.callLater(dopeRoot.processParamUpdate)
     }
 
     onInsideOwnerChanged: {

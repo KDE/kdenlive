@@ -122,7 +122,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_layout(layout)
 {
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingKeyframes, this, &KeyframeContainer::updatedPosition);
-    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::refreshAnimatedValues, this, &KeyframeContainer::slotRefresh);
+    // connect(pCore->dopeSheetModel().get(), &DopeSheetModel::refreshAnimatedValues, this, &KeyframeContainer::slotRefresh);
 
     connect(pCore.get(), &Core::connectEffectStack, this, &KeyframeContainer::connectEffectStack, Qt::DirectConnection);
     connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeContainer::disconnectEffectStack, Qt::DirectConnection);
@@ -488,11 +488,10 @@ void KeyframeContainer::monitorSeek(int pos)
     }
     bool isInRange = pos >= in && pos < out;
     connectMonitor(isInRange && m_model->isActive());
-    int framePos = qBound(in, pos, out) - in;
-    slotSetPosition(framePos, false);
-    /*if (isInRange && framePos != m_time->getValue()) {
+    if (isInRange) {
+        int framePos = qBound(in, pos, out) - in;
         slotSetPosition(framePos, false);
-    }*/
+    }
 }
 
 void KeyframeContainer::slotRefreshParams()
@@ -640,7 +639,6 @@ void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> matchingInd
     if (m_geom) {
         m_geom->setEnabled(inside && matchingIndexes.contains(m_geometryIndex));
     }
-    slotRefreshParams();
 }
 
 void KeyframeContainer::positionUpdated(int relativePos)
@@ -1513,7 +1511,6 @@ void KeyframeContainer::slotSeekToKeyframe(int ix, int offset)
 }
 void KeyframeContainer::slotSeekToPos(int pos)
 {
-    return;
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
     bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
     if (pos < 0) {

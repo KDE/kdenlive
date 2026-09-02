@@ -36,6 +36,7 @@ bool RotatedRectHelper::connectMonitor(bool activate)
 void RotatedRectHelper::refreshParams(int pos)
 {
     // First call parent implementation to handle AnimatedRect updates (x, y, width, height)
+    qDebug() << "::: REFRESHING MONITOR PARAMETERS FOR POS: " << pos;
     KeyframeMonitorHelper::refreshParams(pos);
 
     // Now handle rotation-specific parts
