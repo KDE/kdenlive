@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-29 02:42+0000\n"
-"PO-Revision-Date: 2026-08-19 09:35+0200\n"
+"PO-Revision-Date: 2026-09-01 17:07+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -18005,7 +18005,7 @@ msgid ""
 "This filter crops the image to a rounded rectangle or circle by padding it "
 "with a color."
 msgstr ""
-"Este filtre retalla la imatge a un rectangle arredonit o un cercle, farcint-"
+"Este filtre retalla la imatge a un rectangle arredoniit o un cercle, farcint-"
 "los amb un color."
 
 #: data/effects/qtcrop.xml:14
@@ -21476,7 +21476,7 @@ msgstr "Obri la pila d'efectes per al mestre d'àudio."
 #: src/audiomixer/mixerwidget.cpp:268
 #, kde-format
 msgid "Solo mode"
-msgstr "Mode individual"
+msgstr "Mode individual («solo»)"
 
 #: src/audiomixer/mixerwidget.cpp:269
 #, kde-kuit-format
@@ -37592,7 +37592,7 @@ msgstr ""
 "selecció. «Majús+arrossega» per a moure verticalment, «Alt+Majús+arrossega» "
 "per a moure horitzontalment, «Majús+arrossega» la vora per a centrar el "
 "canvi de mida, «Ctrl+arrossega» per a desplaçar amb panorama. Desactiveu "
-"l'ajustament en moyre un element amb «Ctrl»."
+"l'ajustament en moure un element amb «Ctrl»."
 
 #: src/titler/titlewidget.cpp:418
 #, kde-format
