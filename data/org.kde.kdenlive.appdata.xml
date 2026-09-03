@@ -388,6 +388,7 @@
     </ul>
   </description>
   <releases>
+    <release version="26.08.1" date="2026-09-10"/>
     <release version="26.08.0" date="2026-08-20">
       <url>https://kdenlive.org/news/releases/26.08.0/</url>
       <description>
