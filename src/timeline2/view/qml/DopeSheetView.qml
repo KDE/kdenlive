@@ -84,7 +84,6 @@ Rectangle {
     }
 
     function getPositionForKeyframe() {
-
         return dopeRoot.mouseFramePos + dopeRoot.inPoint
     }
 
@@ -998,6 +997,16 @@ Rectangle {
         interactive: false
 
         clip: true
+        MouseArea {
+            id: keyframeMouseArea
+            anchors.fill: parent
+            onDoubleClicked: mouse =>{
+                if (keyframeCurve.model) {
+                    var newVal = (height - mouse.y) / height
+                    keyframeCurve.model.addKeyframe(dopeRoot.getPositionForKeyframe(), newVal)
+                }
+            }
+        }
         Loader {
             // Keyframe curve
             id: keyframeCurve

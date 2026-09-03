@@ -466,6 +466,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     }
     auto originalKf = m_keyframeList.at(oldPos);
     auto finalKf = originalKf;
+    bool updatedValue = false;
 
     if (newVal.isValid()) {
         // Calculate updated keyframe value
@@ -475,11 +476,12 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         } else {
             finalKf.second = getNormalizedValue(newVal.toDouble());
         }
+        updatedValue = true;
     }
 
     // Now, move the keyframe using MLT
     int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
-    Fun local_undo = [this, row, pos, oldPos, originalKf, updateView]() {
+    Fun local_undo = [this, row, pos, oldPos, originalKf, updateView, updatedValue]() {
         bool res = true;
         if (auto ptr = m_model.lock()) {
             const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
@@ -492,7 +494,11 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
                 m_keyframeList.erase(pos);
                 m_keyframeList[oldPos] = originalKf;
                 if (updateView) {
-                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
+                    if (updatedValue) {
+                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, NormalizedValueRole});
+                    } else {
+                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
+                    }
                 }
             } else {
                 qDebug() << "KF MOVE UNDO OP FAILED";
@@ -500,7 +506,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         }
         return res;
     };
-    Fun local_redo = [this, row, pos, oldPos, finalKf, updateView]() {
+    Fun local_redo = [this, row, pos, oldPos, finalKf, updateView, updatedValue]() {
         bool res = true;
         // qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
         if (auto ptr = m_model.lock()) {
@@ -514,7 +520,9 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
             if (res) {
                 m_keyframeList.erase(oldPos);
                 m_keyframeList[pos] = finalKf;
-                if (updateView) {
+                if (updatedValue) {
+                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, NormalizedValueRole});
+                } else {
                     Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
                 }
             } else {
