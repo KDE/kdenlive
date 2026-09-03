@@ -2,8 +2,8 @@
 # Copyright (C) 2009-2026 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdenlive package.
 #
-# SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Antoni Bella Pérez <antonibella5@yahoo.com>
-# SPDX-FileCopyrightText: 2009, 2011, 2012, 2015 Orestes Mas <orestes@tsc.upc.edu>
+# SPDX-FileCopyrightText: 2012, 2014-2025 Antoni Bella Pérez <antonibella5@yahoo.com>
+# SPDX-FileCopyrightText: 2009, 2011-2012, 2015 Orestes Mas <orestes@tsc.upc.edu>
 # SPDX-FileCopyrightText: 2012-2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""

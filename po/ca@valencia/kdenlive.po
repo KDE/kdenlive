@@ -2,8 +2,8 @@
 # Copyright (C) 2009-2026 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdenlive package.
 #
-# SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Antoni Bella Pérez <antonibella5@yahoo.com>
-# SPDX-FileCopyrightText: 2009, 2011, 2012, 2015 Orestes Mas <orestes@tsc.upc.edu>
+# SPDX-FileCopyrightText: 2012, 2014-2025 Antoni Bella Pérez <antonibella5@yahoo.com>
+# SPDX-FileCopyrightText: 2009, 2011-2012, 2015 Orestes Mas <orestes@tsc.upc.edu>
 # SPDX-FileCopyrightText: 2012-2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
@@ -18005,7 +18005,7 @@ msgid ""
 "This filter crops the image to a rounded rectangle or circle by padding it "
 "with a color."
 msgstr ""
-"Este filtre retalla la imatge a un rectangle arredoniit o un cercle, farcint-"
+"Este filtre retalla la imatge a un rectangle arredonit o un cercle, farcint-"
 "los amb un color."
 
 #: data/effects/qtcrop.xml:14
@@ -26851,12 +26851,13 @@ msgstr ""
 #: src/dialogs/timeremap.cpp:1730
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
-msgstr "La reassignació de temps no funciona en els clips amb fotogrames B."
+msgstr ""
+"El tornar a assignar el temps no funciona en els clips amb fotogrames B."
 
 #: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
-msgstr "Edita la reassignació de temps dels fotogrames clau"
+msgstr "Edita el tornar a assignar el temps dels fotogrames clau"
 
 #: src/dialogs/titletemplatedialog.cpp:90
 #: src/dialogs/titletemplatedialog.cpp:110
@@ -29539,7 +29540,7 @@ msgstr "Editor de veu"
 #: src/mainwindow.cpp:272
 #, kde-format
 msgid "Time Remapping"
-msgstr "Reassignació del temps"
+msgstr "Tornar a assignar el temps"
 
 #: src/mainwindow.cpp:306 src/timeline2/view/qml/AudioRecordButton.qml:155
 #: src/timeline2/view/qml/AudioRecordButton.qml:268
@@ -36381,7 +36382,7 @@ msgstr "Mou la composició"
 #: src/timeline2/model/timelinemodel.cpp:7224
 #, kde-format
 msgid "Enable time remap"
-msgstr "Activa la reassignació del temps"
+msgstr "Activa el tornar a assignar el temps"
 
 #: src/timeline2/model/timelinemodel.cpp:7296
 #, kde-format
