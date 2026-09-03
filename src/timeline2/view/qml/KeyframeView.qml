@@ -193,24 +193,33 @@ Rectangle
         }
         function updatePaths() {
             paths = []
-            var firstKeyframe = keyframes.itemAt(0) as KeyframeDelegate
-            var xpos = firstKeyframe.tmpPos - keyframecanvas.offset
-            var ypos = firstKeyframe.tmpVal
+            let currentKeyframe = keyframes.itemAt(0) as KeyframeDelegate
+            var xpos = currentKeyframe.tmpPos - keyframecanvas.offset
+            var ypos = currentKeyframe.tmpVal
             let skippedKF = 0
+            let nextKeyframe
+            let previousKeyframe
             // Add first curve point
             paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
             exitLoop = false
             for(var i = 1; i < keyframes.count; i++)
             {
-                let nextKeyframe
+                previousKeyframe = currentKeyframe
+                if (nextKeyframe) {
+                    currentKeyframe = nextKeyframe
+                } else {
+                    currentKeyframe = keyframes.itemAt(i) as KeyframeDelegate
+                }
+
                 if (i + 1 < keyframes.count) {
                     nextKeyframe = keyframes.itemAt(i + 1) as KeyframeDelegate
                     if (nextKeyframe.tmpPos < keyframecanvas.offset) {
                         continue
                     }
+                } else {
+                    nextKeyframe = undefined
                 }
-                var previousKeyframe = keyframes.itemAt(i - 1) as KeyframeDelegate
-                var currentKeyframe = keyframes.itemAt(i) as KeyframeDelegate
+
                 if (nextKeyframe && nextKeyframe.tmpPos - previousKeyframe.tmpPos < 2) {
                     // Optimization, if there are many keyframes very close to each other, skip
                     if (skippedKF < 3) {

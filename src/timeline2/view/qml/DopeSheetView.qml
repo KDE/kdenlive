@@ -1083,7 +1083,7 @@ Rectangle {
             Binding {
                 target: keyframeCurve.item
                 property: "timelineScrollViewWidth"
-                value: dopeRoot.keyframeContainerWidth * dopeRoot.timeScale * dopeRoot.maximumScaleFactor
+                value: keyframeContainer.width
                 when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }

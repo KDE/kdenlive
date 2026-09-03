@@ -376,7 +376,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return QVariant::fromValue<MarkerListModel *>(clip->getMarkerModel().get());
         }
         case KeyframesRole: {
-            return QVariant::fromValue<KeyframeModel *>(clip->getKeyframeModel());
+            auto model = clip->getKeyframeModel();
+            QQmlEngine::setObjectOwnership(model, QQmlEngine::CppOwnership);
+            return QVariant::fromValue<KeyframeModel *>(model);
         }
         case PlaylistStateRole:
             return QVariant::fromValue(clip->clipState());
