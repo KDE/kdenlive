@@ -35,7 +35,7 @@ Rectangle {
 
     z: 10
     x: modelPercentPosition * containerWidth * timeScale - contentScroll * timeScale * maximumScaleFactor - width / 2
-    visible : x >= -width/2 && x < keyframeContainerWidth + width/2
+    visible : x >= -width/2 && x < containerWidth + width/2
     anchors.verticalCenter: parent.verticalCenter
     width: handleWidth - (kfArea.containsMouse ? 0 : 2)
     height: width
@@ -52,7 +52,6 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.NoButton
         onEntered: {
-            console.log("entered kfr: ", handle.index,' PRESSED: ', handle.delegateProperties.currentKFFrame)
             handle.delegateProperties.currentKFFrame = handle.modelFrame + handle.dopeRootItem.inPoint
             handle.delegateProperties.currentKFIndex = handle.index
             //dopeRoot.keyframeType = type

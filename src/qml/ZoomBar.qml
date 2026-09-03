@@ -28,6 +28,21 @@ Rectangle {
         color: activePalette.window
         width: 1
     }
+
+    function ensureVisible(position, alignToMouse) {
+        if (position > zoomContainer.contentPos && position < zoomContainer.contentPos + zoomContainer.zoomFactor) {
+            // already in view
+            console.log('cursor is already in view')
+            return
+        }
+        if (position < zoomContainer.contentPos) {
+            position = Math.max(0, position - zoomContainer.zoomFactor / 4)
+        } else {
+            position = Math.min(1 - zoomContainer.zoomFactor, position - 3 * zoomContainer.zoomFactor / 4)
+        }
+        proposeContentPos(position)
+    }
+
     MouseArea {
         id: containerArea
         anchors.fill: parent

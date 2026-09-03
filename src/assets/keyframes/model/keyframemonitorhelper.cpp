@@ -92,8 +92,8 @@ void KeyframeMonitorHelper::refreshParams(int pos)
             } else {
                 types << 0;
             }
-            QString rectData = kfr->getInterpolatedValue(kf.first).toString();
-            QStringList data = rectData.split(QLatin1Char(' '));
+            const QString rectData = kfr->getInterpolatedValue(kf.first).toString();
+            const QStringList data = rectData.split(QLatin1Char(' '));
             if (data.size() > 3) {
                 QRectF r(data.at(0).toInt(), data.at(1).toInt(), data.at(2).toInt(), data.at(3).toInt());
                 points.append(QVariant(r.center()));

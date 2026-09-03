@@ -40,6 +40,10 @@ Rectangle
         keyframecanvas.requestPaint()
     }
 
+    onTimeScaleChanged: {
+        keyframecanvas.requestPaint()
+    }
+
     onInPointChanged: {
         keyframecanvas.requestPaint()
     }
@@ -187,40 +191,36 @@ Rectangle
             id: compline
             PathLine { }
         }
-        property var paths : []
-        Path {
-            id: myPath
-            startX: 0
-            startY: keyframeContainer.parent.height
-        }
-
-        onPaint: {
-            if (keyframeContainer.kfrCount < 1) {
-                console.log('KEYFRAME COUNT ERROR: ', keyframeContainer.kfrCount)
-                return
-            }
-            console.log('PAINTING KEYFRMS: ', keyframeContainer.kfrCount, ' / KFRS: ', keyframes.count)
-            var ctx = getContext("2d");
-            ctx.beginPath()
-            ctx.fillStyle = Qt.rgba(0,0,0.8, 0.5);
+        function updatePaths() {
             paths = []
-
             var firstKeyframe = keyframes.itemAt(0) as KeyframeDelegate
             var xpos = firstKeyframe.tmpPos - keyframecanvas.offset
             var ypos = firstKeyframe.tmpVal
+            let skippedKF = 0
             // Add first curve point
             paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
             exitLoop = false
             for(var i = 1; i < keyframes.count; i++)
             {
-                var previousKeyframe = keyframes.itemAt(i - 1) as KeyframeDelegate
-                var currentKeyframe = keyframes.itemAt(i) as KeyframeDelegate
-                var nextKeyframe = keyframes.itemAt(i + 1) as KeyframeDelegate
+                let nextKeyframe
                 if (i + 1 < keyframes.count) {
+                    nextKeyframe = keyframes.itemAt(i + 1) as KeyframeDelegate
                     if (nextKeyframe.tmpPos < keyframecanvas.offset) {
-                        continue;
+                        continue
                     }
                 }
+                var previousKeyframe = keyframes.itemAt(i - 1) as KeyframeDelegate
+                var currentKeyframe = keyframes.itemAt(i) as KeyframeDelegate
+                if (nextKeyframe && nextKeyframe.tmpPos - previousKeyframe.tmpPos < 2) {
+                    // Optimization, if there are many keyframes very close to each other, skip
+                    if (skippedKF < 3) {
+                        skippedKF++
+                        continue
+                    } else {
+                        skippedKF = 0
+                    }
+                }
+
                 xpos = currentKeyframe.tmpPos - keyframecanvas.offset
                 var alpha = 0.5
                 var type = previousKeyframe.frameType
@@ -248,7 +248,7 @@ Rectangle
                         }
                         var nextXOffset
                         var nextYOffset = 0
-                        if (i < keyframes.count - 1) {  
+                        if (i < keyframes.count - 1) {
                             if (i == 1) {
                                 nextXOffset = (nextKeyframe.tmpPos - previousKeyframe.tmpPos) / 3
                                 nextYOffset = (nextKeyframe.tmpVal - previousKeyframe.tmpVal) / 3
@@ -466,7 +466,26 @@ Rectangle
             paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": ypos} ))
             paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": keyframecanvas.height} ))
             myPath.pathElements = paths
+        }
+
+        property var paths : []
+        Path {
+            id: myPath
+            startX: 0
+            startY: keyframeContainer.parent.height
+        }
+
+        onPaint: {
+            if (keyframeContainer.kfrCount < 1) {
+                console.log('KEYFRAME COUNT ERROR: ', keyframeContainer.kfrCount)
+                return
+            }
+            console.log('PAINTING KEYFRMS: ', keyframeContainer.kfrCount, ' / KFRS: ', keyframes.count)
+            var ctx = getContext("2d");
+            ctx.beginPath()
+            ctx.fillStyle = Qt.rgba(0,0,0.8, 0.5);
             ctx.clearRect(0,0, width, height);
+            updatePaths()
             ctx.path = myPath;
             ctx.closePath()
             ctx.fill()

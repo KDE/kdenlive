@@ -41,7 +41,7 @@ Item {
     readonly property real indentation: 20
     readonly property real padding: 5
     required property var model
-    property int containerWidth: width - delegateRect.dopeRootItem.headerWidth - (2 * K.UiUtils.baseSizeMedium)//kfContainer.width
+    property int containerWidth: width - delegateRect.dopeRootItem.headerWidth - (2 * K.UiUtils.baseSizeMedium)
     // The frame position of the hovered keyframe, -1 if none
     property int currentKFFrame: -1
     // The index of the hovered keyframe, -1 if none
@@ -84,10 +84,6 @@ Item {
         if (delegateRect.depth > 1 && delegateRect.expanded) {
             delegateRect.treeView.collapse(delegateRect.row)
         }
-    }
-
-    onCurrentKFFrameChanged: {
-       console.log('-----------------\n\nCURRENT KF CHANGED TO: ', currentKFFrame, '\n\n------------------')
     }
 
     onModelExpandedChanged: {

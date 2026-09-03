@@ -45,6 +45,9 @@ Rectangle {
     property bool rubberAddToSelection: false
     property bool rubberSelectPending: false
     property bool paramUpdatePending: false
+    // Whether the zoom operation was performed through zoombar
+    property bool zoomOnBar: false
+    property int zoomOnMouse: -1
 
     // The position in frame of the stack owner
     property int offset: dopesheetmodel.dopePosition
@@ -85,6 +88,10 @@ Rectangle {
         return dopeRoot.mouseFramePos + dopeRoot.inPoint
     }
 
+    onOwnerIdChanged: {
+        dopeRoot.paramUpdatePending = false
+    }
+
     onOverKeyframeChanged: {
         dopesheetmodel.onKeyframeChanged(overKeyframe, false)
     }
@@ -102,23 +109,24 @@ Rectangle {
     }
 
     onConsumerPositionChanged: {
-        /*if (consumerSpeed == 0) {
-            dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
-        }*/
-        scheduleParamUpdate()
+        console.log(' - - - updated dope cpos: ', dopeRoot.consumerPosition)
+        dopeRoot.scheduleParamUpdate()
     }
 
     function processParamUpdate() {
         dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
         dopeRoot.paramUpdatePending = false
+        if (dopeRoot.insideOwner && dopeRoot.timeScale > 1) {
+            scrollToFrame(dopeRoot.consumerPosition)
+        }
     }
 
     function scheduleParamUpdate() {
-        if (dopeRoot.paramUpdatePending)
+        if (dopeRoot.paramUpdatePending) {
             return
-
+        }
         dopeRoot.paramUpdatePending = true
-        Qt.callLater(dopeRoot.processParamUpdate)
+        Qt.callLater(processParamUpdate)
     }
 
     onInsideOwnerChanged: {
@@ -167,14 +175,19 @@ Rectangle {
         treeViewItem.expand(0)
     }
 
+    function scrollToFrame(pos) {
+        let proposedPos = Math.max(0, Math.min(pos / dopeRoot.frameDuration, 1 - 1 / dopeRoot.timeScale))
+        console.log('Checked scrolling for pos: ', pos, ' = ', proposedPos)
+        horZoomBar.ensureVisible(proposedPos, false)
+    }
+
     function scrollByWheel(wheel) {
-        var proposedPos
+        let proposedPos
         if (wheel.angleDelta.y < 0) {
             proposedPos = Math.max(0, Math.min((horZoomBar.contentPos * dopeRoot.frameDuration - wheel.angleDelta.y) / dopeRoot.frameDuration, 1 - 1 / dopeRoot.timeScale))
         } else {
             proposedPos = Math.max(horZoomBar.contentPos * dopeRoot.frameDuration - wheel.angleDelta.y, 0) / dopeRoot.frameDuration
         }
-        horZoomBar.contentPos = proposedPos
         horZoomBar.proposeContentPos(proposedPos)
     }
 
@@ -197,8 +210,6 @@ Rectangle {
                 dopeRoot.zoom(factor);
                 dopeRoot.wheelAccumulatedDelta = 0;
             }
-            //TODO: This zoom to mouse calculation is broken
-            //dopeRoot.contentScroll = Math.min(dopeRoot.frameDuration - (dopeRoot.keyframeContainerWidth * dopeRoot.timeScale * dopeRoot.maximumScaleFactor), Math.max(0, dopeRoot.mouseFramePos - (dopeRoot.mouseFramePos - dopeRoot.contentScroll) * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
 
         }/* else if (wheel.modifiers & Qt.ShiftModifier) {
             if (K.KdenliveSettings.scrollvertically || rubberSelect.visible) {
@@ -217,7 +228,17 @@ Rectangle {
     }
 
     function zoom(factor) {
-        dopeRoot.timeScale = Math.max(1, dopeRoot.timeScale * factor)
+        let previousPos = dopeRoot.mouseFramePos
+        dopeRoot.timeScale = 1. / (Math.min(1, 1 / (dopeRoot.timeScale * factor)))
+        if (dopeRoot.zoomOnBar) {
+            dopeRoot.zoomOnBar = false
+        } else {
+            let mouseOffset = backgroundArea.mouseX - K.UiUtils.baseSizeMedium
+            let position = (previousPos - viewToFrame(mouseOffset)) / dopeRoot.frameDuration
+            position = Math.max(0, position)
+            position = Math.min(1 - horZoomBar.zoomFactor, position)
+            horZoomBar.proposeContentPos(position)
+        }
     }
 
     function deleteSelection() {
@@ -1074,6 +1095,7 @@ Rectangle {
             left: parent.left
             right: parent.right
             bottom: dopeRoot.bottom
+            leftMargin: dopeRoot.headerWidth
         }
         height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
         barMinWidth: K.UiUtils.baseSizeMedium
@@ -1086,14 +1108,14 @@ Rectangle {
         contentPos: dopeRoot.contentScroll / dopeRoot.frameDuration
         onProposeContentPos: (proposedValue) => {
             // The corresponding pixel offset
+            console.log('proposing scroll: ', (proposedValue * dopeRoot.frameDuration), ', PREVIOUS CONTENT SCROLL: ', dopeRoot.contentScroll)
             dopeRoot.contentScroll = Math.max(0, proposedValue * dopeRoot.frameDuration)
-            console.log('proposing scroll: ', proposedValue, ', CONTENT SCROLL: ', dopeRoot.contentScroll, ', SCLAE: ', dopeRoot.timeScale, '\n\n***********************************\n\n')
         }
         onZoomByWheel: wheel => dopeRoot.zoomByWheel(wheel)
         onFitZoom: {
             dopeRoot.timeScale = 1
             //scrollView.contentX = 0
-            //zoomOnBar = true
+            dopeRoot.zoomOnBar = true
         }
     }
 }
