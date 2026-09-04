@@ -12607,40 +12607,34 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "移动帧"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "速度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "移动帧"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "速度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "旋转"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "镜像"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format

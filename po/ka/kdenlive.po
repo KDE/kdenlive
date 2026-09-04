@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-03 00:42+0000\n"
-"PO-Revision-Date: 2026-08-29 05:50+0200\n"
+"PO-Revision-Date: 2026-09-03 06:28+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -8282,7 +8282,7 @@ msgstr "ავტომატური ზღვარი"
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
 msgid "Segments an image into foreground or background"
-msgstr ""
+msgstr "სურათის სეგმენტირება წინა პლანზე, ან ფონზე"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:8
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
@@ -12545,40 +12545,34 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "კადრები მოძრაობით"
+msgstr "X მოძრაობა"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "სიჩქარე"
+msgstr "X სიჩქარე"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "კადრები მოძრაობით"
+msgstr "Y მოძრაობა"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "სიჩქარე"
+msgstr "Y სიჩქარე"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "შემობრუნება"
+msgstr "ბრუნვის სიჩქარე"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "სარკე"
+msgstr "ანარეკლი"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format

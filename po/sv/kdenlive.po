@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-03 00:42+0000\n"
-"PO-Revision-Date: 2026-08-21 19:24+0200\n"
+"PO-Revision-Date: 2026-09-03 19:57+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12972,7 +12972,7 @@ msgstr "Uppmjuka"
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
-msgstr ""
+msgstr "Skakningsoscillation"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:5
 #, kde-format
@@ -12981,42 +12981,39 @@ msgid ""
 "rotation, scale and option to mirror the image if it goes outside the screen "
 "bounds.<br><br>This effect is for a smooth and controlled oscillation."
 msgstr ""
+"Animerar indatabilden med justerbara parametrar som värde, hastighet, "
+"rotation, skala och möjlighet att spegla bilden om den går utanför skärmens "
+"gränser.<br><br>Effekten ger en jämn och kontrollerad oscillation."
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "Bildrutor med rörelse"
+msgstr "X-rörelse"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "Hastighet"
+msgstr "X-hastighet"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "Bildrutor med rörelse"
+msgstr "Y-rörelse"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "Hastighet"
+msgstr "Y-hastighet"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "Rotation"
+msgstr "Rotationshastighet"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "Spegla"
+msgstr "Speglad"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format

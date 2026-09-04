@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-03 00:42+0000\n"
-"PO-Revision-Date: 2026-09-01 13:44+0200\n"
+"PO-Revision-Date: 2026-09-03 21:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11747,7 +11747,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
 #, kde-format
 msgid "Light Graffiti"
-msgstr "Grafit clar"
+msgstr "Grafit de llum"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:8
 #, kde-format
@@ -11757,8 +11757,8 @@ msgid ""
 "light sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
-"Efecte de grafit clar.\n"
-"        Aquest efecte permet fer una pintada clara (és a dir, pintar amb "
+"Efecte de grafit de llum.\n"
+"        Aquest efecte permet fer una pintada de llum (és a dir, pintar amb "
 "fonts de llum en una foto mantenint l'obturador\n"
 "        obert durant una estona), però en vídeo."
 
@@ -11923,7 +11923,7 @@ msgid ""
 "street, try to set α > 0 to calculate an average background image."
 msgstr ""
 "Determina com l'efecte intenta adaptar-se als canvis de fons. <br/>\n"
-"            L'efecte grafit clar recorda el primer fotograma del clip al "
+"            L'efecte grafit de llum recorda el primer fotograma del clip al "
 "qual s'aplica, de manera que el clip hauria de començar <em>sempre</em> amb "
 "el pintor fora del vídeo. Si el fons canvia constantment, p. ex. en un "
 "carrer, intenteu establir α > 0 per a calcular una imatge de fons mitjana."
@@ -12030,7 +12030,7 @@ msgid ""
 "sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
-"Efecte de grafit clar.\n"
+"Efecte de grafit de llum.\n"
 "        Aquest efecte permet fer una pintada clara (és a dir, pintar amb "
 "fonts de llum en una foto mantenint l'obturador\n"
 "        obert durant una estona), però en vídeo."
@@ -13100,7 +13100,7 @@ msgstr "Suavitza"
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
-msgstr ""
+msgstr "Shake0scillate"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:5
 #, kde-format
@@ -13109,42 +13109,40 @@ msgid ""
 "rotation, scale and option to mirror the image if it goes outside the screen "
 "bounds.<br><br>This effect is for a smooth and controlled oscillation."
 msgstr ""
+"Anima la imatge d'entrada amb paràmetres ajustables com la quantitat, la "
+"velocitat, el gir, l'escala i l'opció per a reflectir la imatge si surt fora "
+"dels límits de la pantalla.<br><br>Aquest efecte és per a una oscil·lació "
+"suau i controlada."
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "Fotogrames amb moviment"
+msgstr "Moviment X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "Velocitat"
+msgstr "Velocitat X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "Fotogrames amb moviment"
+msgstr "Moviment Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "Velocitat"
+msgstr "Velocitat Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "Gir"
+msgstr "Velocitat de gir"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "Mirall"
+msgstr "Emmiralla"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
