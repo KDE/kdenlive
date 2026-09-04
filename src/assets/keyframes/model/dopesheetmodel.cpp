@@ -700,7 +700,7 @@ void DopeSheetModel::alignKeyframe(QVariantMap kfData, bool right)
                     GenTime pos = km->getPosAtIndex(k.toInt());
                     if (pos != alignPos) {
                         qDebug() << "READY TO MOVE KEYFRAME: " << pos.frames(25) << " / " << alignPos.frames(25);
-                        success = success && km->moveKeyframe(pos, alignPos, QVariant(), undo, redo);
+                        success = success && km->moveKeyframe(pos, alignPos, QVariant(), true, undo, redo);
                     }
                 }
             }
@@ -863,7 +863,7 @@ void DopeSheetModel::moveKeyframe(const QVariantMap kfData, int sourcePos, int u
             }
             qDebug() << "::: MOVING KEYFRAME TO: " << updatedPos.frames(25) << "; OFFSET: " << offset.frames(25) << ", PREV: " << pos.frames(25)
                      << "\n**************************";
-            success = success && km->moveKeyframe(pos, updatedPos, QVariant(), undo, redo);
+            success = success && km->moveKeyframe(pos, updatedPos, QVariant(), logUndo, undo, redo);
             if (success && logUndo) {
                 km->setSelectedKeyframes({});
             }

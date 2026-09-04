@@ -100,7 +100,8 @@ public:
     Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, bool logUndo);
     Q_INVOKABLE bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView = true,
+                      bool allowedToFail = false);
 
     /** @brief updates the value of a keyframe
        @param old is the position of the keyframe
@@ -109,7 +110,7 @@ public:
     Q_INVOKABLE bool updateKeyframe(int pos, double newVal, bool logUndo);
     bool updateKeyframe(GenTime pos, QVariant value, bool logUndo);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
-    bool updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update = true);
+    bool updateKeyframe(GenTime pos, const QVariant &value, bool logUndo, Fun &undo, Fun &redo, bool update = true);
     /** @brief updates the value of a keyframe, without any management of undo/redo
        @param pos is the position of the keyframe
        @param value is the new value of the param
@@ -203,7 +204,7 @@ public Q_SLOTS:
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
-    Fun updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify);
+    Fun updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify, bool logUndo);
 
     /** @brief Helper function that generate a lambda to add given keyframe */
     Fun addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify);
@@ -243,7 +244,7 @@ private:
     mutable QReadWriteLock m_lock;
 
     std::map<GenTime, std::pair<KeyframeType::KeyframeEnum, QVariant>> m_keyframeList;
-    bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
+    bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
     /** @brief update MLT keyframe value to reflect our model change */
     void updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
                                 KeyframeType::KeyframeEnum type);

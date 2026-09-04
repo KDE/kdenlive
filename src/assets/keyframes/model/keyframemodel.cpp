@@ -189,8 +189,8 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QV
         // In this case we simply change the type and value
         KeyframeType::KeyframeEnum oldType = m_keyframeList[pos].first;
         QVariant oldValue = m_keyframeList[pos].second;
-        local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
-        local_redo = updateKeyframe_lambda(pos, type, value, notify);
+        local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify, true);
+        local_redo = updateKeyframe_lambda(pos, type, value, notify, true);
         if (local_redo()) {
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;
@@ -348,7 +348,7 @@ int KeyframeModel::getKeyframeTypeAtFrame(int frame) const
     return getKeyframeTypeAtPos(pos);
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
 {
     QWriteLocker locker(&m_lock);
     // Check if we have several selected keyframes
@@ -404,15 +404,15 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
             bool res = true;
             for (auto &p : positions) {
                 if (p == oldPos) {
-                    res = res && moveOneKeyframe(oldPos, oldPos + delta, newVal, undo, redo, updateView);
+                    res = res && moveOneKeyframe(oldPos, oldPos + delta, newVal, logUndo, undo, redo, updateView);
                 } else {
                     if (!qFuzzyIsNull(offset)) {
                         // Calculate new value
                         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(p)));
                         double newVal2 = qBound(0., data(index(row), NormalizedValueRole).toDouble() + offset, 1.);
-                        res = res && moveOneKeyframe(p, p + delta, newVal2, undo, redo, updateView);
+                        res = res && moveOneKeyframe(p, p + delta, newVal2, logUndo, undo, redo, updateView);
                     } else {
-                        res = res && moveOneKeyframe(p, p + delta, QVariant(), undo, redo, updateView);
+                        res = res && moveOneKeyframe(p, p + delta, QVariant(), logUndo, undo, redo, updateView);
                     }
                 }
             }
@@ -434,13 +434,13 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
                     pos = qMax(pos, next.first + GenTime(1, pCore->getCurrentFps()));
                 }
             }
-            return moveOneKeyframe(oldPos, pos, newVal, undo, redo, updateView, allowedToFail);
+            return moveOneKeyframe(oldPos, pos, newVal, logUndo, undo, redo, updateView, allowedToFail);
         }
     }
     return false;
 }
 
-bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
+bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
 {
     qDebug() << "starting to move ONE keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps())
              << "; UPDATE VIEW: " << updateView;
@@ -457,11 +457,11 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         }
         if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
             m_paramType == ParamType::AnimatedPoint) {
-            return updateKeyframe(pos, newVal, true);
+            return updateKeyframe(pos, newVal, logUndo);
         }
         // Calculate real value from normalized
         QVariant result = getNormalizedValue(newVal.toDouble());
-        return updateKeyframe(pos, result, true);
+        return updateKeyframe(pos, result, logUndo);
     }
     if (oldPos != pos && hasKeyframe(pos)) {
         // Move rejected, another keyframe is here
@@ -485,7 +485,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
 
     // Now, move the keyframe using MLT
     int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
-    Fun local_undo = [this, row, pos, oldPos, originalKf, updateView, updatedValue]() {
+    Fun local_undo = [this, row, pos, oldPos, originalKf, updateView, updatedValue, logUndo]() {
         bool res = true;
         if (auto ptr = m_model.lock()) {
             const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
@@ -505,9 +505,16 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
                 } else {
                     Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
                 }
-                if (!ptr->m_isAudio) {
+                if (updateView && !ptr->m_isAudio) {
                     // Trigger monitor refresh
                     pCore->refreshProjectItem(ptr->getOwnerId());
+                }
+                if (logUndo) {
+                    if (!ptr->m_isAudio) {
+                        pCore->invalidateItem(ptr->getOwnerId());
+                    } else {
+                        pCore->invalidateAudio(ptr->getOwnerId());
+                    }
                 }
             } else {
                 qDebug() << "KF MOVE UNDO OP FAILED";
@@ -515,7 +522,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         }
         return res;
     };
-    Fun local_redo = [this, row, pos, oldPos, finalKf, updateView, updatedValue]() {
+    Fun local_redo = [this, row, pos, oldPos, finalKf, updateView, updatedValue, logUndo]() {
         bool res = true;
         // qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
         if (auto ptr = m_model.lock()) {
@@ -541,6 +548,13 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
                     if (!ptr->m_isAudio) {
                         // Trigger monitor refresh
                         pCore->refreshProjectItem(ptr->getOwnerId());
+                    }
+                }
+                if (logUndo) {
+                    if (!ptr->m_isAudio) {
+                        pCore->invalidateItem(ptr->getOwnerId());
+                    } else {
+                        pCore->invalidateAudio(ptr->getOwnerId());
                     }
                 }
             } else {
@@ -620,7 +634,7 @@ bool KeyframeModel::moveKeyframeByIndex(int ix, int pos, Fun &undo, Fun &redo, b
 {
     GenTime oPos = getPosAtIndex(ix);
     GenTime nPos(pos, pCore->getCurrentFps());
-    return moveOneKeyframe(oPos, nPos, QVariant(), undo, redo, updateView);
+    return moveOneKeyframe(oPos, nPos, QVariant(), updateView, undo, redo, updateView);
 }
 
 bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
@@ -646,7 +660,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
     }
     bool res = true;
     for (const auto &t : std::as_const(times)) {
-        res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
+        res &= moveKeyframe(t, t + diff, QVariant(), logUndo, undo, redo);
     }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframes"));
@@ -679,7 +693,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, b
     } else {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        res = moveKeyframe(oldPos, pos, std::move(newVal), undo, redo);
+        res = moveKeyframe(oldPos, pos, std::move(newVal), logUndo, undo, redo);
         if (res && logUndo) {
             PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframe"));
         }
@@ -692,11 +706,11 @@ bool KeyframeModel::directUpdateKeyframe(GenTime pos, QVariant value, bool notif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType::KeyframeEnum type = m_keyframeList[pos].first;
-    auto operation = updateKeyframe_lambda(pos, type, std::move(value), notify);
+    auto operation = updateKeyframe_lambda(pos, type, std::move(value), notify, true);
     return operation();
 }
 
-bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update)
+bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, bool logUndo, Fun &undo, Fun &redo, bool update)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -706,8 +720,8 @@ bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (qFuzzyCompare(oldValue.toDouble(), value.toDouble())) return true;
     }
-    auto operation = updateKeyframe_lambda(pos, type, value, update);
-    auto reverse = updateKeyframe_lambda(pos, type, oldValue, update);
+    auto operation = updateKeyframe_lambda(pos, type, value, update, logUndo);
+    auto reverse = updateKeyframe_lambda(pos, type, oldValue, update, logUndo);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -751,7 +765,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, bool logUndo)
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = updateKeyframe(pos, value, undo, redo);
+    bool res = updateKeyframe(pos, value, logUndo, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
@@ -806,8 +820,8 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (oldType == newType) return true;
     }
-    auto operation = updateKeyframe_lambda(pos, newType, value, true);
-    auto reverse = updateKeyframe_lambda(pos, oldType, value, true);
+    auto operation = updateKeyframe_lambda(pos, newType, value, true, true);
+    auto reverse = updateKeyframe_lambda(pos, oldType, value, true, true);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -815,10 +829,10 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     return res;
 }
 
-Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify)
+Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    return [this, pos, type, value, notify]() {
+    return [this, pos, type, value, notify, logUndo]() {
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
@@ -826,10 +840,20 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum
         if (auto ptr = m_model.lock()) {
             const QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
             updateMltKeyframeValue(ptr, paramName, pos, value, type);
-            if (notify) Q_EMIT ptr->dataChanged(index(row), index(row));
-            if (!ptr->m_isAudio) {
-                // Trigger monitor refresh
-                pCore->refreshProjectItem(ptr->getOwnerId());
+            if (notify) {
+                Q_EMIT ptr->dataChanged(index(row), index(row));
+                if (!ptr->m_isAudio) {
+                    // Trigger monitor refresh
+                    pCore->refreshProjectItem(ptr->getOwnerId());
+                }
+            }
+            qDebug() << "==== UPDATING KEYFRAME WITH LOGUNDO: " << logUndo << "\n* * * * * *";
+            if (logUndo) {
+                if (!ptr->m_isAudio) {
+                    pCore->invalidateItem(ptr->getOwnerId());
+                } else {
+                    pCore->invalidateAudio(ptr->getOwnerId());
+                }
             }
         }
         if (notify) {
@@ -890,9 +914,14 @@ Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum ty
         if (auto ptr = m_model.lock()) {
             const QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
             updateMltKeyframeValue(ptr, paramName, pos, value, type);
-            if (notify && !ptr->m_isAudio) {
-                // Trigger monitor refresh
-                pCore->refreshProjectItem(ptr->getOwnerId());
+            if (notify) {
+                if (!ptr->m_isAudio) {
+                    // Trigger monitor refresh
+                    pCore->refreshProjectItem(ptr->getOwnerId());
+                    pCore->invalidateItem(ptr->getOwnerId());
+                } else {
+                    pCore->invalidateAudio(ptr->getOwnerId());
+                }
             }
         }
         if (notify) {
@@ -917,9 +946,14 @@ Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos, bool notify)
             const QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
             Mlt::Animation anim = ptr->getAsset()->get_animation(paramName.toLatin1().constData());
             anim.remove(pos.frames(pCore->getCurrentFps()));
-            if (notify && !ptr->m_isAudio) {
-                // Trigger monitor refresh
-                pCore->refreshProjectItem(ptr->getOwnerId());
+            if (notify) {
+                if (!ptr->m_isAudio) {
+                    // Trigger monitor refresh
+                    pCore->refreshProjectItem(ptr->getOwnerId());
+                    pCore->invalidateItem(ptr->getOwnerId());
+                } else {
+                    pCore->invalidateAudio(ptr->getOwnerId());
+                }
             }
         }
         if (notify) endRemoveRows();
@@ -1330,7 +1364,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out, Fun 
             }
             if (frame == in && hasKeyframe(GenTime(in))) {
                 // First keyframe already exists, adjust its value
-                updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
+                updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, false, undo, redo, false);
                 continue;
             }
             addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);

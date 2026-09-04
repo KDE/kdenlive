@@ -172,7 +172,7 @@ Rectangle {
                     keyframe.dragPos = -1
                     return
                 }
-                if (keyframe.dragPos == keyframe.frame && keyframe.value == keyframe.height - parent.y - K.UiUtils.baseSizeMedium / 2) {
+                if (keyframe.dragPos == keyframe.frame && newVal == keyframe.clickVal) {
                     console.log('NOT CHANHE IN KEYFRAME, ABORTING')
                     let pos = keyframe.keyframeModelOffset + keyframe.frame - keyframe.parentInPoint
                     if (keyframe.consumerPosition !== pos) {
