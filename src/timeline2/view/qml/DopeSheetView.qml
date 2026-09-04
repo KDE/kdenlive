@@ -113,10 +113,13 @@ Rectangle {
     }
 
     function processParamUpdate() {
-        dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, getActiveCppParamIndex())
-        dopeRoot.paramUpdatePending = false
-        if (dopeRoot.insideOwner && dopeRoot.timeScale > 1) {
-            scrollToFrame(dopeRoot.consumerPosition)
+        let ix = getActiveCppParamIndex()
+        if (ix.valid) {
+            dopeRoot.overKeyframe = dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, ix)
+            dopeRoot.paramUpdatePending = false
+            if (dopeRoot.insideOwner && dopeRoot.timeScale > 1) {
+                scrollToFrame(dopeRoot.consumerPosition)
+            }
         }
     }
 
@@ -703,6 +706,9 @@ Rectangle {
                     dopeRoot.filterDopeView(text)
                 }
             }
+            Item {
+                Layout.fillWidth: true
+            }
         }
     }
 
@@ -811,7 +817,6 @@ Rectangle {
                 return
             }
             dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
-            console.log('MOUSE FRAME TO: ', dopeRoot.mouseFramePos, ', NEW: ', mousePos)
         }
     }
 

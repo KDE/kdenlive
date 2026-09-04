@@ -1477,6 +1477,7 @@ Rectangle {
                             id: effectButton
                             height: effectsRect.height
                             width: effectsRect.height
+                            enabled: !clipRoot.hideDecorations && effectsRect.visible
                             onClicked: {
                                 clipRoot.timeline.setEffectsEnabled(clipRoot.clipId, !clipRoot.isStackEnabled)
                             }

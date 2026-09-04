@@ -106,8 +106,8 @@ public:
        @param old is the position of the keyframe
        @param value is the new value of the param
     */
-    Q_INVOKABLE bool updateKeyframe(int pos, double newVal);
-    bool updateKeyframe(GenTime pos, QVariant value);
+    Q_INVOKABLE bool updateKeyframe(int pos, double newVal, bool logUndo);
+    bool updateKeyframe(GenTime pos, QVariant value, bool logUndo);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update = true);
     /** @brief updates the value of a keyframe, without any management of undo/redo
@@ -244,6 +244,9 @@ private:
 
     std::map<GenTime, std::pair<KeyframeType::KeyframeEnum, QVariant>> m_keyframeList;
     bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
+    /** @brief update MLT keyframe value to reflect our model change */
+    void updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
+                                KeyframeType::KeyframeEnum type);
 
 Q_SIGNALS:
     void modelChanged();

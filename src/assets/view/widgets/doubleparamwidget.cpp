@@ -60,5 +60,5 @@ void DoubleParamWidget::slotShowComment(bool show)
 
 void DoubleParamWidget::setParamState(bool isOnKeyframe, bool singleKeyframe)
 {
-    m_doubleWidget->setParamState(isOnKeyframe, singleKeyframe);
+    Q_EMIT m_doubleWidget->setParamState(isOnKeyframe, singleKeyframe);
 }

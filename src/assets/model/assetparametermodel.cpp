@@ -488,9 +488,9 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                 // Process fake point to set values for individual components
                 processFakePoint(name, paramIndex);
             }
-            if (km) {
+            /*if (km) {
                 km->refresh();
-            }
+            }*/
         } else {
             // Fixed value
             if (type == ParamType::FakeRect) {
@@ -1904,7 +1904,7 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         if (m_keyframes) {
             auto km = m_keyframes->getKeyModel(ix);
             if (km) {
-                km->refresh();
+                // km->refresh();
                 ParamRow currentRow = m_params.at(param.first);
                 if (currentRow.type == ParamType::Roto_spline) {
                     // Reset monitor view

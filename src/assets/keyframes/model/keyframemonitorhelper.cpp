@@ -145,7 +145,7 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
                     if (data.size() > 4) {
                         res.append(QStringLiteral(" %1").arg(data.at(4)));
                     }
-                    kfr->updateKeyframe(kf.first, res);
+                    kfr->updateKeyframe(kf.first, res, true);
                 }
             }
             kf = kfr->getNextKeyframe(kf.first, &ok);

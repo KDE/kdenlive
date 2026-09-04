@@ -48,6 +48,8 @@ Rectangle {
     property int tmpVal : keyframeVal.y + K.UiUtils.baseSizeMedium / 2
     property int tmpPos : x + keyframeVal.x + K.UiUtils.baseSizeMedium / 2
     property int dragPos : -1
+    property int clickPos : -1
+    property double clickVal
     anchors.bottom: parent.bottom
 
     onFrameTypeChanged: { requestRepaint() }
@@ -148,6 +150,8 @@ Rectangle {
                 keyframe.blockAutoScroll(true)
                 drag.axis = keyframe.model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                 keyframe.dragPos = keyframe.frame
+                keyframe.clickPos = keyframe.frame
+                keyframe.clickVal = keyframe.model.normalizedValue
             }
             onClicked: mouse => {
                 keyframe.focusKeyframeContainer()
@@ -169,12 +173,16 @@ Rectangle {
                     return
                 }
                 if (keyframe.dragPos == keyframe.frame && keyframe.value == keyframe.height - parent.y - K.UiUtils.baseSizeMedium / 2) {
-                    var pos = keyframe.keyframeModelOffset + keyframe.frame - keyframe.parentInPoint
+                    console.log('NOT CHANHE IN KEYFRAME, ABORTING')
+                    let pos = keyframe.keyframeModelOffset + keyframe.frame - keyframe.parentInPoint
                     if (keyframe.consumerPosition !== pos) {
                         keyframe.seek(pos)
                     }
                     return
                 }
+                // silently revert to previous pos/value for undo
+                keyframe.kfrModel.moveKeyframe(keyframe.dragPos, keyframe.clickPos, keyframe.clickVal, false)
+
                 if (newVal > 1.5 || newVal < -0.5) {
                     if (keyframe.frame != keyframe.parentInPoint) {
                         keyframe.resetSelection()
@@ -185,7 +193,7 @@ Rectangle {
                         } else if (newVal > 1) {
                             newVal = 1;
                         }
-                        keyframe.kfrModel.updateKeyframe(keyframe.frame, newVal)
+                        keyframe.kfrModel.updateKeyframe(keyframe.frame, newVal, true)
                     }
                 } else {
                     if (newVal < 0) {
@@ -223,6 +231,11 @@ Rectangle {
                     keyframe.requestRepaint()
                     newVal = (keyframe.keyframeContainerHeight - (parent.y + mouse.y)) / keyframe.keyframeContainerHeight
                     movingVal = keyframe.kfrModel.realValue(Math.min(Math.max(newVal, 0), 1))
+                    if (keyframe.frame == keyframe.dragPos) {
+                        keyframe.kfrModel.updateKeyframe(keyframe.frame, newVal, false)
+                    } else {
+                        keyframe.kfrModel.moveKeyframe(keyframe.frame, keyframe.dragPos, newVal, false)
+                    }
                 }
             }
             onDoubleClicked: {
