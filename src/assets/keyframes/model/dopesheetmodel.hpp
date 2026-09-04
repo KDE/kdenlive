@@ -142,6 +142,7 @@ private:
     std::shared_ptr<EffectStackModel> m_model;
     QMap<QModelIndex, QList<std::pair<int, int>>> m_scaledKFInfo;
     std::pair<int, int> m_scaledRange;
+    std::pair<int, int> m_scaledLimits;
     std::shared_ptr<KeyframeModel> m_masterRecap{nullptr};
     /** @brief Remember if the playhead is on a keyframe */
     QList<QPersistentModelIndex> m_indexesOnKeyframe;

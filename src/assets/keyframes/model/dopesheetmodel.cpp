@@ -725,6 +725,7 @@ void DopeSheetModel::setScaledInfo(const QVariantMap kfData, int sourcePos)
     m_scaledKFInfo.clear();
     // m_scaledRange.second = sourcePos;
     m_scaledRange = {-1, -1};
+    m_scaledLimits = {0, dopeDuration()};
     for (auto i = selection.cbegin(), end = selection.cend(); i != end; ++i) {
         int itemId = int(i.key().internalId());
         auto tItem = getItemById(itemId);
@@ -737,6 +738,22 @@ void DopeSheetModel::setScaledInfo(const QVariantMap kfData, int sourcePos)
             QVariantList indexes = i.value().toList();
             std::sort(indexes.begin(), indexes.end(), [](const QVariant &a, const QVariant &b) { return a.toInt() < b.toInt(); });
             QList<std::pair<int, int>> kfMap;
+            // find previous / next keyframes to set boundaries
+            bool ok;
+            auto prevKf = km->getPrevKeyframe(km->getPosAtIndex(indexes.first().toInt()), &ok);
+            if (ok) {
+                int previousFrame = prevKf.first.frames(pCore->getCurrentFps()) + 1;
+                if (previousFrame > m_scaledLimits.first) {
+                    m_scaledLimits.first = previousFrame;
+                }
+            }
+            auto nextKf = km->getNextKeyframe(km->getPosAtIndex(indexes.last().toInt()), &ok);
+            if (ok) {
+                int nextFrame = nextKf.first.frames(pCore->getCurrentFps()) - 1;
+                if (nextFrame < m_scaledLimits.second) {
+                    m_scaledLimits.second = nextFrame;
+                }
+            }
             for (auto &k : indexes) {
                 int frame = km->getPosAtIndex(k.toInt()).frames(pCore->getCurrentFps());
                 if (frame < m_scaledRange.first || m_scaledRange.first < 0) {
@@ -759,8 +776,10 @@ void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updat
     bool success = true;
     double percentage;
     if (m_resizeFromStart) {
+        updatedPos = qMax(m_scaledLimits.first, updatedPos);
         percentage = double(m_scaledRange.second - updatedPos) / (m_scaledRange.second - m_scaledRange.first);
     } else {
+        updatedPos = qMin(m_scaledLimits.second, updatedPos);
         percentage = double(updatedPos - m_scaledRange.first) / (m_scaledRange.second - m_scaledRange.first);
     }
     GenTime firstKeyframe;
@@ -780,6 +799,7 @@ void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updat
                 int updatedFrame = m_resizeFromStart ? m_scaledRange.second - (m_scaledRange.second - j.second) * percentage
                                                      : m_scaledRange.first + (j.second - m_scaledRange.first) * percentage;
                 qDebug() << "::: MOVING KEYFRAME AT: " << j.first << " = " << j.second << " TO " << updatedFrame;
+                updatedFrame = qBound(m_scaledLimits.first, updatedFrame, m_scaledLimits.second);
                 success = success && km->moveKeyframeByIndex(j.first, updatedFrame, undo, redo, updateView);
             }
         }
