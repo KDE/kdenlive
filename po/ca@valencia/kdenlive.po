@@ -26851,13 +26851,12 @@ msgstr ""
 #: src/dialogs/timeremap.cpp:1730
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
-msgstr ""
-"El tornar a assignar el temps no funciona en els clips amb fotogrames B."
+msgstr "La reassignació de temps no funciona en els clips amb fotogrames B."
 
 #: src/dialogs/timeremap.cpp:2077
 #, kde-format
 msgid "Edit Timeremap keyframes"
-msgstr "Edita el tornar a assignar el temps dels fotogrames clau"
+msgstr "Edita la reassignació de temps dels fotogrames clau"
 
 #: src/dialogs/titletemplatedialog.cpp:90
 #: src/dialogs/titletemplatedialog.cpp:110
@@ -29540,7 +29539,7 @@ msgstr "Editor de veu"
 #: src/mainwindow.cpp:272
 #, kde-format
 msgid "Time Remapping"
-msgstr "Tornar a assignar el temps"
+msgstr "Reassignació del temps"
 
 #: src/mainwindow.cpp:306 src/timeline2/view/qml/AudioRecordButton.qml:155
 #: src/timeline2/view/qml/AudioRecordButton.qml:268
@@ -36382,7 +36381,7 @@ msgstr "Mou la composició"
 #: src/timeline2/model/timelinemodel.cpp:7224
 #, kde-format
 msgid "Enable time remap"
-msgstr "Activa el tornar a assignar el temps"
+msgstr "Activa la reassignació del temps"
 
 #: src/timeline2/model/timelinemodel.cpp:7296
 #, kde-format
