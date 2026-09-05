@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-03 00:42+0000\n"
-"PO-Revision-Date: 2026-09-03 06:35-0300\n"
+"PO-Revision-Date: 2026-09-04 09:57-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -11669,7 +11669,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
 #, kde-format
 msgid "Light Graffiti"
-msgstr "Graffiti de Luz"
+msgstr "Grafite de Luz"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:8
 #, kde-format
@@ -11679,7 +11679,7 @@ msgid ""
 "light sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
-"Efeito Graffiti de Luz.\n"
+"Efeito Grafite de Luz.\n"
 "        Este efeito permite fazer Pintura de Luz (ou seja, pintar com fontes "
 "de luz em uma foto mantendo o obturador\n"
 "        aberto por um tempo), mas para vídeo."
@@ -11846,7 +11846,7 @@ msgid ""
 msgstr ""
 "Determina como o efeito tenta se adaptar às mudanças no plano de fundo. <br/"
 ">\n"
-"            O efeito Graffiti de Luz recorda da primeira imagem do clipe em "
+"            O efeito Grafite de Luz recorda da primeira imagem do clipe em "
 "que é aplicada, para que o vídeo deva começar <em>sempre</em> com o pintor "
 "fora do vídeo. Se o plano de fundo mudar constantemente, p.ex., em uma rua, "
 "tente configurar o α > 0 para calcular uma imagem de fundo média."
@@ -11952,7 +11952,7 @@ msgid ""
 "sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
-"Efeito Graffiti de Luz.\n"
+"Efeito Grafite de Luz.\n"
 "        Este efeito permite fazer Pintura de Luz (ou seja, pintar com fontes "
 "de luz em uma foto mantendo o obturador\n"
 "        aberto por um tempo), mas para vídeo."
@@ -12922,7 +12922,7 @@ msgstr "Desvio em Y"
 #: data/effects/frei0r/frei0r_scanline0r.xml:4
 #, kde-format
 msgid "scanline0r"
-msgstr "Linhas entrelaçadas"
+msgstr "scanline0r"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:5
 #, kde-format

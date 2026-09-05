@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-03 00:42+0000\n"
-"PO-Revision-Date: 2026-08-19 09:18+0200\n"
+"PO-Revision-Date: 2026-09-04 11:19+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -12965,7 +12965,7 @@ msgstr "Zmehčaj"
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
-msgstr ""
+msgstr "Stresi0sciliraj"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:5
 #, kde-format
@@ -12974,42 +12974,40 @@ msgid ""
 "rotation, scale and option to mirror the image if it goes outside the screen "
 "bounds.<br><br>This effect is for a smooth and controlled oscillation."
 msgstr ""
+"Animira vhodno sliko s prilagodljivimi parametri, kot so količina, hitrost, "
+"vrtenje, sprememba velikosti in možnostjo zrcaljenja, da se slika zrcali, ko "
+"sega čez meje zaslona.<br><br>Ta učinek je namenjen gladki in nadzorovani "
+"oscilaciji."
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "Sličice z gibanjem"
+msgstr "Gibanje X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "Hitrost"
+msgstr "Hitrost X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "Sličice z gibanjem"
+msgstr "Gibanje Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "Hitrost"
+msgstr "Hitrost Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "Vrtenje"
+msgstr "Hitrost vrtenja"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "Zrcali"
+msgstr "Zrcaljeno"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
@@ -42736,10 +42734,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "%1 (copy)"
-#~ msgstr "%1 (kopija)"
-
-#~ msgctxt "append to clip name to indicate a copied idem"
-#~ msgid " (copy)"
-#~ msgstr " (kopija)"
