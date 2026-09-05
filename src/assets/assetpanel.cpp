@@ -79,11 +79,11 @@ AssetPanel::AssetPanel(QWidget *parent)
     buttonToolbar->addWidget(empty);
 
     // Dopesheet button
-    m_showDopesheet = new QAction(QIcon::fromTheme(QStringLiteral("keyframe")), i18n("Show Dopesheet"), this);
-    m_showDopesheet->setToolTip(i18n("Show Dopesheet Panel"));
+    m_showDopesheet = new QAction(QIcon::fromTheme(QStringLiteral("keyframe")), i18n("Show Keyframes"), this);
+    m_showDopesheet->setToolTip(i18n("Show Keyframes Panel"));
     m_showDopesheet->setCheckable(true);
     connect(pCore.get(), &Core::switchDopesheet, m_showDopesheet, &QAction::setChecked);
-    m_showDopesheet->setWhatsThis(xi18nc("@info:whatsthis", "This shows the dopesheet panel to allow working on keyframes."));
+    m_showDopesheet->setWhatsThis(xi18nc("@info:whatsthis", "This shows the Keyframes panel to allow working on keyframes."));
     connect(m_showDopesheet, &QAction::triggered, pCore.get(), &Core::doOpenDopesheet);
     buttonToolbar->addAction(m_showDopesheet);
     m_showDopesheet->setVisible(false);

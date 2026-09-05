@@ -510,7 +510,7 @@ void MainWindow::init()
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
     // DopeSheet
-    auto dopeDock = addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
+    auto dopeDock = addDock(i18n("Keyframes"), QStringLiteral("keyframes"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
     connect(pCore.get(), &Core::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
     connect(pCore.get(), &Core::registerDopeAsset, m_dopeWidget, &DopeWidget::registerDopeAsset);
     connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
@@ -519,7 +519,7 @@ void MainWindow::init()
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
-    connect(m_commandStack, &QUndoGroup::cleanChanged, [this, cleanHistory](bool isClean) {
+    connect(m_commandStack, &QUndoGroup::cleanChanged, this, [this, cleanHistory](bool isClean) {
         m_saveAction->setDisabled(isClean);
         cleanHistory->setDisabled(isClean);
     });
