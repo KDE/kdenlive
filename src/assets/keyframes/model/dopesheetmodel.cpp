@@ -631,9 +631,7 @@ void DopeSheetModel::slotPasteKeyframeFromClipBoard(int position)
         }
     }
     for (auto &p : m_paramsList) {
-        qDebug() << "::: CHECKING PARAM: " << p.second.first.id << " / " << p.second.first.mltId;
-        QPersistentModelIndex ix = p.second.first.index;
-        auto paramName = p.second.first.mltId; // m_model->data(ix, AssetParameterModel::NameRole).toString();
+        auto paramName = p.second.first.mltId;
         if (paramName.isEmpty()) {
             // Recap, ignore
             continue;

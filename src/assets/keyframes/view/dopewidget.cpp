@@ -143,7 +143,7 @@ void DopeWidget::clear()
 
 void DopeWidget::setViewProperties(QVariantMap properties)
 {
-    for (QVariantMap::const_iterator iter = properties.begin(); iter != properties.end(); ++iter) {
+    for (QVariantMap::const_iterator iter = properties.constBegin(); iter != properties.constEnd(); ++iter) {
         rootObject()->setProperty(iter.key().toLatin1().constData(), iter.value());
         QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(iter.value()), QQmlEngine::CppOwnership);
     }

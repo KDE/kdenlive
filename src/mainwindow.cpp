@@ -182,7 +182,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::init()
 {
-    QString desktopStyle = QApplication::style()->objectName();
     // Load themes
     auto themeManager = KColorSchemeManager::instance();
     KActionMenu *colorSelectionMenu = KColorSchemeMenu::createMenu(themeManager, this);
@@ -578,7 +577,7 @@ void MainWindow::init()
     m_mixerDock->close();
     m_projectBinDock->setAsCurrentTab();
 
-    bool firstRun = readOptions();
+    readOptions();
     if (KdenliveSettings::lastCacheCheck().isNull()) {
         // Define a date for first check
         KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
@@ -1001,7 +1000,6 @@ void MainWindow::loadBins(QStringList binInfo)
         mainBin = m_binWidgets.first();
     }
 
-    QStringList existingNames;
     for (const QString &info : binInfo) {
         if (mainBin && info.startsWith("project_bin:")) {
             // Main Bin, don't recreate
@@ -4329,7 +4327,6 @@ void MainWindow::buildDynamicActions()
             QString clipId;
             if (transcodeData.count() > 2 && transcodeData.at(2) == QLatin1String("audio")) {
                 // Audio extract, check if we have multi stream clips
-                QMap<QString, int> clipStreamCount;
                 for (const QString &id : ids) {
                     if (id.contains(QLatin1Char('/'))) {
                         clipId = id.section(QLatin1Char('/'), 0, 0);
@@ -4702,7 +4699,8 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        for (QAction *tempAction : coll->actions()) {
+        const QList<QAction *> collectionActions = coll->actions();
+        for (QAction *tempAction : collectionActions) {
             if (tempAction->shortcuts().contains(seq)) {
                 // Trigger action
                 tempAction->trigger();
@@ -4834,7 +4832,7 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
 
     if (avSizes.count() < 10) {
         // Fixed or threshold type icons
-        for (int it : avSizes) {
+        for (int it : std::as_const(avSizes)) {
             QString text;
             if (it < 19) {
                 text = i18n("Small (%1x%2)", it, it);
@@ -4861,7 +4859,7 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
         const int progression[] = {16, 22, 32, 48, 64, 96, 128, 192, 256};
 
         for (int i : progression) {
-            for (int it : avSizes) {
+            for (int it : std::as_const(avSizes)) {
                 if (it >= i) {
                     QString text;
                     if (it < 19) {
@@ -5375,7 +5373,8 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
         applyToolMessageStyling();
         applyZoomLevelButtonStyling();
 
-        for (KDDockWidgets::Core::Group *group : KDDockWidgets::DockRegistry::self()->groups()) {
+        const QList<KDDockWidgets::Core::Group *> kdGroups = KDDockWidgets::DockRegistry::self()->groups();
+        for (KDDockWidgets::Core::Group *group : kdGroups) {
             auto tab_bar = static_cast<KDDockWidgets::QtWidgets::TabBar *>(group->tabBar()->view());
             if (QProxyStyle *style = qobject_cast<QProxyStyle *>(tab_bar->style())) {
                 style->setBaseStyle(QStyleFactory::create(qApp->style()->name()));
@@ -5494,7 +5493,6 @@ void MainWindow::cleanBins()
 
 void MainWindow::loadExtraBins(const QStringList binInfo)
 {
-    QString folderName;
     QStringList existingNames;
     pCore->lastActiveBin.clear();
 
@@ -6015,7 +6013,8 @@ void MainWindow::slotEditToolbars()
 {
     // backup all current shortcuts
     QMap<QString, QKeySequence> shortcutBackup;
-    for (auto *action : actionCollection()->actions()) {
+    const QList<QAction *> collectionActions = actionCollection()->actions();
+    for (auto *action : collectionActions) {
         if (!action->shortcut().isEmpty()) {
             shortcutBackup.insert(action->objectName(), action->shortcut());
         }
@@ -6036,7 +6035,8 @@ void MainWindow::slotEditToolbars()
         QAction *action = actionCollection()->action(i.key());
         if (action && action->shortcut() != i.value()) {
             if (!i.value().isEmpty()) {
-                for (auto *otherAction : actionCollection()->actions()) {
+                const QList<QAction *> collectionActions = actionCollection()->actions();
+                for (auto *otherAction : collectionActions) {
                     if (otherAction != action && otherAction->shortcut() == i.value()) {
                         otherAction->setShortcut(QKeySequence());
                     }
