@@ -128,21 +128,17 @@ void MyTextItem::setAlignment(Qt::Alignment alignment)
 void MyTextItem::refreshFormat()
 {
     QString gradientData = data(TitleDocument::Gradient).toString();
+    if (gradientData.isEmpty()) {
+        return;
+    }
     QTextCursor cursor = textCursor();
     QTextCharFormat cformat;
     cursor.select(QTextCursor::Document);
     int position = textCursor().position();
 
-    // Formatting can be lost on paste, since our QTextCursor gets overwritten, so re-apply all formatting here
-    QColor fgColor = defaultTextColor();
-    cformat.setForeground(fgColor);
-    cformat.setFont(font());
-
-    if (!gradientData.isEmpty()) {
-        QRectF rect = boundingRect();
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height()));
-        cformat.setForeground(QBrush(gr));
-    }
+    QRectF rect = boundingRect();
+    QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height()));
+    cformat.setForeground(QBrush(gr));
 
     // Apply
     cursor.mergeCharFormat(cformat);
@@ -415,7 +411,6 @@ void MyTextItem::updateGeometry()
     QPointF topRightPrev = boundingRect().topRight();
     setTextWidth(-1);
     setTextWidth(boundingRect().width());
-    setAlignment(m_alignment);
     QPointF topRight = boundingRect().topRight();
 
     // if the text is right-aligned, then shift the container leftwards by the
@@ -773,8 +768,10 @@ void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)
 {
     clearSelection();
     m_selectedItem = item;
-    m_selectedItemInitialPos = item->scenePos();
-    item->setSelected(true);
+    if (item) {
+        m_selectedItemInitialPos = item->scenePos();
+        item->setSelected(true);
+    }
     update();
 }
 
@@ -807,13 +804,22 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
         Q_EMIT paste();
     }
 
+    QGraphicsItem *focused = focusItem();
+    if (focused && focused->type() == QGraphicsTextItem::Type) {
+        auto *t = static_cast<MyTextItem *>(focused);
+        if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
+            QGraphicsScene::keyPressEvent(keyEvent);
+            return;
+        }
+    }
+
     if (m_selectedItem == nullptr || !(m_selectedItem->flags() & QGraphicsItem::ItemIsMovable)) {
         QGraphicsScene::keyPressEvent(keyEvent);
         return;
     }
     if (m_selectedItem->type() == QGraphicsTextItem::Type) {
         auto *t = static_cast<MyTextItem *>(m_selectedItem);
-        if (t->textInteractionFlags() & static_cast<int>((Qt::TextEditorInteraction) != 0)) {
+        if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
             QGraphicsScene::keyPressEvent(keyEvent);
             return;
         }
@@ -829,24 +835,28 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
             qgi->moveBy(-diff, 0);
         }
         Q_EMIT itemMoved();
+        Q_EMIT actionFinished();
         break;
     case Qt::Key_Right:
         for (QGraphicsItem *qgi : selectedItems()) {
             qgi->moveBy(diff, 0);
         }
         Q_EMIT itemMoved();
+        Q_EMIT actionFinished();
         break;
     case Qt::Key_Up:
         for (QGraphicsItem *qgi : selectedItems()) {
             qgi->moveBy(0, -diff);
         }
         Q_EMIT itemMoved();
+        Q_EMIT actionFinished();
         break;
     case Qt::Key_Down:
         for (QGraphicsItem *qgi : selectedItems()) {
             qgi->moveBy(0, diff);
         }
         Q_EMIT itemMoved();
+        Q_EMIT actionFinished();
         break;
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
@@ -859,11 +869,11 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
         }
         m_selectedItem = nullptr;
         Q_EMIT selectionChanged();
+        Q_EMIT actionFinished();
         break;
     default:
         QGraphicsScene::keyPressEvent(keyEvent);
     }
-    Q_EMIT actionFinished();
 }
 
 void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
@@ -1118,9 +1128,13 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
 
 void GraphicsSceneRectMove::clearTextSelection(bool reset)
 {
+    bool hadTextInteraction = false;
     if ((m_selectedItem != nullptr) && m_selectedItem->type() == QGraphicsTextItem::Type) {
         // disable text editing
         auto *t = static_cast<MyTextItem *>(m_selectedItem);
+        if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
+            hadTextInteraction = true;
+        }
         t->textCursor().setPosition(0);
         QTextBlock cur = t->textCursor().block();
         t->setTextCursor(QTextCursor(cur));
@@ -1130,6 +1144,9 @@ void GraphicsSceneRectMove::clearTextSelection(bool reset)
     if (reset) {
         m_selectedItem = nullptr;
         clearSelection();
+    }
+    if (hadTextInteraction) {
+        Q_EMIT actionFinished();
     }
 }
 

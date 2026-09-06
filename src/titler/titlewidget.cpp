@@ -45,11 +45,13 @@
 #include <QGraphicsSvgItem>
 #include <QImageReader>
 #include <QKeyEvent>
+#include <QLineEdit>
 #include <QMenu>
 #include <QMimeData>
 #include <QSpinBox>
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QTextEdit>
 #include <QTimer>
 #include <QToolBar>
 
@@ -68,12 +70,27 @@ const int RECTITEM = QGraphicsRectItem::Type;
 const int TEXTITEM = QGraphicsTextItem::Type;
 const int ELLIPSEITEM = QGraphicsEllipseItem::Type;
 
-/*
-const int NOEFFECT = 0;
-const int BLUREFFECT = 1;
-const int SHADOWEFFECT = 2;
-const int TYPEWRITEREFFECT = 3;
-*/
+class TitleUndoCommand : public QUndoCommand
+{
+public:
+    TitleUndoCommand(TitleWidget *widget, const QDomDocument &oldDoc, const QDomDocument &newDoc, const QString &text = QString(),
+                     QUndoCommand *parent = nullptr)
+        : QUndoCommand(text, parent)
+        , m_widget(widget)
+        , m_oldDoc(oldDoc)
+        , m_newDoc(newDoc)
+    {
+    }
+
+    void undo() override { m_widget->loadTitleState(m_oldDoc); }
+
+    void redo() override {}
+
+private:
+    TitleWidget *m_widget;
+    QDomDocument m_oldDoc;
+    QDomDocument m_newDoc;
+};
 
 void TitleWidget::refreshTemplateBoxContents()
 {
@@ -512,10 +529,19 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
 
+    m_undoStack = new QUndoStack(this);
+    m_undoAction = new QAction(i18n("Undo"), this);
+    m_undoAction->setShortcut(QKeySequence::Undo);
+    m_undoAction->setShortcutContext(Qt::WindowShortcut);
+    connect(m_undoAction, &QAction::triggered, this, &TitleWidget::slotUndo);
+    addAction(m_undoAction);
     connect(m_scene, &QGraphicsScene::selectionChanged, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::itemMoved, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::sceneZoom, this, &TitleWidget::slotZoom);
-    connect(m_scene, &GraphicsSceneRectMove::actionFinished, this, &TitleWidget::slotSelectTool);
+    connect(m_scene, &GraphicsSceneRectMove::actionFinished, this, [this]() {
+        slotSelectTool();
+        pushUndo(i18n("Move / Resize"));
+    });
     connect(m_scene, &GraphicsSceneRectMove::newRect, this, &TitleWidget::slotNewRect);
     connect(m_scene, &GraphicsSceneRectMove::newEllipse, this, &TitleWidget::slotNewEllipse);
     connect(m_scene, &GraphicsSceneRectMove::newText, this, &TitleWidget::slotNewText);
@@ -604,6 +630,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     // templateBox->setIconSize(QSize(60,60));
     refreshTemplateBoxContents();
     m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
+    m_undoDoc = xml();
 }
 
 TitleWidget::~TitleWidget()
@@ -676,6 +703,7 @@ void TitleWidget::updateItemRatio(Qt::CheckState state)
         }
     }
     slotValueChanged(ValueWidth);
+    pushUndo(i18n("Keep Aspect Ratio"));
 }
 
 // static
@@ -987,6 +1015,7 @@ void TitleWidget::addImageToScene(const QUrl url, QPoint pos)
     m_scene->setTool(GraphicsSceneRectMove::TITLE_SELECT);
     showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
     checkButton(GraphicsSceneRectMove::TITLE_SELECT);
+    pushUndo(i18n("Add Image"));
 }
 
 void TitleWidget::showToolbars(GraphicsSceneRectMove::TITLETOOL toolType)
@@ -1298,6 +1327,7 @@ void TitleWidget::zIndexChanged(int v)
     for (auto &i : l) {
         i->setZValue(v);
     }
+    pushUndo(i18n("Z-Index"));
 }
 
 void TitleWidget::selectionChanged()
@@ -1536,6 +1566,7 @@ void TitleWidget::slotValueChanged(int type)
             }
         }
     }
+    pushUndo(i18n("Change Value"));
 }
 
 void TitleWidget::scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center)
@@ -1872,6 +1903,7 @@ void TitleWidget::slotChangeBackground()
     m_scene->setBackgroundBrush(QBrush(color));
     color.setAlpha(backgroundAlpha->value());
     m_frameBackground->setBrush(QBrush(color));
+    pushUndo(i18n("Change Background"));
 }
 
 void TitleWidget::slotChanged()
@@ -2017,6 +2049,7 @@ void TitleWidget::slotUpdateText()
         item->setTextCursor(cur);
         item->setTextColor(color);
     }
+    pushUndo(i18n("Update Text"));
 }
 
 void TitleWidget::rectChanged()
@@ -2069,6 +2102,7 @@ void TitleWidget::rectChanged()
             }
         }
     }
+    pushUndo(i18n("Update Shape"));
 }
 
 void TitleWidget::itemScaled(int val)
@@ -2087,6 +2121,7 @@ void TitleWidget::itemScaled(int val)
         l[0]->setData(TitleDocument::ZoomFactor, val);
         m_transformations[l.at(0)] = x;
         updateDimension(l.at(0));
+        pushUndo(i18n("Scale"));
     }
 }
 
@@ -2135,6 +2170,7 @@ void TitleWidget::itemRotate(int val, int axis)
             l[0]->setData(TitleDocument::ZoomFactor, 100);
         }
         updateDimension(l.at(0));
+        pushUndo(i18n("Rotate"));
     }
 }
 
@@ -2161,6 +2197,7 @@ void TitleWidget::itemHCenter()
         graphicsView->centerOn(m_frameBorder);
         slotAdjustZoom();
         graphicsView->centerOn(m_frameBorder);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2175,6 +2212,7 @@ void TitleWidget::itemVCenter()
         newPos += int(item->pos().y() - br.top()); // Check item transformation
         item->setPos(item->pos().x(), newPos);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2204,6 +2242,7 @@ void TitleWidget::itemTop()
         }
         item->moveBy(0, diff);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2233,6 +2272,7 @@ void TitleWidget::itemBottom()
         }
         item->moveBy(0, diff);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2262,6 +2302,7 @@ void TitleWidget::itemLeft()
         }
         item->moveBy(diff, 0);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2291,6 +2332,7 @@ void TitleWidget::itemRight()
         }
         item->moveBy(diff, 0);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2484,6 +2526,10 @@ void TitleWidget::setXml(const QString &path, const QDomDocument &doc, const QSt
     QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     slotSelectTool();
     selectionChanged();
+    m_undoDoc = xml();
+    if (m_undoStack) {
+        m_undoStack->clear();
+    }
 }
 
 void TitleWidget::slotAccepted()
@@ -2518,6 +2564,7 @@ void TitleWidget::deleteMissingItems()
         }
     }
     m_missingMessage->deleteLater();
+    pushUndo(i18n("Delete Missing Items"));
 }
 
 void TitleWidget::showMissingItems()
@@ -2901,6 +2948,7 @@ void TitleWidget::slotZIndexUp()
         if (currentZ <= max) {
             l[0]->setZValue(currentZ + 1);
             updateDimension(l[0]);
+            pushUndo(i18n("Z-Index"));
         }
     }
 }
@@ -2918,6 +2966,7 @@ void TitleWidget::slotZIndexTop()
     // Update the z index value in the GUI
     if (!l.isEmpty()) {
         updateDimension(l[0]);
+        pushUndo(i18n("Z-Index"));
     }
 }
 
@@ -2930,6 +2979,7 @@ void TitleWidget::slotZIndexDown()
         if (currentZ >= min) {
             l[0]->setZValue(currentZ - 1);
             updateDimension(l[0]);
+            pushUndo(i18n("Z-Index"));
         }
     }
 }
@@ -2947,6 +2997,7 @@ void TitleWidget::slotZIndexBottom()
     // Update the z index value in the GUI
     if (!l.isEmpty()) {
         updateDimension(l[0]);
+        pushUndo(i18n("Z-Index"));
     }
 }
 
@@ -3518,6 +3569,7 @@ void TitleWidget::slotUpdateShadow()
         }
         item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
     }
+    pushUndo(i18n("Update Shadow"));
 }
 
 void TitleWidget::slotUpdateTW()
@@ -3542,6 +3594,7 @@ void TitleWidget::slotUpdateTW()
 
         item->updateTW(typewriterBox->isChecked(), tw_sb_step->value(), mode, tw_sb_sigma->value(), tw_sb_seed->value());
     }
+    pushUndo(i18n("Typewriter Effect"));
 }
 
 const QString TitleWidget::titleSuggest()
@@ -3667,6 +3720,7 @@ void TitleWidget::slotPatternDblClicked(const QModelIndex &idx)
     for (QGraphicsItem *item : std::as_const(items)) {
         item->setSelected(true);
     }
+    pushUndo(i18n("Insert Pattern"));
 }
 
 void TitleWidget::slotPatternBtnAddClicked()
@@ -3793,5 +3847,184 @@ void TitleWidget::slotPaste()
         for (auto item : items) {
             item->setSelected(true);
         }
+    }
+    pushUndo(i18n("Paste"));
+}
+
+void TitleWidget::loadTitleState(const QDomDocument &doc)
+{
+    m_blockUndo = true;
+
+    int selType = -1;
+    QPointF selPos;
+    qreal selZ = 0;
+    if (m_scene) {
+        QList<QGraphicsItem *> selectedItems = m_scene->selectedItems();
+        if (!selectedItems.isEmpty()) {
+            selType = selectedItems.first()->type();
+            selPos = selectedItems.first()->pos();
+            selZ = selectedItems.first()->zValue();
+        }
+        m_scene->clearTextSelection(true);
+        m_scene->setSelectedItem(nullptr);
+    }
+
+    QList<QGraphicsItem *> items = m_scene->items();
+    for (auto item : std::as_const(items)) {
+        if (item == m_frameBorder || item == m_frameBackground || item == m_frameImage || item == m_startViewport || item == m_endViewport ||
+            item->parentItem() != nullptr || item->data(-1).toInt() == -1) {
+            continue;
+        }
+        if (item->zValue() > -1000) {
+            m_scene->removeItem(item);
+            delete item;
+        }
+    }
+
+    QDomDocument stateDoc;
+    stateDoc.setContent(doc.toString());
+    int duration = 0;
+    m_count = m_titledocument.loadFromXml(m_path, stateDoc, m_scene, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
+    m_duration->setValue(GenTime(duration, m_fps));
+
+    m_transformations.clear();
+    QList<QGraphicsItem *> sceneItems = graphicsView->scene()->items();
+    const double PI = 4.0 * atan(1.0);
+    for (int i = 0; i < sceneItems.count(); ++i) {
+        QGraphicsItem *sItem = sceneItems.at(i);
+        if (sItem == m_frameBorder || sItem == m_frameBackground || sItem == m_frameImage || sItem == m_startViewport || sItem == m_endViewport ||
+            sItem->parentItem() != nullptr || sItem->data(-1).toInt() == -1) {
+            continue;
+        }
+        QTransform t = sItem->transform();
+        Transform x;
+        x.scalex = t.m11();
+        x.scaley = t.m22();
+        if (!sItem->data(TitleDocument::RotateFactor).isNull()) {
+            QList<QVariant> rotlist = sItem->data(TitleDocument::RotateFactor).toList();
+            if (rotlist.count() >= 3) {
+                x.rotatex = rotlist[0].toInt();
+                x.rotatey = rotlist[1].toInt();
+                x.rotatez = rotlist[2].toInt();
+
+                t.rotate(x.rotatex * (-1), Qt::XAxis);
+                t.rotate(x.rotatey * (-1), Qt::YAxis);
+                t.rotate(x.rotatez * (-1), Qt::ZAxis);
+                x.scalex = t.m11();
+                x.scaley = t.m22();
+            } else {
+                x.rotatex = 0;
+                x.rotatey = 0;
+                x.rotatez = 0;
+            }
+        } else {
+            x.rotatex = 0;
+            x.rotatey = 0;
+            x.rotatez = int(180. / PI * atan2(-t.m21(), t.m11()));
+        }
+        m_transformations[sItem] = x;
+    }
+
+    QColor background_color = m_titledocument.getBackgroundColor();
+    backgroundAlpha->blockSignals(true);
+    backgroundColor->blockSignals(true);
+    bgAlphaSlider->blockSignals(true);
+    backgroundAlpha->setValue(background_color.alpha());
+    bgAlphaSlider->setValue(background_color.alpha());
+    background_color.setAlpha(255);
+    backgroundColor->setColor(background_color);
+    backgroundAlpha->blockSignals(false);
+    backgroundColor->blockSignals(false);
+    bgAlphaSlider->blockSignals(false);
+
+    QColor color = backgroundColor->color();
+    m_scene->setBackgroundBrush(QBrush(color));
+    color.setAlpha(backgroundAlpha->value());
+    m_frameBackground->setBrush(color);
+
+    QGraphicsItem *foundItem = nullptr;
+    if (selType != -1) {
+        qreal minDistance = 1e9;
+        for (auto item : m_scene->items()) {
+            if (item->type() == selType && item->zValue() > -1000 && item->data(-1).toInt() != -1 && item->parentItem() == nullptr) {
+                qreal dist = (item->pos() - selPos).manhattanLength() + qAbs(item->zValue() - selZ) * 10;
+                if (dist < minDistance) {
+                    minDistance = dist;
+                    foundItem = item;
+                }
+            }
+        }
+    }
+
+    if (foundItem) {
+        m_scene->setSelectedItem(foundItem);
+        prepareTools(foundItem);
+        selectionChanged();
+    } else {
+        m_scene->setSelectedItem(nullptr);
+        slotSelectTool();
+        prepareTools(nullptr);
+        selectionChanged();
+    }
+
+    m_undoDoc = stateDoc;
+    m_blockUndo = false;
+}
+
+void TitleWidget::pushUndo(const QString &text)
+{
+    if (m_blockUndo) {
+        return;
+    }
+    QDomDocument currentDoc = xml();
+    if (currentDoc.toString() == m_undoDoc.toString()) {
+        return;
+    }
+    if (!m_undoStack) {
+        m_undoStack = new QUndoStack(this);
+    }
+    m_undoStack->push(new TitleUndoCommand(this, m_undoDoc, currentDoc, text));
+    m_undoDoc = currentDoc;
+}
+
+void TitleWidget::slotUndo()
+{
+    if (m_scene) {
+        QGraphicsItem *focused = m_scene->focusItem();
+        if (focused && focused->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(focused);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+        QGraphicsItem *selected = nullptr;
+        const QList<QGraphicsItem *> sel = m_scene->selectedItems();
+        if (!sel.isEmpty()) {
+            selected = sel.first();
+        }
+        if (selected && selected->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(selected);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+    }
+    QWidget *fw = focusWidget();
+    if (fw) {
+        auto *lineEdit = qobject_cast<QLineEdit *>(fw);
+        if (lineEdit && lineEdit->isUndoAvailable()) {
+            lineEdit->undo();
+            return;
+        }
+        auto *textEdit = qobject_cast<QTextEdit *>(fw);
+        if (textEdit && textEdit->document()->isUndoAvailable()) {
+            textEdit->document()->undo();
+            return;
+        }
+    }
+    if (m_undoStack && m_undoStack->canUndo()) {
+        m_undoStack->undo();
     }
 }

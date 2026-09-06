@@ -145,7 +145,7 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> &items, int width, 
         if (!xmlDocument.hasChildNodes()) continue;
 
         if (item->zValue() > -1000) {
-            main.appendChild(xmlDocument);
+            main.appendChild(doc.importNode(xmlDocument.documentElement(), true));
         }
     }
     if ((startv != nullptr) && (endv != nullptr)) {
@@ -448,6 +448,9 @@ int TitleDocument::loadFromXml(const QString &path, const QDomDocument &doc, QLi
         QDomNodeList items = titles.item(0).childNodes();
         for (int i = 0; i < items.count(); ++i) {
             QDomNode itemNode = items.item(i);
+            if (itemNode.isDocument() && !itemNode.firstChild().isNull()) {
+                itemNode = itemNode.firstChild();
+            }
 
             if (itemNode.nodeName() == QLatin1String("item")) {
                 QGraphicsItem *gitem = loadItemFromXml(itemNode, path, width, height, missingElements, maxZValue);

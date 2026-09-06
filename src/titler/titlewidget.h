@@ -23,6 +23,7 @@
 #include <QMap>
 #include <QModelIndex>
 #include <QSignalMapper>
+#include <QUndoStack>
 
 class PatternsModel;
 
@@ -73,6 +74,7 @@ public:
     ~TitleWidget() override;
     QDomDocument xml();
     void setXml(const QString &path, const QDomDocument &doc, const QString &id = QString());
+    void loadTitleState(const QDomDocument &doc);
 
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
@@ -149,6 +151,11 @@ private:
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
     KNSWidgets::Action *m_buttonDownload;
+    QAction *m_undoAction{nullptr};
+    QUndoStack *m_undoStack{nullptr};
+    QDomDocument m_undoDoc;
+    bool m_blockUndo{false};
+    void pushUndo(const QString &text = QString());
 
     QAction *m_unicodeAction;
     QAction *m_zUp;
@@ -271,6 +278,7 @@ public Q_SLOTS:
     /** Load a title from a title file */
     void loadTitle(QUrl url = QUrl());
     void slotGotBackground(const QImage &img);
+    void slotUndo();
 
 private Q_SLOTS:
 
