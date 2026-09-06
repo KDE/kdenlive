@@ -7947,7 +7947,7 @@ msgstr "Konturbredd"
 #: src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
-msgstr "Understreck"
+msgstr "Understruken"
 
 #: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
 #: data/effects/timer.xml:39
@@ -7959,7 +7959,7 @@ msgstr "Överstruken"
 #: data/effects/timer.xml:42
 #, kde-format
 msgid "Padding"
-msgstr "Vaddering"
+msgstr "Utfyllnad"
 
 #: data/effects/dynamictext.xml:45 data/effects/gpstext.xml:106
 #: data/effects/timer.xml:45
@@ -17955,7 +17955,7 @@ msgstr "Rotationspunkt"
 #: data/effects/qtcrop.xml:4
 #, kde-format
 msgid "Crop by Padding"
-msgstr "Beskär med vaddering"
+msgstr "Beskär med utfyllnad"
 
 #: data/effects/qtcrop.xml:5
 #, kde-format
@@ -17964,7 +17964,7 @@ msgid ""
 "with a color."
 msgstr ""
 "Filtret beskär bilden till en avrundad rektangel eller cirkel genom att "
-"vaddera den med en färg."
+"fylla ut den med en färg."
 
 #: data/effects/qtcrop.xml:14
 #, kde-format
@@ -17974,7 +17974,7 @@ msgstr "Cirkel"
 #: data/effects/qtcrop.xml:17
 #, kde-format
 msgid "Padding Color"
-msgstr "Vadderingsfärg"
+msgstr "Utfyllnadsfärg"
 
 #: data/effects/rboctaveshift.xml:4
 #, kde-format
@@ -19532,7 +19532,7 @@ msgstr "Luminansavbildning"
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
 #, kde-format
 msgid "Make padding transparent"
-msgstr "Gör vaddering genomskinlig"
+msgstr "Gör utfyllnad genomskinlig"
 
 #: data/transitions/frei0r/frei0r_addition.xml:4
 #, kde-format
@@ -39365,7 +39365,7 @@ msgstr "Ersättningsklipp från videokamera:"
 #: src/ui/configproxy_ui.ui:193
 #, kde-format
 msgid "Allowed FFmpeg parameters for proxy clips"
-msgstr "Tillåt FFmpeg-parametrar för ersättningsklipp"
+msgstr "Tillåtna FFmpeg-parametrar för ersättningsklipp"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:218
