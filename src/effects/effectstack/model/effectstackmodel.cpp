@@ -1673,12 +1673,13 @@ void EffectStackModel::setActiveEffect(int ix, int paramIx)
         }
         return;
     }
+    bool updateRequired = false;
     // Deactivate previous effect
     if (current > -1 && current != ix && current < rootItem->childCount()) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
         if (effect && !effect->hideFromStack()) {
             effect->setActive(false);
-            pCore->updateItemKeyframes(m_ownerId);
+            updateRequired = !effect->getKeyframableParameters().isEmpty();
             locker.unlock();
             Q_EMIT currentChanged(getIndexFromItem(effect), false);
         }
@@ -1688,10 +1689,15 @@ void EffectStackModel::setActiveEffect(int ix, int paramIx)
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
         if (effect && !effect->hideFromStack()) {
             effect->setActive(true);
-            pCore->updateItemKeyframes(m_ownerId);
+            if (!updateRequired) {
+                updateRequired = !effect->getKeyframableParameters().isEmpty();
+            }
             locker.unlock();
             Q_EMIT currentChanged(getIndexFromItem(effect), true, paramIx);
         }
+    }
+    if (updateRequired) {
+        pCore->updateItemKeyframes(m_ownerId);
     }
 }
 

@@ -310,13 +310,14 @@ void DopeSheetModel::updateMasterRecap(std::shared_ptr<TreeItem> topItem)
     QMap<GenTime, KeyframeType::KeyframeEnum> kfrList;
     for (int j = 0; j < topItem->childCount(); ++j) {
         auto current = topItem->child(j);
-        if (!m_paramsList.contains(current->getId())) {
+        int currentId = current->getId();
+        if (!m_paramsList.contains(currentId)) {
             continue;
         }
-        if (m_paramsList.at(current->getId()).first.row == -2) {
+        if (m_paramsList.at(currentId).first.row == -2) {
             continue;
         }
-        auto kfModel = m_paramsList.at(current->getId()).second;
+        auto kfModel = m_paramsList.at(currentId).second;
         QList<GenTime> paramKF = kfModel->getKeyframePos();
         for (auto &g : paramKF) {
             if (!kfrList.contains(g)) {
@@ -960,10 +961,15 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
             int itemId = int(ix.internalId());
             auto tItem = getItemById(itemId);
             if (tItem->childCount() == 0) {
-                matchingIndexes << m_paramsList.at(itemId).first.index;
+                if (m_paramsList.find(itemId) != m_paramsList.end()) {
+                    matchingIndexes << m_paramsList.at(itemId).first.index;
+                }
             } else
                 for (int j = 0; j < tItem->childCount(); ++j) {
                     auto current = tItem->child(j);
+                    if (m_paramsList.find(current->getId()) == m_paramsList.end()) {
+                        continue;
+                    }
                     auto ix2 = getIndexFromItem(current);
                     KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
                     if (km && km->hasKeyframe(framePosition)) {
@@ -981,15 +987,19 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
             int itemId = int(ix.internalId());
             auto tItem = getItemById(itemId);
             if (tItem->childCount() == 0) {
-                notOnKeyframeIndexes << m_paramsList.at(itemId).first.index;
+                if (m_paramsList.find(itemId) != m_paramsList.end()) {
+                    notOnKeyframeIndexes << m_paramsList.at(itemId).first.index;
+                }
             } else
                 for (int j = 0; j < tItem->childCount(); ++j) {
                     auto current = tItem->child(j);
-                    notOnKeyframeIndexes << m_paramsList.at(current->getId()).first.index;
+                    if (m_paramsList.find(current->getId()) != m_paramsList.end()) {
+                        notOnKeyframeIndexes << m_paramsList.at(current->getId()).first.index;
+                    }
                 }
         } else {
             int itemId = int(ix.internalId());
-            if (m_indexesOnKeyframe.contains(m_paramsList.at(itemId).first.index)) {
+            if (m_paramsList.find(itemId) != m_paramsList.end() && m_indexesOnKeyframe.contains(m_paramsList.at(itemId).first.index)) {
                 notOnKeyframeIndexes << m_paramsList.at(itemId).first.index;
             }
         }
@@ -1564,7 +1574,7 @@ int DopeSheetModel::getParamRowFromEffectIndex(const QPersistentModelIndex ix, i
             // Found effect, parse child params
             for (int k = 0; k < current->childCount(); k++) {
                 auto paramItem = current->child(k);
-                if (m_paramsList.at(paramItem->getId()).first.row == paramRow) {
+                if (m_paramsList.find(paramItem->getId()) != m_paramsList.end() && m_paramsList.at(paramItem->getId()).first.row == paramRow) {
                     return getIndexFromItem(paramItem).row();
                 }
             }
@@ -1599,8 +1609,10 @@ void DopeSheetModel::copySelectedKeyframes(const QModelIndex ix, const QVariantM
         }
         int itemId = int(i.key().internalId());
         auto tItem = getItemById(itemId);
-        int paramRow = m_paramsList.at(tItem->getId()).first.row;
-        finalSelection.insert(paramRow, kfIndexes);
+        if (m_paramsList.find(tItem->getId()) != m_paramsList.end()) {
+            int paramRow = m_paramsList.at(tItem->getId()).first.row;
+            finalSelection.insert(paramRow, kfIndexes);
+        }
     }
     QJsonDocument effectDoc = assetModel->toJson(finalSelection, false);
     if (effectDoc.isEmpty()) {
@@ -1659,8 +1671,11 @@ void DopeSheetModel::activateParam(const QPersistentModelIndex activeIndex) cons
     if (m_model && activeIndex.isValid()) {
         auto item = getItemById(activeIndex.internalId());
         if (item) {
-            m_model->setActiveParam(m_paramsList.at(item->getId()).first.index);
-            pCore->updateItemKeyframes(m_currentOwner);
+            int itemId = item->getId();
+            if (m_paramsList.find(itemId) != m_paramsList.end()) {
+                m_model->setActiveParam(m_paramsList.at(item->getId()).first.index);
+                pCore->updateItemKeyframes(m_currentOwner);
+            }
         }
     }
 }

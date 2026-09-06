@@ -358,7 +358,6 @@ void EffectStackView::launchObjectMask()
 void EffectStackView::activateEffect(const QModelIndex &ix, bool active)
 {
     const QModelIndex mapped = m_filter->mapFromSource(ix);
-    m_effectsTree->setCurrentIndex(mapped);
     auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(mapped));
     if (w) {
         w->slotActivateEffect(active);
@@ -371,7 +370,6 @@ void EffectStackView::activateEffect(const QModelIndex &ix, bool active)
 void EffectStackView::setDropTargetEffect(const QModelIndex &ix, bool active)
 {
     const QModelIndex mapped = m_filter->mapFromSource(ix);
-    m_effectsTree->setCurrentIndex(mapped);
     auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(mapped));
     if (w) {
         w->slotSetTargetEffect(active);
@@ -490,7 +488,7 @@ void EffectStackView::loadEffects()
     }
     lock.unlock();
     if (activeIndex.isValid()) {
-        m_effectsTree->setCurrentIndex(activeIndex);
+        // m_effectsTree->setCurrentIndex(activeIndex);
         auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(activeIndex));
         if (w) {
             w->slotActivateEffect(true);
@@ -721,7 +719,12 @@ void EffectStackView::switchCollapsed()
 
 void EffectStackView::slotFocusEffect()
 {
-    Q_EMIT scrollView(m_effectsTree->visualRect(m_effectsTree->currentIndex()));
+    int max = m_model->rowCount();
+    int currentActive = m_model->getActiveEffect();
+    if (currentActive < max && currentActive > -1) {
+        QModelIndex ix = m_filter->mapFromSource(m_model->index(currentActive, 0, QModelIndex()));
+        Q_EMIT scrollView(m_effectsTree->visualRect(ix));
+    }
 }
 
 void EffectStackView::slotSaveStack()
