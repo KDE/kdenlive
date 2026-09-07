@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-03 00:42+0000\n"
-"PO-Revision-Date: 2026-08-21 01:21+0100\n"
+"PO-Revision-Date: 2026-09-05 18:10+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -13182,7 +13182,7 @@ msgstr "Suavizar"
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
-msgstr ""
+msgstr "Sacudir y oscilar"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:5
 #, kde-format
@@ -13191,42 +13191,40 @@ msgid ""
 "rotation, scale and option to mirror the image if it goes outside the screen "
 "bounds.<br><br>This effect is for a smooth and controlled oscillation."
 msgstr ""
+"Permite animar la imagen de un clip, usando parámetros ajustables tales como "
+"velocidad, rotación, escala y una opción para reflejar la imagen cuando "
+"exceda los límites de la pantalla.<br><br>Este efecto creará una oscilación "
+"suave y controlada."
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "Fotogramas con movimiento"
+msgstr "Movimiento X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "Velocidad"
+msgstr "Velocidad X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "Fotogramas con movimiento"
+msgstr "Movimiento Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "Velocidad"
+msgstr "Velocidad Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "Rotación"
+msgstr "Velocidad rotación"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "Simetrizar"
+msgstr "Reflejar"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
@@ -43186,10 +43184,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "%1 (copy)"
-#~ msgstr "%1 (copia)"
-
-#~ msgctxt "append to clip name to indicate a copied idem"
-#~ msgid " (copy)"
-#~ msgstr " (copia)"
