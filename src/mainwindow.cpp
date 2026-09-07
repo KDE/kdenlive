@@ -468,9 +468,29 @@ void MainWindow::init()
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2, KDDockWidgets::Location_None, m_projectBinDock);
+    connect(m_effectListDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this, [&](bool visible) {
+        if (visible) {
+            m_effectList2->searchLine()->setFocus();
+        }
+    });
+    connect(m_effectListDock, &KDDockWidgets::QtWidgets::DockWidget::isCurrentTabChanged, this, [&](bool focused) {
+        if (focused) {
+            m_effectList2->searchLine()->setFocus();
+        }
+    });
 
     m_compositionList = new TransitionListWidget(includeList, tenBit, this);
     m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList, KDDockWidgets::Location_None, m_projectBinDock);
+    connect(m_compositionListDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this, [&](bool visible) {
+        if (visible) {
+            m_compositionList->searchLine()->setFocus();
+        }
+    });
+    connect(m_compositionListDock, &KDDockWidgets::QtWidgets::DockWidget::isCurrentTabChanged, this, [&](bool focused) {
+        if (focused) {
+            m_compositionList->searchLine()->setFocus();
+        }
+    });
 
     // Clear history action
     QAction *cleanHistory = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear-history")), i18n("Clear Undo History"), this);
