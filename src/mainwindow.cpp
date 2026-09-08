@@ -4772,6 +4772,16 @@ void MainWindow::raiseMonitor(bool clipMonitor, bool raise)
     }
 }
 
+void MainWindow::raiseMixer(bool raise)
+{
+    if (m_mixerDock) {
+        if (raise) {
+            m_mixerDock->open();
+        }
+        m_mixerDock->setAsCurrentTab();
+    }
+}
+
 void MainWindow::slotToggleAutoPreview(bool enable)
 {
     KdenliveSettings::setAutopreview(enable);

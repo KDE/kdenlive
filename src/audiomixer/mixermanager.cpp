@@ -63,6 +63,11 @@ void MixerManager::checkAudioLevelVersion()
     m_filterIsV2 = EffectsRepository::get()->exists(QStringLiteral("audiolevel")) && EffectsRepository::get()->getVersion(QStringLiteral("audiolevel")) > 100;
 }
 
+bool MixerManager::isMasterMute() const
+{
+    return m_masterMixer ? m_masterMixer->isMute() : false;
+}
+
 void MixerManager::monitorAudio(int tid, bool monitor)
 {
     if (!monitor) {

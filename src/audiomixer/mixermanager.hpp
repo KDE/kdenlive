@@ -44,6 +44,8 @@ public:
     int recordTrack() const;
     /** @brief Return true if we have MLT's audiolevel filter version 2 or above (fixes reading track audio level) */
     bool audioLevelV2() const;
+    /** @brief Return true if the master audio mixer is muted */
+    bool isMasterMute() const;
 
 public Q_SLOTS:
     void recordStateChanged(int tid, bool recording);

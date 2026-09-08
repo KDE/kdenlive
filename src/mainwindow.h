@@ -155,6 +155,8 @@ public:
 
     /** @brief Raise (show) the clip or project monitor */
     void raiseMonitor(bool clipMonitor, bool raise = false);
+    /** @brief Raise (show) the audio mixer dock */
+    void raiseMixer(bool raise = true);
 
     /** @brief Raise (show) the project bin
      * @param unconditionally if false, we won't raise the bin if docked with the project monitor */
