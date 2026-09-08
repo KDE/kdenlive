@@ -3844,7 +3844,12 @@ void TimelineController::addEffectToClip(const QString &assetId, int clipId)
             return;
         }
     }
-    if (m_model->addClipEffect(clipId, assetId).size() > 0 && KdenliveSettings::seekonaddeffect()) {
+    if (m_model->addClipEffect(clipId, assetId).isEmpty()) {
+        return;
+    }
+    // Open clip's effects stack
+    showAsset(clipId);
+    if (KdenliveSettings::seekonaddeffect()) {
         // Move timeline cursor inside clip if it is not
         int in = m_model->getClipPosition(clipId);
         int out = in + m_model->getClipPlaytime(clipId);

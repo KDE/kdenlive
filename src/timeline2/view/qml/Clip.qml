@@ -325,6 +325,9 @@ Rectangle {
             } else {
                 clipRoot.controller.copyClipEffect(clipRoot.clipId, dropSource)
             }
+            // Select the clip and open its effects stack
+            clipRoot.controller.requestAddToSelection(clipRoot.clipId, true)
+            clipRoot.timeline.showAsset(clipRoot.clipId)
             if (K.KdenliveSettings.seekonaddeffect && !clipRoot.isTimlineCursorOnClip) {
                 // If timeline cursor is not inside clip, seek to drop position
                 clipRoot.seek(clipRoot.modelStart + drag.x / clipRoot.timeScale)
