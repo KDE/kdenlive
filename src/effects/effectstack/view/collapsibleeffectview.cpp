@@ -620,9 +620,8 @@ void CollapsibleEffectView::enterEvent(QEnterEvent *event)
         pal.setColor(QPalette::Active, QPalette::Base, m_hoverColor);
         decoframe->setPalette(pal);
     }
-    pCore->setWidgetKeyBinding(
-        i18nc("@info:status",
-              "<b>Drag</b> effect to another timeline clip, track or project clip to copy it. <b>Alt Drag</b> to copy it to a single item in a group."));
+    pCore->setWidgetKeyBinding(i18nc("@info:status", "<b>Drag</b> effect to another timeline clip, track or project clip to copy it. <b>Alt Drag</b> to copy "
+                                                     "it to a single item in a group. <b>Shift Drag</b> to focus target on drop."));
 }
 
 void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)

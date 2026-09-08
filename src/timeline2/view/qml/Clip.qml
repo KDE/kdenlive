@@ -319,15 +319,30 @@ Rectangle {
         }
         onDropped: drag => {
             console.log("Add effect: ", dropData)
+            let focusTarget = false
             if (dropSource == '') {
                 // drop from effects list
                 clipRoot.controller.addClipEffect(clipRoot.clipId, dropData)
+                focusTarget = true
             } else {
                 clipRoot.controller.copyClipEffect(clipRoot.clipId, dropSource)
+                dropSource = dropSource.trim();
+                if (dropSource) {
+                    let lastChar = dropSource.slice(-1)
+                    if (!isNaN(lastChar)) {
+                        // dropSource ends with a number
+                        // check if > 1, means we want to focus target
+                        if (Number(lastChar) > 1) {
+                            focusTarget = true
+                        }
+                    }
+                }
             }
-            // Select the clip and open its effects stack
-            clipRoot.controller.requestAddToSelection(clipRoot.clipId, true)
-            clipRoot.timeline.showAsset(clipRoot.clipId)
+            if (focusTarget) {
+                // Select the clip and open its effects stack
+                clipRoot.controller.requestAddToSelection(clipRoot.clipId, true)
+                clipRoot.timeline.showAsset(clipRoot.clipId)
+            }
             if (K.KdenliveSettings.seekonaddeffect && !clipRoot.isTimlineCursorOnClip) {
                 // If timeline cursor is not inside clip, seek to drop position
                 clipRoot.seek(clipRoot.modelStart + drag.x / clipRoot.timeScale)

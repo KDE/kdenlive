@@ -125,7 +125,7 @@ private:
     QSize m_sourceFrameSize;
     const QString getStyleSheet();
     /** @brief Start drag operation on a CollapsibleEffectView */
-    void startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget = false);
+    void startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, Qt::KeyboardModifiers modifiers);
 
     void destroyBuildinWidget();
     void constructBuildinWidget();
