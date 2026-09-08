@@ -1065,17 +1065,9 @@ QString AssetParameterModel::getDefaultKeyframes(int start, const QString &defau
     if (linearOnly) {
         keyframes.append(QLatin1Char('='));
     } else {
-        switch (KdenliveSettings::defaultkeyframeinterp()) {
-        case mlt_keyframe_discrete:
-            keyframes.append(QStringLiteral("|="));
-            break;
-        case mlt_keyframe_smooth:
-            keyframes.append(QStringLiteral("~="));
-            break;
-        default:
-            keyframes.append(QLatin1Char('='));
-            break;
-        }
+        auto interp = static_cast<mlt_keyframe_type>(KdenliveSettings::defaultkeyframeinterp());
+        keyframes.append(KeyframeModel::getSeparatorForKeyframeType(interp));
+        keyframes.append(QLatin1Char('='));
     }
     keyframes.append(defaultValue);
     return keyframes;
