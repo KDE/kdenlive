@@ -535,6 +535,7 @@ void MainWindow::init()
     connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
     connect(dopeDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, pCore.get(), &Core::switchDopesheet);
     connect(pCore.get(), &Core::doOpenDopesheet, dopeDock->toggleAction(), &QAction::setChecked);
+    dopeDock->close();
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
