@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-29 02:42+0000\n"
-"PO-Revision-Date: 2026-07-16 18:45+0200\n"
+"PO-Revision-Date: 2026-09-07 13:51+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -21576,7 +21576,7 @@ msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Opent een menu om de project-bin te configureren (bijv. weergavemodus, "
+"Opent een menu om de projectmap te configureren (bijv. weergavemodus, "
 "sorteren, waardering tonen)."
 
 #: src/bin/bin.cpp:1625
@@ -21612,7 +21612,7 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
-"De inhoud van de project-bin filteren. Klik op het filterpictogram om het "
+"De inhoud van de projectmap filteren. Klik op het filterpictogram om het "
 "tonen van het filter om te schakelen. Klik on het pijlpictogram om een lijst "
 "met mogelijke filterinstellingen te openen."
 
@@ -22004,7 +22004,7 @@ msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
 msgstr ""
-"Verwijdert de nu geselecteerde clips uit de project-bin en ook uit de "
+"Verwijdert de nu geselecteerde clips uit de projectmap en ook uit de "
 "tijdlijn."
 
 #: src/bin/bin.cpp:3065 src/bin/bin.cpp:3078 src/bin/bin.cpp:4122
@@ -22051,7 +22051,7 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
-"Hoofddialoog om bronmateriaal toe te voegen aan uw project-bin (video's, "
+"Hoofddialoog om bronmateriaal toe te voegen aan uw projectmap (video's, "
 "afbeeldingen, geluid, titels, animaties).<nl/>Klik op het pictogram pijl "
 "omlaag om een lijst te krijgen van typen bronnen om uit te selecteren.<nl/"
 ">Klik op het mediumpictogram om een venster te openen om bronbestanden te "
@@ -22159,7 +22159,7 @@ msgid ""
 "Creates a folder in the current position in the project bin. Allows for "
 "better organization of source files. Folders can be nested."
 msgstr ""
-"Maakt een map op de huidige positie in de project-bin. Biedt het beter "
+"Maakt een map op de huidige positie in de projectmap. Biedt het beter "
 "organiseren van bronbestanden. Mappen kunnen genest worden."
 
 #: src/bin/bin.cpp:4324 src/bin/bin.cpp:4357
@@ -22660,7 +22660,7 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 "Indien ingeschakeld zal Kdenlive alle clips in de map en zijn submappen "
-"importeren zonder de submappen in de project-bin aan te maken."
+"importeren zonder de submappen in de projectmap aan te maken."
 
 #: src/bin/mediabrowser.cpp:221 src/dialogs/clipcreationdialog.cpp:446
 #, kde-format
@@ -30657,7 +30657,7 @@ msgstr ""
 #: src/mainwindow.cpp:2084
 #, kde-format
 msgid "Copy Selection to New Sequence"
-msgstr "Selectie kopiëren tot nieuwe sequentie"
+msgstr "Selectie kopiëren naar nieuwe sequentie"
 
 #: src/mainwindow.cpp:2087
 #, kde-kuit-format
@@ -35902,7 +35902,7 @@ msgstr "Gap"
 #: src/timeline2/model/timelinefunctions.cpp:3217
 #, kde-format
 msgid "No gaps found on selected track"
-msgstr "Kan gaten gevonden op de geselecteerde track"
+msgstr "Geen gaten gevonden op de geselecteerde track"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
 #: src/timeline2/model/timelinemodel.cpp:5207
@@ -37117,7 +37117,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 "Tijdlijnsequentie toevoegen. Dit zal een nieuwe tijdlijn aanmaken voor "
-"bewerking. Elke tijdlijn komt overeen met een sequentieclip in de project-bin"
+"bewerking. Elke tijdlijn komt overeen met een sequentieclip in de projectmap"
 
 #: src/timeline2/view/timelinetabs.cpp:173
 #, kde-format

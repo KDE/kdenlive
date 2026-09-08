@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-29 02:42+0000\n"
-"PO-Revision-Date: 2026-09-03 21:47+0200\n"
+"PO-Revision-Date: 2026-09-06 18:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5587,7 +5587,7 @@ msgstr "Alçària de l'electroscopi"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
 #, kde-format
 msgid "Height of the scope display"
-msgstr "Alçària de la visualització de l'electroscopi"
+msgstr "Altura de la visualització de l'electroscopi"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #, kde-format

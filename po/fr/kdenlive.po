@@ -1346,7 +1346,7 @@ msgid ""
 "Set an expression for the box radius in pixels used for blurring the "
 "corresponding input plane."
 msgstr ""
-"Définissez une expression pour le rayon de la boîte en pixels utilisée pour "
+"Définissez une expression pour le rayon de la boite en pixels utilisée pour "
 "flouter le plan d'entrée correspondant."
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
@@ -1358,7 +1358,7 @@ msgstr "Rayon de luminosité"
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr "Rayon de la boîte de flou de luminosité"
+msgstr "Rayon de la boite de flou de luminosité"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
 #, kde-format
@@ -1381,7 +1381,7 @@ msgstr "Rayon de chrominance"
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
 msgid "Radius of the chroma blurring box"
-msgstr "Rayon de la boîte de flou pour la chrominance"
+msgstr "Rayon de la boite de flou pour la chrominance"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
 #, kde-format
@@ -1403,7 +1403,7 @@ msgstr "Rayon Alpha"
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
 msgid "Radius of the alpha blurring box"
-msgstr "Rayon de la boîte de flou avec le canal Alpha"
+msgstr "Rayon de la boite de flou avec le canal Alpha"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
 #, kde-format
@@ -3455,12 +3455,12 @@ msgstr "Champ du haut d'abord, Champ du bas d'abord"
 #: data/effects/avfilter/avfilter_drawbox.xml:4
 #, kde-format
 msgid "Draw Box"
-msgstr "Dessiner une boîte"
+msgstr "Dessiner une boite"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:5
 #, kde-format
 msgid "Draw a colored box on the input video"
-msgstr "Dessiner une boîte colorée sur la vidéo d'entrée"
+msgstr "Dessiner une boite colorée sur la vidéo d'entrée"
 
 #. i18n: file: data/layouts/color.json
 #: data/effects/avfilter/avfilter_drawbox.xml:15
@@ -3511,8 +3511,8 @@ msgid ""
 msgstr ""
 "Si l'entrée possède un canal Alpha, la sélection de cette option<br>\n"
 "        écrasera la couleur et les pixels alpha de la vidéo avec les pixels "
-"de la boîte dessinée.<br>\n"
-"\t        Par défaut, la boîte sera composée sur l'entrée, laissant intact "
+"de la boite dessinée.<br>\n"
+"\t        Par défaut, la boite sera composée sur l'entrée, laissant intact "
 "le cana Alpha de la vidéo."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
@@ -7597,7 +7597,7 @@ msgstr "Fichier de sous-titres à appliquer"
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
 msgid "BoxBlur"
-msgstr "Flou par boîte"
+msgstr "Flou par boite"
 
 #: data/effects/box_blur.xml:6 data/effects/box_blur.xml:20
 #: data/effects/boxblur.xml:5
@@ -20375,7 +20375,7 @@ msgstr "Rétablir"
 #: src/ui/testproxy_ui.ui:18 src/ui/transcodeseekable_ui.ui:18
 #, kde-format
 msgid "Dialog"
-msgstr "Boîte de dialogue"
+msgstr "Boite de dialogue"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, destination_label)
@@ -22207,7 +22207,7 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
-"Boîte de dialogue principale pour l'ajout de matériel source à votre dossier "
+"Boite de dialogue principale pour l'ajout de matériel source à votre dossier "
 "de projet (vidéos, images, audio, titres, animations). <nl/>Cliquez sur "
 "l'icône fléchée vers le bas pour obtenir une liste de types de sources à "
 "sélectionner. <nl/>Cliquez sur l'icône de média pour l'ouverture d'une "
@@ -23568,25 +23568,25 @@ msgstr "Double iris"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
-msgstr "Boîte d'iris"
+msgstr "Boite d'iris"
 
 #: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
-msgstr "Boîte en bas à droite"
+msgstr "Boite en bas à droite"
 
 #: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
-msgstr "Boîte en bas à gauche"
+msgstr "Boite en bas à gauche"
 
 #: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
-msgstr "Centrage à droite de la boîte"
+msgstr "Centrage à droite de la boite"
 
 #: src/core.cpp:763
 #, kde-format
@@ -23637,7 +23637,7 @@ msgstr ""
 #: src/dialogs/clipcreationdialog.cpp:58
 #, kde-format
 msgid "Color Clip Dialog"
-msgstr "Boîte de dialogue de couleurs"
+msgstr "Boite de dialogue de couleurs"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -23976,7 +23976,7 @@ msgstr "Organiser les profils d'encodage"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
-"Ouvre une boîte de dialogue pour la création, la modification et la "
+"Ouvre une boite de dialogue pour la création, la modification et la "
 "suppression de profils d'encodage."
 
 #: src/dialogs/encodingprofilesdialog.cpp:286
@@ -24330,12 +24330,12 @@ msgstr "Par défaut"
 #: src/dialogs/managesubtitles.cpp:530
 #, kde-format
 msgid "Box as Border"
-msgstr "Boîte en bordure"
+msgstr "Boite en bordure"
 
 #: src/dialogs/managesubtitles.cpp:533 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Box as Shadow"
-msgstr "Boîte en ombrage"
+msgstr "Boite en ombrage"
 
 #: src/dialogs/managesubtitles.cpp:683
 #, kde-format
@@ -26418,7 +26418,7 @@ msgstr "Modifier un style de sous-titre"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr "Ouvre une boîte de dialogue pour modifier le sous-titre courant."
+msgstr "Ouvre une boite de dialogue pour modifier le sous-titre courant."
 
 #: src/dialogs/subtitleedit.cpp:280
 #, kde-format
@@ -26581,7 +26581,7 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
-"Ouvrir une boîte de dialogue de police pour la sélection d'une fonte et "
+"Ouvrir une boite de dialogue de police pour la sélection d'une fonte et "
 "définir ses propriétés, soit pour le texte sélectionné ou soit pour le texte "
 "suivant la position du pointeur."
 
@@ -26701,13 +26701,13 @@ msgstr "Sélectionner une police"
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
-"Ouvrir une boîte de dialogue pour les polices afin d'en sélectionner une et "
+"Ouvrir une boite de dialogue pour les polices afin d'en sélectionner une et "
 "définir ses propriétés."
 
 #: src/dialogs/subtitlestyleedit.cpp:105
 #, kde-format
 msgid "Box as Outline"
-msgstr "Boîte en bordure"
+msgstr "Boite en bordure"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:137 src/ui/editsubstyle_ui.ui:316
@@ -27069,7 +27069,7 @@ msgstr "Accélération matérielle « QSV »"
 #: src/dialogs/wizard.cpp:184
 #, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Accélération matérielle de la boîte à outils vidéo"
+msgstr "Accélération matérielle de la boite à outils vidéo"
 
 #: src/dialogs/wizard.cpp:199 src/dialogs/wizard.cpp:219
 #: src/dialogs/wizard.cpp:252
@@ -31954,7 +31954,7 @@ msgstr "Exporter une analyse..."
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr ""
-"Ouvre une fenêtre de boîte de dialogue pour fichiers pour l'exportation / "
+"Ouvre une fenêtre de boite de dialogue pour fichiers pour l'exportation / "
 "enregistrement des données d'analyse."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1127
@@ -31967,7 +31967,7 @@ msgstr "Importer une analyse..."
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr ""
-"Ouvre une fenêtre de boîte de dialogue pour fichiers pour l'importation / "
+"Ouvre une fenêtre de boite de dialogue pour fichiers pour l'importation / "
 "chargement des données d'analyse."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1198
@@ -33792,7 +33792,7 @@ msgid ""
 "categories in this dialog and in the timeline."
 msgstr ""
 "Filtrer les catégories de repères. Ceci vous permet d'afficher ou de masquer "
-"les catégories de repères sélectionnés dans cette boîte de dialogue et dans "
+"les catégories de repères sélectionnés dans cette boite de dialogue et dans "
 "la frise chronologique."
 
 #: src/project/dialogs/guideslist.cpp:266
@@ -33909,7 +33909,7 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
-"Ouvre la boîte de dialogue de profil dans laquelle vous pouvez modifier les "
+"Ouvre la boite de dialogue de profil dans laquelle vous pouvez modifier les "
 "profils de projet. Remarque : il est impossible de modifier le profil "
 "utilisé dans le projet ouvert."
 
@@ -35736,7 +35736,7 @@ msgstr "Options de dessin"
 #: src/scopes/colorscopes/vectorscope.cpp:153
 #, kde-format
 msgid "75% box"
-msgstr "boîte 75 %"
+msgstr "boite 75 %"
 
 #: src/scopes/colorscopes/vectorscope.cpp:163
 #, kde-format
@@ -38179,7 +38179,7 @@ msgstr "Signe moins. Pour les chiffres : &#x2212;42"
 #: src/titler/unicodedialog.cpp:198
 #, kde-format
 msgid "Open box; stands for a space."
-msgstr "Ouvrir une boîte ; représente un espace."
+msgstr "Ouvrir une boite ; représente un espace."
 
 #: src/titler/unicodedialog.cpp:200
 #, kde-format
