@@ -15,21 +15,22 @@ Rectangle
     anchors.fill: parent
     SystemPalette { id: activePalette }
     color: Qt.rgba(1,1,0.8, 0.3)
-    property int consumerPosition
-    property int activeIndex
+    property var kfrModel
+    property int modelStart
+    property int scrollStart
+    property int timelineScrollViewWidth
+    property real timeScale
     property int inPoint
     property int outPoint
     property int ownerType
     property int ownerId
-    property int modelStart
+    property int consumerPosition
+    property int activeIndex
     property bool selected
-    property var kfrModel
-    property int scrollStart
+
     property bool isPanning
     property color textColor: activePalette.text
     property color kfColor: activePalette.highlight
-    property int timelineScrollViewWidth
-    property real timeScale
     property K.TimelineController timeline
     property alias kfrCanvas: keyframecanvas
     signal seek(int position)

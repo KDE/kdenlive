@@ -110,6 +110,14 @@ Rectangle {
         }
     }
 
+    onContentScrollChanged: {
+        if (keyframeCurve.item) {
+            if ((keyframeCurve.item as KeyframeView).kfrCanvas) {
+                (keyframeCurve.item as KeyframeView).kfrCanvas.requestPaint()
+            }
+        }
+    }
+
     onConsumerPositionChanged: {
         console.log(' - - - updated dope cpos: ', dopeRoot.consumerPosition)
         dopeRoot.scheduleParamUpdate()
@@ -1111,7 +1119,7 @@ Rectangle {
             Binding {
                 target: keyframeCurve.item
                 property: "scrollStart"
-                value: dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor //dopeRoot.contentScroll
+                value: dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor
                 when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
