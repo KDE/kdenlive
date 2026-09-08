@@ -137,8 +137,9 @@ public:
     KdenliveDoc *currentDoc();
     /** @brief Returns project's timecode. */
     Timecode timecode() const;
+    const QString getDisplayTimecode(const GenTime &time, bool frameDisplay) const;
     /** @brief Returns a string displaying time as frame or HH:MM:SS:FF. */
-    Q_INVOKABLE const QString timecodeString(int frame);
+    Q_INVOKABLE const QString timecodeString(int frame) const;
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the media browser widget. */

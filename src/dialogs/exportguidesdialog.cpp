@@ -219,7 +219,7 @@ void ExportGuidesDialog::updateContentByModel() const
         }
 
         line.replace("{{index}}", QString::number(i + 1));
-        line.replace("{{realtimecode}}", pCore->timecode().getDisplayTimecode(currentTime, false));
+        line.replace("{{realtimecode}}", pCore->getDisplayTimecode(currentTime, false));
         line.replace("{{timecode}}", chapterTimeStringFromMs(currentTime.ms()));
         line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTime.ms()));
         line.replace("{{frame}}", QString::number(currentTime.frames(currentFps)));
@@ -227,8 +227,8 @@ void ExportGuidesDialog::updateContentByModel() const
         line.replace("{{comment}}", currentMarker.comment());
         line.replace("{{category}}", pCore->markerTypes[currentMarker.markerType()].displayName);
         line.replace("{{duration}}", QString::number(currentMarker.duration().frames(currentFps)));
-        line.replace("{{durationtimecode}}", pCore->timecode().getDisplayTimecode(currentMarker.duration(), false));
-        line.replace("{{endtimecode}}", pCore->timecode().getDisplayTimecode(currentMarker.endTime() + offset, false));
+        line.replace("{{durationtimecode}}", pCore->getDisplayTimecode(currentMarker.duration(), false));
+        line.replace("{{endtimecode}}", pCore->getDisplayTimecode(currentMarker.endTime() + offset, false));
         line.replace("{{endframe}}", QString::number((currentMarker.endTime() + offset).frames(currentFps)));
         line.replace("{{hasrange}}", currentMarker.hasRange() ? QStringLiteral("true") : QStringLiteral("false"));
         chapterTexts.append(line);

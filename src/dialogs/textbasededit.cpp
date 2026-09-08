@@ -548,7 +548,7 @@ void VideoTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
             } else {
                 painter.setPen((this->textCursor().blockNumber() == blockNumber) ? col_2 : col_0);
             }
-            QString number = pCore->timecode().getDisplayTimecode(GenTime(speechZones[blockNumber].first), false);
+            QString number = pCore->getDisplayTimecode(GenTime(speechZones[blockNumber].first), false);
             painter.drawText(-5, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
         painter.setPen(palette().dark().color());

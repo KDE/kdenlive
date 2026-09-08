@@ -53,6 +53,7 @@ public:
     Q_PROPERTY(int dopeInPoint READ dopeInPoint NOTIFY dopeInPointChanged)
     Q_PROPERTY(int dopeDuration READ dopeDuration NOTIFY dopeDurationChanged)
     Q_PROPERTY(int dopePosition READ dopePosition NOTIFY dopePositionChanged)
+    Q_PROPERTY(int timecodeOffset READ timecodeOffset NOTIFY timecodeOffsetChanged)
     static std::shared_ptr<DopeSheetModel> construct(QObject *parent = nullptr);
     enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, SelectedRole, RecapRole, EffectIndexRole, EnabledRole, ExpandedRole };
     friend class KeyframeModel;
@@ -174,6 +175,7 @@ Q_SIGNALS:
     void dopeDurationChanged();
     void dopeInPointChanged();
     void dopePositionChanged();
+    void timecodeOffsetChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void activateEffect(QPersistentModelIndex ix, int effectRow = -1);
     /** @brief The keyframe state per parameter changed, inform effect stack */

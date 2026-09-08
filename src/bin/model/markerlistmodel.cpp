@@ -719,7 +719,7 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     case IdRole:
         return it->first;
     case TCRole:
-        return pCore->timecode().getDisplayTimecode(it->second.time(), false);
+        return pCore->getDisplayTimecode(it->second.time(), false);
     case ClipIdRole:
         return m_clipId;
     case DurationRole:

@@ -16,7 +16,7 @@ Item {
     id: rulerRoot
     SystemPalette { id: activePalette }
     // The standard width for labels. Depends on format used (frame number or full timecode)
-    property int labelSize: fontMetrics.boundingRect(monitorController.toTimecode(36000)).width
+    property int labelSize: fontMetrics.boundingRect(K.Core.timecodeString(36000)).width
     // The spacing between labels. Depends on labelSize
     property real labelSpacing: labelSize
     // The space we want between each ticks in the ruler
@@ -40,7 +40,7 @@ Item {
     }
     
     function adjustStepSize() {
-        rulerRoot.labelSize = fontMetrics.boundingRect(monitorController.toTimecode(36000)).width
+        rulerRoot.labelSize = fontMetrics.boundingRect(K.Core.timecodeString(36000)).width
         if (rulerRoot.scalingFactor == 0) {
             tickRepeater.model = 0
             return
@@ -61,7 +61,7 @@ Item {
     }
 
     function adjustFormat() {
-        rulerRoot.labelSize = fontMetrics.boundingRect(monitorController.toTimecode(36000)).width
+        rulerRoot.labelSize = fontMetrics.boundingRect(K.Core.timecodeString(36000)).width
         adjustStepSize()
         repaintRuler()
     }
@@ -99,7 +99,7 @@ Item {
                     visible: parent.showText
                     anchors.top: parent.top
                     //anchors.horizontalCenter: parent.horizontalCenter
-                    text: rulerRoot.monitorController.toTimecode(tick.realPos + rulerRoot.timecodeOffset)
+                    text: K.Core.timecodeString(tick.realPos + rulerRoot.timecodeOffset)
                     font: K.UiUtils.smallestReadableFont
                     color: rulerRoot.dimmedColor
                 }

@@ -127,6 +127,7 @@ void DopeSheetModel::clearModel()
     m_connectionList.clear();
     m_model.reset();
     m_currentOwner = ObjectId();
+    Q_EMIT timecodeOffsetChanged();
     clear();
 }
 
@@ -217,6 +218,7 @@ bool DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model, int 
     Q_EMIT dopeDurationChanged();
     Q_EMIT dopePositionChanged();
     Q_EMIT dopeInPointChanged();
+    Q_EMIT timecodeOffsetChanged();
     if (m_model) {
         auto conn1 = connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &DopeSheetModel::loadEffects, Qt::QueuedConnection);
         m_connectionList << conn1;

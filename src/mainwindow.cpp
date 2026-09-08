@@ -529,7 +529,7 @@ void MainWindow::init()
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
     // DopeSheet
-    auto dopeDock = addDock(i18n("Keyframes"), QStringLiteral("keyframes"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
+    auto dopeDock = addDock(i18n("Keyframes"), QStringLiteral("keyframes"), m_dopeWidget, KDDockWidgets::Location_OnRight, m_timelineDock);
     connect(pCore.get(), &Core::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
     connect(pCore.get(), &Core::registerDopeAsset, m_dopeWidget, &DopeWidget::registerDopeAsset);
     connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
@@ -4750,7 +4750,7 @@ KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, 
         Q_ASSERT(otherDockWidget != nullptr);
         otherDockWidget->addDockWidgetAsTab(dock, preferredSize);
     } else {
-        mainDockWindow->addDockWidget(dock, area, otherDockWidget, preferredSize);
+        mainDockWindow->addDockWidget(dock, area, otherDockWidget); //, preferredSize);
     }
     KActionCategory *guiActions = nullptr;
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {

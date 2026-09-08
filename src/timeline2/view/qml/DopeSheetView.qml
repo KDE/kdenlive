@@ -80,6 +80,9 @@ Rectangle {
     focus: true
 
     function showContextMenu() {
+        keyframeMenu.clickKeyframe = dopeRoot.hoverKeyframe
+        keyframeMenu.clickFrame = dopeRoot.mouseFramePos
+        keyframeMenu.activeIndex = treeViewItem.activeIndex
         keyframeMenu.popup()
     }
 
@@ -130,6 +133,12 @@ Rectangle {
         dopeRoot.paramUpdatePending = true
         Qt.callLater(processParamUpdate)
     }
+
+    function showOtherMenu() {
+        otherMenu.clickFrame = dopeRoot.mouseFramePos
+        otherMenu.popup()
+    }
+
 
     onInsideOwnerChanged: {
         if (insideOwner) {
@@ -723,7 +732,7 @@ Rectangle {
         height: Math.round(K.UiUtils.baseSizeMedium * 2.5)
         rulerOffset: dopeRoot.offset
         monitorController: dopeRoot.proxy
-        timecodeOffset: dopeRoot.dopesheetmodel ? dopeRoot.dopesheetmodel.timecodeOffset : 0
+        timecodeOffset: dopeRoot.dopesheetmodel.timecodeOffset
         scalingFactor: dopeRoot.timeScale * dopeRoot.maximumScaleFactor
         rulercontainerWidth: Math.max(width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         scrollViewContentX: dopeRoot.contentScroll
@@ -833,38 +842,56 @@ Rectangle {
 
     Menu {
         id: keyframeMenu
+        property int clickFrame
+        property int clickKeyframe: -1
+        property var activeIndex
         MenuItem {
             text: KI18n.i18n("Cut")
-            enabled: dopeRoot.hoverKeyframe > -1
+            icon.name: "edit-cut"
+            enabled: keyframeMenu.clickKeyframe > -1
             onTriggered: {
+                dopeRoot.copyKeyframes()
+                if (dopeRoot.allSelectedKeyframes.length > 0) {
+                    dopeRoot.deleteSelection()
+                } else {
+                    dopeRoot.dopesheetmodel.removeKeyframe(keyframeMenu.activeIndex, keyframeMenu.clickKeyframe)
+                }
+                treeViewItem.selectedKeyframe = -1
+                treeViewItem.activeIndex = -1
+                dopeRoot.hoverKeyframe = -1
             }
         }
         MenuItem {
             text: KI18n.i18n("Copy")
-            enabled: dopeRoot.hoverKeyframe > -1
+            icon.name: "edit-copy"
+            enabled: keyframeMenu.clickKeyframe > -1
             onTriggered: dopeRoot.copyKeyframes()
         }
         MenuItem {
             text: KI18n.i18n("Paste")
-            onTriggered: dopeRoot.pasteKeyframes(dopeRoot.mouseFramePos)
+            icon.name: "edit-paste"
+            onTriggered: dopeRoot.pasteKeyframes(keyframeMenu.clickFrame)
         }
         MenuItem {
             text: KI18n.i18n("Move to Playhead")
-            enabled: dopeRoot.hoverKeyframe > -1
+            icon.name: "align-center"
+            enabled: keyframeMenu.clickKeyframe > -1
             onTriggered: {
-                dopeRoot.dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, dopeRoot.mouseFramePos, dopeRoot.consumerPosition, true)
+                dopeRoot.dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, keyframeMenu.clickFrame, dopeRoot.consumerPosition, true)
             }
         }
         MenuItem {
             text: KI18n.i18n("Align Left")
-            enabled: dopeRoot.hoverKeyframe > -1
+            icon.name: "align-left"
+            enabled: dopeRoot.allSelectedKeyframes.length > 1
             onTriggered: {
                 dopeRoot.dopesheetmodel.alignKeyframe(dopeRoot.allSelectedKeyframes, false)
             }
         }
         MenuItem {
             text: KI18n.i18n("Align Right")
-            enabled: dopeRoot.hoverKeyframe > -1
+            icon.name: "align-right"
+            enabled: dopeRoot.allSelectedKeyframes.length > 1
             onTriggered: {
                 dopeRoot.dopesheetmodel.alignKeyframe(dopeRoot.allSelectedKeyframes, true)
             }
@@ -908,11 +935,11 @@ Rectangle {
         }
         MenuItem {
             text: KI18n.i18n("Remove Keyframe")
+            icon.name: "edit-delete"
             onTriggered: {
-                if (treeViewItem.selectedKeyframe > -1) {
+                if (keyframeMenu.clickFrame > -1) {
                     console.log('Removing keyframe')
-                    // Double click on a keyframe, remove it
-                    dopeRoot.dopesheetmodel.removeKeyframe(treeViewItem.activeIndex, treeViewItem.selectedKeyframe)
+                    dopeRoot.dopesheetmodel.removeKeyframe(keyframeMenu.activeIndex, keyframeMenu.clickFrame)
                     treeViewItem.selectedKeyframe = -1
                     treeViewItem.activeIndex = -1
                     dopeRoot.hoverKeyframe = -1
@@ -923,9 +950,10 @@ Rectangle {
 
     Menu {
         id: otherMenu
+        property int clickFrame
         MenuItem {
             text: KI18n.i18n("Paste")
-            onTriggered: dopeRoot.pasteKeyframes(dopeRoot.mouseFramePos)
+            onTriggered: dopeRoot.pasteKeyframes(otherMenu.clickFrame)
         }
         MenuItem {
             text: KI18n.i18n("Add keyframe")

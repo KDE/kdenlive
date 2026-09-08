@@ -241,7 +241,7 @@ Item {
                     delegateRect.dopeRootItem.keyframeType = -1
                     if (mouse.buttons === Qt.RightButton) {
                         delegateRect.treeView.activeIndex = parameterIndex
-                        delegateRect.dopeRootItem.otherMenu.popup()
+                        delegateRect.dopeRootItem.showOtherMenu()
                     } else {
                         delegateRect.dopeRootItem.clearSelection()
                     }

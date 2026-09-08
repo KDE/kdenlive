@@ -1455,7 +1455,12 @@ Timecode Core::timecode() const
     return m_timecode;
 }
 
-const QString Core::timecodeString(int frame)
+const QString Core::getDisplayTimecode(const GenTime &time, bool frameDisplay) const
+{
+    return m_timecode.getDisplayTimecode(time, frameDisplay);
+}
+
+const QString Core::timecodeString(int frame) const
 {
     return m_timecode.getDisplayTimecodeFromFrames(frame, KdenliveSettings::frametimecode());
 }
