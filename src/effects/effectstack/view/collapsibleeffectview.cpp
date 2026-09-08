@@ -606,9 +606,8 @@ void CollapsibleEffectView::enterEvent(QEnterEvent *event)
         pal.setColor(QPalette::Active, QPalette::Base, m_hoverColor);
         decoframe->setPalette(pal);
     }
-    pCore->setWidgetKeyBinding(
-        i18nc("@info:status",
-              "<b>Drag</b> effect to another timeline clip, track or project clip to copy it. <b>Alt Drag</b> to copy it to a single item in a group."));
+    pCore->setWidgetKeyBinding(i18nc("@info:status", "<b>Drag</b> effect to another timeline clip, track or project clip to copy it. <b>Alt Drag</b> to copy "
+                                                     "it to a single item in a group. <b>Shift Drag</b> to focus target on drop."));
 }
 
 void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)
@@ -1085,9 +1084,9 @@ void CollapsibleEffectView::switchInOut(bool checked)
                     inOut = {in, lastOut};
                 } else {
                     int clipIn = pCore->getItemPosition(owner);
-                    int clipOut = clipIn + pCore->getItemDuration(owner);
+                    int clipOut = pCore->getItemDuration(owner);
                     int in = pCore->getMonitorPosition();
-                    if (in > clipIn && in < clipOut) {
+                    if (in > clipIn && in < clipIn + clipOut) {
                         // Cursor is inside the clip, set zone from here
                         in = in - clipIn;
                     } else {

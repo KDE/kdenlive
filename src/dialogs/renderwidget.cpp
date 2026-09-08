@@ -6,6 +6,7 @@
 */
 
 #include "renderwidget.h"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
@@ -27,6 +28,7 @@
 #include "renderpresets/renderpresetrepository.hpp"
 
 #include <KColorScheme>
+#include <KGuiItem>
 #include <KIO/DesktopExecParser>
 #include <KIO/JobUiDelegateFactory>
 #include <KIO/OpenFileManagerWindowJob>
@@ -35,6 +37,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
+#include <KStandardGuiItem>
 #include <KWindowConfig>
 #include <kmemoryinfo.h>
 
@@ -968,6 +971,17 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
 void RenderWidget::slotPrepareExport2(bool delayedRendering)
 {
+    if (m_view.audio_box->isChecked() && pCore->mixer() && pCore->mixer()->isMasterMute()) {
+        if (KMessageBox::warningTwoActions(
+                this, i18n("Master audio is muted, so there will be no audio stream in the rendered file. Do you want to continue rendering?"), QString(),
+                KGuiItem(i18nc("@action:button", "Render")), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+            if (pCore->window()) {
+                pCore->window()->raiseMixer();
+            }
+            return;
+        }
+    }
+
     QFileInfo info(m_view.out_file->text());
     if (info.exists()) {
         if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),

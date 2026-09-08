@@ -97,6 +97,7 @@ frei0r_saturat0r.xml
 frei0r_scale0tilt.xml
 frei0r_scanline0r.xml
 frei0r_select0r.xml
+frei0r_shake0scillate.xml
 frei0r_sharpness.xml
 frei0r_sigmoidaltransfer.xml
 frei0r_sobel.xml

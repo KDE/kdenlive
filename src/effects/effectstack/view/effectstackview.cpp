@@ -537,7 +537,7 @@ void EffectStackView::updateTreeHeight()
     }
 }
 
-void EffectStackView::startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget)
+void EffectStackView::startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, Qt::KeyboardModifiers modifiers)
 {
     auto *drag = new QDrag(this);
     drag->setPixmap(pix);
@@ -550,11 +550,15 @@ void EffectStackView::startDrag(const QPixmap pix, const QString assetId, Object
         // Keep a reference to the timeline model
         dragData << pCore->currentTimelineId().toString();
     }
-    if (singleTarget) {
-        dragData << QStringLiteral("1");
-    } else {
-        dragData << QStringLiteral("0");
+    // Modifier param. 1 means single target, 2 means focus target clip, 3 means both, 0 means none
+    int dropParam = 0;
+    if (modifiers & Qt::AltModifier) {
+        dropParam = 1;
     }
+    if (modifiers & Qt::ShiftModifier) {
+        dropParam += 2;
+    }
+    dragData << QString::number(dropParam);
 
     const QByteArray effectSource = dragData.join(QLatin1Char(',')).toLatin1();
     mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
@@ -897,7 +901,7 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
                 auto coll = static_cast<CollapsibleEffectView *>(o);
                 if (coll && !coll->isBuiltIn()) {
                     ObjectId item = m_model->getOwnerId();
-                    startDrag(coll->getDragPixmap(), coll->getAssetId(), item, coll->getEffectRow(), me->modifiers() & Qt::AltModifier);
+                    startDrag(coll->getDragPixmap(), coll->getAssetId(), item, coll->getEffectRow(), me->modifiers());
                 }
             }
         }

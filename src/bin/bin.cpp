@@ -2084,6 +2084,7 @@ void Bin::slotDeleteClip()
         // Check if we are deleting non-empty folders:
         usedFolder = usedFolder || item->childCount() > 0;
         if (item->itemType() == AbstractProjectItem::FolderItem) {
+            Q_EMIT requestBinCloseForFolder(item->clipId());
             QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(item)->childClips();
             for (auto &c : children) {
                 if (c->clipType() == ClipType::Timeline) {
