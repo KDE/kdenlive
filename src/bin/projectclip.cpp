@@ -2820,7 +2820,7 @@ int16_t ProjectClip::getAudioMax(const int streamIdx) const
 QVector<int16_t> ProjectClip::audioFrameCache(const int streamIdx) const
 {
     const QString key = QStringLiteral("_kdenlive:audio%1").arg(streamIdx);
-    if (m_masterProducer->get_data(key.toUtf8().constData())) {
+    if (m_masterProducer->property_exists(key.toUtf8().constData())) {
         const auto audioData = *static_cast<QVector<int16_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
         return audioData;
     }
