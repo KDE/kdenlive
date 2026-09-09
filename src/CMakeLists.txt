@@ -313,7 +313,7 @@ endif()
 if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib PUBLIC gcov)
 endif()
-set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
+
 add_definitions(${qt${QT_MAJOR_VERSION}gui_definitions} -DQT_STRICT_ITERATORS -DQT_NO_CAST_FROM_BYTEARRAY)
 
 # Optional deps
