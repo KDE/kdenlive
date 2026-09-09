@@ -10545,7 +10545,7 @@ msgstr "Retarder la prise"
 #: data/effects/frei0r/frei0r_delaygrab.xml:5
 #, kde-format
 msgid "Delayed frame blitting mapped on a time bitmap"
-msgstr "Rafraîchissement d'image retardé calqué sur une image temporelle"
+msgstr "Rafraichissement d'image retardé calqué sur une image temporelle"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
@@ -32650,7 +32650,7 @@ msgstr ""
 #: src/monitor/view/AudioView.qml:344
 #, kde-format
 msgid "Click to refresh audio waveform"
-msgstr "Cliquez pour rafraîchir la forme d'onde audio"
+msgstr "Cliquez pour rafraichir la forme d'onde audio"
 
 #: src/monitor/view/ClipMonitor.qml:346 src/monitor/view/ProjectMonitor.qml:186
 #, kde-format
@@ -33738,7 +33738,7 @@ msgstr "Trier par commentaire"
 #: src/project/dialogs/guideslist.cpp:254
 #, kde-format
 msgid "Refresh All Thumbnails"
-msgstr "Rafraîchir toutes les vignettes"
+msgstr "Rafraichir toutes les vignettes"
 
 #: src/project/dialogs/guideslist.cpp:257
 #, kde-format
