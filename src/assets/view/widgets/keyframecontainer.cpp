@@ -258,7 +258,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 
     // rotoscoping only supports linear keyframes
-    if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
+    if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Roto_spline) {
         m_selectType->setVisible(false);
         m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
         kfType->setVisible(false);
