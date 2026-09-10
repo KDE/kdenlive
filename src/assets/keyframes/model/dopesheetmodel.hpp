@@ -144,6 +144,7 @@ private:
     QMap<QModelIndex, QList<std::pair<int, int>>> m_scaledKFInfo;
     std::pair<int, int> m_scaledRange;
     std::pair<int, int> m_scaledLimits;
+    double m_lastResizePercentage{1.};
     std::shared_ptr<KeyframeModel> m_masterRecap{nullptr};
     /** @brief Remember if the playhead is on a keyframe */
     QList<QPersistentModelIndex> m_indexesOnKeyframe;

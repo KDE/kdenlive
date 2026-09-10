@@ -423,7 +423,7 @@ Item {
                 if (delegateRect.currentKFFrame > -1 && delegateRect.currentKFFrame == currentMouseFrame) {
                     console.log('Removing keyframe at: ', delegateRect.currentKFFrame)
                     // Double click on a keyframe, remove it
-                    delegateRect.dopesheetmodel.removeKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame + delegateRect.dopeRootItem.inPoint)
+                    delegateRect.dopesheetmodel.removeKeyframe(delegateRect.treeView.model.mapToSource(parameterIndex), delegateRect.currentKFFrame)
                     delegateRect.currentKFFrame = -1
                     delegateRect.currentKFIndex = -1
                     delegateRect.dopeRootItem.hoverKeyframe = -1

@@ -768,6 +768,7 @@ void DopeSheetModel::setScaledInfo(const QVariantMap kfData, int sourcePos)
         }
     }
     m_resizeFromStart = m_scaledRange.first == sourcePos;
+    m_lastResizePercentage = 1.;
 }
 
 void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updateView)
@@ -783,6 +784,9 @@ void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updat
         updatedPos = qMin(m_scaledLimits.second, updatedPos);
         percentage = double(updatedPos - m_scaledRange.first) / (m_scaledRange.second - m_scaledRange.first);
     }
+    if (percentage < 0.01) {
+        return;
+    }
     GenTime firstKeyframe;
     // Check first / last keyframes for scaling
     for (auto i = m_scaledKFInfo.cbegin(), end = m_scaledKFInfo.cend(); i != end; ++i) {
@@ -795,17 +799,38 @@ void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updat
         KeyframeModel *km = data(i.key(), ModelRole).value<KeyframeModel *>();
         km->setSelectedKeyframes({});
         if (km && success) {
-            const QList<std::pair<int, int>> indexes = i.value();
-            for (auto &j : indexes) {
+            QList<std::pair<int, int>> indexes = i.value();
+            if (!m_resizeFromStart) {
+                if (percentage > m_lastResizePercentage) {
+                    // When expanding, process outer keyframes first to avoid collisions
+                    std::sort(indexes.begin(), indexes.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
+                }
+            } else if (percentage < m_lastResizePercentage) {
+                // When compressing form  start, process outer keyframes first to avoid collisions
+                std::sort(indexes.begin(), indexes.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
+            }
+            for (auto &j : std::as_const(indexes)) {
                 int updatedFrame = m_resizeFromStart ? m_scaledRange.second - (m_scaledRange.second - j.second) * percentage
                                                      : m_scaledRange.first + (j.second - m_scaledRange.first) * percentage;
-                qDebug() << "::: MOVING KEYFRAME AT: " << j.first << " = " << j.second << " TO " << updatedFrame;
                 updatedFrame = qBound(m_scaledLimits.first, updatedFrame, m_scaledLimits.second);
+                if (updatedFrame == j.first) {
+                    continue;
+                }
+                if (km->hasKeyframe(updatedFrame)) {
+                    if (km->getPosAtIndex(j.first).frames(pCore->getCurrentFps()) == updatedFrame) {
+                        // No move
+                        continue;
+                    }
+                    qDebug() << "::: KEYFRAME COLLISION ON SCALE AT: " << updatedFrame;
+                    success = false;
+                    break;
+                }
                 success = success && km->moveKeyframeByIndex(j.first, updatedFrame, undo, redo, updateView);
             }
         }
     }
     if (success) {
+        m_lastResizePercentage = percentage;
         if (logUndo) {
             pCore->pushUndo(undo, redo, i18n("Move keyframes"));
         }
