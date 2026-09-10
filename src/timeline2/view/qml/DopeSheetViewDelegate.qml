@@ -36,6 +36,8 @@ Item {
     property bool modelExpanded: model && model.expandedRole ? model.expandedRole : false
     property bool isBlankRecap: model && model.dopeRecap && !hasChildren
 
+    property double contentScroll: delegateRect.dopeRootItem.contentScroll
+
     implicitWidth: dopeWidth
     implicitHeight: fontMetrics.lineSpacing * 1.3
     readonly property real indentation: 20
@@ -47,6 +49,13 @@ Item {
     // The index of the hovered keyframe, -1 if none
     property int currentKFIndex: -1
     property bool kfPressed: kfMoveArea.pressed
+
+    onContentScrollChanged: {
+        if (kfMoveArea.containsMouse) {
+            let mousePos = Math.max(0., (kfMoveArea.mouseX - K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.contentScroll * delegateRect.dopeRootItem.timeScale * delegateRect.dopeRootItem.maximumScaleFactor))
+            delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
+        }
+    }
 
     function restoreExpandedState() {
         if (!delegateRect.treeView) {
@@ -365,7 +374,7 @@ Item {
             }
 
             onPositionChanged: mouse => {
-                var mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.contentScroll * delegateRect.dopeRootItem.timeScale * delegateRect.dopeRootItem.maximumScaleFactor))
+                let mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.contentScroll * delegateRect.dopeRootItem.timeScale * delegateRect.dopeRootItem.maximumScaleFactor))
                 delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
                 if (!pressed) {
                     return

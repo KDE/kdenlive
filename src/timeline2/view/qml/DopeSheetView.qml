@@ -15,7 +15,7 @@ import org.kde.kdenlive as K
 Rectangle {
     id: dopeRoot
     anchors.fill: parent
-    anchors.margins: 2
+    anchors.margins: 3
     SystemPalette { id: activePalette }
     border.width: 2
     border.color: dopeRoot.viewHasFocus ? activePalette.highlight : activePalette.base
@@ -70,8 +70,8 @@ Rectangle {
     property var typeActionsList: typeActions.actions
     // the X offset for the keyframes view
     property double contentScroll: 0
-    // Playhead position
     property int headerWidth: 100
+    // Playhead position
     property int consumerPosition: proxy && ownerType > -1 ? proxy.position - offset: -1
     property bool insideOwner: dopeRoot.consumerPosition > 0 && dopeRoot.consumerPosition < frameDuration
     property int keyframeContainerWidth: keyframeContainer.width
@@ -115,6 +115,10 @@ Rectangle {
             if ((keyframeCurve.item as KeyframeView).kfrCanvas) {
                 (keyframeCurve.item as KeyframeView).kfrCanvas.requestPaint()
             }
+        }
+        if (backgroundArea.containsMouse) {
+            let mousePos = Math.max(0., backgroundArea.mouseX - K.UiUtils.baseSizeMedium + dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
+            dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
         }
     }
 
@@ -561,6 +565,15 @@ Rectangle {
     Menu {
         id: defaultTypeMenu
         MenuItem {
+            icon.name: "smallclock"
+            text: KI18n.i18n("Show absolute timecode")
+            checkable: true
+            checked: dopeRoot.showTimelineTime
+            onTriggered: {
+                // TODO
+            }
+        }
+        MenuItem {
             text: KI18n.i18n("Use same type as previous keyframe")
             checkable: true
             checked: K.KdenliveSettings.usepreviouskeyframeinterp
@@ -593,15 +606,17 @@ Rectangle {
     }
     Item {
         id: dopeBar
-        height: dopeRoot.toolbarHeight + 4
+        height: dopeSearch.height + 4
+        anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 4
-        anchors.rightMargin: 4
+        anchors.margins: 4
         property int buttonHeight: dopeRoot.toolbarHeight
-        property int iconHeight: buttonHeight - 4
+        property int iconHeight: buttonHeight - 8
+        clip: true
         RowLayout {
             anchors.fill: parent
+            anchors.margins: 2
             ToolButton {
                 id: kfTypeButton
                 implicitWidth: dopeBar.buttonHeight
@@ -609,23 +624,11 @@ Rectangle {
                 icon.width: dopeBar.iconHeight
                 icon.height: dopeBar.iconHeight
                 icon.name: "application-menu"
+                Layout.alignment: Qt.AlignVCenter
                 onClicked: {
                     // Check required kfr type
                     defaultTypeMenu.popup()
                 }
-            }
-            ToolButton {
-                implicitWidth: dopeBar.buttonHeight
-                implicitHeight: dopeBar.buttonHeight
-                icon.width: dopeBar.iconHeight
-                icon.height: dopeBar.iconHeight
-                icon.name: "smallclock"
-                ToolTip.text: KI18n.i18n("Show absolute timecode")
-                ToolTip.delay: 1000
-                ToolTip.visible: hovered
-                checkable: true
-                checked: dopeRoot.showTimelineTime
-                onClicked: dopeRoot.showTimelineTime = !dopeRoot.showTimelineTime
             }
 
             ToolButton {
@@ -637,6 +640,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Add/Remove Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
                 onClicked: K.Core.triggerAction('keyframe_add')
             }
             ToolButton {
@@ -649,6 +653,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Align Keyframe to Playhead")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
                 onClicked: dopeRoot.dopesheetmodel.moveKeyframe(dopeRoot.allSelectedKeyframes, -1, dopeRoot.consumerPosition, true)
             }
             ToolButton {
@@ -661,6 +666,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Copy Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
                 onClicked: dopeRoot.copyKeyframes()
             }
             ToolButton {
@@ -672,6 +678,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Paste Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
                 onClicked: dopeRoot.pasteKeyframes()
             }
             ToolButton {
@@ -684,6 +691,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Go to Previous Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
                 onClicked: K.Core.triggerAction('monitor_seek_kf_backward')
             }
             ToolButton {
@@ -696,6 +704,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Go to Next Keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
                 onClicked: K.Core.triggerAction('monitor_seek_kf_forward')
             }
             ComboBox {
@@ -709,6 +718,7 @@ Rectangle {
                 ToolTip.text: KI18n.i18n("Type for selected keyframe")
                 ToolTip.delay: 1000
                 ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
                 onActivated: {
                     console.log('changing kf type to: ', currentValue, ' current: ', dopeRoot.keyframeType)
                     dopeRoot.dopesheetmodel.changeKeyframeType(dopeRoot.allSelectedKeyframes, currentValue)
@@ -717,8 +727,9 @@ Rectangle {
             }
             SearchField {
                 id: dopeSearch
-                implicitWidth: dopeRoot.baseUnit * 10
+                implicitWidth: dopeRoot.baseUnit * 8
                 implicitHeight: dopeBar.buttonHeight
+                Layout.alignment: Qt.AlignVCenter
                 onTextChanged: {
                     dopeRoot.filterDopeView(text)
                 }
@@ -770,7 +781,7 @@ Rectangle {
         // Vertical line over ruler zone
         id: rulerCursor
         anchors.top: playheadLabel.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: horZoomBar.top
         visible: dopeRoot.ownerType > -1 && x >= dopeRoot.headerWidth + K.UiUtils.baseSizeMedium && x < parent.width
         z: 4
         x: dopeRoot.headerWidth + K.UiUtils.baseSizeMedium + dopeRoot.frameToView(dopeRoot.consumerPosition)
@@ -801,7 +812,7 @@ Rectangle {
     Rectangle {
         id: mouseLine
         anchors.top: mouseLabel.bottom
-        anchors.bottom: dopeRoot.bottom
+        anchors.bottom: horZoomBar.top
         z: 5
         width: 1
         visible: mouseLabel.visible
@@ -828,7 +839,7 @@ Rectangle {
         }
 
         onPositionChanged: mouse => {
-            var mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
+            let mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
             if (mousePos <= 0 && dopeRoot.mouseFramePos == 0) {
                 // In the header zone, ignore
                 return
@@ -1041,9 +1052,12 @@ Rectangle {
         MouseArea {
             id: keyframeMouseArea
             anchors.fill: parent
+            hoverEnabled: true
             onDoubleClicked: mouse =>{
                 if (keyframeCurve.model) {
                     var newVal = (height - mouse.y) / height
+                    let mousePos = Math.max(0., (mouse.x + dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
+                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
                     keyframeCurve.model.addKeyframe(dopeRoot.getPositionForKeyframe(), newVal)
                 }
             }
@@ -1065,6 +1079,18 @@ Rectangle {
                 value: keyframeCurve.model
                 when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
+            }
+            Binding {
+                target: keyframeCurve.item
+                property: "bgColor"
+                value: activePalette.alternateBase
+                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+            }
+            Binding {
+                target: keyframeCurve.item
+                property: "fgColor"
+                value: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.3)
+                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
             }
             Binding {
                 target: keyframeCurve.item

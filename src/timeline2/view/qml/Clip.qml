@@ -1605,6 +1605,12 @@ Rectangle {
                 }
                 Binding {
                     target: effectRow.item
+                    property: "bgColor"
+                    value: Qt.rgba(1,1,0.8, 0.3)
+                    when: effectRow.status === Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
                     property: "isPanning"
                     value: clipRoot.isPanning
                     when: effectRow.status == Loader.Ready && effectRow.item
