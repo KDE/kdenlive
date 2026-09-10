@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-09 00:45+0000\n"
-"PO-Revision-Date: 2026-08-29 17:59+0400\n"
+"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"PO-Revision-Date: 2026-09-09 19:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -12786,7 +12786,7 @@ msgstr "ليّن"
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
-msgstr ""
+msgstr "اهتزاز0تذبذب"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:5
 #, kde-format
@@ -12795,42 +12795,39 @@ msgid ""
 "rotation, scale and option to mirror the image if it goes outside the screen "
 "bounds.<br><br>This effect is for a smooth and controlled oscillation."
 msgstr ""
+"يُحرّك الصورة المدخلة مع معاملات قابلة للضبط مثل المقدار والسرعة والدوران "
+"والقياس وخيار عكس الصورة إذا تجاوزت حدود الشاشة.<br><br>هذا التأثير لتذبذب "
+"سلس ومضبوط."
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "الإطارات ذات الحركة"
+msgstr "حركة سينية"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "السرعة"
+msgstr "سرعة س"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "الإطارات ذات الحركة"
+msgstr "حركة صادية"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "السرعة"
+msgstr "سرعة ص"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "التّدوير"
+msgstr "سرعة الدوران"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "مرآة"
+msgstr "معكوس"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
@@ -21189,12 +21186,12 @@ msgstr ""
 "انقر نقرًا مزدوجًا، أسقط الملفات\n"
 "أو انقر على %1 لاستيراد الوسائط"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:524
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "اسحب لإضافة الصوت فقط إلى الخط الزمني"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:524
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "اسحب لإضافة الفيديو فقط إلى الخط الزمني"
@@ -24308,13 +24305,14 @@ msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
 "file. Do you want to continue rendering?"
 msgstr ""
+"الصوت رئيس مكتوم، لذا لن يكون هناك تدفق صوتي في الملف المُصدَّر. هل تريد متابعة "
+"التصدير؟"
 
 #: src/dialogs/renderwidget.cpp:977
-#, fuzzy, kde-format
-#| msgid "Render…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render"
-msgstr "صيّر…"
+msgstr "صدّر"
 
 #: src/dialogs/renderwidget.cpp:987 src/dialogs/renderwidget.cpp:2047
 #: src/project/dialogs/archivewidget.cpp:928
@@ -27688,19 +27686,16 @@ msgid "%1 instances of this effect in the group"
 msgstr "%1 نسخة لهذا التأثير في المجموعة"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:623
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "<b>Drag</b> effect to another timeline clip, track or project clip to "
-#| "copy it. <b>Alt Drag</b> to copy it to a single item in a group."
+#, kde-format
 msgctxt "@info:status"
 msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group. <b>Shift Drag</"
 "b> to focus target on drop."
 msgstr ""
-"<b>اسحب</b> التأثير إلى خط زمني آخر أو مسار أو مقطع مشروع لنسخه. <b>اسحب "
-"معAlt</b> لنسخه إلى عنصر واحد في مجموعة."
+"<b>اسحب</b> التأثير إلى مقطع خط زمني آخر أو مسار أو مقطع مشروع لنسخه. "
+"<b>اسحب مع Alt</b> لنسخه إلى عنصر واحد في مجموعة. <b>اسحب مع Shift</b> "
+"لتركيز الهدف عند الإفلات."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:648
 #, kde-format
@@ -32024,35 +32019,48 @@ msgstr ""
 "هناك شيء خاطئ في تثبيت كدنلايف الخاص بك أو إعدادات برنامج التشغيل الثابتة "
 "الخاص بك، يرجى إصلاحه."
 
-#: src/monitor/view/AudioView.qml:342
+#: src/monitor/view/AudioView.qml:341
 #, kde-format
 msgid "Click to refresh audio waveform"
 msgstr "انقر لتحديث شكل الموجة الصوتية"
 
-#: src/monitor/view/ClipMonitor.qml:342 src/monitor/view/ProjectMonitor.qml:177
+#: src/monitor/view/ClipMonitor.qml:338 src/monitor/view/ProjectMonitor.qml:177
 #, kde-format
 msgid "%1fps"
 msgstr "%1 إطار/ثا"
 
-#: src/monitor/view/ClipMonitor.qml:381 src/monitor/view/ProjectMonitor.qml:208
+#: src/monitor/view/ClipMonitor.qml:377 src/monitor/view/ProjectMonitor.qml:208
 #, kde-format
 msgid "In Point"
 msgstr "نقطة الدخول"
 
-#: src/monitor/view/ClipMonitor.qml:381
+#: src/monitor/view/ClipMonitor.qml:377
 #, kde-format
 msgid "In/Out Point"
 msgstr "نقطة الدخول/الخروج"
 
-#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:400 src/monitor/view/ProjectMonitor.qml:224
 #, kde-format
 msgid "Out Point"
 msgstr "نقطة الخروج"
 
-#: src/monitor/view/ClipMonitor.qml:587
+#: src/monitor/view/ClipMonitor.qml:563
 #, kde-format
 msgid "Terminate Job"
 msgstr "أنهِ المهمّة"
+
+#: src/monitor/view/ClipMonitor.qml:640
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
+"fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</"
+"shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
+"shortcut> to zoom"
+msgstr ""
+"<shortcut> النقر</shortcut> للتشغيل، <shortcut> النقر المزدوج</shortcut> "
+"للحصول على ملء الشاشة، <shortcut> تحوم اليمين </shortcut> للبحث، <shortcut> "
+"Ctrl مع العجلة </shortcut> للتكبير"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:67
@@ -42555,17 +42563,6 @@ msgstr "%1س"
 #~ msgctxt "Attribute Name"
 #~ msgid "Custom"
 #~ msgstr "مخصّص"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
-#~ "fullscreen, <shortcut>Hover right</shortcut> for toolbar, "
-#~ "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, "
-#~ "<shortcut>Ctrl wheel</shortcut> to zoom"
-#~ msgstr ""
-#~ "<shortcut> النقر</shortcut> للتشغيل، <shortcut> النقر المزدوج</shortcut> "
-#~ "للحصول على ملء الشاشة، <shortcut> تحوم اليمين </shortcut> للبحث، "
-#~ "<shortcut> Ctrl مع العجلة </shortcut> للتكبير"
 
 #~ msgid "Center X"
 #~ msgstr "مركز س"

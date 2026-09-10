@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-09 00:45+0000\n"
-"PO-Revision-Date: 2026-09-07 13:51+0200\n"
+"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"PO-Revision-Date: 2026-09-09 12:25+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -21601,12 +21601,12 @@ msgstr ""
 "Dubbelklik, laat bestanden los\n"
 "of klik op %1 om media te importeren"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:524
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Sleep om alleen audio aan de tijdlijn toe te voegen"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:524
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Sleep om alleen video aan de tijdlijn toe te voegen"
@@ -24737,13 +24737,14 @@ msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
 "file. Do you want to continue rendering?"
 msgstr ""
+"Het hoofdaudio-kanaal is gedempt, dus het gerenderde bestand zal geen "
+"audiostream bevatten. Wilt u doorgaan met renderen?"
 
 #: src/dialogs/renderwidget.cpp:977
-#, fuzzy, kde-format
-#| msgid "Render…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render"
-msgstr "Renderen (omzetten)…"
+msgstr "Renderen (omzetten)"
 
 #: src/dialogs/renderwidget.cpp:987 src/dialogs/renderwidget.cpp:2047
 #: src/project/dialogs/archivewidget.cpp:928
@@ -28134,11 +28135,7 @@ msgid "%1 instances of this effect in the group"
 msgstr "%1 exemplaren van dit effect in de groep"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:623
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "<b>Drag</b> effect to another timeline clip, track or project clip to "
-#| "copy it. <b>Alt Drag</b> to copy it to a single item in a group."
+#, kde-format
 msgctxt "@info:status"
 msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
@@ -28147,7 +28144,7 @@ msgid ""
 msgstr ""
 "Effect <b>slepen</b> naar een andere tijdlijnclip, track of projectclip om "
 "het te kopiëren. <b>Alt slepen</b> om het te kopiëren naar een enkel item in "
-"een groep."
+"een groep. <b>Shift slepen</b> naar focusdoel bij loslaten."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:648
 #, kde-format
@@ -32512,35 +32509,49 @@ msgstr ""
 "Er is iets mis met de installatie van kdenlive of met de instellingen van de "
 "aansturing van het/de appara(a)t(en), herstel dit eerst."
 
-#: src/monitor/view/AudioView.qml:342
+#: src/monitor/view/AudioView.qml:341
 #, kde-format
 msgid "Click to refresh audio waveform"
 msgstr "Klik om geluidsgolfvorm te vernieuwen"
 
-#: src/monitor/view/ClipMonitor.qml:342 src/monitor/view/ProjectMonitor.qml:177
+#: src/monitor/view/ClipMonitor.qml:338 src/monitor/view/ProjectMonitor.qml:177
 #, kde-format
 msgid "%1fps"
 msgstr "%1 fps"
 
-#: src/monitor/view/ClipMonitor.qml:381 src/monitor/view/ProjectMonitor.qml:208
+#: src/monitor/view/ClipMonitor.qml:377 src/monitor/view/ProjectMonitor.qml:208
 #, kde-format
 msgid "In Point"
 msgstr "Beginpunt"
 
-#: src/monitor/view/ClipMonitor.qml:381
+#: src/monitor/view/ClipMonitor.qml:377
 #, kde-format
 msgid "In/Out Point"
 msgstr "In/uitpunt"
 
-#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:400 src/monitor/view/ProjectMonitor.qml:224
 #, kde-format
 msgid "Out Point"
 msgstr "Eindpunt"
 
-#: src/monitor/view/ClipMonitor.qml:587
+#: src/monitor/view/ClipMonitor.qml:563
 #, kde-format
 msgid "Terminate Job"
 msgstr "Taak beëindigen"
+
+#: src/monitor/view/ClipMonitor.qml:640
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
+"fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</"
+"shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
+"shortcut> to zoom"
+msgstr ""
+"<shortcut>Klik</shortcut> om af te spelen, <shortcut>Dubbelklik</shortcut> "
+"voor volledig scherm, <shortcut>Rechts zweven</shortcut> voor werkbalk, "
+"<shortcut>Wiel</shortcut> of <shortcut>pijltjestoetsen</shortcut> om te "
+"zoeken, <shortcut>Ctrl wiel</shortcut> om te zoomen"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:67
@@ -44319,18 +44330,6 @@ msgstr "%1u"
 #~ msgctxt "Attribute Name"
 #~ msgid "Custom"
 #~ msgstr "Zelf gedefinieerd"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
-#~ "fullscreen, <shortcut>Hover right</shortcut> for toolbar, "
-#~ "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, "
-#~ "<shortcut>Ctrl wheel</shortcut> to zoom"
-#~ msgstr ""
-#~ "<shortcut>Klik</shortcut> om af te spelen, <shortcut>Dubbelklik</"
-#~ "shortcut> voor volledig scherm, <shortcut>Rechts zweven</shortcut> voor "
-#~ "werkbalk, <shortcut>Wiel</shortcut> of <shortcut>pijltjestoetsen</"
-#~ "shortcut> om te zoeken, <shortcut>Ctrl wiel</shortcut> om te zoomen"
 
 #~ msgid "Center X"
 #~ msgstr "Centrum X"
