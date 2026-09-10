@@ -8397,6 +8397,11 @@ bool TimelineModel::hasSubtitleModel()
     return m_subtitleModel != nullptr;
 }
 
+bool TimelineModel::hasSubtitles() const
+{
+    return m_subtitleModel != nullptr && m_subtitleModel->rowCount() > 0;
+}
+
 void TimelineModel::makeTransparentBg(bool transparent)
 {
     m_blackClip->lock();
