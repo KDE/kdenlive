@@ -368,6 +368,9 @@ int main(int argc, char *argv[])
     QCommandLineOption saveDebugOption(QStringLiteral("setup-report"), i18n("Save a json report about components in the given path."), QStringLiteral("reportFile"));
     parser.addOption(saveDebugOption);
 
+    QCommandLineOption verifyOption(QStringLiteral("verify-file"), i18n("Verify whether a Kdenlive project file is valid, print details, and exit."));
+    parser.addOption(verifyOption);
+
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
     parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
 
@@ -446,6 +449,44 @@ int main(int argc, char *argv[])
                 }
             }
         }
+    }
+
+    if (parser.isSet(verifyOption)) {
+        if (app.url.isEmpty()) {
+            qCritical() << "You need to provide a project file to verify from the command line.";
+            return EXIT_FAILURE;
+        }
+        if (!app.url.isLocalFile() || !QFileInfo::exists(app.url.toLocalFile())) {
+            qCritical() << "File does not exist:" << app.url.toString();
+            return EXIT_FAILURE;
+        }
+        if (!Core::build(packageType, true)) {
+            qCritical() << "Failed to initialize Kdenlive core.";
+            return EXIT_FAILURE;
+        }
+        pCore->initHeadless(app.url);
+        app.processEvents();
+
+        KdenliveDoc *doc = pCore->currentDoc();
+        if (!doc) {
+            qCritical() << "Verification failed: Unable to load project file:" << app.url.toLocalFile();
+            Core::clean();
+            return EXIT_FAILURE;
+        }
+
+        if (!doc->checkConsistency()) {
+            qCritical() << "Verification failed: Project file failed consistency checks:" << app.url.toLocalFile();
+            pCore->projectManager()->closeCurrentDocument(false, false);
+            Core::clean();
+            return EXIT_FAILURE;
+        }
+
+        qInfo() << "SUCCESS: Project file is valid:" << app.url.toLocalFile();
+        pCore->projectManager()->closeCurrentDocument(false, false);
+        app.processEvents();
+        Core::clean();
+        app.processEvents();
+        return EXIT_SUCCESS;
     }
 
     if (parser.isSet(renderOption)) {
