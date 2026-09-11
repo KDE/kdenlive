@@ -1806,7 +1806,6 @@ const QString KeyframeModel::getIconByKeyframeType(KeyframeType::KeyframeEnum ty
     case KeyframeType::Discrete:
         return QStringLiteral("discrete");
     case KeyframeType::Curve:
-        return QStringLiteral("smooth");
     case KeyframeType::CurveSmooth:
         return QStringLiteral("smooth");
     default:

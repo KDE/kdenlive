@@ -64,6 +64,13 @@ Item {
         refreshView()
     }
 
+    onForceVisibleChanged:
+    {
+        if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
+            refreshView()
+        }
+    }
+
     function refreshView()
     {
         audioThumb.isAudioClip = monitorController.clipType === K.ClipType.Audio
@@ -74,14 +81,6 @@ Item {
     onContainsMyMouseChanged: {
         if (containsMyMouse) {
             monitorController.dragType = '-'
-        }
-        if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
-            if (containsMyMouse) {
-                zoomCollapseTimer.stop()
-                state = "showAudio"
-            } else if (monitorController.clipHasAV) {
-                zoomCollapseTimer.start()
-            }
         }
     }
 

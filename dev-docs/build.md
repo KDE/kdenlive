@@ -71,7 +71,7 @@ Or install the dependencies explicitly:
 # Qt6 modules
 sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev \
 qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop \
-qt6-declarative-private-dev
+qt6-declarative-private-dev qt6-image-formats-plugins
 
 # KDE Frameworks 6, based on Qt6
 sudo apt install kf6-breeze-icon-theme libkf6archive-dev libkf6bookmarks-dev \
@@ -106,13 +106,14 @@ sudo apt install ruby subversion gnupg2 gettext
 
 ### Define your environment variables
 
-- If you have specific needs and know what you're doing, you can define where you want to install your builds, like `=$HOME/.local`, as `INSTALL_PREFIX` variable:
+- Define where to install Kdenlive. One safe option is `/usr/local`.
 
 ```bash
-INSTALL_PREFIX=$HOME/.local # or any other choice, the easiest would be to leave it empty ("")
+INSTALL_PREFIX=/usr/local 
 ```
-Please note that even if you have specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
-going to be installed in non-user-writable system paths to make them work. If you really do not want to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
+
+> [!WARNING]  
+> If you have specific needs and know what you're doing, you can define where you want to install your builds, but please note that even if you have specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are going to be installed in non-user-writable system paths to make them work. If you really do not want to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
 
 - You can also set the `JOBS` variable to the number of threads your CPU can offer for builds.
 
@@ -164,7 +165,8 @@ And build MLT:
 # Install MLT dependencies
 sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev \
 libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev \
-libsamplerate0-dev librubberband-dev libebur128-dev libarchive-dev frei0r-plugins-dev
+libsamplerate0-dev librubberband-dev libebur128-dev libarchive-dev frei0r-plugins-dev \
+liblilv-dev
 
 # Get MLT's source code
 # You will need --recurse-submodules to get the Glaxnimate code
@@ -173,7 +175,8 @@ git clone --recurse-submodules https://github.com/mltframework/mlt.git
 cd mlt
 mkdir build && cd build
 # To build with Qt6, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
-cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON
+cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON \
+-DMOD_RNNOISE=OFF
 
 # install (use make instead of ninja if ninja is not used)
 ninja -j$JOBS
@@ -194,7 +197,7 @@ git clone https://invent.kde.org/multimedia/kdenlive.git
 cd kdenlive
 mkdir build && cd build
 cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
--DRELEASE_BUILD=OFF -DCMAKE_FIND_ROOT_PATH=/usr/local/KDAB/KDDockWidgets-2.5.0
+-DRELEASE_BUILD=OFF -DCMAKE_FIND_ROOT_PATH=/usr/local/KDAB/KDDockWidgets-2.5.0 -DBUILD_TESTING=ON
 ninja -j$JOBS
 sudo ninja install
 ```

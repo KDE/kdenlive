@@ -960,6 +960,7 @@ public:
    int getMixCutPos(int cid) const;
    MixAlignment getMixAlign(int cid) const;
    bool hasSubtitleModel();
+   bool hasSubtitles() const;
    /** @brief Get the frame size of the clip above a composition */
    const QSize getCompositionSizeOnTrack(const ObjectId &id);
    /** @brief Get a track tag (A1, V1, V2,...) through its id */

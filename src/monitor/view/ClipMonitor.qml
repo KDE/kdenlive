@@ -74,11 +74,6 @@ Item {
     Timer {
         id: thumbTimer
         interval: 3000; running: false;
-        onRunningChanged: {
-            if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
-                audioView.refreshView()
-            }
-        }
     }
 
     signal editCurrentMarker()
@@ -250,10 +245,9 @@ Item {
                     text: root.controller.clipName
                     enabled: labelContainer.opacity > 0.5
                     onTextChanged: {
-                        if (thumbTimer.running) {
-                            thumbTimer.stop()
+                        if (text != "") {
+                            thumbTimer.restart()
                         }
-                        thumbTimer.start()
                     }
                     bottomPadding: 0
                     topPadding: 0
@@ -266,6 +260,8 @@ Item {
                             target: labelContainer; duration: 3000
                         }
                         onStarted: {
+                            fadeAnimate.stop()
+                            labelContainer.opacity = 1
                             contextMenu.opacity = 1
                         }
                         onFinished: {
@@ -476,7 +472,7 @@ Item {
                 color: activePalette.highlight
                 border.width: 1
                 border.color: activePalette.base
-                visible: (cursorArea.containsMouse && !cursorArea.leftSide)
+                visible: cursorArea.containsMouse && !cursorArea.leftSide
             }
             Row {
                 Item {
@@ -506,11 +502,16 @@ Item {
                 anchors.fill: dragZone
                 acceptedButtons: Qt.LeftButton
                 hoverEnabled: true
-                property bool leftSide: dragZone.showVideoDrag ? mouseX < width / 2 : false
+                property bool leftSide: false
                 cursorShape: Qt.OpenHandCursor
                 propagateComposedEvents: true
+                onPositionChanged: mouse => {
+                    leftSide = dragZone.showVideoDrag ? mouse.x < width / 2 : false
+                }
+
                 onPressed: mouse => {
-                    root.controller.dragType = leftSide ? 'V' : 'A'
+                    let clickSide = dragZone.showVideoDrag ? mouse.x < width / 2 : false
+                    root.controller.dragType = clickSide ? 'V' : 'A'
                     mouse.accepted = false
                 }
                 onReleased: mouse => {
@@ -525,32 +526,7 @@ Item {
             }
         }
     }
-    /*MouseArea {
-        id: barPosArea
-        anchors.fill: parent
-        acceptedButtons: Qt.NoButton
-        propagateComposedEvents: true
-        hoverEnabled: true
-        property bool inLowerThird: (containsMouse && mouseY > height / 2) || audioView.containsMouse
-        onInLowerThirdChanged: {
-            console.log('LOWER AREA CONTAINS MOUSE: ', inLowerThird)
-        }
-        //cursorShape: cursorArea.containsMouse ? Qt.OpenHandCursor : Qt.ArrowCursor
-        onEntered: {
-            // Show clip name
-            if (labelContainer.opacity == 0) {
-                labelContainer.opacity = 1
-                contextMenu.opacity = 1
-                if (!clipNameLabel.hovered) {
-                    showAnimate.restart()
-                }
-            }
-            controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
-        }
-        onExited: {
-            controller.setWidgetKeyBinding();
-        }
-    }*/
+
     Item {
         id: clipJobInfo
         x: sceneToolBar.visible && sceneToolBar.rightSide == false ? sceneToolBar.width + 10 : 10
@@ -647,6 +623,23 @@ Item {
                 width: bd.y * clipMonitorRuler.timeScale
                 height: 2
                 color: 'goldenrod'
+            }
+        }
+    }
+    HoverHandler {
+        onHoveredChanged: {
+            if (hovered) {
+                // Show clip name
+                if (labelContainer.opacity === 0) {
+                    labelContainer.opacity = 1
+                    contextMenu.opacity = 1
+                    if (!clipNameLabel.hovered) {
+                        showAnimate.restart()
+                    }
+                }
+                root.controller.setWidgetKeyBinding(KI18n.xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
+            } else {
+                root.controller.setWidgetKeyBinding();
             }
         }
     }

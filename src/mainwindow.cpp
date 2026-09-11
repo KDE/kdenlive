@@ -5301,10 +5301,6 @@ void MainWindow::slotManageSubtitle()
 
 void MainWindow::slotExportSubtitle()
 {
-    if (!getCurrentTimeline()->hasSubtitles()) {
-        pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
-        return;
-    }
     getCurrentTimeline()->controller()->exportSubtitle();
 }
 

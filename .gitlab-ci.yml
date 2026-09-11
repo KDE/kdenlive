@@ -30,8 +30,11 @@ include:
       - /gitlab-templates/windows-appx-qt6.yml
 
 # Overwrite the script step to not run ci-notary-service/publishbuild.py
-# Given that we are in a transition phase from MinGW to MSVC we have to Windows jobs
-# and running ci-notary-service/publishbuild.py on both will cause a race condition
+# Given that we are in a transition phase from MinGW to MSVC we have two Windows jobs
+# and running ci-notary-service/publishbuild.py on both will cause a race condition.
+# Hence we modify the job to publish to "msvc-experimental"
+# Please also revert https://invent.kde.org/sysadmin/ci-notary-service/-/merge_requests/98
+# if you remove this workaround.
 craft_windows_qt6_x86_64:
   script:
     # Set up craft settings and blueprint settings
@@ -62,8 +65,8 @@ craft_windows_qt6_x86_64:
         Get-ChildItem -Path $packageDir -Recurse -Include *.appx, *.appxupload | Copy-Item
         cd C:/Craft
       }
-    # Publish the installers
-    # - python -u ci-notary-service/publishbuild.py -v --config ci-utilities/signing/publishbuild.ini --platform windows "$env:CI_PROJECT_DIR/kde-ci-packages/"
+    # Publish the installers to the special "msvc-experimental" location
+    - python -u ci-notary-service/publishbuild.py -v --config ci-utilities/signing/publishbuild.ini --platform "msvc-experimental" "$env:CI_PROJECT_DIR/kde-ci-packages/"
 
   
 # Customize the job from /gitlab-templates/xml-lint.yml

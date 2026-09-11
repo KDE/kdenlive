@@ -5856,12 +5856,12 @@ void TimelineController::importSubtitle(const QString &path)
 
 void TimelineController::exportSubtitle()
 {
-    if (!m_model->hasSubtitleModel()) {
+    if (!m_model->hasSubtitles()) {
+        pCore->displayMessage(i18n("No subtitles in current project. Export not possible."), ErrorMessage);
         return;
     }
     QString currentSub = m_model->getSubtitleModel()->getUrl();
     if (currentSub.isEmpty()) {
-        pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
     QString selectedFilter;

@@ -249,41 +249,34 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
 
     // Default kf interpolation
     KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), parent);
-    QAction *discrete2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Discrete)),
-                                     KeyframeModel::getKeyframeTypes().value(KeyframeType::Discrete), parent);
-    discrete2->setData(int(KeyframeType::Discrete));
-    discrete2->setCheckable(true);
-    kfType->addAction(discrete2);
-    QAction *linear2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Linear)),
-                                   KeyframeModel::getKeyframeTypes().value(KeyframeType::Linear), parent);
-    linear2->setData(int(KeyframeType::Linear));
-    linear2->setCheckable(true);
-    kfType->addAction(linear2);
-    QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::CurveSmooth)),
-                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::CurveSmooth), parent);
-    curve2->setData(int(KeyframeType::CurveSmooth));
-    curve2->setCheckable(true);
-    kfType->addAction(curve2);
-    switch (KdenliveSettings::defaultkeyframeinterp()) {
-    case int(KeyframeType::Discrete):
-        kfType->setCurrentAction(discrete2);
-        break;
-    case int(KeyframeType::Curve):
-    case int(KeyframeType::CurveSmooth):
-        kfType->setCurrentAction(curve2);
-        break;
-    default:
-        kfType->setCurrentAction(linear2);
-        break;
+    QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles2;
+    for (auto it = cmap.cbegin(); it != cmap.cend(); it++) {
+        if (it.key() == KeyframeType::Curve) {
+            continue;
+        }
+        QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), parent);
+        tmp->setData(int(it.key()));
+        tmp->setCheckable(true);
+        kfTypeHandles2.insert(it.key(), tmp);
+        kfType->addAction(tmp);
+    }
+    auto currentType = static_cast<KeyframeType::KeyframeEnum>(KdenliveSettings::defaultkeyframeinterp());
+    if (currentType == KeyframeType::Curve) {
+        currentType = KeyframeType::CurveSmooth;
+    }
+    if (kfTypeHandles2.contains(currentType)) {
+        kfType->setCurrentAction(kfTypeHandles2[currentType]);
+    } else if (kfTypeHandles2.contains(KeyframeType::Linear)) {
+        kfType->setCurrentAction(kfTypeHandles2[KeyframeType::Linear]);
     }
     connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 
     // rotoscoping only supports linear keyframes
-    if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
+    if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Roto_spline) {
         m_selectType->setVisible(false);
         m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
         kfType->setVisible(false);
-        kfType->setCurrentAction(linear2);
+        kfType->setCurrentAction(kfTypeHandles2[KeyframeType::Linear]);
     }
 
     // Auto keyframe limit
