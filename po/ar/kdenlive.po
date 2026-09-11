@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
 "PO-Revision-Date: 2026-09-09 19:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -22206,7 +22206,7 @@ msgstr "احذف التّأثير %1"
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, kde-format
 msgid "Project Bin %1"
 msgstr "سلّة المشروع %1"
@@ -24358,7 +24358,7 @@ msgstr "فيديو بلا مسار صوت"
 msgid "Audio without video track"
 msgstr "صوت بلا مسار فيديو"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "بدأ تصيير %1"
@@ -29071,10 +29071,16 @@ msgstr "احفظ تقريرًا بصيغة JSON حول المكونات في ا�
 
 #: src/main.cpp:371
 #, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
+#, kde-format
 msgid "Kdenlive document to open."
 msgstr "مستند كدنلايف لفتحه"
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "ملفّ الخرج للفيديو المصير."
@@ -31009,35 +31015,30 @@ msgstr "سيُخفي هذا شريط القوائم بالكامل. يمكنك �
 msgid "Hide menu bar"
 msgstr "أخفِ شريط القوائم"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, kde-format
-msgid "No subtitles in current project"
-msgstr "لا يوجد ترجمات في المشروع الحالي"
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr "اذهب إلى صفحة التحميل"
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, kde-format
 msgid "Never check again"
 msgstr "لا تحقق مجددًا"
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "الإصدار كدنلايف قديمة بعام كامل، نحن نشجعك بشدة على الترقية"
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "إصدار كدنلايف قديمة بستة أشهر، نحن نشجعك على الترقية"
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, kde-format
 msgid "Checking cached data size"
 msgstr "يفحص حجم بيانات الخبيئة"
@@ -36700,6 +36701,12 @@ msgstr[2] "أدرج مسارًا"
 msgstr[3] "أدرج مسارًا"
 msgstr[4] "أدرج مسارًا"
 msgstr[5] "أدرج مسارًا"
+
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, fuzzy, kde-format
+#| msgid "No subtitles in current project"
+msgid "No subtitles in current project. Export not possible."
+msgstr "لا يوجد ترجمات في المشروع الحالي"
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

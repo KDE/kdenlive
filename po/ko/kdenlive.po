@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -22613,7 +22613,7 @@ msgstr "%1 효과 삭제"
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, kde-format
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
@@ -24843,7 +24843,7 @@ msgstr "오디오 트랙이 없는 동영상"
 msgid "Audio without video track"
 msgstr "오디오 트랙이 없는 동영상"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -29736,12 +29736,18 @@ msgid "Save a json report about components in the given path."
 msgstr ""
 
 #: src/main.cpp:371
+#, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Kdenlive document to open."
 msgstr "열 문서"
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Output file for rendered video."
@@ -31763,36 +31769,31 @@ msgstr "메뉴 표시줄을 완전히 숨깁니다. Ctrl+M 키를 눌러서 다�
 msgid "Hide menu bar"
 msgstr "메뉴 표시줄 숨기기"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, kde-format
-msgid "No subtitles in current project"
-msgstr "현재 프로젝트에 자막 없음"
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, fuzzy, kde-format
 #| msgid "Check again"
 msgid "Never check again"
 msgstr "다시 확인"
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -37655,6 +37656,12 @@ msgstr "클립을 펼칠 수 없음"
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "트랙 삽입"
+
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, fuzzy, kde-format
+#| msgid "No subtitles in current project"
+msgid "No subtitles in current project. Export not possible."
+msgstr "현재 프로젝트에 자막 없음"
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

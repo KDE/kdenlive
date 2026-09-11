@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -22672,7 +22672,7 @@ msgstr "Slet effekten %1"
 msgid "Project Bin"
 msgstr "Projektkurv"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -24943,7 +24943,7 @@ msgstr "Video uden lydspor"
 msgid "Audio without video track"
 msgstr "Video uden lydspor"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -29908,12 +29908,18 @@ msgid "Save a json report about components in the given path."
 msgstr ""
 
 #: src/main.cpp:371
+#, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Kdenlive document to open."
 msgstr "Dokument der skal åbnes"
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Output file for rendered video."
@@ -31933,37 +31939,31 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Skjul menulinje"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, fuzzy, kde-format
-#| msgid "No guide at cursor time"
-msgid "No subtitles in current project"
-msgstr "Ingen hjælpelinje ved markørtidspunktet"
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Enhedsindstilling"
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -37849,6 +37849,12 @@ msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Indsæt spor"
 msgstr[1] "Indsæt spor"
+
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, fuzzy, kde-format
+#| msgid "No guide at cursor time"
+msgid "No subtitles in current project. Export not possible."
+msgstr "Ingen hjælpelinje ved markørtidspunktet"
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, fuzzy, kde-format

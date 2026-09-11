@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
 "PO-Revision-Date: 2025-05-16 15:05+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -21215,7 +21215,7 @@ msgstr "Smazat efekt %1"
 msgid "Project Bin"
 msgstr "Zásobník projektu"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Zásobník projektu %1"
@@ -23306,7 +23306,7 @@ msgstr "Video bez zvukové stopy"
 msgid "Audio without video track"
 msgstr "Zvuk bez video stopy"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, kde-format
 msgid "Rendering %1 started"
 msgstr ""
@@ -27946,10 +27946,16 @@ msgstr ""
 
 #: src/main.cpp:371
 #, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
+#, kde-format
 msgid "Kdenlive document to open."
 msgstr ""
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, kde-format
 msgid "Output file for rendered video."
 msgstr ""
@@ -29815,35 +29821,30 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Skrýt nabídku"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, kde-format
-msgid "No subtitles in current project"
-msgstr ""
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, kde-format
 msgid "Never check again"
 msgstr ""
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, kde-format
 msgid "Checking cached data size"
 msgstr ""
@@ -35353,6 +35354,11 @@ msgid_plural "Insert Tracks"
 msgstr[0] "Vložit stopu"
 msgstr[1] "Vložit stopu"
 msgstr[2] "Vložit stopu"
+
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, kde-format
+msgid "No subtitles in current project. Export not possible."
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

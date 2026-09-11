@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
 "PO-Revision-Date: 2026-06-27 15:05+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
@@ -615,7 +615,7 @@ msgstr "Crête, Rms"
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
 msgid "Sidechain Gain"
-msgstr "Gain de chaîne latérale"
+msgstr "Gain de chaine latérale"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -1253,7 +1253,7 @@ msgid ""
 msgstr ""
 "Augmentez ou atténuez les basses fréquences (inférieures) de l'audio à "
 "l'aide d'un filtre en plateau à deux pôles avec une réponse similaire à "
-"celle des commandes de tonalité d'une chaîne Hifi standard. Ceci est "
+"celle des commandes de tonalité d'une chaine Hifi standard. Ceci est "
 "également connu sous le nom d'égalisation en plateau (EQ)."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
@@ -2857,7 +2857,7 @@ msgid ""
 msgstr ""
 "Appliquez un décalage « DC » à l'audio.\n"
 "Cela peut être utile pour supprimer un décalage « DC » (Provoqué peut-être "
-"par un problème matériel dans la chaîne d'enregistrement) de l'audio.\n"
+"par un problème matériel dans la chaine d'enregistrement) de l'audio.\n"
 "L'effet d'un décalage « DC » réduit la hauteur et donc le volume. Le filtre "
 "« astats » peut être utilisé pour déterminer si un signal possède un "
 "décalage « DC »."
@@ -14165,7 +14165,7 @@ msgstr ""
 "gras sur le côté inférieur droit du rectangle.<br>\n"
 "        La valeur de <em>Unité de légende</em> sera ajoutée à la fin. Elle "
 "sera utilisée comme unité courante (Si une unité valable est trouvée, c'est-"
-"à-dire : kilomètres si « km » est trouvé n'importe où dans la chaîne "
+"à-dire : kilomètres si « km » est trouvé n'importe où dans la chaine "
 "<em>Unité de légende</em>)."
 
 #: data/effects/gpsgraphic.xml:131
@@ -14207,7 +14207,7 @@ msgstr ""
 "         avec de petites valeurs correspondant chacune à la valeur courante "
 "de la source de données à 0 %, 25 %, 50 %, 75 % et 100 % du graphique "
 "actuellement affiché. Ces valeurs sont associées au type <em>Unité de "
-"légende</em>, si applicable, et avec la chaîne ajoutée à la valeur. Pour le "
+"légende</em>, si applicable, et avec la chaine ajoutée à la valeur. Pour le "
 "type « Compteur de vitesse », cela affiche les valeurs de division (Mais y "
 "ajouter d'unité)."
 
@@ -14227,7 +14227,7 @@ msgstr ""
 "Définit l'unité à utiliser pour l'affichage des valeurs de type altitude et  "
 "vitesse.<br>\n"
 "        Les valeurs par défaut sont respectivement en mètres et en km / h. "
-"L'unité est associée n'importe où dans la chaîne de sorte que des espaces "
+"L'unité est associée n'importe où dans la chaine de sorte que des espaces "
 "supplémentaires peuvent être utilisés pour modifier l'affichage."
 
 #: data/effects/gpsgraphic.xml:146
@@ -16656,7 +16656,7 @@ msgstr "Valeur du seuil"
 #: data/effects/ladspa/ladspa_2147.xml:15
 #, kde-format
 msgid "Sidechain Filter"
-msgstr "Filtre de chaîne latérale"
+msgstr "Filtre de chaine latérale"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
@@ -22792,7 +22792,7 @@ msgstr "Supprimer l'effet %1"
 msgid "Project Bin"
 msgstr "Sources du projet"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Environnement du projet %1"
@@ -24976,7 +24976,7 @@ msgstr "Vidéo sans piste audio"
 msgid "Audio without video track"
 msgstr "Audio sans piste vidéo"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Le rendu de %1 a débuté."
@@ -29823,10 +29823,16 @@ msgstr ""
 
 #: src/main.cpp:371
 #, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
+#, kde-format
 msgid "Kdenlive document to open."
 msgstr "Document de Kdenlive à ouvrir."
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Fichier de sortie pour la vidéo de rendu."
@@ -31788,22 +31794,17 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Masquer la barre de menu"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, kde-format
-msgid "No subtitles in current project"
-msgstr "Aucun sous-titre dans le projet actuel."
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr "Aller à la page de téléchargement"
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, kde-format
 msgid "Never check again"
 msgstr "Ne plus vérifier"
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -31812,7 +31813,7 @@ msgstr ""
 "Votre version de Kdenlive a plus d'un an. Vous êtes fortement incité à faire "
 "une mise à jour."
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -31820,7 +31821,7 @@ msgstr ""
 "Votre version de Kdenlive a plus de 6 mois. Vous êtes fortement incité à "
 "faire une mise à jour."
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Vérification du volume de données en cache en cours"
@@ -37608,6 +37609,12 @@ msgid_plural "Insert Tracks"
 msgstr[0] "Insérer une piste"
 msgstr[1] "Insérer des pistes"
 
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, fuzzy, kde-format
+#| msgid "No subtitles in current project"
+msgid "No subtitles in current project. Export not possible."
+msgstr "Aucun sous-titre dans le projet actuel."
+
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format
 msgid "Export subtitle file"
@@ -42637,7 +42644,7 @@ msgstr "Modèle :"
 #: src/ui/templateclip_ui.ui:63
 #, no-c-format, kde-format
 msgid "Enter the text that will replace the %s string from the template"
-msgstr "Saisissez le texte qui remplacera la chaîne %s du modèle."
+msgstr "Saisissez le texte qui remplacera la chaine %s du modèle."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:58

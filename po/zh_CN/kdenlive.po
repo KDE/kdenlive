@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -21660,7 +21660,7 @@ msgstr "删除效果 %1"
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
@@ -23736,11 +23736,10 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/renderwidget.cpp:977
-#, fuzzy, kde-format
-#| msgid "Render…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render"
-msgstr "导出…"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:987 src/dialogs/renderwidget.cpp:2047
 #: src/project/dialogs/archivewidget.cpp:928
@@ -23786,7 +23785,7 @@ msgstr "无音轨视频"
 msgid "Audio without video track"
 msgstr "无视频的音频轨道"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "渲染 %1 已开始"
@@ -27024,19 +27023,13 @@ msgid "%1 instances of this effect in the group"
 msgstr "此效果在此分组中有 %1 个实例"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:623
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "<b>Drag</b> effect to another timeline clip, track or project clip to "
-#| "copy it. <b>Alt Drag</b> to copy it to a single item in a group."
+#, kde-format
 msgctxt "@info:status"
 msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group. <b>Shift Drag</"
 "b> to focus target on drop."
 msgstr ""
-"<b>拖动</b>效果到另一个时间轴剪辑、轨道或者项目剪辑以复制它到目标位置。"
-"<b>Alt + 拖动</b>以将它复制到一个分组中的单独项目。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:648
 #, kde-format
@@ -28411,10 +28404,16 @@ msgstr ""
 
 #: src/main.cpp:371
 #, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
+#, kde-format
 msgid "Kdenlive document to open."
 msgstr "要打开的 Kdenlive 文档。"
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "导出视频的输出文件。"
@@ -30305,35 +30304,30 @@ msgstr "这将完全隐藏菜单栏。按 Ctrl+M 可以重新显示。"
 msgid "Hide menu bar"
 msgstr "隐藏菜单栏"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, kde-format
-msgid "No subtitles in current project"
-msgstr "当前项目不含字幕"
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr "访问下载页面"
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, kde-format
 msgid "Never check again"
 msgstr "不再检查"
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "此 Kdenlive 已经是 1 年前的版本了，我们强烈建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "此 Kdenlive 已经是 6 个月前的版本了，我们建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, kde-format
 msgid "Checking cached data size"
 msgstr "检查缓存的数据大小"
@@ -31337,11 +31331,7 @@ msgid "Terminate Job"
 msgstr "终止任务"
 
 #: src/monitor/view/ClipMonitor.qml:640
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
-#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
-#| "to zoom"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
@@ -31349,8 +31339,6 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"<b>点击</b>播放，<b>双击</b>全屏，<b>右侧悬浮</b>显示工具栏，<b>鼠标滚轮</b>"
-"或<b>方向键</b>时移，<b>Ctrl+鼠标滚轮</b>缩放视图"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:67
@@ -35879,6 +35867,12 @@ msgstr "无法延长片段"
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "插入轨道"
+
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, fuzzy, kde-format
+#| msgid "No subtitles in current project"
+msgid "No subtitles in current project. Export not possible."
+msgstr "当前项目不含字幕"
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

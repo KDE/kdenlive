@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
-"PO-Revision-Date: 2026-09-04 11:19+0200\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
+"PO-Revision-Date: 2026-09-10 16:46+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22497,7 +22497,7 @@ msgstr "Izbriši učinek %1"
 msgid "Project Bin"
 msgstr "Projektna posoda"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektna posoda %1"
@@ -24608,13 +24608,14 @@ msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
 "file. Do you want to continue rendering?"
 msgstr ""
+"Glavna zvočna steza je nema, zato ne bo zvočnega toka v izrisani datoteki. "
+"Ali želite nadaljevati z izrisovanjem?"
 
 #: src/dialogs/renderwidget.cpp:977
-#, fuzzy, kde-format
-#| msgid "Render…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render"
-msgstr "Izriši …"
+msgstr "Izriši"
 
 #: src/dialogs/renderwidget.cpp:987 src/dialogs/renderwidget.cpp:2047
 #: src/project/dialogs/archivewidget.cpp:928
@@ -24660,7 +24661,7 @@ msgstr "Video brez zvočne steze"
 msgid "Audio without video track"
 msgstr "Zvok brez video steze"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Izrisovanje %1 se je pričelo"
@@ -28009,11 +28010,7 @@ msgid "%1 instances of this effect in the group"
 msgstr "V skupini je %1 primerkov tega učinka"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:623
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "<b>Drag</b> effect to another timeline clip, track or project clip to "
-#| "copy it. <b>Alt Drag</b> to copy it to a single item in a group."
+#, kde-format
 msgctxt "@info:status"
 msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
@@ -28021,8 +28018,9 @@ msgid ""
 "b> to focus target on drop."
 msgstr ""
 "<b>Povlecite</b> učinek na drug posnetek časovnice, stezo ali posnetek "
-"projekta, da ga kopirate. <b>S pritisnjeno izmenjalko povlecite</b> , da ga "
-"kopirate v en element v skupini."
+"projekta, da ga kopirate. S <b>pritisnjeno izmenjalko povlecite</b> , da ga "
+"kopirate v en element v skupini. S <b>pritisnjeno dvigalko povlecite</b>, da "
+"se osredotočite na cilj ob spustu."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:648
 #, kde-format
@@ -29414,10 +29412,16 @@ msgstr "Shrani poročilo v obliki JSON o komponentah v navedeni poti."
 
 #: src/main.cpp:371
 #, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
+#, kde-format
 msgid "Kdenlive document to open."
 msgstr "Dokument Kdenlive, ki ga želite odpreti."
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Izhodna datoteka za izrisani videoposnetek."
@@ -31362,22 +31366,17 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Skrij menijsko vrstico"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, kde-format
-msgid "No subtitles in current project"
-msgstr "V trenutnem projektu ni podnaslovov"
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr "Pojdi na stran prenosov"
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, kde-format
 msgid "Never check again"
 msgstr "Ne preveri nikoli več"
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -31386,7 +31385,7 @@ msgstr ""
 "Vaša različica Kdenlive je starejša od 1 leta, zato vam priporočamo, da jo "
 "nadgradite"
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -31394,7 +31393,7 @@ msgstr ""
 "Vaša različica Kdenlive je starejša od 6 mesecev, zato vam priporočamo, da "
 "jo nadgradite"
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Preverjanje velikosti predpomnjenih podatkov"
@@ -37117,6 +37116,12 @@ msgstr[0] "Vstavi steze"
 msgstr[1] "Vstavi stezo"
 msgstr[2] "Vstavi stezi"
 msgstr[3] "Vstavi steze"
+
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, fuzzy, kde-format
+#| msgid "No subtitles in current project"
+msgid "No subtitles in current project. Export not possible."
+msgstr "V trenutnem projektu ni podnaslovov"
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

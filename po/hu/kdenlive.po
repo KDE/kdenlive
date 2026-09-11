@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 00:45+0000\n"
+"POT-Creation-Date: 2026-09-11 00:45+0000\n"
 "PO-Revision-Date: 2026-06-16 22:40+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -22800,7 +22800,7 @@ msgstr "Effektus törlése"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5425
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5421
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -25111,7 +25111,7 @@ msgstr "Video hangsáv nélkül"
 msgid "Audio without video track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:517
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "%1 leképezése elkezdődött"
@@ -30093,12 +30093,18 @@ msgid "Save a json report about components in the given path."
 msgstr ""
 
 #: src/main.cpp:371
+#, kde-format
+msgid ""
+"Verify whether a Kdenlive project file is valid, print details, and exit."
+msgstr ""
+
+#: src/main.cpp:374
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Kdenlive document to open."
 msgstr "Megnyitandó dokumentum"
 
-#: src/main.cpp:372
+#: src/main.cpp:375
 #, fuzzy, kde-format
 #| msgid "Enter name for rendered movie file"
 msgid "Output file for rendered video."
@@ -32162,37 +32168,31 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Képkocka elrejtése"
 
-#: src/mainwindow.cpp:5254 src/timeline2/view/timelinecontroller.cpp:5871
-#, fuzzy, kde-format
-#| msgid "Edit guide at cursor position"
-msgid "No subtitles in current project"
-msgstr "A kurzornál található segédpont szerkesztése"
-
-#: src/mainwindow.cpp:5593
+#: src/mainwindow.cpp:5589
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5595
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Eszközbeállítás"
 
-#: src/mainwindow.cpp:5602
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5606
+#: src/mainwindow.cpp:5602
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5648
+#: src/mainwindow.cpp:5644
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -38175,6 +38175,12 @@ msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Beszúrás"
 msgstr[1] "Sáv beszúrása"
+
+#: src/timeline2/view/timelinecontroller.cpp:5867
+#, fuzzy, kde-format
+#| msgid "Edit guide at cursor position"
+msgid "No subtitles in current project. Export not possible."
+msgstr "A kurzornál található segédpont szerkesztése"
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, fuzzy, kde-format
