@@ -614,7 +614,7 @@ msgstr "Crête, Rms"
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
 msgid "Sidechain Gain"
-msgstr "Gain de chaîne latérale"
+msgstr "Gain de chaine latérale"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -1252,7 +1252,7 @@ msgid ""
 msgstr ""
 "Augmentez ou atténuez les basses fréquences (inférieures) de l'audio à "
 "l'aide d'un filtre en plateau à deux pôles avec une réponse similaire à "
-"celle des commandes de tonalité d'une chaîne Hifi standard. Ceci est "
+"celle des commandes de tonalité d'une chaine Hifi standard. Ceci est "
 "également connu sous le nom d'égalisation en plateau (EQ)."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
@@ -2856,7 +2856,7 @@ msgid ""
 msgstr ""
 "Appliquez un décalage « DC » à l'audio.\n"
 "Cela peut être utile pour supprimer un décalage « DC » (Provoqué peut-être "
-"par un problème matériel dans la chaîne d'enregistrement) de l'audio.\n"
+"par un problème matériel dans la chaine d'enregistrement) de l'audio.\n"
 "L'effet d'un décalage « DC » réduit la hauteur et donc le volume. Le filtre "
 "« astats » peut être utilisé pour déterminer si un signal possède un "
 "décalage « DC »."
@@ -14037,7 +14037,7 @@ msgstr ""
 "gras sur le côté inférieur droit du rectangle.<br>\n"
 "        La valeur de <em>Unité de légende</em> sera ajoutée à la fin. Elle "
 "sera utilisée comme unité courante (Si une unité valable est trouvée, c'est-"
-"à-dire : kilomètres si « km » est trouvé n'importe où dans la chaîne "
+"à-dire : kilomètres si « km » est trouvé n'importe où dans la chaine "
 "<em>Unité de légende</em>)."
 
 #: data/effects/gpsgraphic.xml:131
@@ -14079,7 +14079,7 @@ msgstr ""
 "         avec de petites valeurs correspondant chacune à la valeur courante "
 "de la source de données à 0 %, 25 %, 50 %, 75 % et 100 % du graphique "
 "actuellement affiché. Ces valeurs sont associées au type <em>Unité de "
-"légende</em>, si applicable, et avec la chaîne ajoutée à la valeur. Pour le "
+"légende</em>, si applicable, et avec la chaine ajoutée à la valeur. Pour le "
 "type « Compteur de vitesse », cela affiche les valeurs de division (Mais y "
 "ajouter d'unité)."
 
@@ -14099,7 +14099,7 @@ msgstr ""
 "Définit l'unité à utiliser pour l'affichage des valeurs de type altitude et  "
 "vitesse.<br>\n"
 "        Les valeurs par défaut sont respectivement en mètres et en km / h. "
-"L'unité est associée n'importe où dans la chaîne de sorte que des espaces "
+"L'unité est associée n'importe où dans la chaine de sorte que des espaces "
 "supplémentaires peuvent être utilisés pour modifier l'affichage."
 
 #: data/effects/gpsgraphic.xml:146
@@ -16528,7 +16528,7 @@ msgstr "Valeur du seuil"
 #: data/effects/ladspa/ladspa_2147.xml:15
 #, kde-format
 msgid "Sidechain Filter"
-msgstr "Filtre de chaîne latérale"
+msgstr "Filtre de chaine latérale"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
@@ -42440,7 +42440,7 @@ msgstr "Modèle :"
 #: src/ui/templateclip_ui.ui:63
 #, no-c-format, kde-format
 msgid "Enter the text that will replace the %s string from the template"
-msgstr "Saisissez le texte qui remplacera la chaîne %s du modèle."
+msgstr "Saisissez le texte qui remplacera la chaine %s du modèle."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:58
