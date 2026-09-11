@@ -194,6 +194,7 @@ Item {
                 id: audioView
                 monitorController: root.controller
                 timeScale: clipMonitorRuler.timeScale
+                forceVisible: thumbTimer.running
                 duration: root.duration
                 onZoomInRuler: xpos => clipMonitorRuler.zoomInRuler(xpos)
                 onZoomOutRuler: xpos => clipMonitorRuler.zoomOutRuler(xpos)

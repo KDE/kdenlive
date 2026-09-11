@@ -19,6 +19,7 @@ Item {
     property int viewType: K.SceneType.MonitorSceneAutoMask
     required property double timeScale
     required property int duration
+    required property bool forceVisible
     property bool isAudioClip: false
     property bool stateVisible: false
     property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
