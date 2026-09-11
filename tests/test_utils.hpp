@@ -36,6 +36,7 @@
 #include "effects/effectlist/model/effectfilter.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "project/projectmanager.h"
+#include "src/assets/keyframes/model/dopesheetmodel.hpp"
 #include "src/render/renderrequest.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
@@ -142,4 +143,5 @@ public:
     static int modelSize(std::shared_ptr<AbstractTreeModel> model);
     static bool effectFilterName(EffectFilter &filter, std::shared_ptr<TreeItem> item);
     static void updateProjectProfile(KdenliveDoc *doc, bool reloadProducers = false) { doc->updateProjectProfile(reloadProducers, false); }
+    static std::map<int, std::pair<DopeSheetModel::EffectParamInfo, std::shared_ptr<KeyframeModel>>> getParamInfo(std::shared_ptr<DopeSheetModel> dopeModel);
 };

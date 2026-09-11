@@ -7,7 +7,6 @@
 #include "bin/projectfolder.h"
 #include "doc/documentchecker.h"
 #include "doc/kdenlivedoc.h"
-#include "src/assets/keyframes/model/keyframemodel.hpp"
 #include "src/renderpresets/renderpresetrepository.hpp"
 #include "src/utils/thumbnailcache.hpp"
 
@@ -294,4 +293,9 @@ int KdenliveTests::modelSize(std::shared_ptr<AbstractTreeModel> model)
 bool KdenliveTests::effectFilterName(EffectFilter &filter, std::shared_ptr<TreeItem> item)
 {
     return filter.filterName(item);
+}
+
+std::map<int, std::pair<DopeSheetModel::EffectParamInfo, std::shared_ptr<KeyframeModel>>> KdenliveTests::getParamInfo(std::shared_ptr<DopeSheetModel> dopeModel)
+{
+    return dopeModel->getParamInfo();
 }

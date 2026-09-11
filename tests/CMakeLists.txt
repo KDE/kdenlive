@@ -13,6 +13,7 @@ set(KdenliveTest_SOURCES
     colorscopestest.cpp
     compositiontest.cpp
     documenttest.cpp
+    dopesheettest.cpp
     effectstest.cpp
     effectsgrouptest.cpp
     filetest.cpp # codespell:ignore filetest

@@ -816,6 +816,10 @@ MonitorManager *Core::monitorManager()
 
 Monitor *Core::getMonitor(int id)
 {
+    if (!m_mainWindow) {
+        // This can happen in tests
+        return nullptr;
+    }
     if (id == Kdenlive::ClipMonitor) {
         return m_monitorManager->clipMonitor();
     }

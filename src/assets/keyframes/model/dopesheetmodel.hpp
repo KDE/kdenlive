@@ -37,14 +37,6 @@ class DopeSheetModel : public AbstractTreeModel
 
 protected:
     explicit DopeSheetModel(QObject *parent = nullptr);
-    struct EffectParamInfo
-    {
-        QString id;     // Display name of the parameter
-        QString mltId;  // MLT identifier of the parameter
-        ParamType type; // The parameter type (double, animatedrect,...)
-        int row{-1};    // The index row in the assetmodel
-        QPersistentModelIndex index;
-    };
 
 public:
     friend class KdenliveTests;
@@ -54,6 +46,14 @@ public:
     Q_PROPERTY(int dopeDuration READ dopeDuration NOTIFY dopeDurationChanged)
     Q_PROPERTY(int dopePosition READ dopePosition NOTIFY dopePositionChanged)
     Q_PROPERTY(int timecodeOffset READ timecodeOffset NOTIFY timecodeOffsetChanged)
+    struct EffectParamInfo
+    {
+        QString id;     // Display name of the parameter
+        QString mltId;  // MLT identifier of the parameter
+        ParamType type; // The parameter type (double, animatedrect,...)
+        int row{-1};    // The index row in the assetmodel
+        QPersistentModelIndex index;
+    };
     static std::shared_ptr<DopeSheetModel> construct(QObject *parent = nullptr);
     enum { NameRole = Qt::UserRole + 1, AssetTypeRole, ModelRole, SelectedRole, RecapRole, EffectIndexRole, EnabledRole, ExpandedRole };
     friend class KeyframeModel;
@@ -76,9 +76,9 @@ public:
     /** @brief Remove all keyframes at given indexes (parameter indexes / keyframes indexes) */
     Q_INVOKABLE void removeKeyframes(QVariantList indexes, QVariantList keyframes);
     /** @brief Remove all keyframes at given position */
-    Q_INVOKABLE void removeKeyframe(const QModelIndex &ix, int framePos);
+    Q_INVOKABLE bool removeKeyframe(const QModelIndex &ix, int framePos);
     /** @brief Add a keyframe to all parameters */
-    Q_INVOKABLE void addKeyframe(const QModelIndex &ix, int framePosition);
+    Q_INVOKABLE bool addKeyframe(const QModelIndex &ix, int framePosition);
     /** @brief Returns true if a keyframe exists in this parameter at that position */
     Q_INVOKABLE bool isOnKeyframe(int framePosition, bool force, QPersistentModelIndex activeIndex);
     /** @brief Move keyframes in all parameters at current pos */
@@ -131,6 +131,8 @@ protected:
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
     /** @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
+    /** @brief Should only be used in tests */
+    std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> getParamInfo() const { return m_paramsList; };
 
 private:
     /** @brief This is a lock that ensures safety in case of concurrent access */

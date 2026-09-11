@@ -83,7 +83,7 @@ DopeSheetModel::DopeSheetModel(QObject *parent)
     , m_lock(QReadWriteLock::Recursive)
 {
     m_recapRefreshTimer.setSingleShot(true);
-    m_recapRefreshTimer.setInterval(100);
+    m_recapRefreshTimer.setInterval(0);
     connect(&m_recapRefreshTimer, &QTimer::timeout, this, [this]() {
         while (!m_recapToRefresh.isEmpty()) {
             auto refreshItem = m_recapToRefresh.takeFirst();
@@ -1047,7 +1047,7 @@ bool DopeSheetModel::isOnKeyframe(int framePosition, bool force, QPersistentMode
     return matching;
 }
 
-void DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)
+bool DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)
 {
     int itemId = int(ix.internalId());
     auto tItem = getItemById(itemId);
@@ -1082,9 +1082,10 @@ void DopeSheetModel::addKeyframe(const QModelIndex &ix, int framePosition)
         undo();
         pCore->displayMessage(i18n("Failed to add keyframe"), InformationMessage);
     }
+    return success;
 }
 
-void DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
+bool DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
 {
     int itemId = int(ix.internalId());
     auto tItem = getItemById(itemId);
@@ -1126,6 +1127,7 @@ void DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
         undo();
         pCore->displayMessage(i18n("Failed to remove keyframe"), InformationMessage);
     }
+    return success;
 }
 
 void DopeSheetModel::removeKeyframes(QVariantList indexes, QVariantList keyframes)
