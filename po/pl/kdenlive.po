@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-29 02:42+0000\n"
+"POT-Creation-Date: 2026-09-12 02:39+0000\n"
 "PO-Revision-Date: 2026-07-12 09:49+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -21237,13 +21237,13 @@ msgstr ""
 "Kliknij dwukrotnie, upuść pliki\n"
 "lub kliknij %1, aby zaimportować multimedia"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:530
 #, fuzzy, kde-format
 #| msgid "Cannot add an audio effect to this clip"
 msgid "Drag to add only audio to timeline"
 msgstr "Nie można dodać efektu dźwiękowego do tego wycinka"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:530
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -32143,30 +32143,45 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Naciśnij, aby odświeżyć kształtu fali dźwiękowej"
 
-#: src/monitor/view/ClipMonitor.qml:346 src/monitor/view/ProjectMonitor.qml:186
+#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:186
 #, kde-format
 msgid "%1fps"
 msgstr "%1kl/s"
 
-#: src/monitor/view/ClipMonitor.qml:385 src/monitor/view/ProjectMonitor.qml:217
+#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:217
 #, kde-format
 msgid "In Point"
 msgstr "Punkt początku"
 
-#: src/monitor/view/ClipMonitor.qml:385
+#: src/monitor/view/ClipMonitor.qml:382
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punkt WE/WY"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:233
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:233
 #, kde-format
 msgid "Out Point"
 msgstr "Punkt końca"
 
-#: src/monitor/view/ClipMonitor.qml:591
+#: src/monitor/view/ClipMonitor.qml:568
 #, kde-format
 msgid "Terminate Job"
 msgstr "Zakończ zadanie"
+
+#: src/monitor/view/ClipMonitor.qml:645
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
+"fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</"
+"shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
+"shortcut> to zoom"
+msgstr ""
+"<shortcut>Kliknij</shortcut>, aby zacząć odtwarzać, <shortcut>Kliknij "
+"dwukrotnie</shortcut>, aby przejść do trybu pełnoekranowego, "
+"<shortcut>Najedź na prawo</shortcut>, aby pokazać pasek narzędzi, "
+"<shortcut>Kółko</shortcut> lub <shortcut>strzałki</shortcut> przewijają, "
+"<shortcut>Ctrl+kółko</shortcut> powiększa"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63
@@ -42752,19 +42767,6 @@ msgstr "%1h"
 #~ msgctxt "Attribute Name"
 #~ msgid "Custom"
 #~ msgstr "Własna"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
-#~ "fullscreen, <shortcut>Hover right</shortcut> for toolbar, "
-#~ "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, "
-#~ "<shortcut>Ctrl wheel</shortcut> to zoom"
-#~ msgstr ""
-#~ "<shortcut>Kliknij</shortcut>, aby zacząć odtwarzać, <shortcut>Kliknij "
-#~ "dwukrotnie</shortcut>, aby przejść do trybu pełnoekranowego, "
-#~ "<shortcut>Najedź na prawo</shortcut>, aby pokazać pasek narzędzi, "
-#~ "<shortcut>Kółko</shortcut> lub <shortcut>strzałki</shortcut> przewijają, "
-#~ "<shortcut>Ctrl+kółko</shortcut> powiększa"
 
 #~ msgid "Center X"
 #~ msgstr "Środek X"

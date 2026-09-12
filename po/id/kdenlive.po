@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-29 02:42+0000\n"
+"POT-Creation-Date: 2026-09-12 02:39+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -21349,12 +21349,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:530
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:530
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -32395,30 +32395,44 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Filter Bentuk Gelombang Audio"
 
-#: src/monitor/view/ClipMonitor.qml:346 src/monitor/view/ProjectMonitor.qml:186
+#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:186
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:385 src/monitor/view/ProjectMonitor.qml:217
+#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:217
 #, kde-format
 msgid "In Point"
 msgstr "Titik Awal"
 
-#: src/monitor/view/ClipMonitor.qml:385
+#: src/monitor/view/ClipMonitor.qml:382
 #, kde-format
 msgid "In/Out Point"
 msgstr "Titik Awal/Akhir"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:233
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:233
 #, kde-format
 msgid "Out Point"
 msgstr "Titik Akhir"
 
-#: src/monitor/view/ClipMonitor.qml:591
+#: src/monitor/view/ClipMonitor.qml:568
 #, kde-format
 msgid "Terminate Job"
 msgstr "Matikan Tugas"
+
+#: src/monitor/view/ClipMonitor.qml:645
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
+"fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</"
+"shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
+"shortcut> to zoom"
+msgstr ""
+"<shortcut>Klik</shortcut> untuk memutar, <shortcut>Klik ganda</shortcut> "
+"untuk layar penuh, <shortcut>Layang kanan</shortcut> untuk bilah alat, "
+"<shortcut>Roda gulir</shortcut> atau <shortcut>panah</shortcut> untuk "
+"menjangka, <shortcut>Ctrl roda</shortcut> untuk memperbesar atau memperkecil"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63
@@ -43198,19 +43212,6 @@ msgstr "%1jm"
 #~ msgctxt "Attribute Name"
 #~ msgid "Custom"
 #~ msgstr "Kustom"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
-#~ "fullscreen, <shortcut>Hover right</shortcut> for toolbar, "
-#~ "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, "
-#~ "<shortcut>Ctrl wheel</shortcut> to zoom"
-#~ msgstr ""
-#~ "<shortcut>Klik</shortcut> untuk memutar, <shortcut>Klik ganda</shortcut> "
-#~ "untuk layar penuh, <shortcut>Layang kanan</shortcut> untuk bilah alat, "
-#~ "<shortcut>Roda gulir</shortcut> atau <shortcut>panah</shortcut> untuk "
-#~ "menjangka, <shortcut>Ctrl roda</shortcut> untuk memperbesar atau "
-#~ "memperkecil"
 
 #, fuzzy
 #~| msgid "Center"

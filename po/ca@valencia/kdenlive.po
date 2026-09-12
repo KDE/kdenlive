@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-29 02:42+0000\n"
+"POT-Creation-Date: 2026-09-12 02:39+0000\n"
 "PO-Revision-Date: 2026-09-06 18:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -21534,12 +21534,12 @@ msgstr ""
 "Doble clic, deixant anar fitxers\n"
 "o clic damunt %1 per a importar elements multimèdia"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:530
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Arrossegueu per a afegir només àudio en la línia de temps"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:530
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Arrossegueu per a afegir només vídeo en la línia de temps"
@@ -32478,30 +32478,48 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Cliqueu per a actualitzar la forma d'ona d'àudio"
 
-#: src/monitor/view/ClipMonitor.qml:346 src/monitor/view/ProjectMonitor.qml:186
+#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:186
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:385 src/monitor/view/ProjectMonitor.qml:217
+#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:217
 #, kde-format
 msgid "In Point"
 msgstr "Punt d'entrada"
 
-#: src/monitor/view/ClipMonitor.qml:385
+#: src/monitor/view/ClipMonitor.qml:382
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punt d'entrada/eixida"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:233
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:233
 #, kde-format
 msgid "Out Point"
 msgstr "Punt d'eixida"
 
-#: src/monitor/view/ClipMonitor.qml:591
+#: src/monitor/view/ClipMonitor.qml:568
 #, kde-format
 msgid "Terminate Job"
 msgstr "Finalitza el treball"
+
+#: src/monitor/view/ClipMonitor.qml:645
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
+#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
+#| "to zoom"
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
+"fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</"
+"shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
+"shortcut> to zoom"
+msgstr ""
+"<b>Cliqueu</b> per a reproduir, <b>doble clic</b> per a pantalla completa, "
+"<b>aneu cap a la dreta</b> per a la barra d'eines, utilitzeu la <b>roda del "
+"ratolí</b> o les <b>fletxes del teclat</b> per a buscar, utilitzeu la "
+"<b>roda + Ctrl</b> per a fer zoom"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63

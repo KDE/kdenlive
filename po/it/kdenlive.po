@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-29 02:42+0000\n"
+"POT-Creation-Date: 2026-09-12 02:39+0000\n"
 "PO-Revision-Date: 2026-08-28 15:15+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -21574,12 +21574,12 @@ msgstr ""
 "Doppio clic, rilascia i file,\n"
 "oppure clic su %1 per importare i media"
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:530
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Trascina per aggiungere solo l'audio alla linea temporale"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:528
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:530
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Trascina per aggiungere solo il video alla linea temporale"
@@ -32553,30 +32553,45 @@ msgstr ""
 msgid "Click to refresh audio waveform"
 msgstr "Fai clic per aggiornare le forme d'onda audio"
 
-#: src/monitor/view/ClipMonitor.qml:346 src/monitor/view/ProjectMonitor.qml:186
+#: src/monitor/view/ClipMonitor.qml:343 src/monitor/view/ProjectMonitor.qml:186
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:385 src/monitor/view/ProjectMonitor.qml:217
+#: src/monitor/view/ClipMonitor.qml:382 src/monitor/view/ProjectMonitor.qml:217
 #, kde-format
 msgid "In Point"
 msgstr "Inizio selezione"
 
-#: src/monitor/view/ClipMonitor.qml:385
+#: src/monitor/view/ClipMonitor.qml:382
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punto di attacco/di stacco"
 
-#: src/monitor/view/ClipMonitor.qml:408 src/monitor/view/ProjectMonitor.qml:233
+#: src/monitor/view/ClipMonitor.qml:405 src/monitor/view/ProjectMonitor.qml:233
 #, kde-format
 msgid "Out Point"
 msgstr "Fine selezione"
 
-#: src/monitor/view/ClipMonitor.qml:591
+#: src/monitor/view/ClipMonitor.qml:568
 #, kde-format
 msgid "Terminate Job"
 msgstr "Termina processo"
+
+#: src/monitor/view/ClipMonitor.qml:645
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
+"fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</"
+"shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
+"shortcut> to zoom"
+msgstr ""
+"<shortcut>Clic</shortcut> per riprodurre, <shortcut>Doppio clic</shortcut> "
+"per lo schermo intero, <shortcut>Puntatore del mouse nella parte destra</"
+"shortcut> per la barra degli strumenti, <shortcut>Rotellina</shortcut> o "
+"<shortcut>frecce</shortcut> per saltare, <shortcut>Ctrl rotellina</shortcut> "
+"per ingrandire"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63
@@ -43213,19 +43228,6 @@ msgstr "%1o"
 #~ msgctxt "Attribute Name"
 #~ msgid "Custom"
 #~ msgstr "Personalizzato"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
-#~ "fullscreen, <shortcut>Hover right</shortcut> for toolbar, "
-#~ "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, "
-#~ "<shortcut>Ctrl wheel</shortcut> to zoom"
-#~ msgstr ""
-#~ "<shortcut>Clic</shortcut> per riprodurre, <shortcut>Doppio clic</"
-#~ "shortcut> per lo schermo intero, <shortcut>Puntatore del mouse nella "
-#~ "parte destra</shortcut> per la barra degli strumenti, "
-#~ "<shortcut>Rotellina</shortcut> o <shortcut>frecce</shortcut> per saltare, "
-#~ "<shortcut>Ctrl rotellina</shortcut> per ingrandire"
 
 #~ msgid "Center X"
 #~ msgstr "Centro X"
