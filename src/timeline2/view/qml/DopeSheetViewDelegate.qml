@@ -282,7 +282,6 @@ Item {
             onHoveredChanged: {
                 if (containsMouse) {
                     delegateRect.treeView.hoveredParam = delegateRect.row
-                    console.log('COmparing slider width: ', keyframeSlider.width, ' == ', delegateRect.keyframeContainerWidth)
                 }
             }
 
@@ -495,6 +494,15 @@ Item {
                 delegateRect.model.dopeModel.seekToPos(delegateRect.currentKFFrame - delegateRect.dopeRootItem.inPoint)
                 delegateRect.dopeRootItem.keyframeType = delegateRect.model.dopeModel.getKeyframeTypeAtFrame(delegateRect.currentKFFrame)
                 delegateRect.dopeRootItem.hoverKeyframe = delegateRect.dopeRootItem.mouseFramePos
+            }
+        }
+        HoverHandler {
+            onHoveredChanged: {
+                if (hovered) {
+                    K.Core.showKeyBinding(KI18n.i18n("<b>Drag</b> to move, <b>Ctrl+Drag</b> to scale selection, <b>Double Click</b> to add/remove keyframe"))
+                } else {
+                    K.Core.showKeyBinding()
+                }
             }
         }
         Repeater {
