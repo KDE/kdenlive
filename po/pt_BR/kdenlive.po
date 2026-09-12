@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-11 00:45+0000\n"
-"PO-Revision-Date: 2026-09-09 08:07-0300\n"
+"PO-Revision-Date: 2026-09-11 06:48-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -29540,6 +29540,8 @@ msgstr "Salvar um relatório JSON sobre os componentes no caminho especificado."
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
+"Verifica se um arquivo de projeto do Kdenlive é válido, exibe os detalhes e "
+"encerra."
 
 #: src/main.cpp:374
 #, kde-format
@@ -37227,10 +37229,9 @@ msgstr[0] "Inserir trilha"
 msgstr[1] "Inserir trilhas"
 
 #: src/timeline2/view/timelinecontroller.cpp:5867
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "Nenhuma legenda no projeto atual."
+msgstr "Nenhuma legenda no projeto atual. A exportação não é possível."
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

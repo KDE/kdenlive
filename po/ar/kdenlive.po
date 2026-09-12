@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-11 00:45+0000\n"
-"PO-Revision-Date: 2026-09-09 19:04+0400\n"
+"PO-Revision-Date: 2026-09-11 16:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -29073,7 +29073,7 @@ msgstr "احفظ تقريرًا بصيغة JSON حول المكونات في ا�
 #, kde-format
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
-msgstr ""
+msgstr "تحقق من صحة ملف مشروع كدنلايف، وطباعة التفاصيل، ثم الخروج."
 
 #: src/main.cpp:374
 #, kde-format
@@ -32059,9 +32059,11 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"<shortcut> النقر</shortcut> للتشغيل، <shortcut> النقر المزدوج</shortcut> "
-"للحصول على ملء الشاشة، <shortcut> تحوم اليمين </shortcut> للبحث، <shortcut> "
-"Ctrl مع العجلة </shortcut> للتكبير"
+"<shortcut>النقر</shortcut> للتشغيل، <shortcut>النقر المزدوج</shortcut> للعرض "
+"بملء الشاشة، <shortcut>تحويم بالفأرة إلى اليمين</shortcut> لإظهار شريط "
+"الأدوات، <shortcut>تدوير عجلة الفأرة</shortcut> أو <shortcut>الأسهم</"
+"shortcut> للتنقل، <shortcut>Ctrl مع تدوير عجلة الفأرة</shortcut> للتكبير/"
+"التصغير"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:67
@@ -36703,10 +36705,9 @@ msgstr[4] "أدرج مسارًا"
 msgstr[5] "أدرج مسارًا"
 
 #: src/timeline2/view/timelinecontroller.cpp:5867
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "لا يوجد ترجمات في المشروع الحالي"
+msgstr "لا يوجد ترجمات في المشروع الحالي. التصدير غير ممكن."
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

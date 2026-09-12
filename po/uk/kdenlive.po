@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-11 00:45+0000\n"
-"PO-Revision-Date: 2026-09-09 18:44+0300\n"
+"PO-Revision-Date: 2026-09-11 19:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -29608,6 +29608,8 @@ msgstr "Зберегти звіт у json щодо компонентів за �
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
+"Перевірити чинність файла проєкту Kdenlive, вивести подробиці і завершити "
+"роботу."
 
 #: src/main.cpp:374
 #, kde-format
@@ -37371,10 +37373,9 @@ msgstr[2] "Вставити доріжки"
 msgstr[3] "Вставити доріжку"
 
 #: src/timeline2/view/timelinecontroller.cpp:5867
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "У поточному проєкті немає субтитрів"
+msgstr "У поточному проєкті немає субтитрів. Експортування неможливе."
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format

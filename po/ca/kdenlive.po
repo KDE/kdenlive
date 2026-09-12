@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-11 00:45+0000\n"
-"PO-Revision-Date: 2026-09-10 12:29+0200\n"
+"PO-Revision-Date: 2026-09-11 10:26+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -29664,6 +29664,8 @@ msgstr "Desa un informe JSON sobre els components en el camí indicat."
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
+"Verifica si un fitxer de projecte del Kdenlive és vàlid, imprimeix els "
+"detalls i surt."
 
 #: src/main.cpp:374
 #, kde-format
@@ -37395,10 +37397,9 @@ msgstr[0] "Insereix una pista"
 msgstr[1] "Insereix pistes"
 
 #: src/timeline2/view/timelinecontroller.cpp:5867
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "No s'ha trobat cap subtítol en el projecte actual"
+msgstr "No s'ha trobat cap subtítol en el projecte actual. No es pot exportar."
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format
