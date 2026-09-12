@@ -1045,6 +1045,35 @@ Rectangle {
         height: Math.abs(dopeRoot.rubberBottomRight.y - dopeRoot.rubberTopLeft.y)
     }
 
+    Item {
+        id: splitter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: dopeRoot.baseUnit / 2.5
+        visible: keyframeCurve.model !== undefined
+        y: dopeRoot.height * K.KdenliveSettings.dopeGraphHeight
+        MouseArea {
+            id: splitterArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.SizeVerCursor
+            drag.target: parent
+            drag.axis: Drag.YAxis
+            drag.minimumY: dopeRoot.height * 0.4
+            drag.maximumY: dopeRoot.height * 0.85
+            onReleased: {
+                let percentage = splitter.y / dopeRoot.height
+                K.KdenliveSettings.dopeGraphHeight = percentage
+            }
+        }
+        Rectangle {
+            anchors.fill: parent
+            anchors.bottomMargin: 2
+            opacity: (splitterArea.containsMouse || splitterArea.pressed) ? 1 : 0.2
+            color: activePalette.highlight
+        }
+    }
+
     Flickable {
         id: keyframeContainer
         anchors.left: dopeRoot.left
@@ -1053,7 +1082,8 @@ Rectangle {
         anchors.rightMargin: K.UiUtils.baseSizeMedium
         anchors.bottom: horZoomBar.top
         anchors.bottomMargin: 2
-        height: keyframeCurve.model === undefined ? 0 : K.UiUtils.baseSizeMedium * 4
+        anchors.top: splitter.bottom
+        //height: keyframeCurve.model === undefined ? 0 : K.UiUtils.baseSizeMedium * 4
         contentWidth: Math.max(dopeRoot.keyframeContainerWidth, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         contentHeight: height
         contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor - width)
@@ -1073,6 +1103,7 @@ Rectangle {
                 }
             }
         }
+
         Loader {
             // Keyframe curve
             id: keyframeCurve

@@ -1186,6 +1186,10 @@
       <label>Default interval for auto keyframes limit when playing.</label>
       <default>10</default>
     </entry>
+    <entry name="dopeGraphHeight" type="Double">
+      <label>Default height used by dopesheet (0-1) - rest is used by keyframe curve view.</label>
+      <default>0.7</default>
+    </entry>
     <entry name="maskOpacity" type="Int">
       <label>Opacity of object masks on monitor.</label>
       <default>100</default>
