@@ -43,11 +43,15 @@ Rectangle
     }
 
     function setActiveKeyframe(indexes) {
-        keyframeContainer.kfrModel.setSelectedKeyframesIndexes(indexes)
+        if (keyframeContainer.kfrModel) {
+            keyframeContainer.kfrModel.setSelectedKeyframesIndexes(indexes)
+        }
     }
 
     function shiftActiveKeyframes(valueOffset) {
-        keyframeContainer.kfrModel.shiftSelectedKeyframes(valueOffset)
+        if (keyframeContainer.kfrModel) {
+            keyframeContainer.kfrModel.shiftSelectedKeyframes(valueOffset)
+        }
     }
 
     onKfrCountChanged: {

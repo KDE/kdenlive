@@ -7,8 +7,9 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Shapes
 
-Rectangle {
+Item {
     id: handle
     required property var model
     //required property var modelData
@@ -40,10 +41,79 @@ Rectangle {
     width: handleWidth - (kfArea.containsMouse ? 0 : 2)
     height: width
     property bool atMousePos: dopeRootItem.mouseFramePos === modelFrame
-    color: dopeRootItem.keyframeGrabbed(parentScope.getIndex(row, column), index) > -1 ? 'red' : dopeRootItem.keyframeSelected(parentScope.getIndex(row, column), index) > -1 ? activePalette.highlight : activePalette.light
-    radius: modelType == 1 ? 0 : Math.round(width/2)
-    border.width: atMousePos ? 2 : 1
-    border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? dopeHoverColor : activePalette.text
+    property color fillColor: dopeRootItem.keyframeGrabbed(parentScope.getIndex(row, column), index) > -1 ? 'red' : dopeRootItem.keyframeSelected(parentScope.getIndex(row, column), index) > -1 ? activePalette.highlight : activePalette.light
+
+    property int borderWidth: atMousePos ? 2 : 1
+    property color borderColor: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? dopeHoverColor : activePalette.text
+
+    Component {
+        id: triangleView
+        Shape {
+            id: shapeContainer
+            anchors.fill: parent
+            ShapePath {
+                fillColor: handle.fillColor
+                strokeColor: handle.borderColor
+                strokeWidth: handle.borderWidth
+                startX: shapeContainer.width / 2; startY: 0  // Top vertex
+                PathLine { x: shapeContainer.width; y: shapeContainer.height } // Bottom right vertex
+                PathLine { x: 0; y: shapeContainer.height }  // Bottom left vertex
+                PathLine { x: shapeContainer.width / 2; y: 0 }  // Back to top to close
+            }
+        }
+    }
+    Component {
+        id: bounceInView
+        Shape {
+            id: shapeContainer
+            anchors.fill: parent
+            ShapePath {
+                fillColor: handle.fillColor
+                strokeColor: handle.borderColor
+                strokeWidth: handle.borderWidth
+                startX: 0; startY: 0  // Top vertex
+                PathLine { x: shapeContainer.width / 3; y: shapeContainer.height * 2 / 3 }
+                PathLine { x: shapeContainer.width * 2 / 3; y: shapeContainer.height / 3 }
+                PathLine { x: shapeContainer.width; y: shapeContainer.height }
+                PathLine { x: 0; y: shapeContainer.height }
+                PathLine { x: 0; y: 0 }
+            }
+        }
+    }
+    Component {
+        id: bounceOutView
+        Shape {
+            id: shapeContainer
+            anchors.fill: parent
+            ShapePath {
+                fillColor: handle.fillColor
+                strokeColor: handle.borderColor
+                strokeWidth: handle.borderWidth
+                startX: 0; startY: shapeContainer.height  // Top vertex
+                PathLine { x: shapeContainer.width / 3; y: shapeContainer.height / 3 }
+                PathLine { x: shapeContainer.width * 2 / 3; y: shapeContainer.height * 2 / 3 }
+                PathLine { x: shapeContainer.width; y: 0 }
+                PathLine { x: shapeContainer.width; y: shapeContainer.height }
+                PathLine { x: 0; y: shapeContainer.height }
+            }
+        }
+    }
+    Component {
+        id: rectangleView
+        Rectangle {
+            anchors.fill: parent
+            color: handle.fillColor
+            border.color: handle.borderColor
+            border.width: handle.borderWidth
+            radius: handle.modelType == 0 ? 0 : Math.round(width/2)
+        }
+    }
+
+    Loader {
+        id: shapeLoader
+        anchors.fill: parent
+        sourceComponent: handle.modelType == 1 ? triangleView : handle.modelType == 32 ? bounceInView : handle.modelType == 33 ? bounceOutView : rectangleView
+    }
 
     MouseArea {
         id: kfArea
