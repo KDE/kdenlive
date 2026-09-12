@@ -205,6 +205,16 @@ Rectangle {
     }
 
     function scrollByWheel(wheel) {
+        if (wheel.modifiers & Qt.ShiftModifier) {
+            // Modifiy selected keyframes values
+            let valueOffset = 0.005
+            if (wheel.angleDelta.y < 0) {
+                valueOffset = -0.005
+            }
+            (keyframeCurve.item as KeyframeView).shiftActiveKeyframes(valueOffset)
+            return
+        }
+
         let proposedPos
         if (wheel.angleDelta.y < 0) {
             proposedPos = Math.max(0, Math.min((horZoomBar.contentPos * dopeRoot.frameDuration - wheel.angleDelta.y) / dopeRoot.frameDuration, 1 - 1 / dopeRoot.timeScale))
@@ -348,6 +358,7 @@ Rectangle {
                 }
             }
         }
+        (keyframeCurve.item as KeyframeView).setActiveKeyframe(itemKeyframes)
         dopeRoot.allSelectedKeyframes.push({index: itemIndex, kfrs: itemKeyframes})
     }
 
@@ -1162,6 +1173,15 @@ Rectangle {
                 value: keyframeContainer.width
                 when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
+            }
+            HoverHandler {
+                onHoveredChanged: {
+                    if (hovered) {
+                        K.Core.showKeyBinding(KI18n.i18n("<b>Mouse Wheel</b> to scroll, <b>Ctrl+Wheel</b> to zoom, <b>Shift+Wheel</b> to modifiy selected keyframes values"))
+                    } else {
+                        K.Core.showKeyBinding()
+                    }
+                }
             }
         }
     }

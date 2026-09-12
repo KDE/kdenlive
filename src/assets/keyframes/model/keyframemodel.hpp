@@ -165,6 +165,8 @@ public:
     /** @brief Set or add a keyframe to selection */
     Q_INVOKABLE void setSelectedKeyframe(int ix, bool add);
     void setSelectedKeyframes(QVector<int> selection);
+    Q_INVOKABLE void setSelectedKeyframesIndexes(QVariantList selection);
+    Q_INVOKABLE void shiftSelectedKeyframes(double offset);
 
     Q_INVOKABLE int activeKeyframe() const;
     Q_INVOKABLE void setActiveKeyframe(int ix);

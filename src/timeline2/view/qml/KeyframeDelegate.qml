@@ -28,6 +28,7 @@ Rectangle {
     required property color keyframeColor
     required property int consumerPosition
     required property bool mouseInsideView
+    property bool isActiveKeyframe: model.active
 
     readonly property bool isUserInteracting: kfMouseArea.pressed || kf1MouseArea.pressed
     readonly property bool isInsideVisibleAreaX: mouseInsideView && x > K.UiUtils.baseSizeMedium / 2 && x < parent.width - K.UiUtils.baseSizeMedium / 2
@@ -56,6 +57,10 @@ Rectangle {
     onFrameTypeChanged: { requestRepaint() }
     onValueChanged: { requestRepaint() }
     onFrameChanged: { requestRepaint() }
+
+    onIsActiveKeyframeChanged: {
+        console.log(' - - -KEYFRAME ACTIVE CHANGED: ', isActiveKeyframe)
+    }
 
     onRealValueChanged: {
         kf1MouseArea.movingVal = kfrModel.realValue(model.normalizedValue)
@@ -175,10 +180,8 @@ Rectangle {
                 return
             }
             if (keyframe.dragPos == keyframe.frame && newVal == keyframe.clickVal) {
-                let pos = keyframe.keyframeModelOffset + keyframe.frame - keyframe.parentInPoint
-                if (keyframe.consumerPosition !== pos) {
-                    keyframe.seek(pos)
-                }
+                let pos = keyframe.frame - keyframe.parentInPoint
+                keyframe.seek(pos)
                 return
             }
             // silently revert to previous pos/value for undo
@@ -208,6 +211,8 @@ Rectangle {
                     keyframe.kfrModel.moveKeyframe(keyframe.frame, keyframe.frame == keyframe.parentInPoint ? keyframe.frame : keyframe.dragPos, newVal, true)
                 }
             }
+            let pos = keyframe.frame - keyframe.parentInPoint
+            keyframe.seek(pos)
             keyframe.dragPos = -1
         }
 
@@ -257,7 +262,7 @@ Rectangle {
             property bool highlightKF: kf1MouseArea.containsMouse || kf1MouseArea.pressed
             anchors.margins: highlightKF ? K.UiUtils.baseSizeMedium * 0.1 : keyframe.mouseInsideView ? K.UiUtils.baseSizeMedium * 0.3 : K.UiUtils.baseSizeMedium * 0.4
             radius: width / 2
-            color: keyframe.mouseInsideView ? (keyframe.model.active ? 'red' : keyframe.model.selected ? 'orange' : (kf1MouseArea.containsMouse || kf1MouseArea.pressed) ? activePalette.text : keyframe.keyframeColor) : activePalette.text
+            color: keyframe.model.active ? 'red' : keyframe.model.selected ? activePalette.highlight : activePalette.text
             border.color: highlightKF ? activePalette.highlight : activePalette.text
             border.width: highlightKF ? 1 : 0
         }

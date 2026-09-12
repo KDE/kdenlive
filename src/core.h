@@ -385,6 +385,8 @@ public:
     void updateHwDecoding();
     /** Close the application */
     void closeApp();
+    /** Display key / mouse info in statusbar */
+    Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;
 
     void startHideBarsTimer();
     void updateHideBarsTimer(bool inhibit);

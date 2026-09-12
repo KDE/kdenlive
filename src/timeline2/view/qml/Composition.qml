@@ -581,10 +581,6 @@ Item {
             }
             Connections {
                 target: effectRow.item
-                function onSeek(position) { compositionRoot.seek(position) }
-            }
-            Connections {
-                target: effectRow.item
                 function onUpdateEffectKeyframe(clipId, oldFrame, newFrame) { compositionRoot.timeline.updateEffectKeyframe(clipId, oldFrame, newFrame) }
             }
             Connections {

@@ -35,9 +35,20 @@ Rectangle
     property color kfColor: activePalette.highlight
     property K.TimelineController timeline
     property alias kfrCanvas: keyframecanvas
-    signal seek(int position)
     signal updateEffectKeyframe(int clipId, int oldFrame, int newFrame)
     signal blockAutoScroll(bool enabled)
+
+    function seek(position) {
+        kfrModel.seekToPos(position)
+    }
+
+    function setActiveKeyframe(indexes) {
+        keyframeContainer.kfrModel.setSelectedKeyframesIndexes(indexes)
+    }
+
+    function shiftActiveKeyframes(valueOffset) {
+        keyframeContainer.kfrModel.shiftSelectedKeyframes(valueOffset)
+    }
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
@@ -68,7 +79,7 @@ Rectangle
             if (event.modifiers & Qt.AltModifier) {
                 kfrModel.setActiveKeyframe(Math.max(0, --activeIndex))
                 let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
-                seek(activeKeyframe.value + keyframeContainer.modelStart - keyframeContainer.inPoint)
+                seek(activeKeyframe.value - keyframeContainer.inPoint)
                 event.accepted = true
             } else {
                 let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
@@ -84,7 +95,7 @@ Rectangle
             if (event.modifiers & Qt.AltModifier) {
                 kfrModel.setActiveKeyframe(Math.min(keyframes.count - 1, ++activeIndex))
                 let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
-                seek(activeKeyframe.value + keyframeContainer.modelStart - keyframeContainer.inPoint)
+                seek(activeKeyframe.value - keyframeContainer.inPoint)
             } else {
                 let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
                 var oldFrame = activeKeyframe.value
@@ -151,7 +162,7 @@ Rectangle
                 }
 
                 onSeekToIx: (ix) => {
-                    keyframeContainer.seek((keyframes.itemAt(ix) as KeyframeDelegate).frame + keyframe.keyframeModelOffset - keyframe.parentInPoint)
+                    keyframeContainer.seek((keyframes.itemAt(ix) as KeyframeDelegate).frame - keyframe.parentInPoint)
                 }
 
                 onKeyframeSelected: (index, add, setActive) => {

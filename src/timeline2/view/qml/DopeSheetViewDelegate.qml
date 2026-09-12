@@ -7,7 +7,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-
+import org.kde.ki18n
 import org.kde.kdenlive as K
 
 Item {
@@ -49,6 +49,47 @@ Item {
     // The index of the hovered keyframe, -1 if none
     property int currentKFIndex: -1
     property bool kfPressed: kfMoveArea.pressed
+
+    Menu {
+        id: paramMenu
+        property bool paramHasKeyframes
+        property var paramIndex
+        MenuItem {
+            text: KI18n.i18n("Copy Keyframes")
+            icon.name: "edit-copy"
+            enabled: paramMenu.paramHasKeyframes
+            onTriggered: {
+                delegateRect.dopesheetmodel.removeAllKeyframes(paramMenu.paramIndex)
+                delegateRect.treeView.selectedKeyframe = -1
+                delegateRect.dopeRootItem.hoverKeyframe = -1
+            }
+        }
+        MenuItem {
+            text: KI18n.i18n("Load Curve")
+            icon.name: "document-open"
+            onTriggered: {
+                // TODO
+            }
+        }
+        MenuItem {
+            text: KI18n.i18n("Save Curve")
+            icon.name: "document-save-as"
+            enabled: paramMenu.paramHasKeyframes
+            onTriggered: {
+                // TODO
+            }
+        }
+        MenuItem {
+            text: KI18n.i18n("Remove Keyframes")
+            icon.name: "edit-delete"
+            enabled: paramMenu.paramHasKeyframes
+            onTriggered: {
+                delegateRect.dopesheetmodel.removeAllKeyframes(paramMenu.paramIndex)
+                delegateRect.treeView.selectedKeyframe = -1
+                delegateRect.dopeRootItem.hoverKeyframe = -1
+            }
+        }
+    }
 
     onContentScrollChanged: {
         if (kfMoveArea.containsMouse) {
@@ -157,6 +198,20 @@ Item {
         width: height
         anchors.verticalCenter: parent.verticalCenter
     }
+    MouseArea {
+        id: paramNameArea
+        height: parent.height
+        width: delegateRect.dopeRootItem.headerWidth
+        acceptedButtons: Qt.RightButton
+        onPressed: {
+            //paramMenu.paramIndex = delegateRect.treeView.model.index(delegateRect.row, delegateRect.column)
+            paramMenu.paramIndex = paramModel.getIndex(delegateRect.row, delegateRect.column)
+            // Select parameter
+            delegateRect.treeView.selectionModel.setCurrentIndex(paramMenu.paramIndex, ItemSelectionModel.SelectCurrent);
+            paramMenu.paramHasKeyframes = paramModel.count > 0
+            paramMenu.popup()
+        }
+    }
 
     Label {
         id: paramLabel
@@ -178,6 +233,7 @@ Item {
         rightPadding: 4
         leftPadding: 4
         font.bold: delegateRect.depth < 2
+
         Component.onCompleted: {
             if (delegateRect.dopeRootItem.headerWidth < (paramLabel.width + indicator.width + delegateRect.padding)) {
                 delegateRect.dopeRootItem.headerWidth = paramLabel.width + indicator.width + delegateRect.padding

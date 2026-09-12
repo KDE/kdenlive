@@ -1930,13 +1930,22 @@ void KeyframeModel::setSelectedKeyframe(int ix, bool add)
     if (!add) {
         for (auto &ix2 : previous) {
             if (ix2 > -1) {
-                Q_EMIT requestModelUpdate(index(ix2), index(ix2), {SelectedRole});
+                Q_EMIT dataChanged(index(ix2), index(ix2), {SelectedRole});
             }
         }
     }
     if (ix > -1) {
-        Q_EMIT requestModelUpdate(index(ix), index(ix), {SelectedRole});
+        Q_EMIT dataChanged(index(ix), index(ix), {SelectedRole});
     }
+}
+
+void KeyframeModel::setSelectedKeyframesIndexes(QVariantList selection)
+{
+    QVector<int> indexes;
+    for (auto &s : selection) {
+        indexes << s.toInt();
+    }
+    setSelectedKeyframes(indexes);
 }
 
 void KeyframeModel::setSelectedKeyframes(QVector<int> selection)
@@ -1955,6 +1964,49 @@ void KeyframeModel::setSelectedKeyframes(QVector<int> selection)
         if (ix > -1 && !selection.contains(ix)) {
             Q_EMIT requestModelUpdate(index(ix), index(ix), {SelectedRole});
         }
+    }
+}
+
+void KeyframeModel::shiftSelectedKeyframes(double offset)
+{
+    if (m_paramType == ParamType::Roto_spline || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedPoint ||
+        m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::Color) {
+        // Shifting not supported with these param types
+        return;
+    }
+    if (auto ptr = m_model.lock()) {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        const QVector<int> selection = ptr->m_selectedKeyframes;
+        double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
+        double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
+        if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+            min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+            max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        }
+        double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+        double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
+        int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
+        for (auto &s : selection) {
+            double currentNorm = data(index(s), NormalizedValueRole).toDouble();
+            qDebug() << "::: CURRENT NORM AT: " << s << " = " << currentNorm << ", OFFSET: " << offset;
+            currentNorm += offset;
+            double currentNormalized = qBound(0., currentNorm, 1.);
+            double realValue;
+            if (logRole == -1) {
+                // Logarythmic scale
+                if (currentNormalized >= 0.5) {
+                    realValue = norm + pow(2 * (currentNormalized - 0.5), 10.0 / 6) * (max / factor - norm);
+                } else {
+                    realValue = norm - pow(2 * (0.5 - currentNormalized), 10.0 / 6) * (norm - min / factor);
+                }
+            } else {
+                realValue = (currentNormalized * (max - min) + min) / factor;
+            }
+            GenTime pos = getPosAtIndex(s);
+            updateKeyframe(pos, QVariant(realValue), true, undo, redo, true);
+        }
+        PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
 }
 
@@ -1977,9 +2029,9 @@ void KeyframeModel::setActiveKeyframe(int ix)
         }
         ptr->m_activeKeyframe = ix;
     }
-    Q_EMIT requestModelUpdate(index(ix), index(ix), {ActiveRole});
+    Q_EMIT dataChanged(index(ix), index(ix), {ActiveRole});
     if (oldActive > -1) {
-        Q_EMIT requestModelUpdate(index(oldActive), index(oldActive), {ActiveRole});
+        Q_EMIT dataChanged(index(oldActive), index(oldActive), {ActiveRole});
     }
 }
 

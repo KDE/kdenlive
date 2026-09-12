@@ -1704,10 +1704,6 @@ Rectangle {
             }
             Connections {
                 target: effectRow.item
-                function onSeek(position) { clipRoot.seek(position) }
-            }
-            Connections {
-                target: effectRow.item
                 function onUpdateEffectKeyframe(clipId, oldFrame, newFrame) { clipRoot.timeline.updateEffectKeyframe(clipId, oldFrame, newFrame) }
             }
             Connections {

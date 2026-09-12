@@ -2459,3 +2459,8 @@ const QStringList Core::getLumasForProfile()
     }
     return MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
 }
+
+void Core::showKeyBinding(const QString &info) const
+{
+    m_mainWindow->showKeyBinding(info);
+}
