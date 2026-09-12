@@ -204,6 +204,9 @@ sudo ninja install
 
 Please note that `ninja install` is required for Kdenlive, otherwise the effects will not be installed and cannot be used.
 
+The application library uses precompiled Qt and standard-library headers to speed up builds.
+To build without precompiled headers, add `-DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON` to the CMake command.
+
 To uninstall Kdenlive:
 
 ```bash
