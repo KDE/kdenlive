@@ -112,13 +112,13 @@ Rectangle {
                     parent.x = keyframe.parentInPoint * keyframe.timeScale
                     return
                 }
-                var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1)
+                var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1) + keyframe.parentInPoint
                 if (newPos < 1) {
                     newPos = 1
                 }
                 if (newPos != keyframe.dragPos && (newPos == 0 || !keyframe.kfrModel.hasKeyframe(keyframe.parentInPoint + newPos))) {
                     keyframe.dragPos = newPos
-                    parent.x = newPos * keyframe.timeScale
+                    parent.x = (newPos - keyframe.parentInPoint) * keyframe.timeScale
                     keyframe.kfrModel.moveKeyframe(keyframe.frame, keyframe.dragPos, false)
                 } else {
                     parent.x = (keyframe.frame - keyframe.parentInPoint) * keyframe.timeScale
