@@ -87,7 +87,7 @@ Rectangle {
     }
 
     function getPositionForKeyframe() {
-        return dopeRoot.mouseFramePos + dopeRoot.inPoint
+        return Math.min(dopeRoot.mouseFramePos, dopeRoot.frameDuration) + dopeRoot.inPoint
     }
 
     onOwnerIdChanged: {

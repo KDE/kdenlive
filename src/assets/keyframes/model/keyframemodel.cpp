@@ -1054,7 +1054,7 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         if (m_paramType == ParamType::Roto_spline || it->second.second.isNull()) {
             return KeyframeTypeName.value(it->second.first);
         } else {
-            return QStringLiteral("%1\n%2").arg(KeyframeTypeName.value(it->second.first)).arg(it->second.second.toString());
+            return QStringLiteral("%1\n%2").arg(KeyframeTypeName.value(it->second.first), visibleValue(it->second.second));
         }
     case SelectedRole:
         if (auto ptr = m_model.lock()) {
@@ -1567,6 +1567,32 @@ void KeyframeModel::sendModification()
     }
 }
 
+QString KeyframeModel::visibleValue(QVariant sourceValue) const
+{
+    bool ok;
+    double value = sourceValue.toDouble(&ok);
+    if (!ok) {
+        return sourceValue.toString();
+    }
+    if (auto ptr = m_model.lock()) {
+        QString result;
+        int decimals = ptr->data(m_index, AssetParameterModel::DecimalsRole).toInt();
+        if (decimals == 0) {
+            if (value > 0.) {
+                value += 0.001;
+            } else {
+                value -= 0.001;
+            }
+            result = QString::number(int(value));
+        } else {
+            result = QString::number(value, 'f', decimals);
+        }
+        result.append(ptr->data(m_index, AssetParameterModel::SuffixRole).toString());
+        return result;
+    }
+    return sourceValue.toString();
+}
+
 QString KeyframeModel::realValueFromInternal(double internalValue) const
 {
     if (auto ptr = m_model.lock()) {
@@ -1914,6 +1940,9 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
 void KeyframeModel::setSelectedKeyframe(int ix, bool add)
 {
     QVector<int> previous;
+    if (ix < 0) {
+        return;
+    }
     if (auto ptr = m_model.lock()) {
         if (add) {
             if (ptr->m_selectedKeyframes.contains(ix)) {
@@ -1978,6 +2007,7 @@ void KeyframeModel::shiftSelectedKeyframes(double offset)
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         const QVector<int> selection = ptr->m_selectedKeyframes;
+        qDebug() << "::: SELECTED KEYFRAMES: " << selection;
         double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
         double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
         if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {

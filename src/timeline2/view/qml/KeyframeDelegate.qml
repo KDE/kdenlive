@@ -158,13 +158,14 @@ Rectangle {
             keyframe.dragPos = keyframe.frame
             keyframe.clickPos = keyframe.frame
             keyframe.clickVal = keyframe.model.normalizedValue
+            newVal = NaN
         }
         onClicked: mouse => {
             keyframe.focusKeyframeContainer()
-            if (mouse.modifiers & Qt.ControlModifier && keyframe.model.selected) {
+            if (mouse.modifiers & Qt.ShiftModifier && keyframe.model.selected) {
                 keyframe.keyframeSelected(keyframe.index, true, false)
             } else {
-                keyframe.keyframeSelected(keyframe.index, mouse.modifiers & Qt.ControlModifier, true)
+                keyframe.keyframeSelected(keyframe.index, mouse.modifiers & Qt.ShiftModifier, true)
             }
             var ix = keyframe.kfrModel.activeKeyframe()
             if (ix > -1) {

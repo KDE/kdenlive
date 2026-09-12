@@ -250,6 +250,8 @@ private:
     /** @brief update MLT keyframe value to reflect our model change */
     void updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
                                 KeyframeType::KeyframeEnum type);
+    /** @brief Returns a user formated value */
+    QString visibleValue(QVariant sourceValue) const;
 
 Q_SIGNALS:
     void modelChanged();
