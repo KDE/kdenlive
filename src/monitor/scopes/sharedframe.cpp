@@ -230,11 +230,13 @@ int SharedFrame::get_audio_samples() const
     return d->f.get_int("audio_samples");
 }
 
-const int16_t *SharedFrame::get_audio() const
+const void *SharedFrame::get_audio(mlt_audio_format format) const
 {
-    mlt_audio_format format = get_audio_format();
+    if (format == mlt_audio_none) {
+        format = get_audio_format();
+    }
     int frequency = get_audio_frequency();
     int channels = get_audio_channels();
     int samples = get_audio_samples();
-    return static_cast<int16_t *>(d->f.get_audio(format, frequency, channels, samples));
+    return d->f.get_audio(format, frequency, channels, samples);
 }
