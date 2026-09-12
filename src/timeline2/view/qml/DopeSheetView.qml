@@ -206,7 +206,7 @@ Rectangle {
 
     function scrollByWheel(wheel) {
         if (wheel.modifiers & Qt.ShiftModifier) {
-            // Modifiy selected keyframes values
+            // Modify selected keyframes values
             let valueOffset = 0.005
             if (wheel.angleDelta.y < 0) {
                 valueOffset = -0.005
@@ -1177,7 +1177,7 @@ Rectangle {
             HoverHandler {
                 onHoveredChanged: {
                     if (hovered) {
-                        K.Core.showKeyBinding(KI18n.i18n("<b>Mouse Wheel</b> to scroll, <b>Ctrl+Wheel</b> to zoom, <b>Shift+Wheel</b> to modifiy selected keyframes values"))
+                        K.Core.showKeyBinding(KI18n.i18n("<b>Mouse Wheel</b> to scroll, <b>Ctrl+Wheel</b> to zoom, <b>Shift+Wheel</b> to modify selected keyframes values"))
                     } else {
                         K.Core.showKeyBinding()
                     }
