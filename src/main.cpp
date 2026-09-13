@@ -241,9 +241,6 @@ int main(int argc, char *argv[])
     // Block MLT Qt5 module to prevent crashes
     qputenv("MLT_REPOSITORY_DENY", "libmltqt:libmltglaxnimate");
 
-#if defined(Q_OS_WIN)
-    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
-#endif
     // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
