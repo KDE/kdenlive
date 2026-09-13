@@ -478,6 +478,7 @@ bool DopeSheetModel::registerAsset(std::shared_ptr<TreeItem> master, int row, st
                               [this, effectItem, row, effectModel](const QModelIndex &ix1, const QModelIndex & /*ix2*/, const QList<int> &roles) {
                                   if (roles.contains(AssetParameterModel::ParentDurationRole)) {
                                       Q_EMIT dopeDurationChanged();
+                                      durationChanged();
                                   }
                                   if (roles.contains(AssetParameterModel::InRole)) {
                                       Q_EMIT dopeInPointChanged();
@@ -1706,5 +1707,14 @@ void DopeSheetModel::activateParam(const QPersistentModelIndex activeIndex) cons
                 pCore->updateItemKeyframes(m_currentOwner);
             }
         }
+    }
+}
+
+void DopeSheetModel::durationChanged()
+{
+    for (auto &p : m_paramsList) {
+        const QModelIndex start = p.second.second->index(0);
+        const QModelIndex end = p.second.second->index(p.second.second->keyframesCount() - 1);
+        Q_EMIT p.second.second->dataChanged(start, end, {KeyframeModel::PercentPositionRole});
     }
 }

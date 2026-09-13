@@ -865,6 +865,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 4
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 2
         anchors.top: ruler.bottom
         width: dopeRoot.headerWidth
         color: activePalette.alternateBase
@@ -1035,6 +1036,7 @@ Rectangle {
         hoverColor: dopeRoot.hoverColor
     }
     Rectangle {
+        // Rubber selection rect
         color: "#33FFFFFF"
         border.color: activePalette.highlight
         border.width: 1
@@ -1067,8 +1069,10 @@ Rectangle {
             }
         }
         Rectangle {
-            anchors.fill: parent
-            anchors.bottomMargin: 2
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: (splitterArea.containsMouse || splitterArea.pressed) ? parent.height - 2 : 1
             opacity: (splitterArea.containsMouse || splitterArea.pressed) ? 1 : 0.2
             color: activePalette.highlight
         }
@@ -1221,7 +1225,9 @@ Rectangle {
             left: parent.left
             right: parent.right
             bottom: dopeRoot.bottom
-            leftMargin: dopeRoot.headerWidth
+            rightMargin: 2
+            bottomMargin: 2
+            leftMargin: dopeRoot.headerWidth + 2
         }
         height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
         barMinWidth: K.UiUtils.baseSizeMedium

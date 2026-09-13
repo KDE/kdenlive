@@ -166,6 +166,7 @@ private:
     int m_timecodeOffset{0};
     bool isRecap(std::shared_ptr<TreeItem> item) const;
     void disconnectModel();
+    void durationChanged();
     std::shared_ptr<TreeItem> createTopLevelItem(std::shared_ptr<EffectStackModel> model);
 
 private Q_SLOTS:
