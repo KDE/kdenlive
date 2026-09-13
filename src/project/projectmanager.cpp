@@ -282,6 +282,8 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     finalizeDocumentOpening(m_project);
     Q_EMIT pCore->gotMissingClipsCount(0, 0);
+    // Update active Track to ensure proper vertical scrolling now that everything is built
+    polishTimelines(m_project->getTimelinesUuids());
     m_project->loading = false;
     m_lastSave.start();
     if (pCore->monitorManager()) {
