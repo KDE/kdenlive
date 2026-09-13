@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-11 00:45+0000\n"
-"PO-Revision-Date: 2026-09-09 17:13+0200\n"
+"PO-Revision-Date: 2026-09-12 08:52+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -29396,6 +29396,8 @@ msgstr "Spara en json-rapport om komponenter i den angivna sökvägen."
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
+"Verifiera om en Kdenlive-projektfil är giltig, skriv ut information och "
+"avsluta."
 
 #: src/main.cpp:374
 #, kde-format
@@ -37019,10 +37021,9 @@ msgstr[0] "Infoga spår"
 msgstr[1] "Infoga spår"
 
 #: src/timeline2/view/timelinecontroller.cpp:5867
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "Ingen textning i nuvarande projekt"
+msgstr "Ingen textning i nuvarande projekt. Export är inte möjlig."
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format
