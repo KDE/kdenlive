@@ -1097,8 +1097,7 @@ Rectangle {
             onDoubleClicked: mouse =>{
                 if (keyframeCurve.model) {
                     var newVal = (height - mouse.y) / height
-                    let mousePos = Math.max(0., (mouse.x + dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor))
-                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
+                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mouse.x)
                     keyframeCurve.model.addKeyframe(dopeRoot.getPositionForKeyframe(), newVal)
                 }
             }
