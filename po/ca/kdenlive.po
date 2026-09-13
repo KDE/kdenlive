@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-12 02:39+0000\n"
-"PO-Revision-Date: 2026-09-06 18:36+0200\n"
+"PO-Revision-Date: 2026-09-12 10:11+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -32513,11 +32513,7 @@ msgid "Terminate Job"
 msgstr "Finalitza el treball"
 
 #: src/monitor/view/ClipMonitor.qml:645
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
-#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
-#| "to zoom"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
@@ -32525,10 +32521,11 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"Feu <b>clic</b> per a reproduir, <b>doble clic</b> per a pantalla completa, "
-"<b>aneu a la dreta</b> per a la barra d'eines, empreu la <b>roda del ratolí</"
-"b> o les <b>fletxes del teclat</b> per a cercar, empreu la <b>roda + Ctrl</"
-"b> per a fer zoom"
+"Feu <shortcut>clic</shortcut> per a reproduir, <shortcut>doble clic</"
+"shortcut> per a pantalla completa, <shortcut>aneu a la dreta</shortcut> per "
+"a la barra d'eines, empreu la <shortcut>roda del ratolí</shortcut> o les "
+"<shortcut>fletxes del teclat</shortcut> per a cercar, empreu la "
+"<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63

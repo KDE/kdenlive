@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-12 02:39+0000\n"
-"PO-Revision-Date: 2026-09-06 18:36+0200\n"
+"PO-Revision-Date: 2026-09-12 10:11+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1342,22 +1342,22 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:8
 #, kde-format
 msgid "Luma Radius"
-msgstr "Radi de la luma"
+msgstr "Radi de la luminància"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr "Radi del quadro de difuminació de la luma"
+msgstr "Radi del quadro de difuminació de la luminància"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
 #, kde-format
 msgid "Luma Power"
-msgstr "Potència de la luma"
+msgstr "Potència de la luminància"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr "Quantes vegades s'hauria d'aplicar el «boxblur» a la luma"
+msgstr "Quantes vegades s'hauria d'aplicar el «boxblur» a la luminància"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
@@ -2225,7 +2225,8 @@ msgstr "Espai de color d'eixida"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
-"BT.709,FCC,BT.470BG,SMPTE 170 M,SMPTE 240 M,YCgCo,BT.2020 non-constant luma"
+"BT.709,FCC,BT.470BG,SMPTE 170 M,SMPTE 240 M,YCgCo,BT.2020 non-constant "
+"luminància"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #, kde-format
@@ -2348,7 +2349,7 @@ msgstr "Sobreescriu l'interval de color d'entrada"
 #: data/effects/frei0r/frei0r_colgate.xml:11
 #, kde-format
 msgid "Color Temperature"
-msgstr "Temperatura de color"
+msgstr "Temperatura del color"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:5
 #, kde-format
@@ -2356,8 +2357,8 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
-"Ajusta la temperatura de color en un vídeo per a simular les variacions de "
-"la temperatura de color ambiental. "
+"Ajusta la temperatura del color en un vídeo per a simular les variacions de "
+"la temperatura del color ambiental. "
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
@@ -2902,8 +2903,8 @@ msgid ""
 "Remove banding artifacts from input video. It works by replacing banded "
 "pixels with average value of referenced pixels"
 msgstr ""
-"Trau els defectes de bandes del vídeo d'entrada. Funciona substituint els "
-"píxels amb bandes amb un valor mitjà dels píxels de referència"
+"Trau l'efecte de bandes del vídeo d'entrada. Funciona substituint els píxels "
+"amb bandes amb un valor mitjà dels píxels de referència"
 
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, kde-format
@@ -4243,9 +4244,9 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</i></b>."
 msgstr ""
-"Trau els defectes de bandes ràpidament emprant degradats.<br>\n"
-"    Corregix els defectes de bandes que de vegades es presenten en regions "
-"quasi llises per truncament a la profunditat de color de 8 bits.<br>\n"
+"Trau l'efecte de bandes ràpidament emprant degradats.<br>\n"
+"    Corregix l'efecte de bandes que de vegades es presenten en regions quasi "
+"llises per truncament a la profunditat de color de 8 bits.<br>\n"
 "    Interpola els degradats que haurien d'anar on estan les bandes, i els "
 "trama.<br><br>\n"
 "    <b><i>Està dissenyat només per a reproducció. No l'utilitzeu abans de la "
@@ -4811,7 +4812,7 @@ msgstr "Desentrellaça o entrellaça els camps"
 #: data/effects/avfilter/avfilter_il.xml:8
 #, kde-format
 msgid "Luma Mode"
-msgstr "Mode de la luma"
+msgstr "Mode de la luminància"
 
 #: data/effects/avfilter/avfilter_il.xml:9
 #: data/effects/avfilter/avfilter_il.xml:13
@@ -4834,7 +4835,7 @@ msgstr "Mode de l'alfa"
 #: data/effects/avfilter/avfilter_il.xml:20
 #, kde-format
 msgid "Swap Luma Fields"
-msgstr "Intercanvi dels camps de luma"
+msgstr "Intercanvi dels camps de luminància"
 
 #: data/effects/avfilter/avfilter_il.xml:23
 #, kde-format
@@ -5908,12 +5909,12 @@ msgstr "Difuminat adaptatiu de formes"
 #: data/effects/avfilter/avfilter_sab.xml:11
 #, kde-format
 msgid "Luma pre-filter radius"
-msgstr "Radi del prefiltre de luma"
+msgstr "Radi del prefiltre de luminància"
 
 #: data/effects/avfilter/avfilter_sab.xml:14
 #, kde-format
 msgid "Luma Strength"
-msgstr "Intensitat de la luma"
+msgstr "Intensitat de la luminància"
 
 #: data/effects/avfilter/avfilter_sab.xml:20
 #, kde-format
@@ -6207,7 +6208,7 @@ msgstr "Difumina el vídeo d'entrada sense afectar els contorns. "
 #: data/effects/avfilter/avfilter_smartblur.xml:8
 #, kde-format
 msgid "Luma radius"
-msgstr "Radi de la luma"
+msgstr "Radi de la luminància"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
 #, kde-format
@@ -6224,7 +6225,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_unsharp.xml:17
 #, kde-format
 msgid "Luma strength"
-msgstr "Intensitat de la luma"
+msgstr "Intensitat de la luminància"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
 #, kde-format
@@ -6240,7 +6241,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_smartblur.xml:18
 #, kde-format
 msgid "Luma threshold"
-msgstr "Llindar de la luma"
+msgstr "Llindar de la luminància"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:20
 #, kde-format
@@ -6922,22 +6923,22 @@ msgstr "Aguditza o desenfoca/difumina el vídeo"
 #: data/effects/avfilter/avfilter_unsharp.xml:9
 #, kde-format
 msgid "Luma horizontal matrix"
-msgstr "Matriu horitzontal de luma"
+msgstr "Matriu horitzontal de luminància"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:10
 #, kde-format
 msgid "Set the luma matrix horizontal size"
-msgstr "Establix la mida horitzontal de la matriu de luma"
+msgstr "Establix la mida horitzontal de la matriu de luminància"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
 #, kde-format
 msgid "Luma vertical matrix"
-msgstr "Matriu vertical de luma"
+msgstr "Matriu vertical de luminància"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
 #, kde-format
 msgid "Set the luma matrix vertical size"
-msgstr "Establix la mida vertical de la matriu de luma"
+msgstr "Establix la mida vertical de la matriu de luminància"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
@@ -8635,7 +8636,7 @@ msgstr "Balanç de blancs"
 #: data/effects/frei0r/frei0r_balanc0r.xml:17
 #, kde-format
 msgid "Adjust the white balance / color temperature"
-msgstr "Ajusta el balanç de blancs / temperatura de color"
+msgstr "Ajusta el balanç de blancs / temperatura del color"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:9
 #: data/effects/frei0r/frei0r_balanc0r.xml:20
@@ -8696,7 +8697,7 @@ msgstr "RGB,Roig,Verd,Blau,Alfa,Luma,To,Saturació"
 #: data/effects/frei0r/frei0r_curves.xml:68
 #, kde-format
 msgid "Luma formula"
-msgstr "Fórmula de la luma"
+msgstr "Fórmula de la luminància"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:13
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
@@ -10117,7 +10118,7 @@ msgstr "Afig constant,Canvia la gamma,Multiplica"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
 msgid "Keep luma"
-msgstr "Mantín la luma"
+msgstr "Mantín la luminància"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:24
 #, kde-format
@@ -11492,7 +11493,7 @@ msgstr "Operació 1"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
 #, kde-format
 msgid "None,De-Key,Target,Desaturate,Luma adjust"
-msgstr "Cap,Trau la clau,Objectiu,Dessatura,Ajust de luma"
+msgstr "Cap,Trau la clau,Objectiu,Dessatura,Ajust de luminància"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:34
 #, kde-format
@@ -17688,7 +17689,7 @@ msgstr "Utilitza l'invers del valor del canal alfa."
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
 msgid "Use Luma"
-msgstr "Utilitza la luma"
+msgstr "Utilitza la luminància"
 
 #: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, kde-format
@@ -19556,7 +19557,7 @@ msgstr "Fosa d'eixida d'un vídeo mentre apareix l'altre vídeo."
 #: data/transitions/dissolve.xml:7
 #, kde-format
 msgid "Luma Map"
-msgstr "Mapa de la luma"
+msgstr "Mapa de la luminància"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
 #, kde-format
@@ -27288,7 +27289,7 @@ msgstr "Lletra del títol"
 #: src/doc/documentchecker.cpp:1933
 #, kde-format
 msgid "Luma file"
-msgstr "Fitxer de luma"
+msgstr "Fitxer de luminància"
 
 #: src/doc/documentchecker.cpp:1935
 #, kde-format
@@ -32504,11 +32505,7 @@ msgid "Terminate Job"
 msgstr "Finalitza el treball"
 
 #: src/monitor/view/ClipMonitor.qml:645
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
-#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
-#| "to zoom"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
@@ -32516,10 +32513,11 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"<b>Cliqueu</b> per a reproduir, <b>doble clic</b> per a pantalla completa, "
-"<b>aneu cap a la dreta</b> per a la barra d'eines, utilitzeu la <b>roda del "
-"ratolí</b> o les <b>fletxes del teclat</b> per a buscar, utilitzeu la "
-"<b>roda + Ctrl</b> per a fer zoom"
+"<shortcut>Cliqueu</shortcut> per a reproduir, <shortcut>doble clic</"
+"shortcut> per a pantalla completa, <shortcut>aneu cap a la dreta</shortcut> "
+"per a la barra d'eines, utilitzeu la <shortcut>roda del ratolí</shortcut> o "
+"les <shortcut>fletxes del teclat</shortcut> per a buscar, utilitzeu la "
+"<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63
@@ -33286,7 +33284,7 @@ msgstr "Altres clips"
 #: src/project/dialogs/archivewidget.cpp:90
 #, kde-format
 msgid "Luma Files"
-msgstr "Fitxers de luma"
+msgstr "Fitxers de luminància"
 
 #: src/project/dialogs/archivewidget.cpp:227
 #, kde-format
@@ -35477,7 +35475,7 @@ msgstr "Rec. 709"
 #: src/scopes/colorscopes/waveform.cpp:80
 #, kde-format
 msgid "Luma mode"
-msgstr "Mode de luma"
+msgstr "Mode de luminància"
 
 #: src/scopes/colorscopes/histogramgenerator.cpp:207
 #, kde-format

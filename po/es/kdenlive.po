@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-12 02:39+0000\n"
-"PO-Revision-Date: 2026-07-24 11:24+0100\n"
+"PO-Revision-Date: 2026-09-13 00:48+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -32677,11 +32677,7 @@ msgid "Terminate Job"
 msgstr "Terminar tarea"
 
 #: src/monitor/view/ClipMonitor.qml:645
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
-#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
-#| "to zoom"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
@@ -32689,9 +32685,10 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"<b>Clic</b> para reproducir, <b>Doble clic</b> para pantalla completa, "
-"<b>Posar a la derecha</b> para barra de herramientas, <b>Rueda</b> o "
-"<b>flechas</b> para recorrer, <b>Ctrl+rueda</b> para ampliar"
+"<shortcut>Clic</shortcut> para reproducir, <shortcut>Doble clic</shortcut> "
+"para pantalla completa, <shortcut>Posar a la derecha</shortcut> para barra "
+"de herramientas, <shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> "
+"para recorrer, <shortcut>Ctrl+rueda</shortcut> para ampliar/reducir"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63
