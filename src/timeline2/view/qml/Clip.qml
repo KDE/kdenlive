@@ -134,6 +134,16 @@ Rectangle {
 
     signal blockAutoScroll(bool enabled)
 
+    component ClipMarker: Rectangle {
+        property string markerText
+        property color markerColor
+        property int position
+        property bool hasRange: false
+        property real duration: 0
+        property int id
+        signal restorePositionBindings()
+    }
+
     onVisibleChanged: {
         if (clipRoot.visible) {
             updateLabelOffset()
@@ -716,15 +726,8 @@ Rectangle {
             }
             Component {
                 id: markerComponent
-                Rectangle {
+                ClipMarker {
                     id: markerBase
-                    property string markerText
-                    property color markerColor
-                    property int position
-                    property bool hasRange: false
-                    property real duration: 0
-                    property int id
-                    signal restorePositionBindings()
 
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
                     height: hasRange ? textMetrics.height + 2 : container.height
@@ -1080,8 +1083,9 @@ Rectangle {
                         Connections {
                             target: loader.item
                             function onRestorePositionBindings() {
-                                loader.item.position = Qt.binding(function() { return loader.modelData.frame })
-                                loader.item.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                const marker = loader.item as ClipMarker
+                                marker.position = Qt.binding(function() { return loader.modelData.frame })
+                                marker.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
                             }
                         }
                         sourceComponent: markerComponent
@@ -1588,9 +1592,8 @@ Rectangle {
                 clip: true
                 anchors.fill: parent
                 asynchronous: true
-                property bool hasKeyframes: false
                 active: clipRoot.visible
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
+                visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && (effectRow.item as KeyframeView).kfrCount > 1 && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item

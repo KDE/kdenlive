@@ -882,12 +882,10 @@ function getTrackColor(audio, header) {
                         }
                         root.lastDropTrack = targetTrack
                         if (root.clipBeingDroppedId == -1) {
-                            drag.accepted=false
                             bubbleHelp.hide()
                             root.continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                             return
                         }
-                        drag.accepted=true
                         var _audioInfo = root.controller.clipAudioStreamInfo(root.clipBeingDroppedData, targetTrack)
                         if (_audioInfo[1] >=0 && _audioInfo[0] >=0 && !_audioInfo[2]) {
                             bubbleHelp.text = KI18n.i18np("Audio: %1 track for %2 streams", "Audio: %1 tracks for %2 streams", _audioInfo[1], _audioInfo[0])
@@ -924,9 +922,6 @@ function getTrackColor(audio, header) {
                 if (offset != 0) {
                     root.timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                 }
-            }
-            else {
-                drag.accepted=false
             }
         }
         function processDrop()
@@ -1053,8 +1048,8 @@ function getTrackColor(audio, header) {
             root.updateTimelineMousePos(frame, root.timeline.duration)
             if (root.clipBeingMovedId == -1) {
                 if (root.clipBeingDroppedId > -1) {
-                    drag.accepted=true
                     moveDrop(0, 0)
+                    drag.accepted = root.clipBeingDroppedId > -1
                 } else {
                     var yOffset = 0
                     if (root.showSubtitles) {
