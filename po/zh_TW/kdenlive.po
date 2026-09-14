@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-11 00:45+0000\n"
+"POT-Creation-Date: 2026-09-14 00:42+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -3064,7 +3064,7 @@ msgstr "圖標"
 msgid "Remove logo from input video"
 msgstr "從輸入視訊中移除標誌"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:312
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:309
 #, kde-format
 msgid "Logo"
 msgstr "圖標"
@@ -20839,7 +20839,7 @@ msgstr "拖曳來只將音訊加入時間軸"
 msgid "Drag to add only video to timeline"
 msgstr "拖曳來只將視訊加入時間軸"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1545
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1549
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -21311,7 +21311,7 @@ msgstr "播放清單"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2896 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1695 src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1697 src/project/projectmanager.cpp:1699
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -22497,7 +22497,7 @@ msgid "Disable GPU processing"
 msgstr "關閉 GPU 處理"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:871
 #, kde-format
 msgid "Loading project…"
 msgstr "載入專案中…"
@@ -23238,7 +23238,7 @@ msgstr "匯出標記資料"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2008 src/project/projectmanager.cpp:2014
+#: src/project/projectmanager.cpp:2010 src/project/projectmanager.cpp:2016
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23331,7 +23331,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "若不確定，請試試看：<br/><b>Unicode (UTF-8)</b>。"
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1897
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1899
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -23954,7 +23954,7 @@ msgstr "不含音軌的影片"
 msgid "Audio without video track"
 msgstr "不含視訊軌的音訊"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:555
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -24621,7 +24621,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "由 KDE 製作"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:632 src/main.cpp:292
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:632 src/main.cpp:289
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -26688,8 +26688,8 @@ msgstr "以下過濾器/轉場特效已自專案中刪除："
 msgid "Invalid file path"
 msgstr "無效檔案路徑"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:848
+#: src/project/projectmanager.cpp:900
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "無法復原毀損檔案。"
@@ -26764,8 +26764,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr "您的專案檔案已更新至最新的 Kdenlive 文件版本，但無法建立備份複本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1569
-#: src/project/projectmanager.cpp:1605
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1571
+#: src/project/projectmanager.cpp:1607
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移動專案資料夾時發生錯誤：%1"
@@ -27838,7 +27838,7 @@ msgid "Clip in Timeline"
 msgstr "時間軸中的素材"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1186
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1181
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -28367,248 +28367,248 @@ msgstr "資料庫路徑已設為自訂：%1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "無法寫入資料庫路徑：%1，將使用預設"
 
-#: src/main.cpp:289
+#: src/main.cpp:286
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "請報告問題到 <a href=\"%1\">%2</a>。"
 
-#: src/main.cpp:292
+#: src/main.cpp:289
 #, kde-format
 msgid "An open source video editor."
 msgstr "一款開源的影片剪輯工具。"
 
-#: src/main.cpp:293
+#: src/main.cpp:290
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2024 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "版權所有 © 2007–2024 Kdenlive 開發團隊"
 
-#: src/main.cpp:295
+#: src/main.cpp:292
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:295
+#: src/main.cpp:292
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
 
-#: src/main.cpp:297
+#: src/main.cpp:294
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:297
+#: src/main.cpp:294
 #, fuzzy, kde-format
 #| msgid "Feature development, packaging, bug fixing"
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr "功能開發、打包、錯誤修正"
 
-#: src/main.cpp:298
+#: src/main.cpp:295
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:298
+#: src/main.cpp:295
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 移植、Windows 跨平台編譯、打包、錯誤修正"
 
-#: src/main.cpp:300
+#: src/main.cpp:297
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:300
+#: src/main.cpp:297
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "錯誤修正與測試改進"
 
-#: src/main.cpp:302
+#: src/main.cpp:299
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:302
+#: src/main.cpp:299
 #, fuzzy, kde-format
 #| msgid "Color scopes, bug fixing, etc."
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "顏色示波器、錯誤修正等等"
 
-#: src/main.cpp:303
+#: src/main.cpp:300
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:303
+#: src/main.cpp:300
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "原來的 KDE 3 版本作者 (不再開發)"
 
-#: src/main.cpp:305
+#: src/main.cpp:302
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:305
+#: src/main.cpp:302
 #, fuzzy, kde-format
 #| msgid "Logo, Promotion, testing"
 msgid "Logo, promotion, testing"
 msgstr "標誌、宣傳、測試"
 
-#: src/main.cpp:306
+#: src/main.cpp:303
 #, kde-format
 msgid "balooii"
 msgstr ""
 
-#: src/main.cpp:306
+#: src/main.cpp:303
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr ""
 
-#: src/main.cpp:307
+#: src/main.cpp:304
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:307
+#: src/main.cpp:304
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "程式碼架構重建與時間軸重寫 (2019)"
 
-#: src/main.cpp:308
+#: src/main.cpp:305
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:308
+#: src/main.cpp:305
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT 維護者、錯誤修正等等"
 
-#: src/main.cpp:309
+#: src/main.cpp:306
 #, kde-format
 msgid "Darby Johnston"
 msgstr ""
 
-#: src/main.cpp:309
+#: src/main.cpp:306
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "OTIO rewrite"
 msgstr "覆寫"
 
-#: src/main.cpp:310
+#: src/main.cpp:307
 #, kde-format
 msgid "Bernd Jordan"
 msgstr ""
 
-#: src/main.cpp:310
+#: src/main.cpp:307
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
 
-#: src/main.cpp:311
+#: src/main.cpp:308
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:311
+#: src/main.cpp:308
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
 
-#: src/main.cpp:312
+#: src/main.cpp:309
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:313
+#: src/main.cpp:310
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:313
+#: src/main.cpp:310
 #, kde-format
 msgid "Testing"
 msgstr "測試"
 
-#: src/main.cpp:314
+#: src/main.cpp:311
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:314
+#: src/main.cpp:311
 #, fuzzy, kde-format
 #| msgid "Expert advice, testing"
 msgid "Core team member, expert advice, testing"
 msgstr "專家建議、測試"
 
-#: src/main.cpp:316
+#: src/main.cpp:313
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "大寶"
 
-#: src/main.cpp:316
+#: src/main.cpp:313
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "linux.dabao@gmail.com"
 
-#: src/main.cpp:321
+#: src/main.cpp:318
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:321
+#: src/main.cpp:318
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "開源多媒體框架。"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:323 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:320 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:323
+#: src/main.cpp:320
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "完整且跨平台的影音錄製、轉換與串流解決方案。"
 
-#: src/main.cpp:341
+#: src/main.cpp:338
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "設定自訂設定檔案名稱。"
 
-#: src/main.cpp:342
+#: src/main.cpp:339
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "設定 MLT 環境的路徑。"
 
-#: src/main.cpp:344
+#: src/main.cpp:341
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "設定 MLT 紀錄等級。維持不設定則代表 \"warning\"（警告）。"
 
-#: src/main.cpp:347
+#: src/main.cpp:344
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "要作為素材加入素材庫的檔案列表，以逗號分隔。"
 
-#: src/main.cpp:351
+#: src/main.cpp:348
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "直接算繪專案並離開。"
 
-#: src/main.cpp:354
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "Kdenlive 算繪預設檔名稱（沒有提供時會使用 MP4-H264/AAC）"
 
-#: src/main.cpp:359
+#: src/main.cpp:356
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -28616,35 +28616,35 @@ msgid ""
 msgstr ""
 "在分離式的算繪行程開始之後便離開，未提供此旗標時會在該行程結束後才離開。"
 
-#: src/main.cpp:362
+#: src/main.cpp:359
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr ""
 
-#: src/main.cpp:365
+#: src/main.cpp:362
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
 
-#: src/main.cpp:368
+#: src/main.cpp:365
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr ""
 
-#: src/main.cpp:371
+#: src/main.cpp:368
 #, kde-format
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
 
-#: src/main.cpp:374
+#: src/main.cpp:371
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "要開啟的 Kdenlive 文件。"
 
-#: src/main.cpp:375
+#: src/main.cpp:372
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "算繪後影片的輸出檔案。"
@@ -30232,12 +30232,12 @@ msgid ""
 msgstr ""
 "這會將所有暫存檔從<br/><b>%1</b> 移動到 <b>%2</b>，<br/>然後重新載入專案檔"
 
-#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:607
+#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "無法進行作業，無效文件 ID：%1"
 
-#: src/mainwindow.cpp:2572 src/project/projectmanager.cpp:613
+#: src/mainwindow.cpp:2572 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "無法進行作業，目標目錄已經存在：%1"
@@ -33331,12 +33331,12 @@ msgstr "儲存複本…"
 msgid "Open Backup File…"
 msgstr "開啟備份檔…"
 
-#: src/project/projectmanager.cpp:427
+#: src/project/projectmanager.cpp:429
 #, kde-format
 msgid "Save changes to document?"
 msgstr "是否儲存對檔案的修改?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1834
+#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1836
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -33345,17 +33345,17 @@ msgstr ""
 "此專案 <b>\"%1\"</b> 已經修改。\n"
 "您要保留這些修改嗎？"
 
-#: src/project/projectmanager.cpp:548
+#: src/project/projectmanager.cpp:550
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "儲存專案檔案<br><b>%1</b> 失敗"
 
-#: src/project/projectmanager.cpp:582
+#: src/project/projectmanager.cpp:584
 #, kde-format
 msgid "Saving successful"
 msgstr "成功儲存"
 
-#: src/project/projectmanager.cpp:595
+#: src/project/projectmanager.cpp:597
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -33365,44 +33365,44 @@ msgstr ""
 "已變更專案位置。您已選擇了要使用專案檔案位置來儲存暫存檔，因此將會從 <b>%1</"
 "b> 移動所有暫存檔到 <b>%2</b>。移動完成之後會重新載入專案檔"
 
-#: src/project/projectmanager.cpp:638
+#: src/project/projectmanager.cpp:640
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "儲存複本"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "有已自動儲存的檔案。您是否要回復它?"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "File Recovery"
 msgstr "檔案回復"
 
-#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:886
 #, kde-format
 msgid "Recover"
 msgstr "回復"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Do not recover"
 msgstr "不進行回復"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:793
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "標記分類不存在"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:825
 #, kde-format
 msgid "Opening file %1"
 msgstr "正在開啟檔案 %1"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:885
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33413,43 +33413,43 @@ msgstr ""
 "%1\n"
 "您要開啟備份檔案嗎？"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Error opening file"
 msgstr "開啟檔案時發生錯誤"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1162
 #, kde-format
 msgid "Open Backup"
 msgstr "開啟備份"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:904
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "無法開啟備份專案檔案。"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:919
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "您的專案已更新版本，下次儲存將會建立備份"
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "您的專案已在開啟時被修改，下次儲存將會建立備份"
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:992
 #, kde-format
 msgid "Loading timeline…"
 msgstr "載入時間軸中…"
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1015
 #, kde-format
 msgid "Building sequences…"
 msgstr "建構序列中…"
 
-#: src/project/projectmanager.cpp:1186
+#: src/project/projectmanager.cpp:1188
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33458,54 +33458,54 @@ msgstr ""
 "無法開啟專案檔案。錯誤：\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1226
+#: src/project/projectmanager.cpp:1228
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "這會移除從您最後一次儲存專案以來的所有修改，您確定要繼續嗎？"
 
-#: src/project/projectmanager.cpp:1227
+#: src/project/projectmanager.cpp:1229
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "回復到最後儲存的版本"
 
-#: src/project/projectmanager.cpp:1326
+#: src/project/projectmanager.cpp:1328
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr "專案已毀損而無法備份。請關閉後重新開啟專案來復原上次的備份"
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "移動專案資料夾時發生錯誤，無法存取快取資料夾"
 
-#: src/project/projectmanager.cpp:1583
+#: src/project/projectmanager.cpp:1585
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移動專案資料夾"
 
-#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1730
-#: src/project/projectmanager.cpp:1734
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1732
+#: src/project/projectmanager.cpp:1736
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1685
+#: src/project/projectmanager.cpp:1687
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "專案檔案已毀損 — 載入軌道失敗。要試著尋找備份檔嗎？"
 
-#: src/project/projectmanager.cpp:1826 src/project/projectmanager.cpp:1839
-#: src/project/projectmanager.cpp:1863 src/project/projectmanager.cpp:1872
+#: src/project/projectmanager.cpp:1828 src/project/projectmanager.cpp:1841
+#: src/project/projectmanager.cpp:1865 src/project/projectmanager.cpp:1874
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "專案編碼方案變更已中止"
 
-#: src/project/projectmanager.cpp:2002
+#: src/project/projectmanager.cpp:2004
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -33514,12 +33514,12 @@ msgstr ""
 "輸出檔案 %1 已經存在。\n"
 "您是否要覆寫它?"
 
-#: src/project/projectmanager.cpp:2027
+#: src/project/projectmanager.cpp:2029
 #, kde-format
 msgid "Project profile changed"
 msgstr "專案編碼方案已變更"
 
-#: src/project/projectmanager.cpp:2091
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -33528,34 +33528,34 @@ msgstr ""
 "無法從這個素材建立時間軸：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2180
+#: src/project/projectmanager.cpp:2182
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "正在匯入序列素材，這目前處於實驗性階段"
 
-#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2465
+#: src/project/projectmanager.cpp:2415 src/project/projectmanager.cpp:2467
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "選取素材來建立序列"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2474
+#: src/project/projectmanager.cpp:2425 src/project/projectmanager.cpp:2476
 #, fuzzy, kde-format
 #| msgid "Mask creation"
 msgid "Sequence creation failed"
 msgstr "遮罩建立"
 
-#: src/project/projectmanager.cpp:2450
+#: src/project/projectmanager.cpp:2452
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "無法插入包含自己的序列"
 
-#: src/project/projectmanager.cpp:2454
+#: src/project/projectmanager.cpp:2456
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "建立序列素材"
 
-#: src/project/projectmanager.cpp:2492
+#: src/project/projectmanager.cpp:2494
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
@@ -35575,101 +35575,101 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2352
+#: src/timeline2/view/qml/Timeline.qml:2347
 #, kde-format
 msgid "Paused"
 msgstr "已暫停"
 
-#: src/timeline2/view/qml/Clip.qml:273 src/timeline2/view/qml/Clip.qml:1326
+#: src/timeline2/view/qml/Clip.qml:283 src/timeline2/view/qml/Clip.qml:1330
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3)，位置：%4，時長：%5"
 
-#: src/timeline2/view/qml/Clip.qml:388 src/timeline2/view/qml/Clip.qml:402
+#: src/timeline2/view/qml/Clip.qml:398 src/timeline2/view/qml/Clip.qml:412
 #: src/timeline2/view/qml/SubTitle.qml:226
 #: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "位置：%1"
 
-#: src/timeline2/view/qml/Clip.qml:617
+#: src/timeline2/view/qml/Clip.qml:627
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "混合長度：%1，裁剪於：%2"
 
-#: src/timeline2/view/qml/Clip.qml:671
+#: src/timeline2/view/qml/Clip.qml:681
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1，混合長度：%2"
 
-#: src/timeline2/view/qml/Clip.qml:673
+#: src/timeline2/view/qml/Clip.qml:683
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1，混合長度：%2"
 
-#: src/timeline2/view/qml/Clip.qml:676 src/timeline2/view/qml/Clip.qml:691
+#: src/timeline2/view/qml/Clip.qml:686 src/timeline2/view/qml/Clip.qml:701
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "混合長度：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1206
+#: src/timeline2/view/qml/Clip.qml:1210
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "輸入：%1，位置：%2"
 
-#: src/timeline2/view/qml/Clip.qml:1209 src/timeline2/view/qml/Clip.qml:1316
+#: src/timeline2/view/qml/Clip.qml:1213 src/timeline2/view/qml/Clip.qml:1320
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr "<b>Ctrl+拖曳</b>來變更速度，<b>雙擊</b>來與週遭素材混合"
 
-#: src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:1215
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>拖曳</b>來變更混合長度"
 
-#: src/timeline2/view/qml/Clip.qml:1313
+#: src/timeline2/view/qml/Clip.qml:1317
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "輸出：%1，位置：%2"
 
-#: src/timeline2/view/qml/Clip.qml:1452
+#: src/timeline2/view/qml/Clip.qml:1456
 #, kde-format
 msgid "Offset: -%1"
 msgstr "偏移：-%1"
 
-#: src/timeline2/view/qml/Clip.qml:1453
+#: src/timeline2/view/qml/Clip.qml:1457
 #, kde-format
 msgid "Offset: %1"
 msgstr "偏移：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1454
+#: src/timeline2/view/qml/Clip.qml:1458
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>點擊</b>來對齊素材"
 
-#: src/timeline2/view/qml/Clip.qml:1736 src/timeline2/view/qml/Clip.qml:1777
+#: src/timeline2/view/qml/Clip.qml:1739 src/timeline2/view/qml/Clip.qml:1780
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>點擊</b>來新增合成方案"
 
-#: src/timeline2/view/qml/Clip.qml:1856 src/timeline2/view/qml/Clip.qml:1863
+#: src/timeline2/view/qml/Clip.qml:1859 src/timeline2/view/qml/Clip.qml:1866
 #, kde-format
 msgid "Fade out: %1"
 msgstr "淡出：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1867 src/timeline2/view/qml/Clip.qml:1976
+#: src/timeline2/view/qml/Clip.qml:1870 src/timeline2/view/qml/Clip.qml:1979
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b>拖曳</b>來調整淡入淡出，<b>點擊</b>來加上預設長度的淡入淡出"
 
-#: src/timeline2/view/qml/Clip.qml:1965 src/timeline2/view/qml/Clip.qml:1972
+#: src/timeline2/view/qml/Clip.qml:1968 src/timeline2/view/qml/Clip.qml:1975
 #, kde-format
 msgid "Fade in: %1"
 msgstr "淡入：%1"
 
-#: src/timeline2/view/qml/Clip.qml:2060
+#: src/timeline2/view/qml/Clip.qml:2063
 #, kde-format
 msgid "Slip Clip"
 msgstr "滑動素材"
@@ -35732,37 +35732,37 @@ msgstr "顯示"
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/timeline2/view/qml/Timeline.qml:893
-#: src/timeline2/view/qml/Timeline.qml:903
+#: src/timeline2/view/qml/Timeline.qml:891
+#: src/timeline2/view/qml/Timeline.qml:901
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "音訊軌不夠處理所有串流（%1）"
 
-#: src/timeline2/view/qml/Timeline.qml:1180
+#: src/timeline2/view/qml/Timeline.qml:1175
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "顯示 master 效果"
 
-#: src/timeline2/view/qml/Timeline.qml:1977
+#: src/timeline2/view/qml/Timeline.qml:1972
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>雙擊</b>來新增字幕"
 
-#: src/timeline2/view/qml/Timeline.qml:2171
+#: src/timeline2/view/qml/Timeline.qml:2166
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/Timeline.qml:2341
-#: src/timeline2/view/qml/Timeline.qml:2350
+#: src/timeline2/view/qml/Timeline.qml:2336
+#: src/timeline2/view/qml/Timeline.qml:2345
 #, kde-format
 msgid "Recording"
 msgstr "錄製"
 
-#: src/timeline2/view/qml/Timeline.qml:2444
+#: src/timeline2/view/qml/Timeline.qml:2439
 #, kde-format
 msgid "Multicam In"
 msgstr "多相機 入"

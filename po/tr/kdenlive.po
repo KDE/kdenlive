@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-11 00:45+0000\n"
-"PO-Revision-Date: 2026-09-06 19:04+0300\n"
+"POT-Creation-Date: 2026-09-14 00:42+0000\n"
+"PO-Revision-Date: 2026-09-13 19:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1865,7 +1865,7 @@ msgstr "Açıklığı koru"
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, kde-format
 msgid "Color Channel Mixer"
-msgstr "Renk Kanalı Karıştırıcısı"
+msgstr "Renk Kanalı Mikseri"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -3173,7 +3173,7 @@ msgstr "Logo Kaldır"
 msgid "Remove logo from input video"
 msgstr "Giriş yapılan videodan logoları kaldırın."
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:312
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:309
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
@@ -6771,7 +6771,7 @@ msgstr "U ve V bileşenlerini takas edin."
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
 msgid "Temporal frames Mixer"
-msgstr "Zamansal kareler karıştırıcısı"
+msgstr "Zamansal Kareler Mikseri"
 
 #: data/effects/avfilter/avfilter_tmix.xml:5
 #, kde-format
@@ -12518,10 +12518,9 @@ msgid "Do not average the alpha channel over each block"
 msgstr "Her bir blok üzerinden alfa kanalın ortalamasını alma"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels0rt"
-msgstr "piksel"
+msgstr "Pixels0rt"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
 #, fuzzy, kde-format
@@ -15784,6 +15783,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (LADSPA 1901)<br>\n"
+"Bu eklentinin tasarımı, Allen & Heath Xone 32 DJ mikserinden alınmıştır."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
 #, fuzzy, kde-format
@@ -15960,6 +15961,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (mono) (LADSPA 1907)<br>\n"
+"Bu eklentinin tasarımı, Allen & Heath Xone 32 DJ mikserinden alınmıştır."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
 #, fuzzy, kde-format
@@ -21321,7 +21324,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
-"Ses karıştırıcı görünümünde ses izi denetimlerinin görüntülenmesini açar/"
+"Ses mikseri görünümünde, ses izi denetimlerinin görüntülenmesini açar/"
 "kapatır."
 
 #: src/bin/bin.cpp:140
@@ -21354,7 +21357,7 @@ msgstr "Zaman akışına yalnızca ses eklemek için sürükleyin"
 msgid "Drag to add only video to timeline"
 msgstr "Zaman akışına yalnızca video eklemek için sürükleyin"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1545
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1549
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -21843,7 +21846,7 @@ msgstr "Oynatma Listesi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2896 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1695 src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1697 src/project/projectmanager.cpp:1699
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -23029,7 +23032,7 @@ msgid "Disable GPU processing"
 msgstr "GPU işlemeyi devre dışı bırak"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:871
 #, kde-format
 msgid "Loading project…"
 msgstr "Proje yükleniyor…"
@@ -23779,7 +23782,7 @@ msgstr "İmleyiciler Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2008 src/project/projectmanager.cpp:2014
+#: src/project/projectmanager.cpp:2010 src/project/projectmanager.cpp:2016
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23872,7 +23875,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1897
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1899
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -24457,13 +24460,14 @@ msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
 "file. Do you want to continue rendering?"
 msgstr ""
+"Ana (Master) ses kapalı, dolayısıyla sunulan dosyada herhangi bir ses akışı "
+"olmayacaktır. Sunmayı sürdürmek istiyor musunuz?"
 
 #: src/dialogs/renderwidget.cpp:977
-#, fuzzy, kde-format
-#| msgid "Render…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render"
-msgstr "Sunum…"
+msgstr "Sun"
 
 #: src/dialogs/renderwidget.cpp:987 src/dialogs/renderwidget.cpp:2047
 #: src/project/dialogs/archivewidget.cpp:928
@@ -24509,7 +24513,7 @@ msgstr "Ses izi olmayan video"
 msgid "Audio without video track"
 msgstr "Video izi olmayan ses"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:555
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "%1 sunumu başladı"
@@ -25178,7 +25182,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "Bir KDE ürünü"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:632 src/main.cpp:292
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:632 src/main.cpp:289
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -27264,8 +27268,8 @@ msgstr "Aşağıdaki süzgeçler/geçişler projeden silindi:"
 msgid "Invalid file path"
 msgstr "Geçersiz dosya yolu"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:848
+#: src/project/projectmanager.cpp:900
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Hasarlı dosya kurtarılamadı."
@@ -27342,8 +27346,8 @@ msgstr ""
 "Proje dosyanız en son Kdenlive belge sürümüne yükseltildi, fakat bir yedek "
 "kopyası %1 oluşturmak mümkün olmadı."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1569
-#: src/project/projectmanager.cpp:1605
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1571
+#: src/project/projectmanager.cpp:1607
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Proje klasörü taşınırken hata: %1"
@@ -27833,11 +27837,7 @@ msgid "%1 instances of this effect in the group"
 msgstr "Grupta bu efektin %1 örneği var"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:623
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "<b>Drag</b> effect to another timeline clip, track or project clip to "
-#| "copy it. <b>Alt Drag</b> to copy it to a single item in a group."
+#, kde-format
 msgctxt "@info:status"
 msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
@@ -27846,7 +27846,8 @@ msgid ""
 msgstr ""
 "Bir efekti kopyalamak için onu başka bir zaman akışı klibi, parçası veya "
 "proje klibine <b>sürükleyin</b>. Onu gruptaki tek bir ögeye kopyalamak için "
-"<b>Seçenek</b> düğmesini basılıp tutup sürükleyin."
+"<b>Seçenek</b> düğmesini basılıp tutup sürükleyin. Bırakma sonrası hedefe "
+"odaklanmak için sürüklerken <b>Üst Karakter</b> düğmesini basılı tutun."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:648
 #, kde-format
@@ -28437,7 +28438,7 @@ msgid "Clip in Timeline"
 msgstr "Zaman Akışındaki Klip"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1186
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1181
 #, kde-format
 msgid "Sequence"
 msgstr "Sekans"
@@ -28964,142 +28965,142 @@ msgstr "Kitaplık yolu özel olarak ayarlı: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Kitaplık yoluna yazılamadı: %1, öntanımlı kullanılıyor"
 
-#: src/main.cpp:289
+#: src/main.cpp:286
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Lütfen hataları <a href=\"%1\">%2</a> adresine bildirin"
 
-#: src/main.cpp:292
+#: src/main.cpp:289
 #, kde-format
 msgid "An open source video editor."
 msgstr "Açık kaynak kodlu bir video düzenleyicisi."
 
-#: src/main.cpp:293
+#: src/main.cpp:290
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "© 2007–2025 Kdenlive yazarları"
 
-#: src/main.cpp:295
+#: src/main.cpp:292
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean–Baptiste Mardelle"
 
-#: src/main.cpp:295
+#: src/main.cpp:292
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
 "Çekirdek takım üyesi, ana geliştirici ve bakımcı, MLT ve KDE SC 4/KF5 geçişi"
 
-#: src/main.cpp:297
+#: src/main.cpp:294
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:297
+#: src/main.cpp:294
 #, kde-format
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr ""
 "Çekirdek takım üyesi, özellik geliştirmeleri, paketleme, hata düzeltmeleri"
 
-#: src/main.cpp:298
+#: src/main.cpp:295
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:298
+#: src/main.cpp:295
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 geçişi, Windows çapraz yapısı, paketleme, hata düzeltme"
 
-#: src/main.cpp:300
+#: src/main.cpp:297
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:300
+#: src/main.cpp:297
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Hata düzeltmeleri ve sınama iyileştirmeleri"
 
-#: src/main.cpp:302
+#: src/main.cpp:299
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:302
+#: src/main.cpp:299
 #, kde-format
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "Renk kapsamları, ondalık ayırıcısı sorunları, hata düzeltmeleri"
 
-#: src/main.cpp:303
+#: src/main.cpp:300
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:303
+#: src/main.cpp:300
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Özgün KDE 3 sürümünün yazarı (artık etkin değil)"
 
-#: src/main.cpp:305
+#: src/main.cpp:302
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:305
+#: src/main.cpp:302
 #, kde-format
 msgid "Logo, promotion, testing"
 msgstr "Logo, promosyon, sınama"
 
-#: src/main.cpp:306
+#: src/main.cpp:303
 #, kde-format
 msgid "balooii"
 msgstr "balooii"
 
-#: src/main.cpp:306
+#: src/main.cpp:303
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr "Monitör, kapsamlar ve zaman akışı kalite iyileştirmeleri"
 
-#: src/main.cpp:307
+#: src/main.cpp:304
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:307
+#: src/main.cpp:304
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
 "Kod mimârisinin yeniden düzenlenmesi ve zaman akışının yeniden yazılması "
 "(2019)"
 
-#: src/main.cpp:308
+#: src/main.cpp:305
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:308
+#: src/main.cpp:305
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT bakımcısı, hata düzeltmeleri vb."
 
-#: src/main.cpp:309
+#: src/main.cpp:306
 #, kde-format
 msgid "Darby Johnston"
 msgstr "Darby Johnston"
 
-#: src/main.cpp:309
+#: src/main.cpp:306
 #, kde-format
 msgid "OTIO rewrite"
 msgstr "OTIO yeniden yazımı"
 
-#: src/main.cpp:310
+#: src/main.cpp:307
 #, kde-format
 msgid "Bernd Jordan"
 msgstr "Bernd Jordan"
 
-#: src/main.cpp:310
+#: src/main.cpp:307
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
@@ -29107,70 +29108,70 @@ msgstr ""
 "Çekirdek takım üyesi, belgelendirme, efektler arayüzü ve sınama, topluluk "
 "desteği"
 
-#: src/main.cpp:311
+#: src/main.cpp:308
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:311
+#: src/main.cpp:308
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr "Çekirdek takım üyesi, belgelendirme bakımcısı, hata triyajı, sınama"
 
-#: src/main.cpp:312
+#: src/main.cpp:309
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:313
+#: src/main.cpp:310
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:313
+#: src/main.cpp:310
 #, kde-format
 msgid "Testing"
 msgstr "Sınama"
 
-#: src/main.cpp:314
+#: src/main.cpp:311
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:314
+#: src/main.cpp:311
 #, kde-format
 msgid "Core team member, expert advice, testing"
 msgstr "Çekirdek takım üyesi, uzman görüşü, sınama"
 
-#: src/main.cpp:316
+#: src/main.cpp:313
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Anıl Özbek, Serdar SOYTETİR, Volkan GEZER, Emir SARI"
 
-#: src/main.cpp:316
+#: src/main.cpp:313
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 "ozbekanil@gmail.com, tulliana@gmail.com, volkangezer@gmail.com, "
 "emir_sari@icloud.com"
 
-#: src/main.cpp:321
+#: src/main.cpp:318
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:321
+#: src/main.cpp:318
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Açık kaynaklı çoklu ortam kod kitaplığı."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:323 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:320 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:323
+#: src/main.cpp:320
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -29179,49 +29180,49 @@ msgstr ""
 "Ses ve video kayıt, dönüştürme ve aktarmak için tam ve çapraz platform bir "
 "çözüm."
 
-#: src/main.cpp:341
+#: src/main.cpp:338
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Özel yapılandırma dosyası adı ayarla."
 
-#: src/main.cpp:342
+#: src/main.cpp:339
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT ortamının yolunu ayarla."
 
-#: src/main.cpp:344
+#: src/main.cpp:341
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT günlük düzeyini ayarla. “Uyarı” düzeyi için bunu boş bırak."
 
-#: src/main.cpp:347
+#: src/main.cpp:344
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Kovaya klip olarak eklenecek dosyaların virgülle ayrılmış listesi."
 
-#: src/main.cpp:351
+#: src/main.cpp:348
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Projeyi doğrudan sun ve çık."
 
-#: src/main.cpp:354
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "Kdenlive sunum önayarı adı (verilmezse MP4-H264/AAC kullanılır)."
 
-#: src/main.cpp:359
+#: src/main.cpp:356
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr "(Ayrık) sunum başladıktan sonra çık, yoksa iş bittikten sonra çıkar."
 
-#: src/main.cpp:362
+#: src/main.cpp:359
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr "Karşılama ekranı gösterme."
 
-#: src/main.cpp:365
+#: src/main.cpp:362
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
@@ -29230,23 +29231,25 @@ msgstr ""
 "Arayüzde bazı geliştirmeye özel özellikleri gösterip varlıklar için olan\n"
 "tüm dışlama listelerini devre dışı bırak."
 
-#: src/main.cpp:368
+#: src/main.cpp:365
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr "Verilen yoldaki bileşenlerle ilgili JSON biçiminde bir rapor kaydedin."
 
-#: src/main.cpp:371
+#: src/main.cpp:368
 #, kde-format
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
+"Kdenlive proje dosyasının geçerli olup olmadığını denetle, ayrıntıları "
+"yazdır ve çık."
 
-#: src/main.cpp:374
+#: src/main.cpp:371
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Açılacak Kdenlive belgesi."
 
-#: src/main.cpp:375
+#: src/main.cpp:372
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Sunulan videonun çıktı dosyası."
@@ -29295,7 +29298,7 @@ msgstr "Kayıt"
 #: src/mainwindow.cpp:312
 #, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
-msgstr "Kaydetmek için Karıştırıcı’dan ses izlemesini etkinleştir"
+msgstr "Kaydetmek için mikserden ses izlemesini etkinleştirin"
 
 #: src/mainwindow.cpp:320 src/monitor/recmanager.cpp:100
 #, kde-format
@@ -29401,13 +29404,13 @@ msgstr "Başlık Çubuklarını Göster"
 #: src/mainwindow.cpp:551 src/mainwindow.cpp:553
 #, kde-format
 msgid "Audio Mixer"
-msgstr "Ses Karıştırıcısı"
+msgstr "Ses Mikseri"
 
 #: src/mainwindow.cpp:552
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
-msgstr "Ses karıştırıcısı panelini/araç takımını açar/kapatır."
+msgstr "Ses mikseri panelini/araç takımını açar/kapatır."
 
 #: src/mainwindow.cpp:583
 #, kde-format
@@ -30862,12 +30865,12 @@ msgstr ""
 "Bu işlem, ilk olarak projeyi kaydeder, geçici dosyaların tümünü<br/><b>%1</"
 "b> üzerinden <b>%2</b> konumuna taşır ve proje dosyasını yeniden yükler"
 
-#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:607
+#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Bu işlem gerçekleştirilemez, geçersiz belge kimliği: %1"
 
-#: src/mainwindow.cpp:2572 src/project/projectmanager.cpp:613
+#: src/mainwindow.cpp:2572 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Bu işlem gerçekleştirilemez, hedef dizin hâlihazırda var: %1"
@@ -32236,11 +32239,7 @@ msgid "Terminate Job"
 msgstr "İşi sonlandır"
 
 #: src/monitor/view/ClipMonitor.qml:640
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
-#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
-#| "to zoom"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
@@ -32248,9 +32247,11 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"Oynatmak için <b> tıklayın </b>, tam ekran için <b> Çift tıklayın </b>, <b> "
-"Sağa gelin </b>araç çubuğu için aramak için <b> Tekerlek </b> veya <b> oklar "
-"</b>, yakınlaştırmak için <b> Kontrol tekerleği </b>"
+"Oynatmak için <shortcut> tıklayın </shortcut>, tam ekran için <shortcut> "
+"çift tıklayın </shortcut>, araç çubuğu için <shortcut>sağa gelin</shortcut>, "
+"gezinmek/aramak için <shortcut>tekerleği</shortcut> veya <shortcut>okları</"
+"shortcut> kullanın, yakınlaştırmak için <shortcut>Kontrol düğmesini ve "
+"tekerleği</shortcut> aynı anda kullanın."
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:67
@@ -34014,12 +34015,12 @@ msgstr "Kopya Kaydet…"
 msgid "Open Backup File…"
 msgstr "Yedek Dosyası Aç…"
 
-#: src/project/projectmanager.cpp:427
+#: src/project/projectmanager.cpp:429
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1834
+#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1836
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34028,17 +34029,17 @@ msgstr ""
 "<b>“%1”</b> projesi değiştirildi.\n"
 "Değişikliklerinizi kaydetmek istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:548
+#: src/project/projectmanager.cpp:550
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "<br><b>%1</b> proje dosyası kaydedilemedi"
 
-#: src/project/projectmanager.cpp:582
+#: src/project/projectmanager.cpp:584
 #, kde-format
 msgid "Saving successful"
 msgstr "Kaydetme başarılı"
 
-#: src/project/projectmanager.cpp:595
+#: src/project/projectmanager.cpp:597
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -34049,43 +34050,43 @@ msgstr ""
 "kaydetmek için seçtiniz. Bu, tüm geçici dosyaları <b>%1</b> konumundan <b>"
 "%2</b> konumuna taşıyacaktır ve proje dosyası yeniden yüklenecektir."
 
-#: src/project/projectmanager.cpp:638
+#: src/project/projectmanager.cpp:640
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Kopyayı Kaydet"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Kendiliğinden kayıt dosyası var. Şimdi kurtarmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "File Recovery"
 msgstr "Dosya Kurtarma"
 
-#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:886
 #, kde-format
 msgid "Recover"
 msgstr "Kurtar"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Do not recover"
 msgstr "Kurtarma"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:793
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "%1 dosyası yok"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:825
 #, kde-format
 msgid "Opening file %1"
 msgstr "%1 dosyası açılıyor…"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:885
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34096,28 +34097,28 @@ msgstr ""
 "%1\n"
 "Önceden aldığınız bir yedeği açmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Error opening file"
 msgstr "Dosya açılamadı"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1162
 #, kde-format
 msgid "Open Backup"
 msgstr "Yedeği Aç"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:904
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Yedek proje dosyası açılamadı."
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:919
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projeniz yükseltildi, bir sonraki kaydetmede bir yedekleme oluşturulacak"
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -34125,17 +34126,17 @@ msgstr ""
 "Projeniz açıldığında değiştirildi ve bir sonraki kaydetmede bir yedekleme "
 "oluşturulacak"
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:992
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Zaman akışı yükleniyor…"
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1015
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sekanslar yapılıyor…"
 
-#: src/project/projectmanager.cpp:1186
+#: src/project/projectmanager.cpp:1188
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34144,7 +34145,7 @@ msgstr ""
 "Proje dosyası açılamıyor. Hata:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1226
+#: src/project/projectmanager.cpp:1228
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -34153,12 +34154,12 @@ msgstr ""
 "Bu, projenizi en son kaydettiğinizden bu yana olan değişiklikleri silecek. "
 "Hâlâ sürdürmek istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:1227
+#: src/project/projectmanager.cpp:1229
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Son kaydedilen sürüme geri dön"
 
-#: src/project/projectmanager.cpp:1326
+#: src/project/projectmanager.cpp:1328
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -34167,35 +34168,35 @@ msgstr ""
 "Proje bozulmuş, yedeklenemiyor. Lütfen projenizi kapatın ve yeniden açınson "
 "yedeği kurtarmak için dosya"
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Proje klasörü taşınırken hata, önbellek klasörüne erişilemiyor"
 
-#: src/project/projectmanager.cpp:1583
+#: src/project/projectmanager.cpp:1585
 #, kde-format
 msgid "Moving project folder"
 msgstr "Proje klasörü taşınıyor"
 
-#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1730
-#: src/project/projectmanager.cpp:1734
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1732
+#: src/project/projectmanager.cpp:1736
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekans 1"
 
-#: src/project/projectmanager.cpp:1685
+#: src/project/projectmanager.cpp:1687
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk — izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1826 src/project/projectmanager.cpp:1839
-#: src/project/projectmanager.cpp:1863 src/project/projectmanager.cpp:1872
+#: src/project/projectmanager.cpp:1828 src/project/projectmanager.cpp:1841
+#: src/project/projectmanager.cpp:1865 src/project/projectmanager.cpp:1874
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:2002
+#: src/project/projectmanager.cpp:2004
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -34204,12 +34205,12 @@ msgstr ""
 "Çıktı dosyası %1 hâlihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:2027
+#: src/project/projectmanager.cpp:2029
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:2091
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34218,33 +34219,33 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2180
+#: src/project/projectmanager.cpp:2182
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
-#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2465
+#: src/project/projectmanager.cpp:2415 src/project/projectmanager.cpp:2467
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2474
+#: src/project/projectmanager.cpp:2425 src/project/projectmanager.cpp:2476
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Sekans oluşturma başarısız"
 
-#: src/project/projectmanager.cpp:2450
+#: src/project/projectmanager.cpp:2452
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Geçerli zaman akışına sekans eklenemiyor"
 
-#: src/project/projectmanager.cpp:2454
+#: src/project/projectmanager.cpp:2456
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/project/projectmanager.cpp:2492
+#: src/project/projectmanager.cpp:2494
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "Klipleri Yeni Sekansa Kopyala"
@@ -36283,49 +36284,49 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2352
+#: src/timeline2/view/qml/Timeline.qml:2347
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
 
-#: src/timeline2/view/qml/Clip.qml:273 src/timeline2/view/qml/Clip.qml:1326
+#: src/timeline2/view/qml/Clip.qml:283 src/timeline2/view/qml/Clip.qml:1330
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2–%3), Konum: %4, Süre: %5"
 
-#: src/timeline2/view/qml/Clip.qml:388 src/timeline2/view/qml/Clip.qml:402
+#: src/timeline2/view/qml/Clip.qml:398 src/timeline2/view/qml/Clip.qml:412
 #: src/timeline2/view/qml/SubTitle.qml:226
 #: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "Konum: %1"
 
-#: src/timeline2/view/qml/Clip.qml:617
+#: src/timeline2/view/qml/Clip.qml:627
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Karışım süresi: %1, Kesme konumu: %2"
 
-#: src/timeline2/view/qml/Clip.qml:671
+#: src/timeline2/view/qml/Clip.qml:681
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Karışım süresi: %2"
 
-#: src/timeline2/view/qml/Clip.qml:673
+#: src/timeline2/view/qml/Clip.qml:683
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "−%1, Karışım süresi: %2"
 
-#: src/timeline2/view/qml/Clip.qml:676 src/timeline2/view/qml/Clip.qml:691
+#: src/timeline2/view/qml/Clip.qml:686 src/timeline2/view/qml/Clip.qml:701
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Karışım süresi: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1206
+#: src/timeline2/view/qml/Clip.qml:1210
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Giriş: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1209 src/timeline2/view/qml/Clip.qml:1316
+#: src/timeline2/view/qml/Clip.qml:1213 src/timeline2/view/qml/Clip.qml:1320
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36334,54 +36335,54 @@ msgstr ""
 "Hızı değiştirmek için <b> Kontrol ile sürükleyin </b>, bitişik kliple "
 "karıştırmak için <b> çift tıklayın </b>"
 
-#: src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:1215
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "Karışım süresini değiştirmek için <b>sürükle</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1313
+#: src/timeline2/view/qml/Clip.qml:1317
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Çıkış: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1452
+#: src/timeline2/view/qml/Clip.qml:1456
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Ofset: −%1"
 
-#: src/timeline2/view/qml/Clip.qml:1453
+#: src/timeline2/view/qml/Clip.qml:1457
 #, kde-format
 msgid "Offset: %1"
 msgstr "Ofset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1454
+#: src/timeline2/view/qml/Clip.qml:1458
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " Klipleri hizalamak için <b>tıkla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1736 src/timeline2/view/qml/Clip.qml:1777
+#: src/timeline2/view/qml/Clip.qml:1739 src/timeline2/view/qml/Clip.qml:1780
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Bileşikleştirme eklemek için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1856 src/timeline2/view/qml/Clip.qml:1863
+#: src/timeline2/view/qml/Clip.qml:1859 src/timeline2/view/qml/Clip.qml:1866
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Solarak çık: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1867 src/timeline2/view/qml/Clip.qml:1976
+#: src/timeline2/view/qml/Clip.qml:1870 src/timeline2/view/qml/Clip.qml:1979
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Solmayı ayarlamak için <b>sürükleyin</b>, varsayılan süre soldurmayı eklemek "
 "için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1965 src/timeline2/view/qml/Clip.qml:1972
+#: src/timeline2/view/qml/Clip.qml:1968 src/timeline2/view/qml/Clip.qml:1975
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Solarak gir: %1"
 
-#: src/timeline2/view/qml/Clip.qml:2060
+#: src/timeline2/view/qml/Clip.qml:2063
 #, kde-format
 msgid "Slip Clip"
 msgstr "Klibi Taşı"
@@ -36445,36 +36446,36 @@ msgstr "Göster"
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/timeline2/view/qml/Timeline.qml:893
-#: src/timeline2/view/qml/Timeline.qml:903
+#: src/timeline2/view/qml/Timeline.qml:891
+#: src/timeline2/view/qml/Timeline.qml:901
 #, kde-format
 msgid "Audio: %1 track for %2 streams"
 msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "Ses: %2 akış için %1 iz"
 msgstr[1] "Ses: %2 akış için %1 iz"
 
-#: src/timeline2/view/qml/Timeline.qml:1180
+#: src/timeline2/view/qml/Timeline.qml:1175
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Sekans efektlerini göster"
 
-#: src/timeline2/view/qml/Timeline.qml:1977
+#: src/timeline2/view/qml/Timeline.qml:1972
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2171
+#: src/timeline2/view/qml/Timeline.qml:2166
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2341
-#: src/timeline2/view/qml/Timeline.qml:2350
+#: src/timeline2/view/qml/Timeline.qml:2336
+#: src/timeline2/view/qml/Timeline.qml:2345
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/Timeline.qml:2444
+#: src/timeline2/view/qml/Timeline.qml:2439
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
@@ -36879,10 +36880,9 @@ msgstr[0] "İz Yerleştir"
 msgstr[1] "İzler Yerleştir"
 
 #: src/timeline2/view/timelinecontroller.cpp:5867
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "Geçerli projede altyazı yok"
+msgstr "Geçerli projede altyazı yok. Dışa aktarma olanaklı değil."
 
 #: src/timeline2/view/timelinecontroller.cpp:5878
 #, kde-format
@@ -41149,7 +41149,7 @@ msgstr "Şundan büyük videolar için üret"
 #: src/ui/projectsettings_ui.ui:470 src/ui/projectsettings_ui.ui:486
 #, kde-format
 msgid "pixels"
-msgstr "piksel"
+msgstr " piksel"
 
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
 #: src/ui/projectsettings_ui.ui:302

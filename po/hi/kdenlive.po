@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-11 00:45+0000\n"
+"POT-Creation-Date: 2026-09-14 00:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -3192,7 +3192,7 @@ msgstr "प्रतीक चिन्ह"
 msgid "Remove logo from input video"
 msgstr "पसंदीदा से हटाएं"
 
-#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:312
+#: data/effects/avfilter/avfilter_delogo.xml:8 src/main.cpp:309
 #, kde-format
 msgid "Logo"
 msgstr "प्रतीक चिन्ह"
@@ -21739,7 +21739,7 @@ msgstr ""
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1545
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1549
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -22227,7 +22227,7 @@ msgstr "प्लेलिस्ट"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2896 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1695 src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1697 src/project/projectmanager.cpp:1699
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -23441,7 +23441,7 @@ msgid "Disable GPU processing"
 msgstr "GPU प्रसंस्करण अक्षम करें"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:869
+#: src/project/projectmanager.cpp:871
 #, kde-format
 msgid "Loading project…"
 msgstr "प्रोजेक्ट लोड हो रहा है…"
@@ -24194,7 +24194,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2008 src/project/projectmanager.cpp:2014
+#: src/project/projectmanager.cpp:2010 src/project/projectmanager.cpp:2016
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -24299,7 +24299,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "यदि अनिश्चित हों तो प्रयास करें:<br/> <b>यूनिकोड (UTF-8)</b> ."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1897
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1899
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -24927,7 +24927,7 @@ msgstr "ऑडियो ट्रैक के बिना वीडियो"
 msgid "Audio without video track"
 msgstr "वीडियो ट्रैक के बिना ऑडियो"
 
-#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:558
+#: src/dialogs/renderwidget.cpp:1220 src/main.cpp:555
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25605,7 +25605,7 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "केडीई द्वारा निर्मित"
 
-#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:632 src/main.cpp:292
+#: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:632 src/main.cpp:289
 #, kde-format
 msgid "Kdenlive"
 msgstr "केडेनलाइव"
@@ -27703,8 +27703,8 @@ msgstr "परियोजना से निम्नलिखित फ़ि
 msgid "Invalid file path"
 msgstr "अमान्य फ़ाइल पथ"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:898
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:848
+#: src/project/projectmanager.cpp:900
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "दूषित फ़ाइल पुनर्प्राप्त नहीं की जा सकी."
@@ -27780,8 +27780,8 @@ msgstr ""
 "आपकी प्रोजेक्ट फ़ाइल को नवीनतम Kdenlive दस्तावेज़ संस्करण में अपग्रेड कर दिया गया था, "
 "लेकिन बैकअप प्रतिलिपि %1 बनाना संभव नहीं था।"
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1569
-#: src/project/projectmanager.cpp:1605
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1571
+#: src/project/projectmanager.cpp:1607
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाते समय त्रुटि: %1"
@@ -28881,7 +28881,7 @@ msgid "Clip in Timeline"
 msgstr "टाइमलाइन में क्लिप"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1186
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1181
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -29435,211 +29435,211 @@ msgstr "लाइब्रेरी पथ कस्टम पर सेट क�
 msgid "Cannot write to Library path: %1, using default"
 msgstr "लाइब्रेरी पथ पर नहीं लिखा जा सकता: %1, डिफ़ॉल्ट का उपयोग करके"
 
-#: src/main.cpp:289
+#: src/main.cpp:286
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "कृपया बग की रिपोर्ट <a href=\"%1\">%2</a> पर करें"
 
-#: src/main.cpp:292
+#: src/main.cpp:289
 #, kde-format
 msgid "An open source video editor."
 msgstr "एक खुला स्रोत वीडियो संपादक."
 
-#: src/main.cpp:293
+#: src/main.cpp:290
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2024 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "कॉपीराइट © 2007–2024 केडेनलाइव लेखक"
 
-#: src/main.cpp:295
+#: src/main.cpp:292
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "जीन-बैप्टिस्ट मार्डेल"
 
-#: src/main.cpp:295
+#: src/main.cpp:292
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
 msgstr ""
 
-#: src/main.cpp:297
+#: src/main.cpp:294
 #, kde-format
 msgid "Julius Künzel"
 msgstr "जूलियस कुंजेल"
 
-#: src/main.cpp:297
+#: src/main.cpp:294
 #, fuzzy, kde-format
 #| msgid "Feature development, packaging, bug fixing"
 msgid "Core team member, feature development, packaging, bug fixing"
 msgstr "फीचर विकास, पैकेजिंग, बग फिक्सिंग"
 
-#: src/main.cpp:298
+#: src/main.cpp:295
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "विंसेंट पिनोन"
 
-#: src/main.cpp:298
+#: src/main.cpp:295
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 पोर्ट, विंडोज़ क्रॉस-बिल्ड, पैकेजिंग, बग फिक्सिंग"
 
-#: src/main.cpp:300
+#: src/main.cpp:297
 #, kde-format
 msgid "Eric Jiang"
 msgstr "एरिक जियांग"
 
-#: src/main.cpp:300
+#: src/main.cpp:297
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "बग फिक्सिंग और परीक्षण सुधार"
 
-#: src/main.cpp:302
+#: src/main.cpp:299
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "साइमन ए. यूगस्टर"
 
-#: src/main.cpp:302
+#: src/main.cpp:299
 #, fuzzy, kde-format
 #| msgid "Color scopes, bug fixing, etc."
 msgid "Color scopes, decimal separator issue, bug fixing"
 msgstr "रंग क्षेत्र, बग फिक्सिंग, आदि।"
 
-#: src/main.cpp:303
+#: src/main.cpp:300
 #, kde-format
 msgid "Jason Wood"
 msgstr "जेसन वुड"
 
-#: src/main.cpp:303
+#: src/main.cpp:300
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "मूल KDE 3 संस्करण लेखक (अब सक्रिय नहीं)"
 
-#: src/main.cpp:305
+#: src/main.cpp:302
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "फ़रीद अब्देलनौर"
 
-#: src/main.cpp:305
+#: src/main.cpp:302
 #, fuzzy, kde-format
 #| msgid "Logo, Promotion, testing"
 msgid "Logo, promotion, testing"
 msgstr "लोगो, प्रचार, परीक्षण"
 
-#: src/main.cpp:306
+#: src/main.cpp:303
 #, kde-format
 msgid "balooii"
 msgstr ""
 
-#: src/main.cpp:306
+#: src/main.cpp:303
 #, kde-format
 msgid "Monitor, scopes, and timeline QOL improvements"
 msgstr ""
 
-#: src/main.cpp:307
+#: src/main.cpp:304
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "निकोलस कैरियन"
 
-#: src/main.cpp:307
+#: src/main.cpp:304
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "कोड पुनः वास्तुकला और समयरेखा पुनर्लेखन (2019)"
 
-#: src/main.cpp:308
+#: src/main.cpp:305
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "डैन डेंडी"
 
-#: src/main.cpp:308
+#: src/main.cpp:305
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "एमएलटी अनुरक्षक, बग फिक्सिंग, आदि।"
 
-#: src/main.cpp:309
+#: src/main.cpp:306
 #, kde-format
 msgid "Darby Johnston"
 msgstr ""
 
-#: src/main.cpp:309
+#: src/main.cpp:306
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "OTIO rewrite"
 msgstr "ओवरराइट"
 
-#: src/main.cpp:310
+#: src/main.cpp:307
 #, kde-format
 msgid "Bernd Jordan"
 msgstr ""
 
-#: src/main.cpp:310
+#: src/main.cpp:307
 #, kde-format
 msgid ""
 "Core team member, documentation, effect UI and testing, community support"
 msgstr ""
 
-#: src/main.cpp:311
+#: src/main.cpp:308
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "यूजीन मोहर"
 
-#: src/main.cpp:311
+#: src/main.cpp:308
 #, kde-format
 msgid "Core team member, documentation maintainer, bug triaging, testing"
 msgstr ""
 
-#: src/main.cpp:312
+#: src/main.cpp:309
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "नारा ओलिविरा"
 
-#: src/main.cpp:313
+#: src/main.cpp:310
 #, kde-format
 msgid "Bruno Santos"
 msgstr "ब्रूनो सैंटोस"
 
-#: src/main.cpp:313
+#: src/main.cpp:310
 #, kde-format
 msgid "Testing"
 msgstr "परीक्षण"
 
-#: src/main.cpp:314
+#: src/main.cpp:311
 #, kde-format
 msgid "Massimo Stella"
 msgstr "मास्सिमो स्टेला"
 
-#: src/main.cpp:314
+#: src/main.cpp:311
 #, fuzzy, kde-format
 #| msgid "Expert advice, testing"
 msgid "Core team member, expert advice, testing"
 msgstr "विशेषज्ञ सलाह, परीक्षण"
 
-#: src/main.cpp:316
+#: src/main.cpp:313
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "अनुवादकों का नाम"
 
-#: src/main.cpp:316
+#: src/main.cpp:313
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "अनुवादकों का ईमेल"
 
-#: src/main.cpp:321
+#: src/main.cpp:318
 #, kde-format
 msgid "MLT"
 msgstr "एम एल टी"
 
-#: src/main.cpp:321
+#: src/main.cpp:318
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "खुला स्रोत मल्टीमीडिया फ्रेमवर्क."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:323 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:320 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "एफएफएमपीईजी"
 
-#: src/main.cpp:323
+#: src/main.cpp:320
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -29648,39 +29648,39 @@ msgstr ""
 "ऑडियो और वीडियो को रिकॉर्ड करने, परिवर्तित करने और स्ट्रीम करने के लिए एक पूर्ण, क्रॉस-"
 "प्लेटफ़ॉर्म समाधान।"
 
-#: src/main.cpp:341
+#: src/main.cpp:338
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "कस्टम कॉन्फ़िगरेशन फ़ाइल नाम सेट करें."
 
-#: src/main.cpp:342
+#: src/main.cpp:339
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT वातावरण के लिए पथ निर्धारित करें."
 
-#: src/main.cpp:344
+#: src/main.cpp:341
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT लॉग स्तर सेट करें। स्तर \"चेतावनी\" के लिए इसे अनसेट छोड़ दें।"
 
-#: src/main.cpp:347
+#: src/main.cpp:344
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "बिन में क्लिप के रूप में जोड़ने के लिए फ़ाइलों की अल्पविराम से अलग की गई सूची।"
 
-#: src/main.cpp:351
+#: src/main.cpp:348
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "प्रोजेक्ट को सीधे रेंडर करें और बाहर निकलें."
 
-#: src/main.cpp:354
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenlive रेंडर प्रीसेट नाम (यदि कोई नहीं दिया गया है तो MP4-H264/AAC का उपयोग किया "
 "जाएगा)।"
 
-#: src/main.cpp:359
+#: src/main.cpp:356
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -29689,35 +29689,35 @@ msgstr ""
 "(अलग) रेंडर प्रक्रिया शुरू होने के बाद बाहर निकलें, इस ध्वज के बिना यह समाप्त होने के बाद "
 "ही मौजूद रहता है।"
 
-#: src/main.cpp:362
+#: src/main.cpp:359
 #, kde-format
 msgid "Do not show any welcome screen."
 msgstr ""
 
-#: src/main.cpp:365
+#: src/main.cpp:362
 #, kde-format
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
 
-#: src/main.cpp:368
+#: src/main.cpp:365
 #, kde-format
 msgid "Save a json report about components in the given path."
 msgstr ""
 
-#: src/main.cpp:371
+#: src/main.cpp:368
 #, kde-format
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
 
-#: src/main.cpp:374
+#: src/main.cpp:371
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Kdenlive दस्तावेज़ खोलें."
 
-#: src/main.cpp:375
+#: src/main.cpp:372
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "प्रस्तुत वीडियो के लिए आउटपुट फ़ाइल."
@@ -31384,12 +31384,12 @@ msgstr ""
 "इससे सभी अस्थायी फ़ाइलें स्थानांतरित हो जाएंगी<br/> <b>%1</b> से <b>%2</b> ,<br/> फिर "
 "प्रोजेक्ट फ़ाइल पुनः लोड हो जाएगी"
 
-#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:607
+#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "कार्रवाई नहीं की जा सकती, अवैध दस्तावेज़ आईडी: %1"
 
-#: src/mainwindow.cpp:2572 src/project/projectmanager.cpp:613
+#: src/mainwindow.cpp:2572 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ऑपरेशन निष्पादित नहीं किया जा सकता, लक्ष्य निर्देशिका पहले से मौजूद है: %1"
@@ -34588,12 +34588,12 @@ msgstr "सहेजें प्रतिलिपि…"
 msgid "Open Backup File…"
 msgstr "बैकअप फ़ाइल खोलें…"
 
-#: src/project/projectmanager.cpp:427
+#: src/project/projectmanager.cpp:429
 #, kde-format
 msgid "Save changes to document?"
 msgstr "दस्तावेज़ में परिवर्तन सहेजें?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1834
+#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1836
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34601,17 +34601,17 @@ msgid ""
 msgstr ""
 "प्रोजेक्ट <b>&quot;%1&quot;</b> बदल दिया गया है। क्या आप अपने परिवर्तन सहेजना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:548
+#: src/project/projectmanager.cpp:550
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "प्रोजेक्ट फ़ाइल सहेजा जा रहा है<br> <b>%1</b> विफल"
 
-#: src/project/projectmanager.cpp:582
+#: src/project/projectmanager.cpp:584
 #, kde-format
 msgid "Saving successful"
 msgstr "सहेजना सफल रहा"
 
-#: src/project/projectmanager.cpp:595
+#: src/project/projectmanager.cpp:597
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -34622,44 +34622,44 @@ msgstr ""
 "स्थान का उपयोग करना चुना है। इससे सभी अस्थायी फ़ाइलें <b>%1</b> से <b>%2</b> पर चली "
 "जाएँगी, फिर प्रोजेक्ट फ़ाइल को फिर से लोड किया जाएगा"
 
-#: src/project/projectmanager.cpp:638
+#: src/project/projectmanager.cpp:640
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "सहेजें प्रतिलिपि"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "स्वतः सहेजी गई फ़ाइल मौजूद है। क्या आप अभी पुनर्प्राप्त करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "File Recovery"
 msgstr "फ़ाइल पुनर्प्राप्ति"
 
-#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:886
 #, kde-format
 msgid "Recover"
 msgstr "वापस पाना"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Do not recover"
 msgstr "ठीक न होना"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:793
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "मार्कर श्रेणी मौजूद नहीं है"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:825
 #, kde-format
 msgid "Opening file %1"
 msgstr "फ़ाइल %1 खोली जा रही है"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:885
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34670,44 +34670,44 @@ msgstr ""
 "%1\n"
 "क्या आप बैकअप फ़ाइल खोलना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Error opening file"
 msgstr "फ़ाइल खोलने में त्रुटि"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1160
+#: src/project/projectmanager.cpp:886 src/project/projectmanager.cpp:1162
 #, kde-format
 msgid "Open Backup"
 msgstr "बैकअप खोलें"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:904
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "बैकअप प्रोजेक्ट फ़ाइल नहीं खोली जा सकी."
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:919
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "आपका प्रोजेक्ट अपग्रेड हो गया है, अगली बार सेव करने पर बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:921
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "आपका प्रोजेक्ट खोलते समय संशोधित किया गया था, अगली बार सहेजने पर एक बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:990
+#: src/project/projectmanager.cpp:992
 #, kde-format
 msgid "Loading timeline…"
 msgstr "टाइमलाइन लोड हो रही है…"
 
-#: src/project/projectmanager.cpp:1013
+#: src/project/projectmanager.cpp:1015
 #, kde-format
 msgid "Building sequences…"
 msgstr "अनुक्रम निर्माण…"
 
-#: src/project/projectmanager.cpp:1186
+#: src/project/projectmanager.cpp:1188
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34716,7 +34716,7 @@ msgstr ""
 "प्रोजेक्ट फ़ाइल नहीं खोली जा सकी। त्रुटि:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1226
+#: src/project/projectmanager.cpp:1228
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -34725,12 +34725,12 @@ msgstr ""
 "इससे आपके द्वारा अपना प्रोजेक्ट अंतिम बार सहेजे जाने के बाद किए गए सभी परिवर्तन मिट "
 "जाएँगे। क्या आप वाकई जारी रखना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:1227
+#: src/project/projectmanager.cpp:1229
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "अंतिम सहेजे गए संस्करण पर वापस लौटें"
 
-#: src/project/projectmanager.cpp:1326
+#: src/project/projectmanager.cpp:1328
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -34739,47 +34739,47 @@ msgstr ""
 "प्रोजेक्ट दूषित हो गया है, बैकअप नहीं लिया जा सकता। कृपया अंतिम बैकअप प्राप्त करने के लिए "
 "अपनी प्रोजेक्ट फ़ाइल को बंद करके पुनः खोलें"
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाने में त्रुटि, कैश फ़ोल्डर तक पहुँच नहीं पा रहा"
 
-#: src/project/projectmanager.cpp:1583
+#: src/project/projectmanager.cpp:1585
 #, kde-format
 msgid "Moving project folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाना"
 
-#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1730
-#: src/project/projectmanager.cpp:1734
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1732
+#: src/project/projectmanager.cpp:1736
 #, kde-format
 msgid "Sequence 1"
 msgstr "अनुक्रम 1"
 
-#: src/project/projectmanager.cpp:1685
+#: src/project/projectmanager.cpp:1687
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "प्रोजेक्ट फ़ाइल दूषित है - ट्रैक लोड करने में विफल। बैकअप फ़ाइल ढूँढने का प्रयास करें?"
 
-#: src/project/projectmanager.cpp:1826 src/project/projectmanager.cpp:1839
-#: src/project/projectmanager.cpp:1863 src/project/projectmanager.cpp:1872
+#: src/project/projectmanager.cpp:1828 src/project/projectmanager.cpp:1841
+#: src/project/projectmanager.cpp:1865 src/project/projectmanager.cpp:1874
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तन निरस्त किया गया"
 
-#: src/project/projectmanager.cpp:2002
+#: src/project/projectmanager.cpp:2004
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr "आउटपुट फ़ाइल %1 पहले से मौजूद है। क्या आप इसे अधिलेखित करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:2027
+#: src/project/projectmanager.cpp:2029
 #, kde-format
 msgid "Project profile changed"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तित"
 
-#: src/project/projectmanager.cpp:2091
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34788,34 +34788,34 @@ msgstr ""
 "इस क्लिप से टाइमलाइन नहीं बनाई जा सकती:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2180
+#: src/project/projectmanager.cpp:2182
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "अनुक्रम क्लिप आयात किया जा रहा है, यह वर्तमान में प्रायोगिक अवस्था में है"
 
-#: src/project/projectmanager.cpp:2413 src/project/projectmanager.cpp:2465
+#: src/project/projectmanager.cpp:2415 src/project/projectmanager.cpp:2467
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "अनुक्रम बनाने के लिए एक क्लिप चुनें"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2474
+#: src/project/projectmanager.cpp:2425 src/project/projectmanager.cpp:2476
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Sequence creation failed"
 msgstr "मास्क क्लिप"
 
-#: src/project/projectmanager.cpp:2450
+#: src/project/projectmanager.cpp:2452
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "आप स्वयं को शामिल करने वाला अनुक्रम सम्मिलित नहीं कर सकते"
 
-#: src/project/projectmanager.cpp:2454
+#: src/project/projectmanager.cpp:2456
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "अनुक्रम क्लिप बनाएँ"
 
-#: src/project/projectmanager.cpp:2492
+#: src/project/projectmanager.cpp:2494
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
@@ -36862,49 +36862,49 @@ msgid "Stop"
 msgstr "रुकना"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2352
+#: src/timeline2/view/qml/Timeline.qml:2347
 #, kde-format
 msgid "Paused"
 msgstr "रोका गया"
 
-#: src/timeline2/view/qml/Clip.qml:273 src/timeline2/view/qml/Clip.qml:1326
+#: src/timeline2/view/qml/Clip.qml:283 src/timeline2/view/qml/Clip.qml:1330
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), स्थिति: %4, अवधि: %5"
 
-#: src/timeline2/view/qml/Clip.qml:388 src/timeline2/view/qml/Clip.qml:402
+#: src/timeline2/view/qml/Clip.qml:398 src/timeline2/view/qml/Clip.qml:412
 #: src/timeline2/view/qml/SubTitle.qml:226
 #: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "स्थिति: %1"
 
-#: src/timeline2/view/qml/Clip.qml:617
+#: src/timeline2/view/qml/Clip.qml:627
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "मिक्स अवधि: %1, कट समय: %2"
 
-#: src/timeline2/view/qml/Clip.qml:671
+#: src/timeline2/view/qml/Clip.qml:681
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, मिक्स अवधि: %2"
 
-#: src/timeline2/view/qml/Clip.qml:673
+#: src/timeline2/view/qml/Clip.qml:683
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, मिक्स अवधि: %2"
 
-#: src/timeline2/view/qml/Clip.qml:676 src/timeline2/view/qml/Clip.qml:691
+#: src/timeline2/view/qml/Clip.qml:686 src/timeline2/view/qml/Clip.qml:701
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "मिक्स अवधि: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1206
+#: src/timeline2/view/qml/Clip.qml:1210
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "में:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1209 src/timeline2/view/qml/Clip.qml:1316
+#: src/timeline2/view/qml/Clip.qml:1213 src/timeline2/view/qml/Clip.qml:1320
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36913,54 +36913,54 @@ msgstr ""
 "गति बदलने के लिए <b>Ctrl खींचें</b> , आसन्न क्लिप के साथ मिश्रण करने के लिए <b>डबल क्लिक "
 "करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1211
+#: src/timeline2/view/qml/Clip.qml:1215
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "मिश्रण अवधि बदलने के लिए <b>खींचें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1313
+#: src/timeline2/view/qml/Clip.qml:1317
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "आउट:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1452
+#: src/timeline2/view/qml/Clip.qml:1456
 #, kde-format
 msgid "Offset: -%1"
 msgstr "ऑफसेट: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1453
+#: src/timeline2/view/qml/Clip.qml:1457
 #, kde-format
 msgid "Offset: %1"
 msgstr "ऑफसेट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1454
+#: src/timeline2/view/qml/Clip.qml:1458
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " क्लिप संरेखित करने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1736 src/timeline2/view/qml/Clip.qml:1777
+#: src/timeline2/view/qml/Clip.qml:1739 src/timeline2/view/qml/Clip.qml:1780
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "रचना जोड़ने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1856 src/timeline2/view/qml/Clip.qml:1863
+#: src/timeline2/view/qml/Clip.qml:1859 src/timeline2/view/qml/Clip.qml:1866
 #, kde-format
 msgid "Fade out: %1"
 msgstr "फीका आउट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1867 src/timeline2/view/qml/Clip.qml:1976
+#: src/timeline2/view/qml/Clip.qml:1870 src/timeline2/view/qml/Clip.qml:1979
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "फीका समायोजित करने के लिए <b>खींचें</b> , डिफ़ॉल्ट अवधि फीका जोड़ने के लिए <b>क्लिक करें</"
 "b>"
 
-#: src/timeline2/view/qml/Clip.qml:1965 src/timeline2/view/qml/Clip.qml:1972
+#: src/timeline2/view/qml/Clip.qml:1968 src/timeline2/view/qml/Clip.qml:1975
 #, kde-format
 msgid "Fade in: %1"
 msgstr "फीका इन: %1"
 
-#: src/timeline2/view/qml/Clip.qml:2060
+#: src/timeline2/view/qml/Clip.qml:2063
 #, kde-format
 msgid "Slip Clip"
 msgstr "स्लिप क्लिप"
@@ -37024,8 +37024,8 @@ msgstr "दिखाओ"
 msgid "Hide"
 msgstr "छिपाना"
 
-#: src/timeline2/view/qml/Timeline.qml:893
-#: src/timeline2/view/qml/Timeline.qml:903
+#: src/timeline2/view/qml/Timeline.qml:891
+#: src/timeline2/view/qml/Timeline.qml:901
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -37033,29 +37033,29 @@ msgid_plural "Audio: %1 tracks for %2 streams"
 msgstr[0] "सभी स्ट्रीम के लिए पर्याप्त ऑडियो ट्रैक नहीं हैं (%1)"
 msgstr[1] "सभी स्ट्रीम के लिए पर्याप्त ऑडियो ट्रैक नहीं हैं (%1)"
 
-#: src/timeline2/view/qml/Timeline.qml:1180
+#: src/timeline2/view/qml/Timeline.qml:1175
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "मास्टर प्रभाव दिखाएं"
 
-#: src/timeline2/view/qml/Timeline.qml:1977
+#: src/timeline2/view/qml/Timeline.qml:1972
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "उपशीर्षक जोड़ने के लिए <b>डबल क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:2171
+#: src/timeline2/view/qml/Timeline.qml:2166
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "ऑफसेट: %1, स्थिति: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2341
-#: src/timeline2/view/qml/Timeline.qml:2350
+#: src/timeline2/view/qml/Timeline.qml:2336
+#: src/timeline2/view/qml/Timeline.qml:2345
 #, kde-format
 msgid "Recording"
 msgstr "रिकॉर्डिंग"
 
-#: src/timeline2/view/qml/Timeline.qml:2444
+#: src/timeline2/view/qml/Timeline.qml:2439
 #, kde-format
 msgid "Multicam In"
 msgstr "मल्टीकैम इन"
