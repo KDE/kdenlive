@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-12 02:39+0000\n"
-"PO-Revision-Date: 2026-08-18 13:53+0300\n"
+"PO-Revision-Date: 2026-09-13 22:07+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2327,10 +2327,9 @@ msgstr ""
 "הערוצים."
 
 #: data/effects/avfilter/avfilter_compand.xml:12
-#, fuzzy, kde-format
-#| msgid "Decay"
+#, kde-format
 msgid "Decays"
-msgstr "דעיכה"
+msgstr "דעיכות"
 
 #: data/effects/avfilter/avfilter_compand.xml:16
 #, fuzzy, kde-format
@@ -2525,10 +2524,9 @@ msgid "Enable clipping"
 msgstr "הפעלת חיתוך"
 
 #: data/effects/avfilter/avfilter_curves.xml:4
-#, fuzzy, kde-format
-#| msgid "Compressor (avfilter)"
+#, kde-format
 msgid "Curves (avfilter)"
-msgstr "דוחס (avfilter)"
+msgstr "עקומות (avfilter)"
 
 #: data/effects/avfilter/avfilter_curves.xml:5
 #, fuzzy, kde-format
@@ -2537,10 +2535,9 @@ msgid "Adjust RGB color curves per channel."
 msgstr "מספר ערכי (צבע) לערוץ"
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, fuzzy, kde-format
-#| msgid "Allpass"
+#, kde-format
 msgid "All"
-msgstr "מעביר כל"
+msgstr "הכול"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
 #: data/effects/avfilter/avfilter_curves.xml:11
@@ -15133,10 +15130,9 @@ msgid "33 1/3,45,78"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:19
-#, fuzzy, kde-format
-#| msgid "Surface warping"
+#, kde-format
 msgid "Surface Warping"
-msgstr "עוות משטח"
+msgstr "עיוות משטח"
 
 #: data/effects/ladspa/ladspa_1905.xml:21
 #, kde-format
@@ -21172,11 +21168,9 @@ msgid "Title clip"
 msgstr "סרטון כותר"
 
 #: src/bin/bin.cpp:5280
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
-msgstr "עדכון תצוגת הכתוביות בציר הזמן."
+msgstr "להחליף את סרטון הכותרת בציר הזמן בחדש?"
 
 #: src/bin/bin.cpp:5281
 #, kde-format
@@ -27917,7 +27911,7 @@ msgstr "ז׳אן־בפטיסט מרדל"
 #, kde-format
 msgid ""
 "Core team member, main developer and maintainer, MLT, and KDE SC 4 / KF5 port"
-msgstr ""
+msgstr "חבר צוות ליבה, מפתח ומתחזק ראשי, MLT, והסבה ל־KDE SC 4 / KF5"
 
 #: src/main.cpp:293
 #, kde-format
@@ -35656,6 +35650,8 @@ msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
+"לא נבחר סרטון חלופי בסל המיזם. יש לבחור סרטון בסל ולנסות את הפעולה הזאת שוב "
+"או לייבא סרטון חדש."
 
 #: src/timeline2/view/timelinecontroller.cpp:4629
 #: src/timeline2/view/timelinecontroller.cpp:4685
@@ -35683,10 +35679,10 @@ msgstr "להחליף את הסרטון <b>%1</b> ב־<b>%2</b>?"
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "להחליף סרטון <b>אחד</b> ב־<b>%2</b>?"
+msgstr[1] "להחליף <b>שני</b> סרטונים ב־<b>%2</b>?"
+msgstr[2] "להחליף <b>%1</b> סרטונים ב־<b>%2</b>?"
+msgstr[3] "להחליף <b>%1</b> סרטונים ב־<b>%2</b>?"
 
 #: src/timeline2/view/timelinecontroller.cpp:4685
 #, kde-format

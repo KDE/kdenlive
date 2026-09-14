@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-12 02:39+0000\n"
-"PO-Revision-Date: 2026-07-18 08:34+0200\n"
+"PO-Revision-Date: 2026-09-13 08:11+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -32249,11 +32249,7 @@ msgid "Terminate Job"
 msgstr "Prekini posel"
 
 #: src/monitor/view/ClipMonitor.qml:645
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
-#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
-#| "to zoom"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
@@ -32261,9 +32257,10 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"<b>Klik</b> za predvajanje, <b>dvoklik</b> za celozaslonsko, <b>desni "
-"postoj</b> za orodno vrstico, <b>kolešček miške</b> ali <b>smerne tipke</b> "
-"za iskanje, <b>krmilka+kolešček</b> za povečavo"
+"<shortcut>Klik</shortcut> za predvajanje, <shortcut>dvoklik</shortcut> za "
+"celozaslonsko, <shortcut>desni postoj</shortcut> za orodno vrstico, "
+"<shortcut>kolešček miške</shortcut> ali <shortcut>smerne tipke</shortcut> za "
+"iskanje, <shortcut>krmilka+kolešček</shortcut> za povečavo"
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-12 02:39+0000\n"
-"PO-Revision-Date: 2026-08-04 19:32+0300\n"
+"PO-Revision-Date: 2026-09-13 19:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1864,7 +1864,7 @@ msgstr "Açıklığı koru"
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, kde-format
 msgid "Color Channel Mixer"
-msgstr "Renk Kanalı Karıştırıcısı"
+msgstr "Renk Kanalı Mikseri"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -6775,7 +6775,7 @@ msgstr "U ve V bileşenlerini takas edin."
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
 msgid "Temporal frames Mixer"
-msgstr "Zamansal kareler karıştırıcısı"
+msgstr "Zamansal Kareler Mikseri"
 
 #: data/effects/avfilter/avfilter_tmix.xml:5
 #, kde-format
@@ -15710,6 +15710,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (LADSPA 1901)<br>\n"
+"Bu eklentinin tasarımı, Allen & Heath Xone 32 DJ mikserinden alınmıştır."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
 #, fuzzy, kde-format
@@ -15886,6 +15888,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (mono) (LADSPA 1907)<br>\n"
+"Bu eklentinin tasarımı, Allen & Heath Xone 32 DJ mikserinden alınmıştır."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
 #, fuzzy, kde-format
@@ -21211,7 +21215,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
-"Ses karıştırıcı görünümünde ses izi denetimlerinin görüntülenmesini açar/"
+"Ses mikseri görünümünde, ses izi denetimlerinin görüntülenmesini açar/"
 "kapatır."
 
 #: src/bin/bin.cpp:140
@@ -29171,7 +29175,7 @@ msgstr "Kayıt"
 #: src/mainwindow.cpp:312
 #, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
-msgstr "Kaydetmek için Karıştırıcı’dan ses izlemesini etkinleştir"
+msgstr "Kaydetmek için mikserden ses izlemesini etkinleştirin"
 
 #: src/mainwindow.cpp:320 src/monitor/recmanager.cpp:100
 #, kde-format
@@ -29277,13 +29281,13 @@ msgstr "Başlık Çubuklarını Göster"
 #: src/mainwindow.cpp:531 src/mainwindow.cpp:533
 #, kde-format
 msgid "Audio Mixer"
-msgstr "Ses Karıştırıcısı"
+msgstr "Ses Mikseri"
 
 #: src/mainwindow.cpp:532
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
-msgstr "Ses karıştırıcısı panelini/araç takımını açar/kapatır."
+msgstr "Ses mikseri panelini/araç takımını açar/kapatır."
 
 #: src/mainwindow.cpp:563
 #, kde-format
@@ -32117,11 +32121,7 @@ msgid "Terminate Job"
 msgstr "İşi sonlandır"
 
 #: src/monitor/view/ClipMonitor.qml:645
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
-#| "b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> "
-#| "to zoom"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
@@ -32129,9 +32129,11 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"Oynatmak için <b> tıklayın </b>, tam ekran için <b> Çift tıklayın </b>, <b> "
-"Sağa gelin </b>araç çubuğu için aramak için <b> Tekerlek </b> veya <b> oklar "
-"</b>, yakınlaştırmak için <b> Kontrol tekerleği </b>"
+"Oynatmak için <shortcut> tıklayın </shortcut>, tam ekran için <shortcut> "
+"çift tıklayın </shortcut>, araç çubuğu için <shortcut>sağa gelin</shortcut>, "
+"gezinmek/aramak için <shortcut>tekerleği</shortcut> veya <shortcut>okları</"
+"shortcut> kullanın, yakınlaştırmak için <shortcut>Kontrol düğmesini ve "
+"tekerleği</shortcut> aynı anda kullanın."
 
 #: src/monitor/view/EffectToolBar.qml:68 src/monitor/view/MaskToolBar.qml:64
 #: src/monitor/view/MultiScreenToolBar.qml:63
@@ -41018,7 +41020,7 @@ msgstr "Şundan büyük videolar için üret"
 #: src/ui/projectsettings_ui.ui:416 src/ui/projectsettings_ui.ui:432
 #, kde-format
 msgid "pixels"
-msgstr "piksel"
+msgstr " piksel"
 
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
 #: src/ui/projectsettings_ui.ui:248
