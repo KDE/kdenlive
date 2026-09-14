@@ -116,6 +116,10 @@ target_precompile_headers(kdenliveLib PRIVATE
     "$<$<COMPILE_LANGUAGE:CXX>:<QTimer$<ANGLE-R>>"
     "$<$<COMPILE_LANGUAGE:CXX>:<QWidget$<ANGLE-R>>"
 )
+if(APPLE)
+    # CMake classifies .mm as CXX unless OBJCXX is enabled.
+    set_source_files_properties(monitor/metalvideowidget.mm PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
+endif()
 
 kconfig_target_kcfg_file(kdenliveLib
     FILE kdenlivesettings.kcfg
