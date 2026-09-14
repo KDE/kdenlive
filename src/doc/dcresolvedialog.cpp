@@ -185,7 +185,7 @@ void DCResolveDialog::updateStatusLabel(int missingClips, int missingClipsWithPr
         buttonBox->button(QDialogButtonBox::Abort)->setDefault(true);
         return;
     }
-    if (missingClips + removedClips + missingClipsWithProxy + missingProxies) {
+    if (missingClips + removedClips + missingClipsWithProxy + missingProxies == 0) {
         statusLabel->hide();
         searchProxies->setEnabled(false);
         recreateProxies->setEnabled(false);
