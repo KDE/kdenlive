@@ -311,8 +311,8 @@ void KdenliveSettingsDialog::initProxyPage()
     m_configProxy.allowedProxyParams->setPlainText(allowedParams);
     connect(m_configProxy.allowedProxyParams, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     connect(m_configProxy.resetProxyParams, &QPushButton::clicked, this, [this]() {
-        QString defaults = KdenliveSettings::defaultSafeFFmpegParamsValue().join(QLatin1Char(','));
-        m_configProxy.allowedProxyParams->setPlainText(defaults);
+        // Default to empty
+        m_configProxy.allowedProxyParams->clear();
     });
 }
 
