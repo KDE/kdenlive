@@ -28,7 +28,8 @@ bool RotatedRectHelper::connectMonitor(bool activate)
         connect(m_monitor, &Monitor::effectRotationChanged, this, &RotatedRectHelper::slotUpdateRotationFromMonitorData, Qt::UniqueConnection);
     } else {
         m_monitor->setEffectKeyframe(false, true);
-        // Note: We intentionally keep both geometry and rotation signals connected for continuous updates even when not active (clip not below playhead)
+        disconnect(m_monitor, &Monitor::effectChanged, this, &RotatedRectHelper::slotUpdateFromMonitorRect);
+        disconnect(m_monitor, &Monitor::effectRotationChanged, this, &RotatedRectHelper::slotUpdateRotationFromMonitorData);
     }
     return m_active;
 }
