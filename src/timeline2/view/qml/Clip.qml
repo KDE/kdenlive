@@ -147,8 +147,7 @@ Rectangle {
     }
 
     function grabItem() {
-        clipRoot.forceActiveFocus()
-        mouseArea.focus = true
+        mouseArea.forceActiveFocus()
     }
 
     function resetSelection() {
@@ -339,6 +338,7 @@ Rectangle {
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
             clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
+            event.accepted = true
         }
         Keys.onRightPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
@@ -353,22 +353,25 @@ Rectangle {
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
             clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
+            event.accepted = true
         }
-        Keys.onUpPressed: {
+        Keys.onUpPressed: event => {
             var nextTrack = clipRoot.controller.getNextTrackId(clipRoot.trackId);
             while(!clipRoot.controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== clipRoot.controller.getNextTrackId(nextTrack)) {
                 nextTrack = clipRoot.controller.getNextTrackId(nextTrack);
             }
+            event.accepted = true
         }
-        Keys.onDownPressed: {
+        Keys.onDownPressed: event => {
             var previousTrack = clipRoot.controller.getPreviousTrackId(clipRoot.trackId);
             while(!clipRoot.controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== clipRoot.controller.getPreviousTrackId(previousTrack)) {
                 previousTrack = clipRoot.controller.getPreviousTrackId(previousTrack);
             }
+            event.accepted = true
         }
-        Keys.onEscapePressed: {
+        Keys.onEscapePressed: event => {
             clipRoot.timeline.grabCurrent()
-            //focus = false
+            event.accepted = true
         }
         onEntered: {
             if (clipRoot.isPanning) {

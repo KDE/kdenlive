@@ -3998,7 +3998,7 @@ void MainWindow::focusTimeline()
 {
     auto tl = getCurrentTimeline();
     if (tl) {
-        tl->setFocus();
+        tl->focusTimeline();
         Q_EMIT tl->controller()->selectionChanged();
     }
 }
@@ -4956,6 +4956,7 @@ void MainWindow::slotSwitchTimelineZone(bool active)
 
 void MainWindow::slotGrabItem()
 {
+    getCurrentTimeline()->focusTimeline();
     getCurrentTimeline()->controller()->grabCurrent();
 }
 
