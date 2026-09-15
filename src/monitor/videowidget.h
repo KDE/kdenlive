@@ -7,10 +7,14 @@
 
 #pragma once
 
+#include <QAbstractVideoBuffer>
 #include <QFont>
 #include <QMutex>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
+#include <QVideoFrame>
+#include <QVideoFrameFormat>
+#include <QVideoSink>
 
 #include <QQuickWidget>
 #include <QRect>
@@ -34,6 +38,15 @@ class FrameRenderer;
 class MonitorProxy;
 class MarkerSortModel;
 
+enum class HdrTransfer { SDR = 0, HLG = 1, PQ = 2 };
+
+inline HdrTransfer hdrTransferFromTrc(const QString &trc)
+{
+    if (trc == QLatin1String("arib-std-b67")) return HdrTransfer::HLG;
+    if (trc == QLatin1String("smpte2084")) return HdrTransfer::PQ;
+    return HdrTransfer::SDR;
+}
+
 typedef void *(*thread_function_t)(void *);
 
 /** @class VideoWidget
@@ -49,6 +62,8 @@ typedef void *(*thread_function_t)(void *);
 class VideoWidget : public QQuickWidget
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("MonitorProxy is owned by Monitor; obtained via setInitialProperties()")
     Q_PROPERTY(float zoom READ zoom NOTIFY zoomChanged)
 
 public:
@@ -124,6 +139,7 @@ public:
     void updateImagePosition();
     /** @brief Enable/disable timer to hide mouse cursor in fullscreen */
     void enableMouseTimer(bool enable);
+    Q_INVOKABLE void setVideoSink(QVideoSink *sink);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -161,9 +177,11 @@ public Q_SLOTS:
     bool updateScaling();
     /** @brief Update aspect ration and colorspace from current project, to be used for mirror monitor */
     void resetAspect();
+    void showFrame(Mlt::Frame frame, QByteArray p016Buffer = {});
 
 Q_SIGNALS:
     void frameDisplayed(const SharedFrame &frame);
+    void videoFrameReady(const QVideoFrame &frame);
     void frameRendered(int pos);
     void imageReady();
     void dragStarted();
@@ -219,6 +237,8 @@ private:
     QPoint m_panStart;
     QPoint m_dragStart;
     QSemaphore m_initSem;
+    QSemaphore m_frameSemaphore;
+    bool m_imageRequested{false};
     QTimer m_mouseTimer;
     bool m_qmlEvent;
     bool m_swallowDrop{false};
@@ -236,11 +256,20 @@ private:
     double m_dar;
     bool m_isZoneMode;
     bool m_isLoopMode;
+    bool m_oldVideoMode{false};
     int m_loopIn;
     int m_loopOut;
     QPoint m_offset;
+    void pushFrameToSink(const SharedFrame &frame, QByteArray p016Buffer = {});
+    struct P016Pool
+    {
+        QMutex mutex;
+        QList<QByteArray> buffers;
+    };
+    std::shared_ptr<P016Pool> m_p016Pool;
     MonitorProxy *m_proxy;
     std::unique_ptr<RenderThread> m_renderThread;
+    QPointer<QVideoSink> m_videoSink;
     std::shared_ptr<Mlt::Producer> m_blackClip;
     static void on_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data);
     static void on_frame_render(mlt_consumer, VideoWidget *widget, mlt_frame frame);

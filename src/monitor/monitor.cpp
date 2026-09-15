@@ -136,6 +136,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     auto *glayout = new QGridLayout(m_glWidget);
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
+
+    // Old display method
+    /*
     // Create QML OpenGL widget
 #if defined(Q_OS_WIN)
     if (QSGRendererInterface::Direct3D11 == QQuickWindow::graphicsApi())
@@ -147,6 +150,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 #else
     m_glMonitor = new OpenGLVideoWidget(id, this);
 #endif
+    */
+    m_glMonitor = new VideoWidget(id, this);
     //  The m_glMonitor quickWindow() can be destroyed on undock with some graphics interface (Windows/Mac), so reconnect on destroy
     auto rebuildViewConnection = [this](bool restoreVars) {
         connect(m_glMonitor->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_glMonitor, &VideoWidget::initialize, Qt::DirectConnection);

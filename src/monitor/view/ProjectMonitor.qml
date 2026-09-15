@@ -6,6 +6,7 @@
 import QtQuick.Controls
 import QtQuick.Window
 import QtQuick
+import QtMultimedia
 
 import org.kde.ki18n
 
@@ -20,6 +21,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     required property K.MonitorProxy controller
+    required property K.VideoWidget video
     property int viewType: K.SceneType.MonitorSceneDefault
     property string markerText
     property point profile: root.controller.profile
@@ -37,8 +39,24 @@ Item {
     property double offsety : 0
     property int duration: 300
     property bool isClipMonitor: false
+
     Component.onCompleted: {
         root.controller.rulerHeight = 0
+        //if (!video.oldVideoOutput)
+            video.setVideoSink(videoOutput.videoSink)
+        //}
+    }
+
+    VideoOutput {
+        id: videoOutput
+        visible: true //!video.oldVideoOutput
+        anchors.fill: parent
+
+        /*width: video.rect.width * _zoom
+        height: video.rect.height * _zoom
+        x: video.rect.x + (video.rect.width - width) / 2 - video.offset.x
+        y: video.rect.y + (video.rect.height - height) / 2 - video.offset.y
+        fillMode: VideoOutput.Stretch*/
     }
 
     FontMetrics {

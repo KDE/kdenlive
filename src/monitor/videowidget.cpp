@@ -41,6 +41,14 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+#ifdef __ARM_NEON
+#include <arm_neon.h>
+#endif
+
+#if defined(__x86_64__) || defined(_M_AMD64)
+#include <immintrin.h>
+#endif
+
 #include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
@@ -91,6 +99,8 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_isLoopMode(false)
     , m_loopIn(0)
     , m_offset(QPoint(0, 0))
+    , m_frameSemaphore(3)
+    , m_p016Pool(std::make_shared<P016Pool>())
 {
     KLocalization::setupLocalizedContext(engine());
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
@@ -162,15 +172,19 @@ void VideoWidget::updateAudioForAnalysis()
 {
     if (m_frameRenderer) {
         m_frameRenderer->requestImage();
+    } else {
+        m_imageRequested = true;
     }
 }
 
 void VideoWidget::initialize()
 {
-    m_frameRenderer = new FrameRenderer();
-    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
-    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &VideoWidget::frameDisplayed, Qt::QueuedConnection);
-    connect(m_frameRenderer, SIGNAL(imageReady()), SIGNAL(imageReady()));
+    if (m_oldVideoMode) {
+        m_frameRenderer = new FrameRenderer();
+        connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
+        connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &VideoWidget::frameDisplayed, Qt::QueuedConnection);
+        connect(m_frameRenderer, SIGNAL(imageReady()), SIGNAL(imageReady()));
+    }
     m_initSem.release();
     m_isInitialized = true;
 }
@@ -188,7 +202,7 @@ void VideoWidget::renderVideo()
 
 QImage VideoWidget::image() const
 {
-    SharedFrame frame = m_frameRenderer->getDisplayFrame();
+    SharedFrame frame = m_frameRenderer ? m_frameRenderer->getDisplayFrame() : m_sharedFrame;
     if (frame.is_valid()) {
         const uint8_t *image = frame.get_image(mlt_image_rgba);
         if (image) {
@@ -1077,13 +1091,193 @@ void VideoWidget::resetConsumer(bool fullReset)
     reconfigure();
 }
 
+static bool cpuHasAVX2()
+{
+    static const bool result = []() -> bool {
+#if (defined(__GNUC__) || defined(__clang__)) && (defined(__x86_64__) || defined(_M_AMD64))
+        return __builtin_cpu_supports("avx2");
+#elif defined(_MSC_VER) && (defined(_M_X64) || defined(_M_AMD64))
+        int info[4];
+        __cpuid(info, 1);
+        // Check OSXSAVE and AVX bits in ECX
+        if (!((info[2] >> 27) & 1) || !((info[2] >> 28) & 1)) return false;
+        // Check OS saves/restores YMM registers (XCR0[2:1] == 0b11)
+        if ((_xgetbv(0) & 0x6) != 0x6) return false;
+        // Check AVX2 via structured extended feature leaf 7, EBX bit 5
+        __cpuid(info, 0);
+        if (info[0] < 7) return false;
+        __cpuidex(info, 7, 0);
+        return (info[1] >> 5) & 1;
+#else
+        return false;
+#endif
+    }();
+    return result;
+}
+
+void VideoWidget::setVideoSink(QVideoSink *sink)
+{
+    m_videoSink = sink;
+    if (m_videoSink && m_sharedFrame.is_valid()) pushFrameToSink(m_sharedFrame);
+}
+
+#if defined(__x86_64__) || defined(_M_AMD64)
+#if defined(__GNUC__) || defined(__clang__)
+__attribute__((target("avx2")))
+#endif
+static void shiftYPlane_AVX2(const uint16_t *src, uint16_t *dst, int n)
+{
+    int i = 0;
+    for (; i + 16 <= n; i += 16) {
+        __m256i y = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(src + i));
+        _mm256_storeu_si256(reinterpret_cast<__m256i *>(dst + i), _mm256_slli_epi16(y, 6));
+    }
+    for (; i < n; ++i)
+        dst[i] = src[i] << 6;
+}
+
+#if defined(__GNUC__) || defined(__clang__)
+__attribute__((target("avx2")))
+#endif
+static void interleaveUVPlanes_AVX2(const uint16_t *srcU, const uint16_t *srcV, uint16_t *dst, int n)
+{
+    // AVX2 unpack operates within 128-bit lanes; permute to restore linear order.
+    // unpacklo(u,v): lane0 = u0v0u1v1u2v2u3v3, lane1 = u8v8...u11v11
+    // unpackhi(u,v): lane0 = u4v4...u7v7,      lane1 = u12v12...u15v15
+    // permute2x128 0x20 → [lo.lane0 | hi.lane0] = u0v0..u7v7
+    // permute2x128 0x31 → [lo.lane1 | hi.lane1] = u8v8..u15v15
+    int j = 0;
+    for (; j + 16 <= n; j += 16) {
+        __m256i u = _mm256_slli_epi16(_mm256_loadu_si256(reinterpret_cast<const __m256i *>(srcU + j)), 6);
+        __m256i v = _mm256_slli_epi16(_mm256_loadu_si256(reinterpret_cast<const __m256i *>(srcV + j)), 6);
+        __m256i lo = _mm256_unpacklo_epi16(u, v);
+        __m256i hi = _mm256_unpackhi_epi16(u, v);
+        _mm256_storeu_si256(reinterpret_cast<__m256i *>(dst + j * 2), _mm256_permute2x128_si256(lo, hi, 0x20));
+        _mm256_storeu_si256(reinterpret_cast<__m256i *>(dst + j * 2 + 16), _mm256_permute2x128_si256(lo, hi, 0x31));
+    }
+    for (; j < n; ++j) {
+        dst[2 * j] = srcU[j] << 6;
+        dst[2 * j + 1] = srcV[j] << 6;
+    }
+}
+
+static void shiftYPlane_SSE2(const uint16_t *src, uint16_t *dst, int n)
+{
+    int i = 0;
+    for (; i + 8 <= n; i += 8) {
+        __m128i y = _mm_loadu_si128(reinterpret_cast<const __m128i *>(src + i));
+        _mm_storeu_si128(reinterpret_cast<__m128i *>(dst + i), _mm_slli_epi16(y, 6));
+    }
+    for (; i < n; ++i)
+        dst[i] = src[i] << 6;
+}
+
+static void interleaveUVPlanes_SSE2(const uint16_t *srcU, const uint16_t *srcV, uint16_t *dst, int n)
+{
+    int j = 0;
+    for (; j + 8 <= n; j += 8) {
+        __m128i u = _mm_slli_epi16(_mm_loadu_si128(reinterpret_cast<const __m128i *>(srcU + j)), 6);
+        __m128i v = _mm_slli_epi16(_mm_loadu_si128(reinterpret_cast<const __m128i *>(srcV + j)), 6);
+        _mm_storeu_si128(reinterpret_cast<__m128i *>(dst + j * 2), _mm_unpacklo_epi16(u, v));
+        _mm_storeu_si128(reinterpret_cast<__m128i *>(dst + j * 2 + 8), _mm_unpackhi_epi16(u, v));
+    }
+    for (; j < n; ++j) {
+        dst[2 * j] = srcU[j] << 6;
+        dst[2 * j + 1] = srcV[j] << 6;
+    }
+}
+#endif // defined(__x86_64__) || defined(_M_AMD64)
+
+static void convertToP016(const uint8_t *image, int width, int height, QByteArray &buffer)
+{
+    const int uvW = width / 2;
+    const int uvH = height / 2;
+    const int ySamples = width * height;
+    const int yPlaneSize = ySamples * 2;
+    const int uvPlaneSize = uvW * uvH * 2;
+    const int interleavedUvSize = uvW * uvH * 4;
+    buffer.resize(yPlaneSize + interleavedUvSize);
+    const uint16_t *srcY = reinterpret_cast<const uint16_t *>(image);
+    uint16_t *dstY = reinterpret_cast<uint16_t *>(buffer.data());
+#ifdef __ARM_NEON
+    int i = 0;
+    for (; i + 8 <= ySamples; i += 8) {
+        uint16x8_t y = vld1q_u16(srcY + i);
+        vst1q_u16(dstY + i, vshlq_n_u16(y, 6));
+    }
+    for (; i < ySamples; ++i)
+        dstY[i] = srcY[i] << 6;
+#elif defined(__x86_64__) || defined(_M_AMD64)
+    if (cpuHasAVX2())
+        shiftYPlane_AVX2(srcY, dstY, ySamples);
+    else
+        shiftYPlane_SSE2(srcY, dstY, ySamples);
+#else
+    for (int i = 0; i < ySamples; ++i)
+        dstY[i] = srcY[i] << 6;
+#endif
+    const uint16_t *srcU = reinterpret_cast<const uint16_t *>(image + yPlaneSize);
+    const uint16_t *srcV = reinterpret_cast<const uint16_t *>(image + yPlaneSize + uvPlaneSize);
+    uint16_t *dstUV = reinterpret_cast<uint16_t *>(buffer.data() + yPlaneSize);
+    const int uvSamples = uvW * uvH;
+#ifdef __ARM_NEON
+    int j = 0;
+    for (; j + 8 <= uvSamples; j += 8) {
+        uint16x8_t u = vshlq_n_u16(vld1q_u16(srcU + j), 6);
+        uint16x8_t v = vshlq_n_u16(vld1q_u16(srcV + j), 6);
+        uint16x8x2_t uv = {u, v};
+        vst2q_u16(dstUV + j * 2, uv);
+    }
+    for (; j < uvSamples; ++j) {
+        dstUV[2 * j] = srcU[j] << 6;
+        dstUV[2 * j + 1] = srcV[j] << 6;
+    }
+#elif defined(__x86_64__) || defined(_M_AMD64)
+    if (cpuHasAVX2())
+        interleaveUVPlanes_AVX2(srcU, srcV, dstUV, uvSamples);
+    else
+        interleaveUVPlanes_SSE2(srcU, srcV, dstUV, uvSamples);
+#else
+    for (int i = 0; i < uvSamples; ++i) {
+        dstUV[2 * i] = srcU[i] << 6;
+        dstUV[2 * i + 1] = srcV[i] << 6;
+    }
+#endif
+}
+
 void VideoWidget::on_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data data)
 {
     auto frame = Mlt::EventData(data).to_frame();
     if (frame.is_valid() && frame.get_int("rendered")) {
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
-        if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
-            QMetaObject::invokeMethod(widget->m_frameRenderer, "showFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
+        if (widget->m_frameRenderer) {
+            // Old path: dispatch to FrameRenderer thread
+            if (widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
+                QMetaObject::invokeMethod(widget->m_frameRenderer, "showFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
+            }
+        } else {
+            // New QVideoSink path: pre-convert P016 on this thread then hand off to GUI
+            if (widget->m_frameSemaphore.tryAcquire(1, timeout)) {
+                QByteArray p016Buffer;
+                if (!qstrcmp(widget->consumer()->get("mlt_image_format"), "yuv420p10")) {
+                    mlt_image_format mltFmt = mlt_image_yuv420p10;
+                    int width = 0, height = 0;
+                    const uint8_t *image = frame.get_image(mltFmt, width, height);
+                    if (image && width > 0 && height > 0) {
+                        // Grab a reusable buffer from the pool to avoid per-frame allocation.
+                        {
+                            QMutexLocker lock(&widget->m_p016Pool->mutex);
+                            if (!widget->m_p016Pool->buffers.isEmpty()) {
+                                p016Buffer = std::move(widget->m_p016Pool->buffers.last());
+                                widget->m_p016Pool->buffers.removeLast();
+                            }
+                        }
+                        convertToP016(image, width, height, p016Buffer);
+                    }
+                }
+                QMetaObject::invokeMethod(
+                    widget, [widget, frame, buf = std::move(p016Buffer)]() mutable { widget->showFrame(frame, std::move(buf)); }, Qt::QueuedConnection);
+            }
         }
     }
 }
@@ -1120,6 +1314,197 @@ void RenderThread::run()
     m_context->makeCurrent(m_surface.get());
     m_function(m_data);
     m_context->doneCurrent();
+}
+
+void VideoWidget::pushFrameToSink(const SharedFrame &frame, QByteArray p016Buffer)
+{
+    if (!m_videoSink) return;
+    int width = frame.get_image_width();
+    int height = frame.get_image_height();
+    if (width < 1 || height < 1) return;
+
+    bool is10bit = !qstrcmp(m_consumer->get("mlt_image_format"), "yuv420p10");
+    if (!is10bit) {
+        // Validate 8-bit image is available (caches it for later use in map()).
+        if (!frame.get_image(mlt_image_yuv420p)) return;
+    } else if (p016Buffer.isEmpty()) {
+        // Fallback conversion on the calling thread — only reached from setVideoSink(),
+        // not the normal playback path where on_frame_show() pre-converts on the MLT thread.
+        const uint8_t *image = frame.get_image(mlt_image_yuv420p10);
+        if (!image) return;
+        convertToP016(image, width, height, p016Buffer);
+    }
+
+    auto pixFmt = is10bit ? QVideoFrameFormat::Format_P016 : QVideoFrameFormat::Format_YUV420P;
+    QVideoFrameFormat fmt(QSize(width, height), pixFmt);
+    fmt.setColorRange(QVideoFrameFormat::ColorRange_Video);
+
+    // Determine the HDR transfer from the consumer's color_trc property, which
+    // reconfigure() sets correctly regardless of whether the profile colorspace
+    // is 2020 (MLT convention) or 9 (FFmpeg AVCOL_SPC_BT2020_NCL).  Checking
+    // color_trc first avoids the bug where case 2020: is never reached in
+    // automatic video mode and the frame is incorrectly stamped BT.709.
+    const char *activeTrc = m_consumer->get("color_trc");
+    const bool isHlg = !qstrcmp(activeTrc, "arib-std-b67");
+    const bool isPq = !qstrcmp(activeTrc, "smpte2084");
+
+    if (isHlg || isPq) {
+        fmt.setColorSpace(QVideoFrameFormat::ColorSpace_BT2020);
+        if (isHlg) {
+            fmt.setColorTransfer(QVideoFrameFormat::ColorTransfer_STD_B67);
+            // Use user-overridden content peak, or default to 1000 nits.
+            const float hlgMaxNits =
+                KdenliveSettings::playerHdrContentPeakNits() > 0 ? static_cast<float>(KdenliveSettings::playerHdrContentPeakNits()) : 1000.0f;
+            fmt.setMaxLuminance(hlgMaxNits);
+        } else {
+            fmt.setColorTransfer(QVideoFrameFormat::ColorTransfer_ST2084);
+            // For PQ, maxLuminance drives Qt's BT.2390 tone-mapping EETF.
+            // When tone mapping is disabled, clamp at the display peak so Qt
+            // applies no compression. Otherwise use the user's content-peak
+            // setting (0 = auto → 1000 nits as a sensible default).
+            float pqMaxNits;
+            if (!KdenliveSettings::playerHdrToneMapping()) {
+                const int displayPeak = KdenliveSettings::playerHdrDisplayPeakNits();
+                pqMaxNits = displayPeak > 0 ? static_cast<float>(displayPeak) : 1000.0f;
+            } else if (KdenliveSettings::playerHdrContentPeakNits() > 0) {
+                pqMaxNits = static_cast<float>(KdenliveSettings::playerHdrContentPeakNits());
+            } else {
+                pqMaxNits = 1000.0f;
+            }
+            fmt.setMaxLuminance(pqMaxNits);
+        }
+        // Log whenever the stamped TRC or maxLuminance changes.
+        static QByteArray s_lastTrc;
+        static float s_lastMaxLum = -1.0f;
+        const float stamped = fmt.maxLuminance();
+        if (s_lastTrc != activeTrc || !qFuzzyCompare(s_lastMaxLum, stamped)) {
+            s_lastTrc = activeTrc;
+            s_lastMaxLum = stamped;
+            /*qDebug() << "HDR pushFrameToSink: colorspace =" << profile().colorspace()
+                     << "color_trc =" << activeTrc << "maxLuminance =" << stamped
+                     << "toneMapping =" << Settings.playerHdrToneMapping()
+                     << "contentPeakNits =" << Settings.playerHdrContentPeakNits()
+                     << "displayPeakNits =" << Settings.playerHdrDisplayPeakNits();*/
+        }
+    } else {
+        switch (pCore->getProjectProfile().colorspace()) {
+        case 601:
+        case 170:
+            fmt.setColorSpace(QVideoFrameFormat::ColorSpace_BT601);
+            fmt.setColorTransfer(QVideoFrameFormat::ColorTransfer_BT601);
+            break;
+        case 2020:
+            fmt.setColorSpace(QVideoFrameFormat::ColorSpace_BT2020);
+            fmt.setColorTransfer(QVideoFrameFormat::ColorTransfer_BT709);
+            break;
+        default:
+            fmt.setColorSpace(QVideoFrameFormat::ColorSpace_BT709);
+            fmt.setColorTransfer(QVideoFrameFormat::ColorTransfer_BT709);
+            break;
+        }
+    }
+
+    // Zero-copy buffer for 8-bit, or P016 pre-converted buffer for 10-bit.
+    class SharedFrameVideoBuffer : public QAbstractVideoBuffer
+    {
+    public:
+        SharedFrameVideoBuffer(const SharedFrame &sf, const QVideoFrameFormat &f)
+            : m_sharedFrame(sf)
+            , m_format(f)
+        {
+        }
+        SharedFrameVideoBuffer(QByteArray p016, const QVideoFrameFormat &f, std::function<void(QByteArray)> onFree)
+            : m_p016(std::move(p016))
+            , m_format(f)
+            , m_onFree(std::move(onFree))
+        {
+        }
+        ~SharedFrameVideoBuffer()
+        {
+            if (m_onFree && !m_p016.isEmpty()) m_onFree(std::move(m_p016));
+        }
+        QVideoFrameFormat format() const override { return m_format; }
+        MapData map(QVideoFrame::MapMode) override
+        {
+            int w = m_sharedFrame.get_image_width();
+            int h = m_sharedFrame.get_image_height();
+            MapData md;
+            if (!m_p016.isEmpty()) {
+                // P016: semi-planar 16-bit, 2 planes
+                w = m_format.frameWidth();
+                h = m_format.frameHeight();
+                auto *p = reinterpret_cast<uint8_t *>(m_p016.data());
+                md.planeCount = 2;
+                // Y plane (16-bit per sample)
+                md.bytesPerLine[0] = w * 2;
+                md.data[0] = p;
+                md.dataSize[0] = w * h * 2;
+                // Interleaved UV plane (2 × 16-bit per sample pair)
+                md.bytesPerLine[1] = (w / 2) * 4;
+                md.data[1] = p + md.dataSize[0];
+                md.dataSize[1] = (w / 2) * (h / 2) * 4;
+            } else {
+                // YUV420P: planar 8-bit, 3 planes
+                auto *p = const_cast<uint8_t *>(m_sharedFrame.get_image(mlt_image_yuv420p));
+                md.planeCount = 3;
+                md.bytesPerLine[0] = w;
+                md.data[0] = p;
+                md.dataSize[0] = w * h;
+                md.bytesPerLine[1] = w / 2;
+                md.data[1] = p + md.dataSize[0];
+                md.dataSize[1] = (w / 2) * (h / 2);
+                md.bytesPerLine[2] = w / 2;
+                md.data[2] = md.data[1] + md.dataSize[1];
+                md.dataSize[2] = md.dataSize[1];
+            }
+            return md;
+        }
+
+    private:
+        SharedFrame m_sharedFrame;
+        QByteArray m_p016;
+        QVideoFrameFormat m_format;
+        std::function<void(QByteArray)> m_onFree;
+    };
+
+    std::unique_ptr<SharedFrameVideoBuffer> buffer;
+    if (is10bit) {
+        buffer = std::make_unique<SharedFrameVideoBuffer>(std::move(p016Buffer), fmt, [pool = std::weak_ptr<P016Pool>(m_p016Pool)](QByteArray buf) {
+            if (auto p = pool.lock()) {
+                QMutexLocker lock(&p->mutex);
+                if (p->buffers.size() < 3) p->buffers.append(std::move(buf));
+            }
+        });
+    } else {
+        buffer = std::make_unique<SharedFrameVideoBuffer>(frame, fmt);
+    }
+    QVideoFrame videoFrame(std::move(buffer));
+    // Set PTS so downstream consumers (e.g. HdrPreviewWindow) can track position.
+    const double fps = pCore->getCurrentFps();
+    if (fps > 0.0) videoFrame.setStartTime(qRound64(frame.get_position() / fps * 1000000.0));
+    m_videoSink->setVideoFrame(videoFrame);
+    Q_EMIT videoFrameReady(videoFrame);
+}
+
+void VideoWidget::showFrame(Mlt::Frame frame, QByteArray p016Buffer)
+{
+    m_mutex.lock();
+    m_sharedFrame = SharedFrame(frame);
+    m_mutex.unlock();
+    /*bool isVui = m_sharedFrame.get_int(kShotcutVuiMetaProperty) && !m_hideVui;
+    if (!isVui && source() != QmlUtilities::blankVui()) {
+        m_savedQmlSource = source();
+        setSource(QmlUtilities::blankVui());
+    } else if (isVui && !m_savedQmlSource.isEmpty() && source() != m_savedQmlSource) {
+        setSource(m_savedQmlSource);
+    }*/
+    pushFrameToSink(m_sharedFrame, std::move(p016Buffer));
+    Q_EMIT frameDisplayed(m_sharedFrame);
+    if (m_imageRequested) {
+        m_imageRequested = false;
+        Q_EMIT imageReady();
+    }
+    m_frameSemaphore.release();
 }
 
 FrameRenderer::FrameRenderer()

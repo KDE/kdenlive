@@ -51,7 +51,9 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, SceneType::MonitorSceneType ty
     }
     m_sceneType = type;
     QQuickItem *root = nullptr;
-    m_view->setInitialProperties({{QStringLiteral("controller"), QVariant::fromValue(m_view->getControllerProxy())}});
+
+    m_view->setInitialProperties(
+        {{QStringLiteral("controller"), QVariant::fromValue(m_view->getControllerProxy())}, {QStringLiteral("video"), QVariant::fromValue(m_view)}});
     switch (type) {
     case SceneType::MonitorSceneGeometry:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorGeometryScene.qml")));

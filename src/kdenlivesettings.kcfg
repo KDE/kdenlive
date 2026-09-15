@@ -584,6 +584,21 @@
       <default>#535353</default>
     </entry>
 
+    <entry name="playerHdrDisplayPeakNits" type="Int">
+      <label>Custom HDR peak nits.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="playerHdrContentPeakNits" type="Int">
+      <label>Custom HDR peak nits.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="playerHdrToneMapping" type="Bool">
+      <label>Tone mapping </label>
+      <default>false</default>
+    </entry>
+
     <entry name="showMonitorGrid" type="Bool">
       <label>Should we show the monitor grid.</label>
       <default>false</default>

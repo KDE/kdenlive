@@ -574,10 +574,12 @@ int main(int argc, char *argv[])
     _wputenv_s(L"PATH", path.toStdWString().c_str());
 #endif
 
-    if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Vulkan);
+    /*if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
         qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
+        exit(1);
         QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
-    }
+    }*/
 
 #ifndef NODBUS
     // Init DBus services
