@@ -4067,7 +4067,7 @@ void MainWindow::focusTimeline()
 {
     auto tl = getCurrentTimeline();
     if (tl) {
-        tl->setFocus();
+        tl->focusTimeline();
         Q_EMIT tl->controller()->selectionChanged();
     }
 }
@@ -5038,6 +5038,7 @@ void MainWindow::slotGrabItem()
     if (QApplication::focusWidget() != nullptr && m_dopeWidget->isAncestorOf(QApplication::focusWidget())) {
         m_dopeWidget->grabKeyframes();
     } else {
+        getCurrentTimeline()->focusTimeline();
         getCurrentTimeline()->controller()->grabCurrent();
     }
 }

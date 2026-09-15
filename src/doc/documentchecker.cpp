@@ -1824,7 +1824,7 @@ void DocumentChecker::fixMissingItem(const DocumentChecker::DocumentResource &re
         } else if (resource.status == MissingStatus::Reload) {
             removeProxy(producers, resource.clipId, true);
             removeProxy(chains, resource.clipId, true);
-        } else if (resource.status == MissingStatus::Remove) {
+        } else if (resource.status == MissingStatus::Remove || resource.status == MissingStatus::Missing) {
             removeProxy(producers, resource.clipId, false);
             removeProxy(chains, resource.clipId, false);
         }

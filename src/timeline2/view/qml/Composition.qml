@@ -142,8 +142,7 @@ Item {
     }
 
     function grabItem() {
-        compositionRoot.forceActiveFocus()
-        mouseArea.focus = true
+        mouseArea.forceActiveFocus()
     }
 
     function resetSelection() {
@@ -237,19 +236,24 @@ Item {
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
+                event.accepted = true
             }
             Keys.onRightPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + offset, true, true)
+                event.accepted = true
             }
-            Keys.onUpPressed: {
+            Keys.onUpPressed: event => {
                 compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.controller.getNextTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
+                event.accepted = true
             }
-            Keys.onDownPressed: {
+            Keys.onDownPressed: event => {
                 compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.controller.getPreviousTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
+                event.accepted = true
             }
-            Keys.onEscapePressed: {
+            Keys.onEscapePressed: event => {
                 compositionRoot.timeline.grabCurrent()
+                event.accepted = true
             }
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active) ? Qt.SizeHorCursor : compositionRoot.dragProxyCursorShape
 

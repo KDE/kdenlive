@@ -114,7 +114,6 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_model(model)
     , m_index(index)
     , m_parent(parent)
-    , m_monitorHelper(nullptr)
     , m_neededScene(SceneType::MonitorSceneDefault)
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
     , m_baseHeight(0)
@@ -700,7 +699,7 @@ void KeyframeContainer::resetKeyframes()
 void KeyframeContainer::initNeededSceneAndHelper()
 {
     // Loop over all parameters to determine the needed scene and helper
-    m_monitorHelper = nullptr;
+    m_monitorHelper.reset();
     m_neededScene = SceneType::MonitorSceneDefault;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
@@ -708,28 +707,28 @@ void KeyframeContainer::initNeededSceneAndHelper()
         const QString assetId = m_model->getAssetId();
         if (assetId == QLatin1String("qtblend")) {
             m_neededScene = SceneType::MonitorSceneRotatedGeometry;
-            m_monitorHelper = new RotatedRectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new RotatedRectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         } else if (type == ParamType::Roto_spline) {
             m_neededScene = SceneType::MonitorSceneRoto;
-            m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         } else if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
             m_neededScene = SceneType::MonitorSceneGeometry;
-            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
+            m_monitorHelper.reset(new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent));
             break;
         } else if (assetId == QLatin1String("frei0r.c0rners")) {
             m_neededScene = SceneType::MonitorSceneCorners;
-            m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         } else if (assetId == QLatin1String("frei0r.alpha0ps_alphaspot") || assetId.contains(QLatin1String("frei0r.alphaspot"))) {
             m_neededScene = SceneType::MonitorSceneGeometry;
-            m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         }
     }
     if (m_monitorHelper) {
-        connect(this, &KeyframeContainer::addIndex, m_monitorHelper, &KeyframeMonitorHelper::addIndex);
+        connect(this, &KeyframeContainer::addIndex, m_monitorHelper.get(), &KeyframeMonitorHelper::addIndex);
     }
 }
 
@@ -1074,13 +1073,13 @@ void KeyframeContainer::connectMonitor(bool active)
     if (m_monitorHelper) {
         if (m_model->isActive()) {
             if (m_monitorHelper->connectMonitor(active)) {
-                connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor,
+                connect(m_monitorHelper.get(), &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor,
                         Qt::UniqueConnection);
                 slotRefreshParams();
             }
         } else {
             if (m_monitorHelper->connectMonitor(false)) {
-                disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor);
+                disconnect(m_monitorHelper.get(), &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor);
             }
         }
     }

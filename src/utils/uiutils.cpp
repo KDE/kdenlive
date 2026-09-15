@@ -12,6 +12,29 @@
 #include <QIcon>
 #include <QPixmap>
 
+const QStringList UiUtils::getProxySafeParams()
+{
+    static QStringList allowedParams = {QStringLiteral("f"),        QStringLiteral("vf"),
+                                        QStringLiteral("af"),       QStringLiteral("c:v"),
+                                        QStringLiteral("c:a"),      QStringLiteral("codec:v"),
+                                        QStringLiteral("codec:a"),  QStringLiteral("g"),
+                                        QStringLiteral("qscale"),   QStringLiteral("filter_hw_device"),
+                                        QStringLiteral("i"),        QStringLiteral("vsync"),
+                                        QStringLiteral("fps_mode"), QStringLiteral("ab"),
+                                        QStringLiteral("qp"),       QStringLiteral("bf"),
+                                        QStringLiteral("crf"),      QStringLiteral("preset"),
+                                        QStringLiteral("vendor"),   QStringLiteral("vb"),
+                                        QStringLiteral("vprofile"), QStringLiteral("init_hw_device"),
+                                        QStringLiteral("hwaccel"),  QStringLiteral("hwaccel_output_format"),
+                                        QStringLiteral("resize"),   QStringLiteral("rc"),
+                                        QStringLiteral("pix_fmt"),  QStringLiteral("vcodec"),
+                                        QStringLiteral("acodec")};
+    QStringList customList = KdenliveSettings::safeFFmpegParams();
+    customList << allowedParams;
+    customList.removeDuplicates();
+    return customList;
+}
+
 const QStringList UiUtils::getProxyForbiddenParams()
 {
     static QStringList forbiddenParams = {QStringLiteral("attach"), QStringLiteral("metadata"), QStringLiteral("null"),   QStringLiteral("dump"),
@@ -72,8 +95,9 @@ QStringList UiUtils::checkUnknownProxyParams(QString proxyData)
     }
     detectedParams.removeDuplicates();
     QStringList unknownParams;
+    const QStringList safeList = getProxySafeParams();
     for (auto &d : detectedParams) {
-        if (!KdenliveSettings::safeFFmpegParams().contains(d)) {
+        if (!safeList.contains(d)) {
             unknownParams << d;
         }
     }

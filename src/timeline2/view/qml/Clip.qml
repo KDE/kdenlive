@@ -136,6 +136,16 @@ Rectangle {
 
     signal blockAutoScroll(bool enabled)
 
+    component ClipMarker: Rectangle {
+        property string markerText
+        property color markerColor
+        property int position
+        property bool hasRange: false
+        property real duration: 0
+        property int id
+        signal restorePositionBindings()
+    }
+
     onVisibleChanged: {
         if (clipRoot.visible) {
             updateLabelOffset()
@@ -178,8 +188,7 @@ Rectangle {
     }
 
     function grabItem() {
-        clipRoot.forceActiveFocus()
-        mouseArea.focus = true
+        mouseArea.forceActiveFocus()
     }
 
     function resetSelection() {
@@ -388,6 +397,7 @@ Rectangle {
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
             clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
+            event.accepted = true
         }
         Keys.onRightPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
@@ -402,22 +412,25 @@ Rectangle {
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
             clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
+            event.accepted = true
         }
-        Keys.onUpPressed: {
+        Keys.onUpPressed: event => {
             var nextTrack = clipRoot.controller.getNextTrackId(clipRoot.trackId);
             while(!clipRoot.controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== clipRoot.controller.getNextTrackId(nextTrack)) {
                 nextTrack = clipRoot.controller.getNextTrackId(nextTrack);
             }
+            event.accepted = true
         }
-        Keys.onDownPressed: {
+        Keys.onDownPressed: event => {
             var previousTrack = clipRoot.controller.getPreviousTrackId(clipRoot.trackId);
             while(!clipRoot.controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== clipRoot.controller.getPreviousTrackId(previousTrack)) {
                 previousTrack = clipRoot.controller.getPreviousTrackId(previousTrack);
             }
+            event.accepted = true
         }
-        Keys.onEscapePressed: {
+        Keys.onEscapePressed: event => {
             clipRoot.timeline.grabCurrent()
-            //focus = false
+            event.accepted = true
         }
         onEntered: {
             if (clipRoot.isPanning) {
@@ -718,15 +731,8 @@ Rectangle {
             }
             Component {
                 id: markerComponent
-                Rectangle {
+                ClipMarker {
                     id: markerBase
-                    property string markerText
-                    property color markerColor
-                    property int position
-                    property bool hasRange: false
-                    property real duration: 0
-                    property int id
-                    signal restorePositionBindings()
 
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
                     height: hasRange ? textMetrics.height + 2 : container.height
@@ -1082,8 +1088,9 @@ Rectangle {
                         Connections {
                             target: loader.item
                             function onRestorePositionBindings() {
-                                loader.item.position = Qt.binding(function() { return loader.modelData.frame })
-                                loader.item.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                const marker = loader.item as ClipMarker
+                                marker.position = Qt.binding(function() { return loader.modelData.frame })
+                                marker.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
                             }
                         }
                         sourceComponent: markerComponent
@@ -1594,7 +1601,7 @@ Rectangle {
                 property bool hasKeyframes: status == Loader.Ready ? clipRoot.keyframeModel === undefined ? false : (effectRow.item as KeyframeView).kfrCount > 1 : 0
 
                 active: clipRoot.visible
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
+                visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel === undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item
