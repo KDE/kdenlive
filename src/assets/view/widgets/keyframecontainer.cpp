@@ -116,337 +116,19 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_parent(parent)
     , m_neededScene(SceneType::MonitorSceneDefault)
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
-    , m_baseHeight(0)
-    , m_addedHeight(0)
     , m_layout(layout)
 {
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::matchingKeyframes, this, &KeyframeContainer::updatedPosition);
-    // connect(pCore->dopeSheetModel().get(), &DopeSheetModel::refreshAnimatedValues, this, &KeyframeContainer::slotRefresh);
-
     connect(pCore.get(), &Core::connectEffectStack, this, &KeyframeContainer::connectEffectStack, Qt::DirectConnection);
     connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeContainer::disconnectEffectStack, Qt::DirectConnection);
 
-    bool ok = false;
-    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
-    Q_ASSERT(ok);
     m_model->prepareKeyframes();
     m_keyframes = m_model->getKeyframeModel();
-
-    /*m_editorviewcontainer = new QStackedWidget(parent);
-    m_curveeditorcontainer = new QTabWidget(parent);
-    m_curveeditorcontainer->setTabBarAutoHide(true);
-    m_isRelative = m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool();
-
-
-    m_keyframeview = new KeyframeView(m_keyframes, duration, m_isRelative, parent);
-    m_toggleViewAction = new KDualAction(parent);
-    m_toggleViewAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("measure")));
-    m_toggleViewAction->setActiveText(i18n("Switch to timeline view"));
-    m_toggleViewAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("tool_curve")));
-    m_toggleViewAction->setInactiveText(i18n("Switch to curve editor view"));
-    m_toggleViewAction->setEnabled(false);
-    // use these two icons for now
-
-    connect(m_toggleViewAction, &KDualAction::triggered, this, &KeyframeContainer::slotToggleView);
-
-    m_viewswitch = new QToolButton(parent);
-    m_viewswitch->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    int size = QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
-    m_viewswitch->setIconSize(QSize(size, size));
-    m_viewswitch->setDefaultAction(m_toggleViewAction);
-
-    m_addDeleteAction = new KDualAction(parent);
-    m_addDeleteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
-    m_addDeleteAction->setActiveText(i18n("Add keyframe"));
-    m_addDeleteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-remove")));
-    m_addDeleteAction->setInactiveText(i18n("Delete keyframe"));
-
-    connect(m_addDeleteAction, &KDualAction::triggered, this, &KeyframeContainer::slotAddRemove);
-    connect(this, &KeyframeContainer::addRemove, this, &KeyframeContainer::slotAddRemove);
-
-    m_previousKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-previous")), i18n("Go to previous keyframe"), parent);
-    connect(m_previousKFAction, &QAction::triggered, this, &KeyframeContainer::slotGoToPrev);
-    connect(this, &KeyframeContainer::goToPrevious, this, &KeyframeContainer::slotGoToPrev);
-
-    m_nextKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-next")), i18n("Go to next keyframe"), parent);
-    connect(m_nextKFAction, &QAction::triggered, this, &KeyframeContainer::slotGoToNext);
-    connect(this, &KeyframeContainer::goToNext, this, &KeyframeContainer::slotGoToNext);
-
-    // Move keyframe to cursor
-    m_centerAction = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-center")), i18n("Move selected keyframe to cursor"), parent);
-
-    // Apply current value to selected keyframes
-    m_copyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy keyframes"), parent);
-    connect(m_copyAction, &QAction::triggered, this, &KeyframeContainer::slotCopySelectedKeyframes);
-    m_copyAction->setToolTip(i18n("Copy keyframes"));
-    m_copyAction->setWhatsThis(
-        xi18nc("@info:whatsthis", "Copy keyframes. Copy the selected keyframes, or current parameters values if no keyframe is selected."));
-
-    m_pasteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Paste keyframe"), parent);
-    connect(m_pasteAction, &QAction::triggered, this, &KeyframeContainer::slotPasteKeyframeFromClipBoard);
-    m_pasteAction->setToolTip(i18n("Paste keyframes"));
-    m_pasteAction->setWhatsThis(xi18nc("@info:whatsthis", "Paste keyframes. Paste clipboard data as keyframes at current position."));
-
-    m_applyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Apply current position value to selected keyframes"), parent);
-
-    // Keyframe type widget
-    m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), parent);
-    QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles;
-    const auto cmap = KeyframeModel::getKeyframeTypes();
-    for (auto it = cmap.cbegin(); it != cmap.cend(); it++) { // Order is fixed due to the nature of <map>
-        QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), parent);
-        tmp->setData(int(it.key()));
-        tmp->setCheckable(true);
-        kfTypeHandles.insert(it.key(), tmp);
-        m_selectType->addAction(kfTypeHandles[it.key()]);
-    }
-    m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
-    connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeContainer::slotEditKeyframeType);
-    m_selectType->setToolBarMode(KSelectAction::MenuMode);
-    m_selectType->setToolTip(i18n("Keyframe interpolation"));
-    m_selectType->setWhatsThis(xi18nc("@info:whatsthis", "Keyframe interpolation. This defines which interpolation will be used for the current keyframe."));
-
-    m_toolbar = new QToolBar(parent);
-    m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    m_toolbar->setIconSize(QSize(size, size));
-
-    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    connect(monitor, &Monitor::seekPosition, this, &KeyframeContainer::monitorSeek, Qt::DirectConnection);
-    connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeContainer::disconnectEffectStack, Qt::DirectConnection);
-
-    m_time = new TimecodeDisplay(parent);
-    m_time->setRange(0, duration - 1);
-
-    m_toolbar->addAction(m_previousKFAction);
-    m_toolbar->addAction(m_addDeleteAction);
-    m_toolbar->addAction(m_nextKFAction);
-    m_toolbar->addAction(m_centerAction);
-    m_toolbar->addAction(m_copyAction);
-    m_toolbar->addAction(m_pasteAction);
-    m_toolbar->addAction(m_selectType);
-
-
-
-    QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), parent);
-    seekKeyframe->setCheckable(true);
-    seekKeyframe->setChecked(KdenliveSettings::keyframeseek());
-    connect(seekKeyframe, &QAction::triggered, [&](bool selected) { KdenliveSettings::setKeyframeseek(selected); });
-    // copy/paste keyframes from clipboard
-    QAction *copy = new QAction(i18n("Copy All Keyframes to Clipboard"), parent);
-    connect(copy, &QAction::triggered, this, &KeyframeContainer::slotCopyKeyframes);
-    QAction *paste = new QAction(i18n("Import Keyframes from Clipboard…"), parent);
-    connect(paste, &QAction::triggered, this, &KeyframeContainer::slotImportKeyframes);
-    bool isColorWheel = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel;
-    if (isColorWheel) {
-        // TODO color wheel doesn't support keyframe import/export yet
-        copy->setVisible(false);
-        paste->setVisible(false);
-    }
-    // Remove keyframes
-    QAction *removeNext = new QAction(i18n("Remove all Keyframes After Cursor"), parent);
-    connect(removeNext, &QAction::triggered, this, &KeyframeContainer::slotRemoveNextKeyframes);
-
-    // Default kf interpolation
-    KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), parent);
-    QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles2;
-    for (auto it = cmap.cbegin(); it != cmap.cend(); it++) {
-        if (it.key() == KeyframeType::Curve) {
-            continue;
-        }
-        QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), parent);
-        tmp->setData(int(it.key()));
-        tmp->setCheckable(true);
-        kfTypeHandles2.insert(it.key(), tmp);
-        kfType->addAction(tmp);
-    }
-    auto currentType = static_cast<KeyframeType::KeyframeEnum>(KdenliveSettings::defaultkeyframeinterp());
-    if (currentType == KeyframeType::Curve) {
-        currentType = KeyframeType::CurveSmooth;
-    }
-    if (kfTypeHandles2.contains(currentType)) {
-        kfType->setCurrentAction(kfTypeHandles2[currentType]);
-    } else if (kfTypeHandles2.contains(KeyframeType::Linear)) {
-        kfType->setCurrentAction(kfTypeHandles2[KeyframeType::Linear]);
-    }
-    connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
-
-    // rotoscoping only supports linear keyframes
-    if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Roto_spline) {
-        m_selectType->setVisible(false);
-        m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
-        kfType->setVisible(false);
-        kfType->setCurrentAction(kfTypeHandles2[KeyframeType::Linear]);
-    }
-
-    // Auto keyframe limit
-    QAction *autoLimit = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")), i18n("Limit automatic keyframes"), parent);
-    autoLimit->setCheckable(true);
-    autoLimit->setChecked(KdenliveSettings::limitAutoKeyframes() > 0);
-    connect(autoLimit, &QAction::toggled, this, [this](bool toggled) {
-        if (toggled) {
-            KdenliveSettings::setLimitAutoKeyframes(KdenliveSettings::limitAutoKeyframesInterval());
-        } else {
-            KdenliveSettings::setLimitAutoKeyframes(0);
-        }
-    });
-
-    // Menu toolbutton
-    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), parent);
-    menuAction->setWhatsThis(
-        xi18nc("@info:whatsthis", "Opens a list of further actions for managing keyframes (for example: copy to and pasting keyframes from clipboard)."));
-    menuAction->setPopupMode(QToolButton::InstantPopup);
-    menuAction->addAction(seekKeyframe);
-    menuAction->addAction(copy);
-    menuAction->addAction(paste);
-    menuAction->addAction(m_applyAction);
-    menuAction->addSeparator();
-    menuAction->addAction(kfType);
-    menuAction->addAction(removeNext);
-    menuAction->addAction(autoLimit);
-    m_toolbar->addAction(menuAction);
-
-    m_editorviewcontainer->addWidget(m_keyframeview);
-    m_editorviewcontainer->addWidget(m_curveeditorcontainer);
-    // Show standard keyframe editor by default
-    m_editorviewcontainer->setCurrentIndex(0);
-    m_keyframeview->slotOnFocus();
-    m_layout->addRow(m_editorviewcontainer);
-    auto *hlay = new QHBoxLayout;
-    hlay->addWidget(m_toolbar);
-    hlay->addWidget(m_time);
-    hlay->addStretch();
-    hlay->addWidget(m_viewswitch);
-    m_layout->addRow(hlay);*/
-
-    /*connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
-    connect(m_keyframeview, &KeyframeView::seekToPos, this, &KeyframeContainer::slotSeekToPos);
-    connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeContainer::slotAtKeyframe);
-    connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeContainer::slotRefreshParams);
-    connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeContainer::activateEffect);
-    connect(m_keyframeview, &KeyframeView::goToNext, this, &KeyframeContainer::slotGoToNext);
-    connect(m_keyframeview, &KeyframeView::goToPrevious, this, &KeyframeContainer::slotGoToPrev);
-    connect(this, &KeyframeContainer::onKeyframeView, m_keyframeview, &KeyframeView::slotOnFocus);
-    connect(this, &KeyframeContainer::onCurveEditorView, m_keyframeview, &KeyframeView::slotLoseFocus);
-
-    connect(m_centerAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotCenterKeyframe);
-    connect(m_applyAction, &QAction::triggered, this, [this]() {
-        QMultiMap<QPersistentModelIndex, QString> paramList;
-        QList<QPersistentModelIndex> rectParams;
-        for (const auto &w : m_parameters) {
-            auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-            if (type == ParamType::AnimatedFakeRect) {
-                paramList.insert(w.first, i18n("Height"));
-                paramList.insert(w.first, i18n("Width"));
-                paramList.insert(w.first, i18n("Y position"));
-                paramList.insert(w.first, i18n("X position"));
-                rectParams << w.first;
-            } else if (type == ParamType::AnimatedRect) {
-                if (m_model->data(w.first, AssetParameterModel::OpacityRole).toBool()) {
-                    paramList.insert(w.first, i18n("Opacity"));
-                }
-                paramList.insert(w.first, i18n("Height"));
-                paramList.insert(w.first, i18n("Width"));
-                paramList.insert(w.first, i18n("Y position"));
-                paramList.insert(w.first, i18n("X position"));
-                rectParams << w.first;
-            } else {
-                paramList.insert(w.first, m_model->data(w.first, Qt::DisplayRole).toString());
-            }
-        }
-        if (paramList.count() == 0) {
-            qDebug() << "=== No parameter to copy, aborting";
-            return;
-        }
-        if (paramList.count() == 1) {
-            m_keyframeview->copyCurrentValue(m_keyframes->getIndexAtRow(0), QString());
-            return;
-        }
-        // More than one param
-        QDialog d(m_parent);
-        QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-        auto *l = new QVBoxLayout;
-        d.setLayout(l);
-        l->addWidget(new QLabel(i18n("Select parameters to copy"), &d));
-        QMultiMapIterator<QPersistentModelIndex, QString> i(paramList);
-        while (i.hasNext()) {
-            i.next();
-            auto *cb = new QCheckBox(i.value(), m_parent);
-            cb->setProperty("index", i.key());
-            l->addWidget(cb);
-        }
-        l->addWidget(buttonBox);
-        d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
-        d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
-        if (d.exec() != QDialog::Accepted) {
-            return;
-        }
-        paramList.clear();
-        QList<QCheckBox *> cbs = d.findChildren<QCheckBox *>();
-        QMap<QPersistentModelIndex, QStringList> params;
-        for (auto c : std::as_const(cbs)) {
-            if (c->isChecked()) {
-                QPersistentModelIndex ix = c->property("index").toModelIndex();
-                if (rectParams.contains(ix)) {
-                    // Check param name
-                    QString cbName = KLocalizedString::removeAcceleratorMarker(c->text());
-                    if (cbName == i18n("Opacity")) {
-                        if (params.contains(ix)) {
-                            params[ix] << QStringLiteral("spinO");
-                        } else {
-                            params.insert(ix, {QStringLiteral("spinO")});
-                        }
-                    } else if (cbName == i18n("Height")) {
-                        if (params.contains(ix)) {
-                            params[ix] << QStringLiteral("spinH");
-                        } else {
-                            params.insert(ix, {QStringLiteral("spinH")});
-                        }
-                    } else if (cbName == i18n("Width")) {
-                        if (params.contains(ix)) {
-                            params[ix] << QStringLiteral("spinW");
-                        } else {
-                            params.insert(ix, {QStringLiteral("spinW")});
-                        }
-                    } else if (cbName == i18n("X position")) {
-                        if (params.contains(ix)) {
-                            params[ix] << QStringLiteral("spinX");
-                        } else {
-                            params.insert(ix, {QStringLiteral("spinX")});
-                        }
-                    } else if (cbName == i18n("Y position")) {
-                        if (params.contains(ix)) {
-                            params[ix] << QStringLiteral("spinY");
-                        } else {
-                            params.insert(ix, {QStringLiteral("spinY")});
-                        }
-                    }
-                    if (!params.contains(ix)) {
-                        params.insert(ix, {});
-                    }
-                } else {
-                    params.insert(ix, {});
-                }
-            }
-        }
-        QMapIterator<QPersistentModelIndex, QStringList> p(params);
-        while (p.hasNext()) {
-            p.next();
-            m_keyframeview->copyCurrentValue(p.key(), p.value().join(QLatin1Char(' ')));
-        }
-        return;
-    });
-
-    QMargins mrg = m_layout->contentsMargins();
-    m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
-    m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
-    m_addedHeight = mrg.top() + mrg.bottom() + m_layout->horizontalSpacing();*/
 
     bool isColorWheel = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel;
     if (isColorWheel) {
         addParameter(index);
     }
-    m_fixedHeight = m_baseHeight + m_addedHeight;
-    Q_EMIT updateHeight();
 }
 
 KeyframeContainer::~KeyframeContainer() {}
@@ -489,17 +171,7 @@ void KeyframeContainer::monitorSeek(int pos)
 void KeyframeContainer::slotRefreshParams()
 {
     int pos = getPosition();
-    /*KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
-    int i = 0;*/
     Q_EMIT updateAnimCheckBox();
-    /*while (auto ac = m_selectType->action(i)) {
-        if (ac->data().toInt() == int(keyType)) {
-            m_selectType->setCurrentItem(i);
-            m_selectType->setIcon(ac->icon());
-            break;
-        }
-        i++;
-    }*/
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::AnimatedFakePoint || type == ParamType::AnimatedPoint) {
@@ -543,27 +215,7 @@ void KeyframeContainer::slotRefreshParams()
 }
 void KeyframeContainer::slotSetPosition(int pos, bool update)
 {
-    /*bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
-    int offset = 0;
-    if (pos < 0) {
-        if (canHaveZone) {
-            offset = m_model->data(m_index, AssetParameterModel::InRole).toInt();
-        }
-        pos = m_time->getValue();
-    } else {
-        m_time->setValue(pos);
-    }
-    m_keyframeview->slotSetPosition(pos, true);
-    for (auto &i : std::as_const(m_curveeditorview)) {
-        i->slotSetPosition(pos, true);
-    }
-    positionUpdated(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId())));
-    m_addDeleteAction->setEnabled(pos > 0);*/
     slotRefreshParams();
-
-    /*if (update) {
-        Q_EMIT seekToPos(pos + offset);
-    }*/
 }
 
 int KeyframeContainer::getPosition() const
@@ -571,7 +223,6 @@ int KeyframeContainer::getPosition() const
     int pos = pCore->getMonitorPosition(m_model->monitorId);
     int itemPos = pCore->getItemPosition(m_keyframes->getOwnerId());
     return pos - itemPos + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
-    // return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
 }
 
 void KeyframeContainer::updatedPosition(QList<QPersistentModelIndex> matchingIndexes, QList<QPersistentModelIndex> notMatchingIndexes)
@@ -675,11 +326,8 @@ void KeyframeContainer::setDuration(int duration)
     for (auto &p : toDelete) {
         m_keyframes->removeFromSelected(p);
     }
-    m_keyframeview->setDuration(duration);
-    for (auto &i : m_curveeditorview) {
-        i->setDuration(duration);
-    }
 }
+
 void KeyframeContainer::resetKeyframes()
 {
     // update duration
@@ -692,7 +340,6 @@ void KeyframeContainer::resetKeyframes()
     m_keyframes->refresh();
     // m_model->dataChanged(QModelIndex(), QModelIndex());
     setDuration(duration);
-    m_time->setRange(0, duration - 1);
     slotRefreshParams();
 }
 
@@ -739,20 +386,6 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
     QString comment = m_model->data(index, AssetParameterModel::CommentRole).toString();
     QString suffix = m_model->data(index, AssetParameterModel::SuffixRole).toString();
     auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-
-    qDebug() << "::::::PARAM ADDED:" << name << static_cast<int>(type) << comment << suffix;
-    // create KeyframeCurveEditor(s) which controls the current parameter
-    /*if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
-        QVector<QString> tabname = QVector<QString>() << i18n("X position") << i18n("Y position") << i18n("Width") << i18n("Height");
-        if (m_model->data(index, AssetParameterModel::OpacityRole).toBool()) {
-            tabname.append(i18n("Opacity"));
-        }
-        for (int i = 0; i < tabname.size(); i++) {
-            addCurveEditor(index, tabname[i], i);
-        }
-    } else if (type == ParamType::KeyframeParam) { // other types which support curve editors
-        addCurveEditor(index);
-    }*/
 
     // Construct object
     QLabel *labelWidget = nullptr;
@@ -822,10 +455,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                         delete parentCommand;
                     }
                 });
-        connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) {
-            m_fixedHeight = m_baseHeight + m_addedHeight + h;
-            Q_EMIT updateHeight();
-        });
+        connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) { QTimer::singleShot(100, this, &KeyframeContainer::updateHeight); });
         paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
         Q_EMIT addIndex(index);
@@ -979,6 +609,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
 
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
+            qDebug() << ":::: DOUBLE WIDGET VALUE CHAGED FPR POS: " << getPosition();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, index);
         });
         if (m_geom) {
@@ -1039,28 +670,14 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         } else {
             m_layout->addRow(container);
         }
-        m_addedHeight += paramWidget->minimumHeight() + m_layout->horizontalSpacing();
-        m_fixedHeight = m_baseHeight + m_addedHeight;
     } else {
         m_parameters[index] = nullptr;
     }
 }
 
-int KeyframeContainer::minimumHeight() const
-{
-    return m_fixedHeight;
-}
-
 void KeyframeContainer::slotInitMonitor(bool active, bool)
 {
     connectMonitor(active);
-    /*if (m_keyframeview) {
-        m_keyframeview->initKeyframePos();
-        connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
-    }
-    for (auto &i : std::as_const(m_curveeditorview)) {
-        connect(monitor, &Monitor::updateScene, i, &KeyframeCurveEditor::slotModelChanged, Qt::UniqueConnection);
-    }*/
     if (m_monitorHelper) {
         Monitor *monitor = pCore->getMonitor(m_model->monitorId);
         int framePos = monitor->position() - pCore->getItemKeyframeOffset(m_model->getOwnerId());
@@ -1089,18 +706,17 @@ void KeyframeContainer::connectMonitor(bool active)
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (active) {
-        connect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove, Qt::UniqueConnection);
-        connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe, Qt::UniqueConnection);
+        // TODO: reconnect to dopesheet
+        //  connect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove, Qt::UniqueConnection);
+        //  connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe, Qt::UniqueConnection);
     } else {
-        disconnect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove);
-        disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe);
+        // TODO: reconnect to dopesheet
+        //  disconnect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove);
+        //  disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe);
     }
     m_monitorActive = active;
     if (m_geom) {
         m_geom->connectMonitor(active, m_keyframes->singleKeyframe());
-        if (active) {
-            // m_keyframeview->initKeyframePos();
-        }
     }
 }
 
@@ -1108,6 +724,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
 {
     Q_EMIT activateEffect();
     QVariant result = res;
+    qDebug() << "::::: UPDATING KEYFRAME FROM MONITOR!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
     auto monitor = pCore->getMonitor(m_model->monitorId);
     int framePos = monitor->position() - pCore->getItemKeyframeOffset(m_model->getOwnerId());
     if (m_keyframes->isEmpty()) {
@@ -1123,7 +740,8 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
             }
         }
 
-        GenTime pos(((m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()))) + m_time->getValue(), pCore->getCurrentFps());
+        // TODO: GET CURRENT KEYFRAME POSITION
+        GenTime pos(((m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()))) /*+ m_time->getValue()*/, pCore->getCurrentFps());
         if (framePos > 0) {
             // First add keyframe at start of the clip
             GenTime pos0(m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
@@ -1176,23 +794,6 @@ SceneType::MonitorSceneType KeyframeContainer::requiredScene() const
 {
     qDebug() << "// // // RESULTING REQUIRED SCENE: " << m_neededScene;
     return m_neededScene;
-}
-
-bool KeyframeContainer::keyframesVisible() const
-{
-    return m_editorviewcontainer->isVisible();
-}
-
-void KeyframeContainer::showKeyframes(bool enable)
-{
-    if (enable && m_toolbar->isVisible()) {
-        return;
-    }
-    m_toolbar->setVisible(enable);
-    m_editorviewcontainer->setVisible(enable);
-    m_time->setVisible(enable);
-    m_viewswitch->setVisible(enable);
-    m_fixedHeight = m_addedHeight + (enable ? m_baseHeight : 0);
 }
 
 void KeyframeContainer::slotCopyKeyframes()
@@ -1440,68 +1041,7 @@ void KeyframeContainer::slotRemoveKeyframe(const QVector<int> &positions)
     pCore->pushUndo(undo, redo, i18np("Remove keyframe", "Remove keyframes", positions.size()));
 }
 
-void KeyframeContainer::slotGoToPrev()
-{
-    Q_EMIT activateEffect();
-    bool ok;
-    int position = getPosition();
-    if (position == 0 || m_time->getValue() == 0) {
-        // No keyframe before
-        return;
-    }
-
-    int offset = m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId());
-    auto prev = m_keyframes->getPrevKeyframe(GenTime(position, pCore->getCurrentFps()), &ok);
-
-    if (ok) {
-        slotSeekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset));
-    } else {
-        // Seek to start
-        slotSeekToPos(0);
-    }
-}
-void KeyframeContainer::slotGoToNext()
-{
-    Q_EMIT activateEffect();
-    bool ok;
-    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
-    if (m_time->getValue() == duration - 1) {
-        // Already at end
-        return;
-    }
-
-    int position = getPosition();
-    int offset = m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId());
-    auto next = m_keyframes->getNextKeyframe(GenTime(position, pCore->getCurrentFps()), &ok);
-
-    if (ok) {
-        slotSeekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, duration - 1));
-    } else {
-        // Seek to end
-        slotSeekToPos(duration - 1);
-    }
-}
-
-void KeyframeContainer::slotRemoveNextKeyframes()
-{
-    int pos = m_time->getValue() + m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
-    m_keyframes->removeNextKeyframes(GenTime(pos, pCore->getCurrentFps()));
-}
-
-void KeyframeContainer::slotSeekToKeyframe(int ix, int offset)
-{
-    if (offset > 0) {
-        slotGoToNext();
-        return;
-    }
-    if (offset < 0) {
-        slotGoToPrev();
-        return;
-    }
-    int pos = m_keyframes->getPosAtIndex(ix).frames(pCore->getCurrentFps()) - m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
-    slotSetPosition(pos, true);
-}
-void KeyframeContainer::slotSeekToPos(int pos)
+/*void KeyframeContainer::slotSeekToPos(int pos)
 {
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
     bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
@@ -1520,92 +1060,4 @@ void KeyframeContainer::slotSeekToPos(int pos)
     slotRefreshParams();
 
     Q_EMIT seekToPos(pos + (canHaveZone ? in : 0));
-}
-
-int KeyframeContainer::getCurrentView()
-{
-    // 0 for KeyframeView, 1 for KeyframeCurveEditor
-    return m_editorviewcontainer->currentIndex();
-}
-
-void KeyframeContainer::slotToggleView()
-{
-    int cur = m_editorviewcontainer->currentIndex();
-    int height = m_editorviewcontainer->height();
-    switch (cur) {
-    case 0:
-        m_editorviewcontainer->setCurrentIndex(1);
-        m_curveeditorcontainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        // m_keyframeview->setSint offset = pCore->getItemIn(m_keyframes->getOwnerId());lotaddizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-        if (m_curveContainerHeight <= 0) { // initialize curve editor widget base height
-            m_curveContainerHeight = m_curveeditorview.last()->height() + m_curveeditorcontainer->height();
-        }
-        height = m_curveContainerHeight;
-        m_curveeditorcontainer->setFixedHeight(height);
-        m_centerAction->setEnabled(false);
-        Q_EMIT onCurveEditorView();
-        break;
-    case 1:
-        m_editorviewcontainer->setCurrentIndex(0);
-        m_keyframeview->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        m_curveeditorcontainer->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-        height = m_keyframeview->height();
-        m_centerAction->setEnabled(!m_keyframes->hasKeyframe(getPosition()));
-        Q_EMIT onKeyframeView();
-        break;
-    case -1:
-    default:
-        qDebug() << ":::: VIEW WIDGET NOT INITIALIZED CORRECTLY";
-        break;
-    }
-    m_editorviewcontainer->setFixedHeight(height);
-    m_baseHeight = height + m_toolbar->sizeHint().height();
-    m_fixedHeight = m_addedHeight + m_baseHeight;
-    Q_EMIT updateHeight();
-}
-void KeyframeContainer::sendStandardCommand(int command)
-{
-    switch (command) {
-    case KStandardAction::Copy:
-        m_copyAction->trigger();
-        break;
-    case KStandardAction::Paste:
-        m_pasteAction->trigger();
-        break;
-    default:
-        qDebug() << ":::: UNKNOWN COMMAND: " << command;
-        break;
-    }
-}
-
-void KeyframeContainer::addCurveEditor(const QPersistentModelIndex &index, QString name, int rectindex)
-{
-    if (!m_toggleViewAction->isEnabled()) {
-        m_toggleViewAction->setEnabled(true);
-    }
-    if (name.isEmpty()) {
-        name = m_model->data(index, Qt::DisplayRole).toString();
-    }
-    int duration = m_model->data(index, AssetParameterModel::ParentDurationRole).toInt();
-    double min = -99000.0, max = 99000.0, factor = 1.0;
-    if (rectindex == -1) {
-        factor = m_model->data(index, AssetParameterModel::FactorRole).toDouble();
-        factor = qFuzzyIsNull(factor) ? 1.0 : factor;
-        min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
-        max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
-    } else if (rectindex == 2 || rectindex == 3) { // width and height
-        min = 1;
-    } else if (rectindex == 4) { // opacity
-        min = 0;
-        max = 1;
-    }
-    KeyframeCurveEditor *tmpkce = new KeyframeCurveEditor(m_keyframes, duration, min, max, factor, index, rectindex, m_parent);
-    m_curveeditorview.append(tmpkce);
-    connect(this, &KeyframeContainer::onCurveEditorView, m_curveeditorview.last(), &KeyframeCurveEditor::slotOnFocus);
-    connect(this, &KeyframeContainer::onKeyframeView, m_curveeditorview.last(), &KeyframeCurveEditor::slotLoseFocus);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::modified, this, &KeyframeContainer::slotRefreshParams);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::activateEffect, this, &KeyframeContainer::activateEffect);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::seekToPos, this, &KeyframeContainer::slotSeekToPos);
-    // NO slotCenterKeyframe
-    m_curveeditorcontainer->addTab(m_curveeditorview.last(), name);
-}
+}*/

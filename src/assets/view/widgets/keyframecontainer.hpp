@@ -44,15 +44,7 @@ public:
     /** @brief Returns the monitor scene required for this asset
      */
     SceneType::MonitorSceneType requiredScene() const;
-    /** @brief Show / hide keyframe related widgets
-     */
-    void showKeyframes(bool enable);
-    /** @brief Returns true if keyframes options are visible
-     */
-    bool keyframesVisible() const;
     void resetKeyframes();
-    int getCurrentView();
-    int minimumHeight() const;
     /** @brief Initialize the needed scene and monitor helper for the effect/asset. Should be called before addParameter when setting up the widget. */
     void initNeededSceneAndHelper();
 
@@ -61,11 +53,7 @@ public Q_SLOTS:
     /** @brief initialize qml overlay
      */
     void slotInitMonitor(bool active, bool);
-    /** @brief Activate a standard action passed from the mainwindow, like copy or paste */
-    void sendStandardCommand(int command);
     void slotAddRemove(bool addOnly);
-    void slotGoToNext();
-    void slotGoToPrev();
     void slotSetPosition(int pos = -1, bool update = true);
     /** @brief remove the keyframe at given position
        If pos is negative, we remove keyframe at current position
@@ -89,14 +77,8 @@ private Q_SLOTS:
     void slotCopyKeyframes();
     void slotCopyValueAtCursorPos();
     void slotImportKeyframes();
-    void slotRemoveNextKeyframes();
-    /** @brief Seek to keyframe.
-     *  @param ix the index of the keyframe we want to reach
-     *  @param offset if different than 0, the parameter ix  is ignored and we seek to next or previous keyframe
-     */
-    void slotSeekToKeyframe(int ix, int offset);
-    void slotSeekToPos(int pos);
-    void slotToggleView();
+
+    // void slotSeekToPos(int pos);
     void monitorSeek(int pos);
     void positionUpdated(int pos);
     void updatedPosition(QList<QPersistentModelIndex> matchingIndexes, QList<QPersistentModelIndex> notMatchingIndexes);
@@ -108,45 +90,24 @@ private:
     QToolBar *m_toolbar;
     QToolButton *m_viewswitch;
     std::shared_ptr<KeyframeModelList> m_keyframes;
-    KeyframeView *m_keyframeview{nullptr};
     std::unique_ptr<KeyframeMonitorHelper> m_monitorHelper;
-    QTabWidget *m_curveeditorcontainer{nullptr};
     int m_lastKeyframePos{-1};
-    QVector<KeyframeCurveEditor *> m_curveeditorview;
-    QStackedWidget *m_editorviewcontainer{nullptr};
-    KDualAction *m_addDeleteAction;
-    KDualAction *m_toggleViewAction;
-    QAction *m_centerAction;
-    QAction *m_copyAction;
-    QAction *m_pasteAction;
-    QAction *m_previousKFAction;
-    QAction *m_nextKFAction;
-    QAction *m_applyAction;
-    KSelectAction *m_selectType;
-    TimecodeDisplay *m_time;
     SceneType::MonitorSceneType m_neededScene;
     bool m_monitorActive{false};
     bool m_isRelative{false};
     QSize m_sourceFrameSize;
     void connectMonitor(bool active);
     void setDuration(int duration);
-    void addCurveEditor(const QPersistentModelIndex &index, QString name = "", int rectindex = -1);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
     std::unordered_map<QPersistentModelIndex, KDualAction *> m_keyframeActions;
-    int m_baseHeight{0};
-    int m_addedHeight{0};
     QFormLayout *m_layout;
     std::unique_ptr<GeometryWidget> m_geom;
     QPersistentModelIndex m_geometryIndex;
-    int m_curveContainerHeight{0};
-    int m_fixedHeight{0};
 
 Q_SIGNALS:
     void addIndex(QPersistentModelIndex ix);
     void setKeyframes(const QString &);
     void updateEffectKeyframe(bool atkeyframe, bool outside);
-    void goToNext();
-    void goToPrevious();
     void addRemove(bool addOnly = false);
     void onCurveEditorView();
     void onKeyframeView();

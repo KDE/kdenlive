@@ -29,8 +29,10 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
 
 {
+    setContentsMargins(0, 0, 0, 0);
     m_lay = new QFormLayout(this);
     m_lay->setVerticalSpacing(2);
+    m_lay->setVerticalSizeConstraint(QLayout::SetFixedSize);
     // Presets Combo
     m_presetMenu = new QMenu(this);
 }
@@ -90,14 +92,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(m_mainKeyframeWidget, &KeyframeContainer::activateEffectParamAndSeek, this, &AssetParameterView::activateEffectParamAndSeek);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::activateEffect, this, &AssetParameterView::activateEffect);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
-                connect(m_mainKeyframeWidget, &KeyframeContainer::updateHeight, this, [&]() {
-                    setFixedHeight(contentHeight());
-                    Q_EMIT updateHeight();
-                });
-                connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToNext);
-                connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToPrevious);
-                connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeContainer::addRemove);
-                connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeContainer::sendStandardCommand);
+                connect(m_mainKeyframeWidget, &KeyframeContainer::updateHeight, this, &AssetParameterView::updateHeight);
                 m_mainKeyframeWidget->initNeededSceneAndHelper();
             }
             break;
@@ -124,10 +119,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                     connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
                     connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                     connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
-                    connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
-                        setMinimumHeight(contentHeight());
-                        Q_EMIT updateHeight();
-                    });
+                    connect(w, &AbstractParamWidget::updateHeight, this, &AssetParameterView::updateHeight);
                     m_lay->insertRow(nonKeyframeRow, w);
                     nonKeyframeRow++;
                 }
@@ -147,10 +139,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
-                connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
-                    setMinimumHeight(contentHeight());
-                    Q_EMIT updateHeight();
-                });
+                connect(w, &AbstractParamWidget::updateHeight, this, &AssetParameterView::updateHeight);
                 if (type == ParamType::Curve || type == ParamType::Bezier_spline || type == ParamType::Keywords) {
                     // Use full width for these param types
                     m_lay->insertRow(nonKeyframeRow, w);
@@ -163,7 +152,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             m_widgets.push_back(w);
         }
     }
-    setMinimumHeight(contentHeight());
     // Ensure effect parameters are adjusted to current position
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     Q_EMIT monitor->seekPosition(monitor->position());
@@ -247,11 +235,6 @@ void AssetParameterView::disconnectKeyframeWidget()
         disconnect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &KeyframeContainer::slotInitMonitor);
         disconnect(m_mainKeyframeWidget, &KeyframeContainer::seekToPos, this, &AssetParameterView::seekToPos);
         disconnect(m_mainKeyframeWidget, &KeyframeContainer::activateEffect, this, &AssetParameterView::activateEffect);
-
-        disconnect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToNext);
-        disconnect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToPrevious);
-        disconnect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeContainer::addRemove);
-        disconnect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeContainer::sendStandardCommand);
     }
 }
 
@@ -366,16 +349,7 @@ bool AssetParameterView::hasMultipleKeyframes() const
 
 bool AssetParameterView::modelHideKeyframes() const
 {
-    return m_mainKeyframeWidget != nullptr && !m_mainKeyframeWidget->keyframesVisible();
-}
-
-void AssetParameterView::toggleKeyframes(bool enable)
-{
-    if (m_mainKeyframeWidget) {
-        m_mainKeyframeWidget->showKeyframes(enable);
-        setFixedHeight(contentHeight());
-        Q_EMIT updateHeight();
-    }
+    return false;
 }
 
 void AssetParameterView::slotDeleteCurrentPreset()

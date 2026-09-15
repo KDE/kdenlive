@@ -87,7 +87,7 @@ public:
 
     /** @brief Returns true if we only have 1 keyframe
      */
-    bool singleKeyframe() const;
+    bool singleKeyframe(const QPersistentModelIndex &ix = QModelIndex()) const;
     /** @brief Returns true if we only have no keyframe
      */
     bool isEmpty() const;

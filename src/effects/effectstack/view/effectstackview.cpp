@@ -441,6 +441,7 @@ void EffectStackView::loadEffects()
         }
         const QString assetName = EffectsRepository::get()->getName(assetId);
         view = new CollapsibleEffectView(assetName, effectModel, m_sourceFrameSize, this);
+        qDebug() << "XXXXXXXXXXXXXXXXx\n\nBUILDING COLLAPSIBLE EFFECT FOR: " << assetName << "\n\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx";
         connect(view, &CollapsibleEffectView::deleteEffect, this, &EffectStackView::slotDeleteEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
@@ -481,8 +482,8 @@ void EffectStackView::loadEffects()
             activeIndex = ix;
         }
         m_effectsTree->setIndexWidget(ix, view);
-        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
-        del->setHeight(ix, view->height());
+        // auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
+        // del->setHeight(ix, view->height());
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
     }
@@ -515,7 +516,6 @@ void EffectStackView::updateTreeHeight()
     if (!m_model) {
         return;
     }
-    qDebug() << ":::: UPDATING TREE HEIGHT....";
     int totalHeight = 0;
     for (int j = 0; j < m_model->rowCount(); j++) {
         std::shared_ptr<AbstractEffectItem> item2 = m_model->getEffectStackRow(j);
@@ -526,7 +526,6 @@ void EffectStackView::updateTreeHeight()
             totalHeight += w->minimumHeight();
         }
     }
-    qDebug() << ":::: UPDATING TREE HEIGHT, TOTAL: " << totalHeight << ", CURRENTR: " << m_effectsTree->height();
     if (totalHeight != m_effectsTree->height()) {
         m_effectsTree->setFixedHeight(totalHeight);
         m_scrollTimer.start();

@@ -54,7 +54,6 @@ public:
 
 public Q_SLOTS:
     void slotRefresh();
-    void toggleKeyframes(bool enable);
     /** Reset all parameter values to default */
     void resetValues();
     /** Save all parameters to a preset */

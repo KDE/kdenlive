@@ -569,14 +569,13 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
 
 bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, int ix, const QPersistentModelIndex &index, QUndoCommand *parentCommand)
 {
-    if (singleKeyframe()) {
+    if (singleKeyframe(index)) {
         bool ok = false;
         Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
         pos = kf.first;
     }
     if (auto ptr = m_model.lock()) {
         const QVariant previousValue = getKeyModel(index)->getInterpolatedValue(pos);
-        qDebug() << "::::: UPDATE KLMMODELLIST KEYFRAME AT: " << pos.frames(25);
         auto *command = new AssetKeyframeCommand(ptr, index, value, pos, parentCommand);
         pCore->groupAssetKeyframeCommand(ptr->getOwnerId(), ptr->getAssetId(), index, pos, previousValue, value, ix, command);
         if (parentCommand == nullptr) {
@@ -608,7 +607,7 @@ bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersist
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.count(index) > 0);
-    if (singleKeyframe()) {
+    if (singleKeyframe(index)) {
         bool ok = false;
         Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
         pos = kf.first;
@@ -641,10 +640,13 @@ Keyframe KeyframeModelList::getKeyframe(const GenTime &pos, bool *ok) const
     return m_parameters.begin()->second->getKeyframe(pos, ok);
 }
 
-bool KeyframeModelList::singleKeyframe() const
+bool KeyframeModelList::singleKeyframe(const QPersistentModelIndex &ix) const
 {
     READ_LOCK();
     Q_ASSERT(m_parameters.size() > 0);
+    if (ix.isValid()) {
+        return m_parameters.at(ix)->singleKeyframe();
+    }
     return m_parameters.begin()->second->singleKeyframe();
 }
 
