@@ -1,14 +1,13 @@
 # SPDX-FileCopyrightText: 2026 Kdenlive contributors
 # SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
-include(ECMAddTests)
 kde_enable_exceptions()
 
-ecm_add_test(
+add_executable(timelinemodelbenchmark
     timelinemodelbenchmark.cpp
-    TEST_NAME timelinemodelbenchmark
-    LINK_LIBRARIES kdenliveLib
 )
+target_link_libraries(timelinemodelbenchmark PRIVATE kdenliveLib)
+target_compile_definitions(timelinemodelbenchmark PRIVATE QT_FORCE_ASSERTS)
 
 target_include_directories(timelinemodelbenchmark PRIVATE
     ${CMAKE_SOURCE_DIR}
@@ -16,4 +15,3 @@ target_include_directories(timelinemodelbenchmark PRIVATE
     ${CMAKE_BINARY_DIR}
 )
 set_property(TARGET timelinemodelbenchmark PROPERTY CXX_STANDARD 14)
-set_tests_properties(timelinemodelbenchmark PROPERTIES TIMEOUT 600 ENVIRONMENT "QT_QPA_PLATFORM=offscreen")

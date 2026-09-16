@@ -2,9 +2,10 @@ This folder provides benchmarking utilities, currently mostly covering the backe
 The aim is to quantify performance improvements on a wide range of synthetic but hopefully somewhat realistic scenarios.
 
 
-To run it, simply build then call the benchmark executable while redirecting the stdout to a file:
+The benchmark is run manually and is not registered with CTest. With `BUILD_TESTING=ON`, build and run it from the repository root, redirecting stdout to a file:
 ```
-bin/timelinemodelbenchmark > ../benchmark/baseline.csv
+cmake --build build --target timelinemodelbenchmark -j4
+QT_QPA_PLATFORM=offscreen build/bin/timelinemodelbenchmark > benchmark/baseline.csv
 ```
 
 Then, from the repository root, compare two measurements using Python 3 (no additional packages required):
