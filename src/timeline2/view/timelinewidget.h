@@ -24,7 +24,7 @@ public:
     TimelineWidget(const QUuid uuid, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
-    void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
+    void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy, bool previewEnabled = true);
     /** @brief Load the marker model (created after model is instantiated) */
     void loadMarkerModel();
 

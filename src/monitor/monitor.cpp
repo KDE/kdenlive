@@ -1881,7 +1881,12 @@ void Monitor::forceMonitorRefresh()
 
 void Monitor::refreshMonitor(bool directUpdate, bool slowRefresh)
 {
-    if (!m_glMonitor->isReady() || isPlaying()) {
+    if (!m_glMonitor->isReady()) {
+        return;
+    }
+    if (isPlaying()) {
+        // Discard buffered frames so playback reflects the updated timeline.
+        m_glMonitor->purgeCache();
         return;
     }
     if (isActive()) {

@@ -3,6 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include "timelinetabs.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/projectclip.h"
@@ -16,7 +17,6 @@
 #include "project/projectmanager.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
-#include "timelinetabs.hpp"
 #include "timelinewidget.h"
 
 #include <KMessageBox>
@@ -118,7 +118,7 @@ void TimelineTabs::setModified(const QUuid &uuid, bool modified)
 }
 
 TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
-                                          MonitorProxy *proxy, bool openInMonitor)
+                                          MonitorProxy *proxy, bool openInMonitor, bool previewEnabled)
 {
     QMutexLocker lk(&m_lock);
     if (count() == 1 && m_activeTimeline) {
@@ -128,7 +128,7 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QStrin
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
                                  m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu, m_timelineAddClipMenu);
-    newTimeline->setModel(timelineModel, proxy);
+    newTimeline->setModel(timelineModel, proxy, previewEnabled);
     int newIndex = 0;
     if (ix == -1 || ix >= count()) {
         newIndex = addTab(newTimeline, tabName);

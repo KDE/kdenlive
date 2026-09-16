@@ -39,6 +39,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
     Q_PROPERTY(QVariantList dirtyChunks READ dirtyChunks NOTIFY dirtyChunksChanged)
     Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
+    Q_PROPERTY(bool previewDisabled READ previewDisabled NOTIFY previewDisabledStateChanged)
     Q_PROPERTY(QVariantList masterEffectZones MEMBER m_masterEffectZones NOTIFY masterZonesChanged)
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
@@ -88,7 +89,7 @@ public:
         QMap<int, QString> audioTargets;
     };
     /** @brief Sets the model that this widgets displays */
-    void setModel(std::shared_ptr<TimelineItemModel> model);
+    void setModel(std::shared_ptr<TimelineItemModel> model, bool previewEnabled = true);
     std::shared_ptr<TimelineItemModel> getModel() const;
     void setRoot(QQuickItem *root);
     /** @brief Edit an item's in/out points with a dialog
@@ -646,6 +647,7 @@ public:
     void clearPreviewRange(bool resetZones);
     void startPreviewRender();
     void stopPreviewRender();
+    bool previewDisabled() const { return m_previewDisabled; }
     QVariantList dirtyChunks() const;
     QVariantList renderedChunks() const;
     /** @brief returns the frame currently processed by timeline preview, -1 if none
@@ -766,8 +768,8 @@ public Q_SLOTS:
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);
     void addEffectToCurrentClip(const QStringList &effectData);
-    /** @brief Dis / enable timeline preview. */
-    void disablePreview(bool disable);
+    /** @brief Enable or disable timeline preview. */
+    void setPreviewEnabled(bool enabled);
     void invalidateItem(int cid);
     void invalidateTrack(int tid);
     void invalidateMix(ObjectId owner);
@@ -809,6 +811,7 @@ private Q_SLOTS:
     /** @brief An operation was attempted on a locked track, animate lock icon to make user aware */
     void slotFlashLock(int trackId);
     void initializePreview();
+    void refreshPreviewChunk(int frame);
     /** @brief Display the active subtitle mode in subtitle track combobox. */
     void loadSubtitleIndex();
 
@@ -846,7 +849,7 @@ private:
     QPoint m_zone;
     int m_activeTrack;
     double m_scale;
-    QAction *m_disablePreview;
+    bool m_previewDisabled{false};
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;
     bool m_ready;
@@ -908,6 +911,9 @@ Q_SIGNALS:
     void dirtyChunksChanged();
     void renderedChunksChanged();
     void workingPreviewChanged();
+    void previewDisabledStateChanged();
+    /** @brief Refresh the displayed frame and discard queued frames after toggling previews. */
+    void previewRefreshRequested(bool directUpdate, bool slowRefresh);
     void subtitlesDisabledChanged();
     void subtitlesLockedChanged();
     void useRulerChanged();
