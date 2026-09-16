@@ -7,8 +7,8 @@ To run it, simply build then call the benchmark executable while redirecting the
 bin/timelinemodelbenchmark > ../benchmark/baseline.csv
 ```
 
-Then, when you have two measurements, you can compare them:
+Then, from the repository root, compare two measurements using Python 3 (no additional packages required):
 ```
-./compare.sh old.csv new.csv
+python3 benchmark/compare.py benchmark/base.csv benchmark/improved.csv
 ```
 This will print the speedup for each operation, in decreasing order. Higher is better. Ideally we'd want to see everything > 1.0, but in practice that's rarely the case. We can make tradeoff where we drastically improve the perf of a function that is called very often, while loosing out a little on one that is more rarely called.
