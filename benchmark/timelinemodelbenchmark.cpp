@@ -4,6 +4,7 @@
 */
 
 #include "bin/projectclip.h"
+#include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
