@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 02:39+0000\n"
+"POT-Creation-Date: 2026-09-16 02:43+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -2729,9 +2729,9 @@ msgstr "Taispeáin Ais"
 #: data/effects/timer.xml:53
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:339
-#: src/assets/view/widgets/keyframecontainer.cpp:386
-#: src/assets/view/widgets/keyframecontainer.cpp:711
+#: src/assets/view/widgets/keyframecontainer.cpp:338
+#: src/assets/view/widgets/keyframecontainer.cpp:385
+#: src/assets/view/widgets/keyframecontainer.cpp:710
 #: src/widgets/geometrywidget.cpp:180
 #, kde-format
 msgid "Opacity"
@@ -3502,10 +3502,10 @@ msgstr "Fad ón imeall uachtarach i bpicteilíní"
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
-#: src/assets/view/widgets/keyframecontainer.cpp:333
-#: src/assets/view/widgets/keyframecontainer.cpp:342
-#: src/assets/view/widgets/keyframecontainer.cpp:398
-#: src/assets/view/widgets/keyframecontainer.cpp:709
+#: src/assets/view/widgets/keyframecontainer.cpp:332
+#: src/assets/view/widgets/keyframecontainer.cpp:341
+#: src/assets/view/widgets/keyframecontainer.cpp:397
+#: src/assets/view/widgets/keyframecontainer.cpp:708
 #: src/assets/view/widgets/keyframeimport.cpp:425
 #: src/assets/view/widgets/keyframeimport.cpp:811
 #, kde-format
@@ -3519,10 +3519,10 @@ msgstr "Fad idir línte ingearacha i bpicteilíní"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:332
-#: src/assets/view/widgets/keyframecontainer.cpp:341
-#: src/assets/view/widgets/keyframecontainer.cpp:392
-#: src/assets/view/widgets/keyframecontainer.cpp:709
+#: src/assets/view/widgets/keyframecontainer.cpp:331
+#: src/assets/view/widgets/keyframecontainer.cpp:340
+#: src/assets/view/widgets/keyframecontainer.cpp:391
+#: src/assets/view/widgets/keyframecontainer.cpp:708
 #: src/assets/view/widgets/keyframeimport.cpp:428
 #: src/assets/view/widgets/keyframeimport.cpp:819
 #, kde-format
@@ -19535,19 +19535,19 @@ msgstr ""
 "i bhfeidhm."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:335
-#: src/assets/view/widgets/keyframecontainer.cpp:344
-#: src/assets/view/widgets/keyframecontainer.cpp:404
-#: src/assets/view/widgets/keyframecontainer.cpp:709
+#: src/assets/view/widgets/keyframecontainer.cpp:334
+#: src/assets/view/widgets/keyframecontainer.cpp:343
+#: src/assets/view/widgets/keyframecontainer.cpp:403
+#: src/assets/view/widgets/keyframecontainer.cpp:708
 #, kde-format
 msgid "X position"
 msgstr "Seasamh X"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:334
-#: src/assets/view/widgets/keyframecontainer.cpp:343
-#: src/assets/view/widgets/keyframecontainer.cpp:410
-#: src/assets/view/widgets/keyframecontainer.cpp:709
+#: src/assets/view/widgets/keyframecontainer.cpp:333
+#: src/assets/view/widgets/keyframecontainer.cpp:342
+#: src/assets/view/widgets/keyframecontainer.cpp:409
+#: src/assets/view/widgets/keyframecontainer.cpp:708
 #, kde-format
 msgid "Y position"
 msgstr "Seasamh Y"
@@ -20601,7 +20601,7 @@ msgstr "Réidh (as feidhm)"
 #: src/assets/keyframes/model/keyframemodel.cpp:198
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
-#: src/assets/view/widgets/keyframecontainer.cpp:149
+#: src/assets/view/widgets/keyframecontainer.cpp:148
 #: src/dialogs/timeremap.cpp:1600 src/dialogs/timeremap.cpp:1625
 #, kde-format
 msgid "Add keyframe"
@@ -20616,7 +20616,7 @@ msgstr "Athraigh cineál fráma eochair"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:291
 #: src/assets/keyframes/model/keyframemodellist.cpp:266
-#: src/assets/view/widgets/keyframecontainer.cpp:151
+#: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1621
 #, kde-format
 msgid "Delete keyframe"
@@ -20820,41 +20820,41 @@ msgstr "Cealaigh próiseáil"
 msgid "Move Keyframe"
 msgstr "Bog Eochairfhráma"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:133
+#: src/assets/view/widgets/keyframecontainer.cpp:132
 #, kde-format
 msgid "Switch to timeline view"
 msgstr "Athraigh go dtí an radharc amlíne"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:135
+#: src/assets/view/widgets/keyframecontainer.cpp:134
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr "Athraigh go dtí an radharc eagarthóra cuar"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:156
+#: src/assets/view/widgets/keyframecontainer.cpp:155
 #: src/dialogs/timeremap.cpp:1606 src/mainwindow.cpp:2106
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Téigh go dtí an eochairfhráma roimhe seo"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:160
+#: src/assets/view/widgets/keyframecontainer.cpp:159
 #: src/dialogs/timeremap.cpp:1603 src/mainwindow.cpp:2104
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Téigh go dtí an chéad eochairfhráma eile"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:165
+#: src/assets/view/widgets/keyframecontainer.cpp:164
 #: src/dialogs/timeremap.cpp:1611 src/dialogs/timeremap.cpp:1613
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Bog an fráma eochair roghnaithe chuig an gcúrsóir"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:168
-#: src/assets/view/widgets/keyframecontainer.cpp:170
+#: src/assets/view/widgets/keyframecontainer.cpp:167
+#: src/assets/view/widgets/keyframecontainer.cpp:169
 #, kde-format
 msgid "Copy keyframes"
 msgstr "Cóipeáil frámaí eochair"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:172
+#: src/assets/view/widgets/keyframecontainer.cpp:171
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20864,18 +20864,18 @@ msgstr ""
 "Cóipeáil frámaí eochair. Cóipeáil na frámaí eochair roghnaithe, nó luachanna "
 "na bparaiméadar reatha mura bhfuil aon fhráma eochair roghnaithe."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:174
-#: src/assets/view/widgets/keyframecontainer.cpp:1129
+#: src/assets/view/widgets/keyframecontainer.cpp:173
+#: src/assets/view/widgets/keyframecontainer.cpp:1128
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Greamaigh fráma eochair"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:176
+#: src/assets/view/widgets/keyframecontainer.cpp:175
 #, kde-format
 msgid "Paste keyframes"
 msgstr "Greamaigh frámaí eochair"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:177
+#: src/assets/view/widgets/keyframecontainer.cpp:176
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
@@ -20883,18 +20883,18 @@ msgstr ""
 "Greamaigh frámaí eochair. Greamaigh sonraí an ghearrthaisce mar fhrámaí "
 "eochair ag an suíomh reatha."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:179
+#: src/assets/view/widgets/keyframecontainer.cpp:178
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Cuir luach an tsuímh reatha i bhfeidhm ar na príomhfhrámaí roghnaithe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:182
-#: src/assets/view/widgets/keyframecontainer.cpp:195
+#: src/assets/view/widgets/keyframecontainer.cpp:181
+#: src/assets/view/widgets/keyframecontainer.cpp:194
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Idirshuíomh fráma eochair"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:196
+#: src/assets/view/widgets/keyframecontainer.cpp:195
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20904,44 +20904,44 @@ msgstr ""
 "Idirshuíomh fráma eochair. Sainmhíníonn sé seo cén idirshuíomh a úsáidfear "
 "don fhráma eochair reatha."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:217
+#: src/assets/view/widgets/keyframecontainer.cpp:216
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Lorg go Eochairfhráma ar Roghnú"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:222
+#: src/assets/view/widgets/keyframecontainer.cpp:221
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Cóipeáil Gach Eochairfhráma chuig an nGearrthaisce"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:224
+#: src/assets/view/widgets/keyframecontainer.cpp:223
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Iompórtáil Frámaí Eochair ón nGearrthaisce…"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:233
+#: src/assets/view/widgets/keyframecontainer.cpp:232
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Bain gach fráma eochair i ndiaidh an chúrsóra"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:237
+#: src/assets/view/widgets/keyframecontainer.cpp:236
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Cineál Réamhshocraithe Eochairfhráma"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:276
+#: src/assets/view/widgets/keyframecontainer.cpp:275
 #, kde-format
 msgid "Limit automatic keyframes"
 msgstr "Teorainn a chur le frámaí eochair uathoibríocha"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:288 src/bin/bin.cpp:1617
+#: src/assets/view/widgets/keyframecontainer.cpp:287 src/bin/bin.cpp:1617
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Roghanna"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:290
+#: src/assets/view/widgets/keyframecontainer.cpp:289
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20952,45 +20952,45 @@ msgstr ""
 "bhainistiú (mar shampla: frámaí eochair a chóipeáil chuig an ghearrthaisce "
 "agus a ghreamú ón ngearrthaisce)."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:363
+#: src/assets/view/widgets/keyframecontainer.cpp:362
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Roghnaigh paraiméadair le cóipeáil"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1026
+#: src/assets/view/widgets/keyframecontainer.cpp:1025
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Frámaí eochair cóipeáilte"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1037
-#: src/assets/view/widgets/keyframecontainer.cpp:1078
-#: src/assets/view/widgets/keyframecontainer.cpp:1085
+#: src/assets/view/widgets/keyframecontainer.cpp:1036
+#: src/assets/view/widgets/keyframecontainer.cpp:1077
+#: src/assets/view/widgets/keyframecontainer.cpp:1084
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Níl aon sonraí fráma eochair bailí sa ghearrthaisce"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1137
+#: src/assets/view/widgets/keyframecontainer.cpp:1136
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Ní féidir luachanna reatha na bparaiméadar a chóipeáil"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1142
-#: src/assets/view/widgets/keyframecontainer.cpp:1153
+#: src/assets/view/widgets/keyframecontainer.cpp:1141
+#: src/assets/view/widgets/keyframecontainer.cpp:1152
 #, kde-format
 msgid "Current values copied"
 msgstr "Luachanna reatha cóipeáilte"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1165
+#: src/assets/view/widgets/keyframecontainer.cpp:1164
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Gan aon sonraí fráma eochair sa ghearrthaisce"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1246
+#: src/assets/view/widgets/keyframecontainer.cpp:1245
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Ní féidir an fráma eochair dheireanach a bhaint"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1258
+#: src/assets/view/widgets/keyframecontainer.cpp:1257
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -21408,7 +21408,7 @@ msgstr "Tarraing chun fuaim amháin a chur leis an amlíne"
 msgid "Drag to add only video to timeline"
 msgstr "Tarraing chun físeán amháin a chur leis an amlíne"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1486
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1489
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -21924,7 +21924,7 @@ msgstr "Seinmliosta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2816 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1705 src/project/projectmanager.cpp:1707
+#: src/project/projectmanager.cpp:1707 src/project/projectmanager.cpp:1709
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -22450,7 +22450,7 @@ msgstr "Scrios éifeacht %1"
 msgid "Project Bin"
 msgstr "Bosca Tionscadail"
 
-#: src/bin/bin.cpp:6938 src/bin/bin.cpp:6941 src/mainwindow.cpp:5386
+#: src/bin/bin.cpp:6938 src/bin/bin.cpp:6941 src/mainwindow.cpp:5387
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bosca Tionscadail %1"
@@ -23139,7 +23139,7 @@ msgid "Disable GPU processing"
 msgstr "Díchumasaigh próiseáil GPU"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:879
+#: src/project/projectmanager.cpp:881
 #, kde-format
 msgid "Loading project…"
 msgstr "Ag lódáil an tionscadail…"
@@ -23897,7 +23897,7 @@ msgstr "Easpórtáil Sonraí Marcóirí"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2018 src/project/projectmanager.cpp:2024
+#: src/project/projectmanager.cpp:2020 src/project/projectmanager.cpp:2026
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23990,7 +23990,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Mura bhfuil tú cinnte, bain triail as:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1907
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1909
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -27438,8 +27438,8 @@ msgstr "Scriosadh na scagairí/aistrithe seo a leanas ón tionscadal:"
 msgid "Invalid file path"
 msgstr "Cosán comhaid neamhbhailí"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:856
-#: src/project/projectmanager.cpp:908
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:910
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Níorbh fhéidir an comhad truaillithe a aisghabháil."
@@ -27521,8 +27521,8 @@ msgstr ""
 "Uasghrádaíodh do chomhad tionscadail go dtí an leagan is déanaí de "
 "dhoiciméad Kdenlive, ach níorbh fhéidir an chóip chúltaca %1 a chruthú."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1579
-#: src/project/projectmanager.cpp:1615
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1581
+#: src/project/projectmanager.cpp:1617
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Earráid ag bogadh fillteán tionscadail: %1"
@@ -31095,13 +31095,13 @@ msgstr ""
 "Bogfaidh sé seo na comhaid shealadacha go léir ó<br/><b>%1</b> go <b>%2</b>,"
 "<br/>athlódálfar an comhad tionscadail ansin"
 
-#: src/mainwindow.cpp:2545 src/project/projectmanager.cpp:607
+#: src/mainwindow.cpp:2545 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Ní féidir an oibríocht a dhéanamh, aitheantas doiciméad neamhbhailí: %1"
 
-#: src/mainwindow.cpp:2550 src/project/projectmanager.cpp:613
+#: src/mainwindow.cpp:2550 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -31425,22 +31425,22 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Folaigh an barra roghchláir"
 
-#: src/mainwindow.cpp:5222 src/timeline2/view/timelinecontroller.cpp:5854
+#: src/mainwindow.cpp:5223 src/timeline2/view/timelinecontroller.cpp:5854
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Gan aon fhotheidil sa tionscadal reatha"
 
-#: src/mainwindow.cpp:5554
+#: src/mainwindow.cpp:5555
 #, kde-format
 msgid "Go to download page"
 msgstr "Téigh go dtí an leathanach íoslódála"
 
-#: src/mainwindow.cpp:5560
+#: src/mainwindow.cpp:5561
 #, kde-format
 msgid "Never check again"
 msgstr "Ná déan seiceáil arís riamh"
 
-#: src/mainwindow.cpp:5563
+#: src/mainwindow.cpp:5564
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -31449,14 +31449,14 @@ msgstr ""
 "Tá do leagan Kdenlive níos sine ná bliain, molaimid go láidir duit uasghrádú "
 "a dhéanamh"
 
-#: src/mainwindow.cpp:5567
+#: src/mainwindow.cpp:5568
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 "Tá do leagan Kdenlive níos sine ná 6 mhí, molaimid duit uasghrádú a dhéanamh"
 
-#: src/mainwindow.cpp:5609
+#: src/mainwindow.cpp:5610
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Méid sonraí taisceáilte á sheiceáil"
@@ -34313,12 +34313,12 @@ msgstr "Sábháil Cóip…"
 msgid "Open Backup File…"
 msgstr "Oscail Comhad Cúltaca…"
 
-#: src/project/projectmanager.cpp:427
+#: src/project/projectmanager.cpp:429
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Sábháil athruithe ar an doiciméad?"
 
-#: src/project/projectmanager.cpp:429 src/project/projectmanager.cpp:1844
+#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1846
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34327,17 +34327,17 @@ msgstr ""
 "Tá an tionscadal <b>\"%1\"</b> athraithe.\n"
 "Ar mhaith leat do chuid athruithe a shábháil?"
 
-#: src/project/projectmanager.cpp:548
+#: src/project/projectmanager.cpp:550
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Theip ar chomhad tionscadail <b>%1</B> a shábháil"
 
-#: src/project/projectmanager.cpp:582
+#: src/project/projectmanager.cpp:584
 #, kde-format
 msgid "Saving successful"
 msgstr "Sábháil rathúil"
 
-#: src/project/projectmanager.cpp:595
+#: src/project/projectmanager.cpp:597
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -34349,43 +34349,43 @@ msgstr ""
 "comhaid shealadacha go léir ó <b>%1</b> go <b>%2</b>, agus athlódálfar an "
 "comhad tionscadail ansin"
 
-#: src/project/projectmanager.cpp:638
+#: src/project/projectmanager.cpp:640
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Sábháil Cóip"
 
-#: src/project/projectmanager.cpp:756
+#: src/project/projectmanager.cpp:758
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Tá comhad uath-shábháilte ann. Ar mhaith leat é a aisghabháil anois?"
 
-#: src/project/projectmanager.cpp:756
+#: src/project/projectmanager.cpp:758
 #, kde-format
 msgid "File Recovery"
 msgstr "Athshlánú Comhaid"
 
-#: src/project/projectmanager.cpp:757 src/project/projectmanager.cpp:894
+#: src/project/projectmanager.cpp:759 src/project/projectmanager.cpp:896
 #, kde-format
 msgid "Recover"
 msgstr "Aisghabháil"
 
-#: src/project/projectmanager.cpp:757
+#: src/project/projectmanager.cpp:759
 #, kde-format
 msgid "Do not recover"
 msgstr "Ná téarnamh"
 
-#: src/project/projectmanager.cpp:801
+#: src/project/projectmanager.cpp:803
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "Níl comhad %1 ann"
 
-#: src/project/projectmanager.cpp:833
+#: src/project/projectmanager.cpp:835
 #, kde-format
 msgid "Opening file %1"
 msgstr "Ag oscailt comhaid %1"
 
-#: src/project/projectmanager.cpp:893
+#: src/project/projectmanager.cpp:895
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34396,29 +34396,29 @@ msgstr ""
 "%1\n"
 "Ar mhaith leat comhad cúltaca a oscailt?"
 
-#: src/project/projectmanager.cpp:894 src/project/projectmanager.cpp:1169
+#: src/project/projectmanager.cpp:896 src/project/projectmanager.cpp:1171
 #, kde-format
 msgid "Error opening file"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/project/projectmanager.cpp:894 src/project/projectmanager.cpp:1170
+#: src/project/projectmanager.cpp:896 src/project/projectmanager.cpp:1172
 #, kde-format
 msgid "Open Backup"
 msgstr "Oscail Cúltaca"
 
-#: src/project/projectmanager.cpp:912
+#: src/project/projectmanager.cpp:914
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Níorbh fhéidir an comhad tionscadail cúltaca a oscailt."
 
-#: src/project/projectmanager.cpp:927
+#: src/project/projectmanager.cpp:929
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Rinneadh uasghrádú ar do thionscadal, cruthófar cúltaca an chéad uair eile a "
 "shábhálfar é"
 
-#: src/project/projectmanager.cpp:929
+#: src/project/projectmanager.cpp:931
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -34426,17 +34426,17 @@ msgstr ""
 "Rinneadh do thionscadal a mhodhnú nuair a osclaíodh é, cruthófar cúltaca an "
 "chéad uair eile a shábhálfar é"
 
-#: src/project/projectmanager.cpp:1000
+#: src/project/projectmanager.cpp:1002
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Ag lódáil an amlíne…"
 
-#: src/project/projectmanager.cpp:1023
+#: src/project/projectmanager.cpp:1025
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sraitheanna tógála…"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1198
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34445,7 +34445,7 @@ msgstr ""
 "Ní féidir an comhad tionscadail a oscailt. Earráid:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1236
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -34454,12 +34454,12 @@ msgstr ""
 "Scriosfaidh sé seo gach athrú a rinneadh ó shábháil tú do thionscadal go "
 "deireanach. An bhfuil tú cinnte gur mian leat leanúint ar aghaidh?"
 
-#: src/project/projectmanager.cpp:1237
+#: src/project/projectmanager.cpp:1239
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Fill ar an leagan sábháilte deireanach"
 
-#: src/project/projectmanager.cpp:1336
+#: src/project/projectmanager.cpp:1338
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -34469,25 +34469,25 @@ msgstr ""
 "athoscail do chomhad tionscadail le do thoil chun an cúltaca deireanach a "
 "aisghabháil"
 
-#: src/project/projectmanager.cpp:1557
+#: src/project/projectmanager.cpp:1559
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Earráid ag bogadh fillteán tionscadail, ní féidir rochtain a fháil ar an "
 "bhfillteán taisce"
 
-#: src/project/projectmanager.cpp:1593
+#: src/project/projectmanager.cpp:1595
 #, kde-format
 msgid "Moving project folder"
 msgstr "Ag bogadh fillteán tionscadail"
 
-#: src/project/projectmanager.cpp:1684 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1744
+#: src/project/projectmanager.cpp:1686 src/project/projectmanager.cpp:1742
+#: src/project/projectmanager.cpp:1746
 #, kde-format
 msgid "Sequence 1"
 msgstr "Seicheamh 1"
 
-#: src/project/projectmanager.cpp:1695
+#: src/project/projectmanager.cpp:1697
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -34495,13 +34495,13 @@ msgstr ""
 "Tá an comhad tionscadail truaillithe - theip ar na rianta a luchtú. Déan "
 "iarracht comhad cúltaca a aimsiú?"
 
-#: src/project/projectmanager.cpp:1836 src/project/projectmanager.cpp:1849
-#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1882
+#: src/project/projectmanager.cpp:1838 src/project/projectmanager.cpp:1851
+#: src/project/projectmanager.cpp:1875 src/project/projectmanager.cpp:1884
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Cuireadh deireadh le hathrú próifíl an tionscadail"
 
-#: src/project/projectmanager.cpp:2012
+#: src/project/projectmanager.cpp:2014
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -34510,12 +34510,12 @@ msgstr ""
 "Tá comhad aschuir %1 ann cheana féin.\n"
 "Ar mhaith leat é a athscríobh?"
 
-#: src/project/projectmanager.cpp:2037
+#: src/project/projectmanager.cpp:2039
 #, kde-format
 msgid "Project profile changed"
 msgstr "Athraíodh próifíl an tionscadail"
 
-#: src/project/projectmanager.cpp:2101
+#: src/project/projectmanager.cpp:2103
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34524,34 +34524,34 @@ msgstr ""
 "Ní féidir amlíne a chruthú ón ngearrthóg seo:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2190
+#: src/project/projectmanager.cpp:2192
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Ag allmhairiú gearrthóg seicheamhach, tá sé seo i riocht turgnamhach faoi "
 "láthair"
 
-#: src/project/projectmanager.cpp:2423 src/project/projectmanager.cpp:2475
+#: src/project/projectmanager.cpp:2425 src/project/projectmanager.cpp:2477
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Roghnaigh gearrthóg chun seicheamh a chruthú"
 
-#: src/project/projectmanager.cpp:2433 src/project/projectmanager.cpp:2484
+#: src/project/projectmanager.cpp:2435 src/project/projectmanager.cpp:2486
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Theip ar chruthú seicheamh"
 
-#: src/project/projectmanager.cpp:2460
+#: src/project/projectmanager.cpp:2462
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Ní féidir seicheamh a chur isteach san amlíne reatha"
 
-#: src/project/projectmanager.cpp:2464
+#: src/project/projectmanager.cpp:2466
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Cruthaigh Gearrthóg Seicheamh"
 
-#: src/project/projectmanager.cpp:2502
+#: src/project/projectmanager.cpp:2504
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
@@ -36646,44 +36646,44 @@ msgstr "Stad"
 msgid "Paused"
 msgstr "Sosaithe"
 
-#: src/timeline2/view/qml/Clip.qml:244 src/timeline2/view/qml/Clip.qml:1267
+#: src/timeline2/view/qml/Clip.qml:243 src/timeline2/view/qml/Clip.qml:1270
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Suíomh: %4, Fad: %5"
 
-#: src/timeline2/view/qml/Clip.qml:341 src/timeline2/view/qml/Clip.qml:355
+#: src/timeline2/view/qml/Clip.qml:340 src/timeline2/view/qml/Clip.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "Suíomh: %1"
 
-#: src/timeline2/view/qml/Clip.qml:566
+#: src/timeline2/view/qml/Clip.qml:569
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Fad meascáin: %1, Gearradh ag: %2"
 
-#: src/timeline2/view/qml/Clip.qml:620
+#: src/timeline2/view/qml/Clip.qml:623
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Fad meascáin: %2"
 
-#: src/timeline2/view/qml/Clip.qml:622
+#: src/timeline2/view/qml/Clip.qml:625
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Fad meascáin: %2"
 
-#: src/timeline2/view/qml/Clip.qml:625 src/timeline2/view/qml/Clip.qml:640
+#: src/timeline2/view/qml/Clip.qml:628 src/timeline2/view/qml/Clip.qml:643
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Fad meascáin: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1149
+#: src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "I:%1, Suíomh:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1152 src/timeline2/view/qml/Clip.qml:1257
+#: src/timeline2/view/qml/Clip.qml:1155 src/timeline2/view/qml/Clip.qml:1260
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36692,65 +36692,65 @@ msgstr ""
 "<b>Tarraing le Ctrl</b> chun an luas a athrú, <b>Cliceáil faoi dhó</b> chun "
 "meascadh leis an ngearrthóg in aice láimhe"
 
-#: src/timeline2/view/qml/Clip.qml:1154
+#: src/timeline2/view/qml/Clip.qml:1157
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Tarraing</b> chun fad an mheascáin a athrú"
 
-#: src/timeline2/view/qml/Clip.qml:1254
+#: src/timeline2/view/qml/Clip.qml:1257
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Amach:%1, Suíomh:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1393
+#: src/timeline2/view/qml/Clip.qml:1396
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Fritháireamh: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1394
+#: src/timeline2/view/qml/Clip.qml:1397
 #, kde-format
 msgid "Offset: %1"
 msgstr "Fritháireamh: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1395
+#: src/timeline2/view/qml/Clip.qml:1398
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Cliceáil</b> chun gearrthóga a ailíniú"
 
-#: src/timeline2/view/qml/Clip.qml:1640 src/timeline2/view/qml/Clip.qml:1681
+#: src/timeline2/view/qml/Clip.qml:1643 src/timeline2/view/qml/Clip.qml:1684
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Cliceáil</b> chun comhdhéanamh a chur leis"
 
-#: src/timeline2/view/qml/Clip.qml:1760 src/timeline2/view/qml/Clip.qml:1767
+#: src/timeline2/view/qml/Clip.qml:1763 src/timeline2/view/qml/Clip.qml:1770
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Céimniú amach: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1771 src/timeline2/view/qml/Clip.qml:1880
+#: src/timeline2/view/qml/Clip.qml:1774 src/timeline2/view/qml/Clip.qml:1883
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Tarraing</b> chun an céimniú a choigeartú, <b>Cliceáil</b> chun an fad "
 "céimnithe réamhshocraithe a chur leis"
 
-#: src/timeline2/view/qml/Clip.qml:1869 src/timeline2/view/qml/Clip.qml:1876
+#: src/timeline2/view/qml/Clip.qml:1872 src/timeline2/view/qml/Clip.qml:1879
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Céimniú isteach: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1964
+#: src/timeline2/view/qml/Clip.qml:1967
 #, kde-format
 msgid "Slip Clip"
 msgstr "Gearrthóg Sleamhnáin"
 
-#: src/timeline2/view/qml/Composition.qml:257
+#: src/timeline2/view/qml/Composition.qml:261
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Suíomh: %2, Fad: %3"
 
-#: src/timeline2/view/qml/Composition.qml:324
-#: src/timeline2/view/qml/Composition.qml:388
+#: src/timeline2/view/qml/Composition.qml:328
+#: src/timeline2/view/qml/Composition.qml:392
 #: src/timeline2/view/qml/SubTitle.qml:355
 #: src/timeline2/view/qml/SubTitle.qml:460
 #, kde-format
