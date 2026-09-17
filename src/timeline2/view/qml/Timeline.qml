@@ -129,10 +129,10 @@ Rectangle {
     }
 
     function startAudioRecord(tid) {
-        var tk = Logic.getTrackById(tid)
+        let tk = Logic.getTrackById(tid)
         recordPlaceHolder.y = Qt.binding(function() { return tk.y + subtitleTrack.height })
         recordPlaceHolder.height = Qt.binding(function() { return tk.height })
-        var startFrame = root.consumerPosition
+        let startFrame = root.consumerPosition
         recordStartPlaceHolder.x = Qt.binding(function() { return startFrame * root.timeScale })
         recordPlaceHolder.visible = true
         recordPlaceHolder.width = Qt.binding(function() { return K.Core.audioCapture.recDuration * root.timeScale })
@@ -167,7 +167,7 @@ Rectangle {
     }
 
     function highlightSub(ix) {
-        var currentSub = subtitlesRepeater.itemAt(ix) as SubTitle
+        let currentSub = subtitlesRepeater.itemAt(ix) as SubTitle
         currentSub.editText()
     }
 
@@ -197,8 +197,8 @@ Rectangle {
     }
 
     function moveSelectedTrack(offset) {
-        var newTrack
-        var max = tracksRepeater.count;
+        let newTrack
+        let max = tracksRepeater.count;
         if (root.timeline.activeTrack < 0 ) {
             if (offset <0) {
                 newTrack = -2
@@ -210,7 +210,7 @@ Rectangle {
                 }
             }
         } else {
-            var cTrack = Logic.getTrackIndexFromId(root.timeline.activeTrack)
+            let cTrack = Logic.getTrackIndexFromId(root.timeline.activeTrack)
             newTrack = cTrack + offset
         }
         if (newTrack < 0) {
@@ -264,7 +264,7 @@ Rectangle {
     }
 
     function horizontalScroll(wheel) {
-        var initialX = scrollView.contentX
+        let initialX = scrollView.contentX
         if (wheel.angleDelta.y < 0) {
             scrollView.contentX = Math.max(0, Math.min(scrollView.contentX - wheel.angleDelta.y, root.timeline.fullDuration * root.timeScale - scrollView.width))
         } else {
@@ -274,7 +274,7 @@ Rectangle {
             dragProxy.x += scrollView.contentX - initialX
             dragProxyArea.moveItem()
         } else if (rubberSelect.visible) {
-            var newX = tracksArea.mouseX + scrollView.contentX
+            let newX = tracksArea.mouseX + scrollView.contentX
             if (newX < rubberSelect.originX) {
                 rubberSelect.x = newX
                 rubberSelect.width = rubberSelect.originX - newX
@@ -286,7 +286,7 @@ Rectangle {
     }
 
     function verticalScroll(wheel) {
-        var initialY = scrollView.contentY
+        let initialY = scrollView.contentY
         if (wheel.angleDelta.y < 0) {
             scrollView.contentY = Math.max(0, Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height))
         } else {
@@ -299,7 +299,7 @@ Rectangle {
 
     function continuousScrolling(x, y, upMove = 10) {
         // This provides continuous scrolling at the left/right edges.
-        var maxScroll = trackHeaders.height + subtitleTrack.height
+        let maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
         y += ruler.height
         if (x > scrollView.contentX + scrollView.width - K.UiUtils.baseSizeMedium * 3) {
@@ -338,12 +338,12 @@ Rectangle {
     }
 
     function getMousePos() {
-        var posInWidget = root.timeline.getMousePosInTimeline()
+        let posInWidget = root.timeline.getMousePosInTimeline()
         return Math.max(0, scrollView.contentX + posInWidget.x - trackHeaders.width)
     }
 
     function getMouseX() {
-        var posInWidget = root.timeline.getMousePosInTimeline()
+        let posInWidget = root.timeline.getMousePosInTimeline()
         return Math.max(0, posInWidget.x - trackHeaders.width)
     }
 
@@ -364,14 +364,14 @@ Rectangle {
     }
 
     function getMouseTrack() {
-        var posInWidget = root.timeline.getMousePosInTimeline()
+        let posInWidget = root.timeline.getMousePosInTimeline()
         return Logic.getTrackIdFromPos(posInWidget.y - ruler.height + scrollView.contentY - subtitleTrack.height)
     }
 
 function getTrackColor(audio, header) {
-    var isDarkTheme = activePalette.window.hslLightness < activePalette.windowText.hslLightness
-    var lighterColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.base : activePalette.alternateBase;
-    var darkerColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.alternateBase : activePalette.base;
+    let isDarkTheme = activePalette.window.hslLightness < activePalette.windowText.hslLightness
+    let lighterColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.base : activePalette.alternateBase;
+    let darkerColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.alternateBase : activePalette.base;
 
     if (isDarkTheme) {
         // For dark themes, choose the lighter color
@@ -399,7 +399,7 @@ function getTrackColor(audio, header) {
     }
 
     function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
-        var mappedItemCoord = itemObject.mapToItem(tracksContainerArea, itemCoord)
+        let mappedItemCoord = itemObject.mapToItem(tracksContainerArea, itemCoord)
 
         dragProxy.x = itemPos * root.timeScale
         dragProxy.y = mappedItemCoord.y
@@ -431,12 +431,12 @@ function getTrackColor(audio, header) {
     }
 
     function regainFocus(mousePos) {
-        var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
+        let currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
         // Try to find correct item
-        var sourceTrack = Logic.getTrackById(currentMouseTrack)
-        var mouseYPos = (mousePos.y - ruler.height + scrollView.contentY) - sourceTrack.y
-        var allowComposition = mouseYPos > sourceTrack.height / 2
-        var tentativeClip = undefined
+        let sourceTrack = Logic.getTrackById(currentMouseTrack)
+        let mouseYPos = (mousePos.y - ruler.height + scrollView.contentY) - sourceTrack.y
+        let allowComposition = mouseYPos > sourceTrack.height / 2
+        let tentativeClip = undefined
         if (allowComposition) {
             tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), true)
             if (tentativeClip) {
@@ -452,7 +452,7 @@ function getTrackColor(audio, header) {
 
         if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && K.Core.activeTool !== K.ToolType.SpacerTool) {
             dragProxy.draggedItem = tentativeClip.clipId
-            var tk = root.controller.getItemTrackId(tentativeClip.clipId)
+            let tk = root.controller.getItemTrackId(tentativeClip.clipId)
             dragProxy.x = tentativeClip.x
             dragProxy.y = sourceTrack.y + (tentativeClip.isComposition ? tentativeClip.displayHeight : tentativeClip.y)
             //+ Logic.getTrackYFromId(tk)
@@ -474,8 +474,8 @@ function getTrackColor(audio, header) {
     }
 
     function getAudioTracksCount(){
-        var audioCount = 0;
-        for (var i = 0; i < trackHeaderRepeater.count; i++) {
+        let audioCount = 0;
+        for (let i = 0; i < trackHeaderRepeater.count; i++) {
             if((trackHeaderRepeater.itemAt(i) as TrackHead).isAudio) {
                 audioCount++;
             }
@@ -493,13 +493,13 @@ function getTrackColor(audio, header) {
     }
 
     function getItemAtPos(tk, posx, compositionWanted) {
-        var track = Logic.getTrackById(tk)
+        let track = Logic.getTrackById(tk)
         if (track == undefined || track.children == undefined) {
             return undefined
         }
-        var container = track.children[0]
-        var tentativeClip = undefined
-        for (var i = 0 ; i < container.children.length; i++) {
+        let container = track.children[0]
+        let tentativeClip = undefined
+        for (let i = 0 ; i < container.children.length; i++) {
             if (container.children[i].children.length === 0 || container.children[i].children[0].children.length === 0) {
                 continue
             }

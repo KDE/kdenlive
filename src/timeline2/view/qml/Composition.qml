@@ -116,7 +116,7 @@ Item {
     onFakeTidChanged: {
         if (compositionRoot.fakeTid > -1 && parentTrack) {
             if (compositionRoot.parent != dragContainer) {
-                var pos = compositionRoot.mapToGlobal(compositionRoot.x, compositionRoot.y);
+                let pos = compositionRoot.mapToGlobal(compositionRoot.x, compositionRoot.y);
                 compositionRoot.parent = dragContainer
                 pos = compositionRoot.mapFromGlobal(pos.x, pos.y)
                 compositionRoot.x = pos.x
@@ -181,7 +181,7 @@ Item {
 
     function updateDrag() {
         console.log('XXXXXXXXXXXXXXX\n\nXXXXXXXXXXXXX \nUPDATING COMPO DRAG')
-        var itemPos = Qt.rect(0, displayRect.y, displayRect.width, displayRect.height)
+        let itemPos = Qt.rect(0, displayRect.y, displayRect.width, displayRect.height)
         compositionRoot.initDrag(itemPos)
     }
 
@@ -234,12 +234,12 @@ Item {
             hoverEnabled: !compositionRoot.isPanning && K.Core.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
+                let offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
                 event.accepted = true
             }
             Keys.onRightPressed: event => {
-                var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
+                let offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                 compositionRoot.controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + offset, true, true)
                 event.accepted = true
             }
@@ -269,7 +269,7 @@ Item {
             }
             onEntered: {
                 compositionRoot.updateDrag()
-                var s = KI18n.i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.modelStart)).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.clipDuration)))
+                let s = KI18n.i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.modelStart)).arg(compositionRoot.timeline.simplifiedTC(compositionRoot.clipDuration)))
                 compositionRoot.timeline.showToolTip(s)
             }
             onExited: {
@@ -316,12 +316,12 @@ Item {
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var delta = Math.round(x / compositionRoot.timeScale)
+                        let delta = Math.round(x / compositionRoot.timeScale)
                         if (delta < -compositionRoot.modelStart) {
                             delta = -compositionRoot.modelStart
                         }
                         if (delta !== 0) {
-                            var newDuration = compositionRoot.clipDuration - delta
+                            let newDuration = compositionRoot.clipDuration - delta
                             compositionRoot.trimmingIn(compositionRoot, newDuration)
                         }
                     }
@@ -386,7 +386,7 @@ Item {
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var newDuration = Math.round((x + width) / compositionRoot.timeScale)
+                        let newDuration = Math.round((x + width) / compositionRoot.timeScale)
                         compositionRoot.trimmingOut(compositionRoot, newDuration)
                     }
                 }

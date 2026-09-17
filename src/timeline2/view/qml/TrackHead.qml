@@ -227,7 +227,7 @@ Rectangle {
                     trackHeadRoot.timeline.collapseAllTrackHeight(trackHeadRoot.trackId, !trackHeadRoot.collapsed, trackHeadRoot.collapsedHeight)
                 } else {
                     if (trackHeadRoot.collapsed) {
-                        var newHeight = Math.max(trackHeadRoot.collapsedHeight * 1.5, trackHeadRoot.controller.getTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight"))
+                        let newHeight = Math.max(trackHeadRoot.collapsedHeight * 1.5, trackHeadRoot.controller.getTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight"))
                         trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight", newHeight)
                         trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", "0")
                     } else {
@@ -585,7 +585,7 @@ Rectangle {
                         if (!dragStarted && Math.abs(mapToItem(null, x, y).y - startY) > 2) {
                             dragStarted = true
                         }
-                        var newHeight = Math.round(originalY + (mapToItem(null, x, y).y - startY))
+                        let newHeight = Math.round(originalY + (mapToItem(null, x, y).y - startY))
                         newHeight =  Math.max(trackHeadRoot.collapsedHeight, newHeight)
                         if (newHeight == trackHeadRoot.collapsedHeight) {
                             trackHeadRoot.controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", trackHeadRoot.collapsedHeight)

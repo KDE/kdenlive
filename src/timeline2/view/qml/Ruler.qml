@@ -233,10 +233,10 @@ Item {
                     }
                     onPositionChanged: mouse => {
                         if (pressed) {
-                            var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
+                            let newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
                             newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping)
                             if (newFrame != destFrame) {
-                                var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
+                                let frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                 if (frame > -1) {
                                     destFrame = frame
                                 }
@@ -307,13 +307,13 @@ Item {
                         
                         onPositionChanged: mouse =>{
                             if (isResizing) {
-                                var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
-                                var realDeltaX = globalCurrentX - globalStartX
+                                let globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                let realDeltaX = globalCurrentX - globalStartX
 
-                                var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
-                                var newStartPosition = Math.max(0, startPosition + deltaFrames)
+                                let deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
+                                let newStartPosition = Math.max(0, startPosition + deltaFrames)
                                 newStartPosition = rulerRoot.controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping)
-                                var newDuration = Math.max(1, originalEndPosition - newStartPosition)
+                                let newDuration = Math.max(1, originalEndPosition - newStartPosition)
 
                                 currentNewStartPosition = newStartPosition
                                 currentNewDuration = newDuration
@@ -395,11 +395,11 @@ Item {
                         
                         onPositionChanged: mouse =>{
                             if (isResizing) {
-                                var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
-                                var realDeltaX = globalCurrentX - globalStartX
+                                let globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                let realDeltaX = globalCurrentX - globalStartX
                                 
-                                var deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
-                                var newDuration = Math.max(1, startDuration + deltaFrames)
+                                let deltaFrames = Math.round(realDeltaX / rulerRoot.timeline.scaleFactor)
+                                let newDuration = Math.max(1, startDuration + deltaFrames)
                                 newDuration = rulerRoot.controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping) - startPosition
                                 
                                 rangeSpan.width = Math.max(1, newDuration * rulerRoot.timeline.scaleFactor)
@@ -525,10 +525,10 @@ Item {
                         }
                         onPositionChanged: mouse => {
                             if (pressed) {
-                                var newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
+                                let newFrame = Math.max(0, Math.round(guideRoot.model.frame + (mouseX - xOffset) / rulerRoot.timeline.scaleFactor))
                                 newFrame = rulerRoot.controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : rulerRoot.snapping)
                                 if (newFrame != destFrame) {
-                                    var frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
+                                    let frame = rulerRoot.timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
                                     if (frame > -1) {
                                         destFrame = frame
                                     }
@@ -602,9 +602,9 @@ Item {
         z: 1
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var pos = Math.max(mouseX, 0)
+                let pos = Math.max(mouseX, 0)
                 pos = Math.min(pos, width)
-                var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
+                let frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
                 }
@@ -615,9 +615,9 @@ Item {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton && pressed) {
-                var pos = Math.max(mouseX, 0)
+                let pos = Math.max(mouseX, 0)
                 pos = Math.min(pos, width)
-                var frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
+                let frame = Math.round(pos / rulerRoot.timeline.scaleFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.controller.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
                 }

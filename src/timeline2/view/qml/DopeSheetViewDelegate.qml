@@ -299,6 +299,8 @@ Item {
                 shiftClick = mouse.modifiers & Qt.ShiftModifier
                 ctrlClick = mouse.modifiers & Qt.ControlModifier
                 buttonClicked = mouse.buttons
+                let i
+                let j
                 // Select parameter
                 let parameterIndex = delegateRect.treeView.index(delegateRect.row, delegateRect.column)
                 console.log(' GOT CLICK PARAM INDEX: ', parameterIndex)
@@ -318,21 +320,21 @@ Item {
                 delegateRect.dopeRootItem.keyframeType = delegateRect.model.dopeModel.getKeyframeTypeAtFrame(clickFrame)
                 let selectedKeyframes = delegateRect.dopeRootItem.getSelectedKeyframesForIndex(parameterIndex)
                 let alreadySelected = selectedKeyframes.indexOf(delegateRect.currentKFIndex) > -1
-                var actionList = delegateRect.dopeRootItem.typeActionsList
+                let actionList = delegateRect.dopeRootItem.typeActionsList
+                let matchingText
                 if (mouse.buttons === Qt.RightButton) {
                     if (alreadySelected) {
                         // keyframe already selected, just show menu
                         delegateRect.selectKeyframe(delegateRect.currentKFFrame)
                         delegateRect.activeParamChanged(parameterIndex)
-                        var matchingText
-                        for (var i = 0; i < delegateRect.dopeRootItem.keyframeTypes.length; i++) {
+                        for (i = 0; i < delegateRect.dopeRootItem.keyframeTypes.length; i++) {
                             if (delegateRect.dopeRootItem.keyframeTypes[i].value === delegateRect.dopeRootItem.keyframeType) {
                                 matchingText = delegateRect.dopeRootItem.keyframeTypes[i].text
                                 break
                             }
                         }
 
-                        for (var j = 0; j < actionList.length; j++) {
+                        for (j = 0; j < actionList.length; j++) {
                             if (actionList[j].text === matchingText) {
                                 console.log('CHECK ACTION: ', j)
                                 actionList[j].checked = true
@@ -363,8 +365,8 @@ Item {
                 if (updateKeyframeSelection) {
                     if (delegateRect.hasChildren) {
                         // Top level item, build index of related kf to select
-                        var mapped = delegateRect.treeView.model.mapToSource(parameterIndex)
-                        var result = delegateRect.dopesheetmodel.selectKeyframeAtPos(mapped, clickFrame)
+                        let mapped = delegateRect.treeView.model.mapToSource(parameterIndex)
+                        let result = delegateRect.dopesheetmodel.selectKeyframeAtPos(mapped, clickFrame)
                         delegateRect.dopeRootItem.updateSelectedKeyframesFromModel(result, shiftClick, removeFromSelection)
                         return
                     }
@@ -471,7 +473,7 @@ Item {
                 }
             }
             onDoubleClicked: mouse => {
-                var parameterIndex = delegateRect.treeView.index(delegateRect.row, delegateRect.column)
+                let parameterIndex = delegateRect.treeView.index(delegateRect.row, delegateRect.column)
                 console.log('Double ckick at: ', delegateRect.currentKFFrame)
                 if (delegateRect.isBlankRecap) {
                     // Clicked on a recap without children, abort

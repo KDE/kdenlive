@@ -117,9 +117,9 @@ Item {
         z: 1
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var pos = Math.max(mouseX + (rulerRoot.scrollViewContentX * rulerRoot.scalingFactor), 0)
+                let pos = Math.max(mouseX + (rulerRoot.scrollViewContentX * rulerRoot.scalingFactor), 0)
                 pos = Math.min(pos, rulerRoot.rulercontainerWidth)
-                var frame = Math.round(pos / rulerRoot.scalingFactor)
+                let frame = Math.round(pos / rulerRoot.scalingFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.monitorController.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
                 }
@@ -130,9 +130,9 @@ Item {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton && pressed) {
-                var pos = Math.max(mouseX + (rulerRoot.scrollViewContentX * rulerRoot.scalingFactor), 0)
+                let pos = Math.max(mouseX + (rulerRoot.scrollViewContentX * rulerRoot.scalingFactor), 0)
                 pos = Math.min(pos, rulerRoot.rulercontainerWidth)
-                var frame = Math.round(pos / rulerRoot.scalingFactor)
+                let frame = Math.round(pos / rulerRoot.scalingFactor)
                 if (mouse.modifiers & Qt.AltModifier) {
                     frame = rulerRoot.monitorController.suggestPlayheadSnapPoint(frame, rulerRoot.snapping)
                 }

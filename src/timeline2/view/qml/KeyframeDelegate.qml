@@ -112,7 +112,7 @@ Rectangle {
                     parent.x = keyframe.parentInPoint * keyframe.timeScale
                     return
                 }
-                var newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1) + keyframe.parentInPoint
+                let newPos = Math.min(Math.round(parent.x / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1) + keyframe.parentInPoint
                 if (newPos < 1) {
                     newPos = 1
                 }
@@ -167,7 +167,7 @@ Rectangle {
             } else {
                 keyframe.keyframeSelected(keyframe.index, mouse.modifiers & Qt.ShiftModifier, true)
             }
-            var ix = keyframe.kfrModel.activeKeyframe()
+            let ix = keyframe.kfrModel.activeKeyframe()
             if (ix > -1) {
                 keyframe.seekToIx(ix)
             }
@@ -222,7 +222,7 @@ Rectangle {
                 if (keyframe.frame == keyframe.parentInPoint) {
                     kf1MouseArea.x = - kf1MouseArea.width / 2
                 } else {
-                    var newPos = Math.min(Math.round(mouse.x / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1) + keyframe.frame
+                    let newPos = Math.min(Math.round(mouse.x / keyframe.timeScale), Math.round(keyframe.keyframeContainerWidth / keyframe.timeScale) - 1) + keyframe.frame
                     if (newPos <= keyframe.parentInPoint) {
                         newPos = keyframe.parentInPoint + 1
                     }

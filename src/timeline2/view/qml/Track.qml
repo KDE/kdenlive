@@ -92,8 +92,8 @@ Item {
             speedController.visible = true
             speedController.updatedSpeed = Math.round(clip.speed*100)
             speedController.resizeRight = right
-            // var delta = newDuration - clip.originalDuration
-            // var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
+            // let delta = newDuration - clip.originalDuration
+            // let s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
             let s = '%1:%2\%, %3:%4'.arg(KI18n.i18n("Speed"))
                 .arg(Math.round(speedController.updatedSpeed))
                 .arg(KI18n.i18n("Duration"))
@@ -101,7 +101,7 @@ Item {
             trackRoot.timeline.showToolTip(s)
             return
         }
-        var new_duration = 0;
+        let new_duration = 0;
         if (K.Core.activeTool === K.ToolType.RippleTool) {
             console.log("Trimming request for " + newDuration + " right: " + right)
             new_duration = trackRoot.timeline.requestItemRippleResize(clip.clipId, newDuration, right, false, trackRoot.snapping, shiftTrim)
@@ -162,7 +162,7 @@ Item {
                 }
             }
         } else {
-            var updatedGroupData = trackRoot.controller.getGroupData(clip.clipId)
+            let updatedGroupData = trackRoot.controller.getGroupData(clip.clipId)
             trackRoot.controller.processGroupResize(trackRoot.groupTrimData, updatedGroupData, right)
         }
         trackRoot.updateGroupTrimData(undefined)
@@ -356,13 +356,13 @@ Item {
                     consumerPosition: trackRoot.consumerPosition
 
                     onTrimmingIn: (clip, newDuration) => {
-                        var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)
+                        let new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)
                         if (new_duration > 0) {
                             clip.lastValidDuration = newDuration
                             clip.originalX = clip.draggedX
                             // Show amount trimmed as a time in a "bubble" help.
-                            var delta = clip.originalDuration - new_duration
-                            var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
+                            let delta = clip.originalDuration - new_duration
+                            let s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
                             s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
                                 , s, trackRoot.timeline.simplifiedTC(new_duration))
                             trackRoot.timeline.showToolTip(s)
@@ -375,12 +375,12 @@ Item {
                         trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, trackRoot.snapping)
                     }
                     onTrimmingOut: (clip, newDuration) => {
-                        var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, true, false, trackRoot.snapping)
+                        let new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, true, false, trackRoot.snapping)
                         if (new_duration > 0) {
                             clip.lastValidDuration = newDuration
                             // Show amount trimmed as a time in a "bubble" help.
-                            var delta = clip.originalDuration - new_duration
-                            var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
+                            let delta = clip.originalDuration - new_duration
+                            let s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
                             s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
                                 , s, trackRoot.timeline.simplifiedTC(new_duration))
                             trackRoot.timeline.showToolTip(s)

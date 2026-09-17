@@ -51,7 +51,7 @@ Rectangle {
             if (wheel.modifiers & Qt.ControlModifier) {
                 zoomContainer.zoomByWheel(wheel)
             } else {
-                var newPos = zoomBar.x
+                let newPos = zoomBar.x
                 if (wheel.angleDelta.y < 0) {
                     newPos = Math.min(zoomHandleContainer.width - zoomBar.width, newPos + 10)
                 } else {
@@ -138,7 +138,7 @@ Rectangle {
             cursorShape: Qt.SizeHorCursor
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var updatedPos = Math.max(0, x + mouseX)
+                    let updatedPos = Math.max(0, x + mouseX)
                     updatedPos = Math.min(updatedPos, zoomEnd.x - width - 1)
                     zoomContainer.proposeZoomFactor((zoomBar.x + zoomBar.width + 0.5 - updatedPos) / zoomHandleContainer.width)
                     zoomContainer.proposeContentPos(updatedPos / zoomHandleContainer.width)
@@ -172,9 +172,9 @@ Rectangle {
             cursorShape: Qt.SizeHorCursor
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var updatedPos = Math.min(zoomHandleContainer.width, x + mouseX)
+                    let updatedPos = Math.min(zoomHandleContainer.width, x + mouseX)
                     updatedPos = Math.max(updatedPos, zoomBar.x + width * 2 + 1)
-                    var zoomBarX = zoomBar.x // we need to save the value before we change zoomFactor, but apply it afterwards
+                    let zoomBarX = zoomBar.x // we need to save the value before we change zoomFactor, but apply it afterwards
                     zoomContainer.proposeZoomFactor((updatedPos - zoomBar.x) / zoomHandleContainer.width)
                     zoomContainer.proposeContentPos(zoomBarX / zoomHandleContainer.width)
                     endHandleRect.x = updatedPos - x - width

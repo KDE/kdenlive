@@ -16,11 +16,11 @@ Rectangle {
     id: dopeRoot
     anchors.fill: parent
     anchors.margins: 3
-    SystemPalette { id: activePalette }
+    SystemPalette { id: dopeActivePalette }
     border.width: 2
-    border.color: dopeRoot.viewHasFocus ? activePalette.highlight : activePalette.base
-    color: activePalette.base
-    property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
+    border.color: dopeRoot.viewHasFocus ? dopeActivePalette.highlight : dopeActivePalette.base
+    color: dopeActivePalette.base
+    property int baseUnit: Math.max(12, dopeFontMetrics.font.pixelSize)
     // Effects duration
     property int inPoint: dopesheetmodel.dopeInPoint
     property int frameDuration: dopesheetmodel.dopeDuration
@@ -99,21 +99,21 @@ Rectangle {
     }
 
     FontMetrics {
-        id: fontMetrics
+        id: dopeFontMetrics
         font: K.UiUtils.smallestReadableFont
     }
     readonly property font miniFont: K.UiUtils.smallestReadableFont
     onFrameDurationChanged: {
         console.log('UPDATED DOPE DURATION: ', frameDuration)
         if (frameDuration === 0) {
-            keyframeCurve.model = undefined
+            dopeKeyframeCurve.model = undefined
         }
     }
 
     onContentScrollChanged: {
-        if (keyframeCurve.item) {
-            if ((keyframeCurve.item as KeyframeView).kfrCanvas) {
-                (keyframeCurve.item as KeyframeView).kfrCanvas.requestPaint()
+        if (dopeKeyframeCurve.item) {
+            if ((dopeKeyframeCurve.item as KeyframeView).kfrCanvas) {
+                (dopeKeyframeCurve.item as KeyframeView).kfrCanvas.requestPaint()
             }
         }
         if (backgroundArea.containsMouse) {
@@ -211,7 +211,7 @@ Rectangle {
             if (wheel.angleDelta.y < 0) {
                 valueOffset = -0.005
             }
-            (keyframeCurve.item as KeyframeView).shiftActiveKeyframes(valueOffset)
+            (dopeKeyframeCurve.item as KeyframeView).shiftActiveKeyframes(valueOffset)
             return
         }
 
@@ -239,7 +239,7 @@ Rectangle {
                 dopeRoot.zoom(1.5);
                 dopeRoot.wheelAccumulatedDelta = 0;
             } else if (dopeRoot.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
-                var factor = 2. / 3
+                let factor = 2. / 3
                 dopeRoot.zoom(factor);
                 dopeRoot.wheelAccumulatedDelta = 0;
             }
@@ -276,10 +276,10 @@ Rectangle {
 
     function deleteSelection() {
         console.log('deleting kfs: ', dopeRoot.allSelectedKeyframes)
-        var indexList = []
-        var keyframesList = []
+        let indexList = []
+        let keyframesList = []
         while (dopeRoot.allSelectedKeyframes.length > 0) {
-            var elem = dopeRoot.allSelectedKeyframes.pop()
+            let elem = dopeRoot.allSelectedKeyframes.pop()
             indexList.push(elem.index)
             // Sort keyframes in reverse order for deletion
             elem.kfrs.sort(function(a, b) {
@@ -301,12 +301,12 @@ Rectangle {
     }
 
     function keyframeSelected(itemIndex, keyframeIndex) {
-        var selectedKeyframes = getSelectedKeyframesForIndex(itemIndex)
+        let selectedKeyframes = getSelectedKeyframesForIndex(itemIndex)
         return selectedKeyframes.indexOf(keyframeIndex)
     }
 
     function keyframeGrabbed(itemIndex, keyframeIndex) {
-        var grabbedKeyframes = getGrabbedKeyframesForIndex(itemIndex)
+        let grabbedKeyframes = getGrabbedKeyframesForIndex(itemIndex)
         return grabbedKeyframes.indexOf(keyframeIndex)
     }
 
@@ -316,9 +316,9 @@ Rectangle {
     }
 
     function getSelectedKeyframesForIndex(itemIndex) {
-        var ix = 0
+        let ix = 0
         while (ix < dopeRoot.allSelectedKeyframes.length) {
-            var elem = dopeRoot.allSelectedKeyframes[ix]
+            let elem = dopeRoot.allSelectedKeyframes[ix]
             if (elem.index === treeViewItem.model.mapToSource(itemIndex)) {
                 return elem.kfrs
             } else {
@@ -329,9 +329,9 @@ Rectangle {
     }
 
     function getGrabbedKeyframesForIndex(itemIndex) {
-        var ix = 0
+        let ix = 0
         while (ix < dopeRoot.grabbedKeyframes.length) {
-            var elem = dopeRoot.grabbedKeyframes[ix]
+            let elem = dopeRoot.grabbedKeyframes[ix]
             if (elem.index === treeViewItem.model.mapToSource(itemIndex)) {
                 return elem.kfrs
             } else {
@@ -342,14 +342,14 @@ Rectangle {
     }
 
     function updateSelectedKeyframesForIndex(itemIndex, itemKeyframes, addToSelection) {
-        var ix = 0
+        let ix = 0
         // First delete existing
         if (!addToSelection) {
             // Clear all selection
             dopeRoot.allSelectedKeyframes = []
         } else {
             while (ix < dopeRoot.allSelectedKeyframes.length) {
-                var elem = dopeRoot.allSelectedKeyframes[ix]
+                let elem = dopeRoot.allSelectedKeyframes[ix]
                 if (elem.index === itemIndex) {
                     dopeRoot.allSelectedKeyframes.splice(ix, 1);
                     break
@@ -358,7 +358,7 @@ Rectangle {
                 }
             }
         }
-        (keyframeCurve.item as KeyframeView).setActiveKeyframe(itemKeyframes)
+        (dopeKeyframeCurve.item as KeyframeView).setActiveKeyframe(itemKeyframes)
         dopeRoot.allSelectedKeyframes.push({index: itemIndex, kfrs: itemKeyframes})
     }
 
@@ -374,23 +374,23 @@ Rectangle {
         if (position < 0) {
             return false
         }
-        var viewPos = frameToView(position)
+        let viewPos = frameToView(position)
         return viewPos >= -K.UiUtils.baseSizeMedium/2 && viewPos < dopeRoot.keyframeContainerWidth + K.UiUtils.baseSizeMedium/2
     }
 
     function selectRubber(addToSelection) {
         // Start frame
-        var startFrame = Math.min(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
-        var endFrame = Math.max(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
+        let startFrame = Math.min(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
+        let endFrame = Math.max(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth - K.UiUtils.baseSizeMedium + (dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         dopeRoot.rubberStartFrame = viewToFrame(startFrame) + dopeRoot.inPoint
         dopeRoot.rubberEndFrame = viewToFrame(endFrame) + dopeRoot.inPoint
         console.log('SELECTING FRAMES BETWEEN: ', startFrame, '-', endFrame)
-        var topPos = mapToItem(treeViewItem, 0, Math.min(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
+        let topPos = mapToItem(treeViewItem, 0, Math.min(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
         topPos.y = Math.max(0, topPos.y)
-        var bottomPos = mapToItem(treeViewItem, 0, Math.max(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
+        let bottomPos = mapToItem(treeViewItem, 0, Math.max(dopeRoot.rubberBottomRight.y, dopeRoot.rubberTopLeft.y))
         bottomPos.y = Math.min(treeViewItem.contentHeight - 1, bottomPos.y)
-        var topRow = treeViewItem.cellAtPosition(topPos)
-        var bottomRow = treeViewItem.cellAtPosition(bottomPos)
+        let topRow = treeViewItem.cellAtPosition(topPos)
+        let bottomRow = treeViewItem.cellAtPosition(bottomPos)
         dopeRoot.rubberStartIndex = treeViewItem.model.mapToSource(treeViewItem.modelIndex(topRow))
         dopeRoot.rubberEndIndex = treeViewItem.model.mapToSource(treeViewItem.modelIndex(bottomRow))
         dopeRoot.rubberAddToSelection = addToSelection
@@ -398,7 +398,7 @@ Rectangle {
     }
 
     function processRubberSelect() {
-        var result = dopesheetmodel.selectKeyframeRange(dopeRoot.rubberStartIndex, dopeRoot.rubberEndIndex, dopeRoot.rubberStartFrame, dopeRoot.rubberEndFrame)
+        let result = dopesheetmodel.selectKeyframeRange(dopeRoot.rubberStartIndex, dopeRoot.rubberEndIndex, dopeRoot.rubberStartFrame, dopeRoot.rubberEndFrame)
         updateSelectedKeyframesFromModel(result, dopeRoot.rubberAddToSelection, false)
         dopeRoot.rubberSelectPending = false
     }
@@ -415,9 +415,9 @@ Rectangle {
         if (!addToSelection) {
             dopeRoot.allSelectedKeyframes = []
         }
-        var indexes = dopesheetmodel.selectedIndexes()
+        let indexes = dopesheetmodel.selectedIndexes()
         while (indexes.length > 0) {
-            var id = indexes.pop()
+            let id = indexes.pop()
             if (!id.valid) {
                 continue
             }
@@ -426,9 +426,9 @@ Rectangle {
                 break;
             }
             // insertedKF is the list of new keyframes to add/remove
-            var insertedKF = result[id.internalId.toString()]
+            let insertedKF = result[id.internalId.toString()]
             if (addToSelection) {
-                var existingKF = getSelectedKeyframesForIndex(treeViewItem.model.mapFromSource(id))
+                let existingKF = getSelectedKeyframesForIndex(treeViewItem.model.mapFromSource(id))
                 let currentPos = existingKF.indexOf(insertedKF[0])
                 if (removeFromSelection) {
                     console.log('remove op, found at: ', currentPos)
@@ -459,7 +459,7 @@ Rectangle {
 
     function updateGrabbedKeyframesFromModel() {
         dopeRoot.grabbedKeyframes = dopeRoot.allSelectedKeyframes
-        var indexes = dopesheetmodel.grabbedIndexes()
+        let indexes = dopesheetmodel.grabbedIndexes()
         dopeRoot.grabbedKeyframesChanged()
     }
 
@@ -489,7 +489,7 @@ Rectangle {
             console.log('invalid ix from C++')
             return
         }
-        var currentIx = treeViewItem.selectionModel.currentIndex
+        let currentIx = treeViewItem.selectionModel.currentIndex
         if (currentIx.parent && currentIx.parent.parent && currentIx.parent.parent != treeViewItem.rootIndex) {
             // We are on an effect param with a recap
             if (currentIx.parent.row === modelIndex.row && (paramRow < 0)) {
@@ -529,7 +529,7 @@ Rectangle {
     Keys.onDownPressed: {
         if (treeViewItem.selectionModel.currentIndex.parent != treeViewItem.rootIndex) {
             // Child Item
-            var parentIndex = treeViewItem.selectionModel.currentIndex.parent
+            let parentIndex = treeViewItem.selectionModel.currentIndex.parent
             if (treeViewItem.selectionModel.currentIndex.row < treeViewItem.model.rowCount(parentIndex) - 1) {
                 treeViewItem.selectionModel.setCurrentIndex(treeViewItem.model.index(treeViewItem.selectionModel.currentIndex.row + 1, treeViewItem.selectionModel.currentIndex.column, parentIndex), ItemSelectionModel.SelectCurrent)
                 return
@@ -553,7 +553,7 @@ Rectangle {
     Keys.onUpPressed: {
         if (treeViewItem.selectionModel.currentIndex.parent != treeViewItem.rootIndex) {
             // Child Item
-            var parentIndex = treeViewItem.selectionModel.currentIndex.parent
+            let parentIndex = treeViewItem.selectionModel.currentIndex.parent
             if (treeViewItem.selectionModel.currentIndex.row > 0) {
                 treeViewItem.selectionModel.setCurrentIndex(treeViewItem.model.index(treeViewItem.selectionModel.currentIndex.row - 1, treeViewItem.selectionModel.currentIndex.column, parentIndex), ItemSelectionModel.SelectCurrent)
                 return
@@ -564,7 +564,7 @@ Rectangle {
         }
         // Move to next child or top level item
         if (treeViewItem.selectionModel.currentIndex.row > 0) {
-            var upperItem = treeViewItem.model.index(treeViewItem.selectionModel.currentIndex.row - 1, treeViewItem.selectionModel.currentIndex.column)
+            let upperItem = treeViewItem.model.index(treeViewItem.selectionModel.currentIndex.row - 1, treeViewItem.selectionModel.currentIndex.column)
             if (treeViewItem.model.rowCount(upperItem) > 0) {
                 treeViewItem.selectionModel.setCurrentIndex(treeViewItem.model.index(treeViewItem.model.rowCount(upperItem) - 1, treeViewItem.selectionModel.currentIndex.column, upperItem), ItemSelectionModel.SelectCurrent)
             } else {
@@ -767,7 +767,7 @@ Rectangle {
         rulercontainerWidth: Math.max(width, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         scrollViewContentX: dopeRoot.contentScroll
         snapping: dopeRoot.snapping
-        fontMetrics: fontMetrics
+        fontMetrics: dopeFontMetrics
         onZoomByWheel: (wheel) => { dopeRoot.zoomByWheel(wheel) }
         onWidthChanged: {
             ruler.adjustStepSize()
@@ -777,7 +777,7 @@ Rectangle {
         anchors.fill: playheadLabel
         visible: playheadLabel.visible
         radius: 4
-        color: dopeRoot.overKeyframe ? dopeRoot.hoverColor : activePalette.light
+        color: dopeRoot.overKeyframe ? dopeRoot.hoverColor : dopeActivePalette.light
     }
     Label {
         id: playheadLabel
@@ -796,7 +796,7 @@ Rectangle {
         visible: dopeRoot.ownerType > -1 && x >= dopeRoot.headerWidth + K.UiUtils.baseSizeMedium && x < parent.width
         z: 4
         x: dopeRoot.headerWidth + K.UiUtils.baseSizeMedium + dopeRoot.frameToView(dopeRoot.consumerPosition)
-        color: activePalette.text
+        color: dopeActivePalette.text
         width: 1
         Rectangle {
             color: ruler.dimmedColor
@@ -809,7 +809,7 @@ Rectangle {
         anchors.fill: mouseLabel
         visible: mouseLabel.visible
         radius: 4
-        color: dopeRoot.hoverKeyframe > -1 ? dopeRoot.hoverColor : activePalette.highlight
+        color: dopeRoot.hoverKeyframe > -1 ? dopeRoot.hoverColor : dopeActivePalette.highlight
     }
     Label {
         id: mouseLabel
@@ -828,7 +828,7 @@ Rectangle {
         width: 1
         visible: mouseLabel.visible
         x: dopeRoot.headerWidth + K.UiUtils.baseSizeMedium + dopeRoot.frameToView(dopeRoot.mouseFramePos)
-        color: activePalette.highlight
+        color: dopeActivePalette.highlight
     }
     MouseArea {
         id: backgroundArea
@@ -868,7 +868,7 @@ Rectangle {
         anchors.bottomMargin: 2
         anchors.top: ruler.bottom
         width: dopeRoot.headerWidth
-        color: activePalette.alternateBase
+        color: dopeActivePalette.alternateBase
     }
 
     Menu {
@@ -1013,11 +1013,11 @@ Rectangle {
             model: dopeRoot.dopesheetFilterModel
             onCurrentChanged: (current, previous) => {
                 if (current.valid) {
-                    var activeIndex = dopeRoot.getActiveCppParamIndex()
+                    let activeIndex = dopeRoot.getActiveCppParamIndex()
                     if (activeIndex.valid) {
                         dopeRoot.overKeyframe = dopeRoot.dopesheetmodel.isOnKeyframe(dopeRoot.consumerPosition + dopeRoot.inPoint, false, activeIndex)
                         if (current.parent) {
-                            keyframeCurve.model = dopeRoot.dopesheetmodel.getKeyframeModel(activeIndex)
+                            dopeKeyframeCurve.model = dopeRoot.dopesheetmodel.getKeyframeModel(activeIndex)
                             dopeRoot.dopesheetmodel.activateParam(activeIndex)
                         }
                     }
@@ -1026,10 +1026,10 @@ Rectangle {
         }
 
         hoveredParam: -1
-        fontMetrics: fontMetrics
-        activePalette: activePalette
+        fontMetrics: dopeFontMetrics
+        activePalette: dopeActivePalette
         dopeRootItem: dopeRoot
-        keyframeCurve: keyframeCurve
+        keyframeCurve: dopeKeyframeCurve
         dopeWidth: dopeRoot.width
         keyframeContainerWidth: dopeRoot.keyframeContainerWidth
         rubberTopLeft: dopeRoot.rubberTopLeft
@@ -1038,7 +1038,7 @@ Rectangle {
     Rectangle {
         // Rubber selection rect
         color: "#33FFFFFF"
-        border.color: activePalette.highlight
+        border.color: dopeActivePalette.highlight
         border.width: 1
         visible: dopeRoot.rubberSelect
         x: Math.min(dopeRoot.rubberTopLeft.x, dopeRoot.rubberBottomRight.x)
@@ -1052,7 +1052,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         height: dopeRoot.baseUnit / 2.5
-        visible: keyframeCurve.model !== undefined
+        visible: dopeKeyframeCurve.model !== undefined
         y: dopeRoot.height * K.KdenliveSettings.dopeGraphHeight
         MouseArea {
             id: splitterArea
@@ -1074,7 +1074,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             height: (splitterArea.containsMouse || splitterArea.pressed) ? parent.height - 2 : 1
             opacity: (splitterArea.containsMouse || splitterArea.pressed) ? 1 : 0.2
-            color: activePalette.highlight
+            color: dopeActivePalette.highlight
         }
     }
 
@@ -1087,7 +1087,7 @@ Rectangle {
         anchors.bottom: horZoomBar.top
         anchors.bottomMargin: 2
         anchors.top: splitter.bottom
-        //height: keyframeCurve.model === undefined ? 0 : K.UiUtils.baseSizeMedium * 4
+        //height: dopeKeyframeCurve.model === undefined ? 0 : K.UiUtils.baseSizeMedium * 4
         contentWidth: Math.max(dopeRoot.keyframeContainerWidth, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor)
         contentHeight: height
         contentX: Math.min(dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor, dopeRoot.frameDuration * dopeRoot.timeScale * dopeRoot.maximumScaleFactor - width)
@@ -1099,113 +1099,113 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onDoubleClicked: mouse =>{
-                if (keyframeCurve.model) {
-                    var newVal = (height - mouse.y) / height
+                if (dopeKeyframeCurve.model) {
+                    let newVal = (height - mouse.y) / height
                     dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mouse.x)
-                    keyframeCurve.model.addKeyframe(dopeRoot.getPositionForKeyframe(), newVal)
+                    dopeKeyframeCurve.model.addKeyframe(dopeRoot.getPositionForKeyframe(), newVal)
                 }
             }
         }
 
         Loader {
             // Keyframe curve
-            id: keyframeCurve
+            id: dopeKeyframeCurve
             anchors.fill: parent
             property var model: undefined
-            property bool hasKeyframes:  status == Loader.Ready ? keyframeCurve.model === undefined ? false : (keyframeCurve.item as KeyframeView).kfrCount > 1 : 0
+            property bool hasKeyframes:  status == Loader.Ready ? dopeKeyframeCurve.model === undefined ? false : (dopeKeyframeCurve.item as KeyframeView).kfrCount > 1 : 0
             property bool isPanning: false
             asynchronous: true
             visible: status == Loader.Ready
             active: true
-            source: keyframeCurve.model === undefined ? "" : "KeyframeView.qml"
+            source: dopeKeyframeCurve.model === undefined ? "" : "KeyframeView.qml"
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "kfrModel"
-                value: keyframeCurve.model
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                value: dopeKeyframeCurve.model
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "bgColor"
-                value: activePalette.alternateBase
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                value: dopeActivePalette.alternateBase
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "fgColor"
-                value: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.3)
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                value: Qt.rgba(dopeActivePalette.highlight.r, dopeActivePalette.highlight.g, dopeActivePalette.highlight.b, 0.3)
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "selected"
                 value: true
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "isPanning"
                 value: false
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "ownerId"
                 value: dopeRoot.ownerId
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "ownerType"
                 value: dopeRoot.ownerType
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
 
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "inPoint"
                 value: dopeRoot.dopesheetmodel.dopeInPoint
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "outPoint"
                 value: dopeRoot.dopesheetmodel.dopeInPoint + dopeRoot.dopesheetmodel.dopeDuration - 1
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "modelStart"
                 value: dopeRoot.dopesheetmodel.dopePosition
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "scrollStart"
                 value: dopeRoot.contentScroll * dopeRoot.timeScale * dopeRoot.maximumScaleFactor
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "timeScale"
                 value: dopeRoot.maximumScaleFactor * dopeRoot.timeScale
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             Binding {
-                target: keyframeCurve.item
+                target: dopeKeyframeCurve.item
                 property: "timelineScrollViewWidth"
                 value: keyframeContainer.width
-                when: keyframeCurve.status === Loader.Ready && keyframeCurve.item
+                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                 restoreMode: Binding.RestoreBindingOrValue
             }
             HoverHandler {
