@@ -5562,17 +5562,20 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
         }
         qDebug() << "callback " << binId << " " << track << ", MAXIMUM SPACE: " << recPosition.second;
         int endPos = recPosition.second;
+        bool isInserted = false;
         if (endPos > 0) {
             // Limited space on track
             endPos = qMin(int(clip->frameDuration() - 1), endPos);
             QString binClipId = QStringLiteral("%1/%2/%3").arg(binId).arg(0).arg(endPos);
-            model->requestClipInsertion(binClipId, track, recPosition.first, id, true, true, false);
+            isInserted = model->requestClipInsertion(binClipId, track, recPosition.first, id, true, true, false);
             endPos++;
         } else {
             endPos = clip->frameDuration();
-            model->requestClipInsertion(binId, track, recPosition.first, id, true, true, false);
+            isInserted = model->requestClipInsertion(binId, track, recPosition.first, id, true, true, false);
         }
-        pCore->window()->seekIfCurrent(model->uuid(), recPosition.first + endPos);
+        if (isInserted) {
+            pCore->window()->seekIfCurrent(model->uuid(), recPosition.first + endPos);
+        }
     };
     std::shared_ptr<ProjectItemModel> itemModel = pCore->projectItemModel();
     std::shared_ptr<ProjectFolder> targetFolder = itemModel->getRootFolder();
