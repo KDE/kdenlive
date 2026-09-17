@@ -638,7 +638,7 @@ Item {
         }
     }
     
-    RulerZone {
+    K.RulerZone {
         id: zone
         z: 3
         timeline: rulerRoot.timeline
@@ -670,7 +670,7 @@ Item {
     }
 
     // Effect zone
-    RulerZone {
+    K.RulerZone {
         id: effectZone
         z: 2
         timeline: rulerRoot.timeline

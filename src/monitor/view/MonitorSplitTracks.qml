@@ -91,7 +91,7 @@ Item {
             }
         }
     }
-    MultiScreenToolBar {
+    K.MultiScreenToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right
@@ -103,7 +103,7 @@ Item {
         monitorController: root.controller
         isClipMonitor: root.isClipMonitor
     }
-    MonitorRuler {
+    K.MonitorRuler {
         id: clipMonitorRuler
         anchors {
             left: root.left

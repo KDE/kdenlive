@@ -88,7 +88,7 @@ Rectangle {
         if (monitorController.timeZoomFactor == 1) {
             return
         }
-        var scaledPosition = ruler.playheadPosition * ruler.timeScale - ruler.rulerZoomOffset
+        let scaledPosition = ruler.playheadPosition * ruler.timeScale - ruler.rulerZoomOffset
         if (scaledPosition < K.UiUtils.baseSizeMedium) {
             if (scaledPosition < 0) {
                 monitorController.timeZoomOffset = Math.max(0, (rulerZoomOffset - ruler.seekOffset + scaledPosition) * monitorController.timeZoomFactor) / ruler.width
@@ -112,8 +112,8 @@ Rectangle {
 
     function zoomInRuler(xPos)
     {
-        var currentX = playhead.x
-        var currentCursor = playhead.x + playhead.width / 2 + ruler.rulerZoomOffset
+        let currentX = playhead.x
+        let currentCursor = playhead.x + playhead.width / 2 + ruler.rulerZoomOffset
         
         // Adjust zoom factor
         monitorController.timeZoomFactor = Math.min(1, monitorController.timeZoomFactor / 1.2)
@@ -122,7 +122,7 @@ Rectangle {
             monitorController.timeZoomFactor = K.UiUtils.baseSizeMedium / 2 / ruler.width
         }
         // Always try to have cursor pos centered in zoom
-        var cursorPos = Math.max(0, ruler.monitorController.position / ruler.duration - monitorController.timeZoomFactor / 2)
+        let cursorPos = Math.max(0, ruler.monitorController.position / ruler.duration - monitorController.timeZoomFactor / 2)
         if (cursorPos + monitorController.timeZoomFactor > 1) {
             cursorPos = 1 - monitorController.timeZoomFactor
         }
@@ -136,7 +136,7 @@ Rectangle {
             monitorController.timeZoomOffset = 0
         } else {
             // Always try to have cursor pos centered in zoom
-            var cursorPos = Math.max(0, ruler.monitorController.position / ruler.duration - monitorController.timeZoomFactor / 2)
+            let cursorPos = Math.max(0, ruler.monitorController.position / ruler.duration - monitorController.timeZoomFactor / 2)
             if (cursorPos + monitorController.timeZoomFactor > 1) {
                 cursorPos = 1 - monitorController.timeZoomFactor
             }
@@ -205,7 +205,7 @@ Rectangle {
         hoverEnabled: true
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var pos = Math.max(mouseX, 0)
+                let pos = Math.max(mouseX, 0)
                 ruler.seeking = true
                 ruler.mouseRulerPos = mouseX
                 ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
@@ -217,7 +217,7 @@ Rectangle {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var pos = Math.max(mouseX, 0)
+                let pos = Math.max(mouseX, 0)
                 ruler.mouseRulerPos = pos
                 if (pressed) {
                     ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
@@ -499,12 +499,12 @@ Rectangle {
                     
                     onPositionChanged: {
                         if (isResizing) {
-                            var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
-                            var realDeltaX = globalCurrentX - globalStartX
+                            let globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                            let realDeltaX = globalCurrentX - globalStartX
 
-                            var deltaFrames = Math.round(realDeltaX / ruler.timeScale)
-                            var newStartPosition = Math.max(0, startPosition + deltaFrames)
-                            var newDuration = Math.max(1, originalEndPosition - newStartPosition)
+                            let deltaFrames = Math.round(realDeltaX / ruler.timeScale)
+                            let newStartPosition = Math.max(0, startPosition + deltaFrames)
+                            let newDuration = Math.max(1, originalEndPosition - newStartPosition)
 
                             currentNewStartPosition = newStartPosition
                             currentNewDuration = newDuration
@@ -577,11 +577,11 @@ Rectangle {
                     
                     onPositionChanged: {
                         if (isResizing) {
-                            var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
-                            var realDeltaX = globalCurrentX - globalStartX
+                            let globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                            let realDeltaX = globalCurrentX - globalStartX
                             
-                            var deltaFrames = Math.round(realDeltaX / ruler.timeScale)
-                            var newDuration = Math.max(1, startDuration + deltaFrames)
+                            let deltaFrames = Math.round(realDeltaX / ruler.timeScale)
+                            let newDuration = Math.max(1, startDuration + deltaFrames)
                             
                             currentNewDuration = newDuration
                             

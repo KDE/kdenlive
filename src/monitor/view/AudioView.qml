@@ -289,7 +289,7 @@ Item {
                 mouse.accepted = false
                 return
             }
-            var pos = Math.max(mouseX, 0)
+            let pos = Math.max(mouseX, 0)
             pos += audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset
             audioThumb.monitorController.setPosition(Math.min(pos / audioThumb.timeScale, audioThumb.duration));
         }
@@ -299,7 +299,7 @@ Item {
                 return
             }
             if (mouse.modifiers & Qt.ShiftModifier || pressed) {
-                var pos = Math.max(mouseX, 0)
+                let pos = Math.max(mouseX, 0)
                 pos += audioThumb.width / audioThumb.monitorController.timeZoomFactor * audioThumb.monitorController.timeZoomOffset
                 audioThumb.monitorController.setPosition(Math.min(pos / audioThumb.timeScale, audioThumb.duration));
             }

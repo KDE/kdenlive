@@ -93,7 +93,7 @@ Item {
             droppedDataSource = ""
         }
     }
-    SceneToolBar {
+    K.SceneToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right
@@ -282,7 +282,7 @@ Item {
             }
         }
     }
-    MonitorRuler {
+    K.MonitorRuler {
         id: clipMonitorRuler
         anchors {
             left: root.left
