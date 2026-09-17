@@ -2657,7 +2657,7 @@ function getTrackColor(audio, header) {
             timeScale: root.timeScale
             consumerPosition: root.consumerPosition
             groupTrimData: root.groupTrimData
-            timelineScrollView: scrollView.width
+            timelineScrollView: scrollView
             snapping: root.snapping
 
             onIsUserInteractingChanged: { root.blockAutoScroll = isUserInteracting }
