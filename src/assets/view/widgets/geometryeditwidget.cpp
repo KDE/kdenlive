@@ -59,7 +59,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     m_geom.reset(new GeometryWidget(monitor, QPair<int, int>(start, end), rect, false, 100, frameSize, false,
-                                    m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, layout, xRange, yRange));
+                                    m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, layout, nullptr, xRange, yRange));
     connect(m_geom.get(), &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
         if (m_model->isActive()) {
             pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);

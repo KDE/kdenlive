@@ -12,6 +12,7 @@ class QAction;
 class DragValue;
 class Monitor;
 class QFormLayout;
+class QHBoxLayout;
 
 /** @class GeometryWidget
     @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
@@ -31,8 +32,8 @@ public:
      * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
      */
     explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, bool allowNullRect, double opacity, const QSize frameSize,
-                            bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout, std::pair<int, int> xRange = {-99000, 99000},
-                            std::pair<int, int> yRange = {-99000, 99000});
+                            bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout, QHBoxLayout *addedLayout = nullptr,
+                            std::pair<int, int> xRange = {-99000, 99000}, std::pair<int, int> yRange = {-99000, 99000});
     void setValue(const QRect r, double opacity = 1, int frame = -1);
     bool connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);
@@ -56,7 +57,6 @@ private:
     DragValue *m_opacity{nullptr};
     int m_frameForRect{-1};
     double m_opacityFactor;
-    QFormLayout *m_layout;
     QSize m_defaultSize;
     QSize m_sourceSize;
     QAction *m_originalSize;

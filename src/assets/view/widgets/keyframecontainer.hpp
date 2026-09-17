@@ -19,6 +19,7 @@ class KeyframeView;
 class KeyframeCurveEditor;
 class KeyframeModelList;
 class QVBoxLayout;
+class QHBoxLayout;
 class QToolButton;
 class QToolBar;
 class TimecodeDisplay;
@@ -103,6 +104,8 @@ private:
     QFormLayout *m_layout;
     std::unique_ptr<GeometryWidget> m_geom;
     QPersistentModelIndex m_geometryIndex;
+    /** @brief Build param related layout for keyframe navigation  */
+    QHBoxLayout *buildKeyframeLayout(QWidget *parent, QPersistentModelIndex index);
 
 Q_SIGNALS:
     void addIndex(QPersistentModelIndex ix);

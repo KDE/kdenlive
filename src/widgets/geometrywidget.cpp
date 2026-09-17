@@ -19,14 +19,14 @@
 #include <cmath>
 
 GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, bool allowNullRect, double opacity, const QSize frameSize,
-                               bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout, std::pair<int, int> xRange, std::pair<int, int> yRange)
+                               bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout, QHBoxLayout *addedLayout, std::pair<int, int> xRange,
+                               std::pair<int, int> yRange)
     : QObject(parent)
     , m_min(range.first)
     , m_max(range.second)
     , m_active(false)
     , m_monitor(monitor)
     , m_opacityFactor(100.)
-    , m_layout(layout)
     , m_rotationAnchorMode(RotationAnchorMode::TopLeft)
 {
     Q_UNUSED(useRatioLock)
@@ -80,6 +80,9 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     poslayout->addSpacing(layout->horizontalSpacing() / 3);
     poslayout->addWidget(m_spinY);
     poslayout->addStretch(10);
+    if (addedLayout) {
+        poslayout->addLayout(addedLayout);
+    }
     m_allWidgets << label;
 
     m_spinWidth = new DragValue(i18nc("Image Size (Width)", "Size W"), m_defaultSize.width(), 0, allowNullRect ? 0 : 1, xRange.second, -1, QString(), false,
@@ -450,7 +453,7 @@ QRectF GeometryWidget::rotatedBoundingRect(double x, double y, double w, double 
     }
     double minX = corners[0].x(), maxX = corners[0].x();
     double minY = corners[0].y(), maxY = corners[0].y();
-    for (const QPointF &pt : corners) {
+    for (const QPointF pt : corners) {
         minX = qMin(minX, pt.x());
         maxX = qMax(maxX, pt.x());
         minY = qMin(minY, pt.y());

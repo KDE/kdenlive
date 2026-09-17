@@ -424,9 +424,12 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
             }
         }
         Q_EMIT addIndex(index);
+
+        // Build add/seek keyframe widget
+        QHBoxLayout *kfrLayout = buildKeyframeLayout(m_parent, index);
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, true, opacity, m_sourceFrameSize, false,
-                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout));
+                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout, kfrLayout));
         m_geometryIndex = index;
         if (m_neededScene == SceneType::MonitorSceneRotatedGeometry) {
             m_geom->setRotatable(true);
@@ -572,40 +575,8 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         });
         lay->addWidget(keyframable);
         lay->addWidget(doubleWidget);
-        QToolButton *goPrev = new QToolButton(m_parent);
-        goPrev->setIcon(QIcon::fromTheme("arrow-left"));
-        goPrev->setToolTip(i18n("Go to Previous Keyframe"));
-        goPrev->setAutoRaise(true);
-        goPrev->setMaximumWidth(goPrev->height() * 0.6);
-        lay->addWidget(goPrev);
-        connect(goPrev, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), false); });
-        KDualAction *kfAction = new KDualAction(m_parent);
-        kfAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
-        kfAction->setActiveText(i18n("Remove Keyframe"));
-        kfAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
-        kfAction->setInactiveText(i18n("Add Keyframe"));
-        QToolButton *tb = new QToolButton(m_parent);
-        tb->setAutoRaise(true);
-        tb->setDefaultAction(kfAction);
-        lay->addWidget(tb);
-        QToolButton *goNext = new QToolButton(m_parent);
-        goNext->setIcon(QIcon::fromTheme("arrow-right"));
-        goNext->setAutoRaise(true);
-        goNext->setMaximumWidth(goNext->height() * 0.6);
-        goNext->setToolTip(i18n("Go to Next Keyframe"));
-        connect(goNext, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), true); });
-        lay->addWidget(goNext);
-
-        connect(kfAction, &KDualAction::activeChangedByUser, this, [this, index](bool activated) {
-            auto km = m_keyframes->getKeyModel(index);
-            if (activated) {
-                Q_EMIT activateEffectParam(index.row());
-                km->addKeyframe(getPosition());
-            } else {
-                Q_EMIT activateEffectParam(index.row());
-                km->removeKeyframe(getPosition());
-            }
-        });
+        QHBoxLayout *kfrLayout = buildKeyframeLayout(m_parent, index);
+        lay->addLayout(kfrLayout);
 
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
@@ -620,7 +591,6 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         }
         doubleWidget->setDragObjectName(QString::number(index.row()));
         m_parameters[index] = doubleWidget;
-        m_keyframeActions[index] = kfAction;
         labelWidget = doubleWidget->createLabel();
         m_layout->addRow(labelWidget, container);
         return;
@@ -629,41 +599,10 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         m_parameters[index] = paramWidget;
         QWidget *container = new QWidget(m_parent);
         auto lay = new QHBoxLayout(container);
+        lay->setContentsMargins(0, 0, 0, 0);
         lay->addWidget(paramWidget);
-        QToolButton *goPrev = new QToolButton(m_parent);
-        goPrev->setIcon(QIcon::fromTheme("arrow-left"));
-        goPrev->setAutoRaise(true);
-        goPrev->setMaximumWidth(goPrev->height() * 0.6);
-        connect(goPrev, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), false); });
-        lay->addWidget(goPrev);
-        KDualAction *kfAction = new KDualAction(m_parent);
-        kfAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
-        kfAction->setActiveText(i18n("Remove Keyframe"));
-        kfAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
-        kfAction->setInactiveText(i18n("Add Keyframe"));
-        QToolButton *tb = new QToolButton(m_parent);
-        tb->setAutoRaise(true);
-        tb->setDefaultAction(kfAction);
-        lay->addWidget(tb);
-        QToolButton *goNext = new QToolButton(m_parent);
-        goNext->setIcon(QIcon::fromTheme("arrow-right"));
-        goNext->setAutoRaise(true);
-        goNext->setMaximumWidth(goNext->height() * 0.6);
-        connect(goNext, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), true); });
-        lay->addWidget(goNext);
-
-        connect(kfAction, &KDualAction::activeChangedByUser, this, [this, index](bool activated) {
-            auto km = m_keyframes->getKeyModel(index);
-            if (activated) {
-                Q_EMIT activateEffectParam(index.row());
-                km->addKeyframe(getPosition());
-            } else {
-                Q_EMIT activateEffectParam(index.row());
-                km->removeKeyframe(getPosition());
-            }
-        });
-
-        m_keyframeActions[index] = kfAction;
+        QHBoxLayout *kfrLayout = buildKeyframeLayout(m_parent, index);
+        lay->addLayout(kfrLayout);
         if (labelWidget) {
             m_layout->addRow(labelWidget, container);
         } else {
@@ -672,6 +611,48 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
     } else {
         m_parameters[index] = nullptr;
     }
+}
+
+QHBoxLayout *KeyframeContainer::buildKeyframeLayout(QWidget *parent, QPersistentModelIndex index)
+{
+    QHBoxLayout *kfrLayout = new QHBoxLayout(parent);
+    kfrLayout->setSpacing(0);
+    QToolButton *goPrev = new QToolButton(parent);
+    goPrev->setIcon(QIcon::fromTheme("arrow-left"));
+    goPrev->setToolTip(i18n("Go to Previous Keyframe"));
+    goPrev->setAutoRaise(true);
+    goPrev->setMaximumWidth(goPrev->height() * 0.6);
+    kfrLayout->addWidget(goPrev);
+    connect(goPrev, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), false); });
+    KDualAction *kfAction = new KDualAction(parent);
+    kfAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
+    kfAction->setActiveText(i18n("Remove Keyframe"));
+    kfAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
+    kfAction->setInactiveText(i18n("Add Keyframe"));
+    QToolButton *tb = new QToolButton(parent);
+    tb->setAutoRaise(true);
+    tb->setDefaultAction(kfAction);
+    kfrLayout->addWidget(tb);
+    QToolButton *goNext = new QToolButton(parent);
+    goNext->setIcon(QIcon::fromTheme("arrow-right"));
+    goNext->setAutoRaise(true);
+    goNext->setMaximumWidth(goNext->height() * 0.6);
+    goNext->setToolTip(i18n("Go to Next Keyframe"));
+    connect(goNext, &QToolButton::clicked, this, [this, index]() { Q_EMIT activateEffectParamAndSeek(index.row(), true); });
+    kfrLayout->addWidget(goNext);
+
+    connect(kfAction, &KDualAction::activeChangedByUser, this, [this, index](bool activated) {
+        auto km = m_keyframes->getKeyModel(index);
+        if (activated) {
+            Q_EMIT activateEffectParam(index.row());
+            km->addKeyframe(getPosition());
+        } else {
+            Q_EMIT activateEffectParam(index.row());
+            km->removeKeyframe(getPosition());
+        }
+    });
+    m_keyframeActions[index] = kfAction;
+    return kfrLayout;
 }
 
 void KeyframeContainer::slotInitMonitor(bool active, bool)
