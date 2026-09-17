@@ -441,7 +441,6 @@ void EffectStackView::loadEffects()
         }
         const QString assetName = EffectsRepository::get()->getName(assetId);
         view = new CollapsibleEffectView(assetName, effectModel, m_sourceFrameSize, this);
-        qDebug() << "XXXXXXXXXXXXXXXXx\n\nBUILDING COLLAPSIBLE EFFECT FOR: " << assetName << "\n\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx";
         connect(view, &CollapsibleEffectView::deleteEffect, this, &EffectStackView::slotDeleteEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);

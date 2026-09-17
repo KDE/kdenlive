@@ -609,7 +609,6 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
 
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
-            qDebug() << ":::: DOUBLE WIDGET VALUE CHAGED FPR POS: " << getPosition();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, index);
         });
         if (m_geom) {
