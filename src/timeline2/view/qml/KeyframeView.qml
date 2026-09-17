@@ -79,14 +79,14 @@ Rectangle
 
     Keys.onShortcutOverride: (event) => {
         if (event.key === Qt.Key_Left) {
-            let kfr = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
+            let kfr = keyframes.itemAt(kfrModel.activeKeyframe) as K.KeyframeDelegate
             if (event.modifiers & Qt.AltModifier) {
                 kfrModel.setActiveKeyframe(Math.max(0, --activeIndex))
-                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
+                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as K.KeyframeDelegate
                 seek(activeKeyframe.value - keyframeContainer.inPoint)
                 event.accepted = true
             } else {
-                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
+                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as K.KeyframeDelegate
                 var oldFrame = activeKeyframe.value
                 var newPos = Math.max(oldFrame - 1 - keyframeContainer.inPoint, 0)
                 if (newPos != oldFrame) {
@@ -98,10 +98,10 @@ Rectangle
         else if (event.key === Qt.Key_Right) {
             if (event.modifiers & Qt.AltModifier) {
                 kfrModel.setActiveKeyframe(Math.min(keyframes.count - 1, ++activeIndex))
-                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
+                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as K.KeyframeDelegate
                 seek(activeKeyframe.value - keyframeContainer.inPoint)
             } else {
-                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as KeyframeDelegate
+                let activeKeyframe = keyframes.itemAt(kfrModel.activeKeyframe) as K.KeyframeDelegate
                 var oldFrame = activeKeyframe.value
                 var newPos = Math.min(oldFrame + 1 - keyframeContainer.inPoint, keyframeContainer.outPoint - keyframeContainer.inPoint)
                 if (newPos != oldFrame) {
@@ -115,13 +115,13 @@ Rectangle
             event.accepted = true
         }
         if ((event.key === Qt.Key_Plus) && !(event.modifiers & Qt.ControlModifier)) {
-            let activeKeyframe = keyframes.itemAt(activeIndex) as KeyframeDelegate
+            let activeKeyframe = keyframes.itemAt(activeIndex) as K.KeyframeDelegate
             var newVal = Math.min(activeKeyframe.value / parent.height + .05, 1)
             kfrModel.updateKeyframe(kfrModel.activeKeyframe(), newVal)
             event.accepted = true
         }
         else if ((event.key === Qt.Key_Minus) && !(event.modifiers & Qt.ControlModifier)) {
-            let activeKeyframe = keyframes.itemAt(activeIndex) as KeyframeDelegate
+            let activeKeyframe = keyframes.itemAt(activeIndex) as K.KeyframeDelegate
             var newVal = Math.max(activeKeyframe.value / parent.height - .05, 0)
             kfrModel.updateKeyframe(kfrModel.activeKeyframe(), newVal)
             event.accepted = true
@@ -166,7 +166,7 @@ Rectangle
                 }
 
                 onSeekToIx: (ix) => {
-                    keyframeContainer.seek((keyframes.itemAt(ix) as KeyframeDelegate).frame - keyframe.parentInPoint)
+                    keyframeContainer.seek((keyframes.itemAt(ix) as K.KeyframeDelegate).frame - keyframe.parentInPoint)
                 }
 
                 onKeyframeSelected: (index, add, setActive) => {
@@ -212,7 +212,7 @@ Rectangle
         }
         function updatePaths() {
             paths = []
-            let currentKeyframe = keyframes.itemAt(0) as KeyframeDelegate
+            let currentKeyframe = keyframes.itemAt(0) as K.KeyframeDelegate
             var xpos = currentKeyframe.pixelPos - keyframecanvas.offset
             var ypos = currentKeyframe.pixelValue
             let skippedKF = 0
@@ -227,11 +227,11 @@ Rectangle
                 if (nextKeyframe) {
                     currentKeyframe = nextKeyframe
                 } else {
-                    currentKeyframe = keyframes.itemAt(i) as KeyframeDelegate
+                    currentKeyframe = keyframes.itemAt(i) as K.KeyframeDelegate
                 }
 
                 if (i + 1 < keyframes.count) {
-                    nextKeyframe = keyframes.itemAt(i + 1) as KeyframeDelegate
+                    nextKeyframe = keyframes.itemAt(i + 1) as K.KeyframeDelegate
                     if (nextKeyframe.pixelPos < keyframecanvas.offset) {
                         continue
                     }
@@ -298,7 +298,7 @@ Rectangle
                             paths.push(quad.createObject(keyframecanvas, {"x": xpos, "y": ypos, "controlX": nextxpos, "controlY": nextypos} ))
                             break;
                         } else {
-                            let beforePreviousKeframe = keyframes.itemAt(i - 2) as KeyframeDelegate
+                            let beforePreviousKeframe = keyframes.itemAt(i - 2) as K.KeyframeDelegate
                             prevXOffset = (currentKeyframe.pixelPos - beforePreviousKeframe.pixelPos) / 6
                             prevYOffset = (currentKeyframe.pixelValue - beforePreviousKeframe.pixelValue) / 6
                         }

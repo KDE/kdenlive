@@ -91,7 +91,7 @@ Item {
         }
         updateLabelOffset()
         if (compositionRoot.width > timelineScrollViewWidth) {
-            let kfrView = effectRow.item as KeyframeView
+            let kfrView = effectRow.item as K.KeyframeView
             if (kfrView && kfrView.kfrCanvas) {
                 kfrView.kfrCanvas.requestPaint()
             }
@@ -147,7 +147,7 @@ Item {
 
     function resetSelection() {
         if (effectRow.visible) {
-            (effectRow.item as KeyframeView).resetSelection()
+            (effectRow.item as K.KeyframeView).resetSelection()
         }
     }
 
@@ -167,7 +167,7 @@ Item {
         width = clipDuration * timeScale;
         if (compositionRoot.visible) {
             updateLabelOffset()
-            let kfrView = effectRow.item as KeyframeView
+            let kfrView = effectRow.item as K.KeyframeView
             if (kfrView && kfrView.kfrCanvas) {
                 kfrView.kfrCanvas.requestPaint()
             }
@@ -490,7 +490,7 @@ Item {
             anchors.fill: parent
             active: compositionRoot.visible
             asynchronous: true
-            property bool hasKeyframes:  status == Loader.Ready ? compositionRoot.keyframeModel === undefined ? false : (effectRow.item as KeyframeView).kfrCount > 1 : 0
+            property bool hasKeyframes:  status == Loader.Ready ? compositionRoot.keyframeModel === undefined ? false : (effectRow.item as K.KeyframeView).kfrCount > 1 : 0
             visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * K.UiUtils.baseSizeMedium
             source: compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
             Binding {

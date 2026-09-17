@@ -112,8 +112,8 @@ Rectangle {
 
     onContentScrollChanged: {
         if (dopeKeyframeCurve.item) {
-            if ((dopeKeyframeCurve.item as KeyframeView).kfrCanvas) {
-                (dopeKeyframeCurve.item as KeyframeView).kfrCanvas.requestPaint()
+            if ((dopeKeyframeCurve.item as K.KeyframeView).kfrCanvas) {
+                (dopeKeyframeCurve.item as K.KeyframeView).kfrCanvas.requestPaint()
             }
         }
         if (backgroundArea.containsMouse) {
@@ -211,7 +211,7 @@ Rectangle {
             if (wheel.angleDelta.y < 0) {
                 valueOffset = -0.005
             }
-            (dopeKeyframeCurve.item as KeyframeView).shiftActiveKeyframes(valueOffset)
+            (dopeKeyframeCurve.item as K.KeyframeView).shiftActiveKeyframes(valueOffset)
             return
         }
 
@@ -358,7 +358,7 @@ Rectangle {
                 }
             }
         }
-        (dopeKeyframeCurve.item as KeyframeView).setActiveKeyframe(itemKeyframes)
+        (dopeKeyframeCurve.item as K.KeyframeView).setActiveKeyframe(itemKeyframes)
         dopeRoot.allSelectedKeyframes.push({index: itemIndex, kfrs: itemKeyframes})
     }
 
@@ -1112,7 +1112,7 @@ Rectangle {
             id: dopeKeyframeCurve
             anchors.fill: parent
             property var model: undefined
-            property bool hasKeyframes:  status == Loader.Ready ? dopeKeyframeCurve.model === undefined ? false : (dopeKeyframeCurve.item as KeyframeView).kfrCount > 1 : 0
+            property bool hasKeyframes:  status == Loader.Ready ? dopeKeyframeCurve.model === undefined ? false : (dopeKeyframeCurve.item as K.KeyframeView).kfrCount > 1 : 0
             property bool isPanning: false
             asynchronous: true
             visible: status == Loader.Ready

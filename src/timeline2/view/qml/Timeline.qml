@@ -167,7 +167,7 @@ Rectangle {
     }
 
     function highlightSub(ix) {
-        let currentSub = subtitlesRepeater.itemAt(ix) as SubTitle
+        let currentSub = subtitlesRepeater.itemAt(ix) as K.SubTitle
         currentSub.editText()
     }
 
@@ -226,7 +226,7 @@ Rectangle {
             }
             newTrack = 0;
         }
-        root.timeline.activeTrack = (tracksRepeater.itemAt(newTrack) as Track).trackInternalId
+        root.timeline.activeTrack = (tracksRepeater.itemAt(newTrack) as K.Track).trackInternalId
     }
 
     function zoomByWheel(wheel) {
@@ -476,7 +476,7 @@ function getTrackColor(audio, header) {
     function getAudioTracksCount(){
         let audioCount = 0;
         for (let i = 0; i < trackHeaderRepeater.count; i++) {
-            if((trackHeaderRepeater.itemAt(i) as TrackHead).isAudio) {
+            if((trackHeaderRepeater.itemAt(i) as K.TrackHead).isAudio) {
                 audioCount++;
             }
         }
@@ -869,7 +869,7 @@ function getTrackColor(audio, header) {
                 }
                 var track = Logic.getTrackIndexFromPos(drag.y + voffset + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    var targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
+                    var targetTrack = (tracksRepeater.itemAt(track) as K.Track).trackInternalId
                     var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
                     // If the target track changed, recreate the preview clips so that audio mirrors
                     // are correctly assigned for the new target track (e.g. when the new track has
@@ -993,7 +993,7 @@ function getTrackColor(audio, header) {
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                     root.droppedPosition = frame
-                    root.timeline.activeTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
+                    root.timeline.activeTrack = (tracksRepeater.itemAt(track) as K.Track).trackInternalId
                     root.lastDropTrack = root.timeline.activeTrack
                     if (root.controller.normalEdit()) {
                         root.clipBeingDroppedId = insertAndMaybeGroup(root.timeline.activeTrack, frame, root.clipBeingDroppedData)
@@ -1062,7 +1062,7 @@ function getTrackColor(audio, header) {
                     }
                     var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track >= 0  && track < tracksRepeater.count) {
-                        let targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
+                        let targetTrack = (tracksRepeater.itemAt(track) as K.Track).trackInternalId
                         let frame = root.controller.suggestSnapPoint(root.mouseFrame, root.snapping)
                         if (lastCheckedFrame != frame || root.timeline.activeTrack != targetTrack) {
                             root.timeline.activeTrack = targetTrack
@@ -1142,7 +1142,7 @@ function getTrackColor(audio, header) {
                 }
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    root.timeline.activeTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
+                    root.timeline.activeTrack = (tracksRepeater.itemAt(track) as K.Track).trackInternalId
                     root.continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
             }
@@ -1444,7 +1444,7 @@ function getTrackColor(audio, header) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
-                            let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as Track
+                            let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as K.Track
                             root.timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, track.trackInternalId)
                         } else if (subtitleTrack.height > 0) {
                             root.timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
@@ -1475,8 +1475,8 @@ function getTrackColor(audio, header) {
                     }
                     if (K.Core.activeTool === K.ToolType.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
-                        var y = mouse.y - ruler.height + scrollView.contentY;
-                        var frame = (scrollView.contentX + mouse.x) / root.timeScale
+                        let y = mouse.y - ruler.height + scrollView.contentY;
+                        let frame = (scrollView.contentX + mouse.x) / root.timeScale
                         // Default to all tracks
                         root.spacerTrack = -1
                         if (mouse.modifiers & Qt.ControlModifier) {
@@ -1485,11 +1485,11 @@ function getTrackColor(audio, header) {
                                     // Activate spacer on subtitle track only
                                     root.spacerTrack = -2
                                 } else {
-                                    let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y - subtitleTrack.height)) as Track
+                                    let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y - subtitleTrack.height)) as K.Track
                                     root.spacerTrack = track.trackInternalId
                                 }
                             } else {
-                                let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as Track
+                                let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as K.Track
                                 root.spacerTrack = track.trackInternalId
                             }
                         }
@@ -1533,7 +1533,7 @@ function getTrackColor(audio, header) {
                     if (mouse.y > ruler.height) {
                         if (mouse.y > ruler.height + subtitleTrack.height) {
                             let trackPos = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
-                            let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(trackPos)) as Track
+                            let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(trackPos)) as K.Track
                             root.timeline.activeTrack = track.trackInternalId
                         } else {
                             root.timeline.activeTrack = -2
@@ -1568,7 +1568,7 @@ function getTrackColor(audio, header) {
                         root.timeline.activeSubLayer = (mouse.y - ruler.height) / (subtitleTrack.height / (root.maxSubLayer + 1))
                     } else {
                         let trackPos = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
-                        let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(trackPos)) as Track
+                        let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(trackPos)) as K.Track
                         root.timeline.activeTrack = track.trackInternalId
                     }
                 } else if (mouse.y < ruler.guideLabelHeight) {
@@ -1747,7 +1747,7 @@ function getTrackColor(audio, header) {
                     }
                     var topTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y))
                     var bottomTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
-                    var bottomTrack = tracksRepeater.itemAt(bottomTrackIx) as Track
+                    var bottomTrack = tracksRepeater.itemAt(bottomTrackIx) as K.Track
                     // Check if bottom of rubber selection covers the last track compositions
                     console.log('Got rubber bottom: ', y, ' - height: ', selectionHeight, ', TK y: ', Logic.getTrackYFromId(bottomTrack.trackInternalId), ', SCROLLVIEWY: ', scrollView.contentY)
                     var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(bottomTrack.trackInternalId)) > (Logic.getTrackHeightByPos(bottomTrackIx) * 0.6)
@@ -1755,7 +1755,7 @@ function getTrackColor(audio, header) {
                         var t = []
                         if (!selectOnlySubs) {
                             for (var i = topTrackIx; i <= bottomTrackIx; i++) {
-                                t.push((tracksRepeater.itemAt(i) as Track).trackInternalId)
+                                t.push((tracksRepeater.itemAt(i) as K.Track).trackInternalId)
                             }
                         }
                         var startFrame = Math.round(rubberSelect.x / root.timeScale)

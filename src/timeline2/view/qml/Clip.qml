@@ -159,10 +159,10 @@ Rectangle {
         //console.log('SCROLL START: ', clipRoot.scrollStart, '; VISIBLE: ', clipRoot.visible)
         updateLabelOffset()
         if (isAudio && thumbsLoader.item) {
-            (thumbsLoader.item as ClipAudioThumbs).reload(1)
+            (thumbsLoader.item as K.ClipAudioThumbs).reload(1)
         }
         if (!clipRoot.hideClipViews && clipRoot.width > timelineScrollViewWidth) {
-            let kfrView = effectRow.item as KeyframeView
+            let kfrView = effectRow.item as K.KeyframeView
             if (kfrView && kfrView.kfrCanvas) {
                 kfrView.kfrCanvas.requestPaint()
             }
@@ -193,7 +193,7 @@ Rectangle {
 
     function resetSelection() {
         if (effectRow.visible && effectRow.item) {
-            (effectRow.item as KeyframeView).resetSelection()
+            (effectRow.item as K.KeyframeView).resetSelection()
         }
     }
 
@@ -217,7 +217,7 @@ Rectangle {
         width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
-            (thumbsLoader.item as ClipAudioThumbs).reload(1)
+            (thumbsLoader.item as K.ClipAudioThumbs).reload(1)
         }
     }
 
@@ -253,7 +253,7 @@ Rectangle {
             return;
         }
         if (thumbsLoader.item) {
-            (thumbsLoader.item as ClipAudioThumbs).reload(0)
+            (thumbsLoader.item as K.ClipAudioThumbs).reload(0)
         }
     }
 
@@ -263,7 +263,7 @@ Rectangle {
         width = clipDuration * clipRoot.timeScale;
         if (clipRoot.visible) {
             if (!clipRoot.hideClipViews) {
-                let kfrView = effectRow.item as KeyframeView
+                let kfrView = effectRow.item as K.KeyframeView
                 if (kfrView && kfrView.kfrCanvas) {
                     kfrView.kfrCanvas.requestPaint()
                 }
@@ -1598,7 +1598,7 @@ Rectangle {
                 clip: true
                 anchors.fill: parent
                 asynchronous: true
-                property bool hasKeyframes: status == Loader.Ready ? clipRoot.keyframeModel === undefined ? false : (effectRow.item as KeyframeView).kfrCount > 1 : 0
+                property bool hasKeyframes: status == Loader.Ready ? clipRoot.keyframeModel === undefined ? false : (effectRow.item as K.KeyframeView).kfrCount > 1 : 0
 
                 active: clipRoot.visible
                 visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
