@@ -119,7 +119,7 @@ Item {
         }
         onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
-                var pos = Math.max(mouseX, 0)
+                let pos = Math.max(mouseX, 0)
                 pos += width / root.controller.timeZoomFactor * root.controller.timeZoomOffset
                 root.controller.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
@@ -185,7 +185,7 @@ Item {
         Item {
             id: monitorOverlay
             anchors.fill: parent
-            AudioView {
+            K.AudioView {
                 id: audioView
                 monitorController: root.controller
                 timeScale: clipMonitorRuler.timeScale

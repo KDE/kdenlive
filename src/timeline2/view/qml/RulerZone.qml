@@ -200,7 +200,7 @@ Rectangle {
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         rzone.resizeActive = true
-                        var newPos = rzone.timeline.suggestSnapPoint(rzone.frameIn + Math.round(trimIn.x / rzone.timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : rzone.snapping)
+                        let newPos = rzone.timeline.suggestSnapPoint(rzone.frameIn + Math.round(trimIn.x / rzone.timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : rzone.snapping)
                         if (newPos < 0) {
                             newPos = 0
                         }
