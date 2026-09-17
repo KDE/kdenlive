@@ -16,8 +16,8 @@ TreeView {
     model: dopesheetfiltermodel
     property var activeIndex
     property int selectedKeyframe
-
     clip: true
+
     // Disable flicking
     acceptedButtons: Qt.NoButton
     selectionModel: ItemSelectionModel {
@@ -53,5 +53,7 @@ TreeView {
         activePalette: treeViewItem.activePalette
         dopeWidth: treeViewItem.dopeWidth
         hoverColor: treeViewItem.hoverColor
+        onSelectKeyframe: kfIndex => treeViewItem.selectedKeyframe = kfIndex
+        onActiveParamChanged: paramIndex => treeViewItem.activeIndex = paramIndex
     }
 }

@@ -50,6 +50,9 @@ Item {
     property int currentKFIndex: -1
     property bool kfPressed: kfMoveArea.pressed
 
+    signal selectKeyframe(int kfIndex)
+    signal activeParamChanged(var paramIndex)
+
     Menu {
         id: paramMenu
         property bool paramHasKeyframes
@@ -60,7 +63,7 @@ Item {
             enabled: paramMenu.paramHasKeyframes
             onTriggered: {
                 delegateRect.dopesheetmodel.removeAllKeyframes(paramMenu.paramIndex)
-                delegateRect.treeView.selectedKeyframe = -1
+                delegateRect.selectKeyframe(-1)
                 delegateRect.dopeRootItem.hoverKeyframe = -1
             }
         }
@@ -85,7 +88,7 @@ Item {
             enabled: paramMenu.paramHasKeyframes
             onTriggered: {
                 delegateRect.dopesheetmodel.removeAllKeyframes(paramMenu.paramIndex)
-                delegateRect.treeView.selectedKeyframe = -1
+                delegateRect.selectKeyframe(-1)
                 delegateRect.dopeRootItem.hoverKeyframe = -1
             }
         }
@@ -297,14 +300,15 @@ Item {
                 ctrlClick = mouse.modifiers & Qt.ControlModifier
                 buttonClicked = mouse.buttons
                 // Select parameter
-                var parameterIndex = delegateRect.treeView.index(delegateRect.row, delegateRect.column)
+                let parameterIndex = delegateRect.treeView.index(delegateRect.row, delegateRect.column)
+                console.log(' GOT CLICK PARAM INDEX: ', parameterIndex)
                 delegateRect.treeView.selectionModel.setCurrentIndex(parameterIndex, ItemSelectionModel.SelectCurrent);
 
                 if (clickIndex < 0) {
                     // Not on a keyframe
                     delegateRect.dopeRootItem.keyframeType = -1
                     if (mouse.buttons === Qt.RightButton) {
-                        delegateRect.treeView.activeIndex = parameterIndex
+                        delegateRect.activeParamChanged(parameterIndex)
                         delegateRect.dopeRootItem.showOtherMenu()
                     } else {
                         delegateRect.dopeRootItem.clearSelection()
@@ -318,8 +322,8 @@ Item {
                 if (mouse.buttons === Qt.RightButton) {
                     if (alreadySelected) {
                         // keyframe already selected, just show menu
-                        delegateRect.treeView.selectedKeyframe = delegateRect.currentKFFrame
-                        delegateRect.treeView.activeIndex = parameterIndex
+                        delegateRect.selectKeyframe(delegateRect.currentKFFrame)
+                        delegateRect.activeParamChanged(parameterIndex)
                         var matchingText
                         for (var i = 0; i < delegateRect.dopeRootItem.keyframeTypes.length; i++) {
                             if (delegateRect.dopeRootItem.keyframeTypes[i].value === delegateRect.dopeRootItem.keyframeType) {
@@ -373,8 +377,8 @@ Item {
                 }
                 if (mouse.buttons === Qt.RightButton) {
                     // Show context menu
-                    delegateRect.treeView.selectedKeyframe = delegateRect.currentKFFrame
-                    delegateRect.treeView.activeIndex = parameterIndex
+                    delegateRect.selectKeyframe(delegateRect.currentKFFrame)
+                    delegateRect.activeParamChanged(parameterIndex)
                     for (i = 0; i < delegateRect.dopeRootItem.keyframeTypes.length; i++) {
                         if (delegateRect.dopeRootItem.keyframeTypes[i].value === delegateRect.dopeRootItem.keyframeType) {
                             matchingText = delegateRect.dopeRootItem.keyframeTypes[i].text
