@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-15 00:43+0000\n"
+"POT-Creation-Date: 2026-09-17 00:43+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -657,7 +657,7 @@ msgid "Delay"
 msgstr ""
 
 #: data/effects/avfilter/aecho.xml:17
-#: data/effects/avfilter/avfilter_lagfun.xml:12
+#: data/effects/avfilter/avfilter_lagfun.xml:14
 #: data/effects/ladspa/ladspa_1410.xml:33 data/effects/ladspa/ladspa_2142.xml:9
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
@@ -1528,6 +1528,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_noise.xml:67
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
+#: data/effects/frei0r/frei0r_squigglevision.xml:8
 #, fuzzy, kde-format
 #| msgid "Stretch"
 msgid "Strength"
@@ -2742,7 +2743,8 @@ msgstr "Tampilkan Semua"
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/effects/avfilter/avfilter_pseudocolor.xml:16
-#: data/effects/dynamictext.xml:53 data/effects/gpstext.xml:116
+#: data/effects/dynamictext.xml:53
+#: data/effects/frei0r/frei0r_camerashake.xml:29 data/effects/gpstext.xml:116
 #: data/effects/timer.xml:53
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
@@ -3422,7 +3424,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
-#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2908
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:11
+#: data/effects/frei0r/frei0r_camerashake.xml:37 src/bin/bin.cpp:2908
 #: src/mltcontroller/clippropertiescontroller.cpp:657
 #, kde-format
 msgid "Color"
@@ -4915,6 +4918,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
 #: data/effects/frei0r/frei0r_shake0scillate.xml:26
+#: data/effects/frei0r/frei0r_squigglevision.xml:16
 #: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
@@ -4953,9 +4957,22 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lagfun.xml:6
 #, kde-format
 msgid ""
-"Slowly update darker pixels.<br>\n"
+"Slowly update darker pixels. Results of using different <i>Planes</i> "
+"depends on pixel format.<br>\n"
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lagfun.xml:10
+#, kde-format
+msgid "Results depend on pixel format"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lagfun.xml:11
+#, kde-format
+msgid ""
+"All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
+"Uα,YUα,Vα,YVα,UVα"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
@@ -6384,6 +6401,7 @@ msgstr "File aset"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/avfilter/avfilter_sofalizer.xml:14
+#: data/effects/frei0r/frei0r_camerashake.xml:16
 #: data/effects/frei0r/frei0r_mirr0r.xml:17
 #: data/effects/frei0r/frei0r_shake0scillate.xml:20
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -7461,6 +7479,7 @@ msgid "Apply Zoom and Pan effect"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
+#: data/effects/frei0r/frei0r_camerashake.xml:20
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
 #: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:380
@@ -9998,6 +10017,87 @@ msgstr "Buat Klip Hitung Mundur"
 #| msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 msgid "None,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:4
+#, kde-format
+msgid "Camera Shake Ultimate"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_camerashake.xml:5
+#, kde-format
+msgid "Camera movement effect with rotation, opacity, and blur"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_camerashake.xml:8
+#, fuzzy, kde-format
+#| msgid "Amplitude"
+msgid "Amplitude X"
+msgstr "Amplitudo"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum horizontal shake amplitude"
+msgstr "Kesejajaran Horisontal"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:12
+#, fuzzy, kde-format
+#| msgid "Amplitude"
+msgid "Amplitude Y"
+msgstr "Amplitudo"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:13
+#, fuzzy, kde-format
+#| msgid "Maximal Diameter"
+msgid "Maximum vertical shake amplitude"
+msgstr "Diameter Maksimal"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:17
+#, kde-format
+msgid "Maximum rotation shake (capped at 45deg)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_camerashake.xml:22
+#, no-c-format, kde-format
+msgid ""
+"Zoom factor to hide black borders.<br>\n"
+"        This is in addition to 100%. For example: 0% means not additional "
+"zoom; 100% means image is twice as large (total of 200% of original size)."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_camerashake.xml:25
+#, fuzzy, kde-format
+#| msgid "Intensity"
+msgid "Shake intensity"
+msgstr "Intensitas"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:26
+#, kde-format
+msgid "Speed or frequency of the shake"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_camerashake.xml:30
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "Opacity of the effect"
+msgstr "Rotasi di sekitar poros X"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:33
+#, fuzzy, kde-format
+#| msgid "Motion"
+msgid "Motion blur"
+msgstr "Gerakan"
+
+#: data/effects/frei0r/frei0r_camerashake.xml:34
+#, kde-format
+msgid "Amount of motion blur (capped at 20px)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_camerashake.xml:38
+#, fuzzy, kde-format
+#| msgid "Background color opacity"
+msgid "Background color for exposed borders"
+msgstr "Opasitas warna latar belakang"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -13429,6 +13529,39 @@ msgstr "Persegi 2"
 #, fuzzy, kde-format
 #| msgid "Frame size:"
 msgid "Kernel size"
+msgstr "Ukuran frame:"
+
+#: data/effects/frei0r/frei0r_squigglevision.xml:4
+#, kde-format
+msgid "Squigglevision"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_squigglevision.xml:5
+#, kde-format
+msgid "Creates a hand-drawn wobble effect"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_squigglevision.xml:9
+#, fuzzy, kde-format
+#| msgid "Shrink/grow amount"
+msgid "Displacement amount"
+msgstr "Banyaknya iris/tumbuh"
+
+#: data/effects/frei0r/frei0r_squigglevision.xml:12
+#, kde-format
+msgid "FPS"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_squigglevision.xml:13
+#, fuzzy, kde-format
+#| msgid "Updates per second"
+msgid "Squiggle updates per second"
+msgstr "Memperbarui tiap detik"
+
+#: data/effects/frei0r/frei0r_squigglevision.xml:17
+#, fuzzy, kde-format
+#| msgid "Frame size:"
+msgid "Noise cell size"
 msgstr "Ukuran frame:"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
