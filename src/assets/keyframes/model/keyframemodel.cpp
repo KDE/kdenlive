@@ -1525,7 +1525,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         } else if ((m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
                     m_paramType == ParamType::AnimatedPoint)) {
             mlt_rect rect = ptr->getAsset()->anim_get_rect(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps()));
-            if (rect.x < 1. && rect.y < 1. && rect.w < 1. && rect.h < 1.) {
+            if (std::strchr(ptr->getAsset()->get(paramName.toUtf8().constData()), '%')) {
                 // Percentage format
                 const QSize profileSize = pCore->getCurrentFrameSize();
                 rect.x *= profileSize.width();

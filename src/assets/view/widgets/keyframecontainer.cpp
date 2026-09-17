@@ -724,7 +724,6 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
 {
     Q_EMIT activateEffect();
     QVariant result = res;
-    qDebug() << "::::: UPDATING KEYFRAME FROM MONITOR!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
     auto monitor = pCore->getMonitor(m_model->monitorId);
     int framePos = monitor->position() - pCore->getItemKeyframeOffset(m_model->getOwnerId());
     if (m_keyframes->isEmpty()) {
@@ -745,7 +744,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         if (framePos > 0) {
             // First add keyframe at start of the clip
             GenTime pos0(m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
-            m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
+            m_keyframes->addKeyframe(pos0, KeyframeType::Linear, index);
             m_keyframes->updateKeyframe(pos0, result, -1, index);
             // For rotoscoping, don't add a second keyframe at cursor pos
             auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -758,7 +757,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
             }
         }
         // Next add keyframe at playhead position
-        m_keyframes->addKeyframe(pos, KeyframeType::Linear);
+        m_keyframes->addKeyframe(pos, KeyframeType::Linear, index);
         m_keyframes->updateKeyframe(pos, result, -1, index);
         return;
     }
@@ -766,7 +765,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
     if (KdenliveSettings::autoKeyframe() && m_neededScene != SceneType::MonitorSceneDefault) {
         if (!m_keyframes->hasKeyframe(framePos)) {
             // Auto add keyframe
-            m_keyframes->addKeyframe(pos, KeyframeType::Linear);
+            m_keyframes->addKeyframe(pos, KeyframeType::Linear, index);
         } else if (m_monitorHelper && m_monitorHelper->isPlaying()) {
             // Don't try to modify a keyframe when playing in monitor
             return;

@@ -152,7 +152,7 @@ bool KeyframeModelList::applyOperation(const std::function<bool(std::shared_ptr<
     return res;
 }
 
-bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type)
+bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QPersistentModelIndex index)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
@@ -164,7 +164,16 @@ bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type
     const QString opText = update ? i18n("Change keyframe type") : i18n("Add keyframe");
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = applyOperation(op, undo, redo);
+    bool res = false;
+    if (index.isValid()) {
+        auto kfModel = getKeyModel(index);
+        if (kfModel) {
+            res = op(kfModel, false, undo, redo);
+        }
+        PUSH_UNDO(undo, redo, opText);
+    } else {
+        res = applyOperation(op, undo, redo);
+    }
     if (res && KdenliveSettings::applyEffectParamsToGroup()) {
         ObjectId id = getOwnerId();
         double fps = pCore->getCurrentFps();

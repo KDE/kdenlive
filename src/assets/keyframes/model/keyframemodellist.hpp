@@ -41,7 +41,7 @@ public:
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
-    bool addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type);
+    bool addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QPersistentModelIndex index = QModelIndex());
     bool addKeyframe(int frame, double val);
 
     /** @brief Removes the keyframe at the given position. */

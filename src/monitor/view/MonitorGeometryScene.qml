@@ -68,8 +68,8 @@ Item {
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
-    enum RotationAnchorModes { Center, TopLeft }
-    property string rotationAnchorMode: MonitorGeometryScene.RotationAnchorModes.Center
+    //enum RotationAnchorModes { Center, TopLeft }
+    //property string rotationAnchorMode: MonitorGeometryScene.RotationAnchorModes.Center
     signal effectChanged(rect frame)
     signal centersChanged()
     signal effectRotationChanged(double rotation)
@@ -130,10 +130,10 @@ Item {
     {
         transformedFrame.rotationAnchorX = transformedFrame.width * root.rect_anchor.x;
         transformedFrame.rotationAnchorY = transformedFrame.height * root.rect_anchor.y;
-        console.log("updated rotation anchor to", transformedFrame.rotationAnchorX, transformedFrame.rotationAnchorY, "mode", root.rotationAnchorMode, "MonitorGeometryScene.RotationAnchorModes.TopLeft", MonitorGeometryScene.RotationAnchorModes.TopLeft);
+        //console.log("updated rotation anchor to", transformedFrame.rotationAnchorX, transformedFrame.rotationAnchorY, "mode", root.rotationAnchorMode, "MonitorGeometryScene.RotationAnchorModes.TopLeft", MonitorGeometryScene.RotationAnchorModes.TopLeft);
     }
 
-    onRotationAnchorModeChanged: updateRotationAnchor()
+    //onRotationAnchorModeChanged: updateRotationAnchor()
 
     Canvas {
       id: canvas
