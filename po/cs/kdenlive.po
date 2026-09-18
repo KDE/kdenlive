@@ -12673,7 +12673,7 @@ msgstr "Síla tónování"
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
 #, fuzzy, kde-format

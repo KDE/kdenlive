@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-17 00:43+0000\n"
-"PO-Revision-Date: 2026-09-11 19:09+0300\n"
+"PO-Revision-Date: 2026-09-17 09:11+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4938,25 +4938,22 @@ msgid "Lag Fun"
 msgstr "Веселощі з затримкою"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Slowly update darker pixels.<br>\n"
-#| "        <b><i>Note</i></b>: This effect does not reset during playback "
-#| "due to frame buffer issues but renders correctly."
+#, kde-format
 msgid ""
 "Slowly update darker pixels. Results of using different <i>Planes</i> "
 "depends on pixel format.<br>\n"
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
-"Повільно оновлювати темніші пікселі.<br>\n"
+"Повільно оновлювати темніші пікселі. Результати використання різних "
+"<i>Площин</i> залежать від формату у пікселях.<br>\n"
 "<b><i>Зауваження</i></b>: цей ефект не скидається під час відтворення через "
 "проблеми з буфером кадрів, а показується належним чином."
 
 #: data/effects/avfilter/avfilter_lagfun.xml:10
 #, kde-format
 msgid "Results depend on pixel format"
-msgstr ""
+msgstr "Результати залежать від формату у пікселях"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #, kde-format
@@ -4964,6 +4961,8 @@ msgid ""
 "All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
 "Uα,YUα,Vα,YVα,UVα"
 msgstr ""
+"Усі,Жодного,Яскравість/Y/Червоний,Палітра/U/Зелений,Палітра/V/Синій,"
+"Прозорість (α),YU,YV,UV,YUV,Yα,Uα,YUα,Vα,YVα,UVα"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -10006,41 +10005,37 @@ msgstr "Немає,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "Універсальне тремтіння камери"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
-msgstr ""
+msgstr "Ефект руху камери з обертанням, непрозорістю та розмиванням"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude X"
-msgstr "Амплітуда"
+msgstr "Амплітуда за X"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "Максимальне пересування за горизонталлю"
+msgstr "Максимальна горизонтальна амплітуда збурення"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Y"
-msgstr "Амплітуда"
+msgstr "Амплітуда за Y"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "Максимальне пересування за вертикаллю"
+msgstr "Максимальна вертикальна амплітуда збурення"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
 msgid "Maximum rotation shake (capped at 45deg)"
-msgstr ""
+msgstr "Максимальне обертання (обмежено 45 градусами у будь-якому напрямку)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:22
 #, no-c-format, kde-format
@@ -10049,40 +10044,40 @@ msgid ""
 "        This is in addition to 100%. For example: 0% means not additional "
 "zoom; 100% means image is twice as large (total of 200% of original size)."
 msgstr ""
+"Коефіцієнт масштабування для приховування чорних рамок.<br>\n"
+"Буде додано до 100%. Наприклад: 0% означає, що додаткове масштабування не "
+"застосовується; 100% означає, що зображення вдвічі більше (загалом 200% від "
+"початкового розміру)."
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Shift Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "Інтенсивність зсуву"
+msgstr "Інтенсивність тремтіння"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "Швидкість або частота збурення"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
-#, fuzzy, kde-format
-#| msgid "Opacity of the scope display"
+#, kde-format
 msgid "Opacity of the effect"
-msgstr "Непрозорість панелі аналізатора"
+msgstr "Непрозорість ефекту"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:33
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Motion blur"
-msgstr "Рух"
+msgstr "Розмивання рухом"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "Величина розмивання рухом (обмежено 20 пікселями)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "Непрозорість кольору тла"
+msgstr "Колір тла для виявлених рамок"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -13460,35 +13455,32 @@ msgstr "Розмір ядра"
 #: data/effects/frei0r/frei0r_squigglevision.xml:4
 #, kde-format
 msgid "Squigglevision"
-msgstr ""
+msgstr "Squigglevision"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:5
 #, kde-format
 msgid "Creates a hand-drawn wobble effect"
-msgstr ""
+msgstr "Створює імітацію малювання від руки хвилястої лінії"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "Рівень відтінку"
+msgstr "Частка заміщення"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
 msgid "FPS"
-msgstr ""
+msgstr "Частота кадрів"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Squiggle updates per second"
-msgstr "Оновлень на секунду"
+msgstr "Частота оновлень хвиль"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:17
-#, fuzzy, kde-format
-#| msgid "Kernel size"
+#, kde-format
 msgid "Noise cell size"
-msgstr "Розмір ядра"
+msgstr "Розмір комірки шуму"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format

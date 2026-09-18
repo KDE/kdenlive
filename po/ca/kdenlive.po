@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-17 00:43+0000\n"
-"PO-Revision-Date: 2026-09-11 10:26+0200\n"
+"PO-Revision-Date: 2026-09-17 14:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -4978,18 +4978,15 @@ msgid "Lag Fun"
 msgstr "Lag Fun"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Slowly update darker pixels.<br>\n"
-#| "        <b><i>Note</i></b>: This effect does not reset during playback "
-#| "due to frame buffer issues but renders correctly."
+#, kde-format
 msgid ""
 "Slowly update darker pixels. Results of using different <i>Planes</i> "
 "depends on pixel format.<br>\n"
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
-"Actualitza lentament els píxels foscos.<br>\n"
+"Actualitza lentament els píxels foscos. El resultat de fer servir <i>Plans</"
+"i> diferents depèn del format dels píxels.<br>\n"
 "        <b><i>Nota</i></b>: Aquest efecte no es reinicia durant la "
 "reproducció a causa de problemes de la memòria intermèdia dels fotogrames, "
 "però es renderitza correctament."
@@ -4997,7 +4994,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lagfun.xml:10
 #, kde-format
 msgid "Results depend on pixel format"
-msgstr ""
+msgstr "El resultat depèn del format dels píxels"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #, kde-format
@@ -5005,6 +5002,8 @@ msgid ""
 "All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
 "Uα,YUα,Vα,YVα,UVα"
 msgstr ""
+"Tots,Cap,Luma/Y/Vermell,Croma/U/Verd,Croma/V/Blau,Alfa (α),YU,YV,UV,YUV,Yα,"
+"Uα,YUα,Vα,YVα,UVα"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -10068,41 +10067,37 @@ msgstr "Cap,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "Sacseig màxim de la càmera"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
-msgstr ""
+msgstr "Efecte de moviment de la càmera amb gir, opacitat i difuminat"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude X"
-msgstr "Amplitud"
+msgstr "Amplitud X"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "Moviment horitzontal màxim"
+msgstr "Amplitud màxima del sacseig horitzontal"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Y"
-msgstr "Amplitud"
+msgstr "Amplitud Y"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "Moviment vertical màxim"
+msgstr "Amplitud màxima del sacseig vertical"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
 msgid "Maximum rotation shake (capped at 45deg)"
-msgstr ""
+msgstr "Sacseig màxim de gir (topall a 45 graus)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:22
 #, no-c-format, kde-format
@@ -10111,40 +10106,40 @@ msgid ""
 "        This is in addition to 100%. For example: 0% means not additional "
 "zoom; 100% means image is twice as large (total of 200% of original size)."
 msgstr ""
+"Factor d'ampliació per a ocultar les vores negres.<br>\n"
+"        Això se suma al 100%. Per exemple: 0% vol dir que no hi ha cap "
+"ampliació addicional; 100% vol dir que la imatge és el doble de gran (total "
+"del 200% de la mida original)."
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Shift Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "Intensitat del desplaçament"
+msgstr "Intensitat del sacseig"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "Velocitat o freqüència del sacseig"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
-#, fuzzy, kde-format
-#| msgid "Opacity of the scope display"
+#, kde-format
 msgid "Opacity of the effect"
-msgstr "Opacitat de la visualització de l'electroscopi"
+msgstr "Opacitat de l'efecte"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:33
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Motion blur"
-msgstr "Moviment"
+msgstr "Difuminat del moviment"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "Quantitat de difuminat del moviment (topall a 20px)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "Opacitat del color de fons"
+msgstr "Color de fons per a les vores exposades"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -13521,35 +13516,32 @@ msgstr "Mida del nucli"
 #: data/effects/frei0r/frei0r_squigglevision.xml:4
 #, kde-format
 msgid "Squigglevision"
-msgstr ""
+msgstr "Squigglevision"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:5
 #, kde-format
 msgid "Creates a hand-drawn wobble effect"
-msgstr ""
+msgstr "Crea una tremolor de dibuix a mà"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "Quantitat de tint"
+msgstr "Quantitat de desplaçament"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Squiggle updates per second"
-msgstr "Actualitzacions per segon"
+msgstr "Actualitzacions de tremolors per segon"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:17
-#, fuzzy, kde-format
-#| msgid "Kernel size"
+#, kde-format
 msgid "Noise cell size"
-msgstr "Mida del nucli"
+msgstr "Mida de la cel·la de soroll"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format

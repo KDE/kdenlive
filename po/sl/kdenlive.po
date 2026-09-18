@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-17 00:43+0000\n"
-"PO-Revision-Date: 2026-09-11 21:15+0200\n"
+"PO-Revision-Date: 2026-09-17 13:32+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4918,25 +4918,22 @@ msgid "Lag Fun"
 msgstr "Zabava z zakasnitvijo"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Slowly update darker pixels.<br>\n"
-#| "        <b><i>Note</i></b>: This effect does not reset during playback "
-#| "due to frame buffer issues but renders correctly."
+#, kde-format
 msgid ""
 "Slowly update darker pixels. Results of using different <i>Planes</i> "
 "depends on pixel format.<br>\n"
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
-"Temnejše piksle posodablja počasi.<br>\n"
+"Temnejše piksle posodablja počasi. Rezultati rabe različnih <i>Ravnin</i> je "
+"odvisna od oblike slikovnih točk.<br><br>\n"
 "       <b><i>Opomba</i></b>: Ta učinek se med predvajanjem zaradi težav s "
 "pomnilnikom slik ne ponastavi, vendar se pravilno prikaže."
 
 #: data/effects/avfilter/avfilter_lagfun.xml:10
 #, kde-format
 msgid "Results depend on pixel format"
-msgstr ""
+msgstr "Rezultati so odvisni od formata pikslov"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #, kde-format
@@ -4944,6 +4941,8 @@ msgid ""
 "All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
 "Uα,YUα,Vα,YVα,UVα"
 msgstr ""
+"Vse,Brez,Luma/Y/rdeča,Kroma/U/zelena,Kroma/V/modra,alfa (α),YU,YV,UV,YUV,Yα,"
+"Uα,YUα,Vα,YVα,UVα"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -9954,41 +9953,37 @@ msgstr "brez,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "Ultimativni tresljaj kamere"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
-msgstr ""
+msgstr "Učinek gibanja kamere z vrtenjem, prekrivnostjo in zabrisanostjo"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude X"
-msgstr "Amplituda"
+msgstr "Amplituda X"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "Največje vodoravno gibanje"
+msgstr "Največja amplituda vodoravnega tresljaja"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Y"
-msgstr "Amplituda"
+msgstr "Amplituda Y"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "Največje navpično gibanje"
+msgstr "Največja amplituda navpičnega tresljaja"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
 msgid "Maximum rotation shake (capped at 45deg)"
-msgstr ""
+msgstr "Največji tresljaj vrtenja (omejeno na 45 stopinj)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:22
 #, no-c-format, kde-format
@@ -9997,40 +9992,40 @@ msgid ""
 "        This is in addition to 100%. For example: 0% means not additional "
 "zoom; 100% means image is twice as large (total of 200% of original size)."
 msgstr ""
+"Faktor povečave za skritje črnih robov.<br>\n"
+"        To je dodatek k 100 %. Primer: 0 % pomeni, da ni dodatnega "
+"povečanja; 100 % pomeni, da je slika dvakrat večja (skupaj 200 % prvotne "
+"velikosti)."
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Shift Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "Intenzivnost zamika"
+msgstr "Intenzivnost tresljaja"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "Hitrost ali frekvenca tresenja"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
-#, fuzzy, kde-format
-#| msgid "Opacity of the scope display"
+#, kde-format
 msgid "Opacity of the effect"
-msgstr "Prekrivnost prikaza merilnika"
+msgstr "Prekrivnost učinka"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:33
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Motion blur"
-msgstr "Gibanje"
+msgstr "Zabrisanost v gibanju"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "Stopnja zabrisanosti zaradi gibanja (največ 20 sl. Točk)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "Prekrivnost barve ozadja"
+msgstr "Barvno ozadje za izpostavljene obrobe"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -13381,35 +13376,32 @@ msgstr "Velikost jedra"
 #: data/effects/frei0r/frei0r_squigglevision.xml:4
 #, kde-format
 msgid "Squigglevision"
-msgstr ""
+msgstr "Čačkavizija"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:5
 #, kde-format
 msgid "Creates a hand-drawn wobble effect"
-msgstr ""
+msgstr "Ustvari ročno narisan učinek drhtenja"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "Količina obarvanosti"
+msgstr "Količina razmestitve"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
 msgid "FPS"
-msgstr ""
+msgstr "sl/s"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Squiggle updates per second"
-msgstr "Posodobitev na sekundo"
+msgstr "Št. posodobitev čačke na sekundo"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:17
-#, fuzzy, kde-format
-#| msgid "Kernel size"
+#, kde-format
 msgid "Noise cell size"
-msgstr "Velikost jedra"
+msgstr "Velikost celice šuma"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
