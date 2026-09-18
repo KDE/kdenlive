@@ -25,6 +25,7 @@ option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR lib
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+option(BUILD_RUN_QMLLINT "Run qmllint as part of the build. The build will fail if there are qmllint errors" ON)
 
 # shall we use DBus?
 # enabled per default on Linux & BSD systems

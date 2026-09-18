@@ -371,7 +371,9 @@ if (BUILD_QCH)
     )
 endif()
 
-add_dependencies(kdenlive all_qmllint)
+if (BUILD_RUN_QMLLINT)
+    add_dependencies(kdenlive all_qmllint)
+endif()
 
 ecm_finalize_qml_module(kdenliveLib
     DESTINATION ${KDE_INSTALL_QMLDIR})
