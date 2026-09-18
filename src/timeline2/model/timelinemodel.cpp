@@ -7208,6 +7208,13 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
         local_undo();
         return false;
     }
+    Fun notify = [this, clipId]() {
+        Q_EMIT clipTimeWarpChanged(clipId);
+        return true;
+    };
+    PUSH_LAMBDA(notify, local_redo);
+    PUSH_LAMBDA(notify, local_undo);
+    notify();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }
@@ -7225,7 +7232,6 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable)
         result = result && requestClipTimeRemap(clipId, enable, undo, redo);
         if (result) {
             PUSH_UNDO(undo, redo, i18n("Enable time remap"));
-            Q_EMIT refreshClipActions();
             return true;
         } else {
             return false;
@@ -7270,6 +7276,13 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
         local_undo();
         return false;
     }
+    Fun notify = [this, clipId]() {
+        Q_EMIT clipTimeWarpChanged(clipId);
+        return true;
+    };
+    PUSH_LAMBDA(notify, local_redo);
+    PUSH_LAMBDA(notify, local_undo);
+    notify();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }

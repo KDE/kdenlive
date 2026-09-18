@@ -10,7 +10,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/importsubtitle.h"
 #include "doc/kdenlivedoc.h"
 #include "klocalizedstring.h"
-#include "mainwindow.h"
 #include "subtitlestyleedit.h"
 #include "timeline2/view/timelinecontroller.h"
 #include <KMessageBox>
@@ -388,7 +387,7 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
     menu->addAction(importSub);
     menu->addAction(exportSub);
     connect(importSub, &QAction::triggered, this, &ManageSubtitles::importSubtitleFile);
-    connect(exportSub, &QAction::triggered, pCore->window(), &MainWindow::slotExportSubtitle);
+    connect(exportSub, &QAction::triggered, m_controller, &TimelineController::exportSubtitle);
     buttonMenuFile->setMenu(menu);
 }
 

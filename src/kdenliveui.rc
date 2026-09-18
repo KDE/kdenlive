@@ -130,8 +130,8 @@
         <Action name="mix_clip"/>
         <Action name="edit_item_speed"/>
         <Action name="clip_split"/>
-        <Action name="clip_switch"/>
-        <Action name="clip_disable"/>
+        <Action name="clip_enable_all"/>
+        <Action name="clip_disable_all"/>
         <Action name="clip_in_project_tree"/>
         <Action name="extract_clip"/>
         <Action name="save_to_bin"/>

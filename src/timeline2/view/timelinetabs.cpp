@@ -19,11 +19,12 @@
 #include "timelinecontroller.h"
 #include "timelinewidget.h"
 
+#include <KActionCollection>
 #include <KMessageBox>
-#include <KXMLGUIFactory>
+#include <QAction>
 #include <QInputDialog>
-#include <QMenu>
 #include <QPainter>
+#include <QSignalBlocker>
 
 TimelineContainer::TimelineContainer(QWidget *parent)
     : QWidget(parent)
@@ -49,7 +50,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     pb->setToolTip(i18n("Add Timeline Sequence"));
     pb->setWhatsThis(
         i18n("Add Timeline Sequence. This will create a new timeline for editing. Each timeline corresponds to a Sequence Clip in the Project Bin"));
-    connect(pb, &QToolButton::clicked, [&]() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
+
     setCornerWidget(pb);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
@@ -59,6 +60,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
 
 TimelineTabs::~TimelineTabs()
 {
+    disconnectDeleteSelectionSignals();
     // clear source
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
@@ -126,8 +128,10 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QStrin
     }
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
-    newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
-                                 m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu, m_timelineAddClipMenu);
+    Q_EMIT timelineCreated(newTimeline);
+    if (m_actions) {
+        newTimeline->populateActions(m_actions);
+    }
     newTimeline->setModel(timelineModel, proxy, previewEnabled);
     int newIndex = 0;
     if (ix == -1 || ix >= count()) {
@@ -151,6 +155,10 @@ void TimelineTabs::connectCurrent(int ix)
 void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
 {
     QMutexLocker lk(&m_lock);
+    disconnectDeleteSelectionSignals();
+    if (m_deleteSelectionAction) {
+        m_deleteSelectionAction->setEnabled(false);
+    }
     QUuid previousTab = QUuid();
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
@@ -187,6 +195,7 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
     }
     if (ix < 0 || ix >= count() || pCore->currentDoc()->closing) {
         m_activeTimeline = nullptr;
+        updatePreviewAction();
         qDebug() << "==== ABORTING NO TIMELINE AVAILABLE";
         return;
     }
@@ -196,6 +205,7 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
         qDebug() << "++++++++++++\n\nCLOSING APP\n\n+++++++++++++";
         return;
     }
+    connectDeleteSelectionSignals(m_activeTimeline);
     if (openInMonitor) {
         pCore->window()->connectTimeline();
         connectTimeline(m_activeTimeline);
@@ -228,6 +238,10 @@ void TimelineTabs::closeTimelineByIndex(int ix)
 {
     TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
     if (timeline == m_activeTimeline) {
+        disconnectDeleteSelectionSignals();
+        if (m_deleteSelectionAction) {
+            m_deleteSelectionAction->setEnabled(false);
+        }
         Q_EMIT timeline->model()->requestClearAssetView(-1);
         pCore->clearTimeRemap();
         pCore->mixer()->unsetModel();
@@ -241,8 +255,14 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     const QString id = pCore->projectItemModel()->getSequenceId(uuid);
     Fun undo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model); };
     Fun redo = [this, ix, uuid]() {
-        pCore->projectManager()->closeTimeline(uuid, false, false);
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+        if (timeline == m_activeTimeline) {
+            disconnectDeleteSelectionSignals();
+            if (m_deleteSelectionAction) {
+                m_deleteSelectionAction->setEnabled(false);
+            }
+        }
+        pCore->projectManager()->closeTimeline(uuid, false, false);
         removeTab(ix);
         timeline->blockSignals(true);
         if (timeline == m_activeTimeline) {
@@ -253,6 +273,8 @@ void TimelineTabs::closeTimelineByIndex(int ix)
             m_activeTimeline = nullptr;
         }
         delete timeline;
+        updateDeleteSelectionAction();
+        updatePreviewAction();
         updateWindowTitle();
         return true;
     };
@@ -279,10 +301,13 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid, bool checkActiveClosed)
             timeline->blockSignals(true);
             if (timeline == m_activeTimeline) {
                 activeTimelineClosed = true;
+                disconnectDeleteSelectionSignals();
                 Q_EMIT showSubtitle(-1);
                 pCore->window()->disconnectTimeline(timeline, closing);
                 disconnectTimeline(timeline);
                 m_activeTimeline = nullptr;
+                updateDeleteSelectionAction();
+                updatePreviewAction();
             }
             delete timeline;
             // pCore->projectManager()->closeTimeline(uuid);
@@ -306,10 +331,66 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid, bool checkActiveClosed)
     }
 }
 
+void TimelineTabs::updateDeleteSelectionAction()
+{
+    if (!m_deleteSelectionAction) {
+        return;
+    }
+    bool enabled = false;
+    if (m_activeTimeline != nullptr && pCore->currentDoc() != nullptr && !pCore->currentDoc()->closing) {
+        const auto model = m_activeTimeline->model();
+        TimelineController *controller = m_activeTimeline->controller();
+        if (model != nullptr && !model->m_closing && controller != nullptr) {
+            enabled = !model->getCurrentSelection().empty() || controller->selectedMix() >= 0;
+        }
+    }
+    m_deleteSelectionAction->setEnabled(enabled);
+}
+
+void TimelineTabs::disconnectDeleteSelectionSignals()
+{
+    QObject::disconnect(m_selectionChangedConnection);
+    QObject::disconnect(m_selectedMixChangedConnection);
+    m_selectionChangedConnection = {};
+    m_selectedMixChangedConnection = {};
+}
+
+void TimelineTabs::connectDeleteSelectionSignals(TimelineWidget *timeline)
+{
+    TimelineController *controller = timeline->controller();
+    m_selectionChangedConnection = connect(controller, &TimelineController::selectionChanged, this, [this, controller]() {
+        if (m_activeTimeline == nullptr || m_activeTimeline->controller() != controller) {
+            return;
+        }
+        updateDeleteSelectionAction();
+    });
+    m_selectedMixChangedConnection = connect(controller, &TimelineController::selectedMixChanged, this, [this, controller]() {
+        if (m_activeTimeline == nullptr || m_activeTimeline->controller() != controller) {
+            return;
+        }
+        updateDeleteSelectionAction();
+    });
+    updateDeleteSelectionAction();
+}
+
+void TimelineTabs::updatePreviewAction()
+{
+    if (!m_actions) {
+        return;
+    }
+    TimelineController *controller = activeController();
+    QAction *action = m_actions->action(QStringLiteral("disable_preview"));
+    const QSignalBlocker blocker(action);
+    action->setEnabled(controller && m_activeTimeline->model()->hasTimelinePreview());
+    action->setChecked(controller && controller->previewDisabled());
+}
+
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 {
     int position = pCore->currentDoc()->getSequenceProperty(timeline->getUuid(), QStringLiteral("position"), QString::number(0)).toInt();
     pCore->monitorManager()->projectMonitor()->getControllerProxy()->setCursorPosition(position);
+    connect(timeline->controller(), &TimelineController::previewDisabledStateChanged, this, &TimelineTabs::updatePreviewAction, Qt::UniqueConnection);
+    updatePreviewAction();
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor, Qt::DirectConnection);
     connect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
     connect(this, &TimelineTabs::fitZoom, timeline, &TimelineWidget::slotFitZoom);
@@ -337,6 +418,7 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 {
     timeline->setEnabled(false);
     timeline->setMouseTracking(false);
+    disconnect(timeline->controller(), &TimelineController::previewDisabledStateChanged, this, &TimelineTabs::updatePreviewAction);
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     disconnect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
     disconnect(this, &TimelineTabs::fitZoom, timeline, &TimelineWidget::slotFitZoom);
@@ -352,63 +434,156 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, timeline->controller(), &TimelineController::addEffectToCurrentClip);
 }
 
-void TimelineTabs::buildClipMenu()
+TimelineController *TimelineTabs::activeController() const
 {
-    // Timeline clip menu
-    if (m_timelineClipMenu) {
-        // Timeline clip menu already built
-        return;
+    if (m_activeTimeline == nullptr || pCore->currentDoc() == nullptr || pCore->currentDoc()->closing) {
+        return nullptr;
     }
-    m_timelineClipMenu = new QMenu(this);
-    KActionCollection *coll = pCore->window()->actionCollection();
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_copy")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("duplicate_timeline_clip")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("paste_effects")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("delete_effects")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("group_clip")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("ungroup_clip")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_duration")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_split")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_switch")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("delete_timeline_clip")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("extract_clip")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("replace_timeline_clip")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("save_to_bin")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("send_sequence")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("copy_to_sequence")));
-
-    QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("markers"), pCore->window()));
-    if (markerMenu) {
-        m_timelineClipMenu->addMenu(markerMenu);
+    const auto model = m_activeTimeline->model();
+    if (model == nullptr || model->m_closing) {
+        return nullptr;
     }
-    QMenu *alignMenu = new QMenu(i18n("Align to Reference"), this);
-    if (alignMenu) {
-        m_timelineClipMenu->addMenu(alignMenu);
-    }
-    alignMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
-    alignMenu->addAction(coll->action(QStringLiteral("align_audio")));
-    alignMenu->addAction(coll->action(QStringLiteral("set_timecode_ref")));
-    alignMenu->addAction(coll->action(QStringLiteral("align_timecode")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_speed")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_remap")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_in_project_tree")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("cut_timeline_clip")));
+    return m_activeTimeline->controller();
 }
 
-void TimelineTabs::setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
-                                   QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu)
+void TimelineTabs::populateActions(KActionCollection *actions)
 {
-    buildClipMenu();
-    m_timelineCompositionMenu = compositionMenu;
-    m_timelineMenu = timelineMenu;
-    m_timelineRulerMenu = timelineRulerMenu;
-    m_guideMenu = guideMenu;
-    m_headerMenu = headerMenu;
-    m_thumbsMenu = thumbsMenu;
-    m_headerMenu->addMenu(m_thumbsMenu);
-    m_timelineSubtitleClipMenu = subtitleClipMenu;
-    m_editGuideAction = editGuideAction;
-    m_timelineAddClipMenu = addClipMenu;
+    Q_ASSERT(actions);
+    Q_ASSERT(!m_actions);
+    if (m_actions) {
+        return;
+    }
+    m_actions = actions;
+    m_deleteSelectionAction = actions->action(QStringLiteral("delete_subtitle_clip"));
+    Q_ASSERT(m_deleteSelectionAction);
+
+    // Shared commands are connected once; their target is resolved at execution, never captured from a tab.
+    const auto bind = [this, actions](const QString &id, auto command) {
+        QAction *action = actions->action(id);
+        Q_ASSERT(action);
+        connect(action, &QAction::triggered, this, [this, command]() {
+            if (TimelineController *controller = activeController()) {
+                command(controller);
+            }
+        });
+    };
+    bind(QStringLiteral("delete_subtitle_clip"), [](TimelineController *controller) { controller->deleteSelectedClips(); });
+    bind(QStringLiteral("audio_record"), [](TimelineController *controller) {
+        if (pCore->isMediaMonitoring() || pCore->isMediaCapturing()) {
+            controller->switchRecording();
+        } else {
+            pCore->displayMessage(i18n("Enable audio monitoring from the Mixer to record"), ErrorMessage);
+        }
+    });
+    bind(QStringLiteral("mix_clip"), [](TimelineController *controller) { controller->mixClip(); });
+    bind(QStringLiteral("delete_effects"), [](TimelineController *controller) { controller->deleteEffects(); });
+    bind(QStringLiteral("expand_timeline_clip"), [](TimelineController *controller) { controller->expandActiveClip(); });
+    bind(QStringLiteral("duplicate_timeline_clip"), [](TimelineController *controller) { controller->duplicateClip(); });
+    bind(QStringLiteral("cut_timeline_clip"), [](TimelineController *controller) { controller->cutClipUnderCursor(); });
+    bind(QStringLiteral("replace_timeline_clip"), [](TimelineController *controller) { controller->replaceClip(); });
+    bind(QStringLiteral("cut_timeline_all_clips"), [](TimelineController *controller) { controller->cutAllClipsUnderCursor(); });
+    bind(QStringLiteral("clip_split"), [](TimelineController *controller) { controller->splitAV(); });
+    bind(QStringLiteral("clip_enable_all"), [](TimelineController *controller) { controller->setClipsEnabled(true); });
+    bind(QStringLiteral("clip_disable_all"), [](TimelineController *controller) { controller->setClipsEnabled(false); });
+    bind(QStringLiteral("extract_clip"), [](TimelineController *controller) { controller->extract(); });
+    bind(QStringLiteral("save_to_bin"), [](TimelineController *controller) { controller->saveZone(); });
+    bind(QStringLiteral("set_audio_align_ref"), [](TimelineController *controller) { controller->setAudioRef(); });
+    bind(QStringLiteral("align_audio"), [](TimelineController *controller) { controller->alignAudio(); });
+    bind(QStringLiteral("set_timecode_ref"), [](TimelineController *controller) { controller->setTimecodeRef(); });
+    bind(QStringLiteral("align_timecode"), [](TimelineController *controller) { controller->alignTimecode(); });
+    bind(QStringLiteral("edit_item_duration"), [](TimelineController *controller) { controller->editItemDuration(); });
+    bind(QStringLiteral("edit_item_speed"), [](TimelineController *controller) { controller->changeItemSpeed(-1, -1); });
+    bind(QStringLiteral("edit_item_remap"), [](TimelineController *controller) { controller->remapItemTime(-1); });
+    bind(QStringLiteral("resize_timeline_clip_start"),
+         [](TimelineController *controller) { controller->setInPoint(pCore->activeTool() == ToolType::RippleTool); });
+    bind(QStringLiteral("resize_timeline_clip_end"),
+         [](TimelineController *controller) { controller->setOutPoint(pCore->activeTool() == ToolType::RippleTool); });
+    bind(QStringLiteral("paste_effects"), [](TimelineController *controller) { controller->pasteEffects(); });
+    bind(QStringLiteral("group_clip"), [](TimelineController *controller) { controller->groupSelection(); });
+    bind(QStringLiteral("ungroup_clip"), [](TimelineController *controller) { controller->unGroupSelection(); });
+
+    bind(QStringLiteral("select_timeline_zone"), [](TimelineController *controller) { controller->setZoneToSelection(); });
+    bind(QStringLiteral("select_timeline_clip"), [](TimelineController *controller) { controller->selectCurrentItem(KdenliveObjectType::TimelineClip, true); });
+    bind(QStringLiteral("deselect_timeline_clip"),
+         [](TimelineController *controller) { controller->selectCurrentItem(KdenliveObjectType::TimelineClip, false); });
+    bind(QStringLiteral("select_add_timeline_clip"),
+         [](TimelineController *controller) { controller->selectCurrentItem(KdenliveObjectType::TimelineClip, true, true); });
+    bind(QStringLiteral("select_timeline_transition"), [](TimelineController *controller) {
+        if (!controller->selectCurrentItem(KdenliveObjectType::TimelineComposition, true, false, false)) {
+            controller->selectCurrentItem(KdenliveObjectType::TimelineMix, true);
+        }
+    });
+    bind(QStringLiteral("deselect_timeline_transition"), [](TimelineController *controller) {
+        if (!controller->selectCurrentItem(KdenliveObjectType::TimelineComposition, false, false, false)) {
+            controller->selectCurrentItem(KdenliveObjectType::TimelineMix, false);
+        }
+    });
+    bind(QStringLiteral("select_add_timeline_transition"),
+         [](TimelineController *controller) { controller->selectCurrentItem(KdenliveObjectType::TimelineComposition, true, true); });
+    bind(QStringLiteral("select_track"), [](TimelineController *controller) { controller->selectCurrentTrack(); });
+    bind(QStringLiteral("unselect_all_tracks"), [this](TimelineController *) { m_activeTimeline->model()->requestClearSelection(); });
+    bind(QStringLiteral("switch_target_stream"), [this](TimelineController *) { m_activeTimeline->showTargetMenu(); });
+    for (int i = 1; i < 10; ++i) {
+        const QString audioId = QStringLiteral("activate_audio_%1").arg(i);
+        QAction *audioAction = actions->action(audioId);
+        bind(audioId, [this, audioAction](TimelineController *controller) {
+            const QList<int> trackIds = m_activeTimeline->model()->getTracksIds(true);
+            if (!trackIds.isEmpty()) {
+                const int trackPos = qBound(0, audioAction->data().toInt(), int(trackIds.count()) - 1);
+                controller->setActiveTrack(trackIds.at(trackPos));
+            }
+        });
+        const QString targetId = QStringLiteral("activate_target_%1").arg(i);
+        QAction *targetAction = actions->action(targetId);
+        bind(targetId, [targetAction](TimelineController *controller) { controller->assignCurrentTarget(targetAction->data().toInt()); });
+    }
+
+    bind(QStringLiteral("insert_space"), [](TimelineController *controller) { controller->insertSpace(); });
+    bind(QStringLiteral("delete_space"), [](TimelineController *controller) { controller->removeSpace(-1, -1, false); });
+    bind(QStringLiteral("delete_space_all_tracks"), [](TimelineController *controller) { controller->removeSpace(-1, -1, true); });
+    bind(QStringLiteral("delete_all_spaces"), [](TimelineController *controller) { controller->removeTrackSpaces(-1, -1); });
+    bind(QStringLiteral("delete_all_clips"), [](TimelineController *controller) { controller->removeTrackClips(-1, -1); });
+    bind(QStringLiteral("switch_track_solo"), [](TimelineController *controller) { controller->switchSoloTrack(); });
+    bind(QStringLiteral("add_sequence_marker"), [](TimelineController *controller) { controller->switchGuide(-1, false, true); });
+    bind(QStringLiteral("edit_sequence_marker"), [](TimelineController *controller) { controller->editGuide(); });
+    bind(QStringLiteral("delete_sequence_marker"), [](TimelineController *controller) { controller->switchGuide(-1, true); });
+    bind(QStringLiteral("add_markers_at_gaps"), [](TimelineController *controller) { controller->addMarkersAtGaps(); });
+    bind(QStringLiteral("identify_gaps_all_tracks"), [](TimelineController *controller) { controller->addMarkersAtGaps(); });
+    bind(QStringLiteral("add_markers_at_gaps_on_track"), [](TimelineController *controller) { controller->addMarkersAtGapsOnTrack(); });
+
+    bind(QStringLiteral("prerender_timeline_zone"), [](TimelineController *controller) { controller->startPreviewRender(); });
+    bind(QStringLiteral("stop_prerender_timeline"), [](TimelineController *controller) { controller->stopPreviewRender(); });
+    bind(QStringLiteral("set_render_timeline_zone"), [](TimelineController *controller) { controller->addPreviewRange(true); });
+    bind(QStringLiteral("unset_render_timeline_zone"), [](TimelineController *controller) { controller->addPreviewRange(false); });
+    bind(QStringLiteral("clear_render_timeline_zone"), [](TimelineController *controller) { controller->clearPreviewRange(true); });
+    bind(QStringLiteral("disable_subtitle"), [](TimelineController *controller) { controller->switchSubtitleDisable(); });
+    bind(QStringLiteral("lock_subtitle"), [](TimelineController *controller) { controller->switchSubtitleLock(); });
+    bind(QStringLiteral("export_subtitle"), [](TimelineController *controller) { controller->exportSubtitle(); });
+    connect(actions->action(QStringLiteral("disable_preview")), &QAction::triggered, this, [this](bool disabled) {
+        if (TimelineController *controller = activeController()) {
+            controller->setPreviewEnabled(!disabled);
+        }
+    });
+
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::deleteMarker, this, [this]() {
+        if (TimelineController *controller = activeController()) {
+            controller->switchGuide(-1, true);
+        }
+    });
+    connect(actions->action(QStringLiteral("sequence_next")), &QAction::triggered, this, &TimelineTabs::slotNextSequence);
+    connect(actions->action(QStringLiteral("sequence_previous")), &QAction::triggered, this, &TimelineTabs::slotPreviousSequence);
+    connect(static_cast<QToolButton *>(cornerWidget()), &QToolButton::clicked, actions->action(QStringLiteral("add_playlist_clip")), &QAction::trigger);
+
+    for (int i = 0; i < count(); ++i) {
+        static_cast<TimelineWidget *>(widget(i))->populateActions(actions);
+    }
+    updateDeleteSelectionAction();
+    updatePreviewAction();
+}
+
+QAction *TimelineTabs::deleteSelectionAction() const
+{
+    return m_deleteSelectionAction;
 }
 
 const QStringList TimelineTabs::openedSequences()
@@ -433,6 +608,9 @@ TimelineWidget *TimelineTabs::getTimeline(const QUuid uuid) const
 
 void TimelineTabs::slotNextSequence()
 {
+    if (!activeController()) {
+        return;
+    }
     int max = count();
     int focus = currentIndex() + 1;
     if (focus >= max) {
@@ -443,6 +621,9 @@ void TimelineTabs::slotNextSequence()
 
 void TimelineTabs::slotPreviousSequence()
 {
+    if (!activeController()) {
+        return;
+    }
     int focus = currentIndex() - 1;
     if (focus < 0) {
         focus = count() - 1;

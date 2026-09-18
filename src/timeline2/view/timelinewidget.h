@@ -9,6 +9,8 @@
 #include "timelinecontroller.h"
 #include <QQuickWidget>
 
+class KActionCollection;
+class QAction;
 class ThumbnailProvider;
 class QSortFilterProxyModel;
 class MonitorProxy;
@@ -38,9 +40,8 @@ public:
     int zoomForScale(double value) const;
     /** @brief Give keyboard focus to timeline qml */
     void focusTimeline();
-    /** @brief Initiate timeline clip context menu */
-    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
-                         QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu);
+    /** @brief Build instance-owned context menus once, before setModel, borrowing application actions. */
+    void populateActions(KActionCollection *actions);
     void updateAddClipMenuStatus();
     bool loading;
     void connectSubtitleModel(bool firstConnect);
@@ -50,6 +51,7 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
 
 public Q_SLOTS:
     void slotChangeZoom(int value, bool zoomOnMouse);
@@ -86,7 +88,7 @@ private Q_SLOTS:
 
 private:
     TimelineController timelineController;
-    QMenu *m_timelineClipMenu;
+    QMenu *m_timelineClipMenu{nullptr};
     QMenu *m_timelineMixMenu;
     QMenu *m_timelineCompositionMenu;
     QMenu *m_timelineMenu;
@@ -116,4 +118,10 @@ private:
 Q_SIGNALS:
     void focusProjectMonitor();
     void zoneMoved(const QPoint &zone);
+    void zoomIn(bool zoomOnMouse);
+    void zoomOut(bool zoomOnMouse);
+    /** @brief Whether undo is allowed during a drag interaction (false while dragging). */
+    void processingDrag(bool enableUndo);
+    void markerActivated(int frame);
+    void updateTimelineMousePos(int position, int duration);
 };
