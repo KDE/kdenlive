@@ -1390,7 +1390,7 @@ function getTrackColor(audio, header) {
             property bool isWarping: false
             property bool isCursorHidden: false
             width: root.width - root.headerWidth
-            height: root.height
+            height: root.height - dopeContainer.height - horZoomBar.height
             x: root.headerWidth
             property bool shiftPress: false
             // This provides continuous scrubbing and scimming at the left/right edges.
