@@ -31,6 +31,9 @@ Rectangle {
     required property var multitrack
     required property K.MonitorProxy proxy
     required property K.SubtitleModel subtitleModel
+    required property K.DopeSheetModel dopesheetmodel
+    required property K.DopeFilter dopesheetFilterModel
+    required property var keyframeTypes
 
     property bool validMenu: false
     property var subtitleItem: undefined
@@ -44,6 +47,9 @@ Rectangle {
     property int trimmingClickFrame: -1
     property int mouseFrame: 0
 
+    function updateOwner(type, id) {
+        timelineDopesheet.updateOwner(type, id)
+    }
 
     function screenForGlobalPos(globalPos) {
         const screens = Application.screens
@@ -2330,6 +2336,17 @@ function getTrackColor(audio, header) {
                             border.width: 1
                             visible: false
                         }
+                        Rectangle {
+                            id: cursor
+                            visible: root.consumerPosition > -1
+                            color: root.textColor
+                            width: 1
+                            opacity: 1
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            //height: tracksContainerArea.height
+                            x: Math.round(root.consumerPosition * root.timeScale)
+                        }
                         Item {
                             id: recordStartPlaceHolder
                             x: 0
@@ -2395,23 +2412,15 @@ function getTrackColor(audio, header) {
                             id: guidesRepeater
                             model: guidesDelegateModel
                         }
-                        Rectangle {
-                            id: cursor
-                            visible: root.consumerPosition > -1
-                            color: root.textColor
-                            width: 1
-                            opacity: 1
-                            height: tracksContainerArea.height
-                            x: Math.round(root.consumerPosition * root.timeScale)
-                        }
                     }
+
                     K.ZoomBar {
                         id: horZoomBar
                         visible: scrollView.visibleArea.widthRatio < 1
                         anchors {
                             left: parent.left
                             right: parent.right
-                            top: scrollView.bottom
+                            bottom: baseContainer.bottom
                         }
                         height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
                         barMinWidth: K.UiUtils.baseSizeMedium
@@ -2487,6 +2496,27 @@ function getTrackColor(audio, header) {
                     }
                 }
             }
+        }
+    }
+    Item {
+        id: dopeContainer
+        anchors {
+            left: root.left
+            right: root.right
+            bottom: root.bottom
+            bottomMargin: horZoomBar.height
+        }
+        height: root.height / 2.7
+        DopeSheetView {
+            id: timelineDopesheet
+            proxy: root.proxy
+            dopesheetmodel: root.dopesheetmodel
+            dopesheetFilterModel: root.dopesheetFilterModel
+            keyframeTypes: root.keyframeTypes
+            headerWidth: root.headerWidth
+            timeScale: root.timeScale
+            contentScroll: scrollView.contentX
+            onScrollByWheel: wheel => root.zoomByWheel(wheel)
         }
     }
 

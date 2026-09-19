@@ -28,7 +28,10 @@ DopeWidget::DopeWidget(QWidget *parent)
     m_proxyModel->setSourceModel(pCore->dopeSheetModel().get());
     setInitialProperties({{"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()},
                           {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())},
-                          {"dopesheetFilterModel", QVariant::fromValue(m_proxyModel.get())}});
+                          {"dopesheetFilterModel", QVariant::fromValue(m_proxyModel.get())},
+                          {"headerWidth", 100},
+                          {"timeScale", 1},
+                          {"contentScroll", 0}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("DopeSheetView"));
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::activateEffect, this, &DopeWidget::activateEffect);
     connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, this, &DopeWidget::checkModelUpdate, Qt::QueuedConnection);

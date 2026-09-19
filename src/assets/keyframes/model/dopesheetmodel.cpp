@@ -723,6 +723,7 @@ void DopeSheetModel::resetScaledInfo()
 
 void DopeSheetModel::setScaledInfo(const QVariantMap kfData, int sourcePos)
 {
+    qDebug() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\nSETTING SCALED INFO\n\n%%%%%%%%%%%%%%%%%%%%%%%%";
     QMap<QModelIndex, QVariant> selection = sanitizeKeyframesIndexes(kfData);
     m_scaledKFInfo.clear();
     // m_scaledRange.second = sourcePos;
@@ -778,16 +779,22 @@ void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updat
     Fun redo = []() { return true; };
     bool success = true;
     double percentage;
+    int kfrCount = 1;
+    for (auto i = m_scaledKFInfo.cbegin(), end = m_scaledKFInfo.cend(); i != end; ++i) {
+        int cnt = i.value().size();
+        kfrCount = qMax(cnt, kfrCount);
+    }
     if (m_resizeFromStart) {
-        updatedPos = qMax(m_scaledLimits.first, updatedPos);
+        updatedPos = qMin(m_scaledLimits.second - kfrCount, updatedPos);
         percentage = double(m_scaledRange.second - updatedPos) / (m_scaledRange.second - m_scaledRange.first);
     } else {
-        updatedPos = qMin(m_scaledLimits.second, updatedPos);
+        updatedPos = qMax(m_scaledLimits.first + kfrCount, updatedPos);
         percentage = double(updatedPos - m_scaledRange.first) / (m_scaledRange.second - m_scaledRange.first);
     }
-    if (percentage < 0.01) {
+    if (percentage < 0.01 || percentage == 1) {
         return;
     }
+    qDebug() << " - - -- - -- SCALING MOVE TO PERCENT: " << percentage << "\n\n----------------------";
     GenTime firstKeyframe;
     // Check first / last keyframes for scaling
     for (auto i = m_scaledKFInfo.cbegin(), end = m_scaledKFInfo.cend(); i != end; ++i) {
@@ -805,15 +812,24 @@ void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updat
                 if (percentage > m_lastResizePercentage) {
                     // When expanding, process outer keyframes first to avoid collisions
                     std::sort(indexes.begin(), indexes.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
+                    indexes.removeLast();
+                } else {
+                    indexes.removeFirst();
                 }
-            } else if (percentage < m_lastResizePercentage) {
-                // When compressing form  start, process outer keyframes first to avoid collisions
-                std::sort(indexes.begin(), indexes.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
+            } else {
+                if (percentage < m_lastResizePercentage) {
+                    // When compressing form  start, process outer keyframes first to avoid collisions
+                    std::sort(indexes.begin(), indexes.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
+                    indexes.removeFirst();
+                } else {
+                    indexes.removeLast();
+                }
             }
             for (auto &j : std::as_const(indexes)) {
                 int updatedFrame = m_resizeFromStart ? m_scaledRange.second - (m_scaledRange.second - j.second) * percentage
                                                      : m_scaledRange.first + (j.second - m_scaledRange.first) * percentage;
-                updatedFrame = qBound(m_scaledLimits.first, updatedFrame, m_scaledLimits.second);
+                // qBound returns random numbers
+                // updatedFrame = qBound(m_scaledLimits.first, updatedFrame, m_scaledLimits.second);
                 if (updatedFrame == j.first) {
                     continue;
                 }
@@ -836,6 +852,7 @@ void DopeSheetModel::moveScaledKeyframe(int updatedPos, bool logUndo, bool updat
             pCore->pushUndo(undo, redo, i18n("Move keyframes"));
         }
     } else {
+        qDebug() << ":::: SCALED MOVE ABORTED\n\n______________";
         undo();
         if (logUndo) {
             pCore->displayMessage(i18n("Failed to move keyframe"), InformationMessage);

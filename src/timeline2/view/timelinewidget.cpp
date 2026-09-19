@@ -13,9 +13,12 @@
 #include "bin/model/subtitlemodel.hpp"
 #include "capture/mediacapture.h"
 
+#include "assets/keyframes/model/dopefilter.hpp"
+#include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
@@ -55,6 +58,7 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     connect(&timelineController, &TimelineController::regainFocus, this, &TimelineWidget::regainFocus, Qt::DirectConnection);
     connect(&timelineController, &TimelineController::stopAudioRecord, this, &TimelineWidget::stopAudioRecord, Qt::DirectConnection);
     m_targetsMenu = new QMenu(this);
+    connect(pCore.get(), &Core::registerDopeStack, this, &TimelineWidget::registerDopeStack);
 }
 
 TimelineWidget::~TimelineWidget()
@@ -170,12 +174,17 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
     timelineController.setModel(model);
+    m_proxyModel.reset(new DopeFilter(this));
+    m_proxyModel->setSourceModel(pCore->dopeSheetModel().get());
     setInitialProperties({{"controller", QVariant::fromValue(model.get())},
                           {"timeline", QVariant::fromValue(&timelineController)},
                           {"multitrack", QVariant::fromValue(m_sortModel.get())},
                           {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
                           {"proxy", QVariant::fromValue(pCore->monitorManager()->projectMonitor()->getControllerProxy())},
-                          {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())}});
+                          {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())},
+                          {"keyframeTypes", KeyframeModel::getKeyframeTypesVariant()},
+                          {"dopesheetmodel", QVariant::fromValue(pCore->dopeSheetModel().get())},
+                          {"dopesheetFilterModel", QVariant::fromValue(m_proxyModel.get())}});
     loadFromModule(QStringLiteral("org.kde.kdenlive"), QStringLiteral("Timeline"));
 
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
@@ -196,6 +205,13 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     setVisible(true);
     loading = false;
     timelineController.checkDuration();
+    // TODO
+    // connect(pCore->dopeSheetModel().get(), &DopeSheetModel::activateEffect, this, &DopeWidget::activateEffect);
+    // connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, this, &DopeWidget::checkModelUpdate, Qt::QueuedConnection);
+    // connect(rootObject(), SIGNAL(filterDopeView(QVariant)), this, SLOT(slotUpdateFilter(QVariant)));
+    // connect(m_proxyModel.get(), &DopeFilter::expandAll, this, &DopeWidget::expandAll);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::updateFiltering, m_proxyModel.get(), &DopeFilter::refreshFilter);
+    connect(pCore->dopeSheetModel().get(), &DopeSheetModel::modelChanged, m_proxyModel.get(), &DopeFilter::refreshFilter);
 }
 
 void TimelineWidget::emitMousePos(int offset)
@@ -556,4 +572,28 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
         rootObject()->setProperty("subtitleModel", QVariant::fromValue(model()->getSubtitleModel().get()));
         QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
     }
+}
+
+void TimelineWidget::registerDopeStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset)
+{
+    qDebug() << "=======\n\nTIMELINE DOPE LOADED STEP 1\n\n====================";
+    if (!pCore->dopeSheetModel()->registerStack(model, timecodeOffset)) {
+        // model is already active
+        return;
+    }
+    // QObject::disconnect(m_activeEffectConnection);
+    qDebug() << "=======\n\nTIMELINE DOPE LOADED STEP 2\n\n====================";
+    if (!model || !rootObject()) {
+        QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, -1), Q_ARG(QVariant, -1));
+        return;
+    }
+    qDebug() << "=======\n\nTIMELINE DOPE LOADED STEP 3\n\n====================";
+    /*auto monitor = pCore->getMonitor(model->getOwnerId().type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
+    QVariant monitorProxy = QVariant::fromValue(monitor->getControllerProxy());
+    rootObject()->setProperty("proxy", monitorProxy);
+    QQmlEngine::setObjectOwnership(qvariant_cast<QObject *>(monitorProxy), QQmlEngine::CppOwnership);*/
+    /*m_activeEffectConnection = connect(model.get(), &EffectStackModel::currentChanged, this, &DopeWidget::updateActiveEffect, Qt::DirectConnection); */
+    QMetaObject::invokeMethod(rootObject(), "updateOwner", Qt::DirectConnection, Q_ARG(QVariant, int(model->getOwnerId().type)),
+                              Q_ARG(QVariant, model->getOwnerId().itemId));
+    qDebug() << "=======\n\nTIMELINE DOPE LOADED\n\n====================";
 }

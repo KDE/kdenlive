@@ -530,7 +530,7 @@ void MainWindow::init()
 
     // DopeSheet
     auto dopeDock = addDock(i18n("Keyframes"), QStringLiteral("keyframes"), m_dopeWidget, KDDockWidgets::Location_OnRight, m_timelineDock);
-    connect(pCore.get(), &Core::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
+    // connect(pCore.get(), &Core::registerDopeStack, m_dopeWidget, &DopeWidget::registerDopeStack);
     connect(pCore.get(), &Core::registerDopeAsset, m_dopeWidget, &DopeWidget::registerDopeAsset);
     connect(this, &MainWindow::clearAssetPanel, m_dopeWidget, &DopeWidget::clear, Qt::DirectConnection);
     connect(dopeDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, pCore.get(), &Core::switchDopesheet);
