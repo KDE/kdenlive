@@ -284,7 +284,7 @@ Item {
             hoverEnabled: true
             onHoveredChanged: {
                 if (containsMouse) {
-                    delegateRect.treeView.hoveredParam = delegateRect.row
+                    delegateRect.hoveredParam = delegateRect.row
                 }
             }
 
