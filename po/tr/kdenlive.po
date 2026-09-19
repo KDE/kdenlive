@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 02:43+0000\n"
-"PO-Revision-Date: 2026-09-13 19:27+0300\n"
+"PO-Revision-Date: 2026-09-18 19:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3093,7 +3093,7 @@ msgstr "En yüksek sibilans kaldırma"
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
-"Sesin tiz kısmındaki azaltma miktarını ayarlayın. İzin verilen erim 0 ile 1 "
+"Sesin tiz kısmındaki kısma miktarını ayarlayın. İzin verilen erim 0 ile 1 "
 "arasındadır."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
@@ -15835,7 +15835,7 @@ msgstr "Dalga biçimine uygulanacak dönüş açısı."
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
 msgid "33 1/3,45,78"
-msgstr ""
+msgstr "33 1/3,45,78"
 
 #: data/effects/ladspa/ladspa_1905.xml:19
 #, fuzzy, kde-format
@@ -15930,10 +15930,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:24
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Attenuation"
-msgstr "Canlandırma"
+msgstr "Zayıflama"
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format
