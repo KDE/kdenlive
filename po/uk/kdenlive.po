@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-17 00:43+0000\n"
+"POT-Creation-Date: 2026-09-19 00:44+0000\n"
 "PO-Revision-Date: 2026-09-17 09:11+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -24204,8 +24204,8 @@ msgstr "Експортування даних позначок"
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5913
-#: src/timeline2/view/timelinecontroller.cpp:5918
+#: src/timeline2/view/timelinecontroller.cpp:5916
+#: src/timeline2/view/timelinecontroller.cpp:5921
 #: src/titler/titlewidget.cpp:2367
 #, kde-format
 msgid "Cannot write to file %1"
@@ -31095,7 +31095,7 @@ msgstr "Вставити доріжку…"
 msgid "Fit all Tracks in View"
 msgstr "Підібрати розміри для усіх доріжок перегляду"
 
-#: src/mainwindow.cpp:2150 src/timeline2/view/timelinecontroller.cpp:5640
+#: src/mainwindow.cpp:2150 src/timeline2/view/timelinecontroller.cpp:5643
 #, kde-format
 msgid "Sequence effects"
 msgstr "Ефекти послідовності"
@@ -32478,7 +32478,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "Не вдалося отримати засіб створення для монітора кліпу"
 
 #: src/monitor/monitor.cpp:3455 src/monitor/monitor.cpp:3486
-#: src/timeline2/view/timelinecontroller.cpp:6437
+#: src/timeline2/view/timelinecontroller.cpp:6440
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
@@ -32491,13 +32491,13 @@ msgid "Create Range Marker from Zone"
 msgstr "Створити позначку діапазону із зони"
 
 #: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3492
-#: src/timeline2/view/timelinecontroller.cpp:6452
+#: src/timeline2/view/timelinecontroller.cpp:6455
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Позначку діапазону створено на основі зони"
 
 #: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3494
-#: src/timeline2/view/timelinecontroller.cpp:6455
+#: src/timeline2/view/timelinecontroller.cpp:6458
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "Не вдалося створити позначку діапазону з зони"
@@ -32644,7 +32644,7 @@ msgid "Go to Zone End"
 msgstr "Перейти до кінця ділянки"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6444
+#: src/timeline2/view/timelinecontroller.cpp:6447
 #, kde-format
 msgid "Zone marker"
 msgstr "Позначка зони"
@@ -37207,7 +37207,7 @@ msgid "Could not duplicate clip"
 msgstr "Не вдалося здублювати кліп"
 
 #: src/timeline2/view/timelinecontroller.cpp:1014
-#: src/timeline2/view/timelinecontroller.cpp:5801
+#: src/timeline2/view/timelinecontroller.cpp:5804
 #, kde-format
 msgid "Could not insert track"
 msgstr "Не вдалося вставити доріжку"
@@ -37292,7 +37292,7 @@ msgid "Cannot change speed of item(s)"
 msgstr "Не вдалося змінити швидкість записів"
 
 #: src/timeline2/view/timelinecontroller.cpp:3444
-#: src/timeline2/view/timelinecontroller.cpp:6066
+#: src/timeline2/view/timelinecontroller.cpp:6069
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -37477,22 +37477,22 @@ msgstr ""
 "кліпи. Будь ласка, вилучіть кліпи після поточної позиції або виберіть іншу "
 "доріжку."
 
-#: src/timeline2/view/timelinecontroller.cpp:5594
+#: src/timeline2/view/timelinecontroller.cpp:5597
 #, kde-format
 msgid "Record audio"
 msgstr "Записати звук"
 
-#: src/timeline2/view/timelinecontroller.cpp:5741
+#: src/timeline2/view/timelinecontroller.cpp:5744
 #, kde-format
 msgid "Expand clip"
 msgstr "Розгорнути кліп"
 
-#: src/timeline2/view/timelinecontroller.cpp:5744
+#: src/timeline2/view/timelinecontroller.cpp:5747
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Не вдалося розширити кліп"
 
-#: src/timeline2/view/timelinecontroller.cpp:5799
+#: src/timeline2/view/timelinecontroller.cpp:5802
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -37501,22 +37501,22 @@ msgstr[1] "Вставити доріжки"
 msgstr[2] "Вставити доріжки"
 msgstr[3] "Вставити доріжку"
 
-#: src/timeline2/view/timelinecontroller.cpp:5867
+#: src/timeline2/view/timelinecontroller.cpp:5870
 #, kde-format
 msgid "No subtitles in current project. Export not possible."
 msgstr "У поточному проєкті немає субтитрів. Експортування неможливе."
 
-#: src/timeline2/view/timelinecontroller.cpp:5878
+#: src/timeline2/view/timelinecontroller.cpp:5881
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Експортувати до файла субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5879
+#: src/timeline2/view/timelinecontroller.cpp:5882
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "файл Sub Station Alpha v4.00+ (*.ass);;файл субтитрів SubRip (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5893
+#: src/timeline2/view/timelinecontroller.cpp:5896
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -37529,12 +37529,12 @@ msgstr ""
 "лише субтитри з найнижчого шару. Це може призвести до втрати частини "
 "субтитрів в експортованому файлі. Хочете продовжити виконання цієї дії?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5898
+#: src/timeline2/view/timelinecontroller.cpp:5901
 #, kde-format
 msgid "Warning"
 msgstr "Попередження"
 
-#: src/timeline2/view/timelinecontroller.cpp:5936
+#: src/timeline2/view/timelinecontroller.cpp:5939
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -37543,40 +37543,40 @@ msgstr ""
 "Потрібен фільтр avfilter.subtitles, якого не виявлено. Ймовірно, можливість "
 "роботи із субтитрами не працюватиме належним чином."
 
-#: src/timeline2/view/timelinecontroller.cpp:5953
+#: src/timeline2/view/timelinecontroller.cpp:5956
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Показати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5953
+#: src/timeline2/view/timelinecontroller.cpp:5956
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Приховати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5976
+#: src/timeline2/view/timelinecontroller.cpp:5979
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Розблокувати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5976
+#: src/timeline2/view/timelinecontroller.cpp:5979
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Заблокувати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:6143
-#: src/timeline2/view/timelinecontroller.cpp:6152
+#: src/timeline2/view/timelinecontroller.cpp:6146
+#: src/timeline2/view/timelinecontroller.cpp:6155
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/timeline2/view/timelinecontroller.cpp:6154
+#: src/timeline2/view/timelinecontroller.cpp:6157
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Керування субтитрами"
 
-#: src/timeline2/view/timelinecontroller.cpp:6385
+#: src/timeline2/view/timelinecontroller.cpp:6388
 #, kde-format
 msgid "No range guide found at position"
 msgstr "Напрямної діапазону у часовій позиції не знайдено"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-17 00:43+0000\n"
+"POT-Creation-Date: 2026-09-19 00:44+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -24321,8 +24321,8 @@ msgstr "निर्यात मार्गदर्शकाः आँकड�
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5913
-#: src/timeline2/view/timelinecontroller.cpp:5918
+#: src/timeline2/view/timelinecontroller.cpp:5916
+#: src/timeline2/view/timelinecontroller.cpp:5921
 #: src/titler/titlewidget.cpp:2367
 #, kde-format
 msgid "Cannot write to file %1"
@@ -31194,7 +31194,7 @@ msgstr "Insert Track…"
 msgid "Fit all Tracks in View"
 msgstr "View मध्ये सर्वाणि Tracks फिट् कुर्वन्तु"
 
-#: src/mainwindow.cpp:2150 src/timeline2/view/timelinecontroller.cpp:5640
+#: src/mainwindow.cpp:2150 src/timeline2/view/timelinecontroller.cpp:5643
 #, fuzzy, kde-format
 #| msgid "Sequence count"
 msgid "Sequence effects"
@@ -32587,7 +32587,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3455 src/monitor/monitor.cpp:3486
-#: src/timeline2/view/timelinecontroller.cpp:6437
+#: src/timeline2/view/timelinecontroller.cpp:6440
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
@@ -32598,13 +32598,13 @@ msgid "Create Range Marker from Zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3492
-#: src/timeline2/view/timelinecontroller.cpp:6452
+#: src/timeline2/view/timelinecontroller.cpp:6455
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3494
-#: src/timeline2/view/timelinecontroller.cpp:6455
+#: src/timeline2/view/timelinecontroller.cpp:6458
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to create range marker from zone"
@@ -32752,7 +32752,7 @@ msgid "Go to Zone End"
 msgstr "Zone End इति गच्छन्तु"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6444
+#: src/timeline2/view/timelinecontroller.cpp:6447
 #, fuzzy, kde-format
 #| msgid "Rename marker"
 msgid "Zone marker"
@@ -37271,7 +37271,7 @@ msgid "Could not duplicate clip"
 msgstr "मास्टर क्लिप् न प्राप्नोत्"
 
 #: src/timeline2/view/timelinecontroller.cpp:1014
-#: src/timeline2/view/timelinecontroller.cpp:5801
+#: src/timeline2/view/timelinecontroller.cpp:5804
 #, kde-format
 msgid "Could not insert track"
 msgstr "पटलं सम्मिलितुं न शक्तवान्"
@@ -37359,7 +37359,7 @@ msgid "Cannot change speed of item(s)"
 msgstr "क्लिप् निर्मातुं न शक्यते"
 
 #: src/timeline2/view/timelinecontroller.cpp:3444
-#: src/timeline2/view/timelinecontroller.cpp:6066
+#: src/timeline2/view/timelinecontroller.cpp:6069
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "कृपया अस्य क्रियायाः कृते एकं पटलं तस्य लेबल् क्लिक् कृत्वा सक्रियं कुर्वन्तु"
@@ -37552,45 +37552,45 @@ msgstr ""
 "अत्र गृहीतुं असम्भवम्: ग्रहणं क्लिप्स् अधिलिखितुं शक्नोति स्म । कृपया वर्तमानस्थानस्य अनन्तरं "
 "क्लिप्स् निष्कासयन्तु अथवा भिन्नं पटलं चिनोतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5594
+#: src/timeline2/view/timelinecontroller.cpp:5597
 #, kde-format
 msgid "Record audio"
 msgstr "श्रव्यं अभिलेखयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5741
+#: src/timeline2/view/timelinecontroller.cpp:5744
 #, kde-format
 msgid "Expand clip"
 msgstr "क्लिप् विस्तारयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5744
+#: src/timeline2/view/timelinecontroller.cpp:5747
 #, kde-format
 msgid "Could not expand clip"
 msgstr "क्लिप् विस्तारयितुं न शक्तवान्"
 
-#: src/timeline2/view/timelinecontroller.cpp:5799
+#: src/timeline2/view/timelinecontroller.cpp:5802
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Track सम्मिलित करें"
 msgstr[1] "Tracks सम्मिलित करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5867
+#: src/timeline2/view/timelinecontroller.cpp:5870
 #, fuzzy, kde-format
 #| msgid "No subtitles in current project"
 msgid "No subtitles in current project. Export not possible."
 msgstr "वर्तमान परियोजनायां उपशीर्षकाणि नास्ति"
 
-#: src/timeline2/view/timelinecontroller.cpp:5878
+#: src/timeline2/view/timelinecontroller.cpp:5881
 #, kde-format
 msgid "Export subtitle file"
 msgstr "उपशीर्षकसञ्चिकां निर्यातयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5879
+#: src/timeline2/view/timelinecontroller.cpp:5882
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "उप स्टेशन अल्फा v4.00+ फ़ाइल (*.ass);;SubRip उपशीर्षक फ़ाइल (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5893
+#: src/timeline2/view/timelinecontroller.cpp:5896
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -37602,12 +37602,12 @@ msgstr ""
 "साझां कुर्वन्ति तर्हि केवलं निम्नतमस्तरस्य उपशीर्षकं एव अवशिष्यते एतेन निर्यातितसञ्चिकायां "
 "केषाञ्चन उपशीर्षकाणां हानिः भवितुम् अर्हति । किं भवन्तः अग्रे गन्तुं इच्छन्ति ?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5898
+#: src/timeline2/view/timelinecontroller.cpp:5901
 #, kde-format
 msgid "Warning"
 msgstr "चेतवानी"
 
-#: src/timeline2/view/timelinecontroller.cpp:5936
+#: src/timeline2/view/timelinecontroller.cpp:5939
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -37616,40 +37616,40 @@ msgstr ""
 "avfilter.subtitles फ़िल्टर आवश्यकम्, परन्तु न प्राप्तम् । उपशीर्षकविशेषता सम्भवतः "
 "अपेक्षितरूपेण कार्यं न करिष्यति ।"
 
-#: src/timeline2/view/timelinecontroller.cpp:5953
+#: src/timeline2/view/timelinecontroller.cpp:5956
 #, kde-format
 msgid "Show subtitle track"
 msgstr "उपशीर्षकपटं दर्शयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5953
+#: src/timeline2/view/timelinecontroller.cpp:5956
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "उपशीर्षकपटं गोपयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5976
+#: src/timeline2/view/timelinecontroller.cpp:5979
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "उपशीर्षक ट्रैक अनलॉक करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5976
+#: src/timeline2/view/timelinecontroller.cpp:5979
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "उपशीर्षक पटलं ताडयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:6143
-#: src/timeline2/view/timelinecontroller.cpp:6152
+#: src/timeline2/view/timelinecontroller.cpp:6146
+#: src/timeline2/view/timelinecontroller.cpp:6155
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "उपशीर्षक"
 
-#: src/timeline2/view/timelinecontroller.cpp:6154
+#: src/timeline2/view/timelinecontroller.cpp:6157
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "उपशीर्षकं प्रबन्धयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:6385
+#: src/timeline2/view/timelinecontroller.cpp:6388
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No range guide found at position"
