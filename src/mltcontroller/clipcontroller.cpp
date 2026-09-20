@@ -226,9 +226,9 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bo
         document.setContent(xml);
     } else {
         if (!m_temporaryUrl.isEmpty()) {
-            document = ClipCreator::getXmlFromUrl(m_temporaryUrl);
+            document = ClipCreator::getXmlFromUrl(m_temporaryUrl, m_clipType);
         } else if (!m_path.isEmpty()) {
-            document = ClipCreator::getXmlFromUrl(m_path);
+            document = ClipCreator::getXmlFromUrl(m_path, m_clipType);
         }
         qCDebug(KDENLIVE_LOG) << " + + ++ NO MASTER PROD";
     }
@@ -278,7 +278,7 @@ void ClipController::getInfoForProducer()
     m_videoIndex = -1;
     int audioIndex = -1;
     // special case: playlist with a proxy clip have to be detected separately
-    if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
+    if (m_usesProxy && (m_path.endsWith(QStringLiteral(".mlt")) || m_path.endsWith(QStringLiteral(".kdenlive")))) {
         if (m_clipType != ClipType::Timeline) {
             m_clipType = ClipType::Playlist;
         }
@@ -478,7 +478,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     m_producerLock.lockForWrite();
     Mlt::Properties passProperties;
     // Keep track of necessary properties
-    const QString proxy(producer->get("kdenlive:proxy"));
+    const QString proxy(m_properties->get("kdenlive:proxy"));
     if (proxy.length() > 2 && producer->get("resource") == proxy) {
         // This is a proxy producer, read original url from kdenlive property
         m_usesProxy = true;

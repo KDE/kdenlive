@@ -8,6 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "abstracttask.h"
 
+class QProcess;
+
 class ProxyTask : public AbstractTask
 {
 public:
@@ -25,4 +27,5 @@ private:
     bool m_isFfmpegJob;
     QString m_errorMessage;
     QString m_logDetails;
+    QProcess *m_jobProcess{nullptr};
 };

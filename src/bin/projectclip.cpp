@@ -460,8 +460,8 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         if (m_properties) {
             resource = m_properties->get("resource");
         }
-        if (m_service.isEmpty() && !resource.isEmpty()) {
-            xml = ClipCreator::getXmlFromUrl(resource).documentElement();
+        if (m_clipType == ClipType::Playlist || (m_service.isEmpty() && !resource.isEmpty())) {
+            xml = ClipCreator::getXmlFromUrl(resource, m_clipType).documentElement();
         } else {
             xml = toXml(doc);
         }
