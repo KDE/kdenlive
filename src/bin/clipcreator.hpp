@@ -113,5 +113,5 @@ const QString createClipsFromList(
 
 /** @brief Create minimal xml description from an url
  */
-QDomDocument getXmlFromUrl(const QString &path);
+QDomDocument getXmlFromUrl(const QString &path, ClipType::ProducerType clipType = ClipType::Unknown);
 } // namespace ClipCreator

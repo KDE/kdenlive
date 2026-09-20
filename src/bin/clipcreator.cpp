@@ -271,7 +271,7 @@ QString ClipCreator::createPlaylistClip(const QString &parentFolder, const std::
     return res ? id : QStringLiteral("-1");
 }
 
-QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
+QDomDocument ClipCreator::getXmlFromUrl(const QString &path, ClipType::ProducerType clipType)
 {
     QDomDocument xml;
     QUrl fileUrl = QUrl::fromLocalFile(path);
@@ -280,14 +280,18 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
         KMessageBox::error(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));
         return xml;
     }
-    QMimeDatabase db;
-    QMimeType type = db.mimeTypeForUrl(fileUrl);
+
+    QMimeType type;
+    if (clipType == ClipType::Unknown) {
+        QMimeDatabase db;
+        type = db.mimeTypeForUrl(fileUrl);
+    }
 
     QDomElement prod;
-    if (type.name().startsWith(QLatin1String("image/")) && !type.name().contains(QLatin1String("image/gif"))) {
+    if ((clipType == ClipType::Image || type.name().startsWith(QLatin1String("image/"))) && !type.name().contains(QLatin1String("image/gif"))) {
         int duration = pCore->getDurationFromString(KdenliveSettings::image_duration());
         prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
-    } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
+    } else if (clipType == ClipType::Text || clipType == ClipType::TextTemplate || type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
         // opening a title file
         QDomDocument txtdoc(QStringLiteral("titledocument"));
         if (!Xml::docContentFromFile(txtdoc, path, false)) {
@@ -315,6 +319,9 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
         xml.appendChild(prod);
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), path);
+        if (clipType != ClipType::Unknown) {
+            properties.insert(QStringLiteral("type"), QString::number(int(clipType)));
+        }
         Xml::addXmlProperties(prod, properties);
     }
     return xml;
