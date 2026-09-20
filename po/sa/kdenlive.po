@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-16 02:43+0000\n"
+"POT-Creation-Date: 2026-09-20 14:44+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -1755,7 +1755,8 @@ msgstr "<![CDATA[पृष्ठभूमिप्रतिबिम्बस्
 #: data/effects/avfilter/avfilter_datascope.xml:8
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #: data/effects/avfilter/avfilter_oscilloscope.xml:16
-#: data/effects/dynamictext.xml:14 data/effects/frei0r/frei0r_medians.xml:12
+#: data/effects/dynamictext.xml:20 data/effects/dynamictext.xml:112
+#: data/effects/frei0r/frei0r_medians.xml:12
 #: data/effects/frei0r/frei0r_sharpness.xml:11 data/effects/gpstext.xml:66
 #: data/effects/timer.xml:14 src/ui/configcapture_ui.ui:167
 #: src/ui/managecache_ui.ui:364
@@ -2728,8 +2729,8 @@ msgstr "क्षेत्राणि दर्शयतु"
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/effects/avfilter/avfilter_pseudocolor.xml:16
-#: data/effects/dynamictext.xml:53 data/effects/gpstext.xml:116
-#: data/effects/timer.xml:53
+#: data/effects/dynamictext.xml:81 data/effects/dynamictext.xml:173
+#: data/effects/gpstext.xml:116 data/effects/timer.xml:53
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:338
@@ -7890,51 +7891,53 @@ msgstr "अधिकतम लाभ घटना"
 msgid "Maximum Rate Change"
 msgstr "अधिकतम दर परिवर्तन"
 
-#: data/effects/dynamictext.xml:4
+#: data/effects/dynamictext.xml:5 data/effects/dynamictext.xml:97
 #, kde-format
 msgid "Dynamic Text"
 msgstr "गतिशील पाठ"
 
-#: data/effects/dynamictext.xml:5
+#: data/effects/dynamictext.xml:6 data/effects/dynamictext.xml:98
 #, kde-format
 msgid "Overlay text with keywords replaced"
 msgstr "कीवर्ड्स प्रतिस्थापितं पाठं आच्छादयन्तु"
 
-#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:418
+#: data/effects/dynamictext.xml:14 data/effects/dynamictext.xml:106
+#: data/effects/timer.xml:8 src/assets/view/widgets/keyframeimport.cpp:418
 #, kde-format
 msgid "Geometry"
 msgstr "ज्यामिति"
 
-#: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
-#: data/effects/timer.xml:11
+#: data/effects/dynamictext.xml:17 data/effects/dynamictext.xml:109
+#: data/effects/gpstext.xml:62 data/effects/timer.xml:11
 #, fuzzy, kde-format
 #| msgid "Font Family"
 msgid "<u>Font</u> Family"
 msgstr "फॉन्ट परिवार"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
-#: data/effects/timer.xml:17 src/ui/managesubtitles_ui.ui:211
+#: data/effects/dynamictext.xml:28 data/effects/dynamictext.xml:120
+#: data/effects/gpstext.xml:74 data/effects/timer.xml:17
+#: src/ui/managesubtitles_ui.ui:211
 #, kde-format
 msgid "Style"
 msgstr "शैली"
 
-#: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
-#: data/effects/timer.xml:18
+#: data/effects/dynamictext.xml:29 data/effects/dynamictext.xml:121
+#: data/effects/gpstext.xml:76 data/effects/timer.xml:18
 #, fuzzy, kde-format
 #| msgid "Normal scale"
 msgid "Normal,Italic"
 msgstr "सामान्य स्केल"
 
-#: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
-#: data/effects/timer.xml:21
+#: data/effects/dynamictext.xml:32 data/effects/dynamictext.xml:124
+#: data/effects/gpstext.xml:70 data/effects/timer.xml:21
 #, fuzzy, kde-format
 #| msgid "Weight:"
 msgid "Weight"
 msgstr "भारः:"
 
-#: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
+#: data/effects/dynamictext.xml:35 data/effects/dynamictext.xml:127
+#: data/effects/timer.xml:24
 #, fuzzy, kde-format
 #| msgid "Text color"
 msgid "<u>Text</u> Color"
@@ -7943,8 +7946,8 @@ msgstr "पाठवर्णः"
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: data/effects/dynamictext.xml:27 data/effects/timer.xml:27
-#: src/scopes/colorscopes/vectorscope.cpp:104
+#: data/effects/dynamictext.xml:38 data/effects/dynamictext.xml:130
+#: data/effects/timer.xml:27 src/scopes/colorscopes/vectorscope.cpp:104
 #: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
 #: src/ui/titlewidget_ui.ui:1509
@@ -7954,96 +7957,74 @@ msgstr "पृष्ठभूमि"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: data/effects/dynamictext.xml:30 data/effects/timer.xml:30
-#: src/ui/editsubstyle_ui.ui:350 src/ui/managesubtitles_ui.ui:404
+#: data/effects/dynamictext.xml:41 data/effects/dynamictext.xml:133
+#: data/effects/timer.xml:30 src/ui/editsubstyle_ui.ui:350
+#: src/ui/managesubtitles_ui.ui:404
 #, kde-format
 msgid "Outline"
 msgstr "रूपरेखा"
 
-#: data/effects/dynamictext.xml:33 data/effects/gpstext.xml:91
-#: data/effects/timer.xml:33
+#: data/effects/dynamictext.xml:44 data/effects/dynamictext.xml:136
+#: data/effects/gpstext.xml:91 data/effects/timer.xml:33
 #, kde-format
 msgid "Outline Width"
 msgstr "रूपरेखा चौड़ाई"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: data/effects/dynamictext.xml:36 data/effects/gpstext.xml:95
-#: data/effects/timer.xml:36 src/ui/editsubstyle_ui.ui:410
-#: src/ui/managesubtitles_ui.ui:374
+#: data/effects/dynamictext.xml:47 data/effects/dynamictext.xml:139
+#: data/effects/gpstext.xml:95 data/effects/timer.xml:36
+#: src/ui/editsubstyle_ui.ui:410 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
 msgstr "रेखांकनम्"
 
-#: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
-#: data/effects/timer.xml:39
+#: data/effects/dynamictext.xml:50 data/effects/dynamictext.xml:142
+#: data/effects/gpstext.xml:99 data/effects/timer.xml:39
 #, fuzzy, kde-format
 #| msgid "StrikeOut"
 msgid "Strikethrough"
 msgstr "StrikeOut इति"
 
-#: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:103
-#: data/effects/timer.xml:42
+#: data/effects/dynamictext.xml:53 data/effects/dynamictext.xml:145
+#: data/effects/gpstext.xml:103 data/effects/timer.xml:42
 #, kde-format
 msgid "Padding"
 msgstr "गद्दी"
 
-#: data/effects/dynamictext.xml:45 data/effects/gpstext.xml:106
-#: data/effects/timer.xml:45
+#: data/effects/dynamictext.xml:61 data/effects/dynamictext.xml:153
+#: data/effects/gpstext.xml:106 data/effects/timer.xml:45
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "क्षैतिज संरेखण"
 
-#: data/effects/dynamictext.xml:46 data/effects/gpstext.xml:108
-#: data/effects/timer.xml:46 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:62 data/effects/dynamictext.xml:154
+#: data/effects/gpstext.xml:108 data/effects/timer.xml:46
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "वाम,केन्द्र,दक्षिण"
 
-#: data/effects/dynamictext.xml:49 data/effects/gpstext.xml:111
-#: data/effects/timer.xml:49
+#: data/effects/dynamictext.xml:70 data/effects/dynamictext.xml:162
+#: data/effects/gpstext.xml:111 data/effects/timer.xml:49
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "ऊर्ध्वाधर संरेखण"
 
-#: data/effects/dynamictext.xml:50 data/effects/gpstext.xml:113
-#: data/effects/timer.xml:50 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:71 data/effects/dynamictext.xml:163
+#: data/effects/gpstext.xml:113 data/effects/timer.xml:50
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "उपरि,मध्य,तलम्"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1056 src/ui/managesubtitles_ui.ui:216
+#: data/effects/dynamictext.xml:89 data/effects/dynamictext.xml:181
+#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1056
+#: src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "पाठ"
-
-#: data/effects/dynamictext.xml:57
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "You can also enter strftime parameters to customize the output, like: "
-#| "#createdate %H:%M %D#"
-msgid ""
-"You can also enter <i>strftime</i> parameters to customize the output, like: "
-"#createdate %H:%M %D#"
-msgstr ""
-"आउटपुट् अनुकूलनार्थं भवान् strftime पैरामीटर् अपि प्रविष्टुं शक्नोति, यथा: #createdate %H:"
-"%M %D#"
-
-#: data/effects/dynamictext.xml:58
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,creation date,file date (GMT),file date (local),source "
-#| "frame rate,source codec,source bit rate,source width,source height,source "
-#| "comment"
-msgid ""
-"Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
-"date (local),Source frame rate,Source codec,Source bit rate,Source width,"
-"Source height,Source comment"
-msgstr ""
-"timecode,frame,निर्माण तिथि,सञ्चिका तिथि (GMT),सञ्चिका तिथि (स्थानीय),स्रोत फ्रेम "
-"दर,स्रोत कोडेक,स्रोत बिट दर,स्रोत चौड़ाई,स्रोत ऊंचाई,स्रोत टिप्पणी"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -24035,8 +24016,8 @@ msgstr "निर्यात मार्गदर्शकाः आँकड�
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5896
-#: src/timeline2/view/timelinecontroller.cpp:5901
+#: src/timeline2/view/timelinecontroller.cpp:5899
+#: src/timeline2/view/timelinecontroller.cpp:5904
 #: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "Cannot write to file %1"
@@ -30884,7 +30865,7 @@ msgstr "Insert Track…"
 msgid "Fit all Tracks in View"
 msgstr "View मध्ये सर्वाणि Tracks फिट् कुर्वन्तु"
 
-#: src/mainwindow.cpp:2128 src/timeline2/view/timelinecontroller.cpp:5623
+#: src/mainwindow.cpp:2128 src/timeline2/view/timelinecontroller.cpp:5626
 #, fuzzy, kde-format
 #| msgid "Sequence count"
 msgid "Sequence effects"
@@ -31502,7 +31483,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "मेनू-पट्टिकां गोपयन्तु"
 
-#: src/mainwindow.cpp:5223 src/timeline2/view/timelinecontroller.cpp:5854
+#: src/mainwindow.cpp:5223 src/timeline2/view/timelinecontroller.cpp:5857
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "वर्तमान परियोजनायां उपशीर्षकाणि नास्ति"
@@ -32282,7 +32263,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3462 src/monitor/monitor.cpp:3493
-#: src/timeline2/view/timelinecontroller.cpp:6420
+#: src/timeline2/view/timelinecontroller.cpp:6423
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
@@ -32293,13 +32274,13 @@ msgid "Create Range Marker from Zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3478 src/monitor/monitor.cpp:3499
-#: src/timeline2/view/timelinecontroller.cpp:6435
+#: src/timeline2/view/timelinecontroller.cpp:6438
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3480 src/monitor/monitor.cpp:3501
-#: src/timeline2/view/timelinecontroller.cpp:6438
+#: src/timeline2/view/timelinecontroller.cpp:6441
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to create range marker from zone"
@@ -32447,7 +32428,7 @@ msgid "Go to Zone End"
 msgstr "Zone End इति गच्छन्तु"
 
 #: src/monitor/monitorproxy.cpp:773
-#: src/timeline2/view/timelinecontroller.cpp:6427
+#: src/timeline2/view/timelinecontroller.cpp:6430
 #, fuzzy, kde-format
 #| msgid "Rename marker"
 msgid "Zone marker"
@@ -36966,7 +36947,7 @@ msgid "Could not duplicate clip"
 msgstr "मास्टर क्लिप् न प्राप्नोत्"
 
 #: src/timeline2/view/timelinecontroller.cpp:1002
-#: src/timeline2/view/timelinecontroller.cpp:5784
+#: src/timeline2/view/timelinecontroller.cpp:5787
 #, kde-format
 msgid "Could not insert track"
 msgstr "पटलं सम्मिलितुं न शक्तवान्"
@@ -37054,7 +37035,7 @@ msgid "Cannot change speed of item(s)"
 msgstr "क्लिप् निर्मातुं न शक्यते"
 
 #: src/timeline2/view/timelinecontroller.cpp:3432
-#: src/timeline2/view/timelinecontroller.cpp:6049
+#: src/timeline2/view/timelinecontroller.cpp:6052
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "कृपया अस्य क्रियायाः कृते एकं पटलं तस्य लेबल् क्लिक् कृत्वा सक्रियं कुर्वन्तु"
@@ -37247,39 +37228,39 @@ msgstr ""
 "अत्र गृहीतुं असम्भवम्: ग्रहणं क्लिप्स् अधिलिखितुं शक्नोति स्म । कृपया वर्तमानस्थानस्य अनन्तरं "
 "क्लिप्स् निष्कासयन्तु अथवा भिन्नं पटलं चिनोतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5577
+#: src/timeline2/view/timelinecontroller.cpp:5580
 #, kde-format
 msgid "Record audio"
 msgstr "श्रव्यं अभिलेखयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5724
+#: src/timeline2/view/timelinecontroller.cpp:5727
 #, kde-format
 msgid "Expand clip"
 msgstr "क्लिप् विस्तारयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5727
+#: src/timeline2/view/timelinecontroller.cpp:5730
 #, kde-format
 msgid "Could not expand clip"
 msgstr "क्लिप् विस्तारयितुं न शक्तवान्"
 
-#: src/timeline2/view/timelinecontroller.cpp:5782
+#: src/timeline2/view/timelinecontroller.cpp:5785
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Track सम्मिलित करें"
 msgstr[1] "Tracks सम्मिलित करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5861
+#: src/timeline2/view/timelinecontroller.cpp:5864
 #, kde-format
 msgid "Export subtitle file"
 msgstr "उपशीर्षकसञ्चिकां निर्यातयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5862
+#: src/timeline2/view/timelinecontroller.cpp:5865
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "उप स्टेशन अल्फा v4.00+ फ़ाइल (*.ass);;SubRip उपशीर्षक फ़ाइल (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5876
+#: src/timeline2/view/timelinecontroller.cpp:5879
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -37291,12 +37272,12 @@ msgstr ""
 "साझां कुर्वन्ति तर्हि केवलं निम्नतमस्तरस्य उपशीर्षकं एव अवशिष्यते एतेन निर्यातितसञ्चिकायां "
 "केषाञ्चन उपशीर्षकाणां हानिः भवितुम् अर्हति । किं भवन्तः अग्रे गन्तुं इच्छन्ति ?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5881
+#: src/timeline2/view/timelinecontroller.cpp:5884
 #, kde-format
 msgid "Warning"
 msgstr "चेतवानी"
 
-#: src/timeline2/view/timelinecontroller.cpp:5919
+#: src/timeline2/view/timelinecontroller.cpp:5922
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -37305,40 +37286,40 @@ msgstr ""
 "avfilter.subtitles फ़िल्टर आवश्यकम्, परन्तु न प्राप्तम् । उपशीर्षकविशेषता सम्भवतः "
 "अपेक्षितरूपेण कार्यं न करिष्यति ।"
 
-#: src/timeline2/view/timelinecontroller.cpp:5936
+#: src/timeline2/view/timelinecontroller.cpp:5939
 #, kde-format
 msgid "Show subtitle track"
 msgstr "उपशीर्षकपटं दर्शयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5936
+#: src/timeline2/view/timelinecontroller.cpp:5939
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "उपशीर्षकपटं गोपयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:5959
+#: src/timeline2/view/timelinecontroller.cpp:5962
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "उपशीर्षक ट्रैक अनलॉक करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5959
+#: src/timeline2/view/timelinecontroller.cpp:5962
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "उपशीर्षक पटलं ताडयन्तु"
 
-#: src/timeline2/view/timelinecontroller.cpp:6126
-#: src/timeline2/view/timelinecontroller.cpp:6135
+#: src/timeline2/view/timelinecontroller.cpp:6129
+#: src/timeline2/view/timelinecontroller.cpp:6138
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "उपशीर्षक"
 
-#: src/timeline2/view/timelinecontroller.cpp:6137
+#: src/timeline2/view/timelinecontroller.cpp:6140
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "उपशीर्षकं प्रबन्धयतु"
 
-#: src/timeline2/view/timelinecontroller.cpp:6368
+#: src/timeline2/view/timelinecontroller.cpp:6371
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No range guide found at position"
@@ -42933,6 +42914,30 @@ msgstr "%1म्"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ह"
+
+#, fuzzy
+#~| msgid ""
+#~| "You can also enter strftime parameters to customize the output, like: "
+#~| "#createdate %H:%M %D#"
+#~ msgid ""
+#~ "You can also enter <i>strftime</i> parameters to customize the output, "
+#~ "like: #createdate %H:%M %D#"
+#~ msgstr ""
+#~ "आउटपुट् अनुकूलनार्थं भवान् strftime पैरामीटर् अपि प्रविष्टुं शक्नोति, यथा: #createdate "
+#~ "%H:%M %D#"
+
+#, fuzzy
+#~| msgid ""
+#~| "timecode,frame,creation date,file date (GMT),file date (local),source "
+#~| "frame rate,source codec,source bit rate,source width,source height,"
+#~| "source comment"
+#~ msgid ""
+#~ "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),"
+#~ "File date (local),Source frame rate,Source codec,Source bit rate,Source "
+#~ "width,Source height,Source comment"
+#~ msgstr ""
+#~ "timecode,frame,निर्माण तिथि,सञ्चिका तिथि (GMT),सञ्चिका तिथि (स्थानीय),स्रोत "
+#~ "फ्रेम दर,स्रोत कोडेक,स्रोत बिट दर,स्रोत चौड़ाई,स्रोत ऊंचाई,स्रोत टिप्पणी"
 
 #~ msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 #~ msgstr "MLT तथा KDE SC 4 / KF5 पोर्ट्, मुख्यविकासकः परिपालकः च"
