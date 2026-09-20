@@ -43,7 +43,7 @@ Item {
     readonly property real indentation: 20
     readonly property real padding: 5
     required property var model
-    property int containerWidth: width - delegateRect.dopeRootItem.headerWidth - (2 * K.UiUtils.baseSizeMedium)
+    property int containerWidth: width - delegateRect.dopeRootItem.headerWidth
     // The frame position of the hovered keyframe, -1 if none
     property int currentKFFrame: -1
     // The index of the hovered keyframe, -1 if none
@@ -52,6 +52,7 @@ Item {
 
     signal selectKeyframe(int kfIndex)
     signal activeParamChanged(var paramIndex)
+    clip: true
 
     Menu {
         id: paramMenu
@@ -96,7 +97,8 @@ Item {
 
     onContentScrollChanged: {
         if (kfMoveArea.containsMouse) {
-            let mousePos = Math.max(0., (kfMoveArea.mouseX - K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.contentScroll * delegateRect.dopeRootItem.timeScale * delegateRect.dopeRootItem.maximumScaleFactor))
+            //let mousePos = Math.max(0., (kfMoveArea.mouseX + delegateRect.dopeRootItem.contentScroll))
+            let mousePos = Math.max(0., (kfMoveArea.mouseX + delegateRect.dopeRootItem.mouseOffset))
             delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
         }
     }
@@ -150,12 +152,29 @@ Item {
     }
 
     Rectangle {
+        // param name background
         color: delegateRect.depth == 0 ? 'darkorange' : 'darkgoldenrod'
         opacity: 0.25
         visible: delegateRect.depth < 2
-        x: 4
-        anchors.fill: parent
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+        }
+        width: delegateRect.dopeRootItem.headerWidth
     }
+
+    Rectangle {
+        // keyframes background
+        color: delegateRect.depth == 0 ? 'darkorange' : 'darkgoldenrod'
+        opacity: 0.15
+        visible: delegateRect.depth < 2
+        radius: 8
+        anchors.fill: kfContainer
+        anchors.topMargin: 2
+        anchors.bottomMargin: 2
+    }
+
     Rectangle {
         color: Qt.rgba(delegateRect.activePalette.highlight.r * 0.6, delegateRect.activePalette.highlight.g * 0.6, delegateRect.activePalette.highlight.b * 0.6, 1)
         radius: 4
@@ -245,12 +264,12 @@ Item {
     }
     Item {
         id: kfContainer
-        anchors.left: delegateRect.left
-        anchors.right: delegateRect.right
+        //anchors.left: delegateRect.left
+        //anchors.right: delegateRect.right
         anchors.top: delegateRect.top
         anchors.bottom: delegateRect.bottom
-        anchors.leftMargin: K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.headerWidth
-        anchors.rightMargin: K.UiUtils.baseSizeMedium / 2 + 2
+        x: delegateRect.dopeRootItem.headerWidth + delegateRect.dopeRootItem.kfOffset
+        width: delegateRect.dopeRootItem.frameDuration * delegateRect.dopeRootItem.timeScale
         visible: !delegateRect.isBlankRecap
         Rectangle {
             // keyframe slider
@@ -267,8 +286,6 @@ Item {
         MouseArea {
             id: kfMoveArea
             anchors.fill: parent
-            anchors.leftMargin: -K.UiUtils.baseSizeMedium
-            anchors.rightMargin: -K.UiUtils.baseSizeMedium
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             // The frame position of the clicked keyframe, -1 if none
             property int clickFrame: -1
@@ -425,17 +442,10 @@ Item {
                 mouse.accepted = true
             }
 
-            onWheel: wheel => {
-                if (wheel.modifiers & Qt.ControlModifier) {
-                    delegateRect.dopeRootItem.zoomByWheel(wheel)
-                } else {
-                    // Scroll
-                    delegateRect.dopeRootItem.scrollByWheel(wheel)
-                }
-            }
+            onWheel: wheel => delegateRect.dopeRootItem.scrollByWheel(wheel)
 
             onPositionChanged: mouse => {
-                let mousePos = Math.max(0., (mouse.x - K.UiUtils.baseSizeMedium + delegateRect.dopeRootItem.contentScroll * delegateRect.dopeRootItem.timeScale * delegateRect.dopeRootItem.maximumScaleFactor))
+                let mousePos = Math.max(0., (mouse.x + delegateRect.dopeRootItem.mouseOffset))
                 delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
                 if (!pressed) {
                     return
@@ -455,13 +465,14 @@ Item {
                     // Update rectangle selection
                     delegateRect.dopeRootItem.rubberBottomRight = mapToItem(delegateRect.dopeRootItem, mouseX, mouseY)
                     delegateRect.dopeRootItem.selectRubber(false)
+                    console.log('GOT bottom POS: ', delegateRect.dopeRootItem.rubberBottomRight.y, ' MOUSEY: ', mouseY, ' / ', mouse.y)
                     return
                 }
                 if (mouse.buttons === Qt.LeftButton && dragStarted && clickIndex > -1) {
                     let updatedKfPosition = delegateRect.dopeRootItem.getPositionForKeyframe()
                     if (movePosition == updatedKfPosition) {
                         // No move, abort
-                        return
+                        // return
                     }
                     if (ctrlClick) {
                         delegateRect.dopesheetmodel.moveScaledKeyframe(updatedKfPosition, false, true)
@@ -533,8 +544,8 @@ Item {
                 handleWidth: Math.round(K.UiUtils.baseSizeMedium * 0.8)
                 containerWidth: delegateRect.containerWidth
                 timeScale: delegateRect.dopeRootItem.timeScale
-                contentScroll: delegateRect.dopeRootItem.contentScroll
-                maximumScaleFactor: delegateRect.dopeRootItem.maximumScaleFactor
+                contentScroll: delegateRect.dopeRootItem.contentScroll / delegateRect.dopeRootItem.timeScale
+                //maximumScaleFactor: delegateRect.dopeRootItem.maximumScaleFactor
                 keyframeContainerWidth: delegateRect.keyframeContainerWidth
                 activePalette: delegateRect.activePalette
                 kfPressed: delegateRect.kfPressed
@@ -542,6 +553,8 @@ Item {
                 dopeRootItem: delegateRect.dopeRootItem
                 parentScope: paramModel
                 modelFrame: model.frame - paramModel.ownerInPoint
+                modelInPos: delegateRect.dopeRootItem.itemPosition
+                modelDuration: delegateRect.dopeRootItem.frameDuration
                 modelDescription: model.description
                 modelPercentPosition: model.percentPosition
                 modelType: model.type

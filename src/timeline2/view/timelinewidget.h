@@ -15,6 +15,8 @@ class MonitorProxy;
 class MediaCapture;
 class QMenu;
 class QActionGroup;
+class DopeFilter;
+class EffectStackModel;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -71,6 +73,7 @@ public Q_SLOTS:
     void showTargetMenu(int tid = -1);
     /** @brief Focus qml item under mouse in timeline, for example after app looses focus or a menu showed up*/
     void regainFocus();
+    void registerDopeStack(std::shared_ptr<EffectStackModel> model, int timecodeOffset);
 
 private Q_SLOTS:
     void slotUngrabHack();
@@ -112,6 +115,7 @@ private:
     QPoint m_clickPos;
     QMetaObject::Connection m_addMenuConnection;
     QUuid m_uuid;
+    std::unique_ptr<DopeFilter> m_proxyModel;
 
 Q_SIGNALS:
     void focusProjectMonitor();

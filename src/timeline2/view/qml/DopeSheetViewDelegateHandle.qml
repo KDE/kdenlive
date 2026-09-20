@@ -22,6 +22,8 @@ Item {
     required property int row
     required property int column
     required property int handleWidth
+    required property int modelInPos
+    required property int modelDuration
     required property int containerWidth
     required property int keyframeContainerWidth
     required property double contentScroll
@@ -29,22 +31,22 @@ Item {
     required property var parentScope
     required property var dopeRootItem
     required property var activePalette
-    required property real maximumScaleFactor
     required property color dopeHoverColor
     required property bool kfPressed
     required property var delegateProperties
+    property bool itemSelected: dopeRootItem.keyframeSelected(parentScope.getIndex(row, column), index) > -1
 
     z: 10
-    x: modelPercentPosition * containerWidth * timeScale - contentScroll * timeScale * maximumScaleFactor - width / 2
+    x: (modelPercentPosition * modelDuration) * timeScale - width / 2
     visible : x >= -width/2 && x < containerWidth + width/2
     anchors.verticalCenter: parent.verticalCenter
     width: handleWidth - (kfArea.containsMouse ? 0 : 2)
     height: width
     property bool atMousePos: dopeRootItem.mouseFramePos === modelFrame
-    property color fillColor: dopeRootItem.keyframeGrabbed(parentScope.getIndex(row, column), index) > -1 ? 'red' : dopeRootItem.keyframeSelected(parentScope.getIndex(row, column), index) > -1 ? activePalette.highlight : activePalette.light
+    property color fillColor: dopeRootItem.keyframeGrabbed(parentScope.getIndex(row, column), index) > -1 ? 'red' : itemSelected ? activePalette.highlight : activePalette.light
 
     property int borderWidth: atMousePos ? 2 : 1
-    property color borderColor: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? dopeHoverColor : activePalette.text
+    property color borderColor: (kfArea.containsMouse || kfArea.pressed || itemSelected) ? activePalette.highlight : atMousePos ? dopeHoverColor : activePalette.text
 
     Component {
         id: triangleView
@@ -126,7 +128,7 @@ Item {
             handle.delegateProperties.currentKFIndex = handle.index
             //dopeRoot.keyframeType = type
             handle.dopeRootItem.hoverKeyframe = handle.modelFrame
-            handle.dopeRootItem.mouseFramePos = handle.modelFrame
+            handle.dopeRootItem.mouseFramePos = handle.modelFrame + handle.dopeRootItem.dopeOffset
         }
         onExited: {
             handle.delegateProperties.currentKFFrame = -1
