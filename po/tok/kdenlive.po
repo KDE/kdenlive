@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-19 00:44+0000\n"
+"POT-Creation-Date: 2026-09-20 00:44+0000\n"
 "PO-Revision-Date: 2024-02-02 12:32-0500\n"
 "Last-Translator: Janet Blackquill <uhhadd@gmail.com>\n"
 "Language-Team: Language tok\n"
@@ -1654,7 +1654,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_datascope.xml:8
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #: data/effects/avfilter/avfilter_oscilloscope.xml:16
-#: data/effects/dynamictext.xml:14 data/effects/frei0r/frei0r_medians.xml:12
+#: data/effects/dynamictext.xml:20 data/effects/dynamictext.xml:112
+#: data/effects/frei0r/frei0r_medians.xml:12
 #: data/effects/frei0r/frei0r_sharpness.xml:11 data/effects/gpstext.xml:66
 #: data/effects/timer.xml:14 src/ui/configcapture_ui.ui:167
 #: src/ui/managecache_ui.ui:364
@@ -2557,7 +2558,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/effects/avfilter/avfilter_pseudocolor.xml:16
-#: data/effects/dynamictext.xml:53
+#: data/effects/dynamictext.xml:81 data/effects/dynamictext.xml:173
 #: data/effects/frei0r/frei0r_camerashake.xml:29 data/effects/gpstext.xml:116
 #: data/effects/timer.xml:53
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
@@ -7359,48 +7360,50 @@ msgstr ""
 msgid "Maximum Rate Change"
 msgstr ""
 
-#: data/effects/dynamictext.xml:4
+#: data/effects/dynamictext.xml:5 data/effects/dynamictext.xml:97
 #, kde-format
 msgid "Dynamic Text"
 msgstr ""
 
-#: data/effects/dynamictext.xml:5
+#: data/effects/dynamictext.xml:6 data/effects/dynamictext.xml:98
 #, kde-format
 msgid "Overlay text with keywords replaced"
 msgstr ""
 
-#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:418
+#: data/effects/dynamictext.xml:14 data/effects/dynamictext.xml:106
+#: data/effects/timer.xml:8 src/assets/view/widgets/keyframeimport.cpp:418
 #, kde-format
 msgid "Geometry"
 msgstr ""
 
-#: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
-#: data/effects/timer.xml:11
+#: data/effects/dynamictext.xml:17 data/effects/dynamictext.xml:109
+#: data/effects/gpstext.xml:62 data/effects/timer.xml:11
 #, kde-format
 msgid "<u>Font</u> Family"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
-#: data/effects/timer.xml:17 src/ui/managesubtitles_ui.ui:211
+#: data/effects/dynamictext.xml:28 data/effects/dynamictext.xml:120
+#: data/effects/gpstext.xml:74 data/effects/timer.xml:17
+#: src/ui/managesubtitles_ui.ui:211
 #, kde-format
 msgid "Style"
 msgstr ""
 
-#: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
-#: data/effects/timer.xml:18
+#: data/effects/dynamictext.xml:29 data/effects/dynamictext.xml:121
+#: data/effects/gpstext.xml:76 data/effects/timer.xml:18
 #, kde-format
 msgid "Normal,Italic"
 msgstr ""
 
-#: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
-#: data/effects/timer.xml:21
+#: data/effects/dynamictext.xml:32 data/effects/dynamictext.xml:124
+#: data/effects/gpstext.xml:70 data/effects/timer.xml:21
 #, kde-format
 msgid "Weight"
 msgstr ""
 
-#: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
+#: data/effects/dynamictext.xml:35 data/effects/dynamictext.xml:127
+#: data/effects/timer.xml:24
 #, kde-format
 msgid "<u>Text</u> Color"
 msgstr ""
@@ -7408,8 +7411,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: data/effects/dynamictext.xml:27 data/effects/timer.xml:27
-#: src/scopes/colorscopes/vectorscope.cpp:104
+#: data/effects/dynamictext.xml:38 data/effects/dynamictext.xml:130
+#: data/effects/timer.xml:27 src/scopes/colorscopes/vectorscope.cpp:104
 #: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
 #: src/ui/titlewidget_ui.ui:1509
@@ -7419,83 +7422,72 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: data/effects/dynamictext.xml:30 data/effects/timer.xml:30
-#: src/ui/editsubstyle_ui.ui:350 src/ui/managesubtitles_ui.ui:404
+#: data/effects/dynamictext.xml:41 data/effects/dynamictext.xml:133
+#: data/effects/timer.xml:30 src/ui/editsubstyle_ui.ui:350
+#: src/ui/managesubtitles_ui.ui:404
 #, kde-format
 msgid "Outline"
 msgstr ""
 
-#: data/effects/dynamictext.xml:33 data/effects/gpstext.xml:91
-#: data/effects/timer.xml:33
+#: data/effects/dynamictext.xml:44 data/effects/dynamictext.xml:136
+#: data/effects/gpstext.xml:91 data/effects/timer.xml:33
 #, kde-format
 msgid "Outline Width"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: data/effects/dynamictext.xml:36 data/effects/gpstext.xml:95
-#: data/effects/timer.xml:36 src/ui/editsubstyle_ui.ui:410
-#: src/ui/managesubtitles_ui.ui:374
+#: data/effects/dynamictext.xml:47 data/effects/dynamictext.xml:139
+#: data/effects/gpstext.xml:95 data/effects/timer.xml:36
+#: src/ui/editsubstyle_ui.ui:410 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
 msgstr ""
 
-#: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
-#: data/effects/timer.xml:39
+#: data/effects/dynamictext.xml:50 data/effects/dynamictext.xml:142
+#: data/effects/gpstext.xml:99 data/effects/timer.xml:39
 #, kde-format
 msgid "Strikethrough"
 msgstr ""
 
-#: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:103
-#: data/effects/timer.xml:42
+#: data/effects/dynamictext.xml:53 data/effects/dynamictext.xml:145
+#: data/effects/gpstext.xml:103 data/effects/timer.xml:42
 #, kde-format
 msgid "Padding"
 msgstr ""
 
-#: data/effects/dynamictext.xml:45 data/effects/gpstext.xml:106
-#: data/effects/timer.xml:45
+#: data/effects/dynamictext.xml:61 data/effects/dynamictext.xml:153
+#: data/effects/gpstext.xml:106 data/effects/timer.xml:45
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr ""
 
-#: data/effects/dynamictext.xml:46 data/effects/gpstext.xml:108
-#: data/effects/timer.xml:46 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:62 data/effects/dynamictext.xml:154
+#: data/effects/gpstext.xml:108 data/effects/timer.xml:46
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr ""
 
-#: data/effects/dynamictext.xml:49 data/effects/gpstext.xml:111
-#: data/effects/timer.xml:49
+#: data/effects/dynamictext.xml:70 data/effects/dynamictext.xml:162
+#: data/effects/gpstext.xml:111 data/effects/timer.xml:49
 #, kde-format
 msgid "Vertical Alignment"
 msgstr ""
 
-#: data/effects/dynamictext.xml:50 data/effects/gpstext.xml:113
-#: data/effects/timer.xml:50 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:71 data/effects/dynamictext.xml:163
+#: data/effects/gpstext.xml:113 data/effects/timer.xml:50
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1097 src/ui/managesubtitles_ui.ui:216
+#: data/effects/dynamictext.xml:89 data/effects/dynamictext.xml:181
+#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1097
+#: src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
-msgstr ""
-
-#: data/effects/dynamictext.xml:57
-#, no-c-format, kde-format
-msgid ""
-"You can also enter <i>strftime</i> parameters to customize the output, like: "
-"#createdate %H:%M %D#"
-msgstr ""
-
-#: data/effects/dynamictext.xml:58
-#, kde-format
-msgid ""
-"Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
-"date (local),Source frame rate,Source codec,Source bit rate,Source width,"
-"Source height,Source comment"
 msgstr ""
 
 #: data/effects/fade_from_black.xml:4
