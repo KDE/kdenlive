@@ -552,6 +552,7 @@ public:
     void setOverlayTrack(Mlt::Playlist *overlay);
     void removeOverlayTrack();
     void deletePreviewTrack();
+    void setPreviewEnabled(bool enabled);
     std::shared_ptr<PreviewManager> previewManager();
     /**  @brief We want to delete the timelineModel without removing clips from tractor
      */

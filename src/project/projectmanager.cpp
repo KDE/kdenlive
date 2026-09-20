@@ -1668,12 +1668,13 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
 
     m_project->cleanupTimelinePreview(documentDate);
     if (pCore->window()) {
+        const bool previewEnabled = m_project->getSequenceProperty(uuid, QStringLiteral("disablepreview"), QStringLiteral("0")).toInt() == 0;
         if (!createNewTab) {
             documentTimeline = pCore->window()->getCurrentTimeline();
-            documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+            documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy(), previewEnabled);
         } else {
             // Create a new timeline tab
-            documentTimeline = pCore->window()->openTimeline(uuid, -1, i18n("Sequence 1"), timelineModel);
+            documentTimeline = pCore->window()->openTimeline(uuid, -1, i18n("Sequence 1"), timelineModel, true, previewEnabled);
         }
     }
     pCore->projectItemModel()->buildPlaylist(uuid);
@@ -2224,7 +2225,8 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
     }
     if (pCore->window()) {
         // Create tab widget
-        timeline = pCore->window()->openTimeline(uuid, ix, clip->clipName(), timelineModel, openInMonitor);
+        const bool previewEnabled = m_project->getSequenceProperty(uuid, QStringLiteral("disablepreview"), QStringLiteral("0")).toInt() == 0;
+        timeline = pCore->window()->openTimeline(uuid, ix, clip->clipName(), timelineModel, openInMonitor, previewEnabled);
     }
 
     if (timeline == nullptr) {
