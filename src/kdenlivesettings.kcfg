@@ -1190,6 +1190,10 @@
       <label>Default height used by dopesheet (0-1) - rest is used by keyframe curve view.</label>
       <default>0.7</default>
     </entry>
+    <entry name="timelineGraphHeight" type="Double">
+      <label>Default height used by timeline keyframes (0-1) - rest is used by timeline view.</label>
+      <default>0.7</default>
+    </entry>
     <entry name="maskOpacity" type="Int">
       <label>Opacity of object masks on monitor.</label>
       <default>100</default>

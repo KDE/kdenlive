@@ -31,7 +31,6 @@ Item {
     required property var parentScope
     required property var dopeRootItem
     required property var activePalette
-    required property real maximumScaleFactor
     required property color dopeHoverColor
     required property bool kfPressed
     required property var delegateProperties
@@ -129,7 +128,7 @@ Item {
             handle.delegateProperties.currentKFIndex = handle.index
             //dopeRoot.keyframeType = type
             handle.dopeRootItem.hoverKeyframe = handle.modelFrame
-            handle.dopeRootItem.mouseFramePos = handle.modelFrame
+            handle.dopeRootItem.mouseFramePos = handle.modelFrame + handle.dopeRootItem.dopeOffset
         }
         onExited: {
             handle.delegateProperties.currentKFFrame = -1

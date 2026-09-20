@@ -34,6 +34,7 @@ Rectangle {
     required property int headerWidth
     required property real timeScale
     required property real contentScroll
+    required property bool showRuler
 
     property K.MonitorProxy proxy
     property var keyframeType
@@ -52,6 +53,7 @@ Rectangle {
     // Whether the zoom operation was performed through zoombar
     property bool zoomOnBar: false
     property int zoomOnMouse: -1
+    property int dopeOffset: showRuler ? 0 : itemPosition
 
     // The position in frame of the stack owner
     property int itemPosition: dopesheetmodel.dopePosition
@@ -76,6 +78,8 @@ Rectangle {
     property int keyframeContainerWidth: keyframeContainer.width
     property int snapping: (K.KdenliveSettings.snaptopoints && (dopeRoot.timeScale < 2 * K.UiUtils.baseSizeMedium)) ?
                                Math.floor(K.UiUtils.baseSizeMedium / (dopeRoot.timeScale > 3 ? dopeRoot.timeScale / 2 : dopeRoot.timeScale)) : -1
+    property double kfOffset: showRuler ?  - contentScroll : itemPosition * timeScale - contentScroll
+    property double mouseOffset: showRuler ?  0 : itemPosition * timeScale
     focus: true
     signal scrollByWheel(var wheel)
 
@@ -87,7 +91,7 @@ Rectangle {
     }
 
     function getPositionForKeyframe() {
-        return Math.min(dopeRoot.mouseFramePos, dopeRoot.frameDuration) + dopeRoot.inPoint
+        return Math.min(dopeRoot.mouseFramePos - dopeRoot.dopeOffset, dopeRoot.frameDuration) + dopeRoot.inPoint
     }
 
     onOwnerIdChanged: {
@@ -204,26 +208,45 @@ Rectangle {
         //horZoomBar.ensureVisible(proposedPos, false)
     }
 
-    /*function scrollByWheel(wheel) {
-
-        if (wheel.modifiers & Qt.ShiftModifier) {
-            // Modify selected keyframes values
-            let valueOffset = 0.005
-            if (wheel.angleDelta.y < 0) {
-                valueOffset = -0.005
+    function directScrollByWheel(wheel) {
+        if (wheel.modifiers & Qt.AltModifier) {
+            // Seek to next snap
+            if (wheel.angleDelta.x > 0) {
+                K.Core.triggerAction('monitor_seek_snap_backward')
+            } else {
+                K.Core.triggerAction('monitor_seek_snap_forward')
             }
-            (dopeKeyframeCurve.item as K.KeyframeView).shiftActiveKeyframes(valueOffset)
-            return
-        }
-
-        let proposedPos
-        if (wheel.angleDelta.y < 0) {
-            proposedPos = Math.max(0, Math.min((horZoomBar.contentPos * dopeRoot.frameDuration - wheel.angleDelta.y) / dopeRoot.frameDuration, 1 - 1 / dopeRoot.timeScale))
+        } else if (wheel.modifiers & Qt.ControlModifier) {
+            dopeRoot.wheelAccumulatedDelta += wheel.angleDelta.y;
+            // Zoom
+            if (dopeRoot.wheelAccumulatedDelta >= defaultDeltasPerStep) {
+                dopeRoot.zoom(1.5);
+                dopeRoot.wheelAccumulatedDelta = 0;
+            } else if (dopeRoot.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
+                let factor = 2. / 3
+                dopeRoot.zoom(factor);
+                dopeRoot.wheelAccumulatedDelta = 0;
+            }
         } else {
-            proposedPos = Math.max(horZoomBar.contentPos * dopeRoot.frameDuration - wheel.angleDelta.y, 0) / dopeRoot.frameDuration
+            if (wheel.modifiers & Qt.ShiftModifier) {
+                // Modify selected keyframes values
+                let valueOffset = 0.005
+                if (wheel.angleDelta.y < 0) {
+                    valueOffset = -0.005
+                }
+                (dopeKeyframeCurve.item as K.KeyframeView).shiftActiveKeyframes(valueOffset)
+                return
+            }
+
+            let proposedPos
+            if (wheel.angleDelta.y < 0) {
+                proposedPos = Math.max(0, Math.min(((zoomLoader.item as K.ZoomBar).contentPos * dopeRoot.frameDuration - wheel.angleDelta.y) / dopeRoot.frameDuration, 1 - 1 / dopeRoot.timeScale))
+            } else {
+                proposedPos = Math.max((zoomLoader.item as K.ZoomBar).contentPos * dopeRoot.frameDuration - wheel.angleDelta.y, 0) / dopeRoot.frameDuration
+            }
+            (zoomLoader.item as K.ZoomBar).proposeContentPos(proposedPos)
         }
-        horZoomBar.proposeContentPos(proposedPos)
-    }*/
+    }
 
     /*function zoomByWheel(wheel) {
         if (wheel.modifiers & Qt.AltModifier) {
@@ -249,7 +272,7 @@ Rectangle {
         wheel.accepted = true
     }*/
 
-    /*function zoom(factor) {
+    function zoom(factor) {
         let previousPos = dopeRoot.mouseFramePos
         dopeRoot.timeScale = 1. / (Math.min(1, 1 / (dopeRoot.timeScale * factor)))
         if (dopeRoot.zoomOnBar) {
@@ -258,10 +281,11 @@ Rectangle {
             let mouseOffset = backgroundArea.mouseX - K.UiUtils.baseSizeMedium
             let position = (previousPos - viewToFrame(mouseOffset)) / dopeRoot.frameDuration
             position = Math.max(0, position)
-            position = Math.min(1 - horZoomBar.zoomFactor, position)
-            horZoomBar.proposeContentPos(position)
+            position = Math.min(1 - (zoomLoader.item as K.ZoomBar).zoomFactor, position)
+            (zoomLoader.item as K.ZoomBar).proposeContentPos(position)
         }
-    }*/
+    }
+
 
     function deleteSelection() {
         console.log('deleting kfs: ', dopeRoot.allSelectedKeyframes)
@@ -606,7 +630,7 @@ Rectangle {
     }
     Item {
         id: dopeBar
-        height: kfTypeButton.height + 4
+        height: dopeRoot.showRuler ? kfTypeButton.height + 4 : 0
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -740,28 +764,43 @@ Rectangle {
         }
     }
 
+    Component {
+        id: rulerComponent
+        DopeRuler {
+            id: ruler
+            anchors.fill: parent
+            rulerOffset: dopeRoot.itemPosition
+            monitorController: dopeRoot.proxy
+            timecodeOffset: dopeRoot.dopesheetmodel.timecodeOffset
+            scalingFactor: dopeRoot.timeScale
+            rulercontainerWidth: Math.max(width, dopeRoot.frameDuration * dopeRoot.timeScale)
+            scrollViewContentX: dopeRoot.contentScroll
+            snapping: dopeRoot.snapping
+            fontMetrics: dopeFontMetrics
+            onZoomByWheel: (wheel) => {
+                if (dopeRoot.showRuler) {
+                    dopeRoot.directScrollByWheel(wheel)
+                } else {
+                    dopeRoot.scrollByWheel(wheel)
+                }
+            }
+            onWidthChanged: {
+                ruler.adjustStepSize()
+            }
+        }
+    }
 
-    /*DopeRuler {
-        id: ruler
-        anchors.top: dopeBar.bottom
+    Loader {
+        id: rulerLoader
+        anchors.top: dopeRoot.top
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.leftMargin: dopeRoot.headerWidth
-        height: Math.round(K.UiUtils.baseSizeMedium * 1.5)
-        rulerOffset: dopeRoot.itemPosition
-        monitorController: dopeRoot.proxy
-        timecodeOffset: dopeRoot.dopesheetmodel.timecodeOffset
-        scalingFactor: dopeRoot.timeScale
-        rulercontainerWidth: Math.max(width, dopeRoot.frameDuration * dopeRoot.timeScale)
-        scrollViewContentX: dopeRoot.contentScroll
-        snapping: dopeRoot.snapping
-        fontMetrics: dopeFontMetrics
-        onZoomByWheel: (wheel) => { dopeRoot.scrollByWheel(wheel) }
-        onWidthChanged: {
-            ruler.adjustStepSize()
-        }
-    }*/
-    /*Rectangle {
+        height: dopeRoot.showRuler ? Math.round(K.UiUtils.baseSizeMedium * 1.5) : 0
+        sourceComponent: dopeRoot.showRuler ? rulerComponent : undefined
+    }
+
+    Rectangle {
         anchors.fill: playheadLabel
         visible: playheadLabel.visible
         radius: 4
@@ -770,7 +809,7 @@ Rectangle {
     Label {
         id: playheadLabel
         visible: rulerCursor.visible
-        anchors.top: ruler.top
+        anchors.top: dopeRoot.top
         anchors.horizontalCenter: rulerCursor.horizontalCenter
         text: K.Core.timecodeString(dopeRoot.consumerPosition + (dopeRoot.showTimelineTime ? dopeRoot.itemPosition : 0))
         leftPadding: 6
@@ -787,12 +826,12 @@ Rectangle {
         color: dopeActivePalette.text
         width: 1
         Rectangle {
-            color: ruler.dimmedColor
+            color: (rulerLoader.item as K.DopeRuler).dimmedColor
             width: Math.max(1, 1 / dopeRoot.timeScale)
             height: 1
             visible: width > K.UiUtils.baseSizeMedium * 1.2
         }
-    }*/
+    }
     Rectangle {
         anchors.fill: mouseLabel
         visible: mouseLabel.visible
@@ -823,9 +862,15 @@ Rectangle {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
         anchors.leftMargin: dopeRoot.headerWidth
-        anchors.bottomMargin: dopeBar.height
+        //anchors.bottomMargin: dopeBar.height
         hoverEnabled: true
-        onWheel: wheel => dopeRoot.scrollByWheel(wheel)
+        onWheel: wheel => {
+            if (dopeRoot.showRuler) {
+                dopeRoot.directScrollByWheel(wheel)
+            } else {
+                dopeRoot.scrollByWheel(wheel)
+            }
+        }
         onEntered: {
             treeViewItem.hoveredParam = -1
         }
@@ -844,9 +889,9 @@ Rectangle {
         // Param name background
         id: headerBg
         anchors.left: parent.left
-        anchors.leftMargin: 4
         anchors.bottom: dopeBar.top
         anchors.top: parent.top
+        anchors.topMargin: rulerLoader.height
         width: dopeRoot.headerWidth
         color: dopeActivePalette.alternateBase
     }
@@ -987,6 +1032,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.bottom: keyframeContainer.top
         anchors.top: parent.top
+        anchors.topMargin: rulerLoader.height
         // Disable flicking
         acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {
@@ -1082,7 +1128,6 @@ Rectangle {
         MouseArea {
             id: keyframeMouseArea
             anchors.fill: parent
-            anchors.bottomMargin: dopeBar.height
             hoverEnabled: true
             onPositionChanged: mouse => {
                 console.log('KFR VIEW MOUSE: ', mouse.x)
@@ -1093,7 +1138,7 @@ Rectangle {
                 console.log('DOUBLE COUBOEU CLICK ON KFR MOUSEAREA AT: ', mouse.x)
                 if (dopeKeyframeCurve.model) {
                     let newVal = (height - mouse.y) / height
-                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mouse.x - (dopeRoot.itemPosition * dopeRoot.timeScale))
+                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mouse.x)
                     dopeKeyframeCurve.model.addKeyframe(dopeRoot.getPositionForKeyframe(), newVal)
                 }
             }
@@ -1102,7 +1147,7 @@ Rectangle {
             id: curveContainer
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            x: dopeRoot.itemPosition * dopeRoot.timeScale
+            x: dopeRoot.showRuler ? 0 : dopeRoot.itemPosition * dopeRoot.timeScale
             width: dopeRoot.frameDuration * dopeRoot.timeScale
         Loader {
             // Keyframe curve
@@ -1217,8 +1262,41 @@ Rectangle {
         }
         }
     }
-    /*K.ZoomBar {
-        id: horZoomBar
+    Component {
+        id: zoomComponent
+        K.ZoomBar {
+            id: horZoomBar
+            anchors.fill: parent
+            barMinWidth: K.UiUtils.baseSizeMedium
+            fitsZoom: dopeRoot.timeScale === 1 && dopeRoot.contentScroll === 0
+            zoomFactor: 1 / dopeRoot.timeScale
+            onProposeZoomFactor: (proposedValue) => {
+                dopeRoot.timeScale = 1. / proposedValue
+                dopeRoot.zoomOnBar = true
+            }
+            contentPos: dopeRoot.contentScroll / dopeRoot.frameDuration
+            onProposeContentPos: (proposedValue) => {
+                // The corresponding pixel offset
+                console.log('proposing scroll: ', (proposedValue * dopeRoot.frameDuration), ', PREVIOUS CONTENT SCROLL: ', dopeRoot.contentScroll)
+                dopeRoot.contentScroll = Math.max(0, proposedValue * dopeRoot.frameDuration)
+            }
+            onZoomByWheel: wheel => {
+                if (dopeRoot.showRuler) {
+                    dopeRoot.directScrollByWheel(wheel)
+                } else {
+                    dopeRoot.scrollByWheel(wheel)
+                }
+            }
+
+            onFitZoom: {
+                dopeRoot.timeScale = 1
+                //scrollView.contentX = 0
+                dopeRoot.zoomOnBar = true
+            }
+        }
+    }
+    Loader {
+        id: zoomLoader
         anchors {
             left: parent.left
             right: parent.right
@@ -1227,25 +1305,7 @@ Rectangle {
             bottomMargin: 2
             leftMargin: dopeRoot.headerWidth + 2
         }
-        height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
-        barMinWidth: K.UiUtils.baseSizeMedium
-        fitsZoom: dopeRoot.timeScale === 1 && dopeRoot.contentScroll === 0
-        zoomFactor: 1 / dopeRoot.timeScale
-        onProposeZoomFactor: (proposedValue) => {
-            dopeRoot.timeScale = 1. / proposedValue
-            dopeRoot.zoomOnBar = true
-        }
-        contentPos: dopeRoot.contentScroll / dopeRoot.frameDuration
-        onProposeContentPos: (proposedValue) => {
-            // The corresponding pixel offset
-            console.log('proposing scroll: ', (proposedValue * dopeRoot.frameDuration), ', PREVIOUS CONTENT SCROLL: ', dopeRoot.contentScroll)
-            dopeRoot.contentScroll = Math.max(0, proposedValue * dopeRoot.frameDuration)
-        }
-        onZoomByWheel: wheel => dopeRoot.zoomByWheel(wheel)
-        onFitZoom: {
-            dopeRoot.timeScale = 1
-            //scrollView.contentX = 0
-            dopeRoot.zoomOnBar = true
-        }
-    }*/
+        height: dopeRoot.showRuler ? Math.round(K.UiUtils.baseSizeMedium * 0.7) : 0
+        sourceComponent: dopeRoot.showRuler ? zoomComponent : undefined
+    }
 }

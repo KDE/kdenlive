@@ -1925,7 +1925,7 @@ function getTrackColor(audio, header) {
                 Item {
                     id: baseContainer
                     width: root.width - root.headerWidth
-                    height: root.height - ruler.height
+                    height: root.height - ruler.height - dopeContainer.height - horZoomBar.height
                     y: ruler.height
                     clip: true
                     // These make the striped background for the tracks.
@@ -1964,9 +1964,11 @@ function getTrackColor(audio, header) {
                     }
                     Flickable {
                         id: scrollView
-                        anchors.fill: parent
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
                         anchors.rightMargin: vertScroll.visible ? vertScroll.width : 0
-                        anchors.bottomMargin: horZoomBar.visible ? horZoomBar.height : 0
+                        anchors.bottom: parent.bottom
                         // Click and drag should seek, not scroll the timeline view
                         //flickableItem.interactive: false
                         clip: true
@@ -2413,34 +2415,9 @@ function getTrackColor(audio, header) {
                             model: guidesDelegateModel
                         }
                     }
-
-                    K.ZoomBar {
-                        id: horZoomBar
-                        visible: scrollView.visibleArea.widthRatio < 1
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            bottom: baseContainer.bottom
-                        }
-                        height: Math.round(K.UiUtils.baseSizeMedium * 0.7)
-                        barMinWidth: K.UiUtils.baseSizeMedium
-                        fitsZoom: root.timeline.scaleFactor === root.fitZoom() && root.scrollPos() === 0
-                        zoomFactor: scrollView.visibleArea.widthRatio
-                        onProposeZoomFactor: (proposedValue) => {
-                            root.timeline.scaleFactor = scrollView.width / Math.round(proposedValue * scrollView.contentWidth / root.timeScale)
-                            root.zoomOnBar = true
-                        }
-                        contentPos: scrollView.contentX / scrollView.contentWidth
-                        onProposeContentPos: (proposedValue) => { scrollView.contentX = Math.max(0, proposedValue * scrollView.contentWidth) }
-                        onZoomByWheel: wheel => root.zoomByWheel(wheel)
-                        onFitZoom: {
-                            root.timeline.scaleFactor = root.fitZoom()
-                            scrollView.contentX = 0
-                            root.zoomOnBar = true
-                        }
-                    }
                 }
             }
+
             Rectangle {
                 id: cutLine
                 visible: K.Core.activeTool === K.ToolType.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
@@ -2499,14 +2476,42 @@ function getTrackColor(audio, header) {
         }
     }
     Item {
+        id: keyframesSplitter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: K.UiUtils.baseSizeMedium / 2.5
+        y: root.height * K.KdenliveSettings.timelineGraphHeight
+        MouseArea {
+            id: splitterArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.SizeVerCursor
+            drag.target: parent
+            drag.axis: Drag.YAxis
+            drag.minimumY: root.height * 0.4
+            drag.maximumY: root.height * 0.85
+            onReleased: {
+                let percentage = keyframesSplitter.y / root.height
+                K.KdenliveSettings.timelineGraphHeight = percentage
+            }
+        }
+        Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: (splitterArea.containsMouse || splitterArea.pressed) ? parent.height - 2 : 1
+            opacity: (splitterArea.containsMouse || splitterArea.pressed) ? 1 : 0.2
+            color: activePalette.highlight
+        }
+    }
+    Item {
         id: dopeContainer
         anchors {
-            left: root.left
-            right: root.right
-            bottom: root.bottom
-            bottomMargin: horZoomBar.height
+            left: parent.left
+            right: parent.right
+            bottom: horZoomBar.top
+            top: keyframesSplitter.bottom
         }
-        height: root.height / 2.7
         DopeSheetView {
             id: timelineDopesheet
             proxy: root.proxy
@@ -2515,8 +2520,35 @@ function getTrackColor(audio, header) {
             keyframeTypes: root.keyframeTypes
             headerWidth: root.headerWidth
             timeScale: root.timeScale
+            showRuler: false
             contentScroll: scrollView.contentX
             onScrollByWheel: wheel => root.zoomByWheel(wheel)
+        }
+    }
+    K.ZoomBar {
+        id: horZoomBar
+        visible: scrollView.visibleArea.widthRatio < 1
+        anchors {
+            left: parent.left
+            leftMargin: root.headerWidth
+            right: parent.right
+            bottom: root.bottom
+        }
+        height: visible ? Math.round(K.UiUtils.baseSizeMedium * 0.7) : 0
+        barMinWidth: K.UiUtils.baseSizeMedium
+        fitsZoom: root.timeline.scaleFactor === root.fitZoom() && root.scrollPos() === 0
+        zoomFactor: scrollView.visibleArea.widthRatio
+        onProposeZoomFactor: (proposedValue) => {
+            root.timeline.scaleFactor = scrollView.width / Math.round(proposedValue * scrollView.contentWidth / root.timeScale)
+            root.zoomOnBar = true
+        }
+        contentPos: scrollView.contentX / scrollView.contentWidth
+        onProposeContentPos: (proposedValue) => { scrollView.contentX = Math.max(0, proposedValue * scrollView.contentWidth) }
+        onZoomByWheel: wheel => root.zoomByWheel(wheel)
+        onFitZoom: {
+            root.timeline.scaleFactor = root.fitZoom()
+            scrollView.contentX = 0
+            root.zoomOnBar = true
         }
     }
 

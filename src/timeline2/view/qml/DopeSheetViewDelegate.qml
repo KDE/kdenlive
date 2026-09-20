@@ -97,7 +97,8 @@ Item {
 
     onContentScrollChanged: {
         if (kfMoveArea.containsMouse) {
-            let mousePos = Math.max(0., (kfMoveArea.mouseX + delegateRect.dopeRootItem.contentScroll))
+            //let mousePos = Math.max(0., (kfMoveArea.mouseX + delegateRect.dopeRootItem.contentScroll))
+            let mousePos = Math.max(0., (kfMoveArea.mouseX + delegateRect.dopeRootItem.mouseOffset))
             delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
         }
     }
@@ -172,8 +173,6 @@ Item {
         anchors.fill: kfContainer
         anchors.topMargin: 2
         anchors.bottomMargin: 2
-        anchors.leftMargin: -4
-        anchors.rightMargin: -4
     }
 
     Rectangle {
@@ -269,7 +268,7 @@ Item {
         //anchors.right: delegateRect.right
         anchors.top: delegateRect.top
         anchors.bottom: delegateRect.bottom
-        x: delegateRect.dopeRootItem.headerWidth + delegateRect.dopeRootItem.itemPosition * delegateRect.dopeRootItem.timeScale - delegateRect.dopeRootItem.contentScroll
+        x: delegateRect.dopeRootItem.headerWidth + delegateRect.dopeRootItem.kfOffset
         width: delegateRect.dopeRootItem.frameDuration * delegateRect.dopeRootItem.timeScale
         visible: !delegateRect.isBlankRecap
         Rectangle {
@@ -302,7 +301,7 @@ Item {
             hoverEnabled: true
             onHoveredChanged: {
                 if (containsMouse) {
-                    delegateRect.treeView.hoveredParam = delegateRect.row
+                    delegateRect.hoveredParam = delegateRect.row
                 }
             }
 
@@ -446,7 +445,7 @@ Item {
             onWheel: wheel => delegateRect.dopeRootItem.scrollByWheel(wheel)
 
             onPositionChanged: mouse => {
-                let mousePos = Math.max(0., (mouse.x + delegateRect.dopeRootItem.itemPosition * delegateRect.dopeRootItem.timeScale - delegateRect.dopeRootItem.contentScroll / delegateRect.dopeRootItem.timeScale))
+                let mousePos = Math.max(0., (mouse.x + delegateRect.dopeRootItem.mouseOffset))
                 delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
                 if (!pressed) {
                     return
@@ -546,7 +545,7 @@ Item {
                 containerWidth: delegateRect.containerWidth
                 timeScale: delegateRect.dopeRootItem.timeScale
                 contentScroll: delegateRect.dopeRootItem.contentScroll / delegateRect.dopeRootItem.timeScale
-                maximumScaleFactor: delegateRect.dopeRootItem.maximumScaleFactor
+                //maximumScaleFactor: delegateRect.dopeRootItem.maximumScaleFactor
                 keyframeContainerWidth: delegateRect.keyframeContainerWidth
                 activePalette: delegateRect.activePalette
                 kfPressed: delegateRect.kfPressed
