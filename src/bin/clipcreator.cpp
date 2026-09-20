@@ -624,7 +624,14 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 qDebug() << "/// PROJECT UUID MISMATCH; ABORTING";
                 return QString();
             }
-            const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo, callBack);
+            QString filePath = file.toLocalFile();
+#ifdef Q_OS_WIN
+            QFileInfo target(filePath);
+            if (target.isSymLink()) {
+                filePath = target.symLinkTarget();
+            }
+#endif
+            const QString clipId = ClipCreator::createClipFromFile(filePath, parentFolder, model, undo, redo, callBack);
             if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
                 createdItem = clipId;
             }
