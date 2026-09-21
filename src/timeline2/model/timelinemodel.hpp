@@ -553,6 +553,7 @@ public:
    void setOverlayTrack(Mlt::Playlist *overlay);
    void removeOverlayTrack();
    void deletePreviewTrack();
+   void setPreviewEnabled(bool enabled);
    std::shared_ptr<PreviewManager> previewManager();
    /**  @brief We want to delete the timelineModel without removing clips from tractor
     */
@@ -604,8 +605,7 @@ public:
       @param delta_pos is the requested position change
       @param updateView if set to false, no signal is sent to qml for the clip clipId
       @param logUndo if set to true, an undo object is created
-      @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
-   */
+      @param allowViewRefresh if false, the view will never get updated (useful for suggestMove) */
    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true,
                          bool revertMove = false);
    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,

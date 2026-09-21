@@ -211,16 +211,24 @@ const QDir PreviewManager::getCacheDir() const
     return m_cacheDir;
 }
 
+void PreviewManager::setPreviewEnabled(bool enabled)
+{
+    m_tractor->lock();
+    m_previewEnabled = enabled;
+    reconnectTrack();
+    m_tractor->unlock();
+}
+
 void PreviewManager::reconnectTrack()
 {
     disconnectTrack();
-    if (!m_previewTrack && !m_overlayTrack) {
+    if ((!m_previewTrack || !m_previewEnabled) && !m_overlayTrack) {
         m_previewTrackIndex = -1;
         return;
     }
     m_previewTrackIndex = m_tractor->count();
     int increment = 0;
-    if (m_previewTrack) {
+    if (m_previewTrack && m_previewEnabled) {
         m_tractor->insert_track(*m_previewTrack, m_previewTrackIndex);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex));
         tk->set("hide", 2);
@@ -405,8 +413,8 @@ void PreviewManager::invalidatePreviews()
             }
             m_dirtyMutex.unlock();
             Q_EMIT dirtyChunksChanged();
-            Q_EMIT renderedChunksChanged();
             reloadChunks(foundChunks);
+            Q_EMIT renderedChunksChanged();
         }
     }
     doc->setModified(true);
@@ -463,6 +471,7 @@ void PreviewManager::clearPreviewRange(bool resetZones)
         return true;
     };
     Fun redo = [this, dirty = toRemove, resetZones]() {
+        QList<int> changedChunks;
         m_tractor->lock();
         bool hasPreview = m_previewTrack != nullptr;
         for (auto &frame : dirty) {
@@ -479,9 +488,9 @@ void PreviewManager::clearPreviewRange(bool resetZones)
             if (!m_previewTrack->is_blank(trackIx)) {
                 Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
                 delete prod;
+                changedChunks << frame;
             }
         }
-        Q_EMIT renderedChunksChanged();
         if (resetZones) {
             m_dirtyChunksToRemove = dirty;
         } else {
@@ -493,6 +502,10 @@ void PreviewManager::clearPreviewRange(bool resetZones)
             m_previewTrack->consolidate_blanks();
         }
         m_tractor->unlock();
+        Q_EMIT renderedChunksChanged();
+        for (int frame : std::as_const(changedChunks)) {
+            Q_EMIT previewChunkChanged(frame);
+        }
         m_previewGatherTimer.start();
         return true;
     };
@@ -540,6 +553,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
             return true;
         };
         Fun redo = [this, dirty = toRemove, isRendering]() {
+            QList<int> changedChunks;
             m_tractor->lock();
             bool hasPreview = m_previewTrack != nullptr;
             for (auto &frame : dirty) {
@@ -556,14 +570,18 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
                 if (!m_previewTrack->is_blank(trackIx)) {
                     Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
                     delete prod;
+                    changedChunks << frame;
                 }
             }
-            Q_EMIT renderedChunksChanged();
             m_dirtyChunksToRemove = dirty;
             if (hasPreview) {
                 m_previewTrack->consolidate_blanks();
             }
             m_tractor->unlock();
+            Q_EMIT renderedChunksChanged();
+            for (int frame : std::as_const(changedChunks)) {
+                Q_EMIT previewChunkChanged(frame);
+            }
             m_previewGatherTimer.start();
             if (isRendering || KdenliveSettings::autopreview()) {
                 m_previewTimer.start();
@@ -766,6 +784,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
         }
         m_tractor->lock();
         bool chunksChanged = false;
+        QList<int> changedChunks;
         for (int i = start; i <= end; i += chunkSize) {
             if (m_renderedChunks.contains(i)) {
                 int ix = m_previewTrack->get_clip_index_at(i);
@@ -774,6 +793,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
                 }
                 Mlt::Producer *prod = m_previewTrack->replace_with_blank(ix);
                 delete prod;
+                changedChunks << i;
                 QVariant val(i);
                 m_renderedChunks.removeAll(val);
                 if (!m_dirtyChunks.contains(val)) {
@@ -783,10 +803,17 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
                 }
             }
         }
-        m_tractor->unlock();
-        if (chunksChanged) {
+        if (!changedChunks.isEmpty()) {
             m_previewTrack->consolidate_blanks();
+        }
+        m_tractor->unlock();
+        if (!changedChunks.isEmpty()) {
             Q_EMIT renderedChunksChanged();
+            for (int frame : std::as_const(changedChunks)) {
+                Q_EMIT previewChunkChanged(frame);
+            }
+        }
+        if (chunksChanged) {
             Q_EMIT dirtyChunksChanged();
         }
     } else if (wasInDirtyZone) {
@@ -806,6 +833,7 @@ void PreviewManager::reloadChunks(const QVariantList &chunks)
     if (m_previewTrack == nullptr || chunks.isEmpty()) {
         return;
     }
+    QList<int> changedChunks;
     m_tractor->lock();
     for (const auto &ix : chunks) {
         if (m_previewTrack->is_blank_at(ix.toInt())) {
@@ -816,11 +844,15 @@ void PreviewManager::reloadChunks(const QVariantList &chunks)
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
                 m_previewTrack->insert_at(ix.toInt(), &prod, 1);
+                changedChunks << ix.toInt();
             }
         }
     }
     m_previewTrack->consolidate_blanks();
     m_tractor->unlock();
+    for (int frame : std::as_const(changedChunks)) {
+        Q_EMIT previewChunkChanged(frame);
+    }
 }
 
 void PreviewManager::gotPreviewRender(int frame, const QString &file, int progress)
@@ -852,12 +884,13 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
             m_dirtyChunks.removeAll(QVariant(frame));
             m_dirtyMutex.unlock();
             m_renderedChunks << frame;
-            Q_EMIT renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
             m_tractor->lock();
             m_previewTrack->insert_at(frame, &prod, 1);
             m_previewTrack->consolidate_blanks();
             m_tractor->unlock();
+            Q_EMIT renderedChunksChanged();
+            Q_EMIT previewChunkChanged(frame);
             pCore->currentDoc()->previewProgress(progress);
             pCore->currentDoc()->setModified(true);
         } else {
@@ -960,7 +993,7 @@ bool PreviewManager::hasPreviewTrack() const
 
 int PreviewManager::addedTracks() const
 {
-    if (m_previewTrack) {
+    if (m_previewTrack && m_previewEnabled) {
         if (m_overlayTrack) {
             return 2;
         }

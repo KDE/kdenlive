@@ -165,7 +165,7 @@ const QUuid &TimelineWidget::getUuid() const
     return m_uuid;
 }
 
-void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
+void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy, bool previewEnabled)
 {
     loading = true;
     Q_ASSERT(model != nullptr);
@@ -173,7 +173,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
-    timelineController.setModel(model);
+    timelineController.setModel(model, previewEnabled);
     m_proxyModel.reset(new DopeFilter(this));
     m_proxyModel->setSourceModel(pCore->dopeSheetModel().get());
     setInitialProperties({{"controller", QVariant::fromValue(model.get())},

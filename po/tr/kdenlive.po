@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-17 00:43+0000\n"
-"PO-Revision-Date: 2026-09-13 19:27+0300\n"
+"POT-Creation-Date: 2026-09-20 12:52+0000\n"
+"PO-Revision-Date: 2026-09-18 19:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1714,7 +1714,8 @@ msgstr "Hangi gamların çizileceğini seçin."
 #: data/effects/avfilter/avfilter_datascope.xml:8
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #: data/effects/avfilter/avfilter_oscilloscope.xml:16
-#: data/effects/dynamictext.xml:14 data/effects/frei0r/frei0r_medians.xml:12
+#: data/effects/dynamictext.xml:20 data/effects/dynamictext.xml:112
+#: data/effects/frei0r/frei0r_medians.xml:12
 #: data/effects/frei0r/frei0r_sharpness.xml:11 data/effects/gpstext.xml:66
 #: data/effects/timer.xml:14 src/ui/configcapture_ui.ui:167
 #: src/ui/managecache_ui.ui:364
@@ -2704,7 +2705,7 @@ msgstr "Ekseni göster"
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/effects/avfilter/avfilter_pseudocolor.xml:16
-#: data/effects/dynamictext.xml:53
+#: data/effects/dynamictext.xml:81 data/effects/dynamictext.xml:173
 #: data/effects/frei0r/frei0r_camerashake.xml:29 data/effects/gpstext.xml:116
 #: data/effects/timer.xml:53
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
@@ -3097,7 +3098,7 @@ msgstr "En yüksek sibilans kaldırma"
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
-"Sesin tiz kısmındaki azaltma miktarını ayarlayın. İzin verilen erim 0 ile 1 "
+"Sesin tiz kısmındaki kısma miktarını ayarlayın. İzin verilen erim 0 ile 1 "
 "arasındadır."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
@@ -7873,48 +7874,50 @@ msgstr "En Çok Kazanım Azalımı"
 msgid "Maximum Rate Change"
 msgstr "En Büyük Hız Değişikliği"
 
-#: data/effects/dynamictext.xml:4
+#: data/effects/dynamictext.xml:5 data/effects/dynamictext.xml:97
 #, kde-format
 msgid "Dynamic Text"
 msgstr "Hareketli Yazı"
 
-#: data/effects/dynamictext.xml:5
+#: data/effects/dynamictext.xml:6 data/effects/dynamictext.xml:98
 #, kde-format
 msgid "Overlay text with keywords replaced"
 msgstr "Değiştirilen anahtar sözcüklerle metin üzerine koy"
 
-#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:418
+#: data/effects/dynamictext.xml:14 data/effects/dynamictext.xml:106
+#: data/effects/timer.xml:8 src/assets/view/widgets/keyframeimport.cpp:418
 #, kde-format
 msgid "Geometry"
 msgstr "Yerleşim"
 
-#: data/effects/dynamictext.xml:11 data/effects/gpstext.xml:62
-#: data/effects/timer.xml:11
+#: data/effects/dynamictext.xml:17 data/effects/dynamictext.xml:109
+#: data/effects/gpstext.xml:62 data/effects/timer.xml:11
 #, kde-format
 msgid "<u>Font</u> Family"
 msgstr "<u>Yazıtipi</u> Ailesi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: data/effects/dynamictext.xml:17 data/effects/gpstext.xml:74
-#: data/effects/timer.xml:17 src/ui/managesubtitles_ui.ui:211
+#: data/effects/dynamictext.xml:28 data/effects/dynamictext.xml:120
+#: data/effects/gpstext.xml:74 data/effects/timer.xml:17
+#: src/ui/managesubtitles_ui.ui:211
 #, kde-format
 msgid "Style"
 msgstr "Biçem"
 
-#: data/effects/dynamictext.xml:18 data/effects/gpstext.xml:76
-#: data/effects/timer.xml:18
+#: data/effects/dynamictext.xml:29 data/effects/dynamictext.xml:121
+#: data/effects/gpstext.xml:76 data/effects/timer.xml:18
 #, kde-format
 msgid "Normal,Italic"
 msgstr "Normal,Yatık"
 
-#: data/effects/dynamictext.xml:21 data/effects/gpstext.xml:70
-#: data/effects/timer.xml:21
+#: data/effects/dynamictext.xml:32 data/effects/dynamictext.xml:124
+#: data/effects/gpstext.xml:70 data/effects/timer.xml:21
 #, kde-format
 msgid "Weight"
 msgstr "Ağırlık"
 
-#: data/effects/dynamictext.xml:24 data/effects/timer.xml:24
+#: data/effects/dynamictext.xml:35 data/effects/dynamictext.xml:127
+#: data/effects/timer.xml:24
 #, kde-format
 msgid "<u>Text</u> Color"
 msgstr "<u>Metin</u> rengi"
@@ -7922,8 +7925,8 @@ msgstr "<u>Metin</u> rengi"
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: data/effects/dynamictext.xml:27 data/effects/timer.xml:27
-#: src/scopes/colorscopes/vectorscope.cpp:104
+#: data/effects/dynamictext.xml:38 data/effects/dynamictext.xml:130
+#: data/effects/timer.xml:27 src/scopes/colorscopes/vectorscope.cpp:104
 #: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
 #: src/ui/titlewidget_ui.ui:1509
@@ -7933,89 +7936,73 @@ msgstr "Arka Plan"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: data/effects/dynamictext.xml:30 data/effects/timer.xml:30
-#: src/ui/editsubstyle_ui.ui:350 src/ui/managesubtitles_ui.ui:404
+#: data/effects/dynamictext.xml:41 data/effects/dynamictext.xml:133
+#: data/effects/timer.xml:30 src/ui/editsubstyle_ui.ui:350
+#: src/ui/managesubtitles_ui.ui:404
 #, kde-format
 msgid "Outline"
 msgstr "Dış Hat"
 
-#: data/effects/dynamictext.xml:33 data/effects/gpstext.xml:91
-#: data/effects/timer.xml:33
+#: data/effects/dynamictext.xml:44 data/effects/dynamictext.xml:136
+#: data/effects/gpstext.xml:91 data/effects/timer.xml:33
 #, kde-format
 msgid "Outline Width"
 msgstr "Dış Hat Genişliği"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: data/effects/dynamictext.xml:36 data/effects/gpstext.xml:95
-#: data/effects/timer.xml:36 src/ui/editsubstyle_ui.ui:410
-#: src/ui/managesubtitles_ui.ui:374
+#: data/effects/dynamictext.xml:47 data/effects/dynamictext.xml:139
+#: data/effects/gpstext.xml:95 data/effects/timer.xml:36
+#: src/ui/editsubstyle_ui.ui:410 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
 msgstr "Altı çizili"
 
-#: data/effects/dynamictext.xml:39 data/effects/gpstext.xml:99
-#: data/effects/timer.xml:39
+#: data/effects/dynamictext.xml:50 data/effects/dynamictext.xml:142
+#: data/effects/gpstext.xml:99 data/effects/timer.xml:39
 #, kde-format
 msgid "Strikethrough"
 msgstr "Üzeri çizili"
 
-#: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:103
-#: data/effects/timer.xml:42
+#: data/effects/dynamictext.xml:53 data/effects/dynamictext.xml:145
+#: data/effects/gpstext.xml:103 data/effects/timer.xml:42
 #, kde-format
 msgid "Padding"
 msgstr "Doldurma"
 
-#: data/effects/dynamictext.xml:45 data/effects/gpstext.xml:106
-#: data/effects/timer.xml:45
+#: data/effects/dynamictext.xml:61 data/effects/dynamictext.xml:153
+#: data/effects/gpstext.xml:106 data/effects/timer.xml:45
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "Yatay Hizalama"
 
-#: data/effects/dynamictext.xml:46 data/effects/gpstext.xml:108
-#: data/effects/timer.xml:46 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:62 data/effects/dynamictext.xml:154
+#: data/effects/gpstext.xml:108 data/effects/timer.xml:46
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "Sol,Orta,Sağ"
 
-#: data/effects/dynamictext.xml:49 data/effects/gpstext.xml:111
-#: data/effects/timer.xml:49
+#: data/effects/dynamictext.xml:70 data/effects/dynamictext.xml:162
+#: data/effects/gpstext.xml:111 data/effects/timer.xml:49
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "Dikey Hizalama"
 
-#: data/effects/dynamictext.xml:50 data/effects/gpstext.xml:113
-#: data/effects/timer.xml:50 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:71 data/effects/dynamictext.xml:163
+#: data/effects/gpstext.xml:113 data/effects/timer.xml:50
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "Üst,Orta,Alt"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: data/effects/dynamictext.xml:56 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:1097 src/ui/managesubtitles_ui.ui:216
+#: data/effects/dynamictext.xml:89 data/effects/dynamictext.xml:181
+#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1097
+#: src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "Metin"
-
-#: data/effects/dynamictext.xml:57
-#, no-c-format, kde-format
-msgid ""
-"You can also enter <i>strftime</i> parameters to customize the output, like: "
-"#createdate %H:%M %D#"
-msgstr ""
-"Ayrıca çıktıyı özelleştirmek için strftime parametreleri de girebilirsiniz; "
-"örneğin, #createdate %H:%M %D#"
-
-#: data/effects/dynamictext.xml:58
-#, kde-format
-msgid ""
-"Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File "
-"date (local),Source frame rate,Source codec,Source bit rate,Source width,"
-"Source height,Source comment"
-msgstr ""
-"zaman kodu, çerçeve, dosya verisi, yerel dosya verisi, kaynak kare hızı, "
-"kaynak kodlayıcısı, kaynak bit hızı, kaynak genişliği, kaynak yüksekliği, "
-"kaynak açıklaması, oluşturma tarihi, dosya tarihi (GMT), dosya tarihi (yerel)"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -8525,10 +8512,9 @@ msgstr ""
 "Bu efektin yerine artık <em>frei0r.alphaops_alphaspot</em> kullanılıyor."
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "Düşük eşik"
+msgstr "Otomatik eşik"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
@@ -13063,40 +13049,34 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "Hareketli Kareler"
+msgstr "X hareketi"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "Hız"
+msgstr "X hızı"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "Hareketli Kareler"
+msgstr "Y hareketi"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "Hız"
+msgstr "Y hızı"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "Döndürme"
+msgstr "Döndürme hızı"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "Yansıla"
+msgstr "Yansılanmış"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
@@ -13379,10 +13359,9 @@ msgid "Creates a hand-drawn wobble effect"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "Ton miktarı"
+msgstr "Yer değiştirme miktarı"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
@@ -16041,7 +16020,7 @@ msgstr "Dalga biçimine uygulanacak dönüş açısı."
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
 msgid "33 1/3,45,78"
-msgstr ""
+msgstr "33 1/3,45,78"
 
 #: data/effects/ladspa/ladspa_1905.xml:19
 #, fuzzy, kde-format
@@ -16136,10 +16115,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:24
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Attenuation"
-msgstr "Canlandırma"
+msgstr "Zayıflama"
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format
@@ -19409,10 +19387,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr "Bileşikleştirme için bir afin dönüşümü gerçekleştirin."
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "Kendiliğinden"
+msgstr "Kendiliğinden Ses Kısma"
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -19420,29 +19397,27 @@ msgid ""
 "Applies a volume change on the lower track depending on the volume of the "
 "upper track."
 msgstr ""
+"Üst izin ses düzeyine göre alt izde bir ses düzeyi değişikliği uygular."
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "High Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "Yüksek eşik"
+msgstr "Ses kısma eşiği"
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "Canlandırma"
+msgstr "Kısma zayıflaması"
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "Solarak Gir"
+msgstr "Kademeli ses açma düzeyi"
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
 msgid "Ducking Fade Out"
-msgstr ""
+msgstr "Kademeli ses kısma düzeyi"
 
 #: data/transitions/composite.xml:4
 #, kde-format
@@ -21866,7 +21841,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Zaman akışında değiştir"
 
-#: src/bin/bin.cpp:2460 src/bin/bin.cpp:6394 src/bin/clipcreator.cpp:350
+#: src/bin/bin.cpp:2460 src/bin/bin.cpp:6394 src/bin/clipcreator.cpp:357
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
@@ -21889,7 +21864,7 @@ msgid "Duplicating sequence failed"
 msgstr "Sekansı çoğaltma başarısız"
 
 #: src/bin/bin.cpp:2675 src/bin/bin.cpp:2690
-#: src/timeline2/view/timelinecontroller.cpp:955
+#: src/timeline2/view/timelinecontroller.cpp:953
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Klibi çoğalt"
@@ -21979,7 +21954,7 @@ msgstr "Oynatma Listesi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2896 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1697 src/project/projectmanager.cpp:1699
+#: src/project/projectmanager.cpp:1698 src/project/projectmanager.cpp:1700
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -22204,8 +22179,8 @@ msgstr[1] "Klipleri Taşı"
 msgid "No valid clip to insert"
 msgstr "Eklenecek/yerleştirilecek geçerli klip yok"
 
-#: src/bin/bin.cpp:4526 src/timeline2/view/timelinecontroller.cpp:1878
-#: src/timeline2/view/timelinecontroller.cpp:3989
+#: src/bin/bin.cpp:4526 src/timeline2/view/timelinecontroller.cpp:1876
+#: src/timeline2/view/timelinecontroller.cpp:3998
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Bir efekt uygulamak için bir klip seçin"
@@ -22391,7 +22366,7 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:6045 src/mainwindow.cpp:3097
+#: src/bin/bin.cpp:6045 src/mainwindow.cpp:3099
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
@@ -22401,8 +22376,8 @@ msgstr "İmleyici eklenecek klip bulunamadı"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
 #: src/bin/bin.cpp:6059 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:1526
-#: src/timeline2/view/timelinecontroller.cpp:1842
+#: src/timeline2/view/timelinecontroller.cpp:1524
+#: src/timeline2/view/timelinecontroller.cpp:1840
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
@@ -22489,7 +22464,7 @@ msgstr "%1 Efektini Sil"
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5422
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5424
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
@@ -22537,17 +22512,17 @@ msgstr "Kendi içinde bir proje ekleyemezsiniz."
 msgid "Cannot create clip"
 msgstr "Klip oluşturulamıyor"
 
-#: src/bin/clipcreator.cpp:373
+#: src/bin/clipcreator.cpp:380
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Slayt gösterisi klibi oluştur"
 
-#: src/bin/clipcreator.cpp:418
+#: src/bin/clipcreator.cpp:425
 #, kde-format
 msgid "Create title template"
 msgstr "Başlık şablonu oluştur"
 
-#: src/bin/clipcreator.cpp:443
+#: src/bin/clipcreator.cpp:450
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -22559,13 +22534,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:444 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:451 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "Çoğalt"
 
-#: src/bin/clipcreator.cpp:588
+#: src/bin/clipcreator.cpp:595
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -22578,17 +22553,17 @@ msgstr ""
 "Önce onu sabit sürücünüze kopyalamak isteyebilirsiniz. Eklemeyi yine de "
 "istiyor musunuz?"
 
-#: src/bin/clipcreator.cpp:592
+#: src/bin/clipcreator.cpp:599
 #, kde-format
 msgid "Removable device"
 msgstr "Çıkarılabilir aygıt"
 
-#: src/bin/clipcreator.cpp:630
+#: src/bin/clipcreator.cpp:644
 #, kde-format
 msgid "Loading done"
 msgstr "Yükleme tamamlandı"
 
-#: src/bin/clipcreator.cpp:641 src/dialogs/clipcreationdialog.cpp:545
+#: src/bin/clipcreator.cpp:655 src/dialogs/clipcreationdialog.cpp:545
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -22721,8 +22696,8 @@ msgid "Delete marker"
 msgstr "İmleyiciyi sil"
 
 #: src/bin/model/markerlistmodel.cpp:437
-#: src/timeline2/view/timelinecontroller.cpp:1693
-#: src/timeline2/view/timelinecontroller.cpp:1697
+#: src/timeline2/view/timelinecontroller.cpp:1691
+#: src/timeline2/view/timelinecontroller.cpp:1695
 #, kde-format
 msgid "Move marker"
 msgstr "İmleyiciyi taşı"
@@ -22755,7 +22730,7 @@ msgstr "Tüm imleyicileri sil"
 #: src/bin/model/markerlistmodel.cpp:1076
 #: src/bin/model/markerlistmodel.cpp:1118
 #: src/bin/model/markerlistmodel.cpp:1148
-#: src/timeline2/view/timelinecontroller.cpp:1832
+#: src/timeline2/view/timelinecontroller.cpp:1830
 #, kde-format
 msgid "No marker found at current position"
 msgstr "Geçerli konumda bulunan imleyici yok"
@@ -23915,12 +23890,12 @@ msgstr "İmleyiciler Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2010 src/project/projectmanager.cpp:2016
+#: src/project/projectmanager.cpp:2011 src/project/projectmanager.cpp:2017
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5913
-#: src/timeline2/view/timelinecontroller.cpp:5918
+#: src/timeline2/view/timelinecontroller.cpp:5925
+#: src/timeline2/view/timelinecontroller.cpp:5930
 #: src/titler/titlewidget.cpp:2367
 #, kde-format
 msgid "Cannot write to file %1"
@@ -24008,7 +23983,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1899
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1900
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -27368,7 +27343,7 @@ msgid ""
 msgstr ""
 "Altyazı dosyası:<br/>%1<br/>hâlihazırda var. Üzerine yazmak istiyor musunuz?"
 
-#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3897
+#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3899
 #, kde-format
 msgid "Overwrite"
 msgstr "Üzerine Yaz"
@@ -28021,13 +27996,13 @@ msgid "Exporting…"
 msgstr "Dışa aktarılıyor…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:692
-#: src/timeline2/view/timelinecontroller.cpp:3835
+#: src/timeline2/view/timelinecontroller.cpp:3844
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Efekt Yığınını Etkinleştir"
 
 #: src/effects/effectstack/view/effectstackview.cpp:692
-#: src/timeline2/view/timelinecontroller.cpp:3835
+#: src/timeline2/view/timelinecontroller.cpp:3844
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Efekt Yığınını Devre Dışı Bırak"
@@ -28553,7 +28528,7 @@ msgid "Generators"
 msgstr "Üreteçler"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:4282
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:4284
 #, kde-format
 msgid "Extract Audio"
 msgstr "Sesi Ayır"
@@ -29555,7 +29530,7 @@ msgstr "Efekt Ekle"
 msgid "Add Transition"
 msgstr "Geçiş Ekle"
 
-#: src/mainwindow.cpp:588 src/mainwindow.cpp:2341
+#: src/mainwindow.cpp:588 src/mainwindow.cpp:2343
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:37
 #, kde-format
 msgid "Transitions"
@@ -29595,7 +29570,7 @@ msgstr "Sunum Düğmesi"
 msgid "Rendering preview"
 msgstr "Sunum önizlemesi"
 
-#: src/mainwindow.cpp:697 src/mainwindow.cpp:781 src/mainwindow.cpp:2211
+#: src/mainwindow.cpp:697 src/mainwindow.cpp:781 src/mainwindow.cpp:2213
 #, kde-format
 msgid "Identify Gaps"
 msgstr "Boşlukları Tanımla"
@@ -29727,7 +29702,7 @@ msgstr "Onları şimdi başlat"
 msgid "Delete them"
 msgstr "Onları sil"
 
-#: src/mainwindow.cpp:1217 src/timeline2/view/timelinecontroller.cpp:2539
+#: src/mainwindow.cpp:1217 src/timeline2/view/timelinecontroller.cpp:2537
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Efekti karşılaştırmak için bir klip seçin"
@@ -30059,7 +30034,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Deneysel GPU işleme etkinleştirildi — iş ortamında kullanım için değil"
 
-#: src/mainwindow.cpp:1620 src/mainwindow.cpp:3880
+#: src/mainwindow.cpp:1620 src/mainwindow.cpp:3882
 #, kde-format
 msgid "Multicam"
 msgstr "Çoklu Kamera"
@@ -30362,7 +30337,7 @@ msgstr ""
 "Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunum "
 "bölgesi olarak ekle"
 
-#: src/mainwindow.cpp:1888 src/timeline2/view/previewmanager.cpp:577
+#: src/mainwindow.cpp:1888 src/timeline2/view/previewmanager.cpp:595
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Önizleme Bölgesi Çıkar"
@@ -30378,7 +30353,7 @@ msgstr ""
 "bölgesinden kaldırır. Bunun, önizleme sunum bölgelerinde boşluklar "
 "bırakabileceğini unutmayın."
 
-#: src/mainwindow.cpp:1893 src/timeline2/view/previewmanager.cpp:503
+#: src/mainwindow.cpp:1893 src/timeline2/view/previewmanager.cpp:516
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Tüm Önizleme Bölgelerini Çıkar"
@@ -30719,7 +30694,7 @@ msgstr "İz Yerleştir…"
 msgid "Fit all Tracks in View"
 msgstr "Tüm İzleri Görünüme Sığdır"
 
-#: src/mainwindow.cpp:2150 src/timeline2/view/timelinecontroller.cpp:5640
+#: src/mainwindow.cpp:2150 src/timeline2/view/timelinecontroller.cpp:5652
 #, kde-format
 msgid "Sequence effects"
 msgstr "Sekans Efektleri"
@@ -30764,42 +30739,42 @@ msgstr "Önbelleklenmiş Veriyi Yönet…"
 msgid "Disable Timeline Preview"
 msgstr "Zaman Akışı Önizlemesini Kapat"
 
-#: src/mainwindow.cpp:2205
+#: src/mainwindow.cpp:2207
 #, kde-format
 msgid "Add/Remove Timeline Marker"
 msgstr "Zaman Akışı İmleyicisi Ekle/Kaldır"
 
-#: src/mainwindow.cpp:2207
+#: src/mainwindow.cpp:2209
 #, kde-format
 msgid "Delete Timeline Marker"
 msgstr "Zaman Akışı İmleyicisini Sil"
 
-#: src/mainwindow.cpp:2209
+#: src/mainwindow.cpp:2211
 #, kde-format
 msgid "Delete All Timeline Markers"
 msgstr "Tüm Zaman Akışı İmleyicilerini Sil"
 
-#: src/mainwindow.cpp:2213
+#: src/mainwindow.cpp:2215
 #, kde-format
 msgid "Edit Timeline Marker…"
 msgstr "Zaman Akışı İmleyicisini Düzenle…"
 
-#: src/mainwindow.cpp:2216
+#: src/mainwindow.cpp:2218
 #, kde-format
 msgid "Export Markers…"
 msgstr "İmleyicileri Dışa Aktar…"
 
-#: src/mainwindow.cpp:2217
+#: src/mainwindow.cpp:2219
 #, kde-format
 msgid "Search Marker…"
 msgstr "İmleyici Ara…"
 
-#: src/mainwindow.cpp:2220 src/mainwindow.cpp:2223
+#: src/mainwindow.cpp:2222 src/mainwindow.cpp:2225
 #, kde-format
 msgid "Lock Timeline Markers"
 msgstr "Zaman akışı imleyicilerini kilitle"
 
-#: src/mainwindow.cpp:2225
+#: src/mainwindow.cpp:2227
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30810,47 +30785,47 @@ msgstr ""
 "boşluklandırma aracı kullanıldığında veya izlere boş alan yerleştirirken/"
 "kaldırırken hareket etmezler."
 
-#: src/mainwindow.cpp:2227
+#: src/mainwindow.cpp:2229
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Altyazı Ekle"
 
-#: src/mainwindow.cpp:2229
+#: src/mainwindow.cpp:2231
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Altyazıyı Devre Dışı Bırak"
 
-#: src/mainwindow.cpp:2230
+#: src/mainwindow.cpp:2232
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Altyazıyı Kilitle"
 
-#: src/mainwindow.cpp:2232
+#: src/mainwindow.cpp:2234
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "Altyazıları Yönet"
 
-#: src/mainwindow.cpp:2234
+#: src/mainwindow.cpp:2236
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Altyazı Dosyası İçe Aktar…"
 
-#: src/mainwindow.cpp:2236
+#: src/mainwindow.cpp:2238
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Altyazı Dosyasını Dışa Aktar…"
 
-#: src/mainwindow.cpp:2238 src/timeline2/model/timelinemodel.cpp:2626
+#: src/mainwindow.cpp:2240 src/timeline2/model/timelinemodel.cpp:2626
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Altyazıyı Sil"
 
-#: src/mainwindow.cpp:2239
+#: src/mainwindow.cpp:2241
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Konuşma Tanıma…"
 
-#: src/mainwindow.cpp:2246
+#: src/mainwindow.cpp:2248
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30860,102 +30835,102 @@ msgstr ""
 "Bu, bir <emphasis>Menü Çubuğu</emphasis> ve ana araç çubuğunda bir "
 "<interface>Hamburger Menü</interface> düğmesi arasında geçiş yapar."
 
-#: src/mainwindow.cpp:2274
+#: src/mainwindow.cpp:2276
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Hata Ayıklama Bilgisini Kopyala"
 
-#: src/mainwindow.cpp:2276
+#: src/mainwindow.cpp:2278
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Zaman Akışı Efektlerini Kapat"
 
-#: src/mainwindow.cpp:2298
+#: src/mainwindow.cpp:2300
 #, kde-format
 msgid "Track menu"
 msgstr "İz menüsü"
 
-#: src/mainwindow.cpp:2302
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "İz Devre Dışı Aç/Kapat"
 
-#: src/mainwindow.cpp:2304
+#: src/mainwindow.cpp:2306
 #, kde-format
 msgid "Toggle All Tracks Disabled"
 msgstr "Tüm İzleri Devre Dışı Yapmayı Aç/Kapat"
 
-#: src/mainwindow.cpp:2306
+#: src/mainwindow.cpp:2308
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "İz Kilidini Aç/Kapat"
 
-#: src/mainwindow.cpp:2308
+#: src/mainwindow.cpp:2310
 #, kde-format
 msgid "Toggle All Tracks Lock"
 msgstr "Tüm İzlerin Kilitlerini Aç/Kapat"
 
-#: src/mainwindow.cpp:2310
+#: src/mainwindow.cpp:2312
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "İz Hedefini Değiştir"
 
-#: src/mainwindow.cpp:2312
+#: src/mainwindow.cpp:2314
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "İz Etkin Aç/Kapat"
 
-#: src/mainwindow.cpp:2314
+#: src/mainwindow.cpp:2316
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Tüm İzler Etkin Aç/Kapat"
 
-#: src/mainwindow.cpp:2316
+#: src/mainwindow.cpp:2318
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Tüm İzler Etkin Değiştir"
 
-#: src/mainwindow.cpp:2318
+#: src/mainwindow.cpp:2320
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Geçerli Klip Hedef İzlerini Geri Yükle"
 
-#: src/mainwindow.cpp:2320
+#: src/mainwindow.cpp:2322
 #, kde-format
 msgid "Add Project Note"
 msgstr "Proje Notu Ekle"
 
-#: src/mainwindow.cpp:2326
+#: src/mainwindow.cpp:2328
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Ses İzi %1 Seç"
 
-#: src/mainwindow.cpp:2330
+#: src/mainwindow.cpp:2332
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Video İzi %1 Seç"
 
-#: src/mainwindow.cpp:2334
+#: src/mainwindow.cpp:2336
 #, kde-format
 msgid "Select Target %1"
 msgstr "%1 Hedefini Seç"
 
-#: src/mainwindow.cpp:2351
+#: src/mainwindow.cpp:2353
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Kareyi Dışa Aktar…"
 
-#: src/mainwindow.cpp:2354
+#: src/mainwindow.cpp:2356
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Kareyi Projeye Dışa Aktar…"
 
-#: src/mainwindow.cpp:2357
+#: src/mainwindow.cpp:2359
 #, kde-format
 msgid "Extract Frame to Clipboard"
 msgstr "Kareyi Panoya Dışa Aktar"
 
-#: src/mainwindow.cpp:2492
+#: src/mainwindow.cpp:2494
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -30964,13 +30939,13 @@ msgstr ""
 "Vekil parametrelerini değiştirdiniz. Bu proje için tüm vekil kliplerini "
 "yeniden oluşturmak ister misiniz?"
 
-#: src/mainwindow.cpp:2493
+#: src/mainwindow.cpp:2495
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Yeniden Oluştur"
 
-#: src/mainwindow.cpp:2494 src/onlineresources/resourcewidget.cpp:706
+#: src/mainwindow.cpp:2496 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2350
 #, kde-format
@@ -30978,7 +30953,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Şu Olmadan Sürdür"
 
-#: src/mainwindow.cpp:2550
+#: src/mainwindow.cpp:2552
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -30989,7 +30964,7 @@ msgstr ""
 "geçici dosyaların tümünü<br/><b>%1</b> üzerinden <b>%2</b> konumuna taşır ve "
 "proje dosyasını yeniden yükler"
 
-#: src/mainwindow.cpp:2558
+#: src/mainwindow.cpp:2560
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -30998,38 +30973,38 @@ msgstr ""
 "Bu işlem, ilk olarak projeyi kaydeder, geçici dosyaların tümünü<br/><b>%1</"
 "b> üzerinden <b>%2</b> konumuna taşır ve proje dosyasını yeniden yükler"
 
-#: src/mainwindow.cpp:2567 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2569 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Bu işlem gerçekleştirilemez, geçersiz belge kimliği: %1"
 
-#: src/mainwindow.cpp:2572 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2574 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Bu işlem gerçekleştirilemez, hedef dizin hâlihazırda var: %1"
 
-#: src/mainwindow.cpp:2722
+#: src/mainwindow.cpp:2724
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Bu, kullanılmayan tüm klipleri projenizden kaldıracak."
 
-#: src/mainwindow.cpp:2722
+#: src/mainwindow.cpp:2724
 #, kde-format
 msgid "Clean up project"
 msgstr "Projeyi temizle"
 
-#: src/mainwindow.cpp:2850
+#: src/mainwindow.cpp:2852
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Yeni Klavye Şemaları İndir…"
 
-#: src/mainwindow.cpp:2894
+#: src/mainwindow.cpp:2896
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Genel"
 
-#: src/mainwindow.cpp:2967
+#: src/mainwindow.cpp:2969
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -31038,77 +31013,77 @@ msgstr ""
 "Bu, kdenlive’ın yapılandırma dosyasını silecek ve uygulamayı yeniden "
 "başlatacaktır. Sürdürmek istiyor musunuz?"
 
-#: src/mainwindow.cpp:2968
+#: src/mainwindow.cpp:2970
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Yapılandırmayı Sıfırla"
 
-#: src/mainwindow.cpp:3115 src/mainwindow.cpp:3142
+#: src/mainwindow.cpp:3117 src/mainwindow.cpp:3144
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "İmleyicinin kaldırılacağı klip bulunamadı"
 
-#: src/mainwindow.cpp:3125 src/mainwindow.cpp:3181
+#: src/mainwindow.cpp:3127 src/mainwindow.cpp:3183
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "İmleç konumunda hiçbir imleyici bulunamadı"
 
-#: src/mainwindow.cpp:3147 src/mainwindow.cpp:3157
+#: src/mainwindow.cpp:3149 src/mainwindow.cpp:3159
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "İmleyiciler silinirken bir hata oluştu"
 
-#: src/mainwindow.cpp:3174 src/timeline2/view/timelinecontroller.cpp:1452
-#: src/timeline2/view/timelinecontroller.cpp:1460
-#: src/timeline2/view/timelinecontroller.cpp:1481
-#: src/timeline2/view/timelinecontroller.cpp:1521
-#: src/timeline2/view/timelinecontroller.cpp:1556
-#: src/timeline2/view/timelinecontroller.cpp:1576
+#: src/mainwindow.cpp:3176 src/timeline2/view/timelinecontroller.cpp:1450
+#: src/timeline2/view/timelinecontroller.cpp:1458
+#: src/timeline2/view/timelinecontroller.cpp:1479
+#: src/timeline2/view/timelinecontroller.cpp:1519
+#: src/timeline2/view/timelinecontroller.cpp:1554
+#: src/timeline2/view/timelinecontroller.cpp:1574
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "İmleyici düzenlenecek klip bulunamadı"
 
-#: src/mainwindow.cpp:3226
+#: src/mainwindow.cpp:3228
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "İmleyici kategorisi yok"
 
-#: src/mainwindow.cpp:3446 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3665
+#: src/mainwindow.cpp:3448 src/timeline2/model/timelinefunctions.cpp:818
+#: src/timeline2/view/timelinecontroller.cpp:3674
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Üzerine yazma bölgesi"
 
-#: src/mainwindow.cpp:3448 src/mainwindow.cpp:3467
+#: src/mainwindow.cpp:3450 src/mainwindow.cpp:3469
 #: src/timeline2/model/timelinefunctions.cpp:820
-#: src/timeline2/view/timelinecontroller.cpp:3667
+#: src/timeline2/view/timelinecontroller.cpp:3676
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Bölge yerleştirilemedi"
 
-#: src/mainwindow.cpp:3458
+#: src/mainwindow.cpp:3460
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Proje kovasında seçili klip yok"
 
-#: src/mainwindow.cpp:3465 src/timeline2/model/timelinefunctions.cpp:818
-#: src/timeline2/view/timelinecontroller.cpp:3665
+#: src/mainwindow.cpp:3467 src/timeline2/model/timelinefunctions.cpp:818
+#: src/timeline2/view/timelinecontroller.cpp:3674
 #, kde-format
 msgid "Insert zone"
 msgstr "Yerleştirme bölgesi"
 
-#: src/mainwindow.cpp:3632
+#: src/mainwindow.cpp:3634
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Etkin ögeye efekt eklenemiyor"
 
-#: src/mainwindow.cpp:3694
+#: src/mainwindow.cpp:3696
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Yakınlaştırma düzeyi: %1/%2"
 
-#: src/mainwindow.cpp:3848
+#: src/mainwindow.cpp:3850
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31121,7 +31096,7 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+Sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+Sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3852
+#: src/mainwindow.cpp:3854
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31135,24 +31110,24 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+Alt+Sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+Sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3855
+#: src/mainwindow.cpp:3857
 #, kde-format
 msgid "Select"
 msgstr "Seç"
 
-#: src/mainwindow.cpp:3857
+#: src/mainwindow.cpp:3859
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>’e basın"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3858 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3860 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Jilet"
 
-#: src/mainwindow.cpp:3862
+#: src/mainwindow.cpp:3864
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31163,12 +31138,12 @@ msgstr ""
 "Karakter</shortcut>, ayrıca kılavuzları da taşır. İki niteleyiciyi aynı anda "
 "kullanabilirsiniz."
 
-#: src/mainwindow.cpp:3863
+#: src/mainwindow.cpp:3865
 #, kde-format
 msgid "Spacer"
 msgstr "Boşluk"
 
-#: src/mainwindow.cpp:3865
+#: src/mainwindow.cpp:3867
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31178,13 +31153,13 @@ msgstr ""
 "Taşımak için bir ögenin üzerine <shortcut>Tıkla</shortcut>, çoklu seçim için "
 "<shortcut>Üst Karakter+Tıkla</shortcut>"
 
-#: src/mainwindow.cpp:3866
+#: src/mainwindow.cpp:3868
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Taşı"
 
-#: src/mainwindow.cpp:3871
+#: src/mainwindow.cpp:3873
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31197,13 +31172,13 @@ msgstr ""
 "için <shortcut>Seçenek+Tıkla</shortcut>, kaydırma için <shortcut>Kontrol"
 "+Sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3873
+#: src/mainwindow.cpp:3875
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Dalgala"
 
-#: src/mainwindow.cpp:3879
+#: src/mainwindow.cpp:3881
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31213,104 +31188,104 @@ msgstr ""
 "Etkin iz dışındaki tüm izleri yukarı kaldırmayı gerçekleştirmek için bir "
 "proje izleyicisinde bir iz görünümüne <shortcut>tıklayın</shortcut>"
 
-#: src/mainwindow.cpp:3895
+#: src/mainwindow.cpp:3897
 #, kde-format
 msgid "Insert"
 msgstr "Yerleştir"
 
-#: src/mainwindow.cpp:4172 src/mainwindow.cpp:4174
+#: src/mainwindow.cpp:4174 src/mainwindow.cpp:4176
 #, kde-format
 msgid "Scopes"
 msgstr "Kapsamlar"
 
-#: src/mainwindow.cpp:4179
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid "Project Bins"
 msgstr "Proje Kovaları"
 
-#: src/mainwindow.cpp:4256
+#: src/mainwindow.cpp:4258
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klip İşleri"
 
-#: src/mainwindow.cpp:4275
+#: src/mainwindow.cpp:4277
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Klip İşlerini Yapılandır…"
 
-#: src/mainwindow.cpp:4281
+#: src/mainwindow.cpp:4283
 #, kde-format
 msgid "Transcoders"
 msgstr "Arakodlayıcılar"
 
-#: src/mainwindow.cpp:4348
+#: src/mainwindow.cpp:4350
 #, kde-format
 msgid "-merged"
 msgstr "-birleştirildi"
 
-#: src/mainwindow.cpp:4351
+#: src/mainwindow.cpp:4353
 #, kde-format
 msgid "-stream-%1"
 msgstr "-akış-%1"
 
-#: src/mainwindow.cpp:4384 src/mainwindow.cpp:4712
+#: src/mainwindow.cpp:4386 src/mainwindow.cpp:4714
 #, kde-format
 msgid "Interface"
 msgstr "Arayüz"
 
-#: src/mainwindow.cpp:4455
+#: src/mainwindow.cpp:4457
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Arakodlanacak Dosyalar"
 
-#: src/mainwindow.cpp:4619
+#: src/mainwindow.cpp:4621
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Proje dosyası arşivleme için kaydedilemedi."
 
-#: src/mainwindow.cpp:4627
+#: src/mainwindow.cpp:4629
 #, kde-format
 msgid "Archiving project"
 msgstr "Proje arşivleniyor"
 
-#: src/mainwindow.cpp:4726
+#: src/mainwindow.cpp:4728
 #, kde-format
 msgid "Raise %1"
 msgstr "Yükselt: %1"
 
-#: src/mainwindow.cpp:4797
+#: src/mainwindow.cpp:4799
 #, kde-format
 msgid "Icon Size"
 msgstr "Simge Boyutu"
 
-#: src/mainwindow.cpp:4801
+#: src/mainwindow.cpp:4803
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Öntanımlı"
 
-#: src/mainwindow.cpp:4822 src/mainwindow.cpp:4850
+#: src/mainwindow.cpp:4824 src/mainwindow.cpp:4852
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Küçük (%1 × %2)"
 
-#: src/mainwindow.cpp:4824 src/mainwindow.cpp:4852
+#: src/mainwindow.cpp:4826 src/mainwindow.cpp:4854
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Orta (%1 × %2)"
 
-#: src/mainwindow.cpp:4826 src/mainwindow.cpp:4854
+#: src/mainwindow.cpp:4828 src/mainwindow.cpp:4856
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Büyük (%1 × %2)"
 
-#: src/mainwindow.cpp:4828 src/mainwindow.cpp:4856
+#: src/mainwindow.cpp:4830 src/mainwindow.cpp:4858
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Çok Büyük (%1 × %2)"
 
-#: src/mainwindow.cpp:4912
+#: src/mainwindow.cpp:4914
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -31319,22 +31294,22 @@ msgstr ""
 "Bu, menü çubuğunu tümüyle gizleyecektir. Kontrol+M ile yeniden "
 "gösterebilirsiniz."
 
-#: src/mainwindow.cpp:4912
+#: src/mainwindow.cpp:4914
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menü çubuğunu gizle"
 
-#: src/mainwindow.cpp:5590
+#: src/mainwindow.cpp:5592
 #, kde-format
 msgid "Go to download page"
 msgstr "İndirme sayfasına git"
 
-#: src/mainwindow.cpp:5596
+#: src/mainwindow.cpp:5598
 #, kde-format
 msgid "Never check again"
 msgstr "Bir daha denetleme"
 
-#: src/mainwindow.cpp:5599
+#: src/mainwindow.cpp:5601
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -31342,14 +31317,14 @@ msgid ""
 msgstr ""
 "Kdenlive sürümünüz bir yıldan daha eski; sürüm yükseltmesi yapmanız önerilir"
 
-#: src/mainwindow.cpp:5603
+#: src/mainwindow.cpp:5605
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 "Kdenlive sürümünüz altı aydan daha eski; sürüm yükseltmesi yapmanız önerilir"
 
-#: src/mainwindow.cpp:5645
+#: src/mainwindow.cpp:5647
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Önbelleklenmiş veri boyutu denetleniyor"
@@ -31587,7 +31562,7 @@ msgid "Audio streams"
 msgstr "Ses akışları"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:864
-#: src/monitor/monitor.cpp:2226
+#: src/monitor/monitor.cpp:2231
 #, kde-format
 msgid "Merge all streams"
 msgstr "Tüm akışları Birleştir"
@@ -31922,7 +31897,7 @@ msgstr "Serbest Yeniden Boyutlandır"
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:450 src/scopes/colorscopes/vectorscope.cpp:72
 #: src/scopes/colorscopes/vectorscope.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:288 src/ui/titlewidget_ui.ui:140
+#: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr "Siyah"
@@ -32007,7 +31982,7 @@ msgid "Cannot change zone when creating a mask"
 msgstr "Bir maske oluştururken bölge değiştirilemiyor"
 
 #: src/monitor/monitor.cpp:956 src/monitor/monitor.cpp:992
-#: src/timeline2/view/timelinecontroller.cpp:2158
+#: src/timeline2/view/timelinecontroller.cpp:2156
 #, kde-format
 msgid "Set Zone"
 msgstr "Bölge Ayarla"
@@ -32029,25 +32004,25 @@ msgstr "Görseli Kaydet"
 msgid "Export image using source resolution"
 msgstr "Kaynak çözünürlüğünü kullanarak görüntüyü dışa aktar"
 
-#: src/monitor/monitor.cpp:2109
+#: src/monitor/monitor.cpp:2114
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Maske Kipinden Çık?"
 
-#: src/monitor/monitor.cpp:2211 src/monitor/monitor.cpp:2341
+#: src/monitor/monitor.cpp:2216 src/monitor/monitor.cpp:2346
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 ses akışı"
 msgstr[1] "%1 ses akışı"
 
-#: src/monitor/monitor.cpp:2662
+#: src/monitor/monitor.cpp:2667
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit’in GLSL yöneticisi başlatılamıyor, lütfen Movit’i devre dışı bırakın"
 
-#: src/monitor/monitor.cpp:2704 src/monitor/monitor.cpp:2761
+#: src/monitor/monitor.cpp:2709 src/monitor/monitor.cpp:2766
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -32056,17 +32031,17 @@ msgstr ""
 "Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2724
+#: src/monitor/monitor.cpp:2729
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip bir efekt içermiyor"
 
-#: src/monitor/monitor.cpp:2726
+#: src/monitor/monitor.cpp:2731
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Efekti uygulamak için proje kovasından bir klip seçin"
 
-#: src/monitor/monitor.cpp:2768
+#: src/monitor/monitor.cpp:2773
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -32075,41 +32050,41 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2848
+#: src/monitor/monitor.cpp:2853
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
 
-#: src/monitor/monitor.cpp:3352
+#: src/monitor/monitor.cpp:3357
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Klip monitöründe seçili klip yok"
 
-#: src/monitor/monitor.cpp:3373
+#: src/monitor/monitor.cpp:3378
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Klip monitörü için olan üreteç alınamıyor"
 
-#: src/monitor/monitor.cpp:3455 src/monitor/monitor.cpp:3486
-#: src/timeline2/view/timelinecontroller.cpp:6437
+#: src/monitor/monitor.cpp:3460 src/monitor/monitor.cpp:3491
+#: src/timeline2/view/timelinecontroller.cpp:6449
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "Tanımlanmış geçerli bölge yok. Lütfen önce giriş/çıkış noktalarını ayarlayın."
 
-#: src/monitor/monitor.cpp:3465
+#: src/monitor/monitor.cpp:3470
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Bölgeden Erim İmleyicisi Oluştur"
 
-#: src/monitor/monitor.cpp:3471 src/monitor/monitor.cpp:3492
-#: src/timeline2/view/timelinecontroller.cpp:6452
+#: src/monitor/monitor.cpp:3476 src/monitor/monitor.cpp:3497
+#: src/timeline2/view/timelinecontroller.cpp:6464
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Bölgeden oluşturulmuş erim imleyicisi"
 
-#: src/monitor/monitor.cpp:3473 src/monitor/monitor.cpp:3494
-#: src/timeline2/view/timelinecontroller.cpp:6455
+#: src/monitor/monitor.cpp:3478 src/monitor/monitor.cpp:3499
+#: src/timeline2/view/timelinecontroller.cpp:6467
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "Bölgeden erim imleyicisi oluşturulamadı"
@@ -32256,7 +32231,7 @@ msgid "Go to Zone End"
 msgstr "Bölge Sonuna Git"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6444
+#: src/timeline2/view/timelinecontroller.cpp:6456
 #, kde-format
 msgid "Zone marker"
 msgstr "Bölge imleyicisi"
@@ -33570,7 +33545,7 @@ msgid "Select some timecodes to reassign"
 msgstr "Yeniden atamak için bazı zaman kodlarını seçin"
 
 #: src/project/dialogs/noteswidget.cpp:259
-#: src/timeline2/view/timelinecontroller.cpp:4631
+#: src/timeline2/view/timelinecontroller.cpp:4640
 #, kde-format
 msgid "No clip selected in timeline"
 msgstr "Zaman akışında seçili klip yok"
@@ -34153,7 +34128,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1836
+#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1837
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34311,25 +34286,25 @@ msgstr "Proje klasörü taşınırken hata, önbellek klasörüne erişilemiyor"
 msgid "Moving project folder"
 msgstr "Proje klasörü taşınıyor"
 
-#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1732
-#: src/project/projectmanager.cpp:1736
+#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1733
+#: src/project/projectmanager.cpp:1737
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekans 1"
 
-#: src/project/projectmanager.cpp:1687
+#: src/project/projectmanager.cpp:1688
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk — izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1828 src/project/projectmanager.cpp:1841
-#: src/project/projectmanager.cpp:1865 src/project/projectmanager.cpp:1874
+#: src/project/projectmanager.cpp:1829 src/project/projectmanager.cpp:1842
+#: src/project/projectmanager.cpp:1866 src/project/projectmanager.cpp:1875
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:2004
+#: src/project/projectmanager.cpp:2005
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -34338,12 +34313,12 @@ msgstr ""
 "Çıktı dosyası %1 hâlihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:2029
+#: src/project/projectmanager.cpp:2030
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:2093
+#: src/project/projectmanager.cpp:2094
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34352,33 +34327,33 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2182
+#: src/project/projectmanager.cpp:2183
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
-#: src/project/projectmanager.cpp:2415 src/project/projectmanager.cpp:2467
+#: src/project/projectmanager.cpp:2417 src/project/projectmanager.cpp:2469
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:2425 src/project/projectmanager.cpp:2476
+#: src/project/projectmanager.cpp:2427 src/project/projectmanager.cpp:2478
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Sekans oluşturma başarısız"
 
-#: src/project/projectmanager.cpp:2452
+#: src/project/projectmanager.cpp:2454
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Geçerli zaman akışına sekans eklenemiyor"
 
-#: src/project/projectmanager.cpp:2456
+#: src/project/projectmanager.cpp:2458
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/project/projectmanager.cpp:2494
+#: src/project/projectmanager.cpp:2496
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "Klipleri Yeni Sekansa Kopyala"
@@ -35650,27 +35625,27 @@ msgid "Cut all clips"
 msgstr "Tüm klipleri kes"
 
 #: src/timeline2/model/timelinefunctions.cpp:712
-#: src/timeline2/view/timelinecontroller.cpp:1803
+#: src/timeline2/view/timelinecontroller.cpp:1801
 #, kde-format
 msgid "Insert space"
 msgstr "Boşluk Yerleştir"
 
 #: src/timeline2/model/timelinefunctions.cpp:714
-#: src/timeline2/view/timelinecontroller.cpp:1805
+#: src/timeline2/view/timelinecontroller.cpp:1803
 #, kde-format
 msgid "Remove space"
 msgstr "Boşluğu kaldır"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3470
+#: src/timeline2/view/timelinecontroller.cpp:3479
 #, kde-format
 msgid "Lift zone"
 msgstr "Bölgeyi yukarı kaldır"
 
 #: src/timeline2/model/timelinefunctions.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:812
-#: src/timeline2/view/timelinecontroller.cpp:3470
-#: src/timeline2/view/timelinecontroller.cpp:3543
+#: src/timeline2/view/timelinecontroller.cpp:810
+#: src/timeline2/view/timelinecontroller.cpp:3479
+#: src/timeline2/view/timelinecontroller.cpp:3552
 #, kde-format
 msgid "Extract zone"
 msgstr "Bölgeyi Çıkar"
@@ -35681,32 +35656,32 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr "Bir izin etiketine tıklayarak izi etkinleştirin"
 
 #: src/timeline2/model/timelinefunctions.cpp:997
-#: src/timeline2/view/timelinecontroller.cpp:940
-#: src/timeline2/view/timelinecontroller.cpp:1350
-#: src/timeline2/view/timelinecontroller.cpp:1430
-#: src/timeline2/view/timelinecontroller.cpp:1440
-#: src/timeline2/view/timelinecontroller.cpp:1469
-#: src/timeline2/view/timelinecontroller.cpp:1509
-#: src/timeline2/view/timelinecontroller.cpp:1544
-#: src/timeline2/view/timelinecontroller.cpp:1569
-#: src/timeline2/view/timelinecontroller.cpp:1625
-#: src/timeline2/view/timelinecontroller.cpp:2706
-#: src/timeline2/view/timelinecontroller.cpp:3488
-#: src/timeline2/view/timelinecontroller.cpp:3552
-#: src/timeline2/view/timelinecontroller.cpp:3797
-#: src/timeline2/view/timelinecontroller.cpp:3843
-#: src/timeline2/view/timelinecontroller.cpp:3889
-#: src/timeline2/view/timelinecontroller.cpp:3896
-#: src/timeline2/view/timelinecontroller.cpp:3924
-#: src/timeline2/view/timelinecontroller.cpp:3998
-#: src/timeline2/view/timelinecontroller.cpp:4015
-#: src/timeline2/view/timelinecontroller.cpp:4277
-#: src/timeline2/view/timelinecontroller.cpp:4292
-#: src/timeline2/view/timelinecontroller.cpp:4317
-#: src/timeline2/view/timelinecontroller.cpp:4332
-#: src/timeline2/view/timelinecontroller.cpp:4386
-#: src/timeline2/view/timelinecontroller.cpp:4439
-#: src/timeline2/view/timelinecontroller.cpp:4462
+#: src/timeline2/view/timelinecontroller.cpp:938
+#: src/timeline2/view/timelinecontroller.cpp:1348
+#: src/timeline2/view/timelinecontroller.cpp:1428
+#: src/timeline2/view/timelinecontroller.cpp:1438
+#: src/timeline2/view/timelinecontroller.cpp:1467
+#: src/timeline2/view/timelinecontroller.cpp:1507
+#: src/timeline2/view/timelinecontroller.cpp:1542
+#: src/timeline2/view/timelinecontroller.cpp:1567
+#: src/timeline2/view/timelinecontroller.cpp:1623
+#: src/timeline2/view/timelinecontroller.cpp:2704
+#: src/timeline2/view/timelinecontroller.cpp:3497
+#: src/timeline2/view/timelinecontroller.cpp:3561
+#: src/timeline2/view/timelinecontroller.cpp:3806
+#: src/timeline2/view/timelinecontroller.cpp:3852
+#: src/timeline2/view/timelinecontroller.cpp:3898
+#: src/timeline2/view/timelinecontroller.cpp:3905
+#: src/timeline2/view/timelinecontroller.cpp:3933
+#: src/timeline2/view/timelinecontroller.cpp:4007
+#: src/timeline2/view/timelinecontroller.cpp:4024
+#: src/timeline2/view/timelinecontroller.cpp:4286
+#: src/timeline2/view/timelinecontroller.cpp:4301
+#: src/timeline2/view/timelinecontroller.cpp:4326
+#: src/timeline2/view/timelinecontroller.cpp:4341
+#: src/timeline2/view/timelinecontroller.cpp:4395
+#: src/timeline2/view/timelinecontroller.cpp:4448
+#: src/timeline2/view/timelinecontroller.cpp:4471
 #, kde-format
 msgid "No clip selected"
 msgstr "Seçili klip yok"
@@ -35719,7 +35694,7 @@ msgstr "Seçili grup taşınamıyor"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4603
+#: src/timeline2/view/timelinecontroller.cpp:4612
 #, kde-format
 msgid "Enable clip"
 msgstr "Klibi etkinleştir"
@@ -35727,7 +35702,7 @@ msgstr "Klibi etkinleştir"
 #: src/timeline2/model/timelinefunctions.cpp:1169
 #: src/timeline2/model/timelinefunctions.cpp:1173
 #: src/timeline2/model/timelinefunctions.cpp:1180
-#: src/timeline2/view/timelinecontroller.cpp:4603
+#: src/timeline2/view/timelinecontroller.cpp:4612
 #, kde-format
 msgid "Disable clip"
 msgstr "Klibi Devre Dışı Bırak"
@@ -35974,7 +35949,7 @@ msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "Karışımı uygulamak için %1 klipte yeterli Kare yok"
 
 #: src/timeline2/model/timelinemodel.cpp:1327
-#: src/timeline2/view/timelinecontroller.cpp:2035
+#: src/timeline2/view/timelinecontroller.cpp:2033
 #, kde-format
 msgid "No active track"
 msgstr "Etkin iz yok"
@@ -36001,7 +35976,7 @@ msgstr "Klibi taşı"
 #: src/timeline2/model/timelinemodel.cpp:2256
 #: src/timeline2/model/timelinemodel.cpp:2269
 #: src/timeline2/model/timelinemodel.cpp:2277
-#: src/timeline2/view/timelinecontroller.cpp:3874
+#: src/timeline2/view/timelinecontroller.cpp:3883
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Yerleştirme işlemi için kullanılabilir iz yok"
@@ -36053,7 +36028,7 @@ msgstr "Bileşikleştirmeyi Sil"
 
 #: src/timeline2/model/timelinemodel.cpp:2863
 #: src/timeline2/model/timelinemodel.cpp:3164
-#: src/timeline2/view/timelinecontroller.cpp:4947
+#: src/timeline2/view/timelinecontroller.cpp:4956
 #, kde-format
 msgid "Move group"
 msgstr "Grubu taşı"
@@ -36143,7 +36118,7 @@ msgid "Ungroup clips"
 msgstr "Klipleri gruptan çıkar"
 
 #: src/timeline2/model/timelinemodel.cpp:5316
-#: src/timeline2/view/timelinecontroller.cpp:1037
+#: src/timeline2/view/timelinecontroller.cpp:1035
 #, kde-format
 msgid "Delete Track"
 msgstr "İzi Sil"
@@ -36209,7 +36184,7 @@ msgid "Change speed failed"
 msgstr "Hız değiştirme başarısız"
 
 #: src/timeline2/model/timelinemodel.cpp:7309
-#: src/timeline2/view/timelinecontroller.cpp:3388
+#: src/timeline2/view/timelinecontroller.cpp:3397
 #, kde-format
 msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
@@ -36393,7 +36368,7 @@ msgstr "Geçersiz zaman akışı önizleme parametreleri"
 msgid "Something is wrong with cache folders"
 msgstr "Önbellek klasörleri ile ilgili bir şeyler yanlış"
 
-#: src/timeline2/view/previewmanager.cpp:839
+#: src/timeline2/view/previewmanager.cpp:871
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
@@ -36684,251 +36659,251 @@ msgstr ""
 msgid "Edit track name"
 msgstr "İz adını düzenle"
 
-#: src/timeline2/view/timelinecontroller.cpp:285
+#: src/timeline2/view/timelinecontroller.cpp:283
 #, kde-format
 msgid "unknown"
 msgstr "bilinmeyen"
 
-#: src/timeline2/view/timelinecontroller.cpp:384
+#: src/timeline2/view/timelinecontroller.cpp:382
 #, kde-format
 msgid "Hide Track"
 msgstr "İzi Gizle"
 
-#: src/timeline2/view/timelinecontroller.cpp:384
+#: src/timeline2/view/timelinecontroller.cpp:382
 #, kde-format
 msgid "Enable Track"
 msgstr "İzi Etkinleştir"
 
-#: src/timeline2/view/timelinecontroller.cpp:447
+#: src/timeline2/view/timelinecontroller.cpp:445
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr "Etkin izde zaman akışı imlecinin altında öge yok"
 
-#: src/timeline2/view/timelinecontroller.cpp:659
-#: src/timeline2/view/timelinecontroller.cpp:683
+#: src/timeline2/view/timelinecontroller.cpp:657
+#: src/timeline2/view/timelinecontroller.cpp:681
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "Seçili konumda bileşikleştirme eklenemedi"
 
-#: src/timeline2/view/timelinecontroller.cpp:758
-#: src/timeline2/view/timelinecontroller.cpp:1234
-#: src/timeline2/view/timelinecontroller.cpp:1251
-#: src/timeline2/view/timelinecontroller.cpp:1275
-#: src/timeline2/view/timelinecontroller.cpp:1359
+#: src/timeline2/view/timelinecontroller.cpp:756
+#: src/timeline2/view/timelinecontroller.cpp:1232
+#: src/timeline2/view/timelinecontroller.cpp:1249
+#: src/timeline2/view/timelinecontroller.cpp:1273
+#: src/timeline2/view/timelinecontroller.cpp:1357
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "Zaman akışında sürükleme yapılırken işlem gerçekleştirilemiyor"
 
-#: src/timeline2/view/timelinecontroller.cpp:956
+#: src/timeline2/view/timelinecontroller.cpp:954
 #, kde-format
 msgid "Could not duplicate clip"
 msgstr "Klip çoğaltılamadı"
 
-#: src/timeline2/view/timelinecontroller.cpp:1014
-#: src/timeline2/view/timelinecontroller.cpp:5801
+#: src/timeline2/view/timelinecontroller.cpp:1012
+#: src/timeline2/view/timelinecontroller.cpp:5813
 #, kde-format
 msgid "Could not insert track"
 msgstr "İz yerleştirilemedi"
 
-#: src/timeline2/view/timelinecontroller.cpp:1037
+#: src/timeline2/view/timelinecontroller.cpp:1035
 #, kde-format
 msgid "Delete Tracks"
 msgstr "İzleri Sil"
 
-#: src/timeline2/view/timelinecontroller.cpp:1102
+#: src/timeline2/view/timelinecontroller.cpp:1100
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "Kayıt denetimlerini görüntülemek için bir ses izi seçin"
 
-#: src/timeline2/view/timelinecontroller.cpp:1239
+#: src/timeline2/view/timelinecontroller.cpp:1237
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "Gruplamak için en az 2 öge seçin"
 
-#: src/timeline2/view/timelinecontroller.cpp:1586
+#: src/timeline2/view/timelinecontroller.cpp:1584
 #, kde-format
 msgid "No range marker found at position"
 msgstr "Konumda hiçbir erim imleyicisi bulunamadı"
 
-#: src/timeline2/view/timelinecontroller.cpp:1758
+#: src/timeline2/view/timelinecontroller.cpp:1756
 #, kde-format
 msgid "No marker at frame %1"
 msgstr "%1. karede imleyici yok"
 
-#: src/timeline2/view/timelinecontroller.cpp:2119
+#: src/timeline2/view/timelinecontroller.cpp:2117
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "Zaman akışında seçili öge yok"
 
-#: src/timeline2/view/timelinecontroller.cpp:2257
+#: src/timeline2/view/timelinecontroller.cpp:2255
 #, kde-format
 msgid "No clip to cut"
 msgstr "Kesilecek klip yok"
 
-#: src/timeline2/view/timelinecontroller.cpp:2625
+#: src/timeline2/view/timelinecontroller.cpp:2623
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "Giriş: %1, Çıkış: %2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2713
+#: src/timeline2/view/timelinecontroller.cpp:2711
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 "Taşıma, yalnızca video, ses veya canlandırma kliplerinin üzerinde "
 "gerçekleştirilebilir"
 
-#: src/timeline2/view/timelinecontroller.cpp:3109
+#: src/timeline2/view/timelinecontroller.cpp:3118
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "Boşluk yerleştirilecek klip bulunamadı"
 
-#: src/timeline2/view/timelinecontroller.cpp:3127
+#: src/timeline2/view/timelinecontroller.cpp:3136
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Verilen konumdaki boşluk kaldırılamıyor"
 
-#: src/timeline2/view/timelinecontroller.cpp:3141
+#: src/timeline2/view/timelinecontroller.cpp:3150
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "Tüm boşluklar kaldırılamıyor"
 
-#: src/timeline2/view/timelinecontroller.cpp:3155
+#: src/timeline2/view/timelinecontroller.cpp:3164
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "Tüm klipler kaldırılamıyor"
 
-#: src/timeline2/view/timelinecontroller.cpp:3205
-#: src/timeline2/view/timelinecontroller.cpp:3210
-#: src/timeline2/view/timelinecontroller.cpp:3236
-#: src/timeline2/view/timelinecontroller.cpp:3241
+#: src/timeline2/view/timelinecontroller.cpp:3214
+#: src/timeline2/view/timelinecontroller.cpp:3219
+#: src/timeline2/view/timelinecontroller.cpp:3245
+#: src/timeline2/view/timelinecontroller.cpp:3250
 #, kde-format
 msgid "No item to edit"
 msgstr "Düzenlenecek öge yok"
 
-#: src/timeline2/view/timelinecontroller.cpp:3247
-#: src/timeline2/view/timelinecontroller.cpp:3384
+#: src/timeline2/view/timelinecontroller.cpp:3256
+#: src/timeline2/view/timelinecontroller.cpp:3393
 #, kde-format
 msgid "Cannot change speed of item(s)"
 msgstr "Ögelerin hızı değiştirilemiyor"
 
-#: src/timeline2/view/timelinecontroller.cpp:3444
-#: src/timeline2/view/timelinecontroller.cpp:6066
+#: src/timeline2/view/timelinecontroller.cpp:3453
+#: src/timeline2/view/timelinecontroller.cpp:6078
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Lütfen etikete tıklayarak bu işlem için bir iz etkinleştirin"
 
-#: src/timeline2/view/timelinecontroller.cpp:3710
+#: src/timeline2/view/timelinecontroller.cpp:3719
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Bir izin hedef bölgesine tıklayarak bir hedef izi seçin"
 
-#: src/timeline2/view/timelinecontroller.cpp:3737
+#: src/timeline2/view/timelinecontroller.cpp:3746
 #, kde-format
 msgid "Clip not found in project bin"
 msgstr "Klip, proje kovasında bulunamadı"
 
-#: src/timeline2/view/timelinecontroller.cpp:3745
+#: src/timeline2/view/timelinecontroller.cpp:3754
 #, kde-format
 msgid "No timecode metadata found in clip"
 msgstr "Klipte zaman kodu üst verisi bulunamadı"
 
-#: src/timeline2/view/timelinecontroller.cpp:3751
+#: src/timeline2/view/timelinecontroller.cpp:3760
 #, kde-format
 msgid "Please select a target track"
 msgstr "Lütfen bir hedef iz seçin"
 
-#: src/timeline2/view/timelinecontroller.cpp:3757
+#: src/timeline2/view/timelinecontroller.cpp:3766
 #, kde-format
 msgid "Failed to insert clip at %1 on track %2"
 msgstr "İz %2 üzerindeki %1 konumuna klip yerleştirilemedi"
 
-#: src/timeline2/view/timelinecontroller.cpp:3809
+#: src/timeline2/view/timelinecontroller.cpp:3818
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Sık Kullanılan Bir Bileşikleştirme Seç"
 
-#: src/timeline2/view/timelinecontroller.cpp:3880
+#: src/timeline2/view/timelinecontroller.cpp:3889
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "AV bölümü işlemi uygulamak için klip bulunamadı"
 
-#: src/timeline2/view/timelinecontroller.cpp:3908
-#: src/timeline2/view/timelinecontroller.cpp:3976
-#: src/timeline2/view/timelinecontroller.cpp:4032
+#: src/timeline2/view/timelinecontroller.cpp:3917
+#: src/timeline2/view/timelinecontroller.cpp:3985
+#: src/timeline2/view/timelinecontroller.cpp:4041
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Klip, %1 karesine taşınamıyor."
 
-#: src/timeline2/view/timelinecontroller.cpp:3929
+#: src/timeline2/view/timelinecontroller.cpp:3938
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Hizalamaya çalışmadan önce ses başvurusunu ayarlayın"
 
-#: src/timeline2/view/timelinecontroller.cpp:4003
-#: src/timeline2/view/timelinecontroller.cpp:4025
+#: src/timeline2/view/timelinecontroller.cpp:4012
+#: src/timeline2/view/timelinecontroller.cpp:4034
 #, kde-format
 msgid "No timecode for clip"
 msgstr "Klip için zaman kodu yok"
 
-#: src/timeline2/view/timelinecontroller.cpp:4020
+#: src/timeline2/view/timelinecontroller.cpp:4029
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr "Hizalamaya çalışmadan önce zaman kodu başvurusunu ayarlayın"
 
-#: src/timeline2/view/timelinecontroller.cpp:4141
+#: src/timeline2/view/timelinecontroller.cpp:4150
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Tüm akışlar hâlihazırda atandı, başka bir ses hedefinin seçimini kaldır"
 
-#: src/timeline2/view/timelinecontroller.cpp:4300
+#: src/timeline2/view/timelinecontroller.cpp:4309
 #, kde-format
 msgid "Delete effects"
 msgstr "Efektleri sil"
 
-#: src/timeline2/view/timelinecontroller.cpp:4338
-#: src/timeline2/view/timelinecontroller.cpp:4344
-#: src/timeline2/view/timelinecontroller.cpp:4350
+#: src/timeline2/view/timelinecontroller.cpp:4347
+#: src/timeline2/view/timelinecontroller.cpp:4353
+#: src/timeline2/view/timelinecontroller.cpp:4359
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Panoda bilgi yok"
 
-#: src/timeline2/view/timelinecontroller.cpp:4375
+#: src/timeline2/view/timelinecontroller.cpp:4384
 #, kde-format
 msgid "Paste effects"
 msgstr "Efektleri yapıştır"
 
-#: src/timeline2/view/timelinecontroller.cpp:4377
+#: src/timeline2/view/timelinecontroller.cpp:4386
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Seçili klibe efekt yapıştırılamıyor"
 
-#: src/timeline2/view/timelinecontroller.cpp:4424
+#: src/timeline2/view/timelinecontroller.cpp:4433
 #, kde-format
 msgid "Open sequence"
 msgstr "Sekans aç"
 
-#: src/timeline2/view/timelinecontroller.cpp:4446
+#: src/timeline2/view/timelinecontroller.cpp:4455
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Öge bir başlık klibi değil"
 
-#: src/timeline2/view/timelinecontroller.cpp:4544
+#: src/timeline2/view/timelinecontroller.cpp:4553
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 öge seçili (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4598
+#: src/timeline2/view/timelinecontroller.cpp:4607
 #, kde-format
 msgid "Restore video"
 msgstr "Videoyu geri yükle"
 
-#: src/timeline2/view/timelinecontroller.cpp:4598
+#: src/timeline2/view/timelinecontroller.cpp:4607
 #, kde-format
 msgid "Restore audio"
 msgstr "Sesi geri yükle"
 
-#: src/timeline2/view/timelinecontroller.cpp:4645
+#: src/timeline2/view/timelinecontroller.cpp:4654
 #, kde-format
 msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
@@ -36937,51 +36912,51 @@ msgstr ""
 "Proje kovasında değişim yapılacak bir klip seçili değil. Kovadan bir klip "
 "seçin ve bu eylemi yeniden deneyin veya yeni bir klip içe aktarın."
 
-#: src/timeline2/view/timelinecontroller.cpp:4646
-#: src/timeline2/view/timelinecontroller.cpp:4702
+#: src/timeline2/view/timelinecontroller.cpp:4655
+#: src/timeline2/view/timelinecontroller.cpp:4711
 #, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "Klibi Değiştir"
 
-#: src/timeline2/view/timelinecontroller.cpp:4646
+#: src/timeline2/view/timelinecontroller.cpp:4655
 #, kde-format
 msgid "Import New Clip"
 msgstr "Yeni Klip İçe Aktar"
 
-#: src/timeline2/view/timelinecontroller.cpp:4689
+#: src/timeline2/view/timelinecontroller.cpp:4698
 #, kde-format
 msgid "Incompatible clip types for replacement"
 msgstr "Değiştirme için uyumsuz klip türleri"
 
-#: src/timeline2/view/timelinecontroller.cpp:4696
+#: src/timeline2/view/timelinecontroller.cpp:4705
 #, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
 msgstr "<b>%1</b> klibi, <b>%2</b> ile değiştirilsin mi?"
 
-#: src/timeline2/view/timelinecontroller.cpp:4699
+#: src/timeline2/view/timelinecontroller.cpp:4708
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
 msgstr[0] "<b>%1</b> klip, <b>%2</b> ile değiştirilsin mi?"
 msgstr[1] "<b>%1</b> klip, <b>%2</b> ile değiştirilsin mi?"
 
-#: src/timeline2/view/timelinecontroller.cpp:4702
+#: src/timeline2/view/timelinecontroller.cpp:4711
 #, kde-format
 msgid "Replace Clip"
 msgstr "Klibi Değiştir"
 
-#: src/timeline2/view/timelinecontroller.cpp:4926
+#: src/timeline2/view/timelinecontroller.cpp:4935
 #, kde-format
 msgid "Move item"
 msgstr "Ögeyi taşı"
 
-#: src/timeline2/view/timelinecontroller.cpp:5492
+#: src/timeline2/view/timelinecontroller.cpp:5501
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Kilitli bir izde yakalama olanaksız"
 
-#: src/timeline2/view/timelinecontroller.cpp:5503
+#: src/timeline2/view/timelinecontroller.cpp:5512
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -36990,45 +36965,45 @@ msgstr ""
 "Burada yakalama olanaksız: Yakalama, klipleri geçersiz kılabilir. Geçerli "
 "konumdan sonraki klipleri kaldırın veya başka bir iz seçin"
 
-#: src/timeline2/view/timelinecontroller.cpp:5594
+#: src/timeline2/view/timelinecontroller.cpp:5606
 #, kde-format
 msgid "Record audio"
 msgstr "Ses kaydet"
 
-#: src/timeline2/view/timelinecontroller.cpp:5741
+#: src/timeline2/view/timelinecontroller.cpp:5753
 #, kde-format
 msgid "Expand clip"
 msgstr "Klibi genişlet"
 
-#: src/timeline2/view/timelinecontroller.cpp:5744
+#: src/timeline2/view/timelinecontroller.cpp:5756
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Klip genişletilemedi"
 
-#: src/timeline2/view/timelinecontroller.cpp:5799
+#: src/timeline2/view/timelinecontroller.cpp:5811
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "İz Yerleştir"
 msgstr[1] "İzler Yerleştir"
 
-#: src/timeline2/view/timelinecontroller.cpp:5867
+#: src/timeline2/view/timelinecontroller.cpp:5879
 #, kde-format
 msgid "No subtitles in current project. Export not possible."
 msgstr "Geçerli projede altyazı yok. Dışa aktarma olanaklı değil."
 
-#: src/timeline2/view/timelinecontroller.cpp:5878
+#: src/timeline2/view/timelinecontroller.cpp:5890
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Altyazı Dosyasını Dışa Aktar"
 
-#: src/timeline2/view/timelinecontroller.cpp:5879
+#: src/timeline2/view/timelinecontroller.cpp:5891
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "Sub Station Alpha v4.00+ dosyası (*.ass);;SubRip altyazı dosyası (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5893
+#: src/timeline2/view/timelinecontroller.cpp:5905
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -37042,12 +37017,12 @@ msgstr ""
 "dosyadaki bazı altyazıların kaybolmasına neden olabilir. Sürdürmek istiyor "
 "musunuz?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5898
+#: src/timeline2/view/timelinecontroller.cpp:5910
 #, kde-format
 msgid "Warning"
 msgstr "Uyarı"
 
-#: src/timeline2/view/timelinecontroller.cpp:5936
+#: src/timeline2/view/timelinecontroller.cpp:5948
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -37056,40 +37031,40 @@ msgstr ""
 "avfilter.subtitles süzgeci gerekiyor; ancak bulunamadı. Altyazılar özelliği "
 "büyük olasılılkla istendiği gibi çalışmayacak."
 
-#: src/timeline2/view/timelinecontroller.cpp:5953
+#: src/timeline2/view/timelinecontroller.cpp:5965
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Altyazı izini göster"
 
-#: src/timeline2/view/timelinecontroller.cpp:5953
+#: src/timeline2/view/timelinecontroller.cpp:5965
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Altyazı izini sil"
 
-#: src/timeline2/view/timelinecontroller.cpp:5976
+#: src/timeline2/view/timelinecontroller.cpp:5988
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Altyazı izi kilidini aç"
 
-#: src/timeline2/view/timelinecontroller.cpp:5976
+#: src/timeline2/view/timelinecontroller.cpp:5988
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Altyazı izini kilitle"
 
-#: src/timeline2/view/timelinecontroller.cpp:6143
-#: src/timeline2/view/timelinecontroller.cpp:6152
+#: src/timeline2/view/timelinecontroller.cpp:6155
+#: src/timeline2/view/timelinecontroller.cpp:6164
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Altyazılar"
 
-#: src/timeline2/view/timelinecontroller.cpp:6154
+#: src/timeline2/view/timelinecontroller.cpp:6166
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Altyazıları Yönet"
 
-#: src/timeline2/view/timelinecontroller.cpp:6385
+#: src/timeline2/view/timelinecontroller.cpp:6397
 #, kde-format
 msgid "No range guide found at position"
 msgstr "Konumda hiçbir erim kılavuzu bulunamadı"
@@ -42681,6 +42656,23 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid ""
+#~ "You can also enter <i>strftime</i> parameters to customize the output, "
+#~ "like: #createdate %H:%M %D#"
+#~ msgstr ""
+#~ "Ayrıca çıktıyı özelleştirmek için strftime parametreleri de "
+#~ "girebilirsiniz; örneğin, #createdate %H:%M %D#"
+
+#~ msgid ""
+#~ "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),"
+#~ "File date (local),Source frame rate,Source codec,Source bit rate,Source "
+#~ "width,Source height,Source comment"
+#~ msgstr ""
+#~ "zaman kodu, çerçeve, dosya verisi, yerel dosya verisi, kaynak kare hızı, "
+#~ "kaynak kodlayıcısı, kaynak bit hızı, kaynak genişliği, kaynak yüksekliği, "
+#~ "kaynak açıklaması, oluşturma tarihi, dosya tarihi (GMT), dosya tarihi "
+#~ "(yerel)"
 
 #~ msgid "%1 (copy)"
 #~ msgstr "%1 (kopya)"

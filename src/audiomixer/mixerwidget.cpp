@@ -657,6 +657,12 @@ void MixerWidget::updateMonitorState()
     updateTrackLabelStyle();
 }
 
+void MixerWidget::monitorFailed()
+{
+    m_monitor->setChecked(false);
+    updateMonitorState();
+}
+
 void MixerWidget::monitorAudio(bool monitor)
 {
     QSignalBlocker bk(m_monitor);

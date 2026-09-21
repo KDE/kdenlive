@@ -67,6 +67,7 @@ Core::Core(LinuxPackageType packageType, bool debugMode)
     m_hideTimer.setInterval(5000);
     m_hideTimer.setSingleShot(true);
     connect(&m_hideTimer, &QTimer::timeout, this, [&]() { Q_EMIT hideBars(!KdenliveSettings::showtitlebars()); });
+    connect(m_capture.get(), &MediaCapture::displayMessage, this, &Core::gotAudioDeviceMessage);
 }
 
 void Core::startHideBarsTimer()
@@ -586,6 +587,7 @@ void Core::buildDocks()
     // Mixer
     m_mixerWidget = new MixerManager(m_mainWindow);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
+    connect(m_capture.get(), &MediaCapture::monitorFailed, m_mixerWidget, &MixerManager::monitorFailed);
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
     connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
     m_mixerWidget->checkAudioLevelVersion();
@@ -1872,6 +1874,15 @@ int Core::getMediaCaptureState()
     return m_capture->getState();
 }
 
+void Core::gotAudioDeviceMessage(const QString &message, KMessageWidget::MessageType mType)
+{
+    if (m_mixerWidget && m_mixerWidget->isVisible() && mType == KMessageWidget::Warning) {
+        m_mixerWidget->displayMessage(message, mType);
+    } else {
+        displayMessage(message, mType == KMessageWidget::Warning ? ErrorMessage : InformationMessage);
+    }
+}
+
 bool Core::isMediaMonitoring() const
 {
     return m_capture && m_capture->recordStatus() == MediaCapture::RecordMonitoring;
@@ -1905,14 +1916,14 @@ std::shared_ptr<MediaCapture> Core::getAudioDevice()
 void Core::resetAudioMonitoring()
 {
     if (isMediaMonitoring()) {
-        m_capture->switchMonitorState(false);
-        m_capture->switchMonitorState(true);
+        m_capture->changeMonitorState(-1, false);
+        m_capture->changeMonitorState(-1, true);
     }
 }
 
 void Core::setAudioMonitoring(bool enable)
 {
-    m_capture->switchMonitorState(enable);
+    m_capture->changeMonitorState(-1, enable);
 }
 
 QString Core::getProjectCaptureFolderName()

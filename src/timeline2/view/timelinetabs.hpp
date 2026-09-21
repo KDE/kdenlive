@@ -82,7 +82,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     TimelineWidget *addTimeline(const QUuid uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy,
-                                bool openInMonitor = true);
+                                bool openInMonitor = true, bool previewEnabled = true);
     void connectCurrent(int ix);
     void doConnectCurrent(int ix, bool openInMonitor = true);
     void closeTimelineByIndex(int ix);

@@ -110,7 +110,7 @@ Item {
             anchors.bottomMargin: rulerRoot.zoneHeight
             width: 25 * rulerRoot.timeline.scaleFactor
             height: rulerRoot.previewHeight
-            color: 'darkgreen'
+            color: rulerRoot.timeline.previewDisabled ? 'gray' : 'darkgreen'
         }
     }
     Rectangle {

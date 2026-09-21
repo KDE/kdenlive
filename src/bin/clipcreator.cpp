@@ -271,7 +271,7 @@ QString ClipCreator::createPlaylistClip(const QString &parentFolder, const std::
     return res ? id : QStringLiteral("-1");
 }
 
-QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
+QDomDocument ClipCreator::getXmlFromUrl(const QString &path, ClipType::ProducerType clipType)
 {
     QDomDocument xml;
     QUrl fileUrl = QUrl::fromLocalFile(path);
@@ -280,14 +280,18 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
         KMessageBox::error(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));
         return xml;
     }
-    QMimeDatabase db;
-    QMimeType type = db.mimeTypeForUrl(fileUrl);
+
+    QMimeType type;
+    if (clipType == ClipType::Unknown) {
+        QMimeDatabase db;
+        type = db.mimeTypeForUrl(fileUrl);
+    }
 
     QDomElement prod;
-    if (type.name().startsWith(QLatin1String("image/")) && !type.name().contains(QLatin1String("image/gif"))) {
+    if ((clipType == ClipType::Image || type.name().startsWith(QLatin1String("image/"))) && !type.name().contains(QLatin1String("image/gif"))) {
         int duration = pCore->getDurationFromString(KdenliveSettings::image_duration());
         prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
-    } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
+    } else if (clipType == ClipType::Text || clipType == ClipType::TextTemplate || type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
         // opening a title file
         QDomDocument txtdoc(QStringLiteral("titledocument"));
         if (!Xml::docContentFromFile(txtdoc, path, false)) {
@@ -315,6 +319,9 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
         xml.appendChild(prod);
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), path);
+        if (clipType != ClipType::Unknown) {
+            properties.insert(QStringLiteral("type"), QString::number(int(clipType)));
+        }
         Xml::addXmlProperties(prod, properties);
     }
     return xml;
@@ -481,9 +488,14 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             }
             qApp->processEvents();
         }
+#ifdef Q_OS_WIN
+        if (info.isSymLink()) {
+            info.setFile(info.symLinkTarget());
+        }
+#endif
         if (info.isDir()) {
             // user dropped a folder, import its files
-            QDir dir(file.toLocalFile());
+            QDir dir(info.absoluteFilePath());
             bool ok = false;
             QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheAudio, &ok);
             if (ok && thumbFolder == dir) {
@@ -579,7 +591,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             // file is not a directory
             if (checkRemovable && !removableProject) {
                 // Check if the directory was already checked
-                QDir fileDir = QFileInfo(file.toLocalFile()).absoluteDir();
+                QDir fileDir = info.absoluteDir();
                 if (checkedDirectories.contains(fileDir)) {
                     // Folder already checked, continue
                 } else if (isOnRemovableDevice(file)) {
@@ -617,7 +629,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 qDebug() << "/// PROJECT UUID MISMATCH; ABORTING";
                 return QString();
             }
-            const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo, callBack);
+            const QString clipId = ClipCreator::createClipFromFile(info.absoluteFilePath(), parentFolder, model, undo, redo, callBack);
             if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
                 createdItem = clipId;
             }

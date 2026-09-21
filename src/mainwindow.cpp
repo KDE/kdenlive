@@ -657,7 +657,7 @@ void MainWindow::init()
     connect(this, &MainWindow::setRenderProgress, timelineRender, &ProgressButton::setProgress);
     auto *renderButtonAction = new QWidgetAction(this);
     renderButtonAction->setText(i18nc("@intoolbar the name of the action to place an export/render button in a toolbar", "Render Button"));
-    renderButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("media-record")));
+    renderButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("run-build")));
     renderButtonAction->setDefaultWidget(timelineRender);
     addAction(QStringLiteral("project_render_button"), renderButtonAction);
 
@@ -1725,11 +1725,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("project_settings"), i18n("Project Settings…"), this, SLOT(slotEditProjectSettings()),
               QIcon::fromTheme(QStringLiteral("configure")));
 
-    addAction(QStringLiteral("project_render"), i18n("Render…"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("media-record")),
+    addAction(QStringLiteral("project_render"), i18n("Render…"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("run-build")),
               Qt::CTRL | Qt::Key_Return);
 
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
-              QIcon::fromTheme(QStringLiteral("media-record")));
+              QIcon::fromTheme(QStringLiteral("run-build-prune")));
 
     addAction(QStringLiteral("project_clean"), i18n("Remove Unused Media"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear-all")));
 
@@ -2228,6 +2228,8 @@ void MainWindow::setupActions()
 
     QAction *disablePreview = new QAction(i18n("Disable Timeline Preview"), this);
     disablePreview->setCheckable(true);
+    disablePreview->setEnabled(false);
+    connect(disablePreview, &QAction::triggered, this, [this](bool disable) { getCurrentTimeline()->controller()->setPreviewEnabled(!disable); });
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
     addAction(QStringLiteral("add_sequence_marker"), i18n("Add/Remove Timeline Marker"), this, SLOT(slotAddGuide()),
@@ -5740,12 +5742,12 @@ void MainWindow::manageClipJobs(AbstractTask::JOBTYPE type, QWidget *parentWidge
 }
 
 TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
-                                         bool openInMonitor)
+                                         bool openInMonitor, bool previewEnabled)
 {
     // Create a new timeline tab
     KdenliveDoc *project = pCore->currentDoc();
-    TimelineWidget *timeline =
-        m_timelineTabs->addTimeline(uuid, ix, tabName, timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy(), openInMonitor);
+    TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, ix, tabName, timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy(),
+                                                           openInMonitor, previewEnabled);
     slotSetZoom(project->zoom(uuid).x(), false);
     if (openInMonitor) {
         m_projectMonitor->slotLoadClipZone(project->zone(uuid));
@@ -5804,15 +5806,10 @@ void MainWindow::connectTimeline()
     if (previewRender) {
         previewRender->setEnabled(true);
     }
-    QAction *disablePreview = actionCollection()->action(QStringLiteral("disable_preview"));
-    if (getCurrentTimeline()->model()->hasTimelinePreview()) {
-        disablePreview->setEnabled(true);
-    } else {
-        disablePreview->setEnabled(false);
-    }
-    disablePreview->blockSignals(true);
-    disablePreview->setChecked(false);
-    disablePreview->blockSignals(false);
+    connect(getCurrentTimeline()->controller(), &TimelineController::previewDisabledStateChanged, this, &MainWindow::updateTimelinePreview,
+            Qt::UniqueConnection);
+    connect(getCurrentTimeline()->controller(), &TimelineController::previewRefreshRequested, m_projectMonitor, &Monitor::refreshMonitor, Qt::UniqueConnection);
+    updateTimelinePreview();
 
     // update track compositing
     bool compositing = project->getSequenceProperty(uuid, QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
@@ -5855,6 +5852,15 @@ void MainWindow::connectTimeline()
     }
 }
 
+void MainWindow::updateTimelinePreview()
+{
+    auto *timeline = getCurrentTimeline();
+    QAction *action = actionCollection()->action(QStringLiteral("disable_preview"));
+    const QSignalBlocker blocker(action);
+    action->setEnabled(timeline->model()->hasTimelinePreview());
+    action->setChecked(timeline->controller()->previewDisabled());
+}
+
 void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
 {
     // Save current tab timeline position
@@ -5873,6 +5879,8 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
         }
     }
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
+    disconnect(timeline->controller(), &TimelineController::previewDisabledStateChanged, this, &MainWindow::updateTimelinePreview);
+    disconnect(timeline->controller(), &TimelineController::previewRefreshRequested, m_projectMonitor, &Monitor::refreshMonitor);
     disconnect(m_projectMonitor, &Monitor::multitrackView, timeline->controller(), &TimelineController::slotMultitrackView);
     disconnect(m_projectMonitor, &Monitor::activateTrack, timeline->controller(), &TimelineController::activateTrackAndSelect);
     disconnect(pCore->library(), &LibraryWidget::saveTimelineSelection, timeline->controller(), &TimelineController::saveTimelineSelection);

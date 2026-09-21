@@ -74,9 +74,6 @@ TimelineController::TimelineController(QObject *parent)
     , m_effectZone({0, 0})
     , m_autotrackHeight(KdenliveSettings::autotrackheight())
 {
-    m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
-    connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
-    m_disablePreview->setEnabled(false);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
     connect(pCore.get(), &Core::refreshActiveGuides, this, [this]() { m_activeSnaps.clear(); });
     connect(pCore.get(), &Core::autoTrackHeight, this, [this](bool enable) {
@@ -105,7 +102,7 @@ void TimelineController::prepareClose()
     m_model.reset();
 }
 
-void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
+void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, bool previewEnabled)
 {
     m_zone = QPoint(-1, -1);
     m_hasAudioTarget = 0;
@@ -113,6 +110,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_lastAudioTarget.clear();
     m_usePreview = false;
     m_model = model;
+    m_previewDisabled = !previewEnabled;
     m_activeSnaps.clear();
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
     m_deleteConnection = connect(m_model.get(), &TimelineItemModel::checkItemDeletion, this, [this](int id) {
@@ -2949,9 +2947,9 @@ void TimelineController::startPreviewRender()
     // Timeline preview stuff
     if (!m_model->hasTimelinePreview()) {
         initializePreview();
-    } else if (m_disablePreview->isChecked()) {
-        m_disablePreview->setChecked(false);
-        disablePreview(false);
+    }
+    if (m_previewDisabled) {
+        setPreviewEnabled(true);
     }
     if (m_model->hasTimelinePreview()) {
         if (!m_usePreview) {
@@ -2987,6 +2985,7 @@ void TimelineController::initializePreview()
     } else {
         m_model->initializePreviewManager();
     }
+    Q_EMIT previewDisabledStateChanged();
 }
 
 void TimelineController::connectPreviewManager()
@@ -2998,6 +2997,19 @@ void TimelineController::connectPreviewManager()
                 static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         connect(m_model->previewManager().get(), &PreviewManager::workingPreviewChanged, this, &TimelineController::workingPreviewChanged,
                 static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+        connect(m_model->previewManager().get(), &PreviewManager::previewChunkChanged, this, &TimelineController::refreshPreviewChunk, Qt::UniqueConnection);
+        Q_EMIT previewDisabledStateChanged();
+    }
+}
+
+void TimelineController::refreshPreviewChunk(int frame)
+{
+    if (m_previewDisabled || !qFuzzyIsNull(m_model->tractor()->get_speed())) {
+        return;
+    }
+    const int position = m_model->tractor()->position();
+    if (position >= frame && position < frame + KdenliveSettings::timelinechunks()) {
+        Q_EMIT previewRefreshRequested(true, false);
     }
 }
 
@@ -3006,24 +3018,21 @@ bool TimelineController::hasPreviewTrack() const
     return (m_model && m_model->hasTimelinePreview() && (m_model->previewManager()->hasOverlayTrack() || m_model->previewManager()->hasPreviewTrack()));
 }
 
-void TimelineController::disablePreview(bool disable)
+void TimelineController::setPreviewEnabled(bool enabled)
 {
-    if (disable) {
-        m_model->deletePreviewTrack();
+    m_previewDisabled = !enabled;
+    if (!enabled) {
+        m_model->setPreviewEnabled(false);
         m_usePreview = false;
     } else {
         if (!m_usePreview) {
-            if (!m_model->buildPreviewTrack()) {
-                // preview track already exists, reconnect
-                m_model->m_tractor->lock();
-                m_model->previewManager()->reconnectTrack();
-                m_model->m_tractor->unlock();
-            }
-            Mlt::Playlist playlist;
-            m_model->previewManager()->loadChunks(QVariantList(), QVariantList(), playlist);
+            m_model->buildPreviewTrack();
+            m_model->setPreviewEnabled(true);
             m_usePreview = true;
         }
     }
+    Q_EMIT previewDisabledStateChanged();
+    Q_EMIT previewRefreshRequested(true, false);
 }
 
 QVariantList TimelineController::dirtyChunks() const
@@ -3065,7 +3074,7 @@ void TimelineController::getSequenceProperties(QMap<QString, QString> &seqProps)
     seqProps.insert(QStringLiteral("scrollPos"), QString::number(scrollPos));
     seqProps.insert(QStringLiteral("zonein"), QString::number(m_zone.x()));
     seqProps.insert(QStringLiteral("zoneout"), QString::number(m_zone.y()));
-    seqProps.insert(QStringLiteral("disablepreview"), QString::number(m_disablePreview->isChecked()));
+    seqProps.insert(QStringLiteral("disablepreview"), QString::number(m_previewDisabled));
 
     if (m_model->hasSubtitleModel()) {
         const QString subtitlesData = m_model->getSubtitleModel()->subtitlesFilesToJson();
@@ -5547,7 +5556,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
             return;
         }
         std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
-        if (!clip) {
+        if (!clip || !clip->statusReady()) {
             return;
         }
         if (highlightClip) {
@@ -5555,17 +5564,20 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
         }
         qDebug() << "callback " << binId << " " << track << ", MAXIMUM SPACE: " << recPosition.second;
         int endPos = recPosition.second;
+        bool isInserted = false;
         if (endPos > 0) {
             // Limited space on track
             endPos = qMin(int(clip->frameDuration() - 1), endPos);
             QString binClipId = QStringLiteral("%1/%2/%3").arg(binId).arg(0).arg(endPos);
-            model->requestClipInsertion(binClipId, track, recPosition.first, id, true, true, false);
+            isInserted = model->requestClipInsertion(binClipId, track, recPosition.first, id, true, true, false);
             endPos++;
         } else {
             endPos = clip->frameDuration();
-            model->requestClipInsertion(binId, track, recPosition.first, id, true, true, false);
+            isInserted = model->requestClipInsertion(binId, track, recPosition.first, id, true, true, false);
         }
-        pCore->window()->seekIfCurrent(model->uuid(), recPosition.first + endPos);
+        if (isInserted) {
+            pCore->window()->seekIfCurrent(model->uuid(), recPosition.first + endPos);
+        }
     };
     std::shared_ptr<ProjectItemModel> itemModel = pCore->projectItemModel();
     std::shared_ptr<ProjectFolder> targetFolder = itemModel->getRootFolder();

@@ -59,3 +59,5 @@ foreach(_source ${KdenliveTest_SOURCES})
   )
   set_property(TARGET ${_targetname} PROPERTY CXX_STANDARD 14)
 endforeach()
+
+target_sources(timelinepreviewtest PRIVATE timelinepreviewmonitor.cpp)

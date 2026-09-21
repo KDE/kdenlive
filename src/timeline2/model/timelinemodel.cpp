@@ -8388,6 +8388,14 @@ void TimelineModel::deletePreviewTrack()
     }
 }
 
+void TimelineModel::setPreviewEnabled(bool enabled)
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->setPreviewEnabled(enabled);
+        m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }
+}
+
 bool TimelineModel::hasSubtitleModel()
 {
     return m_subtitleModel != nullptr;

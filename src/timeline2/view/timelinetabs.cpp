@@ -48,7 +48,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     pb->setToolTip(i18n("Add Timeline Sequence"));
     pb->setWhatsThis(
         i18n("Add Timeline Sequence. This will create a new timeline for editing. Each timeline corresponds to a Sequence Clip in the Project Bin"));
-    connect(pb, &QToolButton::clicked, this, []() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
+    connect(pb, &QToolButton::clicked, this, [&]() { pCore->triggerAction(QStringLiteral("add_playlist_clip")); });
     setCornerWidget(pb);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
@@ -117,7 +117,7 @@ void TimelineTabs::setModified(const QUuid &uuid, bool modified)
 }
 
 TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
-                                          MonitorProxy *proxy, bool openInMonitor)
+                                          MonitorProxy *proxy, bool openInMonitor, bool previewEnabled)
 {
     QMutexLocker lk(&m_lock);
     if (count() == 1 && m_activeTimeline) {
@@ -127,7 +127,7 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QStrin
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
                                  m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu, m_timelineAddClipMenu);
-    newTimeline->setModel(timelineModel, proxy);
+    newTimeline->setModel(timelineModel, proxy, previewEnabled);
     int newIndex = 0;
     if (ix == -1 || ix >= count()) {
         newIndex = addTab(newTimeline, tabName);

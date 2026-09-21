@@ -147,7 +147,7 @@ public:
     /** @brief Returns a pointer to the timeline with @uuid */
     TimelineWidget *getTimeline(const QUuid uuid) const;
     void getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props);
-    void closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed=false);
+    void closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed = false);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
     bool moveGrabbedDopesheet(bool left);
@@ -204,8 +204,8 @@ public:
 
     /** @brief Check if the maximum cached data size is not exceeded. */
     void checkMaxCacheSize();
-    TimelineWidget *openTimeline(const QUuid &uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
-                                 bool openInMonitor = true);
+    TimelineWidget *openTimeline(const QUuid &uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, bool openInMonitor = true,
+                                 bool previewEnabled = true);
     /** @brief Bring a timeline tab in front. Returns false if no tab exists for this timeline. */
     bool raiseTimeline(const QUuid &uuid);
     void connectTimeline();
@@ -512,6 +512,7 @@ private Q_SLOTS:
     void slotDefinePreviewRender();
     void slotRemovePreviewRender();
     void slotClearPreviewRender(bool resetZones = true);
+    void updateTimelinePreview();
     void slotSelectTimelineClip();
     void slotSelectTimelineZone();
     void slotSelectTimelineTransition();

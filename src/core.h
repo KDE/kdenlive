@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "undohelper.hpp"
 #include "utils/timecode.h"
 
+#include <KMessageWidget>
 #include <KSharedDataCache>
 
 #include <QColor>
@@ -501,6 +502,8 @@ private Q_SLOTS:
     void displayBinLogMessagePrivate(const QString &text, int type, const QString logInfo);
     void cleanRestart(bool cleanAndRestart);
     void startFromGuessedProfile(QString descriptiveString, QString fps, bool interlaced, int vTracks, int aTracks);
+    /** @brief display status info for audio device in mixer widget */
+    void gotAudioDeviceMessage(const QString &message, KMessageWidget::MessageType mType);
 
 Q_SIGNALS:
     void coreIsReady();
