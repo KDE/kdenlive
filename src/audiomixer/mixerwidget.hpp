@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "definitions.h"
 #include "mlt++/MltService.h"
 
 #include <QAbstractSpinBox>
@@ -61,6 +62,8 @@ public:
     void monitorAudio(bool monitor);
     void setBackgroundColor(const QColor &color);
     void setBackgroundColor(QPalette::ColorRole role);
+    /** @brief Starting audio monitor failed, uncheck mic action */
+    void monitorFailed();
 
 public Q_SLOTS:
     void updateAudioLevel(int pos);

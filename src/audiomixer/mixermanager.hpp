@@ -8,6 +8,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include <KMessageWidget>
 #include <QWidget>
 
 namespace Mlt {
@@ -49,8 +50,10 @@ public:
 
 public Q_SLOTS:
     void recordStateChanged(int tid, bool recording);
+    void monitorFailed(int tid);
     /** @brief Enable/disable audio monitoring on a track */
     void monitorAudio(int tid, bool monitor);
+    void displayMessage(const QString &message, KMessageWidget::MessageType type);
 
 private Q_SLOTS:
     void resetSizePolicy();
@@ -76,6 +79,7 @@ private:
     QHBoxLayout *m_masterBox;
     QHBoxLayout *m_channelsLayout;
     QScrollArea *m_channelsBox;
+    KMessageWidget *m_messageWidget;
     bool m_visibleMixerManager;
     int m_expandedWidth;
     QVector<int> m_soloMuted;
