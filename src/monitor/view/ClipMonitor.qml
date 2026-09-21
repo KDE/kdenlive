@@ -547,8 +547,8 @@ Item {
                     required property int index
                     required property var modelData
                     property var uuid: root.controller.jobsUuids[index]
-                    width: childrenRect.width + 4
                     Layout.fillWidth: true
+                    Layout.preferredWidth: labelRow.implicitWidth + 8
                     height: jobLabel.height + progressBar.height + 4
                     color: "#80333333"
                     radius: 5
