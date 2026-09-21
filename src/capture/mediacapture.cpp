@@ -319,14 +319,6 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
         m_audioSource->setVolume(linearVolume);
         connect(m_mediaRecorder.get(), &QMediaRecorder::errorChanged, this, &MediaCapture::displayErrorMessage);
 
-        // audioSettings.setCodec("audio/x-flac");
-        int captureSampleRate = m_audioSource->format().sampleRate();
-        if (captureSampleRate == 48000 || captureSampleRate == 44100) {
-            m_mediaRecorder->setAudioSampleRate(captureSampleRate);
-        } else {
-            // Non standard sample rate, try to do our best
-            m_mediaRecorder->setAudioSampleRate(-1);
-        }
         int captureChannels = m_audioSource->format().channelCount();
         if (captureChannels <= 2) {
             m_mediaRecorder->setAudioChannelCount(captureChannels);
@@ -334,12 +326,9 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
             // Non standard channels count, try to do our best
             m_mediaRecorder->setAudioChannelCount(-1);
         }
+
         m_mediaRecorder->setOutputLocation(m_path);
-
-        QMediaFormat mediaFormat(QMediaFormat::FileFormat::Wave);
-        mediaFormat.setAudioCodec(QMediaFormat::AudioCodec::Wave);
-
-        m_mediaRecorder->setMediaFormat(mediaFormat);
+        m_mediaRecorder->setMediaFormat(QMediaFormat::Wave);
         m_recLevels.clear();
         m_recordStatus = RecordRecording;
     } else if (!record) {
