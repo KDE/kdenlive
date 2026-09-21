@@ -166,7 +166,7 @@ bool MediaCapture::changeMonitorState(int tid, bool run)
             qDebug() << ":::: REQUESTING MIC PERMISSION";
             qApp->requestPermission(microphonePermission, [this](const QPermission &permission) {
                 if (permission.status() == Qt::PermissionStatus::Granted) {
-                    switchMonitorState(true);
+                    switchMonitorState(tid, true);
                 }
             });
             return false;
