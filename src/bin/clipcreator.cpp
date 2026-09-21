@@ -488,9 +488,14 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             }
             qApp->processEvents();
         }
+#ifdef Q_OS_WIN
+        if (info.isSymLink()) {
+            info.setFile(info.symLinkTarget());
+        }
+#endif
         if (info.isDir()) {
             // user dropped a folder, import its files
-            QDir dir(file.toLocalFile());
+            QDir dir(info.absoluteFilePath());
             bool ok = false;
             QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheAudio, &ok);
             if (ok && thumbFolder == dir) {
@@ -586,7 +591,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             // file is not a directory
             if (checkRemovable && !removableProject) {
                 // Check if the directory was already checked
-                QDir fileDir = QFileInfo(file.toLocalFile()).absoluteDir();
+                QDir fileDir = info.absoluteDir();
                 if (checkedDirectories.contains(fileDir)) {
                     // Folder already checked, continue
                 } else if (isOnRemovableDevice(file)) {
@@ -624,14 +629,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 qDebug() << "/// PROJECT UUID MISMATCH; ABORTING";
                 return QString();
             }
-            QString filePath = file.toLocalFile();
-#ifdef Q_OS_WIN
-            QFileInfo target(filePath);
-            if (target.isSymLink()) {
-                filePath = target.symLinkTarget();
-            }
-#endif
-            const QString clipId = ClipCreator::createClipFromFile(filePath, parentFolder, model, undo, redo, callBack);
+            const QString clipId = ClipCreator::createClipFromFile(info.absoluteFilePath(), parentFolder, model, undo, redo, callBack);
             if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
                 createdItem = clipId;
             }
