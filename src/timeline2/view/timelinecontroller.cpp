@@ -5537,7 +5537,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
             return;
         }
         std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
-        if (!clip) {
+        if (!clip || !clip->statusReady()) {
             return;
         }
         if (highlightClip) {
