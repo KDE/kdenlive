@@ -53,6 +53,7 @@ Item {
     signal regainFocus(var x, var y)
     signal endDragIfFocused(int itemId)
     signal endDrag()
+    signal mouseMoved(int frame)
 
 
     signal initDrag(var itemObject, var itemCoord, var itemId, var itemPos, var itemTrack, var isComposition)
@@ -109,6 +110,13 @@ Item {
             trackRoot.timeline.ripplePosChanged(new_duration, right);
         } else {
             new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, right, false, trackRoot.snapping, shiftTrim)
+            if (right) {
+                if (new_duration > 0) {
+                    mouseMoved(clip.modelStart + new_duration)
+                }
+            } else {
+                mouseMoved(clip.modelStart)
+            }
         }
         if (new_duration > 0) {
             clip.lastValidDuration = new_duration

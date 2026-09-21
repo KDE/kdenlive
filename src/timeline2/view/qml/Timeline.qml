@@ -1897,7 +1897,7 @@ function getTrackColor(audio, header) {
                         anchors.fill: mouseLabel
                         visible: mouseLabel.visible
                         radius: 4
-                        color: Utils.mixColors(activePalette.base, activePalette.highlight, 0.2)
+                        color: Utils.mixColors(activePalette.base, activePalette.highlight, 0.4)
                     }
                     Label {
                         id: mouseLabel
@@ -2523,6 +2523,7 @@ function getTrackColor(audio, header) {
             showRuler: false
             contentScroll: scrollView.contentX
             onScrollByWheel: wheel => root.zoomByWheel(wheel)
+            onMouseMoved: frame => root.mouseFrame = frame
         }
     }
     K.ZoomBar {
@@ -2649,6 +2650,7 @@ function getTrackColor(audio, header) {
             onBlockAutoScroll: (enabled) => { root.blockAutoScroll = enabled }
             onSeek: (pos) => { root.proxy.position = pos }
             onZoomByWheel: (wheel) => { root.zoomByWheel(wheel) }
+            onMouseMoved: frame => root.mouseFrame = frame
 
             onShowMixMenu: (clipId, clickFrame) => {
                 root.clickFrame = clickFrame

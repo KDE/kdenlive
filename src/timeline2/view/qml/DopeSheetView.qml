@@ -82,6 +82,11 @@ Rectangle {
     property double mouseOffset: showRuler ?  0 : itemPosition * timeScale
     focus: true
     signal scrollByWheel(var wheel)
+    signal mouseMoved(int frame)
+
+    onMouseFramePosChanged: {
+        mouseMoved(dopeRoot.mouseFramePos)
+    }
 
     function showContextMenu() {
         keyframeMenu.clickKeyframe = dopeRoot.hoverKeyframe
@@ -820,7 +825,7 @@ Rectangle {
         id: rulerCursor
         anchors.top: playheadLabel.bottom
         anchors.bottom: parent.bottom
-        visible: dopeRoot.ownerType > -1 && x >= dopeRoot.headerWidth && x < parent.width
+        visible: dopeRoot.ownerType > -1 && x >= dopeRoot.headerWidth && x < parent.width && dopeRoot.showRuler
         z: 4
         x: dopeRoot.headerWidth + dopeRoot.frameToView(dopeRoot.consumerPosition)
         color: dopeActivePalette.text
@@ -840,7 +845,7 @@ Rectangle {
     }
     Label {
         id: mouseLabel
-        visible: true // !ruler.pressed && (backgroundArea.containsMouse || treeViewItem.hoveredParam > -1)
+        visible: dopeRoot.showRuler && mouseLine.visible // !ruler.pressed && (backgroundArea.containsMouse || treeViewItem.hoveredParam > -1)
         anchors.top: parent.top
         anchors.horizontalCenter: mouseLine.horizontalCenter
         text: K.Core.timecodeString(dopeRoot.mouseFramePos + (dopeRoot.showTimelineTime ? dopeRoot.itemPosition : 0))
@@ -849,13 +854,14 @@ Rectangle {
     }
     Rectangle {
         id: mouseLine
-        anchors.top: mouseLabel.bottom
+        anchors.top: dopeRoot.showRuler ? mouseLabel.bottom : parent.top
         anchors.bottom: parent.bottom
         z: 5
         width: 1
-        visible: mouseLabel.visible
+        visible: globalHover.hovered
         x: dopeRoot.headerWidth + dopeRoot.frameToView(dopeRoot.mouseFramePos)
         color: dopeActivePalette.highlight
+        opacity: 0.4
     }
     MouseArea {
         id: backgroundArea
@@ -1149,118 +1155,135 @@ Rectangle {
             anchors.bottom: parent.bottom
             x: dopeRoot.showRuler ? 0 : dopeRoot.itemPosition * dopeRoot.timeScale
             width: dopeRoot.frameDuration * dopeRoot.timeScale
-        Loader {
-            // Keyframe curve
-            id: dopeKeyframeCurve
-            anchors.fill: parent
-            property var model: undefined
-            property bool hasKeyframes:  status == Loader.Ready ? dopeKeyframeCurve.model === undefined ? false : (dopeKeyframeCurve.item as K.KeyframeView).kfrCount > 1 : 0
-            property bool isPanning: false
-            asynchronous: true
-            visible: status == Loader.Ready
-            active: true
-            source: dopeKeyframeCurve.model === undefined ? "" : "KeyframeView.qml"
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "kfrModel"
-                value: dopeKeyframeCurve.model
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
+            MouseArea {
+                acceptedButtons: Qt.NoButton
+                anchors.fill: curveContainer
+                hoverEnabled: true
+                onPositionChanged: mouse => {
+                    console.log('CURVE CONTAINER MOUSE MOVED....', mouse.x)
+                    let mousePos = Math.max(0., mouse.x + curveContainer.x)
+                    if (mousePos <= 0 && dopeRoot.mouseFramePos == 0) {
+                        // In the header zone, ignore
+                        return
+                    }
+                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
+                }
             }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "bgColor"
-                value: dopeActivePalette.alternateBase
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "fgColor"
-                value: Qt.rgba(dopeActivePalette.highlight.r, dopeActivePalette.highlight.g, dopeActivePalette.highlight.b, 0.3)
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "selected"
-                value: true
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "isPanning"
-                value: false
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "ownerId"
-                value: dopeRoot.ownerId
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "ownerType"
-                value: dopeRoot.ownerType
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
+            Loader {
+                // Keyframe curve
+                id: dopeKeyframeCurve
+                anchors.fill: parent
+                property var model: undefined
+                property bool hasKeyframes:  status == Loader.Ready ? dopeKeyframeCurve.model === undefined ? false : (dopeKeyframeCurve.item as K.KeyframeView).kfrCount > 1 : 0
+                property bool isPanning: false
+                asynchronous: true
+                visible: status == Loader.Ready
+                active: true
+                source: dopeKeyframeCurve.model === undefined ? "" : "KeyframeView.qml"
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "kfrModel"
+                    value: dopeKeyframeCurve.model
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "bgColor"
+                    value: dopeActivePalette.alternateBase
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "fgColor"
+                    value: Qt.rgba(dopeActivePalette.highlight.r, dopeActivePalette.highlight.g, dopeActivePalette.highlight.b, 0.3)
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "selected"
+                    value: true
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "isPanning"
+                    value: false
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "ownerId"
+                    value: dopeRoot.ownerId
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "ownerType"
+                    value: dopeRoot.ownerType
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
 
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "inPoint"
-                value: dopeRoot.dopesheetmodel.dopeInPoint
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "outPoint"
-                value: dopeRoot.dopesheetmodel.dopeInPoint + dopeRoot.dopesheetmodel.dopeDuration - 1
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "modelStart"
-                value: dopeRoot.dopesheetmodel.dopePosition
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "scrollStart"
-                value: dopeRoot.contentScroll
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "timeScale"
-                value: dopeRoot.timeScale
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            Binding {
-                target: dopeKeyframeCurve.item
-                property: "timelineScrollViewWidth"
-                value: keyframeContainer.contentWidth
-                when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
-                restoreMode: Binding.RestoreBindingOrValue
-            }
-            HoverHandler {
-                onHoveredChanged: {
-                    if (hovered) {
-                        K.Core.showKeyBinding(KI18n.i18n("<b>Mouse Wheel</b> to scroll, <b>Ctrl+Wheel</b> to zoom, <b>Shift+Wheel</b> to modify selected keyframes values"))
-                    } else {
-                        K.Core.showKeyBinding()
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "inPoint"
+                    value: dopeRoot.dopesheetmodel.dopeInPoint
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "outPoint"
+                    value: dopeRoot.dopesheetmodel.dopeInPoint + dopeRoot.dopesheetmodel.dopeDuration - 1
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "modelStart"
+                    value: dopeRoot.dopesheetmodel.dopePosition
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "scrollStart"
+                    value: dopeRoot.contentScroll
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "timeScale"
+                    value: dopeRoot.timeScale
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: dopeKeyframeCurve.item
+                    property: "timelineScrollViewWidth"
+                    value: keyframeContainer.contentWidth
+                    when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                HoverHandler {
+                    onHoveredChanged: {
+                        if (hovered) {
+                            K.Core.showKeyBinding(KI18n.i18n("<b>Mouse Wheel</b> to scroll, <b>Ctrl+Wheel</b> to zoom, <b>Shift+Wheel</b> to modify selected keyframes values"))
+                        } else {
+                            K.Core.showKeyBinding()
+                        }
                     }
                 }
             }
         }
-        }
+    }
+    HoverHandler {
+        id: globalHover
     }
     Component {
         id: zoomComponent

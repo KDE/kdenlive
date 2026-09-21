@@ -34,7 +34,7 @@ Item {
     required property color hoverColor
 
     property bool modelExpanded: model && model.expandedRole ? model.expandedRole : false
-    property bool isBlankRecap: model && model.dopeRecap && !hasChildren
+    property bool isBlankRecap: model && model.rowCount > 0 && model.dopeRecap && !hasChildren
 
     property double contentScroll: delegateRect.dopeRootItem.contentScroll
 
@@ -529,8 +529,11 @@ Item {
             onCountChanged: {
                 // A keyframe was added/removed, check if playhead position is over a keyframe
                 console.log('&&&&&&&&&&&&&&\n\n', delegateRect.dopeRootItem.getActiveCppParamIndex(),'\n\n&&&&&&&&&&&&&')
-                if (!delegateRect.dopeRootItem.blockUpdate) {
-                    delegateRect.dopeRootItem.overKeyframe = delegateRect.dopesheetmodel.isOnKeyframe(delegateRect.dopeRootItem.consumerPosition + ownerInPoint, false, delegateRect.dopeRootItem.getActiveCppParamIndex())
+                if (count > 0 && !delegateRect.dopeRootItem.blockUpdate) {
+                    let index = delegateRect.dopeRootItem.getActiveCppParamIndex()
+                    if (index.valid) {
+                        delegateRect.dopeRootItem.overKeyframe = delegateRect.dopesheetmodel.isOnKeyframe(delegateRect.dopeRootItem.consumerPosition + ownerInPoint, false, index)
+                    }
                 }
             }
             function getIndex(row, column) {
